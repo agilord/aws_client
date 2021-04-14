@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'autoscaling-plans-2018-01-06.g.dart';
 
 /// Use AWS Auto Scaling to quickly discover all the scalable AWS resources for
 /// your application and configure dynamic scaling and predictive scaling for
@@ -34,10 +26,10 @@ part 'autoscaling-plans-2018-01-06.g.dart';
 class AutoScalingPlans {
   final _s.JsonProtocol _protocol;
   AutoScalingPlans({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -67,9 +59,9 @@ class AutoScalingPlans {
   /// The name of the scaling plan. Names cannot contain vertical bars, colons,
   /// or forward slashes.
   Future<CreateScalingPlanResponse> createScalingPlan({
-    @_s.required ApplicationSource applicationSource,
-    @_s.required List<ScalingInstruction> scalingInstructions,
-    @_s.required String scalingPlanName,
+    required ApplicationSource applicationSource,
+    required List<ScalingInstruction> scalingInstructions,
+    required String scalingPlanName,
   }) async {
     ArgumentError.checkNotNull(applicationSource, 'applicationSource');
     ArgumentError.checkNotNull(scalingInstructions, 'scalingInstructions');
@@ -126,8 +118,8 @@ class AutoScalingPlans {
   /// Parameter [scalingPlanVersion] :
   /// The version number of the scaling plan.
   Future<void> deleteScalingPlan({
-    @_s.required String scalingPlanName,
-    @_s.required int scalingPlanVersion,
+    required String scalingPlanName,
+    required int scalingPlanVersion,
   }) async {
     ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
     _s.validateStringLength(
@@ -148,7 +140,7 @@ class AutoScalingPlans {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.DeleteScalingPlan'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -159,8 +151,6 @@ class AutoScalingPlans {
         'ScalingPlanVersion': scalingPlanVersion,
       },
     );
-
-    return DeleteScalingPlanResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the scalable resources in the specified scaling plan.
@@ -183,10 +173,10 @@ class AutoScalingPlans {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<DescribeScalingPlanResourcesResponse> describeScalingPlanResources({
-    @_s.required String scalingPlanName,
-    @_s.required int scalingPlanVersion,
-    int maxResults,
-    String nextToken,
+    required String scalingPlanName,
+    required int scalingPlanVersion,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
     _s.validateStringLength(
@@ -251,11 +241,11 @@ class AutoScalingPlans {
   /// The version number of the scaling plan. If you specify a scaling plan
   /// version, you must also specify a scaling plan name.
   Future<DescribeScalingPlansResponse> describeScalingPlans({
-    List<ApplicationSource> applicationSources,
-    int maxResults,
-    String nextToken,
-    List<String> scalingPlanNames,
-    int scalingPlanVersion,
+    List<ApplicationSource>? applicationSources,
+    int? maxResults,
+    String? nextToken,
+    List<String>? scalingPlanNames,
+    int? scalingPlanVersion,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -376,14 +366,14 @@ class AutoScalingPlans {
   /// The date and time can be at most 56 days before the current date and time.
   Future<GetScalingPlanResourceForecastDataResponse>
       getScalingPlanResourceForecastData({
-    @_s.required DateTime endTime,
-    @_s.required ForecastDataType forecastDataType,
-    @_s.required String resourceId,
-    @_s.required ScalableDimension scalableDimension,
-    @_s.required String scalingPlanName,
-    @_s.required int scalingPlanVersion,
-    @_s.required ServiceNamespace serviceNamespace,
-    @_s.required DateTime startTime,
+    required DateTime endTime,
+    required ForecastDataType forecastDataType,
+    required String resourceId,
+    required ScalableDimension scalableDimension,
+    required String scalingPlanName,
+    required int scalingPlanVersion,
+    required ServiceNamespace serviceNamespace,
+    required DateTime startTime,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(forecastDataType, 'forecastDataType');
@@ -425,12 +415,12 @@ class AutoScalingPlans {
       headers: headers,
       payload: {
         'EndTime': unixTimestampToJson(endTime),
-        'ForecastDataType': forecastDataType?.toValue() ?? '',
+        'ForecastDataType': forecastDataType.toValue(),
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue() ?? '',
+        'ScalableDimension': scalableDimension.toValue(),
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
+        'ServiceNamespace': serviceNamespace.toValue(),
         'StartTime': unixTimestampToJson(startTime),
       },
     );
@@ -461,10 +451,10 @@ class AutoScalingPlans {
   /// Parameter [scalingInstructions] :
   /// The scaling instructions.
   Future<void> updateScalingPlan({
-    @_s.required String scalingPlanName,
-    @_s.required int scalingPlanVersion,
-    ApplicationSource applicationSource,
-    List<ScalingInstruction> scalingInstructions,
+    required String scalingPlanName,
+    required int scalingPlanVersion,
+    ApplicationSource? applicationSource,
+    List<ScalingInstruction>? scalingInstructions,
   }) async {
     ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
     _s.validateStringLength(
@@ -485,7 +475,7 @@ class AutoScalingPlans {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.UpdateScalingPlan'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -499,53 +489,56 @@ class AutoScalingPlans {
           'ScalingInstructions': scalingInstructions,
       },
     );
-
-    return UpdateScalingPlanResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// Represents an application source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ApplicationSource {
   /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
-  @_s.JsonKey(name: 'CloudFormationStackARN')
-  final String cloudFormationStackARN;
+  final String? cloudFormationStackARN;
 
   /// A set of tags (up to 50).
-  @_s.JsonKey(name: 'TagFilters')
-  final List<TagFilter> tagFilters;
+  final List<TagFilter>? tagFilters;
 
   ApplicationSource({
     this.cloudFormationStackARN,
     this.tagFilters,
   });
-  factory ApplicationSource.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationSourceFromJson(json);
+  factory ApplicationSource.fromJson(Map<String, dynamic> json) {
+    return ApplicationSource(
+      cloudFormationStackARN: json['CloudFormationStackARN'] as String?,
+      tagFilters: (json['TagFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ApplicationSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudFormationStackARN = this.cloudFormationStackARN;
+    final tagFilters = this.tagFilters;
+    return {
+      if (cloudFormationStackARN != null)
+        'CloudFormationStackARN': cloudFormationStackARN,
+      if (tagFilters != null) 'TagFilters': tagFilters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateScalingPlanResponse {
   /// The version number of the scaling plan. This value is always 1.
   ///
   /// Currently, you cannot specify multiple scaling plan versions.
-  @_s.JsonKey(name: 'ScalingPlanVersion')
   final int scalingPlanVersion;
 
   CreateScalingPlanResponse({
-    @_s.required this.scalingPlanVersion,
+    required this.scalingPlanVersion,
   });
-  factory CreateScalingPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateScalingPlanResponseFromJson(json);
+  factory CreateScalingPlanResponse.fromJson(Map<String, dynamic> json) {
+    return CreateScalingPlanResponse(
+      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+    );
+  }
 }
 
 /// Represents a CloudWatch metric of your choosing that can be used for
@@ -573,49 +566,61 @@ class CreateScalingPlanResponse {
 /// metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomizedLoadMetricSpecification {
   /// The name of the metric.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// The namespace of the metric.
-  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The statistic of the metric. Currently, the value must always be
   /// <code>Sum</code>.
-  @_s.JsonKey(name: 'Statistic')
   final MetricStatistic statistic;
 
   /// The dimensions of the metric.
   ///
   /// Conditional: If you published your metric with dimensions, you must specify
   /// the same dimensions in your customized load metric specification.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<MetricDimension> dimensions;
+  final List<MetricDimension>? dimensions;
 
   /// The unit of the metric.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   CustomizedLoadMetricSpecification({
-    @_s.required this.metricName,
-    @_s.required this.namespace,
-    @_s.required this.statistic,
+    required this.metricName,
+    required this.namespace,
+    required this.statistic,
     this.dimensions,
     this.unit,
   });
   factory CustomizedLoadMetricSpecification.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomizedLoadMetricSpecificationFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomizedLoadMetricSpecification(
+      metricName: json['MetricName'] as String,
+      namespace: json['Namespace'] as String,
+      statistic: (json['Statistic'] as String).toMetricStatistic(),
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['Unit'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CustomizedLoadMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final dimensions = this.dimensions;
+    final unit = this.unit;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Statistic': statistic.toValue(),
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 /// Represents a CloudWatch metric of your choosing that can be used for dynamic
@@ -642,140 +647,140 @@ class CustomizedLoadMetricSpecification {
 /// For more information about CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomizedScalingMetricSpecification {
   /// The name of the metric.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// The namespace of the metric.
-  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The statistic of the metric.
-  @_s.JsonKey(name: 'Statistic')
   final MetricStatistic statistic;
 
   /// The dimensions of the metric.
   ///
   /// Conditional: If you published your metric with dimensions, you must specify
   /// the same dimensions in your customized scaling metric specification.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<MetricDimension> dimensions;
+  final List<MetricDimension>? dimensions;
 
   /// The unit of the metric.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   CustomizedScalingMetricSpecification({
-    @_s.required this.metricName,
-    @_s.required this.namespace,
-    @_s.required this.statistic,
+    required this.metricName,
+    required this.namespace,
+    required this.statistic,
     this.dimensions,
     this.unit,
   });
   factory CustomizedScalingMetricSpecification.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomizedScalingMetricSpecificationFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomizedScalingMetricSpecification(
+      metricName: json['MetricName'] as String,
+      namespace: json['Namespace'] as String,
+      statistic: (json['Statistic'] as String).toMetricStatistic(),
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['Unit'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CustomizedScalingMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final dimensions = this.dimensions;
+    final unit = this.unit;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Statistic': statistic.toValue(),
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 /// Represents a single value in the forecast data used for predictive scaling.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Datapoint {
   /// The time stamp for the data point in UTC format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// The value of the data point.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   Datapoint({
     this.timestamp,
     this.value,
   });
-  factory Datapoint.fromJson(Map<String, dynamic> json) =>
-      _$DatapointFromJson(json);
+  factory Datapoint.fromJson(Map<String, dynamic> json) {
+    return Datapoint(
+      timestamp: timeStampFromJson(json['Timestamp']),
+      value: json['Value'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteScalingPlanResponse {
   DeleteScalingPlanResponse();
-  factory DeleteScalingPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteScalingPlanResponseFromJson(json);
+  factory DeleteScalingPlanResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteScalingPlanResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeScalingPlanResourcesResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the scalable resources.
-  @_s.JsonKey(name: 'ScalingPlanResources')
-  final List<ScalingPlanResource> scalingPlanResources;
+  final List<ScalingPlanResource>? scalingPlanResources;
 
   DescribeScalingPlanResourcesResponse({
     this.nextToken,
     this.scalingPlanResources,
   });
   factory DescribeScalingPlanResourcesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeScalingPlanResourcesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeScalingPlanResourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      scalingPlanResources: (json['ScalingPlanResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScalingPlanResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeScalingPlansResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the scaling plans.
-  @_s.JsonKey(name: 'ScalingPlans')
-  final List<ScalingPlan> scalingPlans;
+  final List<ScalingPlan>? scalingPlans;
 
   DescribeScalingPlansResponse({
     this.nextToken,
     this.scalingPlans,
   });
-  factory DescribeScalingPlansResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeScalingPlansResponseFromJson(json);
+  factory DescribeScalingPlansResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeScalingPlansResponse(
+      nextToken: json['NextToken'] as String?,
+      scalingPlans: (json['ScalingPlans'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScalingPlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum ForecastDataType {
-  @_s.JsonValue('CapacityForecast')
   capacityForecast,
-  @_s.JsonValue('LoadForecast')
   loadForecast,
-  @_s.JsonValue('ScheduledActionMinCapacity')
   scheduledActionMinCapacity,
-  @_s.JsonValue('ScheduledActionMaxCapacity')
   scheduledActionMaxCapacity,
 }
 
@@ -791,91 +796,179 @@ extension on ForecastDataType {
       case ForecastDataType.scheduledActionMaxCapacity:
         return 'ScheduledActionMaxCapacity';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ForecastDataType toForecastDataType() {
+    switch (this) {
+      case 'CapacityForecast':
+        return ForecastDataType.capacityForecast;
+      case 'LoadForecast':
+        return ForecastDataType.loadForecast;
+      case 'ScheduledActionMinCapacity':
+        return ForecastDataType.scheduledActionMinCapacity;
+      case 'ScheduledActionMaxCapacity':
+        return ForecastDataType.scheduledActionMaxCapacity;
+    }
+    throw Exception('$this is not known in enum ForecastDataType');
+  }
+}
+
 class GetScalingPlanResourceForecastDataResponse {
   /// The data points to return.
-  @_s.JsonKey(name: 'Datapoints')
   final List<Datapoint> datapoints;
 
   GetScalingPlanResourceForecastDataResponse({
-    @_s.required this.datapoints,
+    required this.datapoints,
   });
   factory GetScalingPlanResourceForecastDataResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetScalingPlanResourceForecastDataResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetScalingPlanResourceForecastDataResponse(
+      datapoints: (json['Datapoints'] as List)
+          .whereNotNull()
+          .map((e) => Datapoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum LoadMetricType {
-  @_s.JsonValue('ASGTotalCPUUtilization')
   aSGTotalCPUUtilization,
-  @_s.JsonValue('ASGTotalNetworkIn')
   aSGTotalNetworkIn,
-  @_s.JsonValue('ASGTotalNetworkOut')
   aSGTotalNetworkOut,
-  @_s.JsonValue('ALBTargetGroupRequestCount')
   aLBTargetGroupRequestCount,
 }
 
+extension on LoadMetricType {
+  String toValue() {
+    switch (this) {
+      case LoadMetricType.aSGTotalCPUUtilization:
+        return 'ASGTotalCPUUtilization';
+      case LoadMetricType.aSGTotalNetworkIn:
+        return 'ASGTotalNetworkIn';
+      case LoadMetricType.aSGTotalNetworkOut:
+        return 'ASGTotalNetworkOut';
+      case LoadMetricType.aLBTargetGroupRequestCount:
+        return 'ALBTargetGroupRequestCount';
+    }
+  }
+}
+
+extension on String {
+  LoadMetricType toLoadMetricType() {
+    switch (this) {
+      case 'ASGTotalCPUUtilization':
+        return LoadMetricType.aSGTotalCPUUtilization;
+      case 'ASGTotalNetworkIn':
+        return LoadMetricType.aSGTotalNetworkIn;
+      case 'ASGTotalNetworkOut':
+        return LoadMetricType.aSGTotalNetworkOut;
+      case 'ALBTargetGroupRequestCount':
+        return LoadMetricType.aLBTargetGroupRequestCount;
+    }
+    throw Exception('$this is not known in enum LoadMetricType');
+  }
+}
+
 /// Represents a dimension for a customized metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricDimension {
   /// The name of the dimension.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   MetricDimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  factory MetricDimension.fromJson(Map<String, dynamic> json) =>
-      _$MetricDimensionFromJson(json);
+  factory MetricDimension.fromJson(Map<String, dynamic> json) {
+    return MetricDimension(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MetricDimensionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 enum MetricStatistic {
-  @_s.JsonValue('Average')
   average,
-  @_s.JsonValue('Minimum')
   minimum,
-  @_s.JsonValue('Maximum')
   maximum,
-  @_s.JsonValue('SampleCount')
   sampleCount,
-  @_s.JsonValue('Sum')
   sum,
 }
 
+extension on MetricStatistic {
+  String toValue() {
+    switch (this) {
+      case MetricStatistic.average:
+        return 'Average';
+      case MetricStatistic.minimum:
+        return 'Minimum';
+      case MetricStatistic.maximum:
+        return 'Maximum';
+      case MetricStatistic.sampleCount:
+        return 'SampleCount';
+      case MetricStatistic.sum:
+        return 'Sum';
+    }
+  }
+}
+
+extension on String {
+  MetricStatistic toMetricStatistic() {
+    switch (this) {
+      case 'Average':
+        return MetricStatistic.average;
+      case 'Minimum':
+        return MetricStatistic.minimum;
+      case 'Maximum':
+        return MetricStatistic.maximum;
+      case 'SampleCount':
+        return MetricStatistic.sampleCount;
+      case 'Sum':
+        return MetricStatistic.sum;
+    }
+    throw Exception('$this is not known in enum MetricStatistic');
+  }
+}
+
 enum PolicyType {
-  @_s.JsonValue('TargetTrackingScaling')
   targetTrackingScaling,
 }
 
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.targetTrackingScaling:
+        return 'TargetTrackingScaling';
+    }
+  }
+}
+
+extension on String {
+  PolicyType toPolicyType() {
+    switch (this) {
+      case 'TargetTrackingScaling':
+        return PolicyType.targetTrackingScaling;
+    }
+    throw Exception('$this is not known in enum PolicyType');
+  }
+}
+
 /// Represents a predefined metric that can be used for predictive scaling.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PredefinedLoadMetricSpecification {
   /// The metric type.
-  @_s.JsonKey(name: 'PredefinedLoadMetricType')
   final LoadMetricType predefinedLoadMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
@@ -897,32 +990,36 @@ class PredefinedLoadMetricSpecification {
   /// portion of the target group ARN.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ResourceLabel')
-  final String resourceLabel;
+  final String? resourceLabel;
 
   PredefinedLoadMetricSpecification({
-    @_s.required this.predefinedLoadMetricType,
+    required this.predefinedLoadMetricType,
     this.resourceLabel,
   });
   factory PredefinedLoadMetricSpecification.fromJson(
-          Map<String, dynamic> json) =>
-      _$PredefinedLoadMetricSpecificationFromJson(json);
+      Map<String, dynamic> json) {
+    return PredefinedLoadMetricSpecification(
+      predefinedLoadMetricType:
+          (json['PredefinedLoadMetricType'] as String).toLoadMetricType(),
+      resourceLabel: json['ResourceLabel'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$PredefinedLoadMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final predefinedLoadMetricType = this.predefinedLoadMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedLoadMetricType': predefinedLoadMetricType.toValue(),
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
 }
 
 /// Represents a predefined metric that can be used for dynamic scaling as part
 /// of a target tracking scaling policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PredefinedScalingMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
   /// applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
-  @_s.JsonKey(name: 'PredefinedScalingMetricType')
   final ScalingMetricType predefinedScalingMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
@@ -945,53 +1042,108 @@ class PredefinedScalingMetricSpecification {
   /// portion of the target group ARN.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ResourceLabel')
-  final String resourceLabel;
+  final String? resourceLabel;
 
   PredefinedScalingMetricSpecification({
-    @_s.required this.predefinedScalingMetricType,
+    required this.predefinedScalingMetricType,
     this.resourceLabel,
   });
   factory PredefinedScalingMetricSpecification.fromJson(
-          Map<String, dynamic> json) =>
-      _$PredefinedScalingMetricSpecificationFromJson(json);
+      Map<String, dynamic> json) {
+    return PredefinedScalingMetricSpecification(
+      predefinedScalingMetricType:
+          (json['PredefinedScalingMetricType'] as String).toScalingMetricType(),
+      resourceLabel: json['ResourceLabel'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$PredefinedScalingMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final predefinedScalingMetricType = this.predefinedScalingMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedScalingMetricType': predefinedScalingMetricType.toValue(),
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
 }
 
 enum PredictiveScalingMaxCapacityBehavior {
-  @_s.JsonValue('SetForecastCapacityToMaxCapacity')
   setForecastCapacityToMaxCapacity,
-  @_s.JsonValue('SetMaxCapacityToForecastCapacity')
   setMaxCapacityToForecastCapacity,
-  @_s.JsonValue('SetMaxCapacityAboveForecastCapacity')
   setMaxCapacityAboveForecastCapacity,
 }
 
+extension on PredictiveScalingMaxCapacityBehavior {
+  String toValue() {
+    switch (this) {
+      case PredictiveScalingMaxCapacityBehavior
+          .setForecastCapacityToMaxCapacity:
+        return 'SetForecastCapacityToMaxCapacity';
+      case PredictiveScalingMaxCapacityBehavior
+          .setMaxCapacityToForecastCapacity:
+        return 'SetMaxCapacityToForecastCapacity';
+      case PredictiveScalingMaxCapacityBehavior
+          .setMaxCapacityAboveForecastCapacity:
+        return 'SetMaxCapacityAboveForecastCapacity';
+    }
+  }
+}
+
+extension on String {
+  PredictiveScalingMaxCapacityBehavior
+      toPredictiveScalingMaxCapacityBehavior() {
+    switch (this) {
+      case 'SetForecastCapacityToMaxCapacity':
+        return PredictiveScalingMaxCapacityBehavior
+            .setForecastCapacityToMaxCapacity;
+      case 'SetMaxCapacityToForecastCapacity':
+        return PredictiveScalingMaxCapacityBehavior
+            .setMaxCapacityToForecastCapacity;
+      case 'SetMaxCapacityAboveForecastCapacity':
+        return PredictiveScalingMaxCapacityBehavior
+            .setMaxCapacityAboveForecastCapacity;
+    }
+    throw Exception(
+        '$this is not known in enum PredictiveScalingMaxCapacityBehavior');
+  }
+}
+
 enum PredictiveScalingMode {
-  @_s.JsonValue('ForecastAndScale')
   forecastAndScale,
-  @_s.JsonValue('ForecastOnly')
   forecastOnly,
 }
 
+extension on PredictiveScalingMode {
+  String toValue() {
+    switch (this) {
+      case PredictiveScalingMode.forecastAndScale:
+        return 'ForecastAndScale';
+      case PredictiveScalingMode.forecastOnly:
+        return 'ForecastOnly';
+    }
+  }
+}
+
+extension on String {
+  PredictiveScalingMode toPredictiveScalingMode() {
+    switch (this) {
+      case 'ForecastAndScale':
+        return PredictiveScalingMode.forecastAndScale;
+      case 'ForecastOnly':
+        return PredictiveScalingMode.forecastOnly;
+    }
+    throw Exception('$this is not known in enum PredictiveScalingMode');
+  }
+}
+
 enum ScalableDimension {
-  @_s.JsonValue('autoscaling:autoScalingGroup:DesiredCapacity')
   autoscalingAutoScalingGroupDesiredCapacity,
-  @_s.JsonValue('ecs:service:DesiredCount')
   ecsServiceDesiredCount,
-  @_s.JsonValue('ec2:spot-fleet-request:TargetCapacity')
   ec2SpotFleetRequestTargetCapacity,
-  @_s.JsonValue('rds:cluster:ReadReplicaCount')
   rdsClusterReadReplicaCount,
-  @_s.JsonValue('dynamodb:table:ReadCapacityUnits')
   dynamodbTableReadCapacityUnits,
-  @_s.JsonValue('dynamodb:table:WriteCapacityUnits')
   dynamodbTableWriteCapacityUnits,
-  @_s.JsonValue('dynamodb:index:ReadCapacityUnits')
   dynamodbIndexReadCapacityUnits,
-  @_s.JsonValue('dynamodb:index:WriteCapacityUnits')
   dynamodbIndexWriteCapacityUnits,
 }
 
@@ -1015,7 +1167,30 @@ extension on ScalableDimension {
       case ScalableDimension.dynamodbIndexWriteCapacityUnits:
         return 'dynamodb:index:WriteCapacityUnits';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ScalableDimension toScalableDimension() {
+    switch (this) {
+      case 'autoscaling:autoScalingGroup:DesiredCapacity':
+        return ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity;
+      case 'ecs:service:DesiredCount':
+        return ScalableDimension.ecsServiceDesiredCount;
+      case 'ec2:spot-fleet-request:TargetCapacity':
+        return ScalableDimension.ec2SpotFleetRequestTargetCapacity;
+      case 'rds:cluster:ReadReplicaCount':
+        return ScalableDimension.rdsClusterReadReplicaCount;
+      case 'dynamodb:table:ReadCapacityUnits':
+        return ScalableDimension.dynamodbTableReadCapacityUnits;
+      case 'dynamodb:table:WriteCapacityUnits':
+        return ScalableDimension.dynamodbTableWriteCapacityUnits;
+      case 'dynamodb:index:ReadCapacityUnits':
+        return ScalableDimension.dynamodbIndexReadCapacityUnits;
+      case 'dynamodb:index:WriteCapacityUnits':
+        return ScalableDimension.dynamodbIndexWriteCapacityUnits;
+    }
+    throw Exception('$this is not known in enum ScalableDimension');
   }
 }
 
@@ -1047,20 +1222,13 @@ extension on ScalableDimension {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/auto-scaling-getting-started.html">Getting
 /// Started with AWS Auto Scaling</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScalingInstruction {
   /// The maximum capacity of the resource. The exception to this upper limit is
   /// if you specify a non-default setting for
   /// <b>PredictiveScalingMaxCapacityBehavior</b>.
-  @_s.JsonKey(name: 'MaxCapacity')
   final int maxCapacity;
 
   /// The minimum capacity of the resource.
-  @_s.JsonKey(name: 'MinCapacity')
   final int minCapacity;
 
   /// The ID of the resource. This string consists of the resource type and unique
@@ -1096,7 +1264,6 @@ class ScalingInstruction {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
   /// The scalable dimension associated with the resource.
@@ -1136,11 +1303,9 @@ class ScalingInstruction {
   /// Aurora PostgreSQL-compatible edition.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
   /// The namespace of the AWS service.
-  @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
 
   /// The structure that defines new target tracking configurations (up to 10).
@@ -1154,28 +1319,24 @@ class ScalingInstruction {
   ///
   /// Condition: The scaling metric must be unique across target tracking
   /// configurations.
-  @_s.JsonKey(name: 'TargetTrackingConfigurations')
   final List<TargetTrackingConfiguration> targetTrackingConfigurations;
 
   /// The customized load metric to use for predictive scaling. This parameter or
   /// a <b>PredefinedLoadMetricSpecification</b> is required when configuring
   /// predictive scaling, and cannot be used otherwise.
-  @_s.JsonKey(name: 'CustomizedLoadMetricSpecification')
-  final CustomizedLoadMetricSpecification customizedLoadMetricSpecification;
+  final CustomizedLoadMetricSpecification? customizedLoadMetricSpecification;
 
   /// Controls whether dynamic scaling by AWS Auto Scaling is disabled. When
   /// dynamic scaling is enabled, AWS Auto Scaling creates target tracking scaling
   /// policies based on the specified target tracking configurations.
   ///
   /// The default is enabled (<code>false</code>).
-  @_s.JsonKey(name: 'DisableDynamicScaling')
-  final bool disableDynamicScaling;
+  final bool? disableDynamicScaling;
 
   /// The predefined load metric to use for predictive scaling. This parameter or
   /// a <b>CustomizedLoadMetricSpecification</b> is required when configuring
   /// predictive scaling, and cannot be used otherwise.
-  @_s.JsonKey(name: 'PredefinedLoadMetricSpecification')
-  final PredefinedLoadMetricSpecification predefinedLoadMetricSpecification;
+  final PredefinedLoadMetricSpecification? predefinedLoadMetricSpecification;
 
   /// Defines the behavior that should be applied if the forecast capacity
   /// approaches or exceeds the maximum capacity specified for the resource. The
@@ -1202,8 +1363,7 @@ class ScalingInstruction {
   /// </li>
   /// </ul>
   /// Only valid when configuring predictive scaling.
-  @_s.JsonKey(name: 'PredictiveScalingMaxCapacityBehavior')
-  final PredictiveScalingMaxCapacityBehavior
+  final PredictiveScalingMaxCapacityBehavior?
       predictiveScalingMaxCapacityBehavior;
 
   /// The size of the capacity buffer to use when the forecast capacity is close
@@ -1218,15 +1378,13 @@ class ScalingInstruction {
   /// otherwise.
   ///
   /// The range is 1-100.
-  @_s.JsonKey(name: 'PredictiveScalingMaxCapacityBuffer')
-  final int predictiveScalingMaxCapacityBuffer;
+  final int? predictiveScalingMaxCapacityBuffer;
 
   /// The predictive scaling mode. The default value is
   /// <code>ForecastAndScale</code>. Otherwise, AWS Auto Scaling forecasts
   /// capacity but does not create any scheduled scaling actions based on the
   /// capacity forecast.
-  @_s.JsonKey(name: 'PredictiveScalingMode')
-  final PredictiveScalingMode predictiveScalingMode;
+  final PredictiveScalingMode? predictiveScalingMode;
 
   /// Controls whether a resource's externally created scaling policies are kept
   /// or replaced.
@@ -1241,8 +1399,7 @@ class ScalingInstruction {
   /// Condition: The number of existing policies to be replaced must be less than
   /// or equal to 50. If there are more than 50 policies to be replaced, AWS Auto
   /// Scaling keeps all existing policies and does not create new ones.
-  @_s.JsonKey(name: 'ScalingPolicyUpdateBehavior')
-  final ScalingPolicyUpdateBehavior scalingPolicyUpdateBehavior;
+  final ScalingPolicyUpdateBehavior? scalingPolicyUpdateBehavior;
 
   /// The amount of time, in seconds, to buffer the run time of scheduled scaling
   /// actions when scaling out. For example, if the forecast says to add capacity
@@ -1257,16 +1414,15 @@ class ScalingInstruction {
   /// (60 minutes). The default is 300 seconds.
   ///
   /// Only valid when configuring predictive scaling.
-  @_s.JsonKey(name: 'ScheduledActionBufferTime')
-  final int scheduledActionBufferTime;
+  final int? scheduledActionBufferTime;
 
   ScalingInstruction({
-    @_s.required this.maxCapacity,
-    @_s.required this.minCapacity,
-    @_s.required this.resourceId,
-    @_s.required this.scalableDimension,
-    @_s.required this.serviceNamespace,
-    @_s.required this.targetTrackingConfigurations,
+    required this.maxCapacity,
+    required this.minCapacity,
+    required this.resourceId,
+    required this.scalableDimension,
+    required this.serviceNamespace,
+    required this.targetTrackingConfigurations,
     this.customizedLoadMetricSpecification,
     this.disableDynamicScaling,
     this.predefinedLoadMetricSpecification,
@@ -1276,62 +1432,191 @@ class ScalingInstruction {
     this.scalingPolicyUpdateBehavior,
     this.scheduledActionBufferTime,
   });
-  factory ScalingInstruction.fromJson(Map<String, dynamic> json) =>
-      _$ScalingInstructionFromJson(json);
+  factory ScalingInstruction.fromJson(Map<String, dynamic> json) {
+    return ScalingInstruction(
+      maxCapacity: json['MaxCapacity'] as int,
+      minCapacity: json['MinCapacity'] as int,
+      resourceId: json['ResourceId'] as String,
+      scalableDimension:
+          (json['ScalableDimension'] as String).toScalableDimension(),
+      serviceNamespace:
+          (json['ServiceNamespace'] as String).toServiceNamespace(),
+      targetTrackingConfigurations: (json['TargetTrackingConfigurations']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              TargetTrackingConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customizedLoadMetricSpecification:
+          json['CustomizedLoadMetricSpecification'] != null
+              ? CustomizedLoadMetricSpecification.fromJson(
+                  json['CustomizedLoadMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      disableDynamicScaling: json['DisableDynamicScaling'] as bool?,
+      predefinedLoadMetricSpecification:
+          json['PredefinedLoadMetricSpecification'] != null
+              ? PredefinedLoadMetricSpecification.fromJson(
+                  json['PredefinedLoadMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      predictiveScalingMaxCapacityBehavior:
+          (json['PredictiveScalingMaxCapacityBehavior'] as String?)
+              ?.toPredictiveScalingMaxCapacityBehavior(),
+      predictiveScalingMaxCapacityBuffer:
+          json['PredictiveScalingMaxCapacityBuffer'] as int?,
+      predictiveScalingMode:
+          (json['PredictiveScalingMode'] as String?)?.toPredictiveScalingMode(),
+      scalingPolicyUpdateBehavior:
+          (json['ScalingPolicyUpdateBehavior'] as String?)
+              ?.toScalingPolicyUpdateBehavior(),
+      scheduledActionBufferTime: json['ScheduledActionBufferTime'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ScalingInstructionToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    final resourceId = this.resourceId;
+    final scalableDimension = this.scalableDimension;
+    final serviceNamespace = this.serviceNamespace;
+    final targetTrackingConfigurations = this.targetTrackingConfigurations;
+    final customizedLoadMetricSpecification =
+        this.customizedLoadMetricSpecification;
+    final disableDynamicScaling = this.disableDynamicScaling;
+    final predefinedLoadMetricSpecification =
+        this.predefinedLoadMetricSpecification;
+    final predictiveScalingMaxCapacityBehavior =
+        this.predictiveScalingMaxCapacityBehavior;
+    final predictiveScalingMaxCapacityBuffer =
+        this.predictiveScalingMaxCapacityBuffer;
+    final predictiveScalingMode = this.predictiveScalingMode;
+    final scalingPolicyUpdateBehavior = this.scalingPolicyUpdateBehavior;
+    final scheduledActionBufferTime = this.scheduledActionBufferTime;
+    return {
+      'MaxCapacity': maxCapacity,
+      'MinCapacity': minCapacity,
+      'ResourceId': resourceId,
+      'ScalableDimension': scalableDimension.toValue(),
+      'ServiceNamespace': serviceNamespace.toValue(),
+      'TargetTrackingConfigurations': targetTrackingConfigurations,
+      if (customizedLoadMetricSpecification != null)
+        'CustomizedLoadMetricSpecification': customizedLoadMetricSpecification,
+      if (disableDynamicScaling != null)
+        'DisableDynamicScaling': disableDynamicScaling,
+      if (predefinedLoadMetricSpecification != null)
+        'PredefinedLoadMetricSpecification': predefinedLoadMetricSpecification,
+      if (predictiveScalingMaxCapacityBehavior != null)
+        'PredictiveScalingMaxCapacityBehavior':
+            predictiveScalingMaxCapacityBehavior.toValue(),
+      if (predictiveScalingMaxCapacityBuffer != null)
+        'PredictiveScalingMaxCapacityBuffer':
+            predictiveScalingMaxCapacityBuffer,
+      if (predictiveScalingMode != null)
+        'PredictiveScalingMode': predictiveScalingMode.toValue(),
+      if (scalingPolicyUpdateBehavior != null)
+        'ScalingPolicyUpdateBehavior': scalingPolicyUpdateBehavior.toValue(),
+      if (scheduledActionBufferTime != null)
+        'ScheduledActionBufferTime': scheduledActionBufferTime,
+    };
+  }
 }
 
 enum ScalingMetricType {
-  @_s.JsonValue('ASGAverageCPUUtilization')
   aSGAverageCPUUtilization,
-  @_s.JsonValue('ASGAverageNetworkIn')
   aSGAverageNetworkIn,
-  @_s.JsonValue('ASGAverageNetworkOut')
   aSGAverageNetworkOut,
-  @_s.JsonValue('DynamoDBReadCapacityUtilization')
   dynamoDBReadCapacityUtilization,
-  @_s.JsonValue('DynamoDBWriteCapacityUtilization')
   dynamoDBWriteCapacityUtilization,
-  @_s.JsonValue('ECSServiceAverageCPUUtilization')
   eCSServiceAverageCPUUtilization,
-  @_s.JsonValue('ECSServiceAverageMemoryUtilization')
   eCSServiceAverageMemoryUtilization,
-  @_s.JsonValue('ALBRequestCountPerTarget')
   aLBRequestCountPerTarget,
-  @_s.JsonValue('RDSReaderAverageCPUUtilization')
   rDSReaderAverageCPUUtilization,
-  @_s.JsonValue('RDSReaderAverageDatabaseConnections')
   rDSReaderAverageDatabaseConnections,
-  @_s.JsonValue('EC2SpotFleetRequestAverageCPUUtilization')
   eC2SpotFleetRequestAverageCPUUtilization,
-  @_s.JsonValue('EC2SpotFleetRequestAverageNetworkIn')
   eC2SpotFleetRequestAverageNetworkIn,
-  @_s.JsonValue('EC2SpotFleetRequestAverageNetworkOut')
   eC2SpotFleetRequestAverageNetworkOut,
 }
 
+extension on ScalingMetricType {
+  String toValue() {
+    switch (this) {
+      case ScalingMetricType.aSGAverageCPUUtilization:
+        return 'ASGAverageCPUUtilization';
+      case ScalingMetricType.aSGAverageNetworkIn:
+        return 'ASGAverageNetworkIn';
+      case ScalingMetricType.aSGAverageNetworkOut:
+        return 'ASGAverageNetworkOut';
+      case ScalingMetricType.dynamoDBReadCapacityUtilization:
+        return 'DynamoDBReadCapacityUtilization';
+      case ScalingMetricType.dynamoDBWriteCapacityUtilization:
+        return 'DynamoDBWriteCapacityUtilization';
+      case ScalingMetricType.eCSServiceAverageCPUUtilization:
+        return 'ECSServiceAverageCPUUtilization';
+      case ScalingMetricType.eCSServiceAverageMemoryUtilization:
+        return 'ECSServiceAverageMemoryUtilization';
+      case ScalingMetricType.aLBRequestCountPerTarget:
+        return 'ALBRequestCountPerTarget';
+      case ScalingMetricType.rDSReaderAverageCPUUtilization:
+        return 'RDSReaderAverageCPUUtilization';
+      case ScalingMetricType.rDSReaderAverageDatabaseConnections:
+        return 'RDSReaderAverageDatabaseConnections';
+      case ScalingMetricType.eC2SpotFleetRequestAverageCPUUtilization:
+        return 'EC2SpotFleetRequestAverageCPUUtilization';
+      case ScalingMetricType.eC2SpotFleetRequestAverageNetworkIn:
+        return 'EC2SpotFleetRequestAverageNetworkIn';
+      case ScalingMetricType.eC2SpotFleetRequestAverageNetworkOut:
+        return 'EC2SpotFleetRequestAverageNetworkOut';
+    }
+  }
+}
+
+extension on String {
+  ScalingMetricType toScalingMetricType() {
+    switch (this) {
+      case 'ASGAverageCPUUtilization':
+        return ScalingMetricType.aSGAverageCPUUtilization;
+      case 'ASGAverageNetworkIn':
+        return ScalingMetricType.aSGAverageNetworkIn;
+      case 'ASGAverageNetworkOut':
+        return ScalingMetricType.aSGAverageNetworkOut;
+      case 'DynamoDBReadCapacityUtilization':
+        return ScalingMetricType.dynamoDBReadCapacityUtilization;
+      case 'DynamoDBWriteCapacityUtilization':
+        return ScalingMetricType.dynamoDBWriteCapacityUtilization;
+      case 'ECSServiceAverageCPUUtilization':
+        return ScalingMetricType.eCSServiceAverageCPUUtilization;
+      case 'ECSServiceAverageMemoryUtilization':
+        return ScalingMetricType.eCSServiceAverageMemoryUtilization;
+      case 'ALBRequestCountPerTarget':
+        return ScalingMetricType.aLBRequestCountPerTarget;
+      case 'RDSReaderAverageCPUUtilization':
+        return ScalingMetricType.rDSReaderAverageCPUUtilization;
+      case 'RDSReaderAverageDatabaseConnections':
+        return ScalingMetricType.rDSReaderAverageDatabaseConnections;
+      case 'EC2SpotFleetRequestAverageCPUUtilization':
+        return ScalingMetricType.eC2SpotFleetRequestAverageCPUUtilization;
+      case 'EC2SpotFleetRequestAverageNetworkIn':
+        return ScalingMetricType.eC2SpotFleetRequestAverageNetworkIn;
+      case 'EC2SpotFleetRequestAverageNetworkOut':
+        return ScalingMetricType.eC2SpotFleetRequestAverageNetworkOut;
+    }
+    throw Exception('$this is not known in enum ScalingMetricType');
+  }
+}
+
 /// Represents a scaling plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScalingPlan {
   /// The application source.
-  @_s.JsonKey(name: 'ApplicationSource')
   final ApplicationSource applicationSource;
 
   /// The scaling instructions.
-  @_s.JsonKey(name: 'ScalingInstructions')
   final List<ScalingInstruction> scalingInstructions;
 
   /// The name of the scaling plan.
-  @_s.JsonKey(name: 'ScalingPlanName')
   final String scalingPlanName;
 
   /// The version number of the scaling plan.
-  @_s.JsonKey(name: 'ScalingPlanVersion')
   final int scalingPlanVersion;
 
   /// The status of the scaling plan.
@@ -1363,43 +1648,46 @@ class ScalingPlan {
   /// <code>UpdateFailed</code> - The scaling plan could not be updated.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusCode')
   final ScalingPlanStatusCode statusCode;
 
   /// The Unix time stamp when the scaling plan was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A simple message about the current status of the scaling plan.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The Unix time stamp when the scaling plan entered the current status.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StatusStartTime')
-  final DateTime statusStartTime;
+  final DateTime? statusStartTime;
 
   ScalingPlan({
-    @_s.required this.applicationSource,
-    @_s.required this.scalingInstructions,
-    @_s.required this.scalingPlanName,
-    @_s.required this.scalingPlanVersion,
-    @_s.required this.statusCode,
+    required this.applicationSource,
+    required this.scalingInstructions,
+    required this.scalingPlanName,
+    required this.scalingPlanVersion,
+    required this.statusCode,
     this.creationTime,
     this.statusMessage,
     this.statusStartTime,
   });
-  factory ScalingPlan.fromJson(Map<String, dynamic> json) =>
-      _$ScalingPlanFromJson(json);
+  factory ScalingPlan.fromJson(Map<String, dynamic> json) {
+    return ScalingPlan(
+      applicationSource: ApplicationSource.fromJson(
+          json['ApplicationSource'] as Map<String, dynamic>),
+      scalingInstructions: (json['ScalingInstructions'] as List)
+          .whereNotNull()
+          .map((e) => ScalingInstruction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scalingPlanName: json['ScalingPlanName'] as String,
+      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+      statusCode: (json['StatusCode'] as String).toScalingPlanStatusCode(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      statusMessage: json['StatusMessage'] as String?,
+      statusStartTime: timeStampFromJson(json['StatusStartTime']),
+    );
+  }
 }
 
 /// Represents a scalable resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScalingPlanResource {
   /// The ID of the resource. This string consists of the resource type and unique
   /// identifier.
@@ -1434,7 +1722,6 @@ class ScalingPlanResource {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
   /// The scalable dimension for the resource.
@@ -1474,15 +1761,12 @@ class ScalingPlanResource {
   /// Aurora PostgreSQL-compatible edition.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ScalableDimension')
   final ScalableDimension scalableDimension;
 
   /// The name of the scaling plan.
-  @_s.JsonKey(name: 'ScalingPlanName')
   final String scalingPlanName;
 
   /// The version number of the scaling plan.
-  @_s.JsonKey(name: 'ScalingPlanVersion')
   final int scalingPlanVersion;
 
   /// The scaling status of the resource.
@@ -1503,109 +1787,200 @@ class ScalingPlanResource {
   /// information.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ScalingStatusCode')
   final ScalingStatusCode scalingStatusCode;
 
   /// The namespace of the AWS service.
-  @_s.JsonKey(name: 'ServiceNamespace')
   final ServiceNamespace serviceNamespace;
 
   /// The scaling policies.
-  @_s.JsonKey(name: 'ScalingPolicies')
-  final List<ScalingPolicy> scalingPolicies;
+  final List<ScalingPolicy>? scalingPolicies;
 
   /// A simple message about the current scaling status of the resource.
-  @_s.JsonKey(name: 'ScalingStatusMessage')
-  final String scalingStatusMessage;
+  final String? scalingStatusMessage;
 
   ScalingPlanResource({
-    @_s.required this.resourceId,
-    @_s.required this.scalableDimension,
-    @_s.required this.scalingPlanName,
-    @_s.required this.scalingPlanVersion,
-    @_s.required this.scalingStatusCode,
-    @_s.required this.serviceNamespace,
+    required this.resourceId,
+    required this.scalableDimension,
+    required this.scalingPlanName,
+    required this.scalingPlanVersion,
+    required this.scalingStatusCode,
+    required this.serviceNamespace,
     this.scalingPolicies,
     this.scalingStatusMessage,
   });
-  factory ScalingPlanResource.fromJson(Map<String, dynamic> json) =>
-      _$ScalingPlanResourceFromJson(json);
+  factory ScalingPlanResource.fromJson(Map<String, dynamic> json) {
+    return ScalingPlanResource(
+      resourceId: json['ResourceId'] as String,
+      scalableDimension:
+          (json['ScalableDimension'] as String).toScalableDimension(),
+      scalingPlanName: json['ScalingPlanName'] as String,
+      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+      scalingStatusCode:
+          (json['ScalingStatusCode'] as String).toScalingStatusCode(),
+      serviceNamespace:
+          (json['ServiceNamespace'] as String).toServiceNamespace(),
+      scalingPolicies: (json['ScalingPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scalingStatusMessage: json['ScalingStatusMessage'] as String?,
+    );
+  }
 }
 
 enum ScalingPlanStatusCode {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('ActiveWithProblems')
   activeWithProblems,
-  @_s.JsonValue('CreationInProgress')
   creationInProgress,
-  @_s.JsonValue('CreationFailed')
   creationFailed,
-  @_s.JsonValue('DeletionInProgress')
   deletionInProgress,
-  @_s.JsonValue('DeletionFailed')
   deletionFailed,
-  @_s.JsonValue('UpdateInProgress')
   updateInProgress,
-  @_s.JsonValue('UpdateFailed')
   updateFailed,
 }
 
+extension on ScalingPlanStatusCode {
+  String toValue() {
+    switch (this) {
+      case ScalingPlanStatusCode.active:
+        return 'Active';
+      case ScalingPlanStatusCode.activeWithProblems:
+        return 'ActiveWithProblems';
+      case ScalingPlanStatusCode.creationInProgress:
+        return 'CreationInProgress';
+      case ScalingPlanStatusCode.creationFailed:
+        return 'CreationFailed';
+      case ScalingPlanStatusCode.deletionInProgress:
+        return 'DeletionInProgress';
+      case ScalingPlanStatusCode.deletionFailed:
+        return 'DeletionFailed';
+      case ScalingPlanStatusCode.updateInProgress:
+        return 'UpdateInProgress';
+      case ScalingPlanStatusCode.updateFailed:
+        return 'UpdateFailed';
+    }
+  }
+}
+
+extension on String {
+  ScalingPlanStatusCode toScalingPlanStatusCode() {
+    switch (this) {
+      case 'Active':
+        return ScalingPlanStatusCode.active;
+      case 'ActiveWithProblems':
+        return ScalingPlanStatusCode.activeWithProblems;
+      case 'CreationInProgress':
+        return ScalingPlanStatusCode.creationInProgress;
+      case 'CreationFailed':
+        return ScalingPlanStatusCode.creationFailed;
+      case 'DeletionInProgress':
+        return ScalingPlanStatusCode.deletionInProgress;
+      case 'DeletionFailed':
+        return ScalingPlanStatusCode.deletionFailed;
+      case 'UpdateInProgress':
+        return ScalingPlanStatusCode.updateInProgress;
+      case 'UpdateFailed':
+        return ScalingPlanStatusCode.updateFailed;
+    }
+    throw Exception('$this is not known in enum ScalingPlanStatusCode');
+  }
+}
+
 /// Represents a scaling policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScalingPolicy {
   /// The name of the scaling policy.
-  @_s.JsonKey(name: 'PolicyName')
   final String policyName;
 
   /// The type of scaling policy.
-  @_s.JsonKey(name: 'PolicyType')
   final PolicyType policyType;
 
   /// The target tracking scaling policy. Includes support for predefined or
   /// customized metrics.
-  @_s.JsonKey(name: 'TargetTrackingConfiguration')
-  final TargetTrackingConfiguration targetTrackingConfiguration;
+  final TargetTrackingConfiguration? targetTrackingConfiguration;
 
   ScalingPolicy({
-    @_s.required this.policyName,
-    @_s.required this.policyType,
+    required this.policyName,
+    required this.policyType,
     this.targetTrackingConfiguration,
   });
-  factory ScalingPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ScalingPolicyFromJson(json);
+  factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
+    return ScalingPolicy(
+      policyName: json['PolicyName'] as String,
+      policyType: (json['PolicyType'] as String).toPolicyType(),
+      targetTrackingConfiguration: json['TargetTrackingConfiguration'] != null
+          ? TargetTrackingConfiguration.fromJson(
+              json['TargetTrackingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ScalingPolicyUpdateBehavior {
-  @_s.JsonValue('KeepExternalPolicies')
   keepExternalPolicies,
-  @_s.JsonValue('ReplaceExternalPolicies')
   replaceExternalPolicies,
 }
 
+extension on ScalingPolicyUpdateBehavior {
+  String toValue() {
+    switch (this) {
+      case ScalingPolicyUpdateBehavior.keepExternalPolicies:
+        return 'KeepExternalPolicies';
+      case ScalingPolicyUpdateBehavior.replaceExternalPolicies:
+        return 'ReplaceExternalPolicies';
+    }
+  }
+}
+
+extension on String {
+  ScalingPolicyUpdateBehavior toScalingPolicyUpdateBehavior() {
+    switch (this) {
+      case 'KeepExternalPolicies':
+        return ScalingPolicyUpdateBehavior.keepExternalPolicies;
+      case 'ReplaceExternalPolicies':
+        return ScalingPolicyUpdateBehavior.replaceExternalPolicies;
+    }
+    throw Exception('$this is not known in enum ScalingPolicyUpdateBehavior');
+  }
+}
+
 enum ScalingStatusCode {
-  @_s.JsonValue('Inactive')
   inactive,
-  @_s.JsonValue('PartiallyActive')
   partiallyActive,
-  @_s.JsonValue('Active')
   active,
 }
 
+extension on ScalingStatusCode {
+  String toValue() {
+    switch (this) {
+      case ScalingStatusCode.inactive:
+        return 'Inactive';
+      case ScalingStatusCode.partiallyActive:
+        return 'PartiallyActive';
+      case ScalingStatusCode.active:
+        return 'Active';
+    }
+  }
+}
+
+extension on String {
+  ScalingStatusCode toScalingStatusCode() {
+    switch (this) {
+      case 'Inactive':
+        return ScalingStatusCode.inactive;
+      case 'PartiallyActive':
+        return ScalingStatusCode.partiallyActive;
+      case 'Active':
+        return ScalingStatusCode.active;
+    }
+    throw Exception('$this is not known in enum ScalingStatusCode');
+  }
+}
+
 enum ServiceNamespace {
-  @_s.JsonValue('autoscaling')
   autoscaling,
-  @_s.JsonValue('ecs')
   ecs,
-  @_s.JsonValue('ec2')
   ec2,
-  @_s.JsonValue('rds')
   rds,
-  @_s.JsonValue('dynamodb')
   dynamodb,
 }
 
@@ -1623,52 +1998,69 @@ extension on ServiceNamespace {
       case ServiceNamespace.dynamodb:
         return 'dynamodb';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServiceNamespace toServiceNamespace() {
+    switch (this) {
+      case 'autoscaling':
+        return ServiceNamespace.autoscaling;
+      case 'ecs':
+        return ServiceNamespace.ecs;
+      case 'ec2':
+        return ServiceNamespace.ec2;
+      case 'rds':
+        return ServiceNamespace.rds;
+      case 'dynamodb':
+        return ServiceNamespace.dynamodb;
+    }
+    throw Exception('$this is not known in enum ServiceNamespace');
   }
 }
 
 /// Represents a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TagFilter {
   /// The tag key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The tag values (0 to 20).
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   TagFilter({
     this.key,
     this.values,
   });
-  factory TagFilter.fromJson(Map<String, dynamic> json) =>
-      _$TagFilterFromJson(json);
+  factory TagFilter.fromJson(Map<String, dynamic> json) {
+    return TagFilter(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Describes a target tracking configuration to use with AWS Auto Scaling. Used
 /// with <a>ScalingInstruction</a> and <a>ScalingPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetTrackingConfiguration {
   /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
   /// (Base 10) or 2e-360 to 2e360 (Base 2).
-  @_s.JsonKey(name: 'TargetValue')
   final double targetValue;
 
   /// A customized metric. You can specify either a predefined metric or a
   /// customized metric.
-  @_s.JsonKey(name: 'CustomizedScalingMetricSpecification')
-  final CustomizedScalingMetricSpecification
+  final CustomizedScalingMetricSpecification?
       customizedScalingMetricSpecification;
 
   /// Indicates whether scale in by the target tracking scaling policy is
@@ -1678,19 +2070,16 @@ class TargetTrackingConfiguration {
   /// policy can remove capacity from the scalable resource.
   ///
   /// The default value is <code>false</code>.
-  @_s.JsonKey(name: 'DisableScaleIn')
-  final bool disableScaleIn;
+  final bool? disableScaleIn;
 
   /// The estimated time, in seconds, until a newly launched instance can
   /// contribute to the CloudWatch metrics. This value is used only if the
   /// resource is an Auto Scaling group.
-  @_s.JsonKey(name: 'EstimatedInstanceWarmup')
-  final int estimatedInstanceWarmup;
+  final int? estimatedInstanceWarmup;
 
   /// A predefined metric. You can specify either a predefined metric or a
   /// customized metric.
-  @_s.JsonKey(name: 'PredefinedScalingMetricSpecification')
-  final PredefinedScalingMetricSpecification
+  final PredefinedScalingMetricSpecification?
       predefinedScalingMetricSpecification;
 
   /// The amount of time, in seconds, after a scale in activity completes before
@@ -1702,8 +2091,7 @@ class TargetTrackingConfiguration {
   /// application's availability. However, if another alarm triggers a scale-out
   /// policy during the cooldown period after a scale-in, AWS Auto Scaling scales
   /// out your scalable target immediately.
-  @_s.JsonKey(name: 'ScaleInCooldown')
-  final int scaleInCooldown;
+  final int? scaleInCooldown;
 
   /// The amount of time, in seconds, after a scale-out activity completes before
   /// another scale-out activity can start. This value is not used if the scalable
@@ -1713,11 +2101,10 @@ class TargetTrackingConfiguration {
   /// the previous scale-out event that initiated the cooldown is calculated as
   /// part of the desired capacity for the next scale out. The intention is to
   /// continuously (but not excessively) scale out.
-  @_s.JsonKey(name: 'ScaleOutCooldown')
-  final int scaleOutCooldown;
+  final int? scaleOutCooldown;
 
   TargetTrackingConfiguration({
-    @_s.required this.targetValue,
+    required this.targetValue,
     this.customizedScalingMetricSpecification,
     this.disableScaleIn,
     this.estimatedInstanceWarmup,
@@ -1725,50 +2112,89 @@ class TargetTrackingConfiguration {
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
-  factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$TargetTrackingConfigurationFromJson(json);
+  factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingConfiguration(
+      targetValue: json['TargetValue'] as double,
+      customizedScalingMetricSpecification:
+          json['CustomizedScalingMetricSpecification'] != null
+              ? CustomizedScalingMetricSpecification.fromJson(
+                  json['CustomizedScalingMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      disableScaleIn: json['DisableScaleIn'] as bool?,
+      estimatedInstanceWarmup: json['EstimatedInstanceWarmup'] as int?,
+      predefinedScalingMetricSpecification:
+          json['PredefinedScalingMetricSpecification'] != null
+              ? PredefinedScalingMetricSpecification.fromJson(
+                  json['PredefinedScalingMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TargetTrackingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final customizedScalingMetricSpecification =
+        this.customizedScalingMetricSpecification;
+    final disableScaleIn = this.disableScaleIn;
+    final estimatedInstanceWarmup = this.estimatedInstanceWarmup;
+    final predefinedScalingMetricSpecification =
+        this.predefinedScalingMetricSpecification;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (customizedScalingMetricSpecification != null)
+        'CustomizedScalingMetricSpecification':
+            customizedScalingMetricSpecification,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (estimatedInstanceWarmup != null)
+        'EstimatedInstanceWarmup': estimatedInstanceWarmup,
+      if (predefinedScalingMetricSpecification != null)
+        'PredefinedScalingMetricSpecification':
+            predefinedScalingMetricSpecification,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateScalingPlanResponse {
   UpdateScalingPlanResponse();
-  factory UpdateScalingPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateScalingPlanResponseFromJson(json);
+  factory UpdateScalingPlanResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateScalingPlanResponse();
+  }
 }
 
 class ConcurrentUpdateException extends _s.GenericAwsException {
-  ConcurrentUpdateException({String type, String message})
+  ConcurrentUpdateException({String? type, String? message})
       : super(type: type, code: 'ConcurrentUpdateException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ObjectNotFoundException extends _s.GenericAwsException {
-  ObjectNotFoundException({String type, String message})
+  ObjectNotFoundException({String? type, String? message})
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

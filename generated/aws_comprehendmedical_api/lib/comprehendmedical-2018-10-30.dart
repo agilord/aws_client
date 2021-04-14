@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'comprehendmedical-2018-10-30.g.dart';
 
 /// Amazon Comprehend Medical extracts structured information from unstructured
 /// clinical text. Use these actions to gain insight in your documents.
 class ComprehendMedical {
   final _s.JsonProtocol _protocol;
   ComprehendMedical({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -60,7 +52,7 @@ class ComprehendMedical {
   /// in its response.
   Future<DescribeEntitiesDetectionV2JobResponse>
       describeEntitiesDetectionV2Job({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -108,7 +100,7 @@ class ComprehendMedical {
   /// <code>The StartICD10CMInferenceJob</code> operation returns this
   /// identifier in its response.
   Future<DescribeICD10CMInferenceJobResponse> describeICD10CMInferenceJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -155,7 +147,7 @@ class ComprehendMedical {
   /// <code>StartPHIDetectionJob</code> operation returns this identifier in its
   /// response.
   Future<DescribePHIDetectionJobResponse> describePHIDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -201,7 +193,7 @@ class ComprehendMedical {
   /// The identifier that Amazon Comprehend Medical generated for the job. The
   /// StartRxNormInferenceJob operation returns this identifier in its response.
   Future<DescribeRxNormInferenceJobResponse> describeRxNormInferenceJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -254,7 +246,7 @@ class ComprehendMedical {
   /// entities. Each string must contain fewer than 20,000 bytes of characters.
   @Deprecated('Deprecated')
   Future<DetectEntitiesResponse> detectEntities({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -308,7 +300,7 @@ class ComprehendMedical {
   /// A UTF-8 string containing the clinical content being examined for
   /// entities. Each string must contain fewer than 20,000 bytes of characters.
   Future<DetectEntitiesV2Response> detectEntitiesV2({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -352,7 +344,7 @@ class ComprehendMedical {
   /// A UTF-8 text string containing the clinical content being examined for PHI
   /// entities. Each string must contain fewer than 20,000 bytes of characters.
   Future<DetectPHIResponse> detectPHI({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -397,7 +389,7 @@ class ComprehendMedical {
   /// The input text used for analysis. The input for InferICD10CM is a string
   /// from 1 to 10000 characters.
   Future<InferICD10CMResponse> inferICD10CM({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -441,7 +433,7 @@ class ComprehendMedical {
   /// The input text used for analysis. The input for InferRxNorm is a string
   /// from 1 to 10000 characters.
   Future<InferRxNormResponse> inferRxNorm({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -487,9 +479,9 @@ class ComprehendMedical {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListEntitiesDetectionV2JobsResponse> listEntitiesDetectionV2Jobs({
-    ComprehendMedicalAsyncJobFilter filter,
-    int maxResults,
-    String nextToken,
+    ComprehendMedicalAsyncJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -541,9 +533,9 @@ class ComprehendMedical {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListICD10CMInferenceJobsResponse> listICD10CMInferenceJobs({
-    ComprehendMedicalAsyncJobFilter filter,
-    int maxResults,
-    String nextToken,
+    ComprehendMedicalAsyncJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -596,9 +588,9 @@ class ComprehendMedical {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListPHIDetectionJobsResponse> listPHIDetectionJobs({
-    ComprehendMedicalAsyncJobFilter filter,
-    int maxResults,
-    String nextToken,
+    ComprehendMedicalAsyncJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -650,9 +642,9 @@ class ComprehendMedical {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListRxNormInferenceJobsResponse> listRxNormInferenceJobs({
-    ComprehendMedicalAsyncJobFilter filter,
-    int maxResults,
-    String nextToken,
+    ComprehendMedicalAsyncJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -723,13 +715,13 @@ class ComprehendMedical {
   /// An AWS Key Management Service key to encrypt your output files. If you do
   /// not specify a key, the files are written in plain text.
   Future<StartEntitiesDetectionV2JobResponse> startEntitiesDetectionV2Job({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String kMSKey,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -794,7 +786,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -843,13 +835,13 @@ class ComprehendMedical {
   /// An AWS Key Management Service key to encrypt your output files. If you do
   /// not specify a key, the files are written in plain text.
   Future<StartICD10CMInferenceJobResponse> startICD10CMInferenceJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String kMSKey,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -914,7 +906,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -963,13 +955,13 @@ class ComprehendMedical {
   /// An AWS Key Management Service key to encrypt your output files. If you do
   /// not specify a key, the files are written in plain text.
   Future<StartPHIDetectionJobResponse> startPHIDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String kMSKey,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -1034,7 +1026,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1083,13 +1075,13 @@ class ComprehendMedical {
   /// An AWS Key Management Service key to encrypt your output files. If you do
   /// not specify a key, the files are written in plain text.
   Future<StartRxNormInferenceJobResponse> startRxNormInferenceJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String kMSKey,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -1154,7 +1146,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1175,7 +1167,7 @@ class ComprehendMedical {
   /// Parameter [jobId] :
   /// The identifier of the medical entities job to stop.
   Future<StopEntitiesDetectionV2JobResponse> stopEntitiesDetectionV2Job({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1218,7 +1210,7 @@ class ComprehendMedical {
   /// Parameter [jobId] :
   /// The identifier of the job.
   Future<StopICD10CMInferenceJobResponse> stopICD10CMInferenceJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1261,7 +1253,7 @@ class ComprehendMedical {
   /// Parameter [jobId] :
   /// The identifier of the PHI detection job to stop.
   Future<StopPHIDetectionJobResponse> stopPHIDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1304,7 +1296,7 @@ class ComprehendMedical {
   /// Parameter [jobId] :
   /// The identifier of the job.
   Future<StopRxNormInferenceJobResponse> stopRxNormInferenceJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1343,59 +1335,44 @@ class ComprehendMedical {
 /// otherwise related to an entity, such as the dosage of a medication taken. It
 /// contains information about the attribute such as id, begin and end offset
 /// within the input text, and the segment of the input text.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The category of attribute.
-  @_s.JsonKey(name: 'Category')
-  final EntityType category;
+  final EntityType? category;
 
   /// The 0-based character offset in the input text that shows where the
   /// attribute ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The numeric identifier for this attribute. This is a monotonically
   /// increasing id unique within this response rather than a global unique
   /// identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The level of confidence that Amazon Comprehend Medical has that this
   /// attribute is correctly related to this entity.
-  @_s.JsonKey(name: 'RelationshipScore')
-  final double relationshipScore;
+  final double? relationshipScore;
 
   /// The type of relationship between the entity and attribute. Type for the
   /// relationship is <code>OVERLAP</code>, indicating that the entity occurred at
   /// the same time as the <code>Date_Expression</code>.
-  @_s.JsonKey(name: 'RelationshipType')
-  final RelationshipType relationshipType;
+  final RelationshipType? relationshipType;
 
   /// The level of confidence that Amazon Comprehend Medical has that the segment
   /// of text is correctly recognized as an attribute.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text extracted as this attribute.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// Contextual information for this attribute.
-  @_s.JsonKey(name: 'Traits')
-  final List<Trait> traits;
+  final List<Trait>? traits;
 
   /// The type of attribute.
-  @_s.JsonKey(name: 'Type')
-  final EntitySubType type;
+  final EntitySubType? type;
 
   Attribute({
     this.beginOffset,
@@ -1409,50 +1386,82 @@ class Attribute {
     this.traits,
     this.type,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toEntityType(),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipType:
+          (json['RelationshipType'] as String?)?.toRelationshipType(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toEntitySubType(),
+    );
+  }
 }
 
 enum AttributeName {
-  @_s.JsonValue('SIGN')
   sign,
-  @_s.JsonValue('SYMPTOM')
   symptom,
-  @_s.JsonValue('DIAGNOSIS')
   diagnosis,
-  @_s.JsonValue('NEGATION')
   negation,
 }
 
+extension on AttributeName {
+  String toValue() {
+    switch (this) {
+      case AttributeName.sign:
+        return 'SIGN';
+      case AttributeName.symptom:
+        return 'SYMPTOM';
+      case AttributeName.diagnosis:
+        return 'DIAGNOSIS';
+      case AttributeName.negation:
+        return 'NEGATION';
+    }
+  }
+}
+
+extension on String {
+  AttributeName toAttributeName() {
+    switch (this) {
+      case 'SIGN':
+        return AttributeName.sign;
+      case 'SYMPTOM':
+        return AttributeName.symptom;
+      case 'DIAGNOSIS':
+        return AttributeName.diagnosis;
+      case 'NEGATION':
+        return AttributeName.negation;
+    }
+    throw Exception('$this is not known in enum AttributeName');
+  }
+}
+
 /// Provides information for filtering a list of detection jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ComprehendMedicalAsyncJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   ComprehendMedicalAsyncJobFilter({
     this.jobName,
@@ -1460,87 +1469,77 @@ class ComprehendMedicalAsyncJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() =>
-      _$ComprehendMedicalAsyncJobFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComprehendMedicalAsyncJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
   /// access to your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the detection job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The date and time that job metadata is deleted from the server. Output files
   /// in your S3 bucket will not be deleted. After the metadata is deleted, the
   /// job will no longer appear in the results of the
   /// <code>ListEntitiesDetectionV2Job</code> or the
   /// <code>ListPHIDetectionJobs</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationTime')
-  final DateTime expirationTime;
+  final DateTime? expirationTime;
 
   /// The input data configuration that you supplied when you created the
   /// detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned to the detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the detection job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The AWS Key Management Service key, if any, used to encrypt the output
   /// files.
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
+  final String? kMSKey;
 
   /// The language code of the input documents.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The path to the file that describes the results of a batch job.
-  @_s.JsonKey(name: 'ManifestFilePath')
-  final String manifestFilePath;
+  final String? manifestFilePath;
 
   /// A description of the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The version of the model used to analyze the documents. The version number
   /// looks like X.X.X. You can use this information to track the model used for a
   /// particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   /// The output data configuration that you supplied when you created the
   /// detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   ComprehendMedicalAsyncJobProperties({
     this.dataAccessRoleArn,
@@ -1559,242 +1558,268 @@ class ComprehendMedicalAsyncJobProperties {
     this.submitTime,
   });
   factory ComprehendMedicalAsyncJobProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$ComprehendMedicalAsyncJobPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return ComprehendMedicalAsyncJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      kMSKey: json['KMSKey'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      manifestFilePath: json['ManifestFilePath'] as String?,
+      message: json['Message'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEntitiesDetectionV2JobResponse {
   /// An object that contains the properties associated with a detection job.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
-  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+  final ComprehendMedicalAsyncJobProperties?
+      comprehendMedicalAsyncJobProperties;
 
   DescribeEntitiesDetectionV2JobResponse({
     this.comprehendMedicalAsyncJobProperties,
   });
   factory DescribeEntitiesDetectionV2JobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEntitiesDetectionV2JobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEntitiesDetectionV2JobResponse(
+      comprehendMedicalAsyncJobProperties:
+          json['ComprehendMedicalAsyncJobProperties'] != null
+              ? ComprehendMedicalAsyncJobProperties.fromJson(
+                  json['ComprehendMedicalAsyncJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeICD10CMInferenceJobResponse {
   /// An object that contains the properties associated with a detection job.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
-  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+  final ComprehendMedicalAsyncJobProperties?
+      comprehendMedicalAsyncJobProperties;
 
   DescribeICD10CMInferenceJobResponse({
     this.comprehendMedicalAsyncJobProperties,
   });
   factory DescribeICD10CMInferenceJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeICD10CMInferenceJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeICD10CMInferenceJobResponse(
+      comprehendMedicalAsyncJobProperties:
+          json['ComprehendMedicalAsyncJobProperties'] != null
+              ? ComprehendMedicalAsyncJobProperties.fromJson(
+                  json['ComprehendMedicalAsyncJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePHIDetectionJobResponse {
   /// An object that contains the properties associated with a detection job.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
-  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+  final ComprehendMedicalAsyncJobProperties?
+      comprehendMedicalAsyncJobProperties;
 
   DescribePHIDetectionJobResponse({
     this.comprehendMedicalAsyncJobProperties,
   });
-  factory DescribePHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePHIDetectionJobResponseFromJson(json);
+  factory DescribePHIDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePHIDetectionJobResponse(
+      comprehendMedicalAsyncJobProperties:
+          json['ComprehendMedicalAsyncJobProperties'] != null
+              ? ComprehendMedicalAsyncJobProperties.fromJson(
+                  json['ComprehendMedicalAsyncJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRxNormInferenceJobResponse {
   /// An object that contains the properties associated with a detection job.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobProperties')
-  final ComprehendMedicalAsyncJobProperties comprehendMedicalAsyncJobProperties;
+  final ComprehendMedicalAsyncJobProperties?
+      comprehendMedicalAsyncJobProperties;
 
   DescribeRxNormInferenceJobResponse({
     this.comprehendMedicalAsyncJobProperties,
   });
   factory DescribeRxNormInferenceJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRxNormInferenceJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRxNormInferenceJobResponse(
+      comprehendMedicalAsyncJobProperties:
+          json['ComprehendMedicalAsyncJobProperties'] != null
+              ? ComprehendMedicalAsyncJobProperties.fromJson(
+                  json['ComprehendMedicalAsyncJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectEntitiesResponse {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
   /// level of confidence that Amazon Comprehend Medical has in the detection and
   /// analysis. Attributes and traits of the entity are also returned.
-  @_s.JsonKey(name: 'Entities')
   final List<Entity> entities;
 
   /// The version of the model used to analyze the documents. The version number
   /// looks like X.X.X. You can use this information to track the model used for a
   /// particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
   final String modelVersion;
 
   /// If the result of the previous request to <code>DetectEntities</code> was
   /// truncated, include the <code>PaginationToken</code> to fetch the next page
   /// of entities.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// Attributes extracted from the input text that we were unable to relate to an
   /// entity.
-  @_s.JsonKey(name: 'UnmappedAttributes')
-  final List<UnmappedAttribute> unmappedAttributes;
+  final List<UnmappedAttribute>? unmappedAttributes;
 
   DetectEntitiesResponse({
-    @_s.required this.entities,
-    @_s.required this.modelVersion,
+    required this.entities,
+    required this.modelVersion,
     this.paginationToken,
     this.unmappedAttributes,
   });
-  factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectEntitiesResponseFromJson(json);
+  factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectEntitiesResponse(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelVersion: json['ModelVersion'] as String,
+      paginationToken: json['PaginationToken'] as String?,
+      unmappedAttributes: (json['UnmappedAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectEntitiesV2Response {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
   /// level of confidence in the detection and analysis. Attributes and traits of
   /// the entity are also returned.
-  @_s.JsonKey(name: 'Entities')
   final List<Entity> entities;
 
   /// The version of the model used to analyze the documents. The version number
   /// looks like X.X.X. You can use this information to track the model used for a
   /// particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
   final String modelVersion;
 
   /// If the result to the <code>DetectEntitiesV2</code> operation was truncated,
   /// include the <code>PaginationToken</code> to fetch the next page of entities.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// Attributes extracted from the input text that couldn't be related to an
   /// entity.
-  @_s.JsonKey(name: 'UnmappedAttributes')
-  final List<UnmappedAttribute> unmappedAttributes;
+  final List<UnmappedAttribute>? unmappedAttributes;
 
   DetectEntitiesV2Response({
-    @_s.required this.entities,
-    @_s.required this.modelVersion,
+    required this.entities,
+    required this.modelVersion,
     this.paginationToken,
     this.unmappedAttributes,
   });
-  factory DetectEntitiesV2Response.fromJson(Map<String, dynamic> json) =>
-      _$DetectEntitiesV2ResponseFromJson(json);
+  factory DetectEntitiesV2Response.fromJson(Map<String, dynamic> json) {
+    return DetectEntitiesV2Response(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelVersion: json['ModelVersion'] as String,
+      paginationToken: json['PaginationToken'] as String?,
+      unmappedAttributes: (json['UnmappedAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectPHIResponse {
   /// The collection of PHI entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
   /// level of confidence that Amazon Comprehend Medical has in its detection.
-  @_s.JsonKey(name: 'Entities')
   final List<Entity> entities;
 
   /// The version of the model used to analyze the documents. The version number
   /// looks like X.X.X. You can use this information to track the model used for a
   /// particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
   final String modelVersion;
 
   /// If the result of the previous request to <code>DetectPHI</code> was
   /// truncated, include the <code>PaginationToken</code> to fetch the next page
   /// of PHI entities.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   DetectPHIResponse({
-    @_s.required this.entities,
-    @_s.required this.modelVersion,
+    required this.entities,
+    required this.modelVersion,
     this.paginationToken,
   });
-  factory DetectPHIResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectPHIResponseFromJson(json);
+  factory DetectPHIResponse.fromJson(Map<String, dynamic> json) {
+    return DetectPHIResponse(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelVersion: json['ModelVersion'] as String,
+      paginationToken: json['PaginationToken'] as String?,
+    );
+  }
 }
 
 /// Provides information about an extracted medical entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Entity {
   /// The extracted attributes that relate to this entity.
-  @_s.JsonKey(name: 'Attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The category of the entity.
-  @_s.JsonKey(name: 'Category')
-  final EntityType category;
+  final EntityType? category;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The numeric identifier for the entity. This is a monotonically increasing id
   /// unique within this response rather than a global unique identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The level of confidence that Amazon Comprehend Medical has in the accuracy
   /// of the detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text extracted as this entity.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// Contextual information for the entity.
-  @_s.JsonKey(name: 'Traits')
-  final List<Trait> traits;
+  final List<Trait>? traits;
 
   /// Describes the specific type of entity with category of entities.
-  @_s.JsonKey(name: 'Type')
-  final EntitySubType type;
+  final EntitySubType? type;
 
   Entity({
     this.attributes,
@@ -1807,93 +1832,261 @@ class Entity {
     this.traits,
     this.type,
   });
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toEntityType(),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toEntitySubType(),
+    );
+  }
 }
 
 enum EntitySubType {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('DOSAGE')
   dosage,
-  @_s.JsonValue('ROUTE_OR_MODE')
   routeOrMode,
-  @_s.JsonValue('FORM')
   form,
-  @_s.JsonValue('FREQUENCY')
   frequency,
-  @_s.JsonValue('DURATION')
   duration,
-  @_s.JsonValue('GENERIC_NAME')
   genericName,
-  @_s.JsonValue('BRAND_NAME')
   brandName,
-  @_s.JsonValue('STRENGTH')
   strength,
-  @_s.JsonValue('RATE')
   rate,
-  @_s.JsonValue('ACUITY')
   acuity,
-  @_s.JsonValue('TEST_NAME')
   testName,
-  @_s.JsonValue('TEST_VALUE')
   testValue,
-  @_s.JsonValue('TEST_UNITS')
   testUnits,
-  @_s.JsonValue('PROCEDURE_NAME')
   procedureName,
-  @_s.JsonValue('TREATMENT_NAME')
   treatmentName,
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('AGE')
   age,
-  @_s.JsonValue('CONTACT_POINT')
   contactPoint,
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('IDENTIFIER')
   identifier,
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('ADDRESS')
   address,
-  @_s.JsonValue('PROFESSION')
   profession,
-  @_s.JsonValue('SYSTEM_ORGAN_SITE')
   systemOrganSite,
-  @_s.JsonValue('DIRECTION')
   direction,
-  @_s.JsonValue('QUALITY')
   quality,
-  @_s.JsonValue('QUANTITY')
   quantity,
-  @_s.JsonValue('TIME_EXPRESSION')
   timeExpression,
-  @_s.JsonValue('TIME_TO_MEDICATION_NAME')
   timeToMedicationName,
-  @_s.JsonValue('TIME_TO_DX_NAME')
   timeToDxName,
-  @_s.JsonValue('TIME_TO_TEST_NAME')
   timeToTestName,
-  @_s.JsonValue('TIME_TO_PROCEDURE_NAME')
   timeToProcedureName,
-  @_s.JsonValue('TIME_TO_TREATMENT_NAME')
   timeToTreatmentName,
 }
 
+extension on EntitySubType {
+  String toValue() {
+    switch (this) {
+      case EntitySubType.name:
+        return 'NAME';
+      case EntitySubType.dosage:
+        return 'DOSAGE';
+      case EntitySubType.routeOrMode:
+        return 'ROUTE_OR_MODE';
+      case EntitySubType.form:
+        return 'FORM';
+      case EntitySubType.frequency:
+        return 'FREQUENCY';
+      case EntitySubType.duration:
+        return 'DURATION';
+      case EntitySubType.genericName:
+        return 'GENERIC_NAME';
+      case EntitySubType.brandName:
+        return 'BRAND_NAME';
+      case EntitySubType.strength:
+        return 'STRENGTH';
+      case EntitySubType.rate:
+        return 'RATE';
+      case EntitySubType.acuity:
+        return 'ACUITY';
+      case EntitySubType.testName:
+        return 'TEST_NAME';
+      case EntitySubType.testValue:
+        return 'TEST_VALUE';
+      case EntitySubType.testUnits:
+        return 'TEST_UNITS';
+      case EntitySubType.procedureName:
+        return 'PROCEDURE_NAME';
+      case EntitySubType.treatmentName:
+        return 'TREATMENT_NAME';
+      case EntitySubType.date:
+        return 'DATE';
+      case EntitySubType.age:
+        return 'AGE';
+      case EntitySubType.contactPoint:
+        return 'CONTACT_POINT';
+      case EntitySubType.email:
+        return 'EMAIL';
+      case EntitySubType.identifier:
+        return 'IDENTIFIER';
+      case EntitySubType.url:
+        return 'URL';
+      case EntitySubType.address:
+        return 'ADDRESS';
+      case EntitySubType.profession:
+        return 'PROFESSION';
+      case EntitySubType.systemOrganSite:
+        return 'SYSTEM_ORGAN_SITE';
+      case EntitySubType.direction:
+        return 'DIRECTION';
+      case EntitySubType.quality:
+        return 'QUALITY';
+      case EntitySubType.quantity:
+        return 'QUANTITY';
+      case EntitySubType.timeExpression:
+        return 'TIME_EXPRESSION';
+      case EntitySubType.timeToMedicationName:
+        return 'TIME_TO_MEDICATION_NAME';
+      case EntitySubType.timeToDxName:
+        return 'TIME_TO_DX_NAME';
+      case EntitySubType.timeToTestName:
+        return 'TIME_TO_TEST_NAME';
+      case EntitySubType.timeToProcedureName:
+        return 'TIME_TO_PROCEDURE_NAME';
+      case EntitySubType.timeToTreatmentName:
+        return 'TIME_TO_TREATMENT_NAME';
+    }
+  }
+}
+
+extension on String {
+  EntitySubType toEntitySubType() {
+    switch (this) {
+      case 'NAME':
+        return EntitySubType.name;
+      case 'DOSAGE':
+        return EntitySubType.dosage;
+      case 'ROUTE_OR_MODE':
+        return EntitySubType.routeOrMode;
+      case 'FORM':
+        return EntitySubType.form;
+      case 'FREQUENCY':
+        return EntitySubType.frequency;
+      case 'DURATION':
+        return EntitySubType.duration;
+      case 'GENERIC_NAME':
+        return EntitySubType.genericName;
+      case 'BRAND_NAME':
+        return EntitySubType.brandName;
+      case 'STRENGTH':
+        return EntitySubType.strength;
+      case 'RATE':
+        return EntitySubType.rate;
+      case 'ACUITY':
+        return EntitySubType.acuity;
+      case 'TEST_NAME':
+        return EntitySubType.testName;
+      case 'TEST_VALUE':
+        return EntitySubType.testValue;
+      case 'TEST_UNITS':
+        return EntitySubType.testUnits;
+      case 'PROCEDURE_NAME':
+        return EntitySubType.procedureName;
+      case 'TREATMENT_NAME':
+        return EntitySubType.treatmentName;
+      case 'DATE':
+        return EntitySubType.date;
+      case 'AGE':
+        return EntitySubType.age;
+      case 'CONTACT_POINT':
+        return EntitySubType.contactPoint;
+      case 'EMAIL':
+        return EntitySubType.email;
+      case 'IDENTIFIER':
+        return EntitySubType.identifier;
+      case 'URL':
+        return EntitySubType.url;
+      case 'ADDRESS':
+        return EntitySubType.address;
+      case 'PROFESSION':
+        return EntitySubType.profession;
+      case 'SYSTEM_ORGAN_SITE':
+        return EntitySubType.systemOrganSite;
+      case 'DIRECTION':
+        return EntitySubType.direction;
+      case 'QUALITY':
+        return EntitySubType.quality;
+      case 'QUANTITY':
+        return EntitySubType.quantity;
+      case 'TIME_EXPRESSION':
+        return EntitySubType.timeExpression;
+      case 'TIME_TO_MEDICATION_NAME':
+        return EntitySubType.timeToMedicationName;
+      case 'TIME_TO_DX_NAME':
+        return EntitySubType.timeToDxName;
+      case 'TIME_TO_TEST_NAME':
+        return EntitySubType.timeToTestName;
+      case 'TIME_TO_PROCEDURE_NAME':
+        return EntitySubType.timeToProcedureName;
+      case 'TIME_TO_TREATMENT_NAME':
+        return EntitySubType.timeToTreatmentName;
+    }
+    throw Exception('$this is not known in enum EntitySubType');
+  }
+}
+
 enum EntityType {
-  @_s.JsonValue('MEDICATION')
   medication,
-  @_s.JsonValue('MEDICAL_CONDITION')
   medicalCondition,
-  @_s.JsonValue('PROTECTED_HEALTH_INFORMATION')
   protectedHealthInformation,
-  @_s.JsonValue('TEST_TREATMENT_PROCEDURE')
   testTreatmentProcedure,
-  @_s.JsonValue('ANATOMY')
   anatomy,
-  @_s.JsonValue('TIME_EXPRESSION')
   timeExpression,
+}
+
+extension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.medication:
+        return 'MEDICATION';
+      case EntityType.medicalCondition:
+        return 'MEDICAL_CONDITION';
+      case EntityType.protectedHealthInformation:
+        return 'PROTECTED_HEALTH_INFORMATION';
+      case EntityType.testTreatmentProcedure:
+        return 'TEST_TREATMENT_PROCEDURE';
+      case EntityType.anatomy:
+        return 'ANATOMY';
+      case EntityType.timeExpression:
+        return 'TIME_EXPRESSION';
+    }
+  }
+}
+
+extension on String {
+  EntityType toEntityType() {
+    switch (this) {
+      case 'MEDICATION':
+        return EntityType.medication;
+      case 'MEDICAL_CONDITION':
+        return EntityType.medicalCondition;
+      case 'PROTECTED_HEALTH_INFORMATION':
+        return EntityType.protectedHealthInformation;
+      case 'TEST_TREATMENT_PROCEDURE':
+        return EntityType.testTreatmentProcedure;
+      case 'ANATOMY':
+        return EntityType.anatomy;
+      case 'TIME_EXPRESSION':
+        return EntityType.timeExpression;
+    }
+    throw Exception('$this is not known in enum EntityType');
+  }
 }
 
 /// The detected attributes that relate to an entity. This includes an extracted
@@ -1901,52 +2094,39 @@ enum EntityType {
 /// to an entity. InferICD10CM detects the following attributes:
 /// <code>Direction</code>, <code>System, Organ or Site</code>, and
 /// <code>Acuity</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ICD10CMAttribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The 0-based character offset in the input text that shows where the
   /// attribute ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The numeric identifier for this attribute. This is a monotonically
   /// increasing id unique within this response rather than a global unique
   /// identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The level of confidence that Amazon Comprehend Medical has that this
   /// attribute is correctly related to this entity.
-  @_s.JsonKey(name: 'RelationshipScore')
-  final double relationshipScore;
+  final double? relationshipScore;
 
   /// The level of confidence that Amazon Comprehend Medical has that the segment
   /// of text is correctly recognized as an attribute.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text which contains the detected attribute.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// The contextual information for the attribute. The traits recognized by
   /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
   /// <code>SYMPTOM</code>, and <code>NEGATION</code>.
-  @_s.JsonKey(name: 'Traits')
-  final List<ICD10CMTrait> traits;
+  final List<ICD10CMTrait>? traits;
 
   /// The type of attribute. InferICD10CM detects entities of the type
   /// <code>DX_NAME</code>.
-  @_s.JsonKey(name: 'Type')
-  final ICD10CMAttributeType type;
+  final ICD10CMAttributeType? type;
 
   ICD10CMAttribute({
     this.beginOffset,
@@ -1958,52 +2138,92 @@ class ICD10CMAttribute {
     this.traits,
     this.type,
   });
-  factory ICD10CMAttribute.fromJson(Map<String, dynamic> json) =>
-      _$ICD10CMAttributeFromJson(json);
+  factory ICD10CMAttribute.fromJson(Map<String, dynamic> json) {
+    return ICD10CMAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toICD10CMAttributeType(),
+    );
+  }
 }
 
 enum ICD10CMAttributeType {
-  @_s.JsonValue('ACUITY')
   acuity,
-  @_s.JsonValue('DIRECTION')
   direction,
-  @_s.JsonValue('SYSTEM_ORGAN_SITE')
   systemOrganSite,
-  @_s.JsonValue('QUALITY')
   quality,
-  @_s.JsonValue('QUANTITY')
   quantity,
+}
+
+extension on ICD10CMAttributeType {
+  String toValue() {
+    switch (this) {
+      case ICD10CMAttributeType.acuity:
+        return 'ACUITY';
+      case ICD10CMAttributeType.direction:
+        return 'DIRECTION';
+      case ICD10CMAttributeType.systemOrganSite:
+        return 'SYSTEM_ORGAN_SITE';
+      case ICD10CMAttributeType.quality:
+        return 'QUALITY';
+      case ICD10CMAttributeType.quantity:
+        return 'QUANTITY';
+    }
+  }
+}
+
+extension on String {
+  ICD10CMAttributeType toICD10CMAttributeType() {
+    switch (this) {
+      case 'ACUITY':
+        return ICD10CMAttributeType.acuity;
+      case 'DIRECTION':
+        return ICD10CMAttributeType.direction;
+      case 'SYSTEM_ORGAN_SITE':
+        return ICD10CMAttributeType.systemOrganSite;
+      case 'QUALITY':
+        return ICD10CMAttributeType.quality;
+      case 'QUANTITY':
+        return ICD10CMAttributeType.quantity;
+    }
+    throw Exception('$this is not known in enum ICD10CMAttributeType');
+  }
 }
 
 /// The ICD-10-CM concepts that the entity could refer to, along with a score
 /// indicating the likelihood of the match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ICD10CMConcept {
   /// The ICD-10-CM code that identifies the concept found in the knowledge base
   /// from the Centers for Disease Control.
-  @_s.JsonKey(name: 'Code')
-  final String code;
+  final String? code;
 
   /// The long description of the ICD-10-CM code in the ontology.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The level of confidence that Amazon Comprehend Medical has that the entity
   /// is accurately linked to an ICD-10-CM concept.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   ICD10CMConcept({
     this.code,
     this.description,
     this.score,
   });
-  factory ICD10CMConcept.fromJson(Map<String, dynamic> json) =>
-      _$ICD10CMConceptFromJson(json);
+  factory ICD10CMConcept.fromJson(Map<String, dynamic> json) {
+    return ICD10CMConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
 }
 
 /// The collection of medical entities extracted from the input text and their
@@ -2011,62 +2231,47 @@ class ICD10CMConcept {
 /// text, the entity category, where the entity text begins and ends, and the
 /// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ICD10CMEntity {
   /// The detected attributes that relate to the entity. An extracted segment of
   /// the text that is an attribute of an entity, or otherwise related to an
   /// entity, such as the nature of a medical condition.
-  @_s.JsonKey(name: 'Attributes')
-  final List<ICD10CMAttribute> attributes;
+  final List<ICD10CMAttribute>? attributes;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The category of the entity. InferICD10CM detects entities in the
   /// <code>MEDICAL_CONDITION</code> category.
-  @_s.JsonKey(name: 'Category')
-  final ICD10CMEntityCategory category;
+  final ICD10CMEntityCategory? category;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The ICD-10-CM concepts that the entity could refer to, along with a score
   /// indicating the likelihood of the match.
-  @_s.JsonKey(name: 'ICD10CMConcepts')
-  final List<ICD10CMConcept> iCD10CMConcepts;
+  final List<ICD10CMConcept>? iCD10CMConcepts;
 
   /// The numeric identifier for the entity. This is a monotonically increasing id
   /// unique within this response rather than a global unique identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The level of confidence that Amazon Comprehend Medical has in the accuracy
   /// of the detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text that is matched to the detected entity.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// Provides Contextual information for the entity. The traits recognized by
   /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
   /// <code>SYMPTOM</code>, and <code>NEGATION.</code>
-  @_s.JsonKey(name: 'Traits')
-  final List<ICD10CMTrait> traits;
+  final List<ICD10CMTrait>? traits;
 
   /// Describes the specific type of entity with category of entities.
   /// InferICD10CM detects entities of the type <code>DX_NAME</code>.
-  @_s.JsonKey(name: 'Type')
-  final ICD10CMEntityType type;
+  final ICD10CMEntityType? type;
 
   ICD10CMEntity({
     this.attributes,
@@ -2080,173 +2285,293 @@ class ICD10CMEntity {
     this.traits,
     this.type,
   });
-  factory ICD10CMEntity.fromJson(Map<String, dynamic> json) =>
-      _$ICD10CMEntityFromJson(json);
+  factory ICD10CMEntity.fromJson(Map<String, dynamic> json) {
+    return ICD10CMEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toICD10CMEntityCategory(),
+      endOffset: json['EndOffset'] as int?,
+      iCD10CMConcepts: (json['ICD10CMConcepts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toICD10CMEntityType(),
+    );
+  }
 }
 
 enum ICD10CMEntityCategory {
-  @_s.JsonValue('MEDICAL_CONDITION')
   medicalCondition,
 }
 
+extension on ICD10CMEntityCategory {
+  String toValue() {
+    switch (this) {
+      case ICD10CMEntityCategory.medicalCondition:
+        return 'MEDICAL_CONDITION';
+    }
+  }
+}
+
+extension on String {
+  ICD10CMEntityCategory toICD10CMEntityCategory() {
+    switch (this) {
+      case 'MEDICAL_CONDITION':
+        return ICD10CMEntityCategory.medicalCondition;
+    }
+    throw Exception('$this is not known in enum ICD10CMEntityCategory');
+  }
+}
+
 enum ICD10CMEntityType {
-  @_s.JsonValue('DX_NAME')
   dxName,
+}
+
+extension on ICD10CMEntityType {
+  String toValue() {
+    switch (this) {
+      case ICD10CMEntityType.dxName:
+        return 'DX_NAME';
+    }
+  }
+}
+
+extension on String {
+  ICD10CMEntityType toICD10CMEntityType() {
+    switch (this) {
+      case 'DX_NAME':
+        return ICD10CMEntityType.dxName;
+    }
+    throw Exception('$this is not known in enum ICD10CMEntityType');
+  }
 }
 
 /// Contextual information for the entity. The traits recognized by InferICD10CM
 /// are <code>DIAGNOSIS</code>, <code>SIGN</code>, <code>SYMPTOM</code>, and
 /// <code>NEGATION</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ICD10CMTrait {
   /// Provides a name or contextual description about the trait.
-  @_s.JsonKey(name: 'Name')
-  final ICD10CMTraitName name;
+  final ICD10CMTraitName? name;
 
   /// The level of confidence that Amazon Comprehend Medical has that the segment
   /// of text is correctly recognized as a trait.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   ICD10CMTrait({
     this.name,
     this.score,
   });
-  factory ICD10CMTrait.fromJson(Map<String, dynamic> json) =>
-      _$ICD10CMTraitFromJson(json);
+  factory ICD10CMTrait.fromJson(Map<String, dynamic> json) {
+    return ICD10CMTrait(
+      name: (json['Name'] as String?)?.toICD10CMTraitName(),
+      score: json['Score'] as double?,
+    );
+  }
 }
 
 enum ICD10CMTraitName {
-  @_s.JsonValue('NEGATION')
   negation,
-  @_s.JsonValue('DIAGNOSIS')
   diagnosis,
-  @_s.JsonValue('SIGN')
   sign,
-  @_s.JsonValue('SYMPTOM')
   symptom,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ICD10CMTraitName {
+  String toValue() {
+    switch (this) {
+      case ICD10CMTraitName.negation:
+        return 'NEGATION';
+      case ICD10CMTraitName.diagnosis:
+        return 'DIAGNOSIS';
+      case ICD10CMTraitName.sign:
+        return 'SIGN';
+      case ICD10CMTraitName.symptom:
+        return 'SYMPTOM';
+    }
+  }
+}
+
+extension on String {
+  ICD10CMTraitName toICD10CMTraitName() {
+    switch (this) {
+      case 'NEGATION':
+        return ICD10CMTraitName.negation;
+      case 'DIAGNOSIS':
+        return ICD10CMTraitName.diagnosis;
+      case 'SIGN':
+        return ICD10CMTraitName.sign;
+      case 'SYMPTOM':
+        return ICD10CMTraitName.symptom;
+    }
+    throw Exception('$this is not known in enum ICD10CMTraitName');
+  }
+}
+
 class InferICD10CMResponse {
   /// The medical conditions detected in the text linked to ICD-10-CM concepts. If
   /// the action is successful, the service sends back an HTTP 200 response, as
   /// well as the entities detected.
-  @_s.JsonKey(name: 'Entities')
   final List<ICD10CMEntity> entities;
 
   /// The version of the model used to analyze the documents, in the format
   /// <i>n</i>.<i>n</i>.<i>n</i> You can use this information to track the model
   /// used for a particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   /// If the result of the previous request to <code>InferICD10CM</code> was
   /// truncated, include the <code>PaginationToken</code> to fetch the next page
   /// of medical condition entities.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   InferICD10CMResponse({
-    @_s.required this.entities,
+    required this.entities,
     this.modelVersion,
     this.paginationToken,
   });
-  factory InferICD10CMResponse.fromJson(Map<String, dynamic> json) =>
-      _$InferICD10CMResponseFromJson(json);
+  factory InferICD10CMResponse.fromJson(Map<String, dynamic> json) {
+    return InferICD10CMResponse(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => ICD10CMEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelVersion: json['ModelVersion'] as String?,
+      paginationToken: json['PaginationToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InferRxNormResponse {
   /// The medication entities detected in the text linked to RxNorm concepts. If
   /// the action is successful, the service sends back an HTTP 200 response, as
   /// well as the entities detected.
-  @_s.JsonKey(name: 'Entities')
   final List<RxNormEntity> entities;
 
   /// The version of the model used to analyze the documents, in the format
   /// <i>n</i>.<i>n</i>.<i>n</i> You can use this information to track the model
   /// used for a particular batch of documents.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   /// If the result of the previous request to <code>InferRxNorm</code> was
   /// truncated, include the <code>PaginationToken</code> to fetch the next page
   /// of medication entities.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   InferRxNormResponse({
-    @_s.required this.entities,
+    required this.entities,
     this.modelVersion,
     this.paginationToken,
   });
-  factory InferRxNormResponse.fromJson(Map<String, dynamic> json) =>
-      _$InferRxNormResponseFromJson(json);
+  factory InferRxNormResponse.fromJson(Map<String, dynamic> json) {
+    return InferRxNormResponse(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => RxNormEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelVersion: json['ModelVersion'] as String?,
+      paginationToken: json['PaginationToken'] as String?,
+    );
+  }
 }
 
 /// The input properties for an entities detection job. This includes the name
 /// of the S3 bucket and the path to the files to be analyzed. See
 /// <a>batch-manifest</a> for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDataConfig {
   /// The URI of the S3 bucket that contains the input data. The bucket must be in
   /// the same region as the API endpoint that you are calling.
   ///
   /// Each file in the document collection must be less than 40 KB. You can store
   /// a maximum of 30 GB in the bucket.
-  @_s.JsonKey(name: 'S3Bucket')
   final String s3Bucket;
 
   /// The path to the input data files in the S3 bucket.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   InputDataConfig({
-    @_s.required this.s3Bucket,
+    required this.s3Bucket,
     this.s3Key,
   });
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$InputDataConfigFromJson(json);
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      s3Bucket: json['S3Bucket'] as String,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('PARTIAL_SUCCESS')
   partialSuccess,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOP_REQUESTED')
   stopRequested,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.submitted:
+        return 'SUBMITTED';
+      case JobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatus.completed:
+        return 'COMPLETED';
+      case JobStatus.partialSuccess:
+        return 'PARTIAL_SUCCESS';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.stopRequested:
+        return 'STOP_REQUESTED';
+      case JobStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return JobStatus.submitted;
+      case 'IN_PROGRESS':
+        return JobStatus.inProgress;
+      case 'COMPLETED':
+        return JobStatus.completed;
+      case 'PARTIAL_SUCCESS':
+        return JobStatus.partialSuccess;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'STOP_REQUESTED':
+        return JobStatus.stopRequested;
+      case 'STOPPED':
+        return JobStatus.stopped;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
 enum LanguageCode {
-  @_s.JsonValue('en')
   en,
 }
 
@@ -2256,224 +2581,300 @@ extension on LanguageCode {
       case LanguageCode.en:
         return 'en';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  LanguageCode toLanguageCode() {
+    switch (this) {
+      case 'en':
+        return LanguageCode.en;
+    }
+    throw Exception('$this is not known in enum LanguageCode');
+  }
+}
+
 class ListEntitiesDetectionV2JobsResponse {
   /// A list containing the properties of each job returned.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
-  final List<ComprehendMedicalAsyncJobProperties>
+  final List<ComprehendMedicalAsyncJobProperties>?
       comprehendMedicalAsyncJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEntitiesDetectionV2JobsResponse({
     this.comprehendMedicalAsyncJobPropertiesList,
     this.nextToken,
   });
   factory ListEntitiesDetectionV2JobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListEntitiesDetectionV2JobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListEntitiesDetectionV2JobsResponse(
+      comprehendMedicalAsyncJobPropertiesList:
+          (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListICD10CMInferenceJobsResponse {
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
-  final List<ComprehendMedicalAsyncJobProperties>
+  final List<ComprehendMedicalAsyncJobProperties>?
       comprehendMedicalAsyncJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListICD10CMInferenceJobsResponse({
     this.comprehendMedicalAsyncJobPropertiesList,
     this.nextToken,
   });
-  factory ListICD10CMInferenceJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListICD10CMInferenceJobsResponseFromJson(json);
+  factory ListICD10CMInferenceJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListICD10CMInferenceJobsResponse(
+      comprehendMedicalAsyncJobPropertiesList:
+          (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPHIDetectionJobsResponse {
   /// A list containing the properties of each job returned.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
-  final List<ComprehendMedicalAsyncJobProperties>
+  final List<ComprehendMedicalAsyncJobProperties>?
       comprehendMedicalAsyncJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPHIDetectionJobsResponse({
     this.comprehendMedicalAsyncJobPropertiesList,
     this.nextToken,
   });
-  factory ListPHIDetectionJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPHIDetectionJobsResponseFromJson(json);
+  factory ListPHIDetectionJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPHIDetectionJobsResponse(
+      comprehendMedicalAsyncJobPropertiesList:
+          (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRxNormInferenceJobsResponse {
   /// The maximum number of results to return in each page. The default is 100.
-  @_s.JsonKey(name: 'ComprehendMedicalAsyncJobPropertiesList')
-  final List<ComprehendMedicalAsyncJobProperties>
+  final List<ComprehendMedicalAsyncJobProperties>?
       comprehendMedicalAsyncJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRxNormInferenceJobsResponse({
     this.comprehendMedicalAsyncJobPropertiesList,
     this.nextToken,
   });
-  factory ListRxNormInferenceJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRxNormInferenceJobsResponseFromJson(json);
+  factory ListRxNormInferenceJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRxNormInferenceJobsResponse(
+      comprehendMedicalAsyncJobPropertiesList:
+          (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The output properties for a detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputDataConfig {
   /// When you use the <code>OutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
   /// output data. The URI must be in the same region as the API endpoint that you
   /// are calling. The location is used as the prefix for the actual location of
   /// the output.
-  @_s.JsonKey(name: 'S3Bucket')
   final String s3Bucket;
 
   /// The path to the output data files in the S3 bucket. Amazon Comprehend
   /// Medical creates an output directory using the job ID so that the output from
   /// one job does not overwrite the output of another.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   OutputDataConfig({
-    @_s.required this.s3Bucket,
+    required this.s3Bucket,
     this.s3Key,
   });
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$OutputDataConfigFromJson(json);
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Bucket: json['S3Bucket'] as String,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutputDataConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
 enum RelationshipType {
-  @_s.JsonValue('EVERY')
   every,
-  @_s.JsonValue('WITH_DOSAGE')
   withDosage,
-  @_s.JsonValue('ADMINISTERED_VIA')
   administeredVia,
-  @_s.JsonValue('FOR')
   $for,
-  @_s.JsonValue('NEGATIVE')
   negative,
-  @_s.JsonValue('OVERLAP')
   overlap,
-  @_s.JsonValue('DOSAGE')
   dosage,
-  @_s.JsonValue('ROUTE_OR_MODE')
   routeOrMode,
-  @_s.JsonValue('FORM')
   form,
-  @_s.JsonValue('FREQUENCY')
   frequency,
-  @_s.JsonValue('DURATION')
   duration,
-  @_s.JsonValue('STRENGTH')
   strength,
-  @_s.JsonValue('RATE')
   rate,
-  @_s.JsonValue('ACUITY')
   acuity,
-  @_s.JsonValue('TEST_VALUE')
   testValue,
-  @_s.JsonValue('TEST_UNITS')
   testUnits,
-  @_s.JsonValue('DIRECTION')
   direction,
-  @_s.JsonValue('SYSTEM_ORGAN_SITE')
   systemOrganSite,
+}
+
+extension on RelationshipType {
+  String toValue() {
+    switch (this) {
+      case RelationshipType.every:
+        return 'EVERY';
+      case RelationshipType.withDosage:
+        return 'WITH_DOSAGE';
+      case RelationshipType.administeredVia:
+        return 'ADMINISTERED_VIA';
+      case RelationshipType.$for:
+        return 'FOR';
+      case RelationshipType.negative:
+        return 'NEGATIVE';
+      case RelationshipType.overlap:
+        return 'OVERLAP';
+      case RelationshipType.dosage:
+        return 'DOSAGE';
+      case RelationshipType.routeOrMode:
+        return 'ROUTE_OR_MODE';
+      case RelationshipType.form:
+        return 'FORM';
+      case RelationshipType.frequency:
+        return 'FREQUENCY';
+      case RelationshipType.duration:
+        return 'DURATION';
+      case RelationshipType.strength:
+        return 'STRENGTH';
+      case RelationshipType.rate:
+        return 'RATE';
+      case RelationshipType.acuity:
+        return 'ACUITY';
+      case RelationshipType.testValue:
+        return 'TEST_VALUE';
+      case RelationshipType.testUnits:
+        return 'TEST_UNITS';
+      case RelationshipType.direction:
+        return 'DIRECTION';
+      case RelationshipType.systemOrganSite:
+        return 'SYSTEM_ORGAN_SITE';
+    }
+  }
+}
+
+extension on String {
+  RelationshipType toRelationshipType() {
+    switch (this) {
+      case 'EVERY':
+        return RelationshipType.every;
+      case 'WITH_DOSAGE':
+        return RelationshipType.withDosage;
+      case 'ADMINISTERED_VIA':
+        return RelationshipType.administeredVia;
+      case 'FOR':
+        return RelationshipType.$for;
+      case 'NEGATIVE':
+        return RelationshipType.negative;
+      case 'OVERLAP':
+        return RelationshipType.overlap;
+      case 'DOSAGE':
+        return RelationshipType.dosage;
+      case 'ROUTE_OR_MODE':
+        return RelationshipType.routeOrMode;
+      case 'FORM':
+        return RelationshipType.form;
+      case 'FREQUENCY':
+        return RelationshipType.frequency;
+      case 'DURATION':
+        return RelationshipType.duration;
+      case 'STRENGTH':
+        return RelationshipType.strength;
+      case 'RATE':
+        return RelationshipType.rate;
+      case 'ACUITY':
+        return RelationshipType.acuity;
+      case 'TEST_VALUE':
+        return RelationshipType.testValue;
+      case 'TEST_UNITS':
+        return RelationshipType.testUnits;
+      case 'DIRECTION':
+        return RelationshipType.direction;
+      case 'SYSTEM_ORGAN_SITE':
+        return RelationshipType.systemOrganSite;
+    }
+    throw Exception('$this is not known in enum RelationshipType');
+  }
 }
 
 /// The extracted attributes that relate to this entity. The attributes
 /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
 /// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
 /// <code>ROUTE_OR_MODE</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RxNormAttribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The 0-based character offset in the input text that shows where the
   /// attribute ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The numeric identifier for this attribute. This is a monotonically
   /// increasing id unique within this response rather than a global unique
   /// identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The level of confidence that Amazon Comprehend Medical has that the
   /// attribute is accurately linked to an entity.
-  @_s.JsonKey(name: 'RelationshipScore')
-  final double relationshipScore;
+  final double? relationshipScore;
 
   /// The level of confidence that Comprehend Medical has that the segment of text
   /// is correctly recognized as an attribute.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text which corresponds to the detected attribute.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// Contextual information for the attribute. InferRxNorm recognizes the trait
   /// <code>NEGATION</code> for attributes, i.e. that the patient is not taking a
   /// specific dose or form of a medication.
-  @_s.JsonKey(name: 'Traits')
-  final List<RxNormTrait> traits;
+  final List<RxNormTrait>? traits;
 
   /// The type of attribute. The types of attributes recognized by InferRxNorm are
   /// <code>BRAND_NAME</code> and <code>GENERIC_NAME</code>.
-  @_s.JsonKey(name: 'Type')
-  final RxNormAttributeType type;
+  final RxNormAttributeType? type;
 
   RxNormAttribute({
     this.beginOffset,
@@ -2485,55 +2886,101 @@ class RxNormAttribute {
     this.traits,
     this.type,
   });
-  factory RxNormAttribute.fromJson(Map<String, dynamic> json) =>
-      _$RxNormAttributeFromJson(json);
+  factory RxNormAttribute.fromJson(Map<String, dynamic> json) {
+    return RxNormAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toRxNormAttributeType(),
+    );
+  }
 }
 
 enum RxNormAttributeType {
-  @_s.JsonValue('DOSAGE')
   dosage,
-  @_s.JsonValue('DURATION')
   duration,
-  @_s.JsonValue('FORM')
   form,
-  @_s.JsonValue('FREQUENCY')
   frequency,
-  @_s.JsonValue('RATE')
   rate,
-  @_s.JsonValue('ROUTE_OR_MODE')
   routeOrMode,
-  @_s.JsonValue('STRENGTH')
   strength,
+}
+
+extension on RxNormAttributeType {
+  String toValue() {
+    switch (this) {
+      case RxNormAttributeType.dosage:
+        return 'DOSAGE';
+      case RxNormAttributeType.duration:
+        return 'DURATION';
+      case RxNormAttributeType.form:
+        return 'FORM';
+      case RxNormAttributeType.frequency:
+        return 'FREQUENCY';
+      case RxNormAttributeType.rate:
+        return 'RATE';
+      case RxNormAttributeType.routeOrMode:
+        return 'ROUTE_OR_MODE';
+      case RxNormAttributeType.strength:
+        return 'STRENGTH';
+    }
+  }
+}
+
+extension on String {
+  RxNormAttributeType toRxNormAttributeType() {
+    switch (this) {
+      case 'DOSAGE':
+        return RxNormAttributeType.dosage;
+      case 'DURATION':
+        return RxNormAttributeType.duration;
+      case 'FORM':
+        return RxNormAttributeType.form;
+      case 'FREQUENCY':
+        return RxNormAttributeType.frequency;
+      case 'RATE':
+        return RxNormAttributeType.rate;
+      case 'ROUTE_OR_MODE':
+        return RxNormAttributeType.routeOrMode;
+      case 'STRENGTH':
+        return RxNormAttributeType.strength;
+    }
+    throw Exception('$this is not known in enum RxNormAttributeType');
+  }
 }
 
 /// The RxNorm concept that the entity could refer to, along with a score
 /// indicating the likelihood of the match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RxNormConcept {
   /// RxNorm concept ID, also known as the RxCUI.
-  @_s.JsonKey(name: 'Code')
-  final String code;
+  final String? code;
 
   /// The description of the RxNorm concept.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The level of confidence that Amazon Comprehend Medical has that the entity
   /// is accurately linked to the reported RxNorm concept.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   RxNormConcept({
     this.code,
     this.description,
     this.score,
   });
-  factory RxNormConcept.fromJson(Map<String, dynamic> json) =>
-      _$RxNormConceptFromJson(json);
+  factory RxNormConcept.fromJson(Map<String, dynamic> json) {
+    return RxNormConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
 }
 
 /// The collection of medical entities extracted from the input text and their
@@ -2541,61 +2988,46 @@ class RxNormConcept {
 /// text, the entity category, where the entity text begins and ends, and the
 /// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RxNormEntity {
   /// The extracted attributes that relate to the entity. The attributes
   /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
   /// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
   /// <code>ROUTE_OR_MODE</code>, and <code>STRENGTH</code>.
-  @_s.JsonKey(name: 'Attributes')
-  final List<RxNormAttribute> attributes;
+  final List<RxNormAttribute>? attributes;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// begins. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The category of the entity. The recognized categories are
   /// <code>GENERIC</code> or <code>BRAND_NAME</code>.
-  @_s.JsonKey(name: 'Category')
-  final RxNormEntityCategory category;
+  final RxNormEntityCategory? category;
 
   /// The 0-based character offset in the input text that shows where the entity
   /// ends. The offset returns the UTF-8 code point in the string.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The numeric identifier for the entity. This is a monotonically increasing id
   /// unique within this response rather than a global unique identifier.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The RxNorm concepts that the entity could refer to, along with a score
   /// indicating the likelihood of the match.
-  @_s.JsonKey(name: 'RxNormConcepts')
-  final List<RxNormConcept> rxNormConcepts;
+  final List<RxNormConcept>? rxNormConcepts;
 
   /// The level of confidence that Amazon Comprehend Medical has in the accuracy
   /// of the detected entity.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The segment of input text extracted from which the entity was detected.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// Contextual information for the entity.
-  @_s.JsonKey(name: 'Traits')
-  final List<RxNormTrait> traits;
+  final List<RxNormTrait>? traits;
 
   /// Describes the specific type of entity. For InferRxNorm, the recognized
   /// entity type is <code>MEDICATION</code>.
-  @_s.JsonKey(name: 'Type')
-  final RxNormEntityType type;
+  final RxNormEntityType? type;
 
   RxNormEntity({
     this.attributes,
@@ -2609,273 +3041,320 @@ class RxNormEntity {
     this.traits,
     this.type,
   });
-  factory RxNormEntity.fromJson(Map<String, dynamic> json) =>
-      _$RxNormEntityFromJson(json);
+  factory RxNormEntity.fromJson(Map<String, dynamic> json) {
+    return RxNormEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toRxNormEntityCategory(),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      rxNormConcepts: (json['RxNormConcepts'] as List?)
+          ?.whereNotNull()
+          .map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toRxNormEntityType(),
+    );
+  }
 }
 
 enum RxNormEntityCategory {
-  @_s.JsonValue('MEDICATION')
   medication,
 }
 
+extension on RxNormEntityCategory {
+  String toValue() {
+    switch (this) {
+      case RxNormEntityCategory.medication:
+        return 'MEDICATION';
+    }
+  }
+}
+
+extension on String {
+  RxNormEntityCategory toRxNormEntityCategory() {
+    switch (this) {
+      case 'MEDICATION':
+        return RxNormEntityCategory.medication;
+    }
+    throw Exception('$this is not known in enum RxNormEntityCategory');
+  }
+}
+
 enum RxNormEntityType {
-  @_s.JsonValue('BRAND_NAME')
   brandName,
-  @_s.JsonValue('GENERIC_NAME')
   genericName,
+}
+
+extension on RxNormEntityType {
+  String toValue() {
+    switch (this) {
+      case RxNormEntityType.brandName:
+        return 'BRAND_NAME';
+      case RxNormEntityType.genericName:
+        return 'GENERIC_NAME';
+    }
+  }
+}
+
+extension on String {
+  RxNormEntityType toRxNormEntityType() {
+    switch (this) {
+      case 'BRAND_NAME':
+        return RxNormEntityType.brandName;
+      case 'GENERIC_NAME':
+        return RxNormEntityType.genericName;
+    }
+    throw Exception('$this is not known in enum RxNormEntityType');
+  }
 }
 
 /// The contextual information for the entity. InferRxNorm recognizes the trait
 /// <code>NEGATION</code>, which is any indication that the patient is not
 /// taking a medication.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RxNormTrait {
   /// Provides a name or contextual description about the trait.
-  @_s.JsonKey(name: 'Name')
-  final RxNormTraitName name;
+  final RxNormTraitName? name;
 
   /// The level of confidence that Amazon Comprehend Medical has in the accuracy
   /// of the detected trait.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   RxNormTrait({
     this.name,
     this.score,
   });
-  factory RxNormTrait.fromJson(Map<String, dynamic> json) =>
-      _$RxNormTraitFromJson(json);
+  factory RxNormTrait.fromJson(Map<String, dynamic> json) {
+    return RxNormTrait(
+      name: (json['Name'] as String?)?.toRxNormTraitName(),
+      score: json['Score'] as double?,
+    );
+  }
 }
 
 enum RxNormTraitName {
-  @_s.JsonValue('NEGATION')
   negation,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RxNormTraitName {
+  String toValue() {
+    switch (this) {
+      case RxNormTraitName.negation:
+        return 'NEGATION';
+    }
+  }
+}
+
+extension on String {
+  RxNormTraitName toRxNormTraitName() {
+    switch (this) {
+      case 'NEGATION':
+        return RxNormTraitName.negation;
+    }
+    throw Exception('$this is not known in enum RxNormTraitName');
+  }
+}
+
 class StartEntitiesDetectionV2JobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribeEntitiesDetectionV2Job</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartEntitiesDetectionV2JobResponse({
     this.jobId,
   });
   factory StartEntitiesDetectionV2JobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartEntitiesDetectionV2JobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartEntitiesDetectionV2JobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartICD10CMInferenceJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>StartICD10CMInferenceJob</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartICD10CMInferenceJobResponse({
     this.jobId,
   });
-  factory StartICD10CMInferenceJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartICD10CMInferenceJobResponseFromJson(json);
+  factory StartICD10CMInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartICD10CMInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartPHIDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribePHIDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartPHIDetectionJobResponse({
     this.jobId,
   });
-  factory StartPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartPHIDetectionJobResponseFromJson(json);
+  factory StartPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartPHIDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartRxNormInferenceJobResponse {
   /// The identifier of the job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartRxNormInferenceJobResponse({
     this.jobId,
   });
-  factory StartRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartRxNormInferenceJobResponseFromJson(json);
+  factory StartRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartRxNormInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopEntitiesDetectionV2JobResponse {
   /// The identifier of the medical entities detection job that was stopped.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StopEntitiesDetectionV2JobResponse({
     this.jobId,
   });
   factory StopEntitiesDetectionV2JobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopEntitiesDetectionV2JobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopEntitiesDetectionV2JobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopICD10CMInferenceJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the <code>DescribeICD10CMInferenceJob</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StopICD10CMInferenceJobResponse({
     this.jobId,
   });
-  factory StopICD10CMInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopICD10CMInferenceJobResponseFromJson(json);
+  factory StopICD10CMInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopICD10CMInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopPHIDetectionJobResponse {
   /// The identifier of the PHI detection job that was stopped.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StopPHIDetectionJobResponse({
     this.jobId,
   });
-  factory StopPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopPHIDetectionJobResponseFromJson(json);
+  factory StopPHIDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopPHIDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopRxNormInferenceJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the <code>DescribeRxNormInferenceJob</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StopRxNormInferenceJobResponse({
     this.jobId,
   });
-  factory StopRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopRxNormInferenceJobResponseFromJson(json);
+  factory StopRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopRxNormInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
 /// Provides contextual information about the extracted entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Trait {
   /// Provides a name or contextual description about the trait.
-  @_s.JsonKey(name: 'Name')
-  final AttributeName name;
+  final AttributeName? name;
 
   /// The level of confidence that Amazon Comprehend Medical has in the accuracy
   /// of this trait.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   Trait({
     this.name,
     this.score,
   });
-  factory Trait.fromJson(Map<String, dynamic> json) => _$TraitFromJson(json);
+  factory Trait.fromJson(Map<String, dynamic> json) {
+    return Trait(
+      name: (json['Name'] as String?)?.toAttributeName(),
+      score: json['Score'] as double?,
+    );
+  }
 }
 
 /// An attribute that we extracted, but were unable to relate to an entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnmappedAttribute {
   /// The specific attribute that has been extracted but not mapped to an entity.
-  @_s.JsonKey(name: 'Attribute')
-  final Attribute attribute;
+  final Attribute? attribute;
 
   /// The type of the attribute, could be one of the following values:
   /// "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE"
   /// or "PROTECTED_HEALTH_INFORMATION".
-  @_s.JsonKey(name: 'Type')
-  final EntityType type;
+  final EntityType? type;
 
   UnmappedAttribute({
     this.attribute,
     this.type,
   });
-  factory UnmappedAttribute.fromJson(Map<String, dynamic> json) =>
-      _$UnmappedAttributeFromJson(json);
+  factory UnmappedAttribute.fromJson(Map<String, dynamic> json) {
+    return UnmappedAttribute(
+      attribute: json['Attribute'] != null
+          ? Attribute.fromJson(json['Attribute'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toEntityType(),
+    );
+  }
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidEncodingException extends _s.GenericAwsException {
-  InvalidEncodingException({String type, String message})
+  InvalidEncodingException({String? type, String? message})
       : super(type: type, code: 'InvalidEncodingException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TextSizeLimitExceededException extends _s.GenericAwsException {
-  TextSizeLimitExceededException({String type, String message})
+  TextSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TextSizeLimitExceededException',
@@ -2883,12 +3362,12 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

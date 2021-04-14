@@ -22,18 +22,18 @@ String Function()? idempotencyGeneratorOverride;
 String generateIdempotencyToken() =>
     (idempotencyGeneratorOverride ?? _uuidV4)();
 
-String? rfc822ToJson(DateTime? date) =>
-    date == null ? null : _rfc822Formatter.format(date.toUtc());
+String rfc822ToJson(DateTime date) => _rfc822Formatter.format(date.toUtc());
 
-String? iso8601ToJson(DateTime? date) =>
-    date == null ? null : _iso8601Formatter.format(date.toUtc());
+String iso8601ToJson(DateTime date) => _iso8601Formatter.format(date.toUtc());
 
-int? unixTimestampToJson(DateTime? date) =>
-    date == null ? null : date.millisecondsSinceEpoch ~/ 1000;
+int unixTimestampToJson(DateTime date) => date.millisecondsSinceEpoch ~/ 1000;
 
-DateTime? timeStampFromJson(dynamic date) {
+DateTime? timeStampFromJson(Object? date) {
   if (date == null) return null;
+  return nonNullableTimeStampFromJson(date);
+}
 
+DateTime nonNullableTimeStampFromJson(Object date) {
   if (date is num) {
     // unix timestamp (number)
     return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000,
@@ -61,10 +61,10 @@ abstract class AwsException implements Exception {}
 
 class GenericAwsException implements AwsException {
   final String? type;
-  final String? code;
+  final String code;
   final String? message;
 
-  GenericAwsException({this.type, this.code, this.message});
+  GenericAwsException({this.type, required this.code, this.message});
 
   @override
   String toString() => '$code $type: $message';
@@ -76,10 +76,10 @@ class GenericAwsException implements AwsException {
       };
 }
 
-typedef AwsExceptionFn = AwsException Function(String type, String? message);
+typedef AwsExceptionFn = AwsException Function(String type, String message);
 
 XmlElement? extractXmlChild(XmlElement elem, String name) {
-  return elem.findElements(name).firstWhereOrNull((e) => true);
+  return elem.findElements(name).firstOrNull;
 }
 
 String? extractXmlStringValue(XmlElement elem, String name) {
@@ -99,7 +99,9 @@ int? extractXmlIntValue(XmlElement elem, String name) {
 }
 
 bool? extractXmlBoolValue(XmlElement elem, String name) {
-  return _parseBool(extractXmlStringValue(elem, name));
+  final value = extractXmlStringValue(elem, name);
+  if (value == null) return null;
+  return _parseBool(value);
 }
 
 DateTime? extractXmlDateTimeValue(XmlElement elem, String name,
@@ -128,7 +130,7 @@ List<String> extractXmlStringListValues(XmlElement elem, String name) {
   return elem.findElements(name).map((e) => e.text).toList();
 }
 
-List<bool?> extractXmlBoolListValues(XmlElement elem, String name) {
+List<bool> extractXmlBoolListValues(XmlElement elem, String name) {
   return extractXmlStringListValues(elem, name).map(_parseBool).toList();
 }
 
@@ -150,8 +152,7 @@ List<Uint8List> extractXmlUint8ListListValues(XmlElement elem, String name) {
       .toList();
 }
 
-bool? _parseBool(String? value) {
-  if (value == null) return null;
+bool _parseBool(String value) {
   switch (value.toLowerCase()) {
     case 'true':
       return true;
@@ -161,44 +162,38 @@ bool? _parseBool(String? value) {
   throw ArgumentError('Unable to parse bool value: $value');
 }
 
-XmlElement? encodeXmlStringValue(String name, String? value) {
-  if (value == null) return null;
+XmlElement encodeXmlStringValue(String name, String value) {
   return XmlElement(XmlName(name), [], [XmlText(value)]);
 }
 
-XmlElement? encodeXmlBoolValue(String name, bool? value) {
-  return encodeXmlStringValue(name, value?.toString());
+XmlElement encodeXmlBoolValue(String name, bool value) {
+  return encodeXmlStringValue(name, value.toString());
 }
 
-XmlElement? encodeXmlIntValue(String name, int? value) {
-  return encodeXmlStringValue(name, value?.toString());
+XmlElement encodeXmlIntValue(String name, int value) {
+  return encodeXmlStringValue(name, value.toString());
 }
 
-XmlElement? encodeXmlDoubleValue(String name, double? value) {
-  return encodeXmlStringValue(name, value?.toString());
+XmlElement encodeXmlDoubleValue(String name, double value) {
+  return encodeXmlStringValue(name, value.toString());
 }
 
-XmlElement? encodeXmlDateTimeValue(String name, DateTime? value,
-    {String? Function(DateTime?)? formatter}) {
-  value = value?.toUtc();
+XmlElement encodeXmlDateTimeValue(String name, DateTime value,
+    {String Function(DateTime)? formatter}) {
+  value = value.toUtc();
 
   formatter ??= iso8601ToJson;
 
-  String? output;
-  if (value != null) {
-    output = formatter(value);
-  }
+  final output = formatter(value);
 
   return encodeXmlStringValue(name, output);
 }
 
-XmlElement? encodeXmlUint8ListValue(String name, Uint8List? value) {
-  if (value == null) return null;
+XmlElement encodeXmlUint8ListValue(String name, Uint8List value) {
   return encodeXmlStringValue(name, base64.encode(value));
 }
 
 String? extractHeaderStringValue(Map<String, String> headers, String name) {
-  if (headers == null) return null;
   return headers[name] ?? headers[name.toLowerCase()];
 }
 
@@ -299,8 +294,9 @@ void throwException(StreamedResponse rs, String body,
     try {
       final e = jsonDecode(body);
       if (e['__type'] != null || e['code'] != null) {
-        type =
-            ((e['__type'] as String?) ?? (e['code'] as String?))!.split('#').last;
+        type = ((e['__type'] as String?) ?? (e['code'] as String?))!
+            .split('#')
+            .last;
       }
       if (type == 'RequestEntityTooLarge') {
         message = 'Request body must be less than 1 MB';
@@ -316,7 +312,7 @@ void throwException(StreamedResponse rs, String body,
 
   final fn = exceptionFnMap[type];
   final exception = fn != null
-      ? fn(type, message)
+      ? fn(type, message ?? '')
       : GenericAwsException(
           type: type,
           code: statusCode,

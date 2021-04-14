@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'flattened_map_in_shape_definition.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class FlattenedMapInShapeDefinition {
   final Map<String, _s.Shape> shapes;
 
   FlattenedMapInShapeDefinition({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,7 +56,7 @@ class FlattenedMapInShapeDefinition {
 }
 
 class OutputShape {
-  final Map<String, String> map;
+  final Map<String, String>? map;
 
   OutputShape({
     this.map,
@@ -72,8 +66,8 @@ class OutputShape {
       map: Map.fromEntries(
         elem.findElements('Attribute').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name'),
-                _s.extractXmlStringValue(c, 'Value'),
+                _s.extractXmlStringValue(c, 'Name')!,
+                _s.extractXmlStringValue(c, 'Value')!,
               ),
             ),
       ),

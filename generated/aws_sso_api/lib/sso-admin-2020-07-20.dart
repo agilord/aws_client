@@ -10,29 +10,21 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sso-admin-2020-07-20.g.dart';
 
 class SSOAdmin {
   final _s.JsonProtocol _protocol;
   SSOAdmin({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,9 +66,9 @@ class SSOAdmin {
   /// The ARN of the <a>PermissionSet</a> that the managed policy should be
   /// attached to.
   Future<void> attachManagedPolicyToPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String managedPolicyArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String managedPolicyArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -118,7 +110,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.AttachManagedPolicyToPermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -130,9 +122,6 @@ class SSOAdmin {
         'PermissionSetArn': permissionSetArn,
       },
     );
-
-    return AttachManagedPolicyToPermissionSetResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Assigns access to a principal for a specified AWS account using a
@@ -187,12 +176,12 @@ class SSOAdmin {
   /// Parameter [targetType] :
   /// The entity type for which the assignment will be created.
   Future<CreateAccountAssignmentResponse> createAccountAssignment({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    @_s.required String principalId,
-    @_s.required PrincipalType principalType,
-    @_s.required String targetId,
-    @_s.required TargetType targetType,
+    required String instanceArn,
+    required String permissionSetArn,
+    required String principalId,
+    required PrincipalType principalType,
+    required String targetId,
+    required TargetType targetType,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -259,9 +248,9 @@ class SSOAdmin {
         'InstanceArn': instanceArn,
         'PermissionSetArn': permissionSetArn,
         'PrincipalId': principalId,
-        'PrincipalType': principalType?.toValue() ?? '',
+        'PrincipalType': principalType.toValue(),
         'TargetId': targetId,
-        'TargetType': targetType?.toValue() ?? '',
+        'TargetType': targetType.toValue(),
       },
     );
 
@@ -293,10 +282,9 @@ class SSOAdmin {
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
   Future<void> createInstanceAccessControlAttributeConfiguration({
-    @_s.required
-        InstanceAccessControlAttributeConfiguration
-            instanceAccessControlAttributeConfiguration,
-    @_s.required String instanceArn,
+    required InstanceAccessControlAttributeConfiguration
+        instanceAccessControlAttributeConfiguration,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceAccessControlAttributeConfiguration,
         'instanceAccessControlAttributeConfiguration');
@@ -319,7 +307,7 @@ class SSOAdmin {
       'X-Amz-Target':
           'SWBExternalService.CreateInstanceAccessControlAttributeConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -331,9 +319,6 @@ class SSOAdmin {
         'InstanceArn': instanceArn,
       },
     );
-
-    return CreateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Creates a permission set within a specified SSO instance.
@@ -374,12 +359,12 @@ class SSOAdmin {
   /// Parameter [tags] :
   /// The tags to attach to the new <a>PermissionSet</a>.
   Future<CreatePermissionSetResponse> createPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String name,
-    String description,
-    String relayState,
-    String sessionDuration,
-    List<Tag> tags,
+    required String instanceArn,
+    required String name,
+    String? description,
+    String? relayState,
+    String? sessionDuration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -503,12 +488,12 @@ class SSOAdmin {
   /// Parameter [targetType] :
   /// The entity type for which the assignment will be deleted.
   Future<DeleteAccountAssignmentResponse> deleteAccountAssignment({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    @_s.required String principalId,
-    @_s.required PrincipalType principalType,
-    @_s.required String targetId,
-    @_s.required TargetType targetType,
+    required String instanceArn,
+    required String permissionSetArn,
+    required String principalId,
+    required PrincipalType principalType,
+    required String targetId,
+    required TargetType targetType,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -575,9 +560,9 @@ class SSOAdmin {
         'InstanceArn': instanceArn,
         'PermissionSetArn': permissionSetArn,
         'PrincipalId': principalId,
-        'PrincipalType': principalType?.toValue() ?? '',
+        'PrincipalType': principalType.toValue(),
         'TargetId': targetId,
-        'TargetType': targetType?.toValue() ?? '',
+        'TargetType': targetType.toValue(),
       },
     );
 
@@ -603,8 +588,8 @@ class SSOAdmin {
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that will be used to remove access.
   Future<void> deleteInlinePolicyFromPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -638,7 +623,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DeleteInlinePolicyFromPermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -649,9 +634,6 @@ class SSOAdmin {
         'PermissionSetArn': permissionSetArn,
       },
     );
-
-    return DeleteInlinePolicyFromPermissionSetResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Disables the attributes-based access control (ABAC) feature for the
@@ -672,7 +654,7 @@ class SSOAdmin {
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
   Future<void> deleteInstanceAccessControlAttributeConfiguration({
-    @_s.required String instanceArn,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -693,7 +675,7 @@ class SSOAdmin {
       'X-Amz-Target':
           'SWBExternalService.DeleteInstanceAccessControlAttributeConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -703,9 +685,6 @@ class SSOAdmin {
         'InstanceArn': instanceArn,
       },
     );
-
-    return DeleteInstanceAccessControlAttributeConfigurationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Deletes the specified permission set.
@@ -727,8 +706,8 @@ class SSOAdmin {
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that should be deleted.
   Future<void> deletePermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -762,7 +741,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DeletePermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -773,8 +752,6 @@ class SSOAdmin {
         'PermissionSetArn': permissionSetArn,
       },
     );
-
-    return DeletePermissionSetResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the status of the assignment creation request.
@@ -796,8 +773,8 @@ class SSOAdmin {
   /// Reference</i>.
   Future<DescribeAccountAssignmentCreationStatusResponse>
       describeAccountAssignmentCreationStatus({
-    @_s.required String accountAssignmentCreationRequestId,
-    @_s.required String instanceArn,
+    required String accountAssignmentCreationRequestId,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(accountAssignmentCreationRequestId,
         'accountAssignmentCreationRequestId');
@@ -862,8 +839,8 @@ class SSOAdmin {
   /// Reference</i>.
   Future<DescribeAccountAssignmentDeletionStatusResponse>
       describeAccountAssignmentDeletionStatus({
-    @_s.required String accountAssignmentDeletionRequestId,
-    @_s.required String instanceArn,
+    required String accountAssignmentDeletionRequestId,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(accountAssignmentDeletionRequestId,
         'accountAssignmentDeletionRequestId');
@@ -926,7 +903,7 @@ class SSOAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   Future<DescribeInstanceAccessControlAttributeConfigurationResponse>
       describeInstanceAccessControlAttributeConfiguration({
-    @_s.required String instanceArn,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -980,8 +957,8 @@ class SSOAdmin {
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
   Future<DescribePermissionSetResponse> describePermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1050,8 +1027,8 @@ class SSOAdmin {
   /// to retrieve the current status of the provisioning workflow.
   Future<DescribePermissionSetProvisioningStatusResponse>
       describePermissionSetProvisioningStatus({
-    @_s.required String instanceArn,
-    @_s.required String provisionPermissionSetRequestId,
+    required String instanceArn,
+    required String provisionPermissionSetRequestId,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1120,9 +1097,9 @@ class SSOAdmin {
   /// The ARN of the <a>PermissionSet</a> from which the policy should be
   /// detached.
   Future<void> detachManagedPolicyFromPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String managedPolicyArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String managedPolicyArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1164,7 +1141,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DetachManagedPolicyFromPermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1176,9 +1153,6 @@ class SSOAdmin {
         'PermissionSetArn': permissionSetArn,
       },
     );
-
-    return DetachManagedPolicyFromPermissionSetResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Obtains the inline policy assigned to the permission set.
@@ -1200,8 +1174,8 @@ class SSOAdmin {
   /// The ARN of the permission set.
   Future<GetInlinePolicyForPermissionSetResponse>
       getInlinePolicyForPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
+    required String instanceArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1277,10 +1251,10 @@ class SSOAdmin {
   /// the output of previous API calls to make subsequent calls.
   Future<ListAccountAssignmentCreationStatusResponse>
       listAccountAssignmentCreationStatus({
-    @_s.required String instanceArn,
-    OperationStatusFilter filter,
-    int maxResults,
-    String nextToken,
+    required String instanceArn,
+    OperationStatusFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1362,10 +1336,10 @@ class SSOAdmin {
   /// the output of previous API calls to make subsequent calls.
   Future<ListAccountAssignmentDeletionStatusResponse>
       listAccountAssignmentDeletionStatus({
-    @_s.required String instanceArn,
-    OperationStatusFilter filter,
-    int maxResults,
-    String nextToken,
+    required String instanceArn,
+    OperationStatusFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1449,11 +1423,11 @@ class SSOAdmin {
   /// The pagination token for the list API. Initially the value is null. Use
   /// the output of previous API calls to make subsequent calls.
   Future<ListAccountAssignmentsResponse> listAccountAssignments({
-    @_s.required String accountId,
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    required String instanceArn,
+    required String permissionSetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringPattern(
@@ -1560,11 +1534,11 @@ class SSOAdmin {
   /// The permission set provisioning status for an AWS account.
   Future<ListAccountsForProvisionedPermissionSetResponse>
       listAccountsForProvisionedPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    int maxResults,
-    String nextToken,
-    ProvisioningStatus provisioningStatus,
+    required String instanceArn,
+    required String permissionSetArn,
+    int? maxResults,
+    String? nextToken,
+    ProvisioningStatus? provisioningStatus,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1650,8 +1624,8 @@ class SSOAdmin {
   /// The pagination token for the list API. Initially the value is null. Use
   /// the output of previous API calls to make subsequent calls.
   Future<ListInstancesResponse> listInstances({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1716,10 +1690,10 @@ class SSOAdmin {
   /// the output of previous API calls to make subsequent calls.
   Future<ListManagedPoliciesInPermissionSetResponse>
       listManagedPoliciesInPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    int maxResults,
-    String nextToken,
+    required String instanceArn,
+    required String permissionSetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1815,10 +1789,10 @@ class SSOAdmin {
   /// the output of previous API calls to make subsequent calls.
   Future<ListPermissionSetProvisioningStatusResponse>
       listPermissionSetProvisioningStatus({
-    @_s.required String instanceArn,
-    OperationStatusFilter filter,
-    int maxResults,
-    String nextToken,
+    required String instanceArn,
+    OperationStatusFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1895,9 +1869,9 @@ class SSOAdmin {
   /// The pagination token for the list API. Initially the value is null. Use
   /// the output of previous API calls to make subsequent calls.
   Future<ListPermissionSetsResponse> listPermissionSets({
-    @_s.required String instanceArn,
-    int maxResults,
-    String nextToken,
+    required String instanceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -1980,11 +1954,11 @@ class SSOAdmin {
   /// The status object for the permission set provisioning operation.
   Future<ListPermissionSetsProvisionedToAccountResponse>
       listPermissionSetsProvisionedToAccount({
-    @_s.required String accountId,
-    @_s.required String instanceArn,
-    int maxResults,
-    String nextToken,
-    ProvisioningStatus provisioningStatus,
+    required String accountId,
+    required String instanceArn,
+    int? maxResults,
+    String? nextToken,
+    ProvisioningStatus? provisioningStatus,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringPattern(
@@ -2071,9 +2045,9 @@ class SSOAdmin {
   /// The pagination token for the list API. Initially the value is null. Use
   /// the output of previous API calls to make subsequent calls.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String instanceArn,
-    @_s.required String resourceArn,
-    String nextToken,
+    required String instanceArn,
+    required String resourceArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -2161,10 +2135,10 @@ class SSOAdmin {
   /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
   /// example, 123456789012).
   Future<ProvisionPermissionSetResponse> provisionPermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    @_s.required ProvisionTargetType targetType,
-    String targetId,
+    required String instanceArn,
+    required String permissionSetArn,
+    required ProvisionTargetType targetType,
+    String? targetId,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -2213,7 +2187,7 @@ class SSOAdmin {
       payload: {
         'InstanceArn': instanceArn,
         'PermissionSetArn': permissionSetArn,
-        'TargetType': targetType?.toValue() ?? '',
+        'TargetType': targetType.toValue(),
         if (targetId != null) 'TargetId': targetId,
       },
     );
@@ -2250,9 +2224,9 @@ class SSOAdmin {
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
   Future<void> putInlinePolicyToPermissionSet({
-    @_s.required String inlinePolicy,
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
+    required String inlinePolicy,
+    required String instanceArn,
+    required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(inlinePolicy, 'inlinePolicy');
     _s.validateStringLength(
@@ -2300,7 +2274,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.PutInlinePolicyToPermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2312,8 +2286,6 @@ class SSOAdmin {
         'PermissionSetArn': permissionSetArn,
       },
     );
-
-    return PutInlinePolicyToPermissionSetResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a set of tags with a specified resource.
@@ -2339,9 +2311,9 @@ class SSOAdmin {
   /// Parameter [tags] :
   /// A set of key-value pairs that are used to manage the resource.
   Future<void> tagResource({
-    @_s.required String instanceArn,
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String instanceArn,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -2376,7 +2348,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2388,8 +2360,6 @@ class SSOAdmin {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a set of tags from a specified resource.
@@ -2414,9 +2384,9 @@ class SSOAdmin {
   /// Parameter [tagKeys] :
   /// The keys of tags that are attached to the resource.
   Future<void> untagResource({
-    @_s.required String instanceArn,
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String instanceArn,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -2451,7 +2421,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2463,8 +2433,6 @@ class SSOAdmin {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the AWS SSO identity store attributes to use with the AWS SSO
@@ -2490,10 +2458,9 @@ class SSOAdmin {
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
   Future<void> updateInstanceAccessControlAttributeConfiguration({
-    @_s.required
-        InstanceAccessControlAttributeConfiguration
-            instanceAccessControlAttributeConfiguration,
-    @_s.required String instanceArn,
+    required InstanceAccessControlAttributeConfiguration
+        instanceAccessControlAttributeConfiguration,
+    required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceAccessControlAttributeConfiguration,
         'instanceAccessControlAttributeConfiguration');
@@ -2516,7 +2483,7 @@ class SSOAdmin {
       'X-Amz-Target':
           'SWBExternalService.UpdateInstanceAccessControlAttributeConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2528,9 +2495,6 @@ class SSOAdmin {
         'InstanceArn': instanceArn,
       },
     );
-
-    return UpdateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Updates an existing permission set.
@@ -2563,11 +2527,11 @@ class SSOAdmin {
   /// The length of time that the application user sessions are valid for in the
   /// ISO-8601 standard.
   Future<void> updatePermissionSet({
-    @_s.required String instanceArn,
-    @_s.required String permissionSetArn,
-    String description,
-    String relayState,
-    String sessionDuration,
+    required String instanceArn,
+    required String permissionSetArn,
+    String? description,
+    String? relayState,
+    String? sessionDuration,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
@@ -2634,7 +2598,7 @@ class SSOAdmin {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.UpdatePermissionSet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2648,8 +2612,6 @@ class SSOAdmin {
         if (sessionDuration != null) 'SessionDuration': sessionDuration,
       },
     );
-
-    return UpdatePermissionSetResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -2659,50 +2621,60 @@ class SSOAdmin {
 /// configured attribute value(s). When you enable ABAC and specify
 /// AccessControlAttributes, AWS SSO passes the attribute(s) value of the
 /// authenticated user into IAM for use in policy evaluation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessControlAttribute {
   /// The name of the attribute associated with your identities in your identity
   /// source. This is used to map a specified attribute in your identity source
   /// with an attribute in AWS SSO.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value used for mapping a specified attribute to an identity source.
-  @_s.JsonKey(name: 'Value')
   final AccessControlAttributeValue value;
 
   AccessControlAttribute({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory AccessControlAttribute.fromJson(Map<String, dynamic> json) =>
-      _$AccessControlAttributeFromJson(json);
+  factory AccessControlAttribute.fromJson(Map<String, dynamic> json) {
+    return AccessControlAttribute(
+      key: json['Key'] as String,
+      value: AccessControlAttributeValue.fromJson(
+          json['Value'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessControlAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The value used for mapping a specified attribute to an identity source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessControlAttributeValue {
   /// The identity source to use when mapping a specified attribute to AWS SSO.
-  @_s.JsonKey(name: 'Source')
   final List<String> source;
 
   AccessControlAttributeValue({
-    @_s.required this.source,
+    required this.source,
   });
-  factory AccessControlAttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AccessControlAttributeValueFromJson(json);
+  factory AccessControlAttributeValue.fromJson(Map<String, dynamic> json) {
+    return AccessControlAttributeValue(
+      source: (json['Source'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessControlAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    return {
+      'Source': source,
+    };
+  }
 }
 
 /// The assignment that indicates a principal's limited access to a specified
@@ -2711,33 +2683,24 @@ class AccessControlAttributeValue {
 /// The term <i>principal</i> here refers to a user or group that is defined in
 /// AWS SSO.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountAssignment {
   /// The identifier of the AWS account.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'PermissionSetArn')
-  final String permissionSetArn;
+  final String? permissionSetArn;
 
   /// An identifier for an object in AWS SSO, such as a user or group.
   /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
   /// For more information about PrincipalIds in AWS SSO, see the <a
   /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
   /// Identity Store API Reference</a>.
-  @_s.JsonKey(name: 'PrincipalId')
-  final String principalId;
+  final String? principalId;
 
   /// The entity type for which the assignment will be created.
-  @_s.JsonKey(name: 'PrincipalType')
-  final PrincipalType principalType;
+  final PrincipalType? principalType;
 
   AccountAssignment({
     this.accountId,
@@ -2745,63 +2708,54 @@ class AccountAssignment {
     this.principalId,
     this.principalType,
   });
-  factory AccountAssignment.fromJson(Map<String, dynamic> json) =>
-      _$AccountAssignmentFromJson(json);
+  factory AccountAssignment.fromJson(Map<String, dynamic> json) {
+    return AccountAssignment(
+      accountId: json['AccountId'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+    );
+  }
 }
 
 /// The status of the creation or deletion operation of an assignment that a
 /// principal needs to access an account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountAssignmentOperationStatus {
   /// The date that the permission set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The message that contains an error or exception in case of an operation
   /// failure.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'PermissionSetArn')
-  final String permissionSetArn;
+  final String? permissionSetArn;
 
   /// An identifier for an object in AWS SSO, such as a user or group.
   /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
   /// For more information about PrincipalIds in AWS SSO, see the <a
   /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
   /// Identity Store API Reference</a>.
-  @_s.JsonKey(name: 'PrincipalId')
-  final String principalId;
+  final String? principalId;
 
   /// The entity type for which the assignment will be created.
-  @_s.JsonKey(name: 'PrincipalType')
-  final PrincipalType principalType;
+  final PrincipalType? principalType;
 
   /// The identifier for tracking the request operation that is generated by the
   /// universally unique identifier (UUID) workflow.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// The status of the permission set provisioning process.
-  @_s.JsonKey(name: 'Status')
-  final StatusValues status;
+  final StatusValues? status;
 
   /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
   /// example, 123456789012).
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   /// The entity type for which the assignment will be created.
-  @_s.JsonKey(name: 'TargetType')
-  final TargetType targetType;
+  final TargetType? targetType;
 
   AccountAssignmentOperationStatus({
     this.createdDate,
@@ -2814,31 +2768,32 @@ class AccountAssignmentOperationStatus {
     this.targetId,
     this.targetType,
   });
-  factory AccountAssignmentOperationStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$AccountAssignmentOperationStatusFromJson(json);
+  factory AccountAssignmentOperationStatus.fromJson(Map<String, dynamic> json) {
+    return AccountAssignmentOperationStatus(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      failureReason: json['FailureReason'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.toStatusValues(),
+      targetId: json['TargetId'] as String?,
+      targetType: (json['TargetType'] as String?)?.toTargetType(),
+    );
+  }
 }
 
 /// Provides information about the <a>AccountAssignment</a> creation request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountAssignmentOperationStatusMetadata {
   /// The date that the permission set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for tracking the request operation that is generated by the
   /// universally unique identifier (UUID) workflow.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// The status of the permission set provisioning process.
-  @_s.JsonKey(name: 'Status')
-  final StatusValues status;
+  final StatusValues? status;
 
   AccountAssignmentOperationStatusMetadata({
     this.createdDate,
@@ -2846,200 +2801,182 @@ class AccountAssignmentOperationStatusMetadata {
     this.status,
   });
   factory AccountAssignmentOperationStatusMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$AccountAssignmentOperationStatusMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return AccountAssignmentOperationStatusMetadata(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.toStatusValues(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachManagedPolicyToPermissionSetResponse {
   AttachManagedPolicyToPermissionSetResponse();
   factory AttachManagedPolicyToPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AttachManagedPolicyToPermissionSetResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AttachManagedPolicyToPermissionSetResponse();
+  }
 }
 
 /// A structure that stores the details of the IAM managed policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachedManagedPolicy {
   /// The ARN of the IAM managed policy. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the IAM managed policy.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AttachedManagedPolicy({
     this.arn,
     this.name,
   });
-  factory AttachedManagedPolicy.fromJson(Map<String, dynamic> json) =>
-      _$AttachedManagedPolicyFromJson(json);
+  factory AttachedManagedPolicy.fromJson(Map<String, dynamic> json) {
+    return AttachedManagedPolicy(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAccountAssignmentResponse {
   /// The status object for the account assignment creation operation.
-  @_s.JsonKey(name: 'AccountAssignmentCreationStatus')
-  final AccountAssignmentOperationStatus accountAssignmentCreationStatus;
+  final AccountAssignmentOperationStatus? accountAssignmentCreationStatus;
 
   CreateAccountAssignmentResponse({
     this.accountAssignmentCreationStatus,
   });
-  factory CreateAccountAssignmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAccountAssignmentResponseFromJson(json);
+  factory CreateAccountAssignmentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAccountAssignmentResponse(
+      accountAssignmentCreationStatus:
+          json['AccountAssignmentCreationStatus'] != null
+              ? AccountAssignmentOperationStatus.fromJson(
+                  json['AccountAssignmentCreationStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateInstanceAccessControlAttributeConfigurationResponse {
   CreateInstanceAccessControlAttributeConfigurationResponse();
   factory CreateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateInstanceAccessControlAttributeConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return CreateInstanceAccessControlAttributeConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePermissionSetResponse {
   /// Defines the level of access on an AWS account.
-  @_s.JsonKey(name: 'PermissionSet')
-  final PermissionSet permissionSet;
+  final PermissionSet? permissionSet;
 
   CreatePermissionSetResponse({
     this.permissionSet,
   });
-  factory CreatePermissionSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePermissionSetResponseFromJson(json);
+  factory CreatePermissionSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePermissionSetResponse(
+      permissionSet: json['PermissionSet'] != null
+          ? PermissionSet.fromJson(
+              json['PermissionSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAccountAssignmentResponse {
   /// The status object for the account assignment deletion operation.
-  @_s.JsonKey(name: 'AccountAssignmentDeletionStatus')
-  final AccountAssignmentOperationStatus accountAssignmentDeletionStatus;
+  final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
 
   DeleteAccountAssignmentResponse({
     this.accountAssignmentDeletionStatus,
   });
-  factory DeleteAccountAssignmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAccountAssignmentResponseFromJson(json);
+  factory DeleteAccountAssignmentResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAccountAssignmentResponse(
+      accountAssignmentDeletionStatus:
+          json['AccountAssignmentDeletionStatus'] != null
+              ? AccountAssignmentOperationStatus.fromJson(
+                  json['AccountAssignmentDeletionStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInlinePolicyFromPermissionSetResponse {
   DeleteInlinePolicyFromPermissionSetResponse();
   factory DeleteInlinePolicyFromPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteInlinePolicyFromPermissionSetResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteInlinePolicyFromPermissionSetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInstanceAccessControlAttributeConfigurationResponse {
   DeleteInstanceAccessControlAttributeConfigurationResponse();
   factory DeleteInstanceAccessControlAttributeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteInstanceAccessControlAttributeConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteInstanceAccessControlAttributeConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePermissionSetResponse {
   DeletePermissionSetResponse();
-  factory DeletePermissionSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePermissionSetResponseFromJson(json);
+  factory DeletePermissionSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePermissionSetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountAssignmentCreationStatusResponse {
   /// The status object for the account assignment creation operation.
-  @_s.JsonKey(name: 'AccountAssignmentCreationStatus')
-  final AccountAssignmentOperationStatus accountAssignmentCreationStatus;
+  final AccountAssignmentOperationStatus? accountAssignmentCreationStatus;
 
   DescribeAccountAssignmentCreationStatusResponse({
     this.accountAssignmentCreationStatus,
   });
   factory DescribeAccountAssignmentCreationStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountAssignmentCreationStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountAssignmentCreationStatusResponse(
+      accountAssignmentCreationStatus:
+          json['AccountAssignmentCreationStatus'] != null
+              ? AccountAssignmentOperationStatus.fromJson(
+                  json['AccountAssignmentCreationStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountAssignmentDeletionStatusResponse {
   /// The status object for the account assignment deletion operation.
-  @_s.JsonKey(name: 'AccountAssignmentDeletionStatus')
-  final AccountAssignmentOperationStatus accountAssignmentDeletionStatus;
+  final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
 
   DescribeAccountAssignmentDeletionStatusResponse({
     this.accountAssignmentDeletionStatus,
   });
   factory DescribeAccountAssignmentDeletionStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountAssignmentDeletionStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountAssignmentDeletionStatusResponse(
+      accountAssignmentDeletionStatus:
+          json['AccountAssignmentDeletionStatus'] != null
+              ? AccountAssignmentOperationStatus.fromJson(
+                  json['AccountAssignmentDeletionStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceAccessControlAttributeConfigurationResponse {
   /// Gets the list of AWS SSO identity store attributes added to your ABAC
   /// configuration.
-  @_s.JsonKey(name: 'InstanceAccessControlAttributeConfiguration')
-  final InstanceAccessControlAttributeConfiguration
+  final InstanceAccessControlAttributeConfiguration?
       instanceAccessControlAttributeConfiguration;
 
   /// The status of the attribute configuration process.
-  @_s.JsonKey(name: 'Status')
-  final InstanceAccessControlAttributeConfigurationStatus status;
+  final InstanceAccessControlAttributeConfigurationStatus? status;
 
   /// Provides more details about the current status of the specified attribute.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   DescribeInstanceAccessControlAttributeConfigurationResponse({
     this.instanceAccessControlAttributeConfiguration,
@@ -3047,293 +2984,324 @@ class DescribeInstanceAccessControlAttributeConfigurationResponse {
     this.statusReason,
   });
   factory DescribeInstanceAccessControlAttributeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstanceAccessControlAttributeConfigurationResponseFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return DescribeInstanceAccessControlAttributeConfigurationResponse(
+      instanceAccessControlAttributeConfiguration:
+          json['InstanceAccessControlAttributeConfiguration'] != null
+              ? InstanceAccessControlAttributeConfiguration.fromJson(
+                  json['InstanceAccessControlAttributeConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      status: (json['Status'] as String?)
+          ?.toInstanceAccessControlAttributeConfigurationStatus(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePermissionSetProvisioningStatusResponse {
   /// The status object for the permission set provisioning operation.
-  @_s.JsonKey(name: 'PermissionSetProvisioningStatus')
-  final PermissionSetProvisioningStatus permissionSetProvisioningStatus;
+  final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
 
   DescribePermissionSetProvisioningStatusResponse({
     this.permissionSetProvisioningStatus,
   });
   factory DescribePermissionSetProvisioningStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePermissionSetProvisioningStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePermissionSetProvisioningStatusResponse(
+      permissionSetProvisioningStatus:
+          json['PermissionSetProvisioningStatus'] != null
+              ? PermissionSetProvisioningStatus.fromJson(
+                  json['PermissionSetProvisioningStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePermissionSetResponse {
   /// Describes the level of access on an AWS account.
-  @_s.JsonKey(name: 'PermissionSet')
-  final PermissionSet permissionSet;
+  final PermissionSet? permissionSet;
 
   DescribePermissionSetResponse({
     this.permissionSet,
   });
-  factory DescribePermissionSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePermissionSetResponseFromJson(json);
+  factory DescribePermissionSetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePermissionSetResponse(
+      permissionSet: json['PermissionSet'] != null
+          ? PermissionSet.fromJson(
+              json['PermissionSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachManagedPolicyFromPermissionSetResponse {
   DetachManagedPolicyFromPermissionSetResponse();
   factory DetachManagedPolicyFromPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DetachManagedPolicyFromPermissionSetResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DetachManagedPolicyFromPermissionSetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInlinePolicyForPermissionSetResponse {
   /// The IAM inline policy that is attached to the permission set.
-  @_s.JsonKey(name: 'InlinePolicy')
-  final String inlinePolicy;
+  final String? inlinePolicy;
 
   GetInlinePolicyForPermissionSetResponse({
     this.inlinePolicy,
   });
   factory GetInlinePolicyForPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetInlinePolicyForPermissionSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetInlinePolicyForPermissionSetResponse(
+      inlinePolicy: json['InlinePolicy'] as String?,
+    );
+  }
 }
 
 /// Specifies the attributes to add to your attribute-based access control
 /// (ABAC) configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InstanceAccessControlAttributeConfiguration {
   /// Lists the attributes that are configured for ABAC in the specified AWS SSO
   /// instance.
-  @_s.JsonKey(name: 'AccessControlAttributes')
   final List<AccessControlAttribute> accessControlAttributes;
 
   InstanceAccessControlAttributeConfiguration({
-    @_s.required this.accessControlAttributes,
+    required this.accessControlAttributes,
   });
   factory InstanceAccessControlAttributeConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$InstanceAccessControlAttributeConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return InstanceAccessControlAttributeConfiguration(
+      accessControlAttributes: (json['AccessControlAttributes'] as List)
+          .whereNotNull()
+          .map(
+              (e) => AccessControlAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$InstanceAccessControlAttributeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessControlAttributes = this.accessControlAttributes;
+    return {
+      'AccessControlAttributes': accessControlAttributes,
+    };
+  }
 }
 
 enum InstanceAccessControlAttributeConfigurationStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('CREATION_IN_PROGRESS')
   creationInProgress,
-  @_s.JsonValue('CREATION_FAILED')
   creationFailed,
 }
 
+extension on InstanceAccessControlAttributeConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case InstanceAccessControlAttributeConfigurationStatus.enabled:
+        return 'ENABLED';
+      case InstanceAccessControlAttributeConfigurationStatus.creationInProgress:
+        return 'CREATION_IN_PROGRESS';
+      case InstanceAccessControlAttributeConfigurationStatus.creationFailed:
+        return 'CREATION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  InstanceAccessControlAttributeConfigurationStatus
+      toInstanceAccessControlAttributeConfigurationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return InstanceAccessControlAttributeConfigurationStatus.enabled;
+      case 'CREATION_IN_PROGRESS':
+        return InstanceAccessControlAttributeConfigurationStatus
+            .creationInProgress;
+      case 'CREATION_FAILED':
+        return InstanceAccessControlAttributeConfigurationStatus.creationFailed;
+    }
+    throw Exception(
+        '$this is not known in enum InstanceAccessControlAttributeConfigurationStatus');
+  }
+}
+
 /// Provides information about the SSO instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceMetadata {
   /// The identifier of the identity store that is connected to the SSO instance.
-  @_s.JsonKey(name: 'IdentityStoreId')
-  final String identityStoreId;
+  final String? identityStoreId;
 
   /// The ARN of the SSO instance under which the operation will be executed. For
   /// more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'InstanceArn')
-  final String instanceArn;
+  final String? instanceArn;
 
   InstanceMetadata({
     this.identityStoreId,
     this.instanceArn,
   });
-  factory InstanceMetadata.fromJson(Map<String, dynamic> json) =>
-      _$InstanceMetadataFromJson(json);
+  factory InstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return InstanceMetadata(
+      identityStoreId: json['IdentityStoreId'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountAssignmentCreationStatusResponse {
   /// The status object for the account assignment creation operation.
-  @_s.JsonKey(name: 'AccountAssignmentsCreationStatus')
-  final List<AccountAssignmentOperationStatusMetadata>
+  final List<AccountAssignmentOperationStatusMetadata>?
       accountAssignmentsCreationStatus;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountAssignmentCreationStatusResponse({
     this.accountAssignmentsCreationStatus,
     this.nextToken,
   });
   factory ListAccountAssignmentCreationStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAccountAssignmentCreationStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAccountAssignmentCreationStatusResponse(
+      accountAssignmentsCreationStatus:
+          (json['AccountAssignmentsCreationStatus'] as List?)
+              ?.whereNotNull()
+              .map((e) => AccountAssignmentOperationStatusMetadata.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountAssignmentDeletionStatusResponse {
   /// The status object for the account assignment deletion operation.
-  @_s.JsonKey(name: 'AccountAssignmentsDeletionStatus')
-  final List<AccountAssignmentOperationStatusMetadata>
+  final List<AccountAssignmentOperationStatusMetadata>?
       accountAssignmentsDeletionStatus;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountAssignmentDeletionStatusResponse({
     this.accountAssignmentsDeletionStatus,
     this.nextToken,
   });
   factory ListAccountAssignmentDeletionStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAccountAssignmentDeletionStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAccountAssignmentDeletionStatusResponse(
+      accountAssignmentsDeletionStatus:
+          (json['AccountAssignmentsDeletionStatus'] as List?)
+              ?.whereNotNull()
+              .map((e) => AccountAssignmentOperationStatusMetadata.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountAssignmentsResponse {
   /// The list of assignments that match the input AWS account and permission set.
-  @_s.JsonKey(name: 'AccountAssignments')
-  final List<AccountAssignment> accountAssignments;
+  final List<AccountAssignment>? accountAssignments;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountAssignmentsResponse({
     this.accountAssignments,
     this.nextToken,
   });
-  factory ListAccountAssignmentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountAssignmentsResponseFromJson(json);
+  factory ListAccountAssignmentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountAssignmentsResponse(
+      accountAssignments: (json['AccountAssignments'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountAssignment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountsForProvisionedPermissionSetResponse {
   /// The list of AWS <code>AccountIds</code>.
-  @_s.JsonKey(name: 'AccountIds')
-  final List<String> accountIds;
+  final List<String>? accountIds;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountsForProvisionedPermissionSetResponse({
     this.accountIds,
     this.nextToken,
   });
   factory ListAccountsForProvisionedPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAccountsForProvisionedPermissionSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAccountsForProvisionedPermissionSetResponse(
+      accountIds: (json['AccountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstancesResponse {
   /// Lists the SSO instances that the caller has access to.
-  @_s.JsonKey(name: 'Instances')
-  final List<InstanceMetadata> instances;
+  final List<InstanceMetadata>? instances;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInstancesResponse({
     this.instances,
     this.nextToken,
   });
-  factory ListInstancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInstancesResponseFromJson(json);
+  factory ListInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstancesResponse(
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListManagedPoliciesInPermissionSetResponse {
   /// The array of the <a>AttachedManagedPolicy</a> data type object.
-  @_s.JsonKey(name: 'AttachedManagedPolicies')
-  final List<AttachedManagedPolicy> attachedManagedPolicies;
+  final List<AttachedManagedPolicy>? attachedManagedPolicies;
 
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListManagedPoliciesInPermissionSetResponse({
     this.attachedManagedPolicies,
     this.nextToken,
   });
   factory ListManagedPoliciesInPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListManagedPoliciesInPermissionSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListManagedPoliciesInPermissionSetResponse(
+      attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPermissionSetProvisioningStatusResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The status object for the permission set provisioning operation.
-  @_s.JsonKey(name: 'PermissionSetsProvisioningStatus')
-  final List<PermissionSetProvisioningStatusMetadata>
+  final List<PermissionSetProvisioningStatusMetadata>?
       permissionSetsProvisioningStatus;
 
   ListPermissionSetProvisioningStatusResponse({
@@ -3341,132 +3309,128 @@ class ListPermissionSetProvisioningStatusResponse {
     this.permissionSetsProvisioningStatus,
   });
   factory ListPermissionSetProvisioningStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPermissionSetProvisioningStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPermissionSetProvisioningStatusResponse(
+      nextToken: json['NextToken'] as String?,
+      permissionSetsProvisioningStatus:
+          (json['PermissionSetsProvisioningStatus'] as List?)
+              ?.whereNotNull()
+              .map((e) => PermissionSetProvisioningStatusMetadata.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPermissionSetsProvisionedToAccountResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Defines the level of access that an AWS account has.
-  @_s.JsonKey(name: 'PermissionSets')
-  final List<String> permissionSets;
+  final List<String>? permissionSets;
 
   ListPermissionSetsProvisionedToAccountResponse({
     this.nextToken,
     this.permissionSets,
   });
   factory ListPermissionSetsProvisionedToAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPermissionSetsProvisionedToAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPermissionSetsProvisionedToAccountResponse(
+      nextToken: json['NextToken'] as String?,
+      permissionSets: (json['PermissionSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPermissionSetsResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Defines the level of access on an AWS account.
-  @_s.JsonKey(name: 'PermissionSets')
-  final List<String> permissionSets;
+  final List<String>? permissionSets;
 
   ListPermissionSetsResponse({
     this.nextToken,
     this.permissionSets,
   });
-  factory ListPermissionSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPermissionSetsResponseFromJson(json);
+  factory ListPermissionSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionSetsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissionSets: (json['PermissionSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A set of key-value pairs that are used to manage the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Filters he operation status list based on the passed attribute value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OperationStatusFilter {
   /// Filters the list operations result based on the status attribute.
-  @_s.JsonKey(name: 'Status')
-  final StatusValues status;
+  final StatusValues? status;
 
   OperationStatusFilter({
     this.status,
   });
-  Map<String, dynamic> toJson() => _$OperationStatusFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// An entity that contains IAM policies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PermissionSet {
   /// The date that the permission set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the <a>PermissionSet</a>.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the permission set.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'PermissionSetArn')
-  final String permissionSetArn;
+  final String? permissionSetArn;
 
   /// Used to redirect users within the application during the federation
   /// authentication process.
-  @_s.JsonKey(name: 'RelayState')
-  final String relayState;
+  final String? relayState;
 
   /// The length of time that the application user sessions are valid for in the
   /// ISO-8601 standard.
-  @_s.JsonKey(name: 'SessionDuration')
-  final String sessionDuration;
+  final String? sessionDuration;
 
   PermissionSet({
     this.createdDate,
@@ -3476,47 +3440,43 @@ class PermissionSet {
     this.relayState,
     this.sessionDuration,
   });
-  factory PermissionSet.fromJson(Map<String, dynamic> json) =>
-      _$PermissionSetFromJson(json);
+  factory PermissionSet.fromJson(Map<String, dynamic> json) {
+    return PermissionSet(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      relayState: json['RelayState'] as String?,
+      sessionDuration: json['SessionDuration'] as String?,
+    );
+  }
 }
 
 /// A structure that is used to provide the status of the provisioning operation
 /// for a specified permission set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PermissionSetProvisioningStatus {
   /// The identifier of the AWS account from which to list the assignments.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The date that the permission set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The message that contains an error or exception in case of an operation
   /// failure.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The ARN of the permission set that is being provisioned. For more
   /// information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'PermissionSetArn')
-  final String permissionSetArn;
+  final String? permissionSetArn;
 
   /// The identifier for tracking the request operation that is generated by the
   /// universally unique identifier (UUID) workflow.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// The status of the permission set provisioning process.
-  @_s.JsonKey(name: 'Status')
-  final StatusValues status;
+  final StatusValues? status;
 
   PermissionSetProvisioningStatus({
     this.accountId,
@@ -3526,30 +3486,29 @@ class PermissionSetProvisioningStatus {
     this.requestId,
     this.status,
   });
-  factory PermissionSetProvisioningStatus.fromJson(Map<String, dynamic> json) =>
-      _$PermissionSetProvisioningStatusFromJson(json);
+  factory PermissionSetProvisioningStatus.fromJson(Map<String, dynamic> json) {
+    return PermissionSetProvisioningStatus(
+      accountId: json['AccountId'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      failureReason: json['FailureReason'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.toStatusValues(),
+    );
+  }
 }
 
 /// Provides information about the permission set provisioning status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PermissionSetProvisioningStatusMetadata {
   /// The date that the permission set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for tracking the request operation that is generated by the
   /// universally unique identifier (UUID) workflow.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// The status of the permission set provisioning process.
-  @_s.JsonKey(name: 'Status')
-  final StatusValues status;
+  final StatusValues? status;
 
   PermissionSetProvisioningStatusMetadata({
     this.createdDate,
@@ -3557,14 +3516,17 @@ class PermissionSetProvisioningStatusMetadata {
     this.status,
   });
   factory PermissionSetProvisioningStatusMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$PermissionSetProvisioningStatusMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return PermissionSetProvisioningStatusMetadata(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.toStatusValues(),
+    );
+  }
 }
 
 enum PrincipalType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('GROUP')
   group,
 }
 
@@ -3576,31 +3538,42 @@ extension on PrincipalType {
       case PrincipalType.group:
         return 'GROUP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'USER':
+        return PrincipalType.user;
+      case 'GROUP':
+        return PrincipalType.group;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
+  }
+}
+
 class ProvisionPermissionSetResponse {
   /// The status object for the permission set provisioning operation.
-  @_s.JsonKey(name: 'PermissionSetProvisioningStatus')
-  final PermissionSetProvisioningStatus permissionSetProvisioningStatus;
+  final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
 
   ProvisionPermissionSetResponse({
     this.permissionSetProvisioningStatus,
   });
-  factory ProvisionPermissionSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionPermissionSetResponseFromJson(json);
+  factory ProvisionPermissionSetResponse.fromJson(Map<String, dynamic> json) {
+    return ProvisionPermissionSetResponse(
+      permissionSetProvisioningStatus:
+          json['PermissionSetProvisioningStatus'] != null
+              ? PermissionSetProvisioningStatus.fromJson(
+                  json['PermissionSetProvisioningStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
 enum ProvisionTargetType {
-  @_s.JsonValue('AWS_ACCOUNT')
   awsAccount,
-  @_s.JsonValue('ALL_PROVISIONED_ACCOUNTS')
   allProvisionedAccounts,
 }
 
@@ -3612,14 +3585,23 @@ extension on ProvisionTargetType {
       case ProvisionTargetType.allProvisionedAccounts:
         return 'ALL_PROVISIONED_ACCOUNTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProvisionTargetType toProvisionTargetType() {
+    switch (this) {
+      case 'AWS_ACCOUNT':
+        return ProvisionTargetType.awsAccount;
+      case 'ALL_PROVISIONED_ACCOUNTS':
+        return ProvisionTargetType.allProvisionedAccounts;
+    }
+    throw Exception('$this is not known in enum ProvisionTargetType');
   }
 }
 
 enum ProvisioningStatus {
-  @_s.JsonValue('LATEST_PERMISSION_SET_PROVISIONED')
   latestPermissionSetProvisioned,
-  @_s.JsonValue('LATEST_PERMISSION_SET_NOT_PROVISIONED')
   latestPermissionSetNotProvisioned,
 }
 
@@ -3631,70 +3613,101 @@ extension on ProvisioningStatus {
       case ProvisioningStatus.latestPermissionSetNotProvisioned:
         return 'LATEST_PERMISSION_SET_NOT_PROVISIONED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ProvisioningStatus toProvisioningStatus() {
+    switch (this) {
+      case 'LATEST_PERMISSION_SET_PROVISIONED':
+        return ProvisioningStatus.latestPermissionSetProvisioned;
+      case 'LATEST_PERMISSION_SET_NOT_PROVISIONED':
+        return ProvisioningStatus.latestPermissionSetNotProvisioned;
+    }
+    throw Exception('$this is not known in enum ProvisioningStatus');
+  }
+}
+
 class PutInlinePolicyToPermissionSetResponse {
   PutInlinePolicyToPermissionSetResponse();
   factory PutInlinePolicyToPermissionSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutInlinePolicyToPermissionSetResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutInlinePolicyToPermissionSetResponse();
+  }
 }
 
 enum StatusValues {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
+}
+
+extension on StatusValues {
+  String toValue() {
+    switch (this) {
+      case StatusValues.inProgress:
+        return 'IN_PROGRESS';
+      case StatusValues.failed:
+        return 'FAILED';
+      case StatusValues.succeeded:
+        return 'SUCCEEDED';
+    }
+  }
+}
+
+extension on String {
+  StatusValues toStatusValues() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return StatusValues.inProgress;
+      case 'FAILED':
+        return StatusValues.failed;
+      case 'SUCCEEDED':
+        return StatusValues.succeeded;
+    }
+    throw Exception('$this is not known in enum StatusValues');
+  }
 }
 
 /// A set of key-value pairs that are used to manage the resource. Tags can only
 /// be applied to permission sets and cannot be applied to corresponding roles
 /// that AWS SSO creates in AWS accounts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key for the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 enum TargetType {
-  @_s.JsonValue('AWS_ACCOUNT')
   awsAccount,
 }
 
@@ -3704,66 +3717,63 @@ extension on TargetType {
       case TargetType.awsAccount:
         return 'AWS_ACCOUNT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'AWS_ACCOUNT':
+        return TargetType.awsAccount;
+    }
+    throw Exception('$this is not known in enum TargetType');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
 class UpdateInstanceAccessControlAttributeConfigurationResponse {
   UpdateInstanceAccessControlAttributeConfigurationResponse();
   factory UpdateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateInstanceAccessControlAttributeConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateInstanceAccessControlAttributeConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePermissionSetResponse {
   UpdatePermissionSetResponse();
-  factory UpdatePermissionSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePermissionSetResponseFromJson(json);
+  factory UpdatePermissionSetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePermissionSetResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -3771,12 +3781,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'kendra-2019-02-03.g.dart';
 
 /// Amazon Kendra is a service for indexing large document sets.
 class Kendra {
   final _s.JsonProtocol _protocol;
   Kendra({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,9 +57,9 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index that contains the documents to delete.
   Future<BatchDeleteDocumentResponse> batchDeleteDocument({
-    @_s.required List<String> documentIdList,
-    @_s.required String indexId,
-    DataSourceSyncJobMetricTarget dataSourceSyncJobMetricTarget,
+    required List<String> documentIdList,
+    required String indexId,
+    DataSourceSyncJobMetricTarget? dataSourceSyncJobMetricTarget,
   }) async {
     ArgumentError.checkNotNull(documentIdList, 'documentIdList');
     ArgumentError.checkNotNull(indexId, 'indexId');
@@ -155,9 +147,9 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
   /// Roles for Amazon Kendra</a>.
   Future<BatchPutDocumentResponse> batchPutDocument({
-    @_s.required List<Document> documents,
-    @_s.required String indexId,
-    String roleArn,
+    required List<Document> documents,
+    required String indexId,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(documents, 'documents');
     ArgumentError.checkNotNull(indexId, 'indexId');
@@ -281,15 +273,15 @@ class Kendra {
   /// tags to identify and organize your resources and to control access to
   /// resources.
   Future<CreateDataSourceResponse> createDataSource({
-    @_s.required String indexId,
-    @_s.required String name,
-    @_s.required DataSourceType type,
-    String clientToken,
-    DataSourceConfiguration configuration,
-    String description,
-    String roleArn,
-    String schedule,
-    List<Tag> tags,
+    required String indexId,
+    required String name,
+    required DataSourceType type,
+    String? clientToken,
+    DataSourceConfiguration? configuration,
+    String? description,
+    String? roleArn,
+    String? schedule,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -361,7 +353,7 @@ class Kendra {
       payload: {
         'IndexId': indexId,
         'Name': name,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (configuration != null) 'Configuration': configuration,
         if (description != null) 'Description': description,
@@ -424,14 +416,14 @@ class Kendra {
   /// A list of key-value pairs that identify the FAQ. You can use the tags to
   /// identify and organize your resources and to control access to resources.
   Future<CreateFaqResponse> createFaq({
-    @_s.required String indexId,
-    @_s.required String name,
-    @_s.required String roleArn,
-    @_s.required S3Path s3Path,
-    String clientToken,
-    String description,
-    FaqFileFormat fileFormat,
-    List<Tag> tags,
+    required String indexId,
+    required String name,
+    required String roleArn,
+    required S3Path s3Path,
+    String? clientToken,
+    String? description,
+    FaqFileFormat? fileFormat,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -586,15 +578,15 @@ class Kendra {
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
   Future<CreateIndexResponse> createIndex({
-    @_s.required String name,
-    @_s.required String roleArn,
-    String clientToken,
-    String description,
-    IndexEdition edition,
-    ServerSideEncryptionConfiguration serverSideEncryptionConfiguration,
-    List<Tag> tags,
-    UserContextPolicy userContextPolicy,
-    List<UserTokenConfiguration> userTokenConfigurations,
+    required String name,
+    required String roleArn,
+    String? clientToken,
+    String? description,
+    IndexEdition? edition,
+    ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration,
+    List<Tag>? tags,
+    UserContextPolicy? userContextPolicy,
+    List<UserTokenConfiguration>? userTokenConfigurations,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -709,13 +701,13 @@ class Kendra {
   /// tags to identify and organize your resources and to control access to
   /// resources.
   Future<CreateThesaurusResponse> createThesaurus({
-    @_s.required String indexId,
-    @_s.required String name,
-    @_s.required String roleArn,
-    @_s.required S3Path sourceS3Path,
-    String clientToken,
-    String description,
-    List<Tag> tags,
+    required String indexId,
+    required String name,
+    required String roleArn,
+    required S3Path sourceS3Path,
+    String? clientToken,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -821,8 +813,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The unique identifier of the index associated with the data source.
   Future<void> deleteDataSource({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -856,7 +848,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteDataSource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -884,8 +876,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The index to remove the FAQ from.
   Future<void> deleteFaq({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -919,7 +911,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteFaq'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -947,7 +939,7 @@ class Kendra {
   /// Parameter [id] :
   /// The identifier of the index to delete.
   Future<void> deleteIndex({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -967,7 +959,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteIndex'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -994,8 +986,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index associated with the thesaurus to delete.
   Future<void> deleteThesaurus({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1029,7 +1021,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteThesaurus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1056,8 +1048,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index that contains the data source.
   Future<DescribeDataSourceResponse> describeDataSource({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1120,8 +1112,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index that contains the FAQ.
   Future<DescribeFaqResponse> describeFaq({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1181,7 +1173,7 @@ class Kendra {
   /// Parameter [id] :
   /// The name of the index to describe.
   Future<DescribeIndexResponse> describeIndex({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1229,8 +1221,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index associated with the thesaurus to describe.
   Future<DescribeThesaurusResponse> describeThesaurus({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1312,12 +1304,12 @@ class Kendra {
   /// When specified, only returns synchronization jobs with the
   /// <code>Status</code> field equal to the specified status.
   Future<ListDataSourceSyncJobsResponse> listDataSourceSyncJobs({
-    @_s.required String id,
-    @_s.required String indexId,
-    int maxResults,
-    String nextToken,
-    TimeRange startTimeFilter,
-    DataSourceSyncJobStatus statusFilter,
+    required String id,
+    required String indexId,
+    int? maxResults,
+    String? nextToken,
+    TimeRange? startTimeFilter,
+    DataSourceSyncJobStatus? statusFilter,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1402,9 +1394,9 @@ class Kendra {
   /// can use this pagination token to retrieve the next set of data sources
   /// (<code>DataSourceSummaryItems</code>).
   Future<ListDataSourcesResponse> listDataSources({
-    @_s.required String indexId,
-    int maxResults,
-    String nextToken,
+    required String indexId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -1472,9 +1464,9 @@ class Kendra {
   /// truncated, include the <code>NextToken</code> to fetch the next set of
   /// FAQs.
   Future<ListFaqsResponse> listFaqs({
-    @_s.required String indexId,
-    int maxResults,
-    String nextToken,
+    required String indexId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -1538,8 +1530,8 @@ class Kendra {
   /// can use this pagination token to retrieve the next set of indexes
   /// (<code>DataSourceSummaryItems</code>).
   Future<ListIndicesResponse> listIndices({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1585,7 +1577,7 @@ class Kendra {
   /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a
   /// list of tags for.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1633,9 +1625,9 @@ class Kendra {
   /// can use this pagination token to retrieve the next set of thesauri
   /// (<code>ThesaurusSummaryItems</code>).
   Future<ListThesauriResponse> listThesauri({
-    @_s.required String indexId,
-    int maxResults,
-    String nextToken,
+    required String indexId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -1777,17 +1769,17 @@ class Kendra {
   /// identifiable information, such as the user's email address, as the
   /// <code>VisitorId</code>.
   Future<QueryResult> query({
-    @_s.required String indexId,
-    @_s.required String queryText,
-    AttributeFilter attributeFilter,
-    List<Facet> facets,
-    int pageNumber,
-    int pageSize,
-    QueryResultType queryResultTypeFilter,
-    List<String> requestedDocumentAttributes,
-    SortingConfiguration sortingConfiguration,
-    UserContext userContext,
-    String visitorId,
+    required String indexId,
+    required String queryText,
+    AttributeFilter? attributeFilter,
+    List<Facet>? facets,
+    int? pageNumber,
+    int? pageSize,
+    QueryResultType? queryResultTypeFilter,
+    List<String>? requestedDocumentAttributes,
+    SortingConfiguration? sortingConfiguration,
+    UserContext? userContext,
+    String? visitorId,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -1877,8 +1869,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index that contains the data source.
   Future<StartDataSourceSyncJobResponse> startDataSourceSyncJob({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1943,8 +1935,8 @@ class Kendra {
   /// Parameter [indexId] :
   /// The identifier of the index that contains the data source.
   Future<void> stopDataSourceSyncJob({
-    @_s.required String id,
-    @_s.required String indexId,
+    required String id,
+    required String indexId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1978,7 +1970,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.StopDataSourceSyncJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2016,10 +2008,10 @@ class Kendra {
   /// Provides Amazon Kendra with relevant or not relevant feedback for whether
   /// a particular item was relevant to the search.
   Future<void> submitFeedback({
-    @_s.required String indexId,
-    @_s.required String queryId,
-    List<ClickFeedback> clickFeedbackItems,
-    List<RelevanceFeedback> relevanceFeedbackItems,
+    required String indexId,
+    required String queryId,
+    List<ClickFeedback>? clickFeedbackItems,
+    List<RelevanceFeedback>? relevanceFeedbackItems,
   }) async {
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
@@ -2053,7 +2045,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.SubmitFeedback'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2087,8 +2079,8 @@ class Kendra {
   /// A list of tag keys to add to the index, FAQ, or data source. If a tag
   /// already exists, the existing value is replaced with the new value.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2103,7 +2095,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2114,8 +2106,6 @@ class Kendra {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a tag from an index, FAQ, or a data source.
@@ -2134,8 +2124,8 @@ class Kendra {
   /// A list of tag keys to remove from the index, FAQ, or data source. If a tag
   /// key does not exist on the resource, it is ignored.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2150,7 +2140,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2161,8 +2151,6 @@ class Kendra {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing Amazon Kendra data source.
@@ -2195,13 +2183,13 @@ class Kendra {
   /// Parameter [schedule] :
   /// The new update schedule for the data source.
   Future<void> updateDataSource({
-    @_s.required String id,
-    @_s.required String indexId,
-    DataSourceConfiguration configuration,
-    String description,
-    String name,
-    String roleArn,
-    String schedule,
+    required String id,
+    required String indexId,
+    DataSourceConfiguration? configuration,
+    String? description,
+    String? name,
+    String? roleArn,
+    String? schedule,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2268,7 +2256,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateDataSource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2326,14 +2314,14 @@ class Kendra {
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
   Future<void> updateIndex({
-    @_s.required String id,
-    CapacityUnitsConfiguration capacityUnits,
-    String description,
-    List<DocumentMetadataConfiguration> documentMetadataConfigurationUpdates,
-    String name,
-    String roleArn,
-    UserContextPolicy userContextPolicy,
-    List<UserTokenConfiguration> userTokenConfigurations,
+    required String id,
+    CapacityUnitsConfiguration? capacityUnits,
+    String? description,
+    List<DocumentMetadataConfiguration>? documentMetadataConfigurationUpdates,
+    String? name,
+    String? roleArn,
+    UserContextPolicy? userContextPolicy,
+    List<UserTokenConfiguration>? userTokenConfigurations,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2386,7 +2374,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateIndex'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2433,12 +2421,12 @@ class Kendra {
   /// Parameter [roleArn] :
   /// The updated role ARN of the thesaurus.
   Future<void> updateThesaurus({
-    @_s.required String id,
-    @_s.required String indexId,
-    String description,
-    String name,
-    String roleArn,
-    S3Path sourceS3Path,
+    required String id,
+    required String indexId,
+    String? description,
+    String? name,
+    String? roleArn,
+    S3Path? sourceS3Path,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2505,7 +2493,7 @@ class Kendra {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateThesaurus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2527,99 +2515,121 @@ class Kendra {
 /// of the file, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
 /// control for S3 data sources</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessControlListConfiguration {
   /// Path to the AWS S3 bucket that contains the ACL files.
-  @_s.JsonKey(name: 'KeyPath')
-  final String keyPath;
+  final String? keyPath;
 
   AccessControlListConfiguration({
     this.keyPath,
   });
-  factory AccessControlListConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AccessControlListConfigurationFromJson(json);
+  factory AccessControlListConfiguration.fromJson(Map<String, dynamic> json) {
+    return AccessControlListConfiguration(
+      keyPath: json['KeyPath'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessControlListConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final keyPath = this.keyPath;
+    return {
+      if (keyPath != null) 'KeyPath': keyPath,
+    };
+  }
 }
 
 /// Provides information about the column that should be used for filtering the
 /// query response by groups.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AclConfiguration {
   /// A list of groups, separated by semi-colons, that filters a query response
   /// based on user context. The document is only returned to users that are in
   /// one of the groups specified in the <code>UserContext</code> field of the
   /// <a>Query</a> operation.
-  @_s.JsonKey(name: 'AllowedGroupsColumnName')
   final String allowedGroupsColumnName;
 
   AclConfiguration({
-    @_s.required this.allowedGroupsColumnName,
+    required this.allowedGroupsColumnName,
   });
-  factory AclConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AclConfigurationFromJson(json);
+  factory AclConfiguration.fromJson(Map<String, dynamic> json) {
+    return AclConfiguration(
+      allowedGroupsColumnName: json['AllowedGroupsColumnName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AclConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedGroupsColumnName = this.allowedGroupsColumnName;
+    return {
+      'AllowedGroupsColumnName': allowedGroupsColumnName,
+    };
+  }
 }
 
 /// An attribute returned from an index query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdditionalResultAttribute {
   /// The key that identifies the attribute.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// An object that contains the attribute value.
-  @_s.JsonKey(name: 'Value')
   final AdditionalResultAttributeValue value;
 
   /// The data type of the <code>Value</code> property.
-  @_s.JsonKey(name: 'ValueType')
   final AdditionalResultAttributeValueType valueType;
 
   AdditionalResultAttribute({
-    @_s.required this.key,
-    @_s.required this.value,
-    @_s.required this.valueType,
+    required this.key,
+    required this.value,
+    required this.valueType,
   });
-  factory AdditionalResultAttribute.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalResultAttributeFromJson(json);
+  factory AdditionalResultAttribute.fromJson(Map<String, dynamic> json) {
+    return AdditionalResultAttribute(
+      key: json['Key'] as String,
+      value: AdditionalResultAttributeValue.fromJson(
+          json['Value'] as Map<String, dynamic>),
+      valueType:
+          (json['ValueType'] as String).toAdditionalResultAttributeValueType(),
+    );
+  }
 }
 
 /// An attribute returned with a document from a search.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdditionalResultAttributeValue {
   /// The text associated with the attribute and information about the highlight
   /// to apply to the text.
-  @_s.JsonKey(name: 'TextWithHighlightsValue')
-  final TextWithHighlights textWithHighlightsValue;
+  final TextWithHighlights? textWithHighlightsValue;
 
   AdditionalResultAttributeValue({
     this.textWithHighlightsValue,
   });
-  factory AdditionalResultAttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalResultAttributeValueFromJson(json);
+  factory AdditionalResultAttributeValue.fromJson(Map<String, dynamic> json) {
+    return AdditionalResultAttributeValue(
+      textWithHighlightsValue: json['TextWithHighlightsValue'] != null
+          ? TextWithHighlights.fromJson(
+              json['TextWithHighlightsValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum AdditionalResultAttributeValueType {
-  @_s.JsonValue('TEXT_WITH_HIGHLIGHTS_VALUE')
   textWithHighlightsValue,
+}
+
+extension on AdditionalResultAttributeValueType {
+  String toValue() {
+    switch (this) {
+      case AdditionalResultAttributeValueType.textWithHighlightsValue:
+        return 'TEXT_WITH_HIGHLIGHTS_VALUE';
+    }
+  }
+}
+
+extension on String {
+  AdditionalResultAttributeValueType toAdditionalResultAttributeValueType() {
+    switch (this) {
+      case 'TEXT_WITH_HIGHLIGHTS_VALUE':
+        return AdditionalResultAttributeValueType.textWithHighlightsValue;
+    }
+    throw Exception(
+        '$this is not known in enum AdditionalResultAttributeValueType');
+  }
 }
 
 /// Provides filtering the query results based on document attributes.
@@ -2639,59 +2649,44 @@ enum AdditionalResultAttributeValueType {
 /// If you use more than 2 layers, you receive a
 /// <code>ValidationException</code> exception with the message
 /// "<code>AttributeFilter</code> cannot have a depth of more than 2."
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AttributeFilter {
   /// Performs a logical <code>AND</code> operation on all supplied filters.
-  @_s.JsonKey(name: 'AndAllFilters')
-  final List<AttributeFilter> andAllFilters;
+  final List<AttributeFilter>? andAllFilters;
 
   /// Returns true when a document contains all of the specified document
   /// attributes. This filter is only applicable to <code>StringListValue</code>
   /// metadata.
-  @_s.JsonKey(name: 'ContainsAll')
-  final DocumentAttribute containsAll;
+  final DocumentAttribute? containsAll;
 
   /// Returns true when a document contains any of the specified document
   /// attributes. This filter is only applicable to <code>StringListValue</code>
   /// metadata.
-  @_s.JsonKey(name: 'ContainsAny')
-  final DocumentAttribute containsAny;
+  final DocumentAttribute? containsAny;
 
   /// Performs an equals operation on two document attributes.
-  @_s.JsonKey(name: 'EqualsTo')
-  final DocumentAttribute equalsTo;
+  final DocumentAttribute? equalsTo;
 
   /// Performs a greater than operation on two document attributes. Use with a
   /// document attribute of type <code>Integer</code> or <code>Long</code>.
-  @_s.JsonKey(name: 'GreaterThan')
-  final DocumentAttribute greaterThan;
+  final DocumentAttribute? greaterThan;
 
   /// Performs a greater or equals than operation on two document attributes. Use
   /// with a document attribute of type <code>Integer</code> or <code>Long</code>.
-  @_s.JsonKey(name: 'GreaterThanOrEquals')
-  final DocumentAttribute greaterThanOrEquals;
+  final DocumentAttribute? greaterThanOrEquals;
 
   /// Performs a less than operation on two document attributes. Use with a
   /// document attribute of type <code>Integer</code> or <code>Long</code>.
-  @_s.JsonKey(name: 'LessThan')
-  final DocumentAttribute lessThan;
+  final DocumentAttribute? lessThan;
 
   /// Performs a less than or equals operation on two document attributes. Use
   /// with a document attribute of type <code>Integer</code> or <code>Long</code>.
-  @_s.JsonKey(name: 'LessThanOrEquals')
-  final DocumentAttribute lessThanOrEquals;
+  final DocumentAttribute? lessThanOrEquals;
 
   /// Performs a logical <code>NOT</code> operation on all supplied filters.
-  @_s.JsonKey(name: 'NotFilter')
-  final AttributeFilter notFilter;
+  final AttributeFilter? notFilter;
 
   /// Performs a logical <code>OR</code> operation on all supplied filters.
-  @_s.JsonKey(name: 'OrAllFilters')
-  final List<AttributeFilter> orAllFilters;
+  final List<AttributeFilter>? orAllFilters;
 
   AttributeFilter({
     this.andAllFilters,
@@ -2705,47 +2700,64 @@ class AttributeFilter {
     this.notFilter,
     this.orAllFilters,
   });
-  Map<String, dynamic> toJson() => _$AttributeFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final andAllFilters = this.andAllFilters;
+    final containsAll = this.containsAll;
+    final containsAny = this.containsAny;
+    final equalsTo = this.equalsTo;
+    final greaterThan = this.greaterThan;
+    final greaterThanOrEquals = this.greaterThanOrEquals;
+    final lessThan = this.lessThan;
+    final lessThanOrEquals = this.lessThanOrEquals;
+    final notFilter = this.notFilter;
+    final orAllFilters = this.orAllFilters;
+    return {
+      if (andAllFilters != null) 'AndAllFilters': andAllFilters,
+      if (containsAll != null) 'ContainsAll': containsAll,
+      if (containsAny != null) 'ContainsAny': containsAny,
+      if (equalsTo != null) 'EqualsTo': equalsTo,
+      if (greaterThan != null) 'GreaterThan': greaterThan,
+      if (greaterThanOrEquals != null)
+        'GreaterThanOrEquals': greaterThanOrEquals,
+      if (lessThan != null) 'LessThan': lessThan,
+      if (lessThanOrEquals != null) 'LessThanOrEquals': lessThanOrEquals,
+      if (notFilter != null) 'NotFilter': notFilter,
+      if (orAllFilters != null) 'OrAllFilters': orAllFilters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteDocumentResponse {
   /// A list of documents that could not be removed from the index. Each entry
   /// contains an error message that indicates why the document couldn't be
   /// removed from the index.
-  @_s.JsonKey(name: 'FailedDocuments')
-  final List<BatchDeleteDocumentResponseFailedDocument> failedDocuments;
+  final List<BatchDeleteDocumentResponseFailedDocument>? failedDocuments;
 
   BatchDeleteDocumentResponse({
     this.failedDocuments,
   });
-  factory BatchDeleteDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteDocumentResponseFromJson(json);
+  factory BatchDeleteDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteDocumentResponse(
+      failedDocuments: (json['FailedDocuments'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchDeleteDocumentResponseFailedDocument.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides information about documents that could not be removed from an index
 /// by the <a>BatchDeleteDocument</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteDocumentResponseFailedDocument {
   /// The error code for why the document couldn't be removed from the index.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// An explanation for why the document couldn't be removed from the index.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier of the document that couldn't be removed from the index.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   BatchDeleteDocumentResponseFailedDocument({
     this.errorCode,
@@ -2753,15 +2765,15 @@ class BatchDeleteDocumentResponseFailedDocument {
     this.id,
   });
   factory BatchDeleteDocumentResponseFailedDocument.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDeleteDocumentResponseFailedDocumentFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchDeleteDocumentResponseFailedDocument(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutDocumentResponse {
   /// A list of documents that were not added to the index because the document
   /// failed a validation check. Each document contains an error message that
@@ -2771,34 +2783,32 @@ class BatchPutDocumentResponse {
   /// your AWS CloudWatch log. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/cloudwatch-logs.html">Monitoring
   /// Amazon Kendra with Amazon CloudWatch Logs</a>
-  @_s.JsonKey(name: 'FailedDocuments')
-  final List<BatchPutDocumentResponseFailedDocument> failedDocuments;
+  final List<BatchPutDocumentResponseFailedDocument>? failedDocuments;
 
   BatchPutDocumentResponse({
     this.failedDocuments,
   });
-  factory BatchPutDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchPutDocumentResponseFromJson(json);
+  factory BatchPutDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return BatchPutDocumentResponse(
+      failedDocuments: (json['FailedDocuments'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchPutDocumentResponseFailedDocument.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides information about a document that could not be indexed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutDocumentResponseFailedDocument {
   /// The type of error that caused the document to fail to be indexed.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// A description of the reason why the document could not be indexed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The unique identifier of the document.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   BatchPutDocumentResponseFailedDocument({
     this.errorCode,
@@ -2806,116 +2816,137 @@ class BatchPutDocumentResponseFailedDocument {
     this.id,
   });
   factory BatchPutDocumentResponseFailedDocument.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchPutDocumentResponseFailedDocumentFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchPutDocumentResponseFailedDocument(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
 }
 
 /// Specifies capacity units configured for your index. You can add and remove
 /// capacity units to tune an index to your requirements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CapacityUnitsConfiguration {
   /// The amount of extra query capacity for an index. Each capacity unit provides
   /// 0.5 queries per second and 40,000 queries per day.
-  @_s.JsonKey(name: 'QueryCapacityUnits')
   final int queryCapacityUnits;
 
   /// The amount of extra storage capacity for an index. Each capacity unit
   /// provides 150 Gb of storage space or 500,000 documents, whichever is reached
   /// first.
-  @_s.JsonKey(name: 'StorageCapacityUnits')
   final int storageCapacityUnits;
 
   CapacityUnitsConfiguration({
-    @_s.required this.queryCapacityUnits,
-    @_s.required this.storageCapacityUnits,
+    required this.queryCapacityUnits,
+    required this.storageCapacityUnits,
   });
-  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$CapacityUnitsConfigurationFromJson(json);
+  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityUnitsConfiguration(
+      queryCapacityUnits: json['QueryCapacityUnits'] as int,
+      storageCapacityUnits: json['StorageCapacityUnits'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CapacityUnitsConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final queryCapacityUnits = this.queryCapacityUnits;
+    final storageCapacityUnits = this.storageCapacityUnits;
+    return {
+      'QueryCapacityUnits': queryCapacityUnits,
+      'StorageCapacityUnits': storageCapacityUnits,
+    };
+  }
 }
 
 /// Gathers information about when a particular result was clicked by a user.
 /// Your application uses the <a>SubmitFeedback</a> operation to provide click
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClickFeedback {
   /// The Unix timestamp of the date and time that the result was clicked.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ClickTime')
   final DateTime clickTime;
 
   /// The unique identifier of the search result that was clicked.
-  @_s.JsonKey(name: 'ResultId')
   final String resultId;
 
   ClickFeedback({
-    @_s.required this.clickTime,
-    @_s.required this.resultId,
+    required this.clickTime,
+    required this.resultId,
   });
-  Map<String, dynamic> toJson() => _$ClickFeedbackToJson(this);
+  Map<String, dynamic> toJson() {
+    final clickTime = this.clickTime;
+    final resultId = this.resultId;
+    return {
+      'ClickTime': unixTimestampToJson(clickTime),
+      'ResultId': resultId,
+    };
+  }
 }
 
 /// Provides information about how Amazon Kendra should use the columns of a
 /// database in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ColumnConfiguration {
   /// One to five columns that indicate when a document in the database has
   /// changed.
-  @_s.JsonKey(name: 'ChangeDetectingColumns')
   final List<String> changeDetectingColumns;
 
   /// The column that contains the contents of the document.
-  @_s.JsonKey(name: 'DocumentDataColumnName')
   final String documentDataColumnName;
 
   /// The column that provides the document's unique identifier.
-  @_s.JsonKey(name: 'DocumentIdColumnName')
   final String documentIdColumnName;
 
   /// The column that contains the title of the document.
-  @_s.JsonKey(name: 'DocumentTitleColumnName')
-  final String documentTitleColumnName;
+  final String? documentTitleColumnName;
 
   /// An array of objects that map database column names to the corresponding
   /// fields in an index. You must first create the fields in the index using the
   /// <a>UpdateIndex</a> operation.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   ColumnConfiguration({
-    @_s.required this.changeDetectingColumns,
-    @_s.required this.documentDataColumnName,
-    @_s.required this.documentIdColumnName,
+    required this.changeDetectingColumns,
+    required this.documentDataColumnName,
+    required this.documentIdColumnName,
     this.documentTitleColumnName,
     this.fieldMappings,
   });
-  factory ColumnConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ColumnConfigurationFromJson(json);
+  factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
+    return ColumnConfiguration(
+      changeDetectingColumns: (json['ChangeDetectingColumns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      documentDataColumnName: json['DocumentDataColumnName'] as String,
+      documentIdColumnName: json['DocumentIdColumnName'] as String,
+      documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ColumnConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final changeDetectingColumns = this.changeDetectingColumns;
+    final documentDataColumnName = this.documentDataColumnName;
+    final documentIdColumnName = this.documentIdColumnName;
+    final documentTitleColumnName = this.documentTitleColumnName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'ChangeDetectingColumns': changeDetectingColumns,
+      'DocumentDataColumnName': documentDataColumnName,
+      'DocumentIdColumnName': documentIdColumnName,
+      if (documentTitleColumnName != null)
+        'DocumentTitleColumnName': documentTitleColumnName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
 }
 
 /// Specifies the attachment settings for the Confluence data source. Attachment
 /// settings are optional, if you don't specify settings attachments, Amazon
 /// Kendra won't index them.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceAttachmentConfiguration {
   /// Defines how attachment metadata fields should be mapped to index fields.
   /// Before you can map a field, you must first create an index field with a
@@ -2923,77 +2954,130 @@ class ConfluenceAttachmentConfiguration {
   ///
   /// If you specify the <code>AttachentFieldMappings</code> parameter, you must
   /// specify at least one field mapping.
-  @_s.JsonKey(name: 'AttachmentFieldMappings')
-  final List<ConfluenceAttachmentToIndexFieldMapping> attachmentFieldMappings;
+  final List<ConfluenceAttachmentToIndexFieldMapping>? attachmentFieldMappings;
 
   /// Indicates whether Amazon Kendra indexes attachments to the pages and blogs
   /// in the Confluence data source.
-  @_s.JsonKey(name: 'CrawlAttachments')
-  final bool crawlAttachments;
+  final bool? crawlAttachments;
 
   ConfluenceAttachmentConfiguration({
     this.attachmentFieldMappings,
     this.crawlAttachments,
   });
   factory ConfluenceAttachmentConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfluenceAttachmentConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfluenceAttachmentConfiguration(
+      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfluenceAttachmentToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ConfluenceAttachmentConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final attachmentFieldMappings = this.attachmentFieldMappings;
+    final crawlAttachments = this.crawlAttachments;
+    return {
+      if (attachmentFieldMappings != null)
+        'AttachmentFieldMappings': attachmentFieldMappings,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+    };
+  }
 }
 
 enum ConfluenceAttachmentFieldName {
-  @_s.JsonValue('AUTHOR')
   author,
-  @_s.JsonValue('CONTENT_TYPE')
   contentType,
-  @_s.JsonValue('CREATED_DATE')
   createdDate,
-  @_s.JsonValue('DISPLAY_URL')
   displayUrl,
-  @_s.JsonValue('FILE_SIZE')
   fileSize,
-  @_s.JsonValue('ITEM_TYPE')
   itemType,
-  @_s.JsonValue('PARENT_ID')
   parentId,
-  @_s.JsonValue('SPACE_KEY')
   spaceKey,
-  @_s.JsonValue('SPACE_NAME')
   spaceName,
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('VERSION')
   version,
+}
+
+extension on ConfluenceAttachmentFieldName {
+  String toValue() {
+    switch (this) {
+      case ConfluenceAttachmentFieldName.author:
+        return 'AUTHOR';
+      case ConfluenceAttachmentFieldName.contentType:
+        return 'CONTENT_TYPE';
+      case ConfluenceAttachmentFieldName.createdDate:
+        return 'CREATED_DATE';
+      case ConfluenceAttachmentFieldName.displayUrl:
+        return 'DISPLAY_URL';
+      case ConfluenceAttachmentFieldName.fileSize:
+        return 'FILE_SIZE';
+      case ConfluenceAttachmentFieldName.itemType:
+        return 'ITEM_TYPE';
+      case ConfluenceAttachmentFieldName.parentId:
+        return 'PARENT_ID';
+      case ConfluenceAttachmentFieldName.spaceKey:
+        return 'SPACE_KEY';
+      case ConfluenceAttachmentFieldName.spaceName:
+        return 'SPACE_NAME';
+      case ConfluenceAttachmentFieldName.url:
+        return 'URL';
+      case ConfluenceAttachmentFieldName.version:
+        return 'VERSION';
+    }
+  }
+}
+
+extension on String {
+  ConfluenceAttachmentFieldName toConfluenceAttachmentFieldName() {
+    switch (this) {
+      case 'AUTHOR':
+        return ConfluenceAttachmentFieldName.author;
+      case 'CONTENT_TYPE':
+        return ConfluenceAttachmentFieldName.contentType;
+      case 'CREATED_DATE':
+        return ConfluenceAttachmentFieldName.createdDate;
+      case 'DISPLAY_URL':
+        return ConfluenceAttachmentFieldName.displayUrl;
+      case 'FILE_SIZE':
+        return ConfluenceAttachmentFieldName.fileSize;
+      case 'ITEM_TYPE':
+        return ConfluenceAttachmentFieldName.itemType;
+      case 'PARENT_ID':
+        return ConfluenceAttachmentFieldName.parentId;
+      case 'SPACE_KEY':
+        return ConfluenceAttachmentFieldName.spaceKey;
+      case 'SPACE_NAME':
+        return ConfluenceAttachmentFieldName.spaceName;
+      case 'URL':
+        return ConfluenceAttachmentFieldName.url;
+      case 'VERSION':
+        return ConfluenceAttachmentFieldName.version;
+    }
+    throw Exception('$this is not known in enum ConfluenceAttachmentFieldName');
+  }
 }
 
 /// Defines the mapping between a field in the Confluence data source to a
 /// Amazon Kendra index field.
 ///
 /// You must first create the index field using the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceAttachmentToIndexFieldMapping {
   /// The name of the field in the data source.
   ///
   /// You must first create the index field using the operation.
-  @_s.JsonKey(name: 'DataSourceFieldName')
-  final ConfluenceAttachmentFieldName dataSourceFieldName;
+  final ConfluenceAttachmentFieldName? dataSourceFieldName;
 
   /// The format for date fields in the data source. If the field specified in
   /// <code>DataSourceFieldName</code> is a date field you must specify the date
   /// format. If the field is not a date field, an exception is thrown.
-  @_s.JsonKey(name: 'DateFieldFormat')
-  final String dateFieldFormat;
+  final String? dateFieldFormat;
 
   /// The name of the index field to map to the Confluence data source field. The
   /// index field type must match the Confluence field type.
-  @_s.JsonKey(name: 'IndexFieldName')
-  final String indexFieldName;
+  final String? indexFieldName;
 
   ConfluenceAttachmentToIndexFieldMapping({
     this.dataSourceFieldName,
@@ -3001,21 +3085,31 @@ class ConfluenceAttachmentToIndexFieldMapping {
     this.indexFieldName,
   });
   factory ConfluenceAttachmentToIndexFieldMapping.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfluenceAttachmentToIndexFieldMappingFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfluenceAttachmentToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.toConfluenceAttachmentFieldName(),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ConfluenceAttachmentToIndexFieldMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.toValue(),
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
 }
 
 /// Specifies the blog settings for the Confluence data source. Blogs are always
 /// indexed unless filtered from the index by the <code>ExclusionPatterns</code>
 /// or <code>InclusionPatterns</code> fields in the data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceBlogConfiguration {
   /// Defines how blog metadata fields should be mapped to index fields. Before
   /// you can map a field, you must first create an index field with a matching
@@ -3023,63 +3117,108 @@ class ConfluenceBlogConfiguration {
   ///
   /// If you specify the <code>BlogFieldMappings</code> parameter, you must
   /// specify at least one field mapping.
-  @_s.JsonKey(name: 'BlogFieldMappings')
-  final List<ConfluenceBlogToIndexFieldMapping> blogFieldMappings;
+  final List<ConfluenceBlogToIndexFieldMapping>? blogFieldMappings;
 
   ConfluenceBlogConfiguration({
     this.blogFieldMappings,
   });
-  factory ConfluenceBlogConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConfluenceBlogConfigurationFromJson(json);
+  factory ConfluenceBlogConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceBlogConfiguration(
+      blogFieldMappings: (json['BlogFieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfluenceBlogToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConfluenceBlogConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final blogFieldMappings = this.blogFieldMappings;
+    return {
+      if (blogFieldMappings != null) 'BlogFieldMappings': blogFieldMappings,
+    };
+  }
 }
 
 enum ConfluenceBlogFieldName {
-  @_s.JsonValue('AUTHOR')
   author,
-  @_s.JsonValue('DISPLAY_URL')
   displayUrl,
-  @_s.JsonValue('ITEM_TYPE')
   itemType,
-  @_s.JsonValue('LABELS')
   labels,
-  @_s.JsonValue('PUBLISH_DATE')
   publishDate,
-  @_s.JsonValue('SPACE_KEY')
   spaceKey,
-  @_s.JsonValue('SPACE_NAME')
   spaceName,
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('VERSION')
   version,
+}
+
+extension on ConfluenceBlogFieldName {
+  String toValue() {
+    switch (this) {
+      case ConfluenceBlogFieldName.author:
+        return 'AUTHOR';
+      case ConfluenceBlogFieldName.displayUrl:
+        return 'DISPLAY_URL';
+      case ConfluenceBlogFieldName.itemType:
+        return 'ITEM_TYPE';
+      case ConfluenceBlogFieldName.labels:
+        return 'LABELS';
+      case ConfluenceBlogFieldName.publishDate:
+        return 'PUBLISH_DATE';
+      case ConfluenceBlogFieldName.spaceKey:
+        return 'SPACE_KEY';
+      case ConfluenceBlogFieldName.spaceName:
+        return 'SPACE_NAME';
+      case ConfluenceBlogFieldName.url:
+        return 'URL';
+      case ConfluenceBlogFieldName.version:
+        return 'VERSION';
+    }
+  }
+}
+
+extension on String {
+  ConfluenceBlogFieldName toConfluenceBlogFieldName() {
+    switch (this) {
+      case 'AUTHOR':
+        return ConfluenceBlogFieldName.author;
+      case 'DISPLAY_URL':
+        return ConfluenceBlogFieldName.displayUrl;
+      case 'ITEM_TYPE':
+        return ConfluenceBlogFieldName.itemType;
+      case 'LABELS':
+        return ConfluenceBlogFieldName.labels;
+      case 'PUBLISH_DATE':
+        return ConfluenceBlogFieldName.publishDate;
+      case 'SPACE_KEY':
+        return ConfluenceBlogFieldName.spaceKey;
+      case 'SPACE_NAME':
+        return ConfluenceBlogFieldName.spaceName;
+      case 'URL':
+        return ConfluenceBlogFieldName.url;
+      case 'VERSION':
+        return ConfluenceBlogFieldName.version;
+    }
+    throw Exception('$this is not known in enum ConfluenceBlogFieldName');
+  }
 }
 
 /// Defines the mapping between a blog field in the Confluence data source to a
 /// Amazon Kendra index field.
 ///
 /// You must first create the index field using the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceBlogToIndexFieldMapping {
   /// The name of the field in the data source.
-  @_s.JsonKey(name: 'DataSourceFieldName')
-  final ConfluenceBlogFieldName dataSourceFieldName;
+  final ConfluenceBlogFieldName? dataSourceFieldName;
 
   /// The format for date fields in the data source. If the field specified in
   /// <code>DataSourceFieldName</code> is a date field you must specify the date
   /// format. If the field is not a date field, an exception is thrown.
-  @_s.JsonKey(name: 'DateFieldFormat')
-  final String dateFieldFormat;
+  final String? dateFieldFormat;
 
   /// The name of the index field to map to the Confluence data source field. The
   /// index field type must match the Confluence field type.
-  @_s.JsonKey(name: 'IndexFieldName')
-  final String indexFieldName;
+  final String? indexFieldName;
 
   ConfluenceBlogToIndexFieldMapping({
     this.dataSourceFieldName,
@@ -3087,20 +3226,30 @@ class ConfluenceBlogToIndexFieldMapping {
     this.indexFieldName,
   });
   factory ConfluenceBlogToIndexFieldMapping.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfluenceBlogToIndexFieldMappingFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfluenceBlogToIndexFieldMapping(
+      dataSourceFieldName:
+          (json['DataSourceFieldName'] as String?)?.toConfluenceBlogFieldName(),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ConfluenceBlogToIndexFieldMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.toValue(),
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
 }
 
 /// Provides configuration information for data sources that connect to
 /// Confluence.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceConfiguration {
   /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that
   /// contains the key/value pairs required to connect to your Confluence server.
@@ -3116,28 +3265,23 @@ class ConfluenceConfiguration {
   /// Confluence server.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The URL of your Confluence instance. Use the full URL of the server. For
   /// example, <code>https://server.example.com:port/</code>. You can also use an
   /// IP address, for example, <code>https://192.168.1.113/</code>.
-  @_s.JsonKey(name: 'ServerUrl')
   final String serverUrl;
 
   /// Specifies the version of the Confluence installation that you are connecting
   /// to.
-  @_s.JsonKey(name: 'Version')
   final ConfluenceVersion version;
 
   /// Specifies configuration information for indexing attachments to Confluence
   /// blogs and pages.
-  @_s.JsonKey(name: 'AttachmentConfiguration')
-  final ConfluenceAttachmentConfiguration attachmentConfiguration;
+  final ConfluenceAttachmentConfiguration? attachmentConfiguration;
 
   /// Specifies configuration information for indexing Confluence blogs.
-  @_s.JsonKey(name: 'BlogConfiguration')
-  final ConfluenceBlogConfiguration blogConfiguration;
+  final ConfluenceBlogConfiguration? blogConfiguration;
 
   /// A list of regular expression patterns that apply to a URL on the Confluence
   /// server. An exclusion pattern can apply to a blog post, a page, a space, or
@@ -3145,8 +3289,7 @@ class ConfluenceConfiguration {
   /// Items that don't match the pattern are included in the index. If a item
   /// matches both an exclusion pattern and an inclusion pattern, the item isn't
   /// included in the index.
-  @_s.JsonKey(name: 'ExclusionPatterns')
-  final List<String> exclusionPatterns;
+  final List<String>? exclusionPatterns;
 
   /// A list of regular expression patterns that apply to a URL on the Confluence
   /// server. An inclusion pattern can apply to a blog post, a page, a space, or
@@ -3154,25 +3297,21 @@ class ConfluenceConfiguration {
   /// Items that don't match the pattern are excluded from the index. If an item
   /// matches both an inclusion pattern and an exclusion pattern, the item isn't
   /// included in the index.
-  @_s.JsonKey(name: 'InclusionPatterns')
-  final List<String> inclusionPatterns;
+  final List<String>? inclusionPatterns;
 
   /// Specifies configuration information for indexing Confluence pages.
-  @_s.JsonKey(name: 'PageConfiguration')
-  final ConfluencePageConfiguration pageConfiguration;
+  final ConfluencePageConfiguration? pageConfiguration;
 
   /// Specifies configuration information for indexing Confluence spaces.
-  @_s.JsonKey(name: 'SpaceConfiguration')
-  final ConfluenceSpaceConfiguration spaceConfiguration;
+  final ConfluenceSpaceConfiguration? spaceConfiguration;
 
   /// Specifies the information for connecting to an Amazon VPC.
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final DataSourceVpcConfiguration vpcConfiguration;
+  final DataSourceVpcConfiguration? vpcConfiguration;
 
   ConfluenceConfiguration({
-    @_s.required this.secretArn,
-    @_s.required this.serverUrl,
-    @_s.required this.version,
+    required this.secretArn,
+    required this.serverUrl,
+    required this.version,
     this.attachmentConfiguration,
     this.blogConfiguration,
     this.exclusionPatterns,
@@ -3181,18 +3320,70 @@ class ConfluenceConfiguration {
     this.spaceConfiguration,
     this.vpcConfiguration,
   });
-  factory ConfluenceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConfluenceConfigurationFromJson(json);
+  factory ConfluenceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceConfiguration(
+      secretArn: json['SecretArn'] as String,
+      serverUrl: json['ServerUrl'] as String,
+      version: (json['Version'] as String).toConfluenceVersion(),
+      attachmentConfiguration: json['AttachmentConfiguration'] != null
+          ? ConfluenceAttachmentConfiguration.fromJson(
+              json['AttachmentConfiguration'] as Map<String, dynamic>)
+          : null,
+      blogConfiguration: json['BlogConfiguration'] != null
+          ? ConfluenceBlogConfiguration.fromJson(
+              json['BlogConfiguration'] as Map<String, dynamic>)
+          : null,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pageConfiguration: json['PageConfiguration'] != null
+          ? ConfluencePageConfiguration.fromJson(
+              json['PageConfiguration'] as Map<String, dynamic>)
+          : null,
+      spaceConfiguration: json['SpaceConfiguration'] != null
+          ? ConfluenceSpaceConfiguration.fromJson(
+              json['SpaceConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConfluenceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final serverUrl = this.serverUrl;
+    final version = this.version;
+    final attachmentConfiguration = this.attachmentConfiguration;
+    final blogConfiguration = this.blogConfiguration;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final pageConfiguration = this.pageConfiguration;
+    final spaceConfiguration = this.spaceConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'SecretArn': secretArn,
+      'ServerUrl': serverUrl,
+      'Version': version.toValue(),
+      if (attachmentConfiguration != null)
+        'AttachmentConfiguration': attachmentConfiguration,
+      if (blogConfiguration != null) 'BlogConfiguration': blogConfiguration,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (pageConfiguration != null) 'PageConfiguration': pageConfiguration,
+      if (spaceConfiguration != null) 'SpaceConfiguration': spaceConfiguration,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 /// Specifies the page settings for the Confluence data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluencePageConfiguration {
   /// Defines how page metadata fields should be mapped to index fields. Before
   /// you can map a field, you must first create an index field with a matching
@@ -3200,69 +3391,123 @@ class ConfluencePageConfiguration {
   ///
   /// If you specify the <code>PageFieldMappings</code> parameter, you must
   /// specify at least one field mapping.
-  @_s.JsonKey(name: 'PageFieldMappings')
-  final List<ConfluencePageToIndexFieldMapping> pageFieldMappings;
+  final List<ConfluencePageToIndexFieldMapping>? pageFieldMappings;
 
   ConfluencePageConfiguration({
     this.pageFieldMappings,
   });
-  factory ConfluencePageConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConfluencePageConfigurationFromJson(json);
+  factory ConfluencePageConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluencePageConfiguration(
+      pageFieldMappings: (json['PageFieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfluencePageToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConfluencePageConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final pageFieldMappings = this.pageFieldMappings;
+    return {
+      if (pageFieldMappings != null) 'PageFieldMappings': pageFieldMappings,
+    };
+  }
 }
 
 enum ConfluencePageFieldName {
-  @_s.JsonValue('AUTHOR')
   author,
-  @_s.JsonValue('CONTENT_STATUS')
   contentStatus,
-  @_s.JsonValue('CREATED_DATE')
   createdDate,
-  @_s.JsonValue('DISPLAY_URL')
   displayUrl,
-  @_s.JsonValue('ITEM_TYPE')
   itemType,
-  @_s.JsonValue('LABELS')
   labels,
-  @_s.JsonValue('MODIFIED_DATE')
   modifiedDate,
-  @_s.JsonValue('PARENT_ID')
   parentId,
-  @_s.JsonValue('SPACE_KEY')
   spaceKey,
-  @_s.JsonValue('SPACE_NAME')
   spaceName,
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('VERSION')
   version,
+}
+
+extension on ConfluencePageFieldName {
+  String toValue() {
+    switch (this) {
+      case ConfluencePageFieldName.author:
+        return 'AUTHOR';
+      case ConfluencePageFieldName.contentStatus:
+        return 'CONTENT_STATUS';
+      case ConfluencePageFieldName.createdDate:
+        return 'CREATED_DATE';
+      case ConfluencePageFieldName.displayUrl:
+        return 'DISPLAY_URL';
+      case ConfluencePageFieldName.itemType:
+        return 'ITEM_TYPE';
+      case ConfluencePageFieldName.labels:
+        return 'LABELS';
+      case ConfluencePageFieldName.modifiedDate:
+        return 'MODIFIED_DATE';
+      case ConfluencePageFieldName.parentId:
+        return 'PARENT_ID';
+      case ConfluencePageFieldName.spaceKey:
+        return 'SPACE_KEY';
+      case ConfluencePageFieldName.spaceName:
+        return 'SPACE_NAME';
+      case ConfluencePageFieldName.url:
+        return 'URL';
+      case ConfluencePageFieldName.version:
+        return 'VERSION';
+    }
+  }
+}
+
+extension on String {
+  ConfluencePageFieldName toConfluencePageFieldName() {
+    switch (this) {
+      case 'AUTHOR':
+        return ConfluencePageFieldName.author;
+      case 'CONTENT_STATUS':
+        return ConfluencePageFieldName.contentStatus;
+      case 'CREATED_DATE':
+        return ConfluencePageFieldName.createdDate;
+      case 'DISPLAY_URL':
+        return ConfluencePageFieldName.displayUrl;
+      case 'ITEM_TYPE':
+        return ConfluencePageFieldName.itemType;
+      case 'LABELS':
+        return ConfluencePageFieldName.labels;
+      case 'MODIFIED_DATE':
+        return ConfluencePageFieldName.modifiedDate;
+      case 'PARENT_ID':
+        return ConfluencePageFieldName.parentId;
+      case 'SPACE_KEY':
+        return ConfluencePageFieldName.spaceKey;
+      case 'SPACE_NAME':
+        return ConfluencePageFieldName.spaceName;
+      case 'URL':
+        return ConfluencePageFieldName.url;
+      case 'VERSION':
+        return ConfluencePageFieldName.version;
+    }
+    throw Exception('$this is not known in enum ConfluencePageFieldName');
+  }
 }
 
 /// Defines the mapping between a field in the Confluence data source to a
 /// Amazon Kendra index field.
 ///
 /// You must first create the index field using the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluencePageToIndexFieldMapping {
   /// The name of the field in the data source.
-  @_s.JsonKey(name: 'DataSourceFieldName')
-  final ConfluencePageFieldName dataSourceFieldName;
+  final ConfluencePageFieldName? dataSourceFieldName;
 
   /// The format for date fields in the data source. If the field specified in
   /// <code>DataSourceFieldName</code> is a date field you must specify the date
   /// format. If the field is not a date field, an exception is thrown.
-  @_s.JsonKey(name: 'DateFieldFormat')
-  final String dateFieldFormat;
+  final String? dateFieldFormat;
 
   /// The name of the index field to map to the Confluence data source field. The
   /// index field type must match the Confluence field type.
-  @_s.JsonKey(name: 'IndexFieldName')
-  final String indexFieldName;
+  final String? indexFieldName;
 
   ConfluencePageToIndexFieldMapping({
     this.dataSourceFieldName,
@@ -3270,23 +3515,32 @@ class ConfluencePageToIndexFieldMapping {
     this.indexFieldName,
   });
   factory ConfluencePageToIndexFieldMapping.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfluencePageToIndexFieldMappingFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfluencePageToIndexFieldMapping(
+      dataSourceFieldName:
+          (json['DataSourceFieldName'] as String?)?.toConfluencePageFieldName(),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ConfluencePageToIndexFieldMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.toValue(),
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
 }
 
 /// Specifies the configuration for indexing Confluence spaces.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceSpaceConfiguration {
   /// Specifies whether Amazon Kendra should index archived spaces.
-  @_s.JsonKey(name: 'CrawlArchivedSpaces')
-  final bool crawlArchivedSpaces;
+  final bool? crawlArchivedSpaces;
 
   /// Specifies whether Amazon Kendra should index personal spaces. Users can add
   /// restrictions to items in personal spaces. If personal spaces are indexed,
@@ -3294,15 +3548,13 @@ class ConfluenceSpaceConfiguration {
   /// personal space in their results. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">Filtering
   /// on user context</a>.
-  @_s.JsonKey(name: 'CrawlPersonalSpaces')
-  final bool crawlPersonalSpaces;
+  final bool? crawlPersonalSpaces;
 
   /// A list of space keys of Confluence spaces. If you include a key, the blogs,
   /// documents, and attachments in the space are not indexed. If a space is in
   /// both the <code>ExcludeSpaces</code> and the <code>IncludeSpaces</code> list,
   /// the space is excluded.
-  @_s.JsonKey(name: 'ExcludeSpaces')
-  final List<String> excludeSpaces;
+  final List<String>? excludeSpaces;
 
   /// A list of space keys for Confluence spaces. If you include a key, the blogs,
   /// documents, and attachments in the space are indexed. Spaces that aren't in
@@ -3310,8 +3562,7 @@ class ConfluenceSpaceConfiguration {
   /// Kendra logs an error when the data source is synchronized. If a space is in
   /// both the <code>IncludeSpaces</code> and the <code>ExcludeSpaces</code> list,
   /// the space is excluded.
-  @_s.JsonKey(name: 'IncludeSpaces')
-  final List<String> includeSpaces;
+  final List<String>? includeSpaces;
 
   /// Defines how space metadata fields should be mapped to index fields. Before
   /// you can map a field, you must first create an index field with a matching
@@ -3319,8 +3570,7 @@ class ConfluenceSpaceConfiguration {
   ///
   /// If you specify the <code>SpaceFieldMappings</code> parameter, you must
   /// specify at least one field mapping.
-  @_s.JsonKey(name: 'SpaceFieldMappings')
-  final List<ConfluenceSpaceToIndexFieldMapping> spaceFieldMappings;
+  final List<ConfluenceSpaceToIndexFieldMapping>? spaceFieldMappings;
 
   ConfluenceSpaceConfiguration({
     this.crawlArchivedSpaces,
@@ -3329,47 +3579,98 @@ class ConfluenceSpaceConfiguration {
     this.includeSpaces,
     this.spaceFieldMappings,
   });
-  factory ConfluenceSpaceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConfluenceSpaceConfigurationFromJson(json);
+  factory ConfluenceSpaceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceSpaceConfiguration(
+      crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool?,
+      crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool?,
+      excludeSpaces: (json['ExcludeSpaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includeSpaces: (json['IncludeSpaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      spaceFieldMappings: (json['SpaceFieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfluenceSpaceToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConfluenceSpaceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final crawlArchivedSpaces = this.crawlArchivedSpaces;
+    final crawlPersonalSpaces = this.crawlPersonalSpaces;
+    final excludeSpaces = this.excludeSpaces;
+    final includeSpaces = this.includeSpaces;
+    final spaceFieldMappings = this.spaceFieldMappings;
+    return {
+      if (crawlArchivedSpaces != null)
+        'CrawlArchivedSpaces': crawlArchivedSpaces,
+      if (crawlPersonalSpaces != null)
+        'CrawlPersonalSpaces': crawlPersonalSpaces,
+      if (excludeSpaces != null) 'ExcludeSpaces': excludeSpaces,
+      if (includeSpaces != null) 'IncludeSpaces': includeSpaces,
+      if (spaceFieldMappings != null) 'SpaceFieldMappings': spaceFieldMappings,
+    };
+  }
 }
 
 enum ConfluenceSpaceFieldName {
-  @_s.JsonValue('DISPLAY_URL')
   displayUrl,
-  @_s.JsonValue('ITEM_TYPE')
   itemType,
-  @_s.JsonValue('SPACE_KEY')
   spaceKey,
-  @_s.JsonValue('URL')
   url,
+}
+
+extension on ConfluenceSpaceFieldName {
+  String toValue() {
+    switch (this) {
+      case ConfluenceSpaceFieldName.displayUrl:
+        return 'DISPLAY_URL';
+      case ConfluenceSpaceFieldName.itemType:
+        return 'ITEM_TYPE';
+      case ConfluenceSpaceFieldName.spaceKey:
+        return 'SPACE_KEY';
+      case ConfluenceSpaceFieldName.url:
+        return 'URL';
+    }
+  }
+}
+
+extension on String {
+  ConfluenceSpaceFieldName toConfluenceSpaceFieldName() {
+    switch (this) {
+      case 'DISPLAY_URL':
+        return ConfluenceSpaceFieldName.displayUrl;
+      case 'ITEM_TYPE':
+        return ConfluenceSpaceFieldName.itemType;
+      case 'SPACE_KEY':
+        return ConfluenceSpaceFieldName.spaceKey;
+      case 'URL':
+        return ConfluenceSpaceFieldName.url;
+    }
+    throw Exception('$this is not known in enum ConfluenceSpaceFieldName');
+  }
 }
 
 /// Defines the mapping between a field in the Confluence data source to a
 /// Amazon Kendra index field.
 ///
 /// You must first create the index field using the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfluenceSpaceToIndexFieldMapping {
   /// The name of the field in the data source.
-  @_s.JsonKey(name: 'DataSourceFieldName')
-  final ConfluenceSpaceFieldName dataSourceFieldName;
+  final ConfluenceSpaceFieldName? dataSourceFieldName;
 
   /// The format for date fields in the data source. If the field specified in
   /// <code>DataSourceFieldName</code> is a date field you must specify the date
   /// format. If the field is not a date field, an exception is thrown.
-  @_s.JsonKey(name: 'DateFieldFormat')
-  final String dateFieldFormat;
+  final String? dateFieldFormat;
 
   /// The name of the index field to map to the Confluence data source field. The
   /// index field type must match the Confluence field type.
-  @_s.JsonKey(name: 'IndexFieldName')
-  final String indexFieldName;
+  final String? indexFieldName;
 
   ConfluenceSpaceToIndexFieldMapping({
     this.dataSourceFieldName,
@@ -3377,38 +3678,66 @@ class ConfluenceSpaceToIndexFieldMapping {
     this.indexFieldName,
   });
   factory ConfluenceSpaceToIndexFieldMapping.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfluenceSpaceToIndexFieldMappingFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfluenceSpaceToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.toConfluenceSpaceFieldName(),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ConfluenceSpaceToIndexFieldMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.toValue(),
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
 }
 
 enum ConfluenceVersion {
-  @_s.JsonValue('CLOUD')
   cloud,
-  @_s.JsonValue('SERVER')
   server,
 }
 
+extension on ConfluenceVersion {
+  String toValue() {
+    switch (this) {
+      case ConfluenceVersion.cloud:
+        return 'CLOUD';
+      case ConfluenceVersion.server:
+        return 'SERVER';
+    }
+  }
+}
+
+extension on String {
+  ConfluenceVersion toConfluenceVersion() {
+    switch (this) {
+      case 'CLOUD':
+        return ConfluenceVersion.cloud;
+      case 'SERVER':
+        return ConfluenceVersion.server;
+    }
+    throw Exception('$this is not known in enum ConfluenceVersion');
+  }
+}
+
 /// Provides the information necessary to connect to a database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectionConfiguration {
   /// The name of the host for the database. Can be either a string
   /// (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
-  @_s.JsonKey(name: 'DatabaseHost')
   final String databaseHost;
 
   /// The name of the database containing the document data.
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   /// The port that the database uses for connections.
-  @_s.JsonKey(name: 'DatabasePort')
   final int databasePort;
 
   /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager.
@@ -3419,152 +3748,175 @@ class ConnectionConfiguration {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">
   /// What Is AWS Secrets Manager </a> in the <i>AWS Secrets Manager</i> user
   /// guide.
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The name of the table that contains the document data.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   ConnectionConfiguration({
-    @_s.required this.databaseHost,
-    @_s.required this.databaseName,
-    @_s.required this.databasePort,
-    @_s.required this.secretArn,
-    @_s.required this.tableName,
+    required this.databaseHost,
+    required this.databaseName,
+    required this.databasePort,
+    required this.secretArn,
+    required this.tableName,
   });
-  factory ConnectionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionConfigurationFromJson(json);
+  factory ConnectionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectionConfiguration(
+      databaseHost: json['DatabaseHost'] as String,
+      databaseName: json['DatabaseName'] as String,
+      databasePort: json['DatabasePort'] as int,
+      secretArn: json['SecretArn'] as String,
+      tableName: json['TableName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConnectionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseHost = this.databaseHost;
+    final databaseName = this.databaseName;
+    final databasePort = this.databasePort;
+    final secretArn = this.secretArn;
+    final tableName = this.tableName;
+    return {
+      'DatabaseHost': databaseHost,
+      'DatabaseName': databaseName,
+      'DatabasePort': databasePort,
+      'SecretArn': secretArn,
+      'TableName': tableName,
+    };
+  }
 }
 
 enum ContentType {
-  @_s.JsonValue('PDF')
   pdf,
-  @_s.JsonValue('HTML')
   html,
-  @_s.JsonValue('MS_WORD')
   msWord,
-  @_s.JsonValue('PLAIN_TEXT')
   plainText,
-  @_s.JsonValue('PPT')
   ppt,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ContentType {
+  String toValue() {
+    switch (this) {
+      case ContentType.pdf:
+        return 'PDF';
+      case ContentType.html:
+        return 'HTML';
+      case ContentType.msWord:
+        return 'MS_WORD';
+      case ContentType.plainText:
+        return 'PLAIN_TEXT';
+      case ContentType.ppt:
+        return 'PPT';
+    }
+  }
+}
+
+extension on String {
+  ContentType toContentType() {
+    switch (this) {
+      case 'PDF':
+        return ContentType.pdf;
+      case 'HTML':
+        return ContentType.html;
+      case 'MS_WORD':
+        return ContentType.msWord;
+      case 'PLAIN_TEXT':
+        return ContentType.plainText;
+      case 'PPT':
+        return ContentType.ppt;
+    }
+    throw Exception('$this is not known in enum ContentType');
+  }
+}
+
 class CreateDataSourceResponse {
   /// A unique identifier for the data source.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   CreateDataSourceResponse({
-    @_s.required this.id,
+    required this.id,
   });
-  factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataSourceResponseFromJson(json);
+  factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataSourceResponse(
+      id: json['Id'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFaqResponse {
   /// The unique identifier of the FAQ.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   CreateFaqResponse({
     this.id,
   });
-  factory CreateFaqResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFaqResponseFromJson(json);
+  factory CreateFaqResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFaqResponse(
+      id: json['Id'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIndexResponse {
   /// The unique identifier of the index. Use this identifier when you query an
   /// index, set up a data source, or index a document.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   CreateIndexResponse({
     this.id,
   });
-  factory CreateIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateIndexResponseFromJson(json);
+  factory CreateIndexResponse.fromJson(Map<String, dynamic> json) {
+    return CreateIndexResponse(
+      id: json['Id'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateThesaurusResponse {
   /// The unique identifier of the thesaurus.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   CreateThesaurusResponse({
     this.id,
   });
-  factory CreateThesaurusResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateThesaurusResponseFromJson(json);
+  factory CreateThesaurusResponse.fromJson(Map<String, dynamic> json) {
+    return CreateThesaurusResponse(
+      id: json['Id'] as String?,
+    );
+  }
 }
 
 /// Configuration information for a Amazon Kendra data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSourceConfiguration {
   /// Provides configuration information for connecting to a Confluence data
   /// source.
-  @_s.JsonKey(name: 'ConfluenceConfiguration')
-  final ConfluenceConfiguration confluenceConfiguration;
+  final ConfluenceConfiguration? confluenceConfiguration;
 
   /// Provides information necessary to create a data source connector for a
   /// database.
-  @_s.JsonKey(name: 'DatabaseConfiguration')
-  final DatabaseConfiguration databaseConfiguration;
+  final DatabaseConfiguration? databaseConfiguration;
 
   /// Provides configuration for data sources that connect to Google Drive.
-  @_s.JsonKey(name: 'GoogleDriveConfiguration')
-  final GoogleDriveConfiguration googleDriveConfiguration;
+  final GoogleDriveConfiguration? googleDriveConfiguration;
 
   /// Provides configuration for data sources that connect to Microsoft OneDrive.
-  @_s.JsonKey(name: 'OneDriveConfiguration')
-  final OneDriveConfiguration oneDriveConfiguration;
+  final OneDriveConfiguration? oneDriveConfiguration;
 
   /// Provides information to create a data source connector for a document
   /// repository in an Amazon S3 bucket.
-  @_s.JsonKey(name: 'S3Configuration')
-  final S3DataSourceConfiguration s3Configuration;
+  final S3DataSourceConfiguration? s3Configuration;
 
   /// Provides configuration information for data sources that connect to a
   /// Salesforce site.
-  @_s.JsonKey(name: 'SalesforceConfiguration')
-  final SalesforceConfiguration salesforceConfiguration;
+  final SalesforceConfiguration? salesforceConfiguration;
 
   /// Provides configuration for data sources that connect to ServiceNow
   /// instances.
-  @_s.JsonKey(name: 'ServiceNowConfiguration')
-  final ServiceNowConfiguration serviceNowConfiguration;
+  final ServiceNowConfiguration? serviceNowConfiguration;
 
   /// Provides information necessary to create a data source connector for a
   /// Microsoft SharePoint site.
-  @_s.JsonKey(name: 'SharePointConfiguration')
-  final SharePointConfiguration sharePointConfiguration;
+  final SharePointConfiguration? sharePointConfiguration;
 
   DataSourceConfiguration({
     this.confluenceConfiguration,
@@ -3576,58 +3928,135 @@ class DataSourceConfiguration {
     this.serviceNowConfiguration,
     this.sharePointConfiguration,
   });
-  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceConfigurationFromJson(json);
+  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfiguration(
+      confluenceConfiguration: json['ConfluenceConfiguration'] != null
+          ? ConfluenceConfiguration.fromJson(
+              json['ConfluenceConfiguration'] as Map<String, dynamic>)
+          : null,
+      databaseConfiguration: json['DatabaseConfiguration'] != null
+          ? DatabaseConfiguration.fromJson(
+              json['DatabaseConfiguration'] as Map<String, dynamic>)
+          : null,
+      googleDriveConfiguration: json['GoogleDriveConfiguration'] != null
+          ? GoogleDriveConfiguration.fromJson(
+              json['GoogleDriveConfiguration'] as Map<String, dynamic>)
+          : null,
+      oneDriveConfiguration: json['OneDriveConfiguration'] != null
+          ? OneDriveConfiguration.fromJson(
+              json['OneDriveConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['S3Configuration'] != null
+          ? S3DataSourceConfiguration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+      salesforceConfiguration: json['SalesforceConfiguration'] != null
+          ? SalesforceConfiguration.fromJson(
+              json['SalesforceConfiguration'] as Map<String, dynamic>)
+          : null,
+      serviceNowConfiguration: json['ServiceNowConfiguration'] != null
+          ? ServiceNowConfiguration.fromJson(
+              json['ServiceNowConfiguration'] as Map<String, dynamic>)
+          : null,
+      sharePointConfiguration: json['SharePointConfiguration'] != null
+          ? SharePointConfiguration.fromJson(
+              json['SharePointConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final confluenceConfiguration = this.confluenceConfiguration;
+    final databaseConfiguration = this.databaseConfiguration;
+    final googleDriveConfiguration = this.googleDriveConfiguration;
+    final oneDriveConfiguration = this.oneDriveConfiguration;
+    final s3Configuration = this.s3Configuration;
+    final salesforceConfiguration = this.salesforceConfiguration;
+    final serviceNowConfiguration = this.serviceNowConfiguration;
+    final sharePointConfiguration = this.sharePointConfiguration;
+    return {
+      if (confluenceConfiguration != null)
+        'ConfluenceConfiguration': confluenceConfiguration,
+      if (databaseConfiguration != null)
+        'DatabaseConfiguration': databaseConfiguration,
+      if (googleDriveConfiguration != null)
+        'GoogleDriveConfiguration': googleDriveConfiguration,
+      if (oneDriveConfiguration != null)
+        'OneDriveConfiguration': oneDriveConfiguration,
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+      if (salesforceConfiguration != null)
+        'SalesforceConfiguration': salesforceConfiguration,
+      if (serviceNowConfiguration != null)
+        'ServiceNowConfiguration': serviceNowConfiguration,
+      if (sharePointConfiguration != null)
+        'SharePointConfiguration': sharePointConfiguration,
+    };
+  }
 }
 
 enum DataSourceStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
+extension on DataSourceStatus {
+  String toValue() {
+    switch (this) {
+      case DataSourceStatus.creating:
+        return 'CREATING';
+      case DataSourceStatus.deleting:
+        return 'DELETING';
+      case DataSourceStatus.failed:
+        return 'FAILED';
+      case DataSourceStatus.updating:
+        return 'UPDATING';
+      case DataSourceStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  DataSourceStatus toDataSourceStatus() {
+    switch (this) {
+      case 'CREATING':
+        return DataSourceStatus.creating;
+      case 'DELETING':
+        return DataSourceStatus.deleting;
+      case 'FAILED':
+        return DataSourceStatus.failed;
+      case 'UPDATING':
+        return DataSourceStatus.updating;
+      case 'ACTIVE':
+        return DataSourceStatus.active;
+    }
+    throw Exception('$this is not known in enum DataSourceStatus');
+  }
+}
+
 /// Summary information for a Amazon Kendra data source. Returned in a call to .
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSourceSummary {
   /// The UNIX datetime that the data source was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data source.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the data source.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the data source. When the status is <code>ATIVE</code> the
   /// data source is ready to use.
-  @_s.JsonKey(name: 'Status')
-  final DataSourceStatus status;
+  final DataSourceStatus? status;
 
   /// The type of the data source.
-  @_s.JsonKey(name: 'Type')
-  final DataSourceType type;
+  final DataSourceType? type;
 
   /// The UNIX datetime that the data source was lasted updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   DataSourceSummary({
     this.createdAt,
@@ -3637,62 +4066,55 @@ class DataSourceSummary {
     this.type,
     this.updatedAt,
   });
-  factory DataSourceSummary.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceSummaryFromJson(json);
+  factory DataSourceSummary.fromJson(Map<String, dynamic> json) {
+    return DataSourceSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toDataSourceStatus(),
+      type: (json['Type'] as String?)?.toDataSourceType(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 /// Provides information about a synchronization job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSourceSyncJob {
   /// If the reason that the synchronization failed is due to an error with the
   /// underlying data source, this field contains a code that identifies the
   /// error.
-  @_s.JsonKey(name: 'DataSourceErrorCode')
-  final String dataSourceErrorCode;
+  final String? dataSourceErrorCode;
 
   /// The UNIX datetime that the synchronization job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// If the <code>Status</code> field is set to <code>FAILED</code>, the
   /// <code>ErrorCode</code> field contains a the reason that the synchronization
   /// failed.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// If the <code>Status</code> field is set to <code>ERROR</code>, the
   /// <code>ErrorMessage</code> field contains a description of the error that
   /// caused the synchronization to fail.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// A unique identifier for the synchronization job.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// Maps a batch delete document request to a specific data source sync job.
   /// This is optional and should only be supplied when documents are deleted by a
   /// data source connector.
-  @_s.JsonKey(name: 'Metrics')
-  final DataSourceSyncJobMetrics metrics;
+  final DataSourceSyncJobMetrics? metrics;
 
   /// The UNIX datetime that the synchronization job was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The execution status of the synchronization job. When the
   /// <code>Status</code> field is set to <code>SUCCEEDED</code>, the
   /// synchronization job is done. If the status code is set to
   /// <code>FAILED</code>, the <code>ErrorCode</code> and
   /// <code>ErrorMessage</code> fields give you the reason for the failure.
-  @_s.JsonKey(name: 'Status')
-  final DataSourceSyncJobStatus status;
+  final DataSourceSyncJobStatus? status;
 
   DataSourceSyncJob({
     this.dataSourceErrorCode,
@@ -3704,65 +4126,68 @@ class DataSourceSyncJob {
     this.startTime,
     this.status,
   });
-  factory DataSourceSyncJob.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceSyncJobFromJson(json);
+  factory DataSourceSyncJob.fromJson(Map<String, dynamic> json) {
+    return DataSourceSyncJob(
+      dataSourceErrorCode: json['DataSourceErrorCode'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      executionId: json['ExecutionId'] as String?,
+      metrics: json['Metrics'] != null
+          ? DataSourceSyncJobMetrics.fromJson(
+              json['Metrics'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toDataSourceSyncJobStatus(),
+    );
+  }
 }
 
 /// Maps a particular data source sync job to a particular data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DataSourceSyncJobMetricTarget {
   /// The ID of the data source that is running the sync job.
-  @_s.JsonKey(name: 'DataSourceId')
   final String dataSourceId;
 
   /// The ID of the sync job that is running on the data source.
-  @_s.JsonKey(name: 'DataSourceSyncJobId')
   final String dataSourceSyncJobId;
 
   DataSourceSyncJobMetricTarget({
-    @_s.required this.dataSourceId,
-    @_s.required this.dataSourceSyncJobId,
+    required this.dataSourceId,
+    required this.dataSourceSyncJobId,
   });
-  Map<String, dynamic> toJson() => _$DataSourceSyncJobMetricTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final dataSourceSyncJobId = this.dataSourceSyncJobId;
+    return {
+      'DataSourceId': dataSourceId,
+      'DataSourceSyncJobId': dataSourceSyncJobId,
+    };
+  }
 }
 
 /// Maps a batch delete document request to a specific data source sync job.
 /// This is optional and should only be supplied when documents are deleted by a
 /// data source connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSourceSyncJobMetrics {
   /// The number of documents added from the data source up to now in the data
   /// source sync.
-  @_s.JsonKey(name: 'DocumentsAdded')
-  final String documentsAdded;
+  final String? documentsAdded;
 
   /// The number of documents deleted from the data source up to now in the data
   /// source sync run.
-  @_s.JsonKey(name: 'DocumentsDeleted')
-  final String documentsDeleted;
+  final String? documentsDeleted;
 
   /// The number of documents that failed to sync from the data source up to now
   /// in the data source sync run.
-  @_s.JsonKey(name: 'DocumentsFailed')
-  final String documentsFailed;
+  final String? documentsFailed;
 
   /// The number of documents modified in the data source up to now in the data
   /// source sync run.
-  @_s.JsonKey(name: 'DocumentsModified')
-  final String documentsModified;
+  final String? documentsModified;
 
   /// The current number of documents crawled by the current sync job in the data
   /// source.
-  @_s.JsonKey(name: 'DocumentsScanned')
-  final String documentsScanned;
+  final String? documentsScanned;
 
   DataSourceSyncJobMetrics({
     this.documentsAdded,
@@ -3771,24 +4196,24 @@ class DataSourceSyncJobMetrics {
     this.documentsModified,
     this.documentsScanned,
   });
-  factory DataSourceSyncJobMetrics.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceSyncJobMetricsFromJson(json);
+  factory DataSourceSyncJobMetrics.fromJson(Map<String, dynamic> json) {
+    return DataSourceSyncJobMetrics(
+      documentsAdded: json['DocumentsAdded'] as String?,
+      documentsDeleted: json['DocumentsDeleted'] as String?,
+      documentsFailed: json['DocumentsFailed'] as String?,
+      documentsModified: json['DocumentsModified'] as String?,
+      documentsScanned: json['DocumentsScanned'] as String?,
+    );
+  }
 }
 
 enum DataSourceSyncJobStatus {
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('SYNCING')
   syncing,
-  @_s.JsonValue('INCOMPLETE')
   incomplete,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('ABORTED')
   aborted,
-  @_s.JsonValue('SYNCING_INDEXING')
   syncingIndexing,
 }
 
@@ -3810,59 +4235,77 @@ extension on DataSourceSyncJobStatus {
       case DataSourceSyncJobStatus.syncingIndexing:
         return 'SYNCING_INDEXING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSourceSyncJobStatus toDataSourceSyncJobStatus() {
+    switch (this) {
+      case 'FAILED':
+        return DataSourceSyncJobStatus.failed;
+      case 'SUCCEEDED':
+        return DataSourceSyncJobStatus.succeeded;
+      case 'SYNCING':
+        return DataSourceSyncJobStatus.syncing;
+      case 'INCOMPLETE':
+        return DataSourceSyncJobStatus.incomplete;
+      case 'STOPPING':
+        return DataSourceSyncJobStatus.stopping;
+      case 'ABORTED':
+        return DataSourceSyncJobStatus.aborted;
+      case 'SYNCING_INDEXING':
+        return DataSourceSyncJobStatus.syncingIndexing;
+    }
+    throw Exception('$this is not known in enum DataSourceSyncJobStatus');
   }
 }
 
 /// Maps a column or attribute in the data source to an index field. You must
 /// first create the fields in the index using the <a>UpdateIndex</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSourceToIndexFieldMapping {
   /// The name of the column or attribute in the data source.
-  @_s.JsonKey(name: 'DataSourceFieldName')
   final String dataSourceFieldName;
 
   /// The name of the field in the index.
-  @_s.JsonKey(name: 'IndexFieldName')
   final String indexFieldName;
 
   /// The type of data stored in the column or attribute.
-  @_s.JsonKey(name: 'DateFieldFormat')
-  final String dateFieldFormat;
+  final String? dateFieldFormat;
 
   DataSourceToIndexFieldMapping({
-    @_s.required this.dataSourceFieldName,
-    @_s.required this.indexFieldName,
+    required this.dataSourceFieldName,
+    required this.indexFieldName,
     this.dateFieldFormat,
   });
-  factory DataSourceToIndexFieldMapping.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceToIndexFieldMappingFromJson(json);
+  factory DataSourceToIndexFieldMapping.fromJson(Map<String, dynamic> json) {
+    return DataSourceToIndexFieldMapping(
+      dataSourceFieldName: json['DataSourceFieldName'] as String,
+      indexFieldName: json['IndexFieldName'] as String,
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceToIndexFieldMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final indexFieldName = this.indexFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    return {
+      'DataSourceFieldName': dataSourceFieldName,
+      'IndexFieldName': indexFieldName,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+    };
+  }
 }
 
 enum DataSourceType {
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('SHAREPOINT')
   sharepoint,
-  @_s.JsonValue('DATABASE')
   database,
-  @_s.JsonValue('SALESFORCE')
   salesforce,
-  @_s.JsonValue('ONEDRIVE')
   onedrive,
-  @_s.JsonValue('SERVICENOW')
   servicenow,
-  @_s.JsonValue('CUSTOM')
   custom,
-  @_s.JsonValue('CONFLUENCE')
   confluence,
-  @_s.JsonValue('GOOGLEDRIVE')
   googledrive,
 }
 
@@ -3888,158 +4331,225 @@ extension on DataSourceType {
       case DataSourceType.googledrive:
         return 'GOOGLEDRIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSourceType toDataSourceType() {
+    switch (this) {
+      case 'S3':
+        return DataSourceType.s3;
+      case 'SHAREPOINT':
+        return DataSourceType.sharepoint;
+      case 'DATABASE':
+        return DataSourceType.database;
+      case 'SALESFORCE':
+        return DataSourceType.salesforce;
+      case 'ONEDRIVE':
+        return DataSourceType.onedrive;
+      case 'SERVICENOW':
+        return DataSourceType.servicenow;
+      case 'CUSTOM':
+        return DataSourceType.custom;
+      case 'CONFLUENCE':
+        return DataSourceType.confluence;
+      case 'GOOGLEDRIVE':
+        return DataSourceType.googledrive;
+    }
+    throw Exception('$this is not known in enum DataSourceType');
   }
 }
 
 /// Provides information for connecting to an Amazon VPC.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSourceVpcConfiguration {
   /// A list of identifiers of security groups within your Amazon VPC. The
   /// security groups should enable Amazon Kendra to connect to the data source.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// A list of identifiers for subnets within your Amazon VPC. The subnets should
   /// be able to connect to each other in the VPC, and they should have outgoing
   /// access to the Internet through a NAT device.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   DataSourceVpcConfiguration({
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
+    required this.securityGroupIds,
+    required this.subnetIds,
   });
-  factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceVpcConfigurationFromJson(json);
+  factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceVpcConfiguration(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceVpcConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+    };
+  }
 }
 
 /// Provides the information necessary to connect a database to an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatabaseConfiguration {
   /// Information about where the index should get the document information from
   /// the database.
-  @_s.JsonKey(name: 'ColumnConfiguration')
   final ColumnConfiguration columnConfiguration;
 
   /// The information necessary to connect to a database.
-  @_s.JsonKey(name: 'ConnectionConfiguration')
   final ConnectionConfiguration connectionConfiguration;
 
   /// The type of database engine that runs the database.
-  @_s.JsonKey(name: 'DatabaseEngineType')
   final DatabaseEngineType databaseEngineType;
 
   /// Information about the database column that provides information for user
   /// context filtering.
-  @_s.JsonKey(name: 'AclConfiguration')
-  final AclConfiguration aclConfiguration;
+  final AclConfiguration? aclConfiguration;
 
   /// Provides information about how Amazon Kendra uses quote marks around SQL
   /// identifiers when querying a database data source.
-  @_s.JsonKey(name: 'SqlConfiguration')
-  final SqlConfiguration sqlConfiguration;
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final DataSourceVpcConfiguration vpcConfiguration;
+  final SqlConfiguration? sqlConfiguration;
+  final DataSourceVpcConfiguration? vpcConfiguration;
 
   DatabaseConfiguration({
-    @_s.required this.columnConfiguration,
-    @_s.required this.connectionConfiguration,
-    @_s.required this.databaseEngineType,
+    required this.columnConfiguration,
+    required this.connectionConfiguration,
+    required this.databaseEngineType,
     this.aclConfiguration,
     this.sqlConfiguration,
     this.vpcConfiguration,
   });
-  factory DatabaseConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseConfigurationFromJson(json);
+  factory DatabaseConfiguration.fromJson(Map<String, dynamic> json) {
+    return DatabaseConfiguration(
+      columnConfiguration: ColumnConfiguration.fromJson(
+          json['ColumnConfiguration'] as Map<String, dynamic>),
+      connectionConfiguration: ConnectionConfiguration.fromJson(
+          json['ConnectionConfiguration'] as Map<String, dynamic>),
+      databaseEngineType:
+          (json['DatabaseEngineType'] as String).toDatabaseEngineType(),
+      aclConfiguration: json['AclConfiguration'] != null
+          ? AclConfiguration.fromJson(
+              json['AclConfiguration'] as Map<String, dynamic>)
+          : null,
+      sqlConfiguration: json['SqlConfiguration'] != null
+          ? SqlConfiguration.fromJson(
+              json['SqlConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DatabaseConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final columnConfiguration = this.columnConfiguration;
+    final connectionConfiguration = this.connectionConfiguration;
+    final databaseEngineType = this.databaseEngineType;
+    final aclConfiguration = this.aclConfiguration;
+    final sqlConfiguration = this.sqlConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'ColumnConfiguration': columnConfiguration,
+      'ConnectionConfiguration': connectionConfiguration,
+      'DatabaseEngineType': databaseEngineType.toValue(),
+      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
+      if (sqlConfiguration != null) 'SqlConfiguration': sqlConfiguration,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 enum DatabaseEngineType {
-  @_s.JsonValue('RDS_AURORA_MYSQL')
   rdsAuroraMysql,
-  @_s.JsonValue('RDS_AURORA_POSTGRESQL')
   rdsAuroraPostgresql,
-  @_s.JsonValue('RDS_MYSQL')
   rdsMysql,
-  @_s.JsonValue('RDS_POSTGRESQL')
   rdsPostgresql,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DatabaseEngineType {
+  String toValue() {
+    switch (this) {
+      case DatabaseEngineType.rdsAuroraMysql:
+        return 'RDS_AURORA_MYSQL';
+      case DatabaseEngineType.rdsAuroraPostgresql:
+        return 'RDS_AURORA_POSTGRESQL';
+      case DatabaseEngineType.rdsMysql:
+        return 'RDS_MYSQL';
+      case DatabaseEngineType.rdsPostgresql:
+        return 'RDS_POSTGRESQL';
+    }
+  }
+}
+
+extension on String {
+  DatabaseEngineType toDatabaseEngineType() {
+    switch (this) {
+      case 'RDS_AURORA_MYSQL':
+        return DatabaseEngineType.rdsAuroraMysql;
+      case 'RDS_AURORA_POSTGRESQL':
+        return DatabaseEngineType.rdsAuroraPostgresql;
+      case 'RDS_MYSQL':
+        return DatabaseEngineType.rdsMysql;
+      case 'RDS_POSTGRESQL':
+        return DatabaseEngineType.rdsPostgresql;
+    }
+    throw Exception('$this is not known in enum DatabaseEngineType');
+  }
+}
+
 class DescribeDataSourceResponse {
   /// Information that describes where the data source is located and how the data
   /// source is configured. The specific information in the description depends on
   /// the data source provider.
-  @_s.JsonKey(name: 'Configuration')
-  final DataSourceConfiguration configuration;
+  final DataSourceConfiguration? configuration;
 
   /// The Unix timestamp of when the data source was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the data source.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// When the <code>Status</code> field value is <code>FAILED</code>, the
   /// <code>ErrorMessage</code> field contains a description of the error that
   /// caused the data source to fail.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier of the data source.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identifier of the index that contains the data source.
-  @_s.JsonKey(name: 'IndexId')
-  final String indexId;
+  final String? indexId;
 
   /// The name that you gave the data source when it was created.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the role that enables the data source to
   /// access its resources.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The schedule that Amazon Kendra will update the data source.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   /// The current status of the data source. When the status is
   /// <code>ACTIVE</code> the data source is ready to use. When the status is
   /// <code>FAILED</code>, the <code>ErrorMessage</code> field contains the reason
   /// that the data source failed.
-  @_s.JsonKey(name: 'Status')
-  final DataSourceStatus status;
+  final DataSourceStatus? status;
 
   /// The type of the data source.
-  @_s.JsonKey(name: 'Type')
-  final DataSourceType type;
+  final DataSourceType? type;
 
   /// The Unix timestamp of when the data source was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   DescribeDataSourceResponse({
     this.configuration,
@@ -4055,62 +4565,61 @@ class DescribeDataSourceResponse {
     this.type,
     this.updatedAt,
   });
-  factory DescribeDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDataSourceResponseFromJson(json);
+  factory DescribeDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDataSourceResponse(
+      configuration: json['Configuration'] != null
+          ? DataSourceConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+      indexId: json['IndexId'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      schedule: json['Schedule'] as String?,
+      status: (json['Status'] as String?)?.toDataSourceStatus(),
+      type: (json['Type'] as String?)?.toDataSourceType(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFaqResponse {
   /// The date and time that the FAQ was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the FAQ that you provided when it was created.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// If the <code>Status</code> field is <code>FAILED</code>, the
   /// <code>ErrorMessage</code> field contains the reason why the FAQ failed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The file format used by the input files for the FAQ.
-  @_s.JsonKey(name: 'FileFormat')
-  final FaqFileFormat fileFormat;
+  final FaqFileFormat? fileFormat;
 
   /// The identifier of the FAQ.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identifier of the index that contains the FAQ.
-  @_s.JsonKey(name: 'IndexId')
-  final String indexId;
+  final String? indexId;
 
   /// The name that you gave the FAQ when it was created.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the role that provides access to the S3
   /// bucket containing the input files for the FAQ.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
-  @_s.JsonKey(name: 'S3Path')
-  final S3Path s3Path;
+  final String? roleArn;
+  final S3Path? s3Path;
 
   /// The status of the FAQ. It is ready to use when the status is
   /// <code>ACTIVE</code>.
-  @_s.JsonKey(name: 'Status')
-  final FaqStatus status;
+  final FaqStatus? status;
 
   /// The date and time that the FAQ was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   DescribeFaqResponse({
     this.createdAt,
@@ -4125,89 +4634,82 @@ class DescribeFaqResponse {
     this.status,
     this.updatedAt,
   });
-  factory DescribeFaqResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFaqResponseFromJson(json);
+  factory DescribeFaqResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFaqResponse(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      fileFormat: (json['FileFormat'] as String?)?.toFaqFileFormat(),
+      id: json['Id'] as String?,
+      indexId: json['IndexId'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      s3Path: json['S3Path'] != null
+          ? S3Path.fromJson(json['S3Path'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toFaqStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeIndexResponse {
   /// For enterprise edtion indexes, you can choose to use additional capacity to
   /// meet the needs of your application. This contains the capacity units used
   /// for the index. A 0 for the query capacity or the storage capacity indicates
   /// that the index is using the default capacity for the index.
-  @_s.JsonKey(name: 'CapacityUnits')
-  final CapacityUnitsConfiguration capacityUnits;
+  final CapacityUnitsConfiguration? capacityUnits;
 
   /// The Unix datetime that the index was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the index.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Configuration settings for any metadata applied to the documents in the
   /// index.
-  @_s.JsonKey(name: 'DocumentMetadataConfigurations')
-  final List<DocumentMetadataConfiguration> documentMetadataConfigurations;
+  final List<DocumentMetadataConfiguration>? documentMetadataConfigurations;
 
   /// The Amazon Kendra edition used for the index. You decide the edition when
   /// you create the index.
-  @_s.JsonKey(name: 'Edition')
-  final IndexEdition edition;
+  final IndexEdition? edition;
 
   /// When th e<code>Status</code> field value is <code>FAILED</code>, the
   /// <code>ErrorMessage</code> field contains a message that explains why.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The name of the index.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Provides information about the number of FAQ questions and answers and the
   /// number of text documents indexed.
-  @_s.JsonKey(name: 'IndexStatistics')
-  final IndexStatistics indexStatistics;
+  final IndexStatistics? indexStatistics;
 
   /// The name of the index.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra
   /// permission to write to your Amazon Cloudwatch logs.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The identifier of the AWS KMS customer master key (CMK) used to encrypt your
   /// data. Amazon Kendra doesn't support asymmetric CMKs.
-  @_s.JsonKey(name: 'ServerSideEncryptionConfiguration')
-  final ServerSideEncryptionConfiguration serverSideEncryptionConfiguration;
+  final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
 
   /// The current status of the index. When the value is <code>ACTIVE</code>, the
   /// index is ready for use. If the <code>Status</code> field value is
   /// <code>FAILED</code>, the <code>ErrorMessage</code> field contains a message
   /// that explains why.
-  @_s.JsonKey(name: 'Status')
-  final IndexStatus status;
+  final IndexStatus? status;
 
   /// The Unix datetime that the index was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   /// The user context policy for the Amazon Kendra index.
-  @_s.JsonKey(name: 'UserContextPolicy')
-  final UserContextPolicy userContextPolicy;
+  final UserContextPolicy? userContextPolicy;
 
   /// The user token configuration for the Amazon Kendra index.
-  @_s.JsonKey(name: 'UserTokenConfigurations')
-  final List<UserTokenConfiguration> userTokenConfigurations;
+  final List<UserTokenConfiguration>? userTokenConfigurations;
 
   DescribeIndexResponse({
     this.capacityUnits,
@@ -4226,52 +4728,75 @@ class DescribeIndexResponse {
     this.userContextPolicy,
     this.userTokenConfigurations,
   });
-  factory DescribeIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeIndexResponseFromJson(json);
+  factory DescribeIndexResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeIndexResponse(
+      capacityUnits: json['CapacityUnits'] != null
+          ? CapacityUnitsConfiguration.fromJson(
+              json['CapacityUnits'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      documentMetadataConfigurations: (json['DocumentMetadataConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DocumentMetadataConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      edition: (json['Edition'] as String?)?.toIndexEdition(),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+      indexStatistics: json['IndexStatistics'] != null
+          ? IndexStatistics.fromJson(
+              json['IndexStatistics'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      serverSideEncryptionConfiguration:
+          json['ServerSideEncryptionConfiguration'] != null
+              ? ServerSideEncryptionConfiguration.fromJson(
+                  json['ServerSideEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      status: (json['Status'] as String?)?.toIndexStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+      userContextPolicy:
+          (json['UserContextPolicy'] as String?)?.toUserContextPolicy(),
+      userTokenConfigurations: (json['UserTokenConfigurations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => UserTokenConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeThesaurusResponse {
   /// The Unix datetime that the thesaurus was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The thesaurus description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// When the <code>Status</code> field value is <code>FAILED</code>, the
   /// <code>ErrorMessage</code> field provides more information.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The size of the thesaurus file in bytes.
-  @_s.JsonKey(name: 'FileSizeBytes')
-  final int fileSizeBytes;
+  final int? fileSizeBytes;
 
   /// The identifier of the thesaurus.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identifier of the index associated with the thesaurus to describe.
-  @_s.JsonKey(name: 'IndexId')
-  final String indexId;
+  final String? indexId;
 
   /// The thesaurus name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra
   /// permissions to access thesaurus file specified in <code>SourceS3Path</code>.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
-  @_s.JsonKey(name: 'SourceS3Path')
-  final S3Path sourceS3Path;
+  final String? roleArn;
+  final S3Path? sourceS3Path;
 
   /// The current status of the thesaurus. When the value is <code>ACTIVE</code>,
   /// queries are able to use the thesaurus. If the <code>Status</code> field
@@ -4281,22 +4806,17 @@ class DescribeThesaurusResponse {
   /// If the status is <code>ACTIVE_BUT_UPDATE_FAILED</code>, it means that Amazon
   /// Kendra could not ingest the new thesaurus file. The old thesaurus file is
   /// still active.
-  @_s.JsonKey(name: 'Status')
-  final ThesaurusStatus status;
+  final ThesaurusStatus? status;
 
   /// The number of synonym rules in the thesaurus file.
-  @_s.JsonKey(name: 'SynonymRuleCount')
-  final int synonymRuleCount;
+  final int? synonymRuleCount;
 
   /// The number of unique terms in the thesaurus file. For example, the synonyms
   /// <code>a,b,c</code> and <code>a=&gt;d</code>, the term count would be 4.
-  @_s.JsonKey(name: 'TermCount')
-  final int termCount;
+  final int? termCount;
 
   /// The Unix datetime that the thesaurus was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   DescribeThesaurusResponse({
     this.createdAt,
@@ -4313,30 +4833,39 @@ class DescribeThesaurusResponse {
     this.termCount,
     this.updatedAt,
   });
-  factory DescribeThesaurusResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeThesaurusResponseFromJson(json);
+  factory DescribeThesaurusResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeThesaurusResponse(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      fileSizeBytes: json['FileSizeBytes'] as int?,
+      id: json['Id'] as String?,
+      indexId: json['IndexId'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      sourceS3Path: json['SourceS3Path'] != null
+          ? S3Path.fromJson(json['SourceS3Path'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toThesaurusStatus(),
+      synonymRuleCount: json['SynonymRuleCount'] as int?,
+      termCount: json['TermCount'] as int?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 /// A document in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Document {
   /// A unique identifier of the document in the index.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// Information to use for user context filtering.
-  @_s.JsonKey(name: 'AccessControlList')
-  final List<Principal> accessControlList;
+  final List<Principal>? accessControlList;
 
   /// Custom attributes to apply to the document. Use the custom attributes to
   /// provide additional information for searching, to provide facets for refining
   /// searches, and to provide additional information in the query response.
-  @_s.JsonKey(name: 'Attributes')
-  final List<DocumentAttribute> attributes;
+  final List<DocumentAttribute>? attributes;
 
   /// The contents of the document.
   ///
@@ -4345,22 +4874,17 @@ class Document {
   /// an AWS SDK to call Amazon Kendra operations. If you are calling the Amazon
   /// Kendra endpoint directly using REST, you must base64 encode the contents
   /// before sending.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Blob')
-  final Uint8List blob;
+  final Uint8List? blob;
 
   /// The file type of the document in the <code>Blob</code> field.
-  @_s.JsonKey(name: 'ContentType')
-  final ContentType contentType;
-  @_s.JsonKey(name: 'S3Path')
-  final S3Path s3Path;
+  final ContentType? contentType;
+  final S3Path? s3Path;
 
   /// The title of the document.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   Document({
-    @_s.required this.id,
+    required this.id,
     this.accessControlList,
     this.attributes,
     this.blob,
@@ -4368,58 +4892,70 @@ class Document {
     this.s3Path,
     this.title,
   });
-  Map<String, dynamic> toJson() => _$DocumentToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final accessControlList = this.accessControlList;
+    final attributes = this.attributes;
+    final blob = this.blob;
+    final contentType = this.contentType;
+    final s3Path = this.s3Path;
+    final title = this.title;
+    return {
+      'Id': id,
+      if (accessControlList != null) 'AccessControlList': accessControlList,
+      if (attributes != null) 'Attributes': attributes,
+      if (blob != null) 'Blob': base64Encode(blob),
+      if (contentType != null) 'ContentType': contentType.toValue(),
+      if (s3Path != null) 'S3Path': s3Path,
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 /// A custom attribute value assigned to a document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentAttribute {
   /// The identifier for the attribute.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
   final DocumentAttributeValue value;
 
   DocumentAttribute({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory DocumentAttribute.fromJson(Map<String, dynamic> json) =>
-      _$DocumentAttributeFromJson(json);
+  factory DocumentAttribute.fromJson(Map<String, dynamic> json) {
+    return DocumentAttribute(
+      key: json['Key'] as String,
+      value: DocumentAttributeValue.fromJson(
+          json['Value'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DocumentAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The value of a custom document attribute. You can only provide one value for
 /// a custom attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentAttributeValue {
   /// A date expressed as an ISO 8601 string.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DateValue')
-  final DateTime dateValue;
+  final DateTime? dateValue;
 
   /// A long integer value.
-  @_s.JsonKey(name: 'LongValue')
-  final int longValue;
+  final int? longValue;
 
   /// A list of strings.
-  @_s.JsonKey(name: 'StringListValue')
-  final List<String> stringListValue;
+  final List<String>? stringListValue;
 
   /// A string, such as "department".
-  @_s.JsonKey(name: 'StringValue')
-  final String stringValue;
+  final String? stringValue;
 
   DocumentAttributeValue({
     this.dateValue,
@@ -4427,169 +4963,252 @@ class DocumentAttributeValue {
     this.stringListValue,
     this.stringValue,
   });
-  factory DocumentAttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$DocumentAttributeValueFromJson(json);
+  factory DocumentAttributeValue.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeValue(
+      dateValue: timeStampFromJson(json['DateValue']),
+      longValue: json['LongValue'] as int?,
+      stringListValue: (json['StringListValue'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['StringValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DocumentAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final dateValue = this.dateValue;
+    final longValue = this.longValue;
+    final stringListValue = this.stringListValue;
+    final stringValue = this.stringValue;
+    return {
+      if (dateValue != null) 'DateValue': unixTimestampToJson(dateValue),
+      if (longValue != null) 'LongValue': longValue,
+      if (stringListValue != null) 'StringListValue': stringListValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
 }
 
 /// Provides the count of documents that match a particular attribute when doing
 /// a faceted search.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentAttributeValueCountPair {
   /// The number of documents in the response that have the attribute value for
   /// the key.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   /// The value of the attribute. For example, "HR."
-  @_s.JsonKey(name: 'DocumentAttributeValue')
-  final DocumentAttributeValue documentAttributeValue;
+  final DocumentAttributeValue? documentAttributeValue;
 
   DocumentAttributeValueCountPair({
     this.count,
     this.documentAttributeValue,
   });
-  factory DocumentAttributeValueCountPair.fromJson(Map<String, dynamic> json) =>
-      _$DocumentAttributeValueCountPairFromJson(json);
+  factory DocumentAttributeValueCountPair.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeValueCountPair(
+      count: json['Count'] as int?,
+      documentAttributeValue: json['DocumentAttributeValue'] != null
+          ? DocumentAttributeValue.fromJson(
+              json['DocumentAttributeValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DocumentAttributeValueType {
-  @_s.JsonValue('STRING_VALUE')
   stringValue,
-  @_s.JsonValue('STRING_LIST_VALUE')
   stringListValue,
-  @_s.JsonValue('LONG_VALUE')
   longValue,
-  @_s.JsonValue('DATE_VALUE')
   dateValue,
 }
 
+extension on DocumentAttributeValueType {
+  String toValue() {
+    switch (this) {
+      case DocumentAttributeValueType.stringValue:
+        return 'STRING_VALUE';
+      case DocumentAttributeValueType.stringListValue:
+        return 'STRING_LIST_VALUE';
+      case DocumentAttributeValueType.longValue:
+        return 'LONG_VALUE';
+      case DocumentAttributeValueType.dateValue:
+        return 'DATE_VALUE';
+    }
+  }
+}
+
+extension on String {
+  DocumentAttributeValueType toDocumentAttributeValueType() {
+    switch (this) {
+      case 'STRING_VALUE':
+        return DocumentAttributeValueType.stringValue;
+      case 'STRING_LIST_VALUE':
+        return DocumentAttributeValueType.stringListValue;
+      case 'LONG_VALUE':
+        return DocumentAttributeValueType.longValue;
+      case 'DATE_VALUE':
+        return DocumentAttributeValueType.dateValue;
+    }
+    throw Exception('$this is not known in enum DocumentAttributeValueType');
+  }
+}
+
 /// Specifies the properties of a custom index field.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentMetadataConfiguration {
   /// The name of the index field.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The data type of the index field.
-  @_s.JsonKey(name: 'Type')
   final DocumentAttributeValueType type;
 
   /// Provides manual tuning parameters to determine how the field affects the
   /// search results.
-  @_s.JsonKey(name: 'Relevance')
-  final Relevance relevance;
+  final Relevance? relevance;
 
   /// Provides information about how the field is used during a search.
-  @_s.JsonKey(name: 'Search')
-  final Search search;
+  final Search? search;
 
   DocumentMetadataConfiguration({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
     this.relevance,
     this.search,
   });
-  factory DocumentMetadataConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DocumentMetadataConfigurationFromJson(json);
+  factory DocumentMetadataConfiguration.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadataConfiguration(
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toDocumentAttributeValueType(),
+      relevance: json['Relevance'] != null
+          ? Relevance.fromJson(json['Relevance'] as Map<String, dynamic>)
+          : null,
+      search: json['Search'] != null
+          ? Search.fromJson(json['Search'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DocumentMetadataConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final relevance = this.relevance;
+    final search = this.search;
+    return {
+      'Name': name,
+      'Type': type.toValue(),
+      if (relevance != null) 'Relevance': relevance,
+      if (search != null) 'Search': search,
+    };
+  }
 }
 
 /// Document metadata files that contain information such as the document access
 /// control information, source URI, document author, and custom attributes.
 /// Each metadata file contains metadata about a single document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentsMetadataConfiguration {
   /// A prefix used to filter metadata configuration files in the AWS S3 bucket.
   /// The S3 bucket might contain multiple metadata files. Use
   /// <code>S3Prefix</code> to include only the desired metadata files.
-  @_s.JsonKey(name: 'S3Prefix')
-  final String s3Prefix;
+  final String? s3Prefix;
 
   DocumentsMetadataConfiguration({
     this.s3Prefix,
   });
-  factory DocumentsMetadataConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DocumentsMetadataConfigurationFromJson(json);
+  factory DocumentsMetadataConfiguration.fromJson(Map<String, dynamic> json) {
+    return DocumentsMetadataConfiguration(
+      s3Prefix: json['S3Prefix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DocumentsMetadataConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Prefix = this.s3Prefix;
+    return {
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+    };
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('InternalError')
   internalError,
-  @_s.JsonValue('InvalidRequest')
   invalidRequest,
 }
 
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.internalError:
+        return 'InternalError';
+      case ErrorCode.invalidRequest:
+        return 'InvalidRequest';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'InternalError':
+        return ErrorCode.internalError;
+      case 'InvalidRequest':
+        return ErrorCode.invalidRequest;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
 /// Information about a document attribute
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Facet {
   /// The unique key for the document attribute.
-  @_s.JsonKey(name: 'DocumentAttributeKey')
-  final String documentAttributeKey;
+  final String? documentAttributeKey;
 
   Facet({
     this.documentAttributeKey,
   });
-  Map<String, dynamic> toJson() => _$FacetToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentAttributeKey = this.documentAttributeKey;
+    return {
+      if (documentAttributeKey != null)
+        'DocumentAttributeKey': documentAttributeKey,
+    };
+  }
 }
 
 /// The facet values for the documents in the response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FacetResult {
   /// The key for the facet values. This is the same as the
   /// <code>DocumentAttributeKey</code> provided in the query.
-  @_s.JsonKey(name: 'DocumentAttributeKey')
-  final String documentAttributeKey;
+  final String? documentAttributeKey;
 
   /// An array of key/value pairs, where the key is the value of the attribute and
   /// the count is the number of documents that share the key value.
-  @_s.JsonKey(name: 'DocumentAttributeValueCountPairs')
-  final List<DocumentAttributeValueCountPair> documentAttributeValueCountPairs;
+  final List<DocumentAttributeValueCountPair>? documentAttributeValueCountPairs;
 
   /// The data type of the facet value. This is the same as the type defined for
   /// the index field when it was created.
-  @_s.JsonKey(name: 'DocumentAttributeValueType')
-  final DocumentAttributeValueType documentAttributeValueType;
+  final DocumentAttributeValueType? documentAttributeValueType;
 
   FacetResult({
     this.documentAttributeKey,
     this.documentAttributeValueCountPairs,
     this.documentAttributeValueType,
   });
-  factory FacetResult.fromJson(Map<String, dynamic> json) =>
-      _$FacetResultFromJson(json);
+  factory FacetResult.fromJson(Map<String, dynamic> json) {
+    return FacetResult(
+      documentAttributeKey: json['DocumentAttributeKey'] as String?,
+      documentAttributeValueCountPairs:
+          (json['DocumentAttributeValueCountPairs'] as List?)
+              ?.whereNotNull()
+              .map((e) => DocumentAttributeValueCountPair.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      documentAttributeValueType:
+          (json['DocumentAttributeValueType'] as String?)
+              ?.toDocumentAttributeValueType(),
+    );
+  }
 }
 
 enum FaqFileFormat {
-  @_s.JsonValue('CSV')
   csv,
-  @_s.JsonValue('CSV_WITH_HEADER')
   csvWithHeader,
-  @_s.JsonValue('JSON')
   json,
 }
 
@@ -4603,76 +5222,103 @@ extension on FaqFileFormat {
       case FaqFileFormat.json:
         return 'JSON';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FaqFileFormat toFaqFileFormat() {
+    switch (this) {
+      case 'CSV':
+        return FaqFileFormat.csv;
+      case 'CSV_WITH_HEADER':
+        return FaqFileFormat.csvWithHeader;
+      case 'JSON':
+        return FaqFileFormat.json;
+    }
+    throw Exception('$this is not known in enum FaqFileFormat');
   }
 }
 
 /// Provides statistical information about the FAQ questions and answers
 /// contained in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaqStatistics {
   /// The total number of FAQ questions and answers contained in the index.
-  @_s.JsonKey(name: 'IndexedQuestionAnswersCount')
   final int indexedQuestionAnswersCount;
 
   FaqStatistics({
-    @_s.required this.indexedQuestionAnswersCount,
+    required this.indexedQuestionAnswersCount,
   });
-  factory FaqStatistics.fromJson(Map<String, dynamic> json) =>
-      _$FaqStatisticsFromJson(json);
+  factory FaqStatistics.fromJson(Map<String, dynamic> json) {
+    return FaqStatistics(
+      indexedQuestionAnswersCount: json['IndexedQuestionAnswersCount'] as int,
+    );
+  }
 }
 
 enum FaqStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on FaqStatus {
+  String toValue() {
+    switch (this) {
+      case FaqStatus.creating:
+        return 'CREATING';
+      case FaqStatus.updating:
+        return 'UPDATING';
+      case FaqStatus.active:
+        return 'ACTIVE';
+      case FaqStatus.deleting:
+        return 'DELETING';
+      case FaqStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  FaqStatus toFaqStatus() {
+    switch (this) {
+      case 'CREATING':
+        return FaqStatus.creating;
+      case 'UPDATING':
+        return FaqStatus.updating;
+      case 'ACTIVE':
+        return FaqStatus.active;
+      case 'DELETING':
+        return FaqStatus.deleting;
+      case 'FAILED':
+        return FaqStatus.failed;
+    }
+    throw Exception('$this is not known in enum FaqStatus');
+  }
 }
 
 /// Provides information about a frequently asked questions and answer contained
 /// in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaqSummary {
   /// The UNIX datetime that the FAQ was added to the index.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The file type used to create the FAQ.
-  @_s.JsonKey(name: 'FileFormat')
-  final FaqFileFormat fileFormat;
+  final FaqFileFormat? fileFormat;
 
   /// The unique identifier of the FAQ.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name that you assigned the FAQ when you created or updated the FAQ.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current status of the FAQ. When the status is <code>ACTIVE</code> the
   /// FAQ is ready for use.
-  @_s.JsonKey(name: 'Status')
-  final FaqStatus status;
+  final FaqStatus? status;
 
   /// The UNIX datetime that the FAQ was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   FaqSummary({
     this.createdAt,
@@ -4682,24 +5328,26 @@ class FaqSummary {
     this.status,
     this.updatedAt,
   });
-  factory FaqSummary.fromJson(Map<String, dynamic> json) =>
-      _$FaqSummaryFromJson(json);
+  factory FaqSummary.fromJson(Map<String, dynamic> json) {
+    return FaqSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      fileFormat: (json['FileFormat'] as String?)?.toFaqFileFormat(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toFaqStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 /// Provides configuration information for data sources that connect to Google
 /// Drive.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GoogleDriveConfiguration {
   /// The Amazon Resource Name (ARN) of a AWS Secrets Manager secret that contains
   /// the credentials required to connect to Google Drive. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
   /// a Google Workspace Drive data source</a>.
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// A list of MIME types to exclude from the index. All documents matching the
@@ -4708,27 +5356,23 @@ class GoogleDriveConfiguration {
   /// For a list of MIME types, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
   /// a Google Workspace Drive data source</a>.
-  @_s.JsonKey(name: 'ExcludeMimeTypes')
-  final List<String> excludeMimeTypes;
+  final List<String>? excludeMimeTypes;
 
   /// A list of identifiers or shared drives to exclude from the index. All files
   /// and folders stored on the shared drive are excluded.
-  @_s.JsonKey(name: 'ExcludeSharedDrives')
-  final List<String> excludeSharedDrives;
+  final List<String>? excludeSharedDrives;
 
   /// A list of email addresses of the users. Documents owned by these users are
   /// excluded from the index. Documents shared with excluded users are indexed
   /// unless they are excluded in another way.
-  @_s.JsonKey(name: 'ExcludeUserAccounts')
-  final List<String> excludeUserAccounts;
+  final List<String>? excludeUserAccounts;
 
   /// A list of regular expression patterns that apply to the path on Google
   /// Drive. Items that match the pattern are excluded from the index from both
   /// shared drives and users' My Drives. Items that don't match the pattern are
   /// included in the index. If an item matches both an exclusion pattern and an
   /// inclusion pattern, it is excluded from the index.
-  @_s.JsonKey(name: 'ExclusionPatterns')
-  final List<String> exclusionPatterns;
+  final List<String>? exclusionPatterns;
 
   /// Defines mapping between a field in the Google Drive and a Amazon Kendra
   /// index field.
@@ -4736,19 +5380,17 @@ class GoogleDriveConfiguration {
   /// If you are using the console, you can define index fields when creating the
   /// mapping. If you are using the API, you must first create the field using the
   /// <a>UpdateIndex</a> operation.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// A list of regular expression patterns that apply to path on Google Drive.
   /// Items that match the pattern are included in the index from both shared
   /// drives and users' My Drives. Items that don't match the pattern are excluded
   /// from the index. If an item matches both an inclusion pattern and an
   /// exclusion pattern, it is excluded from the index.
-  @_s.JsonKey(name: 'InclusionPatterns')
-  final List<String> inclusionPatterns;
+  final List<String>? inclusionPatterns;
 
   GoogleDriveConfiguration({
-    @_s.required this.secretArn,
+    required this.secretArn,
     this.excludeMimeTypes,
     this.excludeSharedDrives,
     this.excludeUserAccounts,
@@ -4756,108 +5398,166 @@ class GoogleDriveConfiguration {
     this.fieldMappings,
     this.inclusionPatterns,
   });
-  factory GoogleDriveConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$GoogleDriveConfigurationFromJson(json);
+  factory GoogleDriveConfiguration.fromJson(Map<String, dynamic> json) {
+    return GoogleDriveConfiguration(
+      secretArn: json['SecretArn'] as String,
+      excludeMimeTypes: (json['ExcludeMimeTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      excludeSharedDrives: (json['ExcludeSharedDrives'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      excludeUserAccounts: (json['ExcludeUserAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GoogleDriveConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final excludeMimeTypes = this.excludeMimeTypes;
+    final excludeSharedDrives = this.excludeSharedDrives;
+    final excludeUserAccounts = this.excludeUserAccounts;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    return {
+      'SecretArn': secretArn,
+      if (excludeMimeTypes != null) 'ExcludeMimeTypes': excludeMimeTypes,
+      if (excludeSharedDrives != null)
+        'ExcludeSharedDrives': excludeSharedDrives,
+      if (excludeUserAccounts != null)
+        'ExcludeUserAccounts': excludeUserAccounts,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+    };
+  }
 }
 
 /// Provides information that you can use to highlight a search result so that
 /// your users can quickly identify terms in the response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Highlight {
   /// The zero-based location in the response string where the highlight starts.
-  @_s.JsonKey(name: 'BeginOffset')
   final int beginOffset;
 
   /// The zero-based location in the response string where the highlight ends.
-  @_s.JsonKey(name: 'EndOffset')
   final int endOffset;
 
   /// Indicates whether the response is the best response. True if this is the
   /// best response; otherwise, false.
-  @_s.JsonKey(name: 'TopAnswer')
-  final bool topAnswer;
+  final bool? topAnswer;
 
   /// The highlight type.
-  @_s.JsonKey(name: 'Type')
-  final HighlightType type;
+  final HighlightType? type;
 
   Highlight({
-    @_s.required this.beginOffset,
-    @_s.required this.endOffset,
+    required this.beginOffset,
+    required this.endOffset,
     this.topAnswer,
     this.type,
   });
-  factory Highlight.fromJson(Map<String, dynamic> json) =>
-      _$HighlightFromJson(json);
+  factory Highlight.fromJson(Map<String, dynamic> json) {
+    return Highlight(
+      beginOffset: json['BeginOffset'] as int,
+      endOffset: json['EndOffset'] as int,
+      topAnswer: json['TopAnswer'] as bool?,
+      type: (json['Type'] as String?)?.toHighlightType(),
+    );
+  }
 }
 
 enum HighlightType {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('THESAURUS_SYNONYM')
   thesaurusSynonym,
 }
 
+extension on HighlightType {
+  String toValue() {
+    switch (this) {
+      case HighlightType.standard:
+        return 'STANDARD';
+      case HighlightType.thesaurusSynonym:
+        return 'THESAURUS_SYNONYM';
+    }
+  }
+}
+
+extension on String {
+  HighlightType toHighlightType() {
+    switch (this) {
+      case 'STANDARD':
+        return HighlightType.standard;
+      case 'THESAURUS_SYNONYM':
+        return HighlightType.thesaurusSynonym;
+    }
+    throw Exception('$this is not known in enum HighlightType');
+  }
+}
+
 /// A summary of information about an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IndexConfigurationSummary {
   /// The Unix timestamp when the index was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The current status of the index. When the status is <code>ACTIVE</code>, the
   /// index is ready to search.
-  @_s.JsonKey(name: 'Status')
   final IndexStatus status;
 
   /// The Unix timestamp when the index was last updated by the
   /// <code>UpdateIndex</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// Indicates whether the index is a enterprise edition index or a developer
   /// edition index.
-  @_s.JsonKey(name: 'Edition')
-  final IndexEdition edition;
+  final IndexEdition? edition;
 
   /// A unique identifier for the index. Use this to identify the index when you
   /// are using operations such as <code>Query</code>, <code>DescribeIndex</code>,
   /// <code>UpdateIndex</code>, and <code>DeleteIndex</code>.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the index.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   IndexConfigurationSummary({
-    @_s.required this.createdAt,
-    @_s.required this.status,
-    @_s.required this.updatedAt,
+    required this.createdAt,
+    required this.status,
+    required this.updatedAt,
     this.edition,
     this.id,
     this.name,
   });
-  factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) =>
-      _$IndexConfigurationSummaryFromJson(json);
+  factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return IndexConfigurationSummary(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      status: (json['Status'] as String).toIndexStatus(),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      edition: (json['Edition'] as String?)?.toIndexEdition(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 enum IndexEdition {
-  @_s.JsonValue('DEVELOPER_EDITION')
   developerEdition,
-  @_s.JsonValue('ENTERPRISE_EDITION')
   enterpriseEdition,
 }
 
@@ -4869,111 +5569,146 @@ extension on IndexEdition {
       case IndexEdition.enterpriseEdition:
         return 'ENTERPRISE_EDITION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IndexEdition toIndexEdition() {
+    switch (this) {
+      case 'DEVELOPER_EDITION':
+        return IndexEdition.developerEdition;
+      case 'ENTERPRISE_EDITION':
+        return IndexEdition.enterpriseEdition;
+    }
+    throw Exception('$this is not known in enum IndexEdition');
   }
 }
 
 /// Provides information about the number of documents and the number of
 /// questions and answers in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IndexStatistics {
   /// The number of question and answer topics in the index.
-  @_s.JsonKey(name: 'FaqStatistics')
   final FaqStatistics faqStatistics;
 
   /// The number of text documents indexed.
-  @_s.JsonKey(name: 'TextDocumentStatistics')
   final TextDocumentStatistics textDocumentStatistics;
 
   IndexStatistics({
-    @_s.required this.faqStatistics,
-    @_s.required this.textDocumentStatistics,
+    required this.faqStatistics,
+    required this.textDocumentStatistics,
   });
-  factory IndexStatistics.fromJson(Map<String, dynamic> json) =>
-      _$IndexStatisticsFromJson(json);
+  factory IndexStatistics.fromJson(Map<String, dynamic> json) {
+    return IndexStatistics(
+      faqStatistics:
+          FaqStatistics.fromJson(json['FaqStatistics'] as Map<String, dynamic>),
+      textDocumentStatistics: TextDocumentStatistics.fromJson(
+          json['TextDocumentStatistics'] as Map<String, dynamic>),
+    );
+  }
 }
 
 enum IndexStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('SYSTEM_UPDATING')
   systemUpdating,
 }
 
+extension on IndexStatus {
+  String toValue() {
+    switch (this) {
+      case IndexStatus.creating:
+        return 'CREATING';
+      case IndexStatus.active:
+        return 'ACTIVE';
+      case IndexStatus.deleting:
+        return 'DELETING';
+      case IndexStatus.failed:
+        return 'FAILED';
+      case IndexStatus.updating:
+        return 'UPDATING';
+      case IndexStatus.systemUpdating:
+        return 'SYSTEM_UPDATING';
+    }
+  }
+}
+
+extension on String {
+  IndexStatus toIndexStatus() {
+    switch (this) {
+      case 'CREATING':
+        return IndexStatus.creating;
+      case 'ACTIVE':
+        return IndexStatus.active;
+      case 'DELETING':
+        return IndexStatus.deleting;
+      case 'FAILED':
+        return IndexStatus.failed;
+      case 'UPDATING':
+        return IndexStatus.updating;
+      case 'SYSTEM_UPDATING':
+        return IndexStatus.systemUpdating;
+    }
+    throw Exception('$this is not known in enum IndexStatus');
+  }
+}
+
 /// Configuration information for the JSON token type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JsonTokenTypeConfiguration {
   /// The group attribute field.
-  @_s.JsonKey(name: 'GroupAttributeField')
   final String groupAttributeField;
 
   /// The user name attribute field.
-  @_s.JsonKey(name: 'UserNameAttributeField')
   final String userNameAttributeField;
 
   JsonTokenTypeConfiguration({
-    @_s.required this.groupAttributeField,
-    @_s.required this.userNameAttributeField,
+    required this.groupAttributeField,
+    required this.userNameAttributeField,
   });
-  factory JsonTokenTypeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$JsonTokenTypeConfigurationFromJson(json);
+  factory JsonTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return JsonTokenTypeConfiguration(
+      groupAttributeField: json['GroupAttributeField'] as String,
+      userNameAttributeField: json['UserNameAttributeField'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JsonTokenTypeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final groupAttributeField = this.groupAttributeField;
+    final userNameAttributeField = this.userNameAttributeField;
+    return {
+      'GroupAttributeField': groupAttributeField,
+      'UserNameAttributeField': userNameAttributeField,
+    };
+  }
 }
 
 /// Configuration information for the JWT token type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JwtTokenTypeConfiguration {
   /// The location of the key.
-  @_s.JsonKey(name: 'KeyLocation')
   final KeyLocation keyLocation;
 
   /// The regular expression that identifies the claim.
-  @_s.JsonKey(name: 'ClaimRegex')
-  final String claimRegex;
+  final String? claimRegex;
 
   /// The group attribute field.
-  @_s.JsonKey(name: 'GroupAttributeField')
-  final String groupAttributeField;
+  final String? groupAttributeField;
 
   /// The issuer of the token.
-  @_s.JsonKey(name: 'Issuer')
-  final String issuer;
+  final String? issuer;
 
   /// The Amazon Resource Name (arn) of the secret.
-  @_s.JsonKey(name: 'SecretManagerArn')
-  final String secretManagerArn;
+  final String? secretManagerArn;
 
   /// The signing key URL.
-  @_s.JsonKey(name: 'URL')
-  final String url;
+  final String? url;
 
   /// The user name attribute field.
-  @_s.JsonKey(name: 'UserNameAttributeField')
-  final String userNameAttributeField;
+  final String? userNameAttributeField;
 
   JwtTokenTypeConfiguration({
-    @_s.required this.keyLocation,
+    required this.keyLocation,
     this.claimRegex,
     this.groupAttributeField,
     this.issuer,
@@ -4981,28 +5716,71 @@ class JwtTokenTypeConfiguration {
     this.url,
     this.userNameAttributeField,
   });
-  factory JwtTokenTypeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$JwtTokenTypeConfigurationFromJson(json);
+  factory JwtTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return JwtTokenTypeConfiguration(
+      keyLocation: (json['KeyLocation'] as String).toKeyLocation(),
+      claimRegex: json['ClaimRegex'] as String?,
+      groupAttributeField: json['GroupAttributeField'] as String?,
+      issuer: json['Issuer'] as String?,
+      secretManagerArn: json['SecretManagerArn'] as String?,
+      url: json['URL'] as String?,
+      userNameAttributeField: json['UserNameAttributeField'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JwtTokenTypeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final keyLocation = this.keyLocation;
+    final claimRegex = this.claimRegex;
+    final groupAttributeField = this.groupAttributeField;
+    final issuer = this.issuer;
+    final secretManagerArn = this.secretManagerArn;
+    final url = this.url;
+    final userNameAttributeField = this.userNameAttributeField;
+    return {
+      'KeyLocation': keyLocation.toValue(),
+      if (claimRegex != null) 'ClaimRegex': claimRegex,
+      if (groupAttributeField != null)
+        'GroupAttributeField': groupAttributeField,
+      if (issuer != null) 'Issuer': issuer,
+      if (secretManagerArn != null) 'SecretManagerArn': secretManagerArn,
+      if (url != null) 'URL': url,
+      if (userNameAttributeField != null)
+        'UserNameAttributeField': userNameAttributeField,
+    };
+  }
 }
 
 enum KeyLocation {
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('SECRET_MANAGER')
   secretManager,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on KeyLocation {
+  String toValue() {
+    switch (this) {
+      case KeyLocation.url:
+        return 'URL';
+      case KeyLocation.secretManager:
+        return 'SECRET_MANAGER';
+    }
+  }
+}
+
+extension on String {
+  KeyLocation toKeyLocation() {
+    switch (this) {
+      case 'URL':
+        return KeyLocation.url;
+      case 'SECRET_MANAGER':
+        return KeyLocation.secretManager;
+    }
+    throw Exception('$this is not known in enum KeyLocation');
+  }
+}
+
 class ListDataSourceSyncJobsResponse {
   /// A history of synchronization jobs for the data source.
-  @_s.JsonKey(name: 'History')
-  final List<DataSourceSyncJob> history;
+  final List<DataSourceSyncJob>? history;
 
   /// The <code>GetDataSourceSyncJobHistory</code> operation returns a page of
   /// vocabularies at a time. The maximum size of the page is set by the
@@ -5010,156 +5788,155 @@ class ListDataSourceSyncJobsResponse {
   /// the page size, Amazon Kendra returns the NextPage token. Include the token
   /// in the next request to the <code>GetDataSourceSyncJobHistory</code>
   /// operation to return in the next page of jobs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDataSourceSyncJobsResponse({
     this.history,
     this.nextToken,
   });
-  factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDataSourceSyncJobsResponseFromJson(json);
+  factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourceSyncJobsResponse(
+      history: (json['History'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDataSourcesResponse {
   /// If the response is truncated, Amazon Kendra returns this token that you can
   /// use in the subsequent request to retrieve the next set of data sources.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of summary information for one or more data sources.
-  @_s.JsonKey(name: 'SummaryItems')
-  final List<DataSourceSummary> summaryItems;
+  final List<DataSourceSummary>? summaryItems;
 
   ListDataSourcesResponse({
     this.nextToken,
     this.summaryItems,
   });
-  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDataSourcesResponseFromJson(json);
+  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFaqsResponse {
   /// information about the FAQs associated with the specified index.
-  @_s.JsonKey(name: 'FaqSummaryItems')
-  final List<FaqSummary> faqSummaryItems;
+  final List<FaqSummary>? faqSummaryItems;
 
   /// The <code>ListFaqs</code> operation returns a page of FAQs at a time. The
   /// maximum size of the page is set by the <code>MaxResults</code> parameter. If
   /// there are more jobs in the list than the page size, Amazon Kendra returns
   /// the <code>NextPage</code> token. Include the token in the next request to
   /// the <code>ListFaqs</code> operation to return the next page of FAQs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFaqsResponse({
     this.faqSummaryItems,
     this.nextToken,
   });
-  factory ListFaqsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFaqsResponseFromJson(json);
+  factory ListFaqsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFaqsResponse(
+      faqSummaryItems: (json['FaqSummaryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaqSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIndicesResponse {
   /// An array of summary information for one or more indexes.
-  @_s.JsonKey(name: 'IndexConfigurationSummaryItems')
-  final List<IndexConfigurationSummary> indexConfigurationSummaryItems;
+  final List<IndexConfigurationSummary>? indexConfigurationSummaryItems;
 
   /// If the response is truncated, Amazon Kendra returns this token that you can
   /// use in the subsequent request to retrieve the next set of indexes.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIndicesResponse({
     this.indexConfigurationSummaryItems,
     this.nextToken,
   });
-  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIndicesResponseFromJson(json);
+  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIndicesResponse(
+      indexConfigurationSummaryItems:
+          (json['IndexConfigurationSummaryItems'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A list of tags associated with the index, FAQ, or data source.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThesauriResponse {
   /// If the response is truncated, Amazon Kendra returns this token that you can
   /// use in the subsequent request to retrieve the next set of thesauri.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of summary information for one or more thesauruses.
-  @_s.JsonKey(name: 'ThesaurusSummaryItems')
-  final List<ThesaurusSummary> thesaurusSummaryItems;
+  final List<ThesaurusSummary>? thesaurusSummaryItems;
 
   ListThesauriResponse({
     this.nextToken,
     this.thesaurusSummaryItems,
   });
-  factory ListThesauriResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThesauriResponseFromJson(json);
+  factory ListThesauriResponse.fromJson(Map<String, dynamic> json) {
+    return ListThesauriResponse(
+      nextToken: json['NextToken'] as String?,
+      thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThesaurusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides configuration information for data sources that connect to
 /// OneDrive.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OneDriveConfiguration {
   /// A list of user accounts whose documents should be indexed.
-  @_s.JsonKey(name: 'OneDriveUsers')
   final OneDriveUsers oneDriveUsers;
 
   /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that
   /// contains the user name and password to connect to OneDrive. The user namd
   /// should be the application ID for the OneDrive application, and the password
   /// is the application key for the OneDrive application.
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The Azure Active Directory domain of the organization.
-  @_s.JsonKey(name: 'TenantDomain')
   final String tenantDomain;
 
   /// A Boolean value that specifies whether local groups are disabled
   /// (<code>True</code>) or enabled (<code>False</code>).
-  @_s.JsonKey(name: 'DisableLocalGroups')
-  final bool disableLocalGroups;
+  final bool? disableLocalGroups;
 
   /// List of regular expressions applied to documents. Items that match the
   /// exclusion pattern are not indexed. If you provide both an inclusion pattern
@@ -5167,14 +5944,12 @@ class OneDriveConfiguration {
   /// indexed.
   ///
   /// The exclusion pattern is applied to the file name.
-  @_s.JsonKey(name: 'ExclusionPatterns')
-  final List<String> exclusionPatterns;
+  final List<String>? exclusionPatterns;
 
   /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
   /// Microsoft OneDrive fields to custom fields in the Amazon Kendra index. You
   /// must first create the index fields before you map OneDrive fields.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// A list of regular expression patterns. Documents that match the pattern are
   /// included in the index. Documents that don't match the pattern are excluded
@@ -5182,128 +5957,229 @@ class OneDriveConfiguration {
   /// exclusion pattern, the document is not included in the index.
   ///
   /// The exclusion pattern is applied to the file name.
-  @_s.JsonKey(name: 'InclusionPatterns')
-  final List<String> inclusionPatterns;
+  final List<String>? inclusionPatterns;
 
   OneDriveConfiguration({
-    @_s.required this.oneDriveUsers,
-    @_s.required this.secretArn,
-    @_s.required this.tenantDomain,
+    required this.oneDriveUsers,
+    required this.secretArn,
+    required this.tenantDomain,
     this.disableLocalGroups,
     this.exclusionPatterns,
     this.fieldMappings,
     this.inclusionPatterns,
   });
-  factory OneDriveConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$OneDriveConfigurationFromJson(json);
+  factory OneDriveConfiguration.fromJson(Map<String, dynamic> json) {
+    return OneDriveConfiguration(
+      oneDriveUsers:
+          OneDriveUsers.fromJson(json['OneDriveUsers'] as Map<String, dynamic>),
+      secretArn: json['SecretArn'] as String,
+      tenantDomain: json['TenantDomain'] as String,
+      disableLocalGroups: json['DisableLocalGroups'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OneDriveConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final oneDriveUsers = this.oneDriveUsers;
+    final secretArn = this.secretArn;
+    final tenantDomain = this.tenantDomain;
+    final disableLocalGroups = this.disableLocalGroups;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    return {
+      'OneDriveUsers': oneDriveUsers,
+      'SecretArn': secretArn,
+      'TenantDomain': tenantDomain,
+      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+    };
+  }
 }
 
 /// User accounts whose documents should be indexed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OneDriveUsers {
   /// A list of users whose documents should be indexed. Specify the user names in
   /// email format, for example, <code>username@tenantdomain</code>. If you need
   /// to index the documents of more than 100 users, use the
   /// <code>OneDriveUserS3Path</code> field to specify the location of a file
   /// containing a list of users.
-  @_s.JsonKey(name: 'OneDriveUserList')
-  final List<String> oneDriveUserList;
+  final List<String>? oneDriveUserList;
 
   /// The S3 bucket location of a file containing a list of users whose documents
   /// should be indexed.
-  @_s.JsonKey(name: 'OneDriveUserS3Path')
-  final S3Path oneDriveUserS3Path;
+  final S3Path? oneDriveUserS3Path;
 
   OneDriveUsers({
     this.oneDriveUserList,
     this.oneDriveUserS3Path,
   });
-  factory OneDriveUsers.fromJson(Map<String, dynamic> json) =>
-      _$OneDriveUsersFromJson(json);
+  factory OneDriveUsers.fromJson(Map<String, dynamic> json) {
+    return OneDriveUsers(
+      oneDriveUserList: (json['OneDriveUserList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      oneDriveUserS3Path: json['OneDriveUserS3Path'] != null
+          ? S3Path.fromJson(json['OneDriveUserS3Path'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OneDriveUsersToJson(this);
+  Map<String, dynamic> toJson() {
+    final oneDriveUserList = this.oneDriveUserList;
+    final oneDriveUserS3Path = this.oneDriveUserS3Path;
+    return {
+      if (oneDriveUserList != null) 'OneDriveUserList': oneDriveUserList,
+      if (oneDriveUserS3Path != null) 'OneDriveUserS3Path': oneDriveUserS3Path,
+    };
+  }
 }
 
 enum Order {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
+extension on Order {
+  String toValue() {
+    switch (this) {
+      case Order.ascending:
+        return 'ASCENDING';
+      case Order.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  Order toOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return Order.ascending;
+      case 'DESCENDING':
+        return Order.descending;
+    }
+    throw Exception('$this is not known in enum Order');
+  }
+}
+
 /// Provides user and group information for document access filtering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Principal {
   /// Whether to allow or deny access to the principal.
-  @_s.JsonKey(name: 'Access')
   final ReadAccessType access;
 
   /// The name of the user or group.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The type of principal.
-  @_s.JsonKey(name: 'Type')
   final PrincipalType type;
 
   Principal({
-    @_s.required this.access,
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.access,
+    required this.name,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$PrincipalToJson(this);
+  Map<String, dynamic> toJson() {
+    final access = this.access;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'Access': access.toValue(),
+      'Name': name,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum PrincipalType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('GROUP')
   group,
 }
 
+extension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.user:
+        return 'USER';
+      case PrincipalType.group:
+        return 'GROUP';
+    }
+  }
+}
+
+extension on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'USER':
+        return PrincipalType.user;
+      case 'GROUP':
+        return PrincipalType.group;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
+  }
+}
+
 enum QueryIdentifiersEnclosingOption {
-  @_s.JsonValue('DOUBLE_QUOTES')
   doubleQuotes,
-  @_s.JsonValue('NONE')
   none,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on QueryIdentifiersEnclosingOption {
+  String toValue() {
+    switch (this) {
+      case QueryIdentifiersEnclosingOption.doubleQuotes:
+        return 'DOUBLE_QUOTES';
+      case QueryIdentifiersEnclosingOption.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  QueryIdentifiersEnclosingOption toQueryIdentifiersEnclosingOption() {
+    switch (this) {
+      case 'DOUBLE_QUOTES':
+        return QueryIdentifiersEnclosingOption.doubleQuotes;
+      case 'NONE':
+        return QueryIdentifiersEnclosingOption.none;
+    }
+    throw Exception(
+        '$this is not known in enum QueryIdentifiersEnclosingOption');
+  }
+}
+
 class QueryResult {
   /// Contains the facet results. A <code>FacetResult</code> contains the counts
   /// for each attribute key that was specified in the <code>Facets</code> input
   /// parameter.
-  @_s.JsonKey(name: 'FacetResults')
-  final List<FacetResult> facetResults;
+  final List<FacetResult>? facetResults;
 
   /// The unique identifier for the search. You use <code>QueryId</code> to
   /// identify the search when using the feedback API.
-  @_s.JsonKey(name: 'QueryId')
-  final String queryId;
+  final String? queryId;
 
   /// The results of the search.
-  @_s.JsonKey(name: 'ResultItems')
-  final List<QueryResultItem> resultItems;
+  final List<QueryResultItem>? resultItems;
 
   /// The total number of items found by the search; however, you can only
   /// retrieve up to 100 items. For example, if the search found 192 items, you
   /// can only retrieve the first 100 of the items.
-  @_s.JsonKey(name: 'TotalNumberOfResults')
-  final int totalNumberOfResults;
+  final int? totalNumberOfResults;
 
   QueryResult({
     this.facetResults,
@@ -5311,8 +6187,20 @@ class QueryResult {
     this.resultItems,
     this.totalNumberOfResults,
   });
-  factory QueryResult.fromJson(Map<String, dynamic> json) =>
-      _$QueryResultFromJson(json);
+  factory QueryResult.fromJson(Map<String, dynamic> json) {
+    return QueryResult(
+      facetResults: (json['FacetResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryId: json['QueryId'] as String?,
+      resultItems: (json['ResultItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalNumberOfResults: json['TotalNumberOfResults'] as int?,
+    );
+  }
 }
 
 /// A single query result.
@@ -5321,51 +6209,38 @@ class QueryResult {
 /// This includes the original location of the document, a list of attributes
 /// assigned to the document, and relevant text from the document that satisfies
 /// the query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryResultItem {
   /// One or more additional attributes associated with the query result.
-  @_s.JsonKey(name: 'AdditionalAttributes')
-  final List<AdditionalResultAttribute> additionalAttributes;
+  final List<AdditionalResultAttribute>? additionalAttributes;
 
   /// An array of document attributes for the document that the query result maps
   /// to. For example, the document author (Author) or the source URI (SourceUri)
   /// of the document.
-  @_s.JsonKey(name: 'DocumentAttributes')
-  final List<DocumentAttribute> documentAttributes;
+  final List<DocumentAttribute>? documentAttributes;
 
   /// An extract of the text in the document. Contains information about
   /// highlighting the relevant terms in the excerpt.
-  @_s.JsonKey(name: 'DocumentExcerpt')
-  final TextWithHighlights documentExcerpt;
+  final TextWithHighlights? documentExcerpt;
 
   /// The unique identifier for the document.
-  @_s.JsonKey(name: 'DocumentId')
-  final String documentId;
+  final String? documentId;
 
   /// The title of the document. Contains the text of the title and information
   /// for highlighting the relevant terms in the title.
-  @_s.JsonKey(name: 'DocumentTitle')
-  final TextWithHighlights documentTitle;
+  final TextWithHighlights? documentTitle;
 
   /// The URI of the original location of the document.
-  @_s.JsonKey(name: 'DocumentURI')
-  final String documentURI;
+  final String? documentURI;
 
   /// A token that identifies a particular result from a particular query. Use
   /// this token to provide click-through feedback for the result. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">
   /// Submitting feedback </a>.
-  @_s.JsonKey(name: 'FeedbackToken')
-  final String feedbackToken;
+  final String? feedbackToken;
 
   /// The unique identifier for the query result.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Indicates the confidence that Amazon Kendra has that a result matches the
   /// query that you provided. Each result is placed into a bin that indicates the
@@ -5376,12 +6251,10 @@ class QueryResultItem {
   /// The field is only set to <code>LOW</code> when the <code>Type</code> field
   /// is set to <code>DOCUMENT</code> and Amazon Kendra is not confident that the
   /// result matches the query.
-  @_s.JsonKey(name: 'ScoreAttributes')
-  final ScoreAttributes scoreAttributes;
+  final ScoreAttributes? scoreAttributes;
 
   /// The type of document.
-  @_s.JsonKey(name: 'Type')
-  final QueryResultType type;
+  final QueryResultType? type;
 
   QueryResultItem({
     this.additionalAttributes,
@@ -5395,16 +6268,41 @@ class QueryResultItem {
     this.scoreAttributes,
     this.type,
   });
-  factory QueryResultItem.fromJson(Map<String, dynamic> json) =>
-      _$QueryResultItemFromJson(json);
+  factory QueryResultItem.fromJson(Map<String, dynamic> json) {
+    return QueryResultItem(
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentExcerpt: json['DocumentExcerpt'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentExcerpt'] as Map<String, dynamic>)
+          : null,
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentTitle'] as Map<String, dynamic>)
+          : null,
+      documentURI: json['DocumentURI'] as String?,
+      feedbackToken: json['FeedbackToken'] as String?,
+      id: json['Id'] as String?,
+      scoreAttributes: json['ScoreAttributes'] != null
+          ? ScoreAttributes.fromJson(
+              json['ScoreAttributes'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toQueryResultType(),
+    );
+  }
 }
 
 enum QueryResultType {
-  @_s.JsonValue('DOCUMENT')
   document,
-  @_s.JsonValue('QUESTION_ANSWER')
   questionAnswer,
-  @_s.JsonValue('ANSWER')
   answer,
 }
 
@@ -5418,25 +6316,54 @@ extension on QueryResultType {
       case QueryResultType.answer:
         return 'ANSWER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QueryResultType toQueryResultType() {
+    switch (this) {
+      case 'DOCUMENT':
+        return QueryResultType.document;
+      case 'QUESTION_ANSWER':
+        return QueryResultType.questionAnswer;
+      case 'ANSWER':
+        return QueryResultType.answer;
+    }
+    throw Exception('$this is not known in enum QueryResultType');
   }
 }
 
 enum ReadAccessType {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
+}
+
+extension on ReadAccessType {
+  String toValue() {
+    switch (this) {
+      case ReadAccessType.allow:
+        return 'ALLOW';
+      case ReadAccessType.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension on String {
+  ReadAccessType toReadAccessType() {
+    switch (this) {
+      case 'ALLOW':
+        return ReadAccessType.allow;
+      case 'DENY':
+        return ReadAccessType.deny;
+    }
+    throw Exception('$this is not known in enum ReadAccessType');
+  }
 }
 
 /// Provides information for manually tuning the relevance of a field in a
 /// search. When a query includes terms that match the field, the results are
 /// given a boost in the response based on these tuning parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Relevance {
   /// Specifies the time period that the boost applies to. For example, to make
   /// the boost apply to documents with the field value within the last month, you
@@ -5447,21 +6374,18 @@ class Relevance {
   /// example "86400s" for one day, or "604800s" for one week.
   ///
   /// Only applies to <code>DATE</code> fields.
-  @_s.JsonKey(name: 'Duration')
-  final String duration;
+  final String? duration;
 
   /// Indicates that this field determines how "fresh" a document is. For example,
   /// if document 1 was created on November 5, and document 2 was created on
   /// October 31, document 1 is "fresher" than document 2. You can only set the
   /// <code>Freshness</code> field on one <code>DATE</code> type field. Only
   /// applies to <code>DATE</code> fields.
-  @_s.JsonKey(name: 'Freshness')
-  final bool freshness;
+  final bool? freshness;
 
   /// The relative importance of the field in the search. Larger numbers provide
   /// more of a boost than smaller numbers.
-  @_s.JsonKey(name: 'Importance')
-  final int importance;
+  final int? importance;
 
   /// Determines how values should be interpreted.
   ///
@@ -5474,8 +6398,7 @@ class Relevance {
   /// 1 task is more important than a priority 5 task.
   ///
   /// Only applies to <code>LONG</code> and <code>DOUBLE</code> fields.
-  @_s.JsonKey(name: 'RankOrder')
-  final Order rankOrder;
+  final Order? rankOrder;
 
   /// A list of values that should be given a different boost when they appear in
   /// the result list. For example, if you are boosting a field called
@@ -5488,8 +6411,7 @@ class Relevance {
   /// when they appear in the metadata of a document. When those terms appear they
   /// are given the specified importance instead of the regular importance for the
   /// boost.
-  @_s.JsonKey(name: 'ValueImportanceMap')
-  final Map<String, int> valueImportanceMap;
+  final Map<String, int>? valueImportanceMap;
 
   Relevance({
     this.duration,
@@ -5498,64 +6420,98 @@ class Relevance {
     this.rankOrder,
     this.valueImportanceMap,
   });
-  factory Relevance.fromJson(Map<String, dynamic> json) =>
-      _$RelevanceFromJson(json);
+  factory Relevance.fromJson(Map<String, dynamic> json) {
+    return Relevance(
+      duration: json['Duration'] as String?,
+      freshness: json['Freshness'] as bool?,
+      importance: json['Importance'] as int?,
+      rankOrder: (json['RankOrder'] as String?)?.toOrder(),
+      valueImportanceMap: (json['ValueImportanceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RelevanceToJson(this);
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final freshness = this.freshness;
+    final importance = this.importance;
+    final rankOrder = this.rankOrder;
+    final valueImportanceMap = this.valueImportanceMap;
+    return {
+      if (duration != null) 'Duration': duration,
+      if (freshness != null) 'Freshness': freshness,
+      if (importance != null) 'Importance': importance,
+      if (rankOrder != null) 'RankOrder': rankOrder.toValue(),
+      if (valueImportanceMap != null) 'ValueImportanceMap': valueImportanceMap,
+    };
+  }
 }
 
 /// Provides feedback on how relevant a document is to a search. Your
 /// application uses the <a>SubmitFeedback</a> operation to provide relevance
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RelevanceFeedback {
   /// Whether to document was relevant or not relevant to the search.
-  @_s.JsonKey(name: 'RelevanceValue')
   final RelevanceType relevanceValue;
 
   /// The unique identifier of the search result that the user provided relevance
   /// feedback for.
-  @_s.JsonKey(name: 'ResultId')
   final String resultId;
 
   RelevanceFeedback({
-    @_s.required this.relevanceValue,
-    @_s.required this.resultId,
+    required this.relevanceValue,
+    required this.resultId,
   });
-  Map<String, dynamic> toJson() => _$RelevanceFeedbackToJson(this);
+  Map<String, dynamic> toJson() {
+    final relevanceValue = this.relevanceValue;
+    final resultId = this.resultId;
+    return {
+      'RelevanceValue': relevanceValue.toValue(),
+      'ResultId': resultId,
+    };
+  }
 }
 
 enum RelevanceType {
-  @_s.JsonValue('RELEVANT')
   relevant,
-  @_s.JsonValue('NOT_RELEVANT')
   notRelevant,
+}
+
+extension on RelevanceType {
+  String toValue() {
+    switch (this) {
+      case RelevanceType.relevant:
+        return 'RELEVANT';
+      case RelevanceType.notRelevant:
+        return 'NOT_RELEVANT';
+    }
+  }
+}
+
+extension on String {
+  RelevanceType toRelevanceType() {
+    switch (this) {
+      case 'RELEVANT':
+        return RelevanceType.relevant;
+      case 'NOT_RELEVANT':
+        return RelevanceType.notRelevant;
+    }
+    throw Exception('$this is not known in enum RelevanceType');
+  }
 }
 
 /// Provides configuration information for a data source to index documents in
 /// an Amazon S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3DataSourceConfiguration {
   /// The name of the bucket that contains the documents.
-  @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
   /// Provides the path to the S3 bucket that contains the user context filtering
   /// files for the data source. For the format of the file, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
   /// control for S3 data sources</a>.
-  @_s.JsonKey(name: 'AccessControlListConfiguration')
-  final AccessControlListConfiguration accessControlListConfiguration;
-  @_s.JsonKey(name: 'DocumentsMetadataConfiguration')
-  final DocumentsMetadataConfiguration documentsMetadataConfiguration;
+  final AccessControlListConfiguration? accessControlListConfiguration;
+  final DocumentsMetadataConfiguration? documentsMetadataConfiguration;
 
   /// A list of glob patterns for documents that should not be indexed. If a
   /// document that matches an inclusion prefix or inclusion pattern also matches
@@ -5564,8 +6520,7 @@ class S3DataSourceConfiguration {
   /// For more information about glob patterns, see <a
   /// href="https://en.wikipedia.org/wiki/Glob_(programming)">glob
   /// (programming)</a> in <i>Wikipedia</i>.
-  @_s.JsonKey(name: 'ExclusionPatterns')
-  final List<String> exclusionPatterns;
+  final List<String>? exclusionPatterns;
 
   /// A list of glob patterns for documents that should be indexed. If a document
   /// that matches an inclusion pattern also matches an exclusion pattern, the
@@ -5574,110 +6529,190 @@ class S3DataSourceConfiguration {
   /// For more information about glob patterns, see <a
   /// href="https://en.wikipedia.org/wiki/Glob_(programming)">glob
   /// (programming)</a> in <i>Wikipedia</i>.
-  @_s.JsonKey(name: 'InclusionPatterns')
-  final List<String> inclusionPatterns;
+  final List<String>? inclusionPatterns;
 
   /// A list of S3 prefixes for the documents that should be included in the
   /// index.
-  @_s.JsonKey(name: 'InclusionPrefixes')
-  final List<String> inclusionPrefixes;
+  final List<String>? inclusionPrefixes;
 
   S3DataSourceConfiguration({
-    @_s.required this.bucketName,
+    required this.bucketName,
     this.accessControlListConfiguration,
     this.documentsMetadataConfiguration,
     this.exclusionPatterns,
     this.inclusionPatterns,
     this.inclusionPrefixes,
   });
-  factory S3DataSourceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$S3DataSourceConfigurationFromJson(json);
+  factory S3DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DataSourceConfiguration(
+      bucketName: json['BucketName'] as String,
+      accessControlListConfiguration: json['AccessControlListConfiguration'] !=
+              null
+          ? AccessControlListConfiguration.fromJson(
+              json['AccessControlListConfiguration'] as Map<String, dynamic>)
+          : null,
+      documentsMetadataConfiguration: json['DocumentsMetadataConfiguration'] !=
+              null
+          ? DocumentsMetadataConfiguration.fromJson(
+              json['DocumentsMetadataConfiguration'] as Map<String, dynamic>)
+          : null,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inclusionPrefixes: (json['InclusionPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3DataSourceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final accessControlListConfiguration = this.accessControlListConfiguration;
+    final documentsMetadataConfiguration = this.documentsMetadataConfiguration;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final inclusionPrefixes = this.inclusionPrefixes;
+    return {
+      'BucketName': bucketName,
+      if (accessControlListConfiguration != null)
+        'AccessControlListConfiguration': accessControlListConfiguration,
+      if (documentsMetadataConfiguration != null)
+        'DocumentsMetadataConfiguration': documentsMetadataConfiguration,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (inclusionPrefixes != null) 'InclusionPrefixes': inclusionPrefixes,
+    };
+  }
 }
 
 /// Information required to find a specific file in an Amazon S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Path {
   /// The name of the S3 bucket that contains the file.
-  @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
   /// The name of the file.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   S3Path({
-    @_s.required this.bucket,
-    @_s.required this.key,
+    required this.bucket,
+    required this.key,
   });
-  factory S3Path.fromJson(Map<String, dynamic> json) => _$S3PathFromJson(json);
+  factory S3Path.fromJson(Map<String, dynamic> json) {
+    return S3Path(
+      bucket: json['Bucket'] as String,
+      key: json['Key'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3PathToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'Bucket': bucket,
+      'Key': key,
+    };
+  }
 }
 
 /// Defines configuration for syncing a Salesforce chatter feed. The contents of
 /// the object comes from the Salesforce FeedItem table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceChatterFeedConfiguration {
   /// The name of the column in the Salesforce FeedItem table that contains the
   /// content to index. Typically this is the <code>Body</code> column.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// The name of the column in the Salesforce FeedItem table that contains the
   /// title of the document. This is typically the <code>Title</code> collumn.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// Maps fields from a Salesforce chatter feed into Amazon Kendra index fields.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// Filters the documents in the feed based on status of the user. When you
   /// specify <code>ACTIVE_USERS</code> only documents from users who have an
   /// active account are indexed. When you specify <code>STANDARD_USER</code> only
   /// documents for Salesforce standard users are documented. You can specify
   /// both.
-  @_s.JsonKey(name: 'IncludeFilterTypes')
-  final List<SalesforceChatterFeedIncludeFilterType> includeFilterTypes;
+  final List<SalesforceChatterFeedIncludeFilterType>? includeFilterTypes;
 
   SalesforceChatterFeedConfiguration({
-    @_s.required this.documentDataFieldName,
+    required this.documentDataFieldName,
     this.documentTitleFieldName,
     this.fieldMappings,
     this.includeFilterTypes,
   });
   factory SalesforceChatterFeedConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceChatterFeedConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceChatterFeedConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeFilterTypes: (json['IncludeFilterTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSalesforceChatterFeedIncludeFilterType())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceChatterFeedConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    final includeFilterTypes = this.includeFilterTypes;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (includeFilterTypes != null)
+        'IncludeFilterTypes':
+            includeFilterTypes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum SalesforceChatterFeedIncludeFilterType {
-  @_s.JsonValue('ACTIVE_USER')
   activeUser,
-  @_s.JsonValue('STANDARD_USER')
   standardUser,
+}
+
+extension on SalesforceChatterFeedIncludeFilterType {
+  String toValue() {
+    switch (this) {
+      case SalesforceChatterFeedIncludeFilterType.activeUser:
+        return 'ACTIVE_USER';
+      case SalesforceChatterFeedIncludeFilterType.standardUser:
+        return 'STANDARD_USER';
+    }
+  }
+}
+
+extension on String {
+  SalesforceChatterFeedIncludeFilterType
+      toSalesforceChatterFeedIncludeFilterType() {
+    switch (this) {
+      case 'ACTIVE_USER':
+        return SalesforceChatterFeedIncludeFilterType.activeUser;
+      case 'STANDARD_USER':
+        return SalesforceChatterFeedIncludeFilterType.standardUser;
+    }
+    throw Exception(
+        '$this is not known in enum SalesforceChatterFeedIncludeFilterType');
+  }
 }
 
 /// Provides configuration information for connecting to a Salesforce data
 /// source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceConfiguration {
   /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that
   /// contains the key/value pairs required to connect to your Salesforce
@@ -5708,21 +6743,17 @@ class SalesforceConfiguration {
   /// username - The user name of the user logging in to the Salesforce instance.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The instance URL for the Salesforce site that you want to index.
-  @_s.JsonKey(name: 'ServerUrl')
   final String serverUrl;
 
   /// Specifies configuration information for Salesforce chatter feeds.
-  @_s.JsonKey(name: 'ChatterFeedConfiguration')
-  final SalesforceChatterFeedConfiguration chatterFeedConfiguration;
+  final SalesforceChatterFeedConfiguration? chatterFeedConfiguration;
 
   /// Indicates whether Amazon Kendra should index attachments to Salesforce
   /// objects.
-  @_s.JsonKey(name: 'CrawlAttachments')
-  final bool crawlAttachments;
+  final bool? crawlAttachments;
 
   /// A list of regular expression patterns. Documents that match the patterns are
   /// excluded from the index. Documents that don't match the patterns are
@@ -5730,8 +6761,7 @@ class SalesforceConfiguration {
   /// an inclusion pattern, the document is not included in the index.
   ///
   /// The regex is applied to the name of the attached file.
-  @_s.JsonKey(name: 'ExcludeAttachmentFilePatterns')
-  final List<String> excludeAttachmentFilePatterns;
+  final List<String>? excludeAttachmentFilePatterns;
 
   /// A list of regular expression patterns. Documents that match the patterns are
   /// included in the index. Documents that don't match the patterns are excluded
@@ -5739,30 +6769,26 @@ class SalesforceConfiguration {
   /// exclusion pattern, the document is not included in the index.
   ///
   /// The regex is applied to the name of the attached file.
-  @_s.JsonKey(name: 'IncludeAttachmentFilePatterns')
-  final List<String> includeAttachmentFilePatterns;
+  final List<String>? includeAttachmentFilePatterns;
 
   /// Specifies configuration information for the knowlege article types that
   /// Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and
   /// the standard fields of knowledge articles, or the custom fields of custom
   /// knowledge articles, but not both.
-  @_s.JsonKey(name: 'KnowledgeArticleConfiguration')
-  final SalesforceKnowledgeArticleConfiguration knowledgeArticleConfiguration;
+  final SalesforceKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
 
   /// Provides configuration information for processing attachments to Salesforce
   /// standard objects.
-  @_s.JsonKey(name: 'StandardObjectAttachmentConfiguration')
-  final SalesforceStandardObjectAttachmentConfiguration
+  final SalesforceStandardObjectAttachmentConfiguration?
       standardObjectAttachmentConfiguration;
 
   /// Specifies the Salesforce standard objects that Amazon Kendra indexes.
-  @_s.JsonKey(name: 'StandardObjectConfigurations')
-  final List<SalesforceStandardObjectConfiguration>
+  final List<SalesforceStandardObjectConfiguration>?
       standardObjectConfigurations;
 
   SalesforceConfiguration({
-    @_s.required this.secretArn,
-    @_s.required this.serverUrl,
+    required this.secretArn,
+    required this.serverUrl,
     this.chatterFeedConfiguration,
     this.crawlAttachments,
     this.excludeAttachmentFilePatterns,
@@ -5771,304 +6797,543 @@ class SalesforceConfiguration {
     this.standardObjectAttachmentConfiguration,
     this.standardObjectConfigurations,
   });
-  factory SalesforceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SalesforceConfigurationFromJson(json);
+  factory SalesforceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SalesforceConfiguration(
+      secretArn: json['SecretArn'] as String,
+      serverUrl: json['ServerUrl'] as String,
+      chatterFeedConfiguration: json['ChatterFeedConfiguration'] != null
+          ? SalesforceChatterFeedConfiguration.fromJson(
+              json['ChatterFeedConfiguration'] as Map<String, dynamic>)
+          : null,
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      excludeAttachmentFilePatterns:
+          (json['ExcludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      includeAttachmentFilePatterns:
+          (json['IncludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      knowledgeArticleConfiguration:
+          json['KnowledgeArticleConfiguration'] != null
+              ? SalesforceKnowledgeArticleConfiguration.fromJson(
+                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
+              : null,
+      standardObjectAttachmentConfiguration:
+          json['StandardObjectAttachmentConfiguration'] != null
+              ? SalesforceStandardObjectAttachmentConfiguration.fromJson(
+                  json['StandardObjectAttachmentConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      standardObjectConfigurations:
+          (json['StandardObjectConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => SalesforceStandardObjectConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SalesforceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final serverUrl = this.serverUrl;
+    final chatterFeedConfiguration = this.chatterFeedConfiguration;
+    final crawlAttachments = this.crawlAttachments;
+    final excludeAttachmentFilePatterns = this.excludeAttachmentFilePatterns;
+    final includeAttachmentFilePatterns = this.includeAttachmentFilePatterns;
+    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
+    final standardObjectAttachmentConfiguration =
+        this.standardObjectAttachmentConfiguration;
+    final standardObjectConfigurations = this.standardObjectConfigurations;
+    return {
+      'SecretArn': secretArn,
+      'ServerUrl': serverUrl,
+      if (chatterFeedConfiguration != null)
+        'ChatterFeedConfiguration': chatterFeedConfiguration,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (excludeAttachmentFilePatterns != null)
+        'ExcludeAttachmentFilePatterns': excludeAttachmentFilePatterns,
+      if (includeAttachmentFilePatterns != null)
+        'IncludeAttachmentFilePatterns': includeAttachmentFilePatterns,
+      if (knowledgeArticleConfiguration != null)
+        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
+      if (standardObjectAttachmentConfiguration != null)
+        'StandardObjectAttachmentConfiguration':
+            standardObjectAttachmentConfiguration,
+      if (standardObjectConfigurations != null)
+        'StandardObjectConfigurations': standardObjectConfigurations,
+    };
+  }
 }
 
 /// Provides configuration information for indexing Salesforce custom articles.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceCustomKnowledgeArticleTypeConfiguration {
   /// The name of the field in the custom knowledge article that contains the
   /// document data to index.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// The name of the configuration.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The name of the field in the custom knowledge article that contains the
   /// document title.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// One or more objects that map fields in the custom knowledge article to
   /// fields in the Amazon Kendra index.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   SalesforceCustomKnowledgeArticleTypeConfiguration({
-    @_s.required this.documentDataFieldName,
-    @_s.required this.name,
+    required this.documentDataFieldName,
+    required this.name,
     this.documentTitleFieldName,
     this.fieldMappings,
   });
   factory SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceCustomKnowledgeArticleTypeConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceCustomKnowledgeArticleTypeConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      name: json['Name'] as String,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceCustomKnowledgeArticleTypeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final name = this.name;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      'Name': name,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
 }
 
 /// Specifies configuration information for the knowlege article types that
 /// Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and
 /// the standard fields of knowledge articles, or the custom fields of custom
 /// knowledge articles, but not both
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceKnowledgeArticleConfiguration {
   /// Specifies the document states that should be included when Amazon Kendra
   /// indexes knowledge articles. You must specify at least one state.
-  @_s.JsonKey(name: 'IncludedStates')
   final List<SalesforceKnowledgeArticleState> includedStates;
 
   /// Provides configuration information for custom Salesforce knowledge articles.
-  @_s.JsonKey(name: 'CustomKnowledgeArticleTypeConfigurations')
-  final List<SalesforceCustomKnowledgeArticleTypeConfiguration>
+  final List<SalesforceCustomKnowledgeArticleTypeConfiguration>?
       customKnowledgeArticleTypeConfigurations;
 
   /// Provides configuration information for standard Salesforce knowledge
   /// articles.
-  @_s.JsonKey(name: 'StandardKnowledgeArticleTypeConfiguration')
-  final SalesforceStandardKnowledgeArticleTypeConfiguration
+  final SalesforceStandardKnowledgeArticleTypeConfiguration?
       standardKnowledgeArticleTypeConfiguration;
 
   SalesforceKnowledgeArticleConfiguration({
-    @_s.required this.includedStates,
+    required this.includedStates,
     this.customKnowledgeArticleTypeConfigurations,
     this.standardKnowledgeArticleTypeConfiguration,
   });
   factory SalesforceKnowledgeArticleConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceKnowledgeArticleConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceKnowledgeArticleConfiguration(
+      includedStates: (json['IncludedStates'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toSalesforceKnowledgeArticleState())
+          .toList(),
+      customKnowledgeArticleTypeConfigurations:
+          (json['CustomKnowledgeArticleTypeConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+      standardKnowledgeArticleTypeConfiguration:
+          json['StandardKnowledgeArticleTypeConfiguration'] != null
+              ? SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
+                  json['StandardKnowledgeArticleTypeConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceKnowledgeArticleConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final includedStates = this.includedStates;
+    final customKnowledgeArticleTypeConfigurations =
+        this.customKnowledgeArticleTypeConfigurations;
+    final standardKnowledgeArticleTypeConfiguration =
+        this.standardKnowledgeArticleTypeConfiguration;
+    return {
+      'IncludedStates': includedStates.map((e) => e.toValue()).toList(),
+      if (customKnowledgeArticleTypeConfigurations != null)
+        'CustomKnowledgeArticleTypeConfigurations':
+            customKnowledgeArticleTypeConfigurations,
+      if (standardKnowledgeArticleTypeConfiguration != null)
+        'StandardKnowledgeArticleTypeConfiguration':
+            standardKnowledgeArticleTypeConfiguration,
+    };
+  }
 }
 
 enum SalesforceKnowledgeArticleState {
-  @_s.JsonValue('DRAFT')
   draft,
-  @_s.JsonValue('PUBLISHED')
   published,
-  @_s.JsonValue('ARCHIVED')
   archived,
+}
+
+extension on SalesforceKnowledgeArticleState {
+  String toValue() {
+    switch (this) {
+      case SalesforceKnowledgeArticleState.draft:
+        return 'DRAFT';
+      case SalesforceKnowledgeArticleState.published:
+        return 'PUBLISHED';
+      case SalesforceKnowledgeArticleState.archived:
+        return 'ARCHIVED';
+    }
+  }
+}
+
+extension on String {
+  SalesforceKnowledgeArticleState toSalesforceKnowledgeArticleState() {
+    switch (this) {
+      case 'DRAFT':
+        return SalesforceKnowledgeArticleState.draft;
+      case 'PUBLISHED':
+        return SalesforceKnowledgeArticleState.published;
+      case 'ARCHIVED':
+        return SalesforceKnowledgeArticleState.archived;
+    }
+    throw Exception(
+        '$this is not known in enum SalesforceKnowledgeArticleState');
+  }
 }
 
 /// Provides configuration information for standard Salesforce knowledge
 /// articles.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceStandardKnowledgeArticleTypeConfiguration {
   /// The name of the field that contains the document data to index.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// The name of the field that contains the document title.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// One or more objects that map fields in the knowledge article to Amazon
   /// Kendra index fields. The index field must exist before you can map a
   /// Salesforce field to it.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   SalesforceStandardKnowledgeArticleTypeConfiguration({
-    @_s.required this.documentDataFieldName,
+    required this.documentDataFieldName,
     this.documentTitleFieldName,
     this.fieldMappings,
   });
   factory SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceStandardKnowledgeArticleTypeConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceStandardKnowledgeArticleTypeConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceStandardKnowledgeArticleTypeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
 }
 
 /// Provides configuration information for processing attachments to Salesforce
 /// standard objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceStandardObjectAttachmentConfiguration {
   /// The name of the field used for the document title.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// One or more objects that map fields in attachments to Amazon Kendra index
   /// fields.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   SalesforceStandardObjectAttachmentConfiguration({
     this.documentTitleFieldName,
     this.fieldMappings,
   });
   factory SalesforceStandardObjectAttachmentConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceStandardObjectAttachmentConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceStandardObjectAttachmentConfiguration(
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceStandardObjectAttachmentConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
 }
 
 /// Specifies confguration information for indexing a single standard object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceStandardObjectConfiguration {
   /// The name of the field in the standard object table that contains the
   /// document contents.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// The name of the standard object.
-  @_s.JsonKey(name: 'Name')
   final SalesforceStandardObjectName name;
 
   /// The name of the field in the standard object table that contains the
   /// document titleB.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// One or more objects that map fields in the standard object to Amazon Kendra
   /// index fields. The index field must exist before you can map a Salesforce
   /// field to it.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   SalesforceStandardObjectConfiguration({
-    @_s.required this.documentDataFieldName,
-    @_s.required this.name,
+    required this.documentDataFieldName,
+    required this.name,
     this.documentTitleFieldName,
     this.fieldMappings,
   });
   factory SalesforceStandardObjectConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SalesforceStandardObjectConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return SalesforceStandardObjectConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      name: (json['Name'] as String).toSalesforceStandardObjectName(),
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$SalesforceStandardObjectConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final name = this.name;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      'Name': name.toValue(),
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
 }
 
 enum SalesforceStandardObjectName {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('CAMPAIGN')
   campaign,
-  @_s.JsonValue('CASE')
   $case,
-  @_s.JsonValue('CONTACT')
   contact,
-  @_s.JsonValue('CONTRACT')
   contract,
-  @_s.JsonValue('DOCUMENT')
   document,
-  @_s.JsonValue('GROUP')
   group,
-  @_s.JsonValue('IDEA')
   idea,
-  @_s.JsonValue('LEAD')
   lead,
-  @_s.JsonValue('OPPORTUNITY')
   opportunity,
-  @_s.JsonValue('PARTNER')
   partner,
-  @_s.JsonValue('PRICEBOOK')
   pricebook,
-  @_s.JsonValue('PRODUCT')
   product,
-  @_s.JsonValue('PROFILE')
   profile,
-  @_s.JsonValue('SOLUTION')
   solution,
-  @_s.JsonValue('TASK')
   task,
-  @_s.JsonValue('USER')
   user,
+}
+
+extension on SalesforceStandardObjectName {
+  String toValue() {
+    switch (this) {
+      case SalesforceStandardObjectName.account:
+        return 'ACCOUNT';
+      case SalesforceStandardObjectName.campaign:
+        return 'CAMPAIGN';
+      case SalesforceStandardObjectName.$case:
+        return 'CASE';
+      case SalesforceStandardObjectName.contact:
+        return 'CONTACT';
+      case SalesforceStandardObjectName.contract:
+        return 'CONTRACT';
+      case SalesforceStandardObjectName.document:
+        return 'DOCUMENT';
+      case SalesforceStandardObjectName.group:
+        return 'GROUP';
+      case SalesforceStandardObjectName.idea:
+        return 'IDEA';
+      case SalesforceStandardObjectName.lead:
+        return 'LEAD';
+      case SalesforceStandardObjectName.opportunity:
+        return 'OPPORTUNITY';
+      case SalesforceStandardObjectName.partner:
+        return 'PARTNER';
+      case SalesforceStandardObjectName.pricebook:
+        return 'PRICEBOOK';
+      case SalesforceStandardObjectName.product:
+        return 'PRODUCT';
+      case SalesforceStandardObjectName.profile:
+        return 'PROFILE';
+      case SalesforceStandardObjectName.solution:
+        return 'SOLUTION';
+      case SalesforceStandardObjectName.task:
+        return 'TASK';
+      case SalesforceStandardObjectName.user:
+        return 'USER';
+    }
+  }
+}
+
+extension on String {
+  SalesforceStandardObjectName toSalesforceStandardObjectName() {
+    switch (this) {
+      case 'ACCOUNT':
+        return SalesforceStandardObjectName.account;
+      case 'CAMPAIGN':
+        return SalesforceStandardObjectName.campaign;
+      case 'CASE':
+        return SalesforceStandardObjectName.$case;
+      case 'CONTACT':
+        return SalesforceStandardObjectName.contact;
+      case 'CONTRACT':
+        return SalesforceStandardObjectName.contract;
+      case 'DOCUMENT':
+        return SalesforceStandardObjectName.document;
+      case 'GROUP':
+        return SalesforceStandardObjectName.group;
+      case 'IDEA':
+        return SalesforceStandardObjectName.idea;
+      case 'LEAD':
+        return SalesforceStandardObjectName.lead;
+      case 'OPPORTUNITY':
+        return SalesforceStandardObjectName.opportunity;
+      case 'PARTNER':
+        return SalesforceStandardObjectName.partner;
+      case 'PRICEBOOK':
+        return SalesforceStandardObjectName.pricebook;
+      case 'PRODUCT':
+        return SalesforceStandardObjectName.product;
+      case 'PROFILE':
+        return SalesforceStandardObjectName.profile;
+      case 'SOLUTION':
+        return SalesforceStandardObjectName.solution;
+      case 'TASK':
+        return SalesforceStandardObjectName.task;
+      case 'USER':
+        return SalesforceStandardObjectName.user;
+    }
+    throw Exception('$this is not known in enum SalesforceStandardObjectName');
+  }
 }
 
 /// Provides a relative ranking that indicates how confident Amazon Kendra is
 /// that the response matches the query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScoreAttributes {
   /// A relative ranking for how well the response matches the query.
-  @_s.JsonKey(name: 'ScoreConfidence')
-  final ScoreConfidence scoreConfidence;
+  final ScoreConfidence? scoreConfidence;
 
   ScoreAttributes({
     this.scoreConfidence,
   });
-  factory ScoreAttributes.fromJson(Map<String, dynamic> json) =>
-      _$ScoreAttributesFromJson(json);
+  factory ScoreAttributes.fromJson(Map<String, dynamic> json) {
+    return ScoreAttributes(
+      scoreConfidence:
+          (json['ScoreConfidence'] as String?)?.toScoreConfidence(),
+    );
+  }
 }
 
 /// Enumeration for query score confidence.
 enum ScoreConfidence {
-  @_s.JsonValue('VERY_HIGH')
   veryHigh,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LOW')
   low,
 }
 
+extension on ScoreConfidence {
+  String toValue() {
+    switch (this) {
+      case ScoreConfidence.veryHigh:
+        return 'VERY_HIGH';
+      case ScoreConfidence.high:
+        return 'HIGH';
+      case ScoreConfidence.medium:
+        return 'MEDIUM';
+      case ScoreConfidence.low:
+        return 'LOW';
+    }
+  }
+}
+
+extension on String {
+  ScoreConfidence toScoreConfidence() {
+    switch (this) {
+      case 'VERY_HIGH':
+        return ScoreConfidence.veryHigh;
+      case 'HIGH':
+        return ScoreConfidence.high;
+      case 'MEDIUM':
+        return ScoreConfidence.medium;
+      case 'LOW':
+        return ScoreConfidence.low;
+    }
+    throw Exception('$this is not known in enum ScoreConfidence');
+  }
+}
+
 /// Provides information about how a custom index field is used during a search.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Search {
   /// Determines whether the field is returned in the query response. The default
   /// is <code>true</code>.
-  @_s.JsonKey(name: 'Displayable')
-  final bool displayable;
+  final bool? displayable;
 
   /// Indicates that the field can be used to create search facets, a count of
   /// results for each value in the field. The default is <code>false</code> .
-  @_s.JsonKey(name: 'Facetable')
-  final bool facetable;
+  final bool? facetable;
 
   /// Determines whether the field is used in the search. If the
   /// <code>Searchable</code> field is <code>true</code>, you can use relevance
   /// tuning to manually tune how Amazon Kendra weights the field in the search.
   /// The default is <code>true</code> for string fields and <code>false</code>
   /// for number and date fields.
-  @_s.JsonKey(name: 'Searchable')
-  final bool searchable;
+  final bool? searchable;
 
   /// Determines whether the field can be used to sort the results of a query. If
   /// you specify sorting on a field that does not have <code>Sortable</code> set
   /// to <code>true</code>, Amazon Kendra returns an exception. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'Sortable')
-  final bool sortable;
+  final bool? sortable;
 
   Search({
     this.displayable,
@@ -6076,133 +7341,182 @@ class Search {
     this.searchable,
     this.sortable,
   });
-  factory Search.fromJson(Map<String, dynamic> json) => _$SearchFromJson(json);
+  factory Search.fromJson(Map<String, dynamic> json) {
+    return Search(
+      displayable: json['Displayable'] as bool?,
+      facetable: json['Facetable'] as bool?,
+      searchable: json['Searchable'] as bool?,
+      sortable: json['Sortable'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SearchToJson(this);
+  Map<String, dynamic> toJson() {
+    final displayable = this.displayable;
+    final facetable = this.facetable;
+    final searchable = this.searchable;
+    final sortable = this.sortable;
+    return {
+      if (displayable != null) 'Displayable': displayable,
+      if (facetable != null) 'Facetable': facetable,
+      if (searchable != null) 'Searchable': searchable,
+      if (sortable != null) 'Sortable': sortable,
+    };
+  }
 }
 
 /// Provides the identifier of the AWS KMS customer master key (CMK) used to
 /// encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
 /// asymmetric CMKs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerSideEncryptionConfiguration {
   /// The identifier of the AWS KMS customer master key (CMK). Amazon Kendra
   /// doesn't support asymmetric CMKs.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   ServerSideEncryptionConfiguration({
     this.kmsKeyId,
   });
   factory ServerSideEncryptionConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServerSideEncryptionConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ServerSideEncryptionConfiguration(
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ServerSideEncryptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
 }
 
 enum ServiceNowBuildVersionType {
-  @_s.JsonValue('LONDON')
   london,
-  @_s.JsonValue('OTHERS')
   others,
+}
+
+extension on ServiceNowBuildVersionType {
+  String toValue() {
+    switch (this) {
+      case ServiceNowBuildVersionType.london:
+        return 'LONDON';
+      case ServiceNowBuildVersionType.others:
+        return 'OTHERS';
+    }
+  }
+}
+
+extension on String {
+  ServiceNowBuildVersionType toServiceNowBuildVersionType() {
+    switch (this) {
+      case 'LONDON':
+        return ServiceNowBuildVersionType.london;
+      case 'OTHERS':
+        return ServiceNowBuildVersionType.others;
+    }
+    throw Exception('$this is not known in enum ServiceNowBuildVersionType');
+  }
 }
 
 /// Provides configuration information required to connect to a ServiceNow data
 /// source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceNowConfiguration {
   /// The ServiceNow instance that the data source connects to. The host endpoint
   /// should look like the following: <code>{instance}.service-now.com.</code>
-  @_s.JsonKey(name: 'HostUrl')
   final String hostUrl;
 
   /// The Amazon Resource Name (ARN) of the AWS Secret Manager secret that
   /// contains the user name and password required to connect to the ServiceNow
   /// instance.
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The identifier of the release that the ServiceNow host is running. If the
   /// host is not running the <code>LONDON</code> release, use
   /// <code>OTHERS</code>.
-  @_s.JsonKey(name: 'ServiceNowBuildVersion')
   final ServiceNowBuildVersionType serviceNowBuildVersion;
 
   /// Provides configuration information for crawling knowledge articles in the
   /// ServiceNow site.
-  @_s.JsonKey(name: 'KnowledgeArticleConfiguration')
-  final ServiceNowKnowledgeArticleConfiguration knowledgeArticleConfiguration;
+  final ServiceNowKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
 
   /// Provides configuration information for crawling service catalogs in the
   /// ServiceNow site.
-  @_s.JsonKey(name: 'ServiceCatalogConfiguration')
-  final ServiceNowServiceCatalogConfiguration serviceCatalogConfiguration;
+  final ServiceNowServiceCatalogConfiguration? serviceCatalogConfiguration;
 
   ServiceNowConfiguration({
-    @_s.required this.hostUrl,
-    @_s.required this.secretArn,
-    @_s.required this.serviceNowBuildVersion,
+    required this.hostUrl,
+    required this.secretArn,
+    required this.serviceNowBuildVersion,
     this.knowledgeArticleConfiguration,
     this.serviceCatalogConfiguration,
   });
-  factory ServiceNowConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ServiceNowConfigurationFromJson(json);
+  factory ServiceNowConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServiceNowConfiguration(
+      hostUrl: json['HostUrl'] as String,
+      secretArn: json['SecretArn'] as String,
+      serviceNowBuildVersion: (json['ServiceNowBuildVersion'] as String)
+          .toServiceNowBuildVersionType(),
+      knowledgeArticleConfiguration:
+          json['KnowledgeArticleConfiguration'] != null
+              ? ServiceNowKnowledgeArticleConfiguration.fromJson(
+                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
+              : null,
+      serviceCatalogConfiguration: json['ServiceCatalogConfiguration'] != null
+          ? ServiceNowServiceCatalogConfiguration.fromJson(
+              json['ServiceCatalogConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServiceNowConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final hostUrl = this.hostUrl;
+    final secretArn = this.secretArn;
+    final serviceNowBuildVersion = this.serviceNowBuildVersion;
+    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
+    final serviceCatalogConfiguration = this.serviceCatalogConfiguration;
+    return {
+      'HostUrl': hostUrl,
+      'SecretArn': secretArn,
+      'ServiceNowBuildVersion': serviceNowBuildVersion.toValue(),
+      if (knowledgeArticleConfiguration != null)
+        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
+      if (serviceCatalogConfiguration != null)
+        'ServiceCatalogConfiguration': serviceCatalogConfiguration,
+    };
+  }
 }
 
 /// Provides configuration information for crawling knowledge articles in the
 /// ServiceNow site.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceNowKnowledgeArticleConfiguration {
   /// The name of the ServiceNow field that is mapped to the index document
   /// contents field in the Amazon Kendra index.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// Indicates whether Amazon Kendra should index attachments to knowledge
   /// articles.
-  @_s.JsonKey(name: 'CrawlAttachments')
-  final bool crawlAttachments;
+  final bool? crawlAttachments;
 
   /// The name of the ServiceNow field that is mapped to the index document title
   /// field.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// List of regular expressions applied to knowledge articles. Items that don't
   /// match the inclusion pattern are not indexed. The regex is applied to the
   /// field specified in the <code>PatternTargetField</code>
-  @_s.JsonKey(name: 'ExcludeAttachmentFilePatterns')
-  final List<String> excludeAttachmentFilePatterns;
+  final List<String>? excludeAttachmentFilePatterns;
 
   /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must
   /// create the index field before you map the field.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// List of regular expressions applied to knowledge articles. Items that don't
   /// match the inclusion pattern are not indexed. The regex is applied to the
   /// field specified in the <code>PatternTargetField</code>.
-  @_s.JsonKey(name: 'IncludeAttachmentFilePatterns')
-  final List<String> includeAttachmentFilePatterns;
+  final List<String>? includeAttachmentFilePatterns;
 
   ServiceNowKnowledgeArticleConfiguration({
-    @_s.required this.documentDataFieldName,
+    required this.documentDataFieldName,
     this.crawlAttachments,
     this.documentTitleFieldName,
     this.excludeAttachmentFilePatterns,
@@ -6210,51 +7524,77 @@ class ServiceNowKnowledgeArticleConfiguration {
     this.includeAttachmentFilePatterns,
   });
   factory ServiceNowKnowledgeArticleConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceNowKnowledgeArticleConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ServiceNowKnowledgeArticleConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      excludeAttachmentFilePatterns:
+          (json['ExcludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeAttachmentFilePatterns:
+          (json['IncludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ServiceNowKnowledgeArticleConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final crawlAttachments = this.crawlAttachments;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final excludeAttachmentFilePatterns = this.excludeAttachmentFilePatterns;
+    final fieldMappings = this.fieldMappings;
+    final includeAttachmentFilePatterns = this.includeAttachmentFilePatterns;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (excludeAttachmentFilePatterns != null)
+        'ExcludeAttachmentFilePatterns': excludeAttachmentFilePatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (includeAttachmentFilePatterns != null)
+        'IncludeAttachmentFilePatterns': includeAttachmentFilePatterns,
+    };
+  }
 }
 
 /// Provides configuration information for crawling service catalog items in the
 /// ServiceNow site
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceNowServiceCatalogConfiguration {
   /// The name of the ServiceNow field that is mapped to the index document
   /// contents field in the Amazon Kendra index.
-  @_s.JsonKey(name: 'DocumentDataFieldName')
   final String documentDataFieldName;
 
   /// Indicates whether Amazon Kendra should crawl attachments to the service
   /// catalog items.
-  @_s.JsonKey(name: 'CrawlAttachments')
-  final bool crawlAttachments;
+  final bool? crawlAttachments;
 
   /// The name of the ServiceNow field that is mapped to the index document title
   /// field.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// Determines the types of file attachments that are excluded from the index.
-  @_s.JsonKey(name: 'ExcludeAttachmentFilePatterns')
-  final List<String> excludeAttachmentFilePatterns;
+  final List<String>? excludeAttachmentFilePatterns;
 
   /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must
   /// create the index field before you map the field.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// Determines the types of file attachments that are included in the index.
-  @_s.JsonKey(name: 'IncludeAttachmentFilePatterns')
-  final List<String> includeAttachmentFilePatterns;
+  final List<String>? includeAttachmentFilePatterns;
 
   ServiceNowServiceCatalogConfiguration({
-    @_s.required this.documentDataFieldName,
+    required this.documentDataFieldName,
     this.crawlAttachments,
     this.documentTitleFieldName,
     this.excludeAttachmentFilePatterns,
@@ -6262,20 +7602,52 @@ class ServiceNowServiceCatalogConfiguration {
     this.includeAttachmentFilePatterns,
   });
   factory ServiceNowServiceCatalogConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceNowServiceCatalogConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ServiceNowServiceCatalogConfiguration(
+      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      excludeAttachmentFilePatterns:
+          (json['ExcludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeAttachmentFilePatterns:
+          (json['IncludeAttachmentFilePatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ServiceNowServiceCatalogConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final crawlAttachments = this.crawlAttachments;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final excludeAttachmentFilePatterns = this.excludeAttachmentFilePatterns;
+    final fieldMappings = this.fieldMappings;
+    final includeAttachmentFilePatterns = this.includeAttachmentFilePatterns;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (excludeAttachmentFilePatterns != null)
+        'ExcludeAttachmentFilePatterns': excludeAttachmentFilePatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (includeAttachmentFilePatterns != null)
+        'IncludeAttachmentFilePatterns': includeAttachmentFilePatterns,
+    };
+  }
 }
 
 /// Provides configuration information for connecting to a Microsoft SharePoint
 /// data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SharePointConfiguration {
   /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager.
   /// The credentials should be a user/password pair. For more information, see <a
@@ -6285,32 +7657,26 @@ class SharePointConfiguration {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">
   /// What Is AWS Secrets Manager </a> in the <i>AWS Secrets Manager</i> user
   /// guide.
-  @_s.JsonKey(name: 'SecretArn')
   final String secretArn;
 
   /// The version of Microsoft SharePoint that you are using as a data source.
-  @_s.JsonKey(name: 'SharePointVersion')
   final SharePointVersion sharePointVersion;
 
   /// The URLs of the Microsoft SharePoint site that contains the documents that
   /// should be indexed.
-  @_s.JsonKey(name: 'Urls')
   final List<String> urls;
 
   /// <code>TRUE</code> to include attachments to documents stored in your
   /// Microsoft SharePoint site in the index; otherwise, <code>FALSE</code>.
-  @_s.JsonKey(name: 'CrawlAttachments')
-  final bool crawlAttachments;
+  final bool? crawlAttachments;
 
   /// A Boolean value that specifies whether local groups are disabled
   /// (<code>True</code>) or enabled (<code>False</code>).
-  @_s.JsonKey(name: 'DisableLocalGroups')
-  final bool disableLocalGroups;
+  final bool? disableLocalGroups;
 
   /// The Microsoft SharePoint attribute field that contains the title of the
   /// document.
-  @_s.JsonKey(name: 'DocumentTitleFieldName')
-  final String documentTitleFieldName;
+  final String? documentTitleFieldName;
 
   /// A list of regular expression patterns. Documents that match the patterns are
   /// excluded from the index. Documents that don't match the patterns are
@@ -6318,8 +7684,7 @@ class SharePointConfiguration {
   /// an inclusion pattern, the document is not included in the index.
   ///
   /// The regex is applied to the display URL of the SharePoint document.
-  @_s.JsonKey(name: 'ExclusionPatterns')
-  final List<String> exclusionPatterns;
+  final List<String>? exclusionPatterns;
 
   /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
   /// Microsoft SharePoint attributes to custom fields in the Amazon Kendra index.
@@ -6327,8 +7692,7 @@ class SharePointConfiguration {
   /// SharePoint attributes. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
   /// Data Source Fields</a>.
-  @_s.JsonKey(name: 'FieldMappings')
-  final List<DataSourceToIndexFieldMapping> fieldMappings;
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
   /// A list of regular expression patterns. Documents that match the patterns are
   /// included in the index. Documents that don't match the patterns are excluded
@@ -6336,23 +7700,20 @@ class SharePointConfiguration {
   /// exclusion pattern, the document is not included in the index.
   ///
   /// The regex is applied to the display URL of the SharePoint document.
-  @_s.JsonKey(name: 'InclusionPatterns')
-  final List<String> inclusionPatterns;
+  final List<String>? inclusionPatterns;
 
   /// Set to <code>TRUE</code> to use the Microsoft SharePoint change log to
   /// determine the documents that need to be updated in the index. Depending on
   /// the size of the SharePoint change log, it may take longer for Amazon Kendra
   /// to use the change log than it takes it to determine the changed documents
   /// using the Amazon Kendra document crawler.
-  @_s.JsonKey(name: 'UseChangeLog')
-  final bool useChangeLog;
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final DataSourceVpcConfiguration vpcConfiguration;
+  final bool? useChangeLog;
+  final DataSourceVpcConfiguration? vpcConfiguration;
 
   SharePointConfiguration({
-    @_s.required this.secretArn,
-    @_s.required this.sharePointVersion,
-    @_s.required this.urls,
+    required this.secretArn,
+    required this.sharePointVersion,
+    required this.urls,
     this.crawlAttachments,
     this.disableLocalGroups,
     this.documentTitleFieldName,
@@ -6362,22 +7723,117 @@ class SharePointConfiguration {
     this.useChangeLog,
     this.vpcConfiguration,
   });
-  factory SharePointConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SharePointConfigurationFromJson(json);
+  factory SharePointConfiguration.fromJson(Map<String, dynamic> json) {
+    return SharePointConfiguration(
+      secretArn: json['SecretArn'] as String,
+      sharePointVersion:
+          (json['SharePointVersion'] as String).toSharePointVersion(),
+      urls: (json['Urls'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      disableLocalGroups: json['DisableLocalGroups'] as bool?,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      useChangeLog: json['UseChangeLog'] as bool?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SharePointConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final sharePointVersion = this.sharePointVersion;
+    final urls = this.urls;
+    final crawlAttachments = this.crawlAttachments;
+    final disableLocalGroups = this.disableLocalGroups;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    final useChangeLog = this.useChangeLog;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'SecretArn': secretArn,
+      'SharePointVersion': sharePointVersion.toValue(),
+      'Urls': urls,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 enum SharePointVersion {
-  @_s.JsonValue('SHAREPOINT_ONLINE')
   sharepointOnline,
 }
 
+extension on SharePointVersion {
+  String toValue() {
+    switch (this) {
+      case SharePointVersion.sharepointOnline:
+        return 'SHAREPOINT_ONLINE';
+    }
+  }
+}
+
+extension on String {
+  SharePointVersion toSharePointVersion() {
+    switch (this) {
+      case 'SHAREPOINT_ONLINE':
+        return SharePointVersion.sharepointOnline;
+    }
+    throw Exception('$this is not known in enum SharePointVersion');
+  }
+}
+
 enum SortOrder {
-  @_s.JsonValue('DESC')
   desc,
-  @_s.JsonValue('ASC')
   asc,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.desc:
+        return 'DESC';
+      case SortOrder.asc:
+        return 'ASC';
+    }
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'DESC':
+        return SortOrder.desc;
+      case 'ASC':
+        return SortOrder.asc;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
 }
 
 /// Specifies the document attribute to use to sort the response to a Amazon
@@ -6405,11 +7861,6 @@ enum SortOrder {
 /// String list value
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SortingConfiguration {
   /// The name of the document attribute used to sort the response. You can use
   /// any field that has the <code>Sortable</code> flag set to true.
@@ -6433,28 +7884,28 @@ class SortingConfiguration {
   /// _view_count
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DocumentAttributeKey')
   final String documentAttributeKey;
 
   /// The order that the results should be returned in. In case of ties, the
   /// relevance assigned to the result by Amazon Kendra is used as the
   /// tie-breaker.
-  @_s.JsonKey(name: 'SortOrder')
   final SortOrder sortOrder;
 
   SortingConfiguration({
-    @_s.required this.documentAttributeKey,
-    @_s.required this.sortOrder,
+    required this.documentAttributeKey,
+    required this.sortOrder,
   });
-  Map<String, dynamic> toJson() => _$SortingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentAttributeKey = this.documentAttributeKey;
+    final sortOrder = this.sortOrder;
+    return {
+      'DocumentAttributeKey': documentAttributeKey,
+      'SortOrder': sortOrder.toValue(),
+    };
+  }
 }
 
 /// Provides information that configures Amazon Kendra to use a SQL database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqlConfiguration {
   /// Determines whether Amazon Kendra encloses SQL identifiers for tables and
   /// column names in double quotes (") when making a database query.
@@ -6470,163 +7921,191 @@ class SqlConfiguration {
   ///
   /// For MySQL databases, you must enable the <code>ansi_quotes</code> option
   /// when you set this field to <code>DOUBLE_QUOTES</code>.
-  @_s.JsonKey(name: 'QueryIdentifiersEnclosingOption')
-  final QueryIdentifiersEnclosingOption queryIdentifiersEnclosingOption;
+  final QueryIdentifiersEnclosingOption? queryIdentifiersEnclosingOption;
 
   SqlConfiguration({
     this.queryIdentifiersEnclosingOption,
   });
-  factory SqlConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SqlConfigurationFromJson(json);
+  factory SqlConfiguration.fromJson(Map<String, dynamic> json) {
+    return SqlConfiguration(
+      queryIdentifiersEnclosingOption:
+          (json['QueryIdentifiersEnclosingOption'] as String?)
+              ?.toQueryIdentifiersEnclosingOption(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SqlConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final queryIdentifiersEnclosingOption =
+        this.queryIdentifiersEnclosingOption;
+    return {
+      if (queryIdentifiersEnclosingOption != null)
+        'QueryIdentifiersEnclosingOption':
+            queryIdentifiersEnclosingOption.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDataSourceSyncJobResponse {
   /// Identifies a particular synchronization job.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   StartDataSourceSyncJobResponse({
     this.executionId,
   });
-  factory StartDataSourceSyncJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartDataSourceSyncJobResponseFromJson(json);
+  factory StartDataSourceSyncJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartDataSourceSyncJobResponse(
+      executionId: json['ExecutionId'] as String?,
+    );
+  }
 }
 
 /// A list of key/value pairs that identify an index, FAQ, or data source. Tag
 /// keys and values can consist of Unicode letters, digits, white space, and any
 /// of the following symbols: _ . : / = + - @.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key for the tag. Keys are not case sensitive and must be unique for the
   /// index, FAQ, or data source.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value associated with the tag. The value may be an empty string but it
   /// can't be null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Provides information about text documents indexed in an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TextDocumentStatistics {
   /// The total size, in bytes, of the indexed documents.
-  @_s.JsonKey(name: 'IndexedTextBytes')
   final int indexedTextBytes;
 
   /// The number of text documents indexed.
-  @_s.JsonKey(name: 'IndexedTextDocumentsCount')
   final int indexedTextDocumentsCount;
 
   TextDocumentStatistics({
-    @_s.required this.indexedTextBytes,
-    @_s.required this.indexedTextDocumentsCount,
+    required this.indexedTextBytes,
+    required this.indexedTextDocumentsCount,
   });
-  factory TextDocumentStatistics.fromJson(Map<String, dynamic> json) =>
-      _$TextDocumentStatisticsFromJson(json);
+  factory TextDocumentStatistics.fromJson(Map<String, dynamic> json) {
+    return TextDocumentStatistics(
+      indexedTextBytes: json['IndexedTextBytes'] as int,
+      indexedTextDocumentsCount: json['IndexedTextDocumentsCount'] as int,
+    );
+  }
 }
 
 /// Provides text and information about where to highlight the text.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TextWithHighlights {
   /// The beginning and end of the text that should be highlighted.
-  @_s.JsonKey(name: 'Highlights')
-  final List<Highlight> highlights;
+  final List<Highlight>? highlights;
 
   /// The text to display to the user.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   TextWithHighlights({
     this.highlights,
     this.text,
   });
-  factory TextWithHighlights.fromJson(Map<String, dynamic> json) =>
-      _$TextWithHighlightsFromJson(json);
+  factory TextWithHighlights.fromJson(Map<String, dynamic> json) {
+    return TextWithHighlights(
+      highlights: (json['Highlights'] as List?)
+          ?.whereNotNull()
+          .map((e) => Highlight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      text: json['Text'] as String?,
+    );
+  }
 }
 
 enum ThesaurusStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE_BUT_UPDATE_FAILED')
   activeButUpdateFailed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ThesaurusStatus {
+  String toValue() {
+    switch (this) {
+      case ThesaurusStatus.creating:
+        return 'CREATING';
+      case ThesaurusStatus.active:
+        return 'ACTIVE';
+      case ThesaurusStatus.deleting:
+        return 'DELETING';
+      case ThesaurusStatus.updating:
+        return 'UPDATING';
+      case ThesaurusStatus.activeButUpdateFailed:
+        return 'ACTIVE_BUT_UPDATE_FAILED';
+      case ThesaurusStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ThesaurusStatus toThesaurusStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ThesaurusStatus.creating;
+      case 'ACTIVE':
+        return ThesaurusStatus.active;
+      case 'DELETING':
+        return ThesaurusStatus.deleting;
+      case 'UPDATING':
+        return ThesaurusStatus.updating;
+      case 'ACTIVE_BUT_UPDATE_FAILED':
+        return ThesaurusStatus.activeButUpdateFailed;
+      case 'FAILED':
+        return ThesaurusStatus.failed;
+    }
+    throw Exception('$this is not known in enum ThesaurusStatus');
+  }
+}
+
 /// An array of summary information for one or more thesauruses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThesaurusSummary {
   /// The Unix datetime that the thesaurus was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The identifier of the thesaurus.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the thesaurus.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the thesaurus.
-  @_s.JsonKey(name: 'Status')
-  final ThesaurusStatus status;
+  final ThesaurusStatus? status;
 
   /// The Unix datetime that the thesaurus was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   ThesaurusSummary({
     this.createdAt,
@@ -6635,66 +8114,64 @@ class ThesaurusSummary {
     this.status,
     this.updatedAt,
   });
-  factory ThesaurusSummary.fromJson(Map<String, dynamic> json) =>
-      _$ThesaurusSummaryFromJson(json);
+  factory ThesaurusSummary.fromJson(Map<String, dynamic> json) {
+    return ThesaurusSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toThesaurusStatus(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 /// Provides a range of time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimeRange {
   /// The UNIX datetime of the end of the time range.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The UNIX datetime of the beginning of the time range.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   TimeRange({
     this.endTime,
     this.startTime,
   });
-  Map<String, dynamic> toJson() => _$TimeRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// Provides information about the user context for a Amazon Kendra index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UserContext {
   /// The user context token. It must be a JWT or a JSON token.
-  @_s.JsonKey(name: 'Token')
-  final String token;
+  final String? token;
 
   UserContext({
     this.token,
   });
-  Map<String, dynamic> toJson() => _$UserContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    return {
+      if (token != null) 'Token': token,
+    };
+  }
 }
 
 enum UserContextPolicy {
-  @_s.JsonValue('ATTRIBUTE_FILTER')
   attributeFilter,
-  @_s.JsonValue('USER_TOKEN')
   userToken,
 }
 
@@ -6706,52 +8183,75 @@ extension on UserContextPolicy {
       case UserContextPolicy.userToken:
         return 'USER_TOKEN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserContextPolicy toUserContextPolicy() {
+    switch (this) {
+      case 'ATTRIBUTE_FILTER':
+        return UserContextPolicy.attributeFilter;
+      case 'USER_TOKEN':
+        return UserContextPolicy.userToken;
+    }
+    throw Exception('$this is not known in enum UserContextPolicy');
   }
 }
 
 /// Provides configuration information for a token configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserTokenConfiguration {
   /// Information about the JSON token type configuration.
-  @_s.JsonKey(name: 'JsonTokenTypeConfiguration')
-  final JsonTokenTypeConfiguration jsonTokenTypeConfiguration;
+  final JsonTokenTypeConfiguration? jsonTokenTypeConfiguration;
 
   /// Information about the JWT token type configuration.
-  @_s.JsonKey(name: 'JwtTokenTypeConfiguration')
-  final JwtTokenTypeConfiguration jwtTokenTypeConfiguration;
+  final JwtTokenTypeConfiguration? jwtTokenTypeConfiguration;
 
   UserTokenConfiguration({
     this.jsonTokenTypeConfiguration,
     this.jwtTokenTypeConfiguration,
   });
-  factory UserTokenConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$UserTokenConfigurationFromJson(json);
+  factory UserTokenConfiguration.fromJson(Map<String, dynamic> json) {
+    return UserTokenConfiguration(
+      jsonTokenTypeConfiguration: json['JsonTokenTypeConfiguration'] != null
+          ? JsonTokenTypeConfiguration.fromJson(
+              json['JsonTokenTypeConfiguration'] as Map<String, dynamic>)
+          : null,
+      jwtTokenTypeConfiguration: json['JwtTokenTypeConfiguration'] != null
+          ? JwtTokenTypeConfiguration.fromJson(
+              json['JwtTokenTypeConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserTokenConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final jsonTokenTypeConfiguration = this.jsonTokenTypeConfiguration;
+    final jwtTokenTypeConfiguration = this.jwtTokenTypeConfiguration;
+    return {
+      if (jsonTokenTypeConfiguration != null)
+        'JsonTokenTypeConfiguration': jsonTokenTypeConfiguration,
+      if (jwtTokenTypeConfiguration != null)
+        'JwtTokenTypeConfiguration': jwtTokenTypeConfiguration,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceAlreadyExistException extends _s.GenericAwsException {
-  ResourceAlreadyExistException({String type, String message})
+  ResourceAlreadyExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistException',
@@ -6759,23 +8259,23 @@ class ResourceAlreadyExistException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceUnavailableException extends _s.GenericAwsException {
-  ResourceUnavailableException({String type, String message})
+  ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -6783,12 +8283,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

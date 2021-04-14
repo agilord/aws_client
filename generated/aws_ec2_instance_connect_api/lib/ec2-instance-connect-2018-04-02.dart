@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'ec2-instance-connect-2018-04-02.g.dart';
 
 /// AWS EC2 Connect Service is a service that enables system administrators to
 /// publish temporary SSH keys to their EC2 instances in order to establish
@@ -33,10 +25,10 @@ part 'ec2-instance-connect-2018-04-02.g.dart';
 class EC2InstanceConnect {
   final _s.JsonProtocol _protocol;
   EC2InstanceConnect({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,10 +62,10 @@ class EC2InstanceConnect {
   /// The public key to be published to the instance. To use it after
   /// publication you must have the matching private key.
   Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
-    @_s.required String availabilityZone,
-    @_s.required String instanceId,
-    @_s.required String instanceOSUser,
-    @_s.required String sSHPublicKey,
+    required String availabilityZone,
+    required String instanceId,
+    required String instanceOSUser,
+    required String sSHPublicKey,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
     _s.validateStringLength(
@@ -147,52 +139,49 @@ class EC2InstanceConnect {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendSSHPublicKeyResponse {
   /// The request ID as logged by EC2 Connect. Please provide this when contacting
   /// AWS Support.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// Indicates request success.
-  @_s.JsonKey(name: 'Success')
-  final bool success;
+  final bool? success;
 
   SendSSHPublicKeyResponse({
     this.requestId,
     this.success,
   });
-  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendSSHPublicKeyResponseFromJson(json);
+  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return SendSSHPublicKeyResponse(
+      requestId: json['RequestId'] as String?,
+      success: json['Success'] as bool?,
+    );
+  }
 }
 
 class AuthException extends _s.GenericAwsException {
-  AuthException({String type, String message})
+  AuthException({String? type, String? message})
       : super(type: type, code: 'AuthException', message: message);
 }
 
 class EC2InstanceNotFoundException extends _s.GenericAwsException {
-  EC2InstanceNotFoundException({String type, String message})
+  EC2InstanceNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'EC2InstanceNotFoundException', message: message);
 }
 
 class InvalidArgsException extends _s.GenericAwsException {
-  InvalidArgsException({String type, String message})
+  InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

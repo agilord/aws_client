@@ -8,8 +8,8 @@ part of 'pi-2018-02-27.dart';
 
 DataPoint _$DataPointFromJson(Map<String, dynamic> json) {
   return DataPoint(
-    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
-    value: (json['Value'] as num)?.toDouble(),
+    timestamp: DateTime.parse(json['Timestamp'] as String),
+    value: (json['Value'] as num).toDouble(),
   );
 }
 
@@ -20,22 +20,21 @@ DescribeDimensionKeysResponse _$DescribeDimensionKeysResponseFromJson(
         const UnixDateTimeConverter().fromJson(json['AlignedEndTime']),
     alignedStartTime:
         const UnixDateTimeConverter().fromJson(json['AlignedStartTime']),
-    keys: (json['Keys'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DimensionKeyDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    partitionKeys: (json['PartitionKeys'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResponsePartitionKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    keys: (json['Keys'] as List<dynamic>?)
+        ?.map(
+            (e) => DimensionKeyDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    partitionKeys: (json['PartitionKeys'] as List<dynamic>?)
+        ?.map((e) => ResponsePartitionKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$DimensionGroupToJson(DimensionGroup instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Group': instance.group,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -43,7 +42,6 @@ Map<String, dynamic> _$DimensionGroupToJson(DimensionGroup instance) {
     }
   }
 
-  writeNotNull('Group', instance.group);
   writeNotNull('Dimensions', instance.dimensions);
   writeNotNull('Limit', instance.limit);
   return val;
@@ -52,13 +50,13 @@ Map<String, dynamic> _$DimensionGroupToJson(DimensionGroup instance) {
 DimensionKeyDescription _$DimensionKeyDescriptionFromJson(
     Map<String, dynamic> json) {
   return DimensionKeyDescription(
-    dimensions: (json['Dimensions'] as Map<String, dynamic>)?.map(
+    dimensions: (json['Dimensions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    partitions: (json['Partitions'] as List)
-        ?.map((e) => (e as num)?.toDouble())
-        ?.toList(),
-    total: (json['Total'] as num)?.toDouble(),
+    partitions: (json['Partitions'] as List<dynamic>?)
+        ?.map((e) => (e as num).toDouble())
+        .toList(),
+    total: (json['Total'] as num?)?.toDouble(),
   );
 }
 
@@ -69,22 +67,19 @@ GetResourceMetricsResponse _$GetResourceMetricsResponseFromJson(
         const UnixDateTimeConverter().fromJson(json['AlignedEndTime']),
     alignedStartTime:
         const UnixDateTimeConverter().fromJson(json['AlignedStartTime']),
-    identifier: json['Identifier'] as String,
-    metricList: (json['MetricList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MetricKeyDataPoints.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    identifier: json['Identifier'] as String?,
+    metricList: (json['MetricList'] as List<dynamic>?)
+        ?.map((e) => MetricKeyDataPoints.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 MetricKeyDataPoints _$MetricKeyDataPointsFromJson(Map<String, dynamic> json) {
   return MetricKeyDataPoints(
-    dataPoints: (json['DataPoints'] as List)
-        ?.map((e) =>
-            e == null ? null : DataPoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    dataPoints: (json['DataPoints'] as List<dynamic>?)
+        ?.map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     key: json['Key'] == null
         ? null
         : ResponseResourceMetricKey.fromJson(
@@ -93,7 +88,9 @@ MetricKeyDataPoints _$MetricKeyDataPointsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$MetricQueryToJson(MetricQuery instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Metric': instance.metric,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -101,7 +98,6 @@ Map<String, dynamic> _$MetricQueryToJson(MetricQuery instance) {
     }
   }
 
-  writeNotNull('Metric', instance.metric);
   writeNotNull('Filter', instance.filter);
   writeNotNull('GroupBy', instance.groupBy?.toJson());
   return val;
@@ -109,9 +105,7 @@ Map<String, dynamic> _$MetricQueryToJson(MetricQuery instance) {
 
 ResponsePartitionKey _$ResponsePartitionKeyFromJson(Map<String, dynamic> json) {
   return ResponsePartitionKey(
-    dimensions: (json['Dimensions'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
+    dimensions: Map<String, String>.from(json['Dimensions'] as Map),
   );
 }
 
@@ -119,7 +113,7 @@ ResponseResourceMetricKey _$ResponseResourceMetricKeyFromJson(
     Map<String, dynamic> json) {
   return ResponseResourceMetricKey(
     metric: json['Metric'] as String,
-    dimensions: (json['Dimensions'] as Map<String, dynamic>)?.map(
+    dimensions: (json['Dimensions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );

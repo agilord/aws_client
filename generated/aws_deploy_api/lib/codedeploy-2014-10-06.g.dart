@@ -8,7 +8,7 @@ part of 'codedeploy-2014-10-06.dart';
 
 Alarm _$AlarmFromJson(Map<String, dynamic> json) {
   return Alarm(
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -27,12 +27,11 @@ Map<String, dynamic> _$AlarmToJson(Alarm instance) {
 
 AlarmConfiguration _$AlarmConfigurationFromJson(Map<String, dynamic> json) {
   return AlarmConfiguration(
-    alarms: (json['alarms'] as List)
-        ?.map(
-            (e) => e == null ? null : Alarm.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    enabled: json['enabled'] as bool,
-    ignorePollAlarmFailure: json['ignorePollAlarmFailure'] as bool,
+    alarms: (json['alarms'] as List<dynamic>?)
+        ?.map((e) => Alarm.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    enabled: json['enabled'] as bool?,
+    ignorePollAlarmFailure: json['ignorePollAlarmFailure'] as bool?,
   );
 }
 
@@ -45,7 +44,7 @@ Map<String, dynamic> _$AlarmConfigurationToJson(AlarmConfiguration instance) {
     }
   }
 
-  writeNotNull('alarms', instance.alarms?.map((e) => e?.toJson())?.toList());
+  writeNotNull('alarms', instance.alarms?.map((e) => e.toJson()).toList());
   writeNotNull('enabled', instance.enabled);
   writeNotNull('ignorePollAlarmFailure', instance.ignorePollAlarmFailure);
   return val;
@@ -53,8 +52,8 @@ Map<String, dynamic> _$AlarmConfigurationToJson(AlarmConfiguration instance) {
 
 AppSpecContent _$AppSpecContentFromJson(Map<String, dynamic> json) {
   return AppSpecContent(
-    content: json['content'] as String,
-    sha256: json['sha256'] as String,
+    content: json['content'] as String?,
+    sha256: json['sha256'] as String?,
   );
 }
 
@@ -74,46 +73,51 @@ Map<String, dynamic> _$AppSpecContentToJson(AppSpecContent instance) {
 
 ApplicationInfo _$ApplicationInfoFromJson(Map<String, dynamic> json) {
   return ApplicationInfo(
-    applicationId: json['applicationId'] as String,
-    applicationName: json['applicationName'] as String,
+    applicationId: json['applicationId'] as String?,
+    applicationName: json['applicationName'] as String?,
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
     createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
-    gitHubAccountName: json['gitHubAccountName'] as String,
-    linkedToGitHub: json['linkedToGitHub'] as bool,
+    gitHubAccountName: json['gitHubAccountName'] as String?,
+    linkedToGitHub: json['linkedToGitHub'] as bool?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ComputePlatformEnumMap = {
@@ -125,10 +129,10 @@ const _$ComputePlatformEnumMap = {
 AutoRollbackConfiguration _$AutoRollbackConfigurationFromJson(
     Map<String, dynamic> json) {
   return AutoRollbackConfiguration(
-    enabled: json['enabled'] as bool,
-    events: (json['events'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$AutoRollbackEventEnumMap, e))
-        ?.toList(),
+    enabled: json['enabled'] as bool?,
+    events: (json['events'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$AutoRollbackEventEnumMap, e))
+        .toList(),
   );
 }
 
@@ -144,7 +148,7 @@ Map<String, dynamic> _$AutoRollbackConfigurationToJson(
 
   writeNotNull('enabled', instance.enabled);
   writeNotNull('events',
-      instance.events?.map((e) => _$AutoRollbackEventEnumMap[e])?.toList());
+      instance.events?.map((e) => _$AutoRollbackEventEnumMap[e]).toList());
   return val;
 }
 
@@ -156,87 +160,75 @@ const _$AutoRollbackEventEnumMap = {
 
 AutoScalingGroup _$AutoScalingGroupFromJson(Map<String, dynamic> json) {
   return AutoScalingGroup(
-    hook: json['hook'] as String,
-    name: json['name'] as String,
+    hook: json['hook'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 BatchGetApplicationRevisionsOutput _$BatchGetApplicationRevisionsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetApplicationRevisionsOutput(
-    applicationName: json['applicationName'] as String,
-    errorMessage: json['errorMessage'] as String,
-    revisions: (json['revisions'] as List)
-        ?.map((e) =>
-            e == null ? null : RevisionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    applicationName: json['applicationName'] as String?,
+    errorMessage: json['errorMessage'] as String?,
+    revisions: (json['revisions'] as List<dynamic>?)
+        ?.map((e) => RevisionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetApplicationsOutput _$BatchGetApplicationsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetApplicationsOutput(
-    applicationsInfo: (json['applicationsInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ApplicationInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    applicationsInfo: (json['applicationsInfo'] as List<dynamic>?)
+        ?.map((e) => ApplicationInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetDeploymentGroupsOutput _$BatchGetDeploymentGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentGroupsOutput(
-    deploymentGroupsInfo: (json['deploymentGroupsInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeploymentGroupInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    errorMessage: json['errorMessage'] as String,
+    deploymentGroupsInfo: (json['deploymentGroupsInfo'] as List<dynamic>?)
+        ?.map((e) => DeploymentGroupInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    errorMessage: json['errorMessage'] as String?,
   );
 }
 
 BatchGetDeploymentInstancesOutput _$BatchGetDeploymentInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentInstancesOutput(
-    errorMessage: json['errorMessage'] as String,
-    instancesSummary: (json['instancesSummary'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errorMessage: json['errorMessage'] as String?,
+    instancesSummary: (json['instancesSummary'] as List<dynamic>?)
+        ?.map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetDeploymentTargetsOutput _$BatchGetDeploymentTargetsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentTargetsOutput(
-    deploymentTargets: (json['deploymentTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeploymentTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deploymentTargets: (json['deploymentTargets'] as List<dynamic>?)
+        ?.map((e) => DeploymentTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetDeploymentsOutput _$BatchGetDeploymentsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentsOutput(
-    deploymentsInfo: (json['deploymentsInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeploymentInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deploymentsInfo: (json['deploymentsInfo'] as List<dynamic>?)
+        ?.map((e) => DeploymentInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetOnPremisesInstancesOutput _$BatchGetOnPremisesInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetOnPremisesInstancesOutput(
-    instanceInfos: (json['instanceInfos'] as List)
-        ?.map((e) =>
-            e == null ? null : InstanceInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    instanceInfos: (json['instanceInfos'] as List<dynamic>?)
+        ?.map((e) => InstanceInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -283,7 +275,7 @@ BlueInstanceTerminationOption _$BlueInstanceTerminationOptionFromJson(
     Map<String, dynamic> json) {
   return BlueInstanceTerminationOption(
     action: _$enumDecodeNullable(_$InstanceActionEnumMap, json['action']),
-    terminationWaitTimeInMinutes: json['terminationWaitTimeInMinutes'] as int,
+    terminationWaitTimeInMinutes: json['terminationWaitTimeInMinutes'] as int?,
   );
 }
 
@@ -310,18 +302,16 @@ const _$InstanceActionEnumMap = {
 
 CloudFormationTarget _$CloudFormationTargetFromJson(Map<String, dynamic> json) {
   return CloudFormationTarget(
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    lifecycleEvents: (json['lifecycleEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resourceType: json['resourceType'] as String,
+    lifecycleEvents: (json['lifecycleEvents'] as List<dynamic>?)
+        ?.map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resourceType: json['resourceType'] as String?,
     status: _$enumDecodeNullable(_$TargetStatusEnumMap, json['status']),
-    targetId: json['targetId'] as String,
-    targetVersionWeight: (json['targetVersionWeight'] as num)?.toDouble(),
+    targetId: json['targetId'] as String?,
+    targetVersionWeight: (json['targetVersionWeight'] as num?)?.toDouble(),
   );
 }
 
@@ -338,46 +328,44 @@ const _$TargetStatusEnumMap = {
 CreateApplicationOutput _$CreateApplicationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationOutput(
-    applicationId: json['applicationId'] as String,
+    applicationId: json['applicationId'] as String?,
   );
 }
 
 CreateDeploymentConfigOutput _$CreateDeploymentConfigOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentConfigOutput(
-    deploymentConfigId: json['deploymentConfigId'] as String,
+    deploymentConfigId: json['deploymentConfigId'] as String?,
   );
 }
 
 CreateDeploymentGroupOutput _$CreateDeploymentGroupOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentGroupOutput(
-    deploymentGroupId: json['deploymentGroupId'] as String,
+    deploymentGroupId: json['deploymentGroupId'] as String?,
   );
 }
 
 CreateDeploymentOutput _$CreateDeploymentOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentOutput(
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
   );
 }
 
 DeleteDeploymentGroupOutput _$DeleteDeploymentGroupOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteDeploymentGroupOutput(
-    hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AutoScalingGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List<dynamic>?)
+        ?.map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DeleteGitHubAccountTokenOutput _$DeleteGitHubAccountTokenOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteGitHubAccountTokenOutput(
-    tokenName: json['tokenName'] as String,
+    tokenName: json['tokenName'] as String?,
   );
 }
 
@@ -391,8 +379,8 @@ DeploymentConfigInfo _$DeploymentConfigInfoFromJson(Map<String, dynamic> json) {
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
     createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
-    deploymentConfigId: json['deploymentConfigId'] as String,
-    deploymentConfigName: json['deploymentConfigName'] as String,
+    deploymentConfigId: json['deploymentConfigId'] as String?,
+    deploymentConfigName: json['deploymentConfigName'] as String?,
     minimumHealthyHosts: json['minimumHealthyHosts'] == null
         ? null
         : MinimumHealthyHosts.fromJson(
@@ -410,16 +398,14 @@ DeploymentGroupInfo _$DeploymentGroupInfoFromJson(Map<String, dynamic> json) {
         ? null
         : AlarmConfiguration.fromJson(
             json['alarmConfiguration'] as Map<String, dynamic>),
-    applicationName: json['applicationName'] as String,
+    applicationName: json['applicationName'] as String?,
     autoRollbackConfiguration: json['autoRollbackConfiguration'] == null
         ? null
         : AutoRollbackConfiguration.fromJson(
             json['autoRollbackConfiguration'] as Map<String, dynamic>),
-    autoScalingGroups: (json['autoScalingGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AutoScalingGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    autoScalingGroups: (json['autoScalingGroups'] as List<dynamic>?)
+        ?.map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
     blueGreenDeploymentConfiguration:
         json['blueGreenDeploymentConfiguration'] == null
             ? null
@@ -428,24 +414,22 @@ DeploymentGroupInfo _$DeploymentGroupInfoFromJson(Map<String, dynamic> json) {
                     as Map<String, dynamic>),
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
-    deploymentConfigName: json['deploymentConfigName'] as String,
-    deploymentGroupId: json['deploymentGroupId'] as String,
-    deploymentGroupName: json['deploymentGroupName'] as String,
+    deploymentConfigName: json['deploymentConfigName'] as String?,
+    deploymentGroupId: json['deploymentGroupId'] as String?,
+    deploymentGroupName: json['deploymentGroupName'] as String?,
     deploymentStyle: json['deploymentStyle'] == null
         ? null
         : DeploymentStyle.fromJson(
             json['deploymentStyle'] as Map<String, dynamic>),
-    ec2TagFilters: (json['ec2TagFilters'] as List)
-        ?.map((e) =>
-            e == null ? null : EC2TagFilter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    ec2TagFilters: (json['ec2TagFilters'] as List<dynamic>?)
+        ?.map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
     ec2TagSet: json['ec2TagSet'] == null
         ? null
         : EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>),
-    ecsServices: (json['ecsServices'] as List)
-        ?.map((e) =>
-            e == null ? null : ECSService.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    ecsServices: (json['ecsServices'] as List<dynamic>?)
+        ?.map((e) => ECSService.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastAttemptedDeployment: json['lastAttemptedDeployment'] == null
         ? null
         : LastDeploymentInfo.fromJson(
@@ -458,32 +442,30 @@ DeploymentGroupInfo _$DeploymentGroupInfoFromJson(Map<String, dynamic> json) {
         ? null
         : LoadBalancerInfo.fromJson(
             json['loadBalancerInfo'] as Map<String, dynamic>),
-    onPremisesInstanceTagFilters: (json['onPremisesInstanceTagFilters'] as List)
-        ?.map((e) =>
-            e == null ? null : TagFilter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    onPremisesInstanceTagFilters:
+        (json['onPremisesInstanceTagFilters'] as List<dynamic>?)
+            ?.map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+            .toList(),
     onPremisesTagSet: json['onPremisesTagSet'] == null
         ? null
         : OnPremisesTagSet.fromJson(
             json['onPremisesTagSet'] as Map<String, dynamic>),
-    serviceRoleArn: json['serviceRoleArn'] as String,
+    serviceRoleArn: json['serviceRoleArn'] as String?,
     targetRevision: json['targetRevision'] == null
         ? null
         : RevisionLocation.fromJson(
             json['targetRevision'] as Map<String, dynamic>),
-    triggerConfigurations: (json['triggerConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TriggerConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    triggerConfigurations: (json['triggerConfigurations'] as List<dynamic>?)
+        ?.map((e) => TriggerConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
   return DeploymentInfo(
     additionalDeploymentStatusInfo:
-        json['additionalDeploymentStatusInfo'] as String,
-    applicationName: json['applicationName'] as String,
+        json['additionalDeploymentStatusInfo'] as String?,
+    applicationName: json['applicationName'] as String?,
     autoRollbackConfiguration: json['autoRollbackConfiguration'] == null
         ? null
         : AutoRollbackConfiguration.fromJson(
@@ -499,32 +481,33 @@ DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
     createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
     creator: _$enumDecodeNullable(_$DeploymentCreatorEnumMap, json['creator']),
-    deploymentConfigName: json['deploymentConfigName'] as String,
-    deploymentGroupName: json['deploymentGroupName'] as String,
-    deploymentId: json['deploymentId'] as String,
+    deploymentConfigName: json['deploymentConfigName'] as String?,
+    deploymentGroupName: json['deploymentGroupName'] as String?,
+    deploymentId: json['deploymentId'] as String?,
     deploymentOverview: json['deploymentOverview'] == null
         ? null
         : DeploymentOverview.fromJson(
             json['deploymentOverview'] as Map<String, dynamic>),
-    deploymentStatusMessages: (json['deploymentStatusMessages'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    deploymentStatusMessages:
+        (json['deploymentStatusMessages'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
     deploymentStyle: json['deploymentStyle'] == null
         ? null
         : DeploymentStyle.fromJson(
             json['deploymentStyle'] as Map<String, dynamic>),
-    description: json['description'] as String,
+    description: json['description'] as String?,
     errorInformation: json['errorInformation'] == null
         ? null
         : ErrorInformation.fromJson(
             json['errorInformation'] as Map<String, dynamic>),
-    externalId: json['externalId'] as String,
+    externalId: json['externalId'] as String?,
     fileExistsBehavior: _$enumDecodeNullable(
         _$FileExistsBehaviorEnumMap, json['fileExistsBehavior']),
     ignoreApplicationStopFailures:
-        json['ignoreApplicationStopFailures'] as bool,
+        json['ignoreApplicationStopFailures'] as bool?,
     instanceTerminationWaitTimeStarted:
-        json['instanceTerminationWaitTimeStarted'] as bool,
+        json['instanceTerminationWaitTimeStarted'] as bool?,
     loadBalancerInfo: json['loadBalancerInfo'] == null
         ? null
         : LoadBalancerInfo.fromJson(
@@ -545,7 +528,7 @@ DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
         ? null
         : TargetInstances.fromJson(
             json['targetInstances'] as Map<String, dynamic>),
-    updateOutdatedInstancesOnly: json['updateOutdatedInstancesOnly'] as bool,
+    updateOutdatedInstancesOnly: json['updateOutdatedInstancesOnly'] as bool?,
   );
 }
 
@@ -577,12 +560,12 @@ const _$DeploymentStatusEnumMap = {
 
 DeploymentOverview _$DeploymentOverviewFromJson(Map<String, dynamic> json) {
   return DeploymentOverview(
-    failed: json['Failed'] as int,
-    inProgress: json['InProgress'] as int,
-    pending: json['Pending'] as int,
-    ready: json['Ready'] as int,
-    skipped: json['Skipped'] as int,
-    succeeded: json['Succeeded'] as int,
+    failed: json['Failed'] as int?,
+    inProgress: json['InProgress'] as int?,
+    pending: json['Pending'] as int?,
+    ready: json['Ready'] as int?,
+    skipped: json['Skipped'] as int?,
+    succeeded: json['Succeeded'] as int?,
   );
 }
 
@@ -591,7 +574,7 @@ DeploymentReadyOption _$DeploymentReadyOptionFromJson(
   return DeploymentReadyOption(
     actionOnTimeout: _$enumDecodeNullable(
         _$DeploymentReadyActionEnumMap, json['actionOnTimeout']),
-    waitTimeInMinutes: json['waitTimeInMinutes'] as int,
+    waitTimeInMinutes: json['waitTimeInMinutes'] as int?,
   );
 }
 
@@ -683,9 +666,9 @@ Diagnostics _$DiagnosticsFromJson(Map<String, dynamic> json) {
   return Diagnostics(
     errorCode:
         _$enumDecodeNullable(_$LifecycleErrorCodeEnumMap, json['errorCode']),
-    logTail: json['logTail'] as String,
-    message: json['message'] as String,
-    scriptName: json['scriptName'] as String,
+    logTail: json['logTail'] as String?,
+    message: json['message'] as String?,
+    scriptName: json['scriptName'] as String?,
   );
 }
 
@@ -700,9 +683,9 @@ const _$LifecycleErrorCodeEnumMap = {
 
 EC2TagFilter _$EC2TagFilterFromJson(Map<String, dynamic> json) {
   return EC2TagFilter(
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
     type: _$enumDecodeNullable(_$EC2TagFilterTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -729,13 +712,11 @@ const _$EC2TagFilterTypeEnumMap = {
 
 EC2TagSet _$EC2TagSetFromJson(Map<String, dynamic> json) {
   return EC2TagSet(
-    ec2TagSetList: (json['ec2TagSetList'] as List)
-        ?.map((e) => (e as List)
-            ?.map((e) => e == null
-                ? null
-                : EC2TagFilter.fromJson(e as Map<String, dynamic>))
-            ?.toList())
-        ?.toList(),
+    ec2TagSetList: (json['ec2TagSetList'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>)
+            .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+            .toList())
+        .toList(),
   );
 }
 
@@ -751,15 +732,15 @@ Map<String, dynamic> _$EC2TagSetToJson(EC2TagSet instance) {
   writeNotNull(
       'ec2TagSetList',
       instance.ec2TagSetList
-          ?.map((e) => e?.map((e) => e?.toJson())?.toList())
-          ?.toList());
+          ?.map((e) => e.map((e) => e.toJson()).toList())
+          .toList());
   return val;
 }
 
 ECSService _$ECSServiceFromJson(Map<String, dynamic> json) {
   return ECSService(
-    clusterName: json['clusterName'] as String,
-    serviceName: json['serviceName'] as String,
+    clusterName: json['clusterName'] as String?,
+    serviceName: json['serviceName'] as String?,
   );
 }
 
@@ -779,37 +760,34 @@ Map<String, dynamic> _$ECSServiceToJson(ECSService instance) {
 
 ECSTarget _$ECSTargetFromJson(Map<String, dynamic> json) {
   return ECSTarget(
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    lifecycleEvents: (json['lifecycleEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lifecycleEvents: (json['lifecycleEvents'] as List<dynamic>?)
+        ?.map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$TargetStatusEnumMap, json['status']),
-    targetArn: json['targetArn'] as String,
-    targetId: json['targetId'] as String,
-    taskSetsInfo: (json['taskSetsInfo'] as List)
-        ?.map((e) =>
-            e == null ? null : ECSTaskSet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetArn: json['targetArn'] as String?,
+    targetId: json['targetId'] as String?,
+    taskSetsInfo: (json['taskSetsInfo'] as List<dynamic>?)
+        ?.map((e) => ECSTaskSet.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ECSTaskSet _$ECSTaskSetFromJson(Map<String, dynamic> json) {
   return ECSTaskSet(
-    desiredCount: json['desiredCount'] as int,
-    identifer: json['identifer'] as String,
-    pendingCount: json['pendingCount'] as int,
-    runningCount: json['runningCount'] as int,
-    status: json['status'] as String,
+    desiredCount: json['desiredCount'] as int?,
+    identifer: json['identifer'] as String?,
+    pendingCount: json['pendingCount'] as int?,
+    runningCount: json['runningCount'] as int?,
+    status: json['status'] as String?,
     targetGroup: json['targetGroup'] == null
         ? null
         : TargetGroupInfo.fromJson(json['targetGroup'] as Map<String, dynamic>),
     taskSetLabel:
         _$enumDecodeNullable(_$TargetLabelEnumMap, json['taskSetLabel']),
-    trafficWeight: (json['trafficWeight'] as num)?.toDouble(),
+    trafficWeight: (json['trafficWeight'] as num?)?.toDouble(),
   );
 }
 
@@ -820,7 +798,7 @@ const _$TargetLabelEnumMap = {
 
 ELBInfo _$ELBInfoFromJson(Map<String, dynamic> json) {
   return ELBInfo(
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -840,7 +818,7 @@ Map<String, dynamic> _$ELBInfoToJson(ELBInfo instance) {
 ErrorInformation _$ErrorInformationFromJson(Map<String, dynamic> json) {
   return ErrorInformation(
     code: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['code']),
-    message: json['message'] as String,
+    message: json['message'] as String?,
   );
 }
 
@@ -885,9 +863,10 @@ const _$ErrorCodeEnumMap = {
 
 GenericRevisionInfo _$GenericRevisionInfoFromJson(Map<String, dynamic> json) {
   return GenericRevisionInfo(
-    deploymentGroups:
-        (json['deploymentGroups'] as List)?.map((e) => e as String)?.toList(),
-    description: json['description'] as String,
+    deploymentGroups: (json['deploymentGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    description: json['description'] as String?,
     firstUsedTime:
         const UnixDateTimeConverter().fromJson(json['firstUsedTime']),
     lastUsedTime: const UnixDateTimeConverter().fromJson(json['lastUsedTime']),
@@ -906,7 +885,7 @@ GetApplicationOutput _$GetApplicationOutputFromJson(Map<String, dynamic> json) {
 GetApplicationRevisionOutput _$GetApplicationRevisionOutputFromJson(
     Map<String, dynamic> json) {
   return GetApplicationRevisionOutput(
-    applicationName: json['applicationName'] as String,
+    applicationName: json['applicationName'] as String?,
     revision: json['revision'] == null
         ? null
         : RevisionLocation.fromJson(json['revision'] as Map<String, dynamic>),
@@ -977,8 +956,8 @@ GetOnPremisesInstanceOutput _$GetOnPremisesInstanceOutputFromJson(
 
 GitHubLocation _$GitHubLocationFromJson(Map<String, dynamic> json) {
   return GitHubLocation(
-    commitId: json['commitId'] as String,
-    repository: json['repository'] as String,
+    commitId: json['commitId'] as String?,
+    repository: json['repository'] as String?,
   );
 }
 
@@ -1028,30 +1007,28 @@ InstanceInfo _$InstanceInfoFromJson(Map<String, dynamic> json) {
   return InstanceInfo(
     deregisterTime:
         const UnixDateTimeConverter().fromJson(json['deregisterTime']),
-    iamSessionArn: json['iamSessionArn'] as String,
-    iamUserArn: json['iamUserArn'] as String,
-    instanceArn: json['instanceArn'] as String,
-    instanceName: json['instanceName'] as String,
+    iamSessionArn: json['iamSessionArn'] as String?,
+    iamUserArn: json['iamUserArn'] as String?,
+    instanceArn: json['instanceArn'] as String?,
+    instanceName: json['instanceName'] as String?,
     registerTime: const UnixDateTimeConverter().fromJson(json['registerTime']),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 InstanceSummary _$InstanceSummaryFromJson(Map<String, dynamic> json) {
   return InstanceSummary(
-    deploymentId: json['deploymentId'] as String,
-    instanceId: json['instanceId'] as String,
+    deploymentId: json['deploymentId'] as String?,
+    instanceId: json['instanceId'] as String?,
     instanceType:
         _$enumDecodeNullable(_$InstanceTypeEnumMap, json['instanceType']),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    lifecycleEvents: (json['lifecycleEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lifecycleEvents: (json['lifecycleEvents'] as List<dynamic>?)
+        ?.map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$InstanceStatusEnumMap, json['status']),
   );
 }
@@ -1073,56 +1050,52 @@ const _$InstanceStatusEnumMap = {
 
 InstanceTarget _$InstanceTargetFromJson(Map<String, dynamic> json) {
   return InstanceTarget(
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
     instanceLabel:
         _$enumDecodeNullable(_$TargetLabelEnumMap, json['instanceLabel']),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    lifecycleEvents: (json['lifecycleEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lifecycleEvents: (json['lifecycleEvents'] as List<dynamic>?)
+        ?.map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$TargetStatusEnumMap, json['status']),
-    targetArn: json['targetArn'] as String,
-    targetId: json['targetId'] as String,
+    targetArn: json['targetArn'] as String?,
+    targetId: json['targetId'] as String?,
   );
 }
 
 LambdaFunctionInfo _$LambdaFunctionInfoFromJson(Map<String, dynamic> json) {
   return LambdaFunctionInfo(
-    currentVersion: json['currentVersion'] as String,
-    functionAlias: json['functionAlias'] as String,
-    functionName: json['functionName'] as String,
-    targetVersion: json['targetVersion'] as String,
-    targetVersionWeight: (json['targetVersionWeight'] as num)?.toDouble(),
+    currentVersion: json['currentVersion'] as String?,
+    functionAlias: json['functionAlias'] as String?,
+    functionName: json['functionName'] as String?,
+    targetVersion: json['targetVersion'] as String?,
+    targetVersionWeight: (json['targetVersionWeight'] as num?)?.toDouble(),
   );
 }
 
 LambdaTarget _$LambdaTargetFromJson(Map<String, dynamic> json) {
   return LambdaTarget(
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
     lambdaFunctionInfo: json['lambdaFunctionInfo'] == null
         ? null
         : LambdaFunctionInfo.fromJson(
             json['lambdaFunctionInfo'] as Map<String, dynamic>),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    lifecycleEvents: (json['lifecycleEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lifecycleEvents: (json['lifecycleEvents'] as List<dynamic>?)
+        ?.map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$TargetStatusEnumMap, json['status']),
-    targetArn: json['targetArn'] as String,
-    targetId: json['targetId'] as String,
+    targetArn: json['targetArn'] as String?,
+    targetId: json['targetId'] as String?,
   );
 }
 
 LastDeploymentInfo _$LastDeploymentInfoFromJson(Map<String, dynamic> json) {
   return LastDeploymentInfo(
     createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
-    deploymentId: json['deploymentId'] as String,
+    deploymentId: json['deploymentId'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     status: _$enumDecodeNullable(_$DeploymentStatusEnumMap, json['status']),
   );
@@ -1134,7 +1107,7 @@ LifecycleEvent _$LifecycleEventFromJson(Map<String, dynamic> json) {
         ? null
         : Diagnostics.fromJson(json['diagnostics'] as Map<String, dynamic>),
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
-    lifecycleEventName: json['lifecycleEventName'] as String,
+    lifecycleEventName: json['lifecycleEventName'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status: _$enumDecodeNullable(_$LifecycleEventStatusEnumMap, json['status']),
   );
@@ -1152,114 +1125,114 @@ const _$LifecycleEventStatusEnumMap = {
 ListApplicationRevisionsOutput _$ListApplicationRevisionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListApplicationRevisionsOutput(
-    nextToken: json['nextToken'] as String,
-    revisions: (json['revisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RevisionLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    revisions: (json['revisions'] as List<dynamic>?)
+        ?.map((e) => RevisionLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListApplicationsOutput _$ListApplicationsOutputFromJson(
     Map<String, dynamic> json) {
   return ListApplicationsOutput(
-    applications:
-        (json['applications'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['nextToken'] as String,
+    applications: (json['applications'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDeploymentConfigsOutput _$ListDeploymentConfigsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentConfigsOutput(
-    deploymentConfigsList: (json['deploymentConfigsList'] as List)
+    deploymentConfigsList: (json['deploymentConfigsList'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDeploymentGroupsOutput _$ListDeploymentGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentGroupsOutput(
-    applicationName: json['applicationName'] as String,
-    deploymentGroups:
-        (json['deploymentGroups'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['nextToken'] as String,
+    applicationName: json['applicationName'] as String?,
+    deploymentGroups: (json['deploymentGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDeploymentInstancesOutput _$ListDeploymentInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentInstancesOutput(
-    instancesList:
-        (json['instancesList'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['nextToken'] as String,
+    instancesList: (json['instancesList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDeploymentTargetsOutput _$ListDeploymentTargetsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentTargetsOutput(
-    nextToken: json['nextToken'] as String,
-    targetIds: (json['targetIds'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['nextToken'] as String?,
+    targetIds:
+        (json['targetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ListDeploymentsOutput _$ListDeploymentsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentsOutput(
-    deployments:
-        (json['deployments'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['nextToken'] as String,
+    deployments: (json['deployments'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListGitHubAccountTokenNamesOutput _$ListGitHubAccountTokenNamesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGitHubAccountTokenNamesOutput(
-    nextToken: json['nextToken'] as String,
-    tokenNameList:
-        (json['tokenNameList'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['nextToken'] as String?,
+    tokenNameList: (json['tokenNameList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListOnPremisesInstancesOutput _$ListOnPremisesInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return ListOnPremisesInstancesOutput(
-    instanceNames:
-        (json['instanceNames'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['nextToken'] as String,
+    instanceNames: (json['instanceNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoadBalancerInfo _$LoadBalancerInfoFromJson(Map<String, dynamic> json) {
   return LoadBalancerInfo(
-    elbInfoList: (json['elbInfoList'] as List)
-        ?.map((e) =>
-            e == null ? null : ELBInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetGroupInfoList: (json['targetGroupInfoList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetGroupInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetGroupPairInfoList: (json['targetGroupPairInfoList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetGroupPairInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    elbInfoList: (json['elbInfoList'] as List<dynamic>?)
+        ?.map((e) => ELBInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetGroupInfoList: (json['targetGroupInfoList'] as List<dynamic>?)
+        ?.map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetGroupPairInfoList: (json['targetGroupPairInfoList'] as List<dynamic>?)
+        ?.map((e) => TargetGroupPairInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1273,18 +1246,18 @@ Map<String, dynamic> _$LoadBalancerInfoToJson(LoadBalancerInfo instance) {
   }
 
   writeNotNull(
-      'elbInfoList', instance.elbInfoList?.map((e) => e?.toJson())?.toList());
+      'elbInfoList', instance.elbInfoList?.map((e) => e.toJson()).toList());
   writeNotNull('targetGroupInfoList',
-      instance.targetGroupInfoList?.map((e) => e?.toJson())?.toList());
+      instance.targetGroupInfoList?.map((e) => e.toJson()).toList());
   writeNotNull('targetGroupPairInfoList',
-      instance.targetGroupPairInfoList?.map((e) => e?.toJson())?.toList());
+      instance.targetGroupPairInfoList?.map((e) => e.toJson()).toList());
   return val;
 }
 
 MinimumHealthyHosts _$MinimumHealthyHostsFromJson(Map<String, dynamic> json) {
   return MinimumHealthyHosts(
     type: _$enumDecodeNullable(_$MinimumHealthyHostsTypeEnumMap, json['type']),
-    value: json['value'] as int,
+    value: json['value'] as int?,
   );
 }
 
@@ -1309,13 +1282,11 @@ const _$MinimumHealthyHostsTypeEnumMap = {
 
 OnPremisesTagSet _$OnPremisesTagSetFromJson(Map<String, dynamic> json) {
   return OnPremisesTagSet(
-    onPremisesTagSetList: (json['onPremisesTagSetList'] as List)
-        ?.map((e) => (e as List)
-            ?.map((e) => e == null
-                ? null
-                : TagFilter.fromJson(e as Map<String, dynamic>))
-            ?.toList())
-        ?.toList(),
+    onPremisesTagSetList: (json['onPremisesTagSetList'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>)
+            .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+            .toList())
+        .toList(),
   );
 }
 
@@ -1331,8 +1302,8 @@ Map<String, dynamic> _$OnPremisesTagSetToJson(OnPremisesTagSet instance) {
   writeNotNull(
       'onPremisesTagSetList',
       instance.onPremisesTagSetList
-          ?.map((e) => e?.map((e) => e?.toJson())?.toList())
-          ?.toList());
+          ?.map((e) => e.map((e) => e.toJson()).toList())
+          .toList());
   return val;
 }
 
@@ -1341,14 +1312,14 @@ PutLifecycleEventHookExecutionStatusOutput
         Map<String, dynamic> json) {
   return PutLifecycleEventHookExecutionStatusOutput(
     lifecycleEventHookExecutionId:
-        json['lifecycleEventHookExecutionId'] as String,
+        json['lifecycleEventHookExecutionId'] as String?,
   );
 }
 
 RawString _$RawStringFromJson(Map<String, dynamic> json) {
   return RawString(
-    content: json['content'] as String,
-    sha256: json['sha256'] as String,
+    content: json['content'] as String?,
+    sha256: json['sha256'] as String?,
   );
 }
 
@@ -1427,20 +1398,20 @@ const _$RevisionLocationTypeEnumMap = {
 
 RollbackInfo _$RollbackInfoFromJson(Map<String, dynamic> json) {
   return RollbackInfo(
-    rollbackDeploymentId: json['rollbackDeploymentId'] as String,
-    rollbackMessage: json['rollbackMessage'] as String,
+    rollbackDeploymentId: json['rollbackDeploymentId'] as String?,
+    rollbackMessage: json['rollbackMessage'] as String?,
     rollbackTriggeringDeploymentId:
-        json['rollbackTriggeringDeploymentId'] as String,
+        json['rollbackTriggeringDeploymentId'] as String?,
   );
 }
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
   return S3Location(
-    bucket: json['bucket'] as String,
+    bucket: json['bucket'] as String?,
     bundleType: _$enumDecodeNullable(_$BundleTypeEnumMap, json['bundleType']),
-    eTag: json['eTag'] as String,
-    key: json['key'] as String,
-    version: json['version'] as String,
+    eTag: json['eTag'] as String?,
+    key: json['key'] as String?,
+    version: json['version'] as String?,
   );
 }
 
@@ -1472,7 +1443,7 @@ const _$BundleTypeEnumMap = {
 StopDeploymentOutput _$StopDeploymentOutputFromJson(Map<String, dynamic> json) {
   return StopDeploymentOutput(
     status: _$enumDecodeNullable(_$StopStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
+    statusMessage: json['statusMessage'] as String?,
   );
 }
 
@@ -1483,8 +1454,8 @@ const _$StopStatusEnumMap = {
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1504,9 +1475,9 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
 TagFilter _$TagFilterFromJson(Map<String, dynamic> json) {
   return TagFilter(
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
     type: _$enumDecodeNullable(_$TagFilterTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1537,7 +1508,7 @@ TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
 
 TargetGroupInfo _$TargetGroupInfoFromJson(Map<String, dynamic> json) {
   return TargetGroupInfo(
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -1560,11 +1531,9 @@ TargetGroupPairInfo _$TargetGroupPairInfoFromJson(Map<String, dynamic> json) {
         ? null
         : TrafficRoute.fromJson(
             json['prodTrafficRoute'] as Map<String, dynamic>),
-    targetGroups: (json['targetGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetGroupInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetGroups: (json['targetGroups'] as List<dynamic>?)
+        ?.map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
     testTrafficRoute: json['testTrafficRoute'] == null
         ? null
         : TrafficRoute.fromJson(
@@ -1583,22 +1552,22 @@ Map<String, dynamic> _$TargetGroupPairInfoToJson(TargetGroupPairInfo instance) {
 
   writeNotNull('prodTrafficRoute', instance.prodTrafficRoute?.toJson());
   writeNotNull(
-      'targetGroups', instance.targetGroups?.map((e) => e?.toJson())?.toList());
+      'targetGroups', instance.targetGroups?.map((e) => e.toJson()).toList());
   writeNotNull('testTrafficRoute', instance.testTrafficRoute?.toJson());
   return val;
 }
 
 TargetInstances _$TargetInstancesFromJson(Map<String, dynamic> json) {
   return TargetInstances(
-    autoScalingGroups:
-        (json['autoScalingGroups'] as List)?.map((e) => e as String)?.toList(),
+    autoScalingGroups: (json['autoScalingGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     ec2TagSet: json['ec2TagSet'] == null
         ? null
         : EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>),
-    tagFilters: (json['tagFilters'] as List)
-        ?.map((e) =>
-            e == null ? null : EC2TagFilter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagFilters: (json['tagFilters'] as List<dynamic>?)
+        ?.map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1614,14 +1583,14 @@ Map<String, dynamic> _$TargetInstancesToJson(TargetInstances instance) {
   writeNotNull('autoScalingGroups', instance.autoScalingGroups);
   writeNotNull('ec2TagSet', instance.ec2TagSet?.toJson());
   writeNotNull(
-      'tagFilters', instance.tagFilters?.map((e) => e?.toJson())?.toList());
+      'tagFilters', instance.tagFilters?.map((e) => e.toJson()).toList());
   return val;
 }
 
 TimeBasedCanary _$TimeBasedCanaryFromJson(Map<String, dynamic> json) {
   return TimeBasedCanary(
-    canaryInterval: json['canaryInterval'] as int,
-    canaryPercentage: json['canaryPercentage'] as int,
+    canaryInterval: json['canaryInterval'] as int?,
+    canaryPercentage: json['canaryPercentage'] as int?,
   );
 }
 
@@ -1641,8 +1610,8 @@ Map<String, dynamic> _$TimeBasedCanaryToJson(TimeBasedCanary instance) {
 
 TimeBasedLinear _$TimeBasedLinearFromJson(Map<String, dynamic> json) {
   return TimeBasedLinear(
-    linearInterval: json['linearInterval'] as int,
-    linearPercentage: json['linearPercentage'] as int,
+    linearInterval: json['linearInterval'] as int?,
+    linearPercentage: json['linearPercentage'] as int?,
   );
 }
 
@@ -1676,8 +1645,9 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
 
 TrafficRoute _$TrafficRouteFromJson(Map<String, dynamic> json) {
   return TrafficRoute(
-    listenerArns:
-        (json['listenerArns'] as List)?.map((e) => e as String)?.toList(),
+    listenerArns: (json['listenerArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1732,11 +1702,11 @@ const _$TrafficRoutingTypeEnumMap = {
 
 TriggerConfig _$TriggerConfigFromJson(Map<String, dynamic> json) {
   return TriggerConfig(
-    triggerEvents: (json['triggerEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$TriggerEventTypeEnumMap, e))
-        ?.toList(),
-    triggerName: json['triggerName'] as String,
-    triggerTargetArn: json['triggerTargetArn'] as String,
+    triggerEvents: (json['triggerEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$TriggerEventTypeEnumMap, e))
+        .toList(),
+    triggerName: json['triggerName'] as String?,
+    triggerTargetArn: json['triggerTargetArn'] as String?,
   );
 }
 
@@ -1753,7 +1723,7 @@ Map<String, dynamic> _$TriggerConfigToJson(TriggerConfig instance) {
       'triggerEvents',
       instance.triggerEvents
           ?.map((e) => _$TriggerEventTypeEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('triggerName', instance.triggerName);
   writeNotNull('triggerTargetArn', instance.triggerTargetArn);
   return val;
@@ -1779,10 +1749,8 @@ UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
 UpdateDeploymentGroupOutput _$UpdateDeploymentGroupOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateDeploymentGroupOutput(
-    hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AutoScalingGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List<dynamic>?)
+        ?.map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }

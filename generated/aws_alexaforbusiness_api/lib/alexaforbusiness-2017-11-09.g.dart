@@ -8,17 +8,17 @@ part of 'alexaforbusiness-2017-11-09.dart';
 
 AddressBook _$AddressBookFromJson(Map<String, dynamic> json) {
   return AddressBook(
-    addressBookArn: json['AddressBookArn'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    addressBookArn: json['AddressBookArn'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 AddressBookData _$AddressBookDataFromJson(Map<String, dynamic> json) {
   return AddressBookData(
-    addressBookArn: json['AddressBookArn'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    addressBookArn: json['AddressBookArn'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -58,19 +58,10 @@ AssociateSkillWithUsersResponse _$AssociateSkillWithUsersResponseFromJson(
   return AssociateSkillWithUsersResponse();
 }
 
-Map<String, dynamic> _$AudioToJson(Audio instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Locale', _$LocaleEnumMap[instance.locale]);
-  writeNotNull('Location', instance.location);
-  return val;
-}
+Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
+      'Locale': _$LocaleEnumMap[instance.locale],
+      'Location': instance.location,
+    };
 
 const _$LocaleEnumMap = {
   Locale.enUs: 'en-US',
@@ -79,7 +70,7 @@ const _$LocaleEnumMap = {
 BusinessReport _$BusinessReportFromJson(Map<String, dynamic> json) {
   return BusinessReport(
     deliveryTime: const UnixDateTimeConverter().fromJson(json['DeliveryTime']),
-    downloadUrl: json['DownloadUrl'] as String,
+    downloadUrl: json['DownloadUrl'] as String?,
     failureCode: _$enumDecodeNullable(
         _$BusinessReportFailureCodeEnumMap, json['FailureCode']),
     s3Location: json['S3Location'] == null
@@ -90,36 +81,41 @@ BusinessReport _$BusinessReportFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BusinessReportFailureCodeEnumMap = {
@@ -137,24 +133,15 @@ const _$BusinessReportStatusEnumMap = {
 BusinessReportContentRange _$BusinessReportContentRangeFromJson(
     Map<String, dynamic> json) {
   return BusinessReportContentRange(
-    interval:
-        _$enumDecodeNullable(_$BusinessReportIntervalEnumMap, json['Interval']),
+    interval: _$enumDecode(_$BusinessReportIntervalEnumMap, json['Interval']),
   );
 }
 
 Map<String, dynamic> _$BusinessReportContentRangeToJson(
-    BusinessReportContentRange instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Interval', _$BusinessReportIntervalEnumMap[instance.interval]);
-  return val;
-}
+        BusinessReportContentRange instance) =>
+    <String, dynamic>{
+      'Interval': _$BusinessReportIntervalEnumMap[instance.interval],
+    };
 
 const _$BusinessReportIntervalEnumMap = {
   BusinessReportInterval.oneDay: 'ONE_DAY',
@@ -165,7 +152,7 @@ const _$BusinessReportIntervalEnumMap = {
 BusinessReportRecurrence _$BusinessReportRecurrenceFromJson(
     Map<String, dynamic> json) {
   return BusinessReportRecurrence(
-    startDate: json['StartDate'] as String,
+    startDate: json['StartDate'] as String?,
   );
 }
 
@@ -186,8 +173,8 @@ Map<String, dynamic> _$BusinessReportRecurrenceToJson(
 BusinessReportS3Location _$BusinessReportS3LocationFromJson(
     Map<String, dynamic> json) {
   return BusinessReportS3Location(
-    bucketName: json['BucketName'] as String,
-    path: json['Path'] as String,
+    bucketName: json['BucketName'] as String?,
+    path: json['Path'] as String?,
   );
 }
 
@@ -207,10 +194,10 @@ BusinessReportSchedule _$BusinessReportScheduleFromJson(
         ? null
         : BusinessReportRecurrence.fromJson(
             json['Recurrence'] as Map<String, dynamic>),
-    s3BucketName: json['S3BucketName'] as String,
-    s3KeyPrefix: json['S3KeyPrefix'] as String,
-    scheduleArn: json['ScheduleArn'] as String,
-    scheduleName: json['ScheduleName'] as String,
+    s3BucketName: json['S3BucketName'] as String?,
+    s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    scheduleArn: json['ScheduleArn'] as String?,
+    scheduleName: json['ScheduleName'] as String?,
   );
 }
 
@@ -221,15 +208,15 @@ const _$BusinessReportFormatEnumMap = {
 
 Category _$CategoryFromJson(Map<String, dynamic> json) {
   return Category(
-    categoryId: json['CategoryId'] as int,
-    categoryName: json['CategoryName'] as String,
+    categoryId: json['CategoryId'] as int?,
+    categoryName: json['CategoryName'] as String?,
   );
 }
 
 ConferencePreference _$ConferencePreferenceFromJson(Map<String, dynamic> json) {
   return ConferencePreference(
     defaultConferenceProviderArn:
-        json['DefaultConferenceProviderArn'] as String,
+        json['DefaultConferenceProviderArn'] as String?,
   );
 }
 
@@ -250,7 +237,7 @@ Map<String, dynamic> _$ConferencePreferenceToJson(
 
 ConferenceProvider _$ConferenceProviderFromJson(Map<String, dynamic> json) {
   return ConferenceProvider(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     iPDialIn: json['IPDialIn'] == null
         ? null
         : IPDialIn.fromJson(json['IPDialIn'] as Map<String, dynamic>),
@@ -258,7 +245,7 @@ ConferenceProvider _$ConferenceProviderFromJson(Map<String, dynamic> json) {
         ? null
         : MeetingSetting.fromJson(
             json['MeetingSetting'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     pSTNDialIn: json['PSTNDialIn'] == null
         ? null
         : PSTNDialIn.fromJson(json['PSTNDialIn'] as Map<String, dynamic>),
@@ -281,37 +268,33 @@ const _$ConferenceProviderTypeEnumMap = {
 
 Contact _$ContactFromJson(Map<String, dynamic> json) {
   return Contact(
-    contactArn: json['ContactArn'] as String,
-    displayName: json['DisplayName'] as String,
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
-    phoneNumber: json['PhoneNumber'] as String,
-    phoneNumbers: (json['PhoneNumbers'] as List)
-        ?.map((e) =>
-            e == null ? null : PhoneNumber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sipAddresses: (json['SipAddresses'] as List)
-        ?.map((e) =>
-            e == null ? null : SipAddress.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    contactArn: json['ContactArn'] as String?,
+    displayName: json['DisplayName'] as String?,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
+    phoneNumber: json['PhoneNumber'] as String?,
+    phoneNumbers: (json['PhoneNumbers'] as List<dynamic>?)
+        ?.map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sipAddresses: (json['SipAddresses'] as List<dynamic>?)
+        ?.map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ContactData _$ContactDataFromJson(Map<String, dynamic> json) {
   return ContactData(
-    contactArn: json['ContactArn'] as String,
-    displayName: json['DisplayName'] as String,
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
-    phoneNumber: json['PhoneNumber'] as String,
-    phoneNumbers: (json['PhoneNumbers'] as List)
-        ?.map((e) =>
-            e == null ? null : PhoneNumber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sipAddresses: (json['SipAddresses'] as List)
-        ?.map((e) =>
-            e == null ? null : SipAddress.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    contactArn: json['ContactArn'] as String?,
+    displayName: json['DisplayName'] as String?,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
+    phoneNumber: json['PhoneNumber'] as String?,
+    phoneNumbers: (json['PhoneNumbers'] as List<dynamic>?)
+        ?.map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sipAddresses: (json['SipAddresses'] as List<dynamic>?)
+        ?.map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -325,58 +308,47 @@ Map<String, dynamic> _$ContentToJson(Content instance) {
   }
 
   writeNotNull(
-      'AudioList', instance.audioList?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'SsmlList', instance.ssmlList?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'TextList', instance.textList?.map((e) => e?.toJson())?.toList());
+      'AudioList', instance.audioList?.map((e) => e.toJson()).toList());
+  writeNotNull('SsmlList', instance.ssmlList?.map((e) => e.toJson()).toList());
+  writeNotNull('TextList', instance.textList?.map((e) => e.toJson()).toList());
   return val;
 }
 
 CreateAddressBookResponse _$CreateAddressBookResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAddressBookResponse(
-    addressBookArn: json['AddressBookArn'] as String,
+    addressBookArn: json['AddressBookArn'] as String?,
   );
 }
 
 CreateBusinessReportScheduleResponse
     _$CreateBusinessReportScheduleResponseFromJson(Map<String, dynamic> json) {
   return CreateBusinessReportScheduleResponse(
-    scheduleArn: json['ScheduleArn'] as String,
+    scheduleArn: json['ScheduleArn'] as String?,
   );
 }
 
 CreateConferenceProviderResponse _$CreateConferenceProviderResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConferenceProviderResponse(
-    conferenceProviderArn: json['ConferenceProviderArn'] as String,
+    conferenceProviderArn: json['ConferenceProviderArn'] as String?,
   );
 }
 
 CreateContactResponse _$CreateContactResponseFromJson(
     Map<String, dynamic> json) {
   return CreateContactResponse(
-    contactArn: json['ContactArn'] as String,
+    contactArn: json['ContactArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$CreateEndOfMeetingReminderToJson(
-    CreateEndOfMeetingReminder instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Enabled', instance.enabled);
-  writeNotNull('ReminderAtMinutes', instance.reminderAtMinutes);
-  writeNotNull(
-      'ReminderType', _$EndOfMeetingReminderTypeEnumMap[instance.reminderType]);
-  return val;
-}
+        CreateEndOfMeetingReminder instance) =>
+    <String, dynamic>{
+      'Enabled': instance.enabled,
+      'ReminderAtMinutes': instance.reminderAtMinutes,
+      'ReminderType': _$EndOfMeetingReminderTypeEnumMap[instance.reminderType],
+    };
 
 const _$EndOfMeetingReminderTypeEnumMap = {
   EndOfMeetingReminderType.announcementTimeCheck: 'ANNOUNCEMENT_TIME_CHECK',
@@ -389,24 +361,16 @@ const _$EndOfMeetingReminderTypeEnumMap = {
 CreateGatewayGroupResponse _$CreateGatewayGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateGatewayGroupResponse(
-    gatewayGroupArn: json['GatewayGroupArn'] as String,
+    gatewayGroupArn: json['GatewayGroupArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$CreateInstantBookingToJson(
-    CreateInstantBooking instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DurationInMinutes', instance.durationInMinutes);
-  writeNotNull('Enabled', instance.enabled);
-  return val;
-}
+        CreateInstantBooking instance) =>
+    <String, dynamic>{
+      'DurationInMinutes': instance.durationInMinutes,
+      'Enabled': instance.enabled,
+    };
 
 Map<String, dynamic> _$CreateMeetingRoomConfigurationToJson(
     CreateMeetingRoomConfiguration instance) {
@@ -429,48 +393,40 @@ Map<String, dynamic> _$CreateMeetingRoomConfigurationToJson(
 CreateNetworkProfileResponse _$CreateNetworkProfileResponseFromJson(
     Map<String, dynamic> json) {
   return CreateNetworkProfileResponse(
-    networkProfileArn: json['NetworkProfileArn'] as String,
+    networkProfileArn: json['NetworkProfileArn'] as String?,
   );
 }
 
 CreateProfileResponse _$CreateProfileResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProfileResponse(
-    profileArn: json['ProfileArn'] as String,
+    profileArn: json['ProfileArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$CreateRequireCheckInToJson(
-    CreateRequireCheckIn instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Enabled', instance.enabled);
-  writeNotNull('ReleaseAfterMinutes', instance.releaseAfterMinutes);
-  return val;
-}
+        CreateRequireCheckIn instance) =>
+    <String, dynamic>{
+      'Enabled': instance.enabled,
+      'ReleaseAfterMinutes': instance.releaseAfterMinutes,
+    };
 
 CreateRoomResponse _$CreateRoomResponseFromJson(Map<String, dynamic> json) {
   return CreateRoomResponse(
-    roomArn: json['RoomArn'] as String,
+    roomArn: json['RoomArn'] as String?,
   );
 }
 
 CreateSkillGroupResponse _$CreateSkillGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSkillGroupResponse(
-    skillGroupArn: json['SkillGroupArn'] as String,
+    skillGroupArn: json['SkillGroupArn'] as String?,
   );
 }
 
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
-    userArn: json['UserArn'] as String,
+    userArn: json['UserArn'] as String?,
   );
 }
 
@@ -543,32 +499,32 @@ DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
 
 DeveloperInfo _$DeveloperInfoFromJson(Map<String, dynamic> json) {
   return DeveloperInfo(
-    developerName: json['DeveloperName'] as String,
-    email: json['Email'] as String,
-    privacyPolicy: json['PrivacyPolicy'] as String,
-    url: json['Url'] as String,
+    developerName: json['DeveloperName'] as String?,
+    email: json['Email'] as String?,
+    privacyPolicy: json['PrivacyPolicy'] as String?,
+    url: json['Url'] as String?,
   );
 }
 
 Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
-    deviceArn: json['DeviceArn'] as String,
-    deviceName: json['DeviceName'] as String,
-    deviceSerialNumber: json['DeviceSerialNumber'] as String,
+    deviceArn: json['DeviceArn'] as String?,
+    deviceName: json['DeviceName'] as String?,
+    deviceSerialNumber: json['DeviceSerialNumber'] as String?,
     deviceStatus:
         _$enumDecodeNullable(_$DeviceStatusEnumMap, json['DeviceStatus']),
     deviceStatusInfo: json['DeviceStatusInfo'] == null
         ? null
         : DeviceStatusInfo.fromJson(
             json['DeviceStatusInfo'] as Map<String, dynamic>),
-    deviceType: json['DeviceType'] as String,
-    macAddress: json['MacAddress'] as String,
+    deviceType: json['DeviceType'] as String?,
+    macAddress: json['MacAddress'] as String?,
     networkProfileInfo: json['NetworkProfileInfo'] == null
         ? null
         : DeviceNetworkProfileInfo.fromJson(
             json['NetworkProfileInfo'] as Map<String, dynamic>),
-    roomArn: json['RoomArn'] as String,
-    softwareVersion: json['SoftwareVersion'] as String,
+    roomArn: json['RoomArn'] as String?,
+    softwareVersion: json['SoftwareVersion'] as String?,
   );
 }
 
@@ -583,22 +539,22 @@ const _$DeviceStatusEnumMap = {
 DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
   return DeviceData(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    deviceArn: json['DeviceArn'] as String,
-    deviceName: json['DeviceName'] as String,
-    deviceSerialNumber: json['DeviceSerialNumber'] as String,
+    deviceArn: json['DeviceArn'] as String?,
+    deviceName: json['DeviceName'] as String?,
+    deviceSerialNumber: json['DeviceSerialNumber'] as String?,
     deviceStatus:
         _$enumDecodeNullable(_$DeviceStatusEnumMap, json['DeviceStatus']),
     deviceStatusInfo: json['DeviceStatusInfo'] == null
         ? null
         : DeviceStatusInfo.fromJson(
             json['DeviceStatusInfo'] as Map<String, dynamic>),
-    deviceType: json['DeviceType'] as String,
-    macAddress: json['MacAddress'] as String,
-    networkProfileArn: json['NetworkProfileArn'] as String,
-    networkProfileName: json['NetworkProfileName'] as String,
-    roomArn: json['RoomArn'] as String,
-    roomName: json['RoomName'] as String,
-    softwareVersion: json['SoftwareVersion'] as String,
+    deviceType: json['DeviceType'] as String?,
+    macAddress: json['MacAddress'] as String?,
+    networkProfileArn: json['NetworkProfileArn'] as String?,
+    networkProfileName: json['NetworkProfileName'] as String?,
+    roomArn: json['RoomArn'] as String?,
+    roomName: json['RoomName'] as String?,
+    softwareVersion: json['SoftwareVersion'] as String?,
   );
 }
 
@@ -606,7 +562,7 @@ DeviceEvent _$DeviceEventFromJson(Map<String, dynamic> json) {
   return DeviceEvent(
     timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
     type: _$enumDecodeNullable(_$DeviceEventTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -618,10 +574,10 @@ const _$DeviceEventTypeEnumMap = {
 DeviceNetworkProfileInfo _$DeviceNetworkProfileInfoFromJson(
     Map<String, dynamic> json) {
   return DeviceNetworkProfileInfo(
-    certificateArn: json['CertificateArn'] as String,
+    certificateArn: json['CertificateArn'] as String?,
     certificateExpirationTime: const UnixDateTimeConverter()
         .fromJson(json['CertificateExpirationTime']),
-    networkProfileArn: json['NetworkProfileArn'] as String,
+    networkProfileArn: json['NetworkProfileArn'] as String?,
   );
 }
 
@@ -674,11 +630,9 @@ DeviceStatusInfo _$DeviceStatusInfoFromJson(Map<String, dynamic> json) {
         _$ConnectionStatusEnumMap, json['ConnectionStatus']),
     connectionStatusUpdatedTime: const UnixDateTimeConverter()
         .fromJson(json['ConnectionStatusUpdatedTime']),
-    deviceStatusDetails: (json['DeviceStatusDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeviceStatusDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deviceStatusDetails: (json['DeviceStatusDetails'] as List<dynamic>?)
+        ?.map((e) => DeviceStatusDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -717,27 +671,19 @@ DisassociateSkillGroupFromRoomResponse
 
 EndOfMeetingReminder _$EndOfMeetingReminderFromJson(Map<String, dynamic> json) {
   return EndOfMeetingReminder(
-    enabled: json['Enabled'] as bool,
-    reminderAtMinutes:
-        (json['ReminderAtMinutes'] as List)?.map((e) => e as int)?.toList(),
+    enabled: json['Enabled'] as bool?,
+    reminderAtMinutes: (json['ReminderAtMinutes'] as List<dynamic>?)
+        ?.map((e) => e as int)
+        .toList(),
     reminderType: _$enumDecodeNullable(
         _$EndOfMeetingReminderTypeEnumMap, json['ReminderType']),
   );
 }
 
-Map<String, dynamic> _$FilterToJson(Filter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Values': instance.values,
+    };
 
 ForgetSmartHomeAppliancesResponse _$ForgetSmartHomeAppliancesResponseFromJson(
     Map<String, dynamic> json) {
@@ -746,37 +692,37 @@ ForgetSmartHomeAppliancesResponse _$ForgetSmartHomeAppliancesResponseFromJson(
 
 Gateway _$GatewayFromJson(Map<String, dynamic> json) {
   return Gateway(
-    arn: json['Arn'] as String,
-    description: json['Description'] as String,
-    gatewayGroupArn: json['GatewayGroupArn'] as String,
-    name: json['Name'] as String,
-    softwareVersion: json['SoftwareVersion'] as String,
+    arn: json['Arn'] as String?,
+    description: json['Description'] as String?,
+    gatewayGroupArn: json['GatewayGroupArn'] as String?,
+    name: json['Name'] as String?,
+    softwareVersion: json['SoftwareVersion'] as String?,
   );
 }
 
 GatewayGroup _$GatewayGroupFromJson(Map<String, dynamic> json) {
   return GatewayGroup(
-    arn: json['Arn'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 GatewayGroupSummary _$GatewayGroupSummaryFromJson(Map<String, dynamic> json) {
   return GatewayGroupSummary(
-    arn: json['Arn'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 GatewaySummary _$GatewaySummaryFromJson(Map<String, dynamic> json) {
   return GatewaySummary(
-    arn: json['Arn'] as String,
-    description: json['Description'] as String,
-    gatewayGroupArn: json['GatewayGroupArn'] as String,
-    name: json['Name'] as String,
-    softwareVersion: json['SoftwareVersion'] as String,
+    arn: json['Arn'] as String?,
+    description: json['Description'] as String?,
+    gatewayGroupArn: json['GatewayGroupArn'] as String?,
+    name: json['Name'] as String?,
+    softwareVersion: json['SoftwareVersion'] as String?,
   );
 }
 
@@ -845,10 +791,11 @@ GetGatewayResponse _$GetGatewayResponseFromJson(Map<String, dynamic> json) {
 GetInvitationConfigurationResponse _$GetInvitationConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return GetInvitationConfigurationResponse(
-    contactEmail: json['ContactEmail'] as String,
-    organizationName: json['OrganizationName'] as String,
-    privateSkillIds:
-        (json['PrivateSkillIds'] as List)?.map((e) => e as String)?.toList(),
+    contactEmail: json['ContactEmail'] as String?,
+    organizationName: json['OrganizationName'] as String?,
+    privateSkillIds: (json['PrivateSkillIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -899,25 +846,15 @@ GetSkillGroupResponse _$GetSkillGroupResponseFromJson(
 
 IPDialIn _$IPDialInFromJson(Map<String, dynamic> json) {
   return IPDialIn(
-    commsProtocol:
-        _$enumDecodeNullable(_$CommsProtocolEnumMap, json['CommsProtocol']),
+    commsProtocol: _$enumDecode(_$CommsProtocolEnumMap, json['CommsProtocol']),
     endpoint: json['Endpoint'] as String,
   );
 }
 
-Map<String, dynamic> _$IPDialInToJson(IPDialIn instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CommsProtocol', _$CommsProtocolEnumMap[instance.commsProtocol]);
-  writeNotNull('Endpoint', instance.endpoint);
-  return val;
-}
+Map<String, dynamic> _$IPDialInToJson(IPDialIn instance) => <String, dynamic>{
+      'CommsProtocol': _$CommsProtocolEnumMap[instance.commsProtocol],
+      'Endpoint': instance.endpoint,
+    };
 
 const _$CommsProtocolEnumMap = {
   CommsProtocol.sip: 'SIP',
@@ -927,87 +864,76 @@ const _$CommsProtocolEnumMap = {
 
 InstantBooking _$InstantBookingFromJson(Map<String, dynamic> json) {
   return InstantBooking(
-    durationInMinutes: json['DurationInMinutes'] as int,
-    enabled: json['Enabled'] as bool,
+    durationInMinutes: json['DurationInMinutes'] as int?,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
 ListBusinessReportSchedulesResponse
     _$ListBusinessReportSchedulesResponseFromJson(Map<String, dynamic> json) {
   return ListBusinessReportSchedulesResponse(
-    businessReportSchedules: (json['BusinessReportSchedules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BusinessReportSchedule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    businessReportSchedules: (json['BusinessReportSchedules'] as List<dynamic>?)
+        ?.map((e) => BusinessReportSchedule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListConferenceProvidersResponse _$ListConferenceProvidersResponseFromJson(
     Map<String, dynamic> json) {
   return ListConferenceProvidersResponse(
-    conferenceProviders: (json['ConferenceProviders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConferenceProvider.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    conferenceProviders: (json['ConferenceProviders'] as List<dynamic>?)
+        ?.map((e) => ConferenceProvider.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDeviceEventsResponse _$ListDeviceEventsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDeviceEventsResponse(
-    deviceEvents: (json['DeviceEvents'] as List)
-        ?.map((e) =>
-            e == null ? null : DeviceEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    deviceEvents: (json['DeviceEvents'] as List<dynamic>?)
+        ?.map((e) => DeviceEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGatewayGroupsResponse _$ListGatewayGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListGatewayGroupsResponse(
-    gatewayGroups: (json['GatewayGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GatewayGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gatewayGroups: (json['GatewayGroups'] as List<dynamic>?)
+        ?.map((e) => GatewayGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGatewaysResponse _$ListGatewaysResponseFromJson(Map<String, dynamic> json) {
   return ListGatewaysResponse(
-    gateways: (json['Gateways'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GatewaySummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gateways: (json['Gateways'] as List<dynamic>?)
+        ?.map((e) => GatewaySummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListSkillsResponse _$ListSkillsResponseFromJson(Map<String, dynamic> json) {
   return ListSkillsResponse(
-    nextToken: json['NextToken'] as String,
-    skillSummaries: (json['SkillSummaries'] as List)
-        ?.map((e) =>
-            e == null ? null : SkillSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    skillSummaries: (json['SkillSummaries'] as List<dynamic>?)
+        ?.map((e) => SkillSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSkillsStoreCategoriesResponse _$ListSkillsStoreCategoriesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSkillsStoreCategoriesResponse(
-    categoryList: (json['CategoryList'] as List)
-        ?.map((e) =>
-            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    categoryList: (json['CategoryList'] as List<dynamic>?)
+        ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1015,33 +941,29 @@ ListSkillsStoreSkillsByCategoryResponse
     _$ListSkillsStoreSkillsByCategoryResponseFromJson(
         Map<String, dynamic> json) {
   return ListSkillsStoreSkillsByCategoryResponse(
-    nextToken: json['NextToken'] as String,
-    skillsStoreSkills: (json['SkillsStoreSkills'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SkillsStoreSkill.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    skillsStoreSkills: (json['SkillsStoreSkills'] as List<dynamic>?)
+        ?.map((e) => SkillsStoreSkill.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSmartHomeAppliancesResponse _$ListSmartHomeAppliancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSmartHomeAppliancesResponse(
-    nextToken: json['NextToken'] as String,
-    smartHomeAppliances: (json['SmartHomeAppliances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SmartHomeAppliance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    smartHomeAppliances: (json['SmartHomeAppliances'] as List<dynamic>?)
+        ?.map((e) => SmartHomeAppliance.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1061,28 +983,20 @@ MeetingRoomConfiguration _$MeetingRoomConfigurationFromJson(
         : RequireCheckIn.fromJson(
             json['RequireCheckIn'] as Map<String, dynamic>),
     roomUtilizationMetricsEnabled:
-        json['RoomUtilizationMetricsEnabled'] as bool,
+        json['RoomUtilizationMetricsEnabled'] as bool?,
   );
 }
 
 MeetingSetting _$MeetingSettingFromJson(Map<String, dynamic> json) {
   return MeetingSetting(
-    requirePin: _$enumDecodeNullable(_$RequirePinEnumMap, json['RequirePin']),
+    requirePin: _$enumDecode(_$RequirePinEnumMap, json['RequirePin']),
   );
 }
 
-Map<String, dynamic> _$MeetingSettingToJson(MeetingSetting instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RequirePin', _$RequirePinEnumMap[instance.requirePin]);
-  return val;
-}
+Map<String, dynamic> _$MeetingSettingToJson(MeetingSetting instance) =>
+    <String, dynamic>{
+      'RequirePin': _$RequirePinEnumMap[instance.requirePin],
+    };
 
 const _$RequirePinEnumMap = {
   RequirePin.yes: 'YES',
@@ -1092,19 +1006,20 @@ const _$RequirePinEnumMap = {
 
 NetworkProfile _$NetworkProfileFromJson(Map<String, dynamic> json) {
   return NetworkProfile(
-    certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    currentPassword: json['CurrentPassword'] as String,
-    description: json['Description'] as String,
+    certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+    currentPassword: json['CurrentPassword'] as String?,
+    description: json['Description'] as String?,
     eapMethod:
         _$enumDecodeNullable(_$NetworkEapMethodEnumMap, json['EapMethod']),
-    networkProfileArn: json['NetworkProfileArn'] as String,
-    networkProfileName: json['NetworkProfileName'] as String,
-    nextPassword: json['NextPassword'] as String,
+    networkProfileArn: json['NetworkProfileArn'] as String?,
+    networkProfileName: json['NetworkProfileName'] as String?,
+    nextPassword: json['NextPassword'] as String?,
     securityType: _$enumDecodeNullable(
         _$NetworkSecurityTypeEnumMap, json['SecurityType']),
-    ssid: json['Ssid'] as String,
-    trustAnchors:
-        (json['TrustAnchors'] as List)?.map((e) => e as String)?.toList(),
+    ssid: json['Ssid'] as String?,
+    trustAnchors: (json['TrustAnchors'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1122,15 +1037,15 @@ const _$NetworkSecurityTypeEnumMap = {
 
 NetworkProfileData _$NetworkProfileDataFromJson(Map<String, dynamic> json) {
   return NetworkProfileData(
-    certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    description: json['Description'] as String,
+    certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+    description: json['Description'] as String?,
     eapMethod:
         _$enumDecodeNullable(_$NetworkEapMethodEnumMap, json['EapMethod']),
-    networkProfileArn: json['NetworkProfileArn'] as String,
-    networkProfileName: json['NetworkProfileName'] as String,
+    networkProfileArn: json['NetworkProfileArn'] as String?,
+    networkProfileName: json['NetworkProfileName'] as String?,
     securityType: _$enumDecodeNullable(
         _$NetworkSecurityTypeEnumMap, json['SecurityType']),
-    ssid: json['Ssid'] as String,
+    ssid: json['Ssid'] as String?,
   );
 }
 
@@ -1143,42 +1058,26 @@ PSTNDialIn _$PSTNDialInFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$PSTNDialInToJson(PSTNDialIn instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CountryCode', instance.countryCode);
-  writeNotNull('OneClickIdDelay', instance.oneClickIdDelay);
-  writeNotNull('OneClickPinDelay', instance.oneClickPinDelay);
-  writeNotNull('PhoneNumber', instance.phoneNumber);
-  return val;
-}
+Map<String, dynamic> _$PSTNDialInToJson(PSTNDialIn instance) =>
+    <String, dynamic>{
+      'CountryCode': instance.countryCode,
+      'OneClickIdDelay': instance.oneClickIdDelay,
+      'OneClickPinDelay': instance.oneClickPinDelay,
+      'PhoneNumber': instance.phoneNumber,
+    };
 
 PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
   return PhoneNumber(
     number: json['Number'] as String,
-    type: _$enumDecodeNullable(_$PhoneNumberTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$PhoneNumberTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$PhoneNumberToJson(PhoneNumber instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Number', instance.number);
-  writeNotNull('Type', _$PhoneNumberTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$PhoneNumberToJson(PhoneNumber instance) =>
+    <String, dynamic>{
+      'Number': instance.number,
+      'Type': _$PhoneNumberTypeEnumMap[instance.type],
+    };
 
 const _$PhoneNumberTypeEnumMap = {
   PhoneNumberType.mobile: 'MOBILE',
@@ -1188,24 +1087,24 @@ const _$PhoneNumberTypeEnumMap = {
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) {
   return Profile(
-    address: json['Address'] as String,
-    addressBookArn: json['AddressBookArn'] as String,
+    address: json['Address'] as String?,
+    addressBookArn: json['AddressBookArn'] as String?,
     distanceUnit:
         _$enumDecodeNullable(_$DistanceUnitEnumMap, json['DistanceUnit']),
-    isDefault: json['IsDefault'] as bool,
-    locale: json['Locale'] as String,
-    maxVolumeLimit: json['MaxVolumeLimit'] as int,
+    isDefault: json['IsDefault'] as bool?,
+    locale: json['Locale'] as String?,
+    maxVolumeLimit: json['MaxVolumeLimit'] as int?,
     meetingRoomConfiguration: json['MeetingRoomConfiguration'] == null
         ? null
         : MeetingRoomConfiguration.fromJson(
             json['MeetingRoomConfiguration'] as Map<String, dynamic>),
-    pSTNEnabled: json['PSTNEnabled'] as bool,
-    profileArn: json['ProfileArn'] as String,
-    profileName: json['ProfileName'] as String,
-    setupModeDisabled: json['SetupModeDisabled'] as bool,
+    pSTNEnabled: json['PSTNEnabled'] as bool?,
+    profileArn: json['ProfileArn'] as String?,
+    profileName: json['ProfileName'] as String?,
+    setupModeDisabled: json['SetupModeDisabled'] as bool?,
     temperatureUnit:
         _$enumDecodeNullable(_$TemperatureUnitEnumMap, json['TemperatureUnit']),
-    timezone: json['Timezone'] as String,
+    timezone: json['Timezone'] as String?,
     wakeWord: _$enumDecodeNullable(_$WakeWordEnumMap, json['WakeWord']),
   );
 }
@@ -1229,16 +1128,16 @@ const _$WakeWordEnumMap = {
 
 ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) {
   return ProfileData(
-    address: json['Address'] as String,
+    address: json['Address'] as String?,
     distanceUnit:
         _$enumDecodeNullable(_$DistanceUnitEnumMap, json['DistanceUnit']),
-    isDefault: json['IsDefault'] as bool,
-    locale: json['Locale'] as String,
-    profileArn: json['ProfileArn'] as String,
-    profileName: json['ProfileName'] as String,
+    isDefault: json['IsDefault'] as bool?,
+    locale: json['Locale'] as String?,
+    profileArn: json['ProfileArn'] as String?,
+    profileName: json['ProfileName'] as String?,
     temperatureUnit:
         _$enumDecodeNullable(_$TemperatureUnitEnumMap, json['TemperatureUnit']),
-    timezone: json['Timezone'] as String,
+    timezone: json['Timezone'] as String?,
     wakeWord: _$enumDecodeNullable(_$WakeWordEnumMap, json['WakeWord']),
   );
 }
@@ -1266,7 +1165,7 @@ PutSkillAuthorizationResponse _$PutSkillAuthorizationResponseFromJson(
 RegisterAVSDeviceResponse _$RegisterAVSDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterAVSDeviceResponse(
-    deviceArn: json['DeviceArn'] as String,
+    deviceArn: json['DeviceArn'] as String?,
   );
 }
 
@@ -1276,20 +1175,18 @@ RejectSkillResponse _$RejectSkillResponseFromJson(Map<String, dynamic> json) {
 
 RequireCheckIn _$RequireCheckInFromJson(Map<String, dynamic> json) {
   return RequireCheckIn(
-    enabled: json['Enabled'] as bool,
-    releaseAfterMinutes: json['ReleaseAfterMinutes'] as int,
+    enabled: json['Enabled'] as bool?,
+    releaseAfterMinutes: json['ReleaseAfterMinutes'] as int?,
   );
 }
 
 ResolveRoomResponse _$ResolveRoomResponseFromJson(Map<String, dynamic> json) {
   return ResolveRoomResponse(
-    roomArn: json['RoomArn'] as String,
-    roomName: json['RoomName'] as String,
-    roomSkillParameters: (json['RoomSkillParameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RoomSkillParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    roomArn: json['RoomArn'] as String?,
+    roomName: json['RoomName'] as String?,
+    roomSkillParameters: (json['RoomSkillParameters'] as List<dynamic>?)
+        ?.map((e) => RoomSkillParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1300,22 +1197,22 @@ RevokeInvitationResponse _$RevokeInvitationResponseFromJson(
 
 Room _$RoomFromJson(Map<String, dynamic> json) {
   return Room(
-    description: json['Description'] as String,
-    profileArn: json['ProfileArn'] as String,
-    providerCalendarId: json['ProviderCalendarId'] as String,
-    roomArn: json['RoomArn'] as String,
-    roomName: json['RoomName'] as String,
+    description: json['Description'] as String?,
+    profileArn: json['ProfileArn'] as String?,
+    providerCalendarId: json['ProviderCalendarId'] as String?,
+    roomArn: json['RoomArn'] as String?,
+    roomName: json['RoomName'] as String?,
   );
 }
 
 RoomData _$RoomDataFromJson(Map<String, dynamic> json) {
   return RoomData(
-    description: json['Description'] as String,
-    profileArn: json['ProfileArn'] as String,
-    profileName: json['ProfileName'] as String,
-    providerCalendarId: json['ProviderCalendarId'] as String,
-    roomArn: json['RoomArn'] as String,
-    roomName: json['RoomName'] as String,
+    description: json['Description'] as String?,
+    profileArn: json['ProfileArn'] as String?,
+    profileName: json['ProfileName'] as String?,
+    providerCalendarId: json['ProviderCalendarId'] as String?,
+    roomArn: json['RoomArn'] as String?,
+    roomName: json['RoomName'] as String?,
   );
 }
 
@@ -1326,121 +1223,102 @@ RoomSkillParameter _$RoomSkillParameterFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RoomSkillParameterToJson(RoomSkillParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ParameterKey', instance.parameterKey);
-  writeNotNull('ParameterValue', instance.parameterValue);
-  return val;
-}
+Map<String, dynamic> _$RoomSkillParameterToJson(RoomSkillParameter instance) =>
+    <String, dynamic>{
+      'ParameterKey': instance.parameterKey,
+      'ParameterValue': instance.parameterValue,
+    };
 
 SearchAddressBooksResponse _$SearchAddressBooksResponseFromJson(
     Map<String, dynamic> json) {
   return SearchAddressBooksResponse(
-    addressBooks: (json['AddressBooks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AddressBookData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    totalCount: json['TotalCount'] as int,
+    addressBooks: (json['AddressBooks'] as List<dynamic>?)
+        ?.map((e) => AddressBookData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchContactsResponse _$SearchContactsResponseFromJson(
     Map<String, dynamic> json) {
   return SearchContactsResponse(
-    contacts: (json['Contacts'] as List)
-        ?.map((e) =>
-            e == null ? null : ContactData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    totalCount: json['TotalCount'] as int,
+    contacts: (json['Contacts'] as List<dynamic>?)
+        ?.map((e) => ContactData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchDevicesResponse _$SearchDevicesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchDevicesResponse(
-    devices: (json['Devices'] as List)
-        ?.map((e) =>
-            e == null ? null : DeviceData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    totalCount: json['TotalCount'] as int,
+    devices: (json['Devices'] as List<dynamic>?)
+        ?.map((e) => DeviceData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchNetworkProfilesResponse _$SearchNetworkProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchNetworkProfilesResponse(
-    networkProfiles: (json['NetworkProfiles'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NetworkProfileData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    totalCount: json['TotalCount'] as int,
+    networkProfiles: (json['NetworkProfiles'] as List<dynamic>?)
+        ?.map((e) => NetworkProfileData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchProfilesResponse _$SearchProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchProfilesResponse(
-    nextToken: json['NextToken'] as String,
-    profiles: (json['Profiles'] as List)
-        ?.map((e) =>
-            e == null ? null : ProfileData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalCount: json['TotalCount'] as int,
+    nextToken: json['NextToken'] as String?,
+    profiles: (json['Profiles'] as List<dynamic>?)
+        ?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchRoomsResponse _$SearchRoomsResponseFromJson(Map<String, dynamic> json) {
   return SearchRoomsResponse(
-    nextToken: json['NextToken'] as String,
-    rooms: (json['Rooms'] as List)
-        ?.map((e) =>
-            e == null ? null : RoomData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalCount: json['TotalCount'] as int,
+    nextToken: json['NextToken'] as String?,
+    rooms: (json['Rooms'] as List<dynamic>?)
+        ?.map((e) => RoomData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchSkillGroupsResponse _$SearchSkillGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return SearchSkillGroupsResponse(
-    nextToken: json['NextToken'] as String,
-    skillGroups: (json['SkillGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SkillGroupData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalCount: json['TotalCount'] as int,
+    nextToken: json['NextToken'] as String?,
+    skillGroups: (json['SkillGroups'] as List<dynamic>?)
+        ?.map((e) => SkillGroupData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 SearchUsersResponse _$SearchUsersResponseFromJson(Map<String, dynamic> json) {
   return SearchUsersResponse(
-    nextToken: json['NextToken'] as String,
-    totalCount: json['TotalCount'] as int,
-    users: (json['Users'] as List)
-        ?.map((e) =>
-            e == null ? null : UserData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    totalCount: json['TotalCount'] as int?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => UserData.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SendAnnouncementResponse _$SendAnnouncementResponseFromJson(
     Map<String, dynamic> json) {
   return SendAnnouncementResponse(
-    announcementArn: json['AnnouncementArn'] as String,
+    announcementArn: json['AnnouncementArn'] as String?,
   );
 }
 
@@ -1451,24 +1329,16 @@ SendInvitationResponse _$SendInvitationResponseFromJson(
 
 SipAddress _$SipAddressFromJson(Map<String, dynamic> json) {
   return SipAddress(
-    type: _$enumDecodeNullable(_$SipTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$SipTypeEnumMap, json['Type']),
     uri: json['Uri'] as String,
   );
 }
 
-Map<String, dynamic> _$SipAddressToJson(SipAddress instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$SipTypeEnumMap[instance.type]);
-  writeNotNull('Uri', instance.uri);
-  return val;
-}
+Map<String, dynamic> _$SipAddressToJson(SipAddress instance) =>
+    <String, dynamic>{
+      'Type': _$SipTypeEnumMap[instance.type],
+      'Uri': instance.uri,
+    };
 
 const _$SipTypeEnumMap = {
   SipType.work: 'WORK',
@@ -1476,40 +1346,45 @@ const _$SipTypeEnumMap = {
 
 SkillDetails _$SkillDetailsFromJson(Map<String, dynamic> json) {
   return SkillDetails(
-    bulletPoints:
-        (json['BulletPoints'] as List)?.map((e) => e as String)?.toList(),
+    bulletPoints: (json['BulletPoints'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     developerInfo: json['DeveloperInfo'] == null
         ? null
         : DeveloperInfo.fromJson(json['DeveloperInfo'] as Map<String, dynamic>),
-    endUserLicenseAgreement: json['EndUserLicenseAgreement'] as String,
-    genericKeywords:
-        (json['GenericKeywords'] as List)?.map((e) => e as String)?.toList(),
-    invocationPhrase: json['InvocationPhrase'] as String,
-    newInThisVersionBulletPoints: (json['NewInThisVersionBulletPoints'] as List)
+    endUserLicenseAgreement: json['EndUserLicenseAgreement'] as String?,
+    genericKeywords: (json['GenericKeywords'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    productDescription: json['ProductDescription'] as String,
-    releaseDate: json['ReleaseDate'] as String,
-    reviews: (json['Reviews'] as Map<String, dynamic>)?.map(
+        .toList(),
+    invocationPhrase: json['InvocationPhrase'] as String?,
+    newInThisVersionBulletPoints:
+        (json['NewInThisVersionBulletPoints'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
+    productDescription: json['ProductDescription'] as String?,
+    releaseDate: json['ReleaseDate'] as String?,
+    reviews: (json['Reviews'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    skillTypes: (json['SkillTypes'] as List)?.map((e) => e as String)?.toList(),
+    skillTypes: (json['SkillTypes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 SkillGroup _$SkillGroupFromJson(Map<String, dynamic> json) {
   return SkillGroup(
-    description: json['Description'] as String,
-    skillGroupArn: json['SkillGroupArn'] as String,
-    skillGroupName: json['SkillGroupName'] as String,
+    description: json['Description'] as String?,
+    skillGroupArn: json['SkillGroupArn'] as String?,
+    skillGroupName: json['SkillGroupName'] as String?,
   );
 }
 
 SkillGroupData _$SkillGroupDataFromJson(Map<String, dynamic> json) {
   return SkillGroupData(
-    description: json['Description'] as String,
-    skillGroupArn: json['SkillGroupArn'] as String,
-    skillGroupName: json['SkillGroupName'] as String,
+    description: json['Description'] as String?,
+    skillGroupArn: json['SkillGroupArn'] as String?,
+    skillGroupName: json['SkillGroupName'] as String?,
   );
 }
 
@@ -1517,10 +1392,10 @@ SkillSummary _$SkillSummaryFromJson(Map<String, dynamic> json) {
   return SkillSummary(
     enablementType:
         _$enumDecodeNullable(_$EnablementTypeEnumMap, json['EnablementType']),
-    skillId: json['SkillId'] as String,
-    skillName: json['SkillName'] as String,
+    skillId: json['SkillId'] as String?,
+    skillName: json['SkillName'] as String?,
     skillType: _$enumDecodeNullable(_$SkillTypeEnumMap, json['SkillType']),
-    supportsLinking: json['SupportsLinking'] as bool,
+    supportsLinking: json['SupportsLinking'] as bool?,
   );
 }
 
@@ -1536,59 +1411,42 @@ const _$SkillTypeEnumMap = {
 
 SkillsStoreSkill _$SkillsStoreSkillFromJson(Map<String, dynamic> json) {
   return SkillsStoreSkill(
-    iconUrl: json['IconUrl'] as String,
-    sampleUtterances:
-        (json['SampleUtterances'] as List)?.map((e) => e as String)?.toList(),
-    shortDescription: json['ShortDescription'] as String,
+    iconUrl: json['IconUrl'] as String?,
+    sampleUtterances: (json['SampleUtterances'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    shortDescription: json['ShortDescription'] as String?,
     skillDetails: json['SkillDetails'] == null
         ? null
         : SkillDetails.fromJson(json['SkillDetails'] as Map<String, dynamic>),
-    skillId: json['SkillId'] as String,
-    skillName: json['SkillName'] as String,
-    supportsLinking: json['SupportsLinking'] as bool,
+    skillId: json['SkillId'] as String?,
+    skillName: json['SkillName'] as String?,
+    supportsLinking: json['SupportsLinking'] as bool?,
   );
 }
 
 SmartHomeAppliance _$SmartHomeApplianceFromJson(Map<String, dynamic> json) {
   return SmartHomeAppliance(
-    description: json['Description'] as String,
-    friendlyName: json['FriendlyName'] as String,
-    manufacturerName: json['ManufacturerName'] as String,
+    description: json['Description'] as String?,
+    friendlyName: json['FriendlyName'] as String?,
+    manufacturerName: json['ManufacturerName'] as String?,
   );
 }
 
-Map<String, dynamic> _$SortToJson(Sort instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', _$SortValueEnumMap[instance.value]);
-  return val;
-}
+Map<String, dynamic> _$SortToJson(Sort instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': _$SortValueEnumMap[instance.value],
+    };
 
 const _$SortValueEnumMap = {
   SortValue.asc: 'ASC',
   SortValue.desc: 'DESC',
 };
 
-Map<String, dynamic> _$SsmlToJson(Ssml instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Locale', _$LocaleEnumMap[instance.locale]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$SsmlToJson(Ssml instance) => <String, dynamic>{
+      'Locale': _$LocaleEnumMap[instance.locale],
+      'Value': instance.value,
+    };
 
 StartDeviceSyncResponse _$StartDeviceSyncResponseFromJson(
     Map<String, dynamic> json) {
@@ -1608,37 +1466,19 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
-Map<String, dynamic> _$TextToJson(Text instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Locale', _$LocaleEnumMap[instance.locale]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TextToJson(Text instance) => <String, dynamic>{
+      'Locale': _$LocaleEnumMap[instance.locale],
+      'Value': instance.value,
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -1765,13 +1605,13 @@ UpdateSkillGroupResponse _$UpdateSkillGroupResponseFromJson(
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) {
   return UserData(
-    email: json['Email'] as String,
-    enrollmentId: json['EnrollmentId'] as String,
+    email: json['Email'] as String?,
+    enrollmentId: json['EnrollmentId'] as String?,
     enrollmentStatus: _$enumDecodeNullable(
         _$EnrollmentStatusEnumMap, json['EnrollmentStatus']),
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
-    userArn: json['UserArn'] as String,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
+    userArn: json['UserArn'] as String?,
   );
 }
 

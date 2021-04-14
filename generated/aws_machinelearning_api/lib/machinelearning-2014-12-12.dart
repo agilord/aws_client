@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'machinelearning-2014-12-12.g.dart';
 
 /// Definition of the public APIs exposed by Amazon Machine Learning
 class MachineLearning {
   final _s.JsonProtocol _protocol;
   MachineLearning({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -66,9 +58,9 @@ class MachineLearning {
   /// specifying a value, Amazon ML creates a tag with the specified key and a
   /// value of null.
   Future<AddTagsOutput> addTags({
-    @_s.required String resourceId,
-    @_s.required TaggableResourceType resourceType,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required TaggableResourceType resourceType,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -98,7 +90,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'Tags': tags,
       },
     );
@@ -155,11 +147,11 @@ class MachineLearning {
   /// A user-supplied name or description of the <code>BatchPrediction</code>.
   /// <code>BatchPredictionName</code> can only use the UTF-8 character set.
   Future<CreateBatchPredictionOutput> createBatchPrediction({
-    @_s.required String batchPredictionDataSourceId,
-    @_s.required String batchPredictionId,
-    @_s.required String mLModelId,
-    @_s.required String outputUri,
-    String batchPredictionName,
+    required String batchPredictionDataSourceId,
+    required String batchPredictionId,
+    required String mLModelId,
+    required String outputUri,
+    String? batchPredictionName,
   }) async {
     ArgumentError.checkNotNull(
         batchPredictionDataSourceId, 'batchPredictionDataSourceId');
@@ -362,11 +354,11 @@ class MachineLearning {
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
   Future<CreateDataSourceFromRDSOutput> createDataSourceFromRDS({
-    @_s.required String dataSourceId,
-    @_s.required RDSDataSpec rDSData,
-    @_s.required String roleARN,
-    bool computeStatistics,
-    String dataSourceName,
+    required String dataSourceId,
+    required RDSDataSpec rDSData,
+    required String roleARN,
+    bool? computeStatistics,
+    String? dataSourceName,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -546,11 +538,11 @@ class MachineLearning {
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
   Future<CreateDataSourceFromRedshiftOutput> createDataSourceFromRedshift({
-    @_s.required String dataSourceId,
-    @_s.required RedshiftDataSpec dataSpec,
-    @_s.required String roleARN,
-    bool computeStatistics,
-    String dataSourceName,
+    required String dataSourceId,
+    required RedshiftDataSpec dataSpec,
+    required String roleARN,
+    bool? computeStatistics,
+    String? dataSourceName,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -689,10 +681,10 @@ class MachineLearning {
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
   Future<CreateDataSourceFromS3Output> createDataSourceFromS3({
-    @_s.required String dataSourceId,
-    @_s.required S3DataSpec dataSpec,
-    bool computeStatistics,
-    String dataSourceName,
+    required String dataSourceId,
+    required S3DataSpec dataSpec,
+    bool? computeStatistics,
+    String? dataSourceName,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -784,10 +776,10 @@ class MachineLearning {
   /// Parameter [evaluationName] :
   /// A user-supplied name or description of the <code>Evaluation</code>.
   Future<CreateEvaluationOutput> createEvaluation({
-    @_s.required String evaluationDataSourceId,
-    @_s.required String evaluationId,
-    @_s.required String mLModelId,
-    String evaluationName,
+    required String evaluationDataSourceId,
+    required String evaluationId,
+    required String mLModelId,
+    String? evaluationName,
   }) async {
     ArgumentError.checkNotNull(
         evaluationDataSourceId, 'evaluationDataSourceId');
@@ -982,13 +974,13 @@ class MachineLearning {
   /// recipe or its URI. If you don't specify a recipe or its URI, Amazon ML
   /// creates a default.
   Future<CreateMLModelOutput> createMLModel({
-    @_s.required String mLModelId,
-    @_s.required MLModelType mLModelType,
-    @_s.required String trainingDataSourceId,
-    String mLModelName,
-    Map<String, String> parameters,
-    String recipe,
-    String recipeUri,
+    required String mLModelId,
+    required MLModelType mLModelType,
+    required String trainingDataSourceId,
+    String? mLModelName,
+    Map<String, String>? parameters,
+    String? recipe,
+    String? recipeUri,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -1059,7 +1051,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelType': mLModelType?.toValue() ?? '',
+        'MLModelType': mLModelType.toValue(),
         'TrainingDataSourceId': trainingDataSourceId,
         if (mLModelName != null) 'MLModelName': mLModelName,
         if (parameters != null) 'Parameters': parameters,
@@ -1082,7 +1074,7 @@ class MachineLearning {
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> during creation.
   Future<CreateRealtimeEndpointOutput> createRealtimeEndpoint({
-    @_s.required String mLModelId,
+    required String mLModelId,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -1134,7 +1126,7 @@ class MachineLearning {
   /// A user-supplied ID that uniquely identifies the
   /// <code>BatchPrediction</code>.
   Future<DeleteBatchPredictionOutput> deleteBatchPrediction({
-    @_s.required String batchPredictionId,
+    required String batchPredictionId,
   }) async {
     ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
     _s.validateStringLength(
@@ -1185,7 +1177,7 @@ class MachineLearning {
   /// Parameter [dataSourceId] :
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
   Future<DeleteDataSourceOutput> deleteDataSource({
-    @_s.required String dataSourceId,
+    required String dataSourceId,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -1238,7 +1230,7 @@ class MachineLearning {
   /// A user-supplied ID that uniquely identifies the <code>Evaluation</code> to
   /// delete.
   Future<DeleteEvaluationOutput> deleteEvaluation({
-    @_s.required String evaluationId,
+    required String evaluationId,
   }) async {
     ArgumentError.checkNotNull(evaluationId, 'evaluationId');
     _s.validateStringLength(
@@ -1289,7 +1281,7 @@ class MachineLearning {
   /// Parameter [mLModelId] :
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>.
   Future<DeleteMLModelOutput> deleteMLModel({
-    @_s.required String mLModelId,
+    required String mLModelId,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -1332,7 +1324,7 @@ class MachineLearning {
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> during creation.
   Future<DeleteRealtimeEndpointOutput> deleteRealtimeEndpoint({
-    @_s.required String mLModelId,
+    required String mLModelId,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -1385,9 +1377,9 @@ class MachineLearning {
   /// Parameter [tagKeys] :
   /// One or more tags to delete.
   Future<DeleteTagsOutput> deleteTags({
-    @_s.required String resourceId,
-    @_s.required TaggableResourceType resourceType,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required TaggableResourceType resourceType,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1417,7 +1409,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'TagKeys': tagKeys,
       },
     );
@@ -1526,17 +1518,17 @@ class MachineLearning {
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeBatchPredictionsOutput> describeBatchPredictions({
-    String eq,
-    BatchPredictionFilterVariable filterVariable,
-    String ge,
-    String gt,
-    String le,
-    String lt,
-    int limit,
-    String ne,
-    String nextToken,
-    String prefix,
-    SortOrder sortOrder,
+    String? eq,
+    BatchPredictionFilterVariable? filterVariable,
+    String? ge,
+    String? gt,
+    String? le,
+    String? lt,
+    int? limit,
+    String? ne,
+    String? nextToken,
+    String? prefix,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'eq',
@@ -1744,17 +1736,17 @@ class MachineLearning {
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeDataSourcesOutput> describeDataSources({
-    String eq,
-    DataSourceFilterVariable filterVariable,
-    String ge,
-    String gt,
-    String le,
-    String lt,
-    int limit,
-    String ne,
-    String nextToken,
-    String prefix,
-    SortOrder sortOrder,
+    String? eq,
+    DataSourceFilterVariable? filterVariable,
+    String? ge,
+    String? gt,
+    String? le,
+    String? lt,
+    int? limit,
+    String? ne,
+    String? nextToken,
+    String? prefix,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'eq',
@@ -1965,17 +1957,17 @@ class MachineLearning {
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeEvaluationsOutput> describeEvaluations({
-    String eq,
-    EvaluationFilterVariable filterVariable,
-    String ge,
-    String gt,
-    String le,
-    String lt,
-    int limit,
-    String ne,
-    String nextToken,
-    String prefix,
-    SortOrder sortOrder,
+    String? eq,
+    EvaluationFilterVariable? filterVariable,
+    String? ge,
+    String? gt,
+    String? le,
+    String? lt,
+    int? limit,
+    String? ne,
+    String? nextToken,
+    String? prefix,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'eq',
@@ -2194,17 +2186,17 @@ class MachineLearning {
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeMLModelsOutput> describeMLModels({
-    String eq,
-    MLModelFilterVariable filterVariable,
-    String ge,
-    String gt,
-    String le,
-    String lt,
-    int limit,
-    String ne,
-    String nextToken,
-    String prefix,
-    SortOrder sortOrder,
+    String? eq,
+    MLModelFilterVariable? filterVariable,
+    String? ge,
+    String? gt,
+    String? le,
+    String? lt,
+    int? limit,
+    String? ne,
+    String? nextToken,
+    String? prefix,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'eq',
@@ -2329,8 +2321,8 @@ class MachineLearning {
   /// Parameter [resourceType] :
   /// The type of the ML object.
   Future<DescribeTagsOutput> describeTags({
-    @_s.required String resourceId,
-    @_s.required TaggableResourceType resourceType,
+    required String resourceId,
+    required TaggableResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -2359,7 +2351,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -2377,7 +2369,7 @@ class MachineLearning {
   /// Parameter [batchPredictionId] :
   /// An ID assigned to the <code>BatchPrediction</code> at creation.
   Future<GetBatchPredictionOutput> getBatchPrediction({
-    @_s.required String batchPredictionId,
+    required String batchPredictionId,
   }) async {
     ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
     _s.validateStringLength(
@@ -2433,8 +2425,8 @@ class MachineLearning {
   ///
   /// If false, <code>DataSourceSchema</code> is not returned.
   Future<GetDataSourceOutput> getDataSource({
-    @_s.required String dataSourceId,
-    bool verbose,
+    required String dataSourceId,
+    bool? verbose,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -2481,7 +2473,7 @@ class MachineLearning {
   /// <code>MLModel</code> is recorded and cataloged. The ID provides the means
   /// to access the information.
   Future<GetEvaluationOutput> getEvaluation({
-    @_s.required String evaluationId,
+    required String evaluationId,
   }) async {
     ArgumentError.checkNotNull(evaluationId, 'evaluationId');
     _s.validateStringLength(
@@ -2535,8 +2527,8 @@ class MachineLearning {
   ///
   /// If false, <code>Recipe</code> is not returned.
   Future<GetMLModelOutput> getMLModel({
-    @_s.required String mLModelId,
-    bool verbose,
+    required String mLModelId,
+    bool? verbose,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -2587,9 +2579,9 @@ class MachineLearning {
   /// Parameter [mLModelId] :
   /// A unique identifier of the <code>MLModel</code>.
   Future<PredictOutput> predict({
-    @_s.required String mLModelId,
-    @_s.required String predictEndpoint,
-    @_s.required Map<String, String> record,
+    required String mLModelId,
+    required String predictEndpoint,
+    required Map<String, String> record,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -2657,8 +2649,8 @@ class MachineLearning {
   /// A new user-supplied name or description of the
   /// <code>BatchPrediction</code>.
   Future<UpdateBatchPredictionOutput> updateBatchPrediction({
-    @_s.required String batchPredictionId,
-    @_s.required String batchPredictionName,
+    required String batchPredictionId,
+    required String batchPredictionName,
   }) async {
     ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
     _s.validateStringLength(
@@ -2723,8 +2715,8 @@ class MachineLearning {
   /// A new user-supplied name or description of the <code>DataSource</code>
   /// that will replace the current description.
   Future<UpdateDataSourceOutput> updateDataSource({
-    @_s.required String dataSourceId,
-    @_s.required String dataSourceName,
+    required String dataSourceId,
+    required String dataSourceName,
   }) async {
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     _s.validateStringLength(
@@ -2789,8 +2781,8 @@ class MachineLearning {
   /// A new user-supplied name or description of the <code>Evaluation</code>
   /// that will replace the current content.
   Future<UpdateEvaluationOutput> updateEvaluation({
-    @_s.required String evaluationId,
-    @_s.required String evaluationName,
+    required String evaluationId,
+    required String evaluationName,
   }) async {
     ArgumentError.checkNotNull(evaluationId, 'evaluationId');
     _s.validateStringLength(
@@ -2866,9 +2858,9 @@ class MachineLearning {
   /// receive a negative response from the <code>MLModel</code>, such as
   /// <code>false</code>.
   Future<UpdateMLModelOutput> updateMLModel({
-    @_s.required String mLModelId,
-    String mLModelName,
-    double scoreThreshold,
+    required String mLModelId,
+    String? mLModelName,
+    double? scoreThreshold,
   }) async {
     ArgumentError.checkNotNull(mLModelId, 'mLModelId');
     _s.validateStringLength(
@@ -2917,26 +2909,23 @@ class MachineLearning {
 }
 
 /// Amazon ML returns the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsOutput {
   /// The ID of the ML object that was tagged.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of the ML object that was tagged.
-  @_s.JsonKey(name: 'ResourceType')
-  final TaggableResourceType resourceType;
+  final TaggableResourceType? resourceType;
 
   AddTagsOutput({
     this.resourceId,
     this.resourceType,
   });
-  factory AddTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsOutputFromJson(json);
+  factory AddTagsOutput.fromJson(Map<String, dynamic> json) {
+    return AddTagsOutput(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+    );
+  }
 }
 
 /// The function used to train an <code>MLModel</code>. Training choices
@@ -2947,83 +2936,78 @@ class AddTagsOutput {
 /// <li> <code>RandomForest</code> - Random forest of decision trees.</li>
 /// </ul>
 enum Algorithm {
-  @_s.JsonValue('sgd')
   sgd,
+}
+
+extension on Algorithm {
+  String toValue() {
+    switch (this) {
+      case Algorithm.sgd:
+        return 'sgd';
+    }
+  }
+}
+
+extension on String {
+  Algorithm toAlgorithm() {
+    switch (this) {
+      case 'sgd':
+        return Algorithm.sgd;
+    }
+    throw Exception('$this is not known in enum Algorithm');
+  }
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation.
 ///
 /// The content consists of the detailed metadata, the status, and the data file
 /// information of a <code>Batch Prediction</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPrediction {
   /// The ID of the <code>DataSource</code> that points to the group of
   /// observations to predict.
-  @_s.JsonKey(name: 'BatchPredictionDataSourceId')
-  final String batchPredictionDataSourceId;
+  final String? batchPredictionDataSourceId;
 
   /// The ID assigned to the <code>BatchPrediction</code> at creation. This value
   /// should be identical to the value of the <code>BatchPredictionID</code> in
   /// the request.
-  @_s.JsonKey(name: 'BatchPredictionId')
-  final String batchPredictionId;
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final String? batchPredictionId;
+  final int? computeTime;
 
   /// The time that the <code>BatchPrediction</code> was created. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account that invoked the <code>BatchPrediction</code>. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final String? createdByIamUser;
+  final DateTime? finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
-  @_s.JsonKey(name: 'InvalidRecordCount')
-  final int invalidRecordCount;
+  final String? inputDataLocationS3;
+  final int? invalidRecordCount;
 
   /// The time of the most recent edit to the <code>BatchPrediction</code>. The
   /// time is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The ID of the <code>MLModel</code> that generated predictions for the
   /// <code>BatchPrediction</code> request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// A description of the most recent details about processing the batch
   /// prediction request.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>BatchPrediction</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The location of an Amazon S3 bucket or directory to receive the operation
   /// results. The following substrings are not allowed in the <code>s3 key</code>
   /// portion of the <code>outputURI</code> field: ':', '//', '/./', '/../'.
-  @_s.JsonKey(name: 'OutputUri')
-  final String outputUri;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final String? outputUri;
+  final DateTime? startedAt;
 
   /// The status of the <code>BatchPrediction</code>. This element can have one of
   /// the following values:
@@ -3039,10 +3023,8 @@ class BatchPrediction {
   /// <li> <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
   /// deleted. It is not usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
-  @_s.JsonKey(name: 'TotalRecordCount')
-  final int totalRecordCount;
+  final EntityStatus? status;
+  final int? totalRecordCount;
 
   BatchPrediction({
     this.batchPredictionDataSourceId,
@@ -3062,8 +3044,27 @@ class BatchPrediction {
     this.status,
     this.totalRecordCount,
   });
-  factory BatchPrediction.fromJson(Map<String, dynamic> json) =>
-      _$BatchPredictionFromJson(json);
+  factory BatchPrediction.fromJson(Map<String, dynamic> json) {
+    return BatchPrediction(
+      batchPredictionDataSourceId:
+          json['BatchPredictionDataSourceId'] as String?,
+      batchPredictionId: json['BatchPredictionId'] as String?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      invalidRecordCount: json['InvalidRecordCount'] as int?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      outputUri: json['OutputUri'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+      totalRecordCount: json['TotalRecordCount'] as int?,
+    );
+  }
 }
 
 /// A list of the variables to use in searching or filtering
@@ -3087,21 +3088,13 @@ class BatchPrediction {
 /// or an Amazon Simple Storage Service (Amazon S3) bucket or directory.</li>
 /// </ul>
 enum BatchPredictionFilterVariable {
-  @_s.JsonValue('CreatedAt')
   createdAt,
-  @_s.JsonValue('LastUpdatedAt')
   lastUpdatedAt,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('IAMUser')
   iAMUser,
-  @_s.JsonValue('MLModelId')
   mLModelId,
-  @_s.JsonValue('DataSourceId')
   dataSourceId,
-  @_s.JsonValue('DataURI')
   dataURI,
 }
 
@@ -3125,7 +3118,30 @@ extension on BatchPredictionFilterVariable {
       case BatchPredictionFilterVariable.dataURI:
         return 'DataURI';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BatchPredictionFilterVariable toBatchPredictionFilterVariable() {
+    switch (this) {
+      case 'CreatedAt':
+        return BatchPredictionFilterVariable.createdAt;
+      case 'LastUpdatedAt':
+        return BatchPredictionFilterVariable.lastUpdatedAt;
+      case 'Status':
+        return BatchPredictionFilterVariable.status;
+      case 'Name':
+        return BatchPredictionFilterVariable.name;
+      case 'IAMUser':
+        return BatchPredictionFilterVariable.iAMUser;
+      case 'MLModelId':
+        return BatchPredictionFilterVariable.mLModelId;
+      case 'DataSourceId':
+        return BatchPredictionFilterVariable.dataSourceId;
+      case 'DataURI':
+        return BatchPredictionFilterVariable.dataURI;
+    }
+    throw Exception('$this is not known in enum BatchPredictionFilterVariable');
   }
 }
 
@@ -3135,23 +3151,20 @@ extension on BatchPredictionFilterVariable {
 /// The <code>CreateBatchPrediction</code> operation is asynchronous. You can
 /// poll for status updates by using the <code>&gt;GetBatchPrediction</code>
 /// operation and checking the <code>Status</code> parameter of the result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBatchPredictionOutput {
   /// A user-supplied ID that uniquely identifies the
   /// <code>BatchPrediction</code>. This value is identical to the value of the
   /// <code>BatchPredictionId</code> in the request.
-  @_s.JsonKey(name: 'BatchPredictionId')
-  final String batchPredictionId;
+  final String? batchPredictionId;
 
   CreateBatchPredictionOutput({
     this.batchPredictionId,
   });
-  factory CreateBatchPredictionOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateBatchPredictionOutputFromJson(json);
+  factory CreateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBatchPredictionOutput(
+      batchPredictionId: json['BatchPredictionId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>CreateDataSourceFromRDS</code> operation,
@@ -3164,23 +3177,20 @@ class CreateBatchPredictionOutput {
 /// <code>FAILED</code>. You can also check the progress of the copy operation
 /// by going to the <code>DataPipeline</code> console and looking up the
 /// pipeline using the <code>pipelineId </code> from the describe call.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDataSourceFromRDSOutput {
   /// A user-supplied ID that uniquely identifies the datasource. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
   /// request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   CreateDataSourceFromRDSOutput({
     this.dataSourceId,
   });
-  factory CreateDataSourceFromRDSOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataSourceFromRDSOutputFromJson(json);
+  factory CreateDataSourceFromRDSOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDataSourceFromRDSOutput(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>CreateDataSourceFromRedshift</code>
@@ -3189,24 +3199,21 @@ class CreateDataSourceFromRDSOutput {
 /// The <code>CreateDataSourceFromRedshift</code> operation is asynchronous. You
 /// can poll for updates by using the <code>GetBatchPrediction</code> operation
 /// and checking the <code>Status</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDataSourceFromRedshiftOutput {
   /// A user-supplied ID that uniquely identifies the datasource. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
   /// request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   CreateDataSourceFromRedshiftOutput({
     this.dataSourceId,
   });
   factory CreateDataSourceFromRedshiftOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDataSourceFromRedshiftOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDataSourceFromRedshiftOutput(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>CreateDataSourceFromS3</code> operation,
@@ -3215,23 +3222,20 @@ class CreateDataSourceFromRedshiftOutput {
 /// The <code>CreateDataSourceFromS3</code> operation is asynchronous. You can
 /// poll for updates by using the <code>GetBatchPrediction</code> operation and
 /// checking the <code>Status</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDataSourceFromS3Output {
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
   /// This value should be identical to the value of the <code>DataSourceID</code>
   /// in the request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   CreateDataSourceFromS3Output({
     this.dataSourceId,
   });
-  factory CreateDataSourceFromS3Output.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataSourceFromS3OutputFromJson(json);
+  factory CreateDataSourceFromS3Output.fromJson(Map<String, dynamic> json) {
+    return CreateDataSourceFromS3Output(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>CreateEvaluation</code> operation, and is
@@ -3240,23 +3244,20 @@ class CreateDataSourceFromS3Output {
 /// <code>CreateEvaluation</code> operation is asynchronous. You can poll for
 /// status updates by using the <code>GetEvcaluation</code> operation and
 /// checking the <code>Status</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEvaluationOutput {
   /// The user-supplied ID that uniquely identifies the <code>Evaluation</code>.
   /// This value should be identical to the value of the <code>EvaluationId</code>
   /// in the request.
-  @_s.JsonKey(name: 'EvaluationId')
-  final String evaluationId;
+  final String? evaluationId;
 
   CreateEvaluationOutput({
     this.evaluationId,
   });
-  factory CreateEvaluationOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateEvaluationOutputFromJson(json);
+  factory CreateEvaluationOutput.fromJson(Map<String, dynamic> json) {
+    return CreateEvaluationOutput(
+      evaluationId: json['EvaluationId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>CreateMLModel</code> operation, and is an
@@ -3265,23 +3266,20 @@ class CreateEvaluationOutput {
 /// The <code>CreateMLModel</code> operation is asynchronous. You can poll for
 /// status updates by using the <code>GetMLModel</code> operation and checking
 /// the <code>Status</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMLModelOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
   /// request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   CreateMLModelOutput({
     this.mLModelId,
   });
-  factory CreateMLModelOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateMLModelOutputFromJson(json);
+  factory CreateMLModelOutput.fromJson(Map<String, dynamic> json) {
+    return CreateMLModelOutput(
+      mLModelId: json['MLModelId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of an <code>CreateRealtimeEndpoint</code> operation.
@@ -3293,108 +3291,82 @@ class CreateMLModelOutput {
 /// is, the location to send online prediction requests for the specified
 /// <code>MLModel</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRealtimeEndpointOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
   /// request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// The endpoint information of the <code>MLModel</code>
-  @_s.JsonKey(name: 'RealtimeEndpointInfo')
-  final RealtimeEndpointInfo realtimeEndpointInfo;
+  final RealtimeEndpointInfo? realtimeEndpointInfo;
 
   CreateRealtimeEndpointOutput({
     this.mLModelId,
     this.realtimeEndpointInfo,
   });
-  factory CreateRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateRealtimeEndpointOutputFromJson(json);
+  factory CreateRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) {
+    return CreateRealtimeEndpointOutput(
+      mLModelId: json['MLModelId'] as String?,
+      realtimeEndpointInfo: json['RealtimeEndpointInfo'] != null
+          ? RealtimeEndpointInfo.fromJson(
+              json['RealtimeEndpointInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the output of the <code>GetDataSource</code> operation.
 ///
 /// The content consists of the detailed metadata and data file information and
 /// the current status of the <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSource {
   /// The parameter is <code>true</code> if statistics need to be generated from
   /// the observation data.
-  @_s.JsonKey(name: 'ComputeStatistics')
-  final bool computeStatistics;
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final bool? computeStatistics;
+  final int? computeTime;
 
   /// The time that the <code>DataSource</code> was created. The time is expressed
   /// in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account from which the <code>DataSource</code> was created. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The location and name of the data in Amazon Simple Storage Service (Amazon
   /// S3) that is used by a <code>DataSource</code>.
-  @_s.JsonKey(name: 'DataLocationS3')
-  final String dataLocationS3;
+  final String? dataLocationS3;
 
   /// A JSON string that represents the splitting and rearrangement requirement
   /// used when this <code>DataSource</code> was created.
-  @_s.JsonKey(name: 'DataRearrangement')
-  final String dataRearrangement;
+  final String? dataRearrangement;
 
   /// The total number of observations contained in the data files that the
   /// <code>DataSource</code> references.
-  @_s.JsonKey(name: 'DataSizeInBytes')
-  final int dataSizeInBytes;
+  final int? dataSizeInBytes;
 
   /// The ID that is assigned to the <code>DataSource</code> during creation.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final String? dataSourceId;
+  final DateTime? finishedAt;
 
   /// The time of the most recent edit to the <code>BatchPrediction</code>. The
   /// time is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A description of the most recent details about creating the
   /// <code>DataSource</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>DataSource</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of data files referenced by the <code>DataSource</code>.
-  @_s.JsonKey(name: 'NumberOfFiles')
-  final int numberOfFiles;
-  @_s.JsonKey(name: 'RDSMetadata')
-  final RDSMetadata rDSMetadata;
-  @_s.JsonKey(name: 'RedshiftMetadata')
-  final RedshiftMetadata redshiftMetadata;
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final int? numberOfFiles;
+  final RDSMetadata? rDSMetadata;
+  final RedshiftMetadata? redshiftMetadata;
+  final String? roleARN;
+  final DateTime? startedAt;
 
   /// The current status of the <code>DataSource</code>. This element can have one
   /// of the following values:
@@ -3409,8 +3381,7 @@ class DataSource {
   /// <li>DELETED - The <code>DataSource</code> is marked as deleted. It is not
   /// usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   DataSource({
     this.computeStatistics,
@@ -3432,8 +3403,33 @@ class DataSource {
     this.startedAt,
     this.status,
   });
-  factory DataSource.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceFromJson(json);
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      computeStatistics: json['ComputeStatistics'] as bool?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      dataLocationS3: json['DataLocationS3'] as String?,
+      dataRearrangement: json['DataRearrangement'] as String?,
+      dataSizeInBytes: json['DataSizeInBytes'] as int?,
+      dataSourceId: json['DataSourceId'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      numberOfFiles: json['NumberOfFiles'] as int?,
+      rDSMetadata: json['RDSMetadata'] != null
+          ? RDSMetadata.fromJson(json['RDSMetadata'] as Map<String, dynamic>)
+          : null,
+      redshiftMetadata: json['RedshiftMetadata'] != null
+          ? RedshiftMetadata.fromJson(
+              json['RedshiftMetadata'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+    );
+  }
 }
 
 /// A list of the variables to use in searching or filtering
@@ -3457,17 +3453,11 @@ class DataSource {
 /// <code>DataSource</code>.
 /// </note>
 enum DataSourceFilterVariable {
-  @_s.JsonValue('CreatedAt')
   createdAt,
-  @_s.JsonValue('LastUpdatedAt')
   lastUpdatedAt,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('DataLocationS3')
   dataLocationS3,
-  @_s.JsonValue('IAMUser')
   iAMUser,
 }
 
@@ -3487,7 +3477,26 @@ extension on DataSourceFilterVariable {
       case DataSourceFilterVariable.iAMUser:
         return 'IAMUser';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSourceFilterVariable toDataSourceFilterVariable() {
+    switch (this) {
+      case 'CreatedAt':
+        return DataSourceFilterVariable.createdAt;
+      case 'LastUpdatedAt':
+        return DataSourceFilterVariable.lastUpdatedAt;
+      case 'Status':
+        return DataSourceFilterVariable.status;
+      case 'Name':
+        return DataSourceFilterVariable.name;
+      case 'DataLocationS3':
+        return DataSourceFilterVariable.dataLocationS3;
+      case 'IAMUser':
+        return DataSourceFilterVariable.iAMUser;
+    }
+    throw Exception('$this is not known in enum DataSourceFilterVariable');
   }
 }
 
@@ -3496,43 +3505,37 @@ extension on DataSourceFilterVariable {
 /// You can use the <code>GetBatchPrediction</code> operation and check the
 /// value of the <code>Status</code> parameter to see whether a
 /// <code>BatchPrediction</code> is marked as <code>DELETED</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBatchPredictionOutput {
   /// A user-supplied ID that uniquely identifies the
   /// <code>BatchPrediction</code>. This value should be identical to the value of
   /// the <code>BatchPredictionID</code> in the request.
-  @_s.JsonKey(name: 'BatchPredictionId')
-  final String batchPredictionId;
+  final String? batchPredictionId;
 
   DeleteBatchPredictionOutput({
     this.batchPredictionId,
   });
-  factory DeleteBatchPredictionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBatchPredictionOutputFromJson(json);
+  factory DeleteBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBatchPredictionOutput(
+      batchPredictionId: json['BatchPredictionId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>DeleteDataSource</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDataSourceOutput {
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
   /// This value should be identical to the value of the <code>DataSourceID</code>
   /// in the request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   DeleteDataSourceOutput({
     this.dataSourceId,
   });
-  factory DeleteDataSourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDataSourceOutputFromJson(json);
+  factory DeleteDataSourceOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteDataSourceOutput(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>DeleteEvaluation</code> operation. The
@@ -3542,23 +3545,20 @@ class DeleteDataSourceOutput {
 /// You can use the <code>GetEvaluation</code> operation and check the value of
 /// the <code>Status</code> parameter to see whether an <code>Evaluation</code>
 /// is marked as <code>DELETED</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEvaluationOutput {
   /// A user-supplied ID that uniquely identifies the <code>Evaluation</code>.
   /// This value should be identical to the value of the <code>EvaluationId</code>
   /// in the request.
-  @_s.JsonKey(name: 'EvaluationId')
-  final String evaluationId;
+  final String? evaluationId;
 
   DeleteEvaluationOutput({
     this.evaluationId,
   });
-  factory DeleteEvaluationOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEvaluationOutputFromJson(json);
+  factory DeleteEvaluationOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteEvaluationOutput(
+      evaluationId: json['EvaluationId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>DeleteMLModel</code> operation.
@@ -3566,203 +3566,197 @@ class DeleteEvaluationOutput {
 /// You can use the <code>GetMLModel</code> operation and check the value of the
 /// <code>Status</code> parameter to see whether an <code>MLModel</code> is
 /// marked as <code>DELETED</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMLModelOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelID</code> in the
   /// request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   DeleteMLModelOutput({
     this.mLModelId,
   });
-  factory DeleteMLModelOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMLModelOutputFromJson(json);
+  factory DeleteMLModelOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteMLModelOutput(
+      mLModelId: json['MLModelId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of an <code>DeleteRealtimeEndpoint</code> operation.
 ///
 /// The result contains the <code>MLModelId</code> and the endpoint information
 /// for the <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRealtimeEndpointOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
   /// request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// The endpoint information of the <code>MLModel</code>
-  @_s.JsonKey(name: 'RealtimeEndpointInfo')
-  final RealtimeEndpointInfo realtimeEndpointInfo;
+  final RealtimeEndpointInfo? realtimeEndpointInfo;
 
   DeleteRealtimeEndpointOutput({
     this.mLModelId,
     this.realtimeEndpointInfo,
   });
-  factory DeleteRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRealtimeEndpointOutputFromJson(json);
+  factory DeleteRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteRealtimeEndpointOutput(
+      mLModelId: json['MLModelId'] as String?,
+      realtimeEndpointInfo: json['RealtimeEndpointInfo'] != null
+          ? RealtimeEndpointInfo.fromJson(
+              json['RealtimeEndpointInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Amazon ML returns the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTagsOutput {
   /// The ID of the ML object from which tags were deleted.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of the ML object from which tags were deleted.
-  @_s.JsonKey(name: 'ResourceType')
-  final TaggableResourceType resourceType;
+  final TaggableResourceType? resourceType;
 
   DeleteTagsOutput({
     this.resourceId,
     this.resourceType,
   });
-  factory DeleteTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTagsOutputFromJson(json);
+  factory DeleteTagsOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTagsOutput(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+    );
+  }
 }
 
 /// Represents the output of a <code>DescribeBatchPredictions</code> operation.
 /// The content is essentially a list of <code>BatchPrediction</code>s.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBatchPredictionsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>BatchPrediction</code> objects that meet the search
   /// criteria.
-  @_s.JsonKey(name: 'Results')
-  final List<BatchPrediction> results;
+  final List<BatchPrediction>? results;
 
   DescribeBatchPredictionsOutput({
     this.nextToken,
     this.results,
   });
-  factory DescribeBatchPredictionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBatchPredictionsOutputFromJson(json);
+  factory DescribeBatchPredictionsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeBatchPredictionsOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchPrediction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the query results from a <a>DescribeDataSources</a> operation.
 /// The content is essentially a list of <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDataSourcesOutput {
   /// An ID of the next page in the paginated results that indicates at least one
   /// more page follows.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>DataSource</code> that meet the search criteria.
-  @_s.JsonKey(name: 'Results')
-  final List<DataSource> results;
+  final List<DataSource>? results;
 
   DescribeDataSourcesOutput({
     this.nextToken,
     this.results,
   });
-  factory DescribeDataSourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDataSourcesOutputFromJson(json);
+  factory DescribeDataSourcesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeDataSourcesOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the query results from a <code>DescribeEvaluations</code>
 /// operation. The content is essentially a list of <code>Evaluation</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEvaluationsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>Evaluation</code> that meet the search criteria.
-  @_s.JsonKey(name: 'Results')
-  final List<Evaluation> results;
+  final List<Evaluation>? results;
 
   DescribeEvaluationsOutput({
     this.nextToken,
     this.results,
   });
-  factory DescribeEvaluationsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEvaluationsOutputFromJson(json);
+  factory DescribeEvaluationsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeEvaluationsOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => Evaluation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the output of a <code>DescribeMLModels</code> operation. The
 /// content is essentially a list of <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMLModelsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>MLModel</code> that meet the search criteria.
-  @_s.JsonKey(name: 'Results')
-  final List<MLModel> results;
+  final List<MLModel>? results;
 
   DescribeMLModelsOutput({
     this.nextToken,
     this.results,
   });
-  factory DescribeMLModelsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMLModelsOutputFromJson(json);
+  factory DescribeMLModelsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeMLModelsOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => MLModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Amazon ML returns the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagsOutput {
   /// The ID of the tagged ML object.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of the tagged ML object.
-  @_s.JsonKey(name: 'ResourceType')
-  final TaggableResourceType resourceType;
+  final TaggableResourceType? resourceType;
 
   /// A list of tags associated with the ML object.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   DescribeTagsOutput({
     this.resourceId,
     this.resourceType,
     this.tags,
   });
-  factory DescribeTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagsOutputFromJson(json);
+  factory DescribeTagsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsOutput(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the key values of <code>DetailsMap</code>:
@@ -3770,10 +3764,31 @@ class DescribeTagsOutput {
 /// <code>MLModel</code>. <code>Algorithm</code> - Indicates the algorithm that
 /// was used for the <code>MLModel</code>.
 enum DetailsAttributes {
-  @_s.JsonValue('PredictiveModelType')
   predictiveModelType,
-  @_s.JsonValue('Algorithm')
   algorithm,
+}
+
+extension on DetailsAttributes {
+  String toValue() {
+    switch (this) {
+      case DetailsAttributes.predictiveModelType:
+        return 'PredictiveModelType';
+      case DetailsAttributes.algorithm:
+        return 'Algorithm';
+    }
+  }
+}
+
+extension on String {
+  DetailsAttributes toDetailsAttributes() {
+    switch (this) {
+      case 'PredictiveModelType':
+        return DetailsAttributes.predictiveModelType;
+      case 'Algorithm':
+        return DetailsAttributes.algorithm;
+    }
+    throw Exception('$this is not known in enum DetailsAttributes');
+  }
 }
 
 /// Object status with the following possible values:
@@ -3786,78 +3801,89 @@ enum DetailsAttributes {
 /// <li><code>DELETED</code></li>
 /// </ul>
 enum EntityStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('INPROGRESS')
   inprogress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on EntityStatus {
+  String toValue() {
+    switch (this) {
+      case EntityStatus.pending:
+        return 'PENDING';
+      case EntityStatus.inprogress:
+        return 'INPROGRESS';
+      case EntityStatus.failed:
+        return 'FAILED';
+      case EntityStatus.completed:
+        return 'COMPLETED';
+      case EntityStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  EntityStatus toEntityStatus() {
+    switch (this) {
+      case 'PENDING':
+        return EntityStatus.pending;
+      case 'INPROGRESS':
+        return EntityStatus.inprogress;
+      case 'FAILED':
+        return EntityStatus.failed;
+      case 'COMPLETED':
+        return EntityStatus.completed;
+      case 'DELETED':
+        return EntityStatus.deleted;
+    }
+    throw Exception('$this is not known in enum EntityStatus');
+  }
 }
 
 /// Represents the output of <code>GetEvaluation</code> operation.
 ///
 /// The content consists of the detailed metadata and data file information and
 /// the current status of the <code>Evaluation</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Evaluation {
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final int? computeTime;
 
   /// The time that the <code>Evaluation</code> was created. The time is expressed
   /// in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account that invoked the evaluation. The account type can be
   /// either an AWS root account or an AWS Identity and Access Management (IAM)
   /// user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The ID of the <code>DataSource</code> that is used to evaluate the
   /// <code>MLModel</code>.
-  @_s.JsonKey(name: 'EvaluationDataSourceId')
-  final String evaluationDataSourceId;
+  final String? evaluationDataSourceId;
 
   /// The ID that is assigned to the <code>Evaluation</code> at creation.
-  @_s.JsonKey(name: 'EvaluationId')
-  final String evaluationId;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final String? evaluationId;
+  final DateTime? finishedAt;
 
   /// The location and name of the data in Amazon Simple Storage Server (Amazon
   /// S3) that is used in the evaluation.
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
+  final String? inputDataLocationS3;
 
   /// The time of the most recent edit to the <code>Evaluation</code>. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The ID of the <code>MLModel</code> that is the focus of the evaluation.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// A description of the most recent details about evaluating the
   /// <code>MLModel</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>Evaluation</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Measurements of how well the <code>MLModel</code> performed, using
   /// observations referenced by the <code>DataSource</code>. One of the following
@@ -3881,11 +3907,8 @@ class Evaluation {
   /// For more information about performance metrics, please see the <a
   /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
   /// Learning Developer Guide</a>.
-  @_s.JsonKey(name: 'PerformanceMetrics')
-  final PerformanceMetrics performanceMetrics;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final PerformanceMetrics? performanceMetrics;
+  final DateTime? startedAt;
 
   /// The status of the evaluation. This element can have one of the following
   /// values:
@@ -3901,8 +3924,7 @@ class Evaluation {
   /// <li> <code>DELETED</code> - The <code>Evaluation</code> is marked as
   /// deleted. It is not usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   Evaluation({
     this.computeTime,
@@ -3920,8 +3942,27 @@ class Evaluation {
     this.startedAt,
     this.status,
   });
-  factory Evaluation.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationFromJson(json);
+  factory Evaluation.fromJson(Map<String, dynamic> json) {
+    return Evaluation(
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      evaluationDataSourceId: json['EvaluationDataSourceId'] as String?,
+      evaluationId: json['EvaluationId'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      performanceMetrics: json['PerformanceMetrics'] != null
+          ? PerformanceMetrics.fromJson(
+              json['PerformanceMetrics'] as Map<String, dynamic>)
+          : null,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+    );
+  }
 }
 
 /// A list of the variables to use in searching or filtering
@@ -3945,21 +3986,13 @@ class Evaluation {
 /// Storage Service (Amazon S3) bucket or directory.</li>
 /// </ul>
 enum EvaluationFilterVariable {
-  @_s.JsonValue('CreatedAt')
   createdAt,
-  @_s.JsonValue('LastUpdatedAt')
   lastUpdatedAt,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('IAMUser')
   iAMUser,
-  @_s.JsonValue('MLModelId')
   mLModelId,
-  @_s.JsonValue('DataSourceId')
   dataSourceId,
-  @_s.JsonValue('DataURI')
   dataURI,
 }
 
@@ -3983,104 +4016,103 @@ extension on EvaluationFilterVariable {
       case EvaluationFilterVariable.dataURI:
         return 'DataURI';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EvaluationFilterVariable toEvaluationFilterVariable() {
+    switch (this) {
+      case 'CreatedAt':
+        return EvaluationFilterVariable.createdAt;
+      case 'LastUpdatedAt':
+        return EvaluationFilterVariable.lastUpdatedAt;
+      case 'Status':
+        return EvaluationFilterVariable.status;
+      case 'Name':
+        return EvaluationFilterVariable.name;
+      case 'IAMUser':
+        return EvaluationFilterVariable.iAMUser;
+      case 'MLModelId':
+        return EvaluationFilterVariable.mLModelId;
+      case 'DataSourceId':
+        return EvaluationFilterVariable.dataSourceId;
+      case 'DataURI':
+        return EvaluationFilterVariable.dataURI;
+    }
+    throw Exception('$this is not known in enum EvaluationFilterVariable');
   }
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
 /// describes a <code>BatchPrediction</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBatchPredictionOutput {
   /// The ID of the <code>DataSource</code> that was used to create the
   /// <code>BatchPrediction</code>.
-  @_s.JsonKey(name: 'BatchPredictionDataSourceId')
-  final String batchPredictionDataSourceId;
+  final String? batchPredictionDataSourceId;
 
   /// An ID assigned to the <code>BatchPrediction</code> at creation. This value
   /// should be identical to the value of the <code>BatchPredictionID</code> in
   /// the request.
-  @_s.JsonKey(name: 'BatchPredictionId')
-  final String batchPredictionId;
+  final String? batchPredictionId;
 
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>BatchPrediction</code>, normalized and scaled on
   /// computation resources. <code>ComputeTime</code> is only available if the
   /// <code>BatchPrediction</code> is in the <code>COMPLETED</code> state.
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final int? computeTime;
 
   /// The time when the <code>BatchPrediction</code> was created. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account that invoked the <code>BatchPrediction</code>. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>BatchPrediction</code> as <code>COMPLETED</code> or
   /// <code>FAILED</code>. <code>FinishedAt</code> is only available when the
   /// <code>BatchPrediction</code> is in the <code>COMPLETED</code> or
   /// <code>FAILED</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final DateTime? finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
+  final String? inputDataLocationS3;
 
   /// The number of invalid records that Amazon Machine Learning saw while
   /// processing the <code>BatchPrediction</code>.
-  @_s.JsonKey(name: 'InvalidRecordCount')
-  final int invalidRecordCount;
+  final int? invalidRecordCount;
 
   /// The time of the most recent edit to <code>BatchPrediction</code>. The time
   /// is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A link to the file that contains logs of the
   /// <code>CreateBatchPrediction</code> operation.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The ID of the <code>MLModel</code> that generated predictions for the
   /// <code>BatchPrediction</code> request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// A description of the most recent details about processing the batch
   /// prediction request.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>BatchPrediction</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The location of an Amazon S3 bucket or directory to receive the operation
   /// results.
-  @_s.JsonKey(name: 'OutputUri')
-  final String outputUri;
+  final String? outputUri;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>BatchPrediction</code> as <code>INPROGRESS</code>.
   /// <code>StartedAt</code> isn't available if the <code>BatchPrediction</code>
   /// is in the <code>PENDING</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The status of the <code>BatchPrediction</code>, which can be one of the
   /// following values:
@@ -4096,13 +4128,11 @@ class GetBatchPredictionOutput {
   /// <li> <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
   /// deleted. It is not usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   /// The number of total records that Amazon Machine Learning saw while
   /// processing the <code>BatchPrediction</code>.
-  @_s.JsonKey(name: 'TotalRecordCount')
-  final int totalRecordCount;
+  final int? totalRecordCount;
 
   GetBatchPredictionOutput({
     this.batchPredictionDataSourceId,
@@ -4123,115 +4153,107 @@ class GetBatchPredictionOutput {
     this.status,
     this.totalRecordCount,
   });
-  factory GetBatchPredictionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBatchPredictionOutputFromJson(json);
+  factory GetBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
+    return GetBatchPredictionOutput(
+      batchPredictionDataSourceId:
+          json['BatchPredictionDataSourceId'] as String?,
+      batchPredictionId: json['BatchPredictionId'] as String?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      invalidRecordCount: json['InvalidRecordCount'] as int?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      logUri: json['LogUri'] as String?,
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      outputUri: json['OutputUri'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+      totalRecordCount: json['TotalRecordCount'] as int?,
+    );
+  }
 }
 
 /// Represents the output of a <code>GetDataSource</code> operation and
 /// describes a <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataSourceOutput {
   /// The parameter is <code>true</code> if statistics need to be generated from
   /// the observation data.
-  @_s.JsonKey(name: 'ComputeStatistics')
-  final bool computeStatistics;
+  final bool? computeStatistics;
 
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>DataSource</code>, normalized and scaled on computation
   /// resources. <code>ComputeTime</code> is only available if the
   /// <code>DataSource</code> is in the <code>COMPLETED</code> state and the
   /// <code>ComputeStatistics</code> is set to true.
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final int? computeTime;
 
   /// The time that the <code>DataSource</code> was created. The time is expressed
   /// in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account from which the <code>DataSource</code> was created. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'DataLocationS3')
-  final String dataLocationS3;
+  final String? dataLocationS3;
 
   /// A JSON string that represents the splitting and rearrangement requirement
   /// used when this <code>DataSource</code> was created.
-  @_s.JsonKey(name: 'DataRearrangement')
-  final String dataRearrangement;
+  final String? dataRearrangement;
 
   /// The total size of observations in the data files.
-  @_s.JsonKey(name: 'DataSizeInBytes')
-  final int dataSizeInBytes;
+  final int? dataSizeInBytes;
 
   /// The ID assigned to the <code>DataSource</code> at creation. This value
   /// should be identical to the value of the <code>DataSourceId</code> in the
   /// request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   /// The schema used by all of the data files of this <code>DataSource</code>.
   /// <note><title>Note</title>
   /// This parameter is provided as part of the verbose format.
   /// </note>
-  @_s.JsonKey(name: 'DataSourceSchema')
-  final String dataSourceSchema;
+  final String? dataSourceSchema;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>DataSource</code> as <code>COMPLETED</code> or <code>FAILED</code>.
   /// <code>FinishedAt</code> is only available when the <code>DataSource</code>
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final DateTime? finishedAt;
 
   /// The time of the most recent edit to the <code>DataSource</code>. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A link to the file containing logs of <code>CreateDataSourceFrom*</code>
   /// operations.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The user-supplied description of the most recent details about creating the
   /// <code>DataSource</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>DataSource</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of data files referenced by the <code>DataSource</code>.
-  @_s.JsonKey(name: 'NumberOfFiles')
-  final int numberOfFiles;
-  @_s.JsonKey(name: 'RDSMetadata')
-  final RDSMetadata rDSMetadata;
-  @_s.JsonKey(name: 'RedshiftMetadata')
-  final RedshiftMetadata redshiftMetadata;
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final int? numberOfFiles;
+  final RDSMetadata? rDSMetadata;
+  final RedshiftMetadata? redshiftMetadata;
+  final String? roleARN;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>DataSource</code> as <code>INPROGRESS</code>. <code>StartedAt</code>
   /// isn't available if the <code>DataSource</code> is in the
   /// <code>PENDING</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The current status of the <code>DataSource</code>. This element can have one
   /// of the following values:
@@ -4247,8 +4269,7 @@ class GetDataSourceOutput {
   /// <li> <code>DELETED</code> - The <code>DataSource</code> is marked as
   /// deleted. It is not usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   GetDataSourceOutput({
     this.computeStatistics,
@@ -4272,82 +4293,89 @@ class GetDataSourceOutput {
     this.startedAt,
     this.status,
   });
-  factory GetDataSourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDataSourceOutputFromJson(json);
+  factory GetDataSourceOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataSourceOutput(
+      computeStatistics: json['ComputeStatistics'] as bool?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      dataLocationS3: json['DataLocationS3'] as String?,
+      dataRearrangement: json['DataRearrangement'] as String?,
+      dataSizeInBytes: json['DataSizeInBytes'] as int?,
+      dataSourceId: json['DataSourceId'] as String?,
+      dataSourceSchema: json['DataSourceSchema'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      logUri: json['LogUri'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      numberOfFiles: json['NumberOfFiles'] as int?,
+      rDSMetadata: json['RDSMetadata'] != null
+          ? RDSMetadata.fromJson(json['RDSMetadata'] as Map<String, dynamic>)
+          : null,
+      redshiftMetadata: json['RedshiftMetadata'] != null
+          ? RedshiftMetadata.fromJson(
+              json['RedshiftMetadata'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+    );
+  }
 }
 
 /// Represents the output of a <code>GetEvaluation</code> operation and
 /// describes an <code>Evaluation</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEvaluationOutput {
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>Evaluation</code>, normalized and scaled on computation
   /// resources. <code>ComputeTime</code> is only available if the
   /// <code>Evaluation</code> is in the <code>COMPLETED</code> state.
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final int? computeTime;
 
   /// The time that the <code>Evaluation</code> was created. The time is expressed
   /// in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account that invoked the evaluation. The account type can be
   /// either an AWS root account or an AWS Identity and Access Management (IAM)
   /// user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The <code>DataSource</code> used for this evaluation.
-  @_s.JsonKey(name: 'EvaluationDataSourceId')
-  final String evaluationDataSourceId;
+  final String? evaluationDataSourceId;
 
   /// The evaluation ID which is same as the <code>EvaluationId</code> in the
   /// request.
-  @_s.JsonKey(name: 'EvaluationId')
-  final String evaluationId;
+  final String? evaluationId;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>Evaluation</code> as <code>COMPLETED</code> or <code>FAILED</code>.
   /// <code>FinishedAt</code> is only available when the <code>Evaluation</code>
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final DateTime? finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
+  final String? inputDataLocationS3;
 
   /// The time of the most recent edit to the <code>Evaluation</code>. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A link to the file that contains logs of the <code>CreateEvaluation</code>
   /// operation.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The ID of the <code>MLModel</code> that was the focus of the evaluation.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// A description of the most recent details about evaluating the
   /// <code>MLModel</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>Evaluation</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Measurements of how well the <code>MLModel</code> performed using
   /// observations referenced by the <code>DataSource</code>. One of the following
@@ -4371,16 +4399,13 @@ class GetEvaluationOutput {
   /// For more information about performance metrics, please see the <a
   /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
   /// Learning Developer Guide</a>.
-  @_s.JsonKey(name: 'PerformanceMetrics')
-  final PerformanceMetrics performanceMetrics;
+  final PerformanceMetrics? performanceMetrics;
 
   /// The epoch time when Amazon Machine Learning marked the
   /// <code>Evaluation</code> as <code>INPROGRESS</code>. <code>StartedAt</code>
   /// isn't available if the <code>Evaluation</code> is in the
   /// <code>PENDING</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The status of the evaluation. This element can have one of the following
   /// values:
@@ -4396,8 +4421,7 @@ class GetEvaluationOutput {
   /// <li> <code>DELETED</code> - The <code>Evaluation</code> is marked as
   /// deleted. It is not usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   GetEvaluationOutput({
     this.computeTime,
@@ -4416,70 +4440,73 @@ class GetEvaluationOutput {
     this.startedAt,
     this.status,
   });
-  factory GetEvaluationOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetEvaluationOutputFromJson(json);
+  factory GetEvaluationOutput.fromJson(Map<String, dynamic> json) {
+    return GetEvaluationOutput(
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      evaluationDataSourceId: json['EvaluationDataSourceId'] as String?,
+      evaluationId: json['EvaluationId'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      logUri: json['LogUri'] as String?,
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      performanceMetrics: json['PerformanceMetrics'] != null
+          ? PerformanceMetrics.fromJson(
+              json['PerformanceMetrics'] as Map<String, dynamic>)
+          : null,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+    );
+  }
 }
 
 /// Represents the output of a <code>GetMLModel</code> operation, and provides
 /// detailed information about a <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMLModelOutput {
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>MLModel</code>, normalized and scaled on computation
   /// resources. <code>ComputeTime</code> is only available if the
   /// <code>MLModel</code> is in the <code>COMPLETED</code> state.
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final int? computeTime;
 
   /// The time that the <code>MLModel</code> was created. The time is expressed in
   /// epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account from which the <code>MLModel</code> was created. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The current endpoint of the <code>MLModel</code>
-  @_s.JsonKey(name: 'EndpointInfo')
-  final RealtimeEndpointInfo endpointInfo;
+  final RealtimeEndpointInfo? endpointInfo;
 
   /// The epoch time when Amazon Machine Learning marked the <code>MLModel</code>
   /// as <code>COMPLETED</code> or <code>FAILED</code>. <code>FinishedAt</code> is
   /// only available when the <code>MLModel</code> is in the
   /// <code>COMPLETED</code> or <code>FAILED</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final DateTime? finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
+  final String? inputDataLocationS3;
 
   /// The time of the most recent edit to the <code>MLModel</code>. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A link to the file that contains logs of the <code>CreateMLModel</code>
   /// operation.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The MLModel ID<?oxy_insert_start author="annbech"
   /// timestamp="20160328T151251-0700">,<?oxy_insert_end> which is same as the
   /// <code>MLModelId</code> in the request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// Identifies the <code>MLModel</code> category. The following are the
   /// available types:
@@ -4492,17 +4519,14 @@ class GetMLModelOutput {
   /// <li>MULTICLASS -- Produces one of several possible results. For example, "Is
   /// this a HIGH, LOW or MEDIUM risk trade?"</li>
   /// </ul>
-  @_s.JsonKey(name: 'MLModelType')
-  final MLModelType mLModelType;
+  final MLModelType? mLModelType;
 
   /// A description of the most recent details about accessing the
   /// <code>MLModel</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>MLModel</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The recipe to use when training the <code>MLModel</code>. The
   /// <code>Recipe</code> provides detailed information about the observation data
@@ -4511,16 +4535,14 @@ class GetMLModelOutput {
   /// <note><title>Note</title>
   /// This parameter is provided as part of the verbose format.
   /// </note>
-  @_s.JsonKey(name: 'Recipe')
-  final String recipe;
+  final String? recipe;
 
   /// The schema used by all of the data files referenced by the
   /// <code>DataSource</code>.
   /// <note><title>Note</title>
   /// This parameter is provided as part of the verbose format.
   /// </note>
-  @_s.JsonKey(name: 'Schema')
-  final String schema;
+  final String? schema;
 
   /// The scoring threshold is used in binary classification
   /// <code>MLModel</code><?oxy_insert_start author="laurama"
@@ -4531,23 +4553,17 @@ class GetMLModelOutput {
   /// result from the MLModel, such as <code>true</code>. Output values less than
   /// the threshold receive a negative response from the MLModel, such as
   /// <code>false</code>.
-  @_s.JsonKey(name: 'ScoreThreshold')
-  final double scoreThreshold;
+  final double? scoreThreshold;
 
   /// The time of the most recent edit to the <code>ScoreThreshold</code>. The
   /// time is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ScoreThresholdLastUpdatedAt')
-  final DateTime scoreThresholdLastUpdatedAt;
-  @_s.JsonKey(name: 'SizeInBytes')
-  final int sizeInBytes;
+  final DateTime? scoreThresholdLastUpdatedAt;
+  final int? sizeInBytes;
 
   /// The epoch time when Amazon Machine Learning marked the <code>MLModel</code>
   /// as <code>INPROGRESS</code>. <code>StartedAt</code> isn't available if the
   /// <code>MLModel</code> is in the <code>PENDING</code> state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The current status of the <code>MLModel</code>. This element can have one of
   /// the following values:
@@ -4562,12 +4578,10 @@ class GetMLModelOutput {
   /// <li> <code>DELETED</code> - The <code>MLModel</code> is marked as deleted.
   /// It isn't usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   /// The ID of the training <code>DataSource</code>.
-  @_s.JsonKey(name: 'TrainingDataSourceId')
-  final String trainingDataSourceId;
+  final String? trainingDataSourceId;
 
   /// A list of the training parameters in the <code>MLModel</code>. The list is
   /// implemented as a map of key-value pairs.
@@ -4620,8 +4634,7 @@ class GetMLModelOutput {
   /// parameter sparingly.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TrainingParameters')
-  final Map<String, String> trainingParameters;
+  final Map<String, String>? trainingParameters;
 
   GetMLModelOutput({
     this.computeTime,
@@ -4646,120 +4659,128 @@ class GetMLModelOutput {
     this.trainingDataSourceId,
     this.trainingParameters,
   });
-  factory GetMLModelOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMLModelOutputFromJson(json);
+  factory GetMLModelOutput.fromJson(Map<String, dynamic> json) {
+    return GetMLModelOutput(
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      endpointInfo: json['EndpointInfo'] != null
+          ? RealtimeEndpointInfo.fromJson(
+              json['EndpointInfo'] as Map<String, dynamic>)
+          : null,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      logUri: json['LogUri'] as String?,
+      mLModelId: json['MLModelId'] as String?,
+      mLModelType: (json['MLModelType'] as String?)?.toMLModelType(),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      recipe: json['Recipe'] as String?,
+      schema: json['Schema'] as String?,
+      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThresholdLastUpdatedAt:
+          timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
+      sizeInBytes: json['SizeInBytes'] as int?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+      trainingDataSourceId: json['TrainingDataSourceId'] as String?,
+      trainingParameters: (json['TrainingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A second request to use or change an object was not allowed. This can result
 /// from retrying a request using a parameter that was not present in the
 /// original request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdempotentParameterMismatchException implements _s.AwsException {
-  @_s.JsonKey(name: 'code')
-  final int code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final int? code;
+  final String? message;
 
   IdempotentParameterMismatchException({
     this.code,
     this.message,
   });
   factory IdempotentParameterMismatchException.fromJson(
-          Map<String, dynamic> json) =>
-      _$IdempotentParameterMismatchExceptionFromJson(json);
+      Map<String, dynamic> json) {
+    return IdempotentParameterMismatchException(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// An error on the server occurred when trying to process a request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InternalServerException implements _s.AwsException {
-  @_s.JsonKey(name: 'code')
-  final int code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final int? code;
+  final String? message;
 
   InternalServerException({
     this.code,
     this.message,
   });
-  factory InternalServerException.fromJson(Map<String, dynamic> json) =>
-      _$InternalServerExceptionFromJson(json);
+  factory InternalServerException.fromJson(Map<String, dynamic> json) {
+    return InternalServerException(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// An error on the client occurred. Typically, the cause is an invalid input
 /// value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidInputException implements _s.AwsException {
-  @_s.JsonKey(name: 'code')
-  final int code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final int? code;
+  final String? message;
 
   InvalidInputException({
     this.code,
     this.message,
   });
-  factory InvalidInputException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidInputExceptionFromJson(json);
+  factory InvalidInputException.fromJson(Map<String, dynamic> json) {
+    return InvalidInputException(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidTagException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   InvalidTagException({
     this.message,
   });
-  factory InvalidTagException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidTagExceptionFromJson(json);
+  factory InvalidTagException.fromJson(Map<String, dynamic> json) {
+    return InvalidTagException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// The subscriber exceeded the maximum number of operations. This exception can
 /// occur when listing objects such as <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LimitExceededException implements _s.AwsException {
-  @_s.JsonKey(name: 'code')
-  final int code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final int? code;
+  final String? message;
 
   LimitExceededException({
     this.code,
     this.message,
   });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
+  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
+    return LimitExceededException(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>GetMLModel</code> operation.
 ///
 /// The content consists of the detailed metadata and the current status of the
 /// <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MLModel {
   /// The algorithm used to train the <code>MLModel</code>. The following
   /// algorithm is supported:
@@ -4768,44 +4789,32 @@ class MLModel {
   /// <li> <code>SGD</code> -- Stochastic gradient descent. The goal of
   /// <code>SGD</code> is to minimize the gradient of the loss function. </li>
   /// </ul>
-  @_s.JsonKey(name: 'Algorithm')
-  final Algorithm algorithm;
-  @_s.JsonKey(name: 'ComputeTime')
-  final int computeTime;
+  final Algorithm? algorithm;
+  final int? computeTime;
 
   /// The time that the <code>MLModel</code> was created. The time is expressed in
   /// epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The AWS user account from which the <code>MLModel</code> was created. The
   /// account type can be either an AWS root account or an AWS Identity and Access
   /// Management (IAM) user account.
-  @_s.JsonKey(name: 'CreatedByIamUser')
-  final String createdByIamUser;
+  final String? createdByIamUser;
 
   /// The current endpoint of the <code>MLModel</code>.
-  @_s.JsonKey(name: 'EndpointInfo')
-  final RealtimeEndpointInfo endpointInfo;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FinishedAt')
-  final DateTime finishedAt;
+  final RealtimeEndpointInfo? endpointInfo;
+  final DateTime? finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
   /// (Amazon S3).
-  @_s.JsonKey(name: 'InputDataLocationS3')
-  final String inputDataLocationS3;
+  final String? inputDataLocationS3;
 
   /// The time of the most recent edit to the <code>MLModel</code>. The time is
   /// expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The ID assigned to the <code>MLModel</code> at creation.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   /// Identifies the <code>MLModel</code> category. The following are the
   /// available types:
@@ -4821,30 +4830,21 @@ class MLModel {
   /// author="annbech" timestamp="20160328T175050-0700">-<?oxy_insert_end>risk
   /// trade?".</li>
   /// </ul>
-  @_s.JsonKey(name: 'MLModelType')
-  final MLModelType mLModelType;
+  final MLModelType? mLModelType;
 
   /// A description of the most recent details about accessing the
   /// <code>MLModel</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A user-supplied name or description of the <code>MLModel</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'ScoreThreshold')
-  final double scoreThreshold;
+  final String? name;
+  final double? scoreThreshold;
 
   /// The time of the most recent edit to the <code>ScoreThreshold</code>. The
   /// time is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ScoreThresholdLastUpdatedAt')
-  final DateTime scoreThresholdLastUpdatedAt;
-  @_s.JsonKey(name: 'SizeInBytes')
-  final int sizeInBytes;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? scoreThresholdLastUpdatedAt;
+  final int? sizeInBytes;
+  final DateTime? startedAt;
 
   /// The current status of an <code>MLModel</code>. This element can have one of
   /// the following values:
@@ -4860,14 +4860,12 @@ class MLModel {
   /// <li> <code>DELETED</code> - The <code>MLModel</code> is marked as deleted.
   /// It isn't usable.</li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final EntityStatus status;
+  final EntityStatus? status;
 
   /// The ID of the training <code>DataSource</code>. The
   /// <code>CreateMLModel</code> operation uses the
   /// <code>TrainingDataSourceId</code>.
-  @_s.JsonKey(name: 'TrainingDataSourceId')
-  final String trainingDataSourceId;
+  final String? trainingDataSourceId;
 
   /// A list of the training parameters in the <code>MLModel</code>. The list is
   /// implemented as a map of key-value pairs.
@@ -4919,8 +4917,7 @@ class MLModel {
   /// parameter sparingly.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TrainingParameters')
-  final Map<String, String> trainingParameters;
+  final Map<String, String>? trainingParameters;
 
   MLModel({
     this.algorithm,
@@ -4943,30 +4940,46 @@ class MLModel {
     this.trainingDataSourceId,
     this.trainingParameters,
   });
-  factory MLModel.fromJson(Map<String, dynamic> json) =>
-      _$MLModelFromJson(json);
+  factory MLModel.fromJson(Map<String, dynamic> json) {
+    return MLModel(
+      algorithm: (json['Algorithm'] as String?)?.toAlgorithm(),
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      endpointInfo: json['EndpointInfo'] != null
+          ? RealtimeEndpointInfo.fromJson(
+              json['EndpointInfo'] as Map<String, dynamic>)
+          : null,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      mLModelId: json['MLModelId'] as String?,
+      mLModelType: (json['MLModelType'] as String?)?.toMLModelType(),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThresholdLastUpdatedAt:
+          timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
+      sizeInBytes: json['SizeInBytes'] as int?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.toEntityStatus(),
+      trainingDataSourceId: json['TrainingDataSourceId'] as String?,
+      trainingParameters: (json['TrainingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum MLModelFilterVariable {
-  @_s.JsonValue('CreatedAt')
   createdAt,
-  @_s.JsonValue('LastUpdatedAt')
   lastUpdatedAt,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('IAMUser')
   iAMUser,
-  @_s.JsonValue('TrainingDataSourceId')
   trainingDataSourceId,
-  @_s.JsonValue('RealtimeEndpointStatus')
   realtimeEndpointStatus,
-  @_s.JsonValue('MLModelType')
   mLModelType,
-  @_s.JsonValue('Algorithm')
   algorithm,
-  @_s.JsonValue('TrainingDataURI')
   trainingDataURI,
 }
 
@@ -4994,16 +5007,40 @@ extension on MLModelFilterVariable {
       case MLModelFilterVariable.trainingDataURI:
         return 'TrainingDataURI';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MLModelFilterVariable toMLModelFilterVariable() {
+    switch (this) {
+      case 'CreatedAt':
+        return MLModelFilterVariable.createdAt;
+      case 'LastUpdatedAt':
+        return MLModelFilterVariable.lastUpdatedAt;
+      case 'Status':
+        return MLModelFilterVariable.status;
+      case 'Name':
+        return MLModelFilterVariable.name;
+      case 'IAMUser':
+        return MLModelFilterVariable.iAMUser;
+      case 'TrainingDataSourceId':
+        return MLModelFilterVariable.trainingDataSourceId;
+      case 'RealtimeEndpointStatus':
+        return MLModelFilterVariable.realtimeEndpointStatus;
+      case 'MLModelType':
+        return MLModelFilterVariable.mLModelType;
+      case 'Algorithm':
+        return MLModelFilterVariable.algorithm;
+      case 'TrainingDataURI':
+        return MLModelFilterVariable.trainingDataURI;
+    }
+    throw Exception('$this is not known in enum MLModelFilterVariable');
   }
 }
 
 enum MLModelType {
-  @_s.JsonValue('REGRESSION')
   regression,
-  @_s.JsonValue('BINARY')
   binary,
-  @_s.JsonValue('MULTICLASS')
   multiclass,
 }
 
@@ -5017,7 +5054,20 @@ extension on MLModelType {
       case MLModelType.multiclass:
         return 'MULTICLASS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MLModelType toMLModelType() {
+    switch (this) {
+      case 'REGRESSION':
+        return MLModelType.regression;
+      case 'BINARY':
+        return MLModelType.binary;
+      case 'MULTICLASS':
+        return MLModelType.multiclass;
+    }
+    throw Exception('$this is not known in enum MLModelType');
   }
 }
 
@@ -5043,36 +5093,33 @@ extension on MLModelType {
 /// For more information about performance metrics, please see the <a
 /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
 /// Learning Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PerformanceMetrics {
-  @_s.JsonKey(name: 'Properties')
-  final Map<String, String> properties;
+  final Map<String, String>? properties;
 
   PerformanceMetrics({
     this.properties,
   });
-  factory PerformanceMetrics.fromJson(Map<String, dynamic> json) =>
-      _$PerformanceMetricsFromJson(json);
+  factory PerformanceMetrics.fromJson(Map<String, dynamic> json) {
+    return PerformanceMetrics(
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictOutput {
-  @_s.JsonKey(name: 'Prediction')
-  final Prediction prediction;
+  final Prediction? prediction;
 
   PredictOutput({
     this.prediction,
   });
-  factory PredictOutput.fromJson(Map<String, dynamic> json) =>
-      _$PredictOutputFromJson(json);
+  factory PredictOutput.fromJson(Map<String, dynamic> json) {
+    return PredictOutput(
+      prediction: json['Prediction'] != null
+          ? Prediction.fromJson(json['Prediction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The output from a <code>Predict</code> operation:
@@ -5096,25 +5143,16 @@ class PredictOutput {
 /// <code>MLModel</code> request.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Prediction {
-  @_s.JsonKey(name: 'details')
-  final Map<DetailsAttributes, String> details;
+  final Map<DetailsAttributes, String>? details;
 
   /// The prediction label for either a <code>BINARY</code> or
   /// <code>MULTICLASS</code> <code>MLModel</code>.
-  @_s.JsonKey(name: 'predictedLabel')
-  final String predictedLabel;
-  @_s.JsonKey(name: 'predictedScores')
-  final Map<String, double> predictedScores;
+  final String? predictedLabel;
+  final Map<String, double>? predictedScores;
 
   /// The prediction value for <code>REGRESSION</code> <code>MLModel</code>.
-  @_s.JsonKey(name: 'predictedValue')
-  final double predictedValue;
+  final double? predictedValue;
 
   Prediction({
     this.details,
@@ -5122,44 +5160,42 @@ class Prediction {
     this.predictedScores,
     this.predictedValue,
   });
-  factory Prediction.fromJson(Map<String, dynamic> json) =>
-      _$PredictionFromJson(json);
+  factory Prediction.fromJson(Map<String, dynamic> json) {
+    return Prediction(
+      details: (json['details'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDetailsAttributes(), e as String)),
+      predictedLabel: json['predictedLabel'] as String?,
+      predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      predictedValue: json['predictedValue'] as double?,
+    );
+  }
 }
 
 /// The exception is thrown when a predict request is made to an unmounted
 /// <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictorNotMountedException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   PredictorNotMountedException({
     this.message,
   });
-  factory PredictorNotMountedException.fromJson(Map<String, dynamic> json) =>
-      _$PredictorNotMountedExceptionFromJson(json);
+  factory PredictorNotMountedException.fromJson(Map<String, dynamic> json) {
+    return PredictorNotMountedException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// The data specification of an Amazon Relational Database Service (Amazon RDS)
 /// <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RDSDataSpec {
   /// The AWS Identity and Access Management (IAM) credentials that are used
   /// connect to the Amazon RDS database.
-  @_s.JsonKey(name: 'DatabaseCredentials')
   final RDSDatabaseCredentials databaseCredentials;
 
   /// Describes the <code>DatabaseName</code> and <code>InstanceIdentifier</code>
   /// of an Amazon RDS database.
-  @_s.JsonKey(name: 'DatabaseInformation')
   final RDSDatabase databaseInformation;
 
   /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon Elastic
@@ -5167,24 +5203,20 @@ class RDSDataSpec {
   /// Amazon RDS to an Amazon S3 task. For more information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
-  @_s.JsonKey(name: 'ResourceRole')
   final String resourceRole;
 
   /// The Amazon S3 location for staging Amazon RDS data. The data retrieved from
   /// Amazon RDS using <code>SelectSqlQuery</code> is stored in this location.
-  @_s.JsonKey(name: 'S3StagingLocation')
   final String s3StagingLocation;
 
   /// The security group IDs to be used to access a VPC-based RDS DB instance.
   /// Ensure that there are appropriate ingress rules set up to allow access to
   /// the RDS DB instance. This attribute is used by Data Pipeline to carry out
   /// the copy operation from Amazon RDS to an Amazon S3 task.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The query that is used to retrieve the observation data for the
   /// <code>DataSource</code>.
-  @_s.JsonKey(name: 'SelectSqlQuery')
   final String selectSqlQuery;
 
   /// The role (DataPipelineDefaultRole) assumed by AWS Data Pipeline service to
@@ -5192,13 +5224,11 @@ class RDSDataSpec {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
-  @_s.JsonKey(name: 'ServiceRole')
   final String serviceRole;
 
   /// The subnet ID to be used to access a VPC-based RDS DB instance. This
   /// attribute is used by Data Pipeline to carry out the copy task from Amazon
   /// RDS to Amazon S3.
-  @_s.JsonKey(name: 'SubnetId')
   final String subnetId;
 
   /// A JSON string that represents the splitting and rearrangement processing to
@@ -5296,8 +5326,7 @@ class RDSDataSpec {
   /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DataRearrangement')
-  final String dataRearrangement;
+  final String? dataRearrangement;
 
   /// A JSON string that represents the schema for an Amazon RDS
   /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
@@ -5335,112 +5364,128 @@ class RDSDataSpec {
   ///
   /// "excludedVariableNames": [ "F6" ] }
   /// <?oxy_insert_end>
-  @_s.JsonKey(name: 'DataSchema')
-  final String dataSchema;
+  final String? dataSchema;
 
   /// The Amazon S3 location of the <code>DataSchema</code>.
-  @_s.JsonKey(name: 'DataSchemaUri')
-  final String dataSchemaUri;
+  final String? dataSchemaUri;
 
   RDSDataSpec({
-    @_s.required this.databaseCredentials,
-    @_s.required this.databaseInformation,
-    @_s.required this.resourceRole,
-    @_s.required this.s3StagingLocation,
-    @_s.required this.securityGroupIds,
-    @_s.required this.selectSqlQuery,
-    @_s.required this.serviceRole,
-    @_s.required this.subnetId,
+    required this.databaseCredentials,
+    required this.databaseInformation,
+    required this.resourceRole,
+    required this.s3StagingLocation,
+    required this.securityGroupIds,
+    required this.selectSqlQuery,
+    required this.serviceRole,
+    required this.subnetId,
     this.dataRearrangement,
     this.dataSchema,
     this.dataSchemaUri,
   });
-  Map<String, dynamic> toJson() => _$RDSDataSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseCredentials = this.databaseCredentials;
+    final databaseInformation = this.databaseInformation;
+    final resourceRole = this.resourceRole;
+    final s3StagingLocation = this.s3StagingLocation;
+    final securityGroupIds = this.securityGroupIds;
+    final selectSqlQuery = this.selectSqlQuery;
+    final serviceRole = this.serviceRole;
+    final subnetId = this.subnetId;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSchema = this.dataSchema;
+    final dataSchemaUri = this.dataSchemaUri;
+    return {
+      'DatabaseCredentials': databaseCredentials,
+      'DatabaseInformation': databaseInformation,
+      'ResourceRole': resourceRole,
+      'S3StagingLocation': s3StagingLocation,
+      'SecurityGroupIds': securityGroupIds,
+      'SelectSqlQuery': selectSqlQuery,
+      'ServiceRole': serviceRole,
+      'SubnetId': subnetId,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSchema != null) 'DataSchema': dataSchema,
+      if (dataSchemaUri != null) 'DataSchemaUri': dataSchemaUri,
+    };
+  }
 }
 
 /// The database details of an Amazon RDS database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RDSDatabase {
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   /// The ID of an RDS DB instance.
-  @_s.JsonKey(name: 'InstanceIdentifier')
   final String instanceIdentifier;
 
   RDSDatabase({
-    @_s.required this.databaseName,
-    @_s.required this.instanceIdentifier,
+    required this.databaseName,
+    required this.instanceIdentifier,
   });
-  factory RDSDatabase.fromJson(Map<String, dynamic> json) =>
-      _$RDSDatabaseFromJson(json);
+  factory RDSDatabase.fromJson(Map<String, dynamic> json) {
+    return RDSDatabase(
+      databaseName: json['DatabaseName'] as String,
+      instanceIdentifier: json['InstanceIdentifier'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RDSDatabaseToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final instanceIdentifier = this.instanceIdentifier;
+    return {
+      'DatabaseName': databaseName,
+      'InstanceIdentifier': instanceIdentifier,
+    };
+  }
 }
 
 /// The database credentials to connect to a database on an RDS DB instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RDSDatabaseCredentials {
-  @_s.JsonKey(name: 'Password')
   final String password;
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   RDSDatabaseCredentials({
-    @_s.required this.password,
-    @_s.required this.username,
+    required this.password,
+    required this.username,
   });
-  Map<String, dynamic> toJson() => _$RDSDatabaseCredentialsToJson(this);
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'Password': password,
+      'Username': username,
+    };
+  }
 }
 
 /// The datasource details that are specific to Amazon RDS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RDSMetadata {
   /// The ID of the Data Pipeline instance that is used to carry to copy data from
   /// Amazon RDS to Amazon S3. You can use the ID to find details about the
   /// instance in the Data Pipeline console.
-  @_s.JsonKey(name: 'DataPipelineId')
-  final String dataPipelineId;
+  final String? dataPipelineId;
 
   /// The database details required to connect to an Amazon RDS.
-  @_s.JsonKey(name: 'Database')
-  final RDSDatabase database;
-  @_s.JsonKey(name: 'DatabaseUserName')
-  final String databaseUserName;
+  final RDSDatabase? database;
+  final String? databaseUserName;
 
   /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance
   /// to carry out the copy task from Amazon RDS to Amazon S3. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
-  @_s.JsonKey(name: 'ResourceRole')
-  final String resourceRole;
+  final String? resourceRole;
 
   /// The SQL query that is supplied during <a>CreateDataSourceFromRDS</a>.
   /// Returns only if <code>Verbose</code> is true in
   /// <code>GetDataSourceInput</code>.
-  @_s.JsonKey(name: 'SelectSqlQuery')
-  final String selectSqlQuery;
+  final String? selectSqlQuery;
 
   /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to
   /// monitor the progress of the copy task from Amazon RDS to Amazon S3. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   RDSMetadata({
     this.dataPipelineId,
@@ -5450,22 +5495,25 @@ class RDSMetadata {
     this.selectSqlQuery,
     this.serviceRole,
   });
-  factory RDSMetadata.fromJson(Map<String, dynamic> json) =>
-      _$RDSMetadataFromJson(json);
+  factory RDSMetadata.fromJson(Map<String, dynamic> json) {
+    return RDSMetadata(
+      dataPipelineId: json['DataPipelineId'] as String?,
+      database: json['Database'] != null
+          ? RDSDatabase.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+      databaseUserName: json['DatabaseUserName'] as String?,
+      resourceRole: json['ResourceRole'] as String?,
+      selectSqlQuery: json['SelectSqlQuery'] as String?,
+      serviceRole: json['ServiceRole'] as String?,
+    );
+  }
 }
 
 /// Describes the real-time endpoint information for an <code>MLModel</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RealtimeEndpointInfo {
   /// The time that the request to create the real-time endpoint for the
   /// <code>MLModel</code> was received. The time is expressed in epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The current status of the real-time endpoint for the <code>MLModel</code>.
   /// This element can have one of the following values:
@@ -5477,8 +5525,7 @@ class RealtimeEndpointInfo {
   /// predictions.</li>
   /// <li> <code>UPDATING</code> - Updating/creating the endpoint. </li>
   /// </ul>
-  @_s.JsonKey(name: 'EndpointStatus')
-  final RealtimeEndpointStatus endpointStatus;
+  final RealtimeEndpointStatus? endpointStatus;
 
   /// The URI that specifies where to send real-time prediction requests for the
   /// <code>MLModel</code>.
@@ -5486,13 +5533,11 @@ class RealtimeEndpointInfo {
   /// The application must wait until the real-time endpoint is ready before using
   /// this URI.
   /// </note>
-  @_s.JsonKey(name: 'EndpointUrl')
-  final String endpointUrl;
+  final String? endpointUrl;
 
   /// The maximum processing rate for the real-time endpoint for
   /// <code>MLModel</code>, measured in incoming requests per second.
-  @_s.JsonKey(name: 'PeakRequestsPerSecond')
-  final int peakRequestsPerSecond;
+  final int? peakRequestsPerSecond;
 
   RealtimeEndpointInfo({
     this.createdAt,
@@ -5500,47 +5545,72 @@ class RealtimeEndpointInfo {
     this.endpointUrl,
     this.peakRequestsPerSecond,
   });
-  factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) =>
-      _$RealtimeEndpointInfoFromJson(json);
+  factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) {
+    return RealtimeEndpointInfo(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      endpointStatus:
+          (json['EndpointStatus'] as String?)?.toRealtimeEndpointStatus(),
+      endpointUrl: json['EndpointUrl'] as String?,
+      peakRequestsPerSecond: json['PeakRequestsPerSecond'] as int?,
+    );
+  }
 }
 
 enum RealtimeEndpointStatus {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on RealtimeEndpointStatus {
+  String toValue() {
+    switch (this) {
+      case RealtimeEndpointStatus.none:
+        return 'NONE';
+      case RealtimeEndpointStatus.ready:
+        return 'READY';
+      case RealtimeEndpointStatus.updating:
+        return 'UPDATING';
+      case RealtimeEndpointStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  RealtimeEndpointStatus toRealtimeEndpointStatus() {
+    switch (this) {
+      case 'NONE':
+        return RealtimeEndpointStatus.none;
+      case 'READY':
+        return RealtimeEndpointStatus.ready;
+      case 'UPDATING':
+        return RealtimeEndpointStatus.updating;
+      case 'FAILED':
+        return RealtimeEndpointStatus.failed;
+    }
+    throw Exception('$this is not known in enum RealtimeEndpointStatus');
+  }
 }
 
 /// Describes the data specification of an Amazon Redshift
 /// <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RedshiftDataSpec {
   /// Describes AWS Identity and Access Management (IAM) credentials that are used
   /// connect to the Amazon Redshift database.
-  @_s.JsonKey(name: 'DatabaseCredentials')
   final RedshiftDatabaseCredentials databaseCredentials;
 
   /// Describes the <code>DatabaseName</code> and <code>ClusterIdentifier</code>
   /// for an Amazon Redshift <code>DataSource</code>.
-  @_s.JsonKey(name: 'DatabaseInformation')
   final RedshiftDatabase databaseInformation;
 
   /// Describes an Amazon S3 location to store the result set of the
   /// <code>SelectSqlQuery</code> query.
-  @_s.JsonKey(name: 'S3StagingLocation')
   final String s3StagingLocation;
 
   /// Describes the SQL Query to execute on an Amazon Redshift database for an
   /// Amazon Redshift <code>DataSource</code>.
-  @_s.JsonKey(name: 'SelectSqlQuery')
   final String selectSqlQuery;
 
   /// A JSON string that represents the splitting and rearrangement processing to
@@ -5638,8 +5708,7 @@ class RedshiftDataSpec {
   /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DataRearrangement')
-  final String dataRearrangement;
+  final String? dataRearrangement;
 
   /// A JSON string that represents the schema for an Amazon Redshift
   /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
@@ -5676,126 +5745,136 @@ class RedshiftDataSpec {
   /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
   ///
   /// "excludedVariableNames": [ "F6" ] }
-  @_s.JsonKey(name: 'DataSchema')
-  final String dataSchema;
+  final String? dataSchema;
 
   /// Describes the schema location for an Amazon Redshift
   /// <code>DataSource</code>.
-  @_s.JsonKey(name: 'DataSchemaUri')
-  final String dataSchemaUri;
+  final String? dataSchemaUri;
 
   RedshiftDataSpec({
-    @_s.required this.databaseCredentials,
-    @_s.required this.databaseInformation,
-    @_s.required this.s3StagingLocation,
-    @_s.required this.selectSqlQuery,
+    required this.databaseCredentials,
+    required this.databaseInformation,
+    required this.s3StagingLocation,
+    required this.selectSqlQuery,
     this.dataRearrangement,
     this.dataSchema,
     this.dataSchemaUri,
   });
-  Map<String, dynamic> toJson() => _$RedshiftDataSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseCredentials = this.databaseCredentials;
+    final databaseInformation = this.databaseInformation;
+    final s3StagingLocation = this.s3StagingLocation;
+    final selectSqlQuery = this.selectSqlQuery;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSchema = this.dataSchema;
+    final dataSchemaUri = this.dataSchemaUri;
+    return {
+      'DatabaseCredentials': databaseCredentials,
+      'DatabaseInformation': databaseInformation,
+      'S3StagingLocation': s3StagingLocation,
+      'SelectSqlQuery': selectSqlQuery,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSchema != null) 'DataSchema': dataSchema,
+      if (dataSchemaUri != null) 'DataSchemaUri': dataSchemaUri,
+    };
+  }
 }
 
 /// Describes the database details required to connect to an Amazon Redshift
 /// database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RedshiftDatabase {
-  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   RedshiftDatabase({
-    @_s.required this.clusterIdentifier,
-    @_s.required this.databaseName,
+    required this.clusterIdentifier,
+    required this.databaseName,
   });
-  factory RedshiftDatabase.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftDatabaseFromJson(json);
+  factory RedshiftDatabase.fromJson(Map<String, dynamic> json) {
+    return RedshiftDatabase(
+      clusterIdentifier: json['ClusterIdentifier'] as String,
+      databaseName: json['DatabaseName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RedshiftDatabaseToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final databaseName = this.databaseName;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+      'DatabaseName': databaseName,
+    };
+  }
 }
 
 /// Describes the database credentials for connecting to a database on an Amazon
 /// Redshift cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RedshiftDatabaseCredentials {
-  @_s.JsonKey(name: 'Password')
   final String password;
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   RedshiftDatabaseCredentials({
-    @_s.required this.password,
-    @_s.required this.username,
+    required this.password,
+    required this.username,
   });
-  Map<String, dynamic> toJson() => _$RedshiftDatabaseCredentialsToJson(this);
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'Password': password,
+      'Username': username,
+    };
+  }
 }
 
 /// Describes the <code>DataSource</code> details specific to Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedshiftMetadata {
-  @_s.JsonKey(name: 'DatabaseUserName')
-  final String databaseUserName;
-  @_s.JsonKey(name: 'RedshiftDatabase')
-  final RedshiftDatabase redshiftDatabase;
+  final String? databaseUserName;
+  final RedshiftDatabase? redshiftDatabase;
 
   /// The SQL query that is specified during <a>CreateDataSourceFromRedshift</a>.
   /// Returns only if <code>Verbose</code> is true in GetDataSourceInput.
-  @_s.JsonKey(name: 'SelectSqlQuery')
-  final String selectSqlQuery;
+  final String? selectSqlQuery;
 
   RedshiftMetadata({
     this.databaseUserName,
     this.redshiftDatabase,
     this.selectSqlQuery,
   });
-  factory RedshiftMetadata.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftMetadataFromJson(json);
+  factory RedshiftMetadata.fromJson(Map<String, dynamic> json) {
+    return RedshiftMetadata(
+      databaseUserName: json['DatabaseUserName'] as String?,
+      redshiftDatabase: json['RedshiftDatabase'] != null
+          ? RedshiftDatabase.fromJson(
+              json['RedshiftDatabase'] as Map<String, dynamic>)
+          : null,
+      selectSqlQuery: json['SelectSqlQuery'] as String?,
+    );
+  }
 }
 
 /// A specified resource cannot be located.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceNotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'code')
-  final int code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final int? code;
+  final String? message;
 
   ResourceNotFoundException({
     this.code,
     this.message,
   });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
+    return ResourceNotFoundException(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Describes the data specification of a <code>DataSource</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3DataSpec {
   /// The location of the data file(s) used by a <code>DataSource</code>. The URI
   /// specifies a data file or an Amazon Simple Storage Service (Amazon S3)
   /// directory or bucket containing data files.
-  @_s.JsonKey(name: 'DataLocationS3')
   final String dataLocationS3;
 
   /// A JSON string that represents the splitting and rearrangement processing to
@@ -5893,8 +5972,7 @@ class S3DataSpec {
   /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DataRearrangement')
-  final String dataRearrangement;
+  final String? dataRearrangement;
 
   /// A JSON string that represents the schema for an Amazon S3
   /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
@@ -5932,21 +6010,31 @@ class S3DataSpec {
   ///
   /// "excludedVariableNames": [ "F6" ] }
   /// <?oxy_insert_end>
-  @_s.JsonKey(name: 'DataSchema')
-  final String dataSchema;
+  final String? dataSchema;
 
   /// Describes the schema location in Amazon S3. You must provide either the
   /// <code>DataSchema</code> or the <code>DataSchemaLocationS3</code>.
-  @_s.JsonKey(name: 'DataSchemaLocationS3')
-  final String dataSchemaLocationS3;
+  final String? dataSchemaLocationS3;
 
   S3DataSpec({
-    @_s.required this.dataLocationS3,
+    required this.dataLocationS3,
     this.dataRearrangement,
     this.dataSchema,
     this.dataSchemaLocationS3,
   });
-  Map<String, dynamic> toJson() => _$S3DataSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataLocationS3 = this.dataLocationS3;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSchema = this.dataSchema;
+    final dataSchemaLocationS3 = this.dataSchemaLocationS3;
+    return {
+      'DataLocationS3': dataLocationS3,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSchema != null) 'DataSchema': dataSchema,
+      if (dataSchemaLocationS3 != null)
+        'DataSchemaLocationS3': dataSchemaLocationS3,
+    };
+  }
 }
 
 /// The sort order specified in a listing condition. Possible values include the
@@ -5959,9 +6047,7 @@ class S3DataSpec {
 /// Z-A).</li>
 /// </ul>
 enum SortOrder {
-  @_s.JsonValue('asc')
   asc,
-  @_s.JsonValue('dsc')
   dsc,
 }
 
@@ -5973,61 +6059,70 @@ extension on SortOrder {
       case SortOrder.dsc:
         return 'dsc';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'asc':
+        return SortOrder.asc;
+      case 'dsc':
+        return SortOrder.dsc;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
 /// A custom key-value pair associated with an ML object, such as an ML model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A unique identifier for the tag. Valid characters include Unicode letters,
   /// digits, white space, _, ., /, =, +, -, %, and @.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// An optional string, typically used to describe or define the tag. Valid
   /// characters include Unicode letters, digits, white space, _, ., /, =, +, -,
   /// %, and @.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagLimitExceededException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   TagLimitExceededException({
     this.message,
   });
-  factory TagLimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$TagLimitExceededExceptionFromJson(json);
+  factory TagLimitExceededException.fromJson(Map<String, dynamic> json) {
+    return TagLimitExceededException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 enum TaggableResourceType {
-  @_s.JsonValue('BatchPrediction')
   batchPrediction,
-  @_s.JsonValue('DataSource')
   dataSource,
-  @_s.JsonValue('Evaluation')
   evaluation,
-  @_s.JsonValue('MLModel')
   mLModel,
 }
 
@@ -6043,7 +6138,22 @@ extension on TaggableResourceType {
       case TaggableResourceType.mLModel:
         return 'MLModel';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaggableResourceType toTaggableResourceType() {
+    switch (this) {
+      case 'BatchPrediction':
+        return TaggableResourceType.batchPrediction;
+      case 'DataSource':
+        return TaggableResourceType.dataSource;
+      case 'Evaluation':
+        return TaggableResourceType.evaluation;
+      case 'MLModel':
+        return TaggableResourceType.mLModel;
+    }
+    throw Exception('$this is not known in enum TaggableResourceType');
   }
 }
 
@@ -6051,92 +6161,80 @@ extension on TaggableResourceType {
 ///
 /// You can see the updated content by using the <code>GetBatchPrediction</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBatchPredictionOutput {
   /// The ID assigned to the <code>BatchPrediction</code> during creation. This
   /// value should be identical to the value of the <code>BatchPredictionId</code>
   /// in the request.
-  @_s.JsonKey(name: 'BatchPredictionId')
-  final String batchPredictionId;
+  final String? batchPredictionId;
 
   UpdateBatchPredictionOutput({
     this.batchPredictionId,
   });
-  factory UpdateBatchPredictionOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBatchPredictionOutputFromJson(json);
+  factory UpdateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateBatchPredictionOutput(
+      batchPredictionId: json['BatchPredictionId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of an <code>UpdateDataSource</code> operation.
 ///
 /// You can see the updated content by using the <code>GetBatchPrediction</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDataSourceOutput {
   /// The ID assigned to the <code>DataSource</code> during creation. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
   /// request.
-  @_s.JsonKey(name: 'DataSourceId')
-  final String dataSourceId;
+  final String? dataSourceId;
 
   UpdateDataSourceOutput({
     this.dataSourceId,
   });
-  factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDataSourceOutputFromJson(json);
+  factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateDataSourceOutput(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of an <code>UpdateEvaluation</code> operation.
 ///
 /// You can see the updated content by using the <code>GetEvaluation</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEvaluationOutput {
   /// The ID assigned to the <code>Evaluation</code> during creation. This value
   /// should be identical to the value of the <code>Evaluation</code> in the
   /// request.
-  @_s.JsonKey(name: 'EvaluationId')
-  final String evaluationId;
+  final String? evaluationId;
 
   UpdateEvaluationOutput({
     this.evaluationId,
   });
-  factory UpdateEvaluationOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEvaluationOutputFromJson(json);
+  factory UpdateEvaluationOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateEvaluationOutput(
+      evaluationId: json['EvaluationId'] as String?,
+    );
+  }
 }
 
 /// Represents the output of an <code>UpdateMLModel</code> operation.
 ///
 /// You can see the updated content by using the <code>GetMLModel</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMLModelOutput {
   /// The ID assigned to the <code>MLModel</code> during creation. This value
   /// should be identical to the value of the <code>MLModelID</code> in the
   /// request.
-  @_s.JsonKey(name: 'MLModelId')
-  final String mLModelId;
+  final String? mLModelId;
 
   UpdateMLModelOutput({
     this.mLModelId,
   });
-  factory UpdateMLModelOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMLModelOutputFromJson(json);
+  factory UpdateMLModelOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateMLModelOutput(
+      mLModelId: json['MLModelId'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

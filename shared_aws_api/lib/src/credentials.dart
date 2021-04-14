@@ -21,10 +21,7 @@ class AwsClientCredentials {
     required this.accessKey,
     required this.secretKey,
     this.sessionToken,
-  }) {
-    assert(accessKey != null);
-    assert(secretKey != null);
-  }
+  });
 
   static AwsClientCredentials? resolve() => CredentialsUtil.resolve();
 }

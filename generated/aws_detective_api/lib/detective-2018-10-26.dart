@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'detective-2018-10-26.g.dart';
 
 /// Detective uses machine learning and purpose-built visualizations to help you
 /// analyze and investigate security issues across your Amazon Web Services
@@ -80,10 +72,10 @@ part 'detective-2018-10-26.g.dart';
 class Detective {
   final _s.RestJsonProtocol _protocol;
   Detective({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -115,7 +107,7 @@ class Detective {
   /// The member account status in the behavior graph must be
   /// <code>INVITED</code>.
   Future<void> acceptInvitation({
-    @_s.required String graphArn,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateStringPattern(
@@ -214,9 +206,9 @@ class Detective {
   /// Customized message text to include in the invitation email message to the
   /// invited member accounts.
   Future<CreateMembersResponse> createMembers({
-    @_s.required List<Account> accounts,
-    @_s.required String graphArn,
-    String message,
+    required List<Account> accounts,
+    required String graphArn,
+    String? message,
   }) async {
     ArgumentError.checkNotNull(accounts, 'accounts');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
@@ -260,7 +252,7 @@ class Detective {
   /// Parameter [graphArn] :
   /// The ARN of the behavior graph to disable.
   Future<void> deleteGraph({
-    @_s.required String graphArn,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateStringPattern(
@@ -298,8 +290,8 @@ class Detective {
   /// Parameter [graphArn] :
   /// The ARN of the behavior graph to delete members from.
   Future<DeleteMembersResponse> deleteMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String graphArn,
+    required List<String> accountIds,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
@@ -337,7 +329,7 @@ class Detective {
   /// The member account's member status in the behavior graph must be
   /// <code>ENABLED</code>.
   Future<void> disassociateMembership({
-    @_s.required String graphArn,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateStringPattern(
@@ -374,8 +366,8 @@ class Detective {
   /// Parameter [graphArn] :
   /// The ARN of the behavior graph for which to request the member details.
   Future<GetMembersResponse> getMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String graphArn,
+    required List<String> accountIds,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
@@ -417,8 +409,8 @@ class Detective {
   /// was returned with the previous set of results. The initial request does
   /// not include a pagination token.
   Future<ListGraphsResponse> listGraphs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -468,8 +460,8 @@ class Detective {
   /// that was returned with the previous page of results. The initial request
   /// does not include a pagination token.
   Future<ListInvitationsResponse> listInvitations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -517,9 +509,9 @@ class Detective {
   /// pagination token that was returned with the previous page of results. The
   /// initial request does not include a pagination token.
   Future<ListMembersResponse> listMembers({
-    @_s.required String graphArn,
-    int maxResults,
-    String nextToken,
+    required String graphArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateStringPattern(
@@ -569,7 +561,7 @@ class Detective {
   /// The member account's current member status in the behavior graph must be
   /// <code>INVITED</code>.
   Future<void> rejectInvitation({
-    @_s.required String graphArn,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateStringPattern(
@@ -620,8 +612,8 @@ class Detective {
   /// Parameter [graphArn] :
   /// The ARN of the behavior graph.
   Future<void> startMonitoringMember({
-    @_s.required String accountId,
-    @_s.required String graphArn,
+    required String accountId,
+    required String graphArn,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -658,199 +650,197 @@ class Detective {
 }
 
 /// An AWS account that is the master of or a member of a behavior graph.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Account {
   /// The account identifier of the AWS account.
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
   /// The AWS account root user email address for the AWS account.
-  @_s.JsonKey(name: 'EmailAddress')
   final String emailAddress;
 
   Account({
-    @_s.required this.accountId,
-    @_s.required this.emailAddress,
+    required this.accountId,
+    required this.emailAddress,
   });
-  Map<String, dynamic> toJson() => _$AccountToJson(this);
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final emailAddress = this.emailAddress;
+    return {
+      'AccountId': accountId,
+      'EmailAddress': emailAddress,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGraphResponse {
   /// The ARN of the new behavior graph.
-  @_s.JsonKey(name: 'GraphArn')
-  final String graphArn;
+  final String? graphArn;
 
   CreateGraphResponse({
     this.graphArn,
   });
-  factory CreateGraphResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGraphResponseFromJson(json);
+  factory CreateGraphResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGraphResponse(
+      graphArn: json['GraphArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMembersResponse {
   /// The set of member account invitation requests that Detective was able to
   /// process. This includes accounts that are being verified, that failed
   /// verification, and that passed verification and are being sent an invitation.
-  @_s.JsonKey(name: 'Members')
-  final List<MemberDetail> members;
+  final List<MemberDetail>? members;
 
   /// The list of accounts for which Detective was unable to process the
   /// invitation request. For each account, the list provides the reason why the
   /// request could not be processed. The list includes accounts that are already
   /// member accounts in the behavior graph.
-  @_s.JsonKey(name: 'UnprocessedAccounts')
-  final List<UnprocessedAccount> unprocessedAccounts;
+  final List<UnprocessedAccount>? unprocessedAccounts;
 
   CreateMembersResponse({
     this.members,
     this.unprocessedAccounts,
   });
-  factory CreateMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMembersResponseFromJson(json);
+  factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMembersResponse(
+      members: (json['Members'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMembersResponse {
   /// The list of AWS account identifiers for the member accounts that Detective
   /// successfully deleted from the behavior graph.
-  @_s.JsonKey(name: 'AccountIds')
-  final List<String> accountIds;
+  final List<String>? accountIds;
 
   /// The list of member accounts that Detective was not able to delete from the
   /// behavior graph. For each member account, provides the reason that the
   /// deletion could not be processed.
-  @_s.JsonKey(name: 'UnprocessedAccounts')
-  final List<UnprocessedAccount> unprocessedAccounts;
+  final List<UnprocessedAccount>? unprocessedAccounts;
 
   DeleteMembersResponse({
     this.accountIds,
     this.unprocessedAccounts,
   });
-  factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMembersResponseFromJson(json);
+  factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMembersResponse(
+      accountIds: (json['AccountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMembersResponse {
   /// The member account details that Detective is returning in response to the
   /// request.
-  @_s.JsonKey(name: 'MemberDetails')
-  final List<MemberDetail> memberDetails;
+  final List<MemberDetail>? memberDetails;
 
   /// The requested member accounts for which Detective was unable to return
   /// member details.
   ///
   /// For each account, provides the reason why the request could not be
   /// processed.
-  @_s.JsonKey(name: 'UnprocessedAccounts')
-  final List<UnprocessedAccount> unprocessedAccounts;
+  final List<UnprocessedAccount>? unprocessedAccounts;
 
   GetMembersResponse({
     this.memberDetails,
     this.unprocessedAccounts,
   });
-  factory GetMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMembersResponseFromJson(json);
+  factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
+    return GetMembersResponse(
+      memberDetails: (json['MemberDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A behavior graph in Detective.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Graph {
   /// The ARN of the behavior graph.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time that the behavior graph was created. The value is in
   /// milliseconds since the epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   Graph({
     this.arn,
     this.createdTime,
   });
-  factory Graph.fromJson(Map<String, dynamic> json) => _$GraphFromJson(json);
+  factory Graph.fromJson(Map<String, dynamic> json) {
+    return Graph(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGraphsResponse {
   /// A list of behavior graphs that the account is a master for.
-  @_s.JsonKey(name: 'GraphList')
-  final List<Graph> graphList;
+  final List<Graph>? graphList;
 
   /// If there are more behavior graphs remaining in the results, then this is the
   /// pagination token to use to request the next page of behavior graphs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGraphsResponse({
     this.graphList,
     this.nextToken,
   });
-  factory ListGraphsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGraphsResponseFromJson(json);
+  factory ListGraphsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGraphsResponse(
+      graphList: (json['GraphList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Graph.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInvitationsResponse {
   /// The list of behavior graphs for which the member account has open or
   /// accepted invitations.
-  @_s.JsonKey(name: 'Invitations')
-  final List<MemberDetail> invitations;
+  final List<MemberDetail>? invitations;
 
   /// If there are more behavior graphs remaining in the results, then this is the
   /// pagination token to use to request the next page of behavior graphs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInvitationsResponse({
     this.invitations,
     this.nextToken,
   });
-  factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInvitationsResponseFromJson(json);
+  factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInvitationsResponse(
+      invitations: (json['Invitations'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMembersResponse {
   /// The list of member accounts in the behavior graph.
   ///
@@ -858,33 +848,32 @@ class ListMembersResponse {
   /// member accounts that have not yet accepted the invitation to the behavior
   /// graph. The results do not include member accounts that were removed from the
   /// behavior graph.
-  @_s.JsonKey(name: 'MemberDetails')
-  final List<MemberDetail> memberDetails;
+  final List<MemberDetail>? memberDetails;
 
   /// If there are more member accounts remaining in the results, then this is the
   /// pagination token to use to request the next page of member accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMembersResponse({
     this.memberDetails,
     this.nextToken,
   });
-  factory ListMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMembersResponseFromJson(json);
+  factory ListMembersResponse.fromJson(Map<String, dynamic> json) {
+    return ListMembersResponse(
+      memberDetails: (json['MemberDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Details about a member account that was invited to contribute to a behavior
 /// graph.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberDetail {
   /// The AWS account identifier for the member account.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// For member accounts with a status of <code>ACCEPTED_BUT_DISABLED</code>, the
   /// reason that the member account is not enabled.
@@ -902,26 +891,20 @@ class MemberDetail {
   /// account is not enrolled in Amazon GuardDuty.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DisabledReason')
-  final MemberDisabledReason disabledReason;
+  final MemberDisabledReason? disabledReason;
 
   /// The AWS account root user email address for the member account.
-  @_s.JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The ARN of the behavior graph that the member account was invited to.
-  @_s.JsonKey(name: 'GraphArn')
-  final String graphArn;
+  final String? graphArn;
 
   /// The date and time that Detective sent the invitation to the member account.
   /// The value is in milliseconds since the epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InvitedTime')
-  final DateTime invitedTime;
+  final DateTime? invitedTime;
 
   /// The AWS account identifier of the master account for the behavior graph.
-  @_s.JsonKey(name: 'MasterId')
-  final String masterId;
+  final String? masterId;
 
   /// The member account data volume as a percentage of the maximum allowed data
   /// volume. 0 indicates 0 percent, and 100 indicates 100 percent.
@@ -932,13 +915,10 @@ class MemberDetail {
   /// maximum data volume is 160 GB per day. If the data volume for the member
   /// account is 40 GB per day, then <code>PercentOfGraphUtilization</code> is 25.
   /// It represents 25% of the maximum allowed data volume.
-  @_s.JsonKey(name: 'PercentOfGraphUtilization')
-  final double percentOfGraphUtilization;
+  final double? percentOfGraphUtilization;
 
   /// The date and time when the graph utilization percentage was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PercentOfGraphUtilizationUpdatedTime')
-  final DateTime percentOfGraphUtilizationUpdatedTime;
+  final DateTime? percentOfGraphUtilizationUpdatedTime;
 
   /// The current membership status of the member account. The status can have one
   /// of the following values:
@@ -973,14 +953,11 @@ class MemberDetail {
   /// </ul>
   /// Member accounts that declined an invitation or that were removed from the
   /// behavior graph are not included.
-  @_s.JsonKey(name: 'Status')
-  final MemberStatus status;
+  final MemberStatus? status;
 
   /// The date and time that the member account was last updated. The value is in
   /// milliseconds since the epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTime')
-  final DateTime updatedTime;
+  final DateTime? updatedTime;
 
   MemberDetail({
     this.accountId,
@@ -994,71 +971,133 @@ class MemberDetail {
     this.status,
     this.updatedTime,
   });
-  factory MemberDetail.fromJson(Map<String, dynamic> json) =>
-      _$MemberDetailFromJson(json);
+  factory MemberDetail.fromJson(Map<String, dynamic> json) {
+    return MemberDetail(
+      accountId: json['AccountId'] as String?,
+      disabledReason:
+          (json['DisabledReason'] as String?)?.toMemberDisabledReason(),
+      emailAddress: json['EmailAddress'] as String?,
+      graphArn: json['GraphArn'] as String?,
+      invitedTime: timeStampFromJson(json['InvitedTime']),
+      masterId: json['MasterId'] as String?,
+      percentOfGraphUtilization: json['PercentOfGraphUtilization'] as double?,
+      percentOfGraphUtilizationUpdatedTime:
+          timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
+      status: (json['Status'] as String?)?.toMemberStatus(),
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
 }
 
 enum MemberDisabledReason {
-  @_s.JsonValue('VOLUME_TOO_HIGH')
   volumeTooHigh,
-  @_s.JsonValue('VOLUME_UNKNOWN')
   volumeUnknown,
 }
 
+extension on MemberDisabledReason {
+  String toValue() {
+    switch (this) {
+      case MemberDisabledReason.volumeTooHigh:
+        return 'VOLUME_TOO_HIGH';
+      case MemberDisabledReason.volumeUnknown:
+        return 'VOLUME_UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  MemberDisabledReason toMemberDisabledReason() {
+    switch (this) {
+      case 'VOLUME_TOO_HIGH':
+        return MemberDisabledReason.volumeTooHigh;
+      case 'VOLUME_UNKNOWN':
+        return MemberDisabledReason.volumeUnknown;
+    }
+    throw Exception('$this is not known in enum MemberDisabledReason');
+  }
+}
+
 enum MemberStatus {
-  @_s.JsonValue('INVITED')
   invited,
-  @_s.JsonValue('VERIFICATION_IN_PROGRESS')
   verificationInProgress,
-  @_s.JsonValue('VERIFICATION_FAILED')
   verificationFailed,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('ACCEPTED_BUT_DISABLED')
   acceptedButDisabled,
+}
+
+extension on MemberStatus {
+  String toValue() {
+    switch (this) {
+      case MemberStatus.invited:
+        return 'INVITED';
+      case MemberStatus.verificationInProgress:
+        return 'VERIFICATION_IN_PROGRESS';
+      case MemberStatus.verificationFailed:
+        return 'VERIFICATION_FAILED';
+      case MemberStatus.enabled:
+        return 'ENABLED';
+      case MemberStatus.acceptedButDisabled:
+        return 'ACCEPTED_BUT_DISABLED';
+    }
+  }
+}
+
+extension on String {
+  MemberStatus toMemberStatus() {
+    switch (this) {
+      case 'INVITED':
+        return MemberStatus.invited;
+      case 'VERIFICATION_IN_PROGRESS':
+        return MemberStatus.verificationInProgress;
+      case 'VERIFICATION_FAILED':
+        return MemberStatus.verificationFailed;
+      case 'ENABLED':
+        return MemberStatus.enabled;
+      case 'ACCEPTED_BUT_DISABLED':
+        return MemberStatus.acceptedButDisabled;
+    }
+    throw Exception('$this is not known in enum MemberStatus');
+  }
 }
 
 /// A member account that was included in a request but for which the request
 /// could not be processed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedAccount {
   /// The AWS account identifier of the member account that was not processed.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The reason that the member account request could not be processed.
-  @_s.JsonKey(name: 'Reason')
-  final String reason;
+  final String? reason;
 
   UnprocessedAccount({
     this.accountId,
     this.reason,
   });
-  factory UnprocessedAccount.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedAccountFromJson(json);
+  factory UnprocessedAccount.fromJson(Map<String, dynamic> json) {
+    return UnprocessedAccount(
+      accountId: json['AccountId'] as String?,
+      reason: json['Reason'] as String?,
+    );
+  }
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1066,7 +1105,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

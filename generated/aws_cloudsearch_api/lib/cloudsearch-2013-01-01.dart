@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'cloudsearch-2013-01-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cloudsearch-2013-01-01.g.dart';
 
 /// You use the Amazon CloudSearch configuration service to create, configure,
 /// and manage search domains. Configuration service requests are submitted
@@ -36,9 +28,9 @@ class CloudSearch {
   final Map<String, _s.Shape> shapes;
 
   CloudSearch({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -58,7 +50,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<BuildSuggestersResponse> buildSuggesters({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -104,7 +96,7 @@ class CloudSearch {
   /// (lower-case letters), 0-9, and hyphen (-). Domain names must start with a
   /// letter or number and be at least 3 and no more than 28 characters long.
   Future<CreateDomainResponse> createDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -149,8 +141,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DefineAnalysisSchemeResponse> defineAnalysisScheme({
-    @_s.required AnalysisScheme analysisScheme,
-    @_s.required String domainName,
+    required AnalysisScheme analysisScheme,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(analysisScheme, 'analysisScheme');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -198,8 +190,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DefineExpressionResponse> defineExpression({
-    @_s.required String domainName,
-    @_s.required Expression expression,
+    required String domainName,
+    required Expression expression,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -254,8 +246,8 @@ class CloudSearch {
   /// Parameter [indexField] :
   /// The index field and field options you want to configure.
   Future<DefineIndexFieldResponse> defineIndexField({
-    @_s.required String domainName,
-    @_s.required IndexField indexField,
+    required String domainName,
+    required IndexField indexField,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -304,8 +296,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DefineSuggesterResponse> defineSuggester({
-    @_s.required String domainName,
-    @_s.required Suggester suggester,
+    required String domainName,
+    required Suggester suggester,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -352,8 +344,8 @@ class CloudSearch {
   /// Parameter [analysisSchemeName] :
   /// The name of the analysis scheme you want to delete.
   Future<DeleteAnalysisSchemeResponse> deleteAnalysisScheme({
-    @_s.required String analysisSchemeName,
-    @_s.required String domainName,
+    required String analysisSchemeName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(analysisSchemeName, 'analysisSchemeName');
     _s.validateStringLength(
@@ -412,7 +404,7 @@ class CloudSearch {
   /// Parameter [domainName] :
   /// The name of the domain you want to permanently delete.
   Future<DeleteDomainResponse> deleteDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -458,8 +450,8 @@ class CloudSearch {
   /// Parameter [expressionName] :
   /// The name of the <code><a>Expression</a></code> to delete.
   Future<DeleteExpressionResponse> deleteExpression({
-    @_s.required String domainName,
-    @_s.required String expressionName,
+    required String domainName,
+    required String expressionName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -521,8 +513,8 @@ class CloudSearch {
   /// The name of the index field your want to remove from the domain's indexing
   /// options.
   Future<DeleteIndexFieldResponse> deleteIndexField({
-    @_s.required String domainName,
-    @_s.required String indexFieldName,
+    required String domainName,
+    required String indexFieldName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -582,8 +574,8 @@ class CloudSearch {
   /// Parameter [suggesterName] :
   /// Specifies the name of the suggester you want to delete.
   Future<DeleteSuggesterResponse> deleteSuggester({
-    @_s.required String domainName,
-    @_s.required String suggesterName,
+    required String domainName,
+    required String suggesterName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -656,9 +648,9 @@ class CloudSearch {
   /// include any pending changes (<code>false</code>). Defaults to
   /// <code>false</code>.
   Future<DescribeAnalysisSchemesResponse> describeAnalysisSchemes({
-    @_s.required String domainName,
-    List<String> analysisSchemeNames,
-    bool deployed,
+    required String domainName,
+    List<String>? analysisSchemeNames,
+    bool? deployed,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -715,8 +707,8 @@ class CloudSearch {
   /// include any pending changes (<code>false</code>). Defaults to
   /// <code>false</code>.
   Future<DescribeAvailabilityOptionsResponse> describeAvailabilityOptions({
-    @_s.required String domainName,
-    bool deployed,
+    required String domainName,
+    bool? deployed,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -769,8 +761,8 @@ class CloudSearch {
   /// Processing state) or the current, active configuration. Defaults to
   /// <code>false</code>.
   Future<DescribeDomainEndpointOptionsResponse> describeDomainEndpointOptions({
-    @_s.required String domainName,
-    bool deployed,
+    required String domainName,
+    bool? deployed,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -819,7 +811,7 @@ class CloudSearch {
   /// Parameter [domainNames] :
   /// The names of the domains you want to include in the response.
   Future<DescribeDomainsResponse> describeDomains({
-    List<String> domainNames,
+    List<String>? domainNames,
   }) async {
     final $request = <String, dynamic>{};
     domainNames?.also((arg) => $request['DomainNames'] = arg);
@@ -862,9 +854,9 @@ class CloudSearch {
   /// Limits the <code><a>DescribeExpressions</a></code> response to the
   /// specified expressions. If not specified, all expressions are shown.
   Future<DescribeExpressionsResponse> describeExpressions({
-    @_s.required String domainName,
-    bool deployed,
-    List<String> expressionNames,
+    required String domainName,
+    bool? deployed,
+    List<String>? expressionNames,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -923,9 +915,9 @@ class CloudSearch {
   /// A list of the index fields you want to describe. If not specified,
   /// information is returned for all configured index fields.
   Future<DescribeIndexFieldsResponse> describeIndexFields({
-    @_s.required String domainName,
-    bool deployed,
-    List<String> fieldNames,
+    required String domainName,
+    bool? deployed,
+    List<String>? fieldNames,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -970,7 +962,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeScalingParametersResponse> describeScalingParameters({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1023,8 +1015,8 @@ class CloudSearch {
   /// include any pending changes (<code>false</code>). Defaults to
   /// <code>false</code>.
   Future<DescribeServiceAccessPoliciesResponse> describeServiceAccessPolicies({
-    @_s.required String domainName,
-    bool deployed,
+    required String domainName,
+    bool? deployed,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1082,9 +1074,9 @@ class CloudSearch {
   /// Parameter [suggesterNames] :
   /// The suggesters you want to describe.
   Future<DescribeSuggestersResponse> describeSuggesters({
-    @_s.required String domainName,
-    bool deployed,
-    List<String> suggesterNames,
+    required String domainName,
+    bool? deployed,
+    List<String>? suggesterNames,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1126,7 +1118,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<IndexDocumentsResponse> indexDocuments({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1199,8 +1191,8 @@ class CloudSearch {
   /// Multi-AZ option to downgrade the domain to a single Availability Zone by
   /// setting the Multi-AZ option to <code>false</code>.
   Future<UpdateAvailabilityOptionsResponse> updateAvailabilityOptions({
-    @_s.required String domainName,
-    @_s.required bool multiAZ,
+    required String domainName,
+    required bool multiAZ,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1257,8 +1249,8 @@ class CloudSearch {
   /// Parameter [domainName] :
   /// A string that represents the name of a domain.
   Future<UpdateDomainEndpointOptionsResponse> updateDomainEndpointOptions({
-    @_s.required DomainEndpointOptions domainEndpointOptions,
-    @_s.required String domainName,
+    required DomainEndpointOptions domainEndpointOptions,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainEndpointOptions, 'domainEndpointOptions');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1308,8 +1300,8 @@ class CloudSearch {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidTypeException].
   Future<UpdateScalingParametersResponse> updateScalingParameters({
-    @_s.required String domainName,
-    @_s.required ScalingParameters scalingParameters,
+    required String domainName,
+    required ScalingParameters scalingParameters,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1358,8 +1350,8 @@ class CloudSearch {
   /// The access rules you want to configure. These rules replace any existing
   /// rules.
   Future<UpdateServiceAccessPoliciesResponse> updateServiceAccessPolicies({
-    @_s.required String accessPolicies,
-    @_s.required String domainName,
+    required String accessPolicies,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(accessPolicies, 'accessPolicies');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1401,28 +1393,37 @@ class AccessPoliciesStatus {
   final OptionStatus status;
 
   AccessPoliciesStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory AccessPoliciesStatus.fromXml(_s.XmlElement elem) {
     return AccessPoliciesStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
 
 enum AlgorithmicStemming {
-  @_s.JsonValue('none')
   none,
-  @_s.JsonValue('minimal')
   minimal,
-  @_s.JsonValue('light')
   light,
-  @_s.JsonValue('full')
   full,
+}
+
+extension on AlgorithmicStemming {
+  String toValue() {
+    switch (this) {
+      case AlgorithmicStemming.none:
+        return 'none';
+      case AlgorithmicStemming.minimal:
+        return 'minimal';
+      case AlgorithmicStemming.light:
+        return 'light';
+      case AlgorithmicStemming.full:
+        return 'full';
+    }
+  }
 }
 
 extension on String {
@@ -1437,17 +1438,12 @@ extension on String {
       case 'full':
         return AlgorithmicStemming.full;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AlgorithmicStemming');
   }
 }
 
 /// Synonyms, stopwords, and stemming options for an analysis scheme. Includes
 /// tokenization dictionary for Japanese.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AnalysisOptions {
   /// The level of algorithmic stemming to perform: <code>none</code>,
   /// <code>minimal</code>, <code>light</code>, or <code>full</code>. The
@@ -1456,15 +1452,13 @@ class AnalysisOptions {
   /// href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/text-processing.html#text-processing-settings"
   /// target="_blank">Language Specific Text Processing Settings</a> in the
   /// <i>Amazon CloudSearch Developer Guide</i>
-  @_s.JsonKey(name: 'AlgorithmicStemming')
-  final AlgorithmicStemming algorithmicStemming;
+  final AlgorithmicStemming? algorithmicStemming;
 
   /// A JSON array that contains a collection of terms, tokens, readings and part
   /// of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary
   /// enables you to override the default tokenization for selected terms. This is
   /// only valid for Japanese language fields.
-  @_s.JsonKey(name: 'JapaneseTokenizationDictionary')
-  final String japaneseTokenizationDictionary;
+  final String? japaneseTokenizationDictionary;
 
   /// A JSON object that contains a collection of string:value pairs that each map
   /// a term to its stem. For example, <code>{"term1": "stem1", "term2": "stem2",
@@ -1472,15 +1466,13 @@ class AnalysisOptions {
   /// any algorithmic stemming. This enables you to override the results of the
   /// algorithmic stemming to correct specific cases of overstemming or
   /// understemming. The maximum size of a stemming dictionary is 500 KB.
-  @_s.JsonKey(name: 'StemmingDictionary')
-  final String stemmingDictionary;
+  final String? stemmingDictionary;
 
   /// A JSON array of terms to ignore during indexing and searching. For example,
   /// <code>["a", "an", "the", "of"]</code>. The stopwords dictionary must
   /// explicitly list each word you want to ignore. Wildcards and regular
   /// expressions are not supported.
-  @_s.JsonKey(name: 'Stopwords')
-  final String stopwords;
+  final String? stopwords;
 
   /// A JSON object that defines synonym groups and aliases. A synonym group is an
   /// array of arrays, where each sub-array is a group of terms where each term in
@@ -1492,8 +1484,7 @@ class AnalysisOptions {
   /// information about specifying synonyms, see <a
   /// href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html#synonyms">Synonyms</a>
   /// in the <i>Amazon CloudSearch Developer Guide</i>.
-  @_s.JsonKey(name: 'Synonyms')
-  final String synonyms;
+  final String? synonyms;
 
   AnalysisOptions({
     this.algorithmicStemming,
@@ -1515,7 +1506,22 @@ class AnalysisOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$AnalysisOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final algorithmicStemming = this.algorithmicStemming;
+    final japaneseTokenizationDictionary = this.japaneseTokenizationDictionary;
+    final stemmingDictionary = this.stemmingDictionary;
+    final stopwords = this.stopwords;
+    final synonyms = this.synonyms;
+    return {
+      if (algorithmicStemming != null)
+        'AlgorithmicStemming': algorithmicStemming.toValue(),
+      if (japaneseTokenizationDictionary != null)
+        'JapaneseTokenizationDictionary': japaneseTokenizationDictionary,
+      if (stemmingDictionary != null) 'StemmingDictionary': stemmingDictionary,
+      if (stopwords != null) 'Stopwords': stopwords,
+      if (synonyms != null) 'Synonyms': synonyms,
+    };
+  }
 }
 
 /// Configuration information for an analysis scheme. Each analysis scheme has a
@@ -1524,112 +1530,155 @@ class AnalysisOptions {
 /// <code>Synonyms</code>, <code>Stopwords</code>,
 /// <code>StemmingDictionary</code>, <code>JapaneseTokenizationDictionary</code>
 /// and <code>AlgorithmicStemming</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AnalysisScheme {
-  @_s.JsonKey(name: 'AnalysisSchemeLanguage')
   final AnalysisSchemeLanguage analysisSchemeLanguage;
-  @_s.JsonKey(name: 'AnalysisSchemeName')
   final String analysisSchemeName;
-  @_s.JsonKey(name: 'AnalysisOptions')
-  final AnalysisOptions analysisOptions;
+  final AnalysisOptions? analysisOptions;
 
   AnalysisScheme({
-    @_s.required this.analysisSchemeLanguage,
-    @_s.required this.analysisSchemeName,
+    required this.analysisSchemeLanguage,
+    required this.analysisSchemeName,
     this.analysisOptions,
   });
   factory AnalysisScheme.fromXml(_s.XmlElement elem) {
     return AnalysisScheme(
       analysisSchemeLanguage: _s
-          .extractXmlStringValue(elem, 'AnalysisSchemeLanguage')
-          ?.toAnalysisSchemeLanguage(),
-      analysisSchemeName: _s.extractXmlStringValue(elem, 'AnalysisSchemeName'),
+          .extractXmlStringValue(elem, 'AnalysisSchemeLanguage')!
+          .toAnalysisSchemeLanguage(),
+      analysisSchemeName: _s.extractXmlStringValue(elem, 'AnalysisSchemeName')!,
       analysisOptions: _s
           .extractXmlChild(elem, 'AnalysisOptions')
           ?.let((e) => AnalysisOptions.fromXml(e)),
     );
   }
 
-  Map<String, dynamic> toJson() => _$AnalysisSchemeToJson(this);
+  Map<String, dynamic> toJson() {
+    final analysisSchemeLanguage = this.analysisSchemeLanguage;
+    final analysisSchemeName = this.analysisSchemeName;
+    final analysisOptions = this.analysisOptions;
+    return {
+      'AnalysisSchemeLanguage': analysisSchemeLanguage.toValue(),
+      'AnalysisSchemeName': analysisSchemeName,
+      if (analysisOptions != null) 'AnalysisOptions': analysisOptions,
+    };
+  }
 }
 
 /// An <a href="http://tools.ietf.org/html/rfc4646" target="_blank">IETF RFC
 /// 4646</a> language code or <code>mul</code> for multiple languages.
 enum AnalysisSchemeLanguage {
-  @_s.JsonValue('ar')
   ar,
-  @_s.JsonValue('bg')
   bg,
-  @_s.JsonValue('ca')
   ca,
-  @_s.JsonValue('cs')
   cs,
-  @_s.JsonValue('da')
   da,
-  @_s.JsonValue('de')
   de,
-  @_s.JsonValue('el')
   el,
-  @_s.JsonValue('en')
   en,
-  @_s.JsonValue('es')
   es,
-  @_s.JsonValue('eu')
   eu,
-  @_s.JsonValue('fa')
   fa,
-  @_s.JsonValue('fi')
   fi,
-  @_s.JsonValue('fr')
   fr,
-  @_s.JsonValue('ga')
   ga,
-  @_s.JsonValue('gl')
   gl,
-  @_s.JsonValue('he')
   he,
-  @_s.JsonValue('hi')
   hi,
-  @_s.JsonValue('hu')
   hu,
-  @_s.JsonValue('hy')
   hy,
-  @_s.JsonValue('id')
   id,
-  @_s.JsonValue('it')
   it,
-  @_s.JsonValue('ja')
   ja,
-  @_s.JsonValue('ko')
   ko,
-  @_s.JsonValue('lv')
   lv,
-  @_s.JsonValue('mul')
   mul,
-  @_s.JsonValue('nl')
   nl,
-  @_s.JsonValue('no')
   no,
-  @_s.JsonValue('pt')
   pt,
-  @_s.JsonValue('ro')
   ro,
-  @_s.JsonValue('ru')
   ru,
-  @_s.JsonValue('sv')
   sv,
-  @_s.JsonValue('th')
   th,
-  @_s.JsonValue('tr')
   tr,
-  @_s.JsonValue('zh-Hans')
   zhHans,
-  @_s.JsonValue('zh-Hant')
   zhHant,
+}
+
+extension on AnalysisSchemeLanguage {
+  String toValue() {
+    switch (this) {
+      case AnalysisSchemeLanguage.ar:
+        return 'ar';
+      case AnalysisSchemeLanguage.bg:
+        return 'bg';
+      case AnalysisSchemeLanguage.ca:
+        return 'ca';
+      case AnalysisSchemeLanguage.cs:
+        return 'cs';
+      case AnalysisSchemeLanguage.da:
+        return 'da';
+      case AnalysisSchemeLanguage.de:
+        return 'de';
+      case AnalysisSchemeLanguage.el:
+        return 'el';
+      case AnalysisSchemeLanguage.en:
+        return 'en';
+      case AnalysisSchemeLanguage.es:
+        return 'es';
+      case AnalysisSchemeLanguage.eu:
+        return 'eu';
+      case AnalysisSchemeLanguage.fa:
+        return 'fa';
+      case AnalysisSchemeLanguage.fi:
+        return 'fi';
+      case AnalysisSchemeLanguage.fr:
+        return 'fr';
+      case AnalysisSchemeLanguage.ga:
+        return 'ga';
+      case AnalysisSchemeLanguage.gl:
+        return 'gl';
+      case AnalysisSchemeLanguage.he:
+        return 'he';
+      case AnalysisSchemeLanguage.hi:
+        return 'hi';
+      case AnalysisSchemeLanguage.hu:
+        return 'hu';
+      case AnalysisSchemeLanguage.hy:
+        return 'hy';
+      case AnalysisSchemeLanguage.id:
+        return 'id';
+      case AnalysisSchemeLanguage.it:
+        return 'it';
+      case AnalysisSchemeLanguage.ja:
+        return 'ja';
+      case AnalysisSchemeLanguage.ko:
+        return 'ko';
+      case AnalysisSchemeLanguage.lv:
+        return 'lv';
+      case AnalysisSchemeLanguage.mul:
+        return 'mul';
+      case AnalysisSchemeLanguage.nl:
+        return 'nl';
+      case AnalysisSchemeLanguage.no:
+        return 'no';
+      case AnalysisSchemeLanguage.pt:
+        return 'pt';
+      case AnalysisSchemeLanguage.ro:
+        return 'ro';
+      case AnalysisSchemeLanguage.ru:
+        return 'ru';
+      case AnalysisSchemeLanguage.sv:
+        return 'sv';
+      case AnalysisSchemeLanguage.th:
+        return 'th';
+      case AnalysisSchemeLanguage.tr:
+        return 'tr';
+      case AnalysisSchemeLanguage.zhHans:
+        return 'zh-Hans';
+      case AnalysisSchemeLanguage.zhHant:
+        return 'zh-Hant';
+    }
+  }
 }
 
 extension on String {
@@ -1706,7 +1755,7 @@ extension on String {
       case 'zh-Hant':
         return AnalysisSchemeLanguage.zhHant;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AnalysisSchemeLanguage');
   }
 }
 
@@ -1716,17 +1765,13 @@ class AnalysisSchemeStatus {
   final OptionStatus status;
 
   AnalysisSchemeStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory AnalysisSchemeStatus.fromXml(_s.XmlElement elem) {
     return AnalysisSchemeStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => AnalysisScheme.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: AnalysisScheme.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
@@ -1738,15 +1783,13 @@ class AvailabilityOptionsStatus {
   final OptionStatus status;
 
   AvailabilityOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory AvailabilityOptionsStatus.fromXml(_s.XmlElement elem) {
     return AvailabilityOptionsStatus(
-      options: _s.extractXmlBoolValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlBoolValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
@@ -1754,7 +1797,7 @@ class AvailabilityOptionsStatus {
 /// The result of a <code>BuildSuggester</code> request. Contains a list of the
 /// fields used for suggestions.
 class BuildSuggestersResponse {
-  final List<String> fieldNames;
+  final List<String>? fieldNames;
 
   BuildSuggestersResponse({
     this.fieldNames,
@@ -1771,7 +1814,7 @@ class BuildSuggestersResponse {
 /// The result of a <code>CreateDomainRequest</code>. Contains the status of a
 /// newly created domain.
 class CreateDomainResponse {
-  final DomainStatus domainStatus;
+  final DomainStatus? domainStatus;
 
   CreateDomainResponse({
     this.domainStatus,
@@ -1788,31 +1831,21 @@ class CreateDomainResponse {
 /// Options for a field that contains an array of dates. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>date-array</code>. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DateArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// A list of source fields to map to the field.
-  @_s.JsonKey(name: 'SourceFields')
-  final String sourceFields;
+  final String? sourceFields;
 
   DateArrayOptions({
     this.defaultValue,
@@ -1831,40 +1864,42 @@ class DateArrayOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DateArrayOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a date field. Dates and times are specified in UTC (Coordinated
 /// Universal Time) according to IETF RFC3339: yyyy-mm-ddT00:00:00Z. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>date</code>. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DateOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final bool? sortEnabled;
+  final String? sourceField;
 
   DateOptions({
     this.defaultValue,
@@ -1885,7 +1920,22 @@ class DateOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DateOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// The result of a <code><a>DefineAnalysisScheme</a></code> request. Contains
@@ -1894,13 +1944,12 @@ class DefineAnalysisSchemeResponse {
   final AnalysisSchemeStatus analysisScheme;
 
   DefineAnalysisSchemeResponse({
-    @_s.required this.analysisScheme,
+    required this.analysisScheme,
   });
   factory DefineAnalysisSchemeResponse.fromXml(_s.XmlElement elem) {
     return DefineAnalysisSchemeResponse(
-      analysisScheme: _s
-          .extractXmlChild(elem, 'AnalysisScheme')
-          ?.let((e) => AnalysisSchemeStatus.fromXml(e)),
+      analysisScheme: AnalysisSchemeStatus.fromXml(
+          _s.extractXmlChild(elem, 'AnalysisScheme')!),
     );
   }
 }
@@ -1911,13 +1960,12 @@ class DefineExpressionResponse {
   final ExpressionStatus expression;
 
   DefineExpressionResponse({
-    @_s.required this.expression,
+    required this.expression,
   });
   factory DefineExpressionResponse.fromXml(_s.XmlElement elem) {
     return DefineExpressionResponse(
-      expression: _s
-          .extractXmlChild(elem, 'Expression')
-          ?.let((e) => ExpressionStatus.fromXml(e)),
+      expression:
+          ExpressionStatus.fromXml(_s.extractXmlChild(elem, 'Expression')!),
     );
   }
 }
@@ -1928,13 +1976,12 @@ class DefineIndexFieldResponse {
   final IndexFieldStatus indexField;
 
   DefineIndexFieldResponse({
-    @_s.required this.indexField,
+    required this.indexField,
   });
   factory DefineIndexFieldResponse.fromXml(_s.XmlElement elem) {
     return DefineIndexFieldResponse(
-      indexField: _s
-          .extractXmlChild(elem, 'IndexField')
-          ?.let((e) => IndexFieldStatus.fromXml(e)),
+      indexField:
+          IndexFieldStatus.fromXml(_s.extractXmlChild(elem, 'IndexField')!),
     );
   }
 }
@@ -1945,13 +1992,12 @@ class DefineSuggesterResponse {
   final SuggesterStatus suggester;
 
   DefineSuggesterResponse({
-    @_s.required this.suggester,
+    required this.suggester,
   });
   factory DefineSuggesterResponse.fromXml(_s.XmlElement elem) {
     return DefineSuggesterResponse(
-      suggester: _s
-          .extractXmlChild(elem, 'Suggester')
-          ?.let((e) => SuggesterStatus.fromXml(e)),
+      suggester:
+          SuggesterStatus.fromXml(_s.extractXmlChild(elem, 'Suggester')!),
     );
   }
 }
@@ -1963,13 +2009,12 @@ class DeleteAnalysisSchemeResponse {
   final AnalysisSchemeStatus analysisScheme;
 
   DeleteAnalysisSchemeResponse({
-    @_s.required this.analysisScheme,
+    required this.analysisScheme,
   });
   factory DeleteAnalysisSchemeResponse.fromXml(_s.XmlElement elem) {
     return DeleteAnalysisSchemeResponse(
-      analysisScheme: _s
-          .extractXmlChild(elem, 'AnalysisScheme')
-          ?.let((e) => AnalysisSchemeStatus.fromXml(e)),
+      analysisScheme: AnalysisSchemeStatus.fromXml(
+          _s.extractXmlChild(elem, 'AnalysisScheme')!),
     );
   }
 }
@@ -1978,7 +2023,7 @@ class DeleteAnalysisSchemeResponse {
 /// newly deleted domain, or no status if the domain has already been completely
 /// deleted.
 class DeleteDomainResponse {
-  final DomainStatus domainStatus;
+  final DomainStatus? domainStatus;
 
   DeleteDomainResponse({
     this.domainStatus,
@@ -1999,13 +2044,12 @@ class DeleteExpressionResponse {
   final ExpressionStatus expression;
 
   DeleteExpressionResponse({
-    @_s.required this.expression,
+    required this.expression,
   });
   factory DeleteExpressionResponse.fromXml(_s.XmlElement elem) {
     return DeleteExpressionResponse(
-      expression: _s
-          .extractXmlChild(elem, 'Expression')
-          ?.let((e) => ExpressionStatus.fromXml(e)),
+      expression:
+          ExpressionStatus.fromXml(_s.extractXmlChild(elem, 'Expression')!),
     );
   }
 }
@@ -2016,13 +2060,12 @@ class DeleteIndexFieldResponse {
   final IndexFieldStatus indexField;
 
   DeleteIndexFieldResponse({
-    @_s.required this.indexField,
+    required this.indexField,
   });
   factory DeleteIndexFieldResponse.fromXml(_s.XmlElement elem) {
     return DeleteIndexFieldResponse(
-      indexField: _s
-          .extractXmlChild(elem, 'IndexField')
-          ?.let((e) => IndexFieldStatus.fromXml(e)),
+      indexField:
+          IndexFieldStatus.fromXml(_s.extractXmlChild(elem, 'IndexField')!),
     );
   }
 }
@@ -2034,13 +2077,12 @@ class DeleteSuggesterResponse {
   final SuggesterStatus suggester;
 
   DeleteSuggesterResponse({
-    @_s.required this.suggester,
+    required this.suggester,
   });
   factory DeleteSuggesterResponse.fromXml(_s.XmlElement elem) {
     return DeleteSuggesterResponse(
-      suggester: _s
-          .extractXmlChild(elem, 'Suggester')
-          ?.let((e) => SuggesterStatus.fromXml(e)),
+      suggester:
+          SuggesterStatus.fromXml(_s.extractXmlChild(elem, 'Suggester')!),
     );
   }
 }
@@ -2052,15 +2094,15 @@ class DescribeAnalysisSchemesResponse {
   final List<AnalysisSchemeStatus> analysisSchemes;
 
   DescribeAnalysisSchemesResponse({
-    @_s.required this.analysisSchemes,
+    required this.analysisSchemes,
   });
   factory DescribeAnalysisSchemesResponse.fromXml(_s.XmlElement elem) {
     return DescribeAnalysisSchemesResponse(
-      analysisSchemes: _s.extractXmlChild(elem, 'AnalysisSchemes')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => AnalysisSchemeStatus.fromXml(c))
-              .toList()),
+      analysisSchemes: _s
+          .extractXmlChild(elem, 'AnalysisSchemes')!
+          .findElements('member')
+          .map((c) => AnalysisSchemeStatus.fromXml(c))
+          .toList(),
     );
   }
 }
@@ -2071,7 +2113,7 @@ class DescribeAnalysisSchemesResponse {
 class DescribeAvailabilityOptionsResponse {
   /// The availability options configured for the domain. Indicates whether
   /// Multi-AZ is enabled for the domain.
-  final AvailabilityOptionsStatus availabilityOptions;
+  final AvailabilityOptionsStatus? availabilityOptions;
 
   DescribeAvailabilityOptionsResponse({
     this.availabilityOptions,
@@ -2089,7 +2131,7 @@ class DescribeAvailabilityOptionsResponse {
 /// the status and configuration of a search domain's endpoint options.
 class DescribeDomainEndpointOptionsResponse {
   /// The status and configuration of a search domain's endpoint options.
-  final DomainEndpointOptionsStatus domainEndpointOptions;
+  final DomainEndpointOptionsStatus? domainEndpointOptions;
 
   DescribeDomainEndpointOptionsResponse({
     this.domainEndpointOptions,
@@ -2109,15 +2151,15 @@ class DescribeDomainsResponse {
   final List<DomainStatus> domainStatusList;
 
   DescribeDomainsResponse({
-    @_s.required this.domainStatusList,
+    required this.domainStatusList,
   });
   factory DescribeDomainsResponse.fromXml(_s.XmlElement elem) {
     return DescribeDomainsResponse(
-      domainStatusList: _s.extractXmlChild(elem, 'DomainStatusList')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => DomainStatus.fromXml(c))
-              .toList()),
+      domainStatusList: _s
+          .extractXmlChild(elem, 'DomainStatusList')!
+          .findElements('member')
+          .map((c) => DomainStatus.fromXml(c))
+          .toList(),
     );
   }
 }
@@ -2129,14 +2171,15 @@ class DescribeExpressionsResponse {
   final List<ExpressionStatus> expressions;
 
   DescribeExpressionsResponse({
-    @_s.required this.expressions,
+    required this.expressions,
   });
   factory DescribeExpressionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeExpressionsResponse(
-      expressions: _s.extractXmlChild(elem, 'Expressions')?.let((elem) => elem
+      expressions: _s
+          .extractXmlChild(elem, 'Expressions')!
           .findElements('member')
           .map((c) => ExpressionStatus.fromXml(c))
-          .toList()),
+          .toList(),
     );
   }
 }
@@ -2148,14 +2191,15 @@ class DescribeIndexFieldsResponse {
   final List<IndexFieldStatus> indexFields;
 
   DescribeIndexFieldsResponse({
-    @_s.required this.indexFields,
+    required this.indexFields,
   });
   factory DescribeIndexFieldsResponse.fromXml(_s.XmlElement elem) {
     return DescribeIndexFieldsResponse(
-      indexFields: _s.extractXmlChild(elem, 'IndexFields')?.let((elem) => elem
+      indexFields: _s
+          .extractXmlChild(elem, 'IndexFields')!
           .findElements('member')
           .map((c) => IndexFieldStatus.fromXml(c))
-          .toList()),
+          .toList(),
     );
   }
 }
@@ -2166,13 +2210,12 @@ class DescribeScalingParametersResponse {
   final ScalingParametersStatus scalingParameters;
 
   DescribeScalingParametersResponse({
-    @_s.required this.scalingParameters,
+    required this.scalingParameters,
   });
   factory DescribeScalingParametersResponse.fromXml(_s.XmlElement elem) {
     return DescribeScalingParametersResponse(
-      scalingParameters: _s
-          .extractXmlChild(elem, 'ScalingParameters')
-          ?.let((e) => ScalingParametersStatus.fromXml(e)),
+      scalingParameters: ScalingParametersStatus.fromXml(
+          _s.extractXmlChild(elem, 'ScalingParameters')!),
     );
   }
 }
@@ -2183,13 +2226,12 @@ class DescribeServiceAccessPoliciesResponse {
   final AccessPoliciesStatus accessPolicies;
 
   DescribeServiceAccessPoliciesResponse({
-    @_s.required this.accessPolicies,
+    required this.accessPolicies,
   });
   factory DescribeServiceAccessPoliciesResponse.fromXml(_s.XmlElement elem) {
     return DescribeServiceAccessPoliciesResponse(
-      accessPolicies: _s
-          .extractXmlChild(elem, 'AccessPolicies')
-          ?.let((e) => AccessPoliciesStatus.fromXml(e)),
+      accessPolicies: AccessPoliciesStatus.fromXml(
+          _s.extractXmlChild(elem, 'AccessPolicies')!),
     );
   }
 }
@@ -2200,27 +2242,22 @@ class DescribeSuggestersResponse {
   final List<SuggesterStatus> suggesters;
 
   DescribeSuggestersResponse({
-    @_s.required this.suggesters,
+    required this.suggesters,
   });
   factory DescribeSuggestersResponse.fromXml(_s.XmlElement elem) {
     return DescribeSuggestersResponse(
-      suggesters: _s.extractXmlChild(elem, 'Suggesters')?.let((elem) => elem
+      suggesters: _s
+          .extractXmlChild(elem, 'Suggesters')!
           .findElements('member')
           .map((c) => SuggesterStatus.fromXml(c))
-          .toList()),
+          .toList(),
     );
   }
 }
 
 /// Options for a search suggester.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentSuggesterOptions {
   /// The name of the index field you want to use for suggestions.
-  @_s.JsonKey(name: 'SourceField')
   final String sourceField;
 
   /// The level of fuzziness allowed when suggesting matches for a string:
@@ -2228,8 +2265,7 @@ class DocumentSuggesterOptions {
   /// specified string is treated as an exact prefix. With low, suggestions must
   /// differ from the specified string by no more than one character. With high,
   /// suggestions can differ by up to two characters. The default is none.
-  @_s.JsonKey(name: 'FuzzyMatching')
-  final SuggesterFuzzyMatching fuzzyMatching;
+  final SuggesterFuzzyMatching? fuzzyMatching;
 
   /// An expression that computes a score for each suggestion to control how they
   /// are sorted. The scores are rounded to the nearest integer, with a floor of 0
@@ -2239,17 +2275,16 @@ class DocumentSuggesterOptions {
   /// simply specify the name of the field or expression. If no expression is
   /// configured for the suggester, the suggestions are sorted with the closest
   /// matches listed first.
-  @_s.JsonKey(name: 'SortExpression')
-  final String sortExpression;
+  final String? sortExpression;
 
   DocumentSuggesterOptions({
-    @_s.required this.sourceField,
+    required this.sourceField,
     this.fuzzyMatching,
     this.sortExpression,
   });
   factory DocumentSuggesterOptions.fromXml(_s.XmlElement elem) {
     return DocumentSuggesterOptions(
-      sourceField: _s.extractXmlStringValue(elem, 'SourceField'),
+      sourceField: _s.extractXmlStringValue(elem, 'SourceField')!,
       fuzzyMatching: _s
           .extractXmlStringValue(elem, 'FuzzyMatching')
           ?.toSuggesterFuzzyMatching(),
@@ -2257,23 +2292,25 @@ class DocumentSuggesterOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DocumentSuggesterOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceField = this.sourceField;
+    final fuzzyMatching = this.fuzzyMatching;
+    final sortExpression = this.sortExpression;
+    return {
+      'SourceField': sourceField,
+      if (fuzzyMatching != null) 'FuzzyMatching': fuzzyMatching.toValue(),
+      if (sortExpression != null) 'SortExpression': sortExpression,
+    };
+  }
 }
 
 /// The domain's endpoint options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DomainEndpointOptions {
   /// Whether the domain is HTTPS only enabled.
-  @_s.JsonKey(name: 'EnforceHTTPS')
-  final bool enforceHTTPS;
+  final bool? enforceHTTPS;
 
   /// The minimum required TLS version
-  @_s.JsonKey(name: 'TLSSecurityPolicy')
-  final TLSSecurityPolicy tLSSecurityPolicy;
+  final TLSSecurityPolicy? tLSSecurityPolicy;
 
   DomainEndpointOptions({
     this.enforceHTTPS,
@@ -2288,7 +2325,15 @@ class DomainEndpointOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DomainEndpointOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enforceHTTPS = this.enforceHTTPS;
+    final tLSSecurityPolicy = this.tLSSecurityPolicy;
+    return {
+      if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS,
+      if (tLSSecurityPolicy != null)
+        'TLSSecurityPolicy': tLSSecurityPolicy.toValue(),
+    };
+  }
 }
 
 /// The configuration and status of the domain's endpoint options.
@@ -2300,17 +2345,14 @@ class DomainEndpointOptionsStatus {
   final OptionStatus status;
 
   DomainEndpointOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory DomainEndpointOptionsStatus.fromXml(_s.XmlElement elem) {
     return DomainEndpointOptionsStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => DomainEndpointOptions.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options:
+          DomainEndpointOptions.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
@@ -2323,46 +2365,46 @@ class DomainStatus {
   /// True if <a>IndexDocuments</a> needs to be called to activate the current
   /// domain configuration.
   final bool requiresIndexDocuments;
-  final String arn;
+  final String? arn;
 
   /// True if the search domain is created. It can take several minutes to
   /// initialize a domain when <a>CreateDomain</a> is called. Newly created search
   /// domains are returned from <a>DescribeDomains</a> with a false value for
   /// Created until domain creation is complete.
-  final bool created;
+  final bool? created;
 
   /// True if the search domain has been deleted. The system must clean up
   /// resources dedicated to the search domain when <a>DeleteDomain</a> is called.
   /// Newly deleted search domains are returned from <a>DescribeDomains</a> with a
   /// true value for IsDeleted for several minutes until resource cleanup is
   /// complete.
-  final bool deleted;
+  final bool? deleted;
 
   /// The service endpoint for updating documents in a search domain.
-  final ServiceEndpoint docService;
-  final Limits limits;
+  final ServiceEndpoint? docService;
+  final Limits? limits;
 
   /// True if processing is being done to activate the current domain
   /// configuration.
-  final bool processing;
+  final bool? processing;
 
   /// The number of search instances that are available to process search
   /// requests.
-  final int searchInstanceCount;
+  final int? searchInstanceCount;
 
   /// The instance type that is being used to process search requests.
-  final String searchInstanceType;
+  final String? searchInstanceType;
 
   /// The number of partitions across which the search index is spread.
-  final int searchPartitionCount;
+  final int? searchPartitionCount;
 
   /// The service endpoint for requesting search results from a search domain.
-  final ServiceEndpoint searchService;
+  final ServiceEndpoint? searchService;
 
   DomainStatus({
-    @_s.required this.domainId,
-    @_s.required this.domainName,
-    @_s.required this.requiresIndexDocuments,
+    required this.domainId,
+    required this.domainName,
+    required this.requiresIndexDocuments,
     this.arn,
     this.created,
     this.deleted,
@@ -2376,10 +2418,10 @@ class DomainStatus {
   });
   factory DomainStatus.fromXml(_s.XmlElement elem) {
     return DomainStatus(
-      domainId: _s.extractXmlStringValue(elem, 'DomainId'),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
+      domainId: _s.extractXmlStringValue(elem, 'DomainId')!,
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
       requiresIndexDocuments:
-          _s.extractXmlBoolValue(elem, 'RequiresIndexDocuments'),
+          _s.extractXmlBoolValue(elem, 'RequiresIndexDocuments')!,
       arn: _s.extractXmlStringValue(elem, 'ARN'),
       created: _s.extractXmlBoolValue(elem, 'Created'),
       deleted: _s.extractXmlBoolValue(elem, 'Deleted'),
@@ -2402,31 +2444,21 @@ class DomainStatus {
 /// floating point values. Present if <code>IndexFieldType</code> specifies the
 /// field is of type <code>double-array</code>. All options are enabled by
 /// default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DoubleArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final double defaultValue;
+  final double? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// A list of source fields to map to the field.
-  @_s.JsonKey(name: 'SourceFields')
-  final String sourceFields;
+  final String? sourceFields;
 
   DoubleArrayOptions({
     this.defaultValue,
@@ -2445,43 +2477,45 @@ class DoubleArrayOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DoubleArrayOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a double-precision 64-bit floating point field. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>double</code>. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DoubleOptions {
   /// A value to use for the field if the field isn't specified for a document.
   /// This can be important if you are using the field in an expression and that
   /// field is not present in every document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final double defaultValue;
+  final double? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
+  final bool? sortEnabled;
 
   /// The name of the source field to map to the field.
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final String? sourceField;
 
   DoubleOptions({
     this.defaultValue,
@@ -2502,35 +2536,50 @@ class DoubleOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DoubleOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// A named expression that can be evaluated at search time. Can be used to sort
 /// the search results, define other expressions, or return computed information
 /// in the search results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Expression {
-  @_s.JsonKey(name: 'ExpressionName')
   final String expressionName;
-  @_s.JsonKey(name: 'ExpressionValue')
   final String expressionValue;
 
   Expression({
-    @_s.required this.expressionName,
-    @_s.required this.expressionValue,
+    required this.expressionName,
+    required this.expressionValue,
   });
   factory Expression.fromXml(_s.XmlElement elem) {
     return Expression(
-      expressionName: _s.extractXmlStringValue(elem, 'ExpressionName'),
-      expressionValue: _s.extractXmlStringValue(elem, 'ExpressionValue'),
+      expressionName: _s.extractXmlStringValue(elem, 'ExpressionName')!,
+      expressionValue: _s.extractXmlStringValue(elem, 'ExpressionValue')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$ExpressionToJson(this);
+  Map<String, dynamic> toJson() {
+    final expressionName = this.expressionName;
+    final expressionValue = this.expressionValue;
+    return {
+      'ExpressionName': expressionName,
+      'ExpressionValue': expressionValue,
+    };
+  }
 }
 
 /// The value of an <code>Expression</code> and its current status.
@@ -2541,17 +2590,13 @@ class ExpressionStatus {
   final OptionStatus status;
 
   ExpressionStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory ExpressionStatus.fromXml(_s.XmlElement elem) {
     return ExpressionStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => Expression.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: Expression.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
@@ -2560,7 +2605,7 @@ class ExpressionStatus {
 /// the indexing operation, including the fields being indexed.
 class IndexDocumentsResponse {
   /// The names of the fields that are currently being indexed.
-  final List<String> fieldNames;
+  final List<String>? fieldNames;
 
   IndexDocumentsResponse({
     this.fieldNames,
@@ -2577,11 +2622,6 @@ class IndexDocumentsResponse {
 /// Configuration information for a field in the index, including its name,
 /// type, and options. The supported options depend on the
 /// <code><a>IndexFieldType</a></code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IndexField {
   /// A string that represents the name of an index field. CloudSearch supports
   /// regular index fields as well as dynamic fields. A dynamic field's name
@@ -2597,36 +2637,23 @@ class IndexField {
   ///
   /// The name <code>score</code> is reserved and cannot be used as a field name.
   /// To reference a document's ID, you can use the name <code>_id</code>.
-  @_s.JsonKey(name: 'IndexFieldName')
   final String indexFieldName;
-  @_s.JsonKey(name: 'IndexFieldType')
   final IndexFieldType indexFieldType;
-  @_s.JsonKey(name: 'DateArrayOptions')
-  final DateArrayOptions dateArrayOptions;
-  @_s.JsonKey(name: 'DateOptions')
-  final DateOptions dateOptions;
-  @_s.JsonKey(name: 'DoubleArrayOptions')
-  final DoubleArrayOptions doubleArrayOptions;
-  @_s.JsonKey(name: 'DoubleOptions')
-  final DoubleOptions doubleOptions;
-  @_s.JsonKey(name: 'IntArrayOptions')
-  final IntArrayOptions intArrayOptions;
-  @_s.JsonKey(name: 'IntOptions')
-  final IntOptions intOptions;
-  @_s.JsonKey(name: 'LatLonOptions')
-  final LatLonOptions latLonOptions;
-  @_s.JsonKey(name: 'LiteralArrayOptions')
-  final LiteralArrayOptions literalArrayOptions;
-  @_s.JsonKey(name: 'LiteralOptions')
-  final LiteralOptions literalOptions;
-  @_s.JsonKey(name: 'TextArrayOptions')
-  final TextArrayOptions textArrayOptions;
-  @_s.JsonKey(name: 'TextOptions')
-  final TextOptions textOptions;
+  final DateArrayOptions? dateArrayOptions;
+  final DateOptions? dateOptions;
+  final DoubleArrayOptions? doubleArrayOptions;
+  final DoubleOptions? doubleOptions;
+  final IntArrayOptions? intArrayOptions;
+  final IntOptions? intOptions;
+  final LatLonOptions? latLonOptions;
+  final LiteralArrayOptions? literalArrayOptions;
+  final LiteralOptions? literalOptions;
+  final TextArrayOptions? textArrayOptions;
+  final TextOptions? textOptions;
 
   IndexField({
-    @_s.required this.indexFieldName,
-    @_s.required this.indexFieldType,
+    required this.indexFieldName,
+    required this.indexFieldType,
     this.dateArrayOptions,
     this.dateOptions,
     this.doubleArrayOptions,
@@ -2641,9 +2668,9 @@ class IndexField {
   });
   factory IndexField.fromXml(_s.XmlElement elem) {
     return IndexField(
-      indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName'),
+      indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName')!,
       indexFieldType:
-          _s.extractXmlStringValue(elem, 'IndexFieldType')?.toIndexFieldType(),
+          _s.extractXmlStringValue(elem, 'IndexFieldType')!.toIndexFieldType(),
       dateArrayOptions: _s
           .extractXmlChild(elem, 'DateArrayOptions')
           ?.let((e) => DateArrayOptions.fromXml(e)),
@@ -2680,7 +2707,37 @@ class IndexField {
     );
   }
 
-  Map<String, dynamic> toJson() => _$IndexFieldToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexFieldName = this.indexFieldName;
+    final indexFieldType = this.indexFieldType;
+    final dateArrayOptions = this.dateArrayOptions;
+    final dateOptions = this.dateOptions;
+    final doubleArrayOptions = this.doubleArrayOptions;
+    final doubleOptions = this.doubleOptions;
+    final intArrayOptions = this.intArrayOptions;
+    final intOptions = this.intOptions;
+    final latLonOptions = this.latLonOptions;
+    final literalArrayOptions = this.literalArrayOptions;
+    final literalOptions = this.literalOptions;
+    final textArrayOptions = this.textArrayOptions;
+    final textOptions = this.textOptions;
+    return {
+      'IndexFieldName': indexFieldName,
+      'IndexFieldType': indexFieldType.toValue(),
+      if (dateArrayOptions != null) 'DateArrayOptions': dateArrayOptions,
+      if (dateOptions != null) 'DateOptions': dateOptions,
+      if (doubleArrayOptions != null) 'DoubleArrayOptions': doubleArrayOptions,
+      if (doubleOptions != null) 'DoubleOptions': doubleOptions,
+      if (intArrayOptions != null) 'IntArrayOptions': intArrayOptions,
+      if (intOptions != null) 'IntOptions': intOptions,
+      if (latLonOptions != null) 'LatLonOptions': latLonOptions,
+      if (literalArrayOptions != null)
+        'LiteralArrayOptions': literalArrayOptions,
+      if (literalOptions != null) 'LiteralOptions': literalOptions,
+      if (textArrayOptions != null) 'TextArrayOptions': textArrayOptions,
+      if (textOptions != null) 'TextOptions': textOptions,
+    };
+  }
 }
 
 /// The value of an <code>IndexField</code> and its current status.
@@ -2689,17 +2746,13 @@ class IndexFieldStatus {
   final OptionStatus status;
 
   IndexFieldStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory IndexFieldStatus.fromXml(_s.XmlElement elem) {
     return IndexFieldStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => IndexField.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: IndexField.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
@@ -2710,28 +2763,46 @@ class IndexFieldStatus {
 /// target="_blank">Configuring Index Fields</a> in the <i>Amazon CloudSearch
 /// Developer Guide</i>.
 enum IndexFieldType {
-  @_s.JsonValue('int')
   int,
-  @_s.JsonValue('double')
   double,
-  @_s.JsonValue('literal')
   literal,
-  @_s.JsonValue('text')
   text,
-  @_s.JsonValue('date')
   date,
-  @_s.JsonValue('latlon')
   latlon,
-  @_s.JsonValue('int-array')
   intArray,
-  @_s.JsonValue('double-array')
   doubleArray,
-  @_s.JsonValue('literal-array')
   literalArray,
-  @_s.JsonValue('text-array')
   textArray,
-  @_s.JsonValue('date-array')
   dateArray,
+}
+
+extension on IndexFieldType {
+  String toValue() {
+    switch (this) {
+      case IndexFieldType.int:
+        return 'int';
+      case IndexFieldType.double:
+        return 'double';
+      case IndexFieldType.literal:
+        return 'literal';
+      case IndexFieldType.text:
+        return 'text';
+      case IndexFieldType.date:
+        return 'date';
+      case IndexFieldType.latlon:
+        return 'latlon';
+      case IndexFieldType.intArray:
+        return 'int-array';
+      case IndexFieldType.doubleArray:
+        return 'double-array';
+      case IndexFieldType.literalArray:
+        return 'literal-array';
+      case IndexFieldType.textArray:
+        return 'text-array';
+      case IndexFieldType.dateArray:
+        return 'date-array';
+    }
+  }
 }
 
 extension on String {
@@ -2760,38 +2831,28 @@ extension on String {
       case 'date-array':
         return IndexFieldType.dateArray;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IndexFieldType');
   }
 }
 
 /// Options for a field that contains an array of 64-bit signed integers.
 /// Present if <code>IndexFieldType</code> specifies the field is of type
 /// <code>int-array</code>. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IntArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final int defaultValue;
+  final int? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// A list of source fields to map to the field.
-  @_s.JsonKey(name: 'SourceFields')
-  final String sourceFields;
+  final String? sourceFields;
 
   IntArrayOptions({
     this.defaultValue,
@@ -2810,43 +2871,45 @@ class IntArrayOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$IntArrayOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a 64-bit signed integer field. Present if
 /// <code>IndexFieldType</code> specifies the field is of type <code>int</code>.
 /// All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IntOptions {
   /// A value to use for the field if the field isn't specified for a document.
   /// This can be important if you are using the field in an expression and that
   /// field is not present in every document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final int defaultValue;
+  final int? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
+  final bool? sortEnabled;
 
   /// The name of the source field to map to the field.
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final String? sourceField;
 
   IntOptions({
     this.defaultValue,
@@ -2867,40 +2930,44 @@ class IntOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$IntOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// Options for a latlon field. A latlon field contains a location stored as a
 /// latitude and longitude value pair. Present if <code>IndexFieldType</code>
 /// specifies the field is of type <code>latlon</code>. All options are enabled
 /// by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LatLonOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final bool? sortEnabled;
+  final String? sourceField;
 
   LatLonOptions({
     this.defaultValue,
@@ -2921,7 +2988,22 @@ class LatLonOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LatLonOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 class Limits {
@@ -2929,15 +3011,15 @@ class Limits {
   final int maximumReplicationCount;
 
   Limits({
-    @_s.required this.maximumPartitionCount,
-    @_s.required this.maximumReplicationCount,
+    required this.maximumPartitionCount,
+    required this.maximumReplicationCount,
   });
   factory Limits.fromXml(_s.XmlElement elem) {
     return Limits(
       maximumPartitionCount:
-          _s.extractXmlIntValue(elem, 'MaximumPartitionCount'),
+          _s.extractXmlIntValue(elem, 'MaximumPartitionCount')!,
       maximumReplicationCount:
-          _s.extractXmlIntValue(elem, 'MaximumReplicationCount'),
+          _s.extractXmlIntValue(elem, 'MaximumReplicationCount')!,
     );
   }
 }
@@ -2946,7 +3028,7 @@ class Limits {
 /// domains owned by an account.
 class ListDomainNamesResponse {
   /// The names of the search domains owned by an account.
-  final Map<String, String> domainNames;
+  final Map<String, String>? domainNames;
 
   ListDomainNamesResponse({
     this.domainNames,
@@ -2954,12 +3036,13 @@ class ListDomainNamesResponse {
   factory ListDomainNamesResponse.fromXml(_s.XmlElement elem) {
     return ListDomainNamesResponse(
       domainNames: Map.fromEntries(
-        elem.getElement('DomainNames').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('DomainNames')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2968,31 +3051,21 @@ class ListDomainNamesResponse {
 /// Options for a field that contains an array of literal strings. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>literal-array</code>. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LiteralArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// A list of source fields to map to the field.
-  @_s.JsonKey(name: 'SourceFields')
-  final String sourceFields;
+  final String? sourceFields;
 
   LiteralArrayOptions({
     this.defaultValue,
@@ -3011,39 +3084,41 @@ class LiteralArrayOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LiteralArrayOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for literal field. Present if <code>IndexFieldType</code> specifies
 /// the field is of type <code>literal</code>. All options are enabled by
 /// default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LiteralOptions {
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether facet information can be returned for the field.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the contents of the field are searchable.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final bool? sortEnabled;
+  final String? sourceField;
 
   LiteralOptions({
     this.defaultValue,
@@ -3064,7 +3139,22 @@ class LiteralOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LiteralOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// The state of processing a change to an option. One of:
@@ -3080,14 +3170,25 @@ class LiteralOptions {
 /// value or update or remove the incompatible documents.</li>
 /// </ul>
 enum OptionState {
-  @_s.JsonValue('RequiresIndexDocuments')
   requiresIndexDocuments,
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('FailedToValidate')
   failedToValidate,
+}
+
+extension on OptionState {
+  String toValue() {
+    switch (this) {
+      case OptionState.requiresIndexDocuments:
+        return 'RequiresIndexDocuments';
+      case OptionState.processing:
+        return 'Processing';
+      case OptionState.active:
+        return 'Active';
+      case OptionState.failedToValidate:
+        return 'FailedToValidate';
+    }
+  }
 }
 
 extension on String {
@@ -3102,7 +3203,7 @@ extension on String {
       case 'FailedToValidate':
         return OptionState.failedToValidate;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OptionState');
   }
 }
 
@@ -3131,23 +3232,23 @@ class OptionStatus {
   final DateTime updateDate;
 
   /// Indicates that the option will be deleted once processing is complete.
-  final bool pendingDeletion;
+  final bool? pendingDeletion;
 
   /// A unique integer that indicates when this option was last updated.
-  final int updateVersion;
+  final int? updateVersion;
 
   OptionStatus({
-    @_s.required this.creationDate,
-    @_s.required this.state,
-    @_s.required this.updateDate,
+    required this.creationDate,
+    required this.state,
+    required this.updateDate,
     this.pendingDeletion,
     this.updateVersion,
   });
   factory OptionStatus.fromXml(_s.XmlElement elem) {
     return OptionStatus(
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      state: _s.extractXmlStringValue(elem, 'State')?.toOptionState(),
-      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
+      state: _s.extractXmlStringValue(elem, 'State')!.toOptionState(),
+      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate')!,
       pendingDeletion: _s.extractXmlBoolValue(elem, 'PendingDeletion'),
       updateVersion: _s.extractXmlIntValue(elem, 'UpdateVersion'),
     );
@@ -3157,32 +3258,52 @@ class OptionStatus {
 /// The instance type (such as <code>search.m1.small</code>) on which an index
 /// partition is hosted.
 enum PartitionInstanceType {
-  @_s.JsonValue('search.m1.small')
   searchM1Small,
-  @_s.JsonValue('search.m1.large')
   searchM1Large,
-  @_s.JsonValue('search.m2.xlarge')
   searchM2Xlarge,
-  @_s.JsonValue('search.m2.2xlarge')
   searchM2_2xlarge,
-  @_s.JsonValue('search.m3.medium')
   searchM3Medium,
-  @_s.JsonValue('search.m3.large')
   searchM3Large,
-  @_s.JsonValue('search.m3.xlarge')
   searchM3Xlarge,
-  @_s.JsonValue('search.m3.2xlarge')
   searchM3_2xlarge,
-  @_s.JsonValue('search.small')
   searchSmall,
-  @_s.JsonValue('search.medium')
   searchMedium,
-  @_s.JsonValue('search.large')
   searchLarge,
-  @_s.JsonValue('search.xlarge')
   searchXlarge,
-  @_s.JsonValue('search.2xlarge')
   search_2xlarge,
+}
+
+extension on PartitionInstanceType {
+  String toValue() {
+    switch (this) {
+      case PartitionInstanceType.searchM1Small:
+        return 'search.m1.small';
+      case PartitionInstanceType.searchM1Large:
+        return 'search.m1.large';
+      case PartitionInstanceType.searchM2Xlarge:
+        return 'search.m2.xlarge';
+      case PartitionInstanceType.searchM2_2xlarge:
+        return 'search.m2.2xlarge';
+      case PartitionInstanceType.searchM3Medium:
+        return 'search.m3.medium';
+      case PartitionInstanceType.searchM3Large:
+        return 'search.m3.large';
+      case PartitionInstanceType.searchM3Xlarge:
+        return 'search.m3.xlarge';
+      case PartitionInstanceType.searchM3_2xlarge:
+        return 'search.m3.2xlarge';
+      case PartitionInstanceType.searchSmall:
+        return 'search.small';
+      case PartitionInstanceType.searchMedium:
+        return 'search.medium';
+      case PartitionInstanceType.searchLarge:
+        return 'search.large';
+      case PartitionInstanceType.searchXlarge:
+        return 'search.xlarge';
+      case PartitionInstanceType.search_2xlarge:
+        return 'search.2xlarge';
+    }
+  }
 }
 
 extension on String {
@@ -3215,31 +3336,23 @@ extension on String {
       case 'search.2xlarge':
         return PartitionInstanceType.search_2xlarge;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PartitionInstanceType');
   }
 }
 
 /// The desired instance type and desired number of replicas of each index
 /// partition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScalingParameters {
   /// The instance type that you want to preconfigure for your domain. For
   /// example, <code>search.m1.small</code>.
-  @_s.JsonKey(name: 'DesiredInstanceType')
-  final PartitionInstanceType desiredInstanceType;
+  final PartitionInstanceType? desiredInstanceType;
 
   /// The number of partitions you want to preconfigure for your domain. Only
   /// valid when you select <code>m2.2xlarge</code> as the desired instance type.
-  @_s.JsonKey(name: 'DesiredPartitionCount')
-  final int desiredPartitionCount;
+  final int? desiredPartitionCount;
 
   /// The number of replicas you want to preconfigure for each index partition.
-  @_s.JsonKey(name: 'DesiredReplicationCount')
-  final int desiredReplicationCount;
+  final int? desiredReplicationCount;
 
   ScalingParameters({
     this.desiredInstanceType,
@@ -3258,7 +3371,19 @@ class ScalingParameters {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ScalingParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final desiredInstanceType = this.desiredInstanceType;
+    final desiredPartitionCount = this.desiredPartitionCount;
+    final desiredReplicationCount = this.desiredReplicationCount;
+    return {
+      if (desiredInstanceType != null)
+        'DesiredInstanceType': desiredInstanceType.toValue(),
+      if (desiredPartitionCount != null)
+        'DesiredPartitionCount': desiredPartitionCount,
+      if (desiredReplicationCount != null)
+        'DesiredReplicationCount': desiredReplicationCount,
+    };
+  }
 }
 
 /// The status and configuration of a search domain's scaling parameters.
@@ -3267,24 +3392,20 @@ class ScalingParametersStatus {
   final OptionStatus status;
 
   ScalingParametersStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory ScalingParametersStatus.fromXml(_s.XmlElement elem) {
     return ScalingParametersStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => ScalingParameters.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: ScalingParameters.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
 
 /// The endpoint to which service requests can be submitted.
 class ServiceEndpoint {
-  final String endpoint;
+  final String? endpoint;
 
   ServiceEndpoint({
     this.endpoint,
@@ -3300,40 +3421,49 @@ class ServiceEndpoint {
 /// unique name and specifies the text field you want to use for suggestions.
 /// The following options can be configured for a suggester:
 /// <code>FuzzyMatching</code>, <code>SortExpression</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Suggester {
-  @_s.JsonKey(name: 'DocumentSuggesterOptions')
   final DocumentSuggesterOptions documentSuggesterOptions;
-  @_s.JsonKey(name: 'SuggesterName')
   final String suggesterName;
 
   Suggester({
-    @_s.required this.documentSuggesterOptions,
-    @_s.required this.suggesterName,
+    required this.documentSuggesterOptions,
+    required this.suggesterName,
   });
   factory Suggester.fromXml(_s.XmlElement elem) {
     return Suggester(
-      documentSuggesterOptions: _s
-          .extractXmlChild(elem, 'DocumentSuggesterOptions')
-          ?.let((e) => DocumentSuggesterOptions.fromXml(e)),
-      suggesterName: _s.extractXmlStringValue(elem, 'SuggesterName'),
+      documentSuggesterOptions: DocumentSuggesterOptions.fromXml(
+          _s.extractXmlChild(elem, 'DocumentSuggesterOptions')!),
+      suggesterName: _s.extractXmlStringValue(elem, 'SuggesterName')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$SuggesterToJson(this);
+  Map<String, dynamic> toJson() {
+    final documentSuggesterOptions = this.documentSuggesterOptions;
+    final suggesterName = this.suggesterName;
+    return {
+      'DocumentSuggesterOptions': documentSuggesterOptions,
+      'SuggesterName': suggesterName,
+    };
+  }
 }
 
 enum SuggesterFuzzyMatching {
-  @_s.JsonValue('none')
   none,
-  @_s.JsonValue('low')
   low,
-  @_s.JsonValue('high')
   high,
+}
+
+extension on SuggesterFuzzyMatching {
+  String toValue() {
+    switch (this) {
+      case SuggesterFuzzyMatching.none:
+        return 'none';
+      case SuggesterFuzzyMatching.low:
+        return 'low';
+      case SuggesterFuzzyMatching.high:
+        return 'high';
+    }
+  }
 }
 
 extension on String {
@@ -3346,7 +3476,7 @@ extension on String {
       case 'high':
         return SuggesterFuzzyMatching.high;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SuggesterFuzzyMatching');
   }
 }
 
@@ -3356,26 +3486,32 @@ class SuggesterStatus {
   final OptionStatus status;
 
   SuggesterStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory SuggesterStatus.fromXml(_s.XmlElement elem) {
     return SuggesterStatus(
-      options:
-          _s.extractXmlChild(elem, 'Options')?.let((e) => Suggester.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: Suggester.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
   }
 }
 
 /// The minimum required TLS version.
 enum TLSSecurityPolicy {
-  @_s.JsonValue('Policy-Min-TLS-1-0-2019-07')
   policyMinTls_1_0_2019_07,
-  @_s.JsonValue('Policy-Min-TLS-1-2-2019-07')
   policyMinTls_1_2_2019_07,
+}
+
+extension on TLSSecurityPolicy {
+  String toValue() {
+    switch (this) {
+      case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
+        return 'Policy-Min-TLS-1-0-2019-07';
+      case TLSSecurityPolicy.policyMinTls_1_2_2019_07:
+        return 'Policy-Min-TLS-1-2-2019-07';
+    }
+  }
 }
 
 extension on String {
@@ -3386,7 +3522,7 @@ extension on String {
       case 'Policy-Min-TLS-1-2-2019-07':
         return TLSSecurityPolicy.policyMinTls_1_2_2019_07;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TLSSecurityPolicy');
   }
 }
 
@@ -3394,31 +3530,21 @@ extension on String {
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>text-array</code>. A <code>text-array</code> field is always
 /// searchable. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TextArrayOptions {
   /// The name of an analysis scheme for a <code>text-array</code> field.
-  @_s.JsonKey(name: 'AnalysisScheme')
-  final String analysisScheme;
+  final String? analysisScheme;
 
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether highlights can be returned for the field.
-  @_s.JsonKey(name: 'HighlightEnabled')
-  final bool highlightEnabled;
+  final bool? highlightEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// A list of source fields to map to the field.
-  @_s.JsonKey(name: 'SourceFields')
-  final String sourceFields;
+  final String? sourceFields;
 
   TextArrayOptions({
     this.analysisScheme,
@@ -3437,39 +3563,41 @@ class TextArrayOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TextArrayOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final analysisScheme = this.analysisScheme;
+    final defaultValue = this.defaultValue;
+    final highlightEnabled = this.highlightEnabled;
+    final returnEnabled = this.returnEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (analysisScheme != null) 'AnalysisScheme': analysisScheme,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (highlightEnabled != null) 'HighlightEnabled': highlightEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for text field. Present if <code>IndexFieldType</code> specifies the
 /// field is of type <code>text</code>. A <code>text</code> field is always
 /// searchable. All options are enabled by default.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TextOptions {
   /// The name of an analysis scheme for a <code>text</code> field.
-  @_s.JsonKey(name: 'AnalysisScheme')
-  final String analysisScheme;
+  final String? analysisScheme;
 
   /// A value to use for the field if the field isn't specified for a document.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Whether highlights can be returned for the field.
-  @_s.JsonKey(name: 'HighlightEnabled')
-  final bool highlightEnabled;
+  final bool? highlightEnabled;
 
   /// Whether the contents of the field can be returned in the search results.
-  @_s.JsonKey(name: 'ReturnEnabled')
-  final bool returnEnabled;
+  final bool? returnEnabled;
 
   /// Whether the field can be used to sort the search results.
-  @_s.JsonKey(name: 'SortEnabled')
-  final bool sortEnabled;
-  @_s.JsonKey(name: 'SourceField')
-  final String sourceField;
+  final bool? sortEnabled;
+  final String? sourceField;
 
   TextOptions({
     this.analysisScheme,
@@ -3490,7 +3618,22 @@ class TextOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TextOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final analysisScheme = this.analysisScheme;
+    final defaultValue = this.defaultValue;
+    final highlightEnabled = this.highlightEnabled;
+    final returnEnabled = this.returnEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (analysisScheme != null) 'AnalysisScheme': analysisScheme,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (highlightEnabled != null) 'HighlightEnabled': highlightEnabled,
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
+      if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// The result of a <code>UpdateAvailabilityOptions</code> request. Contains the
@@ -3498,7 +3641,7 @@ class TextOptions {
 class UpdateAvailabilityOptionsResponse {
   /// The newly-configured availability options. Indicates whether Multi-AZ is
   /// enabled for the domain.
-  final AvailabilityOptionsStatus availabilityOptions;
+  final AvailabilityOptionsStatus? availabilityOptions;
 
   UpdateAvailabilityOptionsResponse({
     this.availabilityOptions,
@@ -3516,7 +3659,7 @@ class UpdateAvailabilityOptionsResponse {
 /// the configuration and status of the domain's endpoint options.
 class UpdateDomainEndpointOptionsResponse {
   /// The newly-configured domain endpoint options.
-  final DomainEndpointOptionsStatus domainEndpointOptions;
+  final DomainEndpointOptionsStatus? domainEndpointOptions;
 
   UpdateDomainEndpointOptionsResponse({
     this.domainEndpointOptions,
@@ -3536,13 +3679,12 @@ class UpdateScalingParametersResponse {
   final ScalingParametersStatus scalingParameters;
 
   UpdateScalingParametersResponse({
-    @_s.required this.scalingParameters,
+    required this.scalingParameters,
   });
   factory UpdateScalingParametersResponse.fromXml(_s.XmlElement elem) {
     return UpdateScalingParametersResponse(
-      scalingParameters: _s
-          .extractXmlChild(elem, 'ScalingParameters')
-          ?.let((e) => ScalingParametersStatus.fromXml(e)),
+      scalingParameters: ScalingParametersStatus.fromXml(
+          _s.extractXmlChild(elem, 'ScalingParameters')!),
     );
   }
 }
@@ -3554,49 +3696,48 @@ class UpdateServiceAccessPoliciesResponse {
   final AccessPoliciesStatus accessPolicies;
 
   UpdateServiceAccessPoliciesResponse({
-    @_s.required this.accessPolicies,
+    required this.accessPolicies,
   });
   factory UpdateServiceAccessPoliciesResponse.fromXml(_s.XmlElement elem) {
     return UpdateServiceAccessPoliciesResponse(
-      accessPolicies: _s
-          .extractXmlChild(elem, 'AccessPolicies')
-          ?.let((e) => AccessPoliciesStatus.fromXml(e)),
+      accessPolicies: AccessPoliciesStatus.fromXml(
+          _s.extractXmlChild(elem, 'AccessPolicies')!),
     );
   }
 }
 
 class BaseException extends _s.GenericAwsException {
-  BaseException({String type, String message})
+  BaseException({String? type, String? message})
       : super(type: type, code: 'BaseException', message: message);
 }
 
 class DisabledOperationException extends _s.GenericAwsException {
-  DisabledOperationException({String type, String message})
+  DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InvalidTypeException extends _s.GenericAwsException {
-  InvalidTypeException({String type, String message})
+  InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

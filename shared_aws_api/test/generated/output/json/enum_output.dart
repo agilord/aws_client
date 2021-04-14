@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'enum_output.g.dart';
 
 /// Enum output
 class EnumOutput {
   final _s.JsonProtocol _protocol;
   EnumOutput({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,30 +53,51 @@ class EnumOutput {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'FooEnum')
-  final JSONEnumType fooEnum;
-  @_s.JsonKey(name: 'ListEnums')
-  final List<JSONEnumType> listEnums;
+  final JSONEnumType? fooEnum;
+  final List<JSONEnumType>? listEnums;
 
   OutputShape({
     this.fooEnum,
     this.listEnums,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      fooEnum: (json['FooEnum'] as String?)?.toJSONEnumType(),
+      listEnums: (json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toJSONEnumType())
+          .toList(),
+    );
+  }
 }
 
 enum JSONEnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
+}
+
+extension on JSONEnumType {
+  String toValue() {
+    switch (this) {
+      case JSONEnumType.foo:
+        return 'foo';
+      case JSONEnumType.bar:
+        return 'bar';
+    }
+  }
+}
+
+extension on String {
+  JSONEnumType toJSONEnumType() {
+    switch (this) {
+      case 'foo':
+        return JSONEnumType.foo;
+      case 'bar':
+        return JSONEnumType.bar;
+    }
+    throw Exception('$this is not known in enum JSONEnumType');
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

@@ -50,7 +50,7 @@ class _JsonEqual extends _FeatureMatcher<String> {
 
   @override
   bool typedMatches(String? item, Map matchState) {
-    if (item == null || item.isEmpty || _expected == null) {
+    if (item == null || item.isEmpty) {
       return equals(_expected).matches(item, matchState);
     }
     final expectedJson = _tryParseJson(_expected);

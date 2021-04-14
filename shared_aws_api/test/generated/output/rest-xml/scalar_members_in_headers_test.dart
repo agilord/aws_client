@@ -45,7 +45,7 @@ void main() {
     expect(output.integer, 1);
     expect(output.long, 100);
     expect(output.str, "string");
-    expect(output.timestamp.millisecondsSinceEpoch ~/ 1000, 1422172800);
+    expect(output.timestamp!.millisecondsSinceEpoch ~/ 1000, 1422172800);
     expect(output.trueBool, true);
 /*
 {

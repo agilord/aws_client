@@ -28,10 +28,10 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.mapMember['a'][0], 1);
-    expect(output.mapMember['a'][1], 2);
-    expect(output.mapMember['b'][0], 3);
-    expect(output.mapMember['b'][1], 4);
+    expect(output.mapMember?['a']?[0], 1);
+    expect(output.mapMember?['a']?[1], 2);
+    expect(output.mapMember?['b']?[0], 3);
+    expect(output.mapMember?['b']?[1], 4);
 /*
 {
   "MapMember": {

@@ -14,14 +14,14 @@ DeleteHumanLoopResponse _$DeleteHumanLoopResponseFromJson(
 DescribeHumanLoopResponse _$DescribeHumanLoopResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeHumanLoopResponse(
-    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    creationTime: DateTime.parse(json['CreationTime'] as String),
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
     humanLoopArn: json['HumanLoopArn'] as String,
     humanLoopName: json['HumanLoopName'] as String,
     humanLoopStatus:
-        _$enumDecodeNullable(_$HumanLoopStatusEnumMap, json['HumanLoopStatus']),
-    failureCode: json['FailureCode'] as String,
-    failureReason: json['FailureReason'] as String,
+        _$enumDecode(_$HumanLoopStatusEnumMap, json['HumanLoopStatus']),
+    failureCode: json['FailureCode'] as String?,
+    failureReason: json['FailureReason'] as String?,
     humanLoopOutput: json['HumanLoopOutput'] == null
         ? null
         : HumanLoopOutput.fromJson(
@@ -29,36 +29,30 @@ DescribeHumanLoopResponse _$DescribeHumanLoopResponseFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$HumanLoopStatusEnumMap = {
@@ -70,22 +64,12 @@ const _$HumanLoopStatusEnumMap = {
 };
 
 Map<String, dynamic> _$HumanLoopDataAttributesToJson(
-    HumanLoopDataAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'ContentClassifiers',
-      instance.contentClassifiers
-          ?.map((e) => _$ContentClassifierEnumMap[e])
-          ?.toList());
-  return val;
-}
+        HumanLoopDataAttributes instance) =>
+    <String, dynamic>{
+      'ContentClassifiers': instance.contentClassifiers
+          .map((e) => _$ContentClassifierEnumMap[e])
+          .toList(),
+    };
 
 const _$ContentClassifierEnumMap = {
   ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -93,18 +77,10 @@ const _$ContentClassifierEnumMap = {
   ContentClassifier.freeOfAdultContent: 'FreeOfAdultContent',
 };
 
-Map<String, dynamic> _$HumanLoopInputToJson(HumanLoopInput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('InputContent', instance.inputContent);
-  return val;
-}
+Map<String, dynamic> _$HumanLoopInputToJson(HumanLoopInput instance) =>
+    <String, dynamic>{
+      'InputContent': instance.inputContent,
+    };
 
 HumanLoopOutput _$HumanLoopOutputFromJson(Map<String, dynamic> json) {
   return HumanLoopOutput(
@@ -115,30 +91,39 @@ HumanLoopOutput _$HumanLoopOutputFromJson(Map<String, dynamic> json) {
 HumanLoopSummary _$HumanLoopSummaryFromJson(Map<String, dynamic> json) {
   return HumanLoopSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    failureReason: json['FailureReason'] as String,
-    flowDefinitionArn: json['FlowDefinitionArn'] as String,
-    humanLoopName: json['HumanLoopName'] as String,
+    failureReason: json['FailureReason'] as String?,
+    flowDefinitionArn: json['FlowDefinitionArn'] as String?,
+    humanLoopName: json['HumanLoopName'] as String?,
     humanLoopStatus:
         _$enumDecodeNullable(_$HumanLoopStatusEnumMap, json['HumanLoopStatus']),
   );
 }
 
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
 ListHumanLoopsResponse _$ListHumanLoopsResponseFromJson(
     Map<String, dynamic> json) {
   return ListHumanLoopsResponse(
-    humanLoopSummaries: (json['HumanLoopSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HumanLoopSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    humanLoopSummaries: (json['HumanLoopSummaries'] as List<dynamic>)
+        .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 StartHumanLoopResponse _$StartHumanLoopResponseFromJson(
     Map<String, dynamic> json) {
   return StartHumanLoopResponse(
-    humanLoopArn: json['HumanLoopArn'] as String,
+    humanLoopArn: json['HumanLoopArn'] as String?,
   );
 }
 

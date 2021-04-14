@@ -8,14 +8,14 @@ part of 'mediapackage-vod-2018-11-07.dart';
 
 AssetShallow _$AssetShallowFromJson(Map<String, dynamic> json) {
   return AssetShallow(
-    arn: json['arn'] as String,
-    createdAt: json['createdAt'] as String,
-    id: json['id'] as String,
-    packagingGroupId: json['packagingGroupId'] as String,
-    resourceId: json['resourceId'] as String,
-    sourceArn: json['sourceArn'] as String,
-    sourceRoleArn: json['sourceRoleArn'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    arn: json['arn'] as String?,
+    createdAt: json['createdAt'] as String?,
+    id: json['id'] as String?,
+    packagingGroupId: json['packagingGroupId'] as String?,
+    resourceId: json['resourceId'] as String?,
+    sourceArn: json['sourceArn'] as String?,
+    sourceRoleArn: json['sourceRoleArn'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -28,57 +28,40 @@ Authorization _$AuthorizationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AuthorizationToJson(Authorization instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('cdnIdentifierSecret', instance.cdnIdentifierSecret);
-  writeNotNull('secretsRoleArn', instance.secretsRoleArn);
-  return val;
-}
+Map<String, dynamic> _$AuthorizationToJson(Authorization instance) =>
+    <String, dynamic>{
+      'cdnIdentifierSecret': instance.cdnIdentifierSecret,
+      'secretsRoleArn': instance.secretsRoleArn,
+    };
 
 CmafEncryption _$CmafEncryptionFromJson(Map<String, dynamic> json) {
   return CmafEncryption(
-    spekeKeyProvider: json['spekeKeyProvider'] == null
-        ? null
-        : SpekeKeyProvider.fromJson(
-            json['spekeKeyProvider'] as Map<String, dynamic>),
+    spekeKeyProvider: SpekeKeyProvider.fromJson(
+        json['spekeKeyProvider'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$CmafEncryptionToJson(CmafEncryption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('spekeKeyProvider', instance.spekeKeyProvider?.toJson());
-  return val;
-}
+Map<String, dynamic> _$CmafEncryptionToJson(CmafEncryption instance) =>
+    <String, dynamic>{
+      'spekeKeyProvider': instance.spekeKeyProvider.toJson(),
+    };
 
 CmafPackage _$CmafPackageFromJson(Map<String, dynamic> json) {
   return CmafPackage(
-    hlsManifests: (json['hlsManifests'] as List)
-        ?.map((e) =>
-            e == null ? null : HlsManifest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    hlsManifests: (json['hlsManifests'] as List<dynamic>)
+        .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encryption: json['encryption'] == null
         ? null
         : CmafEncryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    segmentDurationSeconds: json['segmentDurationSeconds'] as int,
+    segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
   );
 }
 
 Map<String, dynamic> _$CmafPackageToJson(CmafPackage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'hlsManifests': instance.hlsManifests.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -86,8 +69,6 @@ Map<String, dynamic> _$CmafPackageToJson(CmafPackage instance) {
     }
   }
 
-  writeNotNull(
-      'hlsManifests', instance.hlsManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('encryption', instance.encryption?.toJson());
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
   return val;
@@ -95,19 +76,17 @@ Map<String, dynamic> _$CmafPackageToJson(CmafPackage instance) {
 
 CreateAssetResponse _$CreateAssetResponseFromJson(Map<String, dynamic> json) {
   return CreateAssetResponse(
-    arn: json['arn'] as String,
-    createdAt: json['createdAt'] as String,
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
-    packagingGroupId: json['packagingGroupId'] as String,
-    resourceId: json['resourceId'] as String,
-    sourceArn: json['sourceArn'] as String,
-    sourceRoleArn: json['sourceRoleArn'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    arn: json['arn'] as String?,
+    createdAt: json['createdAt'] as String?,
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
+    packagingGroupId: json['packagingGroupId'] as String?,
+    resourceId: json['resourceId'] as String?,
+    sourceArn: json['sourceArn'] as String?,
+    sourceRoleArn: json['sourceRoleArn'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -116,7 +95,7 @@ CreateAssetResponse _$CreateAssetResponseFromJson(Map<String, dynamic> json) {
 CreatePackagingConfigurationResponse
     _$CreatePackagingConfigurationResponseFromJson(Map<String, dynamic> json) {
   return CreatePackagingConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cmafPackage: json['cmafPackage'] == null
         ? null
         : CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>),
@@ -126,12 +105,12 @@ CreatePackagingConfigurationResponse
     hlsPackage: json['hlsPackage'] == null
         ? null
         : HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>),
-    id: json['id'] as String,
+    id: json['id'] as String?,
     mssPackage: json['mssPackage'] == null
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
-    packagingGroupId: json['packagingGroupId'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    packagingGroupId: json['packagingGroupId'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -140,13 +119,13 @@ CreatePackagingConfigurationResponse
 CreatePackagingGroupResponse _$CreatePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePackagingGroupResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     authorization: json['authorization'] == null
         ? null
         : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
-    domainName: json['domainName'] as String,
-    id: json['id'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    domainName: json['domainName'] as String?,
+    id: json['id'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -154,32 +133,22 @@ CreatePackagingGroupResponse _$CreatePackagingGroupResponseFromJson(
 
 DashEncryption _$DashEncryptionFromJson(Map<String, dynamic> json) {
   return DashEncryption(
-    spekeKeyProvider: json['spekeKeyProvider'] == null
-        ? null
-        : SpekeKeyProvider.fromJson(
-            json['spekeKeyProvider'] as Map<String, dynamic>),
+    spekeKeyProvider: SpekeKeyProvider.fromJson(
+        json['spekeKeyProvider'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$DashEncryptionToJson(DashEncryption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('spekeKeyProvider', instance.spekeKeyProvider?.toJson());
-  return val;
-}
+Map<String, dynamic> _$DashEncryptionToJson(DashEncryption instance) =>
+    <String, dynamic>{
+      'spekeKeyProvider': instance.spekeKeyProvider.toJson(),
+    };
 
 DashManifest _$DashManifestFromJson(Map<String, dynamic> json) {
   return DashManifest(
     manifestLayout:
         _$enumDecodeNullable(_$ManifestLayoutEnumMap, json['manifestLayout']),
-    manifestName: json['manifestName'] as String,
-    minBufferTimeSeconds: json['minBufferTimeSeconds'] as int,
+    manifestName: json['manifestName'] as String?,
+    minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
     profile: _$enumDecodeNullable(_$ProfileEnumMap, json['profile']),
     streamSelection: json['streamSelection'] == null
         ? null
@@ -206,36 +175,41 @@ Map<String, dynamic> _$DashManifestToJson(DashManifest instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ManifestLayoutEnumMap = {
@@ -250,24 +224,25 @@ const _$ProfileEnumMap = {
 
 DashPackage _$DashPackageFromJson(Map<String, dynamic> json) {
   return DashPackage(
-    dashManifests: (json['dashManifests'] as List)
-        ?.map((e) =>
-            e == null ? null : DashManifest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    dashManifests: (json['dashManifests'] as List<dynamic>)
+        .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encryption: json['encryption'] == null
         ? null
         : DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    periodTriggers: (json['periodTriggers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PeriodTriggersElementEnumMap, e))
-        ?.toList(),
-    segmentDurationSeconds: json['segmentDurationSeconds'] as int,
+    periodTriggers: (json['periodTriggers'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PeriodTriggersElementEnumMap, e))
+        .toList(),
+    segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
     segmentTemplateFormat: _$enumDecodeNullable(
         _$SegmentTemplateFormatEnumMap, json['segmentTemplateFormat']),
   );
 }
 
 Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'dashManifests': instance.dashManifests.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -275,14 +250,12 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
     }
   }
 
-  writeNotNull('dashManifests',
-      instance.dashManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('encryption', instance.encryption?.toJson());
   writeNotNull(
       'periodTriggers',
       instance.periodTriggers
           ?.map((e) => _$PeriodTriggersElementEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
   writeNotNull('segmentTemplateFormat',
       _$SegmentTemplateFormatEnumMap[instance.segmentTemplateFormat]);
@@ -316,19 +289,17 @@ DeletePackagingGroupResponse _$DeletePackagingGroupResponseFromJson(
 DescribeAssetResponse _$DescribeAssetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAssetResponse(
-    arn: json['arn'] as String,
-    createdAt: json['createdAt'] as String,
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
-    packagingGroupId: json['packagingGroupId'] as String,
-    resourceId: json['resourceId'] as String,
-    sourceArn: json['sourceArn'] as String,
-    sourceRoleArn: json['sourceRoleArn'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    arn: json['arn'] as String?,
+    createdAt: json['createdAt'] as String?,
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
+    packagingGroupId: json['packagingGroupId'] as String?,
+    resourceId: json['resourceId'] as String?,
+    sourceArn: json['sourceArn'] as String?,
+    sourceRoleArn: json['sourceRoleArn'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -338,7 +309,7 @@ DescribePackagingConfigurationResponse
     _$DescribePackagingConfigurationResponseFromJson(
         Map<String, dynamic> json) {
   return DescribePackagingConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cmafPackage: json['cmafPackage'] == null
         ? null
         : CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>),
@@ -348,12 +319,12 @@ DescribePackagingConfigurationResponse
     hlsPackage: json['hlsPackage'] == null
         ? null
         : HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>),
-    id: json['id'] as String,
+    id: json['id'] as String?,
     mssPackage: json['mssPackage'] == null
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
-    packagingGroupId: json['packagingGroupId'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    packagingGroupId: json['packagingGroupId'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -362,13 +333,13 @@ DescribePackagingConfigurationResponse
 DescribePackagingGroupResponse _$DescribePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePackagingGroupResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     authorization: json['authorization'] == null
         ? null
         : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
-    domainName: json['domainName'] as String,
-    id: json['id'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    domainName: json['domainName'] as String?,
+    id: json['id'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -376,26 +347,26 @@ DescribePackagingGroupResponse _$DescribePackagingGroupResponseFromJson(
 
 EgressEndpoint _$EgressEndpointFromJson(Map<String, dynamic> json) {
   return EgressEndpoint(
-    packagingConfigurationId: json['packagingConfigurationId'] as String,
-    url: json['url'] as String,
+    packagingConfigurationId: json['packagingConfigurationId'] as String?,
+    url: json['url'] as String?,
   );
 }
 
 HlsEncryption _$HlsEncryptionFromJson(Map<String, dynamic> json) {
   return HlsEncryption(
-    spekeKeyProvider: json['spekeKeyProvider'] == null
-        ? null
-        : SpekeKeyProvider.fromJson(
-            json['spekeKeyProvider'] as Map<String, dynamic>),
+    spekeKeyProvider: SpekeKeyProvider.fromJson(
+        json['spekeKeyProvider'] as Map<String, dynamic>),
     constantInitializationVector:
-        json['constantInitializationVector'] as String,
+        json['constantInitializationVector'] as String?,
     encryptionMethod: _$enumDecodeNullable(
         _$EncryptionMethodEnumMap, json['encryptionMethod']),
   );
 }
 
 Map<String, dynamic> _$HlsEncryptionToJson(HlsEncryption instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'spekeKeyProvider': instance.spekeKeyProvider.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -403,7 +374,6 @@ Map<String, dynamic> _$HlsEncryptionToJson(HlsEncryption instance) {
     }
   }
 
-  writeNotNull('spekeKeyProvider', instance.spekeKeyProvider?.toJson());
   writeNotNull(
       'constantInitializationVector', instance.constantInitializationVector);
   writeNotNull(
@@ -419,11 +389,11 @@ const _$EncryptionMethodEnumMap = {
 HlsManifest _$HlsManifestFromJson(Map<String, dynamic> json) {
   return HlsManifest(
     adMarkers: _$enumDecodeNullable(_$AdMarkersEnumMap, json['adMarkers']),
-    includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool,
-    manifestName: json['manifestName'] as String,
+    includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
+    manifestName: json['manifestName'] as String?,
     programDateTimeIntervalSeconds:
-        json['programDateTimeIntervalSeconds'] as int,
-    repeatExtXKey: json['repeatExtXKey'] as bool,
+        json['programDateTimeIntervalSeconds'] as int?,
+    repeatExtXKey: json['repeatExtXKey'] as bool?,
     streamSelection: json['streamSelection'] == null
         ? null
         : StreamSelection.fromJson(
@@ -458,20 +428,21 @@ const _$AdMarkersEnumMap = {
 
 HlsPackage _$HlsPackageFromJson(Map<String, dynamic> json) {
   return HlsPackage(
-    hlsManifests: (json['hlsManifests'] as List)
-        ?.map((e) =>
-            e == null ? null : HlsManifest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    hlsManifests: (json['hlsManifests'] as List<dynamic>)
+        .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encryption: json['encryption'] == null
         ? null
         : HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    segmentDurationSeconds: json['segmentDurationSeconds'] as int,
-    useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool,
+    segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+    useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool?,
   );
 }
 
 Map<String, dynamic> _$HlsPackageToJson(HlsPackage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'hlsManifests': instance.hlsManifests.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -479,8 +450,6 @@ Map<String, dynamic> _$HlsPackageToJson(HlsPackage instance) {
     }
   }
 
-  writeNotNull(
-      'hlsManifests', instance.hlsManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('encryption', instance.encryption?.toJson());
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
   writeNotNull('useAudioRenditionGroup', instance.useAudioRenditionGroup);
@@ -489,42 +458,37 @@ Map<String, dynamic> _$HlsPackageToJson(HlsPackage instance) {
 
 ListAssetsResponse _$ListAssetsResponseFromJson(Map<String, dynamic> json) {
   return ListAssetsResponse(
-    assets: (json['assets'] as List)
-        ?.map((e) =>
-            e == null ? null : AssetShallow.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    assets: (json['assets'] as List<dynamic>?)
+        ?.map((e) => AssetShallow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListPackagingConfigurationsResponse
     _$ListPackagingConfigurationsResponseFromJson(Map<String, dynamic> json) {
   return ListPackagingConfigurationsResponse(
-    nextToken: json['nextToken'] as String,
-    packagingConfigurations: (json['packagingConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PackagingConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    packagingConfigurations: (json['packagingConfigurations'] as List<dynamic>?)
+        ?.map((e) => PackagingConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPackagingGroupsResponse _$ListPackagingGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPackagingGroupsResponse(
-    nextToken: json['nextToken'] as String,
-    packagingGroups: (json['packagingGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PackagingGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    packagingGroups: (json['packagingGroups'] as List<dynamic>?)
+        ?.map((e) => PackagingGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -532,29 +496,19 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 MssEncryption _$MssEncryptionFromJson(Map<String, dynamic> json) {
   return MssEncryption(
-    spekeKeyProvider: json['spekeKeyProvider'] == null
-        ? null
-        : SpekeKeyProvider.fromJson(
-            json['spekeKeyProvider'] as Map<String, dynamic>),
+    spekeKeyProvider: SpekeKeyProvider.fromJson(
+        json['spekeKeyProvider'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$MssEncryptionToJson(MssEncryption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('spekeKeyProvider', instance.spekeKeyProvider?.toJson());
-  return val;
-}
+Map<String, dynamic> _$MssEncryptionToJson(MssEncryption instance) =>
+    <String, dynamic>{
+      'spekeKeyProvider': instance.spekeKeyProvider.toJson(),
+    };
 
 MssManifest _$MssManifestFromJson(Map<String, dynamic> json) {
   return MssManifest(
-    manifestName: json['manifestName'] as String,
+    manifestName: json['manifestName'] as String?,
     streamSelection: json['streamSelection'] == null
         ? null
         : StreamSelection.fromJson(
@@ -578,19 +532,20 @@ Map<String, dynamic> _$MssManifestToJson(MssManifest instance) {
 
 MssPackage _$MssPackageFromJson(Map<String, dynamic> json) {
   return MssPackage(
-    mssManifests: (json['mssManifests'] as List)
-        ?.map((e) =>
-            e == null ? null : MssManifest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    mssManifests: (json['mssManifests'] as List<dynamic>)
+        .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encryption: json['encryption'] == null
         ? null
         : MssEncryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    segmentDurationSeconds: json['segmentDurationSeconds'] as int,
+    segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
   );
 }
 
 Map<String, dynamic> _$MssPackageToJson(MssPackage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'mssManifests': instance.mssManifests.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -598,8 +553,6 @@ Map<String, dynamic> _$MssPackageToJson(MssPackage instance) {
     }
   }
 
-  writeNotNull(
-      'mssManifests', instance.mssManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('encryption', instance.encryption?.toJson());
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
   return val;
@@ -608,7 +561,7 @@ Map<String, dynamic> _$MssPackageToJson(MssPackage instance) {
 PackagingConfiguration _$PackagingConfigurationFromJson(
     Map<String, dynamic> json) {
   return PackagingConfiguration(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cmafPackage: json['cmafPackage'] == null
         ? null
         : CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>),
@@ -618,12 +571,12 @@ PackagingConfiguration _$PackagingConfigurationFromJson(
     hlsPackage: json['hlsPackage'] == null
         ? null
         : HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>),
-    id: json['id'] as String,
+    id: json['id'] as String?,
     mssPackage: json['mssPackage'] == null
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
-    packagingGroupId: json['packagingGroupId'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    packagingGroupId: json['packagingGroupId'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -631,13 +584,13 @@ PackagingConfiguration _$PackagingConfigurationFromJson(
 
 PackagingGroup _$PackagingGroupFromJson(Map<String, dynamic> json) {
   return PackagingGroup(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     authorization: json['authorization'] == null
         ? null
         : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
-    domainName: json['domainName'] as String,
-    id: json['id'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    domainName: json['domainName'] as String?,
+    id: json['id'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -646,30 +599,23 @@ PackagingGroup _$PackagingGroupFromJson(Map<String, dynamic> json) {
 SpekeKeyProvider _$SpekeKeyProviderFromJson(Map<String, dynamic> json) {
   return SpekeKeyProvider(
     roleArn: json['roleArn'] as String,
-    systemIds: (json['systemIds'] as List)?.map((e) => e as String)?.toList(),
+    systemIds:
+        (json['systemIds'] as List<dynamic>).map((e) => e as String).toList(),
     url: json['url'] as String,
   );
 }
 
-Map<String, dynamic> _$SpekeKeyProviderToJson(SpekeKeyProvider instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('systemIds', instance.systemIds);
-  writeNotNull('url', instance.url);
-  return val;
-}
+Map<String, dynamic> _$SpekeKeyProviderToJson(SpekeKeyProvider instance) =>
+    <String, dynamic>{
+      'roleArn': instance.roleArn,
+      'systemIds': instance.systemIds,
+      'url': instance.url,
+    };
 
 StreamSelection _$StreamSelectionFromJson(Map<String, dynamic> json) {
   return StreamSelection(
-    maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int,
-    minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int,
+    maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int?,
+    minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int?,
     streamOrder:
         _$enumDecodeNullable(_$StreamOrderEnumMap, json['streamOrder']),
   );
@@ -699,13 +645,13 @@ const _$StreamOrderEnumMap = {
 UpdatePackagingGroupResponse _$UpdatePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdatePackagingGroupResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     authorization: json['authorization'] == null
         ? null
         : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
-    domainName: json['domainName'] as String,
-    id: json['id'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    domainName: json['domainName'] as String?,
+    id: json['id'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'iotevents-2018-07-27.g.dart';
 
 /// AWS IoT Events monitors your equipment or device fleets for failures or
 /// changes in operation, and triggers actions when such events occur. You can
@@ -33,10 +25,10 @@ part 'iotevents-2018-07-27.g.dart';
 class IoTEvents {
   final _s.RestJsonProtocol _protocol;
   IoTEvents({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -86,13 +78,13 @@ class IoTEvents {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the detector model.
   Future<CreateDetectorModelResponse> createDetectorModel({
-    @_s.required DetectorModelDefinition detectorModelDefinition,
-    @_s.required String detectorModelName,
-    @_s.required String roleArn,
-    String detectorModelDescription,
-    EvaluationMethod evaluationMethod,
-    String key,
-    List<Tag> tags,
+    required DetectorModelDefinition detectorModelDefinition,
+    required String detectorModelName,
+    required String roleArn,
+    String? detectorModelDescription,
+    EvaluationMethod? evaluationMethod,
+    String? key,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         detectorModelDefinition, 'detectorModelDefinition');
@@ -175,10 +167,10 @@ class IoTEvents {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the input.
   Future<CreateInputResponse> createInput({
-    @_s.required InputDefinition inputDefinition,
-    @_s.required String inputName,
-    String inputDescription,
-    List<Tag> tags,
+    required InputDefinition inputDefinition,
+    required String inputName,
+    String? inputDescription,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(inputDefinition, 'inputDefinition');
     ArgumentError.checkNotNull(inputName, 'inputName');
@@ -229,7 +221,7 @@ class IoTEvents {
   /// Parameter [detectorModelName] :
   /// The name of the detector model to be deleted.
   Future<void> deleteDetectorModel({
-    @_s.required String detectorModelName,
+    required String detectorModelName,
   }) async {
     ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
     _s.validateStringLength(
@@ -251,7 +243,6 @@ class IoTEvents {
       requestUri: '/detector-models/${Uri.encodeComponent(detectorModelName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDetectorModelResponse.fromJson(response);
   }
 
   /// Deletes an input.
@@ -266,7 +257,7 @@ class IoTEvents {
   /// Parameter [inputName] :
   /// The name of the input to delete.
   Future<void> deleteInput({
-    @_s.required String inputName,
+    required String inputName,
   }) async {
     ArgumentError.checkNotNull(inputName, 'inputName');
     _s.validateStringLength(
@@ -288,7 +279,6 @@ class IoTEvents {
       requestUri: '/inputs/${Uri.encodeComponent(inputName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteInputResponse.fromJson(response);
   }
 
   /// Describes a detector model. If the <code>version</code> parameter is not
@@ -306,8 +296,8 @@ class IoTEvents {
   /// Parameter [detectorModelVersion] :
   /// The version of the detector model.
   Future<DescribeDetectorModelResponse> describeDetectorModel({
-    @_s.required String detectorModelName,
-    String detectorModelVersion,
+    required String detectorModelName,
+    String? detectorModelVersion,
   }) async {
     ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
     _s.validateStringLength(
@@ -353,7 +343,7 @@ class IoTEvents {
   /// Parameter [inputName] :
   /// The name of the input.
   Future<DescribeInputResponse> describeInput({
-    @_s.required String inputName,
+    required String inputName,
   }) async {
     ArgumentError.checkNotNull(inputName, 'inputName');
     _s.validateStringLength(
@@ -414,9 +404,9 @@ class IoTEvents {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListDetectorModelVersionsResponse> listDetectorModelVersions({
-    @_s.required String detectorModelName,
-    int maxResults,
-    String nextToken,
+    required String detectorModelName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
     _s.validateStringLength(
@@ -467,8 +457,8 @@ class IoTEvents {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListDetectorModelsResponse> listDetectorModels({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -503,8 +493,8 @@ class IoTEvents {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListInputsResponse> listInputs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -537,7 +527,7 @@ class IoTEvents {
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -548,7 +538,7 @@ class IoTEvents {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -578,7 +568,7 @@ class IoTEvents {
   /// Parameter [loggingOptions] :
   /// The new values of the AWS IoT Events logging options.
   Future<void> putLoggingOptions({
-    @_s.required LoggingOptions loggingOptions,
+    required LoggingOptions loggingOptions,
   }) async {
     ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
     final $payload = <String, dynamic>{
@@ -608,8 +598,8 @@ class IoTEvents {
   /// Parameter [tags] :
   /// The new or modified tags for the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -621,7 +611,7 @@ class IoTEvents {
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -633,7 +623,6 @@ class IoTEvents {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes the given tags (metadata) from the resource.
@@ -650,8 +639,8 @@ class IoTEvents {
   /// Parameter [tagKeys] :
   /// A list of the keys of the tags to be removed from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -663,8 +652,8 @@ class IoTEvents {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'resourceArn': [resourceArn],
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -673,7 +662,6 @@ class IoTEvents {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates a detector model. Detectors (instances) spawned by the previous
@@ -703,11 +691,11 @@ class IoTEvents {
   /// Information about the order in which events are evaluated and how actions
   /// are executed.
   Future<UpdateDetectorModelResponse> updateDetectorModel({
-    @_s.required DetectorModelDefinition detectorModelDefinition,
-    @_s.required String detectorModelName,
-    @_s.required String roleArn,
-    String detectorModelDescription,
-    EvaluationMethod evaluationMethod,
+    required DetectorModelDefinition detectorModelDefinition,
+    required String detectorModelName,
+    required String roleArn,
+    String? detectorModelDescription,
+    EvaluationMethod? evaluationMethod,
   }) async {
     ArgumentError.checkNotNull(
         detectorModelDefinition, 'detectorModelDefinition');
@@ -774,9 +762,9 @@ class IoTEvents {
   /// Parameter [inputDescription] :
   /// A brief description of the input.
   Future<UpdateInputResponse> updateInput({
-    @_s.required InputDefinition inputDefinition,
-    @_s.required String inputName,
-    String inputDescription,
+    required InputDefinition inputDefinition,
+    required String inputName,
+    String? inputDescription,
   }) async {
     ArgumentError.checkNotNull(inputDefinition, 'inputDefinition');
     ArgumentError.checkNotNull(inputName, 'inputName');
@@ -814,15 +802,9 @@ class IoTEvents {
 }
 
 /// An action to be performed when the <code>condition</code> is TRUE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Action {
   /// Information needed to clear the timer.
-  @_s.JsonKey(name: 'clearTimer')
-  final ClearTimerAction clearTimer;
+  final ClearTimerAction? clearTimer;
 
   /// Writes to the DynamoDB table that you created. The default action payload
   /// contains all attribute-value pairs that have the information about the
@@ -833,8 +815,7 @@ class Action {
   /// payload that you specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-event-actions.html">Actions</a>
   /// in <i>AWS IoT Events Developer Guide</i>.
-  @_s.JsonKey(name: 'dynamoDB')
-  final DynamoDBAction dynamoDB;
+  final DynamoDBAction? dynamoDB;
 
   /// Writes to the DynamoDB table that you created. The default action payload
   /// contains all attribute-value pairs that have the information about the
@@ -845,54 +826,43 @@ class Action {
   /// the payload that you specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-event-actions.html">Actions</a>
   /// in <i>AWS IoT Events Developer Guide</i>.
-  @_s.JsonKey(name: 'dynamoDBv2')
-  final DynamoDBv2Action dynamoDBv2;
+  final DynamoDBv2Action? dynamoDBv2;
 
   /// Sends information about the detector model instance and the event that
   /// triggered the action to an Amazon Kinesis Data Firehose delivery stream.
-  @_s.JsonKey(name: 'firehose')
-  final FirehoseAction firehose;
+  final FirehoseAction? firehose;
 
   /// Sends AWS IoT Events input, which passes information about the detector
   /// model instance and the event that triggered the action.
-  @_s.JsonKey(name: 'iotEvents')
-  final IotEventsAction iotEvents;
+  final IotEventsAction? iotEvents;
 
   /// Sends information about the detector model instance and the event that
   /// triggered the action to an asset property in AWS IoT SiteWise .
-  @_s.JsonKey(name: 'iotSiteWise')
-  final IotSiteWiseAction iotSiteWise;
+  final IotSiteWiseAction? iotSiteWise;
 
   /// Publishes an MQTT message with the given topic to the AWS IoT message
   /// broker.
-  @_s.JsonKey(name: 'iotTopicPublish')
-  final IotTopicPublishAction iotTopicPublish;
+  final IotTopicPublishAction? iotTopicPublish;
 
   /// Calls a Lambda function, passing in information about the detector model
   /// instance and the event that triggered the action.
-  @_s.JsonKey(name: 'lambda')
-  final LambdaAction lambda;
+  final LambdaAction? lambda;
 
   /// Information needed to reset the timer.
-  @_s.JsonKey(name: 'resetTimer')
-  final ResetTimerAction resetTimer;
+  final ResetTimerAction? resetTimer;
 
   /// Information needed to set the timer.
-  @_s.JsonKey(name: 'setTimer')
-  final SetTimerAction setTimer;
+  final SetTimerAction? setTimer;
 
   /// Sets a variable to a specified value.
-  @_s.JsonKey(name: 'setVariable')
-  final SetVariableAction setVariable;
+  final SetVariableAction? setVariable;
 
   /// Sends an Amazon SNS message.
-  @_s.JsonKey(name: 'sns')
-  final SNSTopicPublishAction sns;
+  final SNSTopicPublishAction? sns;
 
   /// Sends information about the detector model instance and the event that
   /// triggered the action to an Amazon SQS queue.
-  @_s.JsonKey(name: 'sqs')
-  final SqsAction sqs;
+  final SqsAction? sqs;
 
   Action({
     this.clearTimer,
@@ -909,9 +879,86 @@ class Action {
     this.sns,
     this.sqs,
   });
-  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      clearTimer: json['clearTimer'] != null
+          ? ClearTimerAction.fromJson(
+              json['clearTimer'] as Map<String, dynamic>)
+          : null,
+      dynamoDB: json['dynamoDB'] != null
+          ? DynamoDBAction.fromJson(json['dynamoDB'] as Map<String, dynamic>)
+          : null,
+      dynamoDBv2: json['dynamoDBv2'] != null
+          ? DynamoDBv2Action.fromJson(
+              json['dynamoDBv2'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? FirehoseAction.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      iotEvents: json['iotEvents'] != null
+          ? IotEventsAction.fromJson(json['iotEvents'] as Map<String, dynamic>)
+          : null,
+      iotSiteWise: json['iotSiteWise'] != null
+          ? IotSiteWiseAction.fromJson(
+              json['iotSiteWise'] as Map<String, dynamic>)
+          : null,
+      iotTopicPublish: json['iotTopicPublish'] != null
+          ? IotTopicPublishAction.fromJson(
+              json['iotTopicPublish'] as Map<String, dynamic>)
+          : null,
+      lambda: json['lambda'] != null
+          ? LambdaAction.fromJson(json['lambda'] as Map<String, dynamic>)
+          : null,
+      resetTimer: json['resetTimer'] != null
+          ? ResetTimerAction.fromJson(
+              json['resetTimer'] as Map<String, dynamic>)
+          : null,
+      setTimer: json['setTimer'] != null
+          ? SetTimerAction.fromJson(json['setTimer'] as Map<String, dynamic>)
+          : null,
+      setVariable: json['setVariable'] != null
+          ? SetVariableAction.fromJson(
+              json['setVariable'] as Map<String, dynamic>)
+          : null,
+      sns: json['sns'] != null
+          ? SNSTopicPublishAction.fromJson(json['sns'] as Map<String, dynamic>)
+          : null,
+      sqs: json['sqs'] != null
+          ? SqsAction.fromJson(json['sqs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final clearTimer = this.clearTimer;
+    final dynamoDB = this.dynamoDB;
+    final dynamoDBv2 = this.dynamoDBv2;
+    final firehose = this.firehose;
+    final iotEvents = this.iotEvents;
+    final iotSiteWise = this.iotSiteWise;
+    final iotTopicPublish = this.iotTopicPublish;
+    final lambda = this.lambda;
+    final resetTimer = this.resetTimer;
+    final setTimer = this.setTimer;
+    final setVariable = this.setVariable;
+    final sns = this.sns;
+    final sqs = this.sqs;
+    return {
+      if (clearTimer != null) 'clearTimer': clearTimer,
+      if (dynamoDB != null) 'dynamoDB': dynamoDB,
+      if (dynamoDBv2 != null) 'dynamoDBv2': dynamoDBv2,
+      if (firehose != null) 'firehose': firehose,
+      if (iotEvents != null) 'iotEvents': iotEvents,
+      if (iotSiteWise != null) 'iotSiteWise': iotSiteWise,
+      if (iotTopicPublish != null) 'iotTopicPublish': iotTopicPublish,
+      if (lambda != null) 'lambda': lambda,
+      if (resetTimer != null) 'resetTimer': resetTimer,
+      if (setTimer != null) 'setTimer': setTimer,
+      if (setVariable != null) 'setVariable': setVariable,
+      if (sns != null) 'sns': sns,
+      if (sqs != null) 'sqs': sqs,
+    };
+  }
 }
 
 /// A structure that contains timestamp information. For more information, see
@@ -936,30 +983,34 @@ class Action {
 /// in the <i>AWS IoT Events Developer Guide</i>.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyTimestamp {
   /// The timestamp, in seconds, in the Unix epoch format. The valid range is
   /// between 1-31556889864403199. You can also specify an expression.
-  @_s.JsonKey(name: 'timeInSeconds')
   final String timeInSeconds;
 
   /// The nanosecond offset converted from <code>timeInSeconds</code>. The valid
   /// range is between 0-999999999. You can also specify an expression.
-  @_s.JsonKey(name: 'offsetInNanos')
-  final String offsetInNanos;
+  final String? offsetInNanos;
 
   AssetPropertyTimestamp({
-    @_s.required this.timeInSeconds,
+    required this.timeInSeconds,
     this.offsetInNanos,
   });
-  factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyTimestampFromJson(json);
+  factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyTimestamp(
+      timeInSeconds: json['timeInSeconds'] as String,
+      offsetInNanos: json['offsetInNanos'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetPropertyTimestampToJson(this);
+  Map<String, dynamic> toJson() {
+    final timeInSeconds = this.timeInSeconds;
+    final offsetInNanos = this.offsetInNanos;
+    return {
+      'timeInSeconds': timeInSeconds,
+      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
+    };
+  }
 }
 
 /// A structure that contains value information. For more information, see <a
@@ -983,36 +1034,46 @@ class AssetPropertyTimestamp {
 /// in the <i>AWS IoT Events Developer Guide</i>.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyValue {
   /// The value to send to an asset property.
-  @_s.JsonKey(name: 'value')
   final AssetPropertyVariant value;
 
   /// The quality of the asset property value. The value must be
   /// <code>GOOD</code>, <code>BAD</code>, or <code>UNCERTAIN</code>. You can also
   /// specify an expression.
-  @_s.JsonKey(name: 'quality')
-  final String quality;
+  final String? quality;
 
   /// The timestamp associated with the asset property value. The default is the
   /// current event time.
-  @_s.JsonKey(name: 'timestamp')
-  final AssetPropertyTimestamp timestamp;
+  final AssetPropertyTimestamp? timestamp;
 
   AssetPropertyValue({
-    @_s.required this.value,
+    required this.value,
     this.quality,
     this.timestamp,
   });
-  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyValueFromJson(json);
+  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyValue(
+      value:
+          AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
+      quality: json['quality'] as String?,
+      timestamp: json['timestamp'] != null
+          ? AssetPropertyTimestamp.fromJson(
+              json['timestamp'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetPropertyValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final quality = this.quality;
+    final timestamp = this.timestamp;
+    return {
+      'value': value,
+      if (quality != null) 'quality': quality,
+      if (timestamp != null) 'timestamp': timestamp,
+    };
+  }
 }
 
 /// A structure that contains an asset property value. For more information, see
@@ -1043,32 +1104,23 @@ class AssetPropertyValue {
 /// in the <i>AWS IoT Events Developer Guide</i>.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyVariant {
   /// The asset property value is a Boolean value that must be <code>TRUE</code>
   /// or <code>FALSE</code>. You can also specify an expression. If you use an
   /// expression, the evaluated result should be a Boolean value.
-  @_s.JsonKey(name: 'booleanValue')
-  final String booleanValue;
+  final String? booleanValue;
 
   /// The asset property value is a double. You can also specify an expression. If
   /// you use an expression, the evaluated result should be a double.
-  @_s.JsonKey(name: 'doubleValue')
-  final String doubleValue;
+  final String? doubleValue;
 
   /// The asset property value is an integer. You can also specify an expression.
   /// If you use an expression, the evaluated result should be an integer.
-  @_s.JsonKey(name: 'integerValue')
-  final String integerValue;
+  final String? integerValue;
 
   /// The asset property value is a string. You can also specify an expression. If
   /// you use an expression, the evaluated result should be a string.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   AssetPropertyVariant({
     this.booleanValue,
@@ -1076,10 +1128,27 @@ class AssetPropertyVariant {
     this.integerValue,
     this.stringValue,
   });
-  factory AssetPropertyVariant.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyVariantFromJson(json);
+  factory AssetPropertyVariant.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyVariant(
+      booleanValue: json['booleanValue'] as String?,
+      doubleValue: json['doubleValue'] as String?,
+      integerValue: json['integerValue'] as String?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetPropertyVariantToJson(this);
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final integerValue = this.integerValue;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (integerValue != null) 'integerValue': integerValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
 /// The attributes from the JSON payload that are made available by the input.
@@ -1087,11 +1156,6 @@ class AssetPropertyVariant {
 /// <code>BatchPutMessage</code>. Each such message contains a JSON payload.
 /// Those attributes (and their paired values) specified here are available for
 /// use in the <code>condition</code> expressions used by detectors.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Attribute {
   /// An expression that specifies an attribute-value pair in a JSON structure.
   /// Use this to specify an attribute from the JSON payload that is made
@@ -1101,227 +1165,222 @@ class Attribute {
   /// for use in the <code>condition</code> expressions used by detectors.
   ///
   /// Syntax: <code>&lt;field-name&gt;.&lt;field-name&gt;...</code>
-  @_s.JsonKey(name: 'jsonPath')
   final String jsonPath;
 
   Attribute({
-    @_s.required this.jsonPath,
+    required this.jsonPath,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      jsonPath: json['jsonPath'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final jsonPath = this.jsonPath;
+    return {
+      'jsonPath': jsonPath,
+    };
+  }
 }
 
 /// Information needed to clear the timer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClearTimerAction {
   /// The name of the timer to clear.
-  @_s.JsonKey(name: 'timerName')
   final String timerName;
 
   ClearTimerAction({
-    @_s.required this.timerName,
+    required this.timerName,
   });
-  factory ClearTimerAction.fromJson(Map<String, dynamic> json) =>
-      _$ClearTimerActionFromJson(json);
+  factory ClearTimerAction.fromJson(Map<String, dynamic> json) {
+    return ClearTimerAction(
+      timerName: json['timerName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClearTimerActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final timerName = this.timerName;
+    return {
+      'timerName': timerName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDetectorModelResponse {
   /// Information about how the detector model is configured.
-  @_s.JsonKey(name: 'detectorModelConfiguration')
-  final DetectorModelConfiguration detectorModelConfiguration;
+  final DetectorModelConfiguration? detectorModelConfiguration;
 
   CreateDetectorModelResponse({
     this.detectorModelConfiguration,
   });
-  factory CreateDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDetectorModelResponseFromJson(json);
+  factory CreateDetectorModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDetectorModelResponse(
+      detectorModelConfiguration: json['detectorModelConfiguration'] != null
+          ? DetectorModelConfiguration.fromJson(
+              json['detectorModelConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateInputResponse {
   /// Information about the configuration of the input.
-  @_s.JsonKey(name: 'inputConfiguration')
-  final InputConfiguration inputConfiguration;
+  final InputConfiguration? inputConfiguration;
 
   CreateInputResponse({
     this.inputConfiguration,
   });
-  factory CreateInputResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateInputResponseFromJson(json);
+  factory CreateInputResponse.fromJson(Map<String, dynamic> json) {
+    return CreateInputResponse(
+      inputConfiguration: json['inputConfiguration'] != null
+          ? InputConfiguration.fromJson(
+              json['inputConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDetectorModelResponse {
   DeleteDetectorModelResponse();
-  factory DeleteDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDetectorModelResponseFromJson(json);
+  factory DeleteDetectorModelResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDetectorModelResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInputResponse {
   DeleteInputResponse();
-  factory DeleteInputResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteInputResponseFromJson(json);
+  factory DeleteInputResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteInputResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDetectorModelResponse {
   /// Information about the detector model.
-  @_s.JsonKey(name: 'detectorModel')
-  final DetectorModel detectorModel;
+  final DetectorModel? detectorModel;
 
   DescribeDetectorModelResponse({
     this.detectorModel,
   });
-  factory DescribeDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDetectorModelResponseFromJson(json);
+  factory DescribeDetectorModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDetectorModelResponse(
+      detectorModel: json['detectorModel'] != null
+          ? DetectorModel.fromJson(
+              json['detectorModel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInputResponse {
   /// Information about the input.
-  @_s.JsonKey(name: 'input')
-  final Input input;
+  final Input? input;
 
   DescribeInputResponse({
     this.input,
   });
-  factory DescribeInputResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeInputResponseFromJson(json);
+  factory DescribeInputResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeInputResponse(
+      input: json['input'] != null
+          ? Input.fromJson(json['input'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLoggingOptionsResponse {
   /// The current settings of the AWS IoT Events logging options.
-  @_s.JsonKey(name: 'loggingOptions')
-  final LoggingOptions loggingOptions;
+  final LoggingOptions? loggingOptions;
 
   DescribeLoggingOptionsResponse({
     this.loggingOptions,
   });
-  factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLoggingOptionsResponseFromJson(json);
+  factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLoggingOptionsResponse(
+      loggingOptions: json['loggingOptions'] != null
+          ? LoggingOptions.fromJson(
+              json['loggingOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The detector model and the specific detectors (instances) for which the
 /// logging level is given.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DetectorDebugOption {
   /// The name of the detector model.
-  @_s.JsonKey(name: 'detectorModelName')
   final String detectorModelName;
 
   /// The value of the input attribute key used to create the detector (the
   /// instance of the detector model).
-  @_s.JsonKey(name: 'keyValue')
-  final String keyValue;
+  final String? keyValue;
 
   DetectorDebugOption({
-    @_s.required this.detectorModelName,
+    required this.detectorModelName,
     this.keyValue,
   });
-  factory DetectorDebugOption.fromJson(Map<String, dynamic> json) =>
-      _$DetectorDebugOptionFromJson(json);
+  factory DetectorDebugOption.fromJson(Map<String, dynamic> json) {
+    return DetectorDebugOption(
+      detectorModelName: json['detectorModelName'] as String,
+      keyValue: json['keyValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DetectorDebugOptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final detectorModelName = this.detectorModelName;
+    final keyValue = this.keyValue;
+    return {
+      'detectorModelName': detectorModelName,
+      if (keyValue != null) 'keyValue': keyValue,
+    };
+  }
 }
 
 /// Information about the detector model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorModel {
   /// Information about how the detector is configured.
-  @_s.JsonKey(name: 'detectorModelConfiguration')
-  final DetectorModelConfiguration detectorModelConfiguration;
+  final DetectorModelConfiguration? detectorModelConfiguration;
 
   /// Information that defines how a detector operates.
-  @_s.JsonKey(name: 'detectorModelDefinition')
-  final DetectorModelDefinition detectorModelDefinition;
+  final DetectorModelDefinition? detectorModelDefinition;
 
   DetectorModel({
     this.detectorModelConfiguration,
     this.detectorModelDefinition,
   });
-  factory DetectorModel.fromJson(Map<String, dynamic> json) =>
-      _$DetectorModelFromJson(json);
+  factory DetectorModel.fromJson(Map<String, dynamic> json) {
+    return DetectorModel(
+      detectorModelConfiguration: json['detectorModelConfiguration'] != null
+          ? DetectorModelConfiguration.fromJson(
+              json['detectorModelConfiguration'] as Map<String, dynamic>)
+          : null,
+      detectorModelDefinition: json['detectorModelDefinition'] != null
+          ? DetectorModelDefinition.fromJson(
+              json['detectorModelDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about how the detector model is configured.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorModelConfiguration {
   /// The time the detector model was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The ARN of the detector model.
-  @_s.JsonKey(name: 'detectorModelArn')
-  final String detectorModelArn;
+  final String? detectorModelArn;
 
   /// A brief description of the detector model.
-  @_s.JsonKey(name: 'detectorModelDescription')
-  final String detectorModelDescription;
+  final String? detectorModelDescription;
 
   /// The name of the detector model.
-  @_s.JsonKey(name: 'detectorModelName')
-  final String detectorModelName;
+  final String? detectorModelName;
 
   /// The version of the detector model.
-  @_s.JsonKey(name: 'detectorModelVersion')
-  final String detectorModelVersion;
+  final String? detectorModelVersion;
 
   /// Information about the order in which events are evaluated and how actions
   /// are executed.
-  @_s.JsonKey(name: 'evaluationMethod')
-  final EvaluationMethod evaluationMethod;
+  final EvaluationMethod? evaluationMethod;
 
   /// The value used to identify a detector instance. When a device or system
   /// sends input, a new detector instance with a unique key value is created. AWS
@@ -1332,22 +1391,17 @@ class DetectorModelConfiguration {
   /// pair in the message payload that is used for identification. To route the
   /// message to the correct detector instance, the device must send a message
   /// payload that contains the same attribute-value.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The time the detector model was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The ARN of the role that grants permission to AWS IoT Events to perform its
   /// operations.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The status of the detector model.
-  @_s.JsonKey(name: 'status')
-  final DetectorModelVersionStatus status;
+  final DetectorModelVersionStatus? status;
 
   DetectorModelConfiguration({
     this.creationTime,
@@ -1361,123 +1415,160 @@ class DetectorModelConfiguration {
     this.roleArn,
     this.status,
   });
-  factory DetectorModelConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DetectorModelConfigurationFromJson(json);
+  factory DetectorModelConfiguration.fromJson(Map<String, dynamic> json) {
+    return DetectorModelConfiguration(
+      creationTime: timeStampFromJson(json['creationTime']),
+      detectorModelArn: json['detectorModelArn'] as String?,
+      detectorModelDescription: json['detectorModelDescription'] as String?,
+      detectorModelName: json['detectorModelName'] as String?,
+      detectorModelVersion: json['detectorModelVersion'] as String?,
+      evaluationMethod:
+          (json['evaluationMethod'] as String?)?.toEvaluationMethod(),
+      key: json['key'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.toDetectorModelVersionStatus(),
+    );
+  }
 }
 
 /// Information that defines how a detector operates.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DetectorModelDefinition {
   /// The state that is entered at the creation of each detector (instance).
-  @_s.JsonKey(name: 'initialStateName')
   final String initialStateName;
 
   /// Information about the states of the detector.
-  @_s.JsonKey(name: 'states')
   final List<State> states;
 
   DetectorModelDefinition({
-    @_s.required this.initialStateName,
-    @_s.required this.states,
+    required this.initialStateName,
+    required this.states,
   });
-  factory DetectorModelDefinition.fromJson(Map<String, dynamic> json) =>
-      _$DetectorModelDefinitionFromJson(json);
+  factory DetectorModelDefinition.fromJson(Map<String, dynamic> json) {
+    return DetectorModelDefinition(
+      initialStateName: json['initialStateName'] as String,
+      states: (json['states'] as List)
+          .whereNotNull()
+          .map((e) => State.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DetectorModelDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final initialStateName = this.initialStateName;
+    final states = this.states;
+    return {
+      'initialStateName': initialStateName,
+      'states': states,
+    };
+  }
 }
 
 /// Information about the detector model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorModelSummary {
   /// The time the detector model was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A brief description of the detector model.
-  @_s.JsonKey(name: 'detectorModelDescription')
-  final String detectorModelDescription;
+  final String? detectorModelDescription;
 
   /// The name of the detector model.
-  @_s.JsonKey(name: 'detectorModelName')
-  final String detectorModelName;
+  final String? detectorModelName;
 
   DetectorModelSummary({
     this.creationTime,
     this.detectorModelDescription,
     this.detectorModelName,
   });
-  factory DetectorModelSummary.fromJson(Map<String, dynamic> json) =>
-      _$DetectorModelSummaryFromJson(json);
+  factory DetectorModelSummary.fromJson(Map<String, dynamic> json) {
+    return DetectorModelSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      detectorModelDescription: json['detectorModelDescription'] as String?,
+      detectorModelName: json['detectorModelName'] as String?,
+    );
+  }
 }
 
 enum DetectorModelVersionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('ACTIVATING')
   activating,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DEPRECATED')
   deprecated,
-  @_s.JsonValue('DRAFT')
   draft,
-  @_s.JsonValue('PAUSED')
   paused,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on DetectorModelVersionStatus {
+  String toValue() {
+    switch (this) {
+      case DetectorModelVersionStatus.active:
+        return 'ACTIVE';
+      case DetectorModelVersionStatus.activating:
+        return 'ACTIVATING';
+      case DetectorModelVersionStatus.inactive:
+        return 'INACTIVE';
+      case DetectorModelVersionStatus.deprecated:
+        return 'DEPRECATED';
+      case DetectorModelVersionStatus.draft:
+        return 'DRAFT';
+      case DetectorModelVersionStatus.paused:
+        return 'PAUSED';
+      case DetectorModelVersionStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DetectorModelVersionStatus toDetectorModelVersionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DetectorModelVersionStatus.active;
+      case 'ACTIVATING':
+        return DetectorModelVersionStatus.activating;
+      case 'INACTIVE':
+        return DetectorModelVersionStatus.inactive;
+      case 'DEPRECATED':
+        return DetectorModelVersionStatus.deprecated;
+      case 'DRAFT':
+        return DetectorModelVersionStatus.draft;
+      case 'PAUSED':
+        return DetectorModelVersionStatus.paused;
+      case 'FAILED':
+        return DetectorModelVersionStatus.failed;
+    }
+    throw Exception('$this is not known in enum DetectorModelVersionStatus');
+  }
+}
+
 /// Information about the detector model version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorModelVersionSummary {
   /// The time the detector model version was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The ARN of the detector model version.
-  @_s.JsonKey(name: 'detectorModelArn')
-  final String detectorModelArn;
+  final String? detectorModelArn;
 
   /// The name of the detector model.
-  @_s.JsonKey(name: 'detectorModelName')
-  final String detectorModelName;
+  final String? detectorModelName;
 
   /// The ID of the detector model version.
-  @_s.JsonKey(name: 'detectorModelVersion')
-  final String detectorModelVersion;
+  final String? detectorModelVersion;
 
   /// Information about the order in which events are evaluated and how actions
   /// are executed.
-  @_s.JsonKey(name: 'evaluationMethod')
-  final EvaluationMethod evaluationMethod;
+  final EvaluationMethod? evaluationMethod;
 
   /// The last time the detector model version was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The ARN of the role that grants the detector model permission to perform its
   /// tasks.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The status of the detector model version.
-  @_s.JsonKey(name: 'status')
-  final DetectorModelVersionStatus status;
+  final DetectorModelVersionStatus? status;
 
   DetectorModelVersionSummary({
     this.creationTime,
@@ -1489,8 +1580,19 @@ class DetectorModelVersionSummary {
     this.roleArn,
     this.status,
   });
-  factory DetectorModelVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$DetectorModelVersionSummaryFromJson(json);
+  factory DetectorModelVersionSummary.fromJson(Map<String, dynamic> json) {
+    return DetectorModelVersionSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      detectorModelArn: json['detectorModelArn'] as String?,
+      detectorModelName: json['detectorModelName'] as String?,
+      detectorModelVersion: json['detectorModelVersion'] as String?,
+      evaluationMethod:
+          (json['evaluationMethod'] as String?)?.toEvaluationMethod(),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.toDetectorModelVersionStatus(),
+    );
+  }
 }
 
 /// Defines an action to write to the Amazon DynamoDB table that you created.
@@ -1522,22 +1624,14 @@ class DetectorModelVersionSummary {
 /// displays the data as Base64-encoded text. The <code>payloadField</code> is
 /// <code>&lt;payload-field&gt;_raw</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDBAction {
   /// The name of the hash key (also called the partition key).
-  @_s.JsonKey(name: 'hashKeyField')
   final String hashKeyField;
 
   /// The value of the hash key (also called the partition key).
-  @_s.JsonKey(name: 'hashKeyValue')
   final String hashKeyValue;
 
   /// The name of the DynamoDB table.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   /// The data type for the hash key (also called the partition key). You can
@@ -1553,8 +1647,7 @@ class DynamoDBAction {
   /// </ul>
   /// If you don't specify <code>hashKeyType</code>, the default value is
   /// <code>STRING</code>.
-  @_s.JsonKey(name: 'hashKeyType')
-  final String hashKeyType;
+  final String? hashKeyType;
 
   /// The type of operation to perform. You can specify the following values:
   ///
@@ -1577,21 +1670,17 @@ class DynamoDBAction {
   /// </ul>
   /// If you don't specify this parameter, AWS IoT Events triggers the
   /// <code>INSERT</code> operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final String? operation;
+  final Payload? payload;
 
   /// The name of the DynamoDB column that receives the action payload.
   ///
   /// If you don't specify this parameter, the name of the DynamoDB column is
   /// <code>payload</code>.
-  @_s.JsonKey(name: 'payloadField')
-  final String payloadField;
+  final String? payloadField;
 
   /// The name of the range key (also called the sort key).
-  @_s.JsonKey(name: 'rangeKeyField')
-  final String rangeKeyField;
+  final String? rangeKeyField;
 
   /// The data type for the range key (also called the sort key), You can specify
   /// the following values:
@@ -1606,17 +1695,15 @@ class DynamoDBAction {
   /// </ul>
   /// If you don't specify <code>rangeKeyField</code>, the default value is
   /// <code>STRING</code>.
-  @_s.JsonKey(name: 'rangeKeyType')
-  final String rangeKeyType;
+  final String? rangeKeyType;
 
   /// The value of the range key (also called the sort key).
-  @_s.JsonKey(name: 'rangeKeyValue')
-  final String rangeKeyValue;
+  final String? rangeKeyValue;
 
   DynamoDBAction({
-    @_s.required this.hashKeyField,
-    @_s.required this.hashKeyValue,
-    @_s.required this.tableName,
+    required this.hashKeyField,
+    required this.hashKeyValue,
+    required this.tableName,
     this.hashKeyType,
     this.operation,
     this.payload,
@@ -1625,10 +1712,47 @@ class DynamoDBAction {
     this.rangeKeyType,
     this.rangeKeyValue,
   });
-  factory DynamoDBAction.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDBActionFromJson(json);
+  factory DynamoDBAction.fromJson(Map<String, dynamic> json) {
+    return DynamoDBAction(
+      hashKeyField: json['hashKeyField'] as String,
+      hashKeyValue: json['hashKeyValue'] as String,
+      tableName: json['tableName'] as String,
+      hashKeyType: json['hashKeyType'] as String?,
+      operation: json['operation'] as String?,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+      payloadField: json['payloadField'] as String?,
+      rangeKeyField: json['rangeKeyField'] as String?,
+      rangeKeyType: json['rangeKeyType'] as String?,
+      rangeKeyValue: json['rangeKeyValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DynamoDBActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final hashKeyField = this.hashKeyField;
+    final hashKeyValue = this.hashKeyValue;
+    final tableName = this.tableName;
+    final hashKeyType = this.hashKeyType;
+    final operation = this.operation;
+    final payload = this.payload;
+    final payloadField = this.payloadField;
+    final rangeKeyField = this.rangeKeyField;
+    final rangeKeyType = this.rangeKeyType;
+    final rangeKeyValue = this.rangeKeyValue;
+    return {
+      'hashKeyField': hashKeyField,
+      'hashKeyValue': hashKeyValue,
+      'tableName': tableName,
+      if (hashKeyType != null) 'hashKeyType': hashKeyType,
+      if (operation != null) 'operation': operation,
+      if (payload != null) 'payload': payload,
+      if (payloadField != null) 'payloadField': payloadField,
+      if (rangeKeyField != null) 'rangeKeyField': rangeKeyField,
+      if (rangeKeyType != null) 'rangeKeyType': rangeKeyType,
+      if (rangeKeyValue != null) 'rangeKeyValue': rangeKeyValue,
+    };
+  }
 }
 
 /// Defines an action to write to the Amazon DynamoDB table that you created.
@@ -1646,32 +1770,36 @@ class DynamoDBAction {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDBv2Action {
   /// The name of the DynamoDB table.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   DynamoDBv2Action({
-    @_s.required this.tableName,
+    required this.tableName,
     this.payload,
   });
-  factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDBv2ActionFromJson(json);
+  factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) {
+    return DynamoDBv2Action(
+      tableName: json['tableName'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DynamoDBv2ActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final tableName = this.tableName;
+    final payload = this.payload;
+    return {
+      'tableName': tableName,
+      if (payload != null) 'payload': payload,
+    };
+  }
 }
 
 enum EvaluationMethod {
-  @_s.JsonValue('BATCH')
   batch,
-  @_s.JsonValue('SERIAL')
   serial,
 }
 
@@ -1683,151 +1811,176 @@ extension on EvaluationMethod {
       case EvaluationMethod.serial:
         return 'SERIAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EvaluationMethod toEvaluationMethod() {
+    switch (this) {
+      case 'BATCH':
+        return EvaluationMethod.batch;
+      case 'SERIAL':
+        return EvaluationMethod.serial;
+    }
+    throw Exception('$this is not known in enum EvaluationMethod');
   }
 }
 
 /// Specifies the <code>actions</code> to be performed when the
 /// <code>condition</code> evaluates to TRUE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Event {
   /// The name of the event.
-  @_s.JsonKey(name: 'eventName')
   final String eventName;
 
   /// The actions to be performed.
-  @_s.JsonKey(name: 'actions')
-  final List<Action> actions;
+  final List<Action>? actions;
 
   /// Optional. The Boolean expression that, when TRUE, causes the
   /// <code>actions</code> to be performed. If not present, the actions are
   /// performed (=TRUE). If the expression result is not a Boolean value, the
   /// actions are not performed (=FALSE).
-  @_s.JsonKey(name: 'condition')
-  final String condition;
+  final String? condition;
 
   Event({
-    @_s.required this.eventName,
+    required this.eventName,
     this.actions,
     this.condition,
   });
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      eventName: json['eventName'] as String,
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      condition: json['condition'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EventToJson(this);
+  Map<String, dynamic> toJson() {
+    final eventName = this.eventName;
+    final actions = this.actions;
+    final condition = this.condition;
+    return {
+      'eventName': eventName,
+      if (actions != null) 'actions': actions,
+      if (condition != null) 'condition': condition,
+    };
+  }
 }
 
 /// Sends information about the detector model instance and the event that
 /// triggered the action to an Amazon Kinesis Data Firehose delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FirehoseAction {
   /// The name of the Kinesis Data Firehose delivery stream where the data is
   /// written.
-  @_s.JsonKey(name: 'deliveryStreamName')
   final String deliveryStreamName;
 
   /// You can configure the action payload when you send a message to an Amazon
   /// Kinesis Data Firehose delivery stream.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   /// A character separator that is used to separate records written to the
   /// Kinesis Data Firehose delivery stream. Valid values are: '\n' (newline),
   /// '\t' (tab), '\r\n' (Windows newline), ',' (comma).
-  @_s.JsonKey(name: 'separator')
-  final String separator;
+  final String? separator;
 
   FirehoseAction({
-    @_s.required this.deliveryStreamName,
+    required this.deliveryStreamName,
     this.payload,
     this.separator,
   });
-  factory FirehoseAction.fromJson(Map<String, dynamic> json) =>
-      _$FirehoseActionFromJson(json);
+  factory FirehoseAction.fromJson(Map<String, dynamic> json) {
+    return FirehoseAction(
+      deliveryStreamName: json['deliveryStreamName'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+      separator: json['separator'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FirehoseActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final deliveryStreamName = this.deliveryStreamName;
+    final payload = this.payload;
+    final separator = this.separator;
+    return {
+      'deliveryStreamName': deliveryStreamName,
+      if (payload != null) 'payload': payload,
+      if (separator != null) 'separator': separator,
+    };
+  }
 }
 
 /// Information about the input.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Input {
   /// Information about the configuration of an input.
-  @_s.JsonKey(name: 'inputConfiguration')
-  final InputConfiguration inputConfiguration;
+  final InputConfiguration? inputConfiguration;
 
   /// The definition of the input.
-  @_s.JsonKey(name: 'inputDefinition')
-  final InputDefinition inputDefinition;
+  final InputDefinition? inputDefinition;
 
   Input({
     this.inputConfiguration,
     this.inputDefinition,
   });
-  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) {
+    return Input(
+      inputConfiguration: json['inputConfiguration'] != null
+          ? InputConfiguration.fromJson(
+              json['inputConfiguration'] as Map<String, dynamic>)
+          : null,
+      inputDefinition: json['inputDefinition'] != null
+          ? InputDefinition.fromJson(
+              json['inputDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the configuration of an input.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InputConfiguration {
   /// The time the input was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The ARN of the input.
-  @_s.JsonKey(name: 'inputArn')
   final String inputArn;
 
   /// The name of the input.
-  @_s.JsonKey(name: 'inputName')
   final String inputName;
 
   /// The last time the input was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the input.
-  @_s.JsonKey(name: 'status')
   final InputStatus status;
 
   /// A brief description of the input.
-  @_s.JsonKey(name: 'inputDescription')
-  final String inputDescription;
+  final String? inputDescription;
 
   InputConfiguration({
-    @_s.required this.creationTime,
-    @_s.required this.inputArn,
-    @_s.required this.inputName,
-    @_s.required this.lastUpdateTime,
-    @_s.required this.status,
+    required this.creationTime,
+    required this.inputArn,
+    required this.inputName,
+    required this.lastUpdateTime,
+    required this.status,
     this.inputDescription,
   });
-  factory InputConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$InputConfigurationFromJson(json);
+  factory InputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InputConfiguration(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      inputArn: json['inputArn'] as String,
+      inputName: json['inputName'] as String,
+      lastUpdateTime:
+          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
+      status: (json['status'] as String).toInputStatus(),
+      inputDescription: json['inputDescription'] as String?,
+    );
+  }
 }
 
 /// The definition of the input.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDefinition {
   /// The attributes from the JSON payload that are made available by the input.
   /// Inputs are derived from messages sent to the AWS IoT Events system using
@@ -1835,61 +1988,85 @@ class InputDefinition {
   /// those attributes (and their paired values) specified here are available for
   /// use in the <code>condition</code> expressions used by detectors that monitor
   /// this input.
-  @_s.JsonKey(name: 'attributes')
   final List<Attribute> attributes;
 
   InputDefinition({
-    @_s.required this.attributes,
+    required this.attributes,
   });
-  factory InputDefinition.fromJson(Map<String, dynamic> json) =>
-      _$InputDefinitionFromJson(json);
+  factory InputDefinition.fromJson(Map<String, dynamic> json) {
+    return InputDefinition(
+      attributes: (json['attributes'] as List)
+          .whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      'attributes': attributes,
+    };
+  }
 }
 
 enum InputStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on InputStatus {
+  String toValue() {
+    switch (this) {
+      case InputStatus.creating:
+        return 'CREATING';
+      case InputStatus.updating:
+        return 'UPDATING';
+      case InputStatus.active:
+        return 'ACTIVE';
+      case InputStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  InputStatus toInputStatus() {
+    switch (this) {
+      case 'CREATING':
+        return InputStatus.creating;
+      case 'UPDATING':
+        return InputStatus.updating;
+      case 'ACTIVE':
+        return InputStatus.active;
+      case 'DELETING':
+        return InputStatus.deleting;
+    }
+    throw Exception('$this is not known in enum InputStatus');
+  }
+}
+
 /// Information about the input.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InputSummary {
   /// The time the input was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The ARN of the input.
-  @_s.JsonKey(name: 'inputArn')
-  final String inputArn;
+  final String? inputArn;
 
   /// A brief description of the input.
-  @_s.JsonKey(name: 'inputDescription')
-  final String inputDescription;
+  final String? inputDescription;
 
   /// The name of the input.
-  @_s.JsonKey(name: 'inputName')
-  final String inputName;
+  final String? inputName;
 
   /// The last time the input was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The status of the input.
-  @_s.JsonKey(name: 'status')
-  final InputStatus status;
+  final InputStatus? status;
 
   InputSummary({
     this.creationTime,
@@ -1899,35 +2076,49 @@ class InputSummary {
     this.lastUpdateTime,
     this.status,
   });
-  factory InputSummary.fromJson(Map<String, dynamic> json) =>
-      _$InputSummaryFromJson(json);
+  factory InputSummary.fromJson(Map<String, dynamic> json) {
+    return InputSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      inputArn: json['inputArn'] as String?,
+      inputDescription: json['inputDescription'] as String?,
+      inputName: json['inputName'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toInputStatus(),
+    );
+  }
 }
 
 /// Sends an AWS IoT Events input, passing in information about the detector
 /// model instance and the event that triggered the action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotEventsAction {
   /// The name of the AWS IoT Events input where the data is sent.
-  @_s.JsonKey(name: 'inputName')
   final String inputName;
 
   /// You can configure the action payload when you send a message to an AWS IoT
   /// Events input.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   IotEventsAction({
-    @_s.required this.inputName,
+    required this.inputName,
     this.payload,
   });
-  factory IotEventsAction.fromJson(Map<String, dynamic> json) =>
-      _$IotEventsActionFromJson(json);
+  factory IotEventsAction.fromJson(Map<String, dynamic> json) {
+    return IotEventsAction(
+      inputName: json['inputName'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IotEventsActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final inputName = this.inputName;
+    final payload = this.payload;
+    return {
+      'inputName': inputName,
+      if (payload != null) 'payload': payload,
+    };
+  }
 }
 
 /// Sends information about the detector model instance and the event that
@@ -1954,309 +2145,390 @@ class IotEventsAction {
 /// in the <i>AWS IoT Events Developer Guide</i>.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotSiteWiseAction {
   /// The value to send to the asset property. This value contains timestamp,
   /// quality, and value (TQV) information.
-  @_s.JsonKey(name: 'propertyValue')
   final AssetPropertyValue propertyValue;
 
   /// The ID of the asset that has the specified property. You can specify an
   /// expression.
-  @_s.JsonKey(name: 'assetId')
-  final String assetId;
+  final String? assetId;
 
   /// A unique identifier for this entry. You can use the entry ID to track which
   /// data entry causes an error in case of failure. The default is a new unique
   /// identifier. You can also specify an expression.
-  @_s.JsonKey(name: 'entryId')
-  final String entryId;
+  final String? entryId;
 
   /// The alias of the asset property. You can also specify an expression.
-  @_s.JsonKey(name: 'propertyAlias')
-  final String propertyAlias;
+  final String? propertyAlias;
 
   /// The ID of the asset property. You can specify an expression.
-  @_s.JsonKey(name: 'propertyId')
-  final String propertyId;
+  final String? propertyId;
 
   IotSiteWiseAction({
-    @_s.required this.propertyValue,
+    required this.propertyValue,
     this.assetId,
     this.entryId,
     this.propertyAlias,
     this.propertyId,
   });
-  factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) =>
-      _$IotSiteWiseActionFromJson(json);
+  factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) {
+    return IotSiteWiseAction(
+      propertyValue: AssetPropertyValue.fromJson(
+          json['propertyValue'] as Map<String, dynamic>),
+      assetId: json['assetId'] as String?,
+      entryId: json['entryId'] as String?,
+      propertyAlias: json['propertyAlias'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IotSiteWiseActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final propertyValue = this.propertyValue;
+    final assetId = this.assetId;
+    final entryId = this.entryId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    return {
+      'propertyValue': propertyValue,
+      if (assetId != null) 'assetId': assetId,
+      if (entryId != null) 'entryId': entryId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
 }
 
 /// Information required to publish the MQTT message through the AWS IoT message
 /// broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotTopicPublishAction {
   /// The MQTT topic of the message. You can use a string expression that includes
   /// variables (<code>$variable.&lt;variable-name&gt;</code>) and input values
   /// (<code>$input.&lt;input-name&gt;.&lt;path-to-datum&gt;</code>) as the topic
   /// string.
-  @_s.JsonKey(name: 'mqttTopic')
   final String mqttTopic;
 
   /// You can configure the action payload when you publish a message to an AWS
   /// IoT Core topic.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   IotTopicPublishAction({
-    @_s.required this.mqttTopic,
+    required this.mqttTopic,
     this.payload,
   });
-  factory IotTopicPublishAction.fromJson(Map<String, dynamic> json) =>
-      _$IotTopicPublishActionFromJson(json);
+  factory IotTopicPublishAction.fromJson(Map<String, dynamic> json) {
+    return IotTopicPublishAction(
+      mqttTopic: json['mqttTopic'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IotTopicPublishActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final mqttTopic = this.mqttTopic;
+    final payload = this.payload;
+    return {
+      'mqttTopic': mqttTopic,
+      if (payload != null) 'payload': payload,
+    };
+  }
 }
 
 /// Calls a Lambda function, passing in information about the detector model
 /// instance and the event that triggered the action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaAction {
   /// The ARN of the Lambda function that is executed.
-  @_s.JsonKey(name: 'functionArn')
   final String functionArn;
 
   /// You can configure the action payload when you send a message to a Lambda
   /// function.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   LambdaAction({
-    @_s.required this.functionArn,
+    required this.functionArn,
     this.payload,
   });
-  factory LambdaAction.fromJson(Map<String, dynamic> json) =>
-      _$LambdaActionFromJson(json);
+  factory LambdaAction.fromJson(Map<String, dynamic> json) {
+    return LambdaAction(
+      functionArn: json['functionArn'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LambdaActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final payload = this.payload;
+    return {
+      'functionArn': functionArn,
+      if (payload != null) 'payload': payload,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDetectorModelVersionsResponse {
   /// Summary information about the detector model versions.
-  @_s.JsonKey(name: 'detectorModelVersionSummaries')
-  final List<DetectorModelVersionSummary> detectorModelVersionSummaries;
+  final List<DetectorModelVersionSummary>? detectorModelVersionSummaries;
 
   /// A token to retrieve the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDetectorModelVersionsResponse({
     this.detectorModelVersionSummaries,
     this.nextToken,
   });
   factory ListDetectorModelVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDetectorModelVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDetectorModelVersionsResponse(
+      detectorModelVersionSummaries: (json['detectorModelVersionSummaries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DetectorModelVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDetectorModelsResponse {
   /// Summary information about the detector models.
-  @_s.JsonKey(name: 'detectorModelSummaries')
-  final List<DetectorModelSummary> detectorModelSummaries;
+  final List<DetectorModelSummary>? detectorModelSummaries;
 
   /// A token to retrieve the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDetectorModelsResponse({
     this.detectorModelSummaries,
     this.nextToken,
   });
-  factory ListDetectorModelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDetectorModelsResponseFromJson(json);
+  factory ListDetectorModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDetectorModelsResponse(
+      detectorModelSummaries: (json['detectorModelSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetectorModelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInputsResponse {
   /// Summary information about the inputs.
-  @_s.JsonKey(name: 'inputSummaries')
-  final List<InputSummary> inputSummaries;
+  final List<InputSummary>? inputSummaries;
 
   /// A token to retrieve the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInputsResponse({
     this.inputSummaries,
     this.nextToken,
   });
-  factory ListInputsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInputsResponseFromJson(json);
+  factory ListInputsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInputsResponse(
+      inputSummaries: (json['inputSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The list of tags assigned to the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum LoggingLevel {
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('DEBUG')
   debug,
 }
 
+extension on LoggingLevel {
+  String toValue() {
+    switch (this) {
+      case LoggingLevel.error:
+        return 'ERROR';
+      case LoggingLevel.info:
+        return 'INFO';
+      case LoggingLevel.debug:
+        return 'DEBUG';
+    }
+  }
+}
+
+extension on String {
+  LoggingLevel toLoggingLevel() {
+    switch (this) {
+      case 'ERROR':
+        return LoggingLevel.error;
+      case 'INFO':
+        return LoggingLevel.info;
+      case 'DEBUG':
+        return LoggingLevel.debug;
+    }
+    throw Exception('$this is not known in enum LoggingLevel');
+  }
+}
+
 /// The values of the AWS IoT Events logging options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingOptions {
   /// If TRUE, logging is enabled for AWS IoT Events.
-  @_s.JsonKey(name: 'enabled')
   final bool enabled;
 
   /// The logging level.
-  @_s.JsonKey(name: 'level')
   final LoggingLevel level;
 
   /// The ARN of the role that grants permission to AWS IoT Events to perform
   /// logging.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Information that identifies those detector models and their detectors
   /// (instances) for which the logging level is given.
-  @_s.JsonKey(name: 'detectorDebugOptions')
-  final List<DetectorDebugOption> detectorDebugOptions;
+  final List<DetectorDebugOption>? detectorDebugOptions;
 
   LoggingOptions({
-    @_s.required this.enabled,
-    @_s.required this.level,
-    @_s.required this.roleArn,
+    required this.enabled,
+    required this.level,
+    required this.roleArn,
     this.detectorDebugOptions,
   });
-  factory LoggingOptions.fromJson(Map<String, dynamic> json) =>
-      _$LoggingOptionsFromJson(json);
+  factory LoggingOptions.fromJson(Map<String, dynamic> json) {
+    return LoggingOptions(
+      enabled: json['enabled'] as bool,
+      level: (json['level'] as String).toLoggingLevel(),
+      roleArn: json['roleArn'] as String,
+      detectorDebugOptions: (json['detectorDebugOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetectorDebugOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LoggingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final level = this.level;
+    final roleArn = this.roleArn;
+    final detectorDebugOptions = this.detectorDebugOptions;
+    return {
+      'enabled': enabled,
+      'level': level.toValue(),
+      'roleArn': roleArn,
+      if (detectorDebugOptions != null)
+        'detectorDebugOptions': detectorDebugOptions,
+    };
+  }
 }
 
 /// When entering this state, perform these <code>actions</code> if the
 /// <code>condition</code> is TRUE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnEnterLifecycle {
   /// Specifies the actions that are performed when the state is entered and the
   /// <code>condition</code> is <code>TRUE</code>.
-  @_s.JsonKey(name: 'events')
-  final List<Event> events;
+  final List<Event>? events;
 
   OnEnterLifecycle({
     this.events,
   });
-  factory OnEnterLifecycle.fromJson(Map<String, dynamic> json) =>
-      _$OnEnterLifecycleFromJson(json);
+  factory OnEnterLifecycle.fromJson(Map<String, dynamic> json) {
+    return OnEnterLifecycle(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OnEnterLifecycleToJson(this);
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    return {
+      if (events != null) 'events': events,
+    };
+  }
 }
 
 /// When exiting this state, perform these <code>actions</code> if the specified
 /// <code>condition</code> is <code>TRUE</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnExitLifecycle {
   /// Specifies the <code>actions</code> that are performed when the state is
   /// exited and the <code>condition</code> is <code>TRUE</code>.
-  @_s.JsonKey(name: 'events')
-  final List<Event> events;
+  final List<Event>? events;
 
   OnExitLifecycle({
     this.events,
   });
-  factory OnExitLifecycle.fromJson(Map<String, dynamic> json) =>
-      _$OnExitLifecycleFromJson(json);
+  factory OnExitLifecycle.fromJson(Map<String, dynamic> json) {
+    return OnExitLifecycle(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OnExitLifecycleToJson(this);
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    return {
+      if (events != null) 'events': events,
+    };
+  }
 }
 
 /// Specifies the actions performed when the <code>condition</code> evaluates to
 /// TRUE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnInputLifecycle {
   /// Specifies the actions performed when the <code>condition</code> evaluates to
   /// TRUE.
-  @_s.JsonKey(name: 'events')
-  final List<Event> events;
+  final List<Event>? events;
 
   /// Specifies the actions performed, and the next state entered, when a
   /// <code>condition</code> evaluates to TRUE.
-  @_s.JsonKey(name: 'transitionEvents')
-  final List<TransitionEvent> transitionEvents;
+  final List<TransitionEvent>? transitionEvents;
 
   OnInputLifecycle({
     this.events,
     this.transitionEvents,
   });
-  factory OnInputLifecycle.fromJson(Map<String, dynamic> json) =>
-      _$OnInputLifecycleFromJson(json);
+  factory OnInputLifecycle.fromJson(Map<String, dynamic> json) {
+    return OnInputLifecycle(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transitionEvents: (json['transitionEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => TransitionEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OnInputLifecycleToJson(this);
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final transitionEvents = this.transitionEvents;
+    return {
+      if (events != null) 'events': events,
+      if (transitionEvents != null) 'transitionEvents': transitionEvents,
+    };
+  }
 }
 
 /// Information needed to configure the payload.
@@ -2266,11 +2538,6 @@ class OnInputLifecycle {
 /// information about the detector model instance and the event triggered the
 /// action. To configure the action payload, you can use
 /// <code>contentExpression</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Payload {
   /// The content of the payload. You can use a string expression that includes
   /// quoted strings (<code>'&lt;string&gt;'</code>), variables
@@ -2278,88 +2545,120 @@ class Payload {
   /// (<code>$input.&lt;input-name&gt;.&lt;path-to-datum&gt;</code>), string
   /// concatenations, and quoted strings that contain <code>${}</code> as the
   /// content. The recommended maximum size of a content expression is 1 KB.
-  @_s.JsonKey(name: 'contentExpression')
   final String contentExpression;
 
   /// The value of the payload type can be either <code>STRING</code> or
   /// <code>JSON</code>.
-  @_s.JsonKey(name: 'type')
   final PayloadType type;
 
   Payload({
-    @_s.required this.contentExpression,
-    @_s.required this.type,
+    required this.contentExpression,
+    required this.type,
   });
-  factory Payload.fromJson(Map<String, dynamic> json) =>
-      _$PayloadFromJson(json);
+  factory Payload.fromJson(Map<String, dynamic> json) {
+    return Payload(
+      contentExpression: json['contentExpression'] as String,
+      type: (json['type'] as String).toPayloadType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PayloadToJson(this);
+  Map<String, dynamic> toJson() {
+    final contentExpression = this.contentExpression;
+    final type = this.type;
+    return {
+      'contentExpression': contentExpression,
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum PayloadType {
-  @_s.JsonValue('STRING')
   string,
-  @_s.JsonValue('JSON')
   json,
+}
+
+extension on PayloadType {
+  String toValue() {
+    switch (this) {
+      case PayloadType.string:
+        return 'STRING';
+      case PayloadType.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension on String {
+  PayloadType toPayloadType() {
+    switch (this) {
+      case 'STRING':
+        return PayloadType.string;
+      case 'JSON':
+        return PayloadType.json;
+    }
+    throw Exception('$this is not known in enum PayloadType');
+  }
 }
 
 /// Information required to reset the timer. The timer is reset to the
 /// previously evaluated result of the duration. The duration expression isn't
 /// reevaluated when you reset the timer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResetTimerAction {
   /// The name of the timer to reset.
-  @_s.JsonKey(name: 'timerName')
   final String timerName;
 
   ResetTimerAction({
-    @_s.required this.timerName,
+    required this.timerName,
   });
-  factory ResetTimerAction.fromJson(Map<String, dynamic> json) =>
-      _$ResetTimerActionFromJson(json);
+  factory ResetTimerAction.fromJson(Map<String, dynamic> json) {
+    return ResetTimerAction(
+      timerName: json['timerName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResetTimerActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final timerName = this.timerName;
+    return {
+      'timerName': timerName,
+    };
+  }
 }
 
 /// Information required to publish the Amazon SNS message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SNSTopicPublishAction {
   /// The ARN of the Amazon SNS target where the message is sent.
-  @_s.JsonKey(name: 'targetArn')
   final String targetArn;
 
   /// You can configure the action payload when you send a message as an Amazon
   /// SNS push notification.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   SNSTopicPublishAction({
-    @_s.required this.targetArn,
+    required this.targetArn,
     this.payload,
   });
-  factory SNSTopicPublishAction.fromJson(Map<String, dynamic> json) =>
-      _$SNSTopicPublishActionFromJson(json);
+  factory SNSTopicPublishAction.fromJson(Map<String, dynamic> json) {
+    return SNSTopicPublishAction(
+      targetArn: json['targetArn'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SNSTopicPublishActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetArn = this.targetArn;
+    final payload = this.payload;
+    return {
+      'targetArn': targetArn,
+      if (payload != null) 'payload': payload,
+    };
+  }
 }
 
 /// Information needed to set the timer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SetTimerAction {
   /// The name of the timer.
-  @_s.JsonKey(name: 'timerName')
   final String timerName;
 
   /// The duration of the timer, in seconds. You can use a string expression that
@@ -2369,254 +2668,301 @@ class SetTimerAction {
   /// duration. The range of the duration is 1-31622400 seconds. To ensure
   /// accuracy, the minimum duration is 60 seconds. The evaluated result of the
   /// duration is rounded down to the nearest whole number.
-  @_s.JsonKey(name: 'durationExpression')
-  final String durationExpression;
+  final String? durationExpression;
 
   /// The number of seconds until the timer expires. The minimum value is 60
   /// seconds to ensure accuracy. The maximum value is 31622400 seconds.
-  @_s.JsonKey(name: 'seconds')
-  final int seconds;
+  final int? seconds;
 
   SetTimerAction({
-    @_s.required this.timerName,
+    required this.timerName,
     this.durationExpression,
     this.seconds,
   });
-  factory SetTimerAction.fromJson(Map<String, dynamic> json) =>
-      _$SetTimerActionFromJson(json);
+  factory SetTimerAction.fromJson(Map<String, dynamic> json) {
+    return SetTimerAction(
+      timerName: json['timerName'] as String,
+      durationExpression: json['durationExpression'] as String?,
+      seconds: json['seconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SetTimerActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final timerName = this.timerName;
+    final durationExpression = this.durationExpression;
+    final seconds = this.seconds;
+    return {
+      'timerName': timerName,
+      if (durationExpression != null) 'durationExpression': durationExpression,
+      if (seconds != null) 'seconds': seconds,
+    };
+  }
 }
 
 /// Information about the variable and its new value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SetVariableAction {
   /// The new value of the variable.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   /// The name of the variable.
-  @_s.JsonKey(name: 'variableName')
   final String variableName;
 
   SetVariableAction({
-    @_s.required this.value,
-    @_s.required this.variableName,
+    required this.value,
+    required this.variableName,
   });
-  factory SetVariableAction.fromJson(Map<String, dynamic> json) =>
-      _$SetVariableActionFromJson(json);
+  factory SetVariableAction.fromJson(Map<String, dynamic> json) {
+    return SetVariableAction(
+      value: json['value'] as String,
+      variableName: json['variableName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SetVariableActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final variableName = this.variableName;
+    return {
+      'value': value,
+      'variableName': variableName,
+    };
+  }
 }
 
 /// Sends information about the detector model instance and the event that
 /// triggered the action to an Amazon SQS queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqsAction {
   /// The URL of the SQS queue where the data is written.
-  @_s.JsonKey(name: 'queueUrl')
   final String queueUrl;
 
   /// You can configure the action payload when you send a message to an Amazon
   /// SQS queue.
-  @_s.JsonKey(name: 'payload')
-  final Payload payload;
+  final Payload? payload;
 
   /// Set this to TRUE if you want the data to be base-64 encoded before it is
   /// written to the queue. Otherwise, set this to FALSE.
-  @_s.JsonKey(name: 'useBase64')
-  final bool useBase64;
+  final bool? useBase64;
 
   SqsAction({
-    @_s.required this.queueUrl,
+    required this.queueUrl,
     this.payload,
     this.useBase64,
   });
-  factory SqsAction.fromJson(Map<String, dynamic> json) =>
-      _$SqsActionFromJson(json);
+  factory SqsAction.fromJson(Map<String, dynamic> json) {
+    return SqsAction(
+      queueUrl: json['queueUrl'] as String,
+      payload: json['payload'] != null
+          ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
+          : null,
+      useBase64: json['useBase64'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SqsActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final queueUrl = this.queueUrl;
+    final payload = this.payload;
+    final useBase64 = this.useBase64;
+    return {
+      'queueUrl': queueUrl,
+      if (payload != null) 'payload': payload,
+      if (useBase64 != null) 'useBase64': useBase64,
+    };
+  }
 }
 
 /// Information that defines a state of a detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class State {
   /// The name of the state.
-  @_s.JsonKey(name: 'stateName')
   final String stateName;
 
   /// When entering this state, perform these <code>actions</code> if the
   /// <code>condition</code> is TRUE.
-  @_s.JsonKey(name: 'onEnter')
-  final OnEnterLifecycle onEnter;
+  final OnEnterLifecycle? onEnter;
 
   /// When exiting this state, perform these <code>actions</code> if the specified
   /// <code>condition</code> is <code>TRUE</code>.
-  @_s.JsonKey(name: 'onExit')
-  final OnExitLifecycle onExit;
+  final OnExitLifecycle? onExit;
 
   /// When an input is received and the <code>condition</code> is TRUE, perform
   /// the specified <code>actions</code>.
-  @_s.JsonKey(name: 'onInput')
-  final OnInputLifecycle onInput;
+  final OnInputLifecycle? onInput;
 
   State({
-    @_s.required this.stateName,
+    required this.stateName,
     this.onEnter,
     this.onExit,
     this.onInput,
   });
-  factory State.fromJson(Map<String, dynamic> json) => _$StateFromJson(json);
+  factory State.fromJson(Map<String, dynamic> json) {
+    return State(
+      stateName: json['stateName'] as String,
+      onEnter: json['onEnter'] != null
+          ? OnEnterLifecycle.fromJson(json['onEnter'] as Map<String, dynamic>)
+          : null,
+      onExit: json['onExit'] != null
+          ? OnExitLifecycle.fromJson(json['onExit'] as Map<String, dynamic>)
+          : null,
+      onInput: json['onInput'] != null
+          ? OnInputLifecycle.fromJson(json['onInput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StateToJson(this);
+  Map<String, dynamic> toJson() {
+    final stateName = this.stateName;
+    final onEnter = this.onEnter;
+    final onExit = this.onExit;
+    final onInput = this.onInput;
+    return {
+      'stateName': stateName,
+      if (onEnter != null) 'onEnter': onEnter,
+      if (onExit != null) 'onExit': onExit,
+      if (onInput != null) 'onInput': onInput,
+    };
+  }
 }
 
 /// Metadata that can be used to manage the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Specifies the actions performed and the next state entered when a
 /// <code>condition</code> evaluates to TRUE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TransitionEvent {
   /// Required. A Boolean expression that when TRUE causes the actions to be
   /// performed and the <code>nextState</code> to be entered.
-  @_s.JsonKey(name: 'condition')
   final String condition;
 
   /// The name of the transition event.
-  @_s.JsonKey(name: 'eventName')
   final String eventName;
 
   /// The next state to enter.
-  @_s.JsonKey(name: 'nextState')
   final String nextState;
 
   /// The actions to be performed.
-  @_s.JsonKey(name: 'actions')
-  final List<Action> actions;
+  final List<Action>? actions;
 
   TransitionEvent({
-    @_s.required this.condition,
-    @_s.required this.eventName,
-    @_s.required this.nextState,
+    required this.condition,
+    required this.eventName,
+    required this.nextState,
     this.actions,
   });
-  factory TransitionEvent.fromJson(Map<String, dynamic> json) =>
-      _$TransitionEventFromJson(json);
+  factory TransitionEvent.fromJson(Map<String, dynamic> json) {
+    return TransitionEvent(
+      condition: json['condition'] as String,
+      eventName: json['eventName'] as String,
+      nextState: json['nextState'] as String,
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TransitionEventToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final eventName = this.eventName;
+    final nextState = this.nextState;
+    final actions = this.actions;
+    return {
+      'condition': condition,
+      'eventName': eventName,
+      'nextState': nextState,
+      if (actions != null) 'actions': actions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDetectorModelResponse {
   /// Information about how the detector model is configured.
-  @_s.JsonKey(name: 'detectorModelConfiguration')
-  final DetectorModelConfiguration detectorModelConfiguration;
+  final DetectorModelConfiguration? detectorModelConfiguration;
 
   UpdateDetectorModelResponse({
     this.detectorModelConfiguration,
   });
-  factory UpdateDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDetectorModelResponseFromJson(json);
+  factory UpdateDetectorModelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDetectorModelResponse(
+      detectorModelConfiguration: json['detectorModelConfiguration'] != null
+          ? DetectorModelConfiguration.fromJson(
+              json['detectorModelConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateInputResponse {
   /// Information about the configuration of the input.
-  @_s.JsonKey(name: 'inputConfiguration')
-  final InputConfiguration inputConfiguration;
+  final InputConfiguration? inputConfiguration;
 
   UpdateInputResponse({
     this.inputConfiguration,
   });
-  factory UpdateInputResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateInputResponseFromJson(json);
+  factory UpdateInputResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateInputResponse(
+      inputConfiguration: json['inputConfiguration'] != null
+          ? InputConfiguration.fromJson(
+              json['inputConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -2624,28 +2970,28 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

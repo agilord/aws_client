@@ -9,7 +9,7 @@ part of 'ec2-instance-connect-2018-04-02.dart';
 SendSSHPublicKeyResponse _$SendSSHPublicKeyResponseFromJson(
     Map<String, dynamic> json) {
   return SendSSHPublicKeyResponse(
-    requestId: json['RequestId'] as String,
-    success: json['Success'] as bool,
+    requestId: json['RequestId'] as String?,
+    success: json['Success'] as bool?,
   );
 }

@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'flattened_list_with_location_name.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class FlattenedListWithLocationName {
   final Map<String, _s.Shape> shapes;
 
   FlattenedListWithLocationName({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,7 +56,7 @@ class FlattenedListWithLocationName {
 }
 
 class OutputShape {
-  final List<String> list;
+  final List<String>? list;
 
   OutputShape({
     this.list,

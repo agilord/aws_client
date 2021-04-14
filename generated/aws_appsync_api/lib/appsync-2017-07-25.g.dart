@@ -39,36 +39,41 @@ Map<String, dynamic> _$AdditionalAuthenticationProviderToJson(
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AuthenticationTypeEnumMap = {
@@ -82,10 +87,10 @@ ApiCache _$ApiCacheFromJson(Map<String, dynamic> json) {
   return ApiCache(
     apiCachingBehavior: _$enumDecodeNullable(
         _$ApiCachingBehaviorEnumMap, json['apiCachingBehavior']),
-    atRestEncryptionEnabled: json['atRestEncryptionEnabled'] as bool,
+    atRestEncryptionEnabled: json['atRestEncryptionEnabled'] as bool?,
     status: _$enumDecodeNullable(_$ApiCacheStatusEnumMap, json['status']),
-    transitEncryptionEnabled: json['transitEncryptionEnabled'] as bool,
-    ttl: json['ttl'] as int,
+    transitEncryptionEnabled: json['transitEncryptionEnabled'] as bool?,
+    ttl: json['ttl'] as int?,
     type: _$enumDecodeNullable(_$ApiCacheTypeEnumMap, json['type']),
   );
 }
@@ -123,17 +128,17 @@ const _$ApiCacheTypeEnumMap = {
 
 ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) {
   return ApiKey(
-    deletes: json['deletes'] as int,
-    description: json['description'] as String,
-    expires: json['expires'] as int,
-    id: json['id'] as String,
+    deletes: json['deletes'] as int?,
+    description: json['description'] as String?,
+    expires: json['expires'] as int?,
+    id: json['id'] as String?,
   );
 }
 
 AuthorizationConfig _$AuthorizationConfigFromJson(Map<String, dynamic> json) {
   return AuthorizationConfig(
-    authorizationType: _$enumDecodeNullable(
-        _$AuthorizationTypeEnumMap, json['authorizationType']),
+    authorizationType:
+        _$enumDecode(_$AuthorizationTypeEnumMap, json['authorizationType']),
     awsIamConfig: json['awsIamConfig'] == null
         ? null
         : AwsIamConfig.fromJson(json['awsIamConfig'] as Map<String, dynamic>),
@@ -141,7 +146,9 @@ AuthorizationConfig _$AuthorizationConfigFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AuthorizationConfigToJson(AuthorizationConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'authorizationType': _$AuthorizationTypeEnumMap[instance.authorizationType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -149,8 +156,6 @@ Map<String, dynamic> _$AuthorizationConfigToJson(AuthorizationConfig instance) {
     }
   }
 
-  writeNotNull('authorizationType',
-      _$AuthorizationTypeEnumMap[instance.authorizationType]);
   writeNotNull('awsIamConfig', instance.awsIamConfig?.toJson());
   return val;
 }
@@ -161,8 +166,8 @@ const _$AuthorizationTypeEnumMap = {
 
 AwsIamConfig _$AwsIamConfigFromJson(Map<String, dynamic> json) {
   return AwsIamConfig(
-    signingRegion: json['signingRegion'] as String,
-    signingServiceName: json['signingServiceName'] as String,
+    signingRegion: json['signingRegion'] as String?,
+    signingServiceName: json['signingServiceName'] as String?,
   );
 }
 
@@ -182,9 +187,10 @@ Map<String, dynamic> _$AwsIamConfigToJson(AwsIamConfig instance) {
 
 CachingConfig _$CachingConfigFromJson(Map<String, dynamic> json) {
   return CachingConfig(
-    cachingKeys:
-        (json['cachingKeys'] as List)?.map((e) => e as String)?.toList(),
-    ttl: json['ttl'] as int,
+    cachingKeys: (json['cachingKeys'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    ttl: json['ttl'] as int?,
   );
 }
 
@@ -207,13 +213,16 @@ CognitoUserPoolConfig _$CognitoUserPoolConfigFromJson(
   return CognitoUserPoolConfig(
     awsRegion: json['awsRegion'] as String,
     userPoolId: json['userPoolId'] as String,
-    appIdClientRegex: json['appIdClientRegex'] as String,
+    appIdClientRegex: json['appIdClientRegex'] as String?,
   );
 }
 
 Map<String, dynamic> _$CognitoUserPoolConfigToJson(
     CognitoUserPoolConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'awsRegion': instance.awsRegion,
+    'userPoolId': instance.userPoolId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -221,8 +230,6 @@ Map<String, dynamic> _$CognitoUserPoolConfigToJson(
     }
   }
 
-  writeNotNull('awsRegion', instance.awsRegion);
-  writeNotNull('userPoolId', instance.userPoolId);
   writeNotNull('appIdClientRegex', instance.appIdClientRegex);
   return val;
 }
@@ -291,8 +298,8 @@ CreateTypeResponse _$CreateTypeResponseFromJson(Map<String, dynamic> json) {
 
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
-    dataSourceArn: json['dataSourceArn'] as String,
-    description: json['description'] as String,
+    dataSourceArn: json['dataSourceArn'] as String?,
+    description: json['description'] as String?,
     dynamodbConfig: json['dynamodbConfig'] == null
         ? null
         : DynamodbDataSourceConfig.fromJson(
@@ -309,12 +316,12 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
         ? null
         : LambdaDataSourceConfig.fromJson(
             json['lambdaConfig'] as Map<String, dynamic>),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     relationalDatabaseConfig: json['relationalDatabaseConfig'] == null
         ? null
         : RelationalDatabaseDataSourceConfig.fromJson(
             json['relationalDatabaseConfig'] as Map<String, dynamic>),
-    serviceRoleArn: json['serviceRoleArn'] as String,
+    serviceRoleArn: json['serviceRoleArn'] as String?,
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['type']),
   );
 }
@@ -363,9 +370,9 @@ DeleteTypeResponse _$DeleteTypeResponseFromJson(Map<String, dynamic> json) {
 
 DeltaSyncConfig _$DeltaSyncConfigFromJson(Map<String, dynamic> json) {
   return DeltaSyncConfig(
-    baseTableTTL: json['baseTableTTL'] as int,
-    deltaSyncTableName: json['deltaSyncTableName'] as String,
-    deltaSyncTableTTL: json['deltaSyncTableTTL'] as int,
+    baseTableTTL: json['baseTableTTL'] as int?,
+    deltaSyncTableName: json['deltaSyncTableName'] as String?,
+    deltaSyncTableTTL: json['deltaSyncTableTTL'] as int?,
   );
 }
 
@@ -393,14 +400,17 @@ DynamodbDataSourceConfig _$DynamodbDataSourceConfigFromJson(
         ? null
         : DeltaSyncConfig.fromJson(
             json['deltaSyncConfig'] as Map<String, dynamic>),
-    useCallerCredentials: json['useCallerCredentials'] as bool,
-    versioned: json['versioned'] as bool,
+    useCallerCredentials: json['useCallerCredentials'] as bool?,
+    versioned: json['versioned'] as bool?,
   );
 }
 
 Map<String, dynamic> _$DynamodbDataSourceConfigToJson(
     DynamodbDataSourceConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'awsRegion': instance.awsRegion,
+    'tableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -408,8 +418,6 @@ Map<String, dynamic> _$DynamodbDataSourceConfigToJson(
     }
   }
 
-  writeNotNull('awsRegion', instance.awsRegion);
-  writeNotNull('tableName', instance.tableName);
   writeNotNull('deltaSyncConfig', instance.deltaSyncConfig?.toJson());
   writeNotNull('useCallerCredentials', instance.useCallerCredentials);
   writeNotNull('versioned', instance.versioned);
@@ -425,19 +433,11 @@ ElasticsearchDataSourceConfig _$ElasticsearchDataSourceConfigFromJson(
 }
 
 Map<String, dynamic> _$ElasticsearchDataSourceConfigToJson(
-    ElasticsearchDataSourceConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('awsRegion', instance.awsRegion);
-  writeNotNull('endpoint', instance.endpoint);
-  return val;
-}
+        ElasticsearchDataSourceConfig instance) =>
+    <String, dynamic>{
+      'awsRegion': instance.awsRegion,
+      'endpoint': instance.endpoint,
+    };
 
 FlushApiCacheResponse _$FlushApiCacheResponseFromJson(
     Map<String, dynamic> json) {
@@ -447,14 +447,14 @@ FlushApiCacheResponse _$FlushApiCacheResponseFromJson(
 FunctionConfiguration _$FunctionConfigurationFromJson(
     Map<String, dynamic> json) {
   return FunctionConfiguration(
-    dataSourceName: json['dataSourceName'] as String,
-    description: json['description'] as String,
-    functionArn: json['functionArn'] as String,
-    functionId: json['functionId'] as String,
-    functionVersion: json['functionVersion'] as String,
-    name: json['name'] as String,
-    requestMappingTemplate: json['requestMappingTemplate'] as String,
-    responseMappingTemplate: json['responseMappingTemplate'] as String,
+    dataSourceName: json['dataSourceName'] as String?,
+    description: json['description'] as String?,
+    functionArn: json['functionArn'] as String?,
+    functionId: json['functionId'] as String?,
+    functionVersion: json['functionVersion'] as String?,
+    name: json['name'] as String?,
+    requestMappingTemplate: json['requestMappingTemplate'] as String?,
+    responseMappingTemplate: json['responseMappingTemplate'] as String?,
   );
 }
 
@@ -496,7 +496,8 @@ GetGraphqlApiResponse _$GetGraphqlApiResponseFromJson(
 GetIntrospectionSchemaResponse _$GetIntrospectionSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return GetIntrospectionSchemaResponse(
-    schema: const Uint8ListConverter().fromJson(json['schema'] as String),
+    schema:
+        const Uint8ListNullableConverter().fromJson(json['schema'] as String?),
   );
 }
 
@@ -511,7 +512,7 @@ GetResolverResponse _$GetResolverResponseFromJson(Map<String, dynamic> json) {
 GetSchemaCreationStatusResponse _$GetSchemaCreationStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetSchemaCreationStatusResponse(
-    details: json['details'] as String,
+    details: json['details'] as String?,
     status: _$enumDecodeNullable(_$SchemaStatusEnumMap, json['status']),
   );
 }
@@ -536,36 +537,34 @@ GetTypeResponse _$GetTypeResponseFromJson(Map<String, dynamic> json) {
 GraphqlApi _$GraphqlApiFromJson(Map<String, dynamic> json) {
   return GraphqlApi(
     additionalAuthenticationProviders:
-        (json['additionalAuthenticationProviders'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AdditionalAuthenticationProvider.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    apiId: json['apiId'] as String,
-    arn: json['arn'] as String,
+        (json['additionalAuthenticationProviders'] as List<dynamic>?)
+            ?.map((e) => AdditionalAuthenticationProvider.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    apiId: json['apiId'] as String?,
+    arn: json['arn'] as String?,
     authenticationType: _$enumDecodeNullable(
         _$AuthenticationTypeEnumMap, json['authenticationType']),
     logConfig: json['logConfig'] == null
         ? null
         : LogConfig.fromJson(json['logConfig'] as Map<String, dynamic>),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     openIDConnectConfig: json['openIDConnectConfig'] == null
         ? null
         : OpenIDConnectConfig.fromJson(
             json['openIDConnectConfig'] as Map<String, dynamic>),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    uris: (json['uris'] as Map<String, dynamic>)?.map(
+    uris: (json['uris'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     userPoolConfig: json['userPoolConfig'] == null
         ? null
         : UserPoolConfig.fromJson(
             json['userPoolConfig'] as Map<String, dynamic>),
-    wafWebAclArn: json['wafWebAclArn'] as String,
-    xrayEnabled: json['xrayEnabled'] as bool,
+    wafWebAclArn: json['wafWebAclArn'] as String?,
+    xrayEnabled: json['xrayEnabled'] as bool?,
   );
 }
 
@@ -575,7 +574,7 @@ HttpDataSourceConfig _$HttpDataSourceConfigFromJson(Map<String, dynamic> json) {
         ? null
         : AuthorizationConfig.fromJson(
             json['authorizationConfig'] as Map<String, dynamic>),
-    endpoint: json['endpoint'] as String,
+    endpoint: json['endpoint'] as String?,
   );
 }
 
@@ -597,7 +596,7 @@ Map<String, dynamic> _$HttpDataSourceConfigToJson(
 LambdaConflictHandlerConfig _$LambdaConflictHandlerConfigFromJson(
     Map<String, dynamic> json) {
   return LambdaConflictHandlerConfig(
-    lambdaConflictHandlerArn: json['lambdaConflictHandlerArn'] as String,
+    lambdaConflictHandlerArn: json['lambdaConflictHandlerArn'] as String?,
   );
 }
 
@@ -623,89 +622,74 @@ LambdaDataSourceConfig _$LambdaDataSourceConfigFromJson(
 }
 
 Map<String, dynamic> _$LambdaDataSourceConfigToJson(
-    LambdaDataSourceConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('lambdaFunctionArn', instance.lambdaFunctionArn);
-  return val;
-}
+        LambdaDataSourceConfig instance) =>
+    <String, dynamic>{
+      'lambdaFunctionArn': instance.lambdaFunctionArn,
+    };
 
 ListApiKeysResponse _$ListApiKeysResponseFromJson(Map<String, dynamic> json) {
   return ListApiKeysResponse(
-    apiKeys: (json['apiKeys'] as List)
-        ?.map((e) =>
-            e == null ? null : ApiKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    apiKeys: (json['apiKeys'] as List<dynamic>?)
+        ?.map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDataSourcesResponse _$ListDataSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSourcesResponse(
-    dataSources: (json['dataSources'] as List)
-        ?.map((e) =>
-            e == null ? null : DataSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    dataSources: (json['dataSources'] as List<dynamic>?)
+        ?.map((e) => DataSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListFunctionsResponse _$ListFunctionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListFunctionsResponse(
-    functions: (json['functions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FunctionConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    functions: (json['functions'] as List<dynamic>?)
+        ?.map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListGraphqlApisResponse _$ListGraphqlApisResponseFromJson(
     Map<String, dynamic> json) {
   return ListGraphqlApisResponse(
-    graphqlApis: (json['graphqlApis'] as List)
-        ?.map((e) =>
-            e == null ? null : GraphqlApi.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    graphqlApis: (json['graphqlApis'] as List<dynamic>?)
+        ?.map((e) => GraphqlApi.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListResolversByFunctionResponse _$ListResolversByFunctionResponseFromJson(
     Map<String, dynamic> json) {
   return ListResolversByFunctionResponse(
-    nextToken: json['nextToken'] as String,
-    resolvers: (json['resolvers'] as List)
-        ?.map((e) =>
-            e == null ? null : Resolver.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resolvers: (json['resolvers'] as List<dynamic>?)
+        ?.map((e) => Resolver.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResolversResponse _$ListResolversResponseFromJson(
     Map<String, dynamic> json) {
   return ListResolversResponse(
-    nextToken: json['nextToken'] as String,
-    resolvers: (json['resolvers'] as List)
-        ?.map((e) =>
-            e == null ? null : Resolver.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resolvers: (json['resolvers'] as List<dynamic>?)
+        ?.map((e) => Resolver.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -713,25 +697,26 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 ListTypesResponse _$ListTypesResponseFromJson(Map<String, dynamic> json) {
   return ListTypesResponse(
-    nextToken: json['nextToken'] as String,
-    types: (json['types'] as List)
-        ?.map(
-            (e) => e == null ? null : Type.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    types: (json['types'] as List<dynamic>?)
+        ?.map((e) => Type.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LogConfig _$LogConfigFromJson(Map<String, dynamic> json) {
   return LogConfig(
     cloudWatchLogsRoleArn: json['cloudWatchLogsRoleArn'] as String,
-    fieldLogLevel:
-        _$enumDecodeNullable(_$FieldLogLevelEnumMap, json['fieldLogLevel']),
-    excludeVerboseContent: json['excludeVerboseContent'] as bool,
+    fieldLogLevel: _$enumDecode(_$FieldLogLevelEnumMap, json['fieldLogLevel']),
+    excludeVerboseContent: json['excludeVerboseContent'] as bool?,
   );
 }
 
 Map<String, dynamic> _$LogConfigToJson(LogConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'cloudWatchLogsRoleArn': instance.cloudWatchLogsRoleArn,
+    'fieldLogLevel': _$FieldLogLevelEnumMap[instance.fieldLogLevel],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -739,8 +724,6 @@ Map<String, dynamic> _$LogConfigToJson(LogConfig instance) {
     }
   }
 
-  writeNotNull('cloudWatchLogsRoleArn', instance.cloudWatchLogsRoleArn);
-  writeNotNull('fieldLogLevel', _$FieldLogLevelEnumMap[instance.fieldLogLevel]);
   writeNotNull('excludeVerboseContent', instance.excludeVerboseContent);
   return val;
 }
@@ -754,14 +737,16 @@ const _$FieldLogLevelEnumMap = {
 OpenIDConnectConfig _$OpenIDConnectConfigFromJson(Map<String, dynamic> json) {
   return OpenIDConnectConfig(
     issuer: json['issuer'] as String,
-    authTTL: json['authTTL'] as int,
-    clientId: json['clientId'] as String,
-    iatTTL: json['iatTTL'] as int,
+    authTTL: json['authTTL'] as int?,
+    clientId: json['clientId'] as String?,
+    iatTTL: json['iatTTL'] as int?,
   );
 }
 
 Map<String, dynamic> _$OpenIDConnectConfigToJson(OpenIDConnectConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'issuer': instance.issuer,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -769,7 +754,6 @@ Map<String, dynamic> _$OpenIDConnectConfigToJson(OpenIDConnectConfig instance) {
     }
   }
 
-  writeNotNull('issuer', instance.issuer);
   writeNotNull('authTTL', instance.authTTL);
   writeNotNull('clientId', instance.clientId);
   writeNotNull('iatTTL', instance.iatTTL);
@@ -778,7 +762,8 @@ Map<String, dynamic> _$OpenIDConnectConfigToJson(OpenIDConnectConfig instance) {
 
 PipelineConfig _$PipelineConfigFromJson(Map<String, dynamic> json) {
   return PipelineConfig(
-    functions: (json['functions'] as List)?.map((e) => e as String)?.toList(),
+    functions:
+        (json['functions'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -798,11 +783,11 @@ Map<String, dynamic> _$PipelineConfigToJson(PipelineConfig instance) {
 RdsHttpEndpointConfig _$RdsHttpEndpointConfigFromJson(
     Map<String, dynamic> json) {
   return RdsHttpEndpointConfig(
-    awsRegion: json['awsRegion'] as String,
-    awsSecretStoreArn: json['awsSecretStoreArn'] as String,
-    databaseName: json['databaseName'] as String,
-    dbClusterIdentifier: json['dbClusterIdentifier'] as String,
-    schema: json['schema'] as String,
+    awsRegion: json['awsRegion'] as String?,
+    awsSecretStoreArn: json['awsSecretStoreArn'] as String?,
+    databaseName: json['databaseName'] as String?,
+    dbClusterIdentifier: json['dbClusterIdentifier'] as String?,
+    schema: json['schema'] as String?,
   );
 }
 
@@ -865,20 +850,20 @@ Resolver _$ResolverFromJson(Map<String, dynamic> json) {
     cachingConfig: json['cachingConfig'] == null
         ? null
         : CachingConfig.fromJson(json['cachingConfig'] as Map<String, dynamic>),
-    dataSourceName: json['dataSourceName'] as String,
-    fieldName: json['fieldName'] as String,
+    dataSourceName: json['dataSourceName'] as String?,
+    fieldName: json['fieldName'] as String?,
     kind: _$enumDecodeNullable(_$ResolverKindEnumMap, json['kind']),
     pipelineConfig: json['pipelineConfig'] == null
         ? null
         : PipelineConfig.fromJson(
             json['pipelineConfig'] as Map<String, dynamic>),
-    requestMappingTemplate: json['requestMappingTemplate'] as String,
-    resolverArn: json['resolverArn'] as String,
-    responseMappingTemplate: json['responseMappingTemplate'] as String,
+    requestMappingTemplate: json['requestMappingTemplate'] as String?,
+    resolverArn: json['resolverArn'] as String?,
+    responseMappingTemplate: json['responseMappingTemplate'] as String?,
     syncConfig: json['syncConfig'] == null
         ? null
         : SyncConfig.fromJson(json['syncConfig'] as Map<String, dynamic>),
-    typeName: json['typeName'] as String,
+    typeName: json['typeName'] as String?,
   );
 }
 
@@ -943,11 +928,11 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 Type _$TypeFromJson(Map<String, dynamic> json) {
   return Type(
-    arn: json['arn'] as String,
-    definition: json['definition'] as String,
-    description: json['description'] as String,
+    arn: json['arn'] as String?,
+    definition: json['definition'] as String?,
+    description: json['description'] as String?,
     format: _$enumDecodeNullable(_$TypeDefinitionFormatEnumMap, json['format']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -1026,15 +1011,18 @@ UpdateTypeResponse _$UpdateTypeResponseFromJson(Map<String, dynamic> json) {
 UserPoolConfig _$UserPoolConfigFromJson(Map<String, dynamic> json) {
   return UserPoolConfig(
     awsRegion: json['awsRegion'] as String,
-    defaultAction:
-        _$enumDecodeNullable(_$DefaultActionEnumMap, json['defaultAction']),
+    defaultAction: _$enumDecode(_$DefaultActionEnumMap, json['defaultAction']),
     userPoolId: json['userPoolId'] as String,
-    appIdClientRegex: json['appIdClientRegex'] as String,
+    appIdClientRegex: json['appIdClientRegex'] as String?,
   );
 }
 
 Map<String, dynamic> _$UserPoolConfigToJson(UserPoolConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'awsRegion': instance.awsRegion,
+    'defaultAction': _$DefaultActionEnumMap[instance.defaultAction],
+    'userPoolId': instance.userPoolId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1042,9 +1030,6 @@ Map<String, dynamic> _$UserPoolConfigToJson(UserPoolConfig instance) {
     }
   }
 
-  writeNotNull('awsRegion', instance.awsRegion);
-  writeNotNull('defaultAction', _$DefaultActionEnumMap[instance.defaultAction]);
-  writeNotNull('userPoolId', instance.userPoolId);
   writeNotNull('appIdClientRegex', instance.appIdClientRegex);
   return val;
 }

@@ -61,7 +61,7 @@ class QueryProtocol {
       final type = error.findElements('Type').first.text;
       final code = error.findElements('Code').first.text;
       final message = error.findElements('Message').first.text;
-      final AwsException Function(String, String)? fn = exceptionFnMap[code];
+      final fn = exceptionFnMap[code];
       final exception = fn != null
           ? fn(type, message)
           : GenericAwsException(type: type, code: code, message: message);

@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'timestamp_members.g.dart';
 
 /// Timestamp members
 class TimestampMembers {
   final _s.JsonProtocol _protocol;
   TimestampMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,23 +53,11 @@ class TimestampMembers {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'StructMember')
-  final TimeContainer structMember;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TimeArg')
-  final DateTime timeArg;
-  @RfcDateTimeConverter()
-  @_s.JsonKey(name: 'TimeCustom')
-  final DateTime timeCustom;
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'TimeFormat')
-  final DateTime timeFormat;
+  final TimeContainer? structMember;
+  final DateTime? timeArg;
+  final DateTime? timeCustom;
+  final DateTime? timeFormat;
 
   OutputShape({
     this.structMember,
@@ -85,29 +65,32 @@ class OutputShape {
     this.timeCustom,
     this.timeFormat,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      structMember: json['StructMember'] != null
+          ? TimeContainer.fromJson(json['StructMember'] as Map<String, dynamic>)
+          : null,
+      timeArg: timeStampFromJson(json['TimeArg']),
+      timeCustom: timeStampFromJson(json['TimeCustom']),
+      timeFormat: timeStampFromJson(json['TimeFormat']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimeContainer {
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'bar')
-  final DateTime bar;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'foo')
-  final DateTime foo;
+  final DateTime? bar;
+  final DateTime? foo;
 
   TimeContainer({
     this.bar,
     this.foo,
   });
-  factory TimeContainer.fromJson(Map<String, dynamic> json) =>
-      _$TimeContainerFromJson(json);
+  factory TimeContainer.fromJson(Map<String, dynamic> json) {
+    return TimeContainer(
+      bar: timeStampFromJson(json['bar']),
+      foo: timeStampFromJson(json['foo']),
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

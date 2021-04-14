@@ -17,48 +17,53 @@ AcceptHandshakeResponse _$AcceptHandshakeResponseFromJson(
 
 Account _$AccountFromJson(Map<String, dynamic> json) {
   return Account(
-    arn: json['Arn'] as String,
-    email: json['Email'] as String,
-    id: json['Id'] as String,
+    arn: json['Arn'] as String?,
+    email: json['Email'] as String?,
+    id: json['Id'] as String?,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
     joinedTimestamp:
         const UnixDateTimeConverter().fromJson(json['JoinedTimestamp']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AccountJoinedMethodEnumMap = {
@@ -82,7 +87,7 @@ CancelHandshakeResponse _$CancelHandshakeResponseFromJson(
 
 Child _$ChildFromJson(Map<String, dynamic> json) {
   return Child(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     type: _$enumDecodeNullable(_$ChildTypeEnumMap, json['Type']),
   );
 }
@@ -104,14 +109,14 @@ CreateAccountResponse _$CreateAccountResponseFromJson(
 
 CreateAccountStatus _$CreateAccountStatusFromJson(Map<String, dynamic> json) {
   return CreateAccountStatus(
-    accountId: json['AccountId'] as String,
-    accountName: json['AccountName'] as String,
+    accountId: json['AccountId'] as String?,
+    accountName: json['AccountName'] as String?,
     completedTimestamp:
         const UnixDateTimeConverter().fromJson(json['CompletedTimestamp']),
     failureReason: _$enumDecodeNullable(
         _$CreateAccountFailureReasonEnumMap, json['FailureReason']),
-    govCloudAccountId: json['GovCloudAccountId'] as String,
-    id: json['Id'] as String,
+    govCloudAccountId: json['GovCloudAccountId'] as String?,
+    id: json['Id'] as String?,
     requestedTimestamp:
         const UnixDateTimeConverter().fromJson(json['RequestedTimestamp']),
     state: _$enumDecodeNullable(_$CreateAccountStateEnumMap, json['State']),
@@ -189,16 +194,16 @@ DeclineHandshakeResponse _$DeclineHandshakeResponseFromJson(
 DelegatedAdministrator _$DelegatedAdministratorFromJson(
     Map<String, dynamic> json) {
   return DelegatedAdministrator(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     delegationEnabledDate:
         const UnixDateTimeConverter().fromJson(json['DelegationEnabledDate']),
-    email: json['Email'] as String,
-    id: json['Id'] as String,
+    email: json['Email'] as String?,
+    id: json['Id'] as String?,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
     joinedTimestamp:
         const UnixDateTimeConverter().fromJson(json['JoinedTimestamp']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
 }
@@ -207,7 +212,7 @@ DelegatedService _$DelegatedServiceFromJson(Map<String, dynamic> json) {
   return DelegatedService(
     delegationEnabledDate:
         const UnixDateTimeConverter().fromJson(json['DelegationEnabledDate']),
-    servicePrincipal: json['ServicePrincipal'] as String,
+    servicePrincipal: json['ServicePrincipal'] as String?,
   );
 }
 
@@ -290,10 +295,10 @@ EffectivePolicy _$EffectivePolicyFromJson(Map<String, dynamic> json) {
   return EffectivePolicy(
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    policyContent: json['PolicyContent'] as String,
+    policyContent: json['PolicyContent'] as String?,
     policyType:
         _$enumDecodeNullable(_$EffectivePolicyTypeEnumMap, json['PolicyType']),
-    targetId: json['TargetId'] as String,
+    targetId: json['TargetId'] as String?,
   );
 }
 
@@ -325,29 +330,25 @@ EnabledServicePrincipal _$EnabledServicePrincipalFromJson(
     Map<String, dynamic> json) {
   return EnabledServicePrincipal(
     dateEnabled: const UnixDateTimeConverter().fromJson(json['DateEnabled']),
-    servicePrincipal: json['ServicePrincipal'] as String,
+    servicePrincipal: json['ServicePrincipal'] as String?,
   );
 }
 
 Handshake _$HandshakeFromJson(Map<String, dynamic> json) {
   return Handshake(
     action: _$enumDecodeNullable(_$ActionTypeEnumMap, json['Action']),
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     expirationTimestamp:
         const UnixDateTimeConverter().fromJson(json['ExpirationTimestamp']),
-    id: json['Id'] as String,
-    parties: (json['Parties'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HandshakeParty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['Id'] as String?,
+    parties: (json['Parties'] as List<dynamic>?)
+        ?.map((e) => HandshakeParty.fromJson(e as Map<String, dynamic>))
+        .toList(),
     requestedTimestamp:
         const UnixDateTimeConverter().fromJson(json['RequestedTimestamp']),
-    resources: (json['Resources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HandshakeResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resources: (json['Resources'] as List<dynamic>?)
+        ?.map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
     state: _$enumDecodeNullable(_$HandshakeStateEnumMap, json['State']),
   );
 }
@@ -386,23 +387,15 @@ Map<String, dynamic> _$HandshakeFilterToJson(HandshakeFilter instance) {
 HandshakeParty _$HandshakePartyFromJson(Map<String, dynamic> json) {
   return HandshakeParty(
     id: json['Id'] as String,
-    type: _$enumDecodeNullable(_$HandshakePartyTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$HandshakePartyTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$HandshakePartyToJson(HandshakeParty instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', _$HandshakePartyTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$HandshakePartyToJson(HandshakeParty instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'Type': _$HandshakePartyTypeEnumMap[instance.type],
+    };
 
 const _$HandshakePartyTypeEnumMap = {
   HandshakePartyType.account: 'ACCOUNT',
@@ -412,13 +405,11 @@ const _$HandshakePartyTypeEnumMap = {
 
 HandshakeResource _$HandshakeResourceFromJson(Map<String, dynamic> json) {
   return HandshakeResource(
-    resources: (json['Resources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HandshakeResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resources: (json['Resources'] as List<dynamic>?)
+        ?.map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$HandshakeResourceTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -446,67 +437,60 @@ ListAWSServiceAccessForOrganizationResponse
     _$ListAWSServiceAccessForOrganizationResponseFromJson(
         Map<String, dynamic> json) {
   return ListAWSServiceAccessForOrganizationResponse(
-    enabledServicePrincipals: (json['EnabledServicePrincipals'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EnabledServicePrincipal.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    enabledServicePrincipals: (json['EnabledServicePrincipals']
+            as List<dynamic>?)
+        ?.map(
+            (e) => EnabledServicePrincipal.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAccountsForParentResponse _$ListAccountsForParentResponseFromJson(
     Map<String, dynamic> json) {
   return ListAccountsForParentResponse(
-    accounts: (json['Accounts'] as List)
-        ?.map((e) =>
-            e == null ? null : Account.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    accounts: (json['Accounts'] as List<dynamic>?)
+        ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAccountsResponse _$ListAccountsResponseFromJson(Map<String, dynamic> json) {
   return ListAccountsResponse(
-    accounts: (json['Accounts'] as List)
-        ?.map((e) =>
-            e == null ? null : Account.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    accounts: (json['Accounts'] as List<dynamic>?)
+        ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChildrenResponse _$ListChildrenResponseFromJson(Map<String, dynamic> json) {
   return ListChildrenResponse(
-    children: (json['Children'] as List)
-        ?.map(
-            (e) => e == null ? null : Child.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    children: (json['Children'] as List<dynamic>?)
+        ?.map((e) => Child.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCreateAccountStatusResponse _$ListCreateAccountStatusResponseFromJson(
     Map<String, dynamic> json) {
   return ListCreateAccountStatusResponse(
-    createAccountStatuses: (json['CreateAccountStatuses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CreateAccountStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    createAccountStatuses: (json['CreateAccountStatuses'] as List<dynamic>?)
+        ?.map((e) => CreateAccountStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDelegatedAdministratorsResponse
     _$ListDelegatedAdministratorsResponseFromJson(Map<String, dynamic> json) {
   return ListDelegatedAdministratorsResponse(
-    delegatedAdministrators: (json['DelegatedAdministrators'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DelegatedAdministrator.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    delegatedAdministrators: (json['DelegatedAdministrators'] as List<dynamic>?)
+        ?.map((e) => DelegatedAdministrator.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -514,34 +498,30 @@ ListDelegatedServicesForAccountResponse
     _$ListDelegatedServicesForAccountResponseFromJson(
         Map<String, dynamic> json) {
   return ListDelegatedServicesForAccountResponse(
-    delegatedServices: (json['DelegatedServices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DelegatedService.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    delegatedServices: (json['DelegatedServices'] as List<dynamic>?)
+        ?.map((e) => DelegatedService.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListHandshakesForAccountResponse _$ListHandshakesForAccountResponseFromJson(
     Map<String, dynamic> json) {
   return ListHandshakesForAccountResponse(
-    handshakes: (json['Handshakes'] as List)
-        ?.map((e) =>
-            e == null ? null : Handshake.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    handshakes: (json['Handshakes'] as List<dynamic>?)
+        ?.map((e) => Handshake.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListHandshakesForOrganizationResponse
     _$ListHandshakesForOrganizationResponseFromJson(Map<String, dynamic> json) {
   return ListHandshakesForOrganizationResponse(
-    handshakes: (json['Handshakes'] as List)
-        ?.map((e) =>
-            e == null ? null : Handshake.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    handshakes: (json['Handshakes'] as List<dynamic>?)
+        ?.map((e) => Handshake.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -549,94 +529,82 @@ ListOrganizationalUnitsForParentResponse
     _$ListOrganizationalUnitsForParentResponseFromJson(
         Map<String, dynamic> json) {
   return ListOrganizationalUnitsForParentResponse(
-    nextToken: json['NextToken'] as String,
-    organizationalUnits: (json['OrganizationalUnits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationalUnit.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    organizationalUnits: (json['OrganizationalUnits'] as List<dynamic>?)
+        ?.map((e) => OrganizationalUnit.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListParentsResponse _$ListParentsResponseFromJson(Map<String, dynamic> json) {
   return ListParentsResponse(
-    nextToken: json['NextToken'] as String,
-    parents: (json['Parents'] as List)
-        ?.map((e) =>
-            e == null ? null : Parent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parents: (json['Parents'] as List<dynamic>?)
+        ?.map((e) => Parent.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPoliciesForTargetResponse _$ListPoliciesForTargetResponseFromJson(
     Map<String, dynamic> json) {
   return ListPoliciesForTargetResponse(
-    nextToken: json['NextToken'] as String,
-    policies: (json['Policies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicySummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    policies: (json['Policies'] as List<dynamic>?)
+        ?.map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPoliciesResponse _$ListPoliciesResponseFromJson(Map<String, dynamic> json) {
   return ListPoliciesResponse(
-    nextToken: json['NextToken'] as String,
-    policies: (json['Policies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicySummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    policies: (json['Policies'] as List<dynamic>?)
+        ?.map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRootsResponse _$ListRootsResponseFromJson(Map<String, dynamic> json) {
   return ListRootsResponse(
-    nextToken: json['NextToken'] as String,
-    roots: (json['Roots'] as List)
-        ?.map(
-            (e) => e == null ? null : Root.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    roots: (json['Roots'] as List<dynamic>?)
+        ?.map((e) => Root.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTargetsForPolicyResponse _$ListTargetsForPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return ListTargetsForPolicyResponse(
-    nextToken: json['NextToken'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicyTargetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => PolicyTargetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Organization _$OrganizationFromJson(Map<String, dynamic> json) {
   return Organization(
-    arn: json['Arn'] as String,
-    availablePolicyTypes: (json['AvailablePolicyTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    arn: json['Arn'] as String?,
+    availablePolicyTypes: (json['AvailablePolicyTypes'] as List<dynamic>?)
+        ?.map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
     featureSet: _$enumDecodeNullable(
         _$OrganizationFeatureSetEnumMap, json['FeatureSet']),
-    id: json['Id'] as String,
-    masterAccountArn: json['MasterAccountArn'] as String,
-    masterAccountEmail: json['MasterAccountEmail'] as String,
-    masterAccountId: json['MasterAccountId'] as String,
+    id: json['Id'] as String?,
+    masterAccountArn: json['MasterAccountArn'] as String?,
+    masterAccountEmail: json['MasterAccountEmail'] as String?,
+    masterAccountId: json['MasterAccountId'] as String?,
   );
 }
 
@@ -647,15 +615,15 @@ const _$OrganizationFeatureSetEnumMap = {
 
 OrganizationalUnit _$OrganizationalUnitFromJson(Map<String, dynamic> json) {
   return OrganizationalUnit(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 Parent _$ParentFromJson(Map<String, dynamic> json) {
   return Parent(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     type: _$enumDecodeNullable(_$ParentTypeEnumMap, json['Type']),
   );
 }
@@ -667,7 +635,7 @@ const _$ParentTypeEnumMap = {
 
 Policy _$PolicyFromJson(Map<String, dynamic> json) {
   return Policy(
-    content: json['Content'] as String,
+    content: json['Content'] as String?,
     policySummary: json['PolicySummary'] == null
         ? null
         : PolicySummary.fromJson(json['PolicySummary'] as Map<String, dynamic>),
@@ -676,11 +644,11 @@ Policy _$PolicyFromJson(Map<String, dynamic> json) {
 
 PolicySummary _$PolicySummaryFromJson(Map<String, dynamic> json) {
   return PolicySummary(
-    arn: json['Arn'] as String,
-    awsManaged: json['AwsManaged'] as bool,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    awsManaged: json['AwsManaged'] as bool?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     type: _$enumDecodeNullable(_$PolicyTypeEnumMap, json['Type']),
   );
 }
@@ -694,9 +662,9 @@ const _$PolicyTypeEnumMap = {
 
 PolicyTargetSummary _$PolicyTargetSummaryFromJson(Map<String, dynamic> json) {
   return PolicyTargetSummary(
-    arn: json['Arn'] as String,
-    name: json['Name'] as String,
-    targetId: json['TargetId'] as String,
+    arn: json['Arn'] as String?,
+    name: json['Name'] as String?,
+    targetId: json['TargetId'] as String?,
     type: _$enumDecodeNullable(_$TargetTypeEnumMap, json['Type']),
   );
 }
@@ -722,14 +690,12 @@ const _$PolicyTypeStatusEnumMap = {
 
 Root _$RootFromJson(Map<String, dynamic> json) {
   return Root(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    policyTypes: (json['PolicyTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    policyTypes: (json['PolicyTypes'] as List<dynamic>?)
+        ?.map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -740,19 +706,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 UpdateOrganizationalUnitResponse _$UpdateOrganizationalUnitResponseFromJson(
     Map<String, dynamic> json) {

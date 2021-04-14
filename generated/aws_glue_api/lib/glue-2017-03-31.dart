@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'glue-2017-03-31.g.dart';
 
 /// Defines the public endpoint for the AWS Glue service.
 class Glue {
   final _s.JsonProtocol _protocol;
   Glue({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -68,10 +60,10 @@ class Glue {
   /// The ID of the catalog in which the partition is to be created. Currently,
   /// this should be the AWS account ID.
   Future<BatchCreatePartitionResponse> batchCreatePartition({
-    @_s.required String databaseName,
-    @_s.required List<PartitionInput> partitionInputList,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<PartitionInput> partitionInputList,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -146,8 +138,8 @@ class Glue {
   /// The ID of the Data Catalog in which the connections reside. If none is
   /// provided, the AWS account ID is used by default.
   Future<BatchDeleteConnectionResponse> batchDeleteConnection({
-    @_s.required List<String> connectionNameList,
-    String catalogId,
+    required List<String> connectionNameList,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionNameList, 'connectionNameList');
     _s.validateStringLength(
@@ -201,10 +193,10 @@ class Glue {
   /// The ID of the Data Catalog where the partition to be deleted resides. If
   /// none is provided, the AWS account ID is used by default.
   Future<BatchDeletePartitionResponse> batchDeletePartition({
-    @_s.required String databaseName,
-    @_s.required List<PartitionValueList> partitionsToDelete,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<PartitionValueList> partitionsToDelete,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -297,9 +289,9 @@ class Glue {
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the AWS account ID is used by default.
   Future<BatchDeleteTableResponse> batchDeleteTable({
-    @_s.required String databaseName,
-    @_s.required List<String> tablesToDelete,
-    String catalogId,
+    required String databaseName,
+    required List<String> tablesToDelete,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -370,10 +362,10 @@ class Glue {
   /// The ID of the Data Catalog where the tables reside. If none is provided,
   /// the AWS account ID is used by default.
   Future<BatchDeleteTableVersionResponse> batchDeleteTableVersion({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    @_s.required List<String> versionIds,
-    String catalogId,
+    required String databaseName,
+    required String tableName,
+    required List<String> versionIds,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -449,7 +441,7 @@ class Glue {
   /// A list of crawler names, which might be the names returned from the
   /// <code>ListCrawlers</code> operation.
   Future<BatchGetCrawlersResponse> batchGetCrawlers({
-    @_s.required List<String> crawlerNames,
+    required List<String> crawlerNames,
   }) async {
     ArgumentError.checkNotNull(crawlerNames, 'crawlerNames');
     final headers = <String, String>{
@@ -485,7 +477,7 @@ class Glue {
   /// The list of <code>DevEndpoint</code> names, which might be the names
   /// returned from the <code>ListDevEndpoint</code> operation.
   Future<BatchGetDevEndpointsResponse> batchGetDevEndpoints({
-    @_s.required List<String> devEndpointNames,
+    required List<String> devEndpointNames,
   }) async {
     ArgumentError.checkNotNull(devEndpointNames, 'devEndpointNames');
     final headers = <String, String>{
@@ -520,7 +512,7 @@ class Glue {
   /// A list of job names, which might be the names returned from the
   /// <code>ListJobs</code> operation.
   Future<BatchGetJobsResponse> batchGetJobs({
-    @_s.required List<String> jobNames,
+    required List<String> jobNames,
   }) async {
     ArgumentError.checkNotNull(jobNames, 'jobNames');
     final headers = <String, String>{
@@ -562,10 +554,10 @@ class Glue {
   /// The ID of the Data Catalog where the partitions in question reside. If
   /// none is supplied, the AWS account ID is used by default.
   Future<BatchGetPartitionResponse> batchGetPartition({
-    @_s.required String databaseName,
-    @_s.required List<PartitionValueList> partitionsToGet,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<PartitionValueList> partitionsToGet,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -642,7 +634,7 @@ class Glue {
   /// A list of trigger names, which may be the names returned from the
   /// <code>ListTriggers</code> operation.
   Future<BatchGetTriggersResponse> batchGetTriggers({
-    @_s.required List<String> triggerNames,
+    required List<String> triggerNames,
   }) async {
     ArgumentError.checkNotNull(triggerNames, 'triggerNames');
     final headers = <String, String>{
@@ -681,8 +673,8 @@ class Glue {
   /// Specifies whether to include a graph when returning the workflow resource
   /// metadata.
   Future<BatchGetWorkflowsResponse> batchGetWorkflows({
-    @_s.required List<String> names,
-    bool includeGraph,
+    required List<String> names,
+    bool? includeGraph,
   }) async {
     ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
@@ -717,8 +709,8 @@ class Glue {
   /// A list of the <code>JobRunIds</code> that should be stopped for that job
   /// definition.
   Future<BatchStopJobRunResponse> batchStopJobRun({
-    @_s.required String jobName,
-    @_s.required List<String> jobRunIds,
+    required String jobName,
+    required List<String> jobRunIds,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -776,10 +768,10 @@ class Glue {
   /// The ID of the catalog in which the partition is to be updated. Currently,
   /// this should be the AWS account ID.
   Future<BatchUpdatePartitionResponse> batchUpdatePartition({
-    @_s.required String databaseName,
-    @_s.required List<BatchUpdatePartitionRequestEntry> entries,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<BatchUpdatePartitionRequestEntry> entries,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -860,8 +852,8 @@ class Glue {
   /// Parameter [transformId] :
   /// The unique identifier of the machine learning transform.
   Future<CancelMLTaskRunResponse> cancelMLTaskRun({
-    @_s.required String taskRunId,
-    @_s.required String transformId,
+    required String taskRunId,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(taskRunId, 'taskRunId');
     _s.validateStringLength(
@@ -926,8 +918,8 @@ class Glue {
   /// Parameter [schemaDefinition] :
   /// The definition of the schema that has to be validated.
   Future<CheckSchemaVersionValidityResponse> checkSchemaVersionValidity({
-    @_s.required DataFormat dataFormat,
-    @_s.required String schemaDefinition,
+    required DataFormat dataFormat,
+    required String schemaDefinition,
   }) async {
     ArgumentError.checkNotNull(dataFormat, 'dataFormat');
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
@@ -955,7 +947,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DataFormat': dataFormat?.toValue() ?? '',
+        'DataFormat': dataFormat.toValue(),
         'SchemaDefinition': schemaDefinition,
       },
     );
@@ -984,16 +976,16 @@ class Glue {
   /// Parameter [xMLClassifier] :
   /// An <code>XMLClassifier</code> object specifying the classifier to create.
   Future<void> createClassifier({
-    CreateCsvClassifierRequest csvClassifier,
-    CreateGrokClassifierRequest grokClassifier,
-    CreateJsonClassifierRequest jsonClassifier,
-    CreateXMLClassifierRequest xMLClassifier,
+    CreateCsvClassifierRequest? csvClassifier,
+    CreateGrokClassifierRequest? grokClassifier,
+    CreateJsonClassifierRequest? jsonClassifier,
+    CreateXMLClassifierRequest? xMLClassifier,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateClassifier'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1006,8 +998,6 @@ class Glue {
         if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
       },
     );
-
-    return CreateClassifierResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a connection definition in the Data Catalog.
@@ -1025,8 +1015,8 @@ class Glue {
   /// The ID of the Data Catalog in which to create the connection. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> createConnection({
-    @_s.required ConnectionInput connectionInput,
-    String catalogId,
+    required ConnectionInput connectionInput,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionInput, 'connectionInput');
     _s.validateStringLength(
@@ -1044,7 +1034,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateConnection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1055,8 +1045,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return CreateConnectionResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new crawler with specified targets, role, configuration, and
@@ -1126,20 +1114,20 @@ class Glue {
   /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS
   /// Tags in AWS Glue</a> in the developer guide.
   Future<void> createCrawler({
-    @_s.required String name,
-    @_s.required String role,
-    @_s.required CrawlerTargets targets,
-    List<String> classifiers,
-    String configuration,
-    String crawlerSecurityConfiguration,
-    String databaseName,
-    String description,
-    LineageConfiguration lineageConfiguration,
-    RecrawlPolicy recrawlPolicy,
-    String schedule,
-    SchemaChangePolicy schemaChangePolicy,
-    String tablePrefix,
-    Map<String, String> tags,
+    required String name,
+    required String role,
+    required CrawlerTargets targets,
+    List<String>? classifiers,
+    String? configuration,
+    String? crawlerSecurityConfiguration,
+    String? databaseName,
+    String? description,
+    LineageConfiguration? lineageConfiguration,
+    RecrawlPolicy? recrawlPolicy,
+    String? schedule,
+    SchemaChangePolicy? schemaChangePolicy,
+    String? tablePrefix,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1184,7 +1172,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateCrawler'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1210,8 +1198,6 @@ class Glue {
         if (tags != null) 'Tags': tags,
       },
     );
-
-    return CreateCrawlerResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new database in a Data Catalog.
@@ -1230,8 +1216,8 @@ class Glue {
   /// The ID of the Data Catalog in which to create the database. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> createDatabase({
-    @_s.required DatabaseInput databaseInput,
-    String catalogId,
+    required DatabaseInput databaseInput,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
     _s.validateStringLength(
@@ -1249,7 +1235,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateDatabase'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1260,8 +1246,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return CreateDatabaseResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new development endpoint.
@@ -1388,21 +1372,21 @@ class Glue {
   /// for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64
   /// GB disk.
   Future<CreateDevEndpointResponse> createDevEndpoint({
-    @_s.required String endpointName,
-    @_s.required String roleArn,
-    Map<String, String> arguments,
-    String extraJarsS3Path,
-    String extraPythonLibsS3Path,
-    String glueVersion,
-    int numberOfNodes,
-    int numberOfWorkers,
-    String publicKey,
-    List<String> publicKeys,
-    String securityConfiguration,
-    List<String> securityGroupIds,
-    String subnetId,
-    Map<String, String> tags,
-    WorkerType workerType,
+    required String endpointName,
+    required String roleArn,
+    Map<String, String>? arguments,
+    String? extraJarsS3Path,
+    String? extraPythonLibsS3Path,
+    String? glueVersion,
+    int? numberOfNodes,
+    int? numberOfWorkers,
+    String? publicKey,
+    List<String>? publicKeys,
+    String? securityConfiguration,
+    List<String>? securityGroupIds,
+    String? subnetId,
+    Map<String, String>? tags,
+    WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -1620,25 +1604,25 @@ class Glue {
   /// </li>
   /// </ul>
   Future<CreateJobResponse> createJob({
-    @_s.required JobCommand command,
-    @_s.required String name,
-    @_s.required String role,
-    int allocatedCapacity,
-    ConnectionsList connections,
-    Map<String, String> defaultArguments,
-    String description,
-    ExecutionProperty executionProperty,
-    String glueVersion,
-    String logUri,
-    double maxCapacity,
-    int maxRetries,
-    Map<String, String> nonOverridableArguments,
-    NotificationProperty notificationProperty,
-    int numberOfWorkers,
-    String securityConfiguration,
-    Map<String, String> tags,
-    int timeout,
-    WorkerType workerType,
+    required JobCommand command,
+    required String name,
+    required String role,
+    int? allocatedCapacity,
+    ConnectionsList? connections,
+    Map<String, String>? defaultArguments,
+    String? description,
+    ExecutionProperty? executionProperty,
+    String? glueVersion,
+    String? logUri,
+    double? maxCapacity,
+    int? maxRetries,
+    Map<String, String>? nonOverridableArguments,
+    NotificationProperty? notificationProperty,
+    int? numberOfWorkers,
+    String? securityConfiguration,
+    Map<String, String>? tags,
+    int? timeout,
+    WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(command, 'command');
     ArgumentError.checkNotNull(name, 'name');
@@ -1906,19 +1890,19 @@ class Glue {
   /// </li>
   /// </ul>
   Future<CreateMLTransformResponse> createMLTransform({
-    @_s.required List<GlueTable> inputRecordTables,
-    @_s.required String name,
-    @_s.required TransformParameters parameters,
-    @_s.required String role,
-    String description,
-    String glueVersion,
-    double maxCapacity,
-    int maxRetries,
-    int numberOfWorkers,
-    Map<String, String> tags,
-    int timeout,
-    TransformEncryption transformEncryption,
-    WorkerType workerType,
+    required List<GlueTable> inputRecordTables,
+    required String name,
+    required TransformParameters parameters,
+    required String role,
+    String? description,
+    String? glueVersion,
+    double? maxCapacity,
+    int? maxRetries,
+    int? numberOfWorkers,
+    Map<String, String>? tags,
+    int? timeout,
+    TransformEncryption? transformEncryption,
+    WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(inputRecordTables, 'inputRecordTables');
     ArgumentError.checkNotNull(name, 'name');
@@ -2019,10 +2003,10 @@ class Glue {
   /// Parameter [catalogId] :
   /// The AWS account ID of the catalog in which the partition is to be created.
   Future<void> createPartition({
-    @_s.required String databaseName,
-    @_s.required PartitionInput partitionInput,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required PartitionInput partitionInput,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -2068,7 +2052,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreatePartition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2081,8 +2065,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return CreatePartitionResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a specified partition index in an existing table.
@@ -2110,10 +2092,10 @@ class Glue {
   /// Parameter [catalogId] :
   /// The catalog ID where the table resides.
   Future<void> createPartitionIndex({
-    @_s.required String databaseName,
-    @_s.required PartitionIndex partitionIndex,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required PartitionIndex partitionIndex,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -2159,7 +2141,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreatePartitionIndex'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2172,8 +2154,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return CreatePartitionIndexResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new registry which may be used to hold a collection of schemas.
@@ -2197,9 +2177,9 @@ class Glue {
   /// AWS tags that contain a key value pair and may be searched by console,
   /// command line, or API.
   Future<CreateRegistryResponse> createRegistry({
-    @_s.required String registryName,
-    String description,
-    Map<String, String> tags,
+    required String registryName,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     _s.validateStringLength(
@@ -2352,13 +2332,13 @@ class Glue {
   /// command line, or API. If specified, follows the AWS tags-on-create
   /// pattern.
   Future<CreateSchemaResponse> createSchema({
-    @_s.required DataFormat dataFormat,
-    @_s.required String schemaName,
-    Compatibility compatibility,
-    String description,
-    RegistryId registryId,
-    String schemaDefinition,
-    Map<String, String> tags,
+    required DataFormat dataFormat,
+    required String schemaName,
+    Compatibility? compatibility,
+    String? description,
+    RegistryId? registryId,
+    String? schemaDefinition,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(dataFormat, 'dataFormat');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -2408,7 +2388,7 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DataFormat': dataFormat?.toValue() ?? '',
+        'DataFormat': dataFormat.toValue(),
         'SchemaName': schemaName,
         if (compatibility != null) 'Compatibility': compatibility.toValue(),
         if (description != null) 'Description': description,
@@ -2436,9 +2416,9 @@ class Glue {
   /// Parameter [language] :
   /// The programming language of the resulting code from the DAG.
   Future<CreateScriptResponse> createScript({
-    List<CodeGenEdge> dagEdges,
-    List<CodeGenNode> dagNodes,
-    Language language,
+    List<CodeGenEdge>? dagEdges,
+    List<CodeGenNode>? dagNodes,
+    Language? language,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2479,8 +2459,8 @@ class Glue {
   /// Parameter [name] :
   /// The name for the new security configuration.
   Future<CreateSecurityConfigurationResponse> createSecurityConfiguration({
-    @_s.required EncryptionConfiguration encryptionConfiguration,
-    @_s.required String name,
+    required EncryptionConfiguration encryptionConfiguration,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(
         encryptionConfiguration, 'encryptionConfiguration');
@@ -2543,10 +2523,10 @@ class Glue {
   /// A list of partition indexes, <code>PartitionIndex</code> structures, to
   /// create in the table.
   Future<void> createTable({
-    @_s.required String databaseName,
-    @_s.required TableInput tableInput,
-    String catalogId,
-    List<PartitionIndex> partitionIndexes,
+    required String databaseName,
+    required TableInput tableInput,
+    String? catalogId,
+    List<PartitionIndex>? partitionIndexes,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -2578,7 +2558,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateTable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2591,8 +2571,6 @@ class Glue {
         if (partitionIndexes != null) 'PartitionIndexes': partitionIndexes,
       },
     );
-
-    return CreateTableResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new trigger.
@@ -2645,15 +2623,15 @@ class Glue {
   /// Parameter [workflowName] :
   /// The name of the workflow associated with the trigger.
   Future<CreateTriggerResponse> createTrigger({
-    @_s.required List<Action> actions,
-    @_s.required String name,
-    @_s.required TriggerType type,
-    String description,
-    Predicate predicate,
-    String schedule,
-    bool startOnCreation,
-    Map<String, String> tags,
-    String workflowName,
+    required List<Action> actions,
+    required String name,
+    required TriggerType type,
+    String? description,
+    Predicate? predicate,
+    String? schedule,
+    bool? startOnCreation,
+    Map<String, String>? tags,
+    String? workflowName,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(name, 'name');
@@ -2706,7 +2684,7 @@ class Glue {
       payload: {
         'Actions': actions,
         'Name': name,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (description != null) 'Description': description,
         if (predicate != null) 'Predicate': predicate,
         if (schedule != null) 'Schedule': schedule,
@@ -2740,9 +2718,9 @@ class Glue {
   /// The ID of the Data Catalog in which to create the function. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> createUserDefinedFunction({
-    @_s.required String databaseName,
-    @_s.required UserDefinedFunctionInput functionInput,
-    String catalogId,
+    required String databaseName,
+    required UserDefinedFunctionInput functionInput,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -2774,7 +2752,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateUserDefinedFunction'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2786,8 +2764,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return CreateUserDefinedFunctionResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new workflow.
@@ -2820,11 +2796,11 @@ class Glue {
   /// Parameter [tags] :
   /// The tags to be used with this workflow.
   Future<CreateWorkflowResponse> createWorkflow({
-    @_s.required String name,
-    Map<String, String> defaultRunProperties,
-    String description,
-    int maxConcurrentRuns,
-    Map<String, String> tags,
+    required String name,
+    Map<String, String>? defaultRunProperties,
+    String? description,
+    int? maxConcurrentRuns,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2871,7 +2847,7 @@ class Glue {
   /// Parameter [name] :
   /// Name of the classifier to remove.
   Future<void> deleteClassifier({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2891,7 +2867,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteClassifier'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2901,8 +2877,6 @@ class Glue {
         'Name': name,
       },
     );
-
-    return DeleteClassifierResponse.fromJson(jsonResponse.body);
   }
 
   /// Delete the partition column statistics of a column.
@@ -2932,11 +2906,11 @@ class Glue {
   /// The ID of the Data Catalog where the partitions in question reside. If
   /// none is supplied, the AWS account ID is used by default.
   Future<void> deleteColumnStatisticsForPartition({
-    @_s.required String columnName,
-    @_s.required String databaseName,
-    @_s.required List<String> partitionValues,
-    @_s.required String tableName,
-    String catalogId,
+    required String columnName,
+    required String databaseName,
+    required List<String> partitionValues,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnName, 'columnName');
     _s.validateStringLength(
@@ -2996,7 +2970,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForPartition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3010,9 +2984,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteColumnStatisticsForPartitionResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Retrieves table statistics of columns.
@@ -3039,10 +3010,10 @@ class Glue {
   /// The ID of the Data Catalog where the partitions in question reside. If
   /// none is supplied, the AWS account ID is used by default.
   Future<void> deleteColumnStatisticsForTable({
-    @_s.required String columnName,
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
+    required String columnName,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnName, 'columnName');
     _s.validateStringLength(
@@ -3101,7 +3072,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForTable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3114,8 +3085,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteColumnStatisticsForTableResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a connection from the Data Catalog.
@@ -3130,8 +3099,8 @@ class Glue {
   /// The ID of the Data Catalog in which the connection resides. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> deleteConnection({
-    @_s.required String connectionName,
-    String catalogId,
+    required String connectionName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
     _s.validateStringLength(
@@ -3162,7 +3131,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteConnection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3173,8 +3142,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteConnectionResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a specified crawler from the AWS Glue Data Catalog, unless the
@@ -3188,7 +3155,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the crawler to remove.
   Future<void> deleteCrawler({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3208,7 +3175,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteCrawler'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3218,8 +3185,6 @@ class Glue {
         'Name': name,
       },
     );
-
-    return DeleteCrawlerResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a specified database from a Data Catalog.
@@ -3251,8 +3216,8 @@ class Glue {
   /// The ID of the Data Catalog in which the database resides. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> deleteDatabase({
-    @_s.required String name,
-    String catalogId,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3283,7 +3248,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteDatabase'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3294,8 +3259,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteDatabaseResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified development endpoint.
@@ -3308,14 +3271,14 @@ class Glue {
   /// Parameter [endpointName] :
   /// The name of the <code>DevEndpoint</code>.
   Future<void> deleteDevEndpoint({
-    @_s.required String endpointName,
+    required String endpointName,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteDevEndpoint'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3325,8 +3288,6 @@ class Glue {
         'EndpointName': endpointName,
       },
     );
-
-    return DeleteDevEndpointResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified job definition. If the job definition is not found, no
@@ -3339,7 +3300,7 @@ class Glue {
   /// Parameter [jobName] :
   /// The name of the job definition to delete.
   Future<DeleteJobResponse> deleteJob({
-    @_s.required String jobName,
+    required String jobName,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -3389,7 +3350,7 @@ class Glue {
   /// Parameter [transformId] :
   /// The unique identifier of the transform to delete.
   Future<DeleteMLTransformResponse> deleteMLTransform({
-    @_s.required String transformId,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
     _s.validateStringLength(
@@ -3443,10 +3404,10 @@ class Glue {
   /// The ID of the Data Catalog where the partition to be deleted resides. If
   /// none is provided, the AWS account ID is used by default.
   Future<void> deletePartition({
-    @_s.required String databaseName,
-    @_s.required List<String> partitionValues,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<String> partitionValues,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -3492,7 +3453,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeletePartition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3505,8 +3466,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeletePartitionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified partition index from an existing table.
@@ -3532,10 +3491,10 @@ class Glue {
   /// Parameter [catalogId] :
   /// The catalog ID where the table resides.
   Future<void> deletePartitionIndex({
-    @_s.required String databaseName,
-    @_s.required String indexName,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required String indexName,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -3594,7 +3553,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeletePartitionIndex'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3607,8 +3566,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeletePartitionIndexResponse.fromJson(jsonResponse.body);
   }
 
   /// Delete the entire registry including schema and all of its versions. To
@@ -3627,7 +3584,7 @@ class Glue {
   /// This is a wrapper structure that may contain the registry name and Amazon
   /// Resource Name (ARN).
   Future<DeleteRegistryResponse> deleteRegistry({
-    @_s.required RegistryId registryId,
+    required RegistryId registryId,
   }) async {
     ArgumentError.checkNotNull(registryId, 'registryId');
     final headers = <String, String>{
@@ -3662,8 +3619,8 @@ class Glue {
   /// Parameter [resourceArn] :
   /// The ARN of the AWS Glue resource for the resource policy to be deleted.
   Future<void> deleteResourcePolicy({
-    String policyHashCondition,
-    String resourceArn,
+    String? policyHashCondition,
+    String? resourceArn,
   }) async {
     _s.validateStringLength(
       'policyHashCondition',
@@ -3691,7 +3648,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteResourcePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3703,8 +3660,6 @@ class Glue {
         if (resourceArn != null) 'ResourceArn': resourceArn,
       },
     );
-
-    return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the entire schema set, including the schema set and all of its
@@ -3723,7 +3678,7 @@ class Glue {
   /// This is a wrapper structure that may contain the schema name and Amazon
   /// Resource Name (ARN).
   Future<DeleteSchemaResponse> deleteSchema({
-    @_s.required SchemaId schemaId,
+    required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     final headers = <String, String>{
@@ -3785,8 +3740,8 @@ class Glue {
   /// </li>
   /// </ul>
   Future<DeleteSchemaVersionsResponse> deleteSchemaVersions({
-    @_s.required SchemaId schemaId,
-    @_s.required String versions,
+    required SchemaId schemaId,
+    required String versions,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     ArgumentError.checkNotNull(versions, 'versions');
@@ -3832,7 +3787,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the security configuration to delete.
   Future<void> deleteSecurityConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3852,7 +3807,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteSecurityConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3862,8 +3817,6 @@ class Glue {
         'Name': name,
       },
     );
-
-    return DeleteSecurityConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a table definition from the Data Catalog.
@@ -3897,9 +3850,9 @@ class Glue {
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the AWS account ID is used by default.
   Future<void> deleteTable({
-    @_s.required String databaseName,
-    @_s.required String name,
-    String catalogId,
+    required String databaseName,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -3944,7 +3897,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3956,8 +3909,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteTableResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified version of a table.
@@ -3983,10 +3934,10 @@ class Glue {
   /// The ID of the Data Catalog where the tables reside. If none is provided,
   /// the AWS account ID is used by default.
   Future<void> deleteTableVersion({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    @_s.required String versionId,
-    String catalogId,
+    required String databaseName,
+    required String tableName,
+    required String versionId,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -4045,7 +3996,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTableVersion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4058,8 +4009,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteTableVersionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified trigger. If the trigger is not found, no exception is
@@ -4073,7 +4022,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the trigger to delete.
   Future<DeleteTriggerResponse> deleteTrigger({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4124,9 +4073,9 @@ class Glue {
   /// The ID of the Data Catalog where the function to be deleted is located. If
   /// none is supplied, the AWS account ID is used by default.
   Future<void> deleteUserDefinedFunction({
-    @_s.required String databaseName,
-    @_s.required String functionName,
-    String catalogId,
+    required String databaseName,
+    required String functionName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -4171,7 +4120,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteUserDefinedFunction'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4183,8 +4132,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return DeleteUserDefinedFunctionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a workflow.
@@ -4197,7 +4144,7 @@ class Glue {
   /// Parameter [name] :
   /// Name of the workflow to be deleted.
   Future<DeleteWorkflowResponse> deleteWorkflow({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4240,7 +4187,7 @@ class Glue {
   /// The ID of the catalog to migrate. Currently, this should be the AWS
   /// account ID.
   Future<GetCatalogImportStatusResponse> getCatalogImportStatus({
-    String catalogId,
+    String? catalogId,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -4279,7 +4226,7 @@ class Glue {
   /// Parameter [name] :
   /// Name of the classifier to retrieve.
   Future<GetClassifierResponse> getClassifier({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4323,8 +4270,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// An optional continuation token.
   Future<GetClassifiersResponse> getClassifiers({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4379,11 +4326,11 @@ class Glue {
   /// none is supplied, the AWS account ID is used by default.
   Future<GetColumnStatisticsForPartitionResponse>
       getColumnStatisticsForPartition({
-    @_s.required List<String> columnNames,
-    @_s.required String databaseName,
-    @_s.required List<String> partitionValues,
-    @_s.required String tableName,
-    String catalogId,
+    required List<String> columnNames,
+    required String databaseName,
+    required List<String> partitionValues,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnNames, 'columnNames');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -4472,10 +4419,10 @@ class Glue {
   /// The ID of the Data Catalog where the partitions in question reside. If
   /// none is supplied, the AWS account ID is used by default.
   Future<GetColumnStatisticsForTableResponse> getColumnStatisticsForTable({
-    @_s.required List<String> columnNames,
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
+    required List<String> columnNames,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnNames, 'columnNames');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -4560,9 +4507,9 @@ class Glue {
   /// password, but it does have permission to access the rest of the connection
   /// properties.
   Future<GetConnectionResponse> getConnection({
-    @_s.required String name,
-    String catalogId,
-    bool hidePassword,
+    required String name,
+    String? catalogId,
+    bool? hidePassword,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4637,11 +4584,11 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetConnectionsResponse> getConnections({
-    String catalogId,
-    GetConnectionsFilter filter,
-    bool hidePassword,
-    int maxResults,
-    String nextToken,
+    String? catalogId,
+    GetConnectionsFilter? filter,
+    bool? hidePassword,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -4690,7 +4637,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the crawler to retrieve metadata for.
   Future<GetCrawlerResponse> getCrawler({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4737,9 +4684,9 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetCrawlerMetricsResponse> getCrawlerMetrics({
-    List<String> crawlerNameList,
-    int maxResults,
-    String nextToken,
+    List<String>? crawlerNameList,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4777,8 +4724,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation request.
   Future<GetCrawlersResponse> getCrawlers({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4816,7 +4763,7 @@ class Glue {
   /// none is provided, the AWS account ID is used by default.
   Future<GetDataCatalogEncryptionSettingsResponse>
       getDataCatalogEncryptionSettings({
-    String catalogId,
+    String? catalogId,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -4863,8 +4810,8 @@ class Glue {
   /// The ID of the Data Catalog in which the database resides. If none is
   /// provided, the AWS account ID is used by default.
   Future<GetDatabaseResponse> getDatabase({
-    @_s.required String name,
-    String catalogId,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4943,10 +4890,10 @@ class Glue {
   /// </li>
   /// </ul>
   Future<GetDatabasesResponse> getDatabases({
-    String catalogId,
-    int maxResults,
-    String nextToken,
-    ResourceShareType resourceShareType,
+    String? catalogId,
+    int? maxResults,
+    String? nextToken,
+    ResourceShareType? resourceShareType,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -4996,7 +4943,7 @@ class Glue {
   /// Parameter [pythonScript] :
   /// The Python script to transform.
   Future<GetDataflowGraphResponse> getDataflowGraph({
-    String pythonScript,
+    String? pythonScript,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5032,7 +4979,7 @@ class Glue {
   /// Parameter [endpointName] :
   /// Name of the <code>DevEndpoint</code> to retrieve information for.
   Future<GetDevEndpointResponse> getDevEndpoint({
-    @_s.required String endpointName,
+    required String endpointName,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     final headers = <String, String>{
@@ -5072,8 +5019,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetDevEndpointsResponse> getDevEndpoints({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5110,7 +5057,7 @@ class Glue {
   /// Parameter [jobName] :
   /// The name of the job definition to retrieve.
   Future<GetJobResponse> getJob({
-    @_s.required String jobName,
+    required String jobName,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -5158,8 +5105,8 @@ class Glue {
   /// Parameter [runId] :
   /// The unique run identifier associated with this job run.
   Future<GetJobBookmarkResponse> getJobBookmark({
-    @_s.required String jobName,
-    String runId,
+    required String jobName,
+    String? runId,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     final headers = <String, String>{
@@ -5197,9 +5144,9 @@ class Glue {
   /// Parameter [predecessorsIncluded] :
   /// True if a list of predecessor runs should be returned.
   Future<GetJobRunResponse> getJobRun({
-    @_s.required String jobName,
-    @_s.required String runId,
-    bool predecessorsIncluded,
+    required String jobName,
+    required String runId,
+    bool? predecessorsIncluded,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -5266,9 +5213,9 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetJobRunsResponse> getJobRuns({
-    @_s.required String jobName,
-    int maxResults,
-    String nextToken,
+    required String jobName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -5323,8 +5270,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetJobsResponse> getJobs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5369,8 +5316,8 @@ class Glue {
   /// Parameter [transformId] :
   /// The unique identifier of the machine learning transform.
   Future<GetMLTaskRunResponse> getMLTaskRun({
-    @_s.required String taskRunId,
-    @_s.required String transformId,
+    required String taskRunId,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(taskRunId, 'taskRunId');
     _s.validateStringLength(
@@ -5450,11 +5397,11 @@ class Glue {
   /// The sorting criteria, in the <code>TaskRunSortCriteria</code> structure,
   /// for the task run.
   Future<GetMLTaskRunsResponse> getMLTaskRuns({
-    @_s.required String transformId,
-    TaskRunFilterCriteria filter,
-    int maxResults,
-    String nextToken,
-    TaskRunSortCriteria sort,
+    required String transformId,
+    TaskRunFilterCriteria? filter,
+    int? maxResults,
+    String? nextToken,
+    TaskRunSortCriteria? sort,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
     _s.validateStringLength(
@@ -5514,7 +5461,7 @@ class Glue {
   /// The unique identifier of the transform, generated at the time that the
   /// transform was created.
   Future<GetMLTransformResponse> getMLTransform({
-    @_s.required String transformId,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
     _s.validateStringLength(
@@ -5572,10 +5519,10 @@ class Glue {
   /// Parameter [sort] :
   /// The sorting criteria.
   Future<GetMLTransformsResponse> getMLTransforms({
-    TransformFilterCriteria filter,
-    int maxResults,
-    String nextToken,
-    TransformSortCriteria sort,
+    TransformFilterCriteria? filter,
+    int? maxResults,
+    String? nextToken,
+    TransformSortCriteria? sort,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5620,9 +5567,9 @@ class Glue {
   /// Parameter [sinks] :
   /// A list of target tables.
   Future<GetMappingResponse> getMapping({
-    @_s.required CatalogEntry source,
-    Location location,
-    List<CatalogEntry> sinks,
+    required CatalogEntry source,
+    Location? location,
+    List<CatalogEntry>? sinks,
   }) async {
     ArgumentError.checkNotNull(source, 'source');
     final headers = <String, String>{
@@ -5666,10 +5613,10 @@ class Glue {
   /// The ID of the Data Catalog where the partition in question resides. If
   /// none is provided, the AWS account ID is used by default.
   Future<GetPartitionResponse> getPartition({
-    @_s.required String databaseName,
-    @_s.required List<String> partitionValues,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required List<String> partitionValues,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -5754,10 +5701,10 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, included if this is a continuation call.
   Future<GetPartitionIndexesResponse> getPartitionIndexes({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
-    String nextToken,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -5932,13 +5879,13 @@ class Glue {
   /// Parameter [segment] :
   /// The segment of the table's partitions to scan in this request.
   Future<GetPartitionsResponse> getPartitions({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
-    String expression,
-    int maxResults,
-    String nextToken,
-    Segment segment,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    String? expression,
+    int? maxResults,
+    String? nextToken,
+    Segment? segment,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -6057,12 +6004,12 @@ class Glue {
   /// Parameter [sinks] :
   /// The target tables.
   Future<GetPlanResponse> getPlan({
-    @_s.required List<MappingEntry> mapping,
-    @_s.required CatalogEntry source,
-    Map<String, String> additionalPlanOptionsMap,
-    Language language,
-    Location location,
-    List<CatalogEntry> sinks,
+    required List<MappingEntry> mapping,
+    required CatalogEntry source,
+    Map<String, String>? additionalPlanOptionsMap,
+    Language? language,
+    Location? location,
+    List<CatalogEntry>? sinks,
   }) async {
     ArgumentError.checkNotNull(mapping, 'mapping');
     ArgumentError.checkNotNull(source, 'source');
@@ -6101,7 +6048,7 @@ class Glue {
   /// This is a wrapper structure that may contain the registry name and Amazon
   /// Resource Name (ARN).
   Future<GetRegistryResponse> getRegistry({
-    @_s.required RegistryId registryId,
+    required RegistryId registryId,
   }) async {
     ArgumentError.checkNotNull(registryId, 'registryId');
     final headers = <String, String>{
@@ -6141,8 +6088,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation request.
   Future<GetResourcePoliciesResponse> getResourcePolicies({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6182,7 +6129,7 @@ class Glue {
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id">AWS
   /// Glue ARN string pattern</a>
   Future<GetResourcePolicyResponse> getResourcePolicy({
-    String resourceArn,
+    String? resourceArn,
   }) async {
     _s.validateStringLength(
       'resourceArn',
@@ -6237,7 +6184,7 @@ class Glue {
   /// </li>
   /// </ul>
   Future<GetSchemaResponse> getSchema({
-    @_s.required SchemaId schemaId,
+    required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     final headers = <String, String>{
@@ -6288,8 +6235,8 @@ class Glue {
   /// </li>
   /// </ul>
   Future<GetSchemaByDefinitionResponse> getSchemaByDefinition({
-    @_s.required String schemaDefinition,
-    @_s.required SchemaId schemaId,
+    required String schemaDefinition,
+    required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
     _s.validateStringLength(
@@ -6359,9 +6306,9 @@ class Glue {
   /// Parameter [schemaVersionNumber] :
   /// The version number of the schema.
   Future<GetSchemaVersionResponse> getSchemaVersion({
-    SchemaId schemaId,
-    String schemaVersionId,
-    SchemaVersionNumber schemaVersionNumber,
+    SchemaId? schemaId,
+    String? schemaVersionId,
+    SchemaVersionNumber? schemaVersionNumber,
   }) async {
     _s.validateStringLength(
       'schemaVersionId',
@@ -6431,10 +6378,10 @@ class Glue {
   /// Parameter [secondSchemaVersionNumber] :
   /// The second of the two schema versions to be compared.
   Future<GetSchemaVersionsDiffResponse> getSchemaVersionsDiff({
-    @_s.required SchemaVersionNumber firstSchemaVersionNumber,
-    @_s.required SchemaDiffType schemaDiffType,
-    @_s.required SchemaId schemaId,
-    @_s.required SchemaVersionNumber secondSchemaVersionNumber,
+    required SchemaVersionNumber firstSchemaVersionNumber,
+    required SchemaDiffType schemaDiffType,
+    required SchemaId schemaId,
+    required SchemaVersionNumber secondSchemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(
         firstSchemaVersionNumber, 'firstSchemaVersionNumber');
@@ -6454,7 +6401,7 @@ class Glue {
       headers: headers,
       payload: {
         'FirstSchemaVersionNumber': firstSchemaVersionNumber,
-        'SchemaDiffType': schemaDiffType?.toValue() ?? '',
+        'SchemaDiffType': schemaDiffType.toValue(),
         'SchemaId': schemaId,
         'SecondSchemaVersionNumber': secondSchemaVersionNumber,
       },
@@ -6473,7 +6420,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the security configuration to retrieve.
   Future<GetSecurityConfigurationResponse> getSecurityConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -6520,8 +6467,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetSecurityConfigurationsResponse> getSecurityConfigurations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6569,9 +6516,9 @@ class Glue {
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the AWS account ID is used by default.
   Future<GetTableResponse> getTable({
-    @_s.required String databaseName,
-    @_s.required String name,
-    String catalogId,
+    required String databaseName,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -6657,10 +6604,10 @@ class Glue {
   /// <code>VersionID</code> is a string representation of an integer. Each
   /// version is incremented by 1.
   Future<GetTableVersionResponse> getTableVersion({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
-    String versionId,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -6760,11 +6707,11 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is not the first call.
   Future<GetTableVersionsResponse> getTableVersions({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
-    int maxResults,
-    String nextToken,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -6860,11 +6807,11 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, included if this is a continuation call.
   Future<GetTablesResponse> getTables({
-    @_s.required String databaseName,
-    String catalogId,
-    String expression,
-    int maxResults,
-    String nextToken,
+    required String databaseName,
+    String? catalogId,
+    String? expression,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -6940,7 +6887,7 @@ class Glue {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
   Future<GetTagsResponse> getTags({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -6984,7 +6931,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the trigger to retrieve.
   Future<GetTriggerResponse> getTrigger({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7036,9 +6983,9 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetTriggersResponse> getTriggers({
-    String dependentJobName,
-    int maxResults,
-    String nextToken,
+    String? dependentJobName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'dependentJobName',
@@ -7095,9 +7042,9 @@ class Glue {
   /// The ID of the Data Catalog where the function to be retrieved is located.
   /// If none is provided, the AWS account ID is used by default.
   Future<GetUserDefinedFunctionResponse> getUserDefinedFunction({
-    @_s.required String databaseName,
-    @_s.required String functionName,
-    String catalogId,
+    required String databaseName,
+    required String functionName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -7185,11 +7132,11 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<GetUserDefinedFunctionsResponse> getUserDefinedFunctions({
-    @_s.required String pattern,
-    String catalogId,
-    String databaseName,
-    int maxResults,
-    String nextToken,
+    required String pattern,
+    String? catalogId,
+    String? databaseName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(pattern, 'pattern');
     _s.validateStringLength(
@@ -7269,8 +7216,8 @@ class Glue {
   /// Specifies whether to include a graph when returning the workflow resource
   /// metadata.
   Future<GetWorkflowResponse> getWorkflow({
-    @_s.required String name,
-    bool includeGraph,
+    required String name,
+    bool? includeGraph,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7321,9 +7268,9 @@ class Glue {
   /// Parameter [includeGraph] :
   /// Specifies whether to include the workflow graph in response or not.
   Future<GetWorkflowRunResponse> getWorkflowRun({
-    @_s.required String name,
-    @_s.required String runId,
-    bool includeGraph,
+    required String name,
+    required String runId,
+    bool? includeGraph,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7386,8 +7333,8 @@ class Glue {
   /// Parameter [runId] :
   /// The ID of the workflow run whose run properties should be returned.
   Future<GetWorkflowRunPropertiesResponse> getWorkflowRunProperties({
-    @_s.required String name,
-    @_s.required String runId,
+    required String name,
+    required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7455,10 +7402,10 @@ class Glue {
   /// Parameter [nextToken] :
   /// The maximum size of the response.
   Future<GetWorkflowRunsResponse> getWorkflowRuns({
-    @_s.required String name,
-    bool includeGraph,
-    int maxResults,
-    String nextToken,
+    required String name,
+    bool? includeGraph,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7510,7 +7457,7 @@ class Glue {
   /// The ID of the catalog to import. Currently, this should be the AWS account
   /// ID.
   Future<void> importCatalogToGlue({
-    String catalogId,
+    String? catalogId,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -7527,7 +7474,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ImportCatalogToGlue'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -7537,8 +7484,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return ImportCatalogToGlueResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the names of all crawler resources in this AWS account, or the
@@ -7561,9 +7506,9 @@ class Glue {
   /// Parameter [tags] :
   /// Specifies to return only these tagged resources.
   Future<ListCrawlersResponse> listCrawlers({
-    int maxResults,
-    String nextToken,
-    Map<String, String> tags,
+    int? maxResults,
+    String? nextToken,
+    Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7614,9 +7559,9 @@ class Glue {
   /// Parameter [tags] :
   /// Specifies to return only these tagged resources.
   Future<ListDevEndpointsResponse> listDevEndpoints({
-    int maxResults,
-    String nextToken,
-    Map<String, String> tags,
+    int? maxResults,
+    String? nextToken,
+    Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7667,9 +7612,9 @@ class Glue {
   /// Parameter [tags] :
   /// Specifies to return only these tagged resources.
   Future<ListJobsResponse> listJobs({
-    int maxResults,
-    String nextToken,
-    Map<String, String> tags,
+    int? maxResults,
+    String? nextToken,
+    Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7726,11 +7671,11 @@ class Glue {
   /// Parameter [tags] :
   /// Specifies to return only these tagged resources.
   Future<ListMLTransformsResponse> listMLTransforms({
-    TransformFilterCriteria filter,
-    int maxResults,
-    String nextToken,
-    TransformSortCriteria sort,
-    Map<String, String> tags,
+    TransformFilterCriteria? filter,
+    int? maxResults,
+    String? nextToken,
+    TransformSortCriteria? sort,
+    Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7776,8 +7721,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<ListRegistriesResponse> listRegistries({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7838,9 +7783,9 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
   Future<ListSchemaVersionsResponse> listSchemaVersions({
-    @_s.required SchemaId schemaId,
-    int maxResults,
-    String nextToken,
+    required SchemaId schemaId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     _s.validateNumRange(
@@ -7892,9 +7837,9 @@ class Glue {
   /// A wrapper structure that may contain the registry name and Amazon Resource
   /// Name (ARN).
   Future<ListSchemasResponse> listSchemas({
-    int maxResults,
-    String nextToken,
-    RegistryId registryId,
+    int? maxResults,
+    String? nextToken,
+    RegistryId? registryId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7950,10 +7895,10 @@ class Glue {
   /// Parameter [tags] :
   /// Specifies to return only these tagged resources.
   Future<ListTriggersResponse> listTriggers({
-    String dependentJobName,
-    int maxResults,
-    String nextToken,
-    Map<String, String> tags,
+    String? dependentJobName,
+    int? maxResults,
+    String? nextToken,
+    Map<String, String>? tags,
   }) async {
     _s.validateStringLength(
       'dependentJobName',
@@ -8005,8 +7950,8 @@ class Glue {
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation request.
   Future<ListWorkflowsResponse> listWorkflows({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8048,8 +7993,8 @@ class Glue {
   /// The ID of the Data Catalog to set the security configuration for. If none
   /// is provided, the AWS account ID is used by default.
   Future<void> putDataCatalogEncryptionSettings({
-    @_s.required DataCatalogEncryptionSettings dataCatalogEncryptionSettings,
-    String catalogId,
+    required DataCatalogEncryptionSettings dataCatalogEncryptionSettings,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(
         dataCatalogEncryptionSettings, 'dataCatalogEncryptionSettings');
@@ -8068,7 +8013,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutDataCatalogEncryptionSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8079,8 +8024,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return PutDataCatalogEncryptionSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets the Data Catalog resource policy for access control.
@@ -8122,11 +8065,11 @@ class Glue {
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id">AWS
   /// Glue ARN string pattern</a>
   Future<PutResourcePolicyResponse> putResourcePolicy({
-    @_s.required String policyInJson,
-    EnableHybridValues enableHybrid,
-    ExistCondition policyExistsCondition,
-    String policyHashCondition,
-    String resourceArn,
+    required String policyInJson,
+    EnableHybridValues? enableHybrid,
+    ExistCondition? policyExistsCondition,
+    String? policyHashCondition,
+    String? resourceArn,
   }) async {
     ArgumentError.checkNotNull(policyInJson, 'policyInJson');
     _s.validateStringLength(
@@ -8204,10 +8147,10 @@ class Glue {
   /// Parameter [schemaVersionNumber] :
   /// The version number of the schema.
   Future<PutSchemaVersionMetadataResponse> putSchemaVersionMetadata({
-    @_s.required MetadataKeyValuePair metadataKeyValue,
-    SchemaId schemaId,
-    String schemaVersionId,
-    SchemaVersionNumber schemaVersionNumber,
+    required MetadataKeyValuePair metadataKeyValue,
+    SchemaId? schemaId,
+    String? schemaVersionId,
+    SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
     _s.validateStringLength(
@@ -8264,9 +8207,9 @@ class Glue {
   /// Parameter [runProperties] :
   /// The properties to put for the specified run.
   Future<void> putWorkflowRunProperties({
-    @_s.required String name,
-    @_s.required String runId,
-    @_s.required Map<String, String> runProperties,
+    required String name,
+    required String runId,
+    required Map<String, String> runProperties,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -8301,7 +8244,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutWorkflowRunProperties'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8313,8 +8256,6 @@ class Glue {
         'RunProperties': runProperties,
       },
     );
-
-    return PutWorkflowRunPropertiesResponse.fromJson(jsonResponse.body);
   }
 
   /// Queries for the schema version metadata information.
@@ -8344,12 +8285,12 @@ class Glue {
   /// Parameter [schemaVersionNumber] :
   /// The version number of the schema.
   Future<QuerySchemaVersionMetadataResponse> querySchemaVersionMetadata({
-    int maxResults,
-    List<MetadataKeyValuePair> metadataList,
-    String nextToken,
-    SchemaId schemaId,
-    String schemaVersionId,
-    SchemaVersionNumber schemaVersionNumber,
+    int? maxResults,
+    List<MetadataKeyValuePair>? metadataList,
+    String? nextToken,
+    SchemaId? schemaId,
+    String? schemaVersionId,
+    SchemaVersionNumber? schemaVersionNumber,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8434,8 +8375,8 @@ class Glue {
   /// </li>
   /// </ul>
   Future<RegisterSchemaVersionResponse> registerSchemaVersion({
-    @_s.required String schemaDefinition,
-    @_s.required SchemaId schemaId,
+    required String schemaDefinition,
+    required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
     _s.validateStringLength(
@@ -8491,10 +8432,10 @@ class Glue {
   /// Parameter [schemaVersionNumber] :
   /// The version number of the schema.
   Future<RemoveSchemaVersionMetadataResponse> removeSchemaVersionMetadata({
-    @_s.required MetadataKeyValuePair metadataKeyValue,
-    SchemaId schemaId,
-    String schemaVersionId,
-    SchemaVersionNumber schemaVersionNumber,
+    required MetadataKeyValuePair metadataKeyValue,
+    SchemaId? schemaId,
+    String? schemaVersionId,
+    SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
     _s.validateStringLength(
@@ -8543,8 +8484,8 @@ class Glue {
   /// Parameter [runId] :
   /// The unique run identifier associated with this job run.
   Future<ResetJobBookmarkResponse> resetJobBookmark({
-    @_s.required String jobName,
-    String runId,
+    required String jobName,
+    String? runId,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     final headers = <String, String>{
@@ -8587,9 +8528,9 @@ class Glue {
   /// Parameter [runId] :
   /// The ID of the workflow run to resume.
   Future<ResumeWorkflowRunResponse> resumeWorkflowRun({
-    @_s.required String name,
-    @_s.required List<String> nodeIds,
-    @_s.required String runId,
+    required String name,
+    required List<String> nodeIds,
+    required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -8706,13 +8647,13 @@ class Glue {
   /// A list of criteria for sorting the results by a field name, in an
   /// ascending or descending order.
   Future<SearchTablesResponse> searchTables({
-    String catalogId,
-    List<PropertyPredicate> filters,
-    int maxResults,
-    String nextToken,
-    ResourceShareType resourceShareType,
-    String searchText,
-    List<SortCriterion> sortCriteria,
+    String? catalogId,
+    List<PropertyPredicate>? filters,
+    int? maxResults,
+    String? nextToken,
+    ResourceShareType? resourceShareType,
+    String? searchText,
+    List<SortCriterion>? sortCriteria,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -8773,7 +8714,7 @@ class Glue {
   /// Parameter [name] :
   /// Name of the crawler to start.
   Future<void> startCrawler({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -8793,7 +8734,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartCrawler'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8803,8 +8744,6 @@ class Glue {
         'Name': name,
       },
     );
-
-    return StartCrawlerResponse.fromJson(jsonResponse.body);
   }
 
   /// Changes the schedule state of the specified crawler to
@@ -8820,7 +8759,7 @@ class Glue {
   /// Parameter [crawlerName] :
   /// Name of the crawler to schedule.
   Future<void> startCrawlerSchedule({
-    @_s.required String crawlerName,
+    required String crawlerName,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
     _s.validateStringLength(
@@ -8840,7 +8779,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartCrawlerSchedule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8850,8 +8789,6 @@ class Glue {
         'CrawlerName': crawlerName,
       },
     );
-
-    return StartCrawlerScheduleResponse.fromJson(jsonResponse.body);
   }
 
   /// Begins an asynchronous task to export all labeled data for a particular
@@ -8876,8 +8813,8 @@ class Glue {
   /// Parameter [transformId] :
   /// The unique identifier of the machine learning transform.
   Future<StartExportLabelsTaskRunResponse> startExportLabelsTaskRun({
-    @_s.required String outputS3Path,
-    @_s.required String transformId,
+    required String outputS3Path,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(outputS3Path, 'outputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
@@ -8960,9 +8897,9 @@ class Glue {
   /// Parameter [replaceAllLabels] :
   /// Indicates whether to overwrite your existing labels.
   Future<StartImportLabelsTaskRunResponse> startImportLabelsTaskRun({
-    @_s.required String inputS3Path,
-    @_s.required String transformId,
-    bool replaceAllLabels,
+    required String inputS3Path,
+    required String transformId,
+    bool? replaceAllLabels,
   }) async {
     ArgumentError.checkNotNull(inputS3Path, 'inputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
@@ -9108,16 +9045,16 @@ class Glue {
   /// </li>
   /// </ul>
   Future<StartJobRunResponse> startJobRun({
-    @_s.required String jobName,
-    int allocatedCapacity,
-    Map<String, String> arguments,
-    String jobRunId,
-    double maxCapacity,
-    NotificationProperty notificationProperty,
-    int numberOfWorkers,
-    String securityConfiguration,
-    int timeout,
-    WorkerType workerType,
+    required String jobName,
+    int? allocatedCapacity,
+    Map<String, String>? arguments,
+    String? jobRunId,
+    double? maxCapacity,
+    NotificationProperty? notificationProperty,
+    int? numberOfWorkers,
+    String? securityConfiguration,
+    int? timeout,
+    WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -9210,7 +9147,7 @@ class Glue {
   /// Parameter [transformId] :
   /// The unique identifier of the machine learning transform.
   Future<StartMLEvaluationTaskRunResponse> startMLEvaluationTaskRun({
-    @_s.required String transformId,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
     _s.validateStringLength(
@@ -9276,8 +9213,8 @@ class Glue {
   /// The unique identifier of the machine learning transform.
   Future<StartMLLabelingSetGenerationTaskRunResponse>
       startMLLabelingSetGenerationTaskRun({
-    @_s.required String outputS3Path,
-    @_s.required String transformId,
+    required String outputS3Path,
+    required String transformId,
   }) async {
     ArgumentError.checkNotNull(outputS3Path, 'outputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
@@ -9328,7 +9265,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the trigger to start.
   Future<StartTriggerResponse> startTrigger({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9374,7 +9311,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the workflow to start.
   Future<StartWorkflowRunResponse> startWorkflowRun({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9418,7 +9355,7 @@ class Glue {
   /// Parameter [name] :
   /// Name of the crawler to stop.
   Future<void> stopCrawler({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9438,7 +9375,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopCrawler'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9448,8 +9385,6 @@ class Glue {
         'Name': name,
       },
     );
-
-    return StopCrawlerResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets the schedule state of the specified crawler to
@@ -9464,7 +9399,7 @@ class Glue {
   /// Parameter [crawlerName] :
   /// Name of the crawler whose schedule state to set.
   Future<void> stopCrawlerSchedule({
-    @_s.required String crawlerName,
+    required String crawlerName,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
     _s.validateStringLength(
@@ -9484,7 +9419,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopCrawlerSchedule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9494,8 +9429,6 @@ class Glue {
         'CrawlerName': crawlerName,
       },
     );
-
-    return StopCrawlerScheduleResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops a specified trigger.
@@ -9509,7 +9442,7 @@ class Glue {
   /// Parameter [name] :
   /// The name of the trigger to stop.
   Future<StopTriggerResponse> stopTrigger({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9557,8 +9490,8 @@ class Glue {
   /// Parameter [runId] :
   /// The ID of the workflow run to stop.
   Future<void> stopWorkflowRun({
-    @_s.required String name,
-    @_s.required String runId,
+    required String name,
+    required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9592,7 +9525,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopWorkflowRun'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9603,8 +9536,6 @@ class Glue {
         'RunId': runId,
       },
     );
-
-    return StopWorkflowRunResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds tags to a resource. A tag is a label you can assign to an AWS
@@ -9627,8 +9558,8 @@ class Glue {
   /// Parameter [tagsToAdd] :
   /// Tags to add to this resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tagsToAdd,
+    required String resourceArn,
+    required Map<String, String> tagsToAdd,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -9649,7 +9580,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9660,8 +9591,6 @@ class Glue {
         'TagsToAdd': tagsToAdd,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from a resource.
@@ -9678,8 +9607,8 @@ class Glue {
   /// Parameter [tagsToRemove] :
   /// Tags to remove from this resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagsToRemove,
+    required String resourceArn,
+    required List<String> tagsToRemove,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -9700,7 +9629,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9711,8 +9640,6 @@ class Glue {
         'TagsToRemove': tagsToRemove,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies an existing classifier (a <code>GrokClassifier</code>, an
@@ -9736,16 +9663,16 @@ class Glue {
   /// Parameter [xMLClassifier] :
   /// An <code>XMLClassifier</code> object with updated fields.
   Future<void> updateClassifier({
-    UpdateCsvClassifierRequest csvClassifier,
-    UpdateGrokClassifierRequest grokClassifier,
-    UpdateJsonClassifierRequest jsonClassifier,
-    UpdateXMLClassifierRequest xMLClassifier,
+    UpdateCsvClassifierRequest? csvClassifier,
+    UpdateGrokClassifierRequest? grokClassifier,
+    UpdateJsonClassifierRequest? jsonClassifier,
+    UpdateXMLClassifierRequest? xMLClassifier,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateClassifier'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9758,8 +9685,6 @@ class Glue {
         if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
       },
     );
-
-    return UpdateClassifierResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates partition statistics of columns.
@@ -9790,11 +9715,11 @@ class Glue {
   /// none is supplied, the AWS account ID is used by default.
   Future<UpdateColumnStatisticsForPartitionResponse>
       updateColumnStatisticsForPartition({
-    @_s.required List<ColumnStatistics> columnStatisticsList,
-    @_s.required String databaseName,
-    @_s.required List<String> partitionValues,
-    @_s.required String tableName,
-    String catalogId,
+    required List<ColumnStatistics> columnStatisticsList,
+    required String databaseName,
+    required List<String> partitionValues,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -9885,10 +9810,10 @@ class Glue {
   /// none is supplied, the AWS account ID is used by default.
   Future<UpdateColumnStatisticsForTableResponse>
       updateColumnStatisticsForTable({
-    @_s.required List<ColumnStatistics> columnStatisticsList,
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    String catalogId,
+    required List<ColumnStatistics> columnStatisticsList,
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -9970,9 +9895,9 @@ class Glue {
   /// The ID of the Data Catalog in which the connection resides. If none is
   /// provided, the AWS account ID is used by default.
   Future<void> updateConnection({
-    @_s.required ConnectionInput connectionInput,
-    @_s.required String name,
-    String catalogId,
+    required ConnectionInput connectionInput,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionInput, 'connectionInput');
     ArgumentError.checkNotNull(name, 'name');
@@ -10004,7 +9929,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateConnection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10016,8 +9941,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return UpdateConnectionResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a crawler. If a crawler is running, you must stop it using
@@ -10080,19 +10003,19 @@ class Glue {
   /// Parameter [targets] :
   /// A list of targets to crawl.
   Future<void> updateCrawler({
-    @_s.required String name,
-    List<String> classifiers,
-    String configuration,
-    String crawlerSecurityConfiguration,
-    String databaseName,
-    String description,
-    LineageConfiguration lineageConfiguration,
-    RecrawlPolicy recrawlPolicy,
-    String role,
-    String schedule,
-    SchemaChangePolicy schemaChangePolicy,
-    String tablePrefix,
-    CrawlerTargets targets,
+    required String name,
+    List<String>? classifiers,
+    String? configuration,
+    String? crawlerSecurityConfiguration,
+    String? databaseName,
+    String? description,
+    LineageConfiguration? lineageConfiguration,
+    RecrawlPolicy? recrawlPolicy,
+    String? role,
+    String? schedule,
+    SchemaChangePolicy? schemaChangePolicy,
+    String? tablePrefix,
+    CrawlerTargets? targets,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -10135,7 +10058,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateCrawler'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10160,8 +10083,6 @@ class Glue {
         if (targets != null) 'Targets': targets,
       },
     );
-
-    return UpdateCrawlerResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the schedule of a crawler using a <code>cron</code> expression.
@@ -10182,8 +10103,8 @@ class Glue {
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every
   /// day at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
   Future<void> updateCrawlerSchedule({
-    @_s.required String crawlerName,
-    String schedule,
+    required String crawlerName,
+    String? schedule,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
     _s.validateStringLength(
@@ -10203,7 +10124,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateCrawlerSchedule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10214,8 +10135,6 @@ class Glue {
         if (schedule != null) 'Schedule': schedule,
       },
     );
-
-    return UpdateCrawlerScheduleResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing database definition in a Data Catalog.
@@ -10238,9 +10157,9 @@ class Glue {
   /// The ID of the Data Catalog in which the metadata database resides. If none
   /// is provided, the AWS account ID is used by default.
   Future<void> updateDatabase({
-    @_s.required DatabaseInput databaseInput,
-    @_s.required String name,
-    String catalogId,
+    required DatabaseInput databaseInput,
+    required String name,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
     ArgumentError.checkNotNull(name, 'name');
@@ -10272,7 +10191,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateDatabase'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10284,8 +10203,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return UpdateDatabaseResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a specified development endpoint.
@@ -10343,21 +10260,21 @@ class Glue {
   /// development endpoint needs to be updated, or <code>False</code> if
   /// otherwise.
   Future<void> updateDevEndpoint({
-    @_s.required String endpointName,
-    Map<String, String> addArguments,
-    List<String> addPublicKeys,
-    DevEndpointCustomLibraries customLibraries,
-    List<String> deleteArguments,
-    List<String> deletePublicKeys,
-    String publicKey,
-    bool updateEtlLibraries,
+    required String endpointName,
+    Map<String, String>? addArguments,
+    List<String>? addPublicKeys,
+    DevEndpointCustomLibraries? customLibraries,
+    List<String>? deleteArguments,
+    List<String>? deletePublicKeys,
+    String? publicKey,
+    bool? updateEtlLibraries,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateDevEndpoint'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10375,8 +10292,6 @@ class Glue {
           'UpdateEtlLibraries': updateEtlLibraries,
       },
     );
-
-    return UpdateDevEndpointResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing job definition.
@@ -10393,8 +10308,8 @@ class Glue {
   /// Parameter [jobUpdate] :
   /// Specifies the values with which to update the job definition.
   Future<UpdateJobResponse> updateJob({
-    @_s.required String jobName,
-    @_s.required JobUpdate jobUpdate,
+    required String jobName,
+    required JobUpdate jobUpdate,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
@@ -10514,17 +10429,17 @@ class Glue {
   /// </li>
   /// </ul>
   Future<UpdateMLTransformResponse> updateMLTransform({
-    @_s.required String transformId,
-    String description,
-    String glueVersion,
-    double maxCapacity,
-    int maxRetries,
-    String name,
-    int numberOfWorkers,
-    TransformParameters parameters,
-    String role,
-    int timeout,
-    WorkerType workerType,
+    required String transformId,
+    String? description,
+    String? glueVersion,
+    double? maxCapacity,
+    int? maxRetries,
+    String? name,
+    int? numberOfWorkers,
+    TransformParameters? parameters,
+    String? role,
+    int? timeout,
+    WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
     _s.validateStringLength(
@@ -10635,11 +10550,11 @@ class Glue {
   /// The ID of the Data Catalog where the partition to be updated resides. If
   /// none is provided, the AWS account ID is used by default.
   Future<void> updatePartition({
-    @_s.required String databaseName,
-    @_s.required PartitionInput partitionInput,
-    @_s.required List<String> partitionValueList,
-    @_s.required String tableName,
-    String catalogId,
+    required String databaseName,
+    required PartitionInput partitionInput,
+    required List<String> partitionValueList,
+    required String tableName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -10686,7 +10601,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdatePartition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10700,8 +10615,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return UpdatePartitionResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing registry which is used to hold a collection of
@@ -10722,8 +10635,8 @@ class Glue {
   /// This is a wrapper structure that may contain the registry name and Amazon
   /// Resource Name (ARN).
   Future<UpdateRegistryResponse> updateRegistry({
-    @_s.required String description,
-    @_s.required RegistryId registryId,
+    required String description,
+    required RegistryId registryId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -10806,10 +10719,10 @@ class Glue {
   /// <code>VersionNumber</code> or <code>Compatibility</code> has to be
   /// provided.
   Future<UpdateSchemaResponse> updateSchema({
-    @_s.required SchemaId schemaId,
-    Compatibility compatibility,
-    String description,
-    SchemaVersionNumber schemaVersionNumber,
+    required SchemaId schemaId,
+    Compatibility? compatibility,
+    String? description,
+    SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     _s.validateStringLength(
@@ -10872,10 +10785,10 @@ class Glue {
   /// the table before updating it. However, if <code>skipArchive</code> is set
   /// to true, <code>UpdateTable</code> does not create the archived version.
   Future<void> updateTable({
-    @_s.required String databaseName,
-    @_s.required TableInput tableInput,
-    String catalogId,
-    bool skipArchive,
+    required String databaseName,
+    required TableInput tableInput,
+    String? catalogId,
+    bool? skipArchive,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -10907,7 +10820,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateTable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10920,8 +10833,6 @@ class Glue {
         if (skipArchive != null) 'SkipArchive': skipArchive,
       },
     );
-
-    return UpdateTableResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a trigger definition.
@@ -10938,8 +10849,8 @@ class Glue {
   /// Parameter [triggerUpdate] :
   /// The new values with which to update the trigger.
   Future<UpdateTriggerResponse> updateTrigger({
-    @_s.required String name,
-    @_s.required TriggerUpdate triggerUpdate,
+    required String name,
+    required TriggerUpdate triggerUpdate,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -10998,10 +10909,10 @@ class Glue {
   /// The ID of the Data Catalog where the function to be updated is located. If
   /// none is provided, the AWS account ID is used by default.
   Future<void> updateUserDefinedFunction({
-    @_s.required String databaseName,
-    @_s.required UserDefinedFunctionInput functionInput,
-    @_s.required String functionName,
-    String catalogId,
+    required String databaseName,
+    required UserDefinedFunctionInput functionInput,
+    required String functionName,
+    String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -11047,7 +10958,7 @@ class Glue {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateUserDefinedFunction'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -11060,8 +10971,6 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
-
-    return UpdateUserDefinedFunctionResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing workflow.
@@ -11089,10 +10998,10 @@ class Glue {
   /// parameter blank, there is no limit to the number of concurrent workflow
   /// runs.
   Future<UpdateWorkflowResponse> updateWorkflow({
-    @_s.required String name,
-    Map<String, String> defaultRunProperties,
-    String description,
-    int maxConcurrentRuns,
+    required String name,
+    Map<String, String>? defaultRunProperties,
+    String? description,
+    int? maxConcurrentRuns,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -11132,11 +11041,6 @@ class Glue {
 }
 
 /// Defines an action to be initiated by a trigger.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Action {
   /// The job arguments used when this trigger fires. For this job run, they
   /// replace the default arguments set in the job definition itself.
@@ -11153,32 +11057,26 @@ class Action {
   /// your job, see the <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
   /// Parameters Used by AWS Glue</a> topic in the developer guide.
-  @_s.JsonKey(name: 'Arguments')
-  final Map<String, String> arguments;
+  final Map<String, String>? arguments;
 
   /// The name of the crawler to be used with this action.
-  @_s.JsonKey(name: 'CrawlerName')
-  final String crawlerName;
+  final String? crawlerName;
 
   /// The name of a job to be executed.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Specifies configuration properties of a job run notification.
-  @_s.JsonKey(name: 'NotificationProperty')
-  final NotificationProperty notificationProperty;
+  final NotificationProperty? notificationProperty;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this action.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
   /// job run can consume resources before it is terminated and enters
   /// <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours). This
   /// overrides the timeout value set in the parent job.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   Action({
     this.arguments,
@@ -11188,9 +11086,39 @@ class Action {
     this.securityConfiguration,
     this.timeout,
   });
-  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      arguments: (json['Arguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      crawlerName: json['CrawlerName'] as String?,
+      jobName: json['JobName'] as String?,
+      notificationProperty: json['NotificationProperty'] != null
+          ? NotificationProperty.fromJson(
+              json['NotificationProperty'] as Map<String, dynamic>)
+          : null,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      timeout: json['Timeout'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final arguments = this.arguments;
+    final crawlerName = this.crawlerName;
+    final jobName = this.jobName;
+    final notificationProperty = this.notificationProperty;
+    final securityConfiguration = this.securityConfiguration;
+    final timeout = this.timeout;
+    return {
+      if (arguments != null) 'Arguments': arguments,
+      if (crawlerName != null) 'CrawlerName': crawlerName,
+      if (jobName != null) 'JobName': jobName,
+      if (notificationProperty != null)
+        'NotificationProperty': notificationProperty,
+      if (securityConfiguration != null)
+        'SecurityConfiguration': securityConfiguration,
+      if (timeout != null) 'Timeout': timeout,
+    };
+  }
 }
 
 /// A list of errors that can occur when registering partition indexes for an
@@ -11220,602 +11148,682 @@ class Action {
 /// InternalError: Any error which does not belong to other error codes.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackfillError {
   /// The error code for an error that occurred when registering partition indexes
   /// for an existing table.
-  @_s.JsonKey(name: 'Code')
-  final BackfillErrorCode code;
+  final BackfillErrorCode? code;
 
   /// A list of a limited number of partitions in the response.
-  @_s.JsonKey(name: 'Partitions')
-  final List<PartitionValueList> partitions;
+  final List<PartitionValueList>? partitions;
 
   BackfillError({
     this.code,
     this.partitions,
   });
-  factory BackfillError.fromJson(Map<String, dynamic> json) =>
-      _$BackfillErrorFromJson(json);
+  factory BackfillError.fromJson(Map<String, dynamic> json) {
+    return BackfillError(
+      code: (json['Code'] as String?)?.toBackfillErrorCode(),
+      partitions: (json['Partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionValueList.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum BackfillErrorCode {
-  @_s.JsonValue('ENCRYPTED_PARTITION_ERROR')
   encryptedPartitionError,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('INVALID_PARTITION_TYPE_DATA_ERROR')
   invalidPartitionTypeDataError,
-  @_s.JsonValue('MISSING_PARTITION_VALUE_ERROR')
   missingPartitionValueError,
-  @_s.JsonValue('UNSUPPORTED_PARTITION_CHARACTER_ERROR')
   unsupportedPartitionCharacterError,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on BackfillErrorCode {
+  String toValue() {
+    switch (this) {
+      case BackfillErrorCode.encryptedPartitionError:
+        return 'ENCRYPTED_PARTITION_ERROR';
+      case BackfillErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+      case BackfillErrorCode.invalidPartitionTypeDataError:
+        return 'INVALID_PARTITION_TYPE_DATA_ERROR';
+      case BackfillErrorCode.missingPartitionValueError:
+        return 'MISSING_PARTITION_VALUE_ERROR';
+      case BackfillErrorCode.unsupportedPartitionCharacterError:
+        return 'UNSUPPORTED_PARTITION_CHARACTER_ERROR';
+    }
+  }
+}
+
+extension on String {
+  BackfillErrorCode toBackfillErrorCode() {
+    switch (this) {
+      case 'ENCRYPTED_PARTITION_ERROR':
+        return BackfillErrorCode.encryptedPartitionError;
+      case 'INTERNAL_ERROR':
+        return BackfillErrorCode.internalError;
+      case 'INVALID_PARTITION_TYPE_DATA_ERROR':
+        return BackfillErrorCode.invalidPartitionTypeDataError;
+      case 'MISSING_PARTITION_VALUE_ERROR':
+        return BackfillErrorCode.missingPartitionValueError;
+      case 'UNSUPPORTED_PARTITION_CHARACTER_ERROR':
+        return BackfillErrorCode.unsupportedPartitionCharacterError;
+    }
+    throw Exception('$this is not known in enum BackfillErrorCode');
+  }
+}
+
 class BatchCreatePartitionResponse {
   /// The errors encountered when trying to create the requested partitions.
-  @_s.JsonKey(name: 'Errors')
-  final List<PartitionError> errors;
+  final List<PartitionError>? errors;
 
   BatchCreatePartitionResponse({
     this.errors,
   });
-  factory BatchCreatePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreatePartitionResponseFromJson(json);
+  factory BatchCreatePartitionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreatePartitionResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteConnectionResponse {
   /// A map of the names of connections that were not successfully deleted to
   /// error details.
-  @_s.JsonKey(name: 'Errors')
-  final Map<String, ErrorDetail> errors;
+  final Map<String, ErrorDetail>? errors;
 
   /// A list of names of the connection definitions that were successfully
   /// deleted.
-  @_s.JsonKey(name: 'Succeeded')
-  final List<String> succeeded;
+  final List<String>? succeeded;
 
   BatchDeleteConnectionResponse({
     this.errors,
     this.succeeded,
   });
-  factory BatchDeleteConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteConnectionResponseFromJson(json);
+  factory BatchDeleteConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteConnectionResponse(
+      errors: (json['Errors'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ErrorDetail.fromJson(e as Map<String, dynamic>))),
+      succeeded: (json['Succeeded'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeletePartitionResponse {
   /// The errors encountered when trying to delete the requested partitions.
-  @_s.JsonKey(name: 'Errors')
-  final List<PartitionError> errors;
+  final List<PartitionError>? errors;
 
   BatchDeletePartitionResponse({
     this.errors,
   });
-  factory BatchDeletePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeletePartitionResponseFromJson(json);
+  factory BatchDeletePartitionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeletePartitionResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteTableResponse {
   /// A list of errors encountered in attempting to delete the specified tables.
-  @_s.JsonKey(name: 'Errors')
-  final List<TableError> errors;
+  final List<TableError>? errors;
 
   BatchDeleteTableResponse({
     this.errors,
   });
-  factory BatchDeleteTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteTableResponseFromJson(json);
+  factory BatchDeleteTableResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteTableResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteTableVersionResponse {
   /// A list of errors encountered while trying to delete the specified table
   /// versions.
-  @_s.JsonKey(name: 'Errors')
-  final List<TableVersionError> errors;
+  final List<TableVersionError>? errors;
 
   BatchDeleteTableVersionResponse({
     this.errors,
   });
-  factory BatchDeleteTableVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteTableVersionResponseFromJson(json);
+  factory BatchDeleteTableVersionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteTableVersionResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableVersionError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetCrawlersResponse {
   /// A list of crawler definitions.
-  @_s.JsonKey(name: 'Crawlers')
-  final List<Crawler> crawlers;
+  final List<Crawler>? crawlers;
 
   /// A list of names of crawlers that were not found.
-  @_s.JsonKey(name: 'CrawlersNotFound')
-  final List<String> crawlersNotFound;
+  final List<String>? crawlersNotFound;
 
   BatchGetCrawlersResponse({
     this.crawlers,
     this.crawlersNotFound,
   });
-  factory BatchGetCrawlersResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetCrawlersResponseFromJson(json);
+  factory BatchGetCrawlersResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetCrawlersResponse(
+      crawlers: (json['Crawlers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Crawler.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      crawlersNotFound: (json['CrawlersNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetDevEndpointsResponse {
   /// A list of <code>DevEndpoint</code> definitions.
-  @_s.JsonKey(name: 'DevEndpoints')
-  final List<DevEndpoint> devEndpoints;
+  final List<DevEndpoint>? devEndpoints;
 
   /// A list of <code>DevEndpoints</code> not found.
-  @_s.JsonKey(name: 'DevEndpointsNotFound')
-  final List<String> devEndpointsNotFound;
+  final List<String>? devEndpointsNotFound;
 
   BatchGetDevEndpointsResponse({
     this.devEndpoints,
     this.devEndpointsNotFound,
   });
-  factory BatchGetDevEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetDevEndpointsResponseFromJson(json);
+  factory BatchGetDevEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetDevEndpointsResponse(
+      devEndpoints: (json['DevEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => DevEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      devEndpointsNotFound: (json['DevEndpointsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetJobsResponse {
   /// A list of job definitions.
-  @_s.JsonKey(name: 'Jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   /// A list of names of jobs not found.
-  @_s.JsonKey(name: 'JobsNotFound')
-  final List<String> jobsNotFound;
+  final List<String>? jobsNotFound;
 
   BatchGetJobsResponse({
     this.jobs,
     this.jobsNotFound,
   });
-  factory BatchGetJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetJobsResponseFromJson(json);
+  factory BatchGetJobsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetJobsResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobsNotFound: (json['JobsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetPartitionResponse {
   /// A list of the requested partitions.
-  @_s.JsonKey(name: 'Partitions')
-  final List<Partition> partitions;
+  final List<Partition>? partitions;
 
   /// A list of the partition values in the request for which partitions were not
   /// returned.
-  @_s.JsonKey(name: 'UnprocessedKeys')
-  final List<PartitionValueList> unprocessedKeys;
+  final List<PartitionValueList>? unprocessedKeys;
 
   BatchGetPartitionResponse({
     this.partitions,
     this.unprocessedKeys,
   });
-  factory BatchGetPartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetPartitionResponseFromJson(json);
+  factory BatchGetPartitionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetPartitionResponse(
+      partitions: (json['Partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Partition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedKeys: (json['UnprocessedKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionValueList.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetTriggersResponse {
   /// A list of trigger definitions.
-  @_s.JsonKey(name: 'Triggers')
-  final List<Trigger> triggers;
+  final List<Trigger>? triggers;
 
   /// A list of names of triggers not found.
-  @_s.JsonKey(name: 'TriggersNotFound')
-  final List<String> triggersNotFound;
+  final List<String>? triggersNotFound;
 
   BatchGetTriggersResponse({
     this.triggers,
     this.triggersNotFound,
   });
-  factory BatchGetTriggersResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetTriggersResponseFromJson(json);
+  factory BatchGetTriggersResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetTriggersResponse(
+      triggers: (json['Triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      triggersNotFound: (json['TriggersNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetWorkflowsResponse {
   /// A list of names of workflows not found.
-  @_s.JsonKey(name: 'MissingWorkflows')
-  final List<String> missingWorkflows;
+  final List<String>? missingWorkflows;
 
   /// A list of workflow resource metadata.
-  @_s.JsonKey(name: 'Workflows')
-  final List<Workflow> workflows;
+  final List<Workflow>? workflows;
 
   BatchGetWorkflowsResponse({
     this.missingWorkflows,
     this.workflows,
   });
-  factory BatchGetWorkflowsResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetWorkflowsResponseFromJson(json);
+  factory BatchGetWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetWorkflowsResponse(
+      missingWorkflows: (json['MissingWorkflows'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      workflows: (json['Workflows'] as List?)
+          ?.whereNotNull()
+          .map((e) => Workflow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Records an error that occurred when attempting to stop a specified job run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchStopJobRunError {
   /// Specifies details about the error that was encountered.
-  @_s.JsonKey(name: 'ErrorDetail')
-  final ErrorDetail errorDetail;
+  final ErrorDetail? errorDetail;
 
   /// The name of the job definition that is used in the job run in question.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The <code>JobRunId</code> of the job run in question.
-  @_s.JsonKey(name: 'JobRunId')
-  final String jobRunId;
+  final String? jobRunId;
 
   BatchStopJobRunError({
     this.errorDetail,
     this.jobName,
     this.jobRunId,
   });
-  factory BatchStopJobRunError.fromJson(Map<String, dynamic> json) =>
-      _$BatchStopJobRunErrorFromJson(json);
+  factory BatchStopJobRunError.fromJson(Map<String, dynamic> json) {
+    return BatchStopJobRunError(
+      errorDetail: json['ErrorDetail'] != null
+          ? ErrorDetail.fromJson(json['ErrorDetail'] as Map<String, dynamic>)
+          : null,
+      jobName: json['JobName'] as String?,
+      jobRunId: json['JobRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchStopJobRunResponse {
   /// A list of the errors that were encountered in trying to stop
   /// <code>JobRuns</code>, including the <code>JobRunId</code> for which each
   /// error was encountered and details about the error.
-  @_s.JsonKey(name: 'Errors')
-  final List<BatchStopJobRunError> errors;
+  final List<BatchStopJobRunError>? errors;
 
   /// A list of the JobRuns that were successfully submitted for stopping.
-  @_s.JsonKey(name: 'SuccessfulSubmissions')
-  final List<BatchStopJobRunSuccessfulSubmission> successfulSubmissions;
+  final List<BatchStopJobRunSuccessfulSubmission>? successfulSubmissions;
 
   BatchStopJobRunResponse({
     this.errors,
     this.successfulSubmissions,
   });
-  factory BatchStopJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchStopJobRunResponseFromJson(json);
+  factory BatchStopJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return BatchStopJobRunResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchStopJobRunError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulSubmissions: (json['SuccessfulSubmissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchStopJobRunSuccessfulSubmission.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Records a successful request to stop a specified <code>JobRun</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchStopJobRunSuccessfulSubmission {
   /// The name of the job definition used in the job run that was stopped.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The <code>JobRunId</code> of the job run that was stopped.
-  @_s.JsonKey(name: 'JobRunId')
-  final String jobRunId;
+  final String? jobRunId;
 
   BatchStopJobRunSuccessfulSubmission({
     this.jobName,
     this.jobRunId,
   });
   factory BatchStopJobRunSuccessfulSubmission.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchStopJobRunSuccessfulSubmissionFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchStopJobRunSuccessfulSubmission(
+      jobName: json['JobName'] as String?,
+      jobRunId: json['JobRunId'] as String?,
+    );
+  }
 }
 
 /// Contains information about a batch update partition error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdatePartitionFailureEntry {
   /// The details about the batch update partition error.
-  @_s.JsonKey(name: 'ErrorDetail')
-  final ErrorDetail errorDetail;
+  final ErrorDetail? errorDetail;
 
   /// A list of values defining the partitions.
-  @_s.JsonKey(name: 'PartitionValueList')
-  final List<String> partitionValueList;
+  final List<String>? partitionValueList;
 
   BatchUpdatePartitionFailureEntry({
     this.errorDetail,
     this.partitionValueList,
   });
-  factory BatchUpdatePartitionFailureEntry.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchUpdatePartitionFailureEntryFromJson(json);
+  factory BatchUpdatePartitionFailureEntry.fromJson(Map<String, dynamic> json) {
+    return BatchUpdatePartitionFailureEntry(
+      errorDetail: json['ErrorDetail'] != null
+          ? ErrorDetail.fromJson(json['ErrorDetail'] as Map<String, dynamic>)
+          : null,
+      partitionValueList: (json['PartitionValueList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A structure that contains the values and structure used to update a
 /// partition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchUpdatePartitionRequestEntry {
   /// The structure used to update a partition.
-  @_s.JsonKey(name: 'PartitionInput')
   final PartitionInput partitionInput;
 
   /// A list of values defining the partitions.
-  @_s.JsonKey(name: 'PartitionValueList')
   final List<String> partitionValueList;
 
   BatchUpdatePartitionRequestEntry({
-    @_s.required this.partitionInput,
-    @_s.required this.partitionValueList,
+    required this.partitionInput,
+    required this.partitionValueList,
   });
-  Map<String, dynamic> toJson() =>
-      _$BatchUpdatePartitionRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final partitionInput = this.partitionInput;
+    final partitionValueList = this.partitionValueList;
+    return {
+      'PartitionInput': partitionInput,
+      'PartitionValueList': partitionValueList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdatePartitionResponse {
   /// The errors encountered when trying to update the requested partitions. A
   /// list of <code>BatchUpdatePartitionFailureEntry</code> objects.
-  @_s.JsonKey(name: 'Errors')
-  final List<BatchUpdatePartitionFailureEntry> errors;
+  final List<BatchUpdatePartitionFailureEntry>? errors;
 
   BatchUpdatePartitionResponse({
     this.errors,
   });
-  factory BatchUpdatePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdatePartitionResponseFromJson(json);
+  factory BatchUpdatePartitionResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUpdatePartitionResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchUpdatePartitionFailureEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Defines column statistics supported for bit sequence data values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BinaryColumnStatisticsData {
   /// The average bit sequence length in the column.
-  @_s.JsonKey(name: 'AverageLength')
   final double averageLength;
 
   /// The size of the longest bit sequence in the column.
-  @_s.JsonKey(name: 'MaximumLength')
   final int maximumLength;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   BinaryColumnStatisticsData({
-    @_s.required this.averageLength,
-    @_s.required this.maximumLength,
-    @_s.required this.numberOfNulls,
+    required this.averageLength,
+    required this.maximumLength,
+    required this.numberOfNulls,
   });
-  factory BinaryColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$BinaryColumnStatisticsDataFromJson(json);
+  factory BinaryColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return BinaryColumnStatisticsData(
+      averageLength: json['AverageLength'] as double,
+      maximumLength: json['MaximumLength'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BinaryColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final averageLength = this.averageLength;
+    final maximumLength = this.maximumLength;
+    final numberOfNulls = this.numberOfNulls;
+    return {
+      'AverageLength': averageLength,
+      'MaximumLength': maximumLength,
+      'NumberOfNulls': numberOfNulls,
+    };
+  }
 }
 
 /// Defines column statistics supported for Boolean data columns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BooleanColumnStatisticsData {
   /// The number of false values in the column.
-  @_s.JsonKey(name: 'NumberOfFalses')
   final int numberOfFalses;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   /// The number of true values in the column.
-  @_s.JsonKey(name: 'NumberOfTrues')
   final int numberOfTrues;
 
   BooleanColumnStatisticsData({
-    @_s.required this.numberOfFalses,
-    @_s.required this.numberOfNulls,
-    @_s.required this.numberOfTrues,
+    required this.numberOfFalses,
+    required this.numberOfNulls,
+    required this.numberOfTrues,
   });
-  factory BooleanColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$BooleanColumnStatisticsDataFromJson(json);
+  factory BooleanColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return BooleanColumnStatisticsData(
+      numberOfFalses: json['NumberOfFalses'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+      numberOfTrues: json['NumberOfTrues'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BooleanColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final numberOfFalses = this.numberOfFalses;
+    final numberOfNulls = this.numberOfNulls;
+    final numberOfTrues = this.numberOfTrues;
+    return {
+      'NumberOfFalses': numberOfFalses,
+      'NumberOfNulls': numberOfNulls,
+      'NumberOfTrues': numberOfTrues,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelMLTaskRunResponse {
   /// The status for this run.
-  @_s.JsonKey(name: 'Status')
-  final TaskStatusType status;
+  final TaskStatusType? status;
 
   /// The unique identifier for the task run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   /// The unique identifier of the machine learning transform.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   CancelMLTaskRunResponse({
     this.status,
     this.taskRunId,
     this.transformId,
   });
-  factory CancelMLTaskRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelMLTaskRunResponseFromJson(json);
+  factory CancelMLTaskRunResponse.fromJson(Map<String, dynamic> json) {
+    return CancelMLTaskRunResponse(
+      status: (json['Status'] as String?)?.toTaskStatusType(),
+      taskRunId: json['TaskRunId'] as String?,
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
 enum CatalogEncryptionMode {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('SSE-KMS')
   sseKms,
 }
 
+extension on CatalogEncryptionMode {
+  String toValue() {
+    switch (this) {
+      case CatalogEncryptionMode.disabled:
+        return 'DISABLED';
+      case CatalogEncryptionMode.sseKms:
+        return 'SSE-KMS';
+    }
+  }
+}
+
+extension on String {
+  CatalogEncryptionMode toCatalogEncryptionMode() {
+    switch (this) {
+      case 'DISABLED':
+        return CatalogEncryptionMode.disabled;
+      case 'SSE-KMS':
+        return CatalogEncryptionMode.sseKms;
+    }
+    throw Exception('$this is not known in enum CatalogEncryptionMode');
+  }
+}
+
 /// Specifies a table definition in the AWS Glue Data Catalog.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CatalogEntry {
   /// The database in which the table metadata resides.
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   /// The name of the table in question.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   CatalogEntry({
-    @_s.required this.databaseName,
-    @_s.required this.tableName,
+    required this.databaseName,
+    required this.tableName,
   });
-  Map<String, dynamic> toJson() => _$CatalogEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    return {
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+    };
+  }
 }
 
 /// A structure containing migration status information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CatalogImportStatus {
   /// <code>True</code> if the migration has completed, or <code>False</code>
   /// otherwise.
-  @_s.JsonKey(name: 'ImportCompleted')
-  final bool importCompleted;
+  final bool? importCompleted;
 
   /// The time that the migration was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ImportTime')
-  final DateTime importTime;
+  final DateTime? importTime;
 
   /// The name of the person who initiated the migration.
-  @_s.JsonKey(name: 'ImportedBy')
-  final String importedBy;
+  final String? importedBy;
 
   CatalogImportStatus({
     this.importCompleted,
     this.importTime,
     this.importedBy,
   });
-  factory CatalogImportStatus.fromJson(Map<String, dynamic> json) =>
-      _$CatalogImportStatusFromJson(json);
+  factory CatalogImportStatus.fromJson(Map<String, dynamic> json) {
+    return CatalogImportStatus(
+      importCompleted: json['ImportCompleted'] as bool?,
+      importTime: timeStampFromJson(json['ImportTime']),
+      importedBy: json['ImportedBy'] as String?,
+    );
+  }
 }
 
 /// Specifies an AWS Glue Data Catalog target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CatalogTarget {
   /// The name of the database to be synchronized.
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   /// A list of the tables to be synchronized.
-  @_s.JsonKey(name: 'Tables')
   final List<String> tables;
 
   CatalogTarget({
-    @_s.required this.databaseName,
-    @_s.required this.tables,
+    required this.databaseName,
+    required this.tables,
   });
-  factory CatalogTarget.fromJson(Map<String, dynamic> json) =>
-      _$CatalogTargetFromJson(json);
+  factory CatalogTarget.fromJson(Map<String, dynamic> json) {
+    return CatalogTarget(
+      databaseName: json['DatabaseName'] as String,
+      tables: (json['Tables'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CatalogTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tables = this.tables;
+    return {
+      'DatabaseName': databaseName,
+      'Tables': tables,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckSchemaVersionValidityResponse {
   /// A validation failure error message.
-  @_s.JsonKey(name: 'Error')
-  final String error;
+  final String? error;
 
   /// Return true, if the schema is valid and false otherwise.
-  @_s.JsonKey(name: 'Valid')
-  final bool valid;
+  final bool? valid;
 
   CheckSchemaVersionValidityResponse({
     this.error,
     this.valid,
   });
   factory CheckSchemaVersionValidityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CheckSchemaVersionValidityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CheckSchemaVersionValidityResponse(
+      error: json['Error'] as String?,
+      valid: json['Valid'] as bool?,
+    );
+  }
 }
 
 /// Classifiers are triggered during a crawl task. A classifier checks whether a
@@ -11829,27 +11837,18 @@ class CheckSchemaVersionValidityResponse {
 /// <code>grok</code> classifier, an <code>XML</code> classifier, a
 /// <code>JSON</code> classifier, or a custom <code>CSV</code> classifier, as
 /// specified in one of the fields in the <code>Classifier</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Classifier {
   /// A classifier for comma-separated values (CSV).
-  @_s.JsonKey(name: 'CsvClassifier')
-  final CsvClassifier csvClassifier;
+  final CsvClassifier? csvClassifier;
 
   /// A classifier that uses <code>grok</code>.
-  @_s.JsonKey(name: 'GrokClassifier')
-  final GrokClassifier grokClassifier;
+  final GrokClassifier? grokClassifier;
 
   /// A classifier for JSON content.
-  @_s.JsonKey(name: 'JsonClassifier')
-  final JsonClassifier jsonClassifier;
+  final JsonClassifier? jsonClassifier;
 
   /// A classifier for XML content.
-  @_s.JsonKey(name: 'XMLClassifier')
-  final XMLClassifier xMLClassifier;
+  final XMLClassifier? xMLClassifier;
 
   Classifier({
     this.csvClassifier,
@@ -11857,193 +11856,270 @@ class Classifier {
     this.jsonClassifier,
     this.xMLClassifier,
   });
-  factory Classifier.fromJson(Map<String, dynamic> json) =>
-      _$ClassifierFromJson(json);
+  factory Classifier.fromJson(Map<String, dynamic> json) {
+    return Classifier(
+      csvClassifier: json['CsvClassifier'] != null
+          ? CsvClassifier.fromJson(
+              json['CsvClassifier'] as Map<String, dynamic>)
+          : null,
+      grokClassifier: json['GrokClassifier'] != null
+          ? GrokClassifier.fromJson(
+              json['GrokClassifier'] as Map<String, dynamic>)
+          : null,
+      jsonClassifier: json['JsonClassifier'] != null
+          ? JsonClassifier.fromJson(
+              json['JsonClassifier'] as Map<String, dynamic>)
+          : null,
+      xMLClassifier: json['XMLClassifier'] != null
+          ? XMLClassifier.fromJson(
+              json['XMLClassifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies how Amazon CloudWatch data should be encrypted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchEncryption {
   /// The encryption mode to use for CloudWatch data.
-  @_s.JsonKey(name: 'CloudWatchEncryptionMode')
-  final CloudWatchEncryptionMode cloudWatchEncryptionMode;
+  final CloudWatchEncryptionMode? cloudWatchEncryptionMode;
 
   /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the
   /// data.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   CloudWatchEncryption({
     this.cloudWatchEncryptionMode,
     this.kmsKeyArn,
   });
-  factory CloudWatchEncryption.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchEncryptionFromJson(json);
+  factory CloudWatchEncryption.fromJson(Map<String, dynamic> json) {
+    return CloudWatchEncryption(
+      cloudWatchEncryptionMode: (json['CloudWatchEncryptionMode'] as String?)
+          ?.toCloudWatchEncryptionMode(),
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchEncryptionMode = this.cloudWatchEncryptionMode;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (cloudWatchEncryptionMode != null)
+        'CloudWatchEncryptionMode': cloudWatchEncryptionMode.toValue(),
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
 enum CloudWatchEncryptionMode {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('SSE-KMS')
   sseKms,
 }
 
+extension on CloudWatchEncryptionMode {
+  String toValue() {
+    switch (this) {
+      case CloudWatchEncryptionMode.disabled:
+        return 'DISABLED';
+      case CloudWatchEncryptionMode.sseKms:
+        return 'SSE-KMS';
+    }
+  }
+}
+
+extension on String {
+  CloudWatchEncryptionMode toCloudWatchEncryptionMode() {
+    switch (this) {
+      case 'DISABLED':
+        return CloudWatchEncryptionMode.disabled;
+      case 'SSE-KMS':
+        return CloudWatchEncryptionMode.sseKms;
+    }
+    throw Exception('$this is not known in enum CloudWatchEncryptionMode');
+  }
+}
+
 /// Represents a directional edge in a directed acyclic graph (DAG).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeGenEdge {
   /// The ID of the node at which the edge starts.
-  @_s.JsonKey(name: 'Source')
   final String source;
 
   /// The ID of the node at which the edge ends.
-  @_s.JsonKey(name: 'Target')
   final String target;
 
   /// The target of the edge.
-  @_s.JsonKey(name: 'TargetParameter')
-  final String targetParameter;
+  final String? targetParameter;
 
   CodeGenEdge({
-    @_s.required this.source,
-    @_s.required this.target,
+    required this.source,
+    required this.target,
     this.targetParameter,
   });
-  factory CodeGenEdge.fromJson(Map<String, dynamic> json) =>
-      _$CodeGenEdgeFromJson(json);
+  factory CodeGenEdge.fromJson(Map<String, dynamic> json) {
+    return CodeGenEdge(
+      source: json['Source'] as String,
+      target: json['Target'] as String,
+      targetParameter: json['TargetParameter'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CodeGenEdgeToJson(this);
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final target = this.target;
+    final targetParameter = this.targetParameter;
+    return {
+      'Source': source,
+      'Target': target,
+      if (targetParameter != null) 'TargetParameter': targetParameter,
+    };
+  }
 }
 
 /// Represents a node in a directed acyclic graph (DAG)
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeGenNode {
   /// Properties of the node, in the form of name-value pairs.
-  @_s.JsonKey(name: 'Args')
   final List<CodeGenNodeArg> args;
 
   /// A node identifier that is unique within the node's graph.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The type of node that this is.
-  @_s.JsonKey(name: 'NodeType')
   final String nodeType;
 
   /// The line number of the node.
-  @_s.JsonKey(name: 'LineNumber')
-  final int lineNumber;
+  final int? lineNumber;
 
   CodeGenNode({
-    @_s.required this.args,
-    @_s.required this.id,
-    @_s.required this.nodeType,
+    required this.args,
+    required this.id,
+    required this.nodeType,
     this.lineNumber,
   });
-  factory CodeGenNode.fromJson(Map<String, dynamic> json) =>
-      _$CodeGenNodeFromJson(json);
+  factory CodeGenNode.fromJson(Map<String, dynamic> json) {
+    return CodeGenNode(
+      args: (json['Args'] as List)
+          .whereNotNull()
+          .map((e) => CodeGenNodeArg.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String,
+      nodeType: json['NodeType'] as String,
+      lineNumber: json['LineNumber'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CodeGenNodeToJson(this);
+  Map<String, dynamic> toJson() {
+    final args = this.args;
+    final id = this.id;
+    final nodeType = this.nodeType;
+    final lineNumber = this.lineNumber;
+    return {
+      'Args': args,
+      'Id': id,
+      'NodeType': nodeType,
+      if (lineNumber != null) 'LineNumber': lineNumber,
+    };
+  }
 }
 
 /// An argument or property of a node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeGenNodeArg {
   /// The name of the argument or property.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the argument or property.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   /// True if the value is used as a parameter.
-  @_s.JsonKey(name: 'Param')
-  final bool param;
+  final bool? param;
 
   CodeGenNodeArg({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
     this.param,
   });
-  factory CodeGenNodeArg.fromJson(Map<String, dynamic> json) =>
-      _$CodeGenNodeArgFromJson(json);
+  factory CodeGenNodeArg.fromJson(Map<String, dynamic> json) {
+    return CodeGenNodeArg(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+      param: json['Param'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CodeGenNodeArgToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    final param = this.param;
+    return {
+      'Name': name,
+      'Value': value,
+      if (param != null) 'Param': param,
+    };
+  }
 }
 
 /// A column in a <code>Table</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Column {
   /// The name of the <code>Column</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A free-form text comment.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// These key-value pairs define properties associated with the column.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The data type of the <code>Column</code>.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Column({
-    @_s.required this.name,
+    required this.name,
     this.comment,
     this.parameters,
     this.type,
   });
-  factory Column.fromJson(Map<String, dynamic> json) => _$ColumnFromJson(json);
+  factory Column.fromJson(Map<String, dynamic> json) {
+    return Column(
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['Type'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ColumnToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final comment = this.comment;
+    final parameters = this.parameters;
+    final type = this.type;
+    return {
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+      if (parameters != null) 'Parameters': parameters,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Encapsulates a column name that failed and the reason for failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnError {
   /// The name of the column that failed.
-  @_s.JsonKey(name: 'ColumnName')
-  final String columnName;
+  final String? columnName;
 
   /// An error message with the reason for the failure of an operation.
-  @_s.JsonKey(name: 'Error')
-  final ErrorDetail error;
+  final ErrorDetail? error;
 
   ColumnError({
     this.columnName,
     this.error,
   });
-  factory ColumnError.fromJson(Map<String, dynamic> json) =>
-      _$ColumnErrorFromJson(json);
+  factory ColumnError.fromJson(Map<String, dynamic> json) {
+    return ColumnError(
+      columnName: json['ColumnName'] as String?,
+      error: json['Error'] != null
+          ? ErrorDetail.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A structure containing the column name and column importance score for a
@@ -12051,107 +12127,100 @@ class ColumnError {
 ///
 /// Column importance helps you understand how columns contribute to your model,
 /// by identifying which columns in your records are more important than others.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnImportance {
   /// The name of a column.
-  @_s.JsonKey(name: 'ColumnName')
-  final String columnName;
+  final String? columnName;
 
   /// The column importance score for the column, as a decimal.
-  @_s.JsonKey(name: 'Importance')
-  final double importance;
+  final double? importance;
 
   ColumnImportance({
     this.columnName,
     this.importance,
   });
-  factory ColumnImportance.fromJson(Map<String, dynamic> json) =>
-      _$ColumnImportanceFromJson(json);
+  factory ColumnImportance.fromJson(Map<String, dynamic> json) {
+    return ColumnImportance(
+      columnName: json['ColumnName'] as String?,
+      importance: json['Importance'] as double?,
+    );
+  }
 }
 
 /// Represents the generated column-level statistics for a table or partition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ColumnStatistics {
   /// The timestamp of when column statistics were generated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AnalyzedTime')
   final DateTime analyzedTime;
 
   /// Name of column which statistics belong to.
-  @_s.JsonKey(name: 'ColumnName')
   final String columnName;
 
   /// The data type of the column.
-  @_s.JsonKey(name: 'ColumnType')
   final String columnType;
 
   /// A <code>ColumnStatisticData</code> object that contains the statistics data
   /// values.
-  @_s.JsonKey(name: 'StatisticsData')
   final ColumnStatisticsData statisticsData;
 
   ColumnStatistics({
-    @_s.required this.analyzedTime,
-    @_s.required this.columnName,
-    @_s.required this.columnType,
-    @_s.required this.statisticsData,
+    required this.analyzedTime,
+    required this.columnName,
+    required this.columnType,
+    required this.statisticsData,
   });
-  factory ColumnStatistics.fromJson(Map<String, dynamic> json) =>
-      _$ColumnStatisticsFromJson(json);
+  factory ColumnStatistics.fromJson(Map<String, dynamic> json) {
+    return ColumnStatistics(
+      analyzedTime:
+          nonNullableTimeStampFromJson(json['AnalyzedTime'] as Object),
+      columnName: json['ColumnName'] as String,
+      columnType: json['ColumnType'] as String,
+      statisticsData: ColumnStatisticsData.fromJson(
+          json['StatisticsData'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ColumnStatisticsToJson(this);
+  Map<String, dynamic> toJson() {
+    final analyzedTime = this.analyzedTime;
+    final columnName = this.columnName;
+    final columnType = this.columnType;
+    final statisticsData = this.statisticsData;
+    return {
+      'AnalyzedTime': unixTimestampToJson(analyzedTime),
+      'ColumnName': columnName,
+      'ColumnType': columnType,
+      'StatisticsData': statisticsData,
+    };
+  }
 }
 
 /// Contains the individual types of column statistics data. Only one data
 /// object should be set and indicated by the <code>Type</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ColumnStatisticsData {
   /// The type of column statistics data.
-  @_s.JsonKey(name: 'Type')
   final ColumnStatisticsType type;
 
   /// Binary column statistics data.
-  @_s.JsonKey(name: 'BinaryColumnStatisticsData')
-  final BinaryColumnStatisticsData binaryColumnStatisticsData;
+  final BinaryColumnStatisticsData? binaryColumnStatisticsData;
 
   /// Boolean column statistics data.
-  @_s.JsonKey(name: 'BooleanColumnStatisticsData')
-  final BooleanColumnStatisticsData booleanColumnStatisticsData;
+  final BooleanColumnStatisticsData? booleanColumnStatisticsData;
 
   /// Date column statistics data.
-  @_s.JsonKey(name: 'DateColumnStatisticsData')
-  final DateColumnStatisticsData dateColumnStatisticsData;
+  final DateColumnStatisticsData? dateColumnStatisticsData;
 
   /// Decimal column statistics data.
-  @_s.JsonKey(name: 'DecimalColumnStatisticsData')
-  final DecimalColumnStatisticsData decimalColumnStatisticsData;
+  final DecimalColumnStatisticsData? decimalColumnStatisticsData;
 
   /// Double column statistics data.
-  @_s.JsonKey(name: 'DoubleColumnStatisticsData')
-  final DoubleColumnStatisticsData doubleColumnStatisticsData;
+  final DoubleColumnStatisticsData? doubleColumnStatisticsData;
 
   /// Long column statistics data.
-  @_s.JsonKey(name: 'LongColumnStatisticsData')
-  final LongColumnStatisticsData longColumnStatisticsData;
+  final LongColumnStatisticsData? longColumnStatisticsData;
 
   /// String column statistics data.
-  @_s.JsonKey(name: 'StringColumnStatisticsData')
-  final StringColumnStatisticsData stringColumnStatisticsData;
+  final StringColumnStatisticsData? stringColumnStatisticsData;
 
   ColumnStatisticsData({
-    @_s.required this.type,
+    required this.type,
     this.binaryColumnStatisticsData,
     this.booleanColumnStatisticsData,
     this.dateColumnStatisticsData,
@@ -12160,82 +12229,199 @@ class ColumnStatisticsData {
     this.longColumnStatisticsData,
     this.stringColumnStatisticsData,
   });
-  factory ColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$ColumnStatisticsDataFromJson(json);
+  factory ColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return ColumnStatisticsData(
+      type: (json['Type'] as String).toColumnStatisticsType(),
+      binaryColumnStatisticsData: json['BinaryColumnStatisticsData'] != null
+          ? BinaryColumnStatisticsData.fromJson(
+              json['BinaryColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      booleanColumnStatisticsData: json['BooleanColumnStatisticsData'] != null
+          ? BooleanColumnStatisticsData.fromJson(
+              json['BooleanColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      dateColumnStatisticsData: json['DateColumnStatisticsData'] != null
+          ? DateColumnStatisticsData.fromJson(
+              json['DateColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      decimalColumnStatisticsData: json['DecimalColumnStatisticsData'] != null
+          ? DecimalColumnStatisticsData.fromJson(
+              json['DecimalColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      doubleColumnStatisticsData: json['DoubleColumnStatisticsData'] != null
+          ? DoubleColumnStatisticsData.fromJson(
+              json['DoubleColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      longColumnStatisticsData: json['LongColumnStatisticsData'] != null
+          ? LongColumnStatisticsData.fromJson(
+              json['LongColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+      stringColumnStatisticsData: json['StringColumnStatisticsData'] != null
+          ? StringColumnStatisticsData.fromJson(
+              json['StringColumnStatisticsData'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final binaryColumnStatisticsData = this.binaryColumnStatisticsData;
+    final booleanColumnStatisticsData = this.booleanColumnStatisticsData;
+    final dateColumnStatisticsData = this.dateColumnStatisticsData;
+    final decimalColumnStatisticsData = this.decimalColumnStatisticsData;
+    final doubleColumnStatisticsData = this.doubleColumnStatisticsData;
+    final longColumnStatisticsData = this.longColumnStatisticsData;
+    final stringColumnStatisticsData = this.stringColumnStatisticsData;
+    return {
+      'Type': type.toValue(),
+      if (binaryColumnStatisticsData != null)
+        'BinaryColumnStatisticsData': binaryColumnStatisticsData,
+      if (booleanColumnStatisticsData != null)
+        'BooleanColumnStatisticsData': booleanColumnStatisticsData,
+      if (dateColumnStatisticsData != null)
+        'DateColumnStatisticsData': dateColumnStatisticsData,
+      if (decimalColumnStatisticsData != null)
+        'DecimalColumnStatisticsData': decimalColumnStatisticsData,
+      if (doubleColumnStatisticsData != null)
+        'DoubleColumnStatisticsData': doubleColumnStatisticsData,
+      if (longColumnStatisticsData != null)
+        'LongColumnStatisticsData': longColumnStatisticsData,
+      if (stringColumnStatisticsData != null)
+        'StringColumnStatisticsData': stringColumnStatisticsData,
+    };
+  }
 }
 
 /// Encapsulates a <code>ColumnStatistics</code> object that failed and the
 /// reason for failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnStatisticsError {
   /// The <code>ColumnStatistics</code> of the column.
-  @_s.JsonKey(name: 'ColumnStatistics')
-  final ColumnStatistics columnStatistics;
+  final ColumnStatistics? columnStatistics;
 
   /// An error message with the reason for the failure of an operation.
-  @_s.JsonKey(name: 'Error')
-  final ErrorDetail error;
+  final ErrorDetail? error;
 
   ColumnStatisticsError({
     this.columnStatistics,
     this.error,
   });
-  factory ColumnStatisticsError.fromJson(Map<String, dynamic> json) =>
-      _$ColumnStatisticsErrorFromJson(json);
+  factory ColumnStatisticsError.fromJson(Map<String, dynamic> json) {
+    return ColumnStatisticsError(
+      columnStatistics: json['ColumnStatistics'] != null
+          ? ColumnStatistics.fromJson(
+              json['ColumnStatistics'] as Map<String, dynamic>)
+          : null,
+      error: json['Error'] != null
+          ? ErrorDetail.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ColumnStatisticsType {
-  @_s.JsonValue('BOOLEAN')
   boolean,
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('DECIMAL')
   decimal,
-  @_s.JsonValue('DOUBLE')
   double,
-  @_s.JsonValue('LONG')
   long,
-  @_s.JsonValue('STRING')
   string,
-  @_s.JsonValue('BINARY')
   binary,
 }
 
+extension on ColumnStatisticsType {
+  String toValue() {
+    switch (this) {
+      case ColumnStatisticsType.boolean:
+        return 'BOOLEAN';
+      case ColumnStatisticsType.date:
+        return 'DATE';
+      case ColumnStatisticsType.decimal:
+        return 'DECIMAL';
+      case ColumnStatisticsType.double:
+        return 'DOUBLE';
+      case ColumnStatisticsType.long:
+        return 'LONG';
+      case ColumnStatisticsType.string:
+        return 'STRING';
+      case ColumnStatisticsType.binary:
+        return 'BINARY';
+    }
+  }
+}
+
+extension on String {
+  ColumnStatisticsType toColumnStatisticsType() {
+    switch (this) {
+      case 'BOOLEAN':
+        return ColumnStatisticsType.boolean;
+      case 'DATE':
+        return ColumnStatisticsType.date;
+      case 'DECIMAL':
+        return ColumnStatisticsType.decimal;
+      case 'DOUBLE':
+        return ColumnStatisticsType.double;
+      case 'LONG':
+        return ColumnStatisticsType.long;
+      case 'STRING':
+        return ColumnStatisticsType.string;
+      case 'BINARY':
+        return ColumnStatisticsType.binary;
+    }
+    throw Exception('$this is not known in enum ColumnStatisticsType');
+  }
+}
+
 enum Comparator {
-  @_s.JsonValue('EQUALS')
   equals,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('GREATER_THAN_EQUALS')
   greaterThanEquals,
-  @_s.JsonValue('LESS_THAN_EQUALS')
   lessThanEquals,
 }
 
+extension on Comparator {
+  String toValue() {
+    switch (this) {
+      case Comparator.equals:
+        return 'EQUALS';
+      case Comparator.greaterThan:
+        return 'GREATER_THAN';
+      case Comparator.lessThan:
+        return 'LESS_THAN';
+      case Comparator.greaterThanEquals:
+        return 'GREATER_THAN_EQUALS';
+      case Comparator.lessThanEquals:
+        return 'LESS_THAN_EQUALS';
+    }
+  }
+}
+
+extension on String {
+  Comparator toComparator() {
+    switch (this) {
+      case 'EQUALS':
+        return Comparator.equals;
+      case 'GREATER_THAN':
+        return Comparator.greaterThan;
+      case 'LESS_THAN':
+        return Comparator.lessThan;
+      case 'GREATER_THAN_EQUALS':
+        return Comparator.greaterThanEquals;
+      case 'LESS_THAN_EQUALS':
+        return Comparator.lessThanEquals;
+    }
+    throw Exception('$this is not known in enum Comparator');
+  }
+}
+
 enum Compatibility {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('BACKWARD')
   backward,
-  @_s.JsonValue('BACKWARD_ALL')
   backwardAll,
-  @_s.JsonValue('FORWARD')
   forward,
-  @_s.JsonValue('FORWARD_ALL')
   forwardAll,
-  @_s.JsonValue('FULL')
   full,
-  @_s.JsonValue('FULL_ALL')
   fullAll,
 }
 
@@ -12259,41 +12445,54 @@ extension on Compatibility {
       case Compatibility.fullAll:
         return 'FULL_ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Compatibility toCompatibility() {
+    switch (this) {
+      case 'NONE':
+        return Compatibility.none;
+      case 'DISABLED':
+        return Compatibility.disabled;
+      case 'BACKWARD':
+        return Compatibility.backward;
+      case 'BACKWARD_ALL':
+        return Compatibility.backwardAll;
+      case 'FORWARD':
+        return Compatibility.forward;
+      case 'FORWARD_ALL':
+        return Compatibility.forwardAll;
+      case 'FULL':
+        return Compatibility.full;
+      case 'FULL_ALL':
+        return Compatibility.fullAll;
+    }
+    throw Exception('$this is not known in enum Compatibility');
   }
 }
 
 /// Defines a condition under which a trigger fires.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Condition {
   /// The state of the crawler to which this condition applies.
-  @_s.JsonKey(name: 'CrawlState')
-  final CrawlState crawlState;
+  final CrawlState? crawlState;
 
   /// The name of the crawler to which this condition applies.
-  @_s.JsonKey(name: 'CrawlerName')
-  final String crawlerName;
+  final String? crawlerName;
 
   /// The name of the job whose <code>JobRuns</code> this condition applies to,
   /// and on which this trigger waits.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// A logical operator.
-  @_s.JsonKey(name: 'LogicalOperator')
-  final LogicalOperator logicalOperator;
+  final LogicalOperator? logicalOperator;
 
   /// The condition state. Currently, the only job states that a trigger can
   /// listen for are <code>SUCCEEDED</code>, <code>STOPPED</code>,
   /// <code>FAILED</code>, and <code>TIMEOUT</code>. The only crawler states that
   /// a trigger can listen for are <code>SUCCEEDED</code>, <code>FAILED</code>,
   /// and <code>CANCELLED</code>.
-  @_s.JsonKey(name: 'State')
-  final JobRunState state;
+  final JobRunState? state;
 
   Condition({
     this.crawlState,
@@ -12302,10 +12501,31 @@ class Condition {
     this.logicalOperator,
     this.state,
   });
-  factory Condition.fromJson(Map<String, dynamic> json) =>
-      _$ConditionFromJson(json);
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      crawlState: (json['CrawlState'] as String?)?.toCrawlState(),
+      crawlerName: json['CrawlerName'] as String?,
+      jobName: json['JobName'] as String?,
+      logicalOperator:
+          (json['LogicalOperator'] as String?)?.toLogicalOperator(),
+      state: (json['State'] as String?)?.toJobRunState(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+  Map<String, dynamic> toJson() {
+    final crawlState = this.crawlState;
+    final crawlerName = this.crawlerName;
+    final jobName = this.jobName;
+    final logicalOperator = this.logicalOperator;
+    final state = this.state;
+    return {
+      if (crawlState != null) 'CrawlState': crawlState.toValue(),
+      if (crawlerName != null) 'CrawlerName': crawlerName,
+      if (jobName != null) 'JobName': jobName,
+      if (logicalOperator != null) 'LogicalOperator': logicalOperator.toValue(),
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// The confusion matrix shows you what your transform is predicting accurately
@@ -12314,31 +12534,22 @@ class Condition {
 /// For more information, see <a
 /// href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion matrix</a>
 /// in Wikipedia.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfusionMatrix {
   /// The number of matches in the data that the transform didn't find, in the
   /// confusion matrix for your transform.
-  @_s.JsonKey(name: 'NumFalseNegatives')
-  final int numFalseNegatives;
+  final int? numFalseNegatives;
 
   /// The number of nonmatches in the data that the transform incorrectly
   /// classified as a match, in the confusion matrix for your transform.
-  @_s.JsonKey(name: 'NumFalsePositives')
-  final int numFalsePositives;
+  final int? numFalsePositives;
 
   /// The number of nonmatches in the data that the transform correctly rejected,
   /// in the confusion matrix for your transform.
-  @_s.JsonKey(name: 'NumTrueNegatives')
-  final int numTrueNegatives;
+  final int? numTrueNegatives;
 
   /// The number of matches in the data that the transform correctly found, in the
   /// confusion matrix for your transform.
-  @_s.JsonKey(name: 'NumTruePositives')
-  final int numTruePositives;
+  final int? numTruePositives;
 
   ConfusionMatrix({
     this.numFalseNegatives,
@@ -12346,16 +12557,17 @@ class ConfusionMatrix {
     this.numTrueNegatives,
     this.numTruePositives,
   });
-  factory ConfusionMatrix.fromJson(Map<String, dynamic> json) =>
-      _$ConfusionMatrixFromJson(json);
+  factory ConfusionMatrix.fromJson(Map<String, dynamic> json) {
+    return ConfusionMatrix(
+      numFalseNegatives: json['NumFalseNegatives'] as int?,
+      numFalsePositives: json['NumFalsePositives'] as int?,
+      numTrueNegatives: json['NumTrueNegatives'] as int?,
+      numTruePositives: json['NumTruePositives'] as int?,
+    );
+  }
 }
 
 /// Defines a connection to a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connection {
   /// These key-value pairs define parameters for the connection:
   ///
@@ -12472,44 +12684,33 @@ class Connection {
   /// MARKETPLACE or CUSTOM connection.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ConnectionProperties')
-  final Map<ConnectionPropertyKey, String> connectionProperties;
+  final Map<ConnectionPropertyKey, String>? connectionProperties;
 
   /// The type of the connection. Currently, SFTP is not supported.
-  @_s.JsonKey(name: 'ConnectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// The time that this connection definition was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The description of the connection.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The user, group, or role that last updated this connection definition.
-  @_s.JsonKey(name: 'LastUpdatedBy')
-  final String lastUpdatedBy;
+  final String? lastUpdatedBy;
 
   /// The last time that this connection definition was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// A list of criteria that can be used in selecting this connection.
-  @_s.JsonKey(name: 'MatchCriteria')
-  final List<String> matchCriteria;
+  final List<String>? matchCriteria;
 
   /// The name of the connection definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A map of physical connection requirements, such as virtual private cloud
   /// (VPC) and <code>SecurityGroup</code>, that are needed to make this
   /// connection successfully.
-  @_s.JsonKey(name: 'PhysicalConnectionRequirements')
-  final PhysicalConnectionRequirements physicalConnectionRequirements;
+  final PhysicalConnectionRequirements? physicalConnectionRequirements;
 
   Connection({
     this.connectionProperties,
@@ -12522,19 +12723,33 @@ class Connection {
     this.name,
     this.physicalConnectionRequirements,
   });
-  factory Connection.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFromJson(json);
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectionProperties: (json['ConnectionProperties']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toConnectionPropertyKey(), e as String)),
+      connectionType: (json['ConnectionType'] as String?)?.toConnectionType(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      lastUpdatedBy: json['LastUpdatedBy'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      matchCriteria: (json['MatchCriteria'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      physicalConnectionRequirements: json['PhysicalConnectionRequirements'] !=
+              null
+          ? PhysicalConnectionRequirements.fromJson(
+              json['PhysicalConnectionRequirements'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A structure that is used to specify a connection to create or update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConnectionInput {
   /// These key-value pairs define parameters for the connection.
-  @_s.JsonKey(name: 'ConnectionProperties')
   final Map<ConnectionPropertyKey, String> connectionProperties;
 
   /// The type of the connection. Currently, these types are supported:
@@ -12568,36 +12783,48 @@ class ConnectionInput {
   /// </li>
   /// </ul>
   /// SFTP is not supported.
-  @_s.JsonKey(name: 'ConnectionType')
   final ConnectionType connectionType;
 
   /// The name of the connection.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The description of the connection.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A list of criteria that can be used in selecting this connection.
-  @_s.JsonKey(name: 'MatchCriteria')
-  final List<String> matchCriteria;
+  final List<String>? matchCriteria;
 
   /// A map of physical connection requirements, such as virtual private cloud
   /// (VPC) and <code>SecurityGroup</code>, that are needed to successfully make
   /// this connection.
-  @_s.JsonKey(name: 'PhysicalConnectionRequirements')
-  final PhysicalConnectionRequirements physicalConnectionRequirements;
+  final PhysicalConnectionRequirements? physicalConnectionRequirements;
 
   ConnectionInput({
-    @_s.required this.connectionProperties,
-    @_s.required this.connectionType,
-    @_s.required this.name,
+    required this.connectionProperties,
+    required this.connectionType,
+    required this.name,
     this.description,
     this.matchCriteria,
     this.physicalConnectionRequirements,
   });
-  Map<String, dynamic> toJson() => _$ConnectionInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionProperties = this.connectionProperties;
+    final connectionType = this.connectionType;
+    final name = this.name;
+    final description = this.description;
+    final matchCriteria = this.matchCriteria;
+    final physicalConnectionRequirements = this.physicalConnectionRequirements;
+    return {
+      'ConnectionProperties':
+          connectionProperties.map((k, e) => MapEntry(k.toValue(), e)),
+      'ConnectionType': connectionType.toValue(),
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (matchCriteria != null) 'MatchCriteria': matchCriteria,
+      if (physicalConnectionRequirements != null)
+        'PhysicalConnectionRequirements': physicalConnectionRequirements,
+    };
+  }
 }
 
 /// The data structure used by the Data Catalog to encrypt the password as part
@@ -12614,17 +12841,11 @@ class ConnectionInput {
 /// restrict access on the password key according to your security requirements.
 /// For example, you might want only administrators to have decrypt permission
 /// on the password key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectionPasswordEncryption {
   /// When the <code>ReturnConnectionPasswordEncrypted</code> flag is set to
   /// "true", passwords remain encrypted in the responses of
   /// <code>GetConnection</code> and <code>GetConnections</code>. This encryption
   /// takes effect independently from catalog encryption.
-  @_s.JsonKey(name: 'ReturnConnectionPasswordEncrypted')
   final bool returnConnectionPasswordEncrypted;
 
   /// An AWS KMS key that is used to encrypt the connection password.
@@ -12636,141 +12857,271 @@ class ConnectionPasswordEncryption {
   ///
   /// You can set the decrypt permission to enable or restrict access on the
   /// password key according to your security requirements.
-  @_s.JsonKey(name: 'AwsKmsKeyId')
-  final String awsKmsKeyId;
+  final String? awsKmsKeyId;
 
   ConnectionPasswordEncryption({
-    @_s.required this.returnConnectionPasswordEncrypted,
+    required this.returnConnectionPasswordEncrypted,
     this.awsKmsKeyId,
   });
-  factory ConnectionPasswordEncryption.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionPasswordEncryptionFromJson(json);
+  factory ConnectionPasswordEncryption.fromJson(Map<String, dynamic> json) {
+    return ConnectionPasswordEncryption(
+      returnConnectionPasswordEncrypted:
+          json['ReturnConnectionPasswordEncrypted'] as bool,
+      awsKmsKeyId: json['AwsKmsKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConnectionPasswordEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final returnConnectionPasswordEncrypted =
+        this.returnConnectionPasswordEncrypted;
+    final awsKmsKeyId = this.awsKmsKeyId;
+    return {
+      'ReturnConnectionPasswordEncrypted': returnConnectionPasswordEncrypted,
+      if (awsKmsKeyId != null) 'AwsKmsKeyId': awsKmsKeyId,
+    };
+  }
 }
 
 enum ConnectionPropertyKey {
-  @_s.JsonValue('HOST')
   host,
-  @_s.JsonValue('PORT')
   port,
-  @_s.JsonValue('USERNAME')
   username,
-  @_s.JsonValue('PASSWORD')
   password,
-  @_s.JsonValue('ENCRYPTED_PASSWORD')
   encryptedPassword,
-  @_s.JsonValue('JDBC_DRIVER_JAR_URI')
   jdbcDriverJarUri,
-  @_s.JsonValue('JDBC_DRIVER_CLASS_NAME')
   jdbcDriverClassName,
-  @_s.JsonValue('JDBC_ENGINE')
   jdbcEngine,
-  @_s.JsonValue('JDBC_ENGINE_VERSION')
   jdbcEngineVersion,
-  @_s.JsonValue('CONFIG_FILES')
   configFiles,
-  @_s.JsonValue('INSTANCE_ID')
   instanceId,
-  @_s.JsonValue('JDBC_CONNECTION_URL')
   jdbcConnectionUrl,
-  @_s.JsonValue('JDBC_ENFORCE_SSL')
   jdbcEnforceSsl,
-  @_s.JsonValue('CUSTOM_JDBC_CERT')
   customJdbcCert,
-  @_s.JsonValue('SKIP_CUSTOM_JDBC_CERT_VALIDATION')
   skipCustomJdbcCertValidation,
-  @_s.JsonValue('CUSTOM_JDBC_CERT_STRING')
   customJdbcCertString,
-  @_s.JsonValue('CONNECTION_URL')
   connectionUrl,
-  @_s.JsonValue('KAFKA_BOOTSTRAP_SERVERS')
   kafkaBootstrapServers,
-  @_s.JsonValue('KAFKA_SSL_ENABLED')
   kafkaSslEnabled,
-  @_s.JsonValue('KAFKA_CUSTOM_CERT')
   kafkaCustomCert,
-  @_s.JsonValue('KAFKA_SKIP_CUSTOM_CERT_VALIDATION')
   kafkaSkipCustomCertValidation,
-  @_s.JsonValue('SECRET_ID')
   secretId,
-  @_s.JsonValue('CONNECTOR_URL')
   connectorUrl,
-  @_s.JsonValue('CONNECTOR_TYPE')
   connectorType,
-  @_s.JsonValue('CONNECTOR_CLASS_NAME')
   connectorClassName,
 }
 
+extension on ConnectionPropertyKey {
+  String toValue() {
+    switch (this) {
+      case ConnectionPropertyKey.host:
+        return 'HOST';
+      case ConnectionPropertyKey.port:
+        return 'PORT';
+      case ConnectionPropertyKey.username:
+        return 'USERNAME';
+      case ConnectionPropertyKey.password:
+        return 'PASSWORD';
+      case ConnectionPropertyKey.encryptedPassword:
+        return 'ENCRYPTED_PASSWORD';
+      case ConnectionPropertyKey.jdbcDriverJarUri:
+        return 'JDBC_DRIVER_JAR_URI';
+      case ConnectionPropertyKey.jdbcDriverClassName:
+        return 'JDBC_DRIVER_CLASS_NAME';
+      case ConnectionPropertyKey.jdbcEngine:
+        return 'JDBC_ENGINE';
+      case ConnectionPropertyKey.jdbcEngineVersion:
+        return 'JDBC_ENGINE_VERSION';
+      case ConnectionPropertyKey.configFiles:
+        return 'CONFIG_FILES';
+      case ConnectionPropertyKey.instanceId:
+        return 'INSTANCE_ID';
+      case ConnectionPropertyKey.jdbcConnectionUrl:
+        return 'JDBC_CONNECTION_URL';
+      case ConnectionPropertyKey.jdbcEnforceSsl:
+        return 'JDBC_ENFORCE_SSL';
+      case ConnectionPropertyKey.customJdbcCert:
+        return 'CUSTOM_JDBC_CERT';
+      case ConnectionPropertyKey.skipCustomJdbcCertValidation:
+        return 'SKIP_CUSTOM_JDBC_CERT_VALIDATION';
+      case ConnectionPropertyKey.customJdbcCertString:
+        return 'CUSTOM_JDBC_CERT_STRING';
+      case ConnectionPropertyKey.connectionUrl:
+        return 'CONNECTION_URL';
+      case ConnectionPropertyKey.kafkaBootstrapServers:
+        return 'KAFKA_BOOTSTRAP_SERVERS';
+      case ConnectionPropertyKey.kafkaSslEnabled:
+        return 'KAFKA_SSL_ENABLED';
+      case ConnectionPropertyKey.kafkaCustomCert:
+        return 'KAFKA_CUSTOM_CERT';
+      case ConnectionPropertyKey.kafkaSkipCustomCertValidation:
+        return 'KAFKA_SKIP_CUSTOM_CERT_VALIDATION';
+      case ConnectionPropertyKey.secretId:
+        return 'SECRET_ID';
+      case ConnectionPropertyKey.connectorUrl:
+        return 'CONNECTOR_URL';
+      case ConnectionPropertyKey.connectorType:
+        return 'CONNECTOR_TYPE';
+      case ConnectionPropertyKey.connectorClassName:
+        return 'CONNECTOR_CLASS_NAME';
+    }
+  }
+}
+
+extension on String {
+  ConnectionPropertyKey toConnectionPropertyKey() {
+    switch (this) {
+      case 'HOST':
+        return ConnectionPropertyKey.host;
+      case 'PORT':
+        return ConnectionPropertyKey.port;
+      case 'USERNAME':
+        return ConnectionPropertyKey.username;
+      case 'PASSWORD':
+        return ConnectionPropertyKey.password;
+      case 'ENCRYPTED_PASSWORD':
+        return ConnectionPropertyKey.encryptedPassword;
+      case 'JDBC_DRIVER_JAR_URI':
+        return ConnectionPropertyKey.jdbcDriverJarUri;
+      case 'JDBC_DRIVER_CLASS_NAME':
+        return ConnectionPropertyKey.jdbcDriverClassName;
+      case 'JDBC_ENGINE':
+        return ConnectionPropertyKey.jdbcEngine;
+      case 'JDBC_ENGINE_VERSION':
+        return ConnectionPropertyKey.jdbcEngineVersion;
+      case 'CONFIG_FILES':
+        return ConnectionPropertyKey.configFiles;
+      case 'INSTANCE_ID':
+        return ConnectionPropertyKey.instanceId;
+      case 'JDBC_CONNECTION_URL':
+        return ConnectionPropertyKey.jdbcConnectionUrl;
+      case 'JDBC_ENFORCE_SSL':
+        return ConnectionPropertyKey.jdbcEnforceSsl;
+      case 'CUSTOM_JDBC_CERT':
+        return ConnectionPropertyKey.customJdbcCert;
+      case 'SKIP_CUSTOM_JDBC_CERT_VALIDATION':
+        return ConnectionPropertyKey.skipCustomJdbcCertValidation;
+      case 'CUSTOM_JDBC_CERT_STRING':
+        return ConnectionPropertyKey.customJdbcCertString;
+      case 'CONNECTION_URL':
+        return ConnectionPropertyKey.connectionUrl;
+      case 'KAFKA_BOOTSTRAP_SERVERS':
+        return ConnectionPropertyKey.kafkaBootstrapServers;
+      case 'KAFKA_SSL_ENABLED':
+        return ConnectionPropertyKey.kafkaSslEnabled;
+      case 'KAFKA_CUSTOM_CERT':
+        return ConnectionPropertyKey.kafkaCustomCert;
+      case 'KAFKA_SKIP_CUSTOM_CERT_VALIDATION':
+        return ConnectionPropertyKey.kafkaSkipCustomCertValidation;
+      case 'SECRET_ID':
+        return ConnectionPropertyKey.secretId;
+      case 'CONNECTOR_URL':
+        return ConnectionPropertyKey.connectorUrl;
+      case 'CONNECTOR_TYPE':
+        return ConnectionPropertyKey.connectorType;
+      case 'CONNECTOR_CLASS_NAME':
+        return ConnectionPropertyKey.connectorClassName;
+    }
+    throw Exception('$this is not known in enum ConnectionPropertyKey');
+  }
+}
+
 enum ConnectionType {
-  @_s.JsonValue('JDBC')
   jdbc,
-  @_s.JsonValue('SFTP')
   sftp,
-  @_s.JsonValue('MONGODB')
   mongodb,
-  @_s.JsonValue('KAFKA')
   kafka,
-  @_s.JsonValue('NETWORK')
   network,
-  @_s.JsonValue('MARKETPLACE')
   marketplace,
-  @_s.JsonValue('CUSTOM')
   custom,
 }
 
+extension on ConnectionType {
+  String toValue() {
+    switch (this) {
+      case ConnectionType.jdbc:
+        return 'JDBC';
+      case ConnectionType.sftp:
+        return 'SFTP';
+      case ConnectionType.mongodb:
+        return 'MONGODB';
+      case ConnectionType.kafka:
+        return 'KAFKA';
+      case ConnectionType.network:
+        return 'NETWORK';
+      case ConnectionType.marketplace:
+        return 'MARKETPLACE';
+      case ConnectionType.custom:
+        return 'CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  ConnectionType toConnectionType() {
+    switch (this) {
+      case 'JDBC':
+        return ConnectionType.jdbc;
+      case 'SFTP':
+        return ConnectionType.sftp;
+      case 'MONGODB':
+        return ConnectionType.mongodb;
+      case 'KAFKA':
+        return ConnectionType.kafka;
+      case 'NETWORK':
+        return ConnectionType.network;
+      case 'MARKETPLACE':
+        return ConnectionType.marketplace;
+      case 'CUSTOM':
+        return ConnectionType.custom;
+    }
+    throw Exception('$this is not known in enum ConnectionType');
+  }
+}
+
 /// Specifies the connections used by a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectionsList {
   /// A list of connections used by the job.
-  @_s.JsonKey(name: 'Connections')
-  final List<String> connections;
+  final List<String>? connections;
 
   ConnectionsList({
     this.connections,
   });
-  factory ConnectionsList.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionsListFromJson(json);
+  factory ConnectionsList.fromJson(Map<String, dynamic> json) {
+    return ConnectionsList(
+      connections: (json['Connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConnectionsListToJson(this);
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    return {
+      if (connections != null) 'Connections': connections,
+    };
+  }
 }
 
 /// The details of a crawl in the workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Crawl {
   /// The date and time on which the crawl completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedOn')
-  final DateTime completedOn;
+  final DateTime? completedOn;
 
   /// The error message associated with the crawl.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The log group associated with the crawl.
-  @_s.JsonKey(name: 'LogGroup')
-  final String logGroup;
+  final String? logGroup;
 
   /// The log stream associated with the crawl.
-  @_s.JsonKey(name: 'LogStream')
-  final String logStream;
+  final String? logStream;
 
   /// The date and time on which the crawl started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedOn')
-  final DateTime startedOn;
+  final DateTime? startedOn;
 
   /// The state of the crawler.
-  @_s.JsonKey(name: 'State')
-  final CrawlState state;
+  final CrawlState? state;
 
   Crawl({
     this.completedOn,
@@ -12780,118 +13131,131 @@ class Crawl {
     this.startedOn,
     this.state,
   });
-  factory Crawl.fromJson(Map<String, dynamic> json) => _$CrawlFromJson(json);
+  factory Crawl.fromJson(Map<String, dynamic> json) {
+    return Crawl(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorMessage: json['ErrorMessage'] as String?,
+      logGroup: json['LogGroup'] as String?,
+      logStream: json['LogStream'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      state: (json['State'] as String?)?.toCrawlState(),
+    );
+  }
 }
 
 enum CrawlState {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on CrawlState {
+  String toValue() {
+    switch (this) {
+      case CrawlState.running:
+        return 'RUNNING';
+      case CrawlState.cancelling:
+        return 'CANCELLING';
+      case CrawlState.cancelled:
+        return 'CANCELLED';
+      case CrawlState.succeeded:
+        return 'SUCCEEDED';
+      case CrawlState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  CrawlState toCrawlState() {
+    switch (this) {
+      case 'RUNNING':
+        return CrawlState.running;
+      case 'CANCELLING':
+        return CrawlState.cancelling;
+      case 'CANCELLED':
+        return CrawlState.cancelled;
+      case 'SUCCEEDED':
+        return CrawlState.succeeded;
+      case 'FAILED':
+        return CrawlState.failed;
+    }
+    throw Exception('$this is not known in enum CrawlState');
+  }
 }
 
 /// Specifies a crawler program that examines a data source and uses classifiers
 /// to try to determine its schema. If successful, the crawler records metadata
 /// concerning the data source in the AWS Glue Data Catalog.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Crawler {
   /// A list of UTF-8 strings that specify the custom classifiers that are
   /// associated with the crawler.
-  @_s.JsonKey(name: 'Classifiers')
-  final List<String> classifiers;
+  final List<String>? classifiers;
 
   /// Crawler configuration information. This versioned JSON string allows users
   /// to specify aspects of a crawler's behavior. For more information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
   /// a Crawler</a>.
-  @_s.JsonKey(name: 'Configuration')
-  final String configuration;
+  final String? configuration;
 
   /// If the crawler is running, contains the total time elapsed since the last
   /// crawl began.
-  @_s.JsonKey(name: 'CrawlElapsedTime')
-  final int crawlElapsedTime;
+  final int? crawlElapsedTime;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used by
   /// this crawler.
-  @_s.JsonKey(name: 'CrawlerSecurityConfiguration')
-  final String crawlerSecurityConfiguration;
+  final String? crawlerSecurityConfiguration;
 
   /// The time that the crawler was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the database in which the crawler's output is stored.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// A description of the crawler.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The status of the last crawl, and potentially error information if an error
   /// occurred.
-  @_s.JsonKey(name: 'LastCrawl')
-  final LastCrawlInfo lastCrawl;
+  final LastCrawlInfo? lastCrawl;
 
   /// The time that the crawler was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// A configuration that specifies whether data lineage is enabled for the
   /// crawler.
-  @_s.JsonKey(name: 'LineageConfiguration')
-  final LineageConfiguration lineageConfiguration;
+  final LineageConfiguration? lineageConfiguration;
 
   /// The name of the crawler.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A policy that specifies whether to crawl the entire dataset again, or to
   /// crawl only folders that were added since the last crawler run.
-  @_s.JsonKey(name: 'RecrawlPolicy')
-  final RecrawlPolicy recrawlPolicy;
+  final RecrawlPolicy? recrawlPolicy;
 
   /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer
   /// resources, such as Amazon Simple Storage Service (Amazon S3) data.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// For scheduled crawlers, the schedule when the crawler runs.
-  @_s.JsonKey(name: 'Schedule')
-  final Schedule schedule;
+  final Schedule? schedule;
 
   /// The policy that specifies update and delete behaviors for the crawler.
-  @_s.JsonKey(name: 'SchemaChangePolicy')
-  final SchemaChangePolicy schemaChangePolicy;
+  final SchemaChangePolicy? schemaChangePolicy;
 
   /// Indicates whether the crawler is running, or whether a run is pending.
-  @_s.JsonKey(name: 'State')
-  final CrawlerState state;
+  final CrawlerState? state;
 
   /// The prefix added to the names of tables that are created.
-  @_s.JsonKey(name: 'TablePrefix')
-  final String tablePrefix;
+  final String? tablePrefix;
 
   /// A collection of targets to crawl.
-  @_s.JsonKey(name: 'Targets')
-  final CrawlerTargets targets;
+  final CrawlerTargets? targets;
 
   /// The version of the crawler.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   Crawler({
     this.classifiers,
@@ -12914,56 +13278,104 @@ class Crawler {
     this.targets,
     this.version,
   });
-  factory Crawler.fromJson(Map<String, dynamic> json) =>
-      _$CrawlerFromJson(json);
+  factory Crawler.fromJson(Map<String, dynamic> json) {
+    return Crawler(
+      classifiers: (json['Classifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      configuration: json['Configuration'] as String?,
+      crawlElapsedTime: json['CrawlElapsedTime'] as int?,
+      crawlerSecurityConfiguration:
+          json['CrawlerSecurityConfiguration'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      description: json['Description'] as String?,
+      lastCrawl: json['LastCrawl'] != null
+          ? LastCrawlInfo.fromJson(json['LastCrawl'] as Map<String, dynamic>)
+          : null,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      lineageConfiguration: json['LineageConfiguration'] != null
+          ? LineageConfiguration.fromJson(
+              json['LineageConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      recrawlPolicy: json['RecrawlPolicy'] != null
+          ? RecrawlPolicy.fromJson(
+              json['RecrawlPolicy'] as Map<String, dynamic>)
+          : null,
+      role: json['Role'] as String?,
+      schedule: json['Schedule'] != null
+          ? Schedule.fromJson(json['Schedule'] as Map<String, dynamic>)
+          : null,
+      schemaChangePolicy: json['SchemaChangePolicy'] != null
+          ? SchemaChangePolicy.fromJson(
+              json['SchemaChangePolicy'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toCrawlerState(),
+      tablePrefix: json['TablePrefix'] as String?,
+      targets: json['Targets'] != null
+          ? CrawlerTargets.fromJson(json['Targets'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as int?,
+    );
+  }
 }
 
 enum CrawlerLineageSettings {
-  @_s.JsonValue('ENABLE')
   enable,
-  @_s.JsonValue('DISABLE')
   disable,
 }
 
+extension on CrawlerLineageSettings {
+  String toValue() {
+    switch (this) {
+      case CrawlerLineageSettings.enable:
+        return 'ENABLE';
+      case CrawlerLineageSettings.disable:
+        return 'DISABLE';
+    }
+  }
+}
+
+extension on String {
+  CrawlerLineageSettings toCrawlerLineageSettings() {
+    switch (this) {
+      case 'ENABLE':
+        return CrawlerLineageSettings.enable;
+      case 'DISABLE':
+        return CrawlerLineageSettings.disable;
+    }
+    throw Exception('$this is not known in enum CrawlerLineageSettings');
+  }
+}
+
 /// Metrics for a specified crawler.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CrawlerMetrics {
   /// The name of the crawler.
-  @_s.JsonKey(name: 'CrawlerName')
-  final String crawlerName;
+  final String? crawlerName;
 
   /// The duration of the crawler's most recent run, in seconds.
-  @_s.JsonKey(name: 'LastRuntimeSeconds')
-  final double lastRuntimeSeconds;
+  final double? lastRuntimeSeconds;
 
   /// The median duration of this crawler's runs, in seconds.
-  @_s.JsonKey(name: 'MedianRuntimeSeconds')
-  final double medianRuntimeSeconds;
+  final double? medianRuntimeSeconds;
 
   /// True if the crawler is still estimating how long it will take to complete
   /// this run.
-  @_s.JsonKey(name: 'StillEstimating')
-  final bool stillEstimating;
+  final bool? stillEstimating;
 
   /// The number of tables created by this crawler.
-  @_s.JsonKey(name: 'TablesCreated')
-  final int tablesCreated;
+  final int? tablesCreated;
 
   /// The number of tables deleted by this crawler.
-  @_s.JsonKey(name: 'TablesDeleted')
-  final int tablesDeleted;
+  final int? tablesDeleted;
 
   /// The number of tables updated by this crawler.
-  @_s.JsonKey(name: 'TablesUpdated')
-  final int tablesUpdated;
+  final int? tablesUpdated;
 
   /// The estimated time left to complete a running crawl.
-  @_s.JsonKey(name: 'TimeLeftSeconds')
-  final double timeLeftSeconds;
+  final double? timeLeftSeconds;
 
   CrawlerMetrics({
     this.crawlerName,
@@ -12975,63 +13387,87 @@ class CrawlerMetrics {
     this.tablesUpdated,
     this.timeLeftSeconds,
   });
-  factory CrawlerMetrics.fromJson(Map<String, dynamic> json) =>
-      _$CrawlerMetricsFromJson(json);
+  factory CrawlerMetrics.fromJson(Map<String, dynamic> json) {
+    return CrawlerMetrics(
+      crawlerName: json['CrawlerName'] as String?,
+      lastRuntimeSeconds: json['LastRuntimeSeconds'] as double?,
+      medianRuntimeSeconds: json['MedianRuntimeSeconds'] as double?,
+      stillEstimating: json['StillEstimating'] as bool?,
+      tablesCreated: json['TablesCreated'] as int?,
+      tablesDeleted: json['TablesDeleted'] as int?,
+      tablesUpdated: json['TablesUpdated'] as int?,
+      timeLeftSeconds: json['TimeLeftSeconds'] as double?,
+    );
+  }
 }
 
 /// The details of a Crawler node present in the workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CrawlerNodeDetails {
   /// A list of crawls represented by the crawl node.
-  @_s.JsonKey(name: 'Crawls')
-  final List<Crawl> crawls;
+  final List<Crawl>? crawls;
 
   CrawlerNodeDetails({
     this.crawls,
   });
-  factory CrawlerNodeDetails.fromJson(Map<String, dynamic> json) =>
-      _$CrawlerNodeDetailsFromJson(json);
+  factory CrawlerNodeDetails.fromJson(Map<String, dynamic> json) {
+    return CrawlerNodeDetails(
+      crawls: (json['Crawls'] as List?)
+          ?.whereNotNull()
+          .map((e) => Crawl.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum CrawlerState {
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('STOPPING')
   stopping,
 }
 
+extension on CrawlerState {
+  String toValue() {
+    switch (this) {
+      case CrawlerState.ready:
+        return 'READY';
+      case CrawlerState.running:
+        return 'RUNNING';
+      case CrawlerState.stopping:
+        return 'STOPPING';
+    }
+  }
+}
+
+extension on String {
+  CrawlerState toCrawlerState() {
+    switch (this) {
+      case 'READY':
+        return CrawlerState.ready;
+      case 'RUNNING':
+        return CrawlerState.running;
+      case 'STOPPING':
+        return CrawlerState.stopping;
+    }
+    throw Exception('$this is not known in enum CrawlerState');
+  }
+}
+
 /// Specifies data stores to crawl.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CrawlerTargets {
   /// Specifies AWS Glue Data Catalog targets.
-  @_s.JsonKey(name: 'CatalogTargets')
-  final List<CatalogTarget> catalogTargets;
+  final List<CatalogTarget>? catalogTargets;
 
   /// Specifies Amazon DynamoDB targets.
-  @_s.JsonKey(name: 'DynamoDBTargets')
-  final List<DynamoDBTarget> dynamoDBTargets;
+  final List<DynamoDBTarget>? dynamoDBTargets;
 
   /// Specifies JDBC targets.
-  @_s.JsonKey(name: 'JdbcTargets')
-  final List<JdbcTarget> jdbcTargets;
+  final List<JdbcTarget>? jdbcTargets;
 
   /// Specifies Amazon DocumentDB or MongoDB targets.
-  @_s.JsonKey(name: 'MongoDBTargets')
-  final List<MongoDBTarget> mongoDBTargets;
+  final List<MongoDBTarget>? mongoDBTargets;
 
   /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
-  @_s.JsonKey(name: 'S3Targets')
-  final List<S3Target> s3Targets;
+  final List<S3Target>? s3Targets;
 
   CrawlerTargets({
     this.catalogTargets,
@@ -13040,85 +13476,96 @@ class CrawlerTargets {
     this.mongoDBTargets,
     this.s3Targets,
   });
-  factory CrawlerTargets.fromJson(Map<String, dynamic> json) =>
-      _$CrawlerTargetsFromJson(json);
+  factory CrawlerTargets.fromJson(Map<String, dynamic> json) {
+    return CrawlerTargets(
+      catalogTargets: (json['CatalogTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => CatalogTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dynamoDBTargets: (json['DynamoDBTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DynamoDBTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jdbcTargets: (json['JdbcTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => JdbcTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mongoDBTargets: (json['MongoDBTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => MongoDBTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Targets: (json['S3Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CrawlerTargetsToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalogTargets = this.catalogTargets;
+    final dynamoDBTargets = this.dynamoDBTargets;
+    final jdbcTargets = this.jdbcTargets;
+    final mongoDBTargets = this.mongoDBTargets;
+    final s3Targets = this.s3Targets;
+    return {
+      if (catalogTargets != null) 'CatalogTargets': catalogTargets,
+      if (dynamoDBTargets != null) 'DynamoDBTargets': dynamoDBTargets,
+      if (jdbcTargets != null) 'JdbcTargets': jdbcTargets,
+      if (mongoDBTargets != null) 'MongoDBTargets': mongoDBTargets,
+      if (s3Targets != null) 'S3Targets': s3Targets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateClassifierResponse {
   CreateClassifierResponse();
-  factory CreateClassifierResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClassifierResponseFromJson(json);
+  factory CreateClassifierResponse.fromJson(Map<String, dynamic> _) {
+    return CreateClassifierResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConnectionResponse {
   CreateConnectionResponse();
-  factory CreateConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateConnectionResponseFromJson(json);
+  factory CreateConnectionResponse.fromJson(Map<String, dynamic> _) {
+    return CreateConnectionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCrawlerResponse {
   CreateCrawlerResponse();
-  factory CreateCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCrawlerResponseFromJson(json);
+  factory CreateCrawlerResponse.fromJson(Map<String, dynamic> _) {
+    return CreateCrawlerResponse();
+  }
 }
 
 /// Specifies a custom CSV classifier for <code>CreateClassifier</code> to
 /// create.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateCsvClassifierRequest {
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Enables the processing of files that contain only one column.
-  @_s.JsonKey(name: 'AllowSingleColumn')
-  final bool allowSingleColumn;
+  final bool? allowSingleColumn;
 
   /// Indicates whether the CSV file contains a header.
-  @_s.JsonKey(name: 'ContainsHeader')
-  final CsvHeaderOption containsHeader;
+  final CsvHeaderOption? containsHeader;
 
   /// A custom symbol to denote what separates each column entry in the row.
-  @_s.JsonKey(name: 'Delimiter')
-  final String delimiter;
+  final String? delimiter;
 
   /// Specifies not to trim values before identifying the type of column values.
   /// The default value is true.
-  @_s.JsonKey(name: 'DisableValueTrimming')
-  final bool disableValueTrimming;
+  final bool? disableValueTrimming;
 
   /// A list of strings representing column names.
-  @_s.JsonKey(name: 'Header')
-  final List<String> header;
+  final List<String>? header;
 
   /// A custom symbol to denote what combines content into a single column value.
   /// Must be different from the column delimiter.
-  @_s.JsonKey(name: 'QuoteSymbol')
-  final String quoteSymbol;
+  final String? quoteSymbol;
 
   CreateCsvClassifierRequest({
-    @_s.required this.name,
+    required this.name,
     this.allowSingleColumn,
     this.containsHeader,
     this.delimiter,
@@ -13126,25 +13573,34 @@ class CreateCsvClassifierRequest {
     this.header,
     this.quoteSymbol,
   });
-  Map<String, dynamic> toJson() => _$CreateCsvClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final allowSingleColumn = this.allowSingleColumn;
+    final containsHeader = this.containsHeader;
+    final delimiter = this.delimiter;
+    final disableValueTrimming = this.disableValueTrimming;
+    final header = this.header;
+    final quoteSymbol = this.quoteSymbol;
+    return {
+      'Name': name,
+      if (allowSingleColumn != null) 'AllowSingleColumn': allowSingleColumn,
+      if (containsHeader != null) 'ContainsHeader': containsHeader.toValue(),
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (disableValueTrimming != null)
+        'DisableValueTrimming': disableValueTrimming,
+      if (header != null) 'Header': header,
+      if (quoteSymbol != null) 'QuoteSymbol': quoteSymbol,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatabaseResponse {
   CreateDatabaseResponse();
-  factory CreateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatabaseResponseFromJson(json);
+  factory CreateDatabaseResponse.fromJson(Map<String, dynamic> _) {
+    return CreateDatabaseResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDevEndpointResponse {
   /// The map of arguments used to configure this <code>DevEndpoint</code>.
   ///
@@ -13165,91 +13621,71 @@ class CreateDevEndpointResponse {
   /// using the <code>Arguments</code> parameter in the
   /// <code>CreateDevEndpoint</code> or <code>UpdateDevEndpoint</code> APIs. If no
   /// arguments are provided, the version defaults to Python 2.
-  @_s.JsonKey(name: 'Arguments')
-  final Map<String, String> arguments;
+  final Map<String, String>? arguments;
 
   /// The AWS Availability Zone where this <code>DevEndpoint</code> is located.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The point in time at which this <code>DevEndpoint</code> was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name assigned to the new <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'EndpointName')
-  final String endpointName;
+  final String? endpointName;
 
   /// Path to one or more Java <code>.jar</code> files in an S3 bucket that will
   /// be loaded in your <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'ExtraJarsS3Path')
-  final String extraJarsS3Path;
+  final String? extraJarsS3Path;
 
   /// The paths to one or more Python libraries in an S3 bucket that will be
   /// loaded in your <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'ExtraPythonLibsS3Path')
-  final String extraPythonLibsS3Path;
+  final String? extraPythonLibsS3Path;
 
   /// The reason for a current failure in this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// Glue version determines the versions of Apache Spark and Python that AWS
   /// Glue supports. The Python version indicates the version supported for
   /// running your ETL scripts on development endpoints.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// The number of AWS Glue Data Processing Units (DPUs) allocated to this
   /// DevEndpoint.
-  @_s.JsonKey(name: 'NumberOfNodes')
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated to the development endpoint.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// The Amazon Resource Name (ARN) of the role assigned to the new
   /// <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The name of the <code>SecurityConfiguration</code> structure being used with
   /// this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The security groups assigned to the new <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The current status of the new <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The subnet ID assigned to the new <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The ID of the virtual private cloud (VPC) used by this
   /// <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   /// The type of predefined worker that is allocated to the development endpoint.
   /// May be a value of Standard, G.1X, or G.2X.
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   /// The address of the YARN endpoint used by this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'YarnEndpointAddress')
-  final String yarnEndpointAddress;
+  final String? yarnEndpointAddress;
 
   /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-  @_s.JsonKey(name: 'ZeppelinRemoteSparkInterpreterPort')
-  final int zeppelinRemoteSparkInterpreterPort;
+  final int? zeppelinRemoteSparkInterpreterPort;
 
   CreateDevEndpointResponse({
     this.arguments,
@@ -13272,146 +13708,151 @@ class CreateDevEndpointResponse {
     this.yarnEndpointAddress,
     this.zeppelinRemoteSparkInterpreterPort,
   });
-  factory CreateDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDevEndpointResponseFromJson(json);
+  factory CreateDevEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDevEndpointResponse(
+      arguments: (json['Arguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      availabilityZone: json['AvailabilityZone'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endpointName: json['EndpointName'] as String?,
+      extraJarsS3Path: json['ExtraJarsS3Path'] as String?,
+      extraPythonLibsS3Path: json['ExtraPythonLibsS3Path'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      glueVersion: json['GlueVersion'] as String?,
+      numberOfNodes: json['NumberOfNodes'] as int?,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      roleArn: json['RoleArn'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: json['Status'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      vpcId: json['VpcId'] as String?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+      yarnEndpointAddress: json['YarnEndpointAddress'] as String?,
+      zeppelinRemoteSparkInterpreterPort:
+          json['ZeppelinRemoteSparkInterpreterPort'] as int?,
+    );
+  }
 }
 
 /// Specifies a <code>grok</code> classifier for <code>CreateClassifier</code>
 /// to create.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateGrokClassifierRequest {
   /// An identifier of the data format that the classifier matches, such as
   /// Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
-  @_s.JsonKey(name: 'Classification')
   final String classification;
 
   /// The grok pattern used by this classifier.
-  @_s.JsonKey(name: 'GrokPattern')
   final String grokPattern;
 
   /// The name of the new classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Optional custom grok patterns used by this classifier.
-  @_s.JsonKey(name: 'CustomPatterns')
-  final String customPatterns;
+  final String? customPatterns;
 
   CreateGrokClassifierRequest({
-    @_s.required this.classification,
-    @_s.required this.grokPattern,
-    @_s.required this.name,
+    required this.classification,
+    required this.grokPattern,
+    required this.name,
     this.customPatterns,
   });
-  Map<String, dynamic> toJson() => _$CreateGrokClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final grokPattern = this.grokPattern;
+    final name = this.name;
+    final customPatterns = this.customPatterns;
+    return {
+      'Classification': classification,
+      'GrokPattern': grokPattern,
+      'Name': name,
+      if (customPatterns != null) 'CustomPatterns': customPatterns,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobResponse {
   /// The unique name that was provided for this job definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateJobResponse({
     this.name,
   });
-  factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobResponseFromJson(json);
+  factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Specifies a JSON classifier for <code>CreateClassifier</code> to create.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateJsonClassifierRequest {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
   /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
-  @_s.JsonKey(name: 'JsonPath')
   final String jsonPath;
 
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   CreateJsonClassifierRequest({
-    @_s.required this.jsonPath,
-    @_s.required this.name,
+    required this.jsonPath,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$CreateJsonClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final jsonPath = this.jsonPath;
+    final name = this.name;
+    return {
+      'JsonPath': jsonPath,
+      'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMLTransformResponse {
   /// A unique identifier that is generated for the transform.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   CreateMLTransformResponse({
     this.transformId,
   });
-  factory CreateMLTransformResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMLTransformResponseFromJson(json);
+  factory CreateMLTransformResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMLTransformResponse(
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePartitionIndexResponse {
   CreatePartitionIndexResponse();
-  factory CreatePartitionIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePartitionIndexResponseFromJson(json);
+  factory CreatePartitionIndexResponse.fromJson(Map<String, dynamic> _) {
+    return CreatePartitionIndexResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePartitionResponse {
   CreatePartitionResponse();
-  factory CreatePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePartitionResponseFromJson(json);
+  factory CreatePartitionResponse.fromJson(Map<String, dynamic> _) {
+    return CreatePartitionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRegistryResponse {
   /// A description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the newly created registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The tags for the registry.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateRegistryResponse({
     this.description,
@@ -13419,75 +13860,63 @@ class CreateRegistryResponse {
     this.registryName,
     this.tags,
   });
-  factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRegistryResponseFromJson(json);
+  factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRegistryResponse(
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSchemaResponse {
   /// The schema compatibility mode.
-  @_s.JsonKey(name: 'Compatibility')
-  final Compatibility compatibility;
+  final Compatibility? compatibility;
 
   /// The data format of the schema definition. Currently only <code>AVRO</code>
   /// is supported.
-  @_s.JsonKey(name: 'DataFormat')
-  final DataFormat dataFormat;
+  final DataFormat? dataFormat;
 
   /// A description of the schema if specified when created.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The latest version of the schema associated with the returned schema
   /// definition.
-  @_s.JsonKey(name: 'LatestSchemaVersion')
-  final int latestSchemaVersion;
+  final int? latestSchemaVersion;
 
   /// The next version of the schema associated with the returned schema
   /// definition.
-  @_s.JsonKey(name: 'NextSchemaVersion')
-  final int nextSchemaVersion;
+  final int? nextSchemaVersion;
 
   /// The Amazon Resource Name (ARN) of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The version number of the checkpoint (the last time the compatibility mode
   /// was changed).
-  @_s.JsonKey(name: 'SchemaCheckpoint')
-  final int schemaCheckpoint;
+  final int? schemaCheckpoint;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The status of the schema.
-  @_s.JsonKey(name: 'SchemaStatus')
-  final SchemaStatus schemaStatus;
+  final SchemaStatus? schemaStatus;
 
   /// The unique identifier of the first schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The status of the first schema version created.
-  @_s.JsonKey(name: 'SchemaVersionStatus')
-  final SchemaVersionStatus schemaVersionStatus;
+  final SchemaVersionStatus? schemaVersionStatus;
 
   /// The tags for the schema.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateSchemaResponse({
     this.compatibility,
@@ -13505,126 +13934,115 @@ class CreateSchemaResponse {
     this.schemaVersionStatus,
     this.tags,
   });
-  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSchemaResponseFromJson(json);
+  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSchemaResponse(
+      compatibility: (json['Compatibility'] as String?)?.toCompatibility(),
+      dataFormat: (json['DataFormat'] as String?)?.toDataFormat(),
+      description: json['Description'] as String?,
+      latestSchemaVersion: json['LatestSchemaVersion'] as int?,
+      nextSchemaVersion: json['NextSchemaVersion'] as int?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaCheckpoint: json['SchemaCheckpoint'] as int?,
+      schemaName: json['SchemaName'] as String?,
+      schemaStatus: (json['SchemaStatus'] as String?)?.toSchemaStatus(),
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      schemaVersionStatus:
+          (json['SchemaVersionStatus'] as String?)?.toSchemaVersionStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateScriptResponse {
   /// The Python script generated from the DAG.
-  @_s.JsonKey(name: 'PythonScript')
-  final String pythonScript;
+  final String? pythonScript;
 
   /// The Scala code generated from the DAG.
-  @_s.JsonKey(name: 'ScalaCode')
-  final String scalaCode;
+  final String? scalaCode;
 
   CreateScriptResponse({
     this.pythonScript,
     this.scalaCode,
   });
-  factory CreateScriptResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateScriptResponseFromJson(json);
+  factory CreateScriptResponse.fromJson(Map<String, dynamic> json) {
+    return CreateScriptResponse(
+      pythonScript: json['PythonScript'] as String?,
+      scalaCode: json['ScalaCode'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSecurityConfigurationResponse {
   /// The time at which the new security configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name assigned to the new security configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateSecurityConfigurationResponse({
     this.createdTimestamp,
     this.name,
   });
   factory CreateSecurityConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSecurityConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSecurityConfigurationResponse(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTableResponse {
   CreateTableResponse();
-  factory CreateTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTableResponseFromJson(json);
+  factory CreateTableResponse.fromJson(Map<String, dynamic> _) {
+    return CreateTableResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTriggerResponse {
   /// The name of the trigger.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateTriggerResponse({
     this.name,
   });
-  factory CreateTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTriggerResponseFromJson(json);
+  factory CreateTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTriggerResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserDefinedFunctionResponse {
   CreateUserDefinedFunctionResponse();
-  factory CreateUserDefinedFunctionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateUserDefinedFunctionResponseFromJson(json);
+  factory CreateUserDefinedFunctionResponse.fromJson(Map<String, dynamic> _) {
+    return CreateUserDefinedFunctionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWorkflowResponse {
   /// The name of the workflow which was provided as part of the request.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateWorkflowResponse({
     this.name,
   });
-  factory CreateWorkflowResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateWorkflowResponseFromJson(json);
+  factory CreateWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkflowResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Specifies an XML classifier for <code>CreateClassifier</code> to create.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateXMLClassifierRequest {
   /// An identifier of the data format that the classifier matches.
-  @_s.JsonKey(name: 'Classification')
   final String classification;
 
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The XML tag designating the element that contains each record in an XML
@@ -13633,70 +14051,61 @@ class CreateXMLClassifierRequest {
   /// be parsed as long as it ends with a closing tag (for example, <code>&lt;row
   /// item_a="A" item_b="B"&gt;&lt;/row&gt;</code> is okay, but <code>&lt;row
   /// item_a="A" item_b="B" /&gt;</code> is not).
-  @_s.JsonKey(name: 'RowTag')
-  final String rowTag;
+  final String? rowTag;
 
   CreateXMLClassifierRequest({
-    @_s.required this.classification,
-    @_s.required this.name,
+    required this.classification,
+    required this.name,
     this.rowTag,
   });
-  Map<String, dynamic> toJson() => _$CreateXMLClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final name = this.name;
+    final rowTag = this.rowTag;
+    return {
+      'Classification': classification,
+      'Name': name,
+      if (rowTag != null) 'RowTag': rowTag,
+    };
+  }
 }
 
 /// A classifier for custom <code>CSV</code> content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CsvClassifier {
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Enables the processing of files that contain only one column.
-  @_s.JsonKey(name: 'AllowSingleColumn')
-  final bool allowSingleColumn;
+  final bool? allowSingleColumn;
 
   /// Indicates whether the CSV file contains a header.
-  @_s.JsonKey(name: 'ContainsHeader')
-  final CsvHeaderOption containsHeader;
+  final CsvHeaderOption? containsHeader;
 
   /// The time that this classifier was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A custom symbol to denote what separates each column entry in the row.
-  @_s.JsonKey(name: 'Delimiter')
-  final String delimiter;
+  final String? delimiter;
 
   /// Specifies not to trim values before identifying the type of column values.
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'DisableValueTrimming')
-  final bool disableValueTrimming;
+  final bool? disableValueTrimming;
 
   /// A list of strings representing column names.
-  @_s.JsonKey(name: 'Header')
-  final List<String> header;
+  final List<String>? header;
 
   /// The time that this classifier was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// A custom symbol to denote what combines content into a single column value.
   /// It must be different from the column delimiter.
-  @_s.JsonKey(name: 'QuoteSymbol')
-  final String quoteSymbol;
+  final String? quoteSymbol;
 
   /// The version of this classifier.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   CsvClassifier({
-    @_s.required this.name,
+    required this.name,
     this.allowSingleColumn,
     this.containsHeader,
     this.creationTime,
@@ -13707,50 +14116,99 @@ class CsvClassifier {
     this.quoteSymbol,
     this.version,
   });
-  factory CsvClassifier.fromJson(Map<String, dynamic> json) =>
-      _$CsvClassifierFromJson(json);
+  factory CsvClassifier.fromJson(Map<String, dynamic> json) {
+    return CsvClassifier(
+      name: json['Name'] as String,
+      allowSingleColumn: json['AllowSingleColumn'] as bool?,
+      containsHeader: (json['ContainsHeader'] as String?)?.toCsvHeaderOption(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      delimiter: json['Delimiter'] as String?,
+      disableValueTrimming: json['DisableValueTrimming'] as bool?,
+      header: (json['Header'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      quoteSymbol: json['QuoteSymbol'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
 }
 
 enum CsvHeaderOption {
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('PRESENT')
   present,
-  @_s.JsonValue('ABSENT')
   absent,
 }
 
+extension on CsvHeaderOption {
+  String toValue() {
+    switch (this) {
+      case CsvHeaderOption.unknown:
+        return 'UNKNOWN';
+      case CsvHeaderOption.present:
+        return 'PRESENT';
+      case CsvHeaderOption.absent:
+        return 'ABSENT';
+    }
+  }
+}
+
+extension on String {
+  CsvHeaderOption toCsvHeaderOption() {
+    switch (this) {
+      case 'UNKNOWN':
+        return CsvHeaderOption.unknown;
+      case 'PRESENT':
+        return CsvHeaderOption.present;
+      case 'ABSENT':
+        return CsvHeaderOption.absent;
+    }
+    throw Exception('$this is not known in enum CsvHeaderOption');
+  }
+}
+
 /// Contains configuration information for maintaining Data Catalog security.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataCatalogEncryptionSettings {
   /// When connection password protection is enabled, the Data Catalog uses a
   /// customer-provided key to encrypt the password as part of
   /// <code>CreateConnection</code> or <code>UpdateConnection</code> and store it
   /// in the <code>ENCRYPTED_PASSWORD</code> field in the connection properties.
   /// You can enable catalog encryption or only password encryption.
-  @_s.JsonKey(name: 'ConnectionPasswordEncryption')
-  final ConnectionPasswordEncryption connectionPasswordEncryption;
+  final ConnectionPasswordEncryption? connectionPasswordEncryption;
 
   /// Specifies the encryption-at-rest configuration for the Data Catalog.
-  @_s.JsonKey(name: 'EncryptionAtRest')
-  final EncryptionAtRest encryptionAtRest;
+  final EncryptionAtRest? encryptionAtRest;
 
   DataCatalogEncryptionSettings({
     this.connectionPasswordEncryption,
     this.encryptionAtRest,
   });
-  factory DataCatalogEncryptionSettings.fromJson(Map<String, dynamic> json) =>
-      _$DataCatalogEncryptionSettingsFromJson(json);
+  factory DataCatalogEncryptionSettings.fromJson(Map<String, dynamic> json) {
+    return DataCatalogEncryptionSettings(
+      connectionPasswordEncryption: json['ConnectionPasswordEncryption'] != null
+          ? ConnectionPasswordEncryption.fromJson(
+              json['ConnectionPasswordEncryption'] as Map<String, dynamic>)
+          : null,
+      encryptionAtRest: json['EncryptionAtRest'] != null
+          ? EncryptionAtRest.fromJson(
+              json['EncryptionAtRest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataCatalogEncryptionSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionPasswordEncryption = this.connectionPasswordEncryption;
+    final encryptionAtRest = this.encryptionAtRest;
+    return {
+      if (connectionPasswordEncryption != null)
+        'ConnectionPasswordEncryption': connectionPasswordEncryption,
+      if (encryptionAtRest != null) 'EncryptionAtRest': encryptionAtRest,
+    };
+  }
 }
 
 enum DataFormat {
-  @_s.JsonValue('AVRO')
   avro,
 }
 
@@ -13760,75 +14218,74 @@ extension on DataFormat {
       case DataFormat.avro:
         return 'AVRO';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataFormat toDataFormat() {
+    switch (this) {
+      case 'AVRO':
+        return DataFormat.avro;
+    }
+    throw Exception('$this is not known in enum DataFormat');
   }
 }
 
 /// The AWS Lake Formation principal.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataLakePrincipal {
   /// An identifier for the AWS Lake Formation principal.
-  @_s.JsonKey(name: 'DataLakePrincipalIdentifier')
-  final String dataLakePrincipalIdentifier;
+  final String? dataLakePrincipalIdentifier;
 
   DataLakePrincipal({
     this.dataLakePrincipalIdentifier,
   });
-  factory DataLakePrincipal.fromJson(Map<String, dynamic> json) =>
-      _$DataLakePrincipalFromJson(json);
+  factory DataLakePrincipal.fromJson(Map<String, dynamic> json) {
+    return DataLakePrincipal(
+      dataLakePrincipalIdentifier:
+          json['DataLakePrincipalIdentifier'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataLakePrincipalToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataLakePrincipalIdentifier = this.dataLakePrincipalIdentifier;
+    return {
+      if (dataLakePrincipalIdentifier != null)
+        'DataLakePrincipalIdentifier': dataLakePrincipalIdentifier,
+    };
+  }
 }
 
 /// The <code>Database</code> object represents a logical grouping of tables
 /// that might reside in a Hive metastore or an RDBMS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Database {
   /// The name of the database. For Hive compatibility, this is folded to
   /// lowercase when it is stored.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The ID of the Data Catalog in which the database resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// Creates a set of default permissions on the table for principals.
-  @_s.JsonKey(name: 'CreateTableDefaultPermissions')
-  final List<PrincipalPermissions> createTableDefaultPermissions;
+  final List<PrincipalPermissions>? createTableDefaultPermissions;
 
   /// The time at which the metadata database was created in the catalog.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// A description of the database.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The location of the database (for example, an HDFS path).
-  @_s.JsonKey(name: 'LocationUri')
-  final String locationUri;
+  final String? locationUri;
 
   /// These key-value pairs define parameters and properties of the database.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// A <code>DatabaseIdentifier</code> structure that describes a target database
   /// for resource linking.
-  @_s.JsonKey(name: 'TargetDatabase')
-  final DatabaseIdentifier targetDatabase;
+  final DatabaseIdentifier? targetDatabase;
 
   Database({
-    @_s.required this.name,
+    required this.name,
     this.catalogId,
     this.createTableDefaultPermissions,
     this.createTime,
@@ -13837,495 +14294,489 @@ class Database {
     this.parameters,
     this.targetDatabase,
   });
-  factory Database.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseFromJson(json);
+  factory Database.fromJson(Map<String, dynamic> json) {
+    return Database(
+      name: json['Name'] as String,
+      catalogId: json['CatalogId'] as String?,
+      createTableDefaultPermissions: (json['CreateTableDefaultPermissions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => PrincipalPermissions.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      description: json['Description'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetDatabase: json['TargetDatabase'] != null
+          ? DatabaseIdentifier.fromJson(
+              json['TargetDatabase'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A structure that describes a target database for resource linking.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatabaseIdentifier {
   /// The ID of the Data Catalog in which the database resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The name of the catalog database.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   DatabaseIdentifier({
     this.catalogId,
     this.databaseName,
   });
-  factory DatabaseIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseIdentifierFromJson(json);
+  factory DatabaseIdentifier.fromJson(Map<String, dynamic> json) {
+    return DatabaseIdentifier(
+      catalogId: json['CatalogId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DatabaseIdentifierToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final databaseName = this.databaseName;
+    return {
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+    };
+  }
 }
 
 /// The structure used to create or update a database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DatabaseInput {
   /// The name of the database. For Hive compatibility, this is folded to
   /// lowercase when it is stored.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Creates a set of default permissions on the table for principals.
-  @_s.JsonKey(name: 'CreateTableDefaultPermissions')
-  final List<PrincipalPermissions> createTableDefaultPermissions;
+  final List<PrincipalPermissions>? createTableDefaultPermissions;
 
   /// A description of the database.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The location of the database (for example, an HDFS path).
-  @_s.JsonKey(name: 'LocationUri')
-  final String locationUri;
+  final String? locationUri;
 
   /// These key-value pairs define parameters and properties of the database.
   ///
   /// These key-value pairs define parameters and properties of the database.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// A <code>DatabaseIdentifier</code> structure that describes a target database
   /// for resource linking.
-  @_s.JsonKey(name: 'TargetDatabase')
-  final DatabaseIdentifier targetDatabase;
+  final DatabaseIdentifier? targetDatabase;
 
   DatabaseInput({
-    @_s.required this.name,
+    required this.name,
     this.createTableDefaultPermissions,
     this.description,
     this.locationUri,
     this.parameters,
     this.targetDatabase,
   });
-  Map<String, dynamic> toJson() => _$DatabaseInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final createTableDefaultPermissions = this.createTableDefaultPermissions;
+    final description = this.description;
+    final locationUri = this.locationUri;
+    final parameters = this.parameters;
+    final targetDatabase = this.targetDatabase;
+    return {
+      'Name': name,
+      if (createTableDefaultPermissions != null)
+        'CreateTableDefaultPermissions': createTableDefaultPermissions,
+      if (description != null) 'Description': description,
+      if (locationUri != null) 'LocationUri': locationUri,
+      if (parameters != null) 'Parameters': parameters,
+      if (targetDatabase != null) 'TargetDatabase': targetDatabase,
+    };
+  }
 }
 
 /// Defines column statistics supported for timestamp data columns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DateColumnStatisticsData {
   /// The number of distinct values in a column.
-  @_s.JsonKey(name: 'NumberOfDistinctValues')
   final int numberOfDistinctValues;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   /// The highest value in the column.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'MaximumValue')
-  final DateTime maximumValue;
+  final DateTime? maximumValue;
 
   /// The lowest value in the column.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'MinimumValue')
-  final DateTime minimumValue;
+  final DateTime? minimumValue;
 
   DateColumnStatisticsData({
-    @_s.required this.numberOfDistinctValues,
-    @_s.required this.numberOfNulls,
+    required this.numberOfDistinctValues,
+    required this.numberOfNulls,
     this.maximumValue,
     this.minimumValue,
   });
-  factory DateColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$DateColumnStatisticsDataFromJson(json);
+  factory DateColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return DateColumnStatisticsData(
+      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+      maximumValue: timeStampFromJson(json['MaximumValue']),
+      minimumValue: timeStampFromJson(json['MinimumValue']),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DateColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final numberOfDistinctValues = this.numberOfDistinctValues;
+    final numberOfNulls = this.numberOfNulls;
+    final maximumValue = this.maximumValue;
+    final minimumValue = this.minimumValue;
+    return {
+      'NumberOfDistinctValues': numberOfDistinctValues,
+      'NumberOfNulls': numberOfNulls,
+      if (maximumValue != null)
+        'MaximumValue': unixTimestampToJson(maximumValue),
+      if (minimumValue != null)
+        'MinimumValue': unixTimestampToJson(minimumValue),
+    };
+  }
 }
 
 /// Defines column statistics supported for fixed-point number data columns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DecimalColumnStatisticsData {
   /// The number of distinct values in a column.
-  @_s.JsonKey(name: 'NumberOfDistinctValues')
   final int numberOfDistinctValues;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   /// The highest value in the column.
-  @_s.JsonKey(name: 'MaximumValue')
-  final DecimalNumber maximumValue;
+  final DecimalNumber? maximumValue;
 
   /// The lowest value in the column.
-  @_s.JsonKey(name: 'MinimumValue')
-  final DecimalNumber minimumValue;
+  final DecimalNumber? minimumValue;
 
   DecimalColumnStatisticsData({
-    @_s.required this.numberOfDistinctValues,
-    @_s.required this.numberOfNulls,
+    required this.numberOfDistinctValues,
+    required this.numberOfNulls,
     this.maximumValue,
     this.minimumValue,
   });
-  factory DecimalColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$DecimalColumnStatisticsDataFromJson(json);
+  factory DecimalColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return DecimalColumnStatisticsData(
+      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+      maximumValue: json['MaximumValue'] != null
+          ? DecimalNumber.fromJson(json['MaximumValue'] as Map<String, dynamic>)
+          : null,
+      minimumValue: json['MinimumValue'] != null
+          ? DecimalNumber.fromJson(json['MinimumValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DecimalColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final numberOfDistinctValues = this.numberOfDistinctValues;
+    final numberOfNulls = this.numberOfNulls;
+    final maximumValue = this.maximumValue;
+    final minimumValue = this.minimumValue;
+    return {
+      'NumberOfDistinctValues': numberOfDistinctValues,
+      'NumberOfNulls': numberOfNulls,
+      if (maximumValue != null) 'MaximumValue': maximumValue,
+      if (minimumValue != null) 'MinimumValue': minimumValue,
+    };
+  }
 }
 
 /// Contains a numeric value in decimal format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DecimalNumber {
   /// The scale that determines where the decimal point falls in the unscaled
   /// value.
-  @_s.JsonKey(name: 'Scale')
   final int scale;
 
   /// The unscaled numeric value.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'UnscaledValue')
   final Uint8List unscaledValue;
 
   DecimalNumber({
-    @_s.required this.scale,
-    @_s.required this.unscaledValue,
+    required this.scale,
+    required this.unscaledValue,
   });
-  factory DecimalNumber.fromJson(Map<String, dynamic> json) =>
-      _$DecimalNumberFromJson(json);
+  factory DecimalNumber.fromJson(Map<String, dynamic> json) {
+    return DecimalNumber(
+      scale: json['Scale'] as int,
+      unscaledValue: _s.decodeUint8List(json['UnscaledValue']! as String),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DecimalNumberToJson(this);
+  Map<String, dynamic> toJson() {
+    final scale = this.scale;
+    final unscaledValue = this.unscaledValue;
+    return {
+      'Scale': scale,
+      'UnscaledValue': base64Encode(unscaledValue),
+    };
+  }
 }
 
 enum DeleteBehavior {
-  @_s.JsonValue('LOG')
   log,
-  @_s.JsonValue('DELETE_FROM_DATABASE')
   deleteFromDatabase,
-  @_s.JsonValue('DEPRECATE_IN_DATABASE')
   deprecateInDatabase,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteClassifierResponse {
-  DeleteClassifierResponse();
-  factory DeleteClassifierResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClassifierResponseFromJson(json);
+extension on DeleteBehavior {
+  String toValue() {
+    switch (this) {
+      case DeleteBehavior.log:
+        return 'LOG';
+      case DeleteBehavior.deleteFromDatabase:
+        return 'DELETE_FROM_DATABASE';
+      case DeleteBehavior.deprecateInDatabase:
+        return 'DEPRECATE_IN_DATABASE';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeleteBehavior toDeleteBehavior() {
+    switch (this) {
+      case 'LOG':
+        return DeleteBehavior.log;
+      case 'DELETE_FROM_DATABASE':
+        return DeleteBehavior.deleteFromDatabase;
+      case 'DEPRECATE_IN_DATABASE':
+        return DeleteBehavior.deprecateInDatabase;
+    }
+    throw Exception('$this is not known in enum DeleteBehavior');
+  }
+}
+
+class DeleteClassifierResponse {
+  DeleteClassifierResponse();
+  factory DeleteClassifierResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteClassifierResponse();
+  }
+}
+
 class DeleteColumnStatisticsForPartitionResponse {
   DeleteColumnStatisticsForPartitionResponse();
   factory DeleteColumnStatisticsForPartitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteColumnStatisticsForPartitionResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteColumnStatisticsForPartitionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteColumnStatisticsForTableResponse {
   DeleteColumnStatisticsForTableResponse();
   factory DeleteColumnStatisticsForTableResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteColumnStatisticsForTableResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteColumnStatisticsForTableResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConnectionResponse {
   DeleteConnectionResponse();
-  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConnectionResponseFromJson(json);
+  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCrawlerResponse {
   DeleteCrawlerResponse();
-  factory DeleteCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCrawlerResponseFromJson(json);
+  factory DeleteCrawlerResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCrawlerResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDatabaseResponse {
   DeleteDatabaseResponse();
-  factory DeleteDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDatabaseResponseFromJson(json);
+  factory DeleteDatabaseResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDatabaseResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDevEndpointResponse {
   DeleteDevEndpointResponse();
-  factory DeleteDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDevEndpointResponseFromJson(json);
+  factory DeleteDevEndpointResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDevEndpointResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteJobResponse {
   /// The name of the job definition that was deleted.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   DeleteJobResponse({
     this.jobName,
   });
-  factory DeleteJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteJobResponseFromJson(json);
+  factory DeleteJobResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteJobResponse(
+      jobName: json['JobName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMLTransformResponse {
   /// The unique identifier of the transform that was deleted.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   DeleteMLTransformResponse({
     this.transformId,
   });
-  factory DeleteMLTransformResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMLTransformResponseFromJson(json);
+  factory DeleteMLTransformResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMLTransformResponse(
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePartitionIndexResponse {
   DeletePartitionIndexResponse();
-  factory DeletePartitionIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePartitionIndexResponseFromJson(json);
+  factory DeletePartitionIndexResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePartitionIndexResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePartitionResponse {
   DeletePartitionResponse();
-  factory DeletePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePartitionResponseFromJson(json);
+  factory DeletePartitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePartitionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRegistryResponse {
   /// The Amazon Resource Name (ARN) of the registry being deleted.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry being deleted.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The status of the registry. A successful operation will return the
   /// <code>Deleting</code> status.
-  @_s.JsonKey(name: 'Status')
-  final RegistryStatus status;
+  final RegistryStatus? status;
 
   DeleteRegistryResponse({
     this.registryArn,
     this.registryName,
     this.status,
   });
-  factory DeleteRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRegistryResponseFromJson(json);
+  factory DeleteRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRegistryResponse(
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      status: (json['Status'] as String?)?.toRegistryStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
-  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourcePolicyResponseFromJson(json);
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcePolicyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSchemaResponse {
   /// The Amazon Resource Name (ARN) of the schema being deleted.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema being deleted.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The status of the schema.
-  @_s.JsonKey(name: 'Status')
-  final SchemaStatus status;
+  final SchemaStatus? status;
 
   DeleteSchemaResponse({
     this.schemaArn,
     this.schemaName,
     this.status,
   });
-  factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSchemaResponseFromJson(json);
+  factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSchemaResponse(
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      status: (json['Status'] as String?)?.toSchemaStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSchemaVersionsResponse {
   /// A list of <code>SchemaVersionErrorItem</code> objects, each containing an
   /// error and schema version.
-  @_s.JsonKey(name: 'SchemaVersionErrors')
-  final List<SchemaVersionErrorItem> schemaVersionErrors;
+  final List<SchemaVersionErrorItem>? schemaVersionErrors;
 
   DeleteSchemaVersionsResponse({
     this.schemaVersionErrors,
   });
-  factory DeleteSchemaVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSchemaVersionsResponseFromJson(json);
+  factory DeleteSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSchemaVersionsResponse(
+      schemaVersionErrors: (json['SchemaVersionErrors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SchemaVersionErrorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSecurityConfigurationResponse {
   DeleteSecurityConfigurationResponse();
-  factory DeleteSecurityConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteSecurityConfigurationResponseFromJson(json);
+  factory DeleteSecurityConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSecurityConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTableResponse {
   DeleteTableResponse();
-  factory DeleteTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTableResponseFromJson(json);
+  factory DeleteTableResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTableResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTableVersionResponse {
   DeleteTableVersionResponse();
-  factory DeleteTableVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTableVersionResponseFromJson(json);
+  factory DeleteTableVersionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTableVersionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTriggerResponse {
   /// The name of the trigger that was deleted.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DeleteTriggerResponse({
     this.name,
   });
-  factory DeleteTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTriggerResponseFromJson(json);
+  factory DeleteTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteTriggerResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUserDefinedFunctionResponse {
   DeleteUserDefinedFunctionResponse();
-  factory DeleteUserDefinedFunctionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteUserDefinedFunctionResponseFromJson(json);
+  factory DeleteUserDefinedFunctionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserDefinedFunctionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWorkflowResponse {
   /// Name of the workflow specified in input.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DeleteWorkflowResponse({
     this.name,
   });
-  factory DeleteWorkflowResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWorkflowResponseFromJson(json);
+  factory DeleteWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteWorkflowResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// A development endpoint where a developer can remotely debug extract,
 /// transform, and load (ETL) scripts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DevEndpoint {
   /// A map of arguments used to configure the <code>DevEndpoint</code>.
   ///
@@ -14346,29 +14797,23 @@ class DevEndpoint {
   /// using the <code>Arguments</code> parameter in the
   /// <code>CreateDevEndpoint</code> or <code>UpdateDevEndpoint</code> APIs. If no
   /// arguments are provided, the version defaults to Python 2.
-  @_s.JsonKey(name: 'Arguments')
-  final Map<String, String> arguments;
+  final Map<String, String>? arguments;
 
   /// The AWS Availability Zone where this <code>DevEndpoint</code> is located.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The point in time at which this DevEndpoint was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name of the <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'EndpointName')
-  final String endpointName;
+  final String? endpointName;
 
   /// The path to one or more Java <code>.jar</code> files in an S3 bucket that
   /// should be loaded in your <code>DevEndpoint</code>.
   /// <note>
   /// You can only use pure Java/Scala libraries with a <code>DevEndpoint</code>.
   /// </note>
-  @_s.JsonKey(name: 'ExtraJarsS3Path')
-  final String extraJarsS3Path;
+  final String? extraJarsS3Path;
 
   /// The paths to one or more Python libraries in an Amazon S3 bucket that should
   /// be loaded in your <code>DevEndpoint</code>. Multiple values must be complete
@@ -14379,12 +14824,10 @@ class DevEndpoint {
   /// href="http://pandas.pydata.org/">pandas</a> Python data analysis library,
   /// are not currently supported.
   /// </note>
-  @_s.JsonKey(name: 'ExtraPythonLibsS3Path')
-  final String extraPythonLibsS3Path;
+  final String? extraPythonLibsS3Path;
 
   /// The reason for a current failure in this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// Glue version determines the versions of Apache Spark and Python that AWS
   /// Glue supports. The Python version indicates the version supported for
@@ -14402,49 +14845,40 @@ class DevEndpoint {
   /// using the <code>Arguments</code> parameter in the
   /// <code>CreateDevEndpoint</code> or <code>UpdateDevEndpoint</code> APIs. If no
   /// arguments are provided, the version defaults to Python 2.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// The point in time at which this <code>DevEndpoint</code> was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTimestamp')
-  final DateTime lastModifiedTimestamp;
+  final DateTime? lastModifiedTimestamp;
 
   /// The status of the last update.
-  @_s.JsonKey(name: 'LastUpdateStatus')
-  final String lastUpdateStatus;
+  final String? lastUpdateStatus;
 
   /// The number of AWS Glue Data Processing Units (DPUs) allocated to this
   /// <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'NumberOfNodes')
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated to the development endpoint.
   ///
   /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
   /// and 149 for <code>G.2X</code>.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// A private IP address to access the <code>DevEndpoint</code> within a VPC if
   /// the <code>DevEndpoint</code> is created within one. The
   /// <code>PrivateAddress</code> field is present only when you create the
   /// <code>DevEndpoint</code> within your VPC.
-  @_s.JsonKey(name: 'PrivateAddress')
-  final String privateAddress;
+  final String? privateAddress;
 
   /// The public IP address used by this <code>DevEndpoint</code>. The
   /// <code>PublicAddress</code> field is present only when you create a
   /// non-virtual private cloud (VPC) <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'PublicAddress')
-  final String publicAddress;
+  final String? publicAddress;
 
   /// The public key to be used by this <code>DevEndpoint</code> for
   /// authentication. This attribute is provided for backward compatibility
   /// because the recommended attribute to use is public keys.
-  @_s.JsonKey(name: 'PublicKey')
-  final String publicKey;
+  final String? publicKey;
 
   /// A list of public keys to be used by the <code>DevEndpoints</code> for
   /// authentication. Using this attribute is preferred over a single public key
@@ -14457,35 +14891,28 @@ class DevEndpoint {
   /// the <code>deletePublicKeys</code> attribute, and the list of new keys in the
   /// <code>addPublicKeys</code> attribute.
   /// </note>
-  @_s.JsonKey(name: 'PublicKeys')
-  final List<String> publicKeys;
+  final List<String>? publicKeys;
 
   /// The Amazon Resource Name (ARN) of the IAM role used in this
   /// <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// A list of security group identifiers used in this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The current status of this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The subnet ID for this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The ID of the virtual private cloud (VPC) used by this
   /// <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   /// The type of predefined worker that is allocated to the development endpoint.
   /// Accepts a value of Standard, G.1X, or G.2X.
@@ -14510,16 +14937,13 @@ class DevEndpoint {
   /// <code>G.2X</code> <code>WorkerType</code> configuration, the Spark drivers
   /// for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64
   /// GB disk.
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   /// The YARN endpoint address used by this <code>DevEndpoint</code>.
-  @_s.JsonKey(name: 'YarnEndpointAddress')
-  final String yarnEndpointAddress;
+  final String? yarnEndpointAddress;
 
   /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-  @_s.JsonKey(name: 'ZeppelinRemoteSparkInterpreterPort')
-  final int zeppelinRemoteSparkInterpreterPort;
+  final int? zeppelinRemoteSparkInterpreterPort;
 
   DevEndpoint({
     this.arguments,
@@ -14548,24 +14972,53 @@ class DevEndpoint {
     this.yarnEndpointAddress,
     this.zeppelinRemoteSparkInterpreterPort,
   });
-  factory DevEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$DevEndpointFromJson(json);
+  factory DevEndpoint.fromJson(Map<String, dynamic> json) {
+    return DevEndpoint(
+      arguments: (json['Arguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      availabilityZone: json['AvailabilityZone'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endpointName: json['EndpointName'] as String?,
+      extraJarsS3Path: json['ExtraJarsS3Path'] as String?,
+      extraPythonLibsS3Path: json['ExtraPythonLibsS3Path'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      glueVersion: json['GlueVersion'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['LastModifiedTimestamp']),
+      lastUpdateStatus: json['LastUpdateStatus'] as String?,
+      numberOfNodes: json['NumberOfNodes'] as int?,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      privateAddress: json['PrivateAddress'] as String?,
+      publicAddress: json['PublicAddress'] as String?,
+      publicKey: json['PublicKey'] as String?,
+      publicKeys: (json['PublicKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleArn: json['RoleArn'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: json['Status'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      vpcId: json['VpcId'] as String?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+      yarnEndpointAddress: json['YarnEndpointAddress'] as String?,
+      zeppelinRemoteSparkInterpreterPort:
+          json['ZeppelinRemoteSparkInterpreterPort'] as int?,
+    );
+  }
 }
 
 /// Custom libraries to be loaded into a development endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DevEndpointCustomLibraries {
   /// The path to one or more Java <code>.jar</code> files in an S3 bucket that
   /// should be loaded in your <code>DevEndpoint</code>.
   /// <note>
   /// You can only use pure Java/Scala libraries with a <code>DevEndpoint</code>.
   /// </note>
-  @_s.JsonKey(name: 'ExtraJarsS3Path')
-  final String extraJarsS3Path;
+  final String? extraJarsS3Path;
 
   /// The paths to one or more Python libraries in an Amazon Simple Storage
   /// Service (Amazon S3) bucket that should be loaded in your
@@ -14577,61 +15030,70 @@ class DevEndpointCustomLibraries {
   /// href="http://pandas.pydata.org/">pandas</a> Python data analysis library,
   /// are not currently supported.
   /// </note>
-  @_s.JsonKey(name: 'ExtraPythonLibsS3Path')
-  final String extraPythonLibsS3Path;
+  final String? extraPythonLibsS3Path;
 
   DevEndpointCustomLibraries({
     this.extraJarsS3Path,
     this.extraPythonLibsS3Path,
   });
-  Map<String, dynamic> toJson() => _$DevEndpointCustomLibrariesToJson(this);
+  Map<String, dynamic> toJson() {
+    final extraJarsS3Path = this.extraJarsS3Path;
+    final extraPythonLibsS3Path = this.extraPythonLibsS3Path;
+    return {
+      if (extraJarsS3Path != null) 'ExtraJarsS3Path': extraJarsS3Path,
+      if (extraPythonLibsS3Path != null)
+        'ExtraPythonLibsS3Path': extraPythonLibsS3Path,
+    };
+  }
 }
 
 /// Defines column statistics supported for floating-point number data columns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DoubleColumnStatisticsData {
   /// The number of distinct values in a column.
-  @_s.JsonKey(name: 'NumberOfDistinctValues')
   final int numberOfDistinctValues;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   /// The highest value in the column.
-  @_s.JsonKey(name: 'MaximumValue')
-  final double maximumValue;
+  final double? maximumValue;
 
   /// The lowest value in the column.
-  @_s.JsonKey(name: 'MinimumValue')
-  final double minimumValue;
+  final double? minimumValue;
 
   DoubleColumnStatisticsData({
-    @_s.required this.numberOfDistinctValues,
-    @_s.required this.numberOfNulls,
+    required this.numberOfDistinctValues,
+    required this.numberOfNulls,
     this.maximumValue,
     this.minimumValue,
   });
-  factory DoubleColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$DoubleColumnStatisticsDataFromJson(json);
+  factory DoubleColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return DoubleColumnStatisticsData(
+      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+      maximumValue: json['MaximumValue'] as double?,
+      minimumValue: json['MinimumValue'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DoubleColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final numberOfDistinctValues = this.numberOfDistinctValues;
+    final numberOfNulls = this.numberOfNulls;
+    final maximumValue = this.maximumValue;
+    final minimumValue = this.minimumValue;
+    return {
+      'NumberOfDistinctValues': numberOfDistinctValues,
+      'NumberOfNulls': numberOfNulls,
+      if (maximumValue != null) 'MaximumValue': maximumValue,
+      if (minimumValue != null) 'MinimumValue': minimumValue,
+    };
+  }
 }
 
 /// Specifies an Amazon DynamoDB table to crawl.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDBTarget {
   /// The name of the DynamoDB table to crawl.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// Indicates whether to scan all the records, or to sample rows from the table.
   /// Scanning all the records can take a long time when the table is not a high
@@ -14640,8 +15102,7 @@ class DynamoDBTarget {
   /// A value of <code>true</code> means to scan all records, while a value of
   /// <code>false</code> means to sample the records. If no value is specified,
   /// the value defaults to <code>true</code>.
-  @_s.JsonKey(name: 'scanAll')
-  final bool scanAll;
+  final bool? scanAll;
 
   /// The percentage of the configured read capacity units to use by the AWS Glue
   /// crawler. Read capacity units is a term defined by DynamoDB, and is a numeric
@@ -14652,47 +15113,56 @@ class DynamoDBTarget {
   /// used when user does not provide a value, and defaults to 0.5 of the
   /// configured Read Capacity Unit (for provisioned tables), or 0.25 of the max
   /// configured Read Capacity Unit (for tables using on-demand mode).
-  @_s.JsonKey(name: 'scanRate')
-  final double scanRate;
+  final double? scanRate;
 
   DynamoDBTarget({
     this.path,
     this.scanAll,
     this.scanRate,
   });
-  factory DynamoDBTarget.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDBTargetFromJson(json);
+  factory DynamoDBTarget.fromJson(Map<String, dynamic> json) {
+    return DynamoDBTarget(
+      path: json['Path'] as String?,
+      scanAll: json['scanAll'] as bool?,
+      scanRate: json['scanRate'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DynamoDBTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final scanAll = this.scanAll;
+    final scanRate = this.scanRate;
+    return {
+      if (path != null) 'Path': path,
+      if (scanAll != null) 'scanAll': scanAll,
+      if (scanRate != null) 'scanRate': scanRate,
+    };
+  }
 }
 
 /// An edge represents a directed connection between two AWS Glue components
 /// that are part of the workflow the edge belongs to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Edge {
   /// The unique of the node within the workflow where the edge ends.
-  @_s.JsonKey(name: 'DestinationId')
-  final String destinationId;
+  final String? destinationId;
 
   /// The unique of the node within the workflow where the edge starts.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   Edge({
     this.destinationId,
     this.sourceId,
   });
-  factory Edge.fromJson(Map<String, dynamic> json) => _$EdgeFromJson(json);
+  factory Edge.fromJson(Map<String, dynamic> json) {
+    return Edge(
+      destinationId: json['DestinationId'] as String?,
+      sourceId: json['SourceId'] as String?,
+    );
+  }
 }
 
 enum EnableHybridValues {
-  @_s.JsonValue('TRUE')
   $true,
-  @_s.JsonValue('FALSE')
   $false,
 }
 
@@ -14704,164 +15174,190 @@ extension on EnableHybridValues {
       case EnableHybridValues.$false:
         return 'FALSE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnableHybridValues toEnableHybridValues() {
+    switch (this) {
+      case 'TRUE':
+        return EnableHybridValues.$true;
+      case 'FALSE':
+        return EnableHybridValues.$false;
+    }
+    throw Exception('$this is not known in enum EnableHybridValues');
   }
 }
 
 /// Specifies the encryption-at-rest configuration for the Data Catalog.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionAtRest {
   /// The encryption-at-rest mode for encrypting Data Catalog data.
-  @_s.JsonKey(name: 'CatalogEncryptionMode')
   final CatalogEncryptionMode catalogEncryptionMode;
 
   /// The ID of the AWS KMS key to use for encryption at rest.
-  @_s.JsonKey(name: 'SseAwsKmsKeyId')
-  final String sseAwsKmsKeyId;
+  final String? sseAwsKmsKeyId;
 
   EncryptionAtRest({
-    @_s.required this.catalogEncryptionMode,
+    required this.catalogEncryptionMode,
     this.sseAwsKmsKeyId,
   });
-  factory EncryptionAtRest.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionAtRestFromJson(json);
+  factory EncryptionAtRest.fromJson(Map<String, dynamic> json) {
+    return EncryptionAtRest(
+      catalogEncryptionMode:
+          (json['CatalogEncryptionMode'] as String).toCatalogEncryptionMode(),
+      sseAwsKmsKeyId: json['SseAwsKmsKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionAtRestToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalogEncryptionMode = this.catalogEncryptionMode;
+    final sseAwsKmsKeyId = this.sseAwsKmsKeyId;
+    return {
+      'CatalogEncryptionMode': catalogEncryptionMode.toValue(),
+      if (sseAwsKmsKeyId != null) 'SseAwsKmsKeyId': sseAwsKmsKeyId,
+    };
+  }
 }
 
 /// Specifies an encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfiguration {
   /// The encryption configuration for Amazon CloudWatch.
-  @_s.JsonKey(name: 'CloudWatchEncryption')
-  final CloudWatchEncryption cloudWatchEncryption;
+  final CloudWatchEncryption? cloudWatchEncryption;
 
   /// The encryption configuration for job bookmarks.
-  @_s.JsonKey(name: 'JobBookmarksEncryption')
-  final JobBookmarksEncryption jobBookmarksEncryption;
+  final JobBookmarksEncryption? jobBookmarksEncryption;
 
   /// The encryption configuration for Amazon Simple Storage Service (Amazon S3)
   /// data.
-  @_s.JsonKey(name: 'S3Encryption')
-  final List<S3Encryption> s3Encryption;
+  final List<S3Encryption>? s3Encryption;
 
   EncryptionConfiguration({
     this.cloudWatchEncryption,
     this.jobBookmarksEncryption,
     this.s3Encryption,
   });
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigurationFromJson(json);
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      cloudWatchEncryption: json['CloudWatchEncryption'] != null
+          ? CloudWatchEncryption.fromJson(
+              json['CloudWatchEncryption'] as Map<String, dynamic>)
+          : null,
+      jobBookmarksEncryption: json['JobBookmarksEncryption'] != null
+          ? JobBookmarksEncryption.fromJson(
+              json['JobBookmarksEncryption'] as Map<String, dynamic>)
+          : null,
+      s3Encryption: (json['S3Encryption'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3Encryption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchEncryption = this.cloudWatchEncryption;
+    final jobBookmarksEncryption = this.jobBookmarksEncryption;
+    final s3Encryption = this.s3Encryption;
+    return {
+      if (cloudWatchEncryption != null)
+        'CloudWatchEncryption': cloudWatchEncryption,
+      if (jobBookmarksEncryption != null)
+        'JobBookmarksEncryption': jobBookmarksEncryption,
+      if (s3Encryption != null) 'S3Encryption': s3Encryption,
+    };
+  }
 }
 
 /// Contains details about an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetail {
   /// The code associated with this error.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// A message describing the error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ErrorDetail({
     this.errorCode,
     this.errorMessage,
   });
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailFromJson(json);
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
 /// An object containing error details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetails {
   /// The error code for an error.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message for an error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ErrorDetails({
     this.errorCode,
     this.errorMessage,
   });
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailsFromJson(json);
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
 /// Evaluation metrics provide an estimate of the quality of your machine
 /// learning transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluationMetrics {
   /// The type of machine learning transform.
-  @_s.JsonKey(name: 'TransformType')
   final TransformType transformType;
 
   /// The evaluation metrics for the find matches algorithm.
-  @_s.JsonKey(name: 'FindMatchesMetrics')
-  final FindMatchesMetrics findMatchesMetrics;
+  final FindMatchesMetrics? findMatchesMetrics;
 
   EvaluationMetrics({
-    @_s.required this.transformType,
+    required this.transformType,
     this.findMatchesMetrics,
   });
-  factory EvaluationMetrics.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationMetricsFromJson(json);
+  factory EvaluationMetrics.fromJson(Map<String, dynamic> json) {
+    return EvaluationMetrics(
+      transformType: (json['TransformType'] as String).toTransformType(),
+      findMatchesMetrics: json['FindMatchesMetrics'] != null
+          ? FindMatchesMetrics.fromJson(
+              json['FindMatchesMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An execution property of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExecutionProperty {
   /// The maximum number of concurrent runs allowed for the job. The default is 1.
   /// An error is returned when this threshold is reached. The maximum value you
   /// can specify is controlled by a service limit.
-  @_s.JsonKey(name: 'MaxConcurrentRuns')
-  final int maxConcurrentRuns;
+  final int? maxConcurrentRuns;
 
   ExecutionProperty({
     this.maxConcurrentRuns,
   });
-  factory ExecutionProperty.fromJson(Map<String, dynamic> json) =>
-      _$ExecutionPropertyFromJson(json);
+  factory ExecutionProperty.fromJson(Map<String, dynamic> json) {
+    return ExecutionProperty(
+      maxConcurrentRuns: json['MaxConcurrentRuns'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ExecutionPropertyToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxConcurrentRuns = this.maxConcurrentRuns;
+    return {
+      if (maxConcurrentRuns != null) 'MaxConcurrentRuns': maxConcurrentRuns,
+    };
+  }
 }
 
 enum ExistCondition {
-  @_s.JsonValue('MUST_EXIST')
   mustExist,
-  @_s.JsonValue('NOT_EXIST')
   notExist,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -14875,27 +15371,37 @@ extension on ExistCondition {
       case ExistCondition.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExistCondition toExistCondition() {
+    switch (this) {
+      case 'MUST_EXIST':
+        return ExistCondition.mustExist;
+      case 'NOT_EXIST':
+        return ExistCondition.notExist;
+      case 'NONE':
+        return ExistCondition.none;
+    }
+    throw Exception('$this is not known in enum ExistCondition');
   }
 }
 
 /// Specifies configuration properties for an exporting labels task run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportLabelsTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path where you will export the
   /// labels.
-  @_s.JsonKey(name: 'OutputS3Path')
-  final String outputS3Path;
+  final String? outputS3Path;
 
   ExportLabelsTaskRunProperties({
     this.outputS3Path,
   });
-  factory ExportLabelsTaskRunProperties.fromJson(Map<String, dynamic> json) =>
-      _$ExportLabelsTaskRunPropertiesFromJson(json);
+  factory ExportLabelsTaskRunProperties.fromJson(Map<String, dynamic> json) {
+    return ExportLabelsTaskRunProperties(
+      outputS3Path: json['OutputS3Path'] as String?,
+    );
+  }
 }
 
 /// The evaluation metrics for the find matches algorithm. The quality of your
@@ -14903,11 +15409,6 @@ class ExportLabelsTaskRunProperties {
 /// some matches and comparing the results to known matches from the same
 /// dataset. The quality metrics are based on a subset of your data, so they are
 /// not precise.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindMatchesMetrics {
   /// The area under the precision/recall curve (AUPRC) is a single number
   /// measuring the overall quality of the transform, that is independent of the
@@ -14917,13 +15418,11 @@ class FindMatchesMetrics {
   /// For more information, see <a
   /// href="https://en.wikipedia.org/wiki/Precision_and_recall">Precision and
   /// recall</a> in Wikipedia.
-  @_s.JsonKey(name: 'AreaUnderPRCurve')
-  final double areaUnderPRCurve;
+  final double? areaUnderPRCurve;
 
   /// A list of <code>ColumnImportance</code> structures containing column
   /// importance metrics, sorted in order of descending importance.
-  @_s.JsonKey(name: 'ColumnImportances')
-  final List<ColumnImportance> columnImportances;
+  final List<ColumnImportance>? columnImportances;
 
   /// The confusion matrix shows you what your transform is predicting accurately
   /// and what types of errors it is making.
@@ -14931,16 +15430,14 @@ class FindMatchesMetrics {
   /// For more information, see <a
   /// href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion matrix</a>
   /// in Wikipedia.
-  @_s.JsonKey(name: 'ConfusionMatrix')
-  final ConfusionMatrix confusionMatrix;
+  final ConfusionMatrix? confusionMatrix;
 
   /// The maximum F1 metric indicates the transform's accuracy between 0 and 1,
   /// where 1 is the best accuracy.
   ///
   /// For more information, see <a
   /// href="https://en.wikipedia.org/wiki/F1_score">F1 score</a> in Wikipedia.
-  @_s.JsonKey(name: 'F1')
-  final double f1;
+  final double? f1;
 
   /// The precision metric indicates when often your transform is correct when it
   /// predicts a match. Specifically, it measures how well the transform finds
@@ -14949,8 +15446,7 @@ class FindMatchesMetrics {
   /// For more information, see <a
   /// href="https://en.wikipedia.org/wiki/Precision_and_recall">Precision and
   /// recall</a> in Wikipedia.
-  @_s.JsonKey(name: 'Precision')
-  final double precision;
+  final double? precision;
 
   /// The recall metric indicates that for an actual match, how often your
   /// transform predicts the match. Specifically, it measures how well the
@@ -14959,8 +15455,7 @@ class FindMatchesMetrics {
   /// For more information, see <a
   /// href="https://en.wikipedia.org/wiki/Precision_and_recall">Precision and
   /// recall</a> in Wikipedia.
-  @_s.JsonKey(name: 'Recall')
-  final double recall;
+  final double? recall;
 
   FindMatchesMetrics({
     this.areaUnderPRCurve,
@@ -14970,16 +15465,25 @@ class FindMatchesMetrics {
     this.precision,
     this.recall,
   });
-  factory FindMatchesMetrics.fromJson(Map<String, dynamic> json) =>
-      _$FindMatchesMetricsFromJson(json);
+  factory FindMatchesMetrics.fromJson(Map<String, dynamic> json) {
+    return FindMatchesMetrics(
+      areaUnderPRCurve: json['AreaUnderPRCurve'] as double?,
+      columnImportances: (json['ColumnImportances'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnImportance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      confusionMatrix: json['ConfusionMatrix'] != null
+          ? ConfusionMatrix.fromJson(
+              json['ConfusionMatrix'] as Map<String, dynamic>)
+          : null,
+      f1: json['F1'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
 }
 
 /// The parameters to configure the find matches transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FindMatchesParameters {
   /// The value that is selected when tuning your transform for a balance between
   /// accuracy and cost. A value of 0.5 means that the system balances accuracy
@@ -14994,8 +15498,7 @@ class FindMatchesParameters {
   ///
   /// Cost measures how many compute resources, and thus money, are consumed to
   /// run the transform.
-  @_s.JsonKey(name: 'AccuracyCostTradeoff')
-  final double accuracyCostTradeoff;
+  final double? accuracyCostTradeoff;
 
   /// The value to switch on or off to force the output to match the provided
   /// labels from users. If the value is <code>True</code>, the <code>find
@@ -15007,8 +15510,7 @@ class FindMatchesParameters {
   ///
   /// Note that setting this value to true may increase the conflation execution
   /// time.
-  @_s.JsonKey(name: 'EnforceProvidedLabels')
-  final bool enforceProvidedLabels;
+  final bool? enforceProvidedLabels;
 
   /// The value selected when tuning your transform for a balance between
   /// precision and recall. A value of 0.5 means no preference; a value of 1.0
@@ -15021,13 +15523,11 @@ class FindMatchesParameters {
   ///
   /// The recall metric indicates that for an actual match, how often your model
   /// predicts the match.
-  @_s.JsonKey(name: 'PrecisionRecallTradeoff')
-  final double precisionRecallTradeoff;
+  final double? precisionRecallTradeoff;
 
   /// The name of a column that uniquely identifies rows in the source table. Used
   /// to help identify matching records.
-  @_s.JsonKey(name: 'PrimaryKeyColumnName')
-  final String primaryKeyColumnName;
+  final String? primaryKeyColumnName;
 
   FindMatchesParameters({
     this.accuracyCostTradeoff,
@@ -15035,532 +15535,535 @@ class FindMatchesParameters {
     this.precisionRecallTradeoff,
     this.primaryKeyColumnName,
   });
-  factory FindMatchesParameters.fromJson(Map<String, dynamic> json) =>
-      _$FindMatchesParametersFromJson(json);
+  factory FindMatchesParameters.fromJson(Map<String, dynamic> json) {
+    return FindMatchesParameters(
+      accuracyCostTradeoff: json['AccuracyCostTradeoff'] as double?,
+      enforceProvidedLabels: json['EnforceProvidedLabels'] as bool?,
+      precisionRecallTradeoff: json['PrecisionRecallTradeoff'] as double?,
+      primaryKeyColumnName: json['PrimaryKeyColumnName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FindMatchesParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final accuracyCostTradeoff = this.accuracyCostTradeoff;
+    final enforceProvidedLabels = this.enforceProvidedLabels;
+    final precisionRecallTradeoff = this.precisionRecallTradeoff;
+    final primaryKeyColumnName = this.primaryKeyColumnName;
+    return {
+      if (accuracyCostTradeoff != null)
+        'AccuracyCostTradeoff': accuracyCostTradeoff,
+      if (enforceProvidedLabels != null)
+        'EnforceProvidedLabels': enforceProvidedLabels,
+      if (precisionRecallTradeoff != null)
+        'PrecisionRecallTradeoff': precisionRecallTradeoff,
+      if (primaryKeyColumnName != null)
+        'PrimaryKeyColumnName': primaryKeyColumnName,
+    };
+  }
 }
 
 /// Specifies configuration properties for a Find Matches task run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindMatchesTaskRunProperties {
   /// The job ID for the Find Matches task run.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name assigned to the job for the Find Matches task run.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The job run ID for the Find Matches task run.
-  @_s.JsonKey(name: 'JobRunId')
-  final String jobRunId;
+  final String? jobRunId;
 
   FindMatchesTaskRunProperties({
     this.jobId,
     this.jobName,
     this.jobRunId,
   });
-  factory FindMatchesTaskRunProperties.fromJson(Map<String, dynamic> json) =>
-      _$FindMatchesTaskRunPropertiesFromJson(json);
+  factory FindMatchesTaskRunProperties.fromJson(Map<String, dynamic> json) {
+    return FindMatchesTaskRunProperties(
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobRunId: json['JobRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCatalogImportStatusResponse {
   /// The status of the specified catalog migration.
-  @_s.JsonKey(name: 'ImportStatus')
-  final CatalogImportStatus importStatus;
+  final CatalogImportStatus? importStatus;
 
   GetCatalogImportStatusResponse({
     this.importStatus,
   });
-  factory GetCatalogImportStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCatalogImportStatusResponseFromJson(json);
+  factory GetCatalogImportStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetCatalogImportStatusResponse(
+      importStatus: json['ImportStatus'] != null
+          ? CatalogImportStatus.fromJson(
+              json['ImportStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetClassifierResponse {
   /// The requested classifier.
-  @_s.JsonKey(name: 'Classifier')
-  final Classifier classifier;
+  final Classifier? classifier;
 
   GetClassifierResponse({
     this.classifier,
   });
-  factory GetClassifierResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetClassifierResponseFromJson(json);
+  factory GetClassifierResponse.fromJson(Map<String, dynamic> json) {
+    return GetClassifierResponse(
+      classifier: json['Classifier'] != null
+          ? Classifier.fromJson(json['Classifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetClassifiersResponse {
   /// The requested list of classifier objects.
-  @_s.JsonKey(name: 'Classifiers')
-  final List<Classifier> classifiers;
+  final List<Classifier>? classifiers;
 
   /// A continuation token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetClassifiersResponse({
     this.classifiers,
     this.nextToken,
   });
-  factory GetClassifiersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetClassifiersResponseFromJson(json);
+  factory GetClassifiersResponse.fromJson(Map<String, dynamic> json) {
+    return GetClassifiersResponse(
+      classifiers: (json['Classifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Classifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetColumnStatisticsForPartitionResponse {
   /// List of ColumnStatistics that failed to be retrieved.
-  @_s.JsonKey(name: 'ColumnStatisticsList')
-  final List<ColumnStatistics> columnStatisticsList;
+  final List<ColumnStatistics>? columnStatisticsList;
 
   /// Error occurred during retrieving column statistics data.
-  @_s.JsonKey(name: 'Errors')
-  final List<ColumnError> errors;
+  final List<ColumnError>? errors;
 
   GetColumnStatisticsForPartitionResponse({
     this.columnStatisticsList,
     this.errors,
   });
   factory GetColumnStatisticsForPartitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetColumnStatisticsForPartitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetColumnStatisticsForPartitionResponse(
+      columnStatisticsList: (json['ColumnStatisticsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetColumnStatisticsForTableResponse {
   /// List of ColumnStatistics that failed to be retrieved.
-  @_s.JsonKey(name: 'ColumnStatisticsList')
-  final List<ColumnStatistics> columnStatisticsList;
+  final List<ColumnStatistics>? columnStatisticsList;
 
   /// List of ColumnStatistics that failed to be retrieved.
-  @_s.JsonKey(name: 'Errors')
-  final List<ColumnError> errors;
+  final List<ColumnError>? errors;
 
   GetColumnStatisticsForTableResponse({
     this.columnStatisticsList,
     this.errors,
   });
   factory GetColumnStatisticsForTableResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetColumnStatisticsForTableResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetColumnStatisticsForTableResponse(
+      columnStatisticsList: (json['ColumnStatisticsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionResponse {
   /// The requested connection definition.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   GetConnectionResponse({
     this.connection,
   });
-  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionResponseFromJson(json);
+  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Filters the connection definitions that are returned by the
 /// <code>GetConnections</code> API operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GetConnectionsFilter {
   /// The type of connections to return. Currently, SFTP is not supported.
-  @_s.JsonKey(name: 'ConnectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// A criteria string that must match the criteria recorded in the connection
   /// definition for that connection definition to be returned.
-  @_s.JsonKey(name: 'MatchCriteria')
-  final List<String> matchCriteria;
+  final List<String>? matchCriteria;
 
   GetConnectionsFilter({
     this.connectionType,
     this.matchCriteria,
   });
-  Map<String, dynamic> toJson() => _$GetConnectionsFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionType = this.connectionType;
+    final matchCriteria = this.matchCriteria;
+    return {
+      if (connectionType != null) 'ConnectionType': connectionType.toValue(),
+      if (matchCriteria != null) 'MatchCriteria': matchCriteria,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionsResponse {
   /// A list of requested connection definitions.
-  @_s.JsonKey(name: 'ConnectionList')
-  final List<Connection> connectionList;
+  final List<Connection>? connectionList;
 
   /// A continuation token, if the list of connections returned does not include
   /// the last of the filtered connections.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetConnectionsResponse({
     this.connectionList,
     this.nextToken,
   });
-  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionsResponseFromJson(json);
+  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionsResponse(
+      connectionList: (json['ConnectionList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCrawlerMetricsResponse {
   /// A list of metrics for the specified crawler.
-  @_s.JsonKey(name: 'CrawlerMetricsList')
-  final List<CrawlerMetrics> crawlerMetricsList;
+  final List<CrawlerMetrics>? crawlerMetricsList;
 
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCrawlerMetricsResponse({
     this.crawlerMetricsList,
     this.nextToken,
   });
-  factory GetCrawlerMetricsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCrawlerMetricsResponseFromJson(json);
+  factory GetCrawlerMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return GetCrawlerMetricsResponse(
+      crawlerMetricsList: (json['CrawlerMetricsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => CrawlerMetrics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCrawlerResponse {
   /// The metadata for the specified crawler.
-  @_s.JsonKey(name: 'Crawler')
-  final Crawler crawler;
+  final Crawler? crawler;
 
   GetCrawlerResponse({
     this.crawler,
   });
-  factory GetCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCrawlerResponseFromJson(json);
+  factory GetCrawlerResponse.fromJson(Map<String, dynamic> json) {
+    return GetCrawlerResponse(
+      crawler: json['Crawler'] != null
+          ? Crawler.fromJson(json['Crawler'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCrawlersResponse {
   /// A list of crawler metadata.
-  @_s.JsonKey(name: 'Crawlers')
-  final List<Crawler> crawlers;
+  final List<Crawler>? crawlers;
 
   /// A continuation token, if the returned list has not reached the end of those
   /// defined in this customer account.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCrawlersResponse({
     this.crawlers,
     this.nextToken,
   });
-  factory GetCrawlersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCrawlersResponseFromJson(json);
+  factory GetCrawlersResponse.fromJson(Map<String, dynamic> json) {
+    return GetCrawlersResponse(
+      crawlers: (json['Crawlers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Crawler.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataCatalogEncryptionSettingsResponse {
   /// The requested security configuration.
-  @_s.JsonKey(name: 'DataCatalogEncryptionSettings')
-  final DataCatalogEncryptionSettings dataCatalogEncryptionSettings;
+  final DataCatalogEncryptionSettings? dataCatalogEncryptionSettings;
 
   GetDataCatalogEncryptionSettingsResponse({
     this.dataCatalogEncryptionSettings,
   });
   factory GetDataCatalogEncryptionSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDataCatalogEncryptionSettingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDataCatalogEncryptionSettingsResponse(
+      dataCatalogEncryptionSettings:
+          json['DataCatalogEncryptionSettings'] != null
+              ? DataCatalogEncryptionSettings.fromJson(
+                  json['DataCatalogEncryptionSettings'] as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDatabaseResponse {
   /// The definition of the specified database in the Data Catalog.
-  @_s.JsonKey(name: 'Database')
-  final Database database;
+  final Database? database;
 
   GetDatabaseResponse({
     this.database,
   });
-  factory GetDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDatabaseResponseFromJson(json);
+  factory GetDatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return GetDatabaseResponse(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDatabasesResponse {
   /// A list of <code>Database</code> objects from the specified catalog.
-  @_s.JsonKey(name: 'DatabaseList')
   final List<Database> databaseList;
 
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDatabasesResponse({
-    @_s.required this.databaseList,
+    required this.databaseList,
     this.nextToken,
   });
-  factory GetDatabasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDatabasesResponseFromJson(json);
+  factory GetDatabasesResponse.fromJson(Map<String, dynamic> json) {
+    return GetDatabasesResponse(
+      databaseList: (json['DatabaseList'] as List)
+          .whereNotNull()
+          .map((e) => Database.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataflowGraphResponse {
   /// A list of the edges in the resulting DAG.
-  @_s.JsonKey(name: 'DagEdges')
-  final List<CodeGenEdge> dagEdges;
+  final List<CodeGenEdge>? dagEdges;
 
   /// A list of the nodes in the resulting DAG.
-  @_s.JsonKey(name: 'DagNodes')
-  final List<CodeGenNode> dagNodes;
+  final List<CodeGenNode>? dagNodes;
 
   GetDataflowGraphResponse({
     this.dagEdges,
     this.dagNodes,
   });
-  factory GetDataflowGraphResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDataflowGraphResponseFromJson(json);
+  factory GetDataflowGraphResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataflowGraphResponse(
+      dagEdges: (json['DagEdges'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeGenEdge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dagNodes: (json['DagNodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeGenNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevEndpointResponse {
   /// A <code>DevEndpoint</code> definition.
-  @_s.JsonKey(name: 'DevEndpoint')
-  final DevEndpoint devEndpoint;
+  final DevEndpoint? devEndpoint;
 
   GetDevEndpointResponse({
     this.devEndpoint,
   });
-  factory GetDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDevEndpointResponseFromJson(json);
+  factory GetDevEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return GetDevEndpointResponse(
+      devEndpoint: json['DevEndpoint'] != null
+          ? DevEndpoint.fromJson(json['DevEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevEndpointsResponse {
   /// A list of <code>DevEndpoint</code> definitions.
-  @_s.JsonKey(name: 'DevEndpoints')
-  final List<DevEndpoint> devEndpoints;
+  final List<DevEndpoint>? devEndpoints;
 
   /// A continuation token, if not all <code>DevEndpoint</code> definitions have
   /// yet been returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDevEndpointsResponse({
     this.devEndpoints,
     this.nextToken,
   });
-  factory GetDevEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDevEndpointsResponseFromJson(json);
+  factory GetDevEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDevEndpointsResponse(
+      devEndpoints: (json['DevEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => DevEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobBookmarkResponse {
   /// A structure that defines a point that a job can resume processing.
-  @_s.JsonKey(name: 'JobBookmarkEntry')
-  final JobBookmarkEntry jobBookmarkEntry;
+  final JobBookmarkEntry? jobBookmarkEntry;
 
   GetJobBookmarkResponse({
     this.jobBookmarkEntry,
   });
-  factory GetJobBookmarkResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobBookmarkResponseFromJson(json);
+  factory GetJobBookmarkResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobBookmarkResponse(
+      jobBookmarkEntry: json['JobBookmarkEntry'] != null
+          ? JobBookmarkEntry.fromJson(
+              json['JobBookmarkEntry'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobResponse {
   /// The requested job definition.
-  @_s.JsonKey(name: 'Job')
-  final Job job;
+  final Job? job;
 
   GetJobResponse({
     this.job,
   });
-  factory GetJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobResponseFromJson(json);
+  factory GetJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobResponse(
+      job: json['Job'] != null
+          ? Job.fromJson(json['Job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobRunResponse {
   /// The requested job-run metadata.
-  @_s.JsonKey(name: 'JobRun')
-  final JobRun jobRun;
+  final JobRun? jobRun;
 
   GetJobRunResponse({
     this.jobRun,
   });
-  factory GetJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobRunResponseFromJson(json);
+  factory GetJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobRunResponse(
+      jobRun: json['JobRun'] != null
+          ? JobRun.fromJson(json['JobRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobRunsResponse {
   /// A list of job-run metadata objects.
-  @_s.JsonKey(name: 'JobRuns')
-  final List<JobRun> jobRuns;
+  final List<JobRun>? jobRuns;
 
   /// A continuation token, if not all requested job runs have been returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetJobRunsResponse({
     this.jobRuns,
     this.nextToken,
   });
-  factory GetJobRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobRunsResponseFromJson(json);
+  factory GetJobRunsResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobRunsResponse(
+      jobRuns: (json['JobRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobsResponse {
   /// A list of job definitions.
-  @_s.JsonKey(name: 'Jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   /// A continuation token, if not all job definitions have yet been returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory GetJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobsResponseFromJson(json);
+  factory GetJobsResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobsResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMLTaskRunResponse {
   /// The date and time when this task run was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedOn')
-  final DateTime completedOn;
+  final DateTime? completedOn;
 
   /// The error strings that are associated with the task run.
-  @_s.JsonKey(name: 'ErrorString')
-  final String errorString;
+  final String? errorString;
 
   /// The amount of time (in seconds) that the task run consumed resources.
-  @_s.JsonKey(name: 'ExecutionTime')
-  final int executionTime;
+  final int? executionTime;
 
   /// The date and time when this task run was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The names of the log groups that are associated with the task run.
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The list of properties that are associated with the task run.
-  @_s.JsonKey(name: 'Properties')
-  final TaskRunProperties properties;
+  final TaskRunProperties? properties;
 
   /// The date and time when this task run started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedOn')
-  final DateTime startedOn;
+  final DateTime? startedOn;
 
   /// The status for this task run.
-  @_s.JsonKey(name: 'Status')
-  final TaskStatusType status;
+  final TaskStatusType? status;
 
   /// The unique run identifier associated with this run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   /// The unique identifier of the task run.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   GetMLTaskRunResponse({
     this.completedOn,
@@ -15574,50 +16077,56 @@ class GetMLTaskRunResponse {
     this.taskRunId,
     this.transformId,
   });
-  factory GetMLTaskRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMLTaskRunResponseFromJson(json);
+  factory GetMLTaskRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetMLTaskRunResponse(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorString: json['ErrorString'] as String?,
+      executionTime: json['ExecutionTime'] as int?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      logGroupName: json['LogGroupName'] as String?,
+      properties: json['Properties'] != null
+          ? TaskRunProperties.fromJson(
+              json['Properties'] as Map<String, dynamic>)
+          : null,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      status: (json['Status'] as String?)?.toTaskStatusType(),
+      taskRunId: json['TaskRunId'] as String?,
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMLTaskRunsResponse {
   /// A pagination token, if more results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of task runs that are associated with the transform.
-  @_s.JsonKey(name: 'TaskRuns')
-  final List<TaskRun> taskRuns;
+  final List<TaskRun>? taskRuns;
 
   GetMLTaskRunsResponse({
     this.nextToken,
     this.taskRuns,
   });
-  factory GetMLTaskRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMLTaskRunsResponseFromJson(json);
+  factory GetMLTaskRunsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMLTaskRunsResponse(
+      nextToken: json['NextToken'] as String?,
+      taskRuns: (json['TaskRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => TaskRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMLTransformResponse {
   /// The date and time when the transform was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedOn')
-  final DateTime createdOn;
+  final DateTime? createdOn;
 
   /// A description of the transform.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The latest evaluation metrics.
-  @_s.JsonKey(name: 'EvaluationMetrics')
-  final EvaluationMetrics evaluationMetrics;
+  final EvaluationMetrics? evaluationMetrics;
 
   /// This value determines which version of AWS Glue this machine learning
   /// transform is compatible with. Glue 1.0 is recommended for most customers. If
@@ -15625,21 +16134,16 @@ class GetMLTransformResponse {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions">AWS
   /// Glue Versions</a> in the developer guide.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// A list of AWS Glue table definitions used by the transform.
-  @_s.JsonKey(name: 'InputRecordTables')
-  final List<GlueTable> inputRecordTables;
+  final List<GlueTable>? inputRecordTables;
 
   /// The number of labels available for this transform.
-  @_s.JsonKey(name: 'LabelCount')
-  final int labelCount;
+  final int? labelCount;
 
   /// The date and time when the transform was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The number of AWS Glue data processing units (DPUs) that are allocated to
   /// task runs for this transform. You can allocate from 2 to 100 DPUs; the
@@ -15651,59 +16155,48 @@ class GetMLTransformResponse {
   /// When the <code>WorkerType</code> field is set to a value other than
   /// <code>Standard</code>, the <code>MaxCapacity</code> field is set
   /// automatically and becomes read-only.
-  @_s.JsonKey(name: 'MaxCapacity')
-  final double maxCapacity;
+  final double? maxCapacity;
 
   /// The maximum number of times to retry a task for this transform after a task
   /// run fails.
-  @_s.JsonKey(name: 'MaxRetries')
-  final int maxRetries;
+  final int? maxRetries;
 
   /// The unique name given to the transform when it was created.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when this task runs.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// The configuration parameters that are specific to the algorithm used.
-  @_s.JsonKey(name: 'Parameters')
-  final TransformParameters parameters;
+  final TransformParameters? parameters;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role with the required
   /// permissions.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The <code>Map&lt;Column, Type&gt;</code> object that represents the schema
   /// that this transform accepts. Has an upper bound of 100 columns.
-  @_s.JsonKey(name: 'Schema')
-  final List<SchemaColumn> schema;
+  final List<SchemaColumn>? schema;
 
   /// The last known status of the transform (to indicate whether it can be used
   /// or not). One of "NOT_READY", "READY", or "DELETING".
-  @_s.JsonKey(name: 'Status')
-  final TransformStatusType status;
+  final TransformStatusType? status;
 
   /// The timeout for a task run for this transform in minutes. This is the
   /// maximum time that a task run for this transform can consume resources before
   /// it is terminated and enters <code>TIMEOUT</code> status. The default is
   /// 2,880 minutes (48 hours).
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   /// The encryption-at-rest settings of the transform that apply to accessing
   /// user data. Machine learning transforms can access user data encrypted in
   /// Amazon S3 using KMS.
-  @_s.JsonKey(name: 'TransformEncryption')
-  final TransformEncryption transformEncryption;
+  final TransformEncryption? transformEncryption;
 
   /// The unique identifier of the transform, generated at the time that the
   /// transform was created.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   /// The type of predefined worker that is allocated when this task runs. Accepts
   /// a value of Standard, G.1X, or G.2X.
@@ -15722,8 +16215,7 @@ class GetMLTransformResponse {
   /// memory and a 128GB disk, and 1 executor per worker.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   GetMLTransformResponse({
     this.createdOn,
@@ -15746,162 +16238,185 @@ class GetMLTransformResponse {
     this.transformId,
     this.workerType,
   });
-  factory GetMLTransformResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMLTransformResponseFromJson(json);
+  factory GetMLTransformResponse.fromJson(Map<String, dynamic> json) {
+    return GetMLTransformResponse(
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      description: json['Description'] as String?,
+      evaluationMetrics: json['EvaluationMetrics'] != null
+          ? EvaluationMetrics.fromJson(
+              json['EvaluationMetrics'] as Map<String, dynamic>)
+          : null,
+      glueVersion: json['GlueVersion'] as String?,
+      inputRecordTables: (json['InputRecordTables'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueTable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      labelCount: json['LabelCount'] as int?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      maxCapacity: json['MaxCapacity'] as double?,
+      maxRetries: json['MaxRetries'] as int?,
+      name: json['Name'] as String?,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      parameters: json['Parameters'] != null
+          ? TransformParameters.fromJson(
+              json['Parameters'] as Map<String, dynamic>)
+          : null,
+      role: json['Role'] as String?,
+      schema: (json['Schema'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toTransformStatusType(),
+      timeout: json['Timeout'] as int?,
+      transformEncryption: json['TransformEncryption'] != null
+          ? TransformEncryption.fromJson(
+              json['TransformEncryption'] as Map<String, dynamic>)
+          : null,
+      transformId: json['TransformId'] as String?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMLTransformsResponse {
   /// A list of machine learning transforms.
-  @_s.JsonKey(name: 'Transforms')
   final List<MLTransform> transforms;
 
   /// A pagination token, if more results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetMLTransformsResponse({
-    @_s.required this.transforms,
+    required this.transforms,
     this.nextToken,
   });
-  factory GetMLTransformsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMLTransformsResponseFromJson(json);
+  factory GetMLTransformsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMLTransformsResponse(
+      transforms: (json['Transforms'] as List)
+          .whereNotNull()
+          .map((e) => MLTransform.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMappingResponse {
   /// A list of mappings to the specified targets.
-  @_s.JsonKey(name: 'Mapping')
   final List<MappingEntry> mapping;
 
   GetMappingResponse({
-    @_s.required this.mapping,
+    required this.mapping,
   });
-  factory GetMappingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMappingResponseFromJson(json);
+  factory GetMappingResponse.fromJson(Map<String, dynamic> json) {
+    return GetMappingResponse(
+      mapping: (json['Mapping'] as List)
+          .whereNotNull()
+          .map((e) => MappingEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPartitionIndexesResponse {
   /// A continuation token, present if the current list segment is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of index descriptors.
-  @_s.JsonKey(name: 'PartitionIndexDescriptorList')
-  final List<PartitionIndexDescriptor> partitionIndexDescriptorList;
+  final List<PartitionIndexDescriptor>? partitionIndexDescriptorList;
 
   GetPartitionIndexesResponse({
     this.nextToken,
     this.partitionIndexDescriptorList,
   });
-  factory GetPartitionIndexesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPartitionIndexesResponseFromJson(json);
+  factory GetPartitionIndexesResponse.fromJson(Map<String, dynamic> json) {
+    return GetPartitionIndexesResponse(
+      nextToken: json['NextToken'] as String?,
+      partitionIndexDescriptorList:
+          (json['PartitionIndexDescriptorList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  PartitionIndexDescriptor.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPartitionResponse {
   /// The requested information, in the form of a <code>Partition</code> object.
-  @_s.JsonKey(name: 'Partition')
-  final Partition partition;
+  final Partition? partition;
 
   GetPartitionResponse({
     this.partition,
   });
-  factory GetPartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPartitionResponseFromJson(json);
+  factory GetPartitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPartitionResponse(
+      partition: json['Partition'] != null
+          ? Partition.fromJson(json['Partition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPartitionsResponse {
   /// A continuation token, if the returned list of partitions does not include
   /// the last one.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of requested partitions.
-  @_s.JsonKey(name: 'Partitions')
-  final List<Partition> partitions;
+  final List<Partition>? partitions;
 
   GetPartitionsResponse({
     this.nextToken,
     this.partitions,
   });
-  factory GetPartitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPartitionsResponseFromJson(json);
+  factory GetPartitionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetPartitionsResponse(
+      nextToken: json['NextToken'] as String?,
+      partitions: (json['Partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Partition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPlanResponse {
   /// A Python script to perform the mapping.
-  @_s.JsonKey(name: 'PythonScript')
-  final String pythonScript;
+  final String? pythonScript;
 
   /// The Scala code to perform the mapping.
-  @_s.JsonKey(name: 'ScalaCode')
-  final String scalaCode;
+  final String? scalaCode;
 
   GetPlanResponse({
     this.pythonScript,
     this.scalaCode,
   });
-  factory GetPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPlanResponseFromJson(json);
+  factory GetPlanResponse.fromJson(Map<String, dynamic> json) {
+    return GetPlanResponse(
+      pythonScript: json['PythonScript'] as String?,
+      scalaCode: json['ScalaCode'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRegistryResponse {
   /// The date and time the registry was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// A description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The status of the registry.
-  @_s.JsonKey(name: 'Status')
-  final RegistryStatus status;
+  final RegistryStatus? status;
 
   /// The date and time the registry was updated.
-  @_s.JsonKey(name: 'UpdatedTime')
-  final String updatedTime;
+  final String? updatedTime;
 
   GetRegistryResponse({
     this.createdTime,
@@ -15911,57 +16426,55 @@ class GetRegistryResponse {
     this.status,
     this.updatedTime,
   });
-  factory GetRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRegistryResponseFromJson(json);
+  factory GetRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegistryResponse(
+      createdTime: json['CreatedTime'] as String?,
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      status: (json['Status'] as String?)?.toRegistryStatus(),
+      updatedTime: json['UpdatedTime'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePoliciesResponse {
   /// A list of the individual resource policies and the account-level resource
   /// policy.
-  @_s.JsonKey(name: 'GetResourcePoliciesResponseList')
-  final List<GluePolicy> getResourcePoliciesResponseList;
+  final List<GluePolicy>? getResourcePoliciesResponseList;
 
   /// A continuation token, if the returned list does not contain the last
   /// resource policy available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetResourcePoliciesResponse({
     this.getResourcePoliciesResponseList,
     this.nextToken,
   });
-  factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePoliciesResponseFromJson(json);
+  factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePoliciesResponse(
+      getResourcePoliciesResponseList:
+          (json['GetResourcePoliciesResponseList'] as List?)
+              ?.whereNotNull()
+              .map((e) => GluePolicy.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePolicyResponse {
   /// The date and time at which the policy was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// Contains the hash value associated with this policy.
-  @_s.JsonKey(name: 'PolicyHash')
-  final String policyHash;
+  final String? policyHash;
 
   /// Contains the requested policy document, in JSON format.
-  @_s.JsonKey(name: 'PolicyInJson')
-  final String policyInJson;
+  final String? policyInJson;
 
   /// The date and time at which the policy was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateTime')
-  final DateTime updateTime;
+  final DateTime? updateTime;
 
   GetResourcePolicyResponse({
     this.createTime,
@@ -15969,36 +16482,32 @@ class GetResourcePolicyResponse {
     this.policyInJson,
     this.updateTime,
   });
-  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePolicyResponseFromJson(json);
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      createTime: timeStampFromJson(json['CreateTime']),
+      policyHash: json['PolicyHash'] as String?,
+      policyInJson: json['PolicyInJson'] as String?,
+      updateTime: timeStampFromJson(json['UpdateTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaByDefinitionResponse {
   /// The date and time the schema was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The data format of the schema definition. Currently only <code>AVRO</code>
   /// is supported.
-  @_s.JsonKey(name: 'DataFormat')
-  final DataFormat dataFormat;
+  final DataFormat? dataFormat;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The schema ID of the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The status of the schema version.
-  @_s.JsonKey(name: 'Status')
-  final SchemaVersionStatus status;
+  final SchemaVersionStatus? status;
 
   GetSchemaByDefinitionResponse({
     this.createdTime,
@@ -16007,71 +16516,60 @@ class GetSchemaByDefinitionResponse {
     this.schemaVersionId,
     this.status,
   });
-  factory GetSchemaByDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaByDefinitionResponseFromJson(json);
+  factory GetSchemaByDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaByDefinitionResponse(
+      createdTime: json['CreatedTime'] as String?,
+      dataFormat: (json['DataFormat'] as String?)?.toDataFormat(),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      status: (json['Status'] as String?)?.toSchemaVersionStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaResponse {
   /// The compatibility mode of the schema.
-  @_s.JsonKey(name: 'Compatibility')
-  final Compatibility compatibility;
+  final Compatibility? compatibility;
 
   /// The date and time the schema was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The data format of the schema definition. Currently only <code>AVRO</code>
   /// is supported.
-  @_s.JsonKey(name: 'DataFormat')
-  final DataFormat dataFormat;
+  final DataFormat? dataFormat;
 
   /// A description of schema if specified when created
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The latest version of the schema associated with the returned schema
   /// definition.
-  @_s.JsonKey(name: 'LatestSchemaVersion')
-  final int latestSchemaVersion;
+  final int? latestSchemaVersion;
 
   /// The next version of the schema associated with the returned schema
   /// definition.
-  @_s.JsonKey(name: 'NextSchemaVersion')
-  final int nextSchemaVersion;
+  final int? nextSchemaVersion;
 
   /// The Amazon Resource Name (ARN) of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The version number of the checkpoint (the last time the compatibility mode
   /// was changed).
-  @_s.JsonKey(name: 'SchemaCheckpoint')
-  final int schemaCheckpoint;
+  final int? schemaCheckpoint;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The status of the schema.
-  @_s.JsonKey(name: 'SchemaStatus')
-  final SchemaStatus schemaStatus;
+  final SchemaStatus? schemaStatus;
 
   /// The date and time the schema was updated.
-  @_s.JsonKey(name: 'UpdatedTime')
-  final String updatedTime;
+  final String? updatedTime;
 
   GetSchemaResponse({
     this.compatibility,
@@ -16088,44 +16586,47 @@ class GetSchemaResponse {
     this.schemaStatus,
     this.updatedTime,
   });
-  factory GetSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaResponseFromJson(json);
+  factory GetSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaResponse(
+      compatibility: (json['Compatibility'] as String?)?.toCompatibility(),
+      createdTime: json['CreatedTime'] as String?,
+      dataFormat: (json['DataFormat'] as String?)?.toDataFormat(),
+      description: json['Description'] as String?,
+      latestSchemaVersion: json['LatestSchemaVersion'] as int?,
+      nextSchemaVersion: json['NextSchemaVersion'] as int?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaCheckpoint: json['SchemaCheckpoint'] as int?,
+      schemaName: json['SchemaName'] as String?,
+      schemaStatus: (json['SchemaStatus'] as String?)?.toSchemaStatus(),
+      updatedTime: json['UpdatedTime'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaVersionResponse {
   /// The date and time the schema version was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The data format of the schema definition. Currently only <code>AVRO</code>
   /// is supported.
-  @_s.JsonKey(name: 'DataFormat')
-  final DataFormat dataFormat;
+  final DataFormat? dataFormat;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The schema definition for the schema ID.
-  @_s.JsonKey(name: 'SchemaDefinition')
-  final String schemaDefinition;
+  final String? schemaDefinition;
 
   /// The <code>SchemaVersionId</code> of the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The status of the schema version.
-  @_s.JsonKey(name: 'Status')
-  final SchemaVersionStatus status;
+  final SchemaVersionStatus? status;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   GetSchemaVersionResponse({
     this.createdTime,
@@ -16136,342 +16637,326 @@ class GetSchemaVersionResponse {
     this.status,
     this.versionNumber,
   });
-  factory GetSchemaVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaVersionResponseFromJson(json);
+  factory GetSchemaVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaVersionResponse(
+      createdTime: json['CreatedTime'] as String?,
+      dataFormat: (json['DataFormat'] as String?)?.toDataFormat(),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaDefinition: json['SchemaDefinition'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      status: (json['Status'] as String?)?.toSchemaVersionStatus(),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaVersionsDiffResponse {
   /// The difference between schemas as a string in JsonPatch format.
-  @_s.JsonKey(name: 'Diff')
-  final String diff;
+  final String? diff;
 
   GetSchemaVersionsDiffResponse({
     this.diff,
   });
-  factory GetSchemaVersionsDiffResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaVersionsDiffResponseFromJson(json);
+  factory GetSchemaVersionsDiffResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaVersionsDiffResponse(
+      diff: json['Diff'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSecurityConfigurationResponse {
   /// The requested security configuration.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final SecurityConfiguration securityConfiguration;
+  final SecurityConfiguration? securityConfiguration;
 
   GetSecurityConfigurationResponse({
     this.securityConfiguration,
   });
-  factory GetSecurityConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSecurityConfigurationResponseFromJson(json);
+  factory GetSecurityConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetSecurityConfigurationResponse(
+      securityConfiguration: json['SecurityConfiguration'] != null
+          ? SecurityConfiguration.fromJson(
+              json['SecurityConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSecurityConfigurationsResponse {
   /// A continuation token, if there are more security configurations to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of security configurations.
-  @_s.JsonKey(name: 'SecurityConfigurations')
-  final List<SecurityConfiguration> securityConfigurations;
+  final List<SecurityConfiguration>? securityConfigurations;
 
   GetSecurityConfigurationsResponse({
     this.nextToken,
     this.securityConfigurations,
   });
   factory GetSecurityConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSecurityConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSecurityConfigurationsResponse(
+      nextToken: json['NextToken'] as String?,
+      securityConfigurations: (json['SecurityConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTableResponse {
   /// The <code>Table</code> object that defines the specified table.
-  @_s.JsonKey(name: 'Table')
-  final Table table;
+  final Table? table;
 
   GetTableResponse({
     this.table,
   });
-  factory GetTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTableResponseFromJson(json);
+  factory GetTableResponse.fromJson(Map<String, dynamic> json) {
+    return GetTableResponse(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTableVersionResponse {
   /// The requested table version.
-  @_s.JsonKey(name: 'TableVersion')
-  final TableVersion tableVersion;
+  final TableVersion? tableVersion;
 
   GetTableVersionResponse({
     this.tableVersion,
   });
-  factory GetTableVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTableVersionResponseFromJson(json);
+  factory GetTableVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetTableVersionResponse(
+      tableVersion: json['TableVersion'] != null
+          ? TableVersion.fromJson(json['TableVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTableVersionsResponse {
   /// A continuation token, if the list of available versions does not include the
   /// last one.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of strings identifying available versions of the specified table.
-  @_s.JsonKey(name: 'TableVersions')
-  final List<TableVersion> tableVersions;
+  final List<TableVersion>? tableVersions;
 
   GetTableVersionsResponse({
     this.nextToken,
     this.tableVersions,
   });
-  factory GetTableVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTableVersionsResponseFromJson(json);
+  factory GetTableVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetTableVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      tableVersions: (json['TableVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTablesResponse {
   /// A continuation token, present if the current list segment is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the requested <code>Table</code> objects.
-  @_s.JsonKey(name: 'TableList')
-  final List<Table> tableList;
+  final List<Table>? tableList;
 
   GetTablesResponse({
     this.nextToken,
     this.tableList,
   });
-  factory GetTablesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTablesResponseFromJson(json);
+  factory GetTablesResponse.fromJson(Map<String, dynamic> json) {
+    return GetTablesResponse(
+      nextToken: json['NextToken'] as String?,
+      tableList: (json['TableList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Table.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagsResponse {
   /// The requested tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetTagsResponse({
     this.tags,
   });
-  factory GetTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTagsResponseFromJson(json);
+  factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
+    return GetTagsResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTriggerResponse {
   /// The requested trigger definition.
-  @_s.JsonKey(name: 'Trigger')
-  final Trigger trigger;
+  final Trigger? trigger;
 
   GetTriggerResponse({
     this.trigger,
   });
-  factory GetTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTriggerResponseFromJson(json);
+  factory GetTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return GetTriggerResponse(
+      trigger: json['Trigger'] != null
+          ? Trigger.fromJson(json['Trigger'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTriggersResponse {
   /// A continuation token, if not all the requested triggers have yet been
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of triggers for the specified job.
-  @_s.JsonKey(name: 'Triggers')
-  final List<Trigger> triggers;
+  final List<Trigger>? triggers;
 
   GetTriggersResponse({
     this.nextToken,
     this.triggers,
   });
-  factory GetTriggersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTriggersResponseFromJson(json);
+  factory GetTriggersResponse.fromJson(Map<String, dynamic> json) {
+    return GetTriggersResponse(
+      nextToken: json['NextToken'] as String?,
+      triggers: (json['Triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserDefinedFunctionResponse {
   /// The requested function definition.
-  @_s.JsonKey(name: 'UserDefinedFunction')
-  final UserDefinedFunction userDefinedFunction;
+  final UserDefinedFunction? userDefinedFunction;
 
   GetUserDefinedFunctionResponse({
     this.userDefinedFunction,
   });
-  factory GetUserDefinedFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserDefinedFunctionResponseFromJson(json);
+  factory GetUserDefinedFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserDefinedFunctionResponse(
+      userDefinedFunction: json['UserDefinedFunction'] != null
+          ? UserDefinedFunction.fromJson(
+              json['UserDefinedFunction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserDefinedFunctionsResponse {
   /// A continuation token, if the list of functions returned does not include the
   /// last requested function.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of requested function definitions.
-  @_s.JsonKey(name: 'UserDefinedFunctions')
-  final List<UserDefinedFunction> userDefinedFunctions;
+  final List<UserDefinedFunction>? userDefinedFunctions;
 
   GetUserDefinedFunctionsResponse({
     this.nextToken,
     this.userDefinedFunctions,
   });
-  factory GetUserDefinedFunctionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserDefinedFunctionsResponseFromJson(json);
+  factory GetUserDefinedFunctionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserDefinedFunctionsResponse(
+      nextToken: json['NextToken'] as String?,
+      userDefinedFunctions: (json['UserDefinedFunctions'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserDefinedFunction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWorkflowResponse {
   /// The resource metadata for the workflow.
-  @_s.JsonKey(name: 'Workflow')
-  final Workflow workflow;
+  final Workflow? workflow;
 
   GetWorkflowResponse({
     this.workflow,
   });
-  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetWorkflowResponseFromJson(json);
+  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowResponse(
+      workflow: json['Workflow'] != null
+          ? Workflow.fromJson(json['Workflow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWorkflowRunPropertiesResponse {
   /// The workflow run properties which were set during the specified run.
-  @_s.JsonKey(name: 'RunProperties')
-  final Map<String, String> runProperties;
+  final Map<String, String>? runProperties;
 
   GetWorkflowRunPropertiesResponse({
     this.runProperties,
   });
-  factory GetWorkflowRunPropertiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetWorkflowRunPropertiesResponseFromJson(json);
+  factory GetWorkflowRunPropertiesResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowRunPropertiesResponse(
+      runProperties: (json['RunProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWorkflowRunResponse {
   /// The requested workflow run metadata.
-  @_s.JsonKey(name: 'Run')
-  final WorkflowRun run;
+  final WorkflowRun? run;
 
   GetWorkflowRunResponse({
     this.run,
   });
-  factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetWorkflowRunResponseFromJson(json);
+  factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowRunResponse(
+      run: json['Run'] != null
+          ? WorkflowRun.fromJson(json['Run'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWorkflowRunsResponse {
   /// A continuation token, if not all requested workflow runs have been returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of workflow run metadata objects.
-  @_s.JsonKey(name: 'Runs')
-  final List<WorkflowRun> runs;
+  final List<WorkflowRun>? runs;
 
   GetWorkflowRunsResponse({
     this.nextToken,
     this.runs,
   });
-  factory GetWorkflowRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetWorkflowRunsResponseFromJson(json);
+  factory GetWorkflowRunsResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowRunsResponse(
+      nextToken: json['NextToken'] as String?,
+      runs: (json['Runs'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A structure for returning a resource policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GluePolicy {
   /// The date and time at which the policy was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// Contains the hash value associated with this policy.
-  @_s.JsonKey(name: 'PolicyHash')
-  final String policyHash;
+  final String? policyHash;
 
   /// Contains the requested policy document, in JSON format.
-  @_s.JsonKey(name: 'PolicyInJson')
-  final String policyInJson;
+  final String? policyInJson;
 
   /// The date and time at which the policy was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateTime')
-  final DateTime updateTime;
+  final DateTime? updateTime;
 
   GluePolicy({
     this.createTime,
@@ -16479,177 +16964,183 @@ class GluePolicy {
     this.policyInJson,
     this.updateTime,
   });
-  factory GluePolicy.fromJson(Map<String, dynamic> json) =>
-      _$GluePolicyFromJson(json);
+  factory GluePolicy.fromJson(Map<String, dynamic> json) {
+    return GluePolicy(
+      createTime: timeStampFromJson(json['CreateTime']),
+      policyHash: json['PolicyHash'] as String?,
+      policyInJson: json['PolicyInJson'] as String?,
+      updateTime: timeStampFromJson(json['UpdateTime']),
+    );
+  }
 }
 
 /// The database and table in the AWS Glue Data Catalog that is used for input
 /// or output data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GlueTable {
   /// A database name in the AWS Glue Data Catalog.
-  @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
   /// A table name in the AWS Glue Data Catalog.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// A unique identifier for the AWS Glue Data Catalog.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The name of the connection to the AWS Glue Data Catalog.
-  @_s.JsonKey(name: 'ConnectionName')
-  final String connectionName;
+  final String? connectionName;
 
   GlueTable({
-    @_s.required this.databaseName,
-    @_s.required this.tableName,
+    required this.databaseName,
+    required this.tableName,
     this.catalogId,
     this.connectionName,
   });
-  factory GlueTable.fromJson(Map<String, dynamic> json) =>
-      _$GlueTableFromJson(json);
+  factory GlueTable.fromJson(Map<String, dynamic> json) {
+    return GlueTable(
+      databaseName: json['DatabaseName'] as String,
+      tableName: json['TableName'] as String,
+      catalogId: json['CatalogId'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GlueTableToJson(this);
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    final catalogId = this.catalogId;
+    final connectionName = this.connectionName;
+    return {
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (connectionName != null) 'ConnectionName': connectionName,
+    };
+  }
 }
 
 /// A classifier that uses <code>grok</code> patterns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GrokClassifier {
   /// An identifier of the data format that the classifier matches, such as
   /// Twitter, JSON, Omniture logs, and so on.
-  @_s.JsonKey(name: 'Classification')
   final String classification;
 
   /// The grok pattern applied to a data store by this classifier. For more
   /// information, see built-in patterns in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
   /// Custom Classifiers</a>.
-  @_s.JsonKey(name: 'GrokPattern')
   final String grokPattern;
 
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The time that this classifier was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Optional custom grok patterns defined by this classifier. For more
   /// information, see custom patterns in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
   /// Custom Classifiers</a>.
-  @_s.JsonKey(name: 'CustomPatterns')
-  final String customPatterns;
+  final String? customPatterns;
 
   /// The time that this classifier was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The version of this classifier.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   GrokClassifier({
-    @_s.required this.classification,
-    @_s.required this.grokPattern,
-    @_s.required this.name,
+    required this.classification,
+    required this.grokPattern,
+    required this.name,
     this.creationTime,
     this.customPatterns,
     this.lastUpdated,
     this.version,
   });
-  factory GrokClassifier.fromJson(Map<String, dynamic> json) =>
-      _$GrokClassifierFromJson(json);
+  factory GrokClassifier.fromJson(Map<String, dynamic> json) {
+    return GrokClassifier(
+      classification: json['Classification'] as String,
+      grokPattern: json['GrokPattern'] as String,
+      name: json['Name'] as String,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      customPatterns: json['CustomPatterns'] as String?,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      version: json['Version'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportCatalogToGlueResponse {
   ImportCatalogToGlueResponse();
-  factory ImportCatalogToGlueResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportCatalogToGlueResponseFromJson(json);
+  factory ImportCatalogToGlueResponse.fromJson(Map<String, dynamic> _) {
+    return ImportCatalogToGlueResponse();
+  }
 }
 
 /// Specifies configuration properties for an importing labels task run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportLabelsTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path from where you will
   /// import the labels.
-  @_s.JsonKey(name: 'InputS3Path')
-  final String inputS3Path;
+  final String? inputS3Path;
 
   /// Indicates whether to overwrite your existing labels.
-  @_s.JsonKey(name: 'Replace')
-  final bool replace;
+  final bool? replace;
 
   ImportLabelsTaskRunProperties({
     this.inputS3Path,
     this.replace,
   });
-  factory ImportLabelsTaskRunProperties.fromJson(Map<String, dynamic> json) =>
-      _$ImportLabelsTaskRunPropertiesFromJson(json);
+  factory ImportLabelsTaskRunProperties.fromJson(Map<String, dynamic> json) {
+    return ImportLabelsTaskRunProperties(
+      inputS3Path: json['InputS3Path'] as String?,
+      replace: json['Replace'] as bool?,
+    );
+  }
 }
 
 /// Specifies a JDBC data store to crawl.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JdbcTarget {
   /// The name of the connection to use to connect to the JDBC target.
-  @_s.JsonKey(name: 'ConnectionName')
-  final String connectionName;
+  final String? connectionName;
 
   /// A list of glob patterns used to exclude from the crawl. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
   /// Tables with a Crawler</a>.
-  @_s.JsonKey(name: 'Exclusions')
-  final List<String> exclusions;
+  final List<String>? exclusions;
 
   /// The path of the JDBC target.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   JdbcTarget({
     this.connectionName,
     this.exclusions,
     this.path,
   });
-  factory JdbcTarget.fromJson(Map<String, dynamic> json) =>
-      _$JdbcTargetFromJson(json);
+  factory JdbcTarget.fromJson(Map<String, dynamic> json) {
+    return JdbcTarget(
+      connectionName: json['ConnectionName'] as String?,
+      exclusions: (json['Exclusions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      path: json['Path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JdbcTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final exclusions = this.exclusions;
+    final path = this.path;
+    return {
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (exclusions != null) 'Exclusions': exclusions,
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
 /// Specifies a job definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -16659,21 +17150,16 @@ class Job {
   /// capacity and 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing page</a>.
   /// <p/>
-  @_s.JsonKey(name: 'AllocatedCapacity')
-  final int allocatedCapacity;
+  final int? allocatedCapacity;
 
   /// The <code>JobCommand</code> that executes this job.
-  @_s.JsonKey(name: 'Command')
-  final JobCommand command;
+  final JobCommand? command;
 
   /// The connections used for this job.
-  @_s.JsonKey(name: 'Connections')
-  final ConnectionsList connections;
+  final ConnectionsList? connections;
 
   /// The time and date that this job definition was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedOn')
-  final DateTime createdOn;
+  final DateTime? createdOn;
 
   /// The default arguments for this job, specified as name-value pairs.
   ///
@@ -16689,17 +17175,14 @@ class Job {
   /// your job, see the <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
   /// Parameters Used by AWS Glue</a> topic in the developer guide.
-  @_s.JsonKey(name: 'DefaultArguments')
-  final Map<String, String> defaultArguments;
+  final Map<String, String>? defaultArguments;
 
   /// A description of the job.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// An <code>ExecutionProperty</code> specifying the maximum number of
   /// concurrent runs allowed for this job.
-  @_s.JsonKey(name: 'ExecutionProperty')
-  final ExecutionProperty executionProperty;
+  final ExecutionProperty? executionProperty;
 
   /// Glue version determines the versions of Apache Spark and Python that AWS
   /// Glue supports. The Python version indicates the version supported for jobs
@@ -16711,17 +17194,13 @@ class Job {
   /// version</a> in the developer guide.
   ///
   /// Jobs that are created without specifying a Glue version default to Glue 0.9.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// The last point in time when this job definition was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// This field is reserved for future use.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The number of AWS Glue data processing units (DPUs) that can be allocated
   /// when this job runs. A DPU is a relative measure of processing power that
@@ -16750,48 +17229,39 @@ class Job {
   /// allocation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MaxCapacity')
-  final double maxCapacity;
+  final double? maxCapacity;
 
   /// The maximum number of times to retry this job after a JobRun fails.
-  @_s.JsonKey(name: 'MaxRetries')
-  final int maxRetries;
+  final int? maxRetries;
 
   /// The name you assign to this job definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Non-overridable arguments for this job, specified as name-value pairs.
-  @_s.JsonKey(name: 'NonOverridableArguments')
-  final Map<String, String> nonOverridableArguments;
+  final Map<String, String>? nonOverridableArguments;
 
   /// Specifies configuration properties of a job notification.
-  @_s.JsonKey(name: 'NotificationProperty')
-  final NotificationProperty notificationProperty;
+  final NotificationProperty? notificationProperty;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   ///
   /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
   /// and 149 for <code>G.2X</code>.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
   /// job.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this job.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The job timeout in minutes. This is the maximum time that a job run can
   /// consume resources before it is terminated and enters <code>TIMEOUT</code>
   /// status. The default is 2,880 minutes (48 hours).
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
   /// value of Standard, G.1X, or G.2X.
@@ -16812,8 +17282,7 @@ class Job {
   /// this worker type for memory-intensive jobs.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   Job({
     this.allocatedCapacity,
@@ -16837,43 +17306,68 @@ class Job {
     this.timeout,
     this.workerType,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      allocatedCapacity: json['AllocatedCapacity'] as int?,
+      command: json['Command'] != null
+          ? JobCommand.fromJson(json['Command'] as Map<String, dynamic>)
+          : null,
+      connections: json['Connections'] != null
+          ? ConnectionsList.fromJson(
+              json['Connections'] as Map<String, dynamic>)
+          : null,
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      defaultArguments: (json['DefaultArguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      description: json['Description'] as String?,
+      executionProperty: json['ExecutionProperty'] != null
+          ? ExecutionProperty.fromJson(
+              json['ExecutionProperty'] as Map<String, dynamic>)
+          : null,
+      glueVersion: json['GlueVersion'] as String?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      logUri: json['LogUri'] as String?,
+      maxCapacity: json['MaxCapacity'] as double?,
+      maxRetries: json['MaxRetries'] as int?,
+      name: json['Name'] as String?,
+      nonOverridableArguments:
+          (json['NonOverridableArguments'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      notificationProperty: json['NotificationProperty'] != null
+          ? NotificationProperty.fromJson(
+              json['NotificationProperty'] as Map<String, dynamic>)
+          : null,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      role: json['Role'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      timeout: json['Timeout'] as int?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+    );
+  }
 }
 
 /// Defines a point that a job can resume processing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobBookmarkEntry {
   /// The attempt ID number.
-  @_s.JsonKey(name: 'Attempt')
-  final int attempt;
+  final int? attempt;
 
   /// The bookmark itself.
-  @_s.JsonKey(name: 'JobBookmark')
-  final String jobBookmark;
+  final String? jobBookmark;
 
   /// The name of the job in question.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The unique run identifier associated with the previous job run.
-  @_s.JsonKey(name: 'PreviousRunId')
-  final String previousRunId;
+  final String? previousRunId;
 
   /// The run ID number.
-  @_s.JsonKey(name: 'Run')
-  final int run;
+  final int? run;
 
   /// The run ID number.
-  @_s.JsonKey(name: 'RunId')
-  final String runId;
+  final String? runId;
 
   /// The version of the job.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   JobBookmarkEntry({
     this.attempt,
@@ -16884,102 +17378,140 @@ class JobBookmarkEntry {
     this.runId,
     this.version,
   });
-  factory JobBookmarkEntry.fromJson(Map<String, dynamic> json) =>
-      _$JobBookmarkEntryFromJson(json);
+  factory JobBookmarkEntry.fromJson(Map<String, dynamic> json) {
+    return JobBookmarkEntry(
+      attempt: json['Attempt'] as int?,
+      jobBookmark: json['JobBookmark'] as String?,
+      jobName: json['JobName'] as String?,
+      previousRunId: json['PreviousRunId'] as String?,
+      run: json['Run'] as int?,
+      runId: json['RunId'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
 }
 
 /// Specifies how job bookmark data should be encrypted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobBookmarksEncryption {
   /// The encryption mode to use for job bookmarks data.
-  @_s.JsonKey(name: 'JobBookmarksEncryptionMode')
-  final JobBookmarksEncryptionMode jobBookmarksEncryptionMode;
+  final JobBookmarksEncryptionMode? jobBookmarksEncryptionMode;
 
   /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the
   /// data.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   JobBookmarksEncryption({
     this.jobBookmarksEncryptionMode,
     this.kmsKeyArn,
   });
-  factory JobBookmarksEncryption.fromJson(Map<String, dynamic> json) =>
-      _$JobBookmarksEncryptionFromJson(json);
+  factory JobBookmarksEncryption.fromJson(Map<String, dynamic> json) {
+    return JobBookmarksEncryption(
+      jobBookmarksEncryptionMode:
+          (json['JobBookmarksEncryptionMode'] as String?)
+              ?.toJobBookmarksEncryptionMode(),
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JobBookmarksEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final jobBookmarksEncryptionMode = this.jobBookmarksEncryptionMode;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (jobBookmarksEncryptionMode != null)
+        'JobBookmarksEncryptionMode': jobBookmarksEncryptionMode.toValue(),
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
 enum JobBookmarksEncryptionMode {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('CSE-KMS')
   cseKms,
 }
 
+extension on JobBookmarksEncryptionMode {
+  String toValue() {
+    switch (this) {
+      case JobBookmarksEncryptionMode.disabled:
+        return 'DISABLED';
+      case JobBookmarksEncryptionMode.cseKms:
+        return 'CSE-KMS';
+    }
+  }
+}
+
+extension on String {
+  JobBookmarksEncryptionMode toJobBookmarksEncryptionMode() {
+    switch (this) {
+      case 'DISABLED':
+        return JobBookmarksEncryptionMode.disabled;
+      case 'CSE-KMS':
+        return JobBookmarksEncryptionMode.cseKms;
+    }
+    throw Exception('$this is not known in enum JobBookmarksEncryptionMode');
+  }
+}
+
 /// Specifies code executed when a job is run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobCommand {
   /// The name of the job command. For an Apache Spark ETL job, this must be
   /// <code>glueetl</code>. For a Python shell job, it must be
   /// <code>pythonshell</code>. For an Apache Spark streaming ETL job, this must
   /// be <code>gluestreaming</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Python version being used to execute a Python shell job. Allowed values
   /// are 2 or 3.
-  @_s.JsonKey(name: 'PythonVersion')
-  final String pythonVersion;
+  final String? pythonVersion;
 
   /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script
   /// that executes a job.
-  @_s.JsonKey(name: 'ScriptLocation')
-  final String scriptLocation;
+  final String? scriptLocation;
 
   JobCommand({
     this.name,
     this.pythonVersion,
     this.scriptLocation,
   });
-  factory JobCommand.fromJson(Map<String, dynamic> json) =>
-      _$JobCommandFromJson(json);
+  factory JobCommand.fromJson(Map<String, dynamic> json) {
+    return JobCommand(
+      name: json['Name'] as String?,
+      pythonVersion: json['PythonVersion'] as String?,
+      scriptLocation: json['ScriptLocation'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JobCommandToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final pythonVersion = this.pythonVersion;
+    final scriptLocation = this.scriptLocation;
+    return {
+      if (name != null) 'Name': name,
+      if (pythonVersion != null) 'PythonVersion': pythonVersion,
+      if (scriptLocation != null) 'ScriptLocation': scriptLocation,
+    };
+  }
 }
 
 /// The details of a Job node present in the workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobNodeDetails {
   /// The information for the job runs represented by the job node.
-  @_s.JsonKey(name: 'JobRuns')
-  final List<JobRun> jobRuns;
+  final List<JobRun>? jobRuns;
 
   JobNodeDetails({
     this.jobRuns,
   });
-  factory JobNodeDetails.fromJson(Map<String, dynamic> json) =>
-      _$JobNodeDetailsFromJson(json);
+  factory JobNodeDetails.fromJson(Map<String, dynamic> json) {
+    return JobNodeDetails(
+      jobRuns: (json['JobRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about a job run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobRun {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -16988,8 +17520,7 @@ class JobRun {
   /// relative measure of processing power that consists of 4 vCPUs of compute
   /// capacity and 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing page</a>.
-  @_s.JsonKey(name: 'AllocatedCapacity')
-  final int allocatedCapacity;
+  final int? allocatedCapacity;
 
   /// The job arguments associated with this run. For this job run, they replace
   /// the default arguments set in the job definition itself.
@@ -17006,25 +17537,19 @@ class JobRun {
   /// your job, see the <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
   /// Parameters Used by AWS Glue</a> topic in the developer guide.
-  @_s.JsonKey(name: 'Arguments')
-  final Map<String, String> arguments;
+  final Map<String, String>? arguments;
 
   /// The number of the attempt to run this job.
-  @_s.JsonKey(name: 'Attempt')
-  final int attempt;
+  final int? attempt;
 
   /// The date and time that this job run completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedOn')
-  final DateTime completedOn;
+  final DateTime? completedOn;
 
   /// An error message associated with this job run.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The amount of time (in seconds) that the job run consumed resources.
-  @_s.JsonKey(name: 'ExecutionTime')
-  final int executionTime;
+  final int? executionTime;
 
   /// Glue version determines the versions of Apache Spark and Python that AWS
   /// Glue supports. The Python version indicates the version supported for jobs
@@ -17036,28 +17561,22 @@ class JobRun {
   /// version</a> in the developer guide.
   ///
   /// Jobs that are created without specifying a Glue version default to Glue 0.9.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// The ID of this job run.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the job definition being used in this run.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current state of the job run. For more information about the statuses of
   /// jobs that have terminated abnormally, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/job-run-statuses.html">AWS
   /// Glue Job Run Statuses</a>.
-  @_s.JsonKey(name: 'JobRunState')
-  final JobRunState jobRunState;
+  final JobRunState? jobRunState;
 
   /// The last time that this job run was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The name of the log group for secure logging that can be server-side
   /// encrypted in Amazon CloudWatch using AWS KMS. This name can be
@@ -17066,8 +17585,7 @@ class JobRun {
   /// <code>SecurityConfiguration</code> name (in other words,
   /// <code>/aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/</code>),
   /// then that security configuration is used to encrypt the log group.
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The number of AWS Glue data processing units (DPUs) that can be allocated
   /// when this job runs. A DPU is a relative measure of processing power that
@@ -17095,50 +17613,40 @@ class JobRun {
   /// allocation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MaxCapacity')
-  final double maxCapacity;
+  final double? maxCapacity;
 
   /// Specifies configuration properties of a job run notification.
-  @_s.JsonKey(name: 'NotificationProperty')
-  final NotificationProperty notificationProperty;
+  final NotificationProperty? notificationProperty;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   ///
   /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
   /// and 149 for <code>G.2X</code>.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// A list of predecessors to this job run.
-  @_s.JsonKey(name: 'PredecessorRuns')
-  final List<Predecessor> predecessorRuns;
+  final List<Predecessor>? predecessorRuns;
 
   /// The ID of the previous run of this job. For example, the
   /// <code>JobRunId</code> specified in the <code>StartJobRun</code> action.
-  @_s.JsonKey(name: 'PreviousRunId')
-  final String previousRunId;
+  final String? previousRunId;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this job run.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The date and time at which this job run was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedOn')
-  final DateTime startedOn;
+  final DateTime? startedOn;
 
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
   /// job run can consume resources before it is terminated and enters
   /// <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours). This
   /// overrides the timeout value set in the parent job.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   /// The name of the trigger that started this job run.
-  @_s.JsonKey(name: 'TriggerName')
-  final String triggerName;
+  final String? triggerName;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
   /// value of Standard, G.1X, or G.2X.
@@ -17157,8 +17665,7 @@ class JobRun {
   /// memory and a 128GB disk, and 1 executor per worker.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   JobRun({
     this.allocatedCapacity,
@@ -17184,33 +17691,96 @@ class JobRun {
     this.triggerName,
     this.workerType,
   });
-  factory JobRun.fromJson(Map<String, dynamic> json) => _$JobRunFromJson(json);
+  factory JobRun.fromJson(Map<String, dynamic> json) {
+    return JobRun(
+      allocatedCapacity: json['AllocatedCapacity'] as int?,
+      arguments: (json['Arguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      attempt: json['Attempt'] as int?,
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorMessage: json['ErrorMessage'] as String?,
+      executionTime: json['ExecutionTime'] as int?,
+      glueVersion: json['GlueVersion'] as String?,
+      id: json['Id'] as String?,
+      jobName: json['JobName'] as String?,
+      jobRunState: (json['JobRunState'] as String?)?.toJobRunState(),
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      logGroupName: json['LogGroupName'] as String?,
+      maxCapacity: json['MaxCapacity'] as double?,
+      notificationProperty: json['NotificationProperty'] != null
+          ? NotificationProperty.fromJson(
+              json['NotificationProperty'] as Map<String, dynamic>)
+          : null,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      predecessorRuns: (json['PredecessorRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => Predecessor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      previousRunId: json['PreviousRunId'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      timeout: json['Timeout'] as int?,
+      triggerName: json['TriggerName'] as String?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+    );
+  }
 }
 
 enum JobRunState {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TIMEOUT')
   timeout,
+}
+
+extension on JobRunState {
+  String toValue() {
+    switch (this) {
+      case JobRunState.starting:
+        return 'STARTING';
+      case JobRunState.running:
+        return 'RUNNING';
+      case JobRunState.stopping:
+        return 'STOPPING';
+      case JobRunState.stopped:
+        return 'STOPPED';
+      case JobRunState.succeeded:
+        return 'SUCCEEDED';
+      case JobRunState.failed:
+        return 'FAILED';
+      case JobRunState.timeout:
+        return 'TIMEOUT';
+    }
+  }
+}
+
+extension on String {
+  JobRunState toJobRunState() {
+    switch (this) {
+      case 'STARTING':
+        return JobRunState.starting;
+      case 'RUNNING':
+        return JobRunState.running;
+      case 'STOPPING':
+        return JobRunState.stopping;
+      case 'STOPPED':
+        return JobRunState.stopped;
+      case 'SUCCEEDED':
+        return JobRunState.succeeded;
+      case 'FAILED':
+        return JobRunState.failed;
+      case 'TIMEOUT':
+        return JobRunState.timeout;
+    }
+    throw Exception('$this is not known in enum JobRunState');
+  }
 }
 
 /// Specifies information used to update an existing job definition. The
 /// previous job definition is completely overwritten by this information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class JobUpdate {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -17219,16 +17789,13 @@ class JobUpdate {
   /// measure of processing power that consists of 4 vCPUs of compute capacity and
   /// 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing page</a>.
-  @_s.JsonKey(name: 'AllocatedCapacity')
-  final int allocatedCapacity;
+  final int? allocatedCapacity;
 
   /// The <code>JobCommand</code> that executes this job (required).
-  @_s.JsonKey(name: 'Command')
-  final JobCommand command;
+  final JobCommand? command;
 
   /// The connections used for this job.
-  @_s.JsonKey(name: 'Connections')
-  final ConnectionsList connections;
+  final ConnectionsList? connections;
 
   /// The default arguments for this job.
   ///
@@ -17244,17 +17811,14 @@ class JobUpdate {
   /// your job, see the <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
   /// Parameters Used by AWS Glue</a> topic in the developer guide.
-  @_s.JsonKey(name: 'DefaultArguments')
-  final Map<String, String> defaultArguments;
+  final Map<String, String>? defaultArguments;
 
   /// Description of the job being defined.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// An <code>ExecutionProperty</code> specifying the maximum number of
   /// concurrent runs allowed for this job.
-  @_s.JsonKey(name: 'ExecutionProperty')
-  final ExecutionProperty executionProperty;
+  final ExecutionProperty? executionProperty;
 
   /// Glue version determines the versions of Apache Spark and Python that AWS
   /// Glue supports. The Python version indicates the version supported for jobs
@@ -17264,12 +17828,10 @@ class JobUpdate {
   /// Spark and Python versions, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/add-job.html">Glue
   /// version</a> in the developer guide.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// This field is reserved for future use.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The number of AWS Glue data processing units (DPUs) that can be allocated
   /// when this job runs. A DPU is a relative measure of processing power that
@@ -17297,44 +17859,36 @@ class JobUpdate {
   /// allocation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MaxCapacity')
-  final double maxCapacity;
+  final double? maxCapacity;
 
   /// The maximum number of times to retry this job if it fails.
-  @_s.JsonKey(name: 'MaxRetries')
-  final int maxRetries;
+  final int? maxRetries;
 
   /// Non-overridable arguments for this job, specified as name-value pairs.
-  @_s.JsonKey(name: 'NonOverridableArguments')
-  final Map<String, String> nonOverridableArguments;
+  final Map<String, String>? nonOverridableArguments;
 
   /// Specifies the configuration properties of a job notification.
-  @_s.JsonKey(name: 'NotificationProperty')
-  final NotificationProperty notificationProperty;
+  final NotificationProperty? notificationProperty;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   ///
   /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
   /// and 149 for <code>G.2X</code>.
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
   /// job (required).
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this job.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The job timeout in minutes. This is the maximum time that a job run can
   /// consume resources before it is terminated and enters <code>TIMEOUT</code>
   /// status. The default is 2,880 minutes (48 hours).
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
   /// value of Standard, G.1X, or G.2X.
@@ -17355,8 +17909,7 @@ class JobUpdate {
   /// this worker type for memory-intensive jobs.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   JobUpdate({
     this.allocatedCapacity,
@@ -17377,99 +17930,126 @@ class JobUpdate {
     this.timeout,
     this.workerType,
   });
-  Map<String, dynamic> toJson() => _$JobUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final allocatedCapacity = this.allocatedCapacity;
+    final command = this.command;
+    final connections = this.connections;
+    final defaultArguments = this.defaultArguments;
+    final description = this.description;
+    final executionProperty = this.executionProperty;
+    final glueVersion = this.glueVersion;
+    final logUri = this.logUri;
+    final maxCapacity = this.maxCapacity;
+    final maxRetries = this.maxRetries;
+    final nonOverridableArguments = this.nonOverridableArguments;
+    final notificationProperty = this.notificationProperty;
+    final numberOfWorkers = this.numberOfWorkers;
+    final role = this.role;
+    final securityConfiguration = this.securityConfiguration;
+    final timeout = this.timeout;
+    final workerType = this.workerType;
+    return {
+      if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+      if (command != null) 'Command': command,
+      if (connections != null) 'Connections': connections,
+      if (defaultArguments != null) 'DefaultArguments': defaultArguments,
+      if (description != null) 'Description': description,
+      if (executionProperty != null) 'ExecutionProperty': executionProperty,
+      if (glueVersion != null) 'GlueVersion': glueVersion,
+      if (logUri != null) 'LogUri': logUri,
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxRetries != null) 'MaxRetries': maxRetries,
+      if (nonOverridableArguments != null)
+        'NonOverridableArguments': nonOverridableArguments,
+      if (notificationProperty != null)
+        'NotificationProperty': notificationProperty,
+      if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+      if (role != null) 'Role': role,
+      if (securityConfiguration != null)
+        'SecurityConfiguration': securityConfiguration,
+      if (timeout != null) 'Timeout': timeout,
+      if (workerType != null) 'WorkerType': workerType.toValue(),
+    };
+  }
 }
 
 /// A classifier for <code>JSON</code> content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JsonClassifier {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
   /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
-  @_s.JsonKey(name: 'JsonPath')
   final String jsonPath;
 
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The time that this classifier was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The time that this classifier was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The version of this classifier.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   JsonClassifier({
-    @_s.required this.jsonPath,
-    @_s.required this.name,
+    required this.jsonPath,
+    required this.name,
     this.creationTime,
     this.lastUpdated,
     this.version,
   });
-  factory JsonClassifier.fromJson(Map<String, dynamic> json) =>
-      _$JsonClassifierFromJson(json);
+  factory JsonClassifier.fromJson(Map<String, dynamic> json) {
+    return JsonClassifier(
+      jsonPath: json['JsonPath'] as String,
+      name: json['Name'] as String,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      version: json['Version'] as int?,
+    );
+  }
 }
 
 /// A partition key pair consisting of a name and a type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeySchemaElement {
   /// The name of a partition key.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The type of a partition key.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   KeySchemaElement({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
   });
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) =>
-      _$KeySchemaElementFromJson(json);
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      name: json['Name'] as String,
+      type: json['Type'] as String,
+    );
+  }
 }
 
 /// Specifies configuration properties for a labeling set generation task run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LabelingSetGenerationTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path where you will generate
   /// the labeling set.
-  @_s.JsonKey(name: 'OutputS3Path')
-  final String outputS3Path;
+  final String? outputS3Path;
 
   LabelingSetGenerationTaskRunProperties({
     this.outputS3Path,
   });
   factory LabelingSetGenerationTaskRunProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$LabelingSetGenerationTaskRunPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return LabelingSetGenerationTaskRunProperties(
+      outputS3Path: json['OutputS3Path'] as String?,
+    );
+  }
 }
 
 enum Language {
-  @_s.JsonValue('PYTHON')
   python,
-  @_s.JsonValue('SCALA')
   scala,
 }
 
@@ -17481,41 +18061,40 @@ extension on Language {
       case Language.scala:
         return 'SCALA';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Language toLanguage() {
+    switch (this) {
+      case 'PYTHON':
+        return Language.python;
+      case 'SCALA':
+        return Language.scala;
+    }
+    throw Exception('$this is not known in enum Language');
   }
 }
 
 /// Status and error information about the most recent crawl.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LastCrawlInfo {
   /// If an error occurred, the error information about the last crawl.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The log group for the last crawl.
-  @_s.JsonKey(name: 'LogGroup')
-  final String logGroup;
+  final String? logGroup;
 
   /// The log stream for the last crawl.
-  @_s.JsonKey(name: 'LogStream')
-  final String logStream;
+  final String? logStream;
 
   /// The prefix for a message about this crawl.
-  @_s.JsonKey(name: 'MessagePrefix')
-  final String messagePrefix;
+  final String? messagePrefix;
 
   /// The time at which the crawl started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// Status of the last crawl.
-  @_s.JsonKey(name: 'Status')
-  final LastCrawlStatus status;
+  final LastCrawlStatus? status;
 
   LastCrawlInfo({
     this.errorMessage,
@@ -17525,25 +18104,52 @@ class LastCrawlInfo {
     this.startTime,
     this.status,
   });
-  factory LastCrawlInfo.fromJson(Map<String, dynamic> json) =>
-      _$LastCrawlInfoFromJson(json);
+  factory LastCrawlInfo.fromJson(Map<String, dynamic> json) {
+    return LastCrawlInfo(
+      errorMessage: json['ErrorMessage'] as String?,
+      logGroup: json['LogGroup'] as String?,
+      logStream: json['LogStream'] as String?,
+      messagePrefix: json['MessagePrefix'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toLastCrawlStatus(),
+    );
+  }
 }
 
 enum LastCrawlStatus {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on LastCrawlStatus {
+  String toValue() {
+    switch (this) {
+      case LastCrawlStatus.succeeded:
+        return 'SUCCEEDED';
+      case LastCrawlStatus.cancelled:
+        return 'CANCELLED';
+      case LastCrawlStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  LastCrawlStatus toLastCrawlStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return LastCrawlStatus.succeeded;
+      case 'CANCELLED':
+        return LastCrawlStatus.cancelled;
+      case 'FAILED':
+        return LastCrawlStatus.failed;
+    }
+    throw Exception('$this is not known in enum LastCrawlStatus');
+  }
+}
+
 /// Specifies data lineage configuration settings for the crawler.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LineageConfiguration {
   /// Specifies whether data lineage is enabled for the crawler. Valid values are:
   ///
@@ -17555,328 +18161,376 @@ class LineageConfiguration {
   /// DISABLE: disables data lineage for the crawler
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'CrawlerLineageSettings')
-  final CrawlerLineageSettings crawlerLineageSettings;
+  final CrawlerLineageSettings? crawlerLineageSettings;
 
   LineageConfiguration({
     this.crawlerLineageSettings,
   });
-  factory LineageConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LineageConfigurationFromJson(json);
+  factory LineageConfiguration.fromJson(Map<String, dynamic> json) {
+    return LineageConfiguration(
+      crawlerLineageSettings: (json['CrawlerLineageSettings'] as String?)
+          ?.toCrawlerLineageSettings(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LineageConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final crawlerLineageSettings = this.crawlerLineageSettings;
+    return {
+      if (crawlerLineageSettings != null)
+        'CrawlerLineageSettings': crawlerLineageSettings.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCrawlersResponse {
   /// The names of all crawlers in the account, or the crawlers with the specified
   /// tags.
-  @_s.JsonKey(name: 'CrawlerNames')
-  final List<String> crawlerNames;
+  final List<String>? crawlerNames;
 
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCrawlersResponse({
     this.crawlerNames,
     this.nextToken,
   });
-  factory ListCrawlersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCrawlersResponseFromJson(json);
+  factory ListCrawlersResponse.fromJson(Map<String, dynamic> json) {
+    return ListCrawlersResponse(
+      crawlerNames: (json['CrawlerNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevEndpointsResponse {
   /// The names of all the <code>DevEndpoint</code>s in the account, or the
   /// <code>DevEndpoint</code>s with the specified tags.
-  @_s.JsonKey(name: 'DevEndpointNames')
-  final List<String> devEndpointNames;
+  final List<String>? devEndpointNames;
 
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDevEndpointsResponse({
     this.devEndpointNames,
     this.nextToken,
   });
-  factory ListDevEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDevEndpointsResponseFromJson(json);
+  factory ListDevEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevEndpointsResponse(
+      devEndpointNames: (json['DevEndpointNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResponse {
   /// The names of all jobs in the account, or the jobs with the specified tags.
-  @_s.JsonKey(name: 'JobNames')
-  final List<String> jobNames;
+  final List<String>? jobNames;
 
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResponse({
     this.jobNames,
     this.nextToken,
   });
-  factory ListJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResponseFromJson(json);
+  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsResponse(
+      jobNames: (json['JobNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMLTransformsResponse {
   /// The identifiers of all the machine learning transforms in the account, or
   /// the machine learning transforms with the specified tags.
-  @_s.JsonKey(name: 'TransformIds')
   final List<String> transformIds;
 
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMLTransformsResponse({
-    @_s.required this.transformIds,
+    required this.transformIds,
     this.nextToken,
   });
-  factory ListMLTransformsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMLTransformsResponseFromJson(json);
+  factory ListMLTransformsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMLTransformsResponse(
+      transformIds: (json['TransformIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRegistriesResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>RegistryDetailedListItem</code> objects containing minimal
   /// details of each registry.
-  @_s.JsonKey(name: 'Registries')
-  final List<RegistryListItem> registries;
+  final List<RegistryListItem>? registries;
 
   ListRegistriesResponse({
     this.nextToken,
     this.registries,
   });
-  factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRegistriesResponseFromJson(json);
+  factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegistriesResponse(
+      nextToken: json['NextToken'] as String?,
+      registries: (json['Registries'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegistryListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemaVersionsResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>SchemaVersionList</code> objects containing details of
   /// each schema version.
-  @_s.JsonKey(name: 'Schemas')
-  final List<SchemaVersionListItem> schemas;
+  final List<SchemaVersionListItem>? schemas;
 
   ListSchemaVersionsResponse({
     this.nextToken,
     this.schemas,
   });
-  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemaVersionsResponseFromJson(json);
+  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemaVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaVersionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemasResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>SchemaListItem</code> objects containing details of each
   /// schema.
-  @_s.JsonKey(name: 'Schemas')
-  final List<SchemaListItem> schemas;
+  final List<SchemaListItem>? schemas;
 
   ListSchemasResponse({
     this.nextToken,
     this.schemas,
   });
-  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemasResponseFromJson(json);
+  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemasResponse(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTriggersResponse {
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The names of all triggers in the account, or the triggers with the specified
   /// tags.
-  @_s.JsonKey(name: 'TriggerNames')
-  final List<String> triggerNames;
+  final List<String>? triggerNames;
 
   ListTriggersResponse({
     this.nextToken,
     this.triggerNames,
   });
-  factory ListTriggersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTriggersResponseFromJson(json);
+  factory ListTriggersResponse.fromJson(Map<String, dynamic> json) {
+    return ListTriggersResponse(
+      nextToken: json['NextToken'] as String?,
+      triggerNames: (json['TriggerNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWorkflowsResponse {
   /// A continuation token, if not all workflow names have been returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of names of workflows in the account.
-  @_s.JsonKey(name: 'Workflows')
-  final List<String> workflows;
+  final List<String>? workflows;
 
   ListWorkflowsResponse({
     this.nextToken,
     this.workflows,
   });
-  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListWorkflowsResponseFromJson(json);
+  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsResponse(
+      nextToken: json['NextToken'] as String?,
+      workflows: (json['Workflows'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The location of resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Location {
   /// An Amazon DynamoDB table location.
-  @_s.JsonKey(name: 'DynamoDB')
-  final List<CodeGenNodeArg> dynamoDB;
+  final List<CodeGenNodeArg>? dynamoDB;
 
   /// A JDBC location.
-  @_s.JsonKey(name: 'Jdbc')
-  final List<CodeGenNodeArg> jdbc;
+  final List<CodeGenNodeArg>? jdbc;
 
   /// An Amazon Simple Storage Service (Amazon S3) location.
-  @_s.JsonKey(name: 'S3')
-  final List<CodeGenNodeArg> s3;
+  final List<CodeGenNodeArg>? s3;
 
   Location({
     this.dynamoDB,
     this.jdbc,
     this.s3,
   });
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final dynamoDB = this.dynamoDB;
+    final jdbc = this.jdbc;
+    final s3 = this.s3;
+    return {
+      if (dynamoDB != null) 'DynamoDB': dynamoDB,
+      if (jdbc != null) 'Jdbc': jdbc,
+      if (s3 != null) 'S3': s3,
+    };
+  }
 }
 
 enum Logical {
-  @_s.JsonValue('AND')
   and,
-  @_s.JsonValue('ANY')
   any,
 }
 
+extension on Logical {
+  String toValue() {
+    switch (this) {
+      case Logical.and:
+        return 'AND';
+      case Logical.any:
+        return 'ANY';
+    }
+  }
+}
+
+extension on String {
+  Logical toLogical() {
+    switch (this) {
+      case 'AND':
+        return Logical.and;
+      case 'ANY':
+        return Logical.any;
+    }
+    throw Exception('$this is not known in enum Logical');
+  }
+}
+
 enum LogicalOperator {
-  @_s.JsonValue('EQUALS')
   equals,
 }
 
+extension on LogicalOperator {
+  String toValue() {
+    switch (this) {
+      case LogicalOperator.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension on String {
+  LogicalOperator toLogicalOperator() {
+    switch (this) {
+      case 'EQUALS':
+        return LogicalOperator.equals;
+    }
+    throw Exception('$this is not known in enum LogicalOperator');
+  }
+}
+
 /// Defines column statistics supported for integer data columns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LongColumnStatisticsData {
   /// The number of distinct values in a column.
-  @_s.JsonKey(name: 'NumberOfDistinctValues')
   final int numberOfDistinctValues;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   /// The highest value in the column.
-  @_s.JsonKey(name: 'MaximumValue')
-  final int maximumValue;
+  final int? maximumValue;
 
   /// The lowest value in the column.
-  @_s.JsonKey(name: 'MinimumValue')
-  final int minimumValue;
+  final int? minimumValue;
 
   LongColumnStatisticsData({
-    @_s.required this.numberOfDistinctValues,
-    @_s.required this.numberOfNulls,
+    required this.numberOfDistinctValues,
+    required this.numberOfNulls,
     this.maximumValue,
     this.minimumValue,
   });
-  factory LongColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$LongColumnStatisticsDataFromJson(json);
+  factory LongColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return LongColumnStatisticsData(
+      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+      maximumValue: json['MaximumValue'] as int?,
+      minimumValue: json['MinimumValue'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LongColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final numberOfDistinctValues = this.numberOfDistinctValues;
+    final numberOfNulls = this.numberOfNulls;
+    final maximumValue = this.maximumValue;
+    final minimumValue = this.minimumValue;
+    return {
+      'NumberOfDistinctValues': numberOfDistinctValues,
+      'NumberOfNulls': numberOfNulls,
+      if (maximumValue != null) 'MaximumValue': maximumValue,
+      if (minimumValue != null) 'MinimumValue': minimumValue,
+    };
+  }
 }
 
 /// A structure for a machine learning transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MLTransform {
   /// A timestamp. The time and date that this machine learning transform was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedOn')
-  final DateTime createdOn;
+  final DateTime? createdOn;
 
   /// A user-defined, long-form description text for the machine learning
   /// transform. Descriptions are not guaranteed to be unique and can be changed
   /// at any time.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// An <code>EvaluationMetrics</code> object. Evaluation metrics provide an
   /// estimate of the quality of your machine learning transform.
-  @_s.JsonKey(name: 'EvaluationMetrics')
-  final EvaluationMetrics evaluationMetrics;
+  final EvaluationMetrics? evaluationMetrics;
 
   /// This value determines which version of AWS Glue this machine learning
   /// transform is compatible with. Glue 1.0 is recommended for most customers. If
@@ -17884,24 +18538,19 @@ class MLTransform {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions">AWS
   /// Glue Versions</a> in the developer guide.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// A list of AWS Glue table definitions used by the transform.
-  @_s.JsonKey(name: 'InputRecordTables')
-  final List<GlueTable> inputRecordTables;
+  final List<GlueTable>? inputRecordTables;
 
   /// A count identifier for the labeling files generated by AWS Glue for this
   /// transform. As you create a better transform, you can iteratively download,
   /// label, and upload the labeling file.
-  @_s.JsonKey(name: 'LabelCount')
-  final int labelCount;
+  final int? labelCount;
 
   /// A timestamp. The last point in time when this machine learning transform was
   /// modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The number of AWS Glue data processing units (DPUs) that are allocated to
   /// task runs for this transform. You can allocate from 2 to 100 DPUs; the
@@ -17934,33 +18583,28 @@ class MLTransform {
   /// When the <code>WorkerType</code> field is set to a value other than
   /// <code>Standard</code>, the <code>MaxCapacity</code> field is set
   /// automatically and becomes read-only.
-  @_s.JsonKey(name: 'MaxCapacity')
-  final double maxCapacity;
+  final double? maxCapacity;
 
   /// The maximum number of times to retry after an <code>MLTaskRun</code> of the
   /// machine learning transform fails.
-  @_s.JsonKey(name: 'MaxRetries')
-  final int maxRetries;
+  final int? maxRetries;
 
   /// A user-defined name for the machine learning transform. Names are not
   /// guaranteed unique and can be changed at any time.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a task of the transform runs.
   ///
   /// If <code>WorkerType</code> is set, then <code>NumberOfWorkers</code> is
   /// required (and vice versa).
-  @_s.JsonKey(name: 'NumberOfWorkers')
-  final int numberOfWorkers;
+  final int? numberOfWorkers;
 
   /// A <code>TransformParameters</code> object. You can use parameters to tune
   /// (customize) the behavior of the machine learning transform by specifying
   /// what data it learns from and your preference on various tradeoffs (such as
   /// precious vs. recall, or accuracy vs. cost).
-  @_s.JsonKey(name: 'Parameters')
-  final TransformParameters parameters;
+  final TransformParameters? parameters;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role with the required
   /// permissions. The required permissions include both AWS Glue service role
@@ -17980,32 +18624,26 @@ class MLTransform {
   /// the task run for this transform.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// A map of key-value pairs representing the columns and data types that this
   /// transform can run against. Has an upper bound of 100 columns.
-  @_s.JsonKey(name: 'Schema')
-  final List<SchemaColumn> schema;
+  final List<SchemaColumn>? schema;
 
   /// The current status of the machine learning transform.
-  @_s.JsonKey(name: 'Status')
-  final TransformStatusType status;
+  final TransformStatusType? status;
 
   /// The timeout in minutes of the machine learning transform.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   /// The encryption-at-rest settings of the transform that apply to accessing
   /// user data. Machine learning transforms can access user data encrypted in
   /// Amazon S3 using KMS.
-  @_s.JsonKey(name: 'TransformEncryption')
-  final TransformEncryption transformEncryption;
+  final TransformEncryption? transformEncryption;
 
   /// The unique transform ID that is generated for the machine learning
   /// transform. The ID is guaranteed to be unique and does not change.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   /// The type of predefined worker that is allocated when a task of this
   /// transform runs. Accepts a value of Standard, G.1X, or G.2X.
@@ -18045,8 +18683,7 @@ class MLTransform {
   /// least 1.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WorkerType')
-  final WorkerType workerType;
+  final WorkerType? workerType;
 
   MLTransform({
     this.createdOn,
@@ -18069,17 +18706,48 @@ class MLTransform {
     this.transformId,
     this.workerType,
   });
-  factory MLTransform.fromJson(Map<String, dynamic> json) =>
-      _$MLTransformFromJson(json);
+  factory MLTransform.fromJson(Map<String, dynamic> json) {
+    return MLTransform(
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      description: json['Description'] as String?,
+      evaluationMetrics: json['EvaluationMetrics'] != null
+          ? EvaluationMetrics.fromJson(
+              json['EvaluationMetrics'] as Map<String, dynamic>)
+          : null,
+      glueVersion: json['GlueVersion'] as String?,
+      inputRecordTables: (json['InputRecordTables'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueTable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      labelCount: json['LabelCount'] as int?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      maxCapacity: json['MaxCapacity'] as double?,
+      maxRetries: json['MaxRetries'] as int?,
+      name: json['Name'] as String?,
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      parameters: json['Parameters'] != null
+          ? TransformParameters.fromJson(
+              json['Parameters'] as Map<String, dynamic>)
+          : null,
+      role: json['Role'] as String?,
+      schema: (json['Schema'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toTransformStatusType(),
+      timeout: json['Timeout'] as int?,
+      transformEncryption: json['TransformEncryption'] != null
+          ? TransformEncryption.fromJson(
+              json['TransformEncryption'] as Map<String, dynamic>)
+          : null,
+      transformId: json['TransformId'] as String?,
+      workerType: (json['WorkerType'] as String?)?.toWorkerType(),
+    );
+  }
 }
 
 /// The encryption-at-rest settings of the transform that apply to accessing
 /// user data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MLUserDataEncryption {
   /// The encryption mode applied to user data. Valid values are:
   ///
@@ -18092,60 +18760,81 @@ class MLUserDataEncryption {
   /// (SSE-KMS) for user data stored in Amazon S3.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MlUserDataEncryptionMode')
   final MLUserDataEncryptionModeString mlUserDataEncryptionMode;
 
   /// The ID for the customer-provided KMS key.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   MLUserDataEncryption({
-    @_s.required this.mlUserDataEncryptionMode,
+    required this.mlUserDataEncryptionMode,
     this.kmsKeyId,
   });
-  factory MLUserDataEncryption.fromJson(Map<String, dynamic> json) =>
-      _$MLUserDataEncryptionFromJson(json);
+  factory MLUserDataEncryption.fromJson(Map<String, dynamic> json) {
+    return MLUserDataEncryption(
+      mlUserDataEncryptionMode: (json['MlUserDataEncryptionMode'] as String)
+          .toMLUserDataEncryptionModeString(),
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MLUserDataEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final mlUserDataEncryptionMode = this.mlUserDataEncryptionMode;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'MlUserDataEncryptionMode': mlUserDataEncryptionMode.toValue(),
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
 }
 
 enum MLUserDataEncryptionModeString {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('SSE-KMS')
   sseKms,
 }
 
+extension on MLUserDataEncryptionModeString {
+  String toValue() {
+    switch (this) {
+      case MLUserDataEncryptionModeString.disabled:
+        return 'DISABLED';
+      case MLUserDataEncryptionModeString.sseKms:
+        return 'SSE-KMS';
+    }
+  }
+}
+
+extension on String {
+  MLUserDataEncryptionModeString toMLUserDataEncryptionModeString() {
+    switch (this) {
+      case 'DISABLED':
+        return MLUserDataEncryptionModeString.disabled;
+      case 'SSE-KMS':
+        return MLUserDataEncryptionModeString.sseKms;
+    }
+    throw Exception(
+        '$this is not known in enum MLUserDataEncryptionModeString');
+  }
+}
+
 /// Defines a mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MappingEntry {
   /// The source path.
-  @_s.JsonKey(name: 'SourcePath')
-  final String sourcePath;
+  final String? sourcePath;
 
   /// The name of the source table.
-  @_s.JsonKey(name: 'SourceTable')
-  final String sourceTable;
+  final String? sourceTable;
 
   /// The source type.
-  @_s.JsonKey(name: 'SourceType')
-  final String sourceType;
+  final String? sourceType;
 
   /// The target path.
-  @_s.JsonKey(name: 'TargetPath')
-  final String targetPath;
+  final String? targetPath;
 
   /// The target table.
-  @_s.JsonKey(name: 'TargetTable')
-  final String targetTable;
+  final String? targetTable;
 
   /// The target type.
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   MappingEntry({
     this.sourcePath,
@@ -18155,72 +18844,85 @@ class MappingEntry {
     this.targetTable,
     this.targetType,
   });
-  factory MappingEntry.fromJson(Map<String, dynamic> json) =>
-      _$MappingEntryFromJson(json);
+  factory MappingEntry.fromJson(Map<String, dynamic> json) {
+    return MappingEntry(
+      sourcePath: json['SourcePath'] as String?,
+      sourceTable: json['SourceTable'] as String?,
+      sourceType: json['SourceType'] as String?,
+      targetPath: json['TargetPath'] as String?,
+      targetTable: json['TargetTable'] as String?,
+      targetType: json['TargetType'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MappingEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourcePath = this.sourcePath;
+    final sourceTable = this.sourceTable;
+    final sourceType = this.sourceType;
+    final targetPath = this.targetPath;
+    final targetTable = this.targetTable;
+    final targetType = this.targetType;
+    return {
+      if (sourcePath != null) 'SourcePath': sourcePath,
+      if (sourceTable != null) 'SourceTable': sourceTable,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (targetPath != null) 'TargetPath': targetPath,
+      if (targetTable != null) 'TargetTable': targetTable,
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
 }
 
 /// A structure containing metadata information for a schema version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetadataInfo {
   /// The time at which the entry was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The metadata key’s corresponding value.
-  @_s.JsonKey(name: 'MetadataValue')
-  final String metadataValue;
+  final String? metadataValue;
 
   MetadataInfo({
     this.createdTime,
     this.metadataValue,
   });
-  factory MetadataInfo.fromJson(Map<String, dynamic> json) =>
-      _$MetadataInfoFromJson(json);
+  factory MetadataInfo.fromJson(Map<String, dynamic> json) {
+    return MetadataInfo(
+      createdTime: json['CreatedTime'] as String?,
+      metadataValue: json['MetadataValue'] as String?,
+    );
+  }
 }
 
 /// A structure containing a key value pair for metadata.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetadataKeyValuePair {
   /// A metadata key.
-  @_s.JsonKey(name: 'MetadataKey')
-  final String metadataKey;
+  final String? metadataKey;
 
   /// A metadata key’s corresponding value.
-  @_s.JsonKey(name: 'MetadataValue')
-  final String metadataValue;
+  final String? metadataValue;
 
   MetadataKeyValuePair({
     this.metadataKey,
     this.metadataValue,
   });
-  Map<String, dynamic> toJson() => _$MetadataKeyValuePairToJson(this);
+  Map<String, dynamic> toJson() {
+    final metadataKey = this.metadataKey;
+    final metadataValue = this.metadataValue;
+    return {
+      if (metadataKey != null) 'MetadataKey': metadataKey,
+      if (metadataValue != null) 'MetadataValue': metadataValue,
+    };
+  }
 }
 
 /// Specifies an Amazon DocumentDB or MongoDB data store to crawl.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MongoDBTarget {
   /// The name of the connection to use to connect to the Amazon DocumentDB or
   /// MongoDB target.
-  @_s.JsonKey(name: 'ConnectionName')
-  final String connectionName;
+  final String? connectionName;
 
   /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// Indicates whether to scan all the records, or to sample rows from the table.
   /// Scanning all the records can take a long time when the table is not a high
@@ -18229,51 +18931,53 @@ class MongoDBTarget {
   /// A value of <code>true</code> means to scan all records, while a value of
   /// <code>false</code> means to sample the records. If no value is specified,
   /// the value defaults to <code>true</code>.
-  @_s.JsonKey(name: 'ScanAll')
-  final bool scanAll;
+  final bool? scanAll;
 
   MongoDBTarget({
     this.connectionName,
     this.path,
     this.scanAll,
   });
-  factory MongoDBTarget.fromJson(Map<String, dynamic> json) =>
-      _$MongoDBTargetFromJson(json);
+  factory MongoDBTarget.fromJson(Map<String, dynamic> json) {
+    return MongoDBTarget(
+      connectionName: json['ConnectionName'] as String?,
+      path: json['Path'] as String?,
+      scanAll: json['ScanAll'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MongoDBTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final path = this.path;
+    final scanAll = this.scanAll;
+    return {
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (path != null) 'Path': path,
+      if (scanAll != null) 'ScanAll': scanAll,
+    };
+  }
 }
 
 /// A node represents an AWS Glue component such as a trigger, or job, etc.,
 /// that is part of a workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Node {
   /// Details of the crawler when the node represents a crawler.
-  @_s.JsonKey(name: 'CrawlerDetails')
-  final CrawlerNodeDetails crawlerDetails;
+  final CrawlerNodeDetails? crawlerDetails;
 
   /// Details of the Job when the node represents a Job.
-  @_s.JsonKey(name: 'JobDetails')
-  final JobNodeDetails jobDetails;
+  final JobNodeDetails? jobDetails;
 
   /// The name of the AWS Glue component represented by the node.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Details of the Trigger when the node represents a Trigger.
-  @_s.JsonKey(name: 'TriggerDetails')
-  final TriggerNodeDetails triggerDetails;
+  final TriggerNodeDetails? triggerDetails;
 
   /// The type of AWS Glue component represented by the node.
-  @_s.JsonKey(name: 'Type')
-  final NodeType type;
+  final NodeType? type;
 
   /// The unique Id assigned to the node within the workflow.
-  @_s.JsonKey(name: 'UniqueId')
-  final String uniqueId;
+  final String? uniqueId;
 
   Node({
     this.crawlerDetails,
@@ -18283,110 +18987,141 @@ class Node {
     this.type,
     this.uniqueId,
   });
-  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      crawlerDetails: json['CrawlerDetails'] != null
+          ? CrawlerNodeDetails.fromJson(
+              json['CrawlerDetails'] as Map<String, dynamic>)
+          : null,
+      jobDetails: json['JobDetails'] != null
+          ? JobNodeDetails.fromJson(json['JobDetails'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      triggerDetails: json['TriggerDetails'] != null
+          ? TriggerNodeDetails.fromJson(
+              json['TriggerDetails'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toNodeType(),
+      uniqueId: json['UniqueId'] as String?,
+    );
+  }
 }
 
 enum NodeType {
-  @_s.JsonValue('CRAWLER')
   crawler,
-  @_s.JsonValue('JOB')
   job,
-  @_s.JsonValue('TRIGGER')
   trigger,
 }
 
+extension on NodeType {
+  String toValue() {
+    switch (this) {
+      case NodeType.crawler:
+        return 'CRAWLER';
+      case NodeType.job:
+        return 'JOB';
+      case NodeType.trigger:
+        return 'TRIGGER';
+    }
+  }
+}
+
+extension on String {
+  NodeType toNodeType() {
+    switch (this) {
+      case 'CRAWLER':
+        return NodeType.crawler;
+      case 'JOB':
+        return NodeType.job;
+      case 'TRIGGER':
+        return NodeType.trigger;
+    }
+    throw Exception('$this is not known in enum NodeType');
+  }
+}
+
 /// Specifies configuration properties of a notification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NotificationProperty {
   /// After a job run starts, the number of minutes to wait before sending a job
   /// run delay notification.
-  @_s.JsonKey(name: 'NotifyDelayAfter')
-  final int notifyDelayAfter;
+  final int? notifyDelayAfter;
 
   NotificationProperty({
     this.notifyDelayAfter,
   });
-  factory NotificationProperty.fromJson(Map<String, dynamic> json) =>
-      _$NotificationPropertyFromJson(json);
+  factory NotificationProperty.fromJson(Map<String, dynamic> json) {
+    return NotificationProperty(
+      notifyDelayAfter: json['NotifyDelayAfter'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NotificationPropertyToJson(this);
+  Map<String, dynamic> toJson() {
+    final notifyDelayAfter = this.notifyDelayAfter;
+    return {
+      if (notifyDelayAfter != null) 'NotifyDelayAfter': notifyDelayAfter,
+    };
+  }
 }
 
 /// Specifies the sort order of a sorted column.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Order {
   /// The name of the column.
-  @_s.JsonKey(name: 'Column')
   final String column;
 
   /// Indicates that the column is sorted in ascending order (<code>== 1</code>),
   /// or in descending order (<code>==0</code>).
-  @_s.JsonKey(name: 'SortOrder')
   final int sortOrder;
 
   Order({
-    @_s.required this.column,
-    @_s.required this.sortOrder,
+    required this.column,
+    required this.sortOrder,
   });
-  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+      column: json['Column'] as String,
+      sortOrder: json['SortOrder'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OrderToJson(this);
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final sortOrder = this.sortOrder;
+    return {
+      'Column': column,
+      'SortOrder': sortOrder,
+    };
+  }
 }
 
 /// Represents a slice of table data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Partition {
   /// The ID of the Data Catalog in which the partition resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The time at which the partition was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the catalog database in which to create the partition.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The last time at which the partition was accessed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessTime')
-  final DateTime lastAccessTime;
+  final DateTime? lastAccessTime;
 
   /// The last time at which column statistics were computed for this partition.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAnalyzedTime')
-  final DateTime lastAnalyzedTime;
+  final DateTime? lastAnalyzedTime;
 
   /// These key-value pairs define partition parameters.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// Provides information about the physical location where the partition is
   /// stored.
-  @_s.JsonKey(name: 'StorageDescriptor')
-  final StorageDescriptor storageDescriptor;
+  final StorageDescriptor? storageDescriptor;
 
   /// The name of the database table in which to create the partition.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The values of the partition.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Partition({
     this.catalogId,
@@ -18399,64 +19134,78 @@ class Partition {
     this.tableName,
     this.values,
   });
-  factory Partition.fromJson(Map<String, dynamic> json) =>
-      _$PartitionFromJson(json);
+  factory Partition.fromJson(Map<String, dynamic> json) {
+    return Partition(
+      catalogId: json['CatalogId'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      lastAccessTime: timeStampFromJson(json['LastAccessTime']),
+      lastAnalyzedTime: timeStampFromJson(json['LastAnalyzedTime']),
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      storageDescriptor: json['StorageDescriptor'] != null
+          ? StorageDescriptor.fromJson(
+              json['StorageDescriptor'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about a partition error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartitionError {
   /// The details about the partition error.
-  @_s.JsonKey(name: 'ErrorDetail')
-  final ErrorDetail errorDetail;
+  final ErrorDetail? errorDetail;
 
   /// The values that define the partition.
-  @_s.JsonKey(name: 'PartitionValues')
-  final List<String> partitionValues;
+  final List<String>? partitionValues;
 
   PartitionError({
     this.errorDetail,
     this.partitionValues,
   });
-  factory PartitionError.fromJson(Map<String, dynamic> json) =>
-      _$PartitionErrorFromJson(json);
+  factory PartitionError.fromJson(Map<String, dynamic> json) {
+    return PartitionError(
+      errorDetail: json['ErrorDetail'] != null
+          ? ErrorDetail.fromJson(json['ErrorDetail'] as Map<String, dynamic>)
+          : null,
+      partitionValues: (json['PartitionValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A structure for a partition index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PartitionIndex {
   /// The name of the partition index.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The keys for the partition index.
-  @_s.JsonKey(name: 'Keys')
   final List<String> keys;
 
   PartitionIndex({
-    @_s.required this.indexName,
-    @_s.required this.keys,
+    required this.indexName,
+    required this.keys,
   });
-  Map<String, dynamic> toJson() => _$PartitionIndexToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keys = this.keys;
+    return {
+      'IndexName': indexName,
+      'Keys': keys,
+    };
+  }
 }
 
 /// A descriptor for a partition index in a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartitionIndexDescriptor {
   /// The name of the partition index.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The status of the partition index.
@@ -18478,65 +19227,90 @@ class PartitionIndexDescriptor {
   /// DELETING: The index is deleted from the list of indexes.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IndexStatus')
   final PartitionIndexStatus indexStatus;
 
   /// A list of one or more keys, as <code>KeySchemaElement</code> structures, for
   /// the partition index.
-  @_s.JsonKey(name: 'Keys')
   final List<KeySchemaElement> keys;
 
   /// A list of errors that can occur when registering partition indexes for an
   /// existing table.
-  @_s.JsonKey(name: 'BackfillErrors')
-  final List<BackfillError> backfillErrors;
+  final List<BackfillError>? backfillErrors;
 
   PartitionIndexDescriptor({
-    @_s.required this.indexName,
-    @_s.required this.indexStatus,
-    @_s.required this.keys,
+    required this.indexName,
+    required this.indexStatus,
+    required this.keys,
     this.backfillErrors,
   });
-  factory PartitionIndexDescriptor.fromJson(Map<String, dynamic> json) =>
-      _$PartitionIndexDescriptorFromJson(json);
+  factory PartitionIndexDescriptor.fromJson(Map<String, dynamic> json) {
+    return PartitionIndexDescriptor(
+      indexName: json['IndexName'] as String,
+      indexStatus: (json['IndexStatus'] as String).toPartitionIndexStatus(),
+      keys: (json['Keys'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backfillErrors: (json['BackfillErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackfillError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum PartitionIndexStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on PartitionIndexStatus {
+  String toValue() {
+    switch (this) {
+      case PartitionIndexStatus.creating:
+        return 'CREATING';
+      case PartitionIndexStatus.active:
+        return 'ACTIVE';
+      case PartitionIndexStatus.deleting:
+        return 'DELETING';
+      case PartitionIndexStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  PartitionIndexStatus toPartitionIndexStatus() {
+    switch (this) {
+      case 'CREATING':
+        return PartitionIndexStatus.creating;
+      case 'ACTIVE':
+        return PartitionIndexStatus.active;
+      case 'DELETING':
+        return PartitionIndexStatus.deleting;
+      case 'FAILED':
+        return PartitionIndexStatus.failed;
+    }
+    throw Exception('$this is not known in enum PartitionIndexStatus');
+  }
+}
+
 /// The structure used to create and update a partition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PartitionInput {
   /// The last time at which the partition was accessed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessTime')
-  final DateTime lastAccessTime;
+  final DateTime? lastAccessTime;
 
   /// The last time at which column statistics were computed for this partition.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAnalyzedTime')
-  final DateTime lastAnalyzedTime;
+  final DateTime? lastAnalyzedTime;
 
   /// These key-value pairs define partition parameters.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// Provides information about the physical location where the partition is
   /// stored.
-  @_s.JsonKey(name: 'StorageDescriptor')
-  final StorageDescriptor storageDescriptor;
+  final StorageDescriptor? storageDescriptor;
 
   /// The values of the partition. Although this parameter is not required by the
   /// SDK, you must specify this parameter for a valid input.
@@ -18545,8 +19319,7 @@ class PartitionInput {
   /// String objects that must be ordered in the same order as the partition keys
   /// appearing in the Amazon S3 prefix. Otherwise AWS Glue will add the values to
   /// the wrong keys.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PartitionInput({
     this.lastAccessTime,
@@ -18555,260 +19328,352 @@ class PartitionInput {
     this.storageDescriptor,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$PartitionInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final lastAccessTime = this.lastAccessTime;
+    final lastAnalyzedTime = this.lastAnalyzedTime;
+    final parameters = this.parameters;
+    final storageDescriptor = this.storageDescriptor;
+    final values = this.values;
+    return {
+      if (lastAccessTime != null)
+        'LastAccessTime': unixTimestampToJson(lastAccessTime),
+      if (lastAnalyzedTime != null)
+        'LastAnalyzedTime': unixTimestampToJson(lastAnalyzedTime),
+      if (parameters != null) 'Parameters': parameters,
+      if (storageDescriptor != null) 'StorageDescriptor': storageDescriptor,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Contains a list of values defining partitions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PartitionValueList {
   /// The list of values.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   PartitionValueList({
-    @_s.required this.values,
+    required this.values,
   });
-  factory PartitionValueList.fromJson(Map<String, dynamic> json) =>
-      _$PartitionValueListFromJson(json);
+  factory PartitionValueList.fromJson(Map<String, dynamic> json) {
+    return PartitionValueList(
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PartitionValueListToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      'Values': values,
+    };
+  }
 }
 
 enum Permission {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('SELECT')
   select,
-  @_s.JsonValue('ALTER')
   alter,
-  @_s.JsonValue('DROP')
   drop,
-  @_s.JsonValue('DELETE')
   delete,
-  @_s.JsonValue('INSERT')
   insert,
-  @_s.JsonValue('CREATE_DATABASE')
   createDatabase,
-  @_s.JsonValue('CREATE_TABLE')
   createTable,
-  @_s.JsonValue('DATA_LOCATION_ACCESS')
   dataLocationAccess,
 }
 
+extension on Permission {
+  String toValue() {
+    switch (this) {
+      case Permission.all:
+        return 'ALL';
+      case Permission.select:
+        return 'SELECT';
+      case Permission.alter:
+        return 'ALTER';
+      case Permission.drop:
+        return 'DROP';
+      case Permission.delete:
+        return 'DELETE';
+      case Permission.insert:
+        return 'INSERT';
+      case Permission.createDatabase:
+        return 'CREATE_DATABASE';
+      case Permission.createTable:
+        return 'CREATE_TABLE';
+      case Permission.dataLocationAccess:
+        return 'DATA_LOCATION_ACCESS';
+    }
+  }
+}
+
+extension on String {
+  Permission toPermission() {
+    switch (this) {
+      case 'ALL':
+        return Permission.all;
+      case 'SELECT':
+        return Permission.select;
+      case 'ALTER':
+        return Permission.alter;
+      case 'DROP':
+        return Permission.drop;
+      case 'DELETE':
+        return Permission.delete;
+      case 'INSERT':
+        return Permission.insert;
+      case 'CREATE_DATABASE':
+        return Permission.createDatabase;
+      case 'CREATE_TABLE':
+        return Permission.createTable;
+      case 'DATA_LOCATION_ACCESS':
+        return Permission.dataLocationAccess;
+    }
+    throw Exception('$this is not known in enum Permission');
+  }
+}
+
 /// Specifies the physical requirements for a connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PhysicalConnectionRequirements {
   /// The connection's Availability Zone. This field is redundant because the
   /// specified subnet implies the Availability Zone to be used. Currently the
   /// field must be populated, but it will be deprecated in the future.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The security group ID list used by the connection.
-  @_s.JsonKey(name: 'SecurityGroupIdList')
-  final List<String> securityGroupIdList;
+  final List<String>? securityGroupIdList;
 
   /// The subnet ID used by the connection.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   PhysicalConnectionRequirements({
     this.availabilityZone,
     this.securityGroupIdList,
     this.subnetId,
   });
-  factory PhysicalConnectionRequirements.fromJson(Map<String, dynamic> json) =>
-      _$PhysicalConnectionRequirementsFromJson(json);
+  factory PhysicalConnectionRequirements.fromJson(Map<String, dynamic> json) {
+    return PhysicalConnectionRequirements(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      securityGroupIdList: (json['SecurityGroupIdList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PhysicalConnectionRequirementsToJson(this);
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final securityGroupIdList = this.securityGroupIdList;
+    final subnetId = this.subnetId;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (securityGroupIdList != null)
+        'SecurityGroupIdList': securityGroupIdList,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
 }
 
 /// A job run that was used in the predicate of a conditional trigger that
 /// triggered this job run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Predecessor {
   /// The name of the job definition used by the predecessor job run.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The job-run ID of the predecessor job run.
-  @_s.JsonKey(name: 'RunId')
-  final String runId;
+  final String? runId;
 
   Predecessor({
     this.jobName,
     this.runId,
   });
-  factory Predecessor.fromJson(Map<String, dynamic> json) =>
-      _$PredecessorFromJson(json);
+  factory Predecessor.fromJson(Map<String, dynamic> json) {
+    return Predecessor(
+      jobName: json['JobName'] as String?,
+      runId: json['RunId'] as String?,
+    );
+  }
 }
 
 /// Defines the predicate of the trigger, which determines when it fires.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Predicate {
   /// A list of the conditions that determine when the trigger will fire.
-  @_s.JsonKey(name: 'Conditions')
-  final List<Condition> conditions;
+  final List<Condition>? conditions;
 
   /// An optional field if only one condition is listed. If multiple conditions
   /// are listed, then this field is required.
-  @_s.JsonKey(name: 'Logical')
-  final Logical logical;
+  final Logical? logical;
 
   Predicate({
     this.conditions,
     this.logical,
   });
-  factory Predicate.fromJson(Map<String, dynamic> json) =>
-      _$PredicateFromJson(json);
+  factory Predicate.fromJson(Map<String, dynamic> json) {
+    return Predicate(
+      conditions: (json['Conditions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logical: (json['Logical'] as String?)?.toLogical(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PredicateToJson(this);
+  Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
+    final logical = this.logical;
+    return {
+      if (conditions != null) 'Conditions': conditions,
+      if (logical != null) 'Logical': logical.toValue(),
+    };
+  }
 }
 
 /// Permissions granted to a principal.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PrincipalPermissions {
   /// The permissions that are granted to the principal.
-  @_s.JsonKey(name: 'Permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   /// The principal who is granted permissions.
-  @_s.JsonKey(name: 'Principal')
-  final DataLakePrincipal principal;
+  final DataLakePrincipal? principal;
 
   PrincipalPermissions({
     this.permissions,
     this.principal,
   });
-  factory PrincipalPermissions.fromJson(Map<String, dynamic> json) =>
-      _$PrincipalPermissionsFromJson(json);
+  factory PrincipalPermissions.fromJson(Map<String, dynamic> json) {
+    return PrincipalPermissions(
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPermission())
+          .toList(),
+      principal: json['Principal'] != null
+          ? DataLakePrincipal.fromJson(
+              json['Principal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PrincipalPermissionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final principal = this.principal;
+    return {
+      if (permissions != null)
+        'Permissions': permissions.map((e) => e.toValue()).toList(),
+      if (principal != null) 'Principal': principal,
+    };
+  }
 }
 
 enum PrincipalType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('ROLE')
   role,
-  @_s.JsonValue('GROUP')
   group,
 }
 
+extension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.user:
+        return 'USER';
+      case PrincipalType.role:
+        return 'ROLE';
+      case PrincipalType.group:
+        return 'GROUP';
+    }
+  }
+}
+
+extension on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'USER':
+        return PrincipalType.user;
+      case 'ROLE':
+        return PrincipalType.role;
+      case 'GROUP':
+        return PrincipalType.group;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
+  }
+}
+
 /// Defines a property predicate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PropertyPredicate {
   /// The comparator used to compare this property to others.
-  @_s.JsonKey(name: 'Comparator')
-  final Comparator comparator;
+  final Comparator? comparator;
 
   /// The key of the property.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the property.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   PropertyPredicate({
     this.comparator,
     this.key,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$PropertyPredicateToJson(this);
+  Map<String, dynamic> toJson() {
+    final comparator = this.comparator;
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (comparator != null) 'Comparator': comparator.toValue(),
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDataCatalogEncryptionSettingsResponse {
   PutDataCatalogEncryptionSettingsResponse();
   factory PutDataCatalogEncryptionSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutDataCatalogEncryptionSettingsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutDataCatalogEncryptionSettingsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyResponse {
   /// A hash of the policy that has just been set. This must be included in a
   /// subsequent call that overwrites or updates this policy.
-  @_s.JsonKey(name: 'PolicyHash')
-  final String policyHash;
+  final String? policyHash;
 
   PutResourcePolicyResponse({
     this.policyHash,
   });
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyResponseFromJson(json);
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      policyHash: json['PolicyHash'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSchemaVersionMetadataResponse {
   /// The latest version of the schema.
-  @_s.JsonKey(name: 'LatestVersion')
-  final bool latestVersion;
+  final bool? latestVersion;
 
   /// The metadata key.
-  @_s.JsonKey(name: 'MetadataKey')
-  final String metadataKey;
+  final String? metadataKey;
 
   /// The value of the metadata key.
-  @_s.JsonKey(name: 'MetadataValue')
-  final String metadataValue;
+  final String? metadataValue;
 
   /// The name for the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) for the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name for the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The unique version ID of the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   PutSchemaVersionMetadataResponse({
     this.latestVersion,
@@ -18820,41 +19685,37 @@ class PutSchemaVersionMetadataResponse {
     this.schemaVersionId,
     this.versionNumber,
   });
-  factory PutSchemaVersionMetadataResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutSchemaVersionMetadataResponseFromJson(json);
+  factory PutSchemaVersionMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return PutSchemaVersionMetadataResponse(
+      latestVersion: json['LatestVersion'] as bool?,
+      metadataKey: json['MetadataKey'] as String?,
+      metadataValue: json['MetadataValue'] as String?,
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutWorkflowRunPropertiesResponse {
   PutWorkflowRunPropertiesResponse();
-  factory PutWorkflowRunPropertiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutWorkflowRunPropertiesResponseFromJson(json);
+  factory PutWorkflowRunPropertiesResponse.fromJson(Map<String, dynamic> _) {
+    return PutWorkflowRunPropertiesResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QuerySchemaVersionMetadataResponse {
   /// A map of a metadata key and associated values.
-  @_s.JsonKey(name: 'MetadataInfoMap')
-  final Map<String, MetadataInfo> metadataInfoMap;
+  final Map<String, MetadataInfo>? metadataInfoMap;
 
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The unique version ID of the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   QuerySchemaVersionMetadataResponse({
     this.metadataInfoMap,
@@ -18862,15 +19723,43 @@ class QuerySchemaVersionMetadataResponse {
     this.schemaVersionId,
   });
   factory QuerySchemaVersionMetadataResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$QuerySchemaVersionMetadataResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return QuerySchemaVersionMetadataResponse(
+      metadataInfoMap: (json['MetadataInfoMap'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, MetadataInfo.fromJson(e as Map<String, dynamic>))),
+      nextToken: json['NextToken'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+    );
+  }
 }
 
 enum RecrawlBehavior {
-  @_s.JsonValue('CRAWL_EVERYTHING')
   crawlEverything,
-  @_s.JsonValue('CRAWL_NEW_FOLDERS_ONLY')
   crawlNewFoldersOnly,
+}
+
+extension on RecrawlBehavior {
+  String toValue() {
+    switch (this) {
+      case RecrawlBehavior.crawlEverything:
+        return 'CRAWL_EVERYTHING';
+      case RecrawlBehavior.crawlNewFoldersOnly:
+        return 'CRAWL_NEW_FOLDERS_ONLY';
+    }
+  }
+}
+
+extension on String {
+  RecrawlBehavior toRecrawlBehavior() {
+    switch (this) {
+      case 'CRAWL_EVERYTHING':
+        return RecrawlBehavior.crawlEverything;
+      case 'CRAWL_NEW_FOLDERS_ONLY':
+        return RecrawlBehavior.crawlNewFoldersOnly;
+    }
+    throw Exception('$this is not known in enum RecrawlBehavior');
+  }
 }
 
 /// When crawling an Amazon S3 data source after the first crawl is complete,
@@ -18878,11 +19767,6 @@ enum RecrawlBehavior {
 /// that were added since the last crawler run. For more information, see <a
 /// href="https://docs.aws.amazon.com/glue/latest/dg/incremental-crawls.html">Incremental
 /// Crawls in AWS Glue</a> in the developer guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RecrawlPolicy {
   /// Specifies whether to crawl the entire dataset again or to crawl only folders
   /// that were added since the last crawler run.
@@ -18892,101 +19776,95 @@ class RecrawlPolicy {
   ///
   /// A value of <code>CRAWL_NEW_FOLDERS_ONLY</code> specifies crawling only
   /// folders that were added since the last crawler run.
-  @_s.JsonKey(name: 'RecrawlBehavior')
-  final RecrawlBehavior recrawlBehavior;
+  final RecrawlBehavior? recrawlBehavior;
 
   RecrawlPolicy({
     this.recrawlBehavior,
   });
-  factory RecrawlPolicy.fromJson(Map<String, dynamic> json) =>
-      _$RecrawlPolicyFromJson(json);
+  factory RecrawlPolicy.fromJson(Map<String, dynamic> json) {
+    return RecrawlPolicy(
+      recrawlBehavior:
+          (json['RecrawlBehavior'] as String?)?.toRecrawlBehavior(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RecrawlPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final recrawlBehavior = this.recrawlBehavior;
+    return {
+      if (recrawlBehavior != null) 'RecrawlBehavior': recrawlBehavior.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterSchemaVersionResponse {
   /// The unique ID that represents the version of this schema.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The status of the schema version.
-  @_s.JsonKey(name: 'Status')
-  final SchemaVersionStatus status;
+  final SchemaVersionStatus? status;
 
   /// The version of this schema (for sync flow only, in case this is the first
   /// version).
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   RegisterSchemaVersionResponse({
     this.schemaVersionId,
     this.status,
     this.versionNumber,
   });
-  factory RegisterSchemaVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterSchemaVersionResponseFromJson(json);
+  factory RegisterSchemaVersionResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterSchemaVersionResponse(
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      status: (json['Status'] as String?)?.toSchemaVersionStatus(),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
 /// A wrapper structure that may contain the registry name and Amazon Resource
 /// Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RegistryId {
   /// Arn of the registry to be updated. One of <code>RegistryArn</code> or
   /// <code>RegistryName</code> has to be provided.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// Name of the registry. Used only for lookup. One of <code>RegistryArn</code>
   /// or <code>RegistryName</code> has to be provided.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   RegistryId({
     this.registryArn,
     this.registryName,
   });
-  Map<String, dynamic> toJson() => _$RegistryIdToJson(this);
+  Map<String, dynamic> toJson() {
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    return {
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+    };
+  }
 }
 
 /// A structure containing the details for a registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegistryListItem {
   /// The data the registry was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// A description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The status of the registry.
-  @_s.JsonKey(name: 'Status')
-  final RegistryStatus status;
+  final RegistryStatus? status;
 
   /// The date the registry was updated.
-  @_s.JsonKey(name: 'UpdatedTime')
-  final String updatedTime;
+  final String? updatedTime;
 
   RegistryListItem({
     this.createdTime,
@@ -18996,54 +19874,70 @@ class RegistryListItem {
     this.status,
     this.updatedTime,
   });
-  factory RegistryListItem.fromJson(Map<String, dynamic> json) =>
-      _$RegistryListItemFromJson(json);
+  factory RegistryListItem.fromJson(Map<String, dynamic> json) {
+    return RegistryListItem(
+      createdTime: json['CreatedTime'] as String?,
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      status: (json['Status'] as String?)?.toRegistryStatus(),
+      updatedTime: json['UpdatedTime'] as String?,
+    );
+  }
 }
 
 enum RegistryStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RegistryStatus {
+  String toValue() {
+    switch (this) {
+      case RegistryStatus.available:
+        return 'AVAILABLE';
+      case RegistryStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  RegistryStatus toRegistryStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return RegistryStatus.available;
+      case 'DELETING':
+        return RegistryStatus.deleting;
+    }
+    throw Exception('$this is not known in enum RegistryStatus');
+  }
+}
+
 class RemoveSchemaVersionMetadataResponse {
   /// The latest version of the schema.
-  @_s.JsonKey(name: 'LatestVersion')
-  final bool latestVersion;
+  final bool? latestVersion;
 
   /// The metadata key.
-  @_s.JsonKey(name: 'MetadataKey')
-  final String metadataKey;
+  final String? metadataKey;
 
   /// The value of the metadata key.
-  @_s.JsonKey(name: 'MetadataValue')
-  final String metadataValue;
+  final String? metadataValue;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The version ID for the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   RemoveSchemaVersionMetadataResponse({
     this.latestVersion,
@@ -19056,31 +19950,39 @@ class RemoveSchemaVersionMetadataResponse {
     this.versionNumber,
   });
   factory RemoveSchemaVersionMetadataResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RemoveSchemaVersionMetadataResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RemoveSchemaVersionMetadataResponse(
+      latestVersion: json['LatestVersion'] as bool?,
+      metadataKey: json['MetadataKey'] as String?,
+      metadataValue: json['MetadataValue'] as String?,
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResetJobBookmarkResponse {
   /// The reset bookmark entry.
-  @_s.JsonKey(name: 'JobBookmarkEntry')
-  final JobBookmarkEntry jobBookmarkEntry;
+  final JobBookmarkEntry? jobBookmarkEntry;
 
   ResetJobBookmarkResponse({
     this.jobBookmarkEntry,
   });
-  factory ResetJobBookmarkResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResetJobBookmarkResponseFromJson(json);
+  factory ResetJobBookmarkResponse.fromJson(Map<String, dynamic> json) {
+    return ResetJobBookmarkResponse(
+      jobBookmarkEntry: json['JobBookmarkEntry'] != null
+          ? JobBookmarkEntry.fromJson(
+              json['JobBookmarkEntry'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ResourceShareType {
-  @_s.JsonValue('FOREIGN')
   foreign,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -19092,227 +19994,333 @@ extension on ResourceShareType {
       case ResourceShareType.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceShareType toResourceShareType() {
+    switch (this) {
+      case 'FOREIGN':
+        return ResourceShareType.foreign;
+      case 'ALL':
+        return ResourceShareType.all;
+    }
+    throw Exception('$this is not known in enum ResourceShareType');
   }
 }
 
 enum ResourceType {
-  @_s.JsonValue('JAR')
   jar,
-  @_s.JsonValue('FILE')
   file,
-  @_s.JsonValue('ARCHIVE')
   archive,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.jar:
+        return 'JAR';
+      case ResourceType.file:
+        return 'FILE';
+      case ResourceType.archive:
+        return 'ARCHIVE';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'JAR':
+        return ResourceType.jar;
+      case 'FILE':
+        return ResourceType.file;
+      case 'ARCHIVE':
+        return ResourceType.archive;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 /// The URIs for function resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceUri {
   /// The type of the resource.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   /// The URI for accessing the resource.
-  @_s.JsonKey(name: 'Uri')
-  final String uri;
+  final String? uri;
 
   ResourceUri({
     this.resourceType,
     this.uri,
   });
-  factory ResourceUri.fromJson(Map<String, dynamic> json) =>
-      _$ResourceUriFromJson(json);
+  factory ResourceUri.fromJson(Map<String, dynamic> json) {
+    return ResourceUri(
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      uri: json['Uri'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceUriToJson(this);
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final uri = this.uri;
+    return {
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (uri != null) 'Uri': uri,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResumeWorkflowRunResponse {
   /// A list of the node IDs for the nodes that were actually restarted.
-  @_s.JsonKey(name: 'NodeIds')
-  final List<String> nodeIds;
+  final List<String>? nodeIds;
 
   /// The new ID assigned to the resumed workflow run. Each resume of a workflow
   /// run will have a new run ID.
-  @_s.JsonKey(name: 'RunId')
-  final String runId;
+  final String? runId;
 
   ResumeWorkflowRunResponse({
     this.nodeIds,
     this.runId,
   });
-  factory ResumeWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResumeWorkflowRunResponseFromJson(json);
+  factory ResumeWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
+    return ResumeWorkflowRunResponse(
+      nodeIds: (json['NodeIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      runId: json['RunId'] as String?,
+    );
+  }
 }
 
 /// Specifies how Amazon Simple Storage Service (Amazon S3) data should be
 /// encrypted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Encryption {
   /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the
   /// data.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   /// The encryption mode to use for Amazon S3 data.
-  @_s.JsonKey(name: 'S3EncryptionMode')
-  final S3EncryptionMode s3EncryptionMode;
+  final S3EncryptionMode? s3EncryptionMode;
 
   S3Encryption({
     this.kmsKeyArn,
     this.s3EncryptionMode,
   });
-  factory S3Encryption.fromJson(Map<String, dynamic> json) =>
-      _$S3EncryptionFromJson(json);
+  factory S3Encryption.fromJson(Map<String, dynamic> json) {
+    return S3Encryption(
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      s3EncryptionMode:
+          (json['S3EncryptionMode'] as String?)?.toS3EncryptionMode(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3EncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    final s3EncryptionMode = this.s3EncryptionMode;
+    return {
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (s3EncryptionMode != null)
+        'S3EncryptionMode': s3EncryptionMode.toValue(),
+    };
+  }
 }
 
 enum S3EncryptionMode {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('SSE-KMS')
   sseKms,
-  @_s.JsonValue('SSE-S3')
   sseS3,
 }
 
+extension on S3EncryptionMode {
+  String toValue() {
+    switch (this) {
+      case S3EncryptionMode.disabled:
+        return 'DISABLED';
+      case S3EncryptionMode.sseKms:
+        return 'SSE-KMS';
+      case S3EncryptionMode.sseS3:
+        return 'SSE-S3';
+    }
+  }
+}
+
+extension on String {
+  S3EncryptionMode toS3EncryptionMode() {
+    switch (this) {
+      case 'DISABLED':
+        return S3EncryptionMode.disabled;
+      case 'SSE-KMS':
+        return S3EncryptionMode.sseKms;
+      case 'SSE-S3':
+        return S3EncryptionMode.sseS3;
+    }
+    throw Exception('$this is not known in enum S3EncryptionMode');
+  }
+}
+
 /// Specifies a data store in Amazon Simple Storage Service (Amazon S3).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Target {
   /// The name of a connection which allows a job or crawler to access data in
   /// Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
-  @_s.JsonKey(name: 'ConnectionName')
-  final String connectionName;
+  final String? connectionName;
 
   /// A list of glob patterns used to exclude from the crawl. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
   /// Tables with a Crawler</a>.
-  @_s.JsonKey(name: 'Exclusions')
-  final List<String> exclusions;
+  final List<String>? exclusions;
 
   /// The path to the Amazon S3 target.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   S3Target({
     this.connectionName,
     this.exclusions,
     this.path,
   });
-  factory S3Target.fromJson(Map<String, dynamic> json) =>
-      _$S3TargetFromJson(json);
+  factory S3Target.fromJson(Map<String, dynamic> json) {
+    return S3Target(
+      connectionName: json['ConnectionName'] as String?,
+      exclusions: (json['Exclusions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      path: json['Path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3TargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final exclusions = this.exclusions;
+    final path = this.path;
+    return {
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (exclusions != null) 'Exclusions': exclusions,
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
 /// A scheduling object using a <code>cron</code> statement to schedule an
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Schedule {
   /// A <code>cron</code> expression used to specify the schedule (see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
   /// at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// The state of the schedule.
-  @_s.JsonKey(name: 'State')
-  final ScheduleState state;
+  final ScheduleState? state;
 
   Schedule({
     this.scheduleExpression,
     this.state,
   });
-  factory Schedule.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleFromJson(json);
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      state: (json['State'] as String?)?.toScheduleState(),
+    );
+  }
 }
 
 enum ScheduleState {
-  @_s.JsonValue('SCHEDULED')
   scheduled,
-  @_s.JsonValue('NOT_SCHEDULED')
   notScheduled,
-  @_s.JsonValue('TRANSITIONING')
   transitioning,
 }
 
+extension on ScheduleState {
+  String toValue() {
+    switch (this) {
+      case ScheduleState.scheduled:
+        return 'SCHEDULED';
+      case ScheduleState.notScheduled:
+        return 'NOT_SCHEDULED';
+      case ScheduleState.transitioning:
+        return 'TRANSITIONING';
+    }
+  }
+}
+
+extension on String {
+  ScheduleState toScheduleState() {
+    switch (this) {
+      case 'SCHEDULED':
+        return ScheduleState.scheduled;
+      case 'NOT_SCHEDULED':
+        return ScheduleState.notScheduled;
+      case 'TRANSITIONING':
+        return ScheduleState.transitioning;
+    }
+    throw Exception('$this is not known in enum ScheduleState');
+  }
+}
+
 /// A policy that specifies update and deletion behaviors for the crawler.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaChangePolicy {
   /// The deletion behavior when the crawler finds a deleted object.
-  @_s.JsonKey(name: 'DeleteBehavior')
-  final DeleteBehavior deleteBehavior;
+  final DeleteBehavior? deleteBehavior;
 
   /// The update behavior when the crawler finds a changed schema.
-  @_s.JsonKey(name: 'UpdateBehavior')
-  final UpdateBehavior updateBehavior;
+  final UpdateBehavior? updateBehavior;
 
   SchemaChangePolicy({
     this.deleteBehavior,
     this.updateBehavior,
   });
-  factory SchemaChangePolicy.fromJson(Map<String, dynamic> json) =>
-      _$SchemaChangePolicyFromJson(json);
+  factory SchemaChangePolicy.fromJson(Map<String, dynamic> json) {
+    return SchemaChangePolicy(
+      deleteBehavior: (json['DeleteBehavior'] as String?)?.toDeleteBehavior(),
+      updateBehavior: (json['UpdateBehavior'] as String?)?.toUpdateBehavior(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaChangePolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final deleteBehavior = this.deleteBehavior;
+    final updateBehavior = this.updateBehavior;
+    return {
+      if (deleteBehavior != null) 'DeleteBehavior': deleteBehavior.toValue(),
+      if (updateBehavior != null) 'UpdateBehavior': updateBehavior.toValue(),
+    };
+  }
 }
 
 /// A key-value pair representing a column and data type that this transform can
 /// run against. The <code>Schema</code> parameter of the
 /// <code>MLTransform</code> may contain up to 100 of these structures.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaColumn {
   /// The type of data in the column.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// The name of the column.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SchemaColumn({
     this.dataType,
     this.name,
   });
-  factory SchemaColumn.fromJson(Map<String, dynamic> json) =>
-      _$SchemaColumnFromJson(json);
+  factory SchemaColumn.fromJson(Map<String, dynamic> json) {
+    return SchemaColumn(
+      dataType: json['DataType'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaColumnToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    return {
+      if (dataType != null) 'DataType': dataType,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 enum SchemaDiffType {
-  @_s.JsonValue('SYNTAX_DIFF')
   syntaxDiff,
 }
 
@@ -19322,76 +20330,79 @@ extension on SchemaDiffType {
       case SchemaDiffType.syntaxDiff:
         return 'SYNTAX_DIFF';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SchemaDiffType toSchemaDiffType() {
+    switch (this) {
+      case 'SYNTAX_DIFF':
+        return SchemaDiffType.syntaxDiff;
+    }
+    throw Exception('$this is not known in enum SchemaDiffType');
   }
 }
 
 /// The unique ID of the schema in the AWS Glue schema registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaId {
   /// The name of the schema registry that contains the schema.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) of the schema. One of <code>SchemaArn</code>
   /// or <code>SchemaName</code> has to be provided.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema. One of <code>SchemaArn</code> or
   /// <code>SchemaName</code> has to be provided.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   SchemaId({
     this.registryName,
     this.schemaArn,
     this.schemaName,
   });
-  factory SchemaId.fromJson(Map<String, dynamic> json) =>
-      _$SchemaIdFromJson(json);
+  factory SchemaId.fromJson(Map<String, dynamic> json) {
+    return SchemaId(
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaIdToJson(this);
+  Map<String, dynamic> toJson() {
+    final registryName = this.registryName;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    return {
+      if (registryName != null) 'RegistryName': registryName,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+    };
+  }
 }
 
 /// An object that contains minimal details for a schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaListItem {
   /// The date and time that a schema was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// A description for the schema.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// the name of the registry where the schema resides.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) for the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The status of the schema.
-  @_s.JsonKey(name: 'SchemaStatus')
-  final SchemaStatus schemaStatus;
+  final SchemaStatus? schemaStatus;
 
   /// The date and time that a schema was updated.
-  @_s.JsonKey(name: 'UpdatedTime')
-  final String updatedTime;
+  final String? updatedTime;
 
   SchemaListItem({
     this.createdTime,
@@ -19402,101 +20413,132 @@ class SchemaListItem {
     this.schemaStatus,
     this.updatedTime,
   });
-  factory SchemaListItem.fromJson(Map<String, dynamic> json) =>
-      _$SchemaListItemFromJson(json);
+  factory SchemaListItem.fromJson(Map<String, dynamic> json) {
+    return SchemaListItem(
+      createdTime: json['CreatedTime'] as String?,
+      description: json['Description'] as String?,
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaStatus: (json['SchemaStatus'] as String?)?.toSchemaStatus(),
+      updatedTime: json['UpdatedTime'] as String?,
+    );
+  }
 }
 
 /// An object that references a schema stored in the AWS Glue Schema Registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaReference {
   /// A structure that contains schema identity fields. Either this or the
   /// <code>SchemaVersionId</code> has to be provided.
-  @_s.JsonKey(name: 'SchemaId')
-  final SchemaId schemaId;
+  final SchemaId? schemaId;
 
   /// The unique ID assigned to a version of the schema. Either this or the
   /// <code>SchemaId</code> has to be provided.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'SchemaVersionNumber')
-  final int schemaVersionNumber;
+  final int? schemaVersionNumber;
 
   SchemaReference({
     this.schemaId,
     this.schemaVersionId,
     this.schemaVersionNumber,
   });
-  factory SchemaReference.fromJson(Map<String, dynamic> json) =>
-      _$SchemaReferenceFromJson(json);
+  factory SchemaReference.fromJson(Map<String, dynamic> json) {
+    return SchemaReference(
+      schemaId: json['SchemaId'] != null
+          ? SchemaId.fromJson(json['SchemaId'] as Map<String, dynamic>)
+          : null,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      schemaVersionNumber: json['SchemaVersionNumber'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaReferenceToJson(this);
+  Map<String, dynamic> toJson() {
+    final schemaId = this.schemaId;
+    final schemaVersionId = this.schemaVersionId;
+    final schemaVersionNumber = this.schemaVersionNumber;
+    return {
+      if (schemaId != null) 'SchemaId': schemaId,
+      if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
+      if (schemaVersionNumber != null)
+        'SchemaVersionNumber': schemaVersionNumber,
+    };
+  }
 }
 
 enum SchemaStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on SchemaStatus {
+  String toValue() {
+    switch (this) {
+      case SchemaStatus.available:
+        return 'AVAILABLE';
+      case SchemaStatus.pending:
+        return 'PENDING';
+      case SchemaStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  SchemaStatus toSchemaStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return SchemaStatus.available;
+      case 'PENDING':
+        return SchemaStatus.pending;
+      case 'DELETING':
+        return SchemaStatus.deleting;
+    }
+    throw Exception('$this is not known in enum SchemaStatus');
+  }
 }
 
 /// An object that contains the error details for an operation on a schema
 /// version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaVersionErrorItem {
   /// The details of the error for the schema version.
-  @_s.JsonKey(name: 'ErrorDetails')
-  final ErrorDetails errorDetails;
+  final ErrorDetails? errorDetails;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   SchemaVersionErrorItem({
     this.errorDetails,
     this.versionNumber,
   });
-  factory SchemaVersionErrorItem.fromJson(Map<String, dynamic> json) =>
-      _$SchemaVersionErrorItemFromJson(json);
+  factory SchemaVersionErrorItem.fromJson(Map<String, dynamic> json) {
+    return SchemaVersionErrorItem(
+      errorDetails: json['ErrorDetails'] != null
+          ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
+          : null,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
 /// An object containing the details about a schema version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaVersionListItem {
   /// The date and time the schema version was created.
-  @_s.JsonKey(name: 'CreatedTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The unique identifier of the schema version.
-  @_s.JsonKey(name: 'SchemaVersionId')
-  final String schemaVersionId;
+  final String? schemaVersionId;
 
   /// The status of the schema version.
-  @_s.JsonKey(name: 'Status')
-  final SchemaVersionStatus status;
+  final SchemaVersionStatus? status;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   SchemaVersionListItem({
     this.createdTime,
@@ -19505,483 +20547,516 @@ class SchemaVersionListItem {
     this.status,
     this.versionNumber,
   });
-  factory SchemaVersionListItem.fromJson(Map<String, dynamic> json) =>
-      _$SchemaVersionListItemFromJson(json);
+  factory SchemaVersionListItem.fromJson(Map<String, dynamic> json) {
+    return SchemaVersionListItem(
+      createdTime: json['CreatedTime'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaVersionId: json['SchemaVersionId'] as String?,
+      status: (json['Status'] as String?)?.toSchemaVersionStatus(),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
 /// A structure containing the schema version information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SchemaVersionNumber {
   /// The latest version available for the schema.
-  @_s.JsonKey(name: 'LatestVersion')
-  final bool latestVersion;
+  final bool? latestVersion;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   SchemaVersionNumber({
     this.latestVersion,
     this.versionNumber,
   });
-  Map<String, dynamic> toJson() => _$SchemaVersionNumberToJson(this);
+  Map<String, dynamic> toJson() {
+    final latestVersion = this.latestVersion;
+    final versionNumber = this.versionNumber;
+    return {
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
 }
 
 enum SchemaVersionStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('FAILURE')
   failure,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SchemaVersionStatus {
+  String toValue() {
+    switch (this) {
+      case SchemaVersionStatus.available:
+        return 'AVAILABLE';
+      case SchemaVersionStatus.pending:
+        return 'PENDING';
+      case SchemaVersionStatus.failure:
+        return 'FAILURE';
+      case SchemaVersionStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  SchemaVersionStatus toSchemaVersionStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return SchemaVersionStatus.available;
+      case 'PENDING':
+        return SchemaVersionStatus.pending;
+      case 'FAILURE':
+        return SchemaVersionStatus.failure;
+      case 'DELETING':
+        return SchemaVersionStatus.deleting;
+    }
+    throw Exception('$this is not known in enum SchemaVersionStatus');
+  }
+}
+
 class SearchTablesResponse {
   /// A continuation token, present if the current list segment is not the last.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the requested <code>Table</code> objects. The
   /// <code>SearchTables</code> response returns only the tables that you have
   /// access to.
-  @_s.JsonKey(name: 'TableList')
-  final List<Table> tableList;
+  final List<Table>? tableList;
 
   SearchTablesResponse({
     this.nextToken,
     this.tableList,
   });
-  factory SearchTablesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchTablesResponseFromJson(json);
+  factory SearchTablesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchTablesResponse(
+      nextToken: json['NextToken'] as String?,
+      tableList: (json['TableList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Table.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Specifies a security configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityConfiguration {
   /// The time at which this security configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimeStamp')
-  final DateTime createdTimeStamp;
+  final DateTime? createdTimeStamp;
 
   /// The encryption configuration associated with this security configuration.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// The name of the security configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SecurityConfiguration({
     this.createdTimeStamp,
     this.encryptionConfiguration,
     this.name,
   });
-  factory SecurityConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SecurityConfigurationFromJson(json);
+  factory SecurityConfiguration.fromJson(Map<String, dynamic> json) {
+    return SecurityConfiguration(
+      createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Defines a non-overlapping region of a table's partitions, allowing multiple
 /// requests to be executed in parallel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Segment {
   /// The zero-based index number of the segment. For example, if the total number
   /// of segments is 4, <code>SegmentNumber</code> values range from 0 through 3.
-  @_s.JsonKey(name: 'SegmentNumber')
   final int segmentNumber;
 
   /// The total number of segments.
-  @_s.JsonKey(name: 'TotalSegments')
   final int totalSegments;
 
   Segment({
-    @_s.required this.segmentNumber,
-    @_s.required this.totalSegments,
+    required this.segmentNumber,
+    required this.totalSegments,
   });
-  Map<String, dynamic> toJson() => _$SegmentToJson(this);
+  Map<String, dynamic> toJson() {
+    final segmentNumber = this.segmentNumber;
+    final totalSegments = this.totalSegments;
+    return {
+      'SegmentNumber': segmentNumber,
+      'TotalSegments': totalSegments,
+    };
+  }
 }
 
 /// Information about a serialization/deserialization program (SerDe) that
 /// serves as an extractor and loader.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SerDeInfo {
   /// Name of the SerDe.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// These key-value pairs define initialization parameters for the SerDe.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// Usually the class that implements the SerDe. An example is
   /// <code>org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe</code>.
-  @_s.JsonKey(name: 'SerializationLibrary')
-  final String serializationLibrary;
+  final String? serializationLibrary;
 
   SerDeInfo({
     this.name,
     this.parameters,
     this.serializationLibrary,
   });
-  factory SerDeInfo.fromJson(Map<String, dynamic> json) =>
-      _$SerDeInfoFromJson(json);
+  factory SerDeInfo.fromJson(Map<String, dynamic> json) {
+    return SerDeInfo(
+      name: json['Name'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      serializationLibrary: json['SerializationLibrary'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SerDeInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final parameters = this.parameters;
+    final serializationLibrary = this.serializationLibrary;
+    return {
+      if (name != null) 'Name': name,
+      if (parameters != null) 'Parameters': parameters,
+      if (serializationLibrary != null)
+        'SerializationLibrary': serializationLibrary,
+    };
+  }
 }
 
 /// Specifies skewed values in a table. Skewed values are those that occur with
 /// very high frequency.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SkewedInfo {
   /// A list of names of columns that contain skewed values.
-  @_s.JsonKey(name: 'SkewedColumnNames')
-  final List<String> skewedColumnNames;
+  final List<String>? skewedColumnNames;
 
   /// A mapping of skewed values to the columns that contain them.
-  @_s.JsonKey(name: 'SkewedColumnValueLocationMaps')
-  final Map<String, String> skewedColumnValueLocationMaps;
+  final Map<String, String>? skewedColumnValueLocationMaps;
 
   /// A list of values that appear so frequently as to be considered skewed.
-  @_s.JsonKey(name: 'SkewedColumnValues')
-  final List<String> skewedColumnValues;
+  final List<String>? skewedColumnValues;
 
   SkewedInfo({
     this.skewedColumnNames,
     this.skewedColumnValueLocationMaps,
     this.skewedColumnValues,
   });
-  factory SkewedInfo.fromJson(Map<String, dynamic> json) =>
-      _$SkewedInfoFromJson(json);
+  factory SkewedInfo.fromJson(Map<String, dynamic> json) {
+    return SkewedInfo(
+      skewedColumnNames: (json['SkewedColumnNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      skewedColumnValueLocationMaps:
+          (json['SkewedColumnValueLocationMaps'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      skewedColumnValues: (json['SkewedColumnValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SkewedInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final skewedColumnNames = this.skewedColumnNames;
+    final skewedColumnValueLocationMaps = this.skewedColumnValueLocationMaps;
+    final skewedColumnValues = this.skewedColumnValues;
+    return {
+      if (skewedColumnNames != null) 'SkewedColumnNames': skewedColumnNames,
+      if (skewedColumnValueLocationMaps != null)
+        'SkewedColumnValueLocationMaps': skewedColumnValueLocationMaps,
+      if (skewedColumnValues != null) 'SkewedColumnValues': skewedColumnValues,
+    };
+  }
 }
 
 enum Sort {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
 }
 
+extension on Sort {
+  String toValue() {
+    switch (this) {
+      case Sort.asc:
+        return 'ASC';
+      case Sort.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension on String {
+  Sort toSort() {
+    switch (this) {
+      case 'ASC':
+        return Sort.asc;
+      case 'DESC':
+        return Sort.desc;
+    }
+    throw Exception('$this is not known in enum Sort');
+  }
+}
+
 /// Specifies a field to sort by and a sort order.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SortCriterion {
   /// The name of the field on which to sort.
-  @_s.JsonKey(name: 'FieldName')
-  final String fieldName;
+  final String? fieldName;
 
   /// An ascending or descending sort.
-  @_s.JsonKey(name: 'Sort')
-  final Sort sort;
+  final Sort? sort;
 
   SortCriterion({
     this.fieldName,
     this.sort,
   });
-  Map<String, dynamic> toJson() => _$SortCriterionToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final sort = this.sort;
+    return {
+      if (fieldName != null) 'FieldName': fieldName,
+      if (sort != null) 'Sort': sort.toValue(),
+    };
+  }
 }
 
 enum SortDirectionType {
-  @_s.JsonValue('DESCENDING')
   descending,
-  @_s.JsonValue('ASCENDING')
   ascending,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SortDirectionType {
+  String toValue() {
+    switch (this) {
+      case SortDirectionType.descending:
+        return 'DESCENDING';
+      case SortDirectionType.ascending:
+        return 'ASCENDING';
+    }
+  }
+}
+
+extension on String {
+  SortDirectionType toSortDirectionType() {
+    switch (this) {
+      case 'DESCENDING':
+        return SortDirectionType.descending;
+      case 'ASCENDING':
+        return SortDirectionType.ascending;
+    }
+    throw Exception('$this is not known in enum SortDirectionType');
+  }
+}
+
 class StartCrawlerResponse {
   StartCrawlerResponse();
-  factory StartCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartCrawlerResponseFromJson(json);
+  factory StartCrawlerResponse.fromJson(Map<String, dynamic> _) {
+    return StartCrawlerResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartCrawlerScheduleResponse {
   StartCrawlerScheduleResponse();
-  factory StartCrawlerScheduleResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartCrawlerScheduleResponseFromJson(json);
+  factory StartCrawlerScheduleResponse.fromJson(Map<String, dynamic> _) {
+    return StartCrawlerScheduleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartExportLabelsTaskRunResponse {
   /// The unique identifier for the task run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   StartExportLabelsTaskRunResponse({
     this.taskRunId,
   });
-  factory StartExportLabelsTaskRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartExportLabelsTaskRunResponseFromJson(json);
+  factory StartExportLabelsTaskRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartExportLabelsTaskRunResponse(
+      taskRunId: json['TaskRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartImportLabelsTaskRunResponse {
   /// The unique identifier for the task run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   StartImportLabelsTaskRunResponse({
     this.taskRunId,
   });
-  factory StartImportLabelsTaskRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartImportLabelsTaskRunResponseFromJson(json);
+  factory StartImportLabelsTaskRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartImportLabelsTaskRunResponse(
+      taskRunId: json['TaskRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartJobRunResponse {
   /// The ID assigned to this job run.
-  @_s.JsonKey(name: 'JobRunId')
-  final String jobRunId;
+  final String? jobRunId;
 
   StartJobRunResponse({
     this.jobRunId,
   });
-  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartJobRunResponseFromJson(json);
+  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartJobRunResponse(
+      jobRunId: json['JobRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartMLEvaluationTaskRunResponse {
   /// The unique identifier associated with this run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   StartMLEvaluationTaskRunResponse({
     this.taskRunId,
   });
-  factory StartMLEvaluationTaskRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartMLEvaluationTaskRunResponseFromJson(json);
+  factory StartMLEvaluationTaskRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartMLEvaluationTaskRunResponse(
+      taskRunId: json['TaskRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartMLLabelingSetGenerationTaskRunResponse {
   /// The unique run identifier that is associated with this task run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   StartMLLabelingSetGenerationTaskRunResponse({
     this.taskRunId,
   });
   factory StartMLLabelingSetGenerationTaskRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartMLLabelingSetGenerationTaskRunResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartMLLabelingSetGenerationTaskRunResponse(
+      taskRunId: json['TaskRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTriggerResponse {
   /// The name of the trigger that was started.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   StartTriggerResponse({
     this.name,
   });
-  factory StartTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTriggerResponseFromJson(json);
+  factory StartTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return StartTriggerResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartWorkflowRunResponse {
   /// An Id for the new run.
-  @_s.JsonKey(name: 'RunId')
-  final String runId;
+  final String? runId;
 
   StartWorkflowRunResponse({
     this.runId,
   });
-  factory StartWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartWorkflowRunResponseFromJson(json);
+  factory StartWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartWorkflowRunResponse(
+      runId: json['RunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopCrawlerResponse {
   StopCrawlerResponse();
-  factory StopCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopCrawlerResponseFromJson(json);
+  factory StopCrawlerResponse.fromJson(Map<String, dynamic> _) {
+    return StopCrawlerResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopCrawlerScheduleResponse {
   StopCrawlerScheduleResponse();
-  factory StopCrawlerScheduleResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopCrawlerScheduleResponseFromJson(json);
+  factory StopCrawlerScheduleResponse.fromJson(Map<String, dynamic> _) {
+    return StopCrawlerScheduleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopTriggerResponse {
   /// The name of the trigger that was stopped.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   StopTriggerResponse({
     this.name,
   });
-  factory StopTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopTriggerResponseFromJson(json);
+  factory StopTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return StopTriggerResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopWorkflowRunResponse {
   StopWorkflowRunResponse();
-  factory StopWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopWorkflowRunResponseFromJson(json);
+  factory StopWorkflowRunResponse.fromJson(Map<String, dynamic> _) {
+    return StopWorkflowRunResponse();
+  }
 }
 
 /// Describes the physical storage of table data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StorageDescriptor {
   /// A list of reducer grouping columns, clustering columns, and bucketing
   /// columns in the table.
-  @_s.JsonKey(name: 'BucketColumns')
-  final List<String> bucketColumns;
+  final List<String>? bucketColumns;
 
   /// A list of the <code>Columns</code> in the table.
-  @_s.JsonKey(name: 'Columns')
-  final List<Column> columns;
+  final List<Column>? columns;
 
   /// <code>True</code> if the data in the table is compressed, or
   /// <code>False</code> if not.
-  @_s.JsonKey(name: 'Compressed')
-  final bool compressed;
+  final bool? compressed;
 
   /// The input format: <code>SequenceFileInputFormat</code> (binary), or
   /// <code>TextInputFormat</code>, or a custom format.
-  @_s.JsonKey(name: 'InputFormat')
-  final String inputFormat;
+  final String? inputFormat;
 
   /// The physical location of the table. By default, this takes the form of the
   /// warehouse location, followed by the database location in the warehouse,
   /// followed by the table name.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   /// Must be specified if the table contains any dimension columns.
-  @_s.JsonKey(name: 'NumberOfBuckets')
-  final int numberOfBuckets;
+  final int? numberOfBuckets;
 
   /// The output format: <code>SequenceFileOutputFormat</code> (binary), or
   /// <code>IgnoreKeyTextOutputFormat</code>, or a custom format.
-  @_s.JsonKey(name: 'OutputFormat')
-  final String outputFormat;
+  final String? outputFormat;
 
   /// The user-supplied properties in key-value form.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// An object that references a schema stored in the AWS Glue Schema Registry.
   ///
   /// When creating a table, you can pass an empty list of columns for the schema,
   /// and instead use a schema reference.
-  @_s.JsonKey(name: 'SchemaReference')
-  final SchemaReference schemaReference;
+  final SchemaReference? schemaReference;
 
   /// The serialization/deserialization (SerDe) information.
-  @_s.JsonKey(name: 'SerdeInfo')
-  final SerDeInfo serdeInfo;
+  final SerDeInfo? serdeInfo;
 
   /// The information about values that appear frequently in a column (skewed
   /// values).
-  @_s.JsonKey(name: 'SkewedInfo')
-  final SkewedInfo skewedInfo;
+  final SkewedInfo? skewedInfo;
 
   /// A list specifying the sort order of each bucket in the table.
-  @_s.JsonKey(name: 'SortColumns')
-  final List<Order> sortColumns;
+  final List<Order>? sortColumns;
 
   /// <code>True</code> if the table data is stored in subdirectories, or
   /// <code>False</code> if not.
-  @_s.JsonKey(name: 'StoredAsSubDirectories')
-  final bool storedAsSubDirectories;
+  final bool? storedAsSubDirectories;
 
   StorageDescriptor({
     this.bucketColumns,
@@ -19998,102 +21073,153 @@ class StorageDescriptor {
     this.sortColumns,
     this.storedAsSubDirectories,
   });
-  factory StorageDescriptor.fromJson(Map<String, dynamic> json) =>
-      _$StorageDescriptorFromJson(json);
+  factory StorageDescriptor.fromJson(Map<String, dynamic> json) {
+    return StorageDescriptor(
+      bucketColumns: (json['BucketColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      columns: (json['Columns'] as List?)
+          ?.whereNotNull()
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      compressed: json['Compressed'] as bool?,
+      inputFormat: json['InputFormat'] as String?,
+      location: json['Location'] as String?,
+      numberOfBuckets: json['NumberOfBuckets'] as int?,
+      outputFormat: json['OutputFormat'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      schemaReference: json['SchemaReference'] != null
+          ? SchemaReference.fromJson(
+              json['SchemaReference'] as Map<String, dynamic>)
+          : null,
+      serdeInfo: json['SerdeInfo'] != null
+          ? SerDeInfo.fromJson(json['SerdeInfo'] as Map<String, dynamic>)
+          : null,
+      skewedInfo: json['SkewedInfo'] != null
+          ? SkewedInfo.fromJson(json['SkewedInfo'] as Map<String, dynamic>)
+          : null,
+      sortColumns: (json['SortColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      storedAsSubDirectories: json['StoredAsSubDirectories'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StorageDescriptorToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketColumns = this.bucketColumns;
+    final columns = this.columns;
+    final compressed = this.compressed;
+    final inputFormat = this.inputFormat;
+    final location = this.location;
+    final numberOfBuckets = this.numberOfBuckets;
+    final outputFormat = this.outputFormat;
+    final parameters = this.parameters;
+    final schemaReference = this.schemaReference;
+    final serdeInfo = this.serdeInfo;
+    final skewedInfo = this.skewedInfo;
+    final sortColumns = this.sortColumns;
+    final storedAsSubDirectories = this.storedAsSubDirectories;
+    return {
+      if (bucketColumns != null) 'BucketColumns': bucketColumns,
+      if (columns != null) 'Columns': columns,
+      if (compressed != null) 'Compressed': compressed,
+      if (inputFormat != null) 'InputFormat': inputFormat,
+      if (location != null) 'Location': location,
+      if (numberOfBuckets != null) 'NumberOfBuckets': numberOfBuckets,
+      if (outputFormat != null) 'OutputFormat': outputFormat,
+      if (parameters != null) 'Parameters': parameters,
+      if (schemaReference != null) 'SchemaReference': schemaReference,
+      if (serdeInfo != null) 'SerdeInfo': serdeInfo,
+      if (skewedInfo != null) 'SkewedInfo': skewedInfo,
+      if (sortColumns != null) 'SortColumns': sortColumns,
+      if (storedAsSubDirectories != null)
+        'StoredAsSubDirectories': storedAsSubDirectories,
+    };
+  }
 }
 
 /// Defines column statistics supported for character sequence data values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StringColumnStatisticsData {
   /// The average string length in the column.
-  @_s.JsonKey(name: 'AverageLength')
   final double averageLength;
 
   /// The size of the longest string in the column.
-  @_s.JsonKey(name: 'MaximumLength')
   final int maximumLength;
 
   /// The number of distinct values in a column.
-  @_s.JsonKey(name: 'NumberOfDistinctValues')
   final int numberOfDistinctValues;
 
   /// The number of null values in the column.
-  @_s.JsonKey(name: 'NumberOfNulls')
   final int numberOfNulls;
 
   StringColumnStatisticsData({
-    @_s.required this.averageLength,
-    @_s.required this.maximumLength,
-    @_s.required this.numberOfDistinctValues,
-    @_s.required this.numberOfNulls,
+    required this.averageLength,
+    required this.maximumLength,
+    required this.numberOfDistinctValues,
+    required this.numberOfNulls,
   });
-  factory StringColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
-      _$StringColumnStatisticsDataFromJson(json);
+  factory StringColumnStatisticsData.fromJson(Map<String, dynamic> json) {
+    return StringColumnStatisticsData(
+      averageLength: json['AverageLength'] as double,
+      maximumLength: json['MaximumLength'] as int,
+      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
+      numberOfNulls: json['NumberOfNulls'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StringColumnStatisticsDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final averageLength = this.averageLength;
+    final maximumLength = this.maximumLength;
+    final numberOfDistinctValues = this.numberOfDistinctValues;
+    final numberOfNulls = this.numberOfNulls;
+    return {
+      'AverageLength': averageLength,
+      'MaximumLength': maximumLength,
+      'NumberOfDistinctValues': numberOfDistinctValues,
+      'NumberOfNulls': numberOfNulls,
+    };
+  }
 }
 
 /// Represents a collection of related data organized in columns and rows.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Table {
   /// The table name. For Hive compatibility, this must be entirely lowercase.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The ID of the Data Catalog in which the table resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The time when the table definition was created in the Data Catalog.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The person or entity who created the table.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The name of the database where the table metadata resides. For Hive
   /// compatibility, this must be all lowercase.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// A description of the table.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Indicates whether the table has been registered with AWS Lake Formation.
-  @_s.JsonKey(name: 'IsRegisteredWithLakeFormation')
-  final bool isRegisteredWithLakeFormation;
+  final bool? isRegisteredWithLakeFormation;
 
   /// The last time that the table was accessed. This is usually taken from HDFS,
   /// and might not be reliable.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessTime')
-  final DateTime lastAccessTime;
+  final DateTime? lastAccessTime;
 
   /// The last time that column statistics were computed for this table.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAnalyzedTime')
-  final DateTime lastAnalyzedTime;
+  final DateTime? lastAnalyzedTime;
 
   /// The owner of the table.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// These key-value pairs define properties associated with the table.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// A list of columns by which the table is partitioned. Only primitive types
   /// are supported as partition keys.
@@ -20103,45 +21229,36 @@ class Table {
   /// <code>partitionKeys</code> to an empty list. For example:
   ///
   /// <code>"PartitionKeys": []</code>
-  @_s.JsonKey(name: 'PartitionKeys')
-  final List<Column> partitionKeys;
+  final List<Column>? partitionKeys;
 
   /// The retention time for this table.
-  @_s.JsonKey(name: 'Retention')
-  final int retention;
+  final int? retention;
 
   /// A storage descriptor containing information about the physical storage of
   /// this table.
-  @_s.JsonKey(name: 'StorageDescriptor')
-  final StorageDescriptor storageDescriptor;
+  final StorageDescriptor? storageDescriptor;
 
   /// The type of this table (<code>EXTERNAL_TABLE</code>,
   /// <code>VIRTUAL_VIEW</code>, etc.).
-  @_s.JsonKey(name: 'TableType')
-  final String tableType;
+  final String? tableType;
 
   /// A <code>TableIdentifier</code> structure that describes a target table for
   /// resource linking.
-  @_s.JsonKey(name: 'TargetTable')
-  final TableIdentifier targetTable;
+  final TableIdentifier? targetTable;
 
   /// The last time that the table was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateTime')
-  final DateTime updateTime;
+  final DateTime? updateTime;
 
   /// If the table is a view, the expanded text of the view; otherwise
   /// <code>null</code>.
-  @_s.JsonKey(name: 'ViewExpandedText')
-  final String viewExpandedText;
+  final String? viewExpandedText;
 
   /// If the table is a view, the original text of the view; otherwise
   /// <code>null</code>.
-  @_s.JsonKey(name: 'ViewOriginalText')
-  final String viewOriginalText;
+  final String? viewOriginalText;
 
   Table({
-    @_s.required this.name,
+    required this.name,
     this.catalogId,
     this.createTime,
     this.createdBy,
@@ -20161,96 +21278,121 @@ class Table {
     this.viewExpandedText,
     this.viewOriginalText,
   });
-  factory Table.fromJson(Map<String, dynamic> json) => _$TableFromJson(json);
+  factory Table.fromJson(Map<String, dynamic> json) {
+    return Table(
+      name: json['Name'] as String,
+      catalogId: json['CatalogId'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      createdBy: json['CreatedBy'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      description: json['Description'] as String?,
+      isRegisteredWithLakeFormation:
+          json['IsRegisteredWithLakeFormation'] as bool?,
+      lastAccessTime: timeStampFromJson(json['LastAccessTime']),
+      lastAnalyzedTime: timeStampFromJson(json['LastAnalyzedTime']),
+      owner: json['Owner'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      retention: json['Retention'] as int?,
+      storageDescriptor: json['StorageDescriptor'] != null
+          ? StorageDescriptor.fromJson(
+              json['StorageDescriptor'] as Map<String, dynamic>)
+          : null,
+      tableType: json['TableType'] as String?,
+      targetTable: json['TargetTable'] != null
+          ? TableIdentifier.fromJson(
+              json['TargetTable'] as Map<String, dynamic>)
+          : null,
+      updateTime: timeStampFromJson(json['UpdateTime']),
+      viewExpandedText: json['ViewExpandedText'] as String?,
+      viewOriginalText: json['ViewOriginalText'] as String?,
+    );
+  }
 }
 
 /// An error record for table operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableError {
   /// The details about the error.
-  @_s.JsonKey(name: 'ErrorDetail')
-  final ErrorDetail errorDetail;
+  final ErrorDetail? errorDetail;
 
   /// The name of the table. For Hive compatibility, this must be entirely
   /// lowercase.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   TableError({
     this.errorDetail,
     this.tableName,
   });
-  factory TableError.fromJson(Map<String, dynamic> json) =>
-      _$TableErrorFromJson(json);
+  factory TableError.fromJson(Map<String, dynamic> json) {
+    return TableError(
+      errorDetail: json['ErrorDetail'] != null
+          ? ErrorDetail.fromJson(json['ErrorDetail'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+    );
+  }
 }
 
 /// A structure that describes a target table for resource linking.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TableIdentifier {
   /// The ID of the Data Catalog in which the table resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The name of the catalog database that contains the target table.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The name of the target table.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   TableIdentifier({
     this.catalogId,
     this.databaseName,
     this.name,
   });
-  factory TableIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$TableIdentifierFromJson(json);
+  factory TableIdentifier.fromJson(Map<String, dynamic> json) {
+    return TableIdentifier(
+      catalogId: json['CatalogId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TableIdentifierToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final databaseName = this.databaseName;
+    final name = this.name;
+    return {
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// A structure used to define a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TableInput {
   /// The table name. For Hive compatibility, this is folded to lowercase when it
   /// is stored.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A description of the table.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The last time that the table was accessed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessTime')
-  final DateTime lastAccessTime;
+  final DateTime? lastAccessTime;
 
   /// The last time that column statistics were computed for this table.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAnalyzedTime')
-  final DateTime lastAnalyzedTime;
+  final DateTime? lastAnalyzedTime;
 
   /// The table owner.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// These key-value pairs define properties associated with the table.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// A list of columns by which the table is partitioned. Only primitive types
   /// are supported as partition keys.
@@ -20260,40 +21402,33 @@ class TableInput {
   /// <code>partitionKeys</code> to an empty list. For example:
   ///
   /// <code>"PartitionKeys": []</code>
-  @_s.JsonKey(name: 'PartitionKeys')
-  final List<Column> partitionKeys;
+  final List<Column>? partitionKeys;
 
   /// The retention time for this table.
-  @_s.JsonKey(name: 'Retention')
-  final int retention;
+  final int? retention;
 
   /// A storage descriptor containing information about the physical storage of
   /// this table.
-  @_s.JsonKey(name: 'StorageDescriptor')
-  final StorageDescriptor storageDescriptor;
+  final StorageDescriptor? storageDescriptor;
 
   /// The type of this table (<code>EXTERNAL_TABLE</code>,
   /// <code>VIRTUAL_VIEW</code>, etc.).
-  @_s.JsonKey(name: 'TableType')
-  final String tableType;
+  final String? tableType;
 
   /// A <code>TableIdentifier</code> structure that describes a target table for
   /// resource linking.
-  @_s.JsonKey(name: 'TargetTable')
-  final TableIdentifier targetTable;
+  final TableIdentifier? targetTable;
 
   /// If the table is a view, the expanded text of the view; otherwise
   /// <code>null</code>.
-  @_s.JsonKey(name: 'ViewExpandedText')
-  final String viewExpandedText;
+  final String? viewExpandedText;
 
   /// If the table is a view, the original text of the view; otherwise
   /// <code>null</code>.
-  @_s.JsonKey(name: 'ViewOriginalText')
-  final String viewOriginalText;
+  final String? viewOriginalText;
 
   TableInput({
-    @_s.required this.name,
+    required this.name,
     this.description,
     this.lastAccessTime,
     this.lastAnalyzedTime,
@@ -20307,124 +21442,131 @@ class TableInput {
     this.viewExpandedText,
     this.viewOriginalText,
   });
-  Map<String, dynamic> toJson() => _$TableInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final lastAccessTime = this.lastAccessTime;
+    final lastAnalyzedTime = this.lastAnalyzedTime;
+    final owner = this.owner;
+    final parameters = this.parameters;
+    final partitionKeys = this.partitionKeys;
+    final retention = this.retention;
+    final storageDescriptor = this.storageDescriptor;
+    final tableType = this.tableType;
+    final targetTable = this.targetTable;
+    final viewExpandedText = this.viewExpandedText;
+    final viewOriginalText = this.viewOriginalText;
+    return {
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (lastAccessTime != null)
+        'LastAccessTime': unixTimestampToJson(lastAccessTime),
+      if (lastAnalyzedTime != null)
+        'LastAnalyzedTime': unixTimestampToJson(lastAnalyzedTime),
+      if (owner != null) 'Owner': owner,
+      if (parameters != null) 'Parameters': parameters,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (retention != null) 'Retention': retention,
+      if (storageDescriptor != null) 'StorageDescriptor': storageDescriptor,
+      if (tableType != null) 'TableType': tableType,
+      if (targetTable != null) 'TargetTable': targetTable,
+      if (viewExpandedText != null) 'ViewExpandedText': viewExpandedText,
+      if (viewOriginalText != null) 'ViewOriginalText': viewOriginalText,
+    };
+  }
 }
 
 /// Specifies a version of a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableVersion {
   /// The table in question.
-  @_s.JsonKey(name: 'Table')
-  final Table table;
+  final Table? table;
 
   /// The ID value that identifies this table version. A <code>VersionId</code> is
   /// a string representation of an integer. Each version is incremented by 1.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   TableVersion({
     this.table,
     this.versionId,
   });
-  factory TableVersion.fromJson(Map<String, dynamic> json) =>
-      _$TableVersionFromJson(json);
+  factory TableVersion.fromJson(Map<String, dynamic> json) {
+    return TableVersion(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
 /// An error record for table-version operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableVersionError {
   /// The details about the error.
-  @_s.JsonKey(name: 'ErrorDetail')
-  final ErrorDetail errorDetail;
+  final ErrorDetail? errorDetail;
 
   /// The name of the table in question.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The ID value of the version in question. A <code>VersionID</code> is a
   /// string representation of an integer. Each version is incremented by 1.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   TableVersionError({
     this.errorDetail,
     this.tableName,
     this.versionId,
   });
-  factory TableVersionError.fromJson(Map<String, dynamic> json) =>
-      _$TableVersionErrorFromJson(json);
+  factory TableVersionError.fromJson(Map<String, dynamic> json) {
+    return TableVersionError(
+      errorDetail: json['ErrorDetail'] != null
+          ? ErrorDetail.fromJson(json['ErrorDetail'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// The sampling parameters that are associated with the machine learning
 /// transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskRun {
   /// The last point in time that the requested task run was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedOn')
-  final DateTime completedOn;
+  final DateTime? completedOn;
 
   /// The list of error strings associated with this task run.
-  @_s.JsonKey(name: 'ErrorString')
-  final String errorString;
+  final String? errorString;
 
   /// The amount of time (in seconds) that the task run consumed resources.
-  @_s.JsonKey(name: 'ExecutionTime')
-  final int executionTime;
+  final int? executionTime;
 
   /// The last point in time that the requested task run was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The names of the log group for secure logging, associated with this task
   /// run.
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// Specifies configuration properties associated with this task run.
-  @_s.JsonKey(name: 'Properties')
-  final TaskRunProperties properties;
+  final TaskRunProperties? properties;
 
   /// The date and time that this task run started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedOn')
-  final DateTime startedOn;
+  final DateTime? startedOn;
 
   /// The current status of the requested task run.
-  @_s.JsonKey(name: 'Status')
-  final TaskStatusType status;
+  final TaskStatusType? status;
 
   /// The unique identifier for this task run.
-  @_s.JsonKey(name: 'TaskRunId')
-  final String taskRunId;
+  final String? taskRunId;
 
   /// The unique identifier for the transform.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   TaskRun({
     this.completedOn,
@@ -20438,35 +21580,39 @@ class TaskRun {
     this.taskRunId,
     this.transformId,
   });
-  factory TaskRun.fromJson(Map<String, dynamic> json) =>
-      _$TaskRunFromJson(json);
+  factory TaskRun.fromJson(Map<String, dynamic> json) {
+    return TaskRun(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorString: json['ErrorString'] as String?,
+      executionTime: json['ExecutionTime'] as int?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      logGroupName: json['LogGroupName'] as String?,
+      properties: json['Properties'] != null
+          ? TaskRunProperties.fromJson(
+              json['Properties'] as Map<String, dynamic>)
+          : null,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      status: (json['Status'] as String?)?.toTaskStatusType(),
+      taskRunId: json['TaskRunId'] as String?,
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
 /// The criteria that are used to filter the task runs for the machine learning
 /// transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TaskRunFilterCriteria {
   /// Filter on task runs started after this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAfter')
-  final DateTime startedAfter;
+  final DateTime? startedAfter;
 
   /// Filter on task runs started before this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedBefore')
-  final DateTime startedBefore;
+  final DateTime? startedBefore;
 
   /// The current status of the task run.
-  @_s.JsonKey(name: 'Status')
-  final TaskStatusType status;
+  final TaskStatusType? status;
 
   /// The type of task run.
-  @_s.JsonKey(name: 'TaskRunType')
-  final TaskType taskRunType;
+  final TaskType? taskRunType;
 
   TaskRunFilterCriteria({
     this.startedAfter,
@@ -20474,36 +21620,39 @@ class TaskRunFilterCriteria {
     this.status,
     this.taskRunType,
   });
-  Map<String, dynamic> toJson() => _$TaskRunFilterCriteriaToJson(this);
+  Map<String, dynamic> toJson() {
+    final startedAfter = this.startedAfter;
+    final startedBefore = this.startedBefore;
+    final status = this.status;
+    final taskRunType = this.taskRunType;
+    return {
+      if (startedAfter != null)
+        'StartedAfter': unixTimestampToJson(startedAfter),
+      if (startedBefore != null)
+        'StartedBefore': unixTimestampToJson(startedBefore),
+      if (status != null) 'Status': status.toValue(),
+      if (taskRunType != null) 'TaskRunType': taskRunType.toValue(),
+    };
+  }
 }
 
 /// The configuration properties for the task run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskRunProperties {
   /// The configuration properties for an exporting labels task run.
-  @_s.JsonKey(name: 'ExportLabelsTaskRunProperties')
-  final ExportLabelsTaskRunProperties exportLabelsTaskRunProperties;
+  final ExportLabelsTaskRunProperties? exportLabelsTaskRunProperties;
 
   /// The configuration properties for a find matches task run.
-  @_s.JsonKey(name: 'FindMatchesTaskRunProperties')
-  final FindMatchesTaskRunProperties findMatchesTaskRunProperties;
+  final FindMatchesTaskRunProperties? findMatchesTaskRunProperties;
 
   /// The configuration properties for an importing labels task run.
-  @_s.JsonKey(name: 'ImportLabelsTaskRunProperties')
-  final ImportLabelsTaskRunProperties importLabelsTaskRunProperties;
+  final ImportLabelsTaskRunProperties? importLabelsTaskRunProperties;
 
   /// The configuration properties for a labeling set generation task run.
-  @_s.JsonKey(name: 'LabelingSetGenerationTaskRunProperties')
-  final LabelingSetGenerationTaskRunProperties
+  final LabelingSetGenerationTaskRunProperties?
       labelingSetGenerationTaskRunProperties;
 
   /// The type of task run.
-  @_s.JsonKey(name: 'TaskType')
-  final TaskType taskType;
+  final TaskType? taskType;
 
   TaskRunProperties({
     this.exportLabelsTaskRunProperties,
@@ -20512,72 +21661,185 @@ class TaskRunProperties {
     this.labelingSetGenerationTaskRunProperties,
     this.taskType,
   });
-  factory TaskRunProperties.fromJson(Map<String, dynamic> json) =>
-      _$TaskRunPropertiesFromJson(json);
+  factory TaskRunProperties.fromJson(Map<String, dynamic> json) {
+    return TaskRunProperties(
+      exportLabelsTaskRunProperties:
+          json['ExportLabelsTaskRunProperties'] != null
+              ? ExportLabelsTaskRunProperties.fromJson(
+                  json['ExportLabelsTaskRunProperties'] as Map<String, dynamic>)
+              : null,
+      findMatchesTaskRunProperties: json['FindMatchesTaskRunProperties'] != null
+          ? FindMatchesTaskRunProperties.fromJson(
+              json['FindMatchesTaskRunProperties'] as Map<String, dynamic>)
+          : null,
+      importLabelsTaskRunProperties:
+          json['ImportLabelsTaskRunProperties'] != null
+              ? ImportLabelsTaskRunProperties.fromJson(
+                  json['ImportLabelsTaskRunProperties'] as Map<String, dynamic>)
+              : null,
+      labelingSetGenerationTaskRunProperties:
+          json['LabelingSetGenerationTaskRunProperties'] != null
+              ? LabelingSetGenerationTaskRunProperties.fromJson(
+                  json['LabelingSetGenerationTaskRunProperties']
+                      as Map<String, dynamic>)
+              : null,
+      taskType: (json['TaskType'] as String?)?.toTaskType(),
+    );
+  }
 }
 
 enum TaskRunSortColumnType {
-  @_s.JsonValue('TASK_RUN_TYPE')
   taskRunType,
-  @_s.JsonValue('STATUS')
   status,
-  @_s.JsonValue('STARTED')
   started,
+}
+
+extension on TaskRunSortColumnType {
+  String toValue() {
+    switch (this) {
+      case TaskRunSortColumnType.taskRunType:
+        return 'TASK_RUN_TYPE';
+      case TaskRunSortColumnType.status:
+        return 'STATUS';
+      case TaskRunSortColumnType.started:
+        return 'STARTED';
+    }
+  }
+}
+
+extension on String {
+  TaskRunSortColumnType toTaskRunSortColumnType() {
+    switch (this) {
+      case 'TASK_RUN_TYPE':
+        return TaskRunSortColumnType.taskRunType;
+      case 'STATUS':
+        return TaskRunSortColumnType.status;
+      case 'STARTED':
+        return TaskRunSortColumnType.started;
+    }
+    throw Exception('$this is not known in enum TaskRunSortColumnType');
+  }
 }
 
 /// The sorting criteria that are used to sort the list of task runs for the
 /// machine learning transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TaskRunSortCriteria {
   /// The column to be used to sort the list of task runs for the machine learning
   /// transform.
-  @_s.JsonKey(name: 'Column')
   final TaskRunSortColumnType column;
 
   /// The sort direction to be used to sort the list of task runs for the machine
   /// learning transform.
-  @_s.JsonKey(name: 'SortDirection')
   final SortDirectionType sortDirection;
 
   TaskRunSortCriteria({
-    @_s.required this.column,
-    @_s.required this.sortDirection,
+    required this.column,
+    required this.sortDirection,
   });
-  Map<String, dynamic> toJson() => _$TaskRunSortCriteriaToJson(this);
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final sortDirection = this.sortDirection;
+    return {
+      'Column': column.toValue(),
+      'SortDirection': sortDirection.toValue(),
+    };
+  }
 }
 
 enum TaskStatusType {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TIMEOUT')
   timeout,
 }
 
+extension on TaskStatusType {
+  String toValue() {
+    switch (this) {
+      case TaskStatusType.starting:
+        return 'STARTING';
+      case TaskStatusType.running:
+        return 'RUNNING';
+      case TaskStatusType.stopping:
+        return 'STOPPING';
+      case TaskStatusType.stopped:
+        return 'STOPPED';
+      case TaskStatusType.succeeded:
+        return 'SUCCEEDED';
+      case TaskStatusType.failed:
+        return 'FAILED';
+      case TaskStatusType.timeout:
+        return 'TIMEOUT';
+    }
+  }
+}
+
+extension on String {
+  TaskStatusType toTaskStatusType() {
+    switch (this) {
+      case 'STARTING':
+        return TaskStatusType.starting;
+      case 'RUNNING':
+        return TaskStatusType.running;
+      case 'STOPPING':
+        return TaskStatusType.stopping;
+      case 'STOPPED':
+        return TaskStatusType.stopped;
+      case 'SUCCEEDED':
+        return TaskStatusType.succeeded;
+      case 'FAILED':
+        return TaskStatusType.failed;
+      case 'TIMEOUT':
+        return TaskStatusType.timeout;
+    }
+    throw Exception('$this is not known in enum TaskStatusType');
+  }
+}
+
 enum TaskType {
-  @_s.JsonValue('EVALUATION')
   evaluation,
-  @_s.JsonValue('LABELING_SET_GENERATION')
   labelingSetGeneration,
-  @_s.JsonValue('IMPORT_LABELS')
   importLabels,
-  @_s.JsonValue('EXPORT_LABELS')
   exportLabels,
-  @_s.JsonValue('FIND_MATCHES')
   findMatches,
+}
+
+extension on TaskType {
+  String toValue() {
+    switch (this) {
+      case TaskType.evaluation:
+        return 'EVALUATION';
+      case TaskType.labelingSetGeneration:
+        return 'LABELING_SET_GENERATION';
+      case TaskType.importLabels:
+        return 'IMPORT_LABELS';
+      case TaskType.exportLabels:
+        return 'EXPORT_LABELS';
+      case TaskType.findMatches:
+        return 'FIND_MATCHES';
+    }
+  }
+}
+
+extension on String {
+  TaskType toTaskType() {
+    switch (this) {
+      case 'EVALUATION':
+        return TaskType.evaluation;
+      case 'LABELING_SET_GENERATION':
+        return TaskType.labelingSetGeneration;
+      case 'IMPORT_LABELS':
+        return TaskType.importLabels;
+      case 'EXPORT_LABELS':
+        return TaskType.exportLabels;
+      case 'FIND_MATCHES':
+        return TaskType.findMatches;
+    }
+    throw Exception('$this is not known in enum TaskType');
+  }
 }
 
 /// The encryption-at-rest settings of the transform that apply to accessing
@@ -20586,47 +21848,49 @@ enum TaskType {
 ///
 /// Additionally, imported labels and trained transforms can now be encrypted
 /// using a customer provided KMS key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TransformEncryption {
   /// An <code>MLUserDataEncryption</code> object containing the encryption mode
   /// and customer-provided KMS key ID.
-  @_s.JsonKey(name: 'MlUserDataEncryption')
-  final MLUserDataEncryption mlUserDataEncryption;
+  final MLUserDataEncryption? mlUserDataEncryption;
 
   /// The name of the security configuration.
-  @_s.JsonKey(name: 'TaskRunSecurityConfigurationName')
-  final String taskRunSecurityConfigurationName;
+  final String? taskRunSecurityConfigurationName;
 
   TransformEncryption({
     this.mlUserDataEncryption,
     this.taskRunSecurityConfigurationName,
   });
-  factory TransformEncryption.fromJson(Map<String, dynamic> json) =>
-      _$TransformEncryptionFromJson(json);
+  factory TransformEncryption.fromJson(Map<String, dynamic> json) {
+    return TransformEncryption(
+      mlUserDataEncryption: json['MlUserDataEncryption'] != null
+          ? MLUserDataEncryption.fromJson(
+              json['MlUserDataEncryption'] as Map<String, dynamic>)
+          : null,
+      taskRunSecurityConfigurationName:
+          json['TaskRunSecurityConfigurationName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TransformEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final mlUserDataEncryption = this.mlUserDataEncryption;
+    final taskRunSecurityConfigurationName =
+        this.taskRunSecurityConfigurationName;
+    return {
+      if (mlUserDataEncryption != null)
+        'MlUserDataEncryption': mlUserDataEncryption,
+      if (taskRunSecurityConfigurationName != null)
+        'TaskRunSecurityConfigurationName': taskRunSecurityConfigurationName,
+    };
+  }
 }
 
 /// The criteria used to filter the machine learning transforms.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TransformFilterCriteria {
   /// The time and date after which the transforms were created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAfter')
-  final DateTime createdAfter;
+  final DateTime? createdAfter;
 
   /// The time and date before which the transforms were created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedBefore')
-  final DateTime createdBefore;
+  final DateTime? createdBefore;
 
   /// This value determines which version of AWS Glue this machine learning
   /// transform is compatible with. Glue 1.0 is recommended for most customers. If
@@ -20634,42 +21898,33 @@ class TransformFilterCriteria {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions">AWS
   /// Glue Versions</a> in the developer guide.
-  @_s.JsonKey(name: 'GlueVersion')
-  final String glueVersion;
+  final String? glueVersion;
 
   /// Filter on transforms last modified after this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedAfter')
-  final DateTime lastModifiedAfter;
+  final DateTime? lastModifiedAfter;
 
   /// Filter on transforms last modified before this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedBefore')
-  final DateTime lastModifiedBefore;
+  final DateTime? lastModifiedBefore;
 
   /// A unique transform name that is used to filter the machine learning
   /// transforms.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Filters on datasets with a specific schema. The <code>Map&lt;Column,
   /// Type&gt;</code> object is an array of key-value pairs representing the
   /// schema this transform accepts, where <code>Column</code> is the name of a
   /// column, and <code>Type</code> is the type of the data such as an integer or
   /// string. Has an upper bound of 100 columns.
-  @_s.JsonKey(name: 'Schema')
-  final List<SchemaColumn> schema;
+  final List<SchemaColumn>? schema;
 
   /// Filters the list of machine learning transforms by the last known status of
   /// the transforms (to indicate whether a transform can be used or not). One of
   /// "NOT_READY", "READY", or "DELETING".
-  @_s.JsonKey(name: 'Status')
-  final TransformStatusType status;
+  final TransformStatusType? status;
 
   /// The type of machine learning transform that is used to filter the machine
   /// learning transforms.
-  @_s.JsonKey(name: 'TransformType')
-  final TransformType transformType;
+  final TransformType? transformType;
 
   TransformFilterCriteria({
     this.createdAfter,
@@ -20682,136 +21937,227 @@ class TransformFilterCriteria {
     this.status,
     this.transformType,
   });
-  Map<String, dynamic> toJson() => _$TransformFilterCriteriaToJson(this);
+  Map<String, dynamic> toJson() {
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final glueVersion = this.glueVersion;
+    final lastModifiedAfter = this.lastModifiedAfter;
+    final lastModifiedBefore = this.lastModifiedBefore;
+    final name = this.name;
+    final schema = this.schema;
+    final status = this.status;
+    final transformType = this.transformType;
+    return {
+      if (createdAfter != null)
+        'CreatedAfter': unixTimestampToJson(createdAfter),
+      if (createdBefore != null)
+        'CreatedBefore': unixTimestampToJson(createdBefore),
+      if (glueVersion != null) 'GlueVersion': glueVersion,
+      if (lastModifiedAfter != null)
+        'LastModifiedAfter': unixTimestampToJson(lastModifiedAfter),
+      if (lastModifiedBefore != null)
+        'LastModifiedBefore': unixTimestampToJson(lastModifiedBefore),
+      if (name != null) 'Name': name,
+      if (schema != null) 'Schema': schema,
+      if (status != null) 'Status': status.toValue(),
+      if (transformType != null) 'TransformType': transformType.toValue(),
+    };
+  }
 }
 
 /// The algorithm-specific parameters that are associated with the machine
 /// learning transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TransformParameters {
   /// The type of machine learning transform.
   ///
   /// For information about the types of machine learning transforms, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/add-job-machine-learning-transform.html">Creating
   /// Machine Learning Transforms</a>.
-  @_s.JsonKey(name: 'TransformType')
   final TransformType transformType;
 
   /// The parameters for the find matches algorithm.
-  @_s.JsonKey(name: 'FindMatchesParameters')
-  final FindMatchesParameters findMatchesParameters;
+  final FindMatchesParameters? findMatchesParameters;
 
   TransformParameters({
-    @_s.required this.transformType,
+    required this.transformType,
     this.findMatchesParameters,
   });
-  factory TransformParameters.fromJson(Map<String, dynamic> json) =>
-      _$TransformParametersFromJson(json);
+  factory TransformParameters.fromJson(Map<String, dynamic> json) {
+    return TransformParameters(
+      transformType: (json['TransformType'] as String).toTransformType(),
+      findMatchesParameters: json['FindMatchesParameters'] != null
+          ? FindMatchesParameters.fromJson(
+              json['FindMatchesParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TransformParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final transformType = this.transformType;
+    final findMatchesParameters = this.findMatchesParameters;
+    return {
+      'TransformType': transformType.toValue(),
+      if (findMatchesParameters != null)
+        'FindMatchesParameters': findMatchesParameters,
+    };
+  }
 }
 
 enum TransformSortColumnType {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('TRANSFORM_TYPE')
   transformType,
-  @_s.JsonValue('STATUS')
   status,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('LAST_MODIFIED')
   lastModified,
+}
+
+extension on TransformSortColumnType {
+  String toValue() {
+    switch (this) {
+      case TransformSortColumnType.name:
+        return 'NAME';
+      case TransformSortColumnType.transformType:
+        return 'TRANSFORM_TYPE';
+      case TransformSortColumnType.status:
+        return 'STATUS';
+      case TransformSortColumnType.created:
+        return 'CREATED';
+      case TransformSortColumnType.lastModified:
+        return 'LAST_MODIFIED';
+    }
+  }
+}
+
+extension on String {
+  TransformSortColumnType toTransformSortColumnType() {
+    switch (this) {
+      case 'NAME':
+        return TransformSortColumnType.name;
+      case 'TRANSFORM_TYPE':
+        return TransformSortColumnType.transformType;
+      case 'STATUS':
+        return TransformSortColumnType.status;
+      case 'CREATED':
+        return TransformSortColumnType.created;
+      case 'LAST_MODIFIED':
+        return TransformSortColumnType.lastModified;
+    }
+    throw Exception('$this is not known in enum TransformSortColumnType');
+  }
 }
 
 /// The sorting criteria that are associated with the machine learning
 /// transform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TransformSortCriteria {
   /// The column to be used in the sorting criteria that are associated with the
   /// machine learning transform.
-  @_s.JsonKey(name: 'Column')
   final TransformSortColumnType column;
 
   /// The sort direction to be used in the sorting criteria that are associated
   /// with the machine learning transform.
-  @_s.JsonKey(name: 'SortDirection')
   final SortDirectionType sortDirection;
 
   TransformSortCriteria({
-    @_s.required this.column,
-    @_s.required this.sortDirection,
+    required this.column,
+    required this.sortDirection,
   });
-  Map<String, dynamic> toJson() => _$TransformSortCriteriaToJson(this);
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final sortDirection = this.sortDirection;
+    return {
+      'Column': column.toValue(),
+      'SortDirection': sortDirection.toValue(),
+    };
+  }
 }
 
 enum TransformStatusType {
-  @_s.JsonValue('NOT_READY')
   notReady,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on TransformStatusType {
+  String toValue() {
+    switch (this) {
+      case TransformStatusType.notReady:
+        return 'NOT_READY';
+      case TransformStatusType.ready:
+        return 'READY';
+      case TransformStatusType.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  TransformStatusType toTransformStatusType() {
+    switch (this) {
+      case 'NOT_READY':
+        return TransformStatusType.notReady;
+      case 'READY':
+        return TransformStatusType.ready;
+      case 'DELETING':
+        return TransformStatusType.deleting;
+    }
+    throw Exception('$this is not known in enum TransformStatusType');
+  }
+}
+
 enum TransformType {
-  @_s.JsonValue('FIND_MATCHES')
   findMatches,
 }
 
+extension on TransformType {
+  String toValue() {
+    switch (this) {
+      case TransformType.findMatches:
+        return 'FIND_MATCHES';
+    }
+  }
+}
+
+extension on String {
+  TransformType toTransformType() {
+    switch (this) {
+      case 'FIND_MATCHES':
+        return TransformType.findMatches;
+    }
+    throw Exception('$this is not known in enum TransformType');
+  }
+}
+
 /// Information about a specific trigger.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Trigger {
   /// The actions initiated by this trigger.
-  @_s.JsonKey(name: 'Actions')
-  final List<Action> actions;
+  final List<Action>? actions;
 
   /// A description of this trigger.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the trigger.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The predicate of this trigger, which defines when it will fire.
-  @_s.JsonKey(name: 'Predicate')
-  final Predicate predicate;
+  final Predicate? predicate;
 
   /// A <code>cron</code> expression used to specify the schedule (see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
   /// at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   /// The current state of the trigger.
-  @_s.JsonKey(name: 'State')
-  final TriggerState state;
+  final TriggerState? state;
 
   /// The type of trigger that this is.
-  @_s.JsonKey(name: 'Type')
-  final TriggerType type;
+  final TriggerType? type;
 
   /// The name of the workflow associated with the trigger.
-  @_s.JsonKey(name: 'WorkflowName')
-  final String workflowName;
+  final String? workflowName;
 
   Trigger({
     this.actions,
@@ -20824,53 +22170,104 @@ class Trigger {
     this.type,
     this.workflowName,
   });
-  factory Trigger.fromJson(Map<String, dynamic> json) =>
-      _$TriggerFromJson(json);
+  factory Trigger.fromJson(Map<String, dynamic> json) {
+    return Trigger(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      predicate: json['Predicate'] != null
+          ? Predicate.fromJson(json['Predicate'] as Map<String, dynamic>)
+          : null,
+      schedule: json['Schedule'] as String?,
+      state: (json['State'] as String?)?.toTriggerState(),
+      type: (json['Type'] as String?)?.toTriggerType(),
+      workflowName: json['WorkflowName'] as String?,
+    );
+  }
 }
 
 /// The details of a Trigger node present in the workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TriggerNodeDetails {
   /// The information of the trigger represented by the trigger node.
-  @_s.JsonKey(name: 'Trigger')
-  final Trigger trigger;
+  final Trigger? trigger;
 
   TriggerNodeDetails({
     this.trigger,
   });
-  factory TriggerNodeDetails.fromJson(Map<String, dynamic> json) =>
-      _$TriggerNodeDetailsFromJson(json);
+  factory TriggerNodeDetails.fromJson(Map<String, dynamic> json) {
+    return TriggerNodeDetails(
+      trigger: json['Trigger'] != null
+          ? Trigger.fromJson(json['Trigger'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum TriggerState {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('ACTIVATING')
   activating,
-  @_s.JsonValue('ACTIVATED')
   activated,
-  @_s.JsonValue('DEACTIVATING')
   deactivating,
-  @_s.JsonValue('DEACTIVATED')
   deactivated,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on TriggerState {
+  String toValue() {
+    switch (this) {
+      case TriggerState.creating:
+        return 'CREATING';
+      case TriggerState.created:
+        return 'CREATED';
+      case TriggerState.activating:
+        return 'ACTIVATING';
+      case TriggerState.activated:
+        return 'ACTIVATED';
+      case TriggerState.deactivating:
+        return 'DEACTIVATING';
+      case TriggerState.deactivated:
+        return 'DEACTIVATED';
+      case TriggerState.deleting:
+        return 'DELETING';
+      case TriggerState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  TriggerState toTriggerState() {
+    switch (this) {
+      case 'CREATING':
+        return TriggerState.creating;
+      case 'CREATED':
+        return TriggerState.created;
+      case 'ACTIVATING':
+        return TriggerState.activating;
+      case 'ACTIVATED':
+        return TriggerState.activated;
+      case 'DEACTIVATING':
+        return TriggerState.deactivating;
+      case 'DEACTIVATED':
+        return TriggerState.deactivated;
+      case 'DELETING':
+        return TriggerState.deleting;
+      case 'UPDATING':
+        return TriggerState.updating;
+    }
+    throw Exception('$this is not known in enum TriggerState');
+  }
+}
+
 enum TriggerType {
-  @_s.JsonValue('SCHEDULED')
   scheduled,
-  @_s.JsonValue('CONDITIONAL')
   conditional,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -20884,40 +22281,43 @@ extension on TriggerType {
       case TriggerType.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TriggerType toTriggerType() {
+    switch (this) {
+      case 'SCHEDULED':
+        return TriggerType.scheduled;
+      case 'CONDITIONAL':
+        return TriggerType.conditional;
+      case 'ON_DEMAND':
+        return TriggerType.onDemand;
+    }
+    throw Exception('$this is not known in enum TriggerType');
   }
 }
 
 /// A structure used to provide information used to update a trigger. This
 /// object updates the previous trigger definition by overwriting it completely.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TriggerUpdate {
   /// The actions initiated by this trigger.
-  @_s.JsonKey(name: 'Actions')
-  final List<Action> actions;
+  final List<Action>? actions;
 
   /// A description of this trigger.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The predicate of this trigger, which defines when it will fire.
-  @_s.JsonKey(name: 'Predicate')
-  final Predicate predicate;
+  final Predicate? predicate;
 
   /// A <code>cron</code> expression used to specify the schedule (see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
   /// at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   TriggerUpdate({
     this.actions,
@@ -20926,146 +22326,148 @@ class TriggerUpdate {
     this.predicate,
     this.schedule,
   });
-  Map<String, dynamic> toJson() => _$TriggerUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final description = this.description;
+    final name = this.name;
+    final predicate = this.predicate;
+    final schedule = this.schedule;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (predicate != null) 'Predicate': predicate,
+      if (schedule != null) 'Schedule': schedule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 enum UpdateBehavior {
-  @_s.JsonValue('LOG')
   log,
-  @_s.JsonValue('UPDATE_IN_DATABASE')
   updateInDatabase,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UpdateClassifierResponse {
-  UpdateClassifierResponse();
-  factory UpdateClassifierResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClassifierResponseFromJson(json);
+extension on UpdateBehavior {
+  String toValue() {
+    switch (this) {
+      case UpdateBehavior.log:
+        return 'LOG';
+      case UpdateBehavior.updateInDatabase:
+        return 'UPDATE_IN_DATABASE';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  UpdateBehavior toUpdateBehavior() {
+    switch (this) {
+      case 'LOG':
+        return UpdateBehavior.log;
+      case 'UPDATE_IN_DATABASE':
+        return UpdateBehavior.updateInDatabase;
+    }
+    throw Exception('$this is not known in enum UpdateBehavior');
+  }
+}
+
+class UpdateClassifierResponse {
+  UpdateClassifierResponse();
+  factory UpdateClassifierResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateClassifierResponse();
+  }
+}
+
 class UpdateColumnStatisticsForPartitionResponse {
   /// Error occurred during updating column statistics data.
-  @_s.JsonKey(name: 'Errors')
-  final List<ColumnStatisticsError> errors;
+  final List<ColumnStatisticsError>? errors;
 
   UpdateColumnStatisticsForPartitionResponse({
     this.errors,
   });
   factory UpdateColumnStatisticsForPartitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateColumnStatisticsForPartitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateColumnStatisticsForPartitionResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnStatisticsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateColumnStatisticsForTableResponse {
   /// List of ColumnStatisticsErrors.
-  @_s.JsonKey(name: 'Errors')
-  final List<ColumnStatisticsError> errors;
+  final List<ColumnStatisticsError>? errors;
 
   UpdateColumnStatisticsForTableResponse({
     this.errors,
   });
   factory UpdateColumnStatisticsForTableResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateColumnStatisticsForTableResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateColumnStatisticsForTableResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnStatisticsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConnectionResponse {
   UpdateConnectionResponse();
-  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConnectionResponseFromJson(json);
+  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateConnectionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCrawlerResponse {
   UpdateCrawlerResponse();
-  factory UpdateCrawlerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCrawlerResponseFromJson(json);
+  factory UpdateCrawlerResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateCrawlerResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCrawlerScheduleResponse {
   UpdateCrawlerScheduleResponse();
-  factory UpdateCrawlerScheduleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCrawlerScheduleResponseFromJson(json);
+  factory UpdateCrawlerScheduleResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateCrawlerScheduleResponse();
+  }
 }
 
 /// Specifies a custom CSV classifier to be updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateCsvClassifierRequest {
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Enables the processing of files that contain only one column.
-  @_s.JsonKey(name: 'AllowSingleColumn')
-  final bool allowSingleColumn;
+  final bool? allowSingleColumn;
 
   /// Indicates whether the CSV file contains a header.
-  @_s.JsonKey(name: 'ContainsHeader')
-  final CsvHeaderOption containsHeader;
+  final CsvHeaderOption? containsHeader;
 
   /// A custom symbol to denote what separates each column entry in the row.
-  @_s.JsonKey(name: 'Delimiter')
-  final String delimiter;
+  final String? delimiter;
 
   /// Specifies not to trim values before identifying the type of column values.
   /// The default value is true.
-  @_s.JsonKey(name: 'DisableValueTrimming')
-  final bool disableValueTrimming;
+  final bool? disableValueTrimming;
 
   /// A list of strings representing column names.
-  @_s.JsonKey(name: 'Header')
-  final List<String> header;
+  final List<String>? header;
 
   /// A custom symbol to denote what combines content into a single column value.
   /// It must be different from the column delimiter.
-  @_s.JsonKey(name: 'QuoteSymbol')
-  final String quoteSymbol;
+  final String? quoteSymbol;
 
   UpdateCsvClassifierRequest({
-    @_s.required this.name,
+    required this.name,
     this.allowSingleColumn,
     this.containsHeader,
     this.delimiter,
@@ -21073,255 +22475,231 @@ class UpdateCsvClassifierRequest {
     this.header,
     this.quoteSymbol,
   });
-  Map<String, dynamic> toJson() => _$UpdateCsvClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final allowSingleColumn = this.allowSingleColumn;
+    final containsHeader = this.containsHeader;
+    final delimiter = this.delimiter;
+    final disableValueTrimming = this.disableValueTrimming;
+    final header = this.header;
+    final quoteSymbol = this.quoteSymbol;
+    return {
+      'Name': name,
+      if (allowSingleColumn != null) 'AllowSingleColumn': allowSingleColumn,
+      if (containsHeader != null) 'ContainsHeader': containsHeader.toValue(),
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (disableValueTrimming != null)
+        'DisableValueTrimming': disableValueTrimming,
+      if (header != null) 'Header': header,
+      if (quoteSymbol != null) 'QuoteSymbol': quoteSymbol,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDatabaseResponse {
   UpdateDatabaseResponse();
-  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDatabaseResponseFromJson(json);
+  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDatabaseResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDevEndpointResponse {
   UpdateDevEndpointResponse();
-  factory UpdateDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDevEndpointResponseFromJson(json);
+  factory UpdateDevEndpointResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDevEndpointResponse();
+  }
 }
 
 /// Specifies a grok classifier to update when passed to
 /// <code>UpdateClassifier</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateGrokClassifierRequest {
   /// The name of the <code>GrokClassifier</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An identifier of the data format that the classifier matches, such as
   /// Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
-  @_s.JsonKey(name: 'Classification')
-  final String classification;
+  final String? classification;
 
   /// Optional custom grok patterns used by this classifier.
-  @_s.JsonKey(name: 'CustomPatterns')
-  final String customPatterns;
+  final String? customPatterns;
 
   /// The grok pattern used by this classifier.
-  @_s.JsonKey(name: 'GrokPattern')
-  final String grokPattern;
+  final String? grokPattern;
 
   UpdateGrokClassifierRequest({
-    @_s.required this.name,
+    required this.name,
     this.classification,
     this.customPatterns,
     this.grokPattern,
   });
-  Map<String, dynamic> toJson() => _$UpdateGrokClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final classification = this.classification;
+    final customPatterns = this.customPatterns;
+    final grokPattern = this.grokPattern;
+    return {
+      'Name': name,
+      if (classification != null) 'Classification': classification,
+      if (customPatterns != null) 'CustomPatterns': customPatterns,
+      if (grokPattern != null) 'GrokPattern': grokPattern,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateJobResponse {
   /// Returns the name of the updated job definition.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   UpdateJobResponse({
     this.jobName,
   });
-  factory UpdateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateJobResponseFromJson(json);
+  factory UpdateJobResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateJobResponse(
+      jobName: json['JobName'] as String?,
+    );
+  }
 }
 
 /// Specifies a JSON classifier to be updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateJsonClassifierRequest {
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
   /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
-  @_s.JsonKey(name: 'JsonPath')
-  final String jsonPath;
+  final String? jsonPath;
 
   UpdateJsonClassifierRequest({
-    @_s.required this.name,
+    required this.name,
     this.jsonPath,
   });
-  Map<String, dynamic> toJson() => _$UpdateJsonClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final jsonPath = this.jsonPath;
+    return {
+      'Name': name,
+      if (jsonPath != null) 'JsonPath': jsonPath,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMLTransformResponse {
   /// The unique identifier for the transform that was updated.
-  @_s.JsonKey(name: 'TransformId')
-  final String transformId;
+  final String? transformId;
 
   UpdateMLTransformResponse({
     this.transformId,
   });
-  factory UpdateMLTransformResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMLTransformResponseFromJson(json);
+  factory UpdateMLTransformResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMLTransformResponse(
+      transformId: json['TransformId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePartitionResponse {
   UpdatePartitionResponse();
-  factory UpdatePartitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePartitionResponseFromJson(json);
+  factory UpdatePartitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePartitionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRegistryResponse {
   /// The Amazon Resource name (ARN) of the updated registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the updated registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   UpdateRegistryResponse({
     this.registryArn,
     this.registryName,
   });
-  factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRegistryResponseFromJson(json);
+  factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegistryResponse(
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSchemaResponse {
   /// The name of the registry that contains the schema.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   UpdateSchemaResponse({
     this.registryName,
     this.schemaArn,
     this.schemaName,
   });
-  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSchemaResponseFromJson(json);
+  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSchemaResponse(
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTableResponse {
   UpdateTableResponse();
-  factory UpdateTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTableResponseFromJson(json);
+  factory UpdateTableResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTableResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTriggerResponse {
   /// The resulting trigger definition.
-  @_s.JsonKey(name: 'Trigger')
-  final Trigger trigger;
+  final Trigger? trigger;
 
   UpdateTriggerResponse({
     this.trigger,
   });
-  factory UpdateTriggerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTriggerResponseFromJson(json);
+  factory UpdateTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTriggerResponse(
+      trigger: json['Trigger'] != null
+          ? Trigger.fromJson(json['Trigger'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserDefinedFunctionResponse {
   UpdateUserDefinedFunctionResponse();
-  factory UpdateUserDefinedFunctionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateUserDefinedFunctionResponseFromJson(json);
+  factory UpdateUserDefinedFunctionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateUserDefinedFunctionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateWorkflowResponse {
   /// The name of the workflow which was specified in input.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   UpdateWorkflowResponse({
     this.name,
   });
-  factory UpdateWorkflowResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateWorkflowResponseFromJson(json);
+  factory UpdateWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkflowResponse(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Specifies an XML classifier to be updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateXMLClassifierRequest {
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An identifier of the data format that the classifier matches.
-  @_s.JsonKey(name: 'Classification')
-  final String classification;
+  final String? classification;
 
   /// The XML tag designating the element that contains each record in an XML
   /// document being parsed. This cannot identify a self-closing element (closed
@@ -21329,57 +22707,51 @@ class UpdateXMLClassifierRequest {
   /// can be parsed as long as it ends with a closing tag (for example,
   /// <code>&lt;row item_a="A" item_b="B"&gt;&lt;/row&gt;</code> is okay, but
   /// <code>&lt;row item_a="A" item_b="B" /&gt;</code> is not).
-  @_s.JsonKey(name: 'RowTag')
-  final String rowTag;
+  final String? rowTag;
 
   UpdateXMLClassifierRequest({
-    @_s.required this.name,
+    required this.name,
     this.classification,
     this.rowTag,
   });
-  Map<String, dynamic> toJson() => _$UpdateXMLClassifierRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final classification = this.classification;
+    final rowTag = this.rowTag;
+    return {
+      'Name': name,
+      if (classification != null) 'Classification': classification,
+      if (rowTag != null) 'RowTag': rowTag,
+    };
+  }
 }
 
 /// Represents the equivalent of a Hive user-defined function (<code>UDF</code>)
 /// definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserDefinedFunction {
   /// The ID of the Data Catalog in which the function resides.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// The Java class that contains the function code.
-  @_s.JsonKey(name: 'ClassName')
-  final String className;
+  final String? className;
 
   /// The time at which the function was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The name of the catalog database that contains the function.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The name of the function.
-  @_s.JsonKey(name: 'FunctionName')
-  final String functionName;
+  final String? functionName;
 
   /// The owner of the function.
-  @_s.JsonKey(name: 'OwnerName')
-  final String ownerName;
+  final String? ownerName;
 
   /// The owner type.
-  @_s.JsonKey(name: 'OwnerType')
-  final PrincipalType ownerType;
+  final PrincipalType? ownerType;
 
   /// The resource URIs for the function.
-  @_s.JsonKey(name: 'ResourceUris')
-  final List<ResourceUri> resourceUris;
+  final List<ResourceUri>? resourceUris;
 
   UserDefinedFunction({
     this.catalogId,
@@ -21391,36 +22763,39 @@ class UserDefinedFunction {
     this.ownerType,
     this.resourceUris,
   });
-  factory UserDefinedFunction.fromJson(Map<String, dynamic> json) =>
-      _$UserDefinedFunctionFromJson(json);
+  factory UserDefinedFunction.fromJson(Map<String, dynamic> json) {
+    return UserDefinedFunction(
+      catalogId: json['CatalogId'] as String?,
+      className: json['ClassName'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      databaseName: json['DatabaseName'] as String?,
+      functionName: json['FunctionName'] as String?,
+      ownerName: json['OwnerName'] as String?,
+      ownerType: (json['OwnerType'] as String?)?.toPrincipalType(),
+      resourceUris: (json['ResourceUris'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceUri.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A structure used to create or update a user-defined function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UserDefinedFunctionInput {
   /// The Java class that contains the function code.
-  @_s.JsonKey(name: 'ClassName')
-  final String className;
+  final String? className;
 
   /// The name of the function.
-  @_s.JsonKey(name: 'FunctionName')
-  final String functionName;
+  final String? functionName;
 
   /// The owner of the function.
-  @_s.JsonKey(name: 'OwnerName')
-  final String ownerName;
+  final String? ownerName;
 
   /// The owner type.
-  @_s.JsonKey(name: 'OwnerType')
-  final PrincipalType ownerType;
+  final PrincipalType? ownerType;
 
   /// The resource URIs for the function.
-  @_s.JsonKey(name: 'ResourceUris')
-  final List<ResourceUri> resourceUris;
+  final List<ResourceUri>? resourceUris;
 
   UserDefinedFunctionInput({
     this.className,
@@ -21429,15 +22804,25 @@ class UserDefinedFunctionInput {
     this.ownerType,
     this.resourceUris,
   });
-  Map<String, dynamic> toJson() => _$UserDefinedFunctionInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final className = this.className;
+    final functionName = this.functionName;
+    final ownerName = this.ownerName;
+    final ownerType = this.ownerType;
+    final resourceUris = this.resourceUris;
+    return {
+      if (className != null) 'ClassName': className,
+      if (functionName != null) 'FunctionName': functionName,
+      if (ownerName != null) 'OwnerName': ownerName,
+      if (ownerType != null) 'OwnerType': ownerType.toValue(),
+      if (resourceUris != null) 'ResourceUris': resourceUris,
+    };
+  }
 }
 
 enum WorkerType {
-  @_s.JsonValue('Standard')
   standard,
-  @_s.JsonValue('G.1X')
   g_1x,
-  @_s.JsonValue('G.2X')
   g_2x,
 }
 
@@ -21451,56 +22836,54 @@ extension on WorkerType {
       case WorkerType.g_2x:
         return 'G.2X';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WorkerType toWorkerType() {
+    switch (this) {
+      case 'Standard':
+        return WorkerType.standard;
+      case 'G.1X':
+        return WorkerType.g_1x;
+      case 'G.2X':
+        return WorkerType.g_2x;
+    }
+    throw Exception('$this is not known in enum WorkerType');
   }
 }
 
 /// A workflow represents a flow in which AWS Glue components should be executed
 /// to complete a logical task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Workflow {
   /// The date and time when the workflow was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedOn')
-  final DateTime createdOn;
+  final DateTime? createdOn;
 
   /// A collection of properties to be used as part of each execution of the
   /// workflow.
-  @_s.JsonKey(name: 'DefaultRunProperties')
-  final Map<String, String> defaultRunProperties;
+  final Map<String, String>? defaultRunProperties;
 
   /// A description of the workflow.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The graph representing all the AWS Glue components that belong to the
   /// workflow as nodes and directed connections between them as edges.
-  @_s.JsonKey(name: 'Graph')
-  final WorkflowGraph graph;
+  final WorkflowGraph? graph;
 
   /// The date and time when the workflow was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The information about the last execution of the workflow.
-  @_s.JsonKey(name: 'LastRun')
-  final WorkflowRun lastRun;
+  final WorkflowRun? lastRun;
 
   /// You can use this parameter to prevent unwanted multiple updates to data, to
   /// control costs, or in some cases, to prevent exceeding the maximum number of
   /// concurrent runs of any of the component jobs. If you leave this parameter
   /// blank, there is no limit to the number of concurrent workflow runs.
-  @_s.JsonKey(name: 'MaxConcurrentRuns')
-  final int maxConcurrentRuns;
+  final int? maxConcurrentRuns;
 
   /// The name of the workflow representing the flow.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Workflow({
     this.createdOn,
@@ -21512,89 +22895,91 @@ class Workflow {
     this.maxConcurrentRuns,
     this.name,
   });
-  factory Workflow.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowFromJson(json);
+  factory Workflow.fromJson(Map<String, dynamic> json) {
+    return Workflow(
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      defaultRunProperties:
+          (json['DefaultRunProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      description: json['Description'] as String?,
+      graph: json['Graph'] != null
+          ? WorkflowGraph.fromJson(json['Graph'] as Map<String, dynamic>)
+          : null,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      lastRun: json['LastRun'] != null
+          ? WorkflowRun.fromJson(json['LastRun'] as Map<String, dynamic>)
+          : null,
+      maxConcurrentRuns: json['MaxConcurrentRuns'] as int?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// A workflow graph represents the complete workflow containing all the AWS
 /// Glue components present in the workflow and all the directed connections
 /// between them.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowGraph {
   /// A list of all the directed connections between the nodes belonging to the
   /// workflow.
-  @_s.JsonKey(name: 'Edges')
-  final List<Edge> edges;
+  final List<Edge>? edges;
 
   /// A list of the the AWS Glue components belong to the workflow represented as
   /// nodes.
-  @_s.JsonKey(name: 'Nodes')
-  final List<Node> nodes;
+  final List<Node>? nodes;
 
   WorkflowGraph({
     this.edges,
     this.nodes,
   });
-  factory WorkflowGraph.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowGraphFromJson(json);
+  factory WorkflowGraph.fromJson(Map<String, dynamic> json) {
+    return WorkflowGraph(
+      edges: (json['Edges'] as List?)
+          ?.whereNotNull()
+          .map((e) => Edge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodes: (json['Nodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A workflow run is an execution of a workflow providing all the runtime
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowRun {
   /// The date and time when the workflow run completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedOn')
-  final DateTime completedOn;
+  final DateTime? completedOn;
 
   /// This error message describes any error that may have occurred in starting
   /// the workflow run. Currently the only error message is "Concurrent runs
   /// exceeded for workflow: <code>foo</code>."
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The graph representing all the AWS Glue components that belong to the
   /// workflow as nodes and directed connections between them as edges.
-  @_s.JsonKey(name: 'Graph')
-  final WorkflowGraph graph;
+  final WorkflowGraph? graph;
 
   /// Name of the workflow that was executed.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the previous workflow run.
-  @_s.JsonKey(name: 'PreviousRunId')
-  final String previousRunId;
+  final String? previousRunId;
 
   /// The date and time when the workflow run was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartedOn')
-  final DateTime startedOn;
+  final DateTime? startedOn;
 
   /// The statistics of the run.
-  @_s.JsonKey(name: 'Statistics')
-  final WorkflowRunStatistics statistics;
+  final WorkflowRunStatistics? statistics;
 
   /// The status of the workflow run.
-  @_s.JsonKey(name: 'Status')
-  final WorkflowRunStatus status;
+  final WorkflowRunStatus? status;
 
   /// The ID of this workflow run.
-  @_s.JsonKey(name: 'WorkflowRunId')
-  final String workflowRunId;
+  final String? workflowRunId;
 
   /// The workflow run properties which were set during the run.
-  @_s.JsonKey(name: 'WorkflowRunProperties')
-  final Map<String, String> workflowRunProperties;
+  final Map<String, String>? workflowRunProperties;
 
   WorkflowRun({
     this.completedOn,
@@ -21608,40 +22993,48 @@ class WorkflowRun {
     this.workflowRunId,
     this.workflowRunProperties,
   });
-  factory WorkflowRun.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowRunFromJson(json);
+  factory WorkflowRun.fromJson(Map<String, dynamic> json) {
+    return WorkflowRun(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorMessage: json['ErrorMessage'] as String?,
+      graph: json['Graph'] != null
+          ? WorkflowGraph.fromJson(json['Graph'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      previousRunId: json['PreviousRunId'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      statistics: json['Statistics'] != null
+          ? WorkflowRunStatistics.fromJson(
+              json['Statistics'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toWorkflowRunStatus(),
+      workflowRunId: json['WorkflowRunId'] as String?,
+      workflowRunProperties:
+          (json['WorkflowRunProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Workflow run statistics provides statistics about the workflow run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowRunStatistics {
   /// Total number of Actions that have failed.
-  @_s.JsonKey(name: 'FailedActions')
-  final int failedActions;
+  final int? failedActions;
 
   /// Total number Actions in running state.
-  @_s.JsonKey(name: 'RunningActions')
-  final int runningActions;
+  final int? runningActions;
 
   /// Total number of Actions that have stopped.
-  @_s.JsonKey(name: 'StoppedActions')
-  final int stoppedActions;
+  final int? stoppedActions;
 
   /// Total number of Actions that have succeeded.
-  @_s.JsonKey(name: 'SucceededActions')
-  final int succeededActions;
+  final int? succeededActions;
 
   /// Total number of Actions that timed out.
-  @_s.JsonKey(name: 'TimeoutActions')
-  final int timeoutActions;
+  final int? timeoutActions;
 
   /// Total number of Actions in the workflow run.
-  @_s.JsonKey(name: 'TotalActions')
-  final int totalActions;
+  final int? totalActions;
 
   WorkflowRunStatistics({
     this.failedActions,
@@ -21651,47 +23044,74 @@ class WorkflowRunStatistics {
     this.timeoutActions,
     this.totalActions,
   });
-  factory WorkflowRunStatistics.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowRunStatisticsFromJson(json);
+  factory WorkflowRunStatistics.fromJson(Map<String, dynamic> json) {
+    return WorkflowRunStatistics(
+      failedActions: json['FailedActions'] as int?,
+      runningActions: json['RunningActions'] as int?,
+      stoppedActions: json['StoppedActions'] as int?,
+      succeededActions: json['SucceededActions'] as int?,
+      timeoutActions: json['TimeoutActions'] as int?,
+      totalActions: json['TotalActions'] as int?,
+    );
+  }
 }
 
 enum WorkflowRunStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on WorkflowRunStatus {
+  String toValue() {
+    switch (this) {
+      case WorkflowRunStatus.running:
+        return 'RUNNING';
+      case WorkflowRunStatus.completed:
+        return 'COMPLETED';
+      case WorkflowRunStatus.stopping:
+        return 'STOPPING';
+      case WorkflowRunStatus.stopped:
+        return 'STOPPED';
+      case WorkflowRunStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  WorkflowRunStatus toWorkflowRunStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return WorkflowRunStatus.running;
+      case 'COMPLETED':
+        return WorkflowRunStatus.completed;
+      case 'STOPPING':
+        return WorkflowRunStatus.stopping;
+      case 'STOPPED':
+        return WorkflowRunStatus.stopped;
+      case 'ERROR':
+        return WorkflowRunStatus.error;
+    }
+    throw Exception('$this is not known in enum WorkflowRunStatus');
+  }
+}
+
 /// A classifier for <code>XML</code> content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class XMLClassifier {
   /// An identifier of the data format that the classifier matches.
-  @_s.JsonKey(name: 'Classification')
   final String classification;
 
   /// The name of the classifier.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The time that this classifier was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The time that this classifier was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The XML tag designating the element that contains each record in an XML
   /// document being parsed. This can't identify a self-closing element (closed by
@@ -21699,37 +23119,43 @@ class XMLClassifier {
   /// be parsed as long as it ends with a closing tag (for example, <code>&lt;row
   /// item_a="A" item_b="B"&gt;&lt;/row&gt;</code> is okay, but <code>&lt;row
   /// item_a="A" item_b="B" /&gt;</code> is not).
-  @_s.JsonKey(name: 'RowTag')
-  final String rowTag;
+  final String? rowTag;
 
   /// The version of this classifier.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   XMLClassifier({
-    @_s.required this.classification,
-    @_s.required this.name,
+    required this.classification,
+    required this.name,
     this.creationTime,
     this.lastUpdated,
     this.rowTag,
     this.version,
   });
-  factory XMLClassifier.fromJson(Map<String, dynamic> json) =>
-      _$XMLClassifierFromJson(json);
+  factory XMLClassifier.fromJson(Map<String, dynamic> json) {
+    return XMLClassifier(
+      classification: json['Classification'] as String,
+      name: json['Name'] as String,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      rowTag: json['RowTag'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -21737,7 +23163,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConcurrentRunsExceededException extends _s.GenericAwsException {
-  ConcurrentRunsExceededException({String type, String message})
+  ConcurrentRunsExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentRunsExceededException',
@@ -21745,7 +23171,7 @@ class ConcurrentRunsExceededException extends _s.GenericAwsException {
 }
 
 class ConditionCheckFailureException extends _s.GenericAwsException {
-  ConditionCheckFailureException({String type, String message})
+  ConditionCheckFailureException({String? type, String? message})
       : super(
             type: type,
             code: 'ConditionCheckFailureException',
@@ -21753,37 +23179,37 @@ class ConditionCheckFailureException extends _s.GenericAwsException {
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class CrawlerNotRunningException extends _s.GenericAwsException {
-  CrawlerNotRunningException({String type, String message})
+  CrawlerNotRunningException({String? type, String? message})
       : super(type: type, code: 'CrawlerNotRunningException', message: message);
 }
 
 class CrawlerRunningException extends _s.GenericAwsException {
-  CrawlerRunningException({String type, String message})
+  CrawlerRunningException({String? type, String? message})
       : super(type: type, code: 'CrawlerRunningException', message: message);
 }
 
 class CrawlerStoppingException extends _s.GenericAwsException {
-  CrawlerStoppingException({String type, String message})
+  CrawlerStoppingException({String? type, String? message})
       : super(type: type, code: 'CrawlerStoppingException', message: message);
 }
 
 class EntityNotFoundException extends _s.GenericAwsException {
-  EntityNotFoundException({String type, String message})
+  EntityNotFoundException({String? type, String? message})
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
 class GlueEncryptionException extends _s.GenericAwsException {
-  GlueEncryptionException({String type, String message})
+  GlueEncryptionException({String? type, String? message})
       : super(type: type, code: 'GlueEncryptionException', message: message);
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
-  IdempotentParameterMismatchException({String type, String message})
+  IdempotentParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
@@ -21791,7 +23217,7 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
 }
 
 class IllegalWorkflowStateException extends _s.GenericAwsException {
-  IllegalWorkflowStateException({String type, String message})
+  IllegalWorkflowStateException({String? type, String? message})
       : super(
             type: type,
             code: 'IllegalWorkflowStateException',
@@ -21799,33 +23225,33 @@ class IllegalWorkflowStateException extends _s.GenericAwsException {
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class MLTransformNotReadyException extends _s.GenericAwsException {
-  MLTransformNotReadyException({String type, String message})
+  MLTransformNotReadyException({String? type, String? message})
       : super(
             type: type, code: 'MLTransformNotReadyException', message: message);
 }
 
 class NoScheduleException extends _s.GenericAwsException {
-  NoScheduleException({String type, String message})
+  NoScheduleException({String? type, String? message})
       : super(type: type, code: 'NoScheduleException', message: message);
 }
 
 class OperationTimeoutException extends _s.GenericAwsException {
-  OperationTimeoutException({String type, String message})
+  OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
 }
 
 class ResourceNumberLimitExceededException extends _s.GenericAwsException {
-  ResourceNumberLimitExceededException({String type, String message})
+  ResourceNumberLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceNumberLimitExceededException',
@@ -21833,18 +23259,18 @@ class ResourceNumberLimitExceededException extends _s.GenericAwsException {
 }
 
 class SchedulerNotRunningException extends _s.GenericAwsException {
-  SchedulerNotRunningException({String type, String message})
+  SchedulerNotRunningException({String? type, String? message})
       : super(
             type: type, code: 'SchedulerNotRunningException', message: message);
 }
 
 class SchedulerRunningException extends _s.GenericAwsException {
-  SchedulerRunningException({String type, String message})
+  SchedulerRunningException({String? type, String? message})
       : super(type: type, code: 'SchedulerRunningException', message: message);
 }
 
 class SchedulerTransitioningException extends _s.GenericAwsException {
-  SchedulerTransitioningException({String type, String message})
+  SchedulerTransitioningException({String? type, String? message})
       : super(
             type: type,
             code: 'SchedulerTransitioningException',
@@ -21852,12 +23278,12 @@ class SchedulerTransitioningException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 class VersionMismatchException extends _s.GenericAwsException {
-  VersionMismatchException({String type, String message})
+  VersionMismatchException({String? type, String? message})
       : super(type: type, code: 'VersionMismatchException', message: message);
 }
 

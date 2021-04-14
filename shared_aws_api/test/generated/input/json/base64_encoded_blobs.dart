@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -28,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class Base64EncodedBlobs {
   final _s.JsonProtocol _protocol;
   Base64EncodedBlobs({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -43,14 +37,14 @@ class Base64EncodedBlobs {
         );
 
   Future<void> operationName0({
-    Uint8List blobArg,
-    Map<String, Uint8List> blobMap,
+    Uint8List? blobArg,
+    Map<String, Uint8List>? blobMap,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'com.amazonaws.foo.OperationName'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -59,20 +53,20 @@ class Base64EncodedBlobs {
       payload: {
         if (blobArg != null) 'BlobArg': base64Encode(blobArg),
         if (blobMap != null)
-          'BlobMap': blobMap.map((k, e) => MapEntry(k, e?.let(base64Encode))),
+          'BlobMap': blobMap.map((k, e) => MapEntry(k, base64Encode(e))),
       },
     );
   }
 
   Future<void> operationName1({
-    Uint8List blobArg,
-    Map<String, Uint8List> blobMap,
+    Uint8List? blobArg,
+    Map<String, Uint8List>? blobMap,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'com.amazonaws.foo.OperationName'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -81,7 +75,7 @@ class Base64EncodedBlobs {
       payload: {
         if (blobArg != null) 'BlobArg': base64Encode(blobArg),
         if (blobMap != null)
-          'BlobMap': blobMap.map((k, e) => MapEntry(k, e?.let(base64Encode))),
+          'BlobMap': blobMap.map((k, e) => MapEntry(k, base64Encode(e))),
       },
     );
   }

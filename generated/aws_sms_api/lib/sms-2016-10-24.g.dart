@@ -8,10 +8,10 @@ part of 'sms-2016-10-24.dart';
 
 AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
   return AppSummary(
-    appId: json['appId'] as String,
+    appId: json['appId'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    description: json['description'] as String,
-    importedAppId: json['importedAppId'] as String,
+    description: json['description'] as String?,
+    importedAppId: json['importedAppId'] as String?,
     lastModified: const UnixDateTimeConverter().fromJson(json['lastModified']),
     latestReplicationTime:
         const UnixDateTimeConverter().fromJson(json['latestReplicationTime']),
@@ -23,52 +23,57 @@ AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
         : LaunchDetails.fromJson(json['launchDetails'] as Map<String, dynamic>),
     launchStatus:
         _$enumDecodeNullable(_$AppLaunchStatusEnumMap, json['launchStatus']),
-    launchStatusMessage: json['launchStatusMessage'] as String,
-    name: json['name'] as String,
+    launchStatusMessage: json['launchStatusMessage'] as String?,
+    name: json['name'] as String?,
     replicationConfigurationStatus: _$enumDecodeNullable(
         _$AppReplicationConfigurationStatusEnumMap,
         json['replicationConfigurationStatus']),
     replicationStatus: _$enumDecodeNullable(
         _$AppReplicationStatusEnumMap, json['replicationStatus']),
-    replicationStatusMessage: json['replicationStatusMessage'] as String,
-    roleName: json['roleName'] as String,
+    replicationStatusMessage: json['replicationStatusMessage'] as String?,
+    roleName: json['roleName'] as String?,
     status: _$enumDecodeNullable(_$AppStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
-    totalServerGroups: json['totalServerGroups'] as int,
-    totalServers: json['totalServers'] as int,
+    statusMessage: json['statusMessage'] as String?,
+    totalServerGroups: json['totalServerGroups'] as int?,
+    totalServers: json['totalServers'] as int?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AppLaunchConfigurationStatusEnumMap = {
@@ -133,12 +138,12 @@ AppValidationConfiguration _$AppValidationConfigurationFromJson(
   return AppValidationConfiguration(
     appValidationStrategy: _$enumDecodeNullable(
         _$AppValidationStrategyEnumMap, json['appValidationStrategy']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     ssmValidationParameters: json['ssmValidationParameters'] == null
         ? null
         : SSMValidationParameters.fromJson(
             json['ssmValidationParameters'] as Map<String, dynamic>),
-    validationId: json['validationId'] as String,
+    validationId: json['validationId'] as String?,
   );
 }
 
@@ -176,16 +181,16 @@ AppValidationOutput _$AppValidationOutputFromJson(Map<String, dynamic> json) {
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
     associatedOn: const UnixDateTimeConverter().fromJson(json['associatedOn']),
-    capabilityList: (json['capabilityList'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ConnectorCapabilityEnumMap, e))
-        ?.toList(),
-    connectorId: json['connectorId'] as String,
-    ipAddress: json['ipAddress'] as String,
-    macAddress: json['macAddress'] as String,
+    capabilityList: (json['capabilityList'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ConnectorCapabilityEnumMap, e))
+        .toList(),
+    connectorId: json['connectorId'] as String?,
+    ipAddress: json['ipAddress'] as String?,
+    macAddress: json['macAddress'] as String?,
     status: _$enumDecodeNullable(_$ConnectorStatusEnumMap, json['status']),
-    version: json['version'] as String,
-    vmManagerId: json['vmManagerId'] as String,
-    vmManagerName: json['vmManagerName'] as String,
+    version: json['version'] as String?,
+    vmManagerId: json['vmManagerId'] as String?,
+    vmManagerName: json['vmManagerName'] as String?,
     vmManagerType:
         _$enumDecodeNullable(_$VmManagerTypeEnumMap, json['vmManagerType']),
   );
@@ -215,20 +220,19 @@ CreateAppResponse _$CreateAppResponseFromJson(Map<String, dynamic> json) {
     appSummary: json['appSummary'] == null
         ? null
         : AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>),
-    serverGroups: (json['serverGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : ServerGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    serverGroups: (json['serverGroups'] as List<dynamic>?)
+        ?.map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateReplicationJobResponse _$CreateReplicationJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateReplicationJobResponse(
-    replicationJobId: json['replicationJobId'] as String,
+    replicationJobId: json['replicationJobId'] as String?,
   );
 }
 
@@ -289,16 +293,14 @@ GenerateTemplateResponse _$GenerateTemplateResponseFromJson(
 GetAppLaunchConfigurationResponse _$GetAppLaunchConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return GetAppLaunchConfigurationResponse(
-    appId: json['appId'] as String,
-    autoLaunch: json['autoLaunch'] as bool,
-    roleName: json['roleName'] as String,
-    serverGroupLaunchConfigurations:
-        (json['serverGroupLaunchConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ServerGroupLaunchConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    appId: json['appId'] as String?,
+    autoLaunch: json['autoLaunch'] as bool?,
+    roleName: json['roleName'] as String?,
+    serverGroupLaunchConfigurations: (json['serverGroupLaunchConfigurations']
+            as List<dynamic>?)
+        ?.map((e) =>
+            ServerGroupLaunchConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -307,12 +309,10 @@ GetAppReplicationConfigurationResponse
         Map<String, dynamic> json) {
   return GetAppReplicationConfigurationResponse(
     serverGroupReplicationConfigurations:
-        (json['serverGroupReplicationConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ServerGroupReplicationConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['serverGroupReplicationConfigurations'] as List<dynamic>?)
+            ?.map((e) => ServerGroupReplicationConfiguration.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -321,81 +321,71 @@ GetAppResponse _$GetAppResponseFromJson(Map<String, dynamic> json) {
     appSummary: json['appSummary'] == null
         ? null
         : AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>),
-    serverGroups: (json['serverGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : ServerGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    serverGroups: (json['serverGroups'] as List<dynamic>?)
+        ?.map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetAppValidationConfigurationResponse
     _$GetAppValidationConfigurationResponseFromJson(Map<String, dynamic> json) {
   return GetAppValidationConfigurationResponse(
-    appValidationConfigurations: (json['appValidationConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AppValidationConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    appValidationConfigurations:
+        (json['appValidationConfigurations'] as List<dynamic>?)
+            ?.map((e) =>
+                AppValidationConfiguration.fromJson(e as Map<String, dynamic>))
+            .toList(),
     serverGroupValidationConfigurations:
-        (json['serverGroupValidationConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ServerGroupValidationConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['serverGroupValidationConfigurations'] as List<dynamic>?)
+            ?.map((e) => ServerGroupValidationConfiguration.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 GetAppValidationOutputResponse _$GetAppValidationOutputResponseFromJson(
     Map<String, dynamic> json) {
   return GetAppValidationOutputResponse(
-    validationOutputList: (json['validationOutputList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ValidationOutput.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    validationOutputList: (json['validationOutputList'] as List<dynamic>?)
+        ?.map((e) => ValidationOutput.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetConnectorsResponse _$GetConnectorsResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectorsResponse(
-    connectorList: (json['connectorList'] as List)
-        ?.map((e) =>
-            e == null ? null : Connector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    connectorList: (json['connectorList'] as List<dynamic>?)
+        ?.map((e) => Connector.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetReplicationJobsResponse _$GetReplicationJobsResponseFromJson(
     Map<String, dynamic> json) {
   return GetReplicationJobsResponse(
-    nextToken: json['nextToken'] as String,
-    replicationJobList: (json['replicationJobList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicationJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    replicationJobList: (json['replicationJobList'] as List<dynamic>?)
+        ?.map((e) => ReplicationJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
     Map<String, dynamic> json) {
   return GetReplicationRunsResponse(
-    nextToken: json['nextToken'] as String,
+    nextToken: json['nextToken'] as String?,
     replicationJob: json['replicationJob'] == null
         ? null
         : ReplicationJob.fromJson(
             json['replicationJob'] as Map<String, dynamic>),
-    replicationRunList: (json['replicationRunList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicationRun.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    replicationRunList: (json['replicationRunList'] as List<dynamic>?)
+        ?.map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -403,13 +393,12 @@ GetServersResponse _$GetServersResponseFromJson(Map<String, dynamic> json) {
   return GetServersResponse(
     lastModifiedOn:
         const UnixDateTimeConverter().fromJson(json['lastModifiedOn']),
-    nextToken: json['nextToken'] as String,
+    nextToken: json['nextToken'] as String?,
     serverCatalogStatus: _$enumDecodeNullable(
         _$ServerCatalogStatusEnumMap, json['serverCatalogStatus']),
-    serverList: (json['serverList'] as List)
-        ?.map((e) =>
-            e == null ? null : Server.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    serverList: (json['serverList'] as List<dynamic>?)
+        ?.map((e) => Server.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -439,18 +428,17 @@ LaunchDetails _$LaunchDetailsFromJson(Map<String, dynamic> json) {
   return LaunchDetails(
     latestLaunchTime:
         const UnixDateTimeConverter().fromJson(json['latestLaunchTime']),
-    stackId: json['stackId'] as String,
-    stackName: json['stackName'] as String,
+    stackId: json['stackId'] as String?,
+    stackName: json['stackName'] as String?,
   );
 }
 
 ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
   return ListAppsResponse(
-    apps: (json['apps'] as List)
-        ?.map((e) =>
-            e == null ? null : AppSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    apps: (json['apps'] as List<dynamic>?)
+        ?.map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -500,30 +488,28 @@ PutAppValidationConfigurationResponse
 
 ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
   return ReplicationJob(
-    description: json['description'] as String,
-    encrypted: json['encrypted'] as bool,
-    frequency: json['frequency'] as int,
-    kmsKeyId: json['kmsKeyId'] as String,
-    latestAmiId: json['latestAmiId'] as String,
+    description: json['description'] as String?,
+    encrypted: json['encrypted'] as bool?,
+    frequency: json['frequency'] as int?,
+    kmsKeyId: json['kmsKeyId'] as String?,
+    latestAmiId: json['latestAmiId'] as String?,
     licenseType:
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
     nextReplicationRunStartTime: const UnixDateTimeConverter()
         .fromJson(json['nextReplicationRunStartTime']),
-    numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
-    replicationJobId: json['replicationJobId'] as String,
-    replicationRunList: (json['replicationRunList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicationRun.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    roleName: json['roleName'] as String,
-    runOnce: json['runOnce'] as bool,
+    numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int?,
+    replicationJobId: json['replicationJobId'] as String?,
+    replicationRunList: (json['replicationRunList'] as List<dynamic>?)
+        ?.map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    roleName: json['roleName'] as String?,
+    runOnce: json['runOnce'] as bool?,
     seedReplicationTime:
         const UnixDateTimeConverter().fromJson(json['seedReplicationTime']),
-    serverId: json['serverId'] as String,
+    serverId: json['serverId'] as String?,
     serverType: _$enumDecodeNullable(_$ServerTypeEnumMap, json['serverType']),
     state: _$enumDecodeNullable(_$ReplicationJobStateEnumMap, json['state']),
-    statusMessage: json['statusMessage'] as String,
+    statusMessage: json['statusMessage'] as String?,
     vmServer: json['vmServer'] == null
         ? null
         : VmServer.fromJson(json['vmServer'] as Map<String, dynamic>),
@@ -552,13 +538,13 @@ const _$ReplicationJobStateEnumMap = {
 
 ReplicationRun _$ReplicationRunFromJson(Map<String, dynamic> json) {
   return ReplicationRun(
-    amiId: json['amiId'] as String,
+    amiId: json['amiId'] as String?,
     completedTime:
         const UnixDateTimeConverter().fromJson(json['completedTime']),
-    description: json['description'] as String,
-    encrypted: json['encrypted'] as bool,
-    kmsKeyId: json['kmsKeyId'] as String,
-    replicationRunId: json['replicationRunId'] as String,
+    description: json['description'] as String?,
+    encrypted: json['encrypted'] as bool?,
+    kmsKeyId: json['kmsKeyId'] as String?,
+    replicationRunId: json['replicationRunId'] as String?,
     scheduledStartTime:
         const UnixDateTimeConverter().fromJson(json['scheduledStartTime']),
     stageDetails: json['stageDetails'] == null
@@ -566,7 +552,7 @@ ReplicationRun _$ReplicationRunFromJson(Map<String, dynamic> json) {
         : ReplicationRunStageDetails.fromJson(
             json['stageDetails'] as Map<String, dynamic>),
     state: _$enumDecodeNullable(_$ReplicationRunStateEnumMap, json['state']),
-    statusMessage: json['statusMessage'] as String,
+    statusMessage: json['statusMessage'] as String?,
     type: _$enumDecodeNullable(_$ReplicationRunTypeEnumMap, json['type']),
   );
 }
@@ -589,15 +575,15 @@ const _$ReplicationRunTypeEnumMap = {
 ReplicationRunStageDetails _$ReplicationRunStageDetailsFromJson(
     Map<String, dynamic> json) {
   return ReplicationRunStageDetails(
-    stage: json['stage'] as String,
-    stageProgress: json['stageProgress'] as String,
+    stage: json['stage'] as String?,
+    stageProgress: json['stageProgress'] as String?,
   );
 }
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
   return S3Location(
-    bucket: json['bucket'] as String,
-    key: json['key'] as String,
+    bucket: json['bucket'] as String?,
+    key: json['key'] as String?,
   );
 }
 
@@ -626,10 +612,10 @@ SSMOutput _$SSMOutputFromJson(Map<String, dynamic> json) {
 SSMValidationParameters _$SSMValidationParametersFromJson(
     Map<String, dynamic> json) {
   return SSMValidationParameters(
-    command: json['command'] as String,
-    executionTimeoutSeconds: json['executionTimeoutSeconds'] as int,
-    instanceId: json['instanceId'] as String,
-    outputS3BucketName: json['outputS3BucketName'] as String,
+    command: json['command'] as String?,
+    executionTimeoutSeconds: json['executionTimeoutSeconds'] as int?,
+    instanceId: json['instanceId'] as String?,
+    outputS3BucketName: json['outputS3BucketName'] as String?,
     scriptType: _$enumDecodeNullable(_$ScriptTypeEnumMap, json['scriptType']),
     source: json['source'] == null
         ? null
@@ -663,9 +649,9 @@ const _$ScriptTypeEnumMap = {
 
 Server _$ServerFromJson(Map<String, dynamic> json) {
   return Server(
-    replicationJobId: json['replicationJobId'] as String,
-    replicationJobTerminated: json['replicationJobTerminated'] as bool,
-    serverId: json['serverId'] as String,
+    replicationJobId: json['replicationJobId'] as String?,
+    replicationJobTerminated: json['replicationJobTerminated'] as bool?,
+    serverId: json['serverId'] as String?,
     serverType: _$enumDecodeNullable(_$ServerTypeEnumMap, json['serverType']),
     vmServer: json['vmServer'] == null
         ? null
@@ -692,12 +678,11 @@ Map<String, dynamic> _$ServerToJson(Server instance) {
 
 ServerGroup _$ServerGroupFromJson(Map<String, dynamic> json) {
   return ServerGroup(
-    name: json['name'] as String,
-    serverGroupId: json['serverGroupId'] as String,
-    serverList: (json['serverList'] as List)
-        ?.map((e) =>
-            e == null ? null : Server.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['name'] as String?,
+    serverGroupId: json['serverGroupId'] as String?,
+    serverList: (json['serverList'] as List<dynamic>?)
+        ?.map((e) => Server.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -713,20 +698,20 @@ Map<String, dynamic> _$ServerGroupToJson(ServerGroup instance) {
   writeNotNull('name', instance.name);
   writeNotNull('serverGroupId', instance.serverGroupId);
   writeNotNull(
-      'serverList', instance.serverList?.map((e) => e?.toJson())?.toList());
+      'serverList', instance.serverList?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ServerGroupLaunchConfiguration _$ServerGroupLaunchConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerGroupLaunchConfiguration(
-    launchOrder: json['launchOrder'] as int,
-    serverGroupId: json['serverGroupId'] as String,
-    serverLaunchConfigurations: (json['serverLaunchConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ServerLaunchConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    launchOrder: json['launchOrder'] as int?,
+    serverGroupId: json['serverGroupId'] as String?,
+    serverLaunchConfigurations:
+        (json['serverLaunchConfigurations'] as List<dynamic>?)
+            ?.map((e) =>
+                ServerLaunchConfiguration.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -743,21 +728,19 @@ Map<String, dynamic> _$ServerGroupLaunchConfigurationToJson(
   writeNotNull('launchOrder', instance.launchOrder);
   writeNotNull('serverGroupId', instance.serverGroupId);
   writeNotNull('serverLaunchConfigurations',
-      instance.serverLaunchConfigurations?.map((e) => e?.toJson())?.toList());
+      instance.serverLaunchConfigurations?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ServerGroupReplicationConfiguration
     _$ServerGroupReplicationConfigurationFromJson(Map<String, dynamic> json) {
   return ServerGroupReplicationConfiguration(
-    serverGroupId: json['serverGroupId'] as String,
-    serverReplicationConfigurations:
-        (json['serverReplicationConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ServerReplicationConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    serverGroupId: json['serverGroupId'] as String?,
+    serverReplicationConfigurations: (json['serverReplicationConfigurations']
+            as List<dynamic>?)
+        ?.map((e) =>
+            ServerReplicationConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -775,21 +758,20 @@ Map<String, dynamic> _$ServerGroupReplicationConfigurationToJson(
   writeNotNull(
       'serverReplicationConfigurations',
       instance.serverReplicationConfigurations
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
   return val;
 }
 
 ServerGroupValidationConfiguration _$ServerGroupValidationConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerGroupValidationConfiguration(
-    serverGroupId: json['serverGroupId'] as String,
+    serverGroupId: json['serverGroupId'] as String?,
     serverValidationConfigurations: (json['serverValidationConfigurations']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ServerValidationConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ServerValidationConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -804,36 +786,33 @@ Map<String, dynamic> _$ServerGroupValidationConfigurationToJson(
   }
 
   writeNotNull('serverGroupId', instance.serverGroupId);
-  writeNotNull(
-      'serverValidationConfigurations',
-      instance.serverValidationConfigurations
-          ?.map((e) => e?.toJson())
-          ?.toList());
+  writeNotNull('serverValidationConfigurations',
+      instance.serverValidationConfigurations?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ServerLaunchConfiguration _$ServerLaunchConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerLaunchConfiguration(
-    associatePublicIpAddress: json['associatePublicIpAddress'] as bool,
+    associatePublicIpAddress: json['associatePublicIpAddress'] as bool?,
     configureScript: json['configureScript'] == null
         ? null
         : S3Location.fromJson(json['configureScript'] as Map<String, dynamic>),
     configureScriptType:
         _$enumDecodeNullable(_$ScriptTypeEnumMap, json['configureScriptType']),
-    ec2KeyName: json['ec2KeyName'] as String,
-    iamInstanceProfileName: json['iamInstanceProfileName'] as String,
-    instanceType: json['instanceType'] as String,
-    logicalId: json['logicalId'] as String,
-    securityGroup: json['securityGroup'] as String,
+    ec2KeyName: json['ec2KeyName'] as String?,
+    iamInstanceProfileName: json['iamInstanceProfileName'] as String?,
+    instanceType: json['instanceType'] as String?,
+    logicalId: json['logicalId'] as String?,
+    securityGroup: json['securityGroup'] as String?,
     server: json['server'] == null
         ? null
         : Server.fromJson(json['server'] as Map<String, dynamic>),
-    subnet: json['subnet'] as String,
+    subnet: json['subnet'] as String?,
     userData: json['userData'] == null
         ? null
         : UserData.fromJson(json['userData'] as Map<String, dynamic>),
-    vpc: json['vpc'] as String,
+    vpc: json['vpc'] as String?,
   );
 }
 
@@ -895,13 +874,13 @@ Map<String, dynamic> _$ServerReplicationConfigurationToJson(
 ServerReplicationParameters _$ServerReplicationParametersFromJson(
     Map<String, dynamic> json) {
   return ServerReplicationParameters(
-    encrypted: json['encrypted'] as bool,
-    frequency: json['frequency'] as int,
-    kmsKeyId: json['kmsKeyId'] as String,
+    encrypted: json['encrypted'] as bool?,
+    frequency: json['frequency'] as int?,
+    kmsKeyId: json['kmsKeyId'] as String?,
     licenseType:
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
-    numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
-    runOnce: json['runOnce'] as bool,
+    numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int?,
+    runOnce: json['runOnce'] as bool?,
     seedTime: const UnixDateTimeConverter().fromJson(json['seedTime']),
   );
 }
@@ -930,7 +909,7 @@ Map<String, dynamic> _$ServerReplicationParametersToJson(
 ServerValidationConfiguration _$ServerValidationConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerValidationConfiguration(
-    name: json['name'] as String,
+    name: json['name'] as String?,
     server: json['server'] == null
         ? null
         : Server.fromJson(json['server'] as Map<String, dynamic>),
@@ -940,7 +919,7 @@ ServerValidationConfiguration _$ServerValidationConfigurationFromJson(
         ? null
         : UserDataValidationParameters.fromJson(
             json['userDataValidationParameters'] as Map<String, dynamic>),
-    validationId: json['validationId'] as String,
+    validationId: json['validationId'] as String?,
   );
 }
 
@@ -1011,7 +990,7 @@ StartOnDemandAppReplicationResponse
 StartOnDemandReplicationRunResponse
     _$StartOnDemandReplicationRunResponseFromJson(Map<String, dynamic> json) {
   return StartOnDemandReplicationRunResponse(
-    replicationRunId: json['replicationRunId'] as String,
+    replicationRunId: json['replicationRunId'] as String?,
   );
 }
 
@@ -1022,8 +1001,8 @@ StopAppReplicationResponse _$StopAppReplicationResponseFromJson(
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['key'] as String,
-    value: json['value'] as String,
+    key: json['key'] as String?,
+    value: json['value'] as String?,
   );
 }
 
@@ -1050,13 +1029,12 @@ UpdateAppResponse _$UpdateAppResponseFromJson(Map<String, dynamic> json) {
     appSummary: json['appSummary'] == null
         ? null
         : AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>),
-    serverGroups: (json['serverGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : ServerGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    serverGroups: (json['serverGroups'] as List<dynamic>?)
+        ?.map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1119,24 +1097,24 @@ ValidationOutput _$ValidationOutputFromJson(Map<String, dynamic> json) {
             json['appValidationOutput'] as Map<String, dynamic>),
     latestValidationTime:
         const UnixDateTimeConverter().fromJson(json['latestValidationTime']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     serverValidationOutput: json['serverValidationOutput'] == null
         ? null
         : ServerValidationOutput.fromJson(
             json['serverValidationOutput'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ValidationStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
-    validationId: json['validationId'] as String,
+    statusMessage: json['statusMessage'] as String?,
+    validationId: json['validationId'] as String?,
   );
 }
 
 VmServer _$VmServerFromJson(Map<String, dynamic> json) {
   return VmServer(
-    vmManagerName: json['vmManagerName'] as String,
+    vmManagerName: json['vmManagerName'] as String?,
     vmManagerType:
         _$enumDecodeNullable(_$VmManagerTypeEnumMap, json['vmManagerType']),
-    vmName: json['vmName'] as String,
-    vmPath: json['vmPath'] as String,
+    vmName: json['vmName'] as String?,
+    vmPath: json['vmPath'] as String?,
     vmServerAddress: json['vmServerAddress'] == null
         ? null
         : VmServerAddress.fromJson(
@@ -1163,8 +1141,8 @@ Map<String, dynamic> _$VmServerToJson(VmServer instance) {
 
 VmServerAddress _$VmServerAddressFromJson(Map<String, dynamic> json) {
   return VmServerAddress(
-    vmId: json['vmId'] as String,
-    vmManagerId: json['vmManagerId'] as String,
+    vmId: json['vmId'] as String?,
+    vmManagerId: json['vmManagerId'] as String?,
   );
 }
 

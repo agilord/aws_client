@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'firehose-2015-08-04.g.dart';
 
 /// Amazon Kinesis Data Firehose is a fully managed service that delivers
 /// real-time streaming data to destinations such as Amazon Simple Storage
@@ -33,10 +25,10 @@ part 'firehose-2015-08-04.g.dart';
 class Firehose {
   final _s.JsonProtocol _protocol;
   Firehose({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -198,18 +190,19 @@ class Firehose {
   ///
   /// You can specify up to 50 tags when creating a delivery stream.
   Future<CreateDeliveryStreamOutput> createDeliveryStream({
-    @_s.required String deliveryStreamName,
-    DeliveryStreamEncryptionConfigurationInput
+    required String deliveryStreamName,
+    DeliveryStreamEncryptionConfigurationInput?
         deliveryStreamEncryptionConfigurationInput,
-    DeliveryStreamType deliveryStreamType,
-    ElasticsearchDestinationConfiguration elasticsearchDestinationConfiguration,
-    ExtendedS3DestinationConfiguration extendedS3DestinationConfiguration,
-    HttpEndpointDestinationConfiguration httpEndpointDestinationConfiguration,
-    KinesisStreamSourceConfiguration kinesisStreamSourceConfiguration,
-    RedshiftDestinationConfiguration redshiftDestinationConfiguration,
-    S3DestinationConfiguration s3DestinationConfiguration,
-    SplunkDestinationConfiguration splunkDestinationConfiguration,
-    List<Tag> tags,
+    DeliveryStreamType? deliveryStreamType,
+    ElasticsearchDestinationConfiguration?
+        elasticsearchDestinationConfiguration,
+    ExtendedS3DestinationConfiguration? extendedS3DestinationConfiguration,
+    HttpEndpointDestinationConfiguration? httpEndpointDestinationConfiguration,
+    KinesisStreamSourceConfiguration? kinesisStreamSourceConfiguration,
+    RedshiftDestinationConfiguration? redshiftDestinationConfiguration,
+    S3DestinationConfiguration? s3DestinationConfiguration,
+    SplunkDestinationConfiguration? splunkDestinationConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -301,8 +294,8 @@ class Firehose {
   ///
   /// The default value is false.
   Future<void> deleteDeliveryStream({
-    @_s.required String deliveryStreamName,
-    bool allowForceDelete,
+    required String deliveryStreamName,
+    bool? allowForceDelete,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -322,7 +315,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.DeleteDeliveryStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -333,8 +326,6 @@ class Firehose {
         if (allowForceDelete != null) 'AllowForceDelete': allowForceDelete,
       },
     );
-
-    return DeleteDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
   /// Describes the specified delivery stream and its status. For example, after
@@ -362,9 +353,9 @@ class Firehose {
   /// The limit on the number of destinations to return. You can have one
   /// destination per delivery stream.
   Future<DescribeDeliveryStreamOutput> describeDeliveryStream({
-    @_s.required String deliveryStreamName,
-    String exclusiveStartDestinationId,
-    int limit,
+    required String deliveryStreamName,
+    String? exclusiveStartDestinationId,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -455,9 +446,9 @@ class Firehose {
   /// Parameter [limit] :
   /// The maximum number of delivery streams to list. The default value is 10.
   Future<ListDeliveryStreamsOutput> listDeliveryStreams({
-    DeliveryStreamType deliveryStreamType,
-    String exclusiveStartDeliveryStreamName,
-    int limit,
+    DeliveryStreamType? deliveryStreamType,
+    String? exclusiveStartDeliveryStreamName,
+    int? limit,
   }) async {
     _s.validateStringLength(
       'exclusiveStartDeliveryStreamName',
@@ -519,9 +510,9 @@ class Firehose {
   /// set to <code>true</code> in the response. To list additional tags, set
   /// <code>ExclusiveStartTagKey</code> to the last key in the response.
   Future<ListTagsForDeliveryStreamOutput> listTagsForDeliveryStream({
-    @_s.required String deliveryStreamName,
-    String exclusiveStartTagKey,
-    int limit,
+    required String deliveryStreamName,
+    String? exclusiveStartTagKey,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -631,8 +622,8 @@ class Firehose {
   /// Parameter [record] :
   /// The record.
   Future<PutRecordOutput> putRecord({
-    @_s.required String deliveryStreamName,
-    @_s.required Record record,
+    required String deliveryStreamName,
+    required Record record,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -749,8 +740,8 @@ class Firehose {
   /// Parameter [records] :
   /// One or more records.
   Future<PutRecordBatchOutput> putRecordBatch({
-    @_s.required String deliveryStreamName,
-    @_s.required List<Record> records,
+    required String deliveryStreamName,
+    required List<Record> records,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -850,8 +841,8 @@ class Firehose {
   /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key
   /// needed for Server-Side Encryption (SSE).
   Future<void> startDeliveryStreamEncryption({
-    @_s.required String deliveryStreamName,
-    DeliveryStreamEncryptionConfigurationInput
+    required String deliveryStreamName,
+    DeliveryStreamEncryptionConfigurationInput?
         deliveryStreamEncryptionConfigurationInput,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
@@ -872,7 +863,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.StartDeliveryStreamEncryption'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -885,8 +876,6 @@ class Firehose {
               deliveryStreamEncryptionConfigurationInput,
       },
     );
-
-    return StartDeliveryStreamEncryptionOutput.fromJson(jsonResponse.body);
   }
 
   /// Disables server-side encryption (SSE) for the delivery stream.
@@ -926,7 +915,7 @@ class Firehose {
   /// The name of the delivery stream for which you want to disable server-side
   /// encryption (SSE).
   Future<void> stopDeliveryStreamEncryption({
-    @_s.required String deliveryStreamName,
+    required String deliveryStreamName,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -946,7 +935,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.StopDeliveryStreamEncryption'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -956,8 +945,6 @@ class Firehose {
         'DeliveryStreamName': deliveryStreamName,
       },
     );
-
-    return StopDeliveryStreamEncryptionOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds or updates tags for the specified delivery stream. A tag is a
@@ -986,8 +973,8 @@ class Firehose {
   /// Parameter [tags] :
   /// A set of key-value pairs to use to create the tags.
   Future<void> tagDeliveryStream({
-    @_s.required String deliveryStreamName,
-    @_s.required List<Tag> tags,
+    required String deliveryStreamName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -1008,7 +995,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.TagDeliveryStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1019,8 +1006,6 @@ class Firehose {
         'Tags': tags,
       },
     );
-
-    return TagDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from the specified delivery stream. Removed tags are deleted,
@@ -1042,8 +1027,8 @@ class Firehose {
   /// A list of tag keys. Each corresponding tag is removed from the delivery
   /// stream.
   Future<void> untagDeliveryStream({
-    @_s.required String deliveryStreamName,
-    @_s.required List<String> tagKeys,
+    required String deliveryStreamName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
     _s.validateStringLength(
@@ -1064,7 +1049,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UntagDeliveryStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1075,8 +1060,6 @@ class Firehose {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified destination of the specified delivery stream.
@@ -1152,15 +1135,15 @@ class Firehose {
   /// Parameter [splunkDestinationUpdate] :
   /// Describes an update for a destination in Splunk.
   Future<void> updateDestination({
-    @_s.required String currentDeliveryStreamVersionId,
-    @_s.required String deliveryStreamName,
-    @_s.required String destinationId,
-    ElasticsearchDestinationUpdate elasticsearchDestinationUpdate,
-    ExtendedS3DestinationUpdate extendedS3DestinationUpdate,
-    HttpEndpointDestinationUpdate httpEndpointDestinationUpdate,
-    RedshiftDestinationUpdate redshiftDestinationUpdate,
-    S3DestinationUpdate s3DestinationUpdate,
-    SplunkDestinationUpdate splunkDestinationUpdate,
+    required String currentDeliveryStreamVersionId,
+    required String deliveryStreamName,
+    required String destinationId,
+    ElasticsearchDestinationUpdate? elasticsearchDestinationUpdate,
+    ExtendedS3DestinationUpdate? extendedS3DestinationUpdate,
+    HttpEndpointDestinationUpdate? httpEndpointDestinationUpdate,
+    RedshiftDestinationUpdate? redshiftDestinationUpdate,
+    S3DestinationUpdate? s3DestinationUpdate,
+    SplunkDestinationUpdate? splunkDestinationUpdate,
   }) async {
     ArgumentError.checkNotNull(
         currentDeliveryStreamVersionId, 'currentDeliveryStreamVersionId');
@@ -1209,7 +1192,7 @@ class Firehose {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UpdateDestination'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1233,8 +1216,6 @@ class Firehose {
           'SplunkDestinationUpdate': splunkDestinationUpdate,
       },
     );
-
-    return UpdateDestinationOutput.fromJson(jsonResponse.body);
   }
 }
 
@@ -1244,18 +1225,12 @@ class Firehose {
 /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
 /// optional. However, if specify a value for one of them, you must also provide
 /// a value for the other.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300. This parameter
   /// is optional but if you specify a value for it, you must also specify a value
   /// for <code>SizeInMBs</code>, and vice versa.
-  @_s.JsonKey(name: 'IntervalInSeconds')
-  final int intervalInSeconds;
+  final int? intervalInSeconds;
 
   /// Buffer incoming data to the specified size, in MiBs, before delivering it to
   /// the destination. The default value is 5. This parameter is optional but if
@@ -1266,80 +1241,141 @@ class BufferingHints {
   /// data you typically ingest into the delivery stream in 10 seconds. For
   /// example, if you typically ingest data at 1 MiB/sec, the value should be 10
   /// MiB or higher.
-  @_s.JsonKey(name: 'SizeInMBs')
-  final int sizeInMBs;
+  final int? sizeInMBs;
 
   BufferingHints({
     this.intervalInSeconds,
     this.sizeInMBs,
   });
-  factory BufferingHints.fromJson(Map<String, dynamic> json) =>
-      _$BufferingHintsFromJson(json);
+  factory BufferingHints.fromJson(Map<String, dynamic> json) {
+    return BufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BufferingHintsToJson(this);
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
 }
 
 /// Describes the Amazon CloudWatch logging options for your delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchLoggingOptions {
   /// Enables or disables CloudWatch logging.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The CloudWatch group name for logging. This value is required if CloudWatch
   /// logging is enabled.
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The CloudWatch log stream name for logging. This value is required if
   /// CloudWatch logging is enabled.
-  @_s.JsonKey(name: 'LogStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   CloudWatchLoggingOptions({
     this.enabled,
     this.logGroupName,
     this.logStreamName,
   });
-  factory CloudWatchLoggingOptions.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchLoggingOptionsFromJson(json);
+  factory CloudWatchLoggingOptions.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLoggingOptions(
+      enabled: json['Enabled'] as bool?,
+      logGroupName: json['LogGroupName'] as String?,
+      logStreamName: json['LogStreamName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchLoggingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logGroupName = this.logGroupName;
+    final logStreamName = this.logStreamName;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (logGroupName != null) 'LogGroupName': logGroupName,
+      if (logStreamName != null) 'LogStreamName': logStreamName,
+    };
+  }
 }
 
 enum CompressionFormat {
-  @_s.JsonValue('UNCOMPRESSED')
   uncompressed,
-  @_s.JsonValue('GZIP')
   gzip,
-  @_s.JsonValue('ZIP')
   zip,
-  @_s.JsonValue('Snappy')
   snappy,
-  @_s.JsonValue('HADOOP_SNAPPY')
   hadoopSnappy,
 }
 
+extension on CompressionFormat {
+  String toValue() {
+    switch (this) {
+      case CompressionFormat.uncompressed:
+        return 'UNCOMPRESSED';
+      case CompressionFormat.gzip:
+        return 'GZIP';
+      case CompressionFormat.zip:
+        return 'ZIP';
+      case CompressionFormat.snappy:
+        return 'Snappy';
+      case CompressionFormat.hadoopSnappy:
+        return 'HADOOP_SNAPPY';
+    }
+  }
+}
+
+extension on String {
+  CompressionFormat toCompressionFormat() {
+    switch (this) {
+      case 'UNCOMPRESSED':
+        return CompressionFormat.uncompressed;
+      case 'GZIP':
+        return CompressionFormat.gzip;
+      case 'ZIP':
+        return CompressionFormat.zip;
+      case 'Snappy':
+        return CompressionFormat.snappy;
+      case 'HADOOP_SNAPPY':
+        return CompressionFormat.hadoopSnappy;
+    }
+    throw Exception('$this is not known in enum CompressionFormat');
+  }
+}
+
 enum ContentEncoding {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('GZIP')
   gzip,
 }
 
+extension on ContentEncoding {
+  String toValue() {
+    switch (this) {
+      case ContentEncoding.none:
+        return 'NONE';
+      case ContentEncoding.gzip:
+        return 'GZIP';
+    }
+  }
+}
+
+extension on String {
+  ContentEncoding toContentEncoding() {
+    switch (this) {
+      case 'NONE':
+        return ContentEncoding.none;
+      case 'GZIP':
+        return ContentEncoding.gzip;
+    }
+    throw Exception('$this is not known in enum ContentEncoding');
+  }
+}
+
 /// Describes a <code>COPY</code> command for Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CopyCommand {
   /// The name of the target table. The table must already exist in the database.
-  @_s.JsonKey(name: 'DataTableName')
   final String dataTableName;
 
   /// Optional parameters to use with the Amazon Redshift <code>COPY</code>
@@ -1367,39 +1403,48 @@ class CopyCommand {
   /// For more examples, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/r_COPY_command_examples.html">Amazon
   /// Redshift COPY command examples</a>.
-  @_s.JsonKey(name: 'CopyOptions')
-  final String copyOptions;
+  final String? copyOptions;
 
   /// A comma-separated list of column names.
-  @_s.JsonKey(name: 'DataTableColumns')
-  final String dataTableColumns;
+  final String? dataTableColumns;
 
   CopyCommand({
-    @_s.required this.dataTableName,
+    required this.dataTableName,
     this.copyOptions,
     this.dataTableColumns,
   });
-  factory CopyCommand.fromJson(Map<String, dynamic> json) =>
-      _$CopyCommandFromJson(json);
+  factory CopyCommand.fromJson(Map<String, dynamic> json) {
+    return CopyCommand(
+      dataTableName: json['DataTableName'] as String,
+      copyOptions: json['CopyOptions'] as String?,
+      dataTableColumns: json['DataTableColumns'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CopyCommandToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataTableName = this.dataTableName;
+    final copyOptions = this.copyOptions;
+    final dataTableColumns = this.dataTableColumns;
+    return {
+      'DataTableName': dataTableName,
+      if (copyOptions != null) 'CopyOptions': copyOptions,
+      if (dataTableColumns != null) 'DataTableColumns': dataTableColumns,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeliveryStreamOutput {
   /// The ARN of the delivery stream.
-  @_s.JsonKey(name: 'DeliveryStreamARN')
-  final String deliveryStreamARN;
+  final String? deliveryStreamARN;
 
   CreateDeliveryStreamOutput({
     this.deliveryStreamARN,
   });
-  factory CreateDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeliveryStreamOutputFromJson(json);
+  factory CreateDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeliveryStreamOutput(
+      deliveryStreamARN: json['DeliveryStreamARN'] as String?,
+    );
+  }
 }
 
 /// Specifies that you want Kinesis Data Firehose to convert data from the JSON
@@ -1410,34 +1455,25 @@ class CreateDeliveryStreamOutput {
 /// format. For more information, see <a
 /// href="https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html">Kinesis
 /// Data Firehose Record Format Conversion</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataFormatConversionConfiguration {
   /// Defaults to <code>true</code>. Set it to <code>false</code> if you want to
   /// disable format conversion while preserving the configuration details.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies the deserializer that you want Kinesis Data Firehose to use to
   /// convert the format of your data from JSON. This parameter is required if
   /// <code>Enabled</code> is set to true.
-  @_s.JsonKey(name: 'InputFormatConfiguration')
-  final InputFormatConfiguration inputFormatConfiguration;
+  final InputFormatConfiguration? inputFormatConfiguration;
 
   /// Specifies the serializer that you want Kinesis Data Firehose to use to
   /// convert the format of your data to the Parquet or ORC format. This parameter
   /// is required if <code>Enabled</code> is set to true.
-  @_s.JsonKey(name: 'OutputFormatConfiguration')
-  final OutputFormatConfiguration outputFormatConfiguration;
+  final OutputFormatConfiguration? outputFormatConfiguration;
 
   /// Specifies the AWS Glue Data Catalog table that contains the column
   /// information. This parameter is required if <code>Enabled</code> is set to
   /// true.
-  @_s.JsonKey(name: 'SchemaConfiguration')
-  final SchemaConfiguration schemaConfiguration;
+  final SchemaConfiguration? schemaConfiguration;
 
   DataFormatConversionConfiguration({
     this.enabled,
@@ -1446,47 +1482,63 @@ class DataFormatConversionConfiguration {
     this.schemaConfiguration,
   });
   factory DataFormatConversionConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$DataFormatConversionConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return DataFormatConversionConfiguration(
+      enabled: json['Enabled'] as bool?,
+      inputFormatConfiguration: json['InputFormatConfiguration'] != null
+          ? InputFormatConfiguration.fromJson(
+              json['InputFormatConfiguration'] as Map<String, dynamic>)
+          : null,
+      outputFormatConfiguration: json['OutputFormatConfiguration'] != null
+          ? OutputFormatConfiguration.fromJson(
+              json['OutputFormatConfiguration'] as Map<String, dynamic>)
+          : null,
+      schemaConfiguration: json['SchemaConfiguration'] != null
+          ? SchemaConfiguration.fromJson(
+              json['SchemaConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$DataFormatConversionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final inputFormatConfiguration = this.inputFormatConfiguration;
+    final outputFormatConfiguration = this.outputFormatConfiguration;
+    final schemaConfiguration = this.schemaConfiguration;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (inputFormatConfiguration != null)
+        'InputFormatConfiguration': inputFormatConfiguration,
+      if (outputFormatConfiguration != null)
+        'OutputFormatConfiguration': outputFormatConfiguration,
+      if (schemaConfiguration != null)
+        'SchemaConfiguration': schemaConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeliveryStreamOutput {
   DeleteDeliveryStreamOutput();
-  factory DeleteDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeliveryStreamOutputFromJson(json);
+  factory DeleteDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDeliveryStreamOutput();
+  }
 }
 
 /// Contains information about a delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeliveryStreamDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'DeliveryStreamARN')
   final String deliveryStreamARN;
 
   /// The name of the delivery stream.
-  @_s.JsonKey(name: 'DeliveryStreamName')
   final String deliveryStreamName;
 
   /// The status of the delivery stream. If the status of a delivery stream is
   /// <code>CREATING_FAILED</code>, this status doesn't change, and you can't
   /// invoke <code>CreateDeliveryStream</code> again on it. However, you can
   /// invoke the <a>DeleteDeliveryStream</a> operation to delete it.
-  @_s.JsonKey(name: 'DeliveryStreamStatus')
   final DeliveryStreamStatus deliveryStreamStatus;
 
   /// The delivery stream type. This can be one of the following values:
@@ -1501,68 +1553,87 @@ class DeliveryStreamDescription {
   /// stream as a source.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DeliveryStreamType')
   final DeliveryStreamType deliveryStreamType;
 
   /// The destinations.
-  @_s.JsonKey(name: 'Destinations')
   final List<DestinationDescription> destinations;
 
   /// Indicates whether there are more destinations available to list.
-  @_s.JsonKey(name: 'HasMoreDestinations')
   final bool hasMoreDestinations;
 
   /// Each time the destination is updated for a delivery stream, the version ID
   /// is changed, and the current version ID is required when updating the
   /// destination. This is so that the service knows it is applying the changes to
   /// the correct version of the delivery stream.
-  @_s.JsonKey(name: 'VersionId')
   final String versionId;
 
   /// The date and time that the delivery stream was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTimestamp')
-  final DateTime createTimestamp;
+  final DateTime? createTimestamp;
 
   /// Indicates the server-side encryption (SSE) status for the delivery stream.
-  @_s.JsonKey(name: 'DeliveryStreamEncryptionConfiguration')
-  final DeliveryStreamEncryptionConfiguration
+  final DeliveryStreamEncryptionConfiguration?
       deliveryStreamEncryptionConfiguration;
 
   /// Provides details in case one of the following operations fails due to an
   /// error related to KMS: <a>CreateDeliveryStream</a>,
   /// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
   /// <a>StopDeliveryStreamEncryption</a>.
-  @_s.JsonKey(name: 'FailureDescription')
-  final FailureDescription failureDescription;
+  final FailureDescription? failureDescription;
 
   /// The date and time that the delivery stream was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTimestamp')
-  final DateTime lastUpdateTimestamp;
+  final DateTime? lastUpdateTimestamp;
 
   /// If the <code>DeliveryStreamType</code> parameter is
   /// <code>KinesisStreamAsSource</code>, a <a>SourceDescription</a> object
   /// describing the source Kinesis data stream.
-  @_s.JsonKey(name: 'Source')
-  final SourceDescription source;
+  final SourceDescription? source;
 
   DeliveryStreamDescription({
-    @_s.required this.deliveryStreamARN,
-    @_s.required this.deliveryStreamName,
-    @_s.required this.deliveryStreamStatus,
-    @_s.required this.deliveryStreamType,
-    @_s.required this.destinations,
-    @_s.required this.hasMoreDestinations,
-    @_s.required this.versionId,
+    required this.deliveryStreamARN,
+    required this.deliveryStreamName,
+    required this.deliveryStreamStatus,
+    required this.deliveryStreamType,
+    required this.destinations,
+    required this.hasMoreDestinations,
+    required this.versionId,
     this.createTimestamp,
     this.deliveryStreamEncryptionConfiguration,
     this.failureDescription,
     this.lastUpdateTimestamp,
     this.source,
   });
-  factory DeliveryStreamDescription.fromJson(Map<String, dynamic> json) =>
-      _$DeliveryStreamDescriptionFromJson(json);
+  factory DeliveryStreamDescription.fromJson(Map<String, dynamic> json) {
+    return DeliveryStreamDescription(
+      deliveryStreamARN: json['DeliveryStreamARN'] as String,
+      deliveryStreamName: json['DeliveryStreamName'] as String,
+      deliveryStreamStatus:
+          (json['DeliveryStreamStatus'] as String).toDeliveryStreamStatus(),
+      deliveryStreamType:
+          (json['DeliveryStreamType'] as String).toDeliveryStreamType(),
+      destinations: (json['Destinations'] as List)
+          .whereNotNull()
+          .map(
+              (e) => DestinationDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMoreDestinations: json['HasMoreDestinations'] as bool,
+      versionId: json['VersionId'] as String,
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      deliveryStreamEncryptionConfiguration:
+          json['DeliveryStreamEncryptionConfiguration'] != null
+              ? DeliveryStreamEncryptionConfiguration.fromJson(
+                  json['DeliveryStreamEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      failureDescription: json['FailureDescription'] != null
+          ? FailureDescription.fromJson(
+              json['FailureDescription'] as Map<String, dynamic>)
+          : null,
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      source: json['Source'] != null
+          ? SourceDescription.fromJson(json['Source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about the server-side encryption (SSE) status for the
@@ -1570,34 +1641,26 @@ class DeliveryStreamDescription {
 /// ARN of the CMK. You can get
 /// <code>DeliveryStreamEncryptionConfiguration</code> by invoking the
 /// <a>DescribeDeliveryStream</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeliveryStreamEncryptionConfiguration {
   /// Provides details in case one of the following operations fails due to an
   /// error related to KMS: <a>CreateDeliveryStream</a>,
   /// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
   /// <a>StopDeliveryStreamEncryption</a>.
-  @_s.JsonKey(name: 'FailureDescription')
-  final FailureDescription failureDescription;
+  final FailureDescription? failureDescription;
 
   /// If <code>KeyType</code> is <code>CUSTOMER_MANAGED_CMK</code>, this field
   /// contains the ARN of the customer managed CMK. If <code>KeyType</code> is
   /// <code>AWS_OWNED_CMK</code>,
   /// <code>DeliveryStreamEncryptionConfiguration</code> doesn't contain a value
   /// for <code>KeyARN</code>.
-  @_s.JsonKey(name: 'KeyARN')
-  final String keyARN;
+  final String? keyARN;
 
   /// Indicates the type of customer master key (CMK) that is used for encryption.
   /// The default setting is <code>AWS_OWNED_CMK</code>. For more information
   /// about CMKs, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
   /// Master Keys (CMKs)</a>.
-  @_s.JsonKey(name: 'KeyType')
-  final KeyType keyType;
+  final KeyType? keyType;
 
   /// This is the server-side encryption (SSE) status for the delivery stream. For
   /// a full description of the different values of this status, see
@@ -1605,8 +1668,7 @@ class DeliveryStreamEncryptionConfiguration {
   /// <a>StopDeliveryStreamEncryption</a>. If this status is
   /// <code>ENABLING_FAILED</code> or <code>DISABLING_FAILED</code>, it is the
   /// status of the most recent attempt to enable or disable SSE, respectively.
-  @_s.JsonKey(name: 'Status')
-  final DeliveryStreamEncryptionStatus status;
+  final DeliveryStreamEncryptionStatus? status;
 
   DeliveryStreamEncryptionConfiguration({
     this.failureDescription,
@@ -1615,17 +1677,21 @@ class DeliveryStreamEncryptionConfiguration {
     this.status,
   });
   factory DeliveryStreamEncryptionConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeliveryStreamEncryptionConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return DeliveryStreamEncryptionConfiguration(
+      failureDescription: json['FailureDescription'] != null
+          ? FailureDescription.fromJson(
+              json['FailureDescription'] as Map<String, dynamic>)
+          : null,
+      keyARN: json['KeyARN'] as String?,
+      keyType: (json['KeyType'] as String?)?.toKeyType(),
+      status: (json['Status'] as String?)?.toDeliveryStreamEncryptionStatus(),
+    );
+  }
 }
 
 /// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
 /// Server-Side Encryption (SSE).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeliveryStreamEncryptionConfigurationInput {
   /// Indicates the type of customer master key (CMK) to use for encryption. The
   /// default setting is <code>AWS_OWNED_CMK</code>. For more information about
@@ -1656,89 +1722,215 @@ class DeliveryStreamEncryptionConfigurationInput {
   /// Symmetric and Asymmetric CMKs</a> in the AWS Key Management Service
   /// developer guide.
   /// </important>
-  @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
   /// If you set <code>KeyType</code> to <code>CUSTOMER_MANAGED_CMK</code>, you
   /// must specify the Amazon Resource Name (ARN) of the CMK. If you set
   /// <code>KeyType</code> to <code>AWS_OWNED_CMK</code>, Kinesis Data Firehose
   /// uses a service-account CMK.
-  @_s.JsonKey(name: 'KeyARN')
-  final String keyARN;
+  final String? keyARN;
 
   DeliveryStreamEncryptionConfigurationInput({
-    @_s.required this.keyType,
+    required this.keyType,
     this.keyARN,
   });
-  Map<String, dynamic> toJson() =>
-      _$DeliveryStreamEncryptionConfigurationInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final keyType = this.keyType;
+    final keyARN = this.keyARN;
+    return {
+      'KeyType': keyType.toValue(),
+      if (keyARN != null) 'KeyARN': keyARN,
+    };
+  }
 }
 
 enum DeliveryStreamEncryptionStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLING_FAILED')
   enablingFailed,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLING_FAILED')
   disablingFailed,
 }
 
+extension on DeliveryStreamEncryptionStatus {
+  String toValue() {
+    switch (this) {
+      case DeliveryStreamEncryptionStatus.enabled:
+        return 'ENABLED';
+      case DeliveryStreamEncryptionStatus.enabling:
+        return 'ENABLING';
+      case DeliveryStreamEncryptionStatus.enablingFailed:
+        return 'ENABLING_FAILED';
+      case DeliveryStreamEncryptionStatus.disabled:
+        return 'DISABLED';
+      case DeliveryStreamEncryptionStatus.disabling:
+        return 'DISABLING';
+      case DeliveryStreamEncryptionStatus.disablingFailed:
+        return 'DISABLING_FAILED';
+    }
+  }
+}
+
+extension on String {
+  DeliveryStreamEncryptionStatus toDeliveryStreamEncryptionStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return DeliveryStreamEncryptionStatus.enabled;
+      case 'ENABLING':
+        return DeliveryStreamEncryptionStatus.enabling;
+      case 'ENABLING_FAILED':
+        return DeliveryStreamEncryptionStatus.enablingFailed;
+      case 'DISABLED':
+        return DeliveryStreamEncryptionStatus.disabled;
+      case 'DISABLING':
+        return DeliveryStreamEncryptionStatus.disabling;
+      case 'DISABLING_FAILED':
+        return DeliveryStreamEncryptionStatus.disablingFailed;
+    }
+    throw Exception(
+        '$this is not known in enum DeliveryStreamEncryptionStatus');
+  }
+}
+
 enum DeliveryStreamFailureType {
-  @_s.JsonValue('RETIRE_KMS_GRANT_FAILED')
   retireKmsGrantFailed,
-  @_s.JsonValue('CREATE_KMS_GRANT_FAILED')
   createKmsGrantFailed,
-  @_s.JsonValue('KMS_ACCESS_DENIED')
   kmsAccessDenied,
-  @_s.JsonValue('DISABLED_KMS_KEY')
   disabledKmsKey,
-  @_s.JsonValue('INVALID_KMS_KEY')
   invalidKmsKey,
-  @_s.JsonValue('KMS_KEY_NOT_FOUND')
   kmsKeyNotFound,
-  @_s.JsonValue('KMS_OPT_IN_REQUIRED')
   kmsOptInRequired,
-  @_s.JsonValue('CREATE_ENI_FAILED')
   createEniFailed,
-  @_s.JsonValue('DELETE_ENI_FAILED')
   deleteEniFailed,
-  @_s.JsonValue('SUBNET_NOT_FOUND')
   subnetNotFound,
-  @_s.JsonValue('SECURITY_GROUP_NOT_FOUND')
   securityGroupNotFound,
-  @_s.JsonValue('ENI_ACCESS_DENIED')
   eniAccessDenied,
-  @_s.JsonValue('SUBNET_ACCESS_DENIED')
   subnetAccessDenied,
-  @_s.JsonValue('SECURITY_GROUP_ACCESS_DENIED')
   securityGroupAccessDenied,
-  @_s.JsonValue('UNKNOWN_ERROR')
   unknownError,
 }
 
+extension on DeliveryStreamFailureType {
+  String toValue() {
+    switch (this) {
+      case DeliveryStreamFailureType.retireKmsGrantFailed:
+        return 'RETIRE_KMS_GRANT_FAILED';
+      case DeliveryStreamFailureType.createKmsGrantFailed:
+        return 'CREATE_KMS_GRANT_FAILED';
+      case DeliveryStreamFailureType.kmsAccessDenied:
+        return 'KMS_ACCESS_DENIED';
+      case DeliveryStreamFailureType.disabledKmsKey:
+        return 'DISABLED_KMS_KEY';
+      case DeliveryStreamFailureType.invalidKmsKey:
+        return 'INVALID_KMS_KEY';
+      case DeliveryStreamFailureType.kmsKeyNotFound:
+        return 'KMS_KEY_NOT_FOUND';
+      case DeliveryStreamFailureType.kmsOptInRequired:
+        return 'KMS_OPT_IN_REQUIRED';
+      case DeliveryStreamFailureType.createEniFailed:
+        return 'CREATE_ENI_FAILED';
+      case DeliveryStreamFailureType.deleteEniFailed:
+        return 'DELETE_ENI_FAILED';
+      case DeliveryStreamFailureType.subnetNotFound:
+        return 'SUBNET_NOT_FOUND';
+      case DeliveryStreamFailureType.securityGroupNotFound:
+        return 'SECURITY_GROUP_NOT_FOUND';
+      case DeliveryStreamFailureType.eniAccessDenied:
+        return 'ENI_ACCESS_DENIED';
+      case DeliveryStreamFailureType.subnetAccessDenied:
+        return 'SUBNET_ACCESS_DENIED';
+      case DeliveryStreamFailureType.securityGroupAccessDenied:
+        return 'SECURITY_GROUP_ACCESS_DENIED';
+      case DeliveryStreamFailureType.unknownError:
+        return 'UNKNOWN_ERROR';
+    }
+  }
+}
+
+extension on String {
+  DeliveryStreamFailureType toDeliveryStreamFailureType() {
+    switch (this) {
+      case 'RETIRE_KMS_GRANT_FAILED':
+        return DeliveryStreamFailureType.retireKmsGrantFailed;
+      case 'CREATE_KMS_GRANT_FAILED':
+        return DeliveryStreamFailureType.createKmsGrantFailed;
+      case 'KMS_ACCESS_DENIED':
+        return DeliveryStreamFailureType.kmsAccessDenied;
+      case 'DISABLED_KMS_KEY':
+        return DeliveryStreamFailureType.disabledKmsKey;
+      case 'INVALID_KMS_KEY':
+        return DeliveryStreamFailureType.invalidKmsKey;
+      case 'KMS_KEY_NOT_FOUND':
+        return DeliveryStreamFailureType.kmsKeyNotFound;
+      case 'KMS_OPT_IN_REQUIRED':
+        return DeliveryStreamFailureType.kmsOptInRequired;
+      case 'CREATE_ENI_FAILED':
+        return DeliveryStreamFailureType.createEniFailed;
+      case 'DELETE_ENI_FAILED':
+        return DeliveryStreamFailureType.deleteEniFailed;
+      case 'SUBNET_NOT_FOUND':
+        return DeliveryStreamFailureType.subnetNotFound;
+      case 'SECURITY_GROUP_NOT_FOUND':
+        return DeliveryStreamFailureType.securityGroupNotFound;
+      case 'ENI_ACCESS_DENIED':
+        return DeliveryStreamFailureType.eniAccessDenied;
+      case 'SUBNET_ACCESS_DENIED':
+        return DeliveryStreamFailureType.subnetAccessDenied;
+      case 'SECURITY_GROUP_ACCESS_DENIED':
+        return DeliveryStreamFailureType.securityGroupAccessDenied;
+      case 'UNKNOWN_ERROR':
+        return DeliveryStreamFailureType.unknownError;
+    }
+    throw Exception('$this is not known in enum DeliveryStreamFailureType');
+  }
+}
+
 enum DeliveryStreamStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATING_FAILED')
   creatingFailed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETING_FAILED')
   deletingFailed,
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
+extension on DeliveryStreamStatus {
+  String toValue() {
+    switch (this) {
+      case DeliveryStreamStatus.creating:
+        return 'CREATING';
+      case DeliveryStreamStatus.creatingFailed:
+        return 'CREATING_FAILED';
+      case DeliveryStreamStatus.deleting:
+        return 'DELETING';
+      case DeliveryStreamStatus.deletingFailed:
+        return 'DELETING_FAILED';
+      case DeliveryStreamStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  DeliveryStreamStatus toDeliveryStreamStatus() {
+    switch (this) {
+      case 'CREATING':
+        return DeliveryStreamStatus.creating;
+      case 'CREATING_FAILED':
+        return DeliveryStreamStatus.creatingFailed;
+      case 'DELETING':
+        return DeliveryStreamStatus.deleting;
+      case 'DELETING_FAILED':
+        return DeliveryStreamStatus.deletingFailed;
+      case 'ACTIVE':
+        return DeliveryStreamStatus.active;
+    }
+    throw Exception('$this is not known in enum DeliveryStreamStatus');
+  }
+}
+
 enum DeliveryStreamType {
-  @_s.JsonValue('DirectPut')
   directPut,
-  @_s.JsonValue('KinesisStreamAsSource')
   kinesisStreamAsSource,
 }
 
@@ -1750,25 +1942,34 @@ extension on DeliveryStreamType {
       case DeliveryStreamType.kinesisStreamAsSource:
         return 'KinesisStreamAsSource';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeliveryStreamType toDeliveryStreamType() {
+    switch (this) {
+      case 'DirectPut':
+        return DeliveryStreamType.directPut;
+      case 'KinesisStreamAsSource':
+        return DeliveryStreamType.kinesisStreamAsSource;
+    }
+    throw Exception('$this is not known in enum DeliveryStreamType');
+  }
+}
+
 class DescribeDeliveryStreamOutput {
   /// Information about the delivery stream.
-  @_s.JsonKey(name: 'DeliveryStreamDescription')
   final DeliveryStreamDescription deliveryStreamDescription;
 
   DescribeDeliveryStreamOutput({
-    @_s.required this.deliveryStreamDescription,
+    required this.deliveryStreamDescription,
   });
-  factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDeliveryStreamOutputFromJson(json);
+  factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeDeliveryStreamOutput(
+      deliveryStreamDescription: DeliveryStreamDescription.fromJson(
+          json['DeliveryStreamDescription'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The deserializer you want Kinesis Data Firehose to use for converting the
@@ -1778,75 +1979,74 @@ class DescribeDeliveryStreamOutput {
 /// href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON">Apache
 /// Hive JSON SerDe</a> and the <a
 /// href="https://github.com/rcongiu/Hive-JSON-Serde">OpenX JSON SerDe</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Deserializer {
   /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for
   /// deserializing data, which means converting it from the JSON format in
   /// preparation for serializing it to the Parquet or ORC format. This is one of
   /// two deserializers you can choose, depending on which one offers the
   /// functionality you need. The other option is the OpenX SerDe.
-  @_s.JsonKey(name: 'HiveJsonSerDe')
-  final HiveJsonSerDe hiveJsonSerDe;
+  final HiveJsonSerDe? hiveJsonSerDe;
 
   /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which
   /// means converting it from the JSON format in preparation for serializing it
   /// to the Parquet or ORC format. This is one of two deserializers you can
   /// choose, depending on which one offers the functionality you need. The other
   /// option is the native Hive / HCatalog JsonSerDe.
-  @_s.JsonKey(name: 'OpenXJsonSerDe')
-  final OpenXJsonSerDe openXJsonSerDe;
+  final OpenXJsonSerDe? openXJsonSerDe;
 
   Deserializer({
     this.hiveJsonSerDe,
     this.openXJsonSerDe,
   });
-  factory Deserializer.fromJson(Map<String, dynamic> json) =>
-      _$DeserializerFromJson(json);
+  factory Deserializer.fromJson(Map<String, dynamic> json) {
+    return Deserializer(
+      hiveJsonSerDe: json['HiveJsonSerDe'] != null
+          ? HiveJsonSerDe.fromJson(
+              json['HiveJsonSerDe'] as Map<String, dynamic>)
+          : null,
+      openXJsonSerDe: json['OpenXJsonSerDe'] != null
+          ? OpenXJsonSerDe.fromJson(
+              json['OpenXJsonSerDe'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeserializerToJson(this);
+  Map<String, dynamic> toJson() {
+    final hiveJsonSerDe = this.hiveJsonSerDe;
+    final openXJsonSerDe = this.openXJsonSerDe;
+    return {
+      if (hiveJsonSerDe != null) 'HiveJsonSerDe': hiveJsonSerDe,
+      if (openXJsonSerDe != null) 'OpenXJsonSerDe': openXJsonSerDe,
+    };
+  }
 }
 
 /// Describes the destination for a delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DestinationDescription {
   /// The ID of the destination.
-  @_s.JsonKey(name: 'DestinationId')
   final String destinationId;
 
   /// The destination in Amazon ES.
-  @_s.JsonKey(name: 'ElasticsearchDestinationDescription')
-  final ElasticsearchDestinationDescription elasticsearchDestinationDescription;
+  final ElasticsearchDestinationDescription?
+      elasticsearchDestinationDescription;
 
   /// The destination in Amazon S3.
-  @_s.JsonKey(name: 'ExtendedS3DestinationDescription')
-  final ExtendedS3DestinationDescription extendedS3DestinationDescription;
+  final ExtendedS3DestinationDescription? extendedS3DestinationDescription;
 
   /// Describes the specified HTTP endpoint destination.
-  @_s.JsonKey(name: 'HttpEndpointDestinationDescription')
-  final HttpEndpointDestinationDescription httpEndpointDestinationDescription;
+  final HttpEndpointDestinationDescription? httpEndpointDestinationDescription;
 
   /// The destination in Amazon Redshift.
-  @_s.JsonKey(name: 'RedshiftDestinationDescription')
-  final RedshiftDestinationDescription redshiftDestinationDescription;
+  final RedshiftDestinationDescription? redshiftDestinationDescription;
 
   /// [Deprecated] The destination in Amazon S3.
-  @_s.JsonKey(name: 'S3DestinationDescription')
-  final S3DestinationDescription s3DestinationDescription;
+  final S3DestinationDescription? s3DestinationDescription;
 
   /// The destination in Splunk.
-  @_s.JsonKey(name: 'SplunkDestinationDescription')
-  final SplunkDestinationDescription splunkDestinationDescription;
+  final SplunkDestinationDescription? splunkDestinationDescription;
 
   DestinationDescription({
-    @_s.required this.destinationId,
+    required this.destinationId,
     this.elasticsearchDestinationDescription,
     this.extendedS3DestinationDescription,
     this.httpEndpointDestinationDescription,
@@ -1854,22 +2054,50 @@ class DestinationDescription {
     this.s3DestinationDescription,
     this.splunkDestinationDescription,
   });
-  factory DestinationDescription.fromJson(Map<String, dynamic> json) =>
-      _$DestinationDescriptionFromJson(json);
+  factory DestinationDescription.fromJson(Map<String, dynamic> json) {
+    return DestinationDescription(
+      destinationId: json['DestinationId'] as String,
+      elasticsearchDestinationDescription:
+          json['ElasticsearchDestinationDescription'] != null
+              ? ElasticsearchDestinationDescription.fromJson(
+                  json['ElasticsearchDestinationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      extendedS3DestinationDescription:
+          json['ExtendedS3DestinationDescription'] != null
+              ? ExtendedS3DestinationDescription.fromJson(
+                  json['ExtendedS3DestinationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      httpEndpointDestinationDescription:
+          json['HttpEndpointDestinationDescription'] != null
+              ? HttpEndpointDestinationDescription.fromJson(
+                  json['HttpEndpointDestinationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      redshiftDestinationDescription: json['RedshiftDestinationDescription'] !=
+              null
+          ? RedshiftDestinationDescription.fromJson(
+              json['RedshiftDestinationDescription'] as Map<String, dynamic>)
+          : null,
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      splunkDestinationDescription: json['SplunkDestinationDescription'] != null
+          ? SplunkDestinationDescription.fromJson(
+              json['SplunkDestinationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes the buffering to perform before delivering data to the Amazon ES
 /// destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
-  @_s.JsonKey(name: 'IntervalInSeconds')
-  final int intervalInSeconds;
+  final int? intervalInSeconds;
 
   /// Buffer incoming data to the specified size, in MBs, before delivering it to
   /// the destination. The default value is 5.
@@ -1878,28 +2106,32 @@ class ElasticsearchBufferingHints {
   /// data you typically ingest into the delivery stream in 10 seconds. For
   /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
   /// or higher.
-  @_s.JsonKey(name: 'SizeInMBs')
-  final int sizeInMBs;
+  final int? sizeInMBs;
 
   ElasticsearchBufferingHints({
     this.intervalInSeconds,
     this.sizeInMBs,
   });
-  factory ElasticsearchBufferingHints.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchBufferingHintsFromJson(json);
+  factory ElasticsearchBufferingHints.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ElasticsearchBufferingHintsToJson(this);
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
 }
 
 /// Describes the configuration of a destination in Amazon ES.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ElasticsearchDestinationConfiguration {
   /// The Elasticsearch index name.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
@@ -1909,26 +2141,21 @@ class ElasticsearchDestinationConfiguration {
   /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> and <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The configuration for the backup Amazon S3 location.
-  @_s.JsonKey(name: 'S3Configuration')
   final S3DestinationConfiguration s3Configuration;
 
   /// The buffering options. If no value is specified, the default values for
   /// <code>ElasticsearchBufferingHints</code> are used.
-  @_s.JsonKey(name: 'BufferingHints')
-  final ElasticsearchBufferingHints bufferingHints;
+  final ElasticsearchBufferingHints? bufferingHints;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The endpoint to use when communicating with the cluster. Specify either this
   /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
-  @_s.JsonKey(name: 'ClusterEndpoint')
-  final String clusterEndpoint;
+  final String? clusterEndpoint;
 
   /// The ARN of the Amazon ES domain. The IAM role must have permissions
   /// for <code>DescribeElasticsearchDomain</code>,
@@ -1939,8 +2166,7 @@ class ElasticsearchDestinationConfiguration {
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
   ///
   /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
-  @_s.JsonKey(name: 'DomainARN')
-  final String domainARN;
+  final String? domainARN;
 
   /// The Elasticsearch index rotation period. Index rotation appends a timestamp
   /// to the <code>IndexName</code> to facilitate the expiration of old data. For
@@ -1948,17 +2174,14 @@ class ElasticsearchDestinationConfiguration {
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
   /// Rotation for the Amazon ES Destination</a>. The default value
   /// is <code>OneDay</code>.
-  @_s.JsonKey(name: 'IndexRotationPeriod')
-  final ElasticsearchIndexRotationPeriod indexRotationPeriod;
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver
   /// documents to Amazon ES. The default value is 300 (5 minutes).
-  @_s.JsonKey(name: 'RetryOptions')
-  final ElasticsearchRetryOptions retryOptions;
+  final ElasticsearchRetryOptions? retryOptions;
 
   /// Defines how documents should be delivered to Amazon S3. When it is set to
   /// <code>FailedDocumentsOnly</code>, Kinesis Data Firehose writes any documents
@@ -1973,8 +2196,7 @@ class ElasticsearchDestinationConfiguration {
   /// <code>FailedDocumentsOnly</code>.
   ///
   /// You can't change this backup mode after you create the delivery stream.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final ElasticsearchS3BackupMode s3BackupMode;
+  final ElasticsearchS3BackupMode? s3BackupMode;
 
   /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
   /// type per index. If you try to specify a new type for an existing index that
@@ -1982,17 +2204,15 @@ class ElasticsearchDestinationConfiguration {
   /// time.
   ///
   /// For Elasticsearch 7.x, don't specify a <code>TypeName</code>.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   /// The details of the VPC of the Amazon ES destination.
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   ElasticsearchDestinationConfiguration({
-    @_s.required this.indexName,
-    @_s.required this.roleARN,
-    @_s.required this.s3Configuration,
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.clusterEndpoint,
@@ -2004,30 +2224,53 @@ class ElasticsearchDestinationConfiguration {
     this.typeName,
     this.vpcConfiguration,
   });
-  Map<String, dynamic> toJson() =>
-      _$ElasticsearchDestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final domainARN = this.domainARN;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final typeName = this.typeName;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 /// The destination description in Amazon ES.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticsearchDestinationDescription {
   /// The buffering options.
-  @_s.JsonKey(name: 'BufferingHints')
-  final ElasticsearchBufferingHints bufferingHints;
+  final ElasticsearchBufferingHints? bufferingHints;
 
   /// The Amazon CloudWatch logging options.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The endpoint to use when communicating with the cluster. Kinesis Data
   /// Firehose uses either this <code>ClusterEndpoint</code> or the
   /// <code>DomainARN</code> field to send data to Amazon ES.
-  @_s.JsonKey(name: 'ClusterEndpoint')
-  final String clusterEndpoint;
+  final String? clusterEndpoint;
 
   /// The ARN of the Amazon ES domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2035,48 +2278,38 @@ class ElasticsearchDestinationDescription {
   ///
   /// Kinesis Data Firehose uses either <code>ClusterEndpoint</code> or
   /// <code>DomainARN</code> to send data to Amazon ES.
-  @_s.JsonKey(name: 'DomainARN')
-  final String domainARN;
+  final String? domainARN;
 
   /// The Elasticsearch index name.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The Elasticsearch index rotation period
-  @_s.JsonKey(name: 'IndexRotationPeriod')
-  final ElasticsearchIndexRotationPeriod indexRotationPeriod;
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The Amazon ES retry options.
-  @_s.JsonKey(name: 'RetryOptions')
-  final ElasticsearchRetryOptions retryOptions;
+  final ElasticsearchRetryOptions? retryOptions;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// The Amazon S3 backup mode.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final ElasticsearchS3BackupMode s3BackupMode;
+  final ElasticsearchS3BackupMode? s3BackupMode;
 
   /// The Amazon S3 destination.
-  @_s.JsonKey(name: 'S3DestinationDescription')
-  final S3DestinationDescription s3DestinationDescription;
+  final S3DestinationDescription? s3DestinationDescription;
 
   /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower
   /// versions. For Elasticsearch 7.x, there's no value for <code>TypeName</code>.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   /// The details of the VPC of the Amazon ES destination.
-  @_s.JsonKey(name: 'VpcConfigurationDescription')
-  final VpcConfigurationDescription vpcConfigurationDescription;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
 
   ElasticsearchDestinationDescription({
     this.bufferingHints,
@@ -2094,30 +2327,57 @@ class ElasticsearchDestinationDescription {
     this.vpcConfigurationDescription,
   });
   factory ElasticsearchDestinationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ElasticsearchDestinationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ElasticsearchDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? ElasticsearchBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      clusterEndpoint: json['ClusterEndpoint'] as String?,
+      domainARN: json['DomainARN'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
+          ?.toElasticsearchIndexRotationPeriod(),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? ElasticsearchRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode:
+          (json['S3BackupMode'] as String?)?.toElasticsearchS3BackupMode(),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      typeName: json['TypeName'] as String?,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes an update for a destination in Amazon ES.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ElasticsearchDestinationUpdate {
   /// The buffering options. If no value is specified,
   /// <code>ElasticsearchBufferingHints</code> object default values are used.
-  @_s.JsonKey(name: 'BufferingHints')
-  final ElasticsearchBufferingHints bufferingHints;
+  final ElasticsearchBufferingHints? bufferingHints;
 
   /// The CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The endpoint to use when communicating with the cluster. Specify either this
   /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
-  @_s.JsonKey(name: 'ClusterEndpoint')
-  final String clusterEndpoint;
+  final String? clusterEndpoint;
 
   /// The ARN of the Amazon ES domain. The IAM role must have permissions
   /// for <code>DescribeElasticsearchDomain</code>,
@@ -2128,12 +2388,10 @@ class ElasticsearchDestinationUpdate {
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
   ///
   /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
-  @_s.JsonKey(name: 'DomainARN')
-  final String domainARN;
+  final String? domainARN;
 
   /// The Elasticsearch index name.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The Elasticsearch index rotation period. Index rotation appends a timestamp
   /// to <code>IndexName</code> to facilitate the expiration of old data. For more
@@ -2141,17 +2399,14 @@ class ElasticsearchDestinationUpdate {
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
   /// Rotation for the Amazon ES Destination</a>. Default value
   /// is <code>OneDay</code>.
-  @_s.JsonKey(name: 'IndexRotationPeriod')
-  final ElasticsearchIndexRotationPeriod indexRotationPeriod;
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver
   /// documents to Amazon ES. The default value is 300 (5 minutes).
-  @_s.JsonKey(name: 'RetryOptions')
-  final ElasticsearchRetryOptions retryOptions;
+  final ElasticsearchRetryOptions? retryOptions;
 
   /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
   /// Firehose for calling the Amazon ES Configuration API and for indexing
@@ -2160,12 +2415,10 @@ class ElasticsearchDestinationUpdate {
   /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> and <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// The Amazon S3 destination.
-  @_s.JsonKey(name: 'S3Update')
-  final S3DestinationUpdate s3Update;
+  final S3DestinationUpdate? s3Update;
 
   /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
   /// type per index. If you try to specify a new type for an existing index that
@@ -2176,8 +2429,7 @@ class ElasticsearchDestinationUpdate {
   /// stream, Kinesis Data Firehose still delivers data to Elasticsearch with the
   /// old index name and type name. If you want to update your delivery stream
   /// with a new index name, provide an empty string for <code>TypeName</code>.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   ElasticsearchDestinationUpdate({
     this.bufferingHints,
@@ -2192,155 +2444,230 @@ class ElasticsearchDestinationUpdate {
     this.s3Update,
     this.typeName,
   });
-  Map<String, dynamic> toJson() => _$ElasticsearchDestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3Update = this.s3Update;
+    final typeName = this.typeName;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
 }
 
 enum ElasticsearchIndexRotationPeriod {
-  @_s.JsonValue('NoRotation')
   noRotation,
-  @_s.JsonValue('OneHour')
   oneHour,
-  @_s.JsonValue('OneDay')
   oneDay,
-  @_s.JsonValue('OneWeek')
   oneWeek,
-  @_s.JsonValue('OneMonth')
   oneMonth,
+}
+
+extension on ElasticsearchIndexRotationPeriod {
+  String toValue() {
+    switch (this) {
+      case ElasticsearchIndexRotationPeriod.noRotation:
+        return 'NoRotation';
+      case ElasticsearchIndexRotationPeriod.oneHour:
+        return 'OneHour';
+      case ElasticsearchIndexRotationPeriod.oneDay:
+        return 'OneDay';
+      case ElasticsearchIndexRotationPeriod.oneWeek:
+        return 'OneWeek';
+      case ElasticsearchIndexRotationPeriod.oneMonth:
+        return 'OneMonth';
+    }
+  }
+}
+
+extension on String {
+  ElasticsearchIndexRotationPeriod toElasticsearchIndexRotationPeriod() {
+    switch (this) {
+      case 'NoRotation':
+        return ElasticsearchIndexRotationPeriod.noRotation;
+      case 'OneHour':
+        return ElasticsearchIndexRotationPeriod.oneHour;
+      case 'OneDay':
+        return ElasticsearchIndexRotationPeriod.oneDay;
+      case 'OneWeek':
+        return ElasticsearchIndexRotationPeriod.oneWeek;
+      case 'OneMonth':
+        return ElasticsearchIndexRotationPeriod.oneMonth;
+    }
+    throw Exception(
+        '$this is not known in enum ElasticsearchIndexRotationPeriod');
+  }
 }
 
 /// Configures retry behavior in case Kinesis Data Firehose is unable to deliver
 /// documents to Amazon ES.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchRetryOptions {
   /// After an initial failure to deliver to Amazon ES, the total amount of time
   /// during which Kinesis Data Firehose retries delivery (including the first
   /// attempt). After this time has elapsed, the failed documents are written to
   /// Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero)
   /// results in no retries.
-  @_s.JsonKey(name: 'DurationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   ElasticsearchRetryOptions({
     this.durationInSeconds,
   });
-  factory ElasticsearchRetryOptions.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchRetryOptionsFromJson(json);
+  factory ElasticsearchRetryOptions.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ElasticsearchRetryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
 }
 
 enum ElasticsearchS3BackupMode {
-  @_s.JsonValue('FailedDocumentsOnly')
   failedDocumentsOnly,
-  @_s.JsonValue('AllDocuments')
   allDocuments,
 }
 
+extension on ElasticsearchS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case ElasticsearchS3BackupMode.failedDocumentsOnly:
+        return 'FailedDocumentsOnly';
+      case ElasticsearchS3BackupMode.allDocuments:
+        return 'AllDocuments';
+    }
+  }
+}
+
+extension on String {
+  ElasticsearchS3BackupMode toElasticsearchS3BackupMode() {
+    switch (this) {
+      case 'FailedDocumentsOnly':
+        return ElasticsearchS3BackupMode.failedDocumentsOnly;
+      case 'AllDocuments':
+        return ElasticsearchS3BackupMode.allDocuments;
+    }
+    throw Exception('$this is not known in enum ElasticsearchS3BackupMode');
+  }
+}
+
 /// Describes the encryption for a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfiguration {
   /// The encryption key.
-  @_s.JsonKey(name: 'KMSEncryptionConfig')
-  final KMSEncryptionConfig kMSEncryptionConfig;
+  final KMSEncryptionConfig? kMSEncryptionConfig;
 
   /// Specifically override existing encryption information to ensure that no
   /// encryption is used.
-  @_s.JsonKey(name: 'NoEncryptionConfig')
-  final NoEncryptionConfig noEncryptionConfig;
+  final NoEncryptionConfig? noEncryptionConfig;
 
   EncryptionConfiguration({
     this.kMSEncryptionConfig,
     this.noEncryptionConfig,
   });
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigurationFromJson(json);
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      kMSEncryptionConfig: json['KMSEncryptionConfig'] != null
+          ? KMSEncryptionConfig.fromJson(
+              json['KMSEncryptionConfig'] as Map<String, dynamic>)
+          : null,
+      noEncryptionConfig:
+          (json['NoEncryptionConfig'] as String?)?.toNoEncryptionConfig(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final kMSEncryptionConfig = this.kMSEncryptionConfig;
+    final noEncryptionConfig = this.noEncryptionConfig;
+    return {
+      if (kMSEncryptionConfig != null)
+        'KMSEncryptionConfig': kMSEncryptionConfig,
+      if (noEncryptionConfig != null)
+        'NoEncryptionConfig': noEncryptionConfig.toValue(),
+    };
+  }
 }
 
 /// Describes the configuration of a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExtendedS3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The buffering option.
-  @_s.JsonKey(name: 'BufferingHints')
-  final BufferingHints bufferingHints;
+  final BufferingHints? bufferingHints;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The compression format. If no value is specified, the default is
   /// UNCOMPRESSED.
-  @_s.JsonKey(name: 'CompressionFormat')
-  final CompressionFormat compressionFormat;
+  final CompressionFormat? compressionFormat;
 
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
-  @_s.JsonKey(name: 'DataFormatConversionConfiguration')
-  final DataFormatConversionConfiguration dataFormatConversionConfiguration;
+  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The configuration for backup in Amazon S3.
-  @_s.JsonKey(name: 'S3BackupConfiguration')
-  final S3DestinationConfiguration s3BackupConfiguration;
+  final S3DestinationConfiguration? s3BackupConfiguration;
 
   /// The Amazon S3 backup mode. After you create a delivery stream, you can
   /// update it to enable Amazon S3 backup if it is disabled. If backup is
   /// enabled, you can't update the delivery stream to disable it.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final S3BackupMode s3BackupMode;
+  final S3BackupMode? s3BackupMode;
 
   ExtendedS3DestinationConfiguration({
-    @_s.required this.bucketARN,
-    @_s.required this.roleARN,
+    required this.bucketARN,
+    required this.roleARN,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.compressionFormat,
@@ -2352,86 +2679,102 @@ class ExtendedS3DestinationConfiguration {
     this.s3BackupConfiguration,
     this.s3BackupMode,
   });
-  Map<String, dynamic> toJson() =>
-      _$ExtendedS3DestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final roleARN = this.roleARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final dataFormatConversionConfiguration =
+        this.dataFormatConversionConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    final processingConfiguration = this.processingConfiguration;
+    final s3BackupConfiguration = this.s3BackupConfiguration;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'BucketARN': bucketARN,
+      'RoleARN': roleARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.toValue(),
+      if (dataFormatConversionConfiguration != null)
+        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (s3BackupConfiguration != null)
+        'S3BackupConfiguration': s3BackupConfiguration,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+    };
+  }
 }
 
 /// Describes a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExtendedS3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The buffering option.
-  @_s.JsonKey(name: 'BufferingHints')
   final BufferingHints bufferingHints;
 
   /// The compression format. If no value is specified, the default is
   /// <code>UNCOMPRESSED</code>.
-  @_s.JsonKey(name: 'CompressionFormat')
   final CompressionFormat compressionFormat;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
   final EncryptionConfiguration encryptionConfiguration;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
-  @_s.JsonKey(name: 'DataFormatConversionConfiguration')
-  final DataFormatConversionConfiguration dataFormatConversionConfiguration;
+  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The configuration for backup in Amazon S3.
-  @_s.JsonKey(name: 'S3BackupDescription')
-  final S3DestinationDescription s3BackupDescription;
+  final S3DestinationDescription? s3BackupDescription;
 
   /// The Amazon S3 backup mode.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final S3BackupMode s3BackupMode;
+  final S3BackupMode? s3BackupMode;
 
   ExtendedS3DestinationDescription({
-    @_s.required this.bucketARN,
-    @_s.required this.bufferingHints,
-    @_s.required this.compressionFormat,
-    @_s.required this.encryptionConfiguration,
-    @_s.required this.roleARN,
+    required this.bucketARN,
+    required this.bufferingHints,
+    required this.compressionFormat,
+    required this.encryptionConfiguration,
+    required this.roleARN,
     this.cloudWatchLoggingOptions,
     this.dataFormatConversionConfiguration,
     this.errorOutputPrefix,
@@ -2440,82 +2783,95 @@ class ExtendedS3DestinationDescription {
     this.s3BackupDescription,
     this.s3BackupMode,
   });
-  factory ExtendedS3DestinationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExtendedS3DestinationDescriptionFromJson(json);
+  factory ExtendedS3DestinationDescription.fromJson(Map<String, dynamic> json) {
+    return ExtendedS3DestinationDescription(
+      bucketARN: json['BucketARN'] as String,
+      bufferingHints: BufferingHints.fromJson(
+          json['BufferingHints'] as Map<String, dynamic>),
+      compressionFormat:
+          (json['CompressionFormat'] as String).toCompressionFormat(),
+      encryptionConfiguration: EncryptionConfiguration.fromJson(
+          json['EncryptionConfiguration'] as Map<String, dynamic>),
+      roleARN: json['RoleARN'] as String,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      dataFormatConversionConfiguration:
+          json['DataFormatConversionConfiguration'] != null
+              ? DataFormatConversionConfiguration.fromJson(
+                  json['DataFormatConversionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
+      prefix: json['Prefix'] as String?,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3BackupDescription: json['S3BackupDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3BackupDescription'] as Map<String, dynamic>)
+          : null,
+      s3BackupMode: (json['S3BackupMode'] as String?)?.toS3BackupMode(),
+    );
+  }
 }
 
 /// Describes an update for a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExtendedS3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
-  final String bucketARN;
+  final String? bucketARN;
 
   /// The buffering option.
-  @_s.JsonKey(name: 'BufferingHints')
-  final BufferingHints bufferingHints;
+  final BufferingHints? bufferingHints;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The compression format. If no value is specified, the default is
   /// <code>UNCOMPRESSED</code>.
-  @_s.JsonKey(name: 'CompressionFormat')
-  final CompressionFormat compressionFormat;
+  final CompressionFormat? compressionFormat;
 
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
-  @_s.JsonKey(name: 'DataFormatConversionConfiguration')
-  final DataFormatConversionConfiguration dataFormatConversionConfiguration;
+  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// You can update a delivery stream to enable Amazon S3 backup if it is
   /// disabled. If backup is enabled, you can't update the delivery stream to
   /// disable it.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final S3BackupMode s3BackupMode;
+  final S3BackupMode? s3BackupMode;
 
   /// The Amazon S3 destination for backup.
-  @_s.JsonKey(name: 'S3BackupUpdate')
-  final S3DestinationUpdate s3BackupUpdate;
+  final S3DestinationUpdate? s3BackupUpdate;
 
   ExtendedS3DestinationUpdate({
     this.bucketARN,
@@ -2531,40 +2887,91 @@ class ExtendedS3DestinationUpdate {
     this.s3BackupMode,
     this.s3BackupUpdate,
   });
-  Map<String, dynamic> toJson() => _$ExtendedS3DestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final dataFormatConversionConfiguration =
+        this.dataFormatConversionConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    final processingConfiguration = this.processingConfiguration;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3BackupUpdate = this.s3BackupUpdate;
+    return {
+      if (bucketARN != null) 'BucketARN': bucketARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.toValue(),
+      if (dataFormatConversionConfiguration != null)
+        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
+    };
+  }
 }
 
 /// Provides details in case one of the following operations fails due to an
 /// error related to KMS: <a>CreateDeliveryStream</a>,
 /// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
 /// <a>StopDeliveryStreamEncryption</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailureDescription {
   /// A message providing details about the error that caused the failure.
-  @_s.JsonKey(name: 'Details')
   final String details;
 
   /// The type of error that caused the failure.
-  @_s.JsonKey(name: 'Type')
   final DeliveryStreamFailureType type;
 
   FailureDescription({
-    @_s.required this.details,
-    @_s.required this.type,
+    required this.details,
+    required this.type,
   });
-  factory FailureDescription.fromJson(Map<String, dynamic> json) =>
-      _$FailureDescriptionFromJson(json);
+  factory FailureDescription.fromJson(Map<String, dynamic> json) {
+    return FailureDescription(
+      details: json['Details'] as String,
+      type: (json['Type'] as String).toDeliveryStreamFailureType(),
+    );
+  }
 }
 
 enum HECEndpointType {
-  @_s.JsonValue('Raw')
   raw,
-  @_s.JsonValue('Event')
   event,
+}
+
+extension on HECEndpointType {
+  String toValue() {
+    switch (this) {
+      case HECEndpointType.raw:
+        return 'Raw';
+      case HECEndpointType.event:
+        return 'Event';
+    }
+  }
+}
+
+extension on String {
+  HECEndpointType toHECEndpointType() {
+    switch (this) {
+      case 'Raw':
+        return HECEndpointType.raw;
+      case 'Event':
+        return HECEndpointType.event;
+    }
+    throw Exception('$this is not known in enum HECEndpointType');
+  }
 }
 
 /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for
@@ -2572,11 +2979,6 @@ enum HECEndpointType {
 /// preparation for serializing it to the Parquet or ORC format. This is one of
 /// two deserializers you can choose, depending on which one offers the
 /// functionality you need. The other option is the OpenX SerDe.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HiveJsonSerDe {
   /// Indicates how you want Kinesis Data Firehose to parse the date and
   /// timestamps that may be present in your input data JSON. To specify these
@@ -2587,16 +2989,26 @@ class HiveJsonSerDe {
   /// to parse timestamps in epoch milliseconds. If you don't specify a format,
   /// Kinesis Data Firehose uses <code>java.sql.Timestamp::valueOf</code> by
   /// default.
-  @_s.JsonKey(name: 'TimestampFormats')
-  final List<String> timestampFormats;
+  final List<String>? timestampFormats;
 
   HiveJsonSerDe({
     this.timestampFormats,
   });
-  factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) =>
-      _$HiveJsonSerDeFromJson(json);
+  factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) {
+    return HiveJsonSerDe(
+      timestampFormats: (json['TimestampFormats'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HiveJsonSerDeToJson(this);
+  Map<String, dynamic> toJson() {
+    final timestampFormats = this.timestampFormats;
+    return {
+      if (timestampFormats != null) 'TimestampFormats': timestampFormats,
+    };
+  }
 }
 
 /// Describes the buffering options that can be applied before data is delivered
@@ -2605,16 +3017,10 @@ class HiveJsonSerDe {
 /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
 /// optional. However, if specify a value for one of them, you must also provide
 /// a value for the other.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpEndpointBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
-  @_s.JsonKey(name: 'IntervalInSeconds')
-  final int intervalInSeconds;
+  final int? intervalInSeconds;
 
   /// Buffer incoming data to the specified size, in MBs, before delivering it to
   /// the destination. The default value is 5.
@@ -2623,108 +3029,113 @@ class HttpEndpointBufferingHints {
   /// data you typically ingest into the delivery stream in 10 seconds. For
   /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
   /// or higher.
-  @_s.JsonKey(name: 'SizeInMBs')
-  final int sizeInMBs;
+  final int? sizeInMBs;
 
   HttpEndpointBufferingHints({
     this.intervalInSeconds,
     this.sizeInMBs,
   });
-  factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) =>
-      _$HttpEndpointBufferingHintsFromJson(json);
+  factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpEndpointBufferingHintsToJson(this);
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
 }
 
 /// Describes the metadata that's delivered to the specified HTTP endpoint
 /// destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpEndpointCommonAttribute {
   /// The name of the HTTP endpoint common attribute.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The value of the HTTP endpoint common attribute.
-  @_s.JsonKey(name: 'AttributeValue')
   final String attributeValue;
 
   HttpEndpointCommonAttribute({
-    @_s.required this.attributeName,
-    @_s.required this.attributeValue,
+    required this.attributeName,
+    required this.attributeValue,
   });
-  factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) =>
-      _$HttpEndpointCommonAttributeFromJson(json);
+  factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointCommonAttribute(
+      attributeName: json['AttributeName'] as String,
+      attributeValue: json['AttributeValue'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpEndpointCommonAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      'AttributeName': attributeName,
+      'AttributeValue': attributeValue,
+    };
+  }
 }
 
 /// Describes the configuration of the HTTP endpoint to which Kinesis Firehose
 /// delivers data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpEndpointConfiguration {
   /// The URL of the HTTP endpoint selected as the destination.
-  @_s.JsonKey(name: 'Url')
   final String url;
 
   /// The access key required for Kinesis Firehose to authenticate with the HTTP
   /// endpoint selected as the destination.
-  @_s.JsonKey(name: 'AccessKey')
-  final String accessKey;
+  final String? accessKey;
 
   /// The name of the HTTP endpoint selected as the destination.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   HttpEndpointConfiguration({
-    @_s.required this.url,
+    required this.url,
     this.accessKey,
     this.name,
   });
-  Map<String, dynamic> toJson() => _$HttpEndpointConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final accessKey = this.accessKey;
+    final name = this.name;
+    return {
+      'Url': url,
+      if (accessKey != null) 'AccessKey': accessKey,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Describes the HTTP endpoint selected as the destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HttpEndpointDescription {
   /// The name of the HTTP endpoint selected as the destination.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The URL of the HTTP endpoint selected as the destination.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   HttpEndpointDescription({
     this.name,
     this.url,
   });
-  factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) =>
-      _$HttpEndpointDescriptionFromJson(json);
+  factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointDescription(
+      name: json['Name'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
 }
 
 /// Describes the configuration of the HTTP endpoint destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpEndpointDestinationConfiguration {
   /// The configuration of the HTTP endpoint selected as the destination.
-  @_s.JsonKey(name: 'EndpointConfiguration')
   final HttpEndpointConfiguration endpointConfiguration;
-  @_s.JsonKey(name: 'S3Configuration')
   final S3DestinationConfiguration s3Configuration;
 
   /// The buffering options that can be used before data is delivered to the
@@ -2733,41 +3144,34 @@ class HttpEndpointDestinationConfiguration {
   /// and <code>IntervalInSeconds</code> parameters are optional. However, if you
   /// specify a value for one of them, you must also provide a value for the
   /// other.
-  @_s.JsonKey(name: 'BufferingHints')
-  final HttpEndpointBufferingHints bufferingHints;
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final HttpEndpointBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The configuration of the requeste sent to the HTTP endpoint specified as the
   /// destination.
-  @_s.JsonKey(name: 'RequestConfiguration')
-  final HttpEndpointRequestConfiguration requestConfiguration;
+  final HttpEndpointRequestConfiguration? requestConfiguration;
 
   /// Describes the retry behavior in case Kinesis Data Firehose is unable to
   /// deliver data to the specified HTTP endpoint destination, or if it doesn't
   /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
   /// destination.
-  @_s.JsonKey(name: 'RetryOptions')
-  final HttpEndpointRetryOptions retryOptions;
+  final HttpEndpointRetryOptions? retryOptions;
 
   /// Kinesis Data Firehose uses this IAM role for all the permissions that the
   /// delivery stream needs.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// Describes the S3 bucket backup options for the data that Kinesis Data
   /// Firehose delivers to the HTTP endpoint destination. You can back up all
   /// documents (<code>AllData</code>) or only the documents that Kinesis Data
   /// Firehose could not deliver to the specified HTTP endpoint destination
   /// (<code>FailedDataOnly</code>).
-  @_s.JsonKey(name: 'S3BackupMode')
-  final HttpEndpointS3BackupMode s3BackupMode;
+  final HttpEndpointS3BackupMode? s3BackupMode;
 
   HttpEndpointDestinationConfiguration({
-    @_s.required this.endpointConfiguration,
-    @_s.required this.s3Configuration,
+    required this.endpointConfiguration,
+    required this.s3Configuration,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.processingConfiguration,
@@ -2776,16 +3180,34 @@ class HttpEndpointDestinationConfiguration {
     this.roleARN,
     this.s3BackupMode,
   });
-  Map<String, dynamic> toJson() =>
-      _$HttpEndpointDestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final endpointConfiguration = this.endpointConfiguration;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final processingConfiguration = this.processingConfiguration;
+    final requestConfiguration = this.requestConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'EndpointConfiguration': endpointConfiguration,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (requestConfiguration != null)
+        'RequestConfiguration': requestConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+    };
+  }
 }
 
 /// Describes the HTTP endpoint destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HttpEndpointDestinationDescription {
   /// Describes buffering options that can be applied to the data before it is
   /// delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats
@@ -2793,43 +3215,34 @@ class HttpEndpointDestinationDescription {
   /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
   /// optional. However, if specify a value for one of them, you must also provide
   /// a value for the other.
-  @_s.JsonKey(name: 'BufferingHints')
-  final HttpEndpointBufferingHints bufferingHints;
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final HttpEndpointBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The configuration of the specified HTTP endpoint destination.
-  @_s.JsonKey(name: 'EndpointConfiguration')
-  final HttpEndpointDescription endpointConfiguration;
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final HttpEndpointDescription? endpointConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The configuration of request sent to the HTTP endpoint specified as the
   /// destination.
-  @_s.JsonKey(name: 'RequestConfiguration')
-  final HttpEndpointRequestConfiguration requestConfiguration;
+  final HttpEndpointRequestConfiguration? requestConfiguration;
 
   /// Describes the retry behavior in case Kinesis Data Firehose is unable to
   /// deliver data to the specified HTTP endpoint destination, or if it doesn't
   /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
   /// destination.
-  @_s.JsonKey(name: 'RetryOptions')
-  final HttpEndpointRetryOptions retryOptions;
+  final HttpEndpointRetryOptions? retryOptions;
 
   /// Kinesis Data Firehose uses this IAM role for all the permissions that the
   /// delivery stream needs.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// Describes the S3 bucket backup options for the data that Kinesis Firehose
   /// delivers to the HTTP endpoint destination. You can back up all documents
   /// (<code>AllData</code>) or only the documents that Kinesis Data Firehose
   /// could not deliver to the specified HTTP endpoint destination
   /// (<code>FailedDataOnly</code>).
-  @_s.JsonKey(name: 'S3BackupMode')
-  final HttpEndpointS3BackupMode s3BackupMode;
-  @_s.JsonKey(name: 'S3DestinationDescription')
-  final S3DestinationDescription s3DestinationDescription;
+  final HttpEndpointS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
 
   HttpEndpointDestinationDescription({
     this.bufferingHints,
@@ -2843,16 +3256,44 @@ class HttpEndpointDestinationDescription {
     this.s3DestinationDescription,
   });
   factory HttpEndpointDestinationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$HttpEndpointDestinationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return HttpEndpointDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? HttpEndpointBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      endpointConfiguration: json['EndpointConfiguration'] != null
+          ? HttpEndpointDescription.fromJson(
+              json['EndpointConfiguration'] as Map<String, dynamic>)
+          : null,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      requestConfiguration: json['RequestConfiguration'] != null
+          ? HttpEndpointRequestConfiguration.fromJson(
+              json['RequestConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? HttpEndpointRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode:
+          (json['S3BackupMode'] as String?)?.toHttpEndpointS3BackupMode(),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Updates the specified HTTP endpoint destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpEndpointDestinationUpdate {
   /// Describes buffering options that can be applied to the data before it is
   /// delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats
@@ -2860,43 +3301,34 @@ class HttpEndpointDestinationUpdate {
   /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
   /// optional. However, if specify a value for one of them, you must also provide
   /// a value for the other.
-  @_s.JsonKey(name: 'BufferingHints')
-  final HttpEndpointBufferingHints bufferingHints;
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final HttpEndpointBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// Describes the configuration of the HTTP endpoint destination.
-  @_s.JsonKey(name: 'EndpointConfiguration')
-  final HttpEndpointConfiguration endpointConfiguration;
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final HttpEndpointConfiguration? endpointConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The configuration of the request sent to the HTTP endpoint specified as the
   /// destination.
-  @_s.JsonKey(name: 'RequestConfiguration')
-  final HttpEndpointRequestConfiguration requestConfiguration;
+  final HttpEndpointRequestConfiguration? requestConfiguration;
 
   /// Describes the retry behavior in case Kinesis Data Firehose is unable to
   /// deliver data to the specified HTTP endpoint destination, or if it doesn't
   /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
   /// destination.
-  @_s.JsonKey(name: 'RetryOptions')
-  final HttpEndpointRetryOptions retryOptions;
+  final HttpEndpointRetryOptions? retryOptions;
 
   /// Kinesis Data Firehose uses this IAM role for all the permissions that the
   /// delivery stream needs.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// Describes the S3 bucket backup options for the data that Kinesis Firehose
   /// delivers to the HTTP endpoint destination. You can back up all documents
   /// (<code>AllData</code>) or only the documents that Kinesis Data Firehose
   /// could not deliver to the specified HTTP endpoint destination
   /// (<code>FailedDataOnly</code>).
-  @_s.JsonKey(name: 'S3BackupMode')
-  final HttpEndpointS3BackupMode s3BackupMode;
-  @_s.JsonKey(name: 'S3Update')
-  final S3DestinationUpdate s3Update;
+  final HttpEndpointS3BackupMode? s3BackupMode;
+  final S3DestinationUpdate? s3Update;
 
   HttpEndpointDestinationUpdate({
     this.bufferingHints,
@@ -2909,246 +3341,341 @@ class HttpEndpointDestinationUpdate {
     this.s3BackupMode,
     this.s3Update,
   });
-  Map<String, dynamic> toJson() => _$HttpEndpointDestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final endpointConfiguration = this.endpointConfiguration;
+    final processingConfiguration = this.processingConfiguration;
+    final requestConfiguration = this.requestConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Update = this.s3Update;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (endpointConfiguration != null)
+        'EndpointConfiguration': endpointConfiguration,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (requestConfiguration != null)
+        'RequestConfiguration': requestConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3Update != null) 'S3Update': s3Update,
+    };
+  }
 }
 
 /// The configuration of the HTTP endpoint request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpEndpointRequestConfiguration {
   /// Describes the metadata sent to the HTTP endpoint destination.
-  @_s.JsonKey(name: 'CommonAttributes')
-  final List<HttpEndpointCommonAttribute> commonAttributes;
+  final List<HttpEndpointCommonAttribute>? commonAttributes;
 
   /// Kinesis Data Firehose uses the content encoding to compress the body of a
   /// request before sending the request to the destination. For more information,
   /// see <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding">Content-Encoding</a>
   /// in MDN Web Docs, the official Mozilla documentation.
-  @_s.JsonKey(name: 'ContentEncoding')
-  final ContentEncoding contentEncoding;
+  final ContentEncoding? contentEncoding;
 
   HttpEndpointRequestConfiguration({
     this.commonAttributes,
     this.contentEncoding,
   });
-  factory HttpEndpointRequestConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$HttpEndpointRequestConfigurationFromJson(json);
+  factory HttpEndpointRequestConfiguration.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointRequestConfiguration(
+      commonAttributes: (json['CommonAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contentEncoding:
+          (json['ContentEncoding'] as String?)?.toContentEncoding(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$HttpEndpointRequestConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final commonAttributes = this.commonAttributes;
+    final contentEncoding = this.contentEncoding;
+    return {
+      if (commonAttributes != null) 'CommonAttributes': commonAttributes,
+      if (contentEncoding != null) 'ContentEncoding': contentEncoding.toValue(),
+    };
+  }
 }
 
 /// Describes the retry behavior in case Kinesis Data Firehose is unable to
 /// deliver data to the specified HTTP endpoint destination, or if it doesn't
 /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
 /// destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpEndpointRetryOptions {
   /// The total amount of time that Kinesis Data Firehose spends on retries. This
   /// duration starts after the initial attempt to send data to the custom
   /// destination via HTTPS endpoint fails. It doesn't include the periods during
   /// which Kinesis Data Firehose waits for acknowledgment from the specified
   /// destination after each attempt.
-  @_s.JsonKey(name: 'DurationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   HttpEndpointRetryOptions({
     this.durationInSeconds,
   });
-  factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) =>
-      _$HttpEndpointRetryOptionsFromJson(json);
+  factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpEndpointRetryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
 }
 
 enum HttpEndpointS3BackupMode {
-  @_s.JsonValue('FailedDataOnly')
   failedDataOnly,
-  @_s.JsonValue('AllData')
   allData,
+}
+
+extension on HttpEndpointS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case HttpEndpointS3BackupMode.failedDataOnly:
+        return 'FailedDataOnly';
+      case HttpEndpointS3BackupMode.allData:
+        return 'AllData';
+    }
+  }
+}
+
+extension on String {
+  HttpEndpointS3BackupMode toHttpEndpointS3BackupMode() {
+    switch (this) {
+      case 'FailedDataOnly':
+        return HttpEndpointS3BackupMode.failedDataOnly;
+      case 'AllData':
+        return HttpEndpointS3BackupMode.allData;
+    }
+    throw Exception('$this is not known in enum HttpEndpointS3BackupMode');
+  }
 }
 
 /// Specifies the deserializer you want to use to convert the format of the
 /// input data. This parameter is required if <code>Enabled</code> is set to
 /// true.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputFormatConfiguration {
   /// Specifies which deserializer to use. You can choose either the Apache Hive
   /// JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects
   /// the request.
-  @_s.JsonKey(name: 'Deserializer')
-  final Deserializer deserializer;
+  final Deserializer? deserializer;
 
   InputFormatConfiguration({
     this.deserializer,
   });
-  factory InputFormatConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$InputFormatConfigurationFromJson(json);
+  factory InputFormatConfiguration.fromJson(Map<String, dynamic> json) {
+    return InputFormatConfiguration(
+      deserializer: json['Deserializer'] != null
+          ? Deserializer.fromJson(json['Deserializer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputFormatConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final deserializer = this.deserializer;
+    return {
+      if (deserializer != null) 'Deserializer': deserializer,
+    };
+  }
 }
 
 /// Describes an encryption key for a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KMSEncryptionConfig {
   /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the
   /// same AWS Region as the destination Amazon S3 bucket. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'AWSKMSKeyARN')
   final String awsKMSKeyARN;
 
   KMSEncryptionConfig({
-    @_s.required this.awsKMSKeyARN,
+    required this.awsKMSKeyARN,
   });
-  factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) =>
-      _$KMSEncryptionConfigFromJson(json);
+  factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return KMSEncryptionConfig(
+      awsKMSKeyARN: json['AWSKMSKeyARN'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KMSEncryptionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsKMSKeyARN = this.awsKMSKeyARN;
+    return {
+      'AWSKMSKeyARN': awsKMSKeyARN,
+    };
+  }
 }
 
 enum KeyType {
-  @_s.JsonValue('AWS_OWNED_CMK')
   awsOwnedCmk,
-  @_s.JsonValue('CUSTOMER_MANAGED_CMK')
   customerManagedCmk,
+}
+
+extension on KeyType {
+  String toValue() {
+    switch (this) {
+      case KeyType.awsOwnedCmk:
+        return 'AWS_OWNED_CMK';
+      case KeyType.customerManagedCmk:
+        return 'CUSTOMER_MANAGED_CMK';
+    }
+  }
+}
+
+extension on String {
+  KeyType toKeyType() {
+    switch (this) {
+      case 'AWS_OWNED_CMK':
+        return KeyType.awsOwnedCmk;
+      case 'CUSTOMER_MANAGED_CMK':
+        return KeyType.customerManagedCmk;
+    }
+    throw Exception('$this is not known in enum KeyType');
+  }
 }
 
 /// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
 /// used as the source for a delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisStreamSourceConfiguration {
   /// The ARN of the source Kinesis data stream. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Kinesis Data Streams ARN Format</a>.
-  @_s.JsonKey(name: 'KinesisStreamARN')
   final String kinesisStreamARN;
 
   /// The ARN of the role that provides access to the source Kinesis data stream.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
   /// Identity and Access Management (IAM) ARN Format</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   KinesisStreamSourceConfiguration({
-    @_s.required this.kinesisStreamARN,
-    @_s.required this.roleARN,
+    required this.kinesisStreamARN,
+    required this.roleARN,
   });
-  Map<String, dynamic> toJson() =>
-      _$KinesisStreamSourceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final kinesisStreamARN = this.kinesisStreamARN;
+    final roleARN = this.roleARN;
+    return {
+      'KinesisStreamARN': kinesisStreamARN,
+      'RoleARN': roleARN,
+    };
+  }
 }
 
 /// Details about a Kinesis data stream used as the source for a Kinesis Data
 /// Firehose delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisStreamSourceDescription {
   /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream
   /// starting with this timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeliveryStartTimestamp')
-  final DateTime deliveryStartTimestamp;
+  final DateTime? deliveryStartTimestamp;
 
   /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Kinesis Data Streams ARN Format</a>.
-  @_s.JsonKey(name: 'KinesisStreamARN')
-  final String kinesisStreamARN;
+  final String? kinesisStreamARN;
 
   /// The ARN of the role used by the source Kinesis data stream. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
   /// Identity and Access Management (IAM) ARN Format</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   KinesisStreamSourceDescription({
     this.deliveryStartTimestamp,
     this.kinesisStreamARN,
     this.roleARN,
   });
-  factory KinesisStreamSourceDescription.fromJson(Map<String, dynamic> json) =>
-      _$KinesisStreamSourceDescriptionFromJson(json);
+  factory KinesisStreamSourceDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamSourceDescription(
+      deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
+      kinesisStreamARN: json['KinesisStreamARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeliveryStreamsOutput {
   /// The names of the delivery streams.
-  @_s.JsonKey(name: 'DeliveryStreamNames')
   final List<String> deliveryStreamNames;
 
   /// Indicates whether there are more delivery streams available to list.
-  @_s.JsonKey(name: 'HasMoreDeliveryStreams')
   final bool hasMoreDeliveryStreams;
 
   ListDeliveryStreamsOutput({
-    @_s.required this.deliveryStreamNames,
-    @_s.required this.hasMoreDeliveryStreams,
+    required this.deliveryStreamNames,
+    required this.hasMoreDeliveryStreams,
   });
-  factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeliveryStreamsOutputFromJson(json);
+  factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeliveryStreamsOutput(
+      deliveryStreamNames: (json['DeliveryStreamNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      hasMoreDeliveryStreams: json['HasMoreDeliveryStreams'] as bool,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForDeliveryStreamOutput {
   /// If this is <code>true</code> in the response, more tags are available. To
   /// list the remaining tags, set <code>ExclusiveStartTagKey</code> to the key of
   /// the last tag returned and call <code>ListTagsForDeliveryStream</code> again.
-  @_s.JsonKey(name: 'HasMoreTags')
   final bool hasMoreTags;
 
   /// A list of tags associated with <code>DeliveryStreamName</code>, starting
   /// with the first tag after <code>ExclusiveStartTagKey</code> and up to the
   /// specified <code>Limit</code>.
-  @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   ListTagsForDeliveryStreamOutput({
-    @_s.required this.hasMoreTags,
-    @_s.required this.tags,
+    required this.hasMoreTags,
+    required this.tags,
   });
-  factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForDeliveryStreamOutputFromJson(json);
+  factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForDeliveryStreamOutput(
+      hasMoreTags: json['HasMoreTags'] as bool,
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum NoEncryptionConfig {
-  @_s.JsonValue('NoEncryption')
   noEncryption,
+}
+
+extension on NoEncryptionConfig {
+  String toValue() {
+    switch (this) {
+      case NoEncryptionConfig.noEncryption:
+        return 'NoEncryption';
+    }
+  }
+}
+
+extension on String {
+  NoEncryptionConfig toNoEncryptionConfig() {
+    switch (this) {
+      case 'NoEncryption':
+        return NoEncryptionConfig.noEncryption;
+    }
+    throw Exception('$this is not known in enum NoEncryptionConfig');
+  }
 }
 
 /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which
@@ -3156,24 +3683,17 @@ enum NoEncryptionConfig {
 /// to the Parquet or ORC format. This is one of two deserializers you can
 /// choose, depending on which one offers the functionality you need. The other
 /// option is the native Hive / HCatalog JsonSerDe.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OpenXJsonSerDe {
   /// When set to <code>true</code>, which is the default, Kinesis Data Firehose
   /// converts JSON keys to lowercase before deserializing them.
-  @_s.JsonKey(name: 'CaseInsensitive')
-  final bool caseInsensitive;
+  final bool? caseInsensitive;
 
   /// Maps column names to JSON keys that aren't identical to the column names.
   /// This is useful when the JSON contains keys that are Hive keywords. For
   /// example, <code>timestamp</code> is a Hive keyword. If you have a JSON key
   /// named <code>timestamp</code>, set this parameter to <code>{"ts":
   /// "timestamp"}</code> to map this key to a column named <code>ts</code>.
-  @_s.JsonKey(name: 'ColumnToJsonKeyMappings')
-  final Map<String, String> columnToJsonKeyMappings;
+  final Map<String, String>? columnToJsonKeyMappings;
 
   /// When set to <code>true</code>, specifies that the names of the keys include
   /// dots and that you want Kinesis Data Firehose to replace them with
@@ -3182,85 +3702,138 @@ class OpenXJsonSerDe {
   /// you can define the column name to be "a_b" when using this option.
   ///
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'ConvertDotsInJsonKeysToUnderscores')
-  final bool convertDotsInJsonKeysToUnderscores;
+  final bool? convertDotsInJsonKeysToUnderscores;
 
   OpenXJsonSerDe({
     this.caseInsensitive,
     this.columnToJsonKeyMappings,
     this.convertDotsInJsonKeysToUnderscores,
   });
-  factory OpenXJsonSerDe.fromJson(Map<String, dynamic> json) =>
-      _$OpenXJsonSerDeFromJson(json);
+  factory OpenXJsonSerDe.fromJson(Map<String, dynamic> json) {
+    return OpenXJsonSerDe(
+      caseInsensitive: json['CaseInsensitive'] as bool?,
+      columnToJsonKeyMappings:
+          (json['ColumnToJsonKeyMappings'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      convertDotsInJsonKeysToUnderscores:
+          json['ConvertDotsInJsonKeysToUnderscores'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OpenXJsonSerDeToJson(this);
+  Map<String, dynamic> toJson() {
+    final caseInsensitive = this.caseInsensitive;
+    final columnToJsonKeyMappings = this.columnToJsonKeyMappings;
+    final convertDotsInJsonKeysToUnderscores =
+        this.convertDotsInJsonKeysToUnderscores;
+    return {
+      if (caseInsensitive != null) 'CaseInsensitive': caseInsensitive,
+      if (columnToJsonKeyMappings != null)
+        'ColumnToJsonKeyMappings': columnToJsonKeyMappings,
+      if (convertDotsInJsonKeysToUnderscores != null)
+        'ConvertDotsInJsonKeysToUnderscores':
+            convertDotsInJsonKeysToUnderscores,
+    };
+  }
 }
 
 enum OrcCompression {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ZLIB')
   zlib,
-  @_s.JsonValue('SNAPPY')
   snappy,
 }
 
+extension on OrcCompression {
+  String toValue() {
+    switch (this) {
+      case OrcCompression.none:
+        return 'NONE';
+      case OrcCompression.zlib:
+        return 'ZLIB';
+      case OrcCompression.snappy:
+        return 'SNAPPY';
+    }
+  }
+}
+
+extension on String {
+  OrcCompression toOrcCompression() {
+    switch (this) {
+      case 'NONE':
+        return OrcCompression.none;
+      case 'ZLIB':
+        return OrcCompression.zlib;
+      case 'SNAPPY':
+        return OrcCompression.snappy;
+    }
+    throw Exception('$this is not known in enum OrcCompression');
+  }
+}
+
 enum OrcFormatVersion {
-  @_s.JsonValue('V0_11')
   v0_11,
-  @_s.JsonValue('V0_12')
   v0_12,
+}
+
+extension on OrcFormatVersion {
+  String toValue() {
+    switch (this) {
+      case OrcFormatVersion.v0_11:
+        return 'V0_11';
+      case OrcFormatVersion.v0_12:
+        return 'V0_12';
+    }
+  }
+}
+
+extension on String {
+  OrcFormatVersion toOrcFormatVersion() {
+    switch (this) {
+      case 'V0_11':
+        return OrcFormatVersion.v0_11;
+      case 'V0_12':
+        return OrcFormatVersion.v0_12;
+    }
+    throw Exception('$this is not known in enum OrcFormatVersion');
+  }
 }
 
 /// A serializer to use for converting data to the ORC format before storing it
 /// in Amazon S3. For more information, see <a
 /// href="https://orc.apache.org/docs/">Apache ORC</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OrcSerDe {
   /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
   /// intend to copy the data from Amazon S3 to HDFS before querying. The default
   /// is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value
   /// for padding calculations.
-  @_s.JsonKey(name: 'BlockSizeBytes')
-  final int blockSizeBytes;
+  final int? blockSizeBytes;
 
   /// The column names for which you want Kinesis Data Firehose to create bloom
   /// filters. The default is <code>null</code>.
-  @_s.JsonKey(name: 'BloomFilterColumns')
-  final List<String> bloomFilterColumns;
+  final List<String>? bloomFilterColumns;
 
   /// The Bloom filter false positive probability (FPP). The lower the FPP, the
   /// bigger the Bloom filter. The default value is 0.05, the minimum is 0, and
   /// the maximum is 1.
-  @_s.JsonKey(name: 'BloomFilterFalsePositiveProbability')
-  final double bloomFilterFalsePositiveProbability;
+  final double? bloomFilterFalsePositiveProbability;
 
   /// The compression code to use over data blocks. The default is
   /// <code>SNAPPY</code>.
-  @_s.JsonKey(name: 'Compression')
-  final OrcCompression compression;
+  final OrcCompression? compression;
 
   /// Represents the fraction of the total number of non-null rows. To turn off
   /// dictionary encoding, set this fraction to a number that is less than the
   /// number of distinct keys in a dictionary. To always use dictionary encoding,
   /// set this threshold to 1.
-  @_s.JsonKey(name: 'DictionaryKeyThreshold')
-  final double dictionaryKeyThreshold;
+  final double? dictionaryKeyThreshold;
 
   /// Set this to <code>true</code> to indicate that you want stripes to be padded
   /// to the HDFS block boundaries. This is useful if you intend to copy the data
   /// from Amazon S3 to HDFS before querying. The default is <code>false</code>.
-  @_s.JsonKey(name: 'EnablePadding')
-  final bool enablePadding;
+  final bool? enablePadding;
 
   /// The version of the file to write. The possible values are <code>V0_11</code>
   /// and <code>V0_12</code>. The default is <code>V0_12</code>.
-  @_s.JsonKey(name: 'FormatVersion')
-  final OrcFormatVersion formatVersion;
+  final OrcFormatVersion? formatVersion;
 
   /// A number between 0 and 1 that defines the tolerance for block padding as a
   /// decimal fraction of stripe size. The default value is 0.05, which means 5
@@ -3275,18 +3848,15 @@ class OrcSerDe {
   ///
   /// Kinesis Data Firehose ignores this parameter when
   /// <a>OrcSerDe$EnablePadding</a> is <code>false</code>.
-  @_s.JsonKey(name: 'PaddingTolerance')
-  final double paddingTolerance;
+  final double? paddingTolerance;
 
   /// The number of rows between index entries. The default is 10,000 and the
   /// minimum is 1,000.
-  @_s.JsonKey(name: 'RowIndexStride')
-  final int rowIndexStride;
+  final int? rowIndexStride;
 
   /// The number of bytes in each stripe. The default is 64 MiB and the minimum is
   /// 8 MiB.
-  @_s.JsonKey(name: 'StripeSizeBytes')
-  final int stripeSizeBytes;
+  final int? stripeSizeBytes;
 
   OrcSerDe({
     this.blockSizeBytes,
@@ -3300,87 +3870,147 @@ class OrcSerDe {
     this.rowIndexStride,
     this.stripeSizeBytes,
   });
-  factory OrcSerDe.fromJson(Map<String, dynamic> json) =>
-      _$OrcSerDeFromJson(json);
+  factory OrcSerDe.fromJson(Map<String, dynamic> json) {
+    return OrcSerDe(
+      blockSizeBytes: json['BlockSizeBytes'] as int?,
+      bloomFilterColumns: (json['BloomFilterColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      bloomFilterFalsePositiveProbability:
+          json['BloomFilterFalsePositiveProbability'] as double?,
+      compression: (json['Compression'] as String?)?.toOrcCompression(),
+      dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
+      enablePadding: json['EnablePadding'] as bool?,
+      formatVersion: (json['FormatVersion'] as String?)?.toOrcFormatVersion(),
+      paddingTolerance: json['PaddingTolerance'] as double?,
+      rowIndexStride: json['RowIndexStride'] as int?,
+      stripeSizeBytes: json['StripeSizeBytes'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OrcSerDeToJson(this);
+  Map<String, dynamic> toJson() {
+    final blockSizeBytes = this.blockSizeBytes;
+    final bloomFilterColumns = this.bloomFilterColumns;
+    final bloomFilterFalsePositiveProbability =
+        this.bloomFilterFalsePositiveProbability;
+    final compression = this.compression;
+    final dictionaryKeyThreshold = this.dictionaryKeyThreshold;
+    final enablePadding = this.enablePadding;
+    final formatVersion = this.formatVersion;
+    final paddingTolerance = this.paddingTolerance;
+    final rowIndexStride = this.rowIndexStride;
+    final stripeSizeBytes = this.stripeSizeBytes;
+    return {
+      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
+      if (bloomFilterColumns != null) 'BloomFilterColumns': bloomFilterColumns,
+      if (bloomFilterFalsePositiveProbability != null)
+        'BloomFilterFalsePositiveProbability':
+            bloomFilterFalsePositiveProbability,
+      if (compression != null) 'Compression': compression.toValue(),
+      if (dictionaryKeyThreshold != null)
+        'DictionaryKeyThreshold': dictionaryKeyThreshold,
+      if (enablePadding != null) 'EnablePadding': enablePadding,
+      if (formatVersion != null) 'FormatVersion': formatVersion.toValue(),
+      if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
+      if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
+      if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
+    };
+  }
 }
 
 /// Specifies the serializer that you want Kinesis Data Firehose to use to
 /// convert the format of your data before it writes it to Amazon S3. This
 /// parameter is required if <code>Enabled</code> is set to true.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputFormatConfiguration {
   /// Specifies which serializer to use. You can choose either the ORC SerDe or
   /// the Parquet SerDe. If both are non-null, the server rejects the request.
-  @_s.JsonKey(name: 'Serializer')
-  final Serializer serializer;
+  final Serializer? serializer;
 
   OutputFormatConfiguration({
     this.serializer,
   });
-  factory OutputFormatConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$OutputFormatConfigurationFromJson(json);
+  factory OutputFormatConfiguration.fromJson(Map<String, dynamic> json) {
+    return OutputFormatConfiguration(
+      serializer: json['Serializer'] != null
+          ? Serializer.fromJson(json['Serializer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutputFormatConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final serializer = this.serializer;
+    return {
+      if (serializer != null) 'Serializer': serializer,
+    };
+  }
 }
 
 enum ParquetCompression {
-  @_s.JsonValue('UNCOMPRESSED')
   uncompressed,
-  @_s.JsonValue('GZIP')
   gzip,
-  @_s.JsonValue('SNAPPY')
   snappy,
+}
+
+extension on ParquetCompression {
+  String toValue() {
+    switch (this) {
+      case ParquetCompression.uncompressed:
+        return 'UNCOMPRESSED';
+      case ParquetCompression.gzip:
+        return 'GZIP';
+      case ParquetCompression.snappy:
+        return 'SNAPPY';
+    }
+  }
+}
+
+extension on String {
+  ParquetCompression toParquetCompression() {
+    switch (this) {
+      case 'UNCOMPRESSED':
+        return ParquetCompression.uncompressed;
+      case 'GZIP':
+        return ParquetCompression.gzip;
+      case 'SNAPPY':
+        return ParquetCompression.snappy;
+    }
+    throw Exception('$this is not known in enum ParquetCompression');
+  }
 }
 
 /// A serializer to use for converting data to the Parquet format before storing
 /// it in Amazon S3. For more information, see <a
 /// href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParquetSerDe {
   /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
   /// intend to copy the data from Amazon S3 to HDFS before querying. The default
   /// is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value
   /// for padding calculations.
-  @_s.JsonKey(name: 'BlockSizeBytes')
-  final int blockSizeBytes;
+  final int? blockSizeBytes;
 
   /// The compression code to use over data blocks. The possible values are
   /// <code>UNCOMPRESSED</code>, <code>SNAPPY</code>, and <code>GZIP</code>, with
   /// the default being <code>SNAPPY</code>. Use <code>SNAPPY</code> for higher
   /// decompression speed. Use <code>GZIP</code> if the compression ratio is more
   /// important than speed.
-  @_s.JsonKey(name: 'Compression')
-  final ParquetCompression compression;
+  final ParquetCompression? compression;
 
   /// Indicates whether to enable dictionary compression.
-  @_s.JsonKey(name: 'EnableDictionaryCompression')
-  final bool enableDictionaryCompression;
+  final bool? enableDictionaryCompression;
 
   /// The maximum amount of padding to apply. This is useful if you intend to copy
   /// the data from Amazon S3 to HDFS before querying. The default is 0.
-  @_s.JsonKey(name: 'MaxPaddingBytes')
-  final int maxPaddingBytes;
+  final int? maxPaddingBytes;
 
   /// The Parquet page size. Column chunks are divided into pages. A page is
   /// conceptually an indivisible unit (in terms of compression and encoding). The
   /// minimum value is 64 KiB and the default is 1 MiB.
-  @_s.JsonKey(name: 'PageSizeBytes')
-  final int pageSizeBytes;
+  final int? pageSizeBytes;
 
   /// Indicates the version of row format to output. The possible values are
   /// <code>V1</code> and <code>V2</code>. The default is <code>V1</code>.
-  @_s.JsonKey(name: 'WriterVersion')
-  final ParquetWriterVersion writerVersion;
+  final ParquetWriterVersion? writerVersion;
 
   ParquetSerDe({
     this.blockSizeBytes,
@@ -3390,241 +4020,338 @@ class ParquetSerDe {
     this.pageSizeBytes,
     this.writerVersion,
   });
-  factory ParquetSerDe.fromJson(Map<String, dynamic> json) =>
-      _$ParquetSerDeFromJson(json);
+  factory ParquetSerDe.fromJson(Map<String, dynamic> json) {
+    return ParquetSerDe(
+      blockSizeBytes: json['BlockSizeBytes'] as int?,
+      compression: (json['Compression'] as String?)?.toParquetCompression(),
+      enableDictionaryCompression: json['EnableDictionaryCompression'] as bool?,
+      maxPaddingBytes: json['MaxPaddingBytes'] as int?,
+      pageSizeBytes: json['PageSizeBytes'] as int?,
+      writerVersion:
+          (json['WriterVersion'] as String?)?.toParquetWriterVersion(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ParquetSerDeToJson(this);
+  Map<String, dynamic> toJson() {
+    final blockSizeBytes = this.blockSizeBytes;
+    final compression = this.compression;
+    final enableDictionaryCompression = this.enableDictionaryCompression;
+    final maxPaddingBytes = this.maxPaddingBytes;
+    final pageSizeBytes = this.pageSizeBytes;
+    final writerVersion = this.writerVersion;
+    return {
+      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
+      if (compression != null) 'Compression': compression.toValue(),
+      if (enableDictionaryCompression != null)
+        'EnableDictionaryCompression': enableDictionaryCompression,
+      if (maxPaddingBytes != null) 'MaxPaddingBytes': maxPaddingBytes,
+      if (pageSizeBytes != null) 'PageSizeBytes': pageSizeBytes,
+      if (writerVersion != null) 'WriterVersion': writerVersion.toValue(),
+    };
+  }
 }
 
 enum ParquetWriterVersion {
-  @_s.JsonValue('V1')
   v1,
-  @_s.JsonValue('V2')
   v2,
 }
 
+extension on ParquetWriterVersion {
+  String toValue() {
+    switch (this) {
+      case ParquetWriterVersion.v1:
+        return 'V1';
+      case ParquetWriterVersion.v2:
+        return 'V2';
+    }
+  }
+}
+
+extension on String {
+  ParquetWriterVersion toParquetWriterVersion() {
+    switch (this) {
+      case 'V1':
+        return ParquetWriterVersion.v1;
+      case 'V2':
+        return ParquetWriterVersion.v2;
+    }
+    throw Exception('$this is not known in enum ParquetWriterVersion');
+  }
+}
+
 /// Describes a data processing configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProcessingConfiguration {
   /// Enables or disables data processing.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The data processors.
-  @_s.JsonKey(name: 'Processors')
-  final List<Processor> processors;
+  final List<Processor>? processors;
 
   ProcessingConfiguration({
     this.enabled,
     this.processors,
   });
-  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ProcessingConfigurationFromJson(json);
+  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProcessingConfiguration(
+      enabled: json['Enabled'] as bool?,
+      processors: (json['Processors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProcessingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final processors = this.processors;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (processors != null) 'Processors': processors,
+    };
+  }
 }
 
 /// Describes a data processor.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Processor {
   /// The type of processor.
-  @_s.JsonKey(name: 'Type')
   final ProcessorType type;
 
   /// The processor parameters.
-  @_s.JsonKey(name: 'Parameters')
-  final List<ProcessorParameter> parameters;
+  final List<ProcessorParameter>? parameters;
 
   Processor({
-    @_s.required this.type,
+    required this.type,
     this.parameters,
   });
-  factory Processor.fromJson(Map<String, dynamic> json) =>
-      _$ProcessorFromJson(json);
+  factory Processor.fromJson(Map<String, dynamic> json) {
+    return Processor(
+      type: (json['Type'] as String).toProcessorType(),
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProcessorToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final parameters = this.parameters;
+    return {
+      'Type': type.toValue(),
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// Describes the processor parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProcessorParameter {
   /// The name of the parameter.
-  @_s.JsonKey(name: 'ParameterName')
   final ProcessorParameterName parameterName;
 
   /// The parameter value.
-  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   ProcessorParameter({
-    @_s.required this.parameterName,
-    @_s.required this.parameterValue,
+    required this.parameterName,
+    required this.parameterValue,
   });
-  factory ProcessorParameter.fromJson(Map<String, dynamic> json) =>
-      _$ProcessorParameterFromJson(json);
+  factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
+    return ProcessorParameter(
+      parameterName:
+          (json['ParameterName'] as String).toProcessorParameterName(),
+      parameterValue: json['ParameterValue'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProcessorParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      'ParameterName': parameterName.toValue(),
+      'ParameterValue': parameterValue,
+    };
+  }
 }
 
 enum ProcessorParameterName {
-  @_s.JsonValue('LambdaArn')
   lambdaArn,
-  @_s.JsonValue('NumberOfRetries')
   numberOfRetries,
-  @_s.JsonValue('RoleArn')
   roleArn,
-  @_s.JsonValue('BufferSizeInMBs')
   bufferSizeInMBs,
-  @_s.JsonValue('BufferIntervalInSeconds')
   bufferIntervalInSeconds,
 }
 
+extension on ProcessorParameterName {
+  String toValue() {
+    switch (this) {
+      case ProcessorParameterName.lambdaArn:
+        return 'LambdaArn';
+      case ProcessorParameterName.numberOfRetries:
+        return 'NumberOfRetries';
+      case ProcessorParameterName.roleArn:
+        return 'RoleArn';
+      case ProcessorParameterName.bufferSizeInMBs:
+        return 'BufferSizeInMBs';
+      case ProcessorParameterName.bufferIntervalInSeconds:
+        return 'BufferIntervalInSeconds';
+    }
+  }
+}
+
+extension on String {
+  ProcessorParameterName toProcessorParameterName() {
+    switch (this) {
+      case 'LambdaArn':
+        return ProcessorParameterName.lambdaArn;
+      case 'NumberOfRetries':
+        return ProcessorParameterName.numberOfRetries;
+      case 'RoleArn':
+        return ProcessorParameterName.roleArn;
+      case 'BufferSizeInMBs':
+        return ProcessorParameterName.bufferSizeInMBs;
+      case 'BufferIntervalInSeconds':
+        return ProcessorParameterName.bufferIntervalInSeconds;
+    }
+    throw Exception('$this is not known in enum ProcessorParameterName');
+  }
+}
+
 enum ProcessorType {
-  @_s.JsonValue('Lambda')
   lambda,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ProcessorType {
+  String toValue() {
+    switch (this) {
+      case ProcessorType.lambda:
+        return 'Lambda';
+    }
+  }
+}
+
+extension on String {
+  ProcessorType toProcessorType() {
+    switch (this) {
+      case 'Lambda':
+        return ProcessorType.lambda;
+    }
+    throw Exception('$this is not known in enum ProcessorType');
+  }
+}
+
 class PutRecordBatchOutput {
   /// The number of records that might have failed processing. This number might
   /// be greater than 0 even if the <a>PutRecordBatch</a> call succeeds. Check
   /// <code>FailedPutCount</code> to determine whether there are records that you
   /// need to resend.
-  @_s.JsonKey(name: 'FailedPutCount')
   final int failedPutCount;
 
   /// The results array. For each record, the index of the response element is the
   /// same as the index used in the request array.
-  @_s.JsonKey(name: 'RequestResponses')
   final List<PutRecordBatchResponseEntry> requestResponses;
 
   /// Indicates whether server-side encryption (SSE) was enabled during this
   /// operation.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   PutRecordBatchOutput({
-    @_s.required this.failedPutCount,
-    @_s.required this.requestResponses,
+    required this.failedPutCount,
+    required this.requestResponses,
     this.encrypted,
   });
-  factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordBatchOutputFromJson(json);
+  factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordBatchOutput(
+      failedPutCount: json['FailedPutCount'] as int,
+      requestResponses: (json['RequestResponses'] as List)
+          .whereNotNull()
+          .map((e) =>
+              PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encrypted: json['Encrypted'] as bool?,
+    );
+  }
 }
 
 /// Contains the result for an individual record from a <a>PutRecordBatch</a>
 /// request. If the record is successfully added to your delivery stream, it
 /// receives a record ID. If the record fails to be added to your delivery
 /// stream, the result includes an error code and an error message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRecordBatchResponseEntry {
   /// The error code for an individual record result.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message for an individual record result.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the record.
-  @_s.JsonKey(name: 'RecordId')
-  final String recordId;
+  final String? recordId;
 
   PutRecordBatchResponseEntry({
     this.errorCode,
     this.errorMessage,
     this.recordId,
   });
-  factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordBatchResponseEntryFromJson(json);
+  factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) {
+    return PutRecordBatchResponseEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      recordId: json['RecordId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRecordOutput {
   /// The ID of the record.
-  @_s.JsonKey(name: 'RecordId')
   final String recordId;
 
   /// Indicates whether server-side encryption (SSE) was enabled during this
   /// operation.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   PutRecordOutput({
-    @_s.required this.recordId,
+    required this.recordId,
     this.encrypted,
   });
-  factory PutRecordOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordOutputFromJson(json);
+  factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordOutput(
+      recordId: json['RecordId'] as String,
+      encrypted: json['Encrypted'] as bool?,
+    );
+  }
 }
 
 /// The unit of data in a delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Record {
   /// The data blob, which is base64-encoded when the blob is serialized. The
   /// maximum size of the data blob, before base64-encoding, is 1,000 KiB.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Data')
   final Uint8List data;
 
   Record({
-    @_s.required this.data,
+    required this.data,
   });
-  Map<String, dynamic> toJson() => _$RecordToJson(this);
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
 }
 
 /// Describes the configuration of a destination in Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RedshiftDestinationConfiguration {
   /// The database connection string.
-  @_s.JsonKey(name: 'ClusterJDBCURL')
   final String clusterJDBCURL;
 
   /// The <code>COPY</code> command.
-  @_s.JsonKey(name: 'CopyCommand')
   final CopyCommand copyCommand;
 
   /// The user password.
-  @_s.JsonKey(name: 'Password')
   final String password;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The configuration for the intermediate Amazon S3 location from which Amazon
@@ -3635,168 +4362,185 @@ class RedshiftDestinationConfiguration {
   /// specified in <code>RedshiftDestinationConfiguration.S3Configuration</code>
   /// because the Amazon Redshift <code>COPY</code> operation that reads from the
   /// S3 bucket doesn't support these compression formats.
-  @_s.JsonKey(name: 'S3Configuration')
   final S3DestinationConfiguration s3Configuration;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   /// The CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver
   /// documents to Amazon Redshift. Default value is 3600 (60 minutes).
-  @_s.JsonKey(name: 'RetryOptions')
-  final RedshiftRetryOptions retryOptions;
+  final RedshiftRetryOptions? retryOptions;
 
   /// The configuration for backup in Amazon S3.
-  @_s.JsonKey(name: 'S3BackupConfiguration')
-  final S3DestinationConfiguration s3BackupConfiguration;
+  final S3DestinationConfiguration? s3BackupConfiguration;
 
   /// The Amazon S3 backup mode. After you create a delivery stream, you can
   /// update it to enable Amazon S3 backup if it is disabled. If backup is
   /// enabled, you can't update the delivery stream to disable it.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final RedshiftS3BackupMode s3BackupMode;
+  final RedshiftS3BackupMode? s3BackupMode;
 
   RedshiftDestinationConfiguration({
-    @_s.required this.clusterJDBCURL,
-    @_s.required this.copyCommand,
-    @_s.required this.password,
-    @_s.required this.roleARN,
-    @_s.required this.s3Configuration,
-    @_s.required this.username,
+    required this.clusterJDBCURL,
+    required this.copyCommand,
+    required this.password,
+    required this.roleARN,
+    required this.s3Configuration,
+    required this.username,
     this.cloudWatchLoggingOptions,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupConfiguration,
     this.s3BackupMode,
   });
-  Map<String, dynamic> toJson() =>
-      _$RedshiftDestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterJDBCURL = this.clusterJDBCURL;
+    final copyCommand = this.copyCommand;
+    final password = this.password;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final username = this.username;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupConfiguration = this.s3BackupConfiguration;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'ClusterJDBCURL': clusterJDBCURL,
+      'CopyCommand': copyCommand,
+      'Password': password,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      'Username': username,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupConfiguration != null)
+        'S3BackupConfiguration': s3BackupConfiguration,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+    };
+  }
 }
 
 /// Describes a destination in Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedshiftDestinationDescription {
   /// The database connection string.
-  @_s.JsonKey(name: 'ClusterJDBCURL')
   final String clusterJDBCURL;
 
   /// The <code>COPY</code> command.
-  @_s.JsonKey(name: 'CopyCommand')
   final CopyCommand copyCommand;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The Amazon S3 destination.
-  @_s.JsonKey(name: 'S3DestinationDescription')
   final S3DestinationDescription s3DestinationDescription;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver
   /// documents to Amazon Redshift. Default value is 3600 (60 minutes).
-  @_s.JsonKey(name: 'RetryOptions')
-  final RedshiftRetryOptions retryOptions;
+  final RedshiftRetryOptions? retryOptions;
 
   /// The configuration for backup in Amazon S3.
-  @_s.JsonKey(name: 'S3BackupDescription')
-  final S3DestinationDescription s3BackupDescription;
+  final S3DestinationDescription? s3BackupDescription;
 
   /// The Amazon S3 backup mode.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final RedshiftS3BackupMode s3BackupMode;
+  final RedshiftS3BackupMode? s3BackupMode;
 
   RedshiftDestinationDescription({
-    @_s.required this.clusterJDBCURL,
-    @_s.required this.copyCommand,
-    @_s.required this.roleARN,
-    @_s.required this.s3DestinationDescription,
-    @_s.required this.username,
+    required this.clusterJDBCURL,
+    required this.copyCommand,
+    required this.roleARN,
+    required this.s3DestinationDescription,
+    required this.username,
     this.cloudWatchLoggingOptions,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupDescription,
     this.s3BackupMode,
   });
-  factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftDestinationDescriptionFromJson(json);
+  factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return RedshiftDestinationDescription(
+      clusterJDBCURL: json['ClusterJDBCURL'] as String,
+      copyCommand:
+          CopyCommand.fromJson(json['CopyCommand'] as Map<String, dynamic>),
+      roleARN: json['RoleARN'] as String,
+      s3DestinationDescription: S3DestinationDescription.fromJson(
+          json['S3DestinationDescription'] as Map<String, dynamic>),
+      username: json['Username'] as String,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? RedshiftRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      s3BackupDescription: json['S3BackupDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3BackupDescription'] as Map<String, dynamic>)
+          : null,
+      s3BackupMode: (json['S3BackupMode'] as String?)?.toRedshiftS3BackupMode(),
+    );
+  }
 }
 
 /// Describes an update for a destination in Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RedshiftDestinationUpdate {
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The database connection string.
-  @_s.JsonKey(name: 'ClusterJDBCURL')
-  final String clusterJDBCURL;
+  final String? clusterJDBCURL;
 
   /// The <code>COPY</code> command.
-  @_s.JsonKey(name: 'CopyCommand')
-  final CopyCommand copyCommand;
+  final CopyCommand? copyCommand;
 
   /// The user password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver
   /// documents to Amazon Redshift. Default value is 3600 (60 minutes).
-  @_s.JsonKey(name: 'RetryOptions')
-  final RedshiftRetryOptions retryOptions;
+  final RedshiftRetryOptions? retryOptions;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// You can update a delivery stream to enable Amazon S3 backup if it is
   /// disabled. If backup is enabled, you can't update the delivery stream to
   /// disable it.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final RedshiftS3BackupMode s3BackupMode;
+  final RedshiftS3BackupMode? s3BackupMode;
 
   /// The Amazon S3 destination for backup.
-  @_s.JsonKey(name: 'S3BackupUpdate')
-  final S3DestinationUpdate s3BackupUpdate;
+  final S3DestinationUpdate? s3BackupUpdate;
 
   /// The Amazon S3 destination.
   ///
@@ -3804,12 +4548,10 @@ class RedshiftDestinationUpdate {
   /// specified in <code>RedshiftDestinationUpdate.S3Update</code> because the
   /// Amazon Redshift <code>COPY</code> operation that reads from the S3 bucket
   /// doesn't support these compression formats.
-  @_s.JsonKey(name: 'S3Update')
-  final S3DestinationUpdate s3Update;
+  final S3DestinationUpdate? s3Update;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   RedshiftDestinationUpdate({
     this.cloudWatchLoggingOptions,
@@ -3824,76 +4566,138 @@ class RedshiftDestinationUpdate {
     this.s3Update,
     this.username,
   });
-  Map<String, dynamic> toJson() => _$RedshiftDestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterJDBCURL = this.clusterJDBCURL;
+    final copyCommand = this.copyCommand;
+    final password = this.password;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3BackupUpdate = this.s3BackupUpdate;
+    final s3Update = this.s3Update;
+    final username = this.username;
+    return {
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterJDBCURL != null) 'ClusterJDBCURL': clusterJDBCURL,
+      if (copyCommand != null) 'CopyCommand': copyCommand,
+      if (password != null) 'Password': password,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// Configures retry behavior in case Kinesis Data Firehose is unable to deliver
 /// documents to Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RedshiftRetryOptions {
   /// The length of time during which Kinesis Data Firehose retries delivery after
   /// a failure, starting from the initial request and including the first
   /// attempt. The default value is 3600 seconds (60 minutes). Kinesis Data
   /// Firehose does not retry if the value of <code>DurationInSeconds</code> is 0
   /// (zero) or if the first delivery attempt takes longer than the current value.
-  @_s.JsonKey(name: 'DurationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   RedshiftRetryOptions({
     this.durationInSeconds,
   });
-  factory RedshiftRetryOptions.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftRetryOptionsFromJson(json);
+  factory RedshiftRetryOptions.fromJson(Map<String, dynamic> json) {
+    return RedshiftRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RedshiftRetryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
 }
 
 enum RedshiftS3BackupMode {
-  @_s.JsonValue('Disabled')
   disabled,
-  @_s.JsonValue('Enabled')
   enabled,
+}
+
+extension on RedshiftS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case RedshiftS3BackupMode.disabled:
+        return 'Disabled';
+      case RedshiftS3BackupMode.enabled:
+        return 'Enabled';
+    }
+  }
+}
+
+extension on String {
+  RedshiftS3BackupMode toRedshiftS3BackupMode() {
+    switch (this) {
+      case 'Disabled':
+        return RedshiftS3BackupMode.disabled;
+      case 'Enabled':
+        return RedshiftS3BackupMode.enabled;
+    }
+    throw Exception('$this is not known in enum RedshiftS3BackupMode');
+  }
 }
 
 enum S3BackupMode {
-  @_s.JsonValue('Disabled')
   disabled,
-  @_s.JsonValue('Enabled')
   enabled,
 }
 
+extension on S3BackupMode {
+  String toValue() {
+    switch (this) {
+      case S3BackupMode.disabled:
+        return 'Disabled';
+      case S3BackupMode.enabled:
+        return 'Enabled';
+    }
+  }
+}
+
+extension on String {
+  S3BackupMode toS3BackupMode() {
+    switch (this) {
+      case 'Disabled':
+        return S3BackupMode.disabled;
+      case 'Enabled':
+        return S3BackupMode.enabled;
+    }
+    throw Exception('$this is not known in enum S3BackupMode');
+  }
+}
+
 /// Describes the configuration of a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
   /// object default values are used.
-  @_s.JsonKey(name: 'BufferingHints')
-  final BufferingHints bufferingHints;
+  final BufferingHints? bufferingHints;
 
   /// The CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The compression format. If no value is specified, the default is
   /// <code>UNCOMPRESSED</code>.
@@ -3902,32 +4706,28 @@ class S3DestinationConfiguration {
   /// specified for Amazon Redshift destinations because they are not supported by
   /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
   /// bucket.
-  @_s.JsonKey(name: 'CompressionFormat')
-  final CompressionFormat compressionFormat;
+  final CompressionFormat? compressionFormat;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   S3DestinationConfiguration({
-    @_s.required this.bucketARN,
-    @_s.required this.roleARN,
+    required this.bucketARN,
+    required this.roleARN,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.compressionFormat,
@@ -3935,98 +4735,115 @@ class S3DestinationConfiguration {
     this.errorOutputPrefix,
     this.prefix,
   });
-  Map<String, dynamic> toJson() => _$S3DestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final roleARN = this.roleARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    return {
+      'BucketARN': bucketARN,
+      'RoleARN': roleARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.toValue(),
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
 }
 
 /// Describes a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
   /// object default values are used.
-  @_s.JsonKey(name: 'BufferingHints')
   final BufferingHints bufferingHints;
 
   /// The compression format. If no value is specified, the default is
   /// <code>UNCOMPRESSED</code>.
-  @_s.JsonKey(name: 'CompressionFormat')
   final CompressionFormat compressionFormat;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
   final EncryptionConfiguration encryptionConfiguration;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   S3DestinationDescription({
-    @_s.required this.bucketARN,
-    @_s.required this.bufferingHints,
-    @_s.required this.compressionFormat,
-    @_s.required this.encryptionConfiguration,
-    @_s.required this.roleARN,
+    required this.bucketARN,
+    required this.bufferingHints,
+    required this.compressionFormat,
+    required this.encryptionConfiguration,
+    required this.roleARN,
     this.cloudWatchLoggingOptions,
     this.errorOutputPrefix,
     this.prefix,
   });
-  factory S3DestinationDescription.fromJson(Map<String, dynamic> json) =>
-      _$S3DestinationDescriptionFromJson(json);
+  factory S3DestinationDescription.fromJson(Map<String, dynamic> json) {
+    return S3DestinationDescription(
+      bucketARN: json['BucketARN'] as String,
+      bufferingHints: BufferingHints.fromJson(
+          json['BufferingHints'] as Map<String, dynamic>),
+      compressionFormat:
+          (json['CompressionFormat'] as String).toCompressionFormat(),
+      encryptionConfiguration: EncryptionConfiguration.fromJson(
+          json['EncryptionConfiguration'] as Map<String, dynamic>),
+      roleARN: json['RoleARN'] as String,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
+      prefix: json['Prefix'] as String?,
+    );
+  }
 }
 
 /// Describes an update for a destination in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'BucketARN')
-  final String bucketARN;
+  final String? bucketARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
   /// object default values are used.
-  @_s.JsonKey(name: 'BufferingHints')
-  final BufferingHints bufferingHints;
+  final BufferingHints? bufferingHints;
 
   /// The CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The compression format. If no value is specified, the default is
   /// <code>UNCOMPRESSED</code>.
@@ -4035,35 +4852,30 @@ class S3DestinationUpdate {
   /// specified for Amazon Redshift destinations because they are not supported by
   /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
   /// bucket.
-  @_s.JsonKey(name: 'CompressionFormat')
-  final CompressionFormat compressionFormat;
+  final CompressionFormat? compressionFormat;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
   /// bucket name. For information about how to specify this prefix, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'ErrorOutputPrefix')
-  final String errorOutputPrefix;
+  final String? errorOutputPrefix;
 
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   S3DestinationUpdate({
     this.bucketARN,
@@ -4075,49 +4887,60 @@ class S3DestinationUpdate {
     this.prefix,
     this.roleARN,
   });
-  Map<String, dynamic> toJson() => _$S3DestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    final roleARN = this.roleARN;
+    return {
+      if (bucketARN != null) 'BucketARN': bucketARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.toValue(),
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// Specifies the schema to which you want Kinesis Data Firehose to configure
 /// your data before it writes it to Amazon S3. This parameter is required if
 /// <code>Enabled</code> is set to true.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaConfiguration {
   /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS
   /// account ID is used by default.
-  @_s.JsonKey(name: 'CatalogId')
-  final String catalogId;
+  final String? catalogId;
 
   /// Specifies the name of the AWS Glue database that contains the schema for the
   /// output data.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// If you don't specify an AWS Region, the default is the current Region.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The role that Kinesis Data Firehose can use to access AWS Glue. This role
   /// must be in the same account you use for Kinesis Data Firehose. Cross-account
   /// roles aren't allowed.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// Specifies the AWS Glue table that contains the column information that
   /// constitutes your data schema.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// Specifies the table version for the output data schema. If you don't specify
   /// this version ID, or if you set it to <code>LATEST</code>, Kinesis Data
   /// Firehose uses the most recent version. This means that any updates to the
   /// table are automatically picked up.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   SchemaConfiguration({
     this.catalogId,
@@ -4127,10 +4950,33 @@ class SchemaConfiguration {
     this.tableName,
     this.versionId,
   });
-  factory SchemaConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SchemaConfigurationFromJson(json);
+  factory SchemaConfiguration.fromJson(Map<String, dynamic> json) {
+    return SchemaConfiguration(
+      catalogId: json['CatalogId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      region: json['Region'] as String?,
+      roleARN: json['RoleARN'] as String?,
+      tableName: json['TableName'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final databaseName = this.databaseName;
+    final region = this.region;
+    final roleARN = this.roleARN;
+    final tableName = this.tableName;
+    final versionId = this.versionId;
+    return {
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (region != null) 'Region': region,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (tableName != null) 'TableName': tableName,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
 }
 
 /// The serializer that you want Kinesis Data Firehose to use to convert data to
@@ -4140,99 +4986,95 @@ class SchemaConfiguration {
 /// SerDe</a> and the <a
 /// href="https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/parquet/serde/ParquetHiveSerDe.html">Parquet
 /// SerDe</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Serializer {
   /// A serializer to use for converting data to the ORC format before storing it
   /// in Amazon S3. For more information, see <a
   /// href="https://orc.apache.org/docs/">Apache ORC</a>.
-  @_s.JsonKey(name: 'OrcSerDe')
-  final OrcSerDe orcSerDe;
+  final OrcSerDe? orcSerDe;
 
   /// A serializer to use for converting data to the Parquet format before storing
   /// it in Amazon S3. For more information, see <a
   /// href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>.
-  @_s.JsonKey(name: 'ParquetSerDe')
-  final ParquetSerDe parquetSerDe;
+  final ParquetSerDe? parquetSerDe;
 
   Serializer({
     this.orcSerDe,
     this.parquetSerDe,
   });
-  factory Serializer.fromJson(Map<String, dynamic> json) =>
-      _$SerializerFromJson(json);
+  factory Serializer.fromJson(Map<String, dynamic> json) {
+    return Serializer(
+      orcSerDe: json['OrcSerDe'] != null
+          ? OrcSerDe.fromJson(json['OrcSerDe'] as Map<String, dynamic>)
+          : null,
+      parquetSerDe: json['ParquetSerDe'] != null
+          ? ParquetSerDe.fromJson(json['ParquetSerDe'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SerializerToJson(this);
+  Map<String, dynamic> toJson() {
+    final orcSerDe = this.orcSerDe;
+    final parquetSerDe = this.parquetSerDe;
+    return {
+      if (orcSerDe != null) 'OrcSerDe': orcSerDe,
+      if (parquetSerDe != null) 'ParquetSerDe': parquetSerDe,
+    };
+  }
 }
 
 /// Details about a Kinesis data stream used as the source for a Kinesis Data
 /// Firehose delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SourceDescription {
   /// The <a>KinesisStreamSourceDescription</a> value for the source Kinesis data
   /// stream.
-  @_s.JsonKey(name: 'KinesisStreamSourceDescription')
-  final KinesisStreamSourceDescription kinesisStreamSourceDescription;
+  final KinesisStreamSourceDescription? kinesisStreamSourceDescription;
 
   SourceDescription({
     this.kinesisStreamSourceDescription,
   });
-  factory SourceDescription.fromJson(Map<String, dynamic> json) =>
-      _$SourceDescriptionFromJson(json);
+  factory SourceDescription.fromJson(Map<String, dynamic> json) {
+    return SourceDescription(
+      kinesisStreamSourceDescription: json['KinesisStreamSourceDescription'] !=
+              null
+          ? KinesisStreamSourceDescription.fromJson(
+              json['KinesisStreamSourceDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes the configuration of a destination in Splunk.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SplunkDestinationConfiguration {
   /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends
   /// your data.
-  @_s.JsonKey(name: 'HECEndpoint')
   final String hECEndpoint;
 
   /// This type can be either "Raw" or "Event."
-  @_s.JsonKey(name: 'HECEndpointType')
   final HECEndpointType hECEndpointType;
 
   /// This is a GUID that you obtain from your Splunk cluster when you create a
   /// new HEC endpoint.
-  @_s.JsonKey(name: 'HECToken')
   final String hECToken;
 
   /// The configuration for the backup Amazon S3 location.
-  @_s.JsonKey(name: 'S3Configuration')
   final S3DestinationConfiguration s3Configuration;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The amount of time that Kinesis Data Firehose waits to receive an
   /// acknowledgment from Splunk after it sends it data. At the end of the timeout
   /// period, Kinesis Data Firehose either tries to send the data again or
   /// considers it an error, based on your retry settings.
-  @_s.JsonKey(name: 'HECAcknowledgmentTimeoutInSeconds')
-  final int hECAcknowledgmentTimeoutInSeconds;
+  final int? hECAcknowledgmentTimeoutInSeconds;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver data
   /// to Splunk, or if it doesn't receive an acknowledgment of receipt from
   /// Splunk.
-  @_s.JsonKey(name: 'RetryOptions')
-  final SplunkRetryOptions retryOptions;
+  final SplunkRetryOptions? retryOptions;
 
   /// Defines how documents should be delivered to Amazon S3. When set to
   /// <code>FailedEventsOnly</code>, Kinesis Data Firehose writes any data that
@@ -4244,63 +5086,75 @@ class SplunkDestinationConfiguration {
   /// You can update this backup mode from <code>FailedEventsOnly</code> to
   /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
   /// <code>FailedEventsOnly</code>.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final SplunkS3BackupMode s3BackupMode;
+  final SplunkS3BackupMode? s3BackupMode;
 
   SplunkDestinationConfiguration({
-    @_s.required this.hECEndpoint,
-    @_s.required this.hECEndpointType,
-    @_s.required this.hECToken,
-    @_s.required this.s3Configuration,
+    required this.hECEndpoint,
+    required this.hECEndpointType,
+    required this.hECToken,
+    required this.s3Configuration,
     this.cloudWatchLoggingOptions,
     this.hECAcknowledgmentTimeoutInSeconds,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupMode,
   });
-  Map<String, dynamic> toJson() => _$SplunkDestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final hECEndpoint = this.hECEndpoint;
+    final hECEndpointType = this.hECEndpointType;
+    final hECToken = this.hECToken;
+    final s3Configuration = this.s3Configuration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final hECAcknowledgmentTimeoutInSeconds =
+        this.hECAcknowledgmentTimeoutInSeconds;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'HECEndpoint': hECEndpoint,
+      'HECEndpointType': hECEndpointType.toValue(),
+      'HECToken': hECToken,
+      'S3Configuration': s3Configuration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (hECAcknowledgmentTimeoutInSeconds != null)
+        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+    };
+  }
 }
 
 /// Describes a destination in Splunk.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SplunkDestinationDescription {
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The amount of time that Kinesis Data Firehose waits to receive an
   /// acknowledgment from Splunk after it sends it data. At the end of the timeout
   /// period, Kinesis Data Firehose either tries to send the data again or
   /// considers it an error, based on your retry settings.
-  @_s.JsonKey(name: 'HECAcknowledgmentTimeoutInSeconds')
-  final int hECAcknowledgmentTimeoutInSeconds;
+  final int? hECAcknowledgmentTimeoutInSeconds;
 
   /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends
   /// your data.
-  @_s.JsonKey(name: 'HECEndpoint')
-  final String hECEndpoint;
+  final String? hECEndpoint;
 
   /// This type can be either "Raw" or "Event."
-  @_s.JsonKey(name: 'HECEndpointType')
-  final HECEndpointType hECEndpointType;
+  final HECEndpointType? hECEndpointType;
 
   /// A GUID you obtain from your Splunk cluster when you create a new HEC
   /// endpoint.
-  @_s.JsonKey(name: 'HECToken')
-  final String hECToken;
+  final String? hECToken;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver data
   /// to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
-  @_s.JsonKey(name: 'RetryOptions')
-  final SplunkRetryOptions retryOptions;
+  final SplunkRetryOptions? retryOptions;
 
   /// Defines how documents should be delivered to Amazon S3. When set to
   /// <code>FailedDocumentsOnly</code>, Kinesis Data Firehose writes any data that
@@ -4308,12 +5162,10 @@ class SplunkDestinationDescription {
   /// <code>AllDocuments</code>, Kinesis Data Firehose delivers all incoming
   /// records to Amazon S3, and also writes failed documents to Amazon S3. Default
   /// value is <code>FailedDocumentsOnly</code>.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final SplunkS3BackupMode s3BackupMode;
+  final SplunkS3BackupMode? s3BackupMode;
 
   /// The Amazon S3 destination.&gt;
-  @_s.JsonKey(name: 'S3DestinationDescription')
-  final S3DestinationDescription s3DestinationDescription;
+  final S3DestinationDescription? s3DestinationDescription;
 
   SplunkDestinationDescription({
     this.cloudWatchLoggingOptions,
@@ -4326,50 +5178,63 @@ class SplunkDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
   });
-  factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) =>
-      _$SplunkDestinationDescriptionFromJson(json);
+  factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return SplunkDestinationDescription(
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      hECAcknowledgmentTimeoutInSeconds:
+          json['HECAcknowledgmentTimeoutInSeconds'] as int?,
+      hECEndpoint: json['HECEndpoint'] as String?,
+      hECEndpointType:
+          (json['HECEndpointType'] as String?)?.toHECEndpointType(),
+      hECToken: json['HECToken'] as String?,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? SplunkRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      s3BackupMode: (json['S3BackupMode'] as String?)?.toSplunkS3BackupMode(),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes an update for a destination in Splunk.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SplunkDestinationUpdate {
   /// The Amazon CloudWatch logging options for your delivery stream.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
-  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The amount of time that Kinesis Data Firehose waits to receive an
   /// acknowledgment from Splunk after it sends data. At the end of the timeout
   /// period, Kinesis Data Firehose either tries to send the data again or
   /// considers it an error, based on your retry settings.
-  @_s.JsonKey(name: 'HECAcknowledgmentTimeoutInSeconds')
-  final int hECAcknowledgmentTimeoutInSeconds;
+  final int? hECAcknowledgmentTimeoutInSeconds;
 
   /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends
   /// your data.
-  @_s.JsonKey(name: 'HECEndpoint')
-  final String hECEndpoint;
+  final String? hECEndpoint;
 
   /// This type can be either "Raw" or "Event."
-  @_s.JsonKey(name: 'HECEndpointType')
-  final HECEndpointType hECEndpointType;
+  final HECEndpointType? hECEndpointType;
 
   /// A GUID that you obtain from your Splunk cluster when you create a new HEC
   /// endpoint.
-  @_s.JsonKey(name: 'HECToken')
-  final String hECToken;
+  final String? hECToken;
 
   /// The data processing configuration.
-  @_s.JsonKey(name: 'ProcessingConfiguration')
-  final ProcessingConfiguration processingConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
 
   /// The retry behavior in case Kinesis Data Firehose is unable to deliver data
   /// to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
-  @_s.JsonKey(name: 'RetryOptions')
-  final SplunkRetryOptions retryOptions;
+  final SplunkRetryOptions? retryOptions;
 
   /// Specifies how you want Kinesis Data Firehose to back up documents to Amazon
   /// S3. When set to <code>FailedDocumentsOnly</code>, Kinesis Data Firehose
@@ -4381,12 +5246,10 @@ class SplunkDestinationUpdate {
   /// You can update this backup mode from <code>FailedEventsOnly</code> to
   /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
   /// <code>FailedEventsOnly</code>.
-  @_s.JsonKey(name: 'S3BackupMode')
-  final SplunkS3BackupMode s3BackupMode;
+  final SplunkS3BackupMode? s3BackupMode;
 
   /// Your update to the configuration of the backup Amazon S3 location.
-  @_s.JsonKey(name: 'S3Update')
-  final S3DestinationUpdate s3Update;
+  final S3DestinationUpdate? s3Update;
 
   SplunkDestinationUpdate({
     this.cloudWatchLoggingOptions,
@@ -4399,131 +5262,157 @@ class SplunkDestinationUpdate {
     this.s3BackupMode,
     this.s3Update,
   });
-  Map<String, dynamic> toJson() => _$SplunkDestinationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final hECAcknowledgmentTimeoutInSeconds =
+        this.hECAcknowledgmentTimeoutInSeconds;
+    final hECEndpoint = this.hECEndpoint;
+    final hECEndpointType = this.hECEndpointType;
+    final hECToken = this.hECToken;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Update = this.s3Update;
+    return {
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (hECAcknowledgmentTimeoutInSeconds != null)
+        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
+      if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
+      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.toValue(),
+      if (hECToken != null) 'HECToken': hECToken,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3Update != null) 'S3Update': s3Update,
+    };
+  }
 }
 
 /// Configures retry behavior in case Kinesis Data Firehose is unable to deliver
 /// documents to Splunk, or if it doesn't receive an acknowledgment from Splunk.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SplunkRetryOptions {
   /// The total amount of time that Kinesis Data Firehose spends on retries. This
   /// duration starts after the initial attempt to send data to Splunk fails. It
   /// doesn't include the periods during which Kinesis Data Firehose waits for
   /// acknowledgment from Splunk after each attempt.
-  @_s.JsonKey(name: 'DurationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   SplunkRetryOptions({
     this.durationInSeconds,
   });
-  factory SplunkRetryOptions.fromJson(Map<String, dynamic> json) =>
-      _$SplunkRetryOptionsFromJson(json);
+  factory SplunkRetryOptions.fromJson(Map<String, dynamic> json) {
+    return SplunkRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SplunkRetryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
 }
 
 enum SplunkS3BackupMode {
-  @_s.JsonValue('FailedEventsOnly')
   failedEventsOnly,
-  @_s.JsonValue('AllEvents')
   allEvents,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class StartDeliveryStreamEncryptionOutput {
-  StartDeliveryStreamEncryptionOutput();
-  factory StartDeliveryStreamEncryptionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDeliveryStreamEncryptionOutputFromJson(json);
+extension on SplunkS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case SplunkS3BackupMode.failedEventsOnly:
+        return 'FailedEventsOnly';
+      case SplunkS3BackupMode.allEvents:
+        return 'AllEvents';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SplunkS3BackupMode toSplunkS3BackupMode() {
+    switch (this) {
+      case 'FailedEventsOnly':
+        return SplunkS3BackupMode.failedEventsOnly;
+      case 'AllEvents':
+        return SplunkS3BackupMode.allEvents;
+    }
+    throw Exception('$this is not known in enum SplunkS3BackupMode');
+  }
+}
+
+class StartDeliveryStreamEncryptionOutput {
+  StartDeliveryStreamEncryptionOutput();
+  factory StartDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
+    return StartDeliveryStreamEncryptionOutput();
+  }
+}
+
 class StopDeliveryStreamEncryptionOutput {
   StopDeliveryStreamEncryptionOutput();
-  factory StopDeliveryStreamEncryptionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopDeliveryStreamEncryptionOutputFromJson(json);
+  factory StopDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
+    return StopDeliveryStreamEncryptionOutput();
+  }
 }
 
 /// Metadata that you can assign to a delivery stream, consisting of a key-value
 /// pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A unique identifier for the tag. Maximum length: 128 characters. Valid
   /// characters: Unicode letters, digits, white space, _ . / = + - % @
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// An optional string, which you can use to describe or define the tag. Maximum
   /// length: 256 characters. Valid characters: Unicode letters, digits, white
   /// space, _ . / = + - % @
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagDeliveryStreamOutput {
   TagDeliveryStreamOutput();
-  factory TagDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagDeliveryStreamOutputFromJson(json);
+  factory TagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return TagDeliveryStreamOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagDeliveryStreamOutput {
   UntagDeliveryStreamOutput();
-  factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagDeliveryStreamOutputFromJson(json);
+  factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UntagDeliveryStreamOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDestinationOutput {
   UpdateDestinationOutput();
-  factory UpdateDestinationOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDestinationOutputFromJson(json);
+  factory UpdateDestinationOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDestinationOutput();
+  }
 }
 
 /// The details of the VPC of the Amazon ES destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcConfiguration {
   /// The ARN of the IAM role that you want the delivery stream to use to create
   /// endpoints in the destination VPC. You can use your existing Kinesis Data
@@ -4560,7 +5449,6 @@ class VpcConfiguration {
   /// If you revoke these permissions after you create the delivery stream,
   /// Kinesis Data Firehose can't scale out by creating more ENIs when necessary.
   /// You might therefore see a degradation in performance.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The IDs of the security groups that you want Kinesis Data Firehose to use
@@ -4575,7 +5463,6 @@ class VpcConfiguration {
   /// rules, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
   /// group rules</a> in the Amazon VPC documentation.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The IDs of the subnets that you want Kinesis Data Firehose to use to create
@@ -4594,23 +5481,26 @@ class VpcConfiguration {
   /// more information about ENI quota, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
   /// Interfaces </a> in the Amazon VPC Quotas topic.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   VpcConfiguration({
-    @_s.required this.roleARN,
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
+    required this.roleARN,
+    required this.securityGroupIds,
+    required this.subnetIds,
   });
-  Map<String, dynamic> toJson() => _$VpcConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final roleARN = this.roleARN;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'RoleARN': roleARN,
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+    };
+  }
 }
 
 /// The details of the VPC of the Amazon ES destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcConfigurationDescription {
   /// The ARN of the IAM role that the delivery stream uses to create endpoints in
   /// the destination VPC. You can use your existing Kinesis Data Firehose
@@ -4647,7 +5537,6 @@ class VpcConfigurationDescription {
   /// If you revoke these permissions after you create the delivery stream,
   /// Kinesis Data Firehose can't scale out by creating more ENIs when necessary.
   /// You might therefore see a degradation in performance.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// The IDs of the security groups that Kinesis Data Firehose uses when it
@@ -4662,7 +5551,6 @@ class VpcConfigurationDescription {
   /// rules, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
   /// group rules</a> in the Amazon VPC documentation.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The IDs of the subnets that Kinesis Data Firehose uses to create ENIs in the
@@ -4681,25 +5569,35 @@ class VpcConfigurationDescription {
   /// more information about ENI quota, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
   /// Interfaces </a> in the Amazon VPC Quotas topic.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The ID of the Amazon ES destination's VPC.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   VpcConfigurationDescription({
-    @_s.required this.roleARN,
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcId,
+    required this.roleARN,
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcId,
   });
-  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigurationDescriptionFromJson(json);
+  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return VpcConfigurationDescription(
+      roleARN: json['RoleARN'] as String,
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String,
+    );
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -4707,33 +5605,33 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidKMSResourceException extends _s.GenericAwsException {
-  InvalidKMSResourceException({String type, String message})
+  InvalidKMSResourceException({String? type, String? message})
       : super(
             type: type, code: 'InvalidKMSResourceException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }

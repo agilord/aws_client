@@ -1,12 +1,18 @@
 void validateStringPattern(
-  String? name,
+  String name,
   String? value,
-  String? pattern, {
+  String pattern, {
   bool isRequired = false,
 }) {
-  if (value == null && !isRequired) return;
+  if (value == null) {
+    if (isRequired) {
+      throw ArgumentError.notNull(name);
+    } else {
+      return;
+    }
+  }
 
-  if (!RegExp(pattern!).hasMatch(value!)) {
+  if (!RegExp(pattern).hasMatch(value)) {
     throw ArgumentError.value(
       value,
       name,

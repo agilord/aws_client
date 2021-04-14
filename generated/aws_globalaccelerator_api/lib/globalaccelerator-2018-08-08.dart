@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'globalaccelerator-2018-08-08.g.dart';
 
 /// This is the <i>AWS Global Accelerator API Reference</i>. This guide is for
 /// developers who need detailed information about AWS Global Accelerator API
@@ -35,10 +27,10 @@ part 'globalaccelerator-2018-08-08.g.dart';
 class GlobalAccelerator {
   final _s.JsonProtocol _protocol;
   GlobalAccelerator({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -83,9 +75,8 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the endpoint group for the custom
   /// routing endpoint.
   Future<AddCustomRoutingEndpointsResponse> addCustomRoutingEndpoints({
-    @_s.required
-        List<CustomRoutingEndpointConfiguration> endpointConfigurations,
-    @_s.required String endpointGroupArn,
+    required List<CustomRoutingEndpointConfiguration> endpointConfigurations,
+    required String endpointGroupArn,
   }) async {
     ArgumentError.checkNotNull(
         endpointConfigurations, 'endpointConfigurations');
@@ -140,7 +131,7 @@ class GlobalAccelerator {
   /// The address range, in CIDR notation. This must be the exact range that you
   /// provisioned. You can't advertise only a portion of the provisioned range.
   Future<AdvertiseByoipCidrResponse> advertiseByoipCidr({
-    @_s.required String cidr,
+    required String cidr,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
     _s.validateStringLength(
@@ -220,11 +211,11 @@ class GlobalAccelerator {
   /// A list of specific Amazon EC2 instance ports (destination ports) that you
   /// want to allow to receive traffic.
   Future<void> allowCustomRoutingTraffic({
-    @_s.required String endpointGroupArn,
-    @_s.required String endpointId,
-    bool allowAllTrafficToEndpoint,
-    List<String> destinationAddresses,
-    List<int> destinationPorts,
+    required String endpointGroupArn,
+    required String endpointId,
+    bool? allowAllTrafficToEndpoint,
+    List<String>? destinationAddresses,
+    List<int>? destinationPorts,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -246,7 +237,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.AllowCustomRoutingTraffic'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -277,10 +268,6 @@ class GlobalAccelerator {
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of an accelerator.
-  ///
   /// Parameter [name] :
   /// The name of an accelerator. The name can have a maximum of 32 characters,
   /// must contain only alphanumeric characters or hyphens (-), and must not
@@ -292,6 +279,10 @@ class GlobalAccelerator {
   ///
   /// If the value is set to true, an accelerator cannot be deleted. If set to
   /// false, the accelerator can be deleted.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of an accelerator.
   ///
   /// Parameter [ipAddressType] :
   /// The value for the address type must be IPv4.
@@ -324,21 +315,13 @@ class GlobalAccelerator {
   /// in AWS Global Accelerator</a> in the <i>AWS Global Accelerator Developer
   /// Guide</i>.
   Future<CreateAcceleratorResponse> createAccelerator({
-    @_s.required String idempotencyToken,
-    @_s.required String name,
-    bool enabled,
-    IpAddressType ipAddressType,
-    List<String> ipAddresses,
-    List<Tag> tags,
+    required String name,
+    bool? enabled,
+    String? idempotencyToken,
+    IpAddressType? ipAddressType,
+    List<String>? ipAddresses,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -346,6 +329,12 @@ class GlobalAccelerator {
       0,
       255,
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -358,9 +347,9 @@ class GlobalAccelerator {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         if (enabled != null) 'Enabled': enabled,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
         if (ipAddresses != null) 'IpAddresses': ipAddresses,
         if (tags != null) 'Tags': tags,
@@ -387,10 +376,6 @@ class GlobalAccelerator {
   /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of the request.
-  ///
   /// Parameter [name] :
   /// The name of a custom routing accelerator. The name can have a maximum of
   /// 64 characters, must contain only alphanumeric characters or hyphens (-),
@@ -402,6 +387,10 @@ class GlobalAccelerator {
   ///
   /// If the value is set to true, an accelerator cannot be deleted. If set to
   /// false, the accelerator can be deleted.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
   ///
   /// Parameter [ipAddressType] :
   /// The value for the address type must be IPv4.
@@ -415,20 +404,12 @@ class GlobalAccelerator {
   /// Guide</i>.
   Future<CreateCustomRoutingAcceleratorResponse>
       createCustomRoutingAccelerator({
-    @_s.required String idempotencyToken,
-    @_s.required String name,
-    bool enabled,
-    IpAddressType ipAddressType,
-    List<Tag> tags,
+    required String name,
+    bool? enabled,
+    String? idempotencyToken,
+    IpAddressType? ipAddressType,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -436,6 +417,12 @@ class GlobalAccelerator {
       0,
       255,
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -449,9 +436,9 @@ class GlobalAccelerator {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         if (enabled != null) 'Enabled': enabled,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
         if (tags != null) 'Tags': tags,
       },
@@ -481,20 +468,20 @@ class GlobalAccelerator {
   /// The AWS Region where the endpoint group is located. A listener can have
   /// only one endpoint group in a specific Region.
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of the request.
-  ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener for a custom routing
   /// endpoint.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
   Future<CreateCustomRoutingEndpointGroupResponse>
       createCustomRoutingEndpointGroup({
-    @_s.required
-        List<CustomRoutingDestinationConfiguration> destinationConfigurations,
-    @_s.required String endpointGroupRegion,
-    @_s.required String idempotencyToken,
-    @_s.required String listenerArn,
+    required List<CustomRoutingDestinationConfiguration>
+        destinationConfigurations,
+    required String endpointGroupRegion,
+    required String listenerArn,
+    String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(
         destinationConfigurations, 'destinationConfigurations');
@@ -506,14 +493,6 @@ class GlobalAccelerator {
       255,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
       'listenerArn',
@@ -521,6 +500,12 @@ class GlobalAccelerator {
       0,
       255,
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -536,8 +521,8 @@ class GlobalAccelerator {
       payload: {
         'DestinationConfigurations': destinationConfigurations,
         'EndpointGroupRegion': endpointGroupRegion,
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ListenerArn': listenerArn,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -558,10 +543,6 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the accelerator for a custom routing
   /// listener.
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of the request.
-  ///
   /// Parameter [portRanges] :
   /// The port range to support for connections from clients to your
   /// accelerator.
@@ -570,10 +551,14 @@ class GlobalAccelerator {
   /// <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
   /// endpoints for custom routing accelerators</a>.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
   Future<CreateCustomRoutingListenerResponse> createCustomRoutingListener({
-    @_s.required String acceleratorArn,
-    @_s.required String idempotencyToken,
-    @_s.required List<PortRange> portRanges,
+    required String acceleratorArn,
+    required List<PortRange> portRanges,
+    String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -583,15 +568,13 @@ class GlobalAccelerator {
       255,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    ArgumentError.checkNotNull(portRanges, 'portRanges');
     _s.validateStringLength(
       'idempotencyToken',
       idempotencyToken,
       0,
       255,
-      isRequired: true,
     );
-    ArgumentError.checkNotNull(portRanges, 'portRanges');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateCustomRoutingListener'
@@ -604,8 +587,8 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PortRanges': portRanges,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -627,10 +610,6 @@ class GlobalAccelerator {
   /// Parameter [endpointGroupRegion] :
   /// The AWS Region where the endpoint group is located. A listener can have
   /// only one endpoint group in a specific Region.
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of the request.
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -655,6 +634,10 @@ class GlobalAccelerator {
   /// Parameter [healthCheckProtocol] :
   /// The protocol that AWS Global Accelerator uses to check the health of
   /// endpoints that are part of this endpoint group. The default value is TCP.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
   ///
   /// Parameter [portOverrides] :
   /// Override specific listener ports used to route traffic to endpoints that
@@ -682,30 +665,22 @@ class GlobalAccelerator {
   ///
   /// The default value is 100.
   Future<CreateEndpointGroupResponse> createEndpointGroup({
-    @_s.required String endpointGroupRegion,
-    @_s.required String idempotencyToken,
-    @_s.required String listenerArn,
-    List<EndpointConfiguration> endpointConfigurations,
-    int healthCheckIntervalSeconds,
-    String healthCheckPath,
-    int healthCheckPort,
-    HealthCheckProtocol healthCheckProtocol,
-    List<PortOverride> portOverrides,
-    int thresholdCount,
-    double trafficDialPercentage,
+    required String endpointGroupRegion,
+    required String listenerArn,
+    List<EndpointConfiguration>? endpointConfigurations,
+    int? healthCheckIntervalSeconds,
+    String? healthCheckPath,
+    int? healthCheckPort,
+    HealthCheckProtocol? healthCheckProtocol,
+    String? idempotencyToken,
+    List<PortOverride>? portOverrides,
+    int? thresholdCount,
+    double? trafficDialPercentage,
   }) async {
     ArgumentError.checkNotNull(endpointGroupRegion, 'endpointGroupRegion');
     _s.validateStringLength(
       'endpointGroupRegion',
       endpointGroupRegion,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
       0,
       255,
       isRequired: true,
@@ -741,6 +716,12 @@ class GlobalAccelerator {
       1,
       65535,
     );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
+    );
     _s.validateNumRange(
       'thresholdCount',
       thresholdCount,
@@ -765,7 +746,6 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'EndpointGroupRegion': endpointGroupRegion,
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ListenerArn': listenerArn,
         if (endpointConfigurations != null)
           'EndpointConfigurations': endpointConfigurations,
@@ -775,6 +755,7 @@ class GlobalAccelerator {
         if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
         if (healthCheckProtocol != null)
           'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
@@ -797,10 +778,6 @@ class GlobalAccelerator {
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of your accelerator.
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency—that is, the uniqueness—of the request.
   ///
   /// Parameter [portRanges] :
   /// The list of port ranges to support for connections from clients to your
@@ -831,12 +808,16 @@ class GlobalAccelerator {
   /// address—to select the hash value.
   ///
   /// The default value is <code>NONE</code>.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
   Future<CreateListenerResponse> createListener({
-    @_s.required String acceleratorArn,
-    @_s.required String idempotencyToken,
-    @_s.required List<PortRange> portRanges,
-    @_s.required Protocol protocol,
-    ClientAffinity clientAffinity,
+    required String acceleratorArn,
+    required List<PortRange> portRanges,
+    required Protocol protocol,
+    ClientAffinity? clientAffinity,
+    String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -846,16 +827,14 @@ class GlobalAccelerator {
       255,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    ArgumentError.checkNotNull(portRanges, 'portRanges');
+    ArgumentError.checkNotNull(protocol, 'protocol');
     _s.validateStringLength(
       'idempotencyToken',
       idempotencyToken,
       0,
       255,
-      isRequired: true,
     );
-    ArgumentError.checkNotNull(portRanges, 'portRanges');
-    ArgumentError.checkNotNull(protocol, 'protocol');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateListener'
@@ -868,10 +847,10 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PortRanges': portRanges,
-        'Protocol': protocol?.toValue() ?? '',
+        'Protocol': protocol.toValue(),
         if (clientAffinity != null) 'ClientAffinity': clientAffinity.toValue(),
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -910,7 +889,7 @@ class GlobalAccelerator {
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of an accelerator.
   Future<void> deleteAccelerator({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -924,7 +903,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteAccelerator'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -967,7 +946,7 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the custom routing accelerator to
   /// delete.
   Future<void> deleteCustomRoutingAccelerator({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -982,7 +961,7 @@ class GlobalAccelerator {
       'X-Amz-Target':
           'GlobalAccelerator_V20180706.DeleteCustomRoutingAccelerator'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1003,7 +982,7 @@ class GlobalAccelerator {
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to delete.
   Future<void> deleteCustomRoutingEndpointGroup({
-    @_s.required String endpointGroupArn,
+    required String endpointGroupArn,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -1018,7 +997,7 @@ class GlobalAccelerator {
       'X-Amz-Target':
           'GlobalAccelerator_V20180706.DeleteCustomRoutingEndpointGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1040,7 +1019,7 @@ class GlobalAccelerator {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to delete.
   Future<void> deleteCustomRoutingListener({
-    @_s.required String listenerArn,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -1054,7 +1033,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteCustomRoutingListener'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1075,7 +1054,7 @@ class GlobalAccelerator {
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to delete.
   Future<void> deleteEndpointGroup({
-    @_s.required String endpointGroupArn,
+    required String endpointGroupArn,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -1089,7 +1068,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteEndpointGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1111,7 +1090,7 @@ class GlobalAccelerator {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
   Future<void> deleteListener({
-    @_s.required String listenerArn,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -1125,7 +1104,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteListener'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1184,11 +1163,11 @@ class GlobalAccelerator {
   /// A list of specific Amazon EC2 instance ports (destination ports) in a
   /// subnet endpoint that you want to prevent from receiving traffic.
   Future<void> denyCustomRoutingTraffic({
-    @_s.required String endpointGroupArn,
-    @_s.required String endpointId,
-    bool denyAllTrafficToEndpoint,
-    List<String> destinationAddresses,
-    List<int> destinationPorts,
+    required String endpointGroupArn,
+    required String endpointId,
+    bool? denyAllTrafficToEndpoint,
+    List<String>? destinationAddresses,
+    List<int>? destinationPorts,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -1210,7 +1189,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DenyCustomRoutingTraffic'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1253,7 +1232,7 @@ class GlobalAccelerator {
   /// The address range, in CIDR notation. The prefix must be the same prefix
   /// that you specified when you provisioned the address range.
   Future<DeprovisionByoipCidrResponse> deprovisionByoipCidr({
-    @_s.required String cidr,
+    required String cidr,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
     _s.validateStringLength(
@@ -1290,7 +1269,7 @@ class GlobalAccelerator {
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to describe.
   Future<DescribeAcceleratorResponse> describeAccelerator({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1328,7 +1307,7 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the accelerator with the attributes that
   /// you want to describe.
   Future<DescribeAcceleratorAttributesResponse> describeAcceleratorAttributes({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1367,7 +1346,7 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the accelerator to describe.
   Future<DescribeCustomRoutingAcceleratorResponse>
       describeCustomRoutingAccelerator({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1407,7 +1386,7 @@ class GlobalAccelerator {
   /// describe the attributes for.
   Future<DescribeCustomRoutingAcceleratorAttributesResponse>
       describeCustomRoutingAcceleratorAttributes({
-    @_s.required String acceleratorArn,
+    required String acceleratorArn,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1447,7 +1426,7 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the endpoint group to describe.
   Future<DescribeCustomRoutingEndpointGroupResponse>
       describeCustomRoutingEndpointGroup({
-    @_s.required String endpointGroupArn,
+    required String endpointGroupArn,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -1486,7 +1465,7 @@ class GlobalAccelerator {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to describe.
   Future<DescribeCustomRoutingListenerResponse> describeCustomRoutingListener({
-    @_s.required String listenerArn,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -1524,7 +1503,7 @@ class GlobalAccelerator {
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to describe.
   Future<DescribeEndpointGroupResponse> describeEndpointGroup({
-    @_s.required String endpointGroupArn,
+    required String endpointGroupArn,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -1561,7 +1540,7 @@ class GlobalAccelerator {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to describe.
   Future<DescribeListenerResponse> describeListener({
-    @_s.required String listenerArn,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -1603,8 +1582,8 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListAcceleratorsResponse> listAccelerators({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1654,8 +1633,8 @@ class GlobalAccelerator {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListByoipCidrsResponse> listByoipCidrs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1702,8 +1681,8 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListCustomRoutingAcceleratorsResponse> listCustomRoutingAccelerators({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1758,9 +1737,9 @@ class GlobalAccelerator {
   /// previous call.
   Future<ListCustomRoutingEndpointGroupsResponse>
       listCustomRoutingEndpointGroups({
-    @_s.required String listenerArn,
-    int maxResults,
-    String nextToken,
+    required String listenerArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -1821,9 +1800,9 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListCustomRoutingListenersResponse> listCustomRoutingListeners({
-    @_s.required String acceleratorArn,
-    int maxResults,
-    String nextToken,
+    required String acceleratorArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1905,10 +1884,10 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListCustomRoutingPortMappingsResponse> listCustomRoutingPortMappings({
-    @_s.required String acceleratorArn,
-    String endpointGroupArn,
-    int maxResults,
-    String nextToken,
+    required String acceleratorArn,
+    String? endpointGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -1986,10 +1965,10 @@ class GlobalAccelerator {
   /// previous call.
   Future<ListCustomRoutingPortMappingsByDestinationResponse>
       listCustomRoutingPortMappingsByDestination({
-    @_s.required String destinationAddress,
-    @_s.required String endpointId,
-    int maxResults,
-    String nextToken,
+    required String destinationAddress,
+    required String endpointId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(destinationAddress, 'destinationAddress');
     _s.validateStringLength(
@@ -2060,9 +2039,9 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListEndpointGroupsResponse> listEndpointGroups({
-    @_s.required String listenerArn,
-    int maxResults,
-    String nextToken,
+    required String listenerArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -2123,9 +2102,9 @@ class GlobalAccelerator {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
   Future<ListListenersResponse> listListeners({
-    @_s.required String acceleratorArn,
-    int maxResults,
-    String nextToken,
+    required String acceleratorArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -2182,7 +2161,7 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN
   /// uniquely identifies an accelerator.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2237,8 +2216,8 @@ class GlobalAccelerator {
   /// A signed document that proves that you are authorized to bring the
   /// specified IP address range to Amazon using BYOIP.
   Future<ProvisionByoipCidrResponse> provisionByoipCidr({
-    @_s.required String cidr,
-    @_s.required CidrAuthorizationContext cidrAuthorizationContext,
+    required String cidr,
+    required CidrAuthorizationContext cidrAuthorizationContext,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
     _s.validateStringLength(
@@ -2286,8 +2265,8 @@ class GlobalAccelerator {
   /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs
   /// are the virtual private cloud (VPC) subnet IDs.
   Future<void> removeCustomRoutingEndpoints({
-    @_s.required String endpointGroupArn,
-    @_s.required List<String> endpointIds,
+    required String endpointGroupArn,
+    required List<String> endpointIds,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -2302,7 +2281,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.RemoveCustomRoutingEndpoints'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2334,8 +2313,8 @@ class GlobalAccelerator {
   /// The tags to add to a resource. A tag consists of a key and a value that
   /// you define.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2350,7 +2329,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2361,8 +2340,6 @@ class GlobalAccelerator {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Remove tags from a Global Accelerator resource. When you specify a tag
@@ -2386,8 +2363,8 @@ class GlobalAccelerator {
   /// Parameter [tagKeys] :
   /// The tag key pairs that you want to remove from the specified resources.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2402,7 +2379,7 @@ class GlobalAccelerator {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2413,8 +2390,6 @@ class GlobalAccelerator {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Update an accelerator.
@@ -2446,10 +2421,10 @@ class GlobalAccelerator {
   /// must contain only alphanumeric characters or hyphens (-), and must not
   /// begin or end with a hyphen.
   Future<UpdateAcceleratorResponse> updateAccelerator({
-    @_s.required String acceleratorArn,
-    bool enabled,
-    IpAddressType ipAddressType,
-    String name,
+    required String acceleratorArn,
+    bool? enabled,
+    IpAddressType? ipAddressType,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -2523,10 +2498,10 @@ class GlobalAccelerator {
   ///
   /// s3-bucket_name//AWSLogs/aws_account_id
   Future<UpdateAcceleratorAttributesResponse> updateAcceleratorAttributes({
-    @_s.required String acceleratorArn,
-    bool flowLogsEnabled,
-    String flowLogsS3Bucket,
-    String flowLogsS3Prefix,
+    required String acceleratorArn,
+    bool? flowLogsEnabled,
+    String? flowLogsS3Bucket,
+    String? flowLogsS3Prefix,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -2594,10 +2569,10 @@ class GlobalAccelerator {
   /// begin or end with a hyphen.
   Future<UpdateCustomRoutingAcceleratorResponse>
       updateCustomRoutingAccelerator({
-    @_s.required String acceleratorArn,
-    bool enabled,
-    IpAddressType ipAddressType,
-    String name,
+    required String acceleratorArn,
+    bool? enabled,
+    IpAddressType? ipAddressType,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -2674,10 +2649,10 @@ class GlobalAccelerator {
   /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
   Future<UpdateCustomRoutingAcceleratorAttributesResponse>
       updateCustomRoutingAcceleratorAttributes({
-    @_s.required String acceleratorArn,
-    bool flowLogsEnabled,
-    String flowLogsS3Bucket,
-    String flowLogsS3Prefix,
+    required String acceleratorArn,
+    bool? flowLogsEnabled,
+    String? flowLogsS3Bucket,
+    String? flowLogsS3Prefix,
   }) async {
     ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
     _s.validateStringLength(
@@ -2743,8 +2718,8 @@ class GlobalAccelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
   /// endpoints for custom routing accelerators</a>.
   Future<UpdateCustomRoutingListenerResponse> updateCustomRoutingListener({
-    @_s.required String listenerArn,
-    @_s.required List<PortRange> portRanges,
+    required String listenerArn,
+    required List<PortRange> portRanges,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -2834,15 +2809,15 @@ class GlobalAccelerator {
   ///
   /// The default value is 100.
   Future<UpdateEndpointGroupResponse> updateEndpointGroup({
-    @_s.required String endpointGroupArn,
-    List<EndpointConfiguration> endpointConfigurations,
-    int healthCheckIntervalSeconds,
-    String healthCheckPath,
-    int healthCheckPort,
-    HealthCheckProtocol healthCheckProtocol,
-    List<PortOverride> portOverrides,
-    int thresholdCount,
-    double trafficDialPercentage,
+    required String endpointGroupArn,
+    List<EndpointConfiguration>? endpointConfigurations,
+    int? healthCheckIntervalSeconds,
+    String? healthCheckPath,
+    int? healthCheckPort,
+    HealthCheckProtocol? healthCheckProtocol,
+    List<PortOverride>? portOverrides,
+    int? thresholdCount,
+    double? trafficDialPercentage,
   }) async {
     ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
     _s.validateStringLength(
@@ -2958,10 +2933,10 @@ class GlobalAccelerator {
   /// Parameter [protocol] :
   /// The updated protocol for the connections from clients to the accelerator.
   Future<UpdateListenerResponse> updateListener({
-    @_s.required String listenerArn,
-    ClientAffinity clientAffinity,
-    List<PortRange> portRanges,
-    Protocol protocol,
+    required String listenerArn,
+    ClientAffinity? clientAffinity,
+    List<PortRange>? portRanges,
+    Protocol? protocol,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateStringLength(
@@ -3013,7 +2988,7 @@ class GlobalAccelerator {
   /// Parameter [cidr] :
   /// The address range, in CIDR notation.
   Future<WithdrawByoipCidrResponse> withdrawByoipCidr({
-    @_s.required String cidr,
+    required String cidr,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
     _s.validateStringLength(
@@ -3045,20 +3020,12 @@ class GlobalAccelerator {
 /// An accelerator is a complex type that includes one or more listeners that
 /// process inbound connections and then direct traffic to one or more endpoint
 /// groups, each of which includes endpoints, such as load balancers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Accelerator {
   /// The Amazon Resource Name (ARN) of the accelerator.
-  @_s.JsonKey(name: 'AcceleratorArn')
-  final String acceleratorArn;
+  final String? acceleratorArn;
 
   /// The date and time that the accelerator was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The Domain Name System (DNS) name that Global Accelerator creates that
   /// points to your accelerator's static IP addresses.
@@ -3072,39 +3039,31 @@ class Accelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing">
   /// Support for DNS Addressing in Global Accelerator</a> in the <i>AWS Global
   /// Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'DnsName')
-  final String dnsName;
+  final String? dnsName;
 
   /// Indicates whether the accelerator is enabled. The value is true or false.
   /// The default value is true.
   ///
   /// If the value is set to true, the accelerator cannot be deleted. If set to
   /// false, accelerator can be deleted.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The value for the address type must be IPv4.
-  @_s.JsonKey(name: 'IpAddressType')
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   /// The static IP addresses that Global Accelerator associates with the
   /// accelerator.
-  @_s.JsonKey(name: 'IpSets')
-  final List<IpSet> ipSets;
+  final List<IpSet>? ipSets;
 
   /// The date and time that the accelerator was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the accelerator. The name must contain only alphanumeric
   /// characters or hyphens (-), and must not begin or end with a hyphen.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Describes the deployment status of the accelerator.
-  @_s.JsonKey(name: 'Status')
-  final AcceleratorStatus status;
+  final AcceleratorStatus? status;
 
   Accelerator({
     this.acceleratorArn,
@@ -3117,16 +3076,25 @@ class Accelerator {
     this.name,
     this.status,
   });
-  factory Accelerator.fromJson(Map<String, dynamic> json) =>
-      _$AcceleratorFromJson(json);
+  factory Accelerator.fromJson(Map<String, dynamic> json) {
+    return Accelerator(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dnsName: json['DnsName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      ipAddressType: (json['IpAddressType'] as String?)?.toIpAddressType(),
+      ipSets: (json['IpSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toAcceleratorStatus(),
+    );
+  }
 }
 
 /// Attributes of an accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceleratorAttributes {
   /// Indicates whether flow logs are enabled. The default value is false. If the
   /// value is true, <code>FlowLogsS3Bucket</code> and
@@ -3135,15 +3103,13 @@ class AcceleratorAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
   /// Logs</a> in the <i>AWS Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'FlowLogsEnabled')
-  final bool flowLogsEnabled;
+  final bool? flowLogsEnabled;
 
   /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
   /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
   /// have a bucket policy that grants AWS Global Accelerator permission to write
   /// to the bucket.
-  @_s.JsonKey(name: 'FlowLogsS3Bucket')
-  final String flowLogsS3Bucket;
+  final String? flowLogsS3Bucket;
 
   /// The prefix for the location in the Amazon S3 bucket for the flow logs.
   /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
@@ -3154,64 +3120,89 @@ class AcceleratorAttributes {
   /// following:
   ///
   /// s3-bucket_name//AWSLogs/aws_account_id
-  @_s.JsonKey(name: 'FlowLogsS3Prefix')
-  final String flowLogsS3Prefix;
+  final String? flowLogsS3Prefix;
 
   AcceleratorAttributes({
     this.flowLogsEnabled,
     this.flowLogsS3Bucket,
     this.flowLogsS3Prefix,
   });
-  factory AcceleratorAttributes.fromJson(Map<String, dynamic> json) =>
-      _$AcceleratorAttributesFromJson(json);
+  factory AcceleratorAttributes.fromJson(Map<String, dynamic> json) {
+    return AcceleratorAttributes(
+      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
+      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
+      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
+    );
+  }
 }
 
 enum AcceleratorStatus {
-  @_s.JsonValue('DEPLOYED')
   deployed,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AcceleratorStatus {
+  String toValue() {
+    switch (this) {
+      case AcceleratorStatus.deployed:
+        return 'DEPLOYED';
+      case AcceleratorStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  AcceleratorStatus toAcceleratorStatus() {
+    switch (this) {
+      case 'DEPLOYED':
+        return AcceleratorStatus.deployed;
+      case 'IN_PROGRESS':
+        return AcceleratorStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum AcceleratorStatus');
+  }
+}
+
 class AddCustomRoutingEndpointsResponse {
   /// The endpoint objects added to the custom routing accelerator.
-  @_s.JsonKey(name: 'EndpointDescriptions')
-  final List<CustomRoutingEndpointDescription> endpointDescriptions;
+  final List<CustomRoutingEndpointDescription>? endpointDescriptions;
 
   /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing
   /// endpoint.
-  @_s.JsonKey(name: 'EndpointGroupArn')
-  final String endpointGroupArn;
+  final String? endpointGroupArn;
 
   AddCustomRoutingEndpointsResponse({
     this.endpointDescriptions,
     this.endpointGroupArn,
   });
   factory AddCustomRoutingEndpointsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddCustomRoutingEndpointsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddCustomRoutingEndpointsResponse(
+      endpointDescriptions: (json['EndpointDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomRoutingEndpointDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdvertiseByoipCidrResponse {
   /// Information about the address range.
-  @_s.JsonKey(name: 'ByoipCidr')
-  final ByoipCidr byoipCidr;
+  final ByoipCidr? byoipCidr;
 
   AdvertiseByoipCidrResponse({
     this.byoipCidr,
   });
-  factory AdvertiseByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdvertiseByoipCidrResponseFromJson(json);
+  factory AdvertiseByoipCidrResponse.fromJson(Map<String, dynamic> json) {
+    return AdvertiseByoipCidrResponse(
+      byoipCidr: json['ByoipCidr'] != null
+          ? ByoipCidr.fromJson(json['ByoipCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about an IP address range that is provisioned for use with your
@@ -3276,87 +3267,131 @@ class AdvertiseByoipCidrResponse {
 /// a second time, contact AWS support.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ByoipCidr {
   /// The address range, in CIDR notation.
-  @_s.JsonKey(name: 'Cidr')
-  final String cidr;
+  final String? cidr;
 
   /// A history of status changes for an IP address range that you bring to AWS
   /// Global Accelerator through bring your own IP address (BYOIP).
-  @_s.JsonKey(name: 'Events')
-  final List<ByoipCidrEvent> events;
+  final List<ByoipCidrEvent>? events;
 
   /// The state of the address pool.
-  @_s.JsonKey(name: 'State')
-  final ByoipCidrState state;
+  final ByoipCidrState? state;
 
   ByoipCidr({
     this.cidr,
     this.events,
     this.state,
   });
-  factory ByoipCidr.fromJson(Map<String, dynamic> json) =>
-      _$ByoipCidrFromJson(json);
+  factory ByoipCidr.fromJson(Map<String, dynamic> json) {
+    return ByoipCidr(
+      cidr: json['Cidr'] as String?,
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => ByoipCidrEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.toByoipCidrState(),
+    );
+  }
 }
 
 /// A complex type that contains a <code>Message</code> and a
 /// <code>Timestamp</code> value for changes that you make in the status an IP
 /// address range that you bring to AWS Global Accelerator through bring your
 /// own IP address (BYOIP).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ByoipCidrEvent {
   /// A string that contains an <code>Event</code> message describing changes that
   /// you make in the status of an IP address range that you bring to AWS Global
   /// Accelerator through bring your own IP address (BYOIP).
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A timestamp when you make a status change for an IP address range that you
   /// bring to AWS Global Accelerator through bring your own IP address (BYOIP).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   ByoipCidrEvent({
     this.message,
     this.timestamp,
   });
-  factory ByoipCidrEvent.fromJson(Map<String, dynamic> json) =>
-      _$ByoipCidrEventFromJson(json);
+  factory ByoipCidrEvent.fromJson(Map<String, dynamic> json) {
+    return ByoipCidrEvent(
+      message: json['Message'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
 }
 
 enum ByoipCidrState {
-  @_s.JsonValue('PENDING_PROVISIONING')
   pendingProvisioning,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('PENDING_ADVERTISING')
   pendingAdvertising,
-  @_s.JsonValue('ADVERTISING')
   advertising,
-  @_s.JsonValue('PENDING_WITHDRAWING')
   pendingWithdrawing,
-  @_s.JsonValue('PENDING_DEPROVISIONING')
   pendingDeprovisioning,
-  @_s.JsonValue('DEPROVISIONED')
   deprovisioned,
-  @_s.JsonValue('FAILED_PROVISION')
   failedProvision,
-  @_s.JsonValue('FAILED_ADVERTISING')
   failedAdvertising,
-  @_s.JsonValue('FAILED_WITHDRAW')
   failedWithdraw,
-  @_s.JsonValue('FAILED_DEPROVISION')
   failedDeprovision,
+}
+
+extension on ByoipCidrState {
+  String toValue() {
+    switch (this) {
+      case ByoipCidrState.pendingProvisioning:
+        return 'PENDING_PROVISIONING';
+      case ByoipCidrState.ready:
+        return 'READY';
+      case ByoipCidrState.pendingAdvertising:
+        return 'PENDING_ADVERTISING';
+      case ByoipCidrState.advertising:
+        return 'ADVERTISING';
+      case ByoipCidrState.pendingWithdrawing:
+        return 'PENDING_WITHDRAWING';
+      case ByoipCidrState.pendingDeprovisioning:
+        return 'PENDING_DEPROVISIONING';
+      case ByoipCidrState.deprovisioned:
+        return 'DEPROVISIONED';
+      case ByoipCidrState.failedProvision:
+        return 'FAILED_PROVISION';
+      case ByoipCidrState.failedAdvertising:
+        return 'FAILED_ADVERTISING';
+      case ByoipCidrState.failedWithdraw:
+        return 'FAILED_WITHDRAW';
+      case ByoipCidrState.failedDeprovision:
+        return 'FAILED_DEPROVISION';
+    }
+  }
+}
+
+extension on String {
+  ByoipCidrState toByoipCidrState() {
+    switch (this) {
+      case 'PENDING_PROVISIONING':
+        return ByoipCidrState.pendingProvisioning;
+      case 'READY':
+        return ByoipCidrState.ready;
+      case 'PENDING_ADVERTISING':
+        return ByoipCidrState.pendingAdvertising;
+      case 'ADVERTISING':
+        return ByoipCidrState.advertising;
+      case 'PENDING_WITHDRAWING':
+        return ByoipCidrState.pendingWithdrawing;
+      case 'PENDING_DEPROVISIONING':
+        return ByoipCidrState.pendingDeprovisioning;
+      case 'DEPROVISIONED':
+        return ByoipCidrState.deprovisioned;
+      case 'FAILED_PROVISION':
+        return ByoipCidrState.failedProvision;
+      case 'FAILED_ADVERTISING':
+        return ByoipCidrState.failedAdvertising;
+      case 'FAILED_WITHDRAW':
+        return ByoipCidrState.failedWithdraw;
+      case 'FAILED_DEPROVISION':
+        return ByoipCidrState.failedDeprovision;
+    }
+    throw Exception('$this is not known in enum ByoipCidrState');
+  }
 }
 
 /// Provides authorization for Amazon to bring a specific IP address range to a
@@ -3366,31 +3401,29 @@ enum ByoipCidrState {
 /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
 /// Your Own IP Addresses (BYOIP)</a> in the <i>AWS Global Accelerator Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CidrAuthorizationContext {
   /// The plain-text authorization message for the prefix and account.
-  @_s.JsonKey(name: 'Message')
   final String message;
 
   /// The signed authorization message for the prefix and account.
-  @_s.JsonKey(name: 'Signature')
   final String signature;
 
   CidrAuthorizationContext({
-    @_s.required this.message,
-    @_s.required this.signature,
+    required this.message,
+    required this.signature,
   });
-  Map<String, dynamic> toJson() => _$CidrAuthorizationContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final signature = this.signature;
+    return {
+      'Message': message,
+      'Signature': signature,
+    };
+  }
 }
 
 enum ClientAffinity {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('SOURCE_IP')
   sourceIp,
 }
 
@@ -3402,132 +3435,133 @@ extension on ClientAffinity {
       case ClientAffinity.sourceIp:
         return 'SOURCE_IP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ClientAffinity toClientAffinity() {
+    switch (this) {
+      case 'NONE':
+        return ClientAffinity.none;
+      case 'SOURCE_IP':
+        return ClientAffinity.sourceIp;
+    }
+    throw Exception('$this is not known in enum ClientAffinity');
+  }
+}
+
 class CreateAcceleratorResponse {
   /// The accelerator that is created by specifying a listener and the supported
   /// IP address types.
-  @_s.JsonKey(name: 'Accelerator')
-  final Accelerator accelerator;
+  final Accelerator? accelerator;
 
   CreateAcceleratorResponse({
     this.accelerator,
   });
-  factory CreateAcceleratorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAcceleratorResponseFromJson(json);
+  factory CreateAcceleratorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomRoutingAcceleratorResponse {
   /// The accelerator that is created.
-  @_s.JsonKey(name: 'Accelerator')
-  final CustomRoutingAccelerator accelerator;
+  final CustomRoutingAccelerator? accelerator;
 
   CreateCustomRoutingAcceleratorResponse({
     this.accelerator,
   });
   factory CreateCustomRoutingAcceleratorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCustomRoutingAcceleratorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCustomRoutingAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? CustomRoutingAccelerator.fromJson(
+              json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomRoutingEndpointGroupResponse {
   /// The information about the endpoint group created for a custom routing
   /// accelerator.
-  @_s.JsonKey(name: 'EndpointGroup')
-  final CustomRoutingEndpointGroup endpointGroup;
+  final CustomRoutingEndpointGroup? endpointGroup;
 
   CreateCustomRoutingEndpointGroupResponse({
     this.endpointGroup,
   });
   factory CreateCustomRoutingEndpointGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCustomRoutingEndpointGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCustomRoutingEndpointGroupResponse(
+      endpointGroup: json['EndpointGroup'] != null
+          ? CustomRoutingEndpointGroup.fromJson(
+              json['EndpointGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomRoutingListenerResponse {
   /// The listener that you've created for a custom routing accelerator.
-  @_s.JsonKey(name: 'Listener')
-  final CustomRoutingListener listener;
+  final CustomRoutingListener? listener;
 
   CreateCustomRoutingListenerResponse({
     this.listener,
   });
   factory CreateCustomRoutingListenerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCustomRoutingListenerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCustomRoutingListenerResponse(
+      listener: json['Listener'] != null
+          ? CustomRoutingListener.fromJson(
+              json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEndpointGroupResponse {
   /// The information about the endpoint group that was created.
-  @_s.JsonKey(name: 'EndpointGroup')
-  final EndpointGroup endpointGroup;
+  final EndpointGroup? endpointGroup;
 
   CreateEndpointGroupResponse({
     this.endpointGroup,
   });
-  factory CreateEndpointGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEndpointGroupResponseFromJson(json);
+  factory CreateEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEndpointGroupResponse(
+      endpointGroup: json['EndpointGroup'] != null
+          ? EndpointGroup.fromJson(
+              json['EndpointGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateListenerResponse {
   /// The listener that you've created.
-  @_s.JsonKey(name: 'Listener')
-  final Listener listener;
+  final Listener? listener;
 
   CreateListenerResponse({
     this.listener,
   });
-  factory CreateListenerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateListenerResponseFromJson(json);
+  factory CreateListenerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateListenerResponse(
+      listener: json['Listener'] != null
+          ? Listener.fromJson(json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Attributes of a custom routing accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingAccelerator {
   /// The Amazon Resource Name (ARN) of the custom routing accelerator.
-  @_s.JsonKey(name: 'AcceleratorArn')
-  final String acceleratorArn;
+  final String? acceleratorArn;
 
   /// The date and time that the accelerator was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The Domain Name System (DNS) name that Global Accelerator creates that
   /// points to your accelerator's static IP addresses.
@@ -3541,39 +3575,31 @@ class CustomRoutingAccelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing">
   /// Support for DNS Addressing in Global Accelerator</a> in the <i>AWS Global
   /// Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'DnsName')
-  final String dnsName;
+  final String? dnsName;
 
   /// Indicates whether the accelerator is enabled. The value is true or false.
   /// The default value is true.
   ///
   /// If the value is set to true, the accelerator cannot be deleted. If set to
   /// false, accelerator can be deleted.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The value for the address type must be IPv4.
-  @_s.JsonKey(name: 'IpAddressType')
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   /// The static IP addresses that Global Accelerator associates with the
   /// accelerator.
-  @_s.JsonKey(name: 'IpSets')
-  final List<IpSet> ipSets;
+  final List<IpSet>? ipSets;
 
   /// The date and time that the accelerator was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the accelerator. The name must contain only alphanumeric
   /// characters or hyphens (-), and must not begin or end with a hyphen.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Describes the deployment status of the accelerator.
-  @_s.JsonKey(name: 'Status')
-  final CustomRoutingAcceleratorStatus status;
+  final CustomRoutingAcceleratorStatus? status;
 
   CustomRoutingAccelerator({
     this.acceleratorArn,
@@ -3586,16 +3612,25 @@ class CustomRoutingAccelerator {
     this.name,
     this.status,
   });
-  factory CustomRoutingAccelerator.fromJson(Map<String, dynamic> json) =>
-      _$CustomRoutingAcceleratorFromJson(json);
+  factory CustomRoutingAccelerator.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingAccelerator(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dnsName: json['DnsName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      ipAddressType: (json['IpAddressType'] as String?)?.toIpAddressType(),
+      ipSets: (json['IpSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toCustomRoutingAcceleratorStatus(),
+    );
+  }
 }
 
 /// Attributes of a custom routing accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingAcceleratorAttributes {
   /// Indicates whether flow logs are enabled. The default value is false. If the
   /// value is true, <code>FlowLogsS3Bucket</code> and
@@ -3604,15 +3639,13 @@ class CustomRoutingAcceleratorAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
   /// Logs</a> in the <i>AWS Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'FlowLogsEnabled')
-  final bool flowLogsEnabled;
+  final bool? flowLogsEnabled;
 
   /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
   /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
   /// have a bucket policy that grants AWS Global Accelerator permission to write
   /// to the bucket.
-  @_s.JsonKey(name: 'FlowLogsS3Bucket')
-  final String flowLogsS3Bucket;
+  final String? flowLogsS3Bucket;
 
   /// The prefix for the location in the Amazon S3 bucket for the flow logs.
   /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
@@ -3623,8 +3656,7 @@ class CustomRoutingAcceleratorAttributes {
   /// following:
   ///
   /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
-  @_s.JsonKey(name: 'FlowLogsS3Prefix')
-  final String flowLogsS3Prefix;
+  final String? flowLogsS3Prefix;
 
   CustomRoutingAcceleratorAttributes({
     this.flowLogsEnabled,
@@ -3632,73 +3664,92 @@ class CustomRoutingAcceleratorAttributes {
     this.flowLogsS3Prefix,
   });
   factory CustomRoutingAcceleratorAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomRoutingAcceleratorAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomRoutingAcceleratorAttributes(
+      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
+      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
+      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
+    );
+  }
 }
 
 enum CustomRoutingAcceleratorStatus {
-  @_s.JsonValue('DEPLOYED')
   deployed,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+}
+
+extension on CustomRoutingAcceleratorStatus {
+  String toValue() {
+    switch (this) {
+      case CustomRoutingAcceleratorStatus.deployed:
+        return 'DEPLOYED';
+      case CustomRoutingAcceleratorStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  CustomRoutingAcceleratorStatus toCustomRoutingAcceleratorStatus() {
+    switch (this) {
+      case 'DEPLOYED':
+        return CustomRoutingAcceleratorStatus.deployed;
+      case 'IN_PROGRESS':
+        return CustomRoutingAcceleratorStatus.inProgress;
+    }
+    throw Exception(
+        '$this is not known in enum CustomRoutingAcceleratorStatus');
+  }
 }
 
 /// For a custom routing accelerator, sets the port range and protocol for all
 /// endpoints (virtual private cloud subnets) in an endpoint group to accept
 /// client traffic on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CustomRoutingDestinationConfiguration {
   /// The first port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
-  @_s.JsonKey(name: 'FromPort')
   final int fromPort;
 
   /// The protocol for the endpoint group that is associated with a custom routing
   /// accelerator. The protocol can be either TCP or UDP.
-  @_s.JsonKey(name: 'Protocols')
   final List<CustomRoutingProtocol> protocols;
 
   /// The last port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
-  @_s.JsonKey(name: 'ToPort')
   final int toPort;
 
   CustomRoutingDestinationConfiguration({
-    @_s.required this.fromPort,
-    @_s.required this.protocols,
-    @_s.required this.toPort,
+    required this.fromPort,
+    required this.protocols,
+    required this.toPort,
   });
-  Map<String, dynamic> toJson() =>
-      _$CustomRoutingDestinationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final protocols = this.protocols;
+    final toPort = this.toPort;
+    return {
+      'FromPort': fromPort,
+      'Protocols': protocols.map((e) => e.toValue()).toList(),
+      'ToPort': toPort,
+    };
+  }
 }
 
 /// For a custom routing accelerator, describes the port range and protocol for
 /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
 /// client traffic on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingDestinationDescription {
   /// The first port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
-  @_s.JsonKey(name: 'FromPort')
-  final int fromPort;
+  final int? fromPort;
 
   /// The protocol for the endpoint group that is associated with a custom routing
   /// accelerator. The protocol can be either TCP or UDP.
-  @_s.JsonKey(name: 'Protocols')
-  final List<Protocol> protocols;
+  final List<Protocol>? protocols;
 
   /// The last port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
-  @_s.JsonKey(name: 'ToPort')
-  final int toPort;
+  final int? toPort;
 
   CustomRoutingDestinationDescription({
     this.fromPort,
@@ -3706,85 +3757,101 @@ class CustomRoutingDestinationDescription {
     this.toPort,
   });
   factory CustomRoutingDestinationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomRoutingDestinationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomRoutingDestinationDescription(
+      fromPort: json['FromPort'] as int?,
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
+      toPort: json['ToPort'] as int?,
+    );
+  }
 }
 
 enum CustomRoutingDestinationTrafficState {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
+}
+
+extension on CustomRoutingDestinationTrafficState {
+  String toValue() {
+    switch (this) {
+      case CustomRoutingDestinationTrafficState.allow:
+        return 'ALLOW';
+      case CustomRoutingDestinationTrafficState.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension on String {
+  CustomRoutingDestinationTrafficState
+      toCustomRoutingDestinationTrafficState() {
+    switch (this) {
+      case 'ALLOW':
+        return CustomRoutingDestinationTrafficState.allow;
+      case 'DENY':
+        return CustomRoutingDestinationTrafficState.deny;
+    }
+    throw Exception(
+        '$this is not known in enum CustomRoutingDestinationTrafficState');
+  }
 }
 
 /// The list of endpoint objects. For custom routing, this is a list of virtual
 /// private cloud (VPC) subnet IDs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CustomRoutingEndpointConfiguration {
   /// An ID for the endpoint. For custom routing accelerators, this is the virtual
   /// private cloud (VPC) subnet ID.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   CustomRoutingEndpointConfiguration({
     this.endpointId,
   });
-  Map<String, dynamic> toJson() =>
-      _$CustomRoutingEndpointConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final endpointId = this.endpointId;
+    return {
+      if (endpointId != null) 'EndpointId': endpointId,
+    };
+  }
 }
 
 /// A complex type for an endpoint for a custom routing accelerator. Each
 /// endpoint group can include one or more endpoints, which are virtual private
 /// cloud (VPC) subnets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingEndpointDescription {
   /// An ID for the endpoint. For custom routing accelerators, this is the virtual
   /// private cloud (VPC) subnet ID.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   CustomRoutingEndpointDescription({
     this.endpointId,
   });
-  factory CustomRoutingEndpointDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomRoutingEndpointDescriptionFromJson(json);
+  factory CustomRoutingEndpointDescription.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingEndpointDescription(
+      endpointId: json['EndpointId'] as String?,
+    );
+  }
 }
 
 /// A complex type for the endpoint group for a custom routing accelerator. An
 /// AWS Region can have only one endpoint group for a specific listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingEndpointGroup {
   /// For a custom routing accelerator, describes the port range and protocol for
   /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
   /// client traffic on.
-  @_s.JsonKey(name: 'DestinationDescriptions')
-  final List<CustomRoutingDestinationDescription> destinationDescriptions;
+  final List<CustomRoutingDestinationDescription>? destinationDescriptions;
 
   /// For a custom routing accelerator, describes the endpoints (virtual private
   /// cloud subnets) in an endpoint group to accept client traffic on.
-  @_s.JsonKey(name: 'EndpointDescriptions')
-  final List<CustomRoutingEndpointDescription> endpointDescriptions;
+  final List<CustomRoutingEndpointDescription>? endpointDescriptions;
 
   /// The Amazon Resource Name (ARN) of the endpoint group.
-  @_s.JsonKey(name: 'EndpointGroupArn')
-  final String endpointGroupArn;
+  final String? endpointGroupArn;
 
   /// The AWS Region where the endpoint group is located.
-  @_s.JsonKey(name: 'EndpointGroupRegion')
-  final String endpointGroupRegion;
+  final String? endpointGroupRegion;
 
   CustomRoutingEndpointGroup({
     this.destinationDescriptions,
@@ -3792,245 +3859,264 @@ class CustomRoutingEndpointGroup {
     this.endpointGroupArn,
     this.endpointGroupRegion,
   });
-  factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) =>
-      _$CustomRoutingEndpointGroupFromJson(json);
+  factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingEndpointGroup(
+      destinationDescriptions: (json['DestinationDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomRoutingDestinationDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      endpointDescriptions: (json['EndpointDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomRoutingEndpointDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+    );
+  }
 }
 
 /// A complex type for a listener for a custom routing accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomRoutingListener {
   /// The Amazon Resource Name (ARN) of the listener.
-  @_s.JsonKey(name: 'ListenerArn')
-  final String listenerArn;
+  final String? listenerArn;
 
   /// The port range to support for connections from clients to your accelerator.
   ///
   /// Separately, you set port ranges for endpoints. For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
   /// endpoints for custom routing accelerators</a>.
-  @_s.JsonKey(name: 'PortRanges')
-  final List<PortRange> portRanges;
+  final List<PortRange>? portRanges;
 
   CustomRoutingListener({
     this.listenerArn,
     this.portRanges,
   });
-  factory CustomRoutingListener.fromJson(Map<String, dynamic> json) =>
-      _$CustomRoutingListenerFromJson(json);
+  factory CustomRoutingListener.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingListener(
+      listenerArn: json['ListenerArn'] as String?,
+      portRanges: (json['PortRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum CustomRoutingProtocol {
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('UDP')
   udp,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CustomRoutingProtocol {
+  String toValue() {
+    switch (this) {
+      case CustomRoutingProtocol.tcp:
+        return 'TCP';
+      case CustomRoutingProtocol.udp:
+        return 'UDP';
+    }
+  }
+}
+
+extension on String {
+  CustomRoutingProtocol toCustomRoutingProtocol() {
+    switch (this) {
+      case 'TCP':
+        return CustomRoutingProtocol.tcp;
+      case 'UDP':
+        return CustomRoutingProtocol.udp;
+    }
+    throw Exception('$this is not known in enum CustomRoutingProtocol');
+  }
+}
+
 class DeprovisionByoipCidrResponse {
   /// Information about the address range.
-  @_s.JsonKey(name: 'ByoipCidr')
-  final ByoipCidr byoipCidr;
+  final ByoipCidr? byoipCidr;
 
   DeprovisionByoipCidrResponse({
     this.byoipCidr,
   });
-  factory DeprovisionByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeprovisionByoipCidrResponseFromJson(json);
+  factory DeprovisionByoipCidrResponse.fromJson(Map<String, dynamic> json) {
+    return DeprovisionByoipCidrResponse(
+      byoipCidr: json['ByoipCidr'] != null
+          ? ByoipCidr.fromJson(json['ByoipCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAcceleratorAttributesResponse {
   /// The attributes of the accelerator.
-  @_s.JsonKey(name: 'AcceleratorAttributes')
-  final AcceleratorAttributes acceleratorAttributes;
+  final AcceleratorAttributes? acceleratorAttributes;
 
   DescribeAcceleratorAttributesResponse({
     this.acceleratorAttributes,
   });
   factory DescribeAcceleratorAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAcceleratorAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAcceleratorAttributesResponse(
+      acceleratorAttributes: json['AcceleratorAttributes'] != null
+          ? AcceleratorAttributes.fromJson(
+              json['AcceleratorAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAcceleratorResponse {
   /// The description of the accelerator.
-  @_s.JsonKey(name: 'Accelerator')
-  final Accelerator accelerator;
+  final Accelerator? accelerator;
 
   DescribeAcceleratorResponse({
     this.accelerator,
   });
-  factory DescribeAcceleratorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAcceleratorResponseFromJson(json);
+  factory DescribeAcceleratorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomRoutingAcceleratorAttributesResponse {
   /// The attributes of the custom routing accelerator.
-  @_s.JsonKey(name: 'AcceleratorAttributes')
-  final CustomRoutingAcceleratorAttributes acceleratorAttributes;
+  final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
 
   DescribeCustomRoutingAcceleratorAttributesResponse({
     this.acceleratorAttributes,
   });
   factory DescribeCustomRoutingAcceleratorAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCustomRoutingAcceleratorAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCustomRoutingAcceleratorAttributesResponse(
+      acceleratorAttributes: json['AcceleratorAttributes'] != null
+          ? CustomRoutingAcceleratorAttributes.fromJson(
+              json['AcceleratorAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomRoutingAcceleratorResponse {
   /// The description of the custom routing accelerator.
-  @_s.JsonKey(name: 'Accelerator')
-  final CustomRoutingAccelerator accelerator;
+  final CustomRoutingAccelerator? accelerator;
 
   DescribeCustomRoutingAcceleratorResponse({
     this.accelerator,
   });
   factory DescribeCustomRoutingAcceleratorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCustomRoutingAcceleratorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCustomRoutingAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? CustomRoutingAccelerator.fromJson(
+              json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomRoutingEndpointGroupResponse {
   /// The description of an endpoint group for a custom routing accelerator.
-  @_s.JsonKey(name: 'EndpointGroup')
-  final CustomRoutingEndpointGroup endpointGroup;
+  final CustomRoutingEndpointGroup? endpointGroup;
 
   DescribeCustomRoutingEndpointGroupResponse({
     this.endpointGroup,
   });
   factory DescribeCustomRoutingEndpointGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCustomRoutingEndpointGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCustomRoutingEndpointGroupResponse(
+      endpointGroup: json['EndpointGroup'] != null
+          ? CustomRoutingEndpointGroup.fromJson(
+              json['EndpointGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomRoutingListenerResponse {
   /// The description of a listener for a custom routing accelerator.
-  @_s.JsonKey(name: 'Listener')
-  final CustomRoutingListener listener;
+  final CustomRoutingListener? listener;
 
   DescribeCustomRoutingListenerResponse({
     this.listener,
   });
   factory DescribeCustomRoutingListenerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCustomRoutingListenerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCustomRoutingListenerResponse(
+      listener: json['Listener'] != null
+          ? CustomRoutingListener.fromJson(
+              json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointGroupResponse {
   /// The description of an endpoint group.
-  @_s.JsonKey(name: 'EndpointGroup')
-  final EndpointGroup endpointGroup;
+  final EndpointGroup? endpointGroup;
 
   DescribeEndpointGroupResponse({
     this.endpointGroup,
   });
-  factory DescribeEndpointGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointGroupResponseFromJson(json);
+  factory DescribeEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointGroupResponse(
+      endpointGroup: json['EndpointGroup'] != null
+          ? EndpointGroup.fromJson(
+              json['EndpointGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeListenerResponse {
   /// The description of a listener.
-  @_s.JsonKey(name: 'Listener')
-  final Listener listener;
+  final Listener? listener;
 
   DescribeListenerResponse({
     this.listener,
   });
-  factory DescribeListenerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeListenerResponseFromJson(json);
+  factory DescribeListenerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeListenerResponse(
+      listener: json['Listener'] != null
+          ? Listener.fromJson(json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The port mappings for a specified endpoint IP address (destination).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DestinationPortMapping {
   /// The Amazon Resource Name (ARN) of the custom routing accelerator that you
   /// have port mappings for.
-  @_s.JsonKey(name: 'AcceleratorArn')
-  final String acceleratorArn;
+  final String? acceleratorArn;
 
   /// The IP address/port combinations (sockets) that map to a given destination
   /// socket address.
-  @_s.JsonKey(name: 'AcceleratorSocketAddresses')
-  final List<SocketAddress> acceleratorSocketAddresses;
+  final List<SocketAddress>? acceleratorSocketAddresses;
 
   /// The endpoint IP address/port combination for traffic received on the
   /// accelerator socket address.
-  @_s.JsonKey(name: 'DestinationSocketAddress')
-  final SocketAddress destinationSocketAddress;
+  final SocketAddress? destinationSocketAddress;
 
   /// Indicates whether or not a port mapping destination can receive traffic. The
   /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
   /// traffic is not allowed to the destination.
-  @_s.JsonKey(name: 'DestinationTrafficState')
-  final CustomRoutingDestinationTrafficState destinationTrafficState;
+  final CustomRoutingDestinationTrafficState? destinationTrafficState;
 
   /// The Amazon Resource Name (ARN) of the endpoint group.
-  @_s.JsonKey(name: 'EndpointGroupArn')
-  final String endpointGroupArn;
+  final String? endpointGroupArn;
 
   /// The AWS Region for the endpoint group.
-  @_s.JsonKey(name: 'EndpointGroupRegion')
-  final String endpointGroupRegion;
+  final String? endpointGroupRegion;
 
   /// The ID for the virtual private cloud (VPC) subnet.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   /// The IP address type, which must be IPv4.
-  @_s.JsonKey(name: 'IpAddressType')
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   DestinationPortMapping({
     this.acceleratorArn,
@@ -4042,17 +4128,29 @@ class DestinationPortMapping {
     this.endpointId,
     this.ipAddressType,
   });
-  factory DestinationPortMapping.fromJson(Map<String, dynamic> json) =>
-      _$DestinationPortMappingFromJson(json);
+  factory DestinationPortMapping.fromJson(Map<String, dynamic> json) {
+    return DestinationPortMapping(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      acceleratorSocketAddresses: (json['AcceleratorSocketAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => SocketAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinationSocketAddress: json['DestinationSocketAddress'] != null
+          ? SocketAddress.fromJson(
+              json['DestinationSocketAddress'] as Map<String, dynamic>)
+          : null,
+      destinationTrafficState: (json['DestinationTrafficState'] as String?)
+          ?.toCustomRoutingDestinationTrafficState(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+      endpointId: json['EndpointId'] as String?,
+      ipAddressType: (json['IpAddressType'] as String?)?.toIpAddressType(),
+    );
+  }
 }
 
 /// A complex type for endpoints. A resource must be valid and active when you
 /// add it as an endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EndpointConfiguration {
   /// Indicates whether client IP address preservation is enabled for an
   /// Application Load Balancer endpoint. The value is true or false. The default
@@ -4067,8 +4165,7 @@ class EndpointConfiguration {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html">
   /// Preserve Client IP Addresses in AWS Global Accelerator</a> in the <i>AWS
   /// Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'ClientIPPreservationEnabled')
-  final bool clientIPPreservationEnabled;
+  final bool? clientIPPreservationEnabled;
 
   /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
   /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
@@ -4077,8 +4174,7 @@ class EndpointConfiguration {
   /// ID. A resource must be valid and active when you add it as an endpoint.
   ///
   /// An Application Load Balancer can be either internal or internet-facing.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   /// The weight associated with the endpoint. When you add weights to endpoints,
   /// you configure AWS Global Accelerator to route traffic based on proportions
@@ -4089,24 +4185,28 @@ class EndpointConfiguration {
   /// see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
   /// Weights</a> in the <i>AWS Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'Weight')
-  final int weight;
+  final int? weight;
 
   EndpointConfiguration({
     this.clientIPPreservationEnabled,
     this.endpointId,
     this.weight,
   });
-  Map<String, dynamic> toJson() => _$EndpointConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
+    final endpointId = this.endpointId;
+    final weight = this.weight;
+    return {
+      if (clientIPPreservationEnabled != null)
+        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (weight != null) 'Weight': weight,
+    };
+  }
 }
 
 /// A complex type for an endpoint. Each endpoint group can include one or more
 /// endpoints, such as load balancers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EndpointDescription {
   /// Indicates whether client IP address preservation is enabled for an
   /// Application Load Balancer endpoint. The value is true or false. The default
@@ -4121,8 +4221,7 @@ class EndpointDescription {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/introduction-how-it-works-client-ip.html">
   /// Viewing Client IP Addresses in AWS Global Accelerator</a> in the <i>AWS
   /// Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'ClientIPPreservationEnabled')
-  final bool clientIPPreservationEnabled;
+  final bool? clientIPPreservationEnabled;
 
   /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
   /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
@@ -4131,16 +4230,13 @@ class EndpointDescription {
   /// ID.
   ///
   /// An Application Load Balancer can be either internal or internet-facing.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   /// Returns a null result.
-  @_s.JsonKey(name: 'HealthReason')
-  final String healthReason;
+  final String? healthReason;
 
   /// The health status of the endpoint.
-  @_s.JsonKey(name: 'HealthState')
-  final HealthState healthState;
+  final HealthState? healthState;
 
   /// The weight associated with the endpoint. When you add weights to endpoints,
   /// you configure AWS Global Accelerator to route traffic based on proportions
@@ -4151,8 +4247,7 @@ class EndpointDescription {
   /// see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
   /// Weights</a> in the <i>AWS Global Accelerator Developer Guide</i>.
-  @_s.JsonKey(name: 'Weight')
-  final int weight;
+  final int? weight;
 
   EndpointDescription({
     this.clientIPPreservationEnabled,
@@ -4161,40 +4256,37 @@ class EndpointDescription {
     this.healthState,
     this.weight,
   });
-  factory EndpointDescription.fromJson(Map<String, dynamic> json) =>
-      _$EndpointDescriptionFromJson(json);
+  factory EndpointDescription.fromJson(Map<String, dynamic> json) {
+    return EndpointDescription(
+      clientIPPreservationEnabled: json['ClientIPPreservationEnabled'] as bool?,
+      endpointId: json['EndpointId'] as String?,
+      healthReason: json['HealthReason'] as String?,
+      healthState: (json['HealthState'] as String?)?.toHealthState(),
+      weight: json['Weight'] as int?,
+    );
+  }
 }
 
 /// A complex type for the endpoint group. An AWS Region can have only one
 /// endpoint group for a specific listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EndpointGroup {
   /// The list of endpoint objects.
-  @_s.JsonKey(name: 'EndpointDescriptions')
-  final List<EndpointDescription> endpointDescriptions;
+  final List<EndpointDescription>? endpointDescriptions;
 
   /// The Amazon Resource Name (ARN) of the endpoint group.
-  @_s.JsonKey(name: 'EndpointGroupArn')
-  final String endpointGroupArn;
+  final String? endpointGroupArn;
 
   /// The AWS Region where the endpoint group is located.
-  @_s.JsonKey(name: 'EndpointGroupRegion')
-  final String endpointGroupRegion;
+  final String? endpointGroupRegion;
 
   /// The time—10 seconds or 30 seconds—between health checks for each endpoint.
   /// The default value is 30.
-  @_s.JsonKey(name: 'HealthCheckIntervalSeconds')
-  final int healthCheckIntervalSeconds;
+  final int? healthCheckIntervalSeconds;
 
   /// If the protocol is HTTP/S, then this value provides the ping path that
   /// Global Accelerator uses for the destination on the endpoints for health
   /// checks. The default is slash (/).
-  @_s.JsonKey(name: 'HealthCheckPath')
-  final String healthCheckPath;
+  final String? healthCheckPath;
 
   /// The port that Global Accelerator uses to perform health checks on endpoints
   /// that are part of this endpoint group.
@@ -4202,27 +4294,23 @@ class EndpointGroup {
   /// The default port is the port for the listener that this endpoint group is
   /// associated with. If the listener port is a list, Global Accelerator uses the
   /// first specified port in the list of ports.
-  @_s.JsonKey(name: 'HealthCheckPort')
-  final int healthCheckPort;
+  final int? healthCheckPort;
 
   /// The protocol that Global Accelerator uses to perform health checks on
   /// endpoints that are part of this endpoint group. The default value is TCP.
-  @_s.JsonKey(name: 'HealthCheckProtocol')
-  final HealthCheckProtocol healthCheckProtocol;
+  final HealthCheckProtocol? healthCheckProtocol;
 
   /// Allows you to override the destination ports used to route traffic to an
   /// endpoint. Using a port override lets you to map a list of external
   /// destination ports (that your users send traffic to) to a list of internal
   /// destination ports that you want an application endpoint to receive traffic
   /// on.
-  @_s.JsonKey(name: 'PortOverrides')
-  final List<PortOverride> portOverrides;
+  final List<PortOverride>? portOverrides;
 
   /// The number of consecutive health checks required to set the state of a
   /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
   /// The default value is 3.
-  @_s.JsonKey(name: 'ThresholdCount')
-  final int thresholdCount;
+  final int? thresholdCount;
 
   /// The percentage of traffic to send to an AWS Region. Additional traffic is
   /// distributed to other endpoint groups for this listener.
@@ -4232,8 +4320,7 @@ class EndpointGroup {
   /// otherwise have been routed to the Region based on optimal routing.
   ///
   /// The default value is 100.
-  @_s.JsonKey(name: 'TrafficDialPercentage')
-  final double trafficDialPercentage;
+  final double? trafficDialPercentage;
 
   EndpointGroup({
     this.endpointDescriptions,
@@ -4247,16 +4334,32 @@ class EndpointGroup {
     this.thresholdCount,
     this.trafficDialPercentage,
   });
-  factory EndpointGroup.fromJson(Map<String, dynamic> json) =>
-      _$EndpointGroupFromJson(json);
+  factory EndpointGroup.fromJson(Map<String, dynamic> json) {
+    return EndpointGroup(
+      endpointDescriptions: (json['EndpointDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EndpointDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+      healthCheckIntervalSeconds: json['HealthCheckIntervalSeconds'] as int?,
+      healthCheckPath: json['HealthCheckPath'] as String?,
+      healthCheckPort: json['HealthCheckPort'] as int?,
+      healthCheckProtocol:
+          (json['HealthCheckProtocol'] as String?)?.toHealthCheckProtocol(),
+      portOverrides: (json['PortOverrides'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      thresholdCount: json['ThresholdCount'] as int?,
+      trafficDialPercentage: json['TrafficDialPercentage'] as double?,
+    );
+  }
 }
 
 enum HealthCheckProtocol {
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('HTTP')
   http,
-  @_s.JsonValue('HTTPS')
   https,
 }
 
@@ -4270,21 +4373,57 @@ extension on HealthCheckProtocol {
       case HealthCheckProtocol.https:
         return 'HTTPS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HealthCheckProtocol toHealthCheckProtocol() {
+    switch (this) {
+      case 'TCP':
+        return HealthCheckProtocol.tcp;
+      case 'HTTP':
+        return HealthCheckProtocol.http;
+      case 'HTTPS':
+        return HealthCheckProtocol.https;
+    }
+    throw Exception('$this is not known in enum HealthCheckProtocol');
   }
 }
 
 enum HealthState {
-  @_s.JsonValue('INITIAL')
   initial,
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
 }
 
+extension on HealthState {
+  String toValue() {
+    switch (this) {
+      case HealthState.initial:
+        return 'INITIAL';
+      case HealthState.healthy:
+        return 'HEALTHY';
+      case HealthState.unhealthy:
+        return 'UNHEALTHY';
+    }
+  }
+}
+
+extension on String {
+  HealthState toHealthState() {
+    switch (this) {
+      case 'INITIAL':
+        return HealthState.initial;
+      case 'HEALTHY':
+        return HealthState.healthy;
+      case 'UNHEALTHY':
+        return HealthState.unhealthy;
+    }
+    throw Exception('$this is not known in enum HealthState');
+  }
+}
+
 enum IpAddressType {
-  @_s.JsonValue('IPV4')
   ipv4,
 }
 
@@ -4294,269 +4433,277 @@ extension on IpAddressType {
       case IpAddressType.ipv4:
         return 'IPV4';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IpAddressType toIpAddressType() {
+    switch (this) {
+      case 'IPV4':
+        return IpAddressType.ipv4;
+    }
+    throw Exception('$this is not known in enum IpAddressType');
   }
 }
 
 /// A complex type for the set of IP addresses for an accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IpSet {
   /// The array of IP addresses in the IP address set. An IP address set can have
   /// a maximum of two IP addresses.
-  @_s.JsonKey(name: 'IpAddresses')
-  final List<String> ipAddresses;
+  final List<String>? ipAddresses;
 
   /// The types of IP addresses included in this IP set.
-  @_s.JsonKey(name: 'IpFamily')
-  final String ipFamily;
+  final String? ipFamily;
 
   IpSet({
     this.ipAddresses,
     this.ipFamily,
   });
-  factory IpSet.fromJson(Map<String, dynamic> json) => _$IpSetFromJson(json);
+  factory IpSet.fromJson(Map<String, dynamic> json) {
+    return IpSet(
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ipFamily: json['IpFamily'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAcceleratorsResponse {
   /// The list of accelerators for a customer account.
-  @_s.JsonKey(name: 'Accelerators')
-  final List<Accelerator> accelerators;
+  final List<Accelerator>? accelerators;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAcceleratorsResponse({
     this.accelerators,
     this.nextToken,
   });
-  factory ListAcceleratorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAcceleratorsResponseFromJson(json);
+  factory ListAcceleratorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAcceleratorsResponse(
+      accelerators: (json['Accelerators'] as List?)
+          ?.whereNotNull()
+          .map((e) => Accelerator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListByoipCidrsResponse {
   /// Information about your address ranges.
-  @_s.JsonKey(name: 'ByoipCidrs')
-  final List<ByoipCidr> byoipCidrs;
+  final List<ByoipCidr>? byoipCidrs;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListByoipCidrsResponse({
     this.byoipCidrs,
     this.nextToken,
   });
-  factory ListByoipCidrsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListByoipCidrsResponseFromJson(json);
+  factory ListByoipCidrsResponse.fromJson(Map<String, dynamic> json) {
+    return ListByoipCidrsResponse(
+      byoipCidrs: (json['ByoipCidrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ByoipCidr.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomRoutingAcceleratorsResponse {
   /// The list of custom routing accelerators for a customer account.
-  @_s.JsonKey(name: 'Accelerators')
-  final List<CustomRoutingAccelerator> accelerators;
+  final List<CustomRoutingAccelerator>? accelerators;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomRoutingAcceleratorsResponse({
     this.accelerators,
     this.nextToken,
   });
   factory ListCustomRoutingAcceleratorsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCustomRoutingAcceleratorsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCustomRoutingAcceleratorsResponse(
+      accelerators: (json['Accelerators'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CustomRoutingAccelerator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomRoutingEndpointGroupsResponse {
   /// The list of the endpoint groups associated with a listener for a custom
   /// routing accelerator.
-  @_s.JsonKey(name: 'EndpointGroups')
-  final List<CustomRoutingEndpointGroup> endpointGroups;
+  final List<CustomRoutingEndpointGroup>? endpointGroups;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomRoutingEndpointGroupsResponse({
     this.endpointGroups,
     this.nextToken,
   });
   factory ListCustomRoutingEndpointGroupsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCustomRoutingEndpointGroupsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCustomRoutingEndpointGroupsResponse(
+      endpointGroups: (json['EndpointGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CustomRoutingEndpointGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomRoutingListenersResponse {
   /// The list of listeners for a custom routing accelerator.
-  @_s.JsonKey(name: 'Listeners')
-  final List<CustomRoutingListener> listeners;
+  final List<CustomRoutingListener>? listeners;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomRoutingListenersResponse({
     this.listeners,
     this.nextToken,
   });
   factory ListCustomRoutingListenersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCustomRoutingListenersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCustomRoutingListenersResponse(
+      listeners: (json['Listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomRoutingListener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomRoutingPortMappingsByDestinationResponse {
   /// The port mappings for the endpoint IP address that you specified in the
   /// request.
-  @_s.JsonKey(name: 'DestinationPortMappings')
-  final List<DestinationPortMapping> destinationPortMappings;
+  final List<DestinationPortMapping>? destinationPortMappings;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomRoutingPortMappingsByDestinationResponse({
     this.destinationPortMappings,
     this.nextToken,
   });
   factory ListCustomRoutingPortMappingsByDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCustomRoutingPortMappingsByDestinationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCustomRoutingPortMappingsByDestinationResponse(
+      destinationPortMappings: (json['DestinationPortMappings'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DestinationPortMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomRoutingPortMappingsResponse {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The port mappings for a custom routing accelerator.
-  @_s.JsonKey(name: 'PortMappings')
-  final List<PortMapping> portMappings;
+  final List<PortMapping>? portMappings;
 
   ListCustomRoutingPortMappingsResponse({
     this.nextToken,
     this.portMappings,
   });
   factory ListCustomRoutingPortMappingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCustomRoutingPortMappingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCustomRoutingPortMappingsResponse(
+      nextToken: json['NextToken'] as String?,
+      portMappings: (json['PortMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEndpointGroupsResponse {
   /// The list of the endpoint groups associated with a listener.
-  @_s.JsonKey(name: 'EndpointGroups')
-  final List<EndpointGroup> endpointGroups;
+  final List<EndpointGroup>? endpointGroups;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEndpointGroupsResponse({
     this.endpointGroups,
     this.nextToken,
   });
-  factory ListEndpointGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEndpointGroupsResponseFromJson(json);
+  factory ListEndpointGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEndpointGroupsResponse(
+      endpointGroups: (json['EndpointGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => EndpointGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListListenersResponse {
   /// The list of listeners for an accelerator.
-  @_s.JsonKey(name: 'Listeners')
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// The token for the next set of results. You receive this token from a
   /// previous call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListListenersResponse({
     this.listeners,
     this.nextToken,
   });
-  factory ListListenersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListListenersResponseFromJson(json);
+  factory ListListenersResponse.fromJson(Map<String, dynamic> json) {
+    return ListListenersResponse(
+      listeners: (json['Listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => Listener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// Root level tag for the Tags parameters.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A complex type for a listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Listener {
   /// Client affinity lets you direct all requests from a user to the same
   /// endpoint, if you have stateful applications, regardless of the port and
@@ -4579,20 +4726,16 @@ class Listener {
   /// address—to select the hash value.
   ///
   /// The default value is <code>NONE</code>.
-  @_s.JsonKey(name: 'ClientAffinity')
-  final ClientAffinity clientAffinity;
+  final ClientAffinity? clientAffinity;
 
   /// The Amazon Resource Name (ARN) of the listener.
-  @_s.JsonKey(name: 'ListenerArn')
-  final String listenerArn;
+  final String? listenerArn;
 
   /// The list of port ranges for the connections from clients to the accelerator.
-  @_s.JsonKey(name: 'PortRanges')
-  final List<PortRange> portRanges;
+  final List<PortRange>? portRanges;
 
   /// The protocol for the connections from clients to the accelerator.
-  @_s.JsonKey(name: 'Protocol')
-  final Protocol protocol;
+  final Protocol? protocol;
 
   Listener({
     this.clientAffinity,
@@ -4600,8 +4743,17 @@ class Listener {
     this.portRanges,
     this.protocol,
   });
-  factory Listener.fromJson(Map<String, dynamic> json) =>
-      _$ListenerFromJson(json);
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      clientAffinity: (json['ClientAffinity'] as String?)?.toClientAffinity(),
+      listenerArn: json['ListenerArn'] as String?,
+      portRanges: (json['PortRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      protocol: (json['Protocol'] as String?)?.toProtocol(),
+    );
+  }
 }
 
 /// Returns the ports and associated IP addresses and ports of Amazon EC2
@@ -4609,38 +4761,27 @@ class Listener {
 /// port mapping protocol in AWS Global Accelerator that statically associates
 /// port ranges with VPC subnets, which allows Global Accelerator to route to
 /// specific instances and ports within one or more subnets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PortMapping {
   /// The accelerator port.
-  @_s.JsonKey(name: 'AcceleratorPort')
-  final int acceleratorPort;
+  final int? acceleratorPort;
 
   /// The EC2 instance IP address and port number in the virtual private cloud
   /// (VPC) subnet.
-  @_s.JsonKey(name: 'DestinationSocketAddress')
-  final SocketAddress destinationSocketAddress;
+  final SocketAddress? destinationSocketAddress;
 
   /// Indicates whether or not a port mapping destination can receive traffic. The
   /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
   /// traffic is not allowed to the destination.
-  @_s.JsonKey(name: 'DestinationTrafficState')
-  final CustomRoutingDestinationTrafficState destinationTrafficState;
+  final CustomRoutingDestinationTrafficState? destinationTrafficState;
 
   /// The Amazon Resource Name (ARN) of the endpoint group.
-  @_s.JsonKey(name: 'EndpointGroupArn')
-  final String endpointGroupArn;
+  final String? endpointGroupArn;
 
   /// The IP address of the VPC subnet (the subnet ID).
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   /// The protocols supported by the endpoint group.
-  @_s.JsonKey(name: 'Protocols')
-  final List<CustomRoutingProtocol> protocols;
+  final List<CustomRoutingProtocol>? protocols;
 
   PortMapping({
     this.acceleratorPort,
@@ -4650,8 +4791,23 @@ class PortMapping {
     this.endpointId,
     this.protocols,
   });
-  factory PortMapping.fromJson(Map<String, dynamic> json) =>
-      _$PortMappingFromJson(json);
+  factory PortMapping.fromJson(Map<String, dynamic> json) {
+    return PortMapping(
+      acceleratorPort: json['AcceleratorPort'] as int?,
+      destinationSocketAddress: json['DestinationSocketAddress'] != null
+          ? SocketAddress.fromJson(
+              json['DestinationSocketAddress'] as Map<String, dynamic>)
+          : null,
+      destinationTrafficState: (json['DestinationTrafficState'] as String?)
+          ?.toCustomRoutingDestinationTrafficState(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointId: json['EndpointId'] as String?,
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCustomRoutingProtocol())
+          .toList(),
+    );
+  }
 }
 
 /// Override specific listener ports used to route traffic to endpoints that are
@@ -4663,62 +4819,68 @@ class PortMapping {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
 /// Port overrides</a> in the <i>AWS Global Accelerator Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortOverride {
   /// The endpoint port that you want a listener port to be mapped to. This is the
   /// port on the endpoint, such as the Application Load Balancer or Amazon EC2
   /// instance.
-  @_s.JsonKey(name: 'EndpointPort')
-  final int endpointPort;
+  final int? endpointPort;
 
   /// The listener port that you want to map to a specific endpoint port. This is
   /// the port that user traffic arrives to the Global Accelerator on.
-  @_s.JsonKey(name: 'ListenerPort')
-  final int listenerPort;
+  final int? listenerPort;
 
   PortOverride({
     this.endpointPort,
     this.listenerPort,
   });
-  factory PortOverride.fromJson(Map<String, dynamic> json) =>
-      _$PortOverrideFromJson(json);
+  factory PortOverride.fromJson(Map<String, dynamic> json) {
+    return PortOverride(
+      endpointPort: json['EndpointPort'] as int?,
+      listenerPort: json['ListenerPort'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PortOverrideToJson(this);
+  Map<String, dynamic> toJson() {
+    final endpointPort = this.endpointPort;
+    final listenerPort = this.listenerPort;
+    return {
+      if (endpointPort != null) 'EndpointPort': endpointPort,
+      if (listenerPort != null) 'ListenerPort': listenerPort,
+    };
+  }
 }
 
 /// A complex type for a range of ports for a listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortRange {
   /// The first port in the range of ports, inclusive.
-  @_s.JsonKey(name: 'FromPort')
-  final int fromPort;
+  final int? fromPort;
 
   /// The last port in the range of ports, inclusive.
-  @_s.JsonKey(name: 'ToPort')
-  final int toPort;
+  final int? toPort;
 
   PortRange({
     this.fromPort,
     this.toPort,
   });
-  factory PortRange.fromJson(Map<String, dynamic> json) =>
-      _$PortRangeFromJson(json);
+  factory PortRange.fromJson(Map<String, dynamic> json) {
+    return PortRange(
+      fromPort: json['FromPort'] as int?,
+      toPort: json['ToPort'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PortRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final toPort = this.toPort;
+    return {
+      if (fromPort != null) 'FromPort': fromPort,
+      if (toPort != null) 'ToPort': toPort,
+    };
+  }
 }
 
 enum Protocol {
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('UDP')
   udp,
 }
 
@@ -4730,239 +4892,240 @@ extension on Protocol {
       case Protocol.udp:
         return 'UDP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'TCP':
+        return Protocol.tcp;
+      case 'UDP':
+        return Protocol.udp;
+    }
+    throw Exception('$this is not known in enum Protocol');
+  }
+}
+
 class ProvisionByoipCidrResponse {
   /// Information about the address range.
-  @_s.JsonKey(name: 'ByoipCidr')
-  final ByoipCidr byoipCidr;
+  final ByoipCidr? byoipCidr;
 
   ProvisionByoipCidrResponse({
     this.byoipCidr,
   });
-  factory ProvisionByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionByoipCidrResponseFromJson(json);
+  factory ProvisionByoipCidrResponse.fromJson(Map<String, dynamic> json) {
+    return ProvisionByoipCidrResponse(
+      byoipCidr: json['ByoipCidr'] != null
+          ? ByoipCidr.fromJson(json['ByoipCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An IP address/port combination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SocketAddress {
   /// The IP address for the socket address.
-  @_s.JsonKey(name: 'IpAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The port for the socket address.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   SocketAddress({
     this.ipAddress,
     this.port,
   });
-  factory SocketAddress.fromJson(Map<String, dynamic> json) =>
-      _$SocketAddressFromJson(json);
+  factory SocketAddress.fromJson(Map<String, dynamic> json) {
+    return SocketAddress(
+      ipAddress: json['IpAddress'] as String?,
+      port: json['Port'] as int?,
+    );
+  }
 }
 
 /// A complex type that contains a <code>Tag</code> key and <code>Tag</code>
 /// value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A string that contains a <code>Tag</code> key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A string that contains a <code>Tag</code> value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAcceleratorAttributesResponse {
   /// Updated attributes for the accelerator.
-  @_s.JsonKey(name: 'AcceleratorAttributes')
-  final AcceleratorAttributes acceleratorAttributes;
+  final AcceleratorAttributes? acceleratorAttributes;
 
   UpdateAcceleratorAttributesResponse({
     this.acceleratorAttributes,
   });
   factory UpdateAcceleratorAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateAcceleratorAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateAcceleratorAttributesResponse(
+      acceleratorAttributes: json['AcceleratorAttributes'] != null
+          ? AcceleratorAttributes.fromJson(
+              json['AcceleratorAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAcceleratorResponse {
   /// Information about the updated accelerator.
-  @_s.JsonKey(name: 'Accelerator')
-  final Accelerator accelerator;
+  final Accelerator? accelerator;
 
   UpdateAcceleratorResponse({
     this.accelerator,
   });
-  factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAcceleratorResponseFromJson(json);
+  factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCustomRoutingAcceleratorAttributesResponse {
   /// Updated custom routing accelerator.
-  @_s.JsonKey(name: 'AcceleratorAttributes')
-  final CustomRoutingAcceleratorAttributes acceleratorAttributes;
+  final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
 
   UpdateCustomRoutingAcceleratorAttributesResponse({
     this.acceleratorAttributes,
   });
   factory UpdateCustomRoutingAcceleratorAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateCustomRoutingAcceleratorAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateCustomRoutingAcceleratorAttributesResponse(
+      acceleratorAttributes: json['AcceleratorAttributes'] != null
+          ? CustomRoutingAcceleratorAttributes.fromJson(
+              json['AcceleratorAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCustomRoutingAcceleratorResponse {
   /// Information about the updated custom routing accelerator.
-  @_s.JsonKey(name: 'Accelerator')
-  final CustomRoutingAccelerator accelerator;
+  final CustomRoutingAccelerator? accelerator;
 
   UpdateCustomRoutingAcceleratorResponse({
     this.accelerator,
   });
   factory UpdateCustomRoutingAcceleratorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateCustomRoutingAcceleratorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateCustomRoutingAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? CustomRoutingAccelerator.fromJson(
+              json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCustomRoutingListenerResponse {
   /// Information for the updated listener for a custom routing accelerator.
-  @_s.JsonKey(name: 'Listener')
-  final CustomRoutingListener listener;
+  final CustomRoutingListener? listener;
 
   UpdateCustomRoutingListenerResponse({
     this.listener,
   });
   factory UpdateCustomRoutingListenerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateCustomRoutingListenerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateCustomRoutingListenerResponse(
+      listener: json['Listener'] != null
+          ? CustomRoutingListener.fromJson(
+              json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEndpointGroupResponse {
   /// The information about the endpoint group that was updated.
-  @_s.JsonKey(name: 'EndpointGroup')
-  final EndpointGroup endpointGroup;
+  final EndpointGroup? endpointGroup;
 
   UpdateEndpointGroupResponse({
     this.endpointGroup,
   });
-  factory UpdateEndpointGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEndpointGroupResponseFromJson(json);
+  factory UpdateEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateEndpointGroupResponse(
+      endpointGroup: json['EndpointGroup'] != null
+          ? EndpointGroup.fromJson(
+              json['EndpointGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateListenerResponse {
   /// Information for the updated listener.
-  @_s.JsonKey(name: 'Listener')
-  final Listener listener;
+  final Listener? listener;
 
   UpdateListenerResponse({
     this.listener,
   });
-  factory UpdateListenerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateListenerResponseFromJson(json);
+  factory UpdateListenerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateListenerResponse(
+      listener: json['Listener'] != null
+          ? Listener.fromJson(json['Listener'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WithdrawByoipCidrResponse {
   /// Information about the address pool.
-  @_s.JsonKey(name: 'ByoipCidr')
-  final ByoipCidr byoipCidr;
+  final ByoipCidr? byoipCidr;
 
   WithdrawByoipCidrResponse({
     this.byoipCidr,
   });
-  factory WithdrawByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawByoipCidrResponseFromJson(json);
+  factory WithdrawByoipCidrResponse.fromJson(Map<String, dynamic> json) {
+    return WithdrawByoipCidrResponse(
+      byoipCidr: json['ByoipCidr'] != null
+          ? ByoipCidr.fromJson(json['ByoipCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class AcceleratorNotDisabledException extends _s.GenericAwsException {
-  AcceleratorNotDisabledException({String type, String message})
+  AcceleratorNotDisabledException({String? type, String? message})
       : super(
             type: type,
             code: 'AcceleratorNotDisabledException',
@@ -4970,18 +5133,18 @@ class AcceleratorNotDisabledException extends _s.GenericAwsException {
 }
 
 class AcceleratorNotFoundException extends _s.GenericAwsException {
-  AcceleratorNotFoundException({String type, String message})
+  AcceleratorNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'AcceleratorNotFoundException', message: message);
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AssociatedEndpointGroupFoundException extends _s.GenericAwsException {
-  AssociatedEndpointGroupFoundException({String type, String message})
+  AssociatedEndpointGroupFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AssociatedEndpointGroupFoundException',
@@ -4989,7 +5152,7 @@ class AssociatedEndpointGroupFoundException extends _s.GenericAwsException {
 }
 
 class AssociatedListenerFoundException extends _s.GenericAwsException {
-  AssociatedListenerFoundException({String type, String message})
+  AssociatedListenerFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AssociatedListenerFoundException',
@@ -4997,17 +5160,17 @@ class AssociatedListenerFoundException extends _s.GenericAwsException {
 }
 
 class ByoipCidrNotFoundException extends _s.GenericAwsException {
-  ByoipCidrNotFoundException({String type, String message})
+  ByoipCidrNotFoundException({String? type, String? message})
       : super(type: type, code: 'ByoipCidrNotFoundException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class EndpointAlreadyExistsException extends _s.GenericAwsException {
-  EndpointAlreadyExistsException({String type, String message})
+  EndpointAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'EndpointAlreadyExistsException',
@@ -5015,7 +5178,7 @@ class EndpointAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class EndpointGroupAlreadyExistsException extends _s.GenericAwsException {
-  EndpointGroupAlreadyExistsException({String type, String message})
+  EndpointGroupAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'EndpointGroupAlreadyExistsException',
@@ -5023,7 +5186,7 @@ class EndpointGroupAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class EndpointGroupNotFoundException extends _s.GenericAwsException {
-  EndpointGroupNotFoundException({String type, String message})
+  EndpointGroupNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'EndpointGroupNotFoundException',
@@ -5031,18 +5194,18 @@ class EndpointGroupNotFoundException extends _s.GenericAwsException {
 }
 
 class EndpointNotFoundException extends _s.GenericAwsException {
-  EndpointNotFoundException({String type, String message})
+  EndpointNotFoundException({String? type, String? message})
       : super(type: type, code: 'EndpointNotFoundException', message: message);
 }
 
 class IncorrectCidrStateException extends _s.GenericAwsException {
-  IncorrectCidrStateException({String type, String message})
+  IncorrectCidrStateException({String? type, String? message})
       : super(
             type: type, code: 'IncorrectCidrStateException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
-  InternalServiceErrorException({String type, String message})
+  InternalServiceErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'InternalServiceErrorException',
@@ -5050,27 +5213,27 @@ class InternalServiceErrorException extends _s.GenericAwsException {
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidPortRangeException extends _s.GenericAwsException {
-  InvalidPortRangeException({String type, String message})
+  InvalidPortRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidPortRangeException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ListenerNotFoundException extends _s.GenericAwsException {
-  ListenerNotFoundException({String type, String message})
+  ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 

@@ -8,7 +8,9 @@ part of 'sns-2010-03-31.dart';
 
 Map<String, dynamic> _$MessageAttributeValueToJson(
     MessageAttributeValue instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataType': instance.dataType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -16,23 +18,13 @@ Map<String, dynamic> _$MessageAttributeValueToJson(
     }
   }
 
-  writeNotNull('DataType', instance.dataType);
-  writeNotNull(
-      'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
+  writeNotNull('BinaryValue',
+      const Uint8ListNullableConverter().toJson(instance.binaryValue));
   writeNotNull('StringValue', instance.stringValue);
   return val;
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };

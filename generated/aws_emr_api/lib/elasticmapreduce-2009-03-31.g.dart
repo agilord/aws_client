@@ -9,26 +9,28 @@ part of 'elasticmapreduce-2009-03-31.dart';
 AddInstanceFleetOutput _$AddInstanceFleetOutputFromJson(
     Map<String, dynamic> json) {
   return AddInstanceFleetOutput(
-    clusterArn: json['ClusterArn'] as String,
-    clusterId: json['ClusterId'] as String,
-    instanceFleetId: json['InstanceFleetId'] as String,
+    clusterArn: json['ClusterArn'] as String?,
+    clusterId: json['ClusterId'] as String?,
+    instanceFleetId: json['InstanceFleetId'] as String?,
   );
 }
 
 AddInstanceGroupsOutput _$AddInstanceGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return AddInstanceGroupsOutput(
-    clusterArn: json['ClusterArn'] as String,
-    instanceGroupIds:
-        (json['InstanceGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    jobFlowId: json['JobFlowId'] as String,
+    clusterArn: json['ClusterArn'] as String?,
+    instanceGroupIds: (json['InstanceGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    jobFlowId: json['JobFlowId'] as String?,
   );
 }
 
 AddJobFlowStepsOutput _$AddJobFlowStepsOutputFromJson(
     Map<String, dynamic> json) {
   return AddJobFlowStepsOutput(
-    stepIds: (json['StepIds'] as List)?.map((e) => e as String)?.toList(),
+    stepIds:
+        (json['StepIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -38,12 +40,12 @@ AddTagsOutput _$AddTagsOutputFromJson(Map<String, dynamic> json) {
 
 Application _$ApplicationFromJson(Map<String, dynamic> json) {
   return Application(
-    additionalInfo: (json['AdditionalInfo'] as Map<String, dynamic>)?.map(
+    additionalInfo: (json['AdditionalInfo'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    args: (json['Args'] as List)?.map((e) => e as String)?.toList(),
-    name: json['Name'] as String,
-    version: json['Version'] as String,
+    args: (json['Args'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    name: json['Name'] as String?,
+    version: json['Version'] as String?,
   );
 }
 
@@ -63,19 +65,11 @@ Map<String, dynamic> _$ApplicationToJson(Application instance) {
   return val;
 }
 
-Map<String, dynamic> _$AutoScalingPolicyToJson(AutoScalingPolicy instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Constraints', instance.constraints?.toJson());
-  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$AutoScalingPolicyToJson(AutoScalingPolicy instance) =>
+    <String, dynamic>{
+      'Constraints': instance.constraints.toJson(),
+      'Rules': instance.rules.map((e) => e.toJson()).toList(),
+    };
 
 AutoScalingPolicyDescription _$AutoScalingPolicyDescriptionFromJson(
     Map<String, dynamic> json) {
@@ -84,10 +78,9 @@ AutoScalingPolicyDescription _$AutoScalingPolicyDescriptionFromJson(
         ? null
         : ScalingConstraints.fromJson(
             json['Constraints'] as Map<String, dynamic>),
-    rules: (json['Rules'] as List)
-        ?.map((e) =>
-            e == null ? null : ScalingRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => ScalingRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: json['Status'] == null
         ? null
         : AutoScalingPolicyStatus.fromJson(
@@ -100,40 +93,45 @@ AutoScalingPolicyStateChangeReason _$AutoScalingPolicyStateChangeReasonFromJson(
   return AutoScalingPolicyStateChangeReason(
     code: _$enumDecodeNullable(
         _$AutoScalingPolicyStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AutoScalingPolicyStateChangeReasonCodeEnumMap = {
@@ -168,17 +166,17 @@ BlockPublicAccessConfiguration _$BlockPublicAccessConfigurationFromJson(
     blockPublicSecurityGroupRules:
         json['BlockPublicSecurityGroupRules'] as bool,
     permittedPublicSecurityGroupRuleRanges:
-        (json['PermittedPublicSecurityGroupRuleRanges'] as List)
-            ?.map((e) => e == null
-                ? null
-                : PortRange.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+        (json['PermittedPublicSecurityGroupRuleRanges'] as List<dynamic>?)
+            ?.map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$BlockPublicAccessConfigurationToJson(
     BlockPublicAccessConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BlockPublicSecurityGroupRules': instance.blockPublicSecurityGroupRules,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -187,12 +185,10 @@ Map<String, dynamic> _$BlockPublicAccessConfigurationToJson(
   }
 
   writeNotNull(
-      'BlockPublicSecurityGroupRules', instance.blockPublicSecurityGroupRules);
-  writeNotNull(
       'PermittedPublicSecurityGroupRuleRanges',
       instance.permittedPublicSecurityGroupRuleRanges
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
   return val;
 }
 
@@ -201,8 +197,7 @@ BlockPublicAccessConfigurationMetadata
         Map<String, dynamic> json) {
   return BlockPublicAccessConfigurationMetadata(
     createdByArn: json['CreatedByArn'] as String,
-    creationDateTime:
-        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    creationDateTime: DateTime.parse(json['CreationDateTime'] as String),
   );
 }
 
@@ -210,28 +205,17 @@ BootstrapActionConfig _$BootstrapActionConfigFromJson(
     Map<String, dynamic> json) {
   return BootstrapActionConfig(
     name: json['Name'] as String,
-    scriptBootstrapAction: json['ScriptBootstrapAction'] == null
-        ? null
-        : ScriptBootstrapActionConfig.fromJson(
-            json['ScriptBootstrapAction'] as Map<String, dynamic>),
+    scriptBootstrapAction: ScriptBootstrapActionConfig.fromJson(
+        json['ScriptBootstrapAction'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$BootstrapActionConfigToJson(
-    BootstrapActionConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull(
-      'ScriptBootstrapAction', instance.scriptBootstrapAction?.toJson());
-  return val;
-}
+        BootstrapActionConfig instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'ScriptBootstrapAction': instance.scriptBootstrapAction.toJson(),
+    };
 
 BootstrapActionDetail _$BootstrapActionDetailFromJson(
     Map<String, dynamic> json) {
@@ -245,10 +229,10 @@ BootstrapActionDetail _$BootstrapActionDetailFromJson(
 
 CancelStepsInfo _$CancelStepsInfoFromJson(Map<String, dynamic> json) {
   return CancelStepsInfo(
-    reason: json['Reason'] as String,
+    reason: json['Reason'] as String?,
     status:
         _$enumDecodeNullable(_$CancelStepsRequestStatusEnumMap, json['Status']),
-    stepId: json['StepId'] as String,
+    stepId: json['StepId'] as String?,
   );
 }
 
@@ -259,29 +243,25 @@ const _$CancelStepsRequestStatusEnumMap = {
 
 CancelStepsOutput _$CancelStepsOutputFromJson(Map<String, dynamic> json) {
   return CancelStepsOutput(
-    cancelStepsInfoList: (json['CancelStepsInfoList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CancelStepsInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    cancelStepsInfoList: (json['CancelStepsInfoList'] as List<dynamic>?)
+        ?.map((e) => CancelStepsInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CloudWatchAlarmDefinition _$CloudWatchAlarmDefinitionFromJson(
     Map<String, dynamic> json) {
   return CloudWatchAlarmDefinition(
-    comparisonOperator: _$enumDecodeNullable(
-        _$ComparisonOperatorEnumMap, json['ComparisonOperator']),
+    comparisonOperator:
+        _$enumDecode(_$ComparisonOperatorEnumMap, json['ComparisonOperator']),
     metricName: json['MetricName'] as String,
     period: json['Period'] as int,
-    threshold: (json['Threshold'] as num)?.toDouble(),
-    dimensions: (json['Dimensions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MetricDimension.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    evaluationPeriods: json['EvaluationPeriods'] as int,
-    namespace: json['Namespace'] as String,
+    threshold: (json['Threshold'] as num).toDouble(),
+    dimensions: (json['Dimensions'] as List<dynamic>?)
+        ?.map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    evaluationPeriods: json['EvaluationPeriods'] as int?,
+    namespace: json['Namespace'] as String?,
     statistic: _$enumDecodeNullable(_$StatisticEnumMap, json['Statistic']),
     unit: _$enumDecodeNullable(_$UnitEnumMap, json['Unit']),
   );
@@ -289,7 +269,13 @@ CloudWatchAlarmDefinition _$CloudWatchAlarmDefinitionFromJson(
 
 Map<String, dynamic> _$CloudWatchAlarmDefinitionToJson(
     CloudWatchAlarmDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ComparisonOperator':
+        _$ComparisonOperatorEnumMap[instance.comparisonOperator],
+    'MetricName': instance.metricName,
+    'Period': instance.period,
+    'Threshold': instance.threshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -297,13 +283,8 @@ Map<String, dynamic> _$CloudWatchAlarmDefinitionToJson(
     }
   }
 
-  writeNotNull('ComparisonOperator',
-      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
-  writeNotNull('MetricName', instance.metricName);
-  writeNotNull('Period', instance.period);
-  writeNotNull('Threshold', instance.threshold);
   writeNotNull(
-      'Dimensions', instance.dimensions?.map((e) => e?.toJson())?.toList());
+      'Dimensions', instance.dimensions?.map((e) => e.toJson()).toList());
   writeNotNull('EvaluationPeriods', instance.evaluationPeriods);
   writeNotNull('Namespace', instance.namespace);
   writeNotNull('Statistic', _$StatisticEnumMap[instance.statistic]);
@@ -358,60 +339,55 @@ const _$UnitEnumMap = {
 
 Cluster _$ClusterFromJson(Map<String, dynamic> json) {
   return Cluster(
-    applications: (json['Applications'] as List)
-        ?.map((e) =>
-            e == null ? null : Application.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    autoScalingRole: json['AutoScalingRole'] as String,
-    autoTerminate: json['AutoTerminate'] as bool,
-    clusterArn: json['ClusterArn'] as String,
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Configuration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    customAmiId: json['CustomAmiId'] as String,
-    ebsRootVolumeSize: json['EbsRootVolumeSize'] as int,
+    applications: (json['Applications'] as List<dynamic>?)
+        ?.map((e) => Application.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    autoScalingRole: json['AutoScalingRole'] as String?,
+    autoTerminate: json['AutoTerminate'] as bool?,
+    clusterArn: json['ClusterArn'] as String?,
+    configurations: (json['Configurations'] as List<dynamic>?)
+        ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    customAmiId: json['CustomAmiId'] as String?,
+    ebsRootVolumeSize: json['EbsRootVolumeSize'] as int?,
     ec2InstanceAttributes: json['Ec2InstanceAttributes'] == null
         ? null
         : Ec2InstanceAttributes.fromJson(
             json['Ec2InstanceAttributes'] as Map<String, dynamic>),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     instanceCollectionType: _$enumDecodeNullable(
         _$InstanceCollectionTypeEnumMap, json['InstanceCollectionType']),
     kerberosAttributes: json['KerberosAttributes'] == null
         ? null
         : KerberosAttributes.fromJson(
             json['KerberosAttributes'] as Map<String, dynamic>),
-    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String,
-    logUri: json['LogUri'] as String,
-    masterPublicDnsName: json['MasterPublicDnsName'] as String,
-    name: json['Name'] as String,
-    normalizedInstanceHours: json['NormalizedInstanceHours'] as int,
-    outpostArn: json['OutpostArn'] as String,
-    placementGroups: (json['PlacementGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlacementGroupConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    releaseLabel: json['ReleaseLabel'] as String,
+    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String?,
+    logUri: json['LogUri'] as String?,
+    masterPublicDnsName: json['MasterPublicDnsName'] as String?,
+    name: json['Name'] as String?,
+    normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+    outpostArn: json['OutpostArn'] as String?,
+    placementGroups: (json['PlacementGroups'] as List<dynamic>?)
+        ?.map((e) => PlacementGroupConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    releaseLabel: json['ReleaseLabel'] as String?,
     repoUpgradeOnBoot: _$enumDecodeNullable(
         _$RepoUpgradeOnBootEnumMap, json['RepoUpgradeOnBoot']),
-    requestedAmiVersion: json['RequestedAmiVersion'] as String,
-    runningAmiVersion: json['RunningAmiVersion'] as String,
+    requestedAmiVersion: json['RequestedAmiVersion'] as String?,
+    runningAmiVersion: json['RunningAmiVersion'] as String?,
     scaleDownBehavior: _$enumDecodeNullable(
         _$ScaleDownBehaviorEnumMap, json['ScaleDownBehavior']),
-    securityConfiguration: json['SecurityConfiguration'] as String,
-    serviceRole: json['ServiceRole'] as String,
+    securityConfiguration: json['SecurityConfiguration'] as String?,
+    serviceRole: json['ServiceRole'] as String?,
     status: json['Status'] == null
         ? null
         : ClusterStatus.fromJson(json['Status'] as Map<String, dynamic>),
-    stepConcurrencyLevel: json['StepConcurrencyLevel'] as int,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    terminationProtected: json['TerminationProtected'] as bool,
-    visibleToAllUsers: json['VisibleToAllUsers'] as bool,
+    stepConcurrencyLevel: json['StepConcurrencyLevel'] as int?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    terminationProtected: json['TerminationProtected'] as bool?,
+    visibleToAllUsers: json['VisibleToAllUsers'] as bool?,
   );
 }
 
@@ -435,7 +411,7 @@ ClusterStateChangeReason _$ClusterStateChangeReasonFromJson(
   return ClusterStateChangeReason(
     code: _$enumDecodeNullable(
         _$ClusterStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -475,11 +451,11 @@ const _$ClusterStateEnumMap = {
 
 ClusterSummary _$ClusterSummaryFromJson(Map<String, dynamic> json) {
   return ClusterSummary(
-    clusterArn: json['ClusterArn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    normalizedInstanceHours: json['NormalizedInstanceHours'] as int,
-    outpostArn: json['OutpostArn'] as String,
+    clusterArn: json['ClusterArn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+    outpostArn: json['OutpostArn'] as String?,
     status: json['Status'] == null
         ? null
         : ClusterStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -498,9 +474,9 @@ ClusterTimeline _$ClusterTimelineFromJson(Map<String, dynamic> json) {
 
 Command _$CommandFromJson(Map<String, dynamic> json) {
   return Command(
-    args: (json['Args'] as List)?.map((e) => e as String)?.toList(),
-    name: json['Name'] as String,
-    scriptPath: json['ScriptPath'] as String,
+    args: (json['Args'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    name: json['Name'] as String?,
+    scriptPath: json['ScriptPath'] as String?,
   );
 }
 
@@ -508,15 +484,18 @@ ComputeLimits _$ComputeLimitsFromJson(Map<String, dynamic> json) {
   return ComputeLimits(
     maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
     minimumCapacityUnits: json['MinimumCapacityUnits'] as int,
-    unitType:
-        _$enumDecodeNullable(_$ComputeLimitsUnitTypeEnumMap, json['UnitType']),
-    maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int,
-    maximumOnDemandCapacityUnits: json['MaximumOnDemandCapacityUnits'] as int,
+    unitType: _$enumDecode(_$ComputeLimitsUnitTypeEnumMap, json['UnitType']),
+    maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int?,
+    maximumOnDemandCapacityUnits: json['MaximumOnDemandCapacityUnits'] as int?,
   );
 }
 
 Map<String, dynamic> _$ComputeLimitsToJson(ComputeLimits instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MaximumCapacityUnits': instance.maximumCapacityUnits,
+    'MinimumCapacityUnits': instance.minimumCapacityUnits,
+    'UnitType': _$ComputeLimitsUnitTypeEnumMap[instance.unitType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -524,9 +503,6 @@ Map<String, dynamic> _$ComputeLimitsToJson(ComputeLimits instance) {
     }
   }
 
-  writeNotNull('MaximumCapacityUnits', instance.maximumCapacityUnits);
-  writeNotNull('MinimumCapacityUnits', instance.minimumCapacityUnits);
-  writeNotNull('UnitType', _$ComputeLimitsUnitTypeEnumMap[instance.unitType]);
   writeNotNull('MaximumCoreCapacityUnits', instance.maximumCoreCapacityUnits);
   writeNotNull(
       'MaximumOnDemandCapacityUnits', instance.maximumOnDemandCapacityUnits);
@@ -541,13 +517,11 @@ const _$ComputeLimitsUnitTypeEnumMap = {
 
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
-    classification: json['Classification'] as String,
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Configuration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    properties: (json['Properties'] as Map<String, dynamic>)?.map(
+    classification: json['Classification'] as String?,
+    configurations: (json['Configurations'] as List<dynamic>?)
+        ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    properties: (json['Properties'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -564,7 +538,7 @@ Map<String, dynamic> _$ConfigurationToJson(Configuration instance) {
 
   writeNotNull('Classification', instance.classification);
   writeNotNull('Configurations',
-      instance.configurations?.map((e) => e?.toJson())?.toList());
+      instance.configurations?.map((e) => e.toJson()).toList());
   writeNotNull('Properties', instance.properties);
   return val;
 }
@@ -572,16 +546,15 @@ Map<String, dynamic> _$ConfigurationToJson(Configuration instance) {
 CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSecurityConfigurationOutput(
-    creationDateTime:
-        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    creationDateTime: DateTime.parse(json['CreationDateTime'] as String),
     name: json['Name'] as String,
   );
 }
 
 CreateStudioOutput _$CreateStudioOutputFromJson(Map<String, dynamic> json) {
   return CreateStudioOutput(
-    studioId: json['StudioId'] as String,
-    url: json['Url'] as String,
+    studioId: json['StudioId'] as String?,
+    url: json['Url'] as String?,
   );
 }
 
@@ -602,11 +575,9 @@ DescribeClusterOutput _$DescribeClusterOutputFromJson(
 DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeJobFlowsOutput(
-    jobFlows: (json['JobFlows'] as List)
-        ?.map((e) => e == null
-            ? null
-            : JobFlowDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    jobFlows: (json['JobFlows'] as List<dynamic>?)
+        ?.map((e) => JobFlowDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -625,8 +596,8 @@ DescribeSecurityConfigurationOutput
   return DescribeSecurityConfigurationOutput(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    name: json['Name'] as String,
-    securityConfiguration: json['SecurityConfiguration'] as String,
+    name: json['Name'] as String?,
+    securityConfiguration: json['SecurityConfiguration'] as String?,
   );
 }
 
@@ -648,7 +619,7 @@ DescribeStudioOutput _$DescribeStudioOutputFromJson(Map<String, dynamic> json) {
 
 EbsBlockDevice _$EbsBlockDeviceFromJson(Map<String, dynamic> json) {
   return EbsBlockDevice(
-    device: json['Device'] as String,
+    device: json['Device'] as String?,
     volumeSpecification: json['VolumeSpecification'] == null
         ? null
         : VolumeSpecification.fromJson(
@@ -658,7 +629,9 @@ EbsBlockDevice _$EbsBlockDeviceFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$EbsBlockDeviceConfigToJson(
     EbsBlockDeviceConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'VolumeSpecification': instance.volumeSpecification.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -666,7 +639,6 @@ Map<String, dynamic> _$EbsBlockDeviceConfigToJson(
     }
   }
 
-  writeNotNull('VolumeSpecification', instance.volumeSpecification?.toJson());
   writeNotNull('VolumesPerInstance', instance.volumesPerInstance);
   return val;
 }
@@ -681,15 +653,15 @@ Map<String, dynamic> _$EbsConfigurationToJson(EbsConfiguration instance) {
   }
 
   writeNotNull('EbsBlockDeviceConfigs',
-      instance.ebsBlockDeviceConfigs?.map((e) => e?.toJson())?.toList());
+      instance.ebsBlockDeviceConfigs?.map((e) => e.toJson()).toList());
   writeNotNull('EbsOptimized', instance.ebsOptimized);
   return val;
 }
 
 EbsVolume _$EbsVolumeFromJson(Map<String, dynamic> json) {
   return EbsVolume(
-    device: json['Device'] as String,
-    volumeId: json['VolumeId'] as String,
+    device: json['Device'] as String?,
+    volumeId: json['VolumeId'] as String?,
   );
 }
 
@@ -697,29 +669,29 @@ Ec2InstanceAttributes _$Ec2InstanceAttributesFromJson(
     Map<String, dynamic> json) {
   return Ec2InstanceAttributes(
     additionalMasterSecurityGroups:
-        (json['AdditionalMasterSecurityGroups'] as List)
+        (json['AdditionalMasterSecurityGroups'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
     additionalSlaveSecurityGroups:
-        (json['AdditionalSlaveSecurityGroups'] as List)
+        (json['AdditionalSlaveSecurityGroups'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    ec2AvailabilityZone: json['Ec2AvailabilityZone'] as String,
-    ec2KeyName: json['Ec2KeyName'] as String,
-    ec2SubnetId: json['Ec2SubnetId'] as String,
+            .toList(),
+    ec2AvailabilityZone: json['Ec2AvailabilityZone'] as String?,
+    ec2KeyName: json['Ec2KeyName'] as String?,
+    ec2SubnetId: json['Ec2SubnetId'] as String?,
     emrManagedMasterSecurityGroup:
-        json['EmrManagedMasterSecurityGroup'] as String,
+        json['EmrManagedMasterSecurityGroup'] as String?,
     emrManagedSlaveSecurityGroup:
-        json['EmrManagedSlaveSecurityGroup'] as String,
-    iamInstanceProfile: json['IamInstanceProfile'] as String,
+        json['EmrManagedSlaveSecurityGroup'] as String?,
+    iamInstanceProfile: json['IamInstanceProfile'] as String?,
     requestedEc2AvailabilityZones:
-        (json['RequestedEc2AvailabilityZones'] as List)
+        (json['RequestedEc2AvailabilityZones'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    requestedEc2SubnetIds: (json['RequestedEc2SubnetIds'] as List)
+            .toList(),
+    requestedEc2SubnetIds: (json['RequestedEc2SubnetIds'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    serviceAccessSecurityGroup: json['ServiceAccessSecurityGroup'] as String,
+        .toList(),
+    serviceAccessSecurityGroup: json['ServiceAccessSecurityGroup'] as String?,
   );
 }
 
@@ -728,14 +700,16 @@ ExecutionEngineConfig _$ExecutionEngineConfigFromJson(
   return ExecutionEngineConfig(
     id: json['Id'] as String,
     masterInstanceSecurityGroupId:
-        json['MasterInstanceSecurityGroupId'] as String,
+        json['MasterInstanceSecurityGroupId'] as String?,
     type: _$enumDecodeNullable(_$ExecutionEngineTypeEnumMap, json['Type']),
   );
 }
 
 Map<String, dynamic> _$ExecutionEngineConfigToJson(
     ExecutionEngineConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Id': instance.id,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -743,7 +717,6 @@ Map<String, dynamic> _$ExecutionEngineConfigToJson(
     }
   }
 
-  writeNotNull('Id', instance.id);
   writeNotNull(
       'MasterInstanceSecurityGroupId', instance.masterInstanceSecurityGroupId);
   writeNotNull('Type', _$ExecutionEngineTypeEnumMap[instance.type]);
@@ -756,9 +729,9 @@ const _$ExecutionEngineTypeEnumMap = {
 
 FailureDetails _$FailureDetailsFromJson(Map<String, dynamic> json) {
   return FailureDetails(
-    logFile: json['LogFile'] as String,
-    message: json['Message'] as String,
-    reason: json['Reason'] as String,
+    logFile: json['LogFile'] as String?,
+    message: json['Message'] as String?,
+    reason: json['Reason'] as String?,
   );
 }
 
@@ -766,17 +739,12 @@ GetBlockPublicAccessConfigurationOutput
     _$GetBlockPublicAccessConfigurationOutputFromJson(
         Map<String, dynamic> json) {
   return GetBlockPublicAccessConfigurationOutput(
-    blockPublicAccessConfiguration:
-        json['BlockPublicAccessConfiguration'] == null
-            ? null
-            : BlockPublicAccessConfiguration.fromJson(
-                json['BlockPublicAccessConfiguration'] as Map<String, dynamic>),
+    blockPublicAccessConfiguration: BlockPublicAccessConfiguration.fromJson(
+        json['BlockPublicAccessConfiguration'] as Map<String, dynamic>),
     blockPublicAccessConfigurationMetadata:
-        json['BlockPublicAccessConfigurationMetadata'] == null
-            ? null
-            : BlockPublicAccessConfigurationMetadata.fromJson(
-                json['BlockPublicAccessConfigurationMetadata']
-                    as Map<String, dynamic>),
+        BlockPublicAccessConfigurationMetadata.fromJson(
+            json['BlockPublicAccessConfigurationMetadata']
+                as Map<String, dynamic>),
   );
 }
 
@@ -803,17 +771,18 @@ GetStudioSessionMappingOutput _$GetStudioSessionMappingOutputFromJson(
 HadoopJarStepConfig _$HadoopJarStepConfigFromJson(Map<String, dynamic> json) {
   return HadoopJarStepConfig(
     jar: json['Jar'] as String,
-    args: (json['Args'] as List)?.map((e) => e as String)?.toList(),
-    mainClass: json['MainClass'] as String,
-    properties: (json['Properties'] as List)
-        ?.map((e) =>
-            e == null ? null : KeyValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    args: (json['Args'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    mainClass: json['MainClass'] as String?,
+    properties: (json['Properties'] as List<dynamic>?)
+        ?.map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$HadoopJarStepConfigToJson(HadoopJarStepConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Jar': instance.jar,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -821,20 +790,19 @@ Map<String, dynamic> _$HadoopJarStepConfigToJson(HadoopJarStepConfig instance) {
     }
   }
 
-  writeNotNull('Jar', instance.jar);
   writeNotNull('Args', instance.args);
   writeNotNull('MainClass', instance.mainClass);
   writeNotNull(
-      'Properties', instance.properties?.map((e) => e?.toJson())?.toList());
+      'Properties', instance.properties?.map((e) => e.toJson()).toList());
   return val;
 }
 
 HadoopStepConfig _$HadoopStepConfigFromJson(Map<String, dynamic> json) {
   return HadoopStepConfig(
-    args: (json['Args'] as List)?.map((e) => e as String)?.toList(),
-    jar: json['Jar'] as String,
-    mainClass: json['MainClass'] as String,
-    properties: (json['Properties'] as Map<String, dynamic>)?.map(
+    args: (json['Args'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    jar: json['Jar'] as String?,
+    mainClass: json['MainClass'] as String?,
+    properties: (json['Properties'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -842,20 +810,19 @@ HadoopStepConfig _$HadoopStepConfigFromJson(Map<String, dynamic> json) {
 
 Instance _$InstanceFromJson(Map<String, dynamic> json) {
   return Instance(
-    ebsVolumes: (json['EbsVolumes'] as List)
-        ?.map((e) =>
-            e == null ? null : EbsVolume.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    ec2InstanceId: json['Ec2InstanceId'] as String,
-    id: json['Id'] as String,
-    instanceFleetId: json['InstanceFleetId'] as String,
-    instanceGroupId: json['InstanceGroupId'] as String,
-    instanceType: json['InstanceType'] as String,
+    ebsVolumes: (json['EbsVolumes'] as List<dynamic>?)
+        ?.map((e) => EbsVolume.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ec2InstanceId: json['Ec2InstanceId'] as String?,
+    id: json['Id'] as String?,
+    instanceFleetId: json['InstanceFleetId'] as String?,
+    instanceGroupId: json['InstanceGroupId'] as String?,
+    instanceType: json['InstanceType'] as String?,
     market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
-    privateDnsName: json['PrivateDnsName'] as String,
-    privateIpAddress: json['PrivateIpAddress'] as String,
-    publicDnsName: json['PublicDnsName'] as String,
-    publicIpAddress: json['PublicIpAddress'] as String,
+    privateDnsName: json['PrivateDnsName'] as String?,
+    privateIpAddress: json['PrivateIpAddress'] as String?,
+    publicDnsName: json['PublicDnsName'] as String?,
+    publicIpAddress: json['PublicIpAddress'] as String?,
     status: json['Status'] == null
         ? null
         : InstanceStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -869,26 +836,26 @@ const _$MarketTypeEnumMap = {
 
 InstanceFleet _$InstanceFleetFromJson(Map<String, dynamic> json) {
   return InstanceFleet(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     instanceFleetType: _$enumDecodeNullable(
         _$InstanceFleetTypeEnumMap, json['InstanceFleetType']),
-    instanceTypeSpecifications: (json['InstanceTypeSpecifications'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceTypeSpecification.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    instanceTypeSpecifications:
+        (json['InstanceTypeSpecifications'] as List<dynamic>?)
+            ?.map((e) =>
+                InstanceTypeSpecification.fromJson(e as Map<String, dynamic>))
+            .toList(),
     launchSpecifications: json['LaunchSpecifications'] == null
         ? null
         : InstanceFleetProvisioningSpecifications.fromJson(
             json['LaunchSpecifications'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    provisionedOnDemandCapacity: json['ProvisionedOnDemandCapacity'] as int,
-    provisionedSpotCapacity: json['ProvisionedSpotCapacity'] as int,
+    name: json['Name'] as String?,
+    provisionedOnDemandCapacity: json['ProvisionedOnDemandCapacity'] as int?,
+    provisionedSpotCapacity: json['ProvisionedSpotCapacity'] as int?,
     status: json['Status'] == null
         ? null
         : InstanceFleetStatus.fromJson(json['Status'] as Map<String, dynamic>),
-    targetOnDemandCapacity: json['TargetOnDemandCapacity'] as int,
-    targetSpotCapacity: json['TargetSpotCapacity'] as int,
+    targetOnDemandCapacity: json['TargetOnDemandCapacity'] as int?,
+    targetSpotCapacity: json['TargetSpotCapacity'] as int?,
   );
 }
 
@@ -899,7 +866,9 @@ const _$InstanceFleetTypeEnumMap = {
 };
 
 Map<String, dynamic> _$InstanceFleetConfigToJson(InstanceFleetConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceFleetType': _$InstanceFleetTypeEnumMap[instance.instanceFleetType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -907,10 +876,8 @@ Map<String, dynamic> _$InstanceFleetConfigToJson(InstanceFleetConfig instance) {
     }
   }
 
-  writeNotNull('InstanceFleetType',
-      _$InstanceFleetTypeEnumMap[instance.instanceFleetType]);
   writeNotNull('InstanceTypeConfigs',
-      instance.instanceTypeConfigs?.map((e) => e?.toJson())?.toList());
+      instance.instanceTypeConfigs?.map((e) => e.toJson()).toList());
   writeNotNull('LaunchSpecifications', instance.launchSpecifications?.toJson());
   writeNotNull('Name', instance.name);
   writeNotNull('TargetOnDemandCapacity', instance.targetOnDemandCapacity);
@@ -920,7 +887,9 @@ Map<String, dynamic> _$InstanceFleetConfigToJson(InstanceFleetConfig instance) {
 
 Map<String, dynamic> _$InstanceFleetModifyConfigToJson(
     InstanceFleetModifyConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceFleetId': instance.instanceFleetId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -928,7 +897,6 @@ Map<String, dynamic> _$InstanceFleetModifyConfigToJson(
     }
   }
 
-  writeNotNull('InstanceFleetId', instance.instanceFleetId);
   writeNotNull('TargetOnDemandCapacity', instance.targetOnDemandCapacity);
   writeNotNull('TargetSpotCapacity', instance.targetSpotCapacity);
   return val;
@@ -970,7 +938,7 @@ InstanceFleetStateChangeReason _$InstanceFleetStateChangeReasonFromJson(
   return InstanceFleetStateChangeReason(
     code: _$enumDecodeNullable(
         _$InstanceFleetStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1022,35 +990,29 @@ InstanceGroup _$InstanceGroupFromJson(Map<String, dynamic> json) {
         ? null
         : AutoScalingPolicyDescription.fromJson(
             json['AutoScalingPolicy'] as Map<String, dynamic>),
-    bidPrice: json['BidPrice'] as String,
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Configuration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    configurationsVersion: json['ConfigurationsVersion'] as int,
-    ebsBlockDevices: (json['EbsBlockDevices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EbsBlockDevice.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    ebsOptimized: json['EbsOptimized'] as bool,
-    id: json['Id'] as String,
+    bidPrice: json['BidPrice'] as String?,
+    configurations: (json['Configurations'] as List<dynamic>?)
+        ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    configurationsVersion: json['ConfigurationsVersion'] as int?,
+    ebsBlockDevices: (json['EbsBlockDevices'] as List<dynamic>?)
+        ?.map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ebsOptimized: json['EbsOptimized'] as bool?,
+    id: json['Id'] as String?,
     instanceGroupType: _$enumDecodeNullable(
         _$InstanceGroupTypeEnumMap, json['InstanceGroupType']),
-    instanceType: json['InstanceType'] as String,
+    instanceType: json['InstanceType'] as String?,
     lastSuccessfullyAppliedConfigurations:
-        (json['LastSuccessfullyAppliedConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : Configuration.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+        (json['LastSuccessfullyAppliedConfigurations'] as List<dynamic>?)
+            ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+            .toList(),
     lastSuccessfullyAppliedConfigurationsVersion:
-        json['LastSuccessfullyAppliedConfigurationsVersion'] as int,
+        json['LastSuccessfullyAppliedConfigurationsVersion'] as int?,
     market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
-    name: json['Name'] as String,
-    requestedInstanceCount: json['RequestedInstanceCount'] as int,
-    runningInstanceCount: json['RunningInstanceCount'] as int,
+    name: json['Name'] as String?,
+    requestedInstanceCount: json['RequestedInstanceCount'] as int?,
+    runningInstanceCount: json['RunningInstanceCount'] as int?,
     shrinkPolicy: json['ShrinkPolicy'] == null
         ? null
         : ShrinkPolicy.fromJson(json['ShrinkPolicy'] as Map<String, dynamic>),
@@ -1067,7 +1029,11 @@ const _$InstanceGroupTypeEnumMap = {
 };
 
 Map<String, dynamic> _$InstanceGroupConfigToJson(InstanceGroupConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceCount': instance.instanceCount,
+    'InstanceRole': _$InstanceRoleTypeEnumMap[instance.instanceRole],
+    'InstanceType': instance.instanceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1075,14 +1041,10 @@ Map<String, dynamic> _$InstanceGroupConfigToJson(InstanceGroupConfig instance) {
     }
   }
 
-  writeNotNull('InstanceCount', instance.instanceCount);
-  writeNotNull(
-      'InstanceRole', _$InstanceRoleTypeEnumMap[instance.instanceRole]);
-  writeNotNull('InstanceType', instance.instanceType);
   writeNotNull('AutoScalingPolicy', instance.autoScalingPolicy?.toJson());
   writeNotNull('BidPrice', instance.bidPrice);
   writeNotNull('Configurations',
-      instance.configurations?.map((e) => e?.toJson())?.toList());
+      instance.configurations?.map((e) => e.toJson()).toList());
   writeNotNull('EbsConfiguration', instance.ebsConfiguration?.toJson());
   writeNotNull('Market', _$MarketTypeEnumMap[instance.market]);
   writeNotNull('Name', instance.name);
@@ -1097,20 +1059,18 @@ const _$InstanceRoleTypeEnumMap = {
 
 InstanceGroupDetail _$InstanceGroupDetailFromJson(Map<String, dynamic> json) {
   return InstanceGroupDetail(
-    creationDateTime:
-        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    creationDateTime: DateTime.parse(json['CreationDateTime'] as String),
     instanceRequestCount: json['InstanceRequestCount'] as int,
-    instanceRole:
-        _$enumDecodeNullable(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
+    instanceRole: _$enumDecode(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
     instanceRunningCount: json['InstanceRunningCount'] as int,
     instanceType: json['InstanceType'] as String,
-    market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
-    state: _$enumDecodeNullable(_$InstanceGroupStateEnumMap, json['State']),
-    bidPrice: json['BidPrice'] as String,
+    market: _$enumDecode(_$MarketTypeEnumMap, json['Market']),
+    state: _$enumDecode(_$InstanceGroupStateEnumMap, json['State']),
+    bidPrice: json['BidPrice'] as String?,
     endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
-    instanceGroupId: json['InstanceGroupId'] as String,
-    lastStateChangeReason: json['LastStateChangeReason'] as String,
-    name: json['Name'] as String,
+    instanceGroupId: json['InstanceGroupId'] as String?,
+    lastStateChangeReason: json['LastStateChangeReason'] as String?,
+    name: json['Name'] as String?,
     readyDateTime:
         const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
     startDateTime:
@@ -1134,7 +1094,9 @@ const _$InstanceGroupStateEnumMap = {
 
 Map<String, dynamic> _$InstanceGroupModifyConfigToJson(
     InstanceGroupModifyConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceGroupId': instance.instanceGroupId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1142,9 +1104,8 @@ Map<String, dynamic> _$InstanceGroupModifyConfigToJson(
     }
   }
 
-  writeNotNull('InstanceGroupId', instance.instanceGroupId);
   writeNotNull('Configurations',
-      instance.configurations?.map((e) => e?.toJson())?.toList());
+      instance.configurations?.map((e) => e.toJson()).toList());
   writeNotNull('EC2InstanceIdsToTerminate', instance.eC2InstanceIdsToTerminate);
   writeNotNull('InstanceCount', instance.instanceCount);
   writeNotNull('ShrinkPolicy', instance.shrinkPolicy?.toJson());
@@ -1156,7 +1117,7 @@ InstanceGroupStateChangeReason _$InstanceGroupStateChangeReasonFromJson(
   return InstanceGroupStateChangeReason(
     code: _$enumDecodeNullable(
         _$InstanceGroupStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1194,12 +1155,13 @@ InstanceGroupTimeline _$InstanceGroupTimelineFromJson(
 
 InstanceResizePolicy _$InstanceResizePolicyFromJson(Map<String, dynamic> json) {
   return InstanceResizePolicy(
-    instanceTerminationTimeout: json['InstanceTerminationTimeout'] as int,
-    instancesToProtect:
-        (json['InstancesToProtect'] as List)?.map((e) => e as String)?.toList(),
-    instancesToTerminate: (json['InstancesToTerminate'] as List)
+    instanceTerminationTimeout: json['InstanceTerminationTimeout'] as int?,
+    instancesToProtect: (json['InstancesToProtect'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
+    instancesToTerminate: (json['InstancesToTerminate'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1225,7 +1187,7 @@ InstanceStateChangeReason _$InstanceStateChangeReasonFromJson(
   return InstanceStateChangeReason(
     code: _$enumDecodeNullable(
         _$InstanceStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1269,7 +1231,9 @@ InstanceTimeline _$InstanceTimelineFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$InstanceTypeConfigToJson(InstanceTypeConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceType': instance.instanceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1277,12 +1241,11 @@ Map<String, dynamic> _$InstanceTypeConfigToJson(InstanceTypeConfig instance) {
     }
   }
 
-  writeNotNull('InstanceType', instance.instanceType);
   writeNotNull('BidPrice', instance.bidPrice);
   writeNotNull('BidPriceAsPercentageOfOnDemandPrice',
       instance.bidPriceAsPercentageOfOnDemandPrice);
   writeNotNull('Configurations',
-      instance.configurations?.map((e) => e?.toJson())?.toList());
+      instance.configurations?.map((e) => e.toJson()).toList());
   writeNotNull('EbsConfiguration', instance.ebsConfiguration?.toJson());
   writeNotNull('WeightedCapacity', instance.weightedCapacity);
   return val;
@@ -1291,68 +1254,57 @@ Map<String, dynamic> _$InstanceTypeConfigToJson(InstanceTypeConfig instance) {
 InstanceTypeSpecification _$InstanceTypeSpecificationFromJson(
     Map<String, dynamic> json) {
   return InstanceTypeSpecification(
-    bidPrice: json['BidPrice'] as String,
+    bidPrice: json['BidPrice'] as String?,
     bidPriceAsPercentageOfOnDemandPrice:
-        (json['BidPriceAsPercentageOfOnDemandPrice'] as num)?.toDouble(),
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Configuration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    ebsBlockDevices: (json['EbsBlockDevices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EbsBlockDevice.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    ebsOptimized: json['EbsOptimized'] as bool,
-    instanceType: json['InstanceType'] as String,
-    weightedCapacity: json['WeightedCapacity'] as int,
+        (json['BidPriceAsPercentageOfOnDemandPrice'] as num?)?.toDouble(),
+    configurations: (json['Configurations'] as List<dynamic>?)
+        ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ebsBlockDevices: (json['EbsBlockDevices'] as List<dynamic>?)
+        ?.map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ebsOptimized: json['EbsOptimized'] as bool?,
+    instanceType: json['InstanceType'] as String?,
+    weightedCapacity: json['WeightedCapacity'] as int?,
   );
 }
 
 JobFlowDetail _$JobFlowDetailFromJson(Map<String, dynamic> json) {
   return JobFlowDetail(
-    executionStatusDetail: json['ExecutionStatusDetail'] == null
-        ? null
-        : JobFlowExecutionStatusDetail.fromJson(
-            json['ExecutionStatusDetail'] as Map<String, dynamic>),
-    instances: json['Instances'] == null
-        ? null
-        : JobFlowInstancesDetail.fromJson(
-            json['Instances'] as Map<String, dynamic>),
+    executionStatusDetail: JobFlowExecutionStatusDetail.fromJson(
+        json['ExecutionStatusDetail'] as Map<String, dynamic>),
+    instances: JobFlowInstancesDetail.fromJson(
+        json['Instances'] as Map<String, dynamic>),
     jobFlowId: json['JobFlowId'] as String,
     name: json['Name'] as String,
-    amiVersion: json['AmiVersion'] as String,
-    autoScalingRole: json['AutoScalingRole'] as String,
-    bootstrapActions: (json['BootstrapActions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BootstrapActionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    jobFlowRole: json['JobFlowRole'] as String,
-    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String,
-    logUri: json['LogUri'] as String,
+    amiVersion: json['AmiVersion'] as String?,
+    autoScalingRole: json['AutoScalingRole'] as String?,
+    bootstrapActions: (json['BootstrapActions'] as List<dynamic>?)
+        ?.map((e) => BootstrapActionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    jobFlowRole: json['JobFlowRole'] as String?,
+    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String?,
+    logUri: json['LogUri'] as String?,
     scaleDownBehavior: _$enumDecodeNullable(
         _$ScaleDownBehaviorEnumMap, json['ScaleDownBehavior']),
-    serviceRole: json['ServiceRole'] as String,
-    steps: (json['Steps'] as List)
-        ?.map((e) =>
-            e == null ? null : StepDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    supportedProducts:
-        (json['SupportedProducts'] as List)?.map((e) => e as String)?.toList(),
-    visibleToAllUsers: json['VisibleToAllUsers'] as bool,
+    serviceRole: json['ServiceRole'] as String?,
+    steps: (json['Steps'] as List<dynamic>?)
+        ?.map((e) => StepDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    supportedProducts: (json['SupportedProducts'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    visibleToAllUsers: json['VisibleToAllUsers'] as bool?,
   );
 }
 
 JobFlowExecutionStatusDetail _$JobFlowExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return JobFlowExecutionStatusDetail(
-    creationDateTime:
-        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    state: _$enumDecodeNullable(_$JobFlowExecutionStateEnumMap, json['State']),
+    creationDateTime: DateTime.parse(json['CreationDateTime'] as String),
+    state: _$enumDecode(_$JobFlowExecutionStateEnumMap, json['State']),
     endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
-    lastStateChangeReason: json['LastStateChangeReason'] as String,
+    lastStateChangeReason: json['LastStateChangeReason'] as String?,
     readyDateTime:
         const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
     startDateTime:
@@ -1395,9 +1347,9 @@ Map<String, dynamic> _$JobFlowInstancesConfigToJson(
   writeNotNull('HadoopVersion', instance.hadoopVersion);
   writeNotNull('InstanceCount', instance.instanceCount);
   writeNotNull('InstanceFleets',
-      instance.instanceFleets?.map((e) => e?.toJson())?.toList());
+      instance.instanceFleets?.map((e) => e.toJson()).toList());
   writeNotNull('InstanceGroups',
-      instance.instanceGroups?.map((e) => e?.toJson())?.toList());
+      instance.instanceGroups?.map((e) => e.toJson()).toList());
   writeNotNull(
       'KeepJobFlowAliveWhenNoSteps', instance.keepJobFlowAliveWhenNoSteps);
   writeNotNull('MasterInstanceType', instance.masterInstanceType);
@@ -1415,22 +1367,20 @@ JobFlowInstancesDetail _$JobFlowInstancesDetailFromJson(
     instanceCount: json['InstanceCount'] as int,
     masterInstanceType: json['MasterInstanceType'] as String,
     slaveInstanceType: json['SlaveInstanceType'] as String,
-    ec2KeyName: json['Ec2KeyName'] as String,
-    ec2SubnetId: json['Ec2SubnetId'] as String,
-    hadoopVersion: json['HadoopVersion'] as String,
-    instanceGroups: (json['InstanceGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceGroupDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    keepJobFlowAliveWhenNoSteps: json['KeepJobFlowAliveWhenNoSteps'] as bool,
-    masterInstanceId: json['MasterInstanceId'] as String,
-    masterPublicDnsName: json['MasterPublicDnsName'] as String,
-    normalizedInstanceHours: json['NormalizedInstanceHours'] as int,
+    ec2KeyName: json['Ec2KeyName'] as String?,
+    ec2SubnetId: json['Ec2SubnetId'] as String?,
+    hadoopVersion: json['HadoopVersion'] as String?,
+    instanceGroups: (json['InstanceGroups'] as List<dynamic>?)
+        ?.map((e) => InstanceGroupDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    keepJobFlowAliveWhenNoSteps: json['KeepJobFlowAliveWhenNoSteps'] as bool?,
+    masterInstanceId: json['MasterInstanceId'] as String?,
+    masterPublicDnsName: json['MasterPublicDnsName'] as String?,
+    normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
     placement: json['Placement'] == null
         ? null
         : PlacementType.fromJson(json['Placement'] as Map<String, dynamic>),
-    terminationProtected: json['TerminationProtected'] as bool,
+    terminationProtected: json['TerminationProtected'] as bool?,
   );
 }
 
@@ -1438,15 +1388,18 @@ KerberosAttributes _$KerberosAttributesFromJson(Map<String, dynamic> json) {
   return KerberosAttributes(
     kdcAdminPassword: json['KdcAdminPassword'] as String,
     realm: json['Realm'] as String,
-    aDDomainJoinPassword: json['ADDomainJoinPassword'] as String,
-    aDDomainJoinUser: json['ADDomainJoinUser'] as String,
+    aDDomainJoinPassword: json['ADDomainJoinPassword'] as String?,
+    aDDomainJoinUser: json['ADDomainJoinUser'] as String?,
     crossRealmTrustPrincipalPassword:
-        json['CrossRealmTrustPrincipalPassword'] as String,
+        json['CrossRealmTrustPrincipalPassword'] as String?,
   );
 }
 
 Map<String, dynamic> _$KerberosAttributesToJson(KerberosAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'KdcAdminPassword': instance.kdcAdminPassword,
+    'Realm': instance.realm,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1454,8 +1407,6 @@ Map<String, dynamic> _$KerberosAttributesToJson(KerberosAttributes instance) {
     }
   }
 
-  writeNotNull('KdcAdminPassword', instance.kdcAdminPassword);
-  writeNotNull('Realm', instance.realm);
   writeNotNull('ADDomainJoinPassword', instance.aDDomainJoinPassword);
   writeNotNull('ADDomainJoinUser', instance.aDDomainJoinUser);
   writeNotNull('CrossRealmTrustPrincipalPassword',
@@ -1465,8 +1416,8 @@ Map<String, dynamic> _$KerberosAttributesToJson(KerberosAttributes instance) {
 
 KeyValue _$KeyValueFromJson(Map<String, dynamic> json) {
   return KeyValue(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1487,113 +1438,98 @@ Map<String, dynamic> _$KeyValueToJson(KeyValue instance) {
 ListBootstrapActionsOutput _$ListBootstrapActionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListBootstrapActionsOutput(
-    bootstrapActions: (json['BootstrapActions'] as List)
-        ?.map((e) =>
-            e == null ? null : Command.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    bootstrapActions: (json['BootstrapActions'] as List<dynamic>?)
+        ?.map((e) => Command.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListClustersOutput _$ListClustersOutputFromJson(Map<String, dynamic> json) {
   return ListClustersOutput(
-    clusters: (json['Clusters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClusterSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    clusters: (json['Clusters'] as List<dynamic>?)
+        ?.map((e) => ClusterSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListInstanceFleetsOutput _$ListInstanceFleetsOutputFromJson(
     Map<String, dynamic> json) {
   return ListInstanceFleetsOutput(
-    instanceFleets: (json['InstanceFleets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceFleet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    instanceFleets: (json['InstanceFleets'] as List<dynamic>?)
+        ?.map((e) => InstanceFleet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListInstanceGroupsOutput _$ListInstanceGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return ListInstanceGroupsOutput(
-    instanceGroups: (json['InstanceGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    instanceGroups: (json['InstanceGroups'] as List<dynamic>?)
+        ?.map((e) => InstanceGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListInstancesOutput _$ListInstancesOutputFromJson(Map<String, dynamic> json) {
   return ListInstancesOutput(
-    instances: (json['Instances'] as List)
-        ?.map((e) =>
-            e == null ? null : Instance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    instances: (json['Instances'] as List<dynamic>?)
+        ?.map((e) => Instance.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListNotebookExecutionsOutput _$ListNotebookExecutionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListNotebookExecutionsOutput(
-    marker: json['Marker'] as String,
-    notebookExecutions: (json['NotebookExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NotebookExecutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    notebookExecutions: (json['NotebookExecutions'] as List<dynamic>?)
+        ?.map(
+            (e) => NotebookExecutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSecurityConfigurationsOutput _$ListSecurityConfigurationsOutputFromJson(
     Map<String, dynamic> json) {
   return ListSecurityConfigurationsOutput(
-    marker: json['Marker'] as String,
-    securityConfigurations: (json['SecurityConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SecurityConfigurationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    securityConfigurations: (json['SecurityConfigurations'] as List<dynamic>?)
+        ?.map((e) =>
+            SecurityConfigurationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListStepsOutput _$ListStepsOutputFromJson(Map<String, dynamic> json) {
   return ListStepsOutput(
-    marker: json['Marker'] as String,
-    steps: (json['Steps'] as List)
-        ?.map((e) =>
-            e == null ? null : StepSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    steps: (json['Steps'] as List<dynamic>?)
+        ?.map((e) => StepSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListStudioSessionMappingsOutput _$ListStudioSessionMappingsOutputFromJson(
     Map<String, dynamic> json) {
   return ListStudioSessionMappingsOutput(
-    marker: json['Marker'] as String,
-    sessionMappings: (json['SessionMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SessionMappingSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    sessionMappings: (json['SessionMappings'] as List<dynamic>?)
+        ?.map((e) => SessionMappingSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListStudiosOutput _$ListStudiosOutputFromJson(Map<String, dynamic> json) {
   return ListStudiosOutput(
-    marker: json['Marker'] as String,
-    studios: (json['Studios'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StudioSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    studios: (json['Studios'] as List<dynamic>?)
+        ?.map((e) => StudioSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1621,8 +1557,8 @@ Map<String, dynamic> _$ManagedScalingPolicyToJson(
 
 MetricDimension _$MetricDimensionFromJson(Map<String, dynamic> json) {
   return MetricDimension(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1642,32 +1578,32 @@ Map<String, dynamic> _$MetricDimensionToJson(MetricDimension instance) {
 
 ModifyClusterOutput _$ModifyClusterOutputFromJson(Map<String, dynamic> json) {
   return ModifyClusterOutput(
-    stepConcurrencyLevel: json['StepConcurrencyLevel'] as int,
+    stepConcurrencyLevel: json['StepConcurrencyLevel'] as int?,
   );
 }
 
 NotebookExecution _$NotebookExecutionFromJson(Map<String, dynamic> json) {
   return NotebookExecution(
-    arn: json['Arn'] as String,
-    editorId: json['EditorId'] as String,
+    arn: json['Arn'] as String?,
+    editorId: json['EditorId'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     executionEngine: json['ExecutionEngine'] == null
         ? null
         : ExecutionEngineConfig.fromJson(
             json['ExecutionEngine'] as Map<String, dynamic>),
-    lastStateChangeReason: json['LastStateChangeReason'] as String,
-    notebookExecutionId: json['NotebookExecutionId'] as String,
-    notebookExecutionName: json['NotebookExecutionName'] as String,
+    lastStateChangeReason: json['LastStateChangeReason'] as String?,
+    notebookExecutionId: json['NotebookExecutionId'] as String?,
+    notebookExecutionName: json['NotebookExecutionName'] as String?,
     notebookInstanceSecurityGroupId:
-        json['NotebookInstanceSecurityGroupId'] as String,
-    notebookParams: json['NotebookParams'] as String,
-    outputNotebookURI: json['OutputNotebookURI'] as String,
+        json['NotebookInstanceSecurityGroupId'] as String?,
+    notebookParams: json['NotebookParams'] as String?,
+    outputNotebookURI: json['OutputNotebookURI'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status:
         _$enumDecodeNullable(_$NotebookExecutionStatusEnumMap, json['Status']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1687,10 +1623,10 @@ const _$NotebookExecutionStatusEnumMap = {
 NotebookExecutionSummary _$NotebookExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return NotebookExecutionSummary(
-    editorId: json['EditorId'] as String,
+    editorId: json['EditorId'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    notebookExecutionId: json['NotebookExecutionId'] as String,
-    notebookExecutionName: json['NotebookExecutionName'] as String,
+    notebookExecutionId: json['NotebookExecutionId'] as String?,
+    notebookExecutionName: json['NotebookExecutionName'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status:
         _$enumDecodeNullable(_$NotebookExecutionStatusEnumMap, json['Status']),
@@ -1700,28 +1636,18 @@ NotebookExecutionSummary _$NotebookExecutionSummaryFromJson(
 OnDemandProvisioningSpecification _$OnDemandProvisioningSpecificationFromJson(
     Map<String, dynamic> json) {
   return OnDemandProvisioningSpecification(
-    allocationStrategy: _$enumDecodeNullable(
+    allocationStrategy: _$enumDecode(
         _$OnDemandProvisioningAllocationStrategyEnumMap,
         json['AllocationStrategy']),
   );
 }
 
 Map<String, dynamic> _$OnDemandProvisioningSpecificationToJson(
-    OnDemandProvisioningSpecification instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'AllocationStrategy',
-      _$OnDemandProvisioningAllocationStrategyEnumMap[
-          instance.allocationStrategy]);
-  return val;
-}
+        OnDemandProvisioningSpecification instance) =>
+    <String, dynamic>{
+      'AllocationStrategy': _$OnDemandProvisioningAllocationStrategyEnumMap[
+          instance.allocationStrategy],
+    };
 
 const _$OnDemandProvisioningAllocationStrategyEnumMap = {
   OnDemandProvisioningAllocationStrategy.lowestPrice: 'lowest-price',
@@ -1729,8 +1655,7 @@ const _$OnDemandProvisioningAllocationStrategyEnumMap = {
 
 PlacementGroupConfig _$PlacementGroupConfigFromJson(Map<String, dynamic> json) {
   return PlacementGroupConfig(
-    instanceRole:
-        _$enumDecodeNullable(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
+    instanceRole: _$enumDecode(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
     placementStrategy: _$enumDecodeNullable(
         _$PlacementGroupStrategyEnumMap, json['PlacementStrategy']),
   );
@@ -1738,7 +1663,9 @@ PlacementGroupConfig _$PlacementGroupConfigFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PlacementGroupConfigToJson(
     PlacementGroupConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceRole': _$InstanceRoleTypeEnumMap[instance.instanceRole],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1746,8 +1673,6 @@ Map<String, dynamic> _$PlacementGroupConfigToJson(
     }
   }
 
-  writeNotNull(
-      'InstanceRole', _$InstanceRoleTypeEnumMap[instance.instanceRole]);
   writeNotNull('PlacementStrategy',
       _$PlacementGroupStrategyEnumMap[instance.placementStrategy]);
   return val;
@@ -1762,9 +1687,10 @@ const _$PlacementGroupStrategyEnumMap = {
 
 PlacementType _$PlacementTypeFromJson(Map<String, dynamic> json) {
   return PlacementType(
-    availabilityZone: json['AvailabilityZone'] as String,
-    availabilityZones:
-        (json['AvailabilityZones'] as List)?.map((e) => e as String)?.toList(),
+    availabilityZone: json['AvailabilityZone'] as String?,
+    availabilityZones: (json['AvailabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1785,12 +1711,14 @@ Map<String, dynamic> _$PlacementTypeToJson(PlacementType instance) {
 PortRange _$PortRangeFromJson(Map<String, dynamic> json) {
   return PortRange(
     minRange: json['MinRange'] as int,
-    maxRange: json['MaxRange'] as int,
+    maxRange: json['MaxRange'] as int?,
   );
 }
 
 Map<String, dynamic> _$PortRangeToJson(PortRange instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MinRange': instance.minRange,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1798,7 +1726,6 @@ Map<String, dynamic> _$PortRangeToJson(PortRange instance) {
     }
   }
 
-  writeNotNull('MinRange', instance.minRange);
   writeNotNull('MaxRange', instance.maxRange);
   return val;
 }
@@ -1810,9 +1737,9 @@ PutAutoScalingPolicyOutput _$PutAutoScalingPolicyOutputFromJson(
         ? null
         : AutoScalingPolicyDescription.fromJson(
             json['AutoScalingPolicy'] as Map<String, dynamic>),
-    clusterArn: json['ClusterArn'] as String,
-    clusterId: json['ClusterId'] as String,
-    instanceGroupId: json['InstanceGroupId'] as String,
+    clusterArn: json['ClusterArn'] as String?,
+    clusterId: json['ClusterId'] as String?,
+    instanceGroupId: json['InstanceGroupId'] as String?,
   );
 }
 
@@ -1843,25 +1770,24 @@ RemoveTagsOutput _$RemoveTagsOutputFromJson(Map<String, dynamic> json) {
 
 RunJobFlowOutput _$RunJobFlowOutputFromJson(Map<String, dynamic> json) {
   return RunJobFlowOutput(
-    clusterArn: json['ClusterArn'] as String,
-    jobFlowId: json['JobFlowId'] as String,
+    clusterArn: json['ClusterArn'] as String?,
+    jobFlowId: json['JobFlowId'] as String?,
   );
 }
 
 ScalingAction _$ScalingActionFromJson(Map<String, dynamic> json) {
   return ScalingAction(
-    simpleScalingPolicyConfiguration:
-        json['SimpleScalingPolicyConfiguration'] == null
-            ? null
-            : SimpleScalingPolicyConfiguration.fromJson(
-                json['SimpleScalingPolicyConfiguration']
-                    as Map<String, dynamic>),
+    simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration.fromJson(
+        json['SimpleScalingPolicyConfiguration'] as Map<String, dynamic>),
     market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
   );
 }
 
 Map<String, dynamic> _$ScalingActionToJson(ScalingAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SimpleScalingPolicyConfiguration':
+        instance.simpleScalingPolicyConfiguration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1869,8 +1795,6 @@ Map<String, dynamic> _$ScalingActionToJson(ScalingAction instance) {
     }
   }
 
-  writeNotNull('SimpleScalingPolicyConfiguration',
-      instance.simpleScalingPolicyConfiguration?.toJson());
   writeNotNull('Market', _$MarketTypeEnumMap[instance.market]);
   return val;
 }
@@ -1882,35 +1806,27 @@ ScalingConstraints _$ScalingConstraintsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ScalingConstraintsToJson(ScalingConstraints instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MaxCapacity', instance.maxCapacity);
-  writeNotNull('MinCapacity', instance.minCapacity);
-  return val;
-}
+Map<String, dynamic> _$ScalingConstraintsToJson(ScalingConstraints instance) =>
+    <String, dynamic>{
+      'MaxCapacity': instance.maxCapacity,
+      'MinCapacity': instance.minCapacity,
+    };
 
 ScalingRule _$ScalingRuleFromJson(Map<String, dynamic> json) {
   return ScalingRule(
-    action: json['Action'] == null
-        ? null
-        : ScalingAction.fromJson(json['Action'] as Map<String, dynamic>),
+    action: ScalingAction.fromJson(json['Action'] as Map<String, dynamic>),
     name: json['Name'] as String,
-    trigger: json['Trigger'] == null
-        ? null
-        : ScalingTrigger.fromJson(json['Trigger'] as Map<String, dynamic>),
-    description: json['Description'] as String,
+    trigger: ScalingTrigger.fromJson(json['Trigger'] as Map<String, dynamic>),
+    description: json['Description'] as String?,
   );
 }
 
 Map<String, dynamic> _$ScalingRuleToJson(ScalingRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Action': instance.action.toJson(),
+    'Name': instance.name,
+    'Trigger': instance.trigger.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1918,47 +1834,35 @@ Map<String, dynamic> _$ScalingRuleToJson(ScalingRule instance) {
     }
   }
 
-  writeNotNull('Action', instance.action?.toJson());
-  writeNotNull('Name', instance.name);
-  writeNotNull('Trigger', instance.trigger?.toJson());
   writeNotNull('Description', instance.description);
   return val;
 }
 
 ScalingTrigger _$ScalingTriggerFromJson(Map<String, dynamic> json) {
   return ScalingTrigger(
-    cloudWatchAlarmDefinition: json['CloudWatchAlarmDefinition'] == null
-        ? null
-        : CloudWatchAlarmDefinition.fromJson(
-            json['CloudWatchAlarmDefinition'] as Map<String, dynamic>),
+    cloudWatchAlarmDefinition: CloudWatchAlarmDefinition.fromJson(
+        json['CloudWatchAlarmDefinition'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$ScalingTriggerToJson(ScalingTrigger instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CloudWatchAlarmDefinition',
-      instance.cloudWatchAlarmDefinition?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ScalingTriggerToJson(ScalingTrigger instance) =>
+    <String, dynamic>{
+      'CloudWatchAlarmDefinition': instance.cloudWatchAlarmDefinition.toJson(),
+    };
 
 ScriptBootstrapActionConfig _$ScriptBootstrapActionConfigFromJson(
     Map<String, dynamic> json) {
   return ScriptBootstrapActionConfig(
     path: json['Path'] as String,
-    args: (json['Args'] as List)?.map((e) => e as String)?.toList(),
+    args: (json['Args'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$ScriptBootstrapActionConfigToJson(
     ScriptBootstrapActionConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Path': instance.path,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1966,7 +1870,6 @@ Map<String, dynamic> _$ScriptBootstrapActionConfigToJson(
     }
   }
 
-  writeNotNull('Path', instance.path);
   writeNotNull('Args', instance.args);
   return val;
 }
@@ -1976,21 +1879,21 @@ SecurityConfigurationSummary _$SecurityConfigurationSummaryFromJson(
   return SecurityConfigurationSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 SessionMappingDetail _$SessionMappingDetailFromJson(Map<String, dynamic> json) {
   return SessionMappingDetail(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    identityId: json['IdentityId'] as String,
-    identityName: json['IdentityName'] as String,
+    identityId: json['IdentityId'] as String?,
+    identityName: json['IdentityName'] as String?,
     identityType:
         _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
     lastModifiedTime:
         const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
-    sessionPolicyArn: json['SessionPolicyArn'] as String,
-    studioId: json['StudioId'] as String,
+    sessionPolicyArn: json['SessionPolicyArn'] as String?,
+    studioId: json['StudioId'] as String?,
   );
 }
 
@@ -2003,18 +1906,18 @@ SessionMappingSummary _$SessionMappingSummaryFromJson(
     Map<String, dynamic> json) {
   return SessionMappingSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    identityId: json['IdentityId'] as String,
-    identityName: json['IdentityName'] as String,
+    identityId: json['IdentityId'] as String?,
+    identityName: json['IdentityName'] as String?,
     identityType:
         _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
-    sessionPolicyArn: json['SessionPolicyArn'] as String,
-    studioId: json['StudioId'] as String,
+    sessionPolicyArn: json['SessionPolicyArn'] as String?,
+    studioId: json['StudioId'] as String?,
   );
 }
 
 ShrinkPolicy _$ShrinkPolicyFromJson(Map<String, dynamic> json) {
   return ShrinkPolicy(
-    decommissionTimeout: json['DecommissionTimeout'] as int,
+    decommissionTimeout: json['DecommissionTimeout'] as int?,
     instanceResizePolicy: json['InstanceResizePolicy'] == null
         ? null
         : InstanceResizePolicy.fromJson(
@@ -2042,13 +1945,15 @@ SimpleScalingPolicyConfiguration _$SimpleScalingPolicyConfigurationFromJson(
     scalingAdjustment: json['ScalingAdjustment'] as int,
     adjustmentType:
         _$enumDecodeNullable(_$AdjustmentTypeEnumMap, json['AdjustmentType']),
-    coolDown: json['CoolDown'] as int,
+    coolDown: json['CoolDown'] as int?,
   );
 }
 
 Map<String, dynamic> _$SimpleScalingPolicyConfigurationToJson(
     SimpleScalingPolicyConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ScalingAdjustment': instance.scalingAdjustment,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2056,7 +1961,6 @@ Map<String, dynamic> _$SimpleScalingPolicyConfigurationToJson(
     }
   }
 
-  writeNotNull('ScalingAdjustment', instance.scalingAdjustment);
   writeNotNull(
       'AdjustmentType', _$AdjustmentTypeEnumMap[instance.adjustmentType]);
   writeNotNull('CoolDown', instance.coolDown);
@@ -2072,19 +1976,23 @@ const _$AdjustmentTypeEnumMap = {
 SpotProvisioningSpecification _$SpotProvisioningSpecificationFromJson(
     Map<String, dynamic> json) {
   return SpotProvisioningSpecification(
-    timeoutAction: _$enumDecodeNullable(
+    timeoutAction: _$enumDecode(
         _$SpotProvisioningTimeoutActionEnumMap, json['TimeoutAction']),
     timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
     allocationStrategy: _$enumDecodeNullable(
         _$SpotProvisioningAllocationStrategyEnumMap,
         json['AllocationStrategy']),
-    blockDurationMinutes: json['BlockDurationMinutes'] as int,
+    blockDurationMinutes: json['BlockDurationMinutes'] as int?,
   );
 }
 
 Map<String, dynamic> _$SpotProvisioningSpecificationToJson(
     SpotProvisioningSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TimeoutAction':
+        _$SpotProvisioningTimeoutActionEnumMap[instance.timeoutAction],
+    'TimeoutDurationMinutes': instance.timeoutDurationMinutes,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2092,9 +2000,6 @@ Map<String, dynamic> _$SpotProvisioningSpecificationToJson(
     }
   }
 
-  writeNotNull('TimeoutAction',
-      _$SpotProvisioningTimeoutActionEnumMap[instance.timeoutAction]);
-  writeNotNull('TimeoutDurationMinutes', instance.timeoutDurationMinutes);
   writeNotNull('AllocationStrategy',
       _$SpotProvisioningAllocationStrategyEnumMap[instance.allocationStrategy]);
   writeNotNull('BlockDurationMinutes', instance.blockDurationMinutes);
@@ -2113,7 +2018,7 @@ const _$SpotProvisioningAllocationStrategyEnumMap = {
 StartNotebookExecutionOutput _$StartNotebookExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return StartNotebookExecutionOutput(
-    notebookExecutionId: json['NotebookExecutionId'] as String,
+    notebookExecutionId: json['NotebookExecutionId'] as String?,
   );
 }
 
@@ -2124,8 +2029,8 @@ Step _$StepFromJson(Map<String, dynamic> json) {
     config: json['Config'] == null
         ? null
         : HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: json['Status'] == null
         ? null
         : StepStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -2141,10 +2046,8 @@ const _$ActionOnFailureEnumMap = {
 
 StepConfig _$StepConfigFromJson(Map<String, dynamic> json) {
   return StepConfig(
-    hadoopJarStep: json['HadoopJarStep'] == null
-        ? null
-        : HadoopJarStepConfig.fromJson(
-            json['HadoopJarStep'] as Map<String, dynamic>),
+    hadoopJarStep: HadoopJarStepConfig.fromJson(
+        json['HadoopJarStep'] as Map<String, dynamic>),
     name: json['Name'] as String,
     actionOnFailure:
         _$enumDecodeNullable(_$ActionOnFailureEnumMap, json['ActionOnFailure']),
@@ -2152,7 +2055,10 @@ StepConfig _$StepConfigFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StepConfigToJson(StepConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'HadoopJarStep': instance.hadoopJarStep.toJson(),
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2160,8 +2066,6 @@ Map<String, dynamic> _$StepConfigToJson(StepConfig instance) {
     }
   }
 
-  writeNotNull('HadoopJarStep', instance.hadoopJarStep?.toJson());
-  writeNotNull('Name', instance.name);
   writeNotNull(
       'ActionOnFailure', _$ActionOnFailureEnumMap[instance.actionOnFailure]);
   return val;
@@ -2169,24 +2073,19 @@ Map<String, dynamic> _$StepConfigToJson(StepConfig instance) {
 
 StepDetail _$StepDetailFromJson(Map<String, dynamic> json) {
   return StepDetail(
-    executionStatusDetail: json['ExecutionStatusDetail'] == null
-        ? null
-        : StepExecutionStatusDetail.fromJson(
-            json['ExecutionStatusDetail'] as Map<String, dynamic>),
-    stepConfig: json['StepConfig'] == null
-        ? null
-        : StepConfig.fromJson(json['StepConfig'] as Map<String, dynamic>),
+    executionStatusDetail: StepExecutionStatusDetail.fromJson(
+        json['ExecutionStatusDetail'] as Map<String, dynamic>),
+    stepConfig: StepConfig.fromJson(json['StepConfig'] as Map<String, dynamic>),
   );
 }
 
 StepExecutionStatusDetail _$StepExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return StepExecutionStatusDetail(
-    creationDateTime:
-        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    state: _$enumDecodeNullable(_$StepExecutionStateEnumMap, json['State']),
+    creationDateTime: DateTime.parse(json['CreationDateTime'] as String),
+    state: _$enumDecode(_$StepExecutionStateEnumMap, json['State']),
     endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
-    lastStateChangeReason: json['LastStateChangeReason'] as String,
+    lastStateChangeReason: json['LastStateChangeReason'] as String?,
     startDateTime:
         const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
@@ -2207,7 +2106,7 @@ StepStateChangeReason _$StepStateChangeReasonFromJson(
   return StepStateChangeReason(
     code:
         _$enumDecodeNullable(_$StepStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -2249,8 +2148,8 @@ StepSummary _$StepSummaryFromJson(Map<String, dynamic> json) {
     config: json['Config'] == null
         ? null
         : HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: json['Status'] == null
         ? null
         : StepStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -2271,21 +2170,22 @@ Studio _$StudioFromJson(Map<String, dynamic> json) {
   return Studio(
     authMode: _$enumDecodeNullable(_$AuthModeEnumMap, json['AuthMode']),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    defaultS3Location: json['DefaultS3Location'] as String,
-    description: json['Description'] as String,
-    engineSecurityGroupId: json['EngineSecurityGroupId'] as String,
-    name: json['Name'] as String,
-    serviceRole: json['ServiceRole'] as String,
-    studioArn: json['StudioArn'] as String,
-    studioId: json['StudioId'] as String,
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    url: json['Url'] as String,
-    userRole: json['UserRole'] as String,
-    vpcId: json['VpcId'] as String,
-    workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String,
+    defaultS3Location: json['DefaultS3Location'] as String?,
+    description: json['Description'] as String?,
+    engineSecurityGroupId: json['EngineSecurityGroupId'] as String?,
+    name: json['Name'] as String?,
+    serviceRole: json['ServiceRole'] as String?,
+    studioArn: json['StudioArn'] as String?,
+    studioId: json['StudioId'] as String?,
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    url: json['Url'] as String?,
+    userRole: json['UserRole'] as String?,
+    vpcId: json['VpcId'] as String?,
+    workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
   );
 }
 
@@ -2297,11 +2197,11 @@ const _$AuthModeEnumMap = {
 StudioSummary _$StudioSummaryFromJson(Map<String, dynamic> json) {
   return StudioSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    studioId: json['StudioId'] as String,
-    url: json['Url'] as String,
-    vpcId: json['VpcId'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    studioId: json['StudioId'] as String?,
+    url: json['Url'] as String?,
+    vpcId: json['VpcId'] as String?,
   );
 }
 
@@ -2322,8 +2222,8 @@ Map<String, dynamic> _$SupportedProductConfigToJson(
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -2345,12 +2245,15 @@ VolumeSpecification _$VolumeSpecificationFromJson(Map<String, dynamic> json) {
   return VolumeSpecification(
     sizeInGB: json['SizeInGB'] as int,
     volumeType: json['VolumeType'] as String,
-    iops: json['Iops'] as int,
+    iops: json['Iops'] as int?,
   );
 }
 
 Map<String, dynamic> _$VolumeSpecificationToJson(VolumeSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SizeInGB': instance.sizeInGB,
+    'VolumeType': instance.volumeType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2358,8 +2261,6 @@ Map<String, dynamic> _$VolumeSpecificationToJson(VolumeSpecification instance) {
     }
   }
 
-  writeNotNull('SizeInGB', instance.sizeInGB);
-  writeNotNull('VolumeType', instance.volumeType);
   writeNotNull('Iops', instance.iops);
   return val;
 }

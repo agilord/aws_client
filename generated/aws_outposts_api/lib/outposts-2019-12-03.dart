@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'outposts-2019-12-03.g.dart';
 
 /// AWS Outposts is a fully managed service that extends AWS infrastructure,
 /// APIs, and tools to customer premises. By providing local access to AWS
@@ -35,10 +27,10 @@ part 'outposts-2019-12-03.g.dart';
 class Outposts {
   final _s.RestJsonProtocol _protocol;
   Outposts({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,12 +53,12 @@ class Outposts {
   /// Parameter [tags] :
   /// The tags to apply to the Outpost.
   Future<CreateOutpostOutput> createOutpost({
-    @_s.required String name,
-    @_s.required String siteId,
-    String availabilityZone,
-    String availabilityZoneId,
-    String description,
-    Map<String, String> tags,
+    required String name,
+    required String siteId,
+    String? availabilityZone,
+    String? availabilityZoneId,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -153,7 +145,7 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<void> deleteOutpost({
-    @_s.required String outpostId,
+    required String outpostId,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -175,7 +167,6 @@ class Outposts {
       requestUri: '/outposts/${Uri.encodeComponent(outpostId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteOutpostOutput.fromJson(response);
   }
 
   /// Deletes the site.
@@ -185,7 +176,7 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<void> deleteSite({
-    @_s.required String siteId,
+    required String siteId,
   }) async {
     ArgumentError.checkNotNull(siteId, 'siteId');
     _s.validateStringLength(
@@ -207,7 +198,6 @@ class Outposts {
       requestUri: '/sites/${Uri.encodeComponent(siteId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSiteOutput.fromJson(response);
   }
 
   /// Gets information about the specified Outpost.
@@ -217,7 +207,7 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<GetOutpostOutput> getOutpost({
-    @_s.required String outpostId,
+    required String outpostId,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -249,9 +239,9 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<GetOutpostInstanceTypesOutput> getOutpostInstanceTypes({
-    @_s.required String outpostId,
-    int maxResults,
-    String nextToken,
+    required String outpostId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -304,8 +294,8 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<ListOutpostsOutput> listOutposts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -344,8 +334,8 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<ListSitesOutput> listSites({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -387,7 +377,7 @@ class Outposts {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -424,8 +414,8 @@ class Outposts {
   /// Parameter [tags] :
   /// The tags to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -451,7 +441,6 @@ class Outposts {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes tags from the specified resource.
@@ -466,8 +455,8 @@ class Outposts {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -485,7 +474,7 @@ class Outposts {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -494,62 +483,43 @@ class Outposts {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOutpostOutput {
-  @_s.JsonKey(name: 'Outpost')
-  final Outpost outpost;
+  final Outpost? outpost;
 
   CreateOutpostOutput({
     this.outpost,
   });
-  factory CreateOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateOutpostOutputFromJson(json);
+  factory CreateOutpostOutput.fromJson(Map<String, dynamic> json) {
+    return CreateOutpostOutput(
+      outpost: json['Outpost'] != null
+          ? Outpost.fromJson(json['Outpost'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOutpostOutput {
   DeleteOutpostOutput();
-  factory DeleteOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOutpostOutputFromJson(json);
+  factory DeleteOutpostOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteOutpostOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSiteOutput {
   DeleteSiteOutput();
-  factory DeleteSiteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSiteOutputFromJson(json);
+  factory DeleteSiteOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteSiteOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOutpostInstanceTypesOutput {
-  @_s.JsonKey(name: 'InstanceTypes')
-  final List<InstanceTypeItem> instanceTypes;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
-  @_s.JsonKey(name: 'OutpostId')
-  final String outpostId;
+  final List<InstanceTypeItem>? instanceTypes;
+  final String? nextToken;
+  final String? outpostArn;
+  final String? outpostId;
 
   GetOutpostInstanceTypesOutput({
     this.instanceTypes,
@@ -557,127 +527,115 @@ class GetOutpostInstanceTypesOutput {
     this.outpostArn,
     this.outpostId,
   });
-  factory GetOutpostInstanceTypesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetOutpostInstanceTypesOutputFromJson(json);
+  factory GetOutpostInstanceTypesOutput.fromJson(Map<String, dynamic> json) {
+    return GetOutpostInstanceTypesOutput(
+      instanceTypes: (json['InstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      outpostId: json['OutpostId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOutpostOutput {
-  @_s.JsonKey(name: 'Outpost')
-  final Outpost outpost;
+  final Outpost? outpost;
 
   GetOutpostOutput({
     this.outpost,
   });
-  factory GetOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetOutpostOutputFromJson(json);
+  factory GetOutpostOutput.fromJson(Map<String, dynamic> json) {
+    return GetOutpostOutput(
+      outpost: json['Outpost'] != null
+          ? Outpost.fromJson(json['Outpost'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about an instance type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceTypeItem {
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   InstanceTypeItem({
     this.instanceType,
   });
-  factory InstanceTypeItem.fromJson(Map<String, dynamic> json) =>
-      _$InstanceTypeItemFromJson(json);
+  factory InstanceTypeItem.fromJson(Map<String, dynamic> json) {
+    return InstanceTypeItem(
+      instanceType: json['InstanceType'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOutpostsOutput {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'Outposts')
-  final List<Outpost> outposts;
+  final String? nextToken;
+  final List<Outpost>? outposts;
 
   ListOutpostsOutput({
     this.nextToken,
     this.outposts,
   });
-  factory ListOutpostsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListOutpostsOutputFromJson(json);
+  factory ListOutpostsOutput.fromJson(Map<String, dynamic> json) {
+    return ListOutpostsOutput(
+      nextToken: json['NextToken'] as String?,
+      outposts: (json['Outposts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSitesOutput {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'Sites')
-  final List<Site> sites;
+  final String? nextToken;
+  final List<Site>? sites;
 
   ListSitesOutput({
     this.nextToken,
     this.sites,
   });
-  factory ListSitesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSitesOutputFromJson(json);
+  factory ListSitesOutput.fromJson(Map<String, dynamic> json) {
+    return ListSitesOutput(
+      nextToken: json['NextToken'] as String?,
+      sites: (json['Sites'] as List?)
+          ?.whereNotNull()
+          .map((e) => Site.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The resource tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Information about an Outpost.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Outpost {
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
-  @_s.JsonKey(name: 'AvailabilityZoneId')
-  final String availabilityZoneId;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'LifeCycleStatus')
-  final String lifeCycleStatus;
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
-  @_s.JsonKey(name: 'OutpostId')
-  final String outpostId;
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? availabilityZone;
+  final String? availabilityZoneId;
+  final String? description;
+  final String? lifeCycleStatus;
+  final String? name;
+  final String? outpostArn;
+  final String? outpostId;
+  final String? ownerId;
+  final String? siteId;
 
   /// The Outpost tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Outpost({
     this.availabilityZone,
@@ -691,29 +649,32 @@ class Outpost {
     this.siteId,
     this.tags,
   });
-  factory Outpost.fromJson(Map<String, dynamic> json) =>
-      _$OutpostFromJson(json);
+  factory Outpost.fromJson(Map<String, dynamic> json) {
+    return Outpost(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      description: json['Description'] as String?,
+      lifeCycleStatus: json['LifeCycleStatus'] as String?,
+      name: json['Name'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      outpostId: json['OutpostId'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      siteId: json['SiteId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Information about a site.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Site {
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? accountId;
+  final String? description;
+  final String? name;
+  final String? siteId;
 
   /// The site tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Site({
     this.accountId,
@@ -722,48 +683,49 @@ class Site {
     this.siteId,
     this.tags,
   });
-  factory Site.fromJson(Map<String, dynamic> json) => _$SiteFromJson(json);
+  factory Site.fromJson(Map<String, dynamic> json) {
+    return Site(
+      accountId: json['AccountId'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      siteId: json['SiteId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -771,7 +733,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

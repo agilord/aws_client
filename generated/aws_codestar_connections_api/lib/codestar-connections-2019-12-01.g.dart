@@ -8,47 +8,52 @@ part of 'codestar-connections-2019-12-01.dart';
 
 Connection _$ConnectionFromJson(Map<String, dynamic> json) {
   return Connection(
-    connectionArn: json['ConnectionArn'] as String,
-    connectionName: json['ConnectionName'] as String,
+    connectionArn: json['ConnectionArn'] as String?,
+    connectionName: json['ConnectionName'] as String?,
     connectionStatus: _$enumDecodeNullable(
         _$ConnectionStatusEnumMap, json['ConnectionStatus']),
-    hostArn: json['HostArn'] as String,
-    ownerAccountId: json['OwnerAccountId'] as String,
+    hostArn: json['HostArn'] as String?,
+    ownerAccountId: json['OwnerAccountId'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ConnectionStatusEnumMap = {
@@ -67,15 +72,15 @@ CreateConnectionOutput _$CreateConnectionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateConnectionOutput(
     connectionArn: json['ConnectionArn'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateHostOutput _$CreateHostOutputFromJson(Map<String, dynamic> json) {
   return CreateHostOutput(
-    hostArn: json['HostArn'] as String,
+    hostArn: json['HostArn'] as String?,
   );
 }
 
@@ -98,11 +103,11 @@ GetConnectionOutput _$GetConnectionOutputFromJson(Map<String, dynamic> json) {
 
 GetHostOutput _$GetHostOutputFromJson(Map<String, dynamic> json) {
   return GetHostOutput(
-    name: json['Name'] as String,
-    providerEndpoint: json['ProviderEndpoint'] as String,
+    name: json['Name'] as String?,
+    providerEndpoint: json['ProviderEndpoint'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
-    status: json['Status'] as String,
+    status: json['Status'] as String?,
     vpcConfiguration: json['VpcConfiguration'] == null
         ? null
         : VpcConfiguration.fromJson(
@@ -112,13 +117,13 @@ GetHostOutput _$GetHostOutputFromJson(Map<String, dynamic> json) {
 
 Host _$HostFromJson(Map<String, dynamic> json) {
   return Host(
-    hostArn: json['HostArn'] as String,
-    name: json['Name'] as String,
-    providerEndpoint: json['ProviderEndpoint'] as String,
+    hostArn: json['HostArn'] as String?,
+    name: json['Name'] as String?,
+    providerEndpoint: json['ProviderEndpoint'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
-    status: json['Status'] as String,
-    statusMessage: json['StatusMessage'] as String,
+    status: json['Status'] as String?,
+    statusMessage: json['StatusMessage'] as String?,
     vpcConfiguration: json['VpcConfiguration'] == null
         ? null
         : VpcConfiguration.fromJson(
@@ -129,30 +134,28 @@ Host _$HostFromJson(Map<String, dynamic> json) {
 ListConnectionsOutput _$ListConnectionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListConnectionsOutput(
-    connections: (json['Connections'] as List)
-        ?.map((e) =>
-            e == null ? null : Connection.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    connections: (json['Connections'] as List<dynamic>?)
+        ?.map((e) => Connection.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListHostsOutput _$ListHostsOutputFromJson(Map<String, dynamic> json) {
   return ListHostsOutput(
-    hosts: (json['Hosts'] as List)
-        ?.map(
-            (e) => e == null ? null : Host.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    hosts: (json['Hosts'] as List<dynamic>?)
+        ?.map((e) => Host.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -163,19 +166,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
@@ -191,16 +185,22 @@ UpdateHostOutput _$UpdateHostOutputFromJson(Map<String, dynamic> json) {
 
 VpcConfiguration _$VpcConfigurationFromJson(Map<String, dynamic> json) {
   return VpcConfiguration(
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>).map((e) => e as String).toList(),
     vpcId: json['VpcId'] as String,
-    tlsCertificate: json['TlsCertificate'] as String,
+    tlsCertificate: json['TlsCertificate'] as String?,
   );
 }
 
 Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SecurityGroupIds': instance.securityGroupIds,
+    'SubnetIds': instance.subnetIds,
+    'VpcId': instance.vpcId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -208,9 +208,6 @@ Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) {
     }
   }
 
-  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
-  writeNotNull('SubnetIds', instance.subnetIds);
-  writeNotNull('VpcId', instance.vpcId);
   writeNotNull('TlsCertificate', instance.tlsCertificate);
   return val;
 }

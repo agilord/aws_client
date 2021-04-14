@@ -21,27 +21,27 @@ CloudHsmInternalException _$CloudHsmInternalExceptionFromJson(
 CloudHsmServiceException _$CloudHsmServiceExceptionFromJson(
     Map<String, dynamic> json) {
   return CloudHsmServiceException(
-    message: json['message'] as String,
-    retryable: json['retryable'] as bool,
+    message: json['message'] as String?,
+    retryable: json['retryable'] as bool?,
   );
 }
 
 CreateHapgResponse _$CreateHapgResponseFromJson(Map<String, dynamic> json) {
   return CreateHapgResponse(
-    hapgArn: json['HapgArn'] as String,
+    hapgArn: json['HapgArn'] as String?,
   );
 }
 
 CreateHsmResponse _$CreateHsmResponseFromJson(Map<String, dynamic> json) {
   return CreateHsmResponse(
-    hsmArn: json['HsmArn'] as String,
+    hsmArn: json['HsmArn'] as String?,
   );
 }
 
 CreateLunaClientResponse _$CreateLunaClientResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLunaClientResponse(
-    clientArn: json['ClientArn'] as String,
+    clientArn: json['ClientArn'] as String?,
   );
 }
 
@@ -66,56 +66,61 @@ DeleteLunaClientResponse _$DeleteLunaClientResponseFromJson(
 
 DescribeHapgResponse _$DescribeHapgResponseFromJson(Map<String, dynamic> json) {
   return DescribeHapgResponse(
-    hapgArn: json['HapgArn'] as String,
-    hapgSerial: json['HapgSerial'] as String,
-    hsmsLastActionFailed: (json['HsmsLastActionFailed'] as List)
+    hapgArn: json['HapgArn'] as String?,
+    hapgSerial: json['HapgSerial'] as String?,
+    hsmsLastActionFailed: (json['HsmsLastActionFailed'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    hsmsPendingDeletion: (json['HsmsPendingDeletion'] as List)
+        .toList(),
+    hsmsPendingDeletion: (json['HsmsPendingDeletion'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    hsmsPendingRegistration: (json['HsmsPendingRegistration'] as List)
+        .toList(),
+    hsmsPendingRegistration: (json['HsmsPendingRegistration'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    label: json['Label'] as String,
-    lastModifiedTimestamp: json['LastModifiedTimestamp'] as String,
-    partitionSerialList: (json['PartitionSerialList'] as List)
+        .toList(),
+    label: json['Label'] as String?,
+    lastModifiedTimestamp: json['LastModifiedTimestamp'] as String?,
+    partitionSerialList: (json['PartitionSerialList'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
     state: _$enumDecodeNullable(_$CloudHsmObjectStateEnumMap, json['State']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CloudHsmObjectStateEnumMap = {
@@ -126,28 +131,30 @@ const _$CloudHsmObjectStateEnumMap = {
 
 DescribeHsmResponse _$DescribeHsmResponseFromJson(Map<String, dynamic> json) {
   return DescribeHsmResponse(
-    availabilityZone: json['AvailabilityZone'] as String,
-    eniId: json['EniId'] as String,
-    eniIp: json['EniIp'] as String,
-    hsmArn: json['HsmArn'] as String,
-    hsmType: json['HsmType'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    partitions: (json['Partitions'] as List)?.map((e) => e as String)?.toList(),
-    serialNumber: json['SerialNumber'] as String,
-    serverCertLastUpdated: json['ServerCertLastUpdated'] as String,
-    serverCertUri: json['ServerCertUri'] as String,
-    softwareVersion: json['SoftwareVersion'] as String,
-    sshKeyLastUpdated: json['SshKeyLastUpdated'] as String,
-    sshPublicKey: json['SshPublicKey'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
+    eniId: json['EniId'] as String?,
+    eniIp: json['EniIp'] as String?,
+    hsmArn: json['HsmArn'] as String?,
+    hsmType: json['HsmType'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    partitions: (json['Partitions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    serialNumber: json['SerialNumber'] as String?,
+    serverCertLastUpdated: json['ServerCertLastUpdated'] as String?,
+    serverCertUri: json['ServerCertUri'] as String?,
+    softwareVersion: json['SoftwareVersion'] as String?,
+    sshKeyLastUpdated: json['SshKeyLastUpdated'] as String?,
+    sshPublicKey: json['SshPublicKey'] as String?,
     status: _$enumDecodeNullable(_$HsmStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    subnetId: json['SubnetId'] as String,
-    subscriptionEndDate: json['SubscriptionEndDate'] as String,
-    subscriptionStartDate: json['SubscriptionStartDate'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    subnetId: json['SubnetId'] as String?,
+    subscriptionEndDate: json['SubscriptionEndDate'] as String?,
+    subscriptionStartDate: json['SubscriptionStartDate'] as String?,
     subscriptionType: _$enumDecodeNullable(
         _$SubscriptionTypeEnumMap, json['SubscriptionType']),
-    vendorName: json['VendorName'] as String,
-    vpcId: json['VpcId'] as String,
+    vendorName: json['VendorName'] as String?,
+    vpcId: json['VpcId'] as String?,
   );
 }
 
@@ -168,19 +175,19 @@ const _$SubscriptionTypeEnumMap = {
 DescribeLunaClientResponse _$DescribeLunaClientResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLunaClientResponse(
-    certificate: json['Certificate'] as String,
-    certificateFingerprint: json['CertificateFingerprint'] as String,
-    clientArn: json['ClientArn'] as String,
-    label: json['Label'] as String,
-    lastModifiedTimestamp: json['LastModifiedTimestamp'] as String,
+    certificate: json['Certificate'] as String?,
+    certificateFingerprint: json['CertificateFingerprint'] as String?,
+    clientArn: json['ClientArn'] as String?,
+    label: json['Label'] as String?,
+    lastModifiedTimestamp: json['LastModifiedTimestamp'] as String?,
   );
 }
 
 GetConfigResponse _$GetConfigResponseFromJson(Map<String, dynamic> json) {
   return GetConfigResponse(
-    configCred: json['ConfigCred'] as String,
-    configFile: json['ConfigFile'] as String,
-    configType: json['ConfigType'] as String,
+    configCred: json['ConfigCred'] as String?,
+    configFile: json['ConfigFile'] as String?,
+    configType: json['ConfigType'] as String?,
   );
 }
 
@@ -192,57 +199,61 @@ InvalidRequestException _$InvalidRequestExceptionFromJson(
 ListAvailableZonesResponse _$ListAvailableZonesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAvailableZonesResponse(
-    aZList: (json['AZList'] as List)?.map((e) => e as String)?.toList(),
+    aZList:
+        (json['AZList'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ListHapgsResponse _$ListHapgsResponseFromJson(Map<String, dynamic> json) {
   return ListHapgsResponse(
-    hapgList: (json['HapgList'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    hapgList:
+        (json['HapgList'] as List<dynamic>).map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListHsmsResponse _$ListHsmsResponseFromJson(Map<String, dynamic> json) {
   return ListHsmsResponse(
-    hsmList: (json['HsmList'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    hsmList:
+        (json['HsmList'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListLunaClientsResponse _$ListLunaClientsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLunaClientsResponse(
-    clientList: (json['ClientList'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    clientList:
+        (json['ClientList'] as List<dynamic>).map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>)
+        .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ModifyHapgResponse _$ModifyHapgResponseFromJson(Map<String, dynamic> json) {
   return ModifyHapgResponse(
-    hapgArn: json['HapgArn'] as String,
+    hapgArn: json['HapgArn'] as String?,
   );
 }
 
 ModifyHsmResponse _$ModifyHsmResponseFromJson(Map<String, dynamic> json) {
   return ModifyHsmResponse(
-    hsmArn: json['HsmArn'] as String,
+    hsmArn: json['HsmArn'] as String?,
   );
 }
 
 ModifyLunaClientResponse _$ModifyLunaClientResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyLunaClientResponse(
-    clientArn: json['ClientArn'] as String,
+    clientArn: json['ClientArn'] as String?,
   );
 }
 
@@ -260,16 +271,7 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };

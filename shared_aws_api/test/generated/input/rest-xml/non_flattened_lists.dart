@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class NonFlattenedLists {
   final _s.RestXmlProtocol _protocol;
   NonFlattenedLists({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +37,7 @@ class NonFlattenedLists {
         );
 
   Future<void> operationName0({
-    List<String> listParam,
+    List<String>? listParam,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -49,12 +54,13 @@ class NonFlattenedLists {
 }
 
 class InputShape {
-  final List<String> listParam;
+  final List<String>? listParam;
 
   InputShape({
     this.listParam,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final listParam = this.listParam;
     final $children = <_s.XmlNode>[
       if (listParam != null)
         _s.XmlElement(_s.XmlName('ListParam'), [],
@@ -66,7 +72,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'accessanalyzer-2019-11-01.g.dart';
 
 /// AWS IAM Access Analyzer helps identify potential resource-access risks by
 /// enabling you to identify any policies that grant access to an external
@@ -41,10 +33,10 @@ part 'accessanalyzer-2019-11-01.g.dart';
 class AccessAnalyzer {
   final _s.RestJsonProtocol _protocol;
   AccessAnalyzer({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,9 +66,9 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   Future<void> applyArchiveRule({
-    @_s.required String analyzerArn,
-    @_s.required String ruleName,
-    String clientToken,
+    required String analyzerArn,
+    required String ruleName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -139,11 +131,11 @@ class AccessAnalyzer {
   /// Parameter [tags] :
   /// The tags to apply to the analyzer.
   Future<CreateAnalyzerResponse> createAnalyzer({
-    @_s.required String analyzerName,
-    @_s.required Type type,
-    List<InlineArchiveRule> archiveRules,
-    String clientToken,
-    Map<String, String> tags,
+    required String analyzerName,
+    required Type type,
+    List<InlineArchiveRule>? archiveRules,
+    String? clientToken,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -162,7 +154,7 @@ class AccessAnalyzer {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (archiveRules != null) 'archiveRules': archiveRules,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
@@ -200,10 +192,10 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   Future<void> createArchiveRule({
-    @_s.required String analyzerName,
-    @_s.required Map<String, Criterion> filter,
-    @_s.required String ruleName,
-    String clientToken,
+    required String analyzerName,
+    required Map<String, Criterion> filter,
+    required String ruleName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -264,8 +256,8 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   Future<void> deleteAnalyzer({
-    @_s.required String analyzerName,
-    String clientToken,
+    required String analyzerName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -310,9 +302,9 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   Future<void> deleteArchiveRule({
-    @_s.required String analyzerName,
-    @_s.required String ruleName,
-    String clientToken,
+    required String analyzerName,
+    required String ruleName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -369,8 +361,8 @@ class AccessAnalyzer {
   /// Parameter [resourceArn] :
   /// The ARN of the resource to retrieve information about.
   Future<GetAnalyzedResourceResponse> getAnalyzedResource({
-    @_s.required String analyzerArn,
-    @_s.required String resourceArn,
+    required String analyzerArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -387,8 +379,8 @@ class AccessAnalyzer {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (analyzerArn != null) 'analyzerArn': [analyzerArn],
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'analyzerArn': [analyzerArn],
+      'resourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -411,7 +403,7 @@ class AccessAnalyzer {
   /// Parameter [analyzerName] :
   /// The name of the analyzer retrieved.
   Future<GetAnalyzerResponse> getAnalyzer({
-    @_s.required String analyzerName,
+    required String analyzerName,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -455,8 +447,8 @@ class AccessAnalyzer {
   /// Parameter [ruleName] :
   /// The name of the rule to retrieve.
   Future<GetArchiveRuleResponse> getArchiveRule({
-    @_s.required String analyzerName,
-    @_s.required String ruleName,
+    required String analyzerName,
+    required String ruleName,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -510,8 +502,8 @@ class AccessAnalyzer {
   /// Parameter [id] :
   /// The ID of the finding to retrieve.
   Future<GetFindingResponse> getFinding({
-    @_s.required String analyzerArn,
-    @_s.required String id,
+    required String analyzerArn,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -522,7 +514,7 @@ class AccessAnalyzer {
     );
     ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
-      if (analyzerArn != null) 'analyzerArn': [analyzerArn],
+      'analyzerArn': [analyzerArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -555,10 +547,10 @@ class AccessAnalyzer {
   /// Parameter [resourceType] :
   /// The type of resource.
   Future<ListAnalyzedResourcesResponse> listAnalyzedResources({
-    @_s.required String analyzerArn,
-    int maxResults,
-    String nextToken,
-    ResourceType resourceType,
+    required String analyzerArn,
+    int? maxResults,
+    String? nextToken,
+    ResourceType? resourceType,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -598,9 +590,9 @@ class AccessAnalyzer {
   /// Parameter [type] :
   /// The type of analyzer.
   Future<ListAnalyzersResponse> listAnalyzers({
-    int maxResults,
-    String nextToken,
-    Type type,
+    int? maxResults,
+    String? nextToken,
+    Type? type,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -633,9 +625,9 @@ class AccessAnalyzer {
   /// Parameter [nextToken] :
   /// A token used for pagination of results returned.
   Future<ListArchiveRulesResponse> listArchiveRules({
-    @_s.required String analyzerName,
-    int maxResults,
-    String nextToken,
+    required String analyzerName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -693,11 +685,11 @@ class AccessAnalyzer {
   /// Parameter [sort] :
   /// The sort order for the findings returned.
   Future<ListFindingsResponse> listFindings({
-    @_s.required String analyzerArn,
-    Map<String, Criterion> filter,
-    int maxResults,
-    String nextToken,
-    SortCriteria sort,
+    required String analyzerArn,
+    Map<String, Criterion>? filter,
+    int? maxResults,
+    String? nextToken,
+    SortCriteria? sort,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -733,7 +725,7 @@ class AccessAnalyzer {
   /// Parameter [resourceArn] :
   /// The ARN of the resource to retrieve tags from.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -761,8 +753,8 @@ class AccessAnalyzer {
   /// Parameter [resourceArn] :
   /// The ARN of the resource to scan.
   Future<void> startResourceScan({
-    @_s.required String analyzerArn,
-    @_s.required String resourceArn,
+    required String analyzerArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -804,8 +796,8 @@ class AccessAnalyzer {
   /// Parameter [tags] :
   /// The tags to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -818,7 +810,6 @@ class AccessAnalyzer {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes a tag from the specified resource.
@@ -835,13 +826,13 @@ class AccessAnalyzer {
   /// Parameter [tagKeys] :
   /// The key for the tag to add.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -850,7 +841,6 @@ class AccessAnalyzer {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the criteria and values for the specified archive rule.
@@ -874,10 +864,10 @@ class AccessAnalyzer {
   /// Parameter [clientToken] :
   /// A client token.
   Future<void> updateArchiveRule({
-    @_s.required String analyzerName,
-    @_s.required Map<String, Criterion> filter,
-    @_s.required String ruleName,
-    String clientToken,
+    required String analyzerName,
+    required Map<String, Criterion> filter,
+    required String ruleName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerName, 'analyzerName');
     _s.validateStringLength(
@@ -947,11 +937,11 @@ class AccessAnalyzer {
   /// Parameter [resourceArn] :
   /// The ARN of the resource identified in the finding.
   Future<void> updateFindings({
-    @_s.required String analyzerArn,
-    @_s.required FindingStatusUpdate status,
-    String clientToken,
-    List<String> ids,
-    String resourceArn,
+    required String analyzerArn,
+    required FindingStatusUpdate status,
+    String? clientToken,
+    List<String>? ids,
+    String? resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     _s.validateStringPattern(
@@ -968,7 +958,7 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
-      'status': status?.toValue() ?? '',
+      'status': status.toValue(),
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (ids != null) 'ids': ids,
       if (resourceArn != null) 'resourceArn': resourceArn,
@@ -983,136 +973,151 @@ class AccessAnalyzer {
 }
 
 /// Contains details about the analyzed resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AnalyzedResource {
   /// The time at which the resource was analyzed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The time at which the finding was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// Indicates whether the policy that generated the finding grants public access
   /// to the resource.
-  @_s.JsonKey(name: 'isPublic')
   final bool isPublic;
 
   /// The ARN of the resource that was analyzed.
-  @_s.JsonKey(name: 'resourceArn')
   final String resourceArn;
 
   /// The AWS account ID that owns the resource.
-  @_s.JsonKey(name: 'resourceOwnerAccount')
   final String resourceOwnerAccount;
 
   /// The type of the resource that was analyzed.
-  @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
   /// The time at which the finding was updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The actions that an external principal is granted permission to use by the
   /// policy that generated the finding.
-  @_s.JsonKey(name: 'actions')
-  final List<String> actions;
+  final List<String>? actions;
 
   /// An error message.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  final String? error;
 
   /// Indicates how the access that generated the finding is granted. This is
   /// populated for Amazon S3 bucket findings.
-  @_s.JsonKey(name: 'sharedVia')
-  final List<String> sharedVia;
+  final List<String>? sharedVia;
 
   /// The current status of the finding generated from the analyzed resource.
-  @_s.JsonKey(name: 'status')
-  final FindingStatus status;
+  final FindingStatus? status;
 
   AnalyzedResource({
-    @_s.required this.analyzedAt,
-    @_s.required this.createdAt,
-    @_s.required this.isPublic,
-    @_s.required this.resourceArn,
-    @_s.required this.resourceOwnerAccount,
-    @_s.required this.resourceType,
-    @_s.required this.updatedAt,
+    required this.analyzedAt,
+    required this.createdAt,
+    required this.isPublic,
+    required this.resourceArn,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
+    required this.updatedAt,
     this.actions,
     this.error,
     this.sharedVia,
     this.status,
   });
-  factory AnalyzedResource.fromJson(Map<String, dynamic> json) =>
-      _$AnalyzedResourceFromJson(json);
+  factory AnalyzedResource.fromJson(Map<String, dynamic> json) {
+    return AnalyzedResource(
+      analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      isPublic: json['isPublic'] as bool,
+      resourceArn: json['resourceArn'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      error: json['error'] as String?,
+      sharedVia: (json['sharedVia'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: (json['status'] as String?)?.toFindingStatus(),
+    );
+  }
 }
 
 /// Contains the ARN of the analyzed resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AnalyzedResourceSummary {
   /// The ARN of the analyzed resource.
-  @_s.JsonKey(name: 'resourceArn')
   final String resourceArn;
 
   /// The AWS account ID that owns the resource.
-  @_s.JsonKey(name: 'resourceOwnerAccount')
   final String resourceOwnerAccount;
 
   /// The type of resource that was analyzed.
-  @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
   AnalyzedResourceSummary({
-    @_s.required this.resourceArn,
-    @_s.required this.resourceOwnerAccount,
-    @_s.required this.resourceType,
+    required this.resourceArn,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
   });
-  factory AnalyzedResourceSummary.fromJson(Map<String, dynamic> json) =>
-      _$AnalyzedResourceSummaryFromJson(json);
+  factory AnalyzedResourceSummary.fromJson(Map<String, dynamic> json) {
+    return AnalyzedResourceSummary(
+      resourceArn: json['resourceArn'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+    );
+  }
 }
 
 enum AnalyzerStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on AnalyzerStatus {
+  String toValue() {
+    switch (this) {
+      case AnalyzerStatus.active:
+        return 'ACTIVE';
+      case AnalyzerStatus.creating:
+        return 'CREATING';
+      case AnalyzerStatus.disabled:
+        return 'DISABLED';
+      case AnalyzerStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AnalyzerStatus toAnalyzerStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return AnalyzerStatus.active;
+      case 'CREATING':
+        return AnalyzerStatus.creating;
+      case 'DISABLED':
+        return AnalyzerStatus.disabled;
+      case 'FAILED':
+        return AnalyzerStatus.failed;
+    }
+    throw Exception('$this is not known in enum AnalyzerStatus');
+  }
+}
+
 /// Contains information about the analyzer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AnalyzerSummary {
   /// The ARN of the analyzer.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// A timestamp for the time at which the analyzer was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the analyzer.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The status of the analyzer. An <code>Active</code> analyzer successfully
@@ -1122,22 +1127,17 @@ class AnalyzerSummary {
   /// generating new findings. The status is <code>Creating</code> when the
   /// analyzer creation is in progress and <code>Failed</code> when the analyzer
   /// creation has failed.
-  @_s.JsonKey(name: 'status')
   final AnalyzerStatus status;
 
   /// The type of analyzer, which corresponds to the zone of trust chosen for the
   /// analyzer.
-  @_s.JsonKey(name: 'type')
   final Type type;
 
   /// The resource that was most recently analyzed by the analyzer.
-  @_s.JsonKey(name: 'lastResourceAnalyzed')
-  final String lastResourceAnalyzed;
+  final String? lastResourceAnalyzed;
 
   /// The time at which the most recently analyzed resource was analyzed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastResourceAnalyzedAt')
-  final DateTime lastResourceAnalyzedAt;
+  final DateTime? lastResourceAnalyzedAt;
 
   /// The <code>statusReason</code> provides more details about the current status
   /// of the analyzer. For example, if the creation for the analyzer fails, a
@@ -1145,103 +1145,99 @@ class AnalyzerSummary {
   /// as the type, this failure can be due to an issue with creating the
   /// service-linked roles required in the member accounts of the AWS
   /// organization.
-  @_s.JsonKey(name: 'statusReason')
-  final StatusReason statusReason;
+  final StatusReason? statusReason;
 
   /// The tags added to the analyzer.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   AnalyzerSummary({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.name,
-    @_s.required this.status,
-    @_s.required this.type,
+    required this.arn,
+    required this.createdAt,
+    required this.name,
+    required this.status,
+    required this.type,
     this.lastResourceAnalyzed,
     this.lastResourceAnalyzedAt,
     this.statusReason,
     this.tags,
   });
-  factory AnalyzerSummary.fromJson(Map<String, dynamic> json) =>
-      _$AnalyzerSummaryFromJson(json);
+  factory AnalyzerSummary.fromJson(Map<String, dynamic> json) {
+    return AnalyzerSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      name: json['name'] as String,
+      status: (json['status'] as String).toAnalyzerStatus(),
+      type: (json['type'] as String).toType(),
+      lastResourceAnalyzed: json['lastResourceAnalyzed'] as String?,
+      lastResourceAnalyzedAt: timeStampFromJson(json['lastResourceAnalyzedAt']),
+      statusReason: json['statusReason'] != null
+          ? StatusReason.fromJson(json['statusReason'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Contains information about an archive rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArchiveRuleSummary {
   /// The time at which the archive rule was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A filter used to define the archive rule.
-  @_s.JsonKey(name: 'filter')
   final Map<String, Criterion> filter;
 
   /// The name of the archive rule.
-  @_s.JsonKey(name: 'ruleName')
   final String ruleName;
 
   /// The time at which the archive rule was last updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   ArchiveRuleSummary({
-    @_s.required this.createdAt,
-    @_s.required this.filter,
-    @_s.required this.ruleName,
-    @_s.required this.updatedAt,
+    required this.createdAt,
+    required this.filter,
+    required this.ruleName,
+    required this.updatedAt,
   });
-  factory ArchiveRuleSummary.fromJson(Map<String, dynamic> json) =>
-      _$ArchiveRuleSummaryFromJson(json);
+  factory ArchiveRuleSummary.fromJson(Map<String, dynamic> json) {
+    return ArchiveRuleSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      filter: (json['filter'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, Criterion.fromJson(e as Map<String, dynamic>))),
+      ruleName: json['ruleName'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+    );
+  }
 }
 
 /// The response to the request to create an analyzer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAnalyzerResponse {
   /// The ARN of the analyzer that was created by the request.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   CreateAnalyzerResponse({
     this.arn,
   });
-  factory CreateAnalyzerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAnalyzerResponseFromJson(json);
+  factory CreateAnalyzerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAnalyzerResponse(
+      arn: json['arn'] as String?,
+    );
+  }
 }
 
 /// The criteria to use in the filter that defines the archive rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Criterion {
   /// A "contains" operator to match for the filter used to create the rule.
-  @_s.JsonKey(name: 'contains')
-  final List<String> contains;
+  final List<String>? contains;
 
   /// An "equals" operator to match for the filter used to create the rule.
-  @_s.JsonKey(name: 'eq')
-  final List<String> eq;
+  final List<String>? eq;
 
   /// An "exists" operator to match for the filter used to create the rule.
-  @_s.JsonKey(name: 'exists')
-  final bool exists;
+  final bool? exists;
 
   /// A "not equals" operator to match for the filter used to create the rule.
-  @_s.JsonKey(name: 'neq')
-  final List<String> neq;
+  final List<String>? neq;
 
   Criterion({
     this.contains,
@@ -1249,90 +1245,94 @@ class Criterion {
     this.exists,
     this.neq,
   });
-  factory Criterion.fromJson(Map<String, dynamic> json) =>
-      _$CriterionFromJson(json);
+  factory Criterion.fromJson(Map<String, dynamic> json) {
+    return Criterion(
+      contains: (json['contains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      eq: (json['eq'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      exists: json['exists'] as bool?,
+      neq: (json['neq'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CriterionToJson(this);
+  Map<String, dynamic> toJson() {
+    final contains = this.contains;
+    final eq = this.eq;
+    final exists = this.exists;
+    final neq = this.neq;
+    return {
+      if (contains != null) 'contains': contains,
+      if (eq != null) 'eq': eq,
+      if (exists != null) 'exists': exists,
+      if (neq != null) 'neq': neq,
+    };
+  }
 }
 
 /// Contains information about a finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Finding {
   /// The time at which the resource was analyzed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The condition in the analyzed policy statement that resulted in a finding.
-  @_s.JsonKey(name: 'condition')
   final Map<String, String> condition;
 
   /// The time at which the finding was generated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the finding.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The AWS account ID that owns the resource.
-  @_s.JsonKey(name: 'resourceOwnerAccount')
   final String resourceOwnerAccount;
 
   /// The type of the resource reported in the finding.
-  @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
   /// The current status of the finding.
-  @_s.JsonKey(name: 'status')
   final FindingStatus status;
 
   /// The time at which the finding was updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The action in the analyzed policy statement that an external principal has
   /// permission to use.
-  @_s.JsonKey(name: 'action')
-  final List<String> action;
+  final List<String>? action;
 
   /// An error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  final String? error;
 
   /// Indicates whether the policy that generated the finding allows public access
   /// to the resource.
-  @_s.JsonKey(name: 'isPublic')
-  final bool isPublic;
+  final bool? isPublic;
 
   /// The external principal that access to a resource within the zone of trust.
-  @_s.JsonKey(name: 'principal')
-  final Map<String, String> principal;
+  final Map<String, String>? principal;
 
   /// The resource that an external principal has access to.
-  @_s.JsonKey(name: 'resource')
-  final String resource;
+  final String? resource;
 
   /// The sources of the finding. This indicates how the access that generated the
   /// finding is granted. It is populated for Amazon S3 bucket findings.
-  @_s.JsonKey(name: 'sources')
-  final List<FindingSource> sources;
+  final List<FindingSource>? sources;
 
   Finding({
-    @_s.required this.analyzedAt,
-    @_s.required this.condition,
-    @_s.required this.createdAt,
-    @_s.required this.id,
-    @_s.required this.resourceOwnerAccount,
-    @_s.required this.resourceType,
-    @_s.required this.status,
-    @_s.required this.updatedAt,
+    required this.analyzedAt,
+    required this.condition,
+    required this.createdAt,
+    required this.id,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
+    required this.status,
+    required this.updatedAt,
     this.action,
     this.error,
     this.isPublic,
@@ -1340,76 +1340,142 @@ class Finding {
     this.resource,
     this.sources,
   });
-  factory Finding.fromJson(Map<String, dynamic> json) =>
-      _$FindingFromJson(json);
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
+      condition: (json['condition'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      status: (json['status'] as String).toFindingStatus(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      action: (json['action'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      error: json['error'] as String?,
+      isPublic: json['isPublic'] as bool?,
+      principal: (json['principal'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resource: json['resource'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The source of the finding. This indicates how the access that generated the
 /// finding is granted. It is populated for Amazon S3 bucket findings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindingSource {
   /// Indicates the type of access that generated the finding.
-  @_s.JsonKey(name: 'type')
   final FindingSourceType type;
 
   /// Includes details about how the access that generated the finding is granted.
   /// This is populated for Amazon S3 bucket findings.
-  @_s.JsonKey(name: 'detail')
-  final FindingSourceDetail detail;
+  final FindingSourceDetail? detail;
 
   FindingSource({
-    @_s.required this.type,
+    required this.type,
     this.detail,
   });
-  factory FindingSource.fromJson(Map<String, dynamic> json) =>
-      _$FindingSourceFromJson(json);
+  factory FindingSource.fromJson(Map<String, dynamic> json) {
+    return FindingSource(
+      type: (json['type'] as String).toFindingSourceType(),
+      detail: json['detail'] != null
+          ? FindingSourceDetail.fromJson(json['detail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Includes details about how the access that generated the finding is granted.
 /// This is populated for Amazon S3 bucket findings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindingSourceDetail {
   /// The ARN of the access point that generated the finding.
-  @_s.JsonKey(name: 'accessPointArn')
-  final String accessPointArn;
+  final String? accessPointArn;
 
   FindingSourceDetail({
     this.accessPointArn,
   });
-  factory FindingSourceDetail.fromJson(Map<String, dynamic> json) =>
-      _$FindingSourceDetailFromJson(json);
+  factory FindingSourceDetail.fromJson(Map<String, dynamic> json) {
+    return FindingSourceDetail(
+      accessPointArn: json['accessPointArn'] as String?,
+    );
+  }
 }
 
 enum FindingSourceType {
-  @_s.JsonValue('POLICY')
   policy,
-  @_s.JsonValue('BUCKET_ACL')
   bucketAcl,
-  @_s.JsonValue('S3_ACCESS_POINT')
   s3AccessPoint,
 }
 
+extension on FindingSourceType {
+  String toValue() {
+    switch (this) {
+      case FindingSourceType.policy:
+        return 'POLICY';
+      case FindingSourceType.bucketAcl:
+        return 'BUCKET_ACL';
+      case FindingSourceType.s3AccessPoint:
+        return 'S3_ACCESS_POINT';
+    }
+  }
+}
+
+extension on String {
+  FindingSourceType toFindingSourceType() {
+    switch (this) {
+      case 'POLICY':
+        return FindingSourceType.policy;
+      case 'BUCKET_ACL':
+        return FindingSourceType.bucketAcl;
+      case 'S3_ACCESS_POINT':
+        return FindingSourceType.s3AccessPoint;
+    }
+    throw Exception('$this is not known in enum FindingSourceType');
+  }
+}
+
 enum FindingStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('ARCHIVED')
   archived,
-  @_s.JsonValue('RESOLVED')
   resolved,
 }
 
+extension on FindingStatus {
+  String toValue() {
+    switch (this) {
+      case FindingStatus.active:
+        return 'ACTIVE';
+      case FindingStatus.archived:
+        return 'ARCHIVED';
+      case FindingStatus.resolved:
+        return 'RESOLVED';
+    }
+  }
+}
+
+extension on String {
+  FindingStatus toFindingStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return FindingStatus.active;
+      case 'ARCHIVED':
+        return FindingStatus.archived;
+      case 'RESOLVED':
+        return FindingStatus.resolved;
+    }
+    throw Exception('$this is not known in enum FindingStatus');
+  }
+}
+
 enum FindingStatusUpdate {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('ARCHIVED')
   archived,
 }
 
@@ -1421,90 +1487,79 @@ extension on FindingStatusUpdate {
       case FindingStatusUpdate.archived:
         return 'ARCHIVED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FindingStatusUpdate toFindingStatusUpdate() {
+    switch (this) {
+      case 'ACTIVE':
+        return FindingStatusUpdate.active;
+      case 'ARCHIVED':
+        return FindingStatusUpdate.archived;
+    }
+    throw Exception('$this is not known in enum FindingStatusUpdate');
   }
 }
 
 /// Contains information about a finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindingSummary {
   /// The time at which the resource-based policy that generated the finding was
   /// analyzed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The condition in the analyzed policy statement that resulted in a finding.
-  @_s.JsonKey(name: 'condition')
   final Map<String, String> condition;
 
   /// The time at which the finding was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the finding.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The AWS account ID that owns the resource.
-  @_s.JsonKey(name: 'resourceOwnerAccount')
   final String resourceOwnerAccount;
 
   /// The type of the resource that the external principal has access to.
-  @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
   /// The status of the finding.
-  @_s.JsonKey(name: 'status')
   final FindingStatus status;
 
   /// The time at which the finding was most recently updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The action in the analyzed policy statement that an external principal has
   /// permission to use.
-  @_s.JsonKey(name: 'action')
-  final List<String> action;
+  final List<String>? action;
 
   /// The error that resulted in an Error finding.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  final String? error;
 
   /// Indicates whether the finding reports a resource that has a policy that
   /// allows public access.
-  @_s.JsonKey(name: 'isPublic')
-  final bool isPublic;
+  final bool? isPublic;
 
   /// The external principal that has access to a resource within the zone of
   /// trust.
-  @_s.JsonKey(name: 'principal')
-  final Map<String, String> principal;
+  final Map<String, String>? principal;
 
   /// The resource that the external principal has access to.
-  @_s.JsonKey(name: 'resource')
-  final String resource;
+  final String? resource;
 
   /// The sources of the finding. This indicates how the access that generated the
   /// finding is granted. It is populated for Amazon S3 bucket findings.
-  @_s.JsonKey(name: 'sources')
-  final List<FindingSource> sources;
+  final List<FindingSource>? sources;
 
   FindingSummary({
-    @_s.required this.analyzedAt,
-    @_s.required this.condition,
-    @_s.required this.createdAt,
-    @_s.required this.id,
-    @_s.required this.resourceOwnerAccount,
-    @_s.required this.resourceType,
-    @_s.required this.status,
-    @_s.required this.updatedAt,
+    required this.analyzedAt,
+    required this.condition,
+    required this.createdAt,
+    required this.id,
+    required this.resourceOwnerAccount,
+    required this.resourceType,
+    required this.status,
+    required this.updatedAt,
     this.action,
     this.error,
     this.isPublic,
@@ -1512,247 +1567,306 @@ class FindingSummary {
     this.resource,
     this.sources,
   });
-  factory FindingSummary.fromJson(Map<String, dynamic> json) =>
-      _$FindingSummaryFromJson(json);
+  factory FindingSummary.fromJson(Map<String, dynamic> json) {
+    return FindingSummary(
+      analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
+      condition: (json['condition'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      resourceOwnerAccount: json['resourceOwnerAccount'] as String,
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      status: (json['status'] as String).toFindingStatus(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      action: (json['action'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      error: json['error'] as String?,
+      isPublic: json['isPublic'] as bool?,
+      principal: (json['principal'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resource: json['resource'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAnalyzedResourceResponse {
   /// An <code>AnalyedResource</code> object that contains information that Access
   /// Analyzer found when it analyzed the resource.
-  @_s.JsonKey(name: 'resource')
-  final AnalyzedResource resource;
+  final AnalyzedResource? resource;
 
   GetAnalyzedResourceResponse({
     this.resource,
   });
-  factory GetAnalyzedResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAnalyzedResourceResponseFromJson(json);
+  factory GetAnalyzedResourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetAnalyzedResourceResponse(
+      resource: json['resource'] != null
+          ? AnalyzedResource.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAnalyzerResponse {
   /// An <code>AnalyzerSummary</code> object that contains information about the
   /// analyzer.
-  @_s.JsonKey(name: 'analyzer')
   final AnalyzerSummary analyzer;
 
   GetAnalyzerResponse({
-    @_s.required this.analyzer,
+    required this.analyzer,
   });
-  factory GetAnalyzerResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAnalyzerResponseFromJson(json);
+  factory GetAnalyzerResponse.fromJson(Map<String, dynamic> json) {
+    return GetAnalyzerResponse(
+      analyzer:
+          AnalyzerSummary.fromJson(json['analyzer'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetArchiveRuleResponse {
-  @_s.JsonKey(name: 'archiveRule')
   final ArchiveRuleSummary archiveRule;
 
   GetArchiveRuleResponse({
-    @_s.required this.archiveRule,
+    required this.archiveRule,
   });
-  factory GetArchiveRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetArchiveRuleResponseFromJson(json);
+  factory GetArchiveRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetArchiveRuleResponse(
+      archiveRule: ArchiveRuleSummary.fromJson(
+          json['archiveRule'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFindingResponse {
   /// A <code>finding</code> object that contains finding details.
-  @_s.JsonKey(name: 'finding')
-  final Finding finding;
+  final Finding? finding;
 
   GetFindingResponse({
     this.finding,
   });
-  factory GetFindingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFindingResponseFromJson(json);
+  factory GetFindingResponse.fromJson(Map<String, dynamic> json) {
+    return GetFindingResponse(
+      finding: json['finding'] != null
+          ? Finding.fromJson(json['finding'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An criterion statement in an archive rule. Each archive rule may have
 /// multiple criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InlineArchiveRule {
   /// The condition and values for a criterion.
-  @_s.JsonKey(name: 'filter')
   final Map<String, Criterion> filter;
 
   /// The name of the rule.
-  @_s.JsonKey(name: 'ruleName')
   final String ruleName;
 
   InlineArchiveRule({
-    @_s.required this.filter,
-    @_s.required this.ruleName,
+    required this.filter,
+    required this.ruleName,
   });
-  Map<String, dynamic> toJson() => _$InlineArchiveRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final ruleName = this.ruleName;
+    return {
+      'filter': filter,
+      'ruleName': ruleName,
+    };
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAnalyzedResourcesResponse {
   /// A list of resources that were analyzed.
-  @_s.JsonKey(name: 'analyzedResources')
   final List<AnalyzedResourceSummary> analyzedResources;
 
   /// A token used for pagination of results returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAnalyzedResourcesResponse({
-    @_s.required this.analyzedResources,
+    required this.analyzedResources,
     this.nextToken,
   });
-  factory ListAnalyzedResourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAnalyzedResourcesResponseFromJson(json);
+  factory ListAnalyzedResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAnalyzedResourcesResponse(
+      analyzedResources: (json['analyzedResources'] as List)
+          .whereNotNull()
+          .map((e) =>
+              AnalyzedResourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAnalyzersResponse {
   /// The analyzers retrieved.
-  @_s.JsonKey(name: 'analyzers')
   final List<AnalyzerSummary> analyzers;
 
   /// A token used for pagination of results returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAnalyzersResponse({
-    @_s.required this.analyzers,
+    required this.analyzers,
     this.nextToken,
   });
-  factory ListAnalyzersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAnalyzersResponseFromJson(json);
+  factory ListAnalyzersResponse.fromJson(Map<String, dynamic> json) {
+    return ListAnalyzersResponse(
+      analyzers: (json['analyzers'] as List)
+          .whereNotNull()
+          .map((e) => AnalyzerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListArchiveRulesResponse {
   /// A list of archive rules created for the specified analyzer.
-  @_s.JsonKey(name: 'archiveRules')
   final List<ArchiveRuleSummary> archiveRules;
 
   /// A token used for pagination of results returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListArchiveRulesResponse({
-    @_s.required this.archiveRules,
+    required this.archiveRules,
     this.nextToken,
   });
-  factory ListArchiveRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListArchiveRulesResponseFromJson(json);
+  factory ListArchiveRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListArchiveRulesResponse(
+      archiveRules: (json['archiveRules'] as List)
+          .whereNotNull()
+          .map((e) => ArchiveRuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFindingsResponse {
   /// A list of findings retrieved from the analyzer that match the filter
   /// criteria specified, if any.
-  @_s.JsonKey(name: 'findings')
   final List<FindingSummary> findings;
 
   /// A token used for pagination of results returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFindingsResponse({
-    @_s.required this.findings,
+    required this.findings,
     this.nextToken,
   });
-  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFindingsResponseFromJson(json);
+  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFindingsResponse(
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => FindingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags that are applied to the specified resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum OrderBy {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
 }
 
+extension on OrderBy {
+  String toValue() {
+    switch (this) {
+      case OrderBy.asc:
+        return 'ASC';
+      case OrderBy.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension on String {
+  OrderBy toOrderBy() {
+    switch (this) {
+      case 'ASC':
+        return OrderBy.asc;
+      case 'DESC':
+        return OrderBy.desc;
+    }
+    throw Exception('$this is not known in enum OrderBy');
+  }
+}
+
 enum ReasonCode {
-  @_s.JsonValue('AWS_SERVICE_ACCESS_DISABLED')
   awsServiceAccessDisabled,
-  @_s.JsonValue('DELEGATED_ADMINISTRATOR_DEREGISTERED')
   delegatedAdministratorDeregistered,
-  @_s.JsonValue('ORGANIZATION_DELETED')
   organizationDeleted,
-  @_s.JsonValue('SERVICE_LINKED_ROLE_CREATION_FAILED')
   serviceLinkedRoleCreationFailed,
 }
 
+extension on ReasonCode {
+  String toValue() {
+    switch (this) {
+      case ReasonCode.awsServiceAccessDisabled:
+        return 'AWS_SERVICE_ACCESS_DISABLED';
+      case ReasonCode.delegatedAdministratorDeregistered:
+        return 'DELEGATED_ADMINISTRATOR_DEREGISTERED';
+      case ReasonCode.organizationDeleted:
+        return 'ORGANIZATION_DELETED';
+      case ReasonCode.serviceLinkedRoleCreationFailed:
+        return 'SERVICE_LINKED_ROLE_CREATION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ReasonCode toReasonCode() {
+    switch (this) {
+      case 'AWS_SERVICE_ACCESS_DISABLED':
+        return ReasonCode.awsServiceAccessDisabled;
+      case 'DELEGATED_ADMINISTRATOR_DEREGISTERED':
+        return ReasonCode.delegatedAdministratorDeregistered;
+      case 'ORGANIZATION_DELETED':
+        return ReasonCode.organizationDeleted;
+      case 'SERVICE_LINKED_ROLE_CREATION_FAILED':
+        return ReasonCode.serviceLinkedRoleCreationFailed;
+    }
+    throw Exception('$this is not known in enum ReasonCode');
+  }
+}
+
 enum ResourceType {
-  @_s.JsonValue('AWS::S3::Bucket')
   awsS3Bucket,
-  @_s.JsonValue('AWS::IAM::Role')
   awsIamRole,
-  @_s.JsonValue('AWS::SQS::Queue')
   awsSqsQueue,
-  @_s.JsonValue('AWS::Lambda::Function')
   awsLambdaFunction,
-  @_s.JsonValue('AWS::Lambda::LayerVersion')
   awsLambdaLayerVersion,
-  @_s.JsonValue('AWS::KMS::Key')
   awsKmsKey,
 }
 
@@ -1772,30 +1886,49 @@ extension on ResourceType {
       case ResourceType.awsKmsKey:
         return 'AWS::KMS::Key';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'AWS::S3::Bucket':
+        return ResourceType.awsS3Bucket;
+      case 'AWS::IAM::Role':
+        return ResourceType.awsIamRole;
+      case 'AWS::SQS::Queue':
+        return ResourceType.awsSqsQueue;
+      case 'AWS::Lambda::Function':
+        return ResourceType.awsLambdaFunction;
+      case 'AWS::Lambda::LayerVersion':
+        return ResourceType.awsLambdaLayerVersion;
+      case 'AWS::KMS::Key':
+        return ResourceType.awsKmsKey;
+    }
+    throw Exception('$this is not known in enum ResourceType');
   }
 }
 
 /// The criteria used to sort.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SortCriteria {
   /// The name of the attribute to sort on.
-  @_s.JsonKey(name: 'attributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The sort order, ascending or descending.
-  @_s.JsonKey(name: 'orderBy')
-  final OrderBy orderBy;
+  final OrderBy? orderBy;
 
   SortCriteria({
     this.attributeName,
     this.orderBy,
   });
-  Map<String, dynamic> toJson() => _$SortCriteriaToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final orderBy = this.orderBy;
+    return {
+      if (attributeName != null) 'attributeName': attributeName,
+      if (orderBy != null) 'orderBy': orderBy.toValue(),
+    };
+  }
 }
 
 /// Provides more details about the current status of the analyzer. For example,
@@ -1803,39 +1936,30 @@ class SortCriteria {
 /// displayed. For an analyzer with organization as the type, this failure can
 /// be due to an issue with creating the service-linked roles required in the
 /// member accounts of the AWS organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StatusReason {
   /// The reason code for the current status of the analyzer.
-  @_s.JsonKey(name: 'code')
   final ReasonCode code;
 
   StatusReason({
-    @_s.required this.code,
+    required this.code,
   });
-  factory StatusReason.fromJson(Map<String, dynamic> json) =>
-      _$StatusReasonFromJson(json);
+  factory StatusReason.fromJson(Map<String, dynamic> json) {
+    return StatusReason(
+      code: (json['code'] as String).toReasonCode(),
+    );
+  }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 enum Type {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATION')
   organization,
 }
 
@@ -1847,44 +1971,51 @@ extension on Type {
       case Type.organization:
         return 'ORGANIZATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return Type.account;
+      case 'ORGANIZATION':
+        return Type.organization;
+    }
+    throw Exception('$this is not known in enum Type');
   }
 }
 
 /// The response to the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1892,12 +2023,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

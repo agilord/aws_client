@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'sqs-2012-11-05.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sqs-2012-11-05.g.dart';
 
 /// Welcome to the <i>Amazon Simple Queue Service API Reference</i>.
 ///
@@ -101,9 +93,9 @@ class SQS {
   final Map<String, _s.Shape> shapes;
 
   SQS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -199,10 +191,10 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> addPermission({
-    @_s.required List<String> awsAccountIds,
-    @_s.required List<String> actions,
-    @_s.required String label,
-    @_s.required String queueUrl,
+    required List<String> awsAccountIds,
+    required List<String> actions,
+    required String label,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(awsAccountIds, 'awsAccountIds');
     ArgumentError.checkNotNull(actions, 'actions');
@@ -306,9 +298,9 @@ class SQS {
   /// The new value for the message's visibility timeout (in seconds). Values
   /// range: <code>0</code> to <code>43200</code>. Maximum: 12 hours.
   Future<void> changeMessageVisibility({
-    @_s.required String queueUrl,
-    @_s.required String receiptHandle,
-    @_s.required int visibilityTimeout,
+    required String queueUrl,
+    required String receiptHandle,
+    required int visibilityTimeout,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
@@ -362,8 +354,8 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<ChangeMessageVisibilityBatchResult> changeMessageVisibilityBatch({
-    @_s.required List<ChangeMessageVisibilityBatchRequestEntry> entries,
-    @_s.required String queueUrl,
+    required List<ChangeMessageVisibilityBatchRequestEntry> entries,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -731,9 +723,9 @@ class SQS {
   /// Simple Queue Service Developer Guide</i>.
   /// </note>
   Future<CreateQueueResult> createQueue({
-    @_s.required String queueName,
-    Map<QueueAttributeName, String> attributes,
-    Map<String, String> tags,
+    required String queueName,
+    Map<QueueAttributeName, String>? attributes,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
@@ -790,8 +782,8 @@ class SQS {
   /// Parameter [receiptHandle] :
   /// The receipt handle associated with the message to delete.
   Future<void> deleteMessage({
-    @_s.required String queueUrl,
-    @_s.required String receiptHandle,
+    required String queueUrl,
+    required String receiptHandle,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
@@ -840,8 +832,8 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<DeleteMessageBatchResult> deleteMessageBatch({
-    @_s.required List<DeleteMessageBatchRequestEntry> entries,
-    @_s.required String queueUrl,
+    required List<DeleteMessageBatchRequestEntry> entries,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -889,7 +881,7 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> deleteQueue({
-    @_s.required String queueUrl,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
@@ -1124,14 +1116,14 @@ class SQS {
   /// High throughput for FIFO queues</a> in the <i>Amazon Simple Queue Service
   /// Developer Guide</i>.
   Future<GetQueueAttributesResult> getQueueAttributes({
-    @_s.required String queueUrl,
-    List<QueueAttributeName> attributeNames,
+    required String queueUrl,
+    List<QueueAttributeName>? attributeNames,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     final $result = await _protocol.send(
       $request,
       action: 'GetQueueAttributes',
@@ -1169,8 +1161,8 @@ class SQS {
   /// Parameter [queueOwnerAWSAccountId] :
   /// The AWS account ID of the account that created the queue.
   Future<GetQueueUrlResult> getQueueUrl({
-    @_s.required String queueName,
-    String queueOwnerAWSAccountId,
+    required String queueName,
+    String? queueOwnerAWSAccountId,
   }) async {
     ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
@@ -1224,9 +1216,9 @@ class SQS {
   /// Parameter [nextToken] :
   /// Pagination token to request the next set of results.
   Future<ListDeadLetterSourceQueuesResult> listDeadLetterSourceQueues({
-    @_s.required String queueUrl,
-    int maxResults,
-    String nextToken,
+    required String queueUrl,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
@@ -1263,7 +1255,7 @@ class SQS {
   /// Parameter [queueUrl] :
   /// The URL of the queue.
   Future<ListQueueTagsResult> listQueueTags({
-    @_s.required String queueUrl,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
@@ -1317,9 +1309,9 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<ListQueuesResult> listQueues({
-    int maxResults,
-    String nextToken,
-    String queueNamePrefix,
+    int? maxResults,
+    String? nextToken,
+    String? queueNamePrefix,
   }) async {
     final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -1363,7 +1355,7 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> purgeQueue({
-    @_s.required String queueUrl,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
@@ -1633,19 +1625,19 @@ class SQS {
   /// ApacheHttpClient</a> for synchronous clients.
   /// </important>
   Future<ReceiveMessageResult> receiveMessage({
-    @_s.required String queueUrl,
-    List<QueueAttributeName> attributeNames,
-    int maxNumberOfMessages,
-    List<String> messageAttributeNames,
-    String receiveRequestAttemptId,
-    int visibilityTimeout,
-    int waitTimeSeconds,
+    required String queueUrl,
+    List<QueueAttributeName>? attributeNames,
+    int? maxNumberOfMessages,
+    List<String>? messageAttributeNames,
+    String? receiveRequestAttemptId,
+    int? visibilityTimeout,
+    int? waitTimeSeconds,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     maxNumberOfMessages?.also((arg) => $request['MaxNumberOfMessages'] = arg);
     messageAttributeNames
         ?.also((arg) => $request['MessageAttributeNames'] = arg);
@@ -1698,8 +1690,8 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> removePermission({
-    @_s.required String label,
-    @_s.required String queueUrl,
+    required String label,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -1898,13 +1890,13 @@ class SQS {
   /// </li>
   /// </ul> </important>
   Future<SendMessageResult> sendMessage({
-    @_s.required String messageBody,
-    @_s.required String queueUrl,
-    int delaySeconds,
-    Map<String, MessageAttributeValue> messageAttributes,
-    String messageDeduplicationId,
-    String messageGroupId,
-    Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>
+    required String messageBody,
+    required String queueUrl,
+    int? delaySeconds,
+    Map<String, MessageAttributeValue>? messageAttributes,
+    String? messageDeduplicationId,
+    String? messageGroupId,
+    Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
         messageSystemAttributes,
   }) async {
     ArgumentError.checkNotNull(messageBody, 'messageBody');
@@ -1984,8 +1976,8 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<SendMessageBatchResult> sendMessageBatch({
-    @_s.required List<SendMessageBatchRequestEntry> entries,
-    @_s.required String queueUrl,
+    required List<SendMessageBatchRequestEntry> entries,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -2250,8 +2242,8 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> setQueueAttributes({
-    @_s.required Map<QueueAttributeName, String> attributes,
-    @_s.required String queueUrl,
+    required Map<QueueAttributeName, String> attributes,
+    required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -2312,8 +2304,8 @@ class SQS {
   /// Parameter [tags] :
   /// The list of tags to be added to the specified queue.
   Future<void> tagQueue({
-    @_s.required String queueUrl,
-    @_s.required Map<String, String> tags,
+    required String queueUrl,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2351,8 +2343,8 @@ class SQS {
   /// Parameter [tagKeys] :
   /// The list of tags to be removed from the specified queue.
   Future<void> untagQueue({
-    @_s.required String queueUrl,
-    @_s.required List<String> tagKeys,
+    required String queueUrl,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2386,19 +2378,19 @@ class BatchResultErrorEntry {
   final bool senderFault;
 
   /// A message explaining why the action failed on this entry.
-  final String message;
+  final String? message;
 
   BatchResultErrorEntry({
-    @_s.required this.code,
-    @_s.required this.id,
-    @_s.required this.senderFault,
+    required this.code,
+    required this.id,
+    required this.senderFault,
     this.message,
   });
   factory BatchResultErrorEntry.fromXml(_s.XmlElement elem) {
     return BatchResultErrorEntry(
-      code: _s.extractXmlStringValue(elem, 'Code'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      senderFault: _s.extractXmlBoolValue(elem, 'SenderFault'),
+      code: _s.extractXmlStringValue(elem, 'Code')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      senderFault: _s.extractXmlBoolValue(elem, 'SenderFault')!,
       message: _s.extractXmlStringValue(elem, 'Message'),
     );
   }
@@ -2417,11 +2409,6 @@ class BatchResultErrorEntry {
 /// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle</code>
 ///
 /// <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ChangeMessageVisibilityBatchRequestEntry {
   /// An identifier for this particular receipt handle used to communicate the
   /// result.
@@ -2431,24 +2418,29 @@ class ChangeMessageVisibilityBatchRequestEntry {
   /// This identifier can have up to 80 characters. The following characters are
   /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
   /// </note>
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// A receipt handle.
-  @_s.JsonKey(name: 'ReceiptHandle')
   final String receiptHandle;
 
   /// The new value (in seconds) for the message's visibility timeout.
-  @_s.JsonKey(name: 'VisibilityTimeout')
-  final int visibilityTimeout;
+  final int? visibilityTimeout;
 
   ChangeMessageVisibilityBatchRequestEntry({
-    @_s.required this.id,
-    @_s.required this.receiptHandle,
+    required this.id,
+    required this.receiptHandle,
     this.visibilityTimeout,
   });
-  Map<String, dynamic> toJson() =>
-      _$ChangeMessageVisibilityBatchRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final receiptHandle = this.receiptHandle;
+    final visibilityTimeout = this.visibilityTimeout;
+    return {
+      'Id': id,
+      'ReceiptHandle': receiptHandle,
+      if (visibilityTimeout != null) 'VisibilityTimeout': visibilityTimeout,
+    };
+  }
 }
 
 /// For each message in the batch, the response contains a <code>
@@ -2464,8 +2456,8 @@ class ChangeMessageVisibilityBatchResult {
   final List<ChangeMessageVisibilityBatchResultEntry> successful;
 
   ChangeMessageVisibilityBatchResult({
-    @_s.required this.failed,
-    @_s.required this.successful,
+    required this.failed,
+    required this.successful,
   });
   factory ChangeMessageVisibilityBatchResult.fromXml(_s.XmlElement elem) {
     return ChangeMessageVisibilityBatchResult(
@@ -2488,11 +2480,11 @@ class ChangeMessageVisibilityBatchResultEntry {
   final String id;
 
   ChangeMessageVisibilityBatchResultEntry({
-    @_s.required this.id,
+    required this.id,
   });
   factory ChangeMessageVisibilityBatchResultEntry.fromXml(_s.XmlElement elem) {
     return ChangeMessageVisibilityBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
     );
   }
 }
@@ -2500,7 +2492,7 @@ class ChangeMessageVisibilityBatchResultEntry {
 /// Returns the <code>QueueUrl</code> attribute of the created queue.
 class CreateQueueResult {
   /// The URL of the created Amazon SQS queue.
-  final String queueUrl;
+  final String? queueUrl;
 
   CreateQueueResult({
     this.queueUrl,
@@ -2513,11 +2505,6 @@ class CreateQueueResult {
 }
 
 /// Encloses a receipt handle and an identifier for it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteMessageBatchRequestEntry {
   /// An identifier for this particular receipt handle. This is used to
   /// communicate the result.
@@ -2527,18 +2514,23 @@ class DeleteMessageBatchRequestEntry {
   /// This identifier can have up to 80 characters. The following characters are
   /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
   /// </note>
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// A receipt handle.
-  @_s.JsonKey(name: 'ReceiptHandle')
   final String receiptHandle;
 
   DeleteMessageBatchRequestEntry({
-    @_s.required this.id,
-    @_s.required this.receiptHandle,
+    required this.id,
+    required this.receiptHandle,
   });
-  Map<String, dynamic> toJson() => _$DeleteMessageBatchRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final receiptHandle = this.receiptHandle;
+    return {
+      'Id': id,
+      'ReceiptHandle': receiptHandle,
+    };
+  }
 }
 
 /// For each message in the batch, the response contains a <code>
@@ -2553,8 +2545,8 @@ class DeleteMessageBatchResult {
   final List<DeleteMessageBatchResultEntry> successful;
 
   DeleteMessageBatchResult({
-    @_s.required this.failed,
-    @_s.required this.successful,
+    required this.failed,
+    required this.successful,
   });
   factory DeleteMessageBatchResult.fromXml(_s.XmlElement elem) {
     return DeleteMessageBatchResult(
@@ -2577,11 +2569,11 @@ class DeleteMessageBatchResultEntry {
   final String id;
 
   DeleteMessageBatchResultEntry({
-    @_s.required this.id,
+    required this.id,
   });
   factory DeleteMessageBatchResultEntry.fromXml(_s.XmlElement elem) {
     return DeleteMessageBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
     );
   }
 }
@@ -2589,7 +2581,7 @@ class DeleteMessageBatchResultEntry {
 /// A list of returned queue attributes.
 class GetQueueAttributesResult {
   /// A map of attributes to their respective values.
-  final Map<QueueAttributeName, String> attributes;
+  final Map<QueueAttributeName, String>? attributes;
 
   GetQueueAttributesResult({
     this.attributes,
@@ -2599,8 +2591,8 @@ class GetQueueAttributesResult {
       attributes: Map.fromEntries(
         elem.findElements('Attribute').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name')?.toQueueAttributeName(),
-                _s.extractXmlStringValue(c, 'Value'),
+                _s.extractXmlStringValue(c, 'Name')!.toQueueAttributeName(),
+                _s.extractXmlStringValue(c, 'Value')!,
               ),
             ),
       ),
@@ -2613,7 +2605,7 @@ class GetQueueAttributesResult {
 /// Responses</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
 class GetQueueUrlResult {
   /// The URL of the queue.
-  final String queueUrl;
+  final String? queueUrl;
 
   GetQueueUrlResult({
     this.queueUrl,
@@ -2634,10 +2626,10 @@ class ListDeadLetterSourceQueuesResult {
   /// Pagination token to include in the next request. Token value is
   /// <code>null</code> if there are no additional results to request, or if you
   /// did not set <code>MaxResults</code> in the request.
-  final String nextToken;
+  final String? nextToken;
 
   ListDeadLetterSourceQueuesResult({
-    @_s.required this.queueUrls,
+    required this.queueUrls,
     this.nextToken,
   });
   factory ListDeadLetterSourceQueuesResult.fromXml(_s.XmlElement elem) {
@@ -2650,7 +2642,7 @@ class ListDeadLetterSourceQueuesResult {
 
 class ListQueueTagsResult {
   /// The list of all tags added to the specified queue.
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListQueueTagsResult({
     this.tags,
@@ -2660,8 +2652,8 @@ class ListQueueTagsResult {
       tags: Map.fromEntries(
         elem.findElements('Tag').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Key'),
-                _s.extractXmlStringValue(c, 'Value'),
+                _s.extractXmlStringValue(c, 'Key')!,
+                _s.extractXmlStringValue(c, 'Value')!,
               ),
             ),
       ),
@@ -2674,11 +2666,11 @@ class ListQueuesResult {
   /// Pagination token to include in the next request. Token value is
   /// <code>null</code> if there are no additional results to request, or if you
   /// did not set <code>MaxResults</code> in the request.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that
   /// you sent in the request.
-  final List<String> queueUrls;
+  final List<String>? queueUrls;
 
   ListQueuesResult({
     this.nextToken,
@@ -2724,36 +2716,36 @@ class Message {
   /// are each returned as an integer representing the <a
   /// href="http://en.wikipedia.org/wiki/Unix_time">epoch time</a> in
   /// milliseconds.
-  final Map<MessageSystemAttributeName, String> attributes;
+  final Map<MessageSystemAttributeName, String>? attributes;
 
   /// The message's contents (not URL-encoded).
-  final String body;
+  final String? body;
 
   /// An MD5 digest of the non-URL-encoded message body string.
-  final String mD5OfBody;
+  final String? mD5OfBody;
 
   /// An MD5 digest of the non-URL-encoded message attribute string. You can use
   /// this attribute to verify that Amazon SQS received the message correctly.
   /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
   /// information about MD5, see <a
   /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageAttributes;
+  final String? mD5OfMessageAttributes;
 
   /// Each message attribute consists of a <code>Name</code>, <code>Type</code>,
   /// and <code>Value</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  final Map<String, MessageAttributeValue> messageAttributes;
+  final Map<String, MessageAttributeValue>? messageAttributes;
 
   /// A unique identifier for the message. A <code>MessageId</code>is considered
   /// unique across all AWS accounts for an extended period of time.
-  final String messageId;
+  final String? messageId;
 
   /// An identifier associated with the act of receiving the message. A new
   /// receipt handle is returned every time you receive a message. When deleting a
   /// message, you provide the last received receipt handle to delete the message.
-  final String receiptHandle;
+  final String? receiptHandle;
 
   Message({
     this.attributes,
@@ -2770,9 +2762,9 @@ class Message {
         elem.findElements('Attribute').map(
               (c) => MapEntry(
                 _s
-                    .extractXmlStringValue(c, 'Name')
-                    ?.toMessageSystemAttributeName(),
-                _s.extractXmlStringValue(c, 'Value'),
+                    .extractXmlStringValue(c, 'Name')!
+                    .toMessageSystemAttributeName(),
+                _s.extractXmlStringValue(c, 'Value')!,
               ),
             ),
       ),
@@ -2783,10 +2775,8 @@ class Message {
       messageAttributes: Map.fromEntries(
         elem.findElements('MessageAttribute').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name'),
-                _s
-                    .extractXmlChild(c, 'Value')
-                    ?.let((e) => MessageAttributeValue.fromXml(e)),
+                _s.extractXmlStringValue(c, 'Name')!,
+                MessageAttributeValue.fromXml(_s.extractXmlChild(c, 'Value')!),
               ),
             ),
       ),
@@ -2804,11 +2794,6 @@ class Message {
 /// body must not be empty or null. All parts of the message attribute,
 /// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
 /// part of the message size restriction (256 KB or 262,144 bytes).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -2818,33 +2803,26 @@ class MessageAttributeValue {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'BinaryListValue')
-  final List<Uint8List> binaryListValues;
+  final List<Uint8List>? binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'BinaryValue')
-  final Uint8List binaryValue;
+  final Uint8List? binaryValue;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'StringListValue')
-  final List<String> stringListValues;
+  final List<String>? stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
   /// see <a
   /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
-  @_s.JsonKey(name: 'StringValue')
-  final String stringValue;
+  final String? stringValue;
 
   MessageAttributeValue({
-    @_s.required this.dataType,
+    required this.dataType,
     this.binaryListValues,
     this.binaryValue,
     this.stringListValues,
@@ -2852,7 +2830,7 @@ class MessageAttributeValue {
   });
   factory MessageAttributeValue.fromXml(_s.XmlElement elem) {
     return MessageAttributeValue(
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
+      dataType: _s.extractXmlStringValue(elem, 'DataType')!,
       binaryListValues:
           _s.extractXmlUint8ListListValues(elem, 'BinaryListValue'),
       binaryValue: _s.extractXmlUint8ListValue(elem, 'BinaryValue'),
@@ -2861,26 +2839,55 @@ class MessageAttributeValue {
     );
   }
 
-  Map<String, dynamic> toJson() => _$MessageAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final binaryListValues = this.binaryListValues;
+    final binaryValue = this.binaryValue;
+    final stringListValues = this.stringListValues;
+    final stringValue = this.stringValue;
+    return {
+      'DataType': dataType,
+      if (binaryListValues != null)
+        'BinaryListValue': binaryListValues.map(base64Encode).toList(),
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (stringListValues != null) 'StringListValue': stringListValues,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
 }
 
 enum MessageSystemAttributeName {
-  @_s.JsonValue('SenderId')
   senderId,
-  @_s.JsonValue('SentTimestamp')
   sentTimestamp,
-  @_s.JsonValue('ApproximateReceiveCount')
   approximateReceiveCount,
-  @_s.JsonValue('ApproximateFirstReceiveTimestamp')
   approximateFirstReceiveTimestamp,
-  @_s.JsonValue('SequenceNumber')
   sequenceNumber,
-  @_s.JsonValue('MessageDeduplicationId')
   messageDeduplicationId,
-  @_s.JsonValue('MessageGroupId')
   messageGroupId,
-  @_s.JsonValue('AWSTraceHeader')
   awsTraceHeader,
+}
+
+extension on MessageSystemAttributeName {
+  String toValue() {
+    switch (this) {
+      case MessageSystemAttributeName.senderId:
+        return 'SenderId';
+      case MessageSystemAttributeName.sentTimestamp:
+        return 'SentTimestamp';
+      case MessageSystemAttributeName.approximateReceiveCount:
+        return 'ApproximateReceiveCount';
+      case MessageSystemAttributeName.approximateFirstReceiveTimestamp:
+        return 'ApproximateFirstReceiveTimestamp';
+      case MessageSystemAttributeName.sequenceNumber:
+        return 'SequenceNumber';
+      case MessageSystemAttributeName.messageDeduplicationId:
+        return 'MessageDeduplicationId';
+      case MessageSystemAttributeName.messageGroupId:
+        return 'MessageGroupId';
+      case MessageSystemAttributeName.awsTraceHeader:
+        return 'AWSTraceHeader';
+    }
+  }
 }
 
 extension on String {
@@ -2903,13 +2910,21 @@ extension on String {
       case 'AWSTraceHeader':
         return MessageSystemAttributeName.awsTraceHeader;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MessageSystemAttributeName');
   }
 }
 
 enum MessageSystemAttributeNameForSends {
-  @_s.JsonValue('AWSTraceHeader')
   awsTraceHeader,
+}
+
+extension on MessageSystemAttributeNameForSends {
+  String toValue() {
+    switch (this) {
+      case MessageSystemAttributeNameForSends.awsTraceHeader:
+        return 'AWSTraceHeader';
+    }
+  }
 }
 
 extension on String {
@@ -2918,7 +2933,8 @@ extension on String {
       case 'AWSTraceHeader':
         return MessageSystemAttributeNameForSends.awsTraceHeader;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum MessageSystemAttributeNameForSends');
   }
 }
 
@@ -2929,11 +2945,6 @@ extension on String {
 ///
 /// <code>Name</code>, <code>type</code>, <code>value</code> and the message
 /// body must not be empty or null.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageSystemAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -2943,81 +2954,68 @@ class MessageSystemAttributeValue {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Not implemented. Reserved for future use.
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'BinaryListValue')
-  final List<Uint8List> binaryListValues;
+  final List<Uint8List>? binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'BinaryValue')
-  final Uint8List binaryValue;
+  final Uint8List? binaryValue;
 
   /// Not implemented. Reserved for future use.
-  @_s.JsonKey(name: 'StringListValue')
-  final List<String> stringListValues;
+  final List<String>? stringListValues;
 
   /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
   /// see <a
   /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
-  @_s.JsonKey(name: 'StringValue')
-  final String stringValue;
+  final String? stringValue;
 
   MessageSystemAttributeValue({
-    @_s.required this.dataType,
+    required this.dataType,
     this.binaryListValues,
     this.binaryValue,
     this.stringListValues,
     this.stringValue,
   });
-  Map<String, dynamic> toJson() => _$MessageSystemAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final binaryListValues = this.binaryListValues;
+    final binaryValue = this.binaryValue;
+    final stringListValues = this.stringListValues;
+    final stringValue = this.stringValue;
+    return {
+      'DataType': dataType,
+      if (binaryListValues != null)
+        'BinaryListValue': binaryListValues.map(base64Encode).toList(),
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (stringListValues != null) 'StringListValue': stringListValues,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
 }
 
 enum QueueAttributeName {
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('Policy')
   policy,
-  @_s.JsonValue('VisibilityTimeout')
   visibilityTimeout,
-  @_s.JsonValue('MaximumMessageSize')
   maximumMessageSize,
-  @_s.JsonValue('MessageRetentionPeriod')
   messageRetentionPeriod,
-  @_s.JsonValue('ApproximateNumberOfMessages')
   approximateNumberOfMessages,
-  @_s.JsonValue('ApproximateNumberOfMessagesNotVisible')
   approximateNumberOfMessagesNotVisible,
-  @_s.JsonValue('CreatedTimestamp')
   createdTimestamp,
-  @_s.JsonValue('LastModifiedTimestamp')
   lastModifiedTimestamp,
-  @_s.JsonValue('QueueArn')
   queueArn,
-  @_s.JsonValue('ApproximateNumberOfMessagesDelayed')
   approximateNumberOfMessagesDelayed,
-  @_s.JsonValue('DelaySeconds')
   delaySeconds,
-  @_s.JsonValue('ReceiveMessageWaitTimeSeconds')
   receiveMessageWaitTimeSeconds,
-  @_s.JsonValue('RedrivePolicy')
   redrivePolicy,
-  @_s.JsonValue('FifoQueue')
   fifoQueue,
-  @_s.JsonValue('ContentBasedDeduplication')
   contentBasedDeduplication,
-  @_s.JsonValue('KmsMasterKeyId')
   kmsMasterKeyId,
-  @_s.JsonValue('KmsDataKeyReusePeriodSeconds')
   kmsDataKeyReusePeriodSeconds,
-  @_s.JsonValue('DeduplicationScope')
   deduplicationScope,
-  @_s.JsonValue('FifoThroughputLimit')
   fifoThroughputLimit,
 }
 
@@ -3065,7 +3063,6 @@ extension on QueueAttributeName {
       case QueueAttributeName.fifoThroughputLimit:
         return 'FifoThroughputLimit';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3113,14 +3110,14 @@ extension on String {
       case 'FifoThroughputLimit':
         return QueueAttributeName.fifoThroughputLimit;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum QueueAttributeName');
   }
 }
 
 /// A list of received messages.
 class ReceiveMessageResult {
   /// A list of messages.
-  final List<Message> messages;
+  final List<Message>? messages;
 
   ReceiveMessageResult({
     this.messages,
@@ -3135,11 +3132,6 @@ class ReceiveMessageResult {
 
 /// Contains the details of a single Amazon SQS message along with an
 /// <code>Id</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SendMessageBatchRequestEntry {
   /// An identifier for a message in this batch used to communicate the result.
   /// <note>
@@ -3148,11 +3140,9 @@ class SendMessageBatchRequestEntry {
   /// This identifier can have up to 80 characters. The following characters are
   /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
   /// </note>
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The body of the message.
-  @_s.JsonKey(name: 'MessageBody')
   final String messageBody;
 
   /// The length of time, in seconds, for which a specific message is delayed.
@@ -3164,16 +3154,14 @@ class SendMessageBatchRequestEntry {
   /// When you set <code>FifoQueue</code>, you can't set <code>DelaySeconds</code>
   /// per message. You can set this parameter only on a queue level.
   /// </note>
-  @_s.JsonKey(name: 'DelaySeconds')
-  final int delaySeconds;
+  final int? delaySeconds;
 
   /// Each message attribute consists of a <code>Name</code>, <code>Type</code>,
   /// and <code>Value</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
   /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'MessageAttribute')
-  final Map<String, MessageAttributeValue> messageAttributes;
+  final Map<String, MessageAttributeValue>? messageAttributes;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -3242,8 +3230,7 @@ class SendMessageBatchRequestEntry {
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
   /// the MessageDeduplicationId Property</a> in the <i>Amazon Simple Queue
   /// Service Developer Guide</i>.
-  @_s.JsonKey(name: 'MessageDeduplicationId')
-  final String messageDeduplicationId;
+  final String? messageDeduplicationId;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -3279,8 +3266,7 @@ class SendMessageBatchRequestEntry {
   /// <code>MessageGroupId</code> is required for FIFO queues. You can't use it
   /// for Standard queues.
   /// </important>
-  @_s.JsonKey(name: 'MessageGroupId')
-  final String messageGroupId;
+  final String? messageGroupId;
 
   /// The message system attribute to send Each message system attribute consists
   /// of a <code>Name</code>, <code>Type</code>, and <code>Value</code>.
@@ -3296,20 +3282,39 @@ class SendMessageBatchRequestEntry {
   /// of a message.
   /// </li>
   /// </ul> </important>
-  @_s.JsonKey(name: 'MessageSystemAttribute')
-  final Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>
+  final Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
       messageSystemAttributes;
 
   SendMessageBatchRequestEntry({
-    @_s.required this.id,
-    @_s.required this.messageBody,
+    required this.id,
+    required this.messageBody,
     this.delaySeconds,
     this.messageAttributes,
     this.messageDeduplicationId,
     this.messageGroupId,
     this.messageSystemAttributes,
   });
-  Map<String, dynamic> toJson() => _$SendMessageBatchRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final messageBody = this.messageBody;
+    final delaySeconds = this.delaySeconds;
+    final messageAttributes = this.messageAttributes;
+    final messageDeduplicationId = this.messageDeduplicationId;
+    final messageGroupId = this.messageGroupId;
+    final messageSystemAttributes = this.messageSystemAttributes;
+    return {
+      'Id': id,
+      'MessageBody': messageBody,
+      if (delaySeconds != null) 'DelaySeconds': delaySeconds,
+      if (messageAttributes != null) 'MessageAttribute': messageAttributes,
+      if (messageDeduplicationId != null)
+        'MessageDeduplicationId': messageDeduplicationId,
+      if (messageGroupId != null) 'MessageGroupId': messageGroupId,
+      if (messageSystemAttributes != null)
+        'MessageSystemAttribute':
+            messageSystemAttributes.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
 }
 
 /// For each message in the batch, the response contains a <code>
@@ -3324,8 +3329,8 @@ class SendMessageBatchResult {
   final List<SendMessageBatchResultEntry> successful;
 
   SendMessageBatchResult({
-    @_s.required this.failed,
-    @_s.required this.successful,
+    required this.failed,
+    required this.successful,
   });
   factory SendMessageBatchResult.fromXml(_s.XmlElement elem) {
     return SendMessageBatchResult(
@@ -3362,14 +3367,14 @@ class SendMessageBatchResultEntry {
   /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
   /// information about MD5, see <a
   /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageAttributes;
+  final String? mD5OfMessageAttributes;
 
   /// An MD5 digest of the non-URL-encoded message system attribute string. You
   /// can use this attribute to verify that Amazon SQS received the message
   /// correctly. Amazon SQS URL-decodes the message before creating the MD5
   /// digest. For information about MD5, see <a
   /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageSystemAttributes;
+  final String? mD5OfMessageSystemAttributes;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -3378,21 +3383,21 @@ class SendMessageBatchResultEntry {
   /// The length of <code>SequenceNumber</code> is 128 bits. As
   /// <code>SequenceNumber</code> continues to increase for a particular
   /// <code>MessageGroupId</code>.
-  final String sequenceNumber;
+  final String? sequenceNumber;
 
   SendMessageBatchResultEntry({
-    @_s.required this.id,
-    @_s.required this.mD5OfMessageBody,
-    @_s.required this.messageId,
+    required this.id,
+    required this.mD5OfMessageBody,
+    required this.messageId,
     this.mD5OfMessageAttributes,
     this.mD5OfMessageSystemAttributes,
     this.sequenceNumber,
   });
   factory SendMessageBatchResultEntry.fromXml(_s.XmlElement elem) {
     return SendMessageBatchResultEntry(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      mD5OfMessageBody: _s.extractXmlStringValue(elem, 'MD5OfMessageBody'),
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      mD5OfMessageBody: _s.extractXmlStringValue(elem, 'MD5OfMessageBody')!,
+      messageId: _s.extractXmlStringValue(elem, 'MessageId')!,
       mD5OfMessageAttributes:
           _s.extractXmlStringValue(elem, 'MD5OfMessageAttributes'),
       mD5OfMessageSystemAttributes:
@@ -3409,27 +3414,27 @@ class SendMessageResult {
   /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
   /// information about MD5, see <a
   /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageAttributes;
+  final String? mD5OfMessageAttributes;
 
   /// An MD5 digest of the non-URL-encoded message attribute string. You can use
   /// this attribute to verify that Amazon SQS received the message correctly.
   /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
   /// information about MD5, see <a
   /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageBody;
+  final String? mD5OfMessageBody;
 
   /// An MD5 digest of the non-URL-encoded message system attribute string. You
   /// can use this attribute to verify that Amazon SQS received the message
   /// correctly. Amazon SQS URL-decodes the message before creating the MD5
   /// digest.
-  final String mD5OfMessageSystemAttributes;
+  final String? mD5OfMessageSystemAttributes;
 
   /// An attribute containing the <code>MessageId</code> of the message sent to
   /// the queue. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
   /// and Message Identifiers</a> in the <i>Amazon Simple Queue Service Developer
   /// Guide</i>.
-  final String messageId;
+  final String? messageId;
 
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -3438,7 +3443,7 @@ class SendMessageResult {
   /// The length of <code>SequenceNumber</code> is 128 bits.
   /// <code>SequenceNumber</code> continues to increase for a particular
   /// <code>MessageGroupId</code>.
-  final String sequenceNumber;
+  final String? sequenceNumber;
 
   SendMessageResult({
     this.mD5OfMessageAttributes,
@@ -3461,83 +3466,83 @@ class SendMessageResult {
 }
 
 class BatchEntryIdsNotDistinct extends _s.GenericAwsException {
-  BatchEntryIdsNotDistinct({String type, String message})
+  BatchEntryIdsNotDistinct({String? type, String? message})
       : super(type: type, code: 'BatchEntryIdsNotDistinct', message: message);
 }
 
 class BatchRequestTooLong extends _s.GenericAwsException {
-  BatchRequestTooLong({String type, String message})
+  BatchRequestTooLong({String? type, String? message})
       : super(type: type, code: 'BatchRequestTooLong', message: message);
 }
 
 class EmptyBatchRequest extends _s.GenericAwsException {
-  EmptyBatchRequest({String type, String message})
+  EmptyBatchRequest({String? type, String? message})
       : super(type: type, code: 'EmptyBatchRequest', message: message);
 }
 
 class InvalidAttributeName extends _s.GenericAwsException {
-  InvalidAttributeName({String type, String message})
+  InvalidAttributeName({String? type, String? message})
       : super(type: type, code: 'InvalidAttributeName', message: message);
 }
 
 class InvalidBatchEntryId extends _s.GenericAwsException {
-  InvalidBatchEntryId({String type, String message})
+  InvalidBatchEntryId({String? type, String? message})
       : super(type: type, code: 'InvalidBatchEntryId', message: message);
 }
 
 class InvalidIdFormat extends _s.GenericAwsException {
-  InvalidIdFormat({String type, String message})
+  InvalidIdFormat({String? type, String? message})
       : super(type: type, code: 'InvalidIdFormat', message: message);
 }
 
 class InvalidMessageContents extends _s.GenericAwsException {
-  InvalidMessageContents({String type, String message})
+  InvalidMessageContents({String? type, String? message})
       : super(type: type, code: 'InvalidMessageContents', message: message);
 }
 
 class MessageNotInflight extends _s.GenericAwsException {
-  MessageNotInflight({String type, String message})
+  MessageNotInflight({String? type, String? message})
       : super(type: type, code: 'MessageNotInflight', message: message);
 }
 
 class OverLimit extends _s.GenericAwsException {
-  OverLimit({String type, String message})
+  OverLimit({String? type, String? message})
       : super(type: type, code: 'OverLimit', message: message);
 }
 
 class PurgeQueueInProgress extends _s.GenericAwsException {
-  PurgeQueueInProgress({String type, String message})
+  PurgeQueueInProgress({String? type, String? message})
       : super(type: type, code: 'PurgeQueueInProgress', message: message);
 }
 
 class QueueDeletedRecently extends _s.GenericAwsException {
-  QueueDeletedRecently({String type, String message})
+  QueueDeletedRecently({String? type, String? message})
       : super(type: type, code: 'QueueDeletedRecently', message: message);
 }
 
 class QueueDoesNotExist extends _s.GenericAwsException {
-  QueueDoesNotExist({String type, String message})
+  QueueDoesNotExist({String? type, String? message})
       : super(type: type, code: 'QueueDoesNotExist', message: message);
 }
 
 class QueueNameExists extends _s.GenericAwsException {
-  QueueNameExists({String type, String message})
+  QueueNameExists({String? type, String? message})
       : super(type: type, code: 'QueueNameExists', message: message);
 }
 
 class ReceiptHandleIsInvalid extends _s.GenericAwsException {
-  ReceiptHandleIsInvalid({String type, String message})
+  ReceiptHandleIsInvalid({String? type, String? message})
       : super(type: type, code: 'ReceiptHandleIsInvalid', message: message);
 }
 
 class TooManyEntriesInBatchRequest extends _s.GenericAwsException {
-  TooManyEntriesInBatchRequest({String type, String message})
+  TooManyEntriesInBatchRequest({String? type, String? message})
       : super(
             type: type, code: 'TooManyEntriesInBatchRequest', message: message);
 }
 
 class UnsupportedOperation extends _s.GenericAwsException {
-  UnsupportedOperation({String type, String message})
+  UnsupportedOperation({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperation', message: message);
 }
 

@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class ListOfStructures {
   final _s.RestXmlProtocol _protocol;
   ListOfStructures({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +37,7 @@ class ListOfStructures {
         );
 
   Future<void> operationName0({
-    List<SingleFieldStruct> listParam,
+    List<SingleFieldStruct>? listParam,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -49,14 +54,15 @@ class ListOfStructures {
 }
 
 class InputShape {
-  final List<SingleFieldStruct> listParam;
+  final List<SingleFieldStruct>? listParam;
 
   InputShape({
     this.listParam,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final listParam = this.listParam;
     final $children = <_s.XmlNode>[
-      if (listParam != null) ...listParam.map((e) => e?.toXml('item')),
+      if (listParam != null) ...listParam.map((e) => e.toXml('item')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -64,18 +70,19 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class SingleFieldStruct {
-  final String element;
+  final String? element;
 
   SingleFieldStruct({
     this.element,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final element = this.element;
     final $children = <_s.XmlNode>[
       if (element != null) _s.encodeXmlStringValue('value', element),
     ];
@@ -85,7 +92,7 @@ class SingleFieldStruct {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

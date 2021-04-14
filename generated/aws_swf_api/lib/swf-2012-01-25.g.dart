@@ -9,16 +9,13 @@ part of 'swf-2012-01-25.dart';
 ActivityTask _$ActivityTaskFromJson(Map<String, dynamic> json) {
   return ActivityTask(
     activityId: json['activityId'] as String,
-    activityType: json['activityType'] == null
-        ? null
-        : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+    activityType:
+        ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
     startedEventId: json['startedEventId'] as int,
     taskToken: json['taskToken'] as String,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    input: json['input'] as String,
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    input: json['input'] as String?,
   );
 }
 
@@ -36,8 +33,8 @@ ActivityTaskCanceledEventAttributes
   return ActivityTaskCanceledEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    details: json['details'] as String,
-    latestCancelRequestedEventId: json['latestCancelRequestedEventId'] as int,
+    details: json['details'] as String?,
+    latestCancelRequestedEventId: json['latestCancelRequestedEventId'] as int?,
   );
 }
 
@@ -46,7 +43,7 @@ ActivityTaskCompletedEventAttributes
   return ActivityTaskCompletedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    result: json['result'] as String,
+    result: json['result'] as String?,
   );
 }
 
@@ -55,8 +52,8 @@ ActivityTaskFailedEventAttributes _$ActivityTaskFailedEventAttributesFromJson(
   return ActivityTaskFailedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    details: json['details'] as String,
-    reason: json['reason'] as String,
+    details: json['details'] as String?,
+    reason: json['reason'] as String?,
   );
 }
 
@@ -64,20 +61,17 @@ ActivityTaskScheduledEventAttributes
     _$ActivityTaskScheduledEventAttributesFromJson(Map<String, dynamic> json) {
   return ActivityTaskScheduledEventAttributes(
     activityId: json['activityId'] as String,
-    activityType: json['activityType'] == null
-        ? null
-        : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+    activityType:
+        ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-    control: json['control'] as String,
-    heartbeatTimeout: json['heartbeatTimeout'] as String,
-    input: json['input'] as String,
-    scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String,
-    scheduleToStartTimeout: json['scheduleToStartTimeout'] as String,
-    startToCloseTimeout: json['startToCloseTimeout'] as String,
-    taskPriority: json['taskPriority'] as String,
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    control: json['control'] as String?,
+    heartbeatTimeout: json['heartbeatTimeout'] as String?,
+    input: json['input'] as String?,
+    scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String?,
+    scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
+    startToCloseTimeout: json['startToCloseTimeout'] as String?,
+    taskPriority: json['taskPriority'] as String?,
   );
 }
 
@@ -85,7 +79,7 @@ ActivityTaskStartedEventAttributes _$ActivityTaskStartedEventAttributesFromJson(
     Map<String, dynamic> json) {
   return ActivityTaskStartedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
-    identity: json['identity'] as String,
+    identity: json['identity'] as String?,
   );
 }
 
@@ -100,42 +94,36 @@ ActivityTaskTimedOutEventAttributes
   return ActivityTaskTimedOutEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    timeoutType: _$enumDecodeNullable(
-        _$ActivityTaskTimeoutTypeEnumMap, json['timeoutType']),
-    details: json['details'] as String,
+    timeoutType:
+        _$enumDecode(_$ActivityTaskTimeoutTypeEnumMap, json['timeoutType']),
+    details: json['details'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$ActivityTaskTimeoutTypeEnumMap = {
@@ -152,59 +140,47 @@ ActivityType _$ActivityTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ActivityTypeToJson(ActivityType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('version', instance.version);
-  return val;
-}
+Map<String, dynamic> _$ActivityTypeToJson(ActivityType instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'version': instance.version,
+    };
 
 ActivityTypeConfiguration _$ActivityTypeConfigurationFromJson(
     Map<String, dynamic> json) {
   return ActivityTypeConfiguration(
-    defaultTaskHeartbeatTimeout: json['defaultTaskHeartbeatTimeout'] as String,
+    defaultTaskHeartbeatTimeout: json['defaultTaskHeartbeatTimeout'] as String?,
     defaultTaskList: json['defaultTaskList'] == null
         ? null
         : TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>),
-    defaultTaskPriority: json['defaultTaskPriority'] as String,
+    defaultTaskPriority: json['defaultTaskPriority'] as String?,
     defaultTaskScheduleToCloseTimeout:
-        json['defaultTaskScheduleToCloseTimeout'] as String,
+        json['defaultTaskScheduleToCloseTimeout'] as String?,
     defaultTaskScheduleToStartTimeout:
-        json['defaultTaskScheduleToStartTimeout'] as String,
+        json['defaultTaskScheduleToStartTimeout'] as String?,
     defaultTaskStartToCloseTimeout:
-        json['defaultTaskStartToCloseTimeout'] as String,
+        json['defaultTaskStartToCloseTimeout'] as String?,
   );
 }
 
 ActivityTypeDetail _$ActivityTypeDetailFromJson(Map<String, dynamic> json) {
   return ActivityTypeDetail(
-    configuration: json['configuration'] == null
-        ? null
-        : ActivityTypeConfiguration.fromJson(
-            json['configuration'] as Map<String, dynamic>),
-    typeInfo: json['typeInfo'] == null
-        ? null
-        : ActivityTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+    configuration: ActivityTypeConfiguration.fromJson(
+        json['configuration'] as Map<String, dynamic>),
+    typeInfo:
+        ActivityTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
   );
 }
 
 ActivityTypeInfo _$ActivityTypeInfoFromJson(Map<String, dynamic> json) {
   return ActivityTypeInfo(
-    activityType: json['activityType'] == null
-        ? null
-        : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
-    status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
+    activityType:
+        ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+    creationDate: DateTime.parse(json['creationDate'] as String),
+    status: _$enumDecode(_$RegistrationStatusEnumMap, json['status']),
     deprecationDate:
         const UnixDateTimeConverter().fromJson(json['deprecationDate']),
-    description: json['description'] as String,
+    description: json['description'] as String?,
   );
 }
 
@@ -215,33 +191,23 @@ const _$RegistrationStatusEnumMap = {
 
 ActivityTypeInfos _$ActivityTypeInfosFromJson(Map<String, dynamic> json) {
   return ActivityTypeInfos(
-    typeInfos: (json['typeInfos'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['nextPageToken'] as String,
+    typeInfos: (json['typeInfos'] as List<dynamic>)
+        .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['nextPageToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$CancelTimerDecisionAttributesToJson(
-    CancelTimerDecisionAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('timerId', instance.timerId);
-  return val;
-}
+        CancelTimerDecisionAttributes instance) =>
+    <String, dynamic>{
+      'timerId': instance.timerId,
+    };
 
 CancelTimerFailedEventAttributes _$CancelTimerFailedEventAttributesFromJson(
     Map<String, dynamic> json) {
   return CancelTimerFailedEventAttributes(
-    cause: _$enumDecodeNullable(_$CancelTimerFailedCauseEnumMap, json['cause']),
+    cause: _$enumDecode(_$CancelTimerFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     timerId: json['timerId'] as String,
   );
@@ -270,7 +236,7 @@ CancelWorkflowExecutionFailedEventAttributes
     _$CancelWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return CancelWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$CancelWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
@@ -288,14 +254,11 @@ ChildWorkflowExecutionCanceledEventAttributes
   return ChildWorkflowExecutionCanceledEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    details: json['details'] as String,
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    details: json['details'] as String?,
   );
 }
 
@@ -305,14 +268,11 @@ ChildWorkflowExecutionCompletedEventAttributes
   return ChildWorkflowExecutionCompletedEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    result: json['result'] as String,
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    result: json['result'] as String?,
   );
 }
 
@@ -322,15 +282,12 @@ ChildWorkflowExecutionFailedEventAttributes
   return ChildWorkflowExecutionFailedEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    details: json['details'] as String,
-    reason: json['reason'] as String,
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    details: json['details'] as String?,
+    reason: json['reason'] as String?,
   );
 }
 
@@ -339,13 +296,10 @@ ChildWorkflowExecutionStartedEventAttributes
         Map<String, dynamic> json) {
   return ChildWorkflowExecutionStartedEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
   );
 }
 
@@ -355,13 +309,10 @@ ChildWorkflowExecutionTerminatedEventAttributes
   return ChildWorkflowExecutionTerminatedEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
   );
 }
 
@@ -371,15 +322,12 @@ ChildWorkflowExecutionTimedOutEventAttributes
   return ChildWorkflowExecutionTimedOutEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    timeoutType: _$enumDecodeNullable(
+    timeoutType: _$enumDecode(
         _$WorkflowExecutionTimeoutTypeEnumMap, json['timeoutType']),
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
   );
 }
 
@@ -387,18 +335,10 @@ const _$WorkflowExecutionTimeoutTypeEnumMap = {
   WorkflowExecutionTimeoutType.startToClose: 'START_TO_CLOSE',
 };
 
-Map<String, dynamic> _$CloseStatusFilterToJson(CloseStatusFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$CloseStatusEnumMap[instance.status]);
-  return val;
-}
+Map<String, dynamic> _$CloseStatusFilterToJson(CloseStatusFilter instance) =>
+    <String, dynamic>{
+      'status': _$CloseStatusEnumMap[instance.status],
+    };
 
 const _$CloseStatusEnumMap = {
   CloseStatus.completed: 'COMPLETED',
@@ -427,7 +367,7 @@ CompleteWorkflowExecutionFailedEventAttributes
     _$CompleteWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return CompleteWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$CompleteWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
@@ -472,7 +412,7 @@ ContinueAsNewWorkflowExecutionFailedEventAttributes
     _$ContinueAsNewWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return ContinueAsNewWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$ContinueAsNewWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
@@ -503,7 +443,9 @@ const _$ContinueAsNewWorkflowExecutionFailedCauseEnumMap = {
 };
 
 Map<String, dynamic> _$DecisionToJson(Decision instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'decisionType': _$DecisionTypeEnumMap[instance.decisionType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -511,7 +453,6 @@ Map<String, dynamic> _$DecisionToJson(Decision instance) {
     }
   }
 
-  writeNotNull('decisionType', _$DecisionTypeEnumMap[instance.decisionType]);
   writeNotNull('cancelTimerDecisionAttributes',
       instance.cancelTimerDecisionAttributes?.toJson());
   writeNotNull('cancelWorkflowExecutionDecisionAttributes',
@@ -563,21 +504,17 @@ const _$DecisionTypeEnumMap = {
 
 DecisionTask _$DecisionTaskFromJson(Map<String, dynamic> json) {
   return DecisionTask(
-    events: (json['events'] as List)
-        ?.map((e) =>
-            e == null ? null : HistoryEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    events: (json['events'] as List<dynamic>)
+        .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     startedEventId: json['startedEventId'] as int,
     taskToken: json['taskToken'] as String,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    nextPageToken: json['nextPageToken'] as String,
-    previousStartedEventId: json['previousStartedEventId'] as int,
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    nextPageToken: json['nextPageToken'] as String?,
+    previousStartedEventId: json['previousStartedEventId'] as int?,
   );
 }
 
@@ -586,18 +523,16 @@ DecisionTaskCompletedEventAttributes
   return DecisionTaskCompletedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    executionContext: json['executionContext'] as String,
+    executionContext: json['executionContext'] as String?,
   );
 }
 
 DecisionTaskScheduledEventAttributes
     _$DecisionTaskScheduledEventAttributesFromJson(Map<String, dynamic> json) {
   return DecisionTaskScheduledEventAttributes(
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-    startToCloseTimeout: json['startToCloseTimeout'] as String,
-    taskPriority: json['taskPriority'] as String,
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    startToCloseTimeout: json['startToCloseTimeout'] as String?,
+    taskPriority: json['taskPriority'] as String?,
   );
 }
 
@@ -605,7 +540,7 @@ DecisionTaskStartedEventAttributes _$DecisionTaskStartedEventAttributesFromJson(
     Map<String, dynamic> json) {
   return DecisionTaskStartedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
-    identity: json['identity'] as String,
+    identity: json['identity'] as String?,
   );
 }
 
@@ -614,8 +549,8 @@ DecisionTaskTimedOutEventAttributes
   return DecisionTaskTimedOutEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    timeoutType: _$enumDecodeNullable(
-        _$DecisionTaskTimeoutTypeEnumMap, json['timeoutType']),
+    timeoutType:
+        _$enumDecode(_$DecisionTaskTimeoutTypeEnumMap, json['timeoutType']),
   );
 }
 
@@ -632,37 +567,34 @@ DomainConfiguration _$DomainConfigurationFromJson(Map<String, dynamic> json) {
 
 DomainDetail _$DomainDetailFromJson(Map<String, dynamic> json) {
   return DomainDetail(
-    configuration: json['configuration'] == null
-        ? null
-        : DomainConfiguration.fromJson(
-            json['configuration'] as Map<String, dynamic>),
-    domainInfo: json['domainInfo'] == null
-        ? null
-        : DomainInfo.fromJson(json['domainInfo'] as Map<String, dynamic>),
+    configuration: DomainConfiguration.fromJson(
+        json['configuration'] as Map<String, dynamic>),
+    domainInfo: DomainInfo.fromJson(json['domainInfo'] as Map<String, dynamic>),
   );
 }
 
 DomainInfo _$DomainInfoFromJson(Map<String, dynamic> json) {
   return DomainInfo(
     name: json['name'] as String,
-    status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
-    arn: json['arn'] as String,
-    description: json['description'] as String,
+    status: _$enumDecode(_$RegistrationStatusEnumMap, json['status']),
+    arn: json['arn'] as String?,
+    description: json['description'] as String?,
   );
 }
 
 DomainInfos _$DomainInfosFromJson(Map<String, dynamic> json) {
   return DomainInfos(
-    domainInfos: (json['domainInfos'] as List)
-        ?.map((e) =>
-            e == null ? null : DomainInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['nextPageToken'] as String,
+    domainInfos: (json['domainInfos'] as List<dynamic>)
+        .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['nextPageToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$ExecutionTimeFilterToJson(ExecutionTimeFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'oldestDate': instance.oldestDate.toIso8601String(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -670,8 +602,6 @@ Map<String, dynamic> _$ExecutionTimeFilterToJson(ExecutionTimeFilter instance) {
     }
   }
 
-  writeNotNull(
-      'oldestDate', const UnixDateTimeConverter().toJson(instance.oldestDate));
   writeNotNull(
       'latestDate', const UnixDateTimeConverter().toJson(instance.latestDate));
   return val;
@@ -682,10 +612,8 @@ ExternalWorkflowExecutionCancelRequestedEventAttributes
         Map<String, dynamic> json) {
   return ExternalWorkflowExecutionCancelRequestedEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
   );
 }
 
@@ -694,10 +622,8 @@ ExternalWorkflowExecutionSignaledEventAttributes
         Map<String, dynamic> json) {
   return ExternalWorkflowExecutionSignaledEventAttributes(
     initiatedEventId: json['initiatedEventId'] as int,
-    workflowExecution: json['workflowExecution'] == null
-        ? null
-        : WorkflowExecution.fromJson(
-            json['workflowExecution'] as Map<String, dynamic>),
+    workflowExecution: WorkflowExecution.fromJson(
+        json['workflowExecution'] as Map<String, dynamic>),
   );
 }
 
@@ -720,8 +646,8 @@ FailWorkflowExecutionFailedEventAttributes
     _$FailWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return FailWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
-        _$FailWorkflowExecutionFailedCauseEnumMap, json['cause']),
+    cause:
+        _$enumDecode(_$FailWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
 }
@@ -734,20 +660,18 @@ const _$FailWorkflowExecutionFailedCauseEnumMap = {
 
 History _$HistoryFromJson(Map<String, dynamic> json) {
   return History(
-    events: (json['events'] as List)
-        ?.map((e) =>
-            e == null ? null : HistoryEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['nextPageToken'] as String,
+    events: (json['events'] as List<dynamic>)
+        .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['nextPageToken'] as String?,
   );
 }
 
 HistoryEvent _$HistoryEventFromJson(Map<String, dynamic> json) {
   return HistoryEvent(
     eventId: json['eventId'] as int,
-    eventTimestamp:
-        const UnixDateTimeConverter().fromJson(json['eventTimestamp']),
-    eventType: _$enumDecodeNullable(_$EventTypeEnumMap, json['eventType']),
+    eventTimestamp: DateTime.parse(json['eventTimestamp'] as String),
+    eventType: _$enumDecode(_$EventTypeEnumMap, json['eventType']),
     activityTaskCancelRequestedEventAttributes:
         json['activityTaskCancelRequestedEventAttributes'] == null
             ? null
@@ -1142,7 +1066,7 @@ LambdaFunctionCompletedEventAttributes
   return LambdaFunctionCompletedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    result: json['result'] as String,
+    result: json['result'] as String?,
   );
 }
 
@@ -1151,8 +1075,8 @@ LambdaFunctionFailedEventAttributes
   return LambdaFunctionFailedEventAttributes(
     scheduledEventId: json['scheduledEventId'] as int,
     startedEventId: json['startedEventId'] as int,
-    details: json['details'] as String,
-    reason: json['reason'] as String,
+    details: json['details'] as String?,
+    reason: json['reason'] as String?,
   );
 }
 
@@ -1163,9 +1087,9 @@ LambdaFunctionScheduledEventAttributes
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     id: json['id'] as String,
     name: json['name'] as String,
-    control: json['control'] as String,
-    input: json['input'] as String,
-    startToCloseTimeout: json['startToCloseTimeout'] as String,
+    control: json['control'] as String?,
+    input: json['input'] as String?,
+    startToCloseTimeout: json['startToCloseTimeout'] as String?,
   );
 }
 
@@ -1186,6 +1110,17 @@ LambdaFunctionTimedOutEventAttributes
   );
 }
 
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
 const _$LambdaFunctionTimeoutTypeEnumMap = {
   LambdaFunctionTimeoutType.startToClose: 'START_TO_CLOSE',
 };
@@ -1193,10 +1128,9 @@ const _$LambdaFunctionTimeoutTypeEnumMap = {
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    tags: (json['tags'] as List)
-        ?.map((e) =>
-            e == null ? null : ResourceTag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1205,20 +1139,22 @@ MarkerRecordedEventAttributes _$MarkerRecordedEventAttributesFromJson(
   return MarkerRecordedEventAttributes(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     markerName: json['markerName'] as String,
-    details: json['details'] as String,
+    details: json['details'] as String?,
   );
 }
 
 PendingTaskCount _$PendingTaskCountFromJson(Map<String, dynamic> json) {
   return PendingTaskCount(
     count: json['count'] as int,
-    truncated: json['truncated'] as bool,
+    truncated: json['truncated'] as bool?,
   );
 }
 
 Map<String, dynamic> _$RecordMarkerDecisionAttributesToJson(
     RecordMarkerDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'markerName': instance.markerName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1226,7 +1162,6 @@ Map<String, dynamic> _$RecordMarkerDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('markerName', instance.markerName);
   writeNotNull('details', instance.details);
   return val;
 }
@@ -1234,8 +1169,7 @@ Map<String, dynamic> _$RecordMarkerDecisionAttributesToJson(
 RecordMarkerFailedEventAttributes _$RecordMarkerFailedEventAttributesFromJson(
     Map<String, dynamic> json) {
   return RecordMarkerFailedEventAttributes(
-    cause:
-        _$enumDecodeNullable(_$RecordMarkerFailedCauseEnumMap, json['cause']),
+    cause: _$enumDecode(_$RecordMarkerFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     markerName: json['markerName'] as String,
   );
@@ -1246,25 +1180,17 @@ const _$RecordMarkerFailedCauseEnumMap = {
 };
 
 Map<String, dynamic> _$RequestCancelActivityTaskDecisionAttributesToJson(
-    RequestCancelActivityTaskDecisionAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('activityId', instance.activityId);
-  return val;
-}
+        RequestCancelActivityTaskDecisionAttributes instance) =>
+    <String, dynamic>{
+      'activityId': instance.activityId,
+    };
 
 RequestCancelActivityTaskFailedEventAttributes
     _$RequestCancelActivityTaskFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return RequestCancelActivityTaskFailedEventAttributes(
     activityId: json['activityId'] as String,
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$RequestCancelActivityTaskFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
@@ -1279,7 +1205,9 @@ const _$RequestCancelActivityTaskFailedCauseEnumMap = {
 Map<String, dynamic>
     _$RequestCancelExternalWorkflowExecutionDecisionAttributesToJson(
         RequestCancelExternalWorkflowExecutionDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'workflowId': instance.workflowId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1287,7 +1215,6 @@ Map<String, dynamic>
     }
   }
 
-  writeNotNull('workflowId', instance.workflowId);
   writeNotNull('control', instance.control);
   writeNotNull('runId', instance.runId);
   return val;
@@ -1297,14 +1224,14 @@ RequestCancelExternalWorkflowExecutionFailedEventAttributes
     _$RequestCancelExternalWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$RequestCancelExternalWorkflowExecutionFailedCauseEnumMap,
         json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     initiatedEventId: json['initiatedEventId'] as int,
     workflowId: json['workflowId'] as String,
-    control: json['control'] as String,
-    runId: json['runId'] as String,
+    control: json['control'] as String?,
+    runId: json['runId'] as String?,
   );
 }
 
@@ -1324,20 +1251,22 @@ RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
   return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     workflowId: json['workflowId'] as String,
-    control: json['control'] as String,
-    runId: json['runId'] as String,
+    control: json['control'] as String?,
+    runId: json['runId'] as String?,
   );
 }
 
 ResourceTag _$ResourceTagFromJson(Map<String, dynamic> json) {
   return ResourceTag(
     key: json['key'] as String,
-    value: json['value'] as String,
+    value: json['value'] as String?,
   );
 }
 
 Map<String, dynamic> _$ResourceTagToJson(ResourceTag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1345,20 +1274,22 @@ Map<String, dynamic> _$ResourceTagToJson(ResourceTag instance) {
     }
   }
 
-  writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
   return val;
 }
 
 Run _$RunFromJson(Map<String, dynamic> json) {
   return Run(
-    runId: json['runId'] as String,
+    runId: json['runId'] as String?,
   );
 }
 
 Map<String, dynamic> _$ScheduleActivityTaskDecisionAttributesToJson(
     ScheduleActivityTaskDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'activityId': instance.activityId,
+    'activityType': instance.activityType.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1366,8 +1297,6 @@ Map<String, dynamic> _$ScheduleActivityTaskDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('activityId', instance.activityId);
-  writeNotNull('activityType', instance.activityType?.toJson());
   writeNotNull('control', instance.control);
   writeNotNull('heartbeatTimeout', instance.heartbeatTimeout);
   writeNotNull('input', instance.input);
@@ -1384,11 +1313,10 @@ ScheduleActivityTaskFailedEventAttributes
         Map<String, dynamic> json) {
   return ScheduleActivityTaskFailedEventAttributes(
     activityId: json['activityId'] as String,
-    activityType: json['activityType'] == null
-        ? null
-        : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-    cause: _$enumDecodeNullable(
-        _$ScheduleActivityTaskFailedCauseEnumMap, json['cause']),
+    activityType:
+        ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+    cause:
+        _$enumDecode(_$ScheduleActivityTaskFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
   );
 }
@@ -1420,7 +1348,10 @@ const _$ScheduleActivityTaskFailedCauseEnumMap = {
 
 Map<String, dynamic> _$ScheduleLambdaFunctionDecisionAttributesToJson(
     ScheduleLambdaFunctionDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1428,8 +1359,6 @@ Map<String, dynamic> _$ScheduleLambdaFunctionDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('id', instance.id);
-  writeNotNull('name', instance.name);
   writeNotNull('control', instance.control);
   writeNotNull('input', instance.input);
   writeNotNull('startToCloseTimeout', instance.startToCloseTimeout);
@@ -1440,8 +1369,8 @@ ScheduleLambdaFunctionFailedEventAttributes
     _$ScheduleLambdaFunctionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return ScheduleLambdaFunctionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
-        _$ScheduleLambdaFunctionFailedCauseEnumMap, json['cause']),
+    cause:
+        _$enumDecode(_$ScheduleLambdaFunctionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     id: json['id'] as String,
     name: json['name'] as String,
@@ -1460,7 +1389,10 @@ const _$ScheduleLambdaFunctionFailedCauseEnumMap = {
 
 Map<String, dynamic> _$SignalExternalWorkflowExecutionDecisionAttributesToJson(
     SignalExternalWorkflowExecutionDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'signalName': instance.signalName,
+    'workflowId': instance.workflowId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1468,8 +1400,6 @@ Map<String, dynamic> _$SignalExternalWorkflowExecutionDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('signalName', instance.signalName);
-  writeNotNull('workflowId', instance.workflowId);
   writeNotNull('control', instance.control);
   writeNotNull('input', instance.input);
   writeNotNull('runId', instance.runId);
@@ -1480,13 +1410,13 @@ SignalExternalWorkflowExecutionFailedEventAttributes
     _$SignalExternalWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return SignalExternalWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$SignalExternalWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     initiatedEventId: json['initiatedEventId'] as int,
     workflowId: json['workflowId'] as String,
-    control: json['control'] as String,
-    runId: json['runId'] as String,
+    control: json['control'] as String?,
+    runId: json['runId'] as String?,
   );
 }
 
@@ -1507,15 +1437,18 @@ SignalExternalWorkflowExecutionInitiatedEventAttributes
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     signalName: json['signalName'] as String,
     workflowId: json['workflowId'] as String,
-    control: json['control'] as String,
-    input: json['input'] as String,
-    runId: json['runId'] as String,
+    control: json['control'] as String?,
+    input: json['input'] as String?,
+    runId: json['runId'] as String?,
   );
 }
 
 Map<String, dynamic> _$StartChildWorkflowExecutionDecisionAttributesToJson(
     StartChildWorkflowExecutionDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'workflowId': instance.workflowId,
+    'workflowType': instance.workflowType.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1523,8 +1456,6 @@ Map<String, dynamic> _$StartChildWorkflowExecutionDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('workflowId', instance.workflowId);
-  writeNotNull('workflowType', instance.workflowType?.toJson());
   writeNotNull('childPolicy', _$ChildPolicyEnumMap[instance.childPolicy]);
   writeNotNull('control', instance.control);
   writeNotNull(
@@ -1542,15 +1473,14 @@ StartChildWorkflowExecutionFailedEventAttributes
     _$StartChildWorkflowExecutionFailedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return StartChildWorkflowExecutionFailedEventAttributes(
-    cause: _$enumDecodeNullable(
+    cause: _$enumDecode(
         _$StartChildWorkflowExecutionFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     initiatedEventId: json['initiatedEventId'] as int,
     workflowId: json['workflowId'] as String,
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    control: json['control'] as String,
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    control: json['control'] as String?,
   );
 }
 
@@ -1585,24 +1515,21 @@ StartChildWorkflowExecutionInitiatedEventAttributes
     _$StartChildWorkflowExecutionInitiatedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return StartChildWorkflowExecutionInitiatedEventAttributes(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
     workflowId: json['workflowId'] as String,
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    control: json['control'] as String,
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    control: json['control'] as String?,
     executionStartToCloseTimeout:
-        json['executionStartToCloseTimeout'] as String,
-    input: json['input'] as String,
-    lambdaRole: json['lambdaRole'] as String,
-    tagList: (json['tagList'] as List)?.map((e) => e as String)?.toList(),
-    taskPriority: json['taskPriority'] as String,
-    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
+        json['executionStartToCloseTimeout'] as String?,
+    input: json['input'] as String?,
+    lambdaRole: json['lambdaRole'] as String?,
+    tagList:
+        (json['tagList'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    taskPriority: json['taskPriority'] as String?,
+    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
   );
 }
 
@@ -1612,8 +1539,8 @@ StartLambdaFunctionFailedEventAttributes
   return StartLambdaFunctionFailedEventAttributes(
     cause: _$enumDecodeNullable(
         _$StartLambdaFunctionFailedCauseEnumMap, json['cause']),
-    message: json['message'] as String,
-    scheduledEventId: json['scheduledEventId'] as int,
+    message: json['message'] as String?,
+    scheduledEventId: json['scheduledEventId'] as int?,
   );
 }
 
@@ -1623,7 +1550,10 @@ const _$StartLambdaFunctionFailedCauseEnumMap = {
 
 Map<String, dynamic> _$StartTimerDecisionAttributesToJson(
     StartTimerDecisionAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'startToFireTimeout': instance.startToFireTimeout,
+    'timerId': instance.timerId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1631,8 +1561,6 @@ Map<String, dynamic> _$StartTimerDecisionAttributesToJson(
     }
   }
 
-  writeNotNull('startToFireTimeout', instance.startToFireTimeout);
-  writeNotNull('timerId', instance.timerId);
   writeNotNull('control', instance.control);
   return val;
 }
@@ -1640,7 +1568,7 @@ Map<String, dynamic> _$StartTimerDecisionAttributesToJson(
 StartTimerFailedEventAttributes _$StartTimerFailedEventAttributesFromJson(
     Map<String, dynamic> json) {
   return StartTimerFailedEventAttributes(
-    cause: _$enumDecodeNullable(_$StartTimerFailedCauseEnumMap, json['cause']),
+    cause: _$enumDecode(_$StartTimerFailedCauseEnumMap, json['cause']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     timerId: json['timerId'] as String,
   );
@@ -1654,18 +1582,9 @@ const _$StartTimerFailedCauseEnumMap = {
   StartTimerFailedCause.operationNotPermitted: 'OPERATION_NOT_PERMITTED',
 };
 
-Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tag', instance.tag);
-  return val;
-}
+Map<String, dynamic> _$TagFilterToJson(TagFilter instance) => <String, dynamic>{
+      'tag': instance.tag,
+    };
 
 TaskList _$TaskListFromJson(Map<String, dynamic> json) {
   return TaskList(
@@ -1673,18 +1592,9 @@ TaskList _$TaskListFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TaskListToJson(TaskList instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$TaskListToJson(TaskList instance) => <String, dynamic>{
+      'name': instance.name,
+    };
 
 TimerCanceledEventAttributes _$TimerCanceledEventAttributesFromJson(
     Map<String, dynamic> json) {
@@ -1709,7 +1619,7 @@ TimerStartedEventAttributes _$TimerStartedEventAttributesFromJson(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     startToFireTimeout: json['startToFireTimeout'] as String,
     timerId: json['timerId'] as String,
-    control: json['control'] as String,
+    control: json['control'] as String?,
   );
 }
 
@@ -1720,19 +1630,11 @@ WorkflowExecution _$WorkflowExecutionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$WorkflowExecutionToJson(WorkflowExecution instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('runId', instance.runId);
-  writeNotNull('workflowId', instance.workflowId);
-  return val;
-}
+Map<String, dynamic> _$WorkflowExecutionToJson(WorkflowExecution instance) =>
+    <String, dynamic>{
+      'runId': instance.runId,
+      'workflowId': instance.workflowId,
+    };
 
 WorkflowExecutionCancelRequestedEventAttributes
     _$WorkflowExecutionCancelRequestedEventAttributesFromJson(
@@ -1740,7 +1642,7 @@ WorkflowExecutionCancelRequestedEventAttributes
   return WorkflowExecutionCancelRequestedEventAttributes(
     cause: _$enumDecodeNullable(
         _$WorkflowExecutionCancelRequestedCauseEnumMap, json['cause']),
-    externalInitiatedEventId: json['externalInitiatedEventId'] as int,
+    externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
     externalWorkflowExecution: json['externalWorkflowExecution'] == null
         ? null
         : WorkflowExecution.fromJson(
@@ -1758,7 +1660,7 @@ WorkflowExecutionCanceledEventAttributes
         Map<String, dynamic> json) {
   return WorkflowExecutionCanceledEventAttributes(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-    details: json['details'] as String,
+    details: json['details'] as String?,
   );
 }
 
@@ -1767,23 +1669,20 @@ WorkflowExecutionCompletedEventAttributes
         Map<String, dynamic> json) {
   return WorkflowExecutionCompletedEventAttributes(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-    result: json['result'] as String,
+    result: json['result'] as String?,
   );
 }
 
 WorkflowExecutionConfiguration _$WorkflowExecutionConfigurationFromJson(
     Map<String, dynamic> json) {
   return WorkflowExecutionConfiguration(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
     executionStartToCloseTimeout:
         json['executionStartToCloseTimeout'] as String,
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
     taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
-    lambdaRole: json['lambdaRole'] as String,
-    taskPriority: json['taskPriority'] as String,
+    lambdaRole: json['lambdaRole'] as String?,
+    taskPriority: json['taskPriority'] as String?,
   );
 }
 
@@ -1791,23 +1690,20 @@ WorkflowExecutionContinuedAsNewEventAttributes
     _$WorkflowExecutionContinuedAsNewEventAttributesFromJson(
         Map<String, dynamic> json) {
   return WorkflowExecutionContinuedAsNewEventAttributes(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
     newExecutionRunId: json['newExecutionRunId'] as String,
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
     executionStartToCloseTimeout:
-        json['executionStartToCloseTimeout'] as String,
-    input: json['input'] as String,
-    lambdaRole: json['lambdaRole'] as String,
-    tagList: (json['tagList'] as List)?.map((e) => e as String)?.toList(),
-    taskPriority: json['taskPriority'] as String,
-    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
+        json['executionStartToCloseTimeout'] as String?,
+    input: json['input'] as String?,
+    lambdaRole: json['lambdaRole'] as String?,
+    tagList:
+        (json['tagList'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    taskPriority: json['taskPriority'] as String?,
+    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
   );
 }
 
@@ -1815,28 +1711,22 @@ WorkflowExecutionCount _$WorkflowExecutionCountFromJson(
     Map<String, dynamic> json) {
   return WorkflowExecutionCount(
     count: json['count'] as int,
-    truncated: json['truncated'] as bool,
+    truncated: json['truncated'] as bool?,
   );
 }
 
 WorkflowExecutionDetail _$WorkflowExecutionDetailFromJson(
     Map<String, dynamic> json) {
   return WorkflowExecutionDetail(
-    executionConfiguration: json['executionConfiguration'] == null
-        ? null
-        : WorkflowExecutionConfiguration.fromJson(
-            json['executionConfiguration'] as Map<String, dynamic>),
-    executionInfo: json['executionInfo'] == null
-        ? null
-        : WorkflowExecutionInfo.fromJson(
-            json['executionInfo'] as Map<String, dynamic>),
-    openCounts: json['openCounts'] == null
-        ? null
-        : WorkflowExecutionOpenCounts.fromJson(
-            json['openCounts'] as Map<String, dynamic>),
+    executionConfiguration: WorkflowExecutionConfiguration.fromJson(
+        json['executionConfiguration'] as Map<String, dynamic>),
+    executionInfo: WorkflowExecutionInfo.fromJson(
+        json['executionInfo'] as Map<String, dynamic>),
+    openCounts: WorkflowExecutionOpenCounts.fromJson(
+        json['openCounts'] as Map<String, dynamic>),
     latestActivityTaskTimestamp: const UnixDateTimeConverter()
         .fromJson(json['latestActivityTaskTimestamp']),
-    latestExecutionContext: json['latestExecutionContext'] as String,
+    latestExecutionContext: json['latestExecutionContext'] as String?,
   );
 }
 
@@ -1845,39 +1735,28 @@ WorkflowExecutionFailedEventAttributes
         Map<String, dynamic> json) {
   return WorkflowExecutionFailedEventAttributes(
     decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-    details: json['details'] as String,
-    reason: json['reason'] as String,
+    details: json['details'] as String?,
+    reason: json['reason'] as String?,
   );
 }
 
 Map<String, dynamic> _$WorkflowExecutionFilterToJson(
-    WorkflowExecutionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('workflowId', instance.workflowId);
-  return val;
-}
+        WorkflowExecutionFilter instance) =>
+    <String, dynamic>{
+      'workflowId': instance.workflowId,
+    };
 
 WorkflowExecutionInfo _$WorkflowExecutionInfoFromJson(
     Map<String, dynamic> json) {
   return WorkflowExecutionInfo(
-    execution: json['execution'] == null
-        ? null
-        : WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
+    execution:
+        WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
     executionStatus:
-        _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['executionStatus']),
-    startTimestamp:
-        const UnixDateTimeConverter().fromJson(json['startTimestamp']),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    cancelRequested: json['cancelRequested'] as bool,
+        _$enumDecode(_$ExecutionStatusEnumMap, json['executionStatus']),
+    startTimestamp: DateTime.parse(json['startTimestamp'] as String),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    cancelRequested: json['cancelRequested'] as bool?,
     closeStatus:
         _$enumDecodeNullable(_$CloseStatusEnumMap, json['closeStatus']),
     closeTimestamp:
@@ -1885,7 +1764,8 @@ WorkflowExecutionInfo _$WorkflowExecutionInfoFromJson(
     parent: json['parent'] == null
         ? null
         : WorkflowExecution.fromJson(json['parent'] as Map<String, dynamic>),
-    tagList: (json['tagList'] as List)?.map((e) => e as String)?.toList(),
+    tagList:
+        (json['tagList'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -1897,12 +1777,10 @@ const _$ExecutionStatusEnumMap = {
 WorkflowExecutionInfos _$WorkflowExecutionInfosFromJson(
     Map<String, dynamic> json) {
   return WorkflowExecutionInfos(
-    executionInfos: (json['executionInfos'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['nextPageToken'] as String,
+    executionInfos: (json['executionInfos'] as List<dynamic>)
+        .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['nextPageToken'] as String?,
   );
 }
 
@@ -1913,7 +1791,7 @@ WorkflowExecutionOpenCounts _$WorkflowExecutionOpenCountsFromJson(
     openChildWorkflowExecutions: json['openChildWorkflowExecutions'] as int,
     openDecisionTasks: json['openDecisionTasks'] as int,
     openTimers: json['openTimers'] as int,
-    openLambdaFunctions: json['openLambdaFunctions'] as int,
+    openLambdaFunctions: json['openLambdaFunctions'] as int?,
   );
 }
 
@@ -1922,12 +1800,12 @@ WorkflowExecutionSignaledEventAttributes
         Map<String, dynamic> json) {
   return WorkflowExecutionSignaledEventAttributes(
     signalName: json['signalName'] as String,
-    externalInitiatedEventId: json['externalInitiatedEventId'] as int,
+    externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
     externalWorkflowExecution: json['externalWorkflowExecution'] == null
         ? null
         : WorkflowExecution.fromJson(
             json['externalWorkflowExecution'] as Map<String, dynamic>),
-    input: json['input'] as String,
+    input: json['input'] as String?,
   );
 }
 
@@ -1935,27 +1813,24 @@ WorkflowExecutionStartedEventAttributes
     _$WorkflowExecutionStartedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return WorkflowExecutionStartedEventAttributes(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
-    taskList: json['taskList'] == null
-        ? null
-        : TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    continuedExecutionRunId: json['continuedExecutionRunId'] as String,
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
+    taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    continuedExecutionRunId: json['continuedExecutionRunId'] as String?,
     executionStartToCloseTimeout:
-        json['executionStartToCloseTimeout'] as String,
-    input: json['input'] as String,
-    lambdaRole: json['lambdaRole'] as String,
-    parentInitiatedEventId: json['parentInitiatedEventId'] as int,
+        json['executionStartToCloseTimeout'] as String?,
+    input: json['input'] as String?,
+    lambdaRole: json['lambdaRole'] as String?,
+    parentInitiatedEventId: json['parentInitiatedEventId'] as int?,
     parentWorkflowExecution: json['parentWorkflowExecution'] == null
         ? null
         : WorkflowExecution.fromJson(
             json['parentWorkflowExecution'] as Map<String, dynamic>),
-    tagList: (json['tagList'] as List)?.map((e) => e as String)?.toList(),
-    taskPriority: json['taskPriority'] as String,
-    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
+    tagList:
+        (json['tagList'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    taskPriority: json['taskPriority'] as String?,
+    taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
   );
 }
 
@@ -1963,12 +1838,11 @@ WorkflowExecutionTerminatedEventAttributes
     _$WorkflowExecutionTerminatedEventAttributesFromJson(
         Map<String, dynamic> json) {
   return WorkflowExecutionTerminatedEventAttributes(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
     cause: _$enumDecodeNullable(
         _$WorkflowExecutionTerminatedCauseEnumMap, json['cause']),
-    details: json['details'] as String,
-    reason: json['reason'] as String,
+    details: json['details'] as String?,
+    reason: json['reason'] as String?,
   );
 }
 
@@ -1982,9 +1856,8 @@ WorkflowExecutionTimedOutEventAttributes
     _$WorkflowExecutionTimedOutEventAttributesFromJson(
         Map<String, dynamic> json) {
   return WorkflowExecutionTimedOutEventAttributes(
-    childPolicy:
-        _$enumDecodeNullable(_$ChildPolicyEnumMap, json['childPolicy']),
-    timeoutType: _$enumDecodeNullable(
+    childPolicy: _$enumDecode(_$ChildPolicyEnumMap, json['childPolicy']),
+    timeoutType: _$enumDecode(
         _$WorkflowExecutionTimeoutTypeEnumMap, json['timeoutType']),
   );
 }
@@ -1996,19 +1869,11 @@ WorkflowType _$WorkflowTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$WorkflowTypeToJson(WorkflowType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('version', instance.version);
-  return val;
-}
+Map<String, dynamic> _$WorkflowTypeToJson(WorkflowType instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'version': instance.version,
+    };
 
 WorkflowTypeConfiguration _$WorkflowTypeConfigurationFromJson(
     Map<String, dynamic> json) {
@@ -2016,31 +1881,30 @@ WorkflowTypeConfiguration _$WorkflowTypeConfigurationFromJson(
     defaultChildPolicy:
         _$enumDecodeNullable(_$ChildPolicyEnumMap, json['defaultChildPolicy']),
     defaultExecutionStartToCloseTimeout:
-        json['defaultExecutionStartToCloseTimeout'] as String,
-    defaultLambdaRole: json['defaultLambdaRole'] as String,
+        json['defaultExecutionStartToCloseTimeout'] as String?,
+    defaultLambdaRole: json['defaultLambdaRole'] as String?,
     defaultTaskList: json['defaultTaskList'] == null
         ? null
         : TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>),
-    defaultTaskPriority: json['defaultTaskPriority'] as String,
+    defaultTaskPriority: json['defaultTaskPriority'] as String?,
     defaultTaskStartToCloseTimeout:
-        json['defaultTaskStartToCloseTimeout'] as String,
+        json['defaultTaskStartToCloseTimeout'] as String?,
   );
 }
 
 WorkflowTypeDetail _$WorkflowTypeDetailFromJson(Map<String, dynamic> json) {
   return WorkflowTypeDetail(
-    configuration: json['configuration'] == null
-        ? null
-        : WorkflowTypeConfiguration.fromJson(
-            json['configuration'] as Map<String, dynamic>),
-    typeInfo: json['typeInfo'] == null
-        ? null
-        : WorkflowTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+    configuration: WorkflowTypeConfiguration.fromJson(
+        json['configuration'] as Map<String, dynamic>),
+    typeInfo:
+        WorkflowTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$WorkflowTypeFilterToJson(WorkflowTypeFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2048,31 +1912,27 @@ Map<String, dynamic> _$WorkflowTypeFilterToJson(WorkflowTypeFilter instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('version', instance.version);
   return val;
 }
 
 WorkflowTypeInfo _$WorkflowTypeInfoFromJson(Map<String, dynamic> json) {
   return WorkflowTypeInfo(
-    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
-    status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
-    workflowType: json['workflowType'] == null
-        ? null
-        : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    creationDate: DateTime.parse(json['creationDate'] as String),
+    status: _$enumDecode(_$RegistrationStatusEnumMap, json['status']),
+    workflowType:
+        WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
     deprecationDate:
         const UnixDateTimeConverter().fromJson(json['deprecationDate']),
-    description: json['description'] as String,
+    description: json['description'] as String?,
   );
 }
 
 WorkflowTypeInfos _$WorkflowTypeInfosFromJson(Map<String, dynamic> json) {
   return WorkflowTypeInfos(
-    typeInfos: (json['typeInfos'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['nextPageToken'] as String,
+    typeInfos: (json['typeInfos'] as List<dynamic>)
+        .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['nextPageToken'] as String?,
   );
 }

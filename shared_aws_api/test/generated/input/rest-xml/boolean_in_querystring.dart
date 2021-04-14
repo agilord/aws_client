@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class BooleanInQuerystring {
   final _s.RestXmlProtocol _protocol;
   BooleanInQuerystring({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +37,7 @@ class BooleanInQuerystring {
         );
 
   Future<void> operationName0({
-    bool boolQuery,
+    bool? boolQuery,
   }) async {
     final $query = <String, List<String>>{
       if (boolQuery != null) 'bool-query': [boolQuery.toString()],
@@ -46,7 +51,7 @@ class BooleanInQuerystring {
   }
 
   Future<void> operationName1({
-    bool boolQuery,
+    bool? boolQuery,
   }) async {
     final $query = <String, List<String>>{
       if (boolQuery != null) 'bool-query': [boolQuery.toString()],

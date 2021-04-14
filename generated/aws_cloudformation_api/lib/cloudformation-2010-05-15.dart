@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'cloudformation-2010-05-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cloudformation-2010-05-15.g.dart';
 
 /// AWS CloudFormation allows you to create and manage AWS infrastructure
 /// deployments predictably and repeatedly. You can use AWS CloudFormation to
@@ -39,9 +31,9 @@ class CloudFormation {
   final Map<String, _s.Shape> shapes;
 
   CloudFormation({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,8 +64,8 @@ class CloudFormation {
   /// stack with the same name. You might retry <code>CancelUpdateStack</code>
   /// requests to ensure that AWS CloudFormation successfully received them.
   Future<void> cancelUpdateStack({
-    @_s.required String stackName,
-    String clientRequestToken,
+    required String stackName,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -195,10 +187,10 @@ class CloudFormation {
   /// CloudFormation uses a temporary session that is generated from your user
   /// credentials.
   Future<void> continueUpdateRollback({
-    @_s.required String stackName,
-    String clientRequestToken,
-    List<String> resourcesToSkip,
-    String roleARN,
+    required String stackName,
+    String? clientRequestToken,
+    List<String>? resourcesToSkip,
+    String? roleARN,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -507,23 +499,23 @@ class CloudFormation {
   /// Whether to reuse the template that is associated with the stack to create
   /// the change set.
   Future<CreateChangeSetOutput> createChangeSet({
-    @_s.required String changeSetName,
-    @_s.required String stackName,
-    List<Capability> capabilities,
-    ChangeSetType changeSetType,
-    String clientToken,
-    String description,
-    bool includeNestedStacks,
-    List<String> notificationARNs,
-    List<Parameter> parameters,
-    List<String> resourceTypes,
-    List<ResourceToImport> resourcesToImport,
-    String roleARN,
-    RollbackConfiguration rollbackConfiguration,
-    List<Tag> tags,
-    String templateBody,
-    String templateURL,
-    bool usePreviousTemplate,
+    required String changeSetName,
+    required String stackName,
+    List<Capability>? capabilities,
+    ChangeSetType? changeSetType,
+    String? clientToken,
+    String? description,
+    bool? includeNestedStacks,
+    List<String>? notificationARNs,
+    List<Parameter>? parameters,
+    List<String>? resourceTypes,
+    List<ResourceToImport>? resourcesToImport,
+    String? roleARN,
+    RollbackConfiguration? rollbackConfiguration,
+    List<Tag>? tags,
+    String? templateBody,
+    String? templateURL,
+    bool? usePreviousTemplate,
   }) async {
     ArgumentError.checkNotNull(changeSetName, 'changeSetName');
     _s.validateStringLength(
@@ -587,7 +579,7 @@ class CloudFormation {
     $request['ChangeSetName'] = changeSetName;
     $request['StackName'] = stackName;
     capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
+        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
     changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
     clientToken?.also((arg) => $request['ClientToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
@@ -887,23 +879,23 @@ class CloudFormation {
   /// CREATE_FAILED; if <code>DisableRollback</code> is not set or is set to
   /// <code>false</code>, the stack will be rolled back.
   Future<CreateStackOutput> createStack({
-    @_s.required String stackName,
-    List<Capability> capabilities,
-    String clientRequestToken,
-    bool disableRollback,
-    bool enableTerminationProtection,
-    List<String> notificationARNs,
-    OnFailure onFailure,
-    List<Parameter> parameters,
-    List<String> resourceTypes,
-    String roleARN,
-    RollbackConfiguration rollbackConfiguration,
-    String stackPolicyBody,
-    String stackPolicyURL,
-    List<Tag> tags,
-    String templateBody,
-    String templateURL,
-    int timeoutInMinutes,
+    required String stackName,
+    List<Capability>? capabilities,
+    String? clientRequestToken,
+    bool? disableRollback,
+    bool? enableTerminationProtection,
+    List<String>? notificationARNs,
+    OnFailure? onFailure,
+    List<Parameter>? parameters,
+    List<String>? resourceTypes,
+    String? roleARN,
+    RollbackConfiguration? rollbackConfiguration,
+    String? stackPolicyBody,
+    String? stackPolicyURL,
+    List<Tag>? tags,
+    String? templateBody,
+    String? templateURL,
+    int? timeoutInMinutes,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -956,7 +948,7 @@ class CloudFormation {
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
+        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     disableRollback?.also((arg) => $request['DisableRollback'] = arg);
     enableTerminationProtection
@@ -1085,13 +1077,13 @@ class CloudFormation {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
   /// to update the stack set template.
   Future<CreateStackInstancesOutput> createStackInstances({
-    @_s.required List<String> regions,
-    @_s.required String stackSetName,
-    List<String> accounts,
-    DeploymentTargets deploymentTargets,
-    String operationId,
-    StackSetOperationPreferences operationPreferences,
-    List<Parameter> parameterOverrides,
+    required List<String> regions,
+    required String stackSetName,
+    List<String>? accounts,
+    DeploymentTargets? deploymentTargets,
+    String? operationId,
+    StackSetOperationPreferences? operationPreferences,
+    List<Parameter>? parameterOverrides,
   }) async {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
@@ -1335,18 +1327,18 @@ class CloudFormation {
   /// Conditional: You must specify either the TemplateBody or the TemplateURL
   /// parameter, but not both.
   Future<CreateStackSetOutput> createStackSet({
-    @_s.required String stackSetName,
-    String administrationRoleARN,
-    AutoDeployment autoDeployment,
-    List<Capability> capabilities,
-    String clientRequestToken,
-    String description,
-    String executionRoleName,
-    List<Parameter> parameters,
-    PermissionModels permissionModel,
-    List<Tag> tags,
-    String templateBody,
-    String templateURL,
+    required String stackSetName,
+    String? administrationRoleARN,
+    AutoDeployment? autoDeployment,
+    List<Capability>? capabilities,
+    String? clientRequestToken,
+    String? description,
+    String? executionRoleName,
+    List<Parameter>? parameters,
+    PermissionModels? permissionModel,
+    List<Tag>? tags,
+    String? templateBody,
+    String? templateURL,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateStringLength(
@@ -1401,7 +1393,7 @@ class CloudFormation {
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
     autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
     capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
+        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
     $request['ClientRequestToken'] =
         clientRequestToken ?? _s.generateIdempotencyToken();
     description?.also((arg) => $request['Description'] = arg);
@@ -1447,8 +1439,8 @@ class CloudFormation {
   /// If you specified the name of a change set to delete, specify the stack
   /// name or ID (ARN) that is associated with it.
   Future<void> deleteChangeSet({
-    @_s.required String changeSetName,
-    String stackName,
+    required String changeSetName,
+    String? stackName,
   }) async {
     ArgumentError.checkNotNull(changeSetName, 'changeSetName');
     _s.validateStringLength(
@@ -1541,10 +1533,10 @@ class CloudFormation {
   /// CloudFormation uses a temporary session that is generated from your user
   /// credentials.
   Future<void> deleteStack({
-    @_s.required String stackName,
-    String clientRequestToken,
-    List<String> retainResources,
-    String roleARN,
+    required String stackName,
+    String? clientRequestToken,
+    List<String>? retainResources,
+    String? roleARN,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -1636,13 +1628,13 @@ class CloudFormation {
   /// Parameter [operationPreferences] :
   /// Preferences for how AWS CloudFormation performs this stack set operation.
   Future<DeleteStackInstancesOutput> deleteStackInstances({
-    @_s.required List<String> regions,
-    @_s.required bool retainStacks,
-    @_s.required String stackSetName,
-    List<String> accounts,
-    DeploymentTargets deploymentTargets,
-    String operationId,
-    StackSetOperationPreferences operationPreferences,
+    required List<String> regions,
+    required bool retainStacks,
+    required String stackSetName,
+    List<String>? accounts,
+    DeploymentTargets? deploymentTargets,
+    String? operationId,
+    StackSetOperationPreferences? operationPreferences,
   }) async {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(retainStacks, 'retainStacks');
@@ -1691,7 +1683,7 @@ class CloudFormation {
   /// The name or unique ID of the stack set that you're deleting. You can
   /// obtain this value by running <a>ListStackSets</a>.
   Future<void> deleteStackSet({
-    @_s.required String stackSetName,
+    required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{};
@@ -1749,10 +1741,10 @@ class CloudFormation {
   /// the end of the Amazon Resource Name (ARN) assigned to the type version
   /// when it is registered.
   Future<void> deregisterType({
-    String arn,
-    RegistryType type,
-    String typeName,
-    String versionId,
+    String? arn,
+    RegistryType? type,
+    String? typeName,
+    String? versionId,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -1815,7 +1807,7 @@ class CloudFormation {
   /// A string that identifies the next page of limits that you want to
   /// retrieve.
   Future<DescribeAccountLimitsOutput> describeAccountLimits({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1859,9 +1851,9 @@ class CloudFormation {
   /// If you specified the name of a change set, specify the stack name or ID
   /// (ARN) of the change set you want to describe.
   Future<DescribeChangeSetOutput> describeChangeSet({
-    @_s.required String changeSetName,
-    String nextToken,
-    String stackName,
+    required String changeSetName,
+    String? nextToken,
+    String? stackName,
   }) async {
     ArgumentError.checkNotNull(changeSetName, 'changeSetName');
     _s.validateStringLength(
@@ -1937,7 +1929,7 @@ class CloudFormation {
   /// CloudFormation retains for any given stack, and for how long, may vary.
   Future<DescribeStackDriftDetectionStatusOutput>
       describeStackDriftDetectionStatus({
-    @_s.required String stackDriftDetectionId,
+    required String stackDriftDetectionId,
   }) async {
     ArgumentError.checkNotNull(stackDriftDetectionId, 'stackDriftDetectionId');
     _s.validateStringLength(
@@ -1992,8 +1984,8 @@ class CloudFormation {
   /// </ul>
   /// Default: There is no default value.
   Future<DescribeStackEventsOutput> describeStackEvents({
-    String nextToken,
-    String stackName,
+    String? nextToken,
+    String? stackName,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2037,9 +2029,9 @@ class CloudFormation {
   /// The name or the unique stack ID of the stack set that you want to get
   /// stack instance information for.
   Future<DescribeStackInstanceOutput> describeStackInstance({
-    @_s.required String stackInstanceAccount,
-    @_s.required String stackInstanceRegion,
-    @_s.required String stackSetName,
+    required String stackInstanceAccount,
+    required String stackInstanceRegion,
+    required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackInstanceAccount, 'stackInstanceAccount');
     _s.validateStringPattern(
@@ -2099,8 +2091,8 @@ class CloudFormation {
   /// </ul>
   /// Default: There is no default value.
   Future<DescribeStackResourceOutput> describeStackResource({
-    @_s.required String logicalResourceId,
-    @_s.required String stackName,
+    required String logicalResourceId,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(logicalResourceId, 'logicalResourceId');
     ArgumentError.checkNotNull(stackName, 'stackName');
@@ -2173,10 +2165,10 @@ class CloudFormation {
   /// </li>
   /// </ul>
   Future<DescribeStackResourceDriftsOutput> describeStackResourceDrifts({
-    @_s.required String stackName,
-    int maxResults,
-    String nextToken,
-    List<StackResourceDriftStatus> stackResourceDriftStatusFilters,
+    required String stackName,
+    int? maxResults,
+    String? nextToken,
+    List<StackResourceDriftStatus>? stackResourceDriftStatusFilters,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -2210,7 +2202,7 @@ class CloudFormation {
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackResourceDriftStatusFilters?.also((arg) =>
         $request['StackResourceDriftStatusFilters'] =
-            arg.map((e) => e?.toValue() ?? '').toList());
+            arg.map((e) => e.toValue()).toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackResourceDrifts',
@@ -2289,9 +2281,9 @@ class CloudFormation {
   /// Required: Conditional. If you do not specify <code>StackName</code>, you
   /// must specify <code>PhysicalResourceId</code>.
   Future<DescribeStackResourcesOutput> describeStackResources({
-    String logicalResourceId,
-    String physicalResourceId,
-    String stackName,
+    String? logicalResourceId,
+    String? physicalResourceId,
+    String? stackName,
   }) async {
     final $request = <String, dynamic>{};
     logicalResourceId?.also((arg) => $request['LogicalResourceId'] = arg);
@@ -2318,7 +2310,7 @@ class CloudFormation {
   /// Parameter [stackSetName] :
   /// The name or unique ID of the stack set whose description you want.
   Future<DescribeStackSetOutput> describeStackSet({
-    @_s.required String stackSetName,
+    required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{};
@@ -2348,8 +2340,8 @@ class CloudFormation {
   /// Parameter [stackSetName] :
   /// The name or the unique stack ID of the stack set for the stack operation.
   Future<DescribeStackSetOperationOutput> describeStackSetOperation({
-    @_s.required String operationId,
-    @_s.required String stackSetName,
+    required String operationId,
+    required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(operationId, 'operationId');
     _s.validateStringLength(
@@ -2409,8 +2401,8 @@ class CloudFormation {
   /// </ul>
   /// Default: There is no default value.
   Future<DescribeStacksOutput> describeStacks({
-    String nextToken,
-    String stackName,
+    String? nextToken,
+    String? stackName,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2473,10 +2465,10 @@ class CloudFormation {
   /// information about that specific type version. Otherwise, it returns
   /// information about the default type version.
   Future<DescribeTypeOutput> describeType({
-    String arn,
-    RegistryType type,
-    String typeName,
-    String versionId,
+    String? arn,
+    RegistryType? type,
+    String? typeName,
+    String? versionId,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -2548,7 +2540,7 @@ class CloudFormation {
   /// This registration token is generated by CloudFormation when you initiate a
   /// registration request using <code> <a>RegisterType</a> </code>.
   Future<DescribeTypeRegistrationOutput> describeTypeRegistration({
-    @_s.required String registrationToken,
+    required String registrationToken,
   }) async {
     ArgumentError.checkNotNull(registrationToken, 'registrationToken');
     _s.validateStringLength(
@@ -2618,8 +2610,8 @@ class CloudFormation {
   /// Parameter [logicalResourceIds] :
   /// The logical names of any resources you want to use as filters.
   Future<DetectStackDriftOutput> detectStackDrift({
-    @_s.required String stackName,
-    List<String> logicalResourceIds,
+    required String stackName,
+    List<String>? logicalResourceIds,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -2677,8 +2669,8 @@ class CloudFormation {
   /// Parameter [stackName] :
   /// The name of the stack to which the resource belongs.
   Future<DetectStackResourceDriftOutput> detectStackResourceDrift({
-    @_s.required String logicalResourceId,
-    @_s.required String stackName,
+    required String logicalResourceId,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(logicalResourceId, 'logicalResourceId');
     ArgumentError.checkNotNull(stackName, 'stackName');
@@ -2768,9 +2760,9 @@ class CloudFormation {
   /// Parameter [operationId] :
   /// <i>The ID of the stack set operation.</i>
   Future<DetectStackSetDriftOutput> detectStackSetDrift({
-    @_s.required String stackSetName,
-    String operationId,
-    StackSetOperationPreferences operationPreferences,
+    required String stackSetName,
+    String? operationId,
+    StackSetOperationPreferences? operationPreferences,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateStringPattern(
@@ -2836,9 +2828,9 @@ class CloudFormation {
   /// <code>TemplateBody</code>. If both are passed, only
   /// <code>TemplateBody</code> is used.
   Future<EstimateTemplateCostOutput> estimateTemplateCost({
-    List<Parameter> parameters,
-    String templateBody,
-    String templateURL,
+    List<Parameter>? parameters,
+    String? templateBody,
+    String? templateURL,
   }) async {
     _s.validateStringLength(
       'templateBody',
@@ -2907,9 +2899,9 @@ class CloudFormation {
   /// If you specified the name of a change set, specify the stack name or ID
   /// (ARN) that is associated with the change set you want to execute.
   Future<void> executeChangeSet({
-    @_s.required String changeSetName,
-    String clientRequestToken,
-    String stackName,
+    required String changeSetName,
+    String? clientRequestToken,
+    String? stackName,
   }) async {
     ArgumentError.checkNotNull(changeSetName, 'changeSetName');
     _s.validateStringLength(
@@ -2971,7 +2963,7 @@ class CloudFormation {
   /// The name or unique stack ID that is associated with the stack whose policy
   /// you want to get.
   Future<GetStackPolicyOutput> getStackPolicy({
-    @_s.required String stackName,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     final $request = <String, dynamic>{};
@@ -3032,9 +3024,9 @@ class CloudFormation {
   /// <code>Processed</code> return the same template. By default, AWS
   /// CloudFormation specifies <code>Original</code>.
   Future<GetTemplateOutput> getTemplate({
-    String changeSetName,
-    String stackName,
-    TemplateStage templateStage,
+    String? changeSetName,
+    String? stackName,
+    TemplateStage? templateStage,
   }) async {
     _s.validateStringLength(
       'changeSetName',
@@ -3119,10 +3111,10 @@ class CloudFormation {
   /// <code>StackName</code>, <code>StackSetName</code>,
   /// <code>TemplateBody</code>, or <code>TemplateURL</code>.
   Future<GetTemplateSummaryOutput> getTemplateSummary({
-    String stackName,
-    String stackSetName,
-    String templateBody,
-    String templateURL,
+    String? stackName,
+    String? stackSetName,
+    String? templateBody,
+    String? templateURL,
   }) async {
     _s.validateStringLength(
       'stackName',
@@ -3183,8 +3175,8 @@ class CloudFormation {
   /// A string (provided by the <a>ListChangeSets</a> response output) that
   /// identifies the next page of change sets that you want to retrieve.
   Future<ListChangeSetsOutput> listChangeSets({
-    @_s.required String stackName,
-    String nextToken,
+    required String stackName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -3238,7 +3230,7 @@ class CloudFormation {
   /// identifies the next page of exported output values that you asked to
   /// retrieve.
   Future<ListExportsOutput> listExports({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -3280,8 +3272,8 @@ class CloudFormation {
   /// identifies the next page of stacks that are importing the specified
   /// exported output value.
   Future<ListImportsOutput> listImports({
-    @_s.required String exportName,
-    String nextToken,
+    required String exportName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(exportName, 'exportName');
     _s.validateStringLength(
@@ -3341,12 +3333,12 @@ class CloudFormation {
   /// Parameter [stackInstanceRegion] :
   /// The name of the Region where you want to list stack instances.
   Future<ListStackInstancesOutput> listStackInstances({
-    @_s.required String stackSetName,
-    List<StackInstanceFilter> filters,
-    int maxResults,
-    String nextToken,
-    String stackInstanceAccount,
-    String stackInstanceRegion,
+    required String stackSetName,
+    List<StackInstanceFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? stackInstanceAccount,
+    String? stackInstanceRegion,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateNumRange(
@@ -3416,8 +3408,8 @@ class CloudFormation {
   /// A string that identifies the next page of stack resources that you want to
   /// retrieve.
   Future<ListStackResourcesOutput> listStackResources({
-    @_s.required String stackName,
-    String nextToken,
+    required String stackName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -3470,10 +3462,10 @@ class CloudFormation {
   /// remaining results, the previous response object's <code>NextToken</code>
   /// parameter is set to <code>null</code>.
   Future<ListStackSetOperationResultsOutput> listStackSetOperationResults({
-    @_s.required String operationId,
-    @_s.required String stackSetName,
-    int maxResults,
-    String nextToken,
+    required String operationId,
+    required String stackSetName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(operationId, 'operationId');
     _s.validateStringLength(
@@ -3544,9 +3536,9 @@ class CloudFormation {
   /// remaining results, the previous response object's <code>NextToken</code>
   /// parameter is set to <code>null</code>.
   Future<ListStackSetOperationsOutput> listStackSetOperations({
-    @_s.required String stackSetName,
-    int maxResults,
-    String nextToken,
+    required String stackSetName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateNumRange(
@@ -3601,9 +3593,9 @@ class CloudFormation {
   /// The status of the stack sets that you want to get summary information
   /// about.
   Future<ListStackSetsOutput> listStackSets({
-    int maxResults,
-    String nextToken,
-    StackSetStatus status,
+    int? maxResults,
+    String? nextToken,
+    StackSetStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3651,8 +3643,8 @@ class CloudFormation {
   /// stack status codes, see the <code>StackStatus</code> parameter of the
   /// <a>Stack</a> data type.
   Future<ListStacksOutput> listStacks({
-    String nextToken,
-    List<StackStatus> stackStatusFilter,
+    String? nextToken,
+    List<StackStatus>? stackStatusFilter,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -3662,8 +3654,8 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackStatusFilter?.also((arg) => $request['StackStatusFilter'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    stackStatusFilter?.also((arg) =>
+        $request['StackStatusFilter'] = arg.map((e) => e.toValue()).toList());
     final $result = await _protocol.send(
       $request,
       action: 'ListStacks',
@@ -3721,12 +3713,12 @@ class CloudFormation {
   /// Conditional: You must specify either <code>TypeName</code> and
   /// <code>Type</code>, or <code>Arn</code>.
   Future<ListTypeRegistrationsOutput> listTypeRegistrations({
-    int maxResults,
-    String nextToken,
-    RegistrationStatus registrationStatusFilter,
-    RegistryType type,
-    String typeArn,
-    String typeName,
+    int? maxResults,
+    String? nextToken,
+    RegistrationStatus? registrationStatusFilter,
+    RegistryType? type,
+    String? typeArn,
+    String? typeName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3842,12 +3834,12 @@ class CloudFormation {
   /// Conditional: You must specify either <code>TypeName</code> and
   /// <code>Type</code>, or <code>Arn</code>.
   Future<ListTypeVersionsOutput> listTypeVersions({
-    String arn,
-    DeprecatedStatus deprecatedStatus,
-    int maxResults,
-    String nextToken,
-    RegistryType type,
-    String typeName,
+    String? arn,
+    DeprecatedStatus? deprecatedStatus,
+    int? maxResults,
+    String? nextToken,
+    RegistryType? type,
+    String? typeName,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -3986,12 +3978,12 @@ class CloudFormation {
   /// </ul>
   /// The default is <code>PRIVATE</code>.
   Future<ListTypesOutput> listTypes({
-    DeprecatedStatus deprecatedStatus,
-    int maxResults,
-    String nextToken,
-    ProvisioningType provisioningType,
-    RegistryType type,
-    Visibility visibility,
+    DeprecatedStatus? deprecatedStatus,
+    int? maxResults,
+    String? nextToken,
+    ProvisioningType? provisioningType,
+    RegistryType? type,
+    Visibility? visibility,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4072,13 +4064,13 @@ class CloudFormation {
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html">CloudFormation
   /// CLI</a>.
   Future<void> recordHandlerProgress({
-    @_s.required String bearerToken,
-    @_s.required OperationStatus operationStatus,
-    String clientRequestToken,
-    OperationStatus currentOperationStatus,
-    HandlerErrorCode errorCode,
-    String resourceModel,
-    String statusMessage,
+    required String bearerToken,
+    required OperationStatus operationStatus,
+    String? clientRequestToken,
+    OperationStatus? currentOperationStatus,
+    HandlerErrorCode? errorCode,
+    String? resourceModel,
+    String? statusMessage,
   }) async {
     ArgumentError.checkNotNull(bearerToken, 'bearerToken');
     _s.validateStringLength(
@@ -4242,12 +4234,12 @@ class CloudFormation {
   ///
   /// Currently, the only valid value is <code>RESOURCE</code>.
   Future<RegisterTypeOutput> registerType({
-    @_s.required String schemaHandlerPackage,
-    @_s.required String typeName,
-    String clientRequestToken,
-    String executionRoleArn,
-    LoggingConfig loggingConfig,
-    RegistryType type,
+    required String schemaHandlerPackage,
+    required String typeName,
+    String? clientRequestToken,
+    String? executionRoleArn,
+    LoggingConfig? loggingConfig,
+    RegistryType? type,
   }) async {
     ArgumentError.checkNotNull(schemaHandlerPackage, 'schemaHandlerPackage');
     _s.validateStringLength(
@@ -4332,9 +4324,9 @@ class CloudFormation {
   /// the stack. You can specify either the <code>StackPolicyBody</code> or the
   /// <code>StackPolicyURL</code> parameter, but not both.
   Future<void> setStackPolicy({
-    @_s.required String stackName,
-    String stackPolicyBody,
-    String stackPolicyURL,
+    required String stackName,
+    String? stackPolicyBody,
+    String? stackPolicyURL,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -4395,10 +4387,10 @@ class CloudFormation {
   /// the end of the Amazon Resource Name (ARN) assigned to the type version
   /// when it is registered.
   Future<void> setTypeDefaultVersion({
-    String arn,
-    RegistryType type,
-    String typeName,
-    String versionId,
+    String? arn,
+    RegistryType? type,
+    String? typeName,
+    String? versionId,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -4478,10 +4470,10 @@ class CloudFormation {
   /// unique ID. If you send multiple signals to a single resource (such as
   /// signaling a wait condition), each signal requires a different unique ID.
   Future<void> signalResource({
-    @_s.required String logicalResourceId,
-    @_s.required String stackName,
-    @_s.required ResourceSignalStatus status,
-    @_s.required String uniqueId,
+    required String logicalResourceId,
+    required String stackName,
+    required ResourceSignalStatus status,
+    required String uniqueId,
   }) async {
     ArgumentError.checkNotNull(logicalResourceId, 'logicalResourceId');
     ArgumentError.checkNotNull(stackName, 'stackName');
@@ -4538,8 +4530,8 @@ class CloudFormation {
   /// The name or unique ID of the stack set that you want to stop the operation
   /// for.
   Future<void> stopStackSetOperation({
-    @_s.required String operationId,
-    @_s.required String stackSetName,
+    required String operationId,
+    required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(operationId, 'operationId');
     _s.validateStringLength(
@@ -4844,22 +4836,22 @@ class CloudFormation {
   /// <code>TemplateBody</code>, <code>TemplateURL</code>, or set the
   /// <code>UsePreviousTemplate</code> to <code>true</code>.
   Future<UpdateStackOutput> updateStack({
-    @_s.required String stackName,
-    List<Capability> capabilities,
-    String clientRequestToken,
-    List<String> notificationARNs,
-    List<Parameter> parameters,
-    List<String> resourceTypes,
-    String roleARN,
-    RollbackConfiguration rollbackConfiguration,
-    String stackPolicyBody,
-    String stackPolicyDuringUpdateBody,
-    String stackPolicyDuringUpdateURL,
-    String stackPolicyURL,
-    List<Tag> tags,
-    String templateBody,
-    String templateURL,
-    bool usePreviousTemplate,
+    required String stackName,
+    List<Capability>? capabilities,
+    String? clientRequestToken,
+    List<String>? notificationARNs,
+    List<Parameter>? parameters,
+    List<String>? resourceTypes,
+    String? roleARN,
+    RollbackConfiguration? rollbackConfiguration,
+    String? stackPolicyBody,
+    String? stackPolicyDuringUpdateBody,
+    String? stackPolicyDuringUpdateURL,
+    String? stackPolicyURL,
+    List<Tag>? tags,
+    String? templateBody,
+    String? templateURL,
+    bool? usePreviousTemplate,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -4918,7 +4910,7 @@ class CloudFormation {
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
+        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -5073,13 +5065,13 @@ class CloudFormation {
   /// with the new parameter, you can then override the parameter value using
   /// <code>UpdateStackInstances</code>.
   Future<UpdateStackInstancesOutput> updateStackInstances({
-    @_s.required List<String> regions,
-    @_s.required String stackSetName,
-    List<String> accounts,
-    DeploymentTargets deploymentTargets,
-    String operationId,
-    StackSetOperationPreferences operationPreferences,
-    List<Parameter> parameterOverrides,
+    required List<String> regions,
+    required String stackSetName,
+    List<String>? accounts,
+    DeploymentTargets? deploymentTargets,
+    String? operationId,
+    StackSetOperationPreferences? operationPreferences,
+    List<Parameter>? parameterOverrides,
   }) async {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
@@ -5443,23 +5435,23 @@ class CloudFormation {
   /// <code>TemplateBody</code> or <code>TemplateURL</code>—or set
   /// <code>UsePreviousTemplate</code> to true.
   Future<UpdateStackSetOutput> updateStackSet({
-    @_s.required String stackSetName,
-    List<String> accounts,
-    String administrationRoleARN,
-    AutoDeployment autoDeployment,
-    List<Capability> capabilities,
-    DeploymentTargets deploymentTargets,
-    String description,
-    String executionRoleName,
-    String operationId,
-    StackSetOperationPreferences operationPreferences,
-    List<Parameter> parameters,
-    PermissionModels permissionModel,
-    List<String> regions,
-    List<Tag> tags,
-    String templateBody,
-    String templateURL,
-    bool usePreviousTemplate,
+    required String stackSetName,
+    List<String>? accounts,
+    String? administrationRoleARN,
+    AutoDeployment? autoDeployment,
+    List<Capability>? capabilities,
+    DeploymentTargets? deploymentTargets,
+    String? description,
+    String? executionRoleName,
+    String? operationId,
+    StackSetOperationPreferences? operationPreferences,
+    List<Parameter>? parameters,
+    PermissionModels? permissionModel,
+    List<String>? regions,
+    List<Tag>? tags,
+    String? templateBody,
+    String? templateURL,
+    bool? usePreviousTemplate,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     _s.validateStringLength(
@@ -5515,7 +5507,7 @@ class CloudFormation {
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
     autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
     capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
+        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
@@ -5561,8 +5553,8 @@ class CloudFormation {
   /// The name or unique ID of the stack for which you want to set termination
   /// protection.
   Future<UpdateTerminationProtectionOutput> updateTerminationProtection({
-    @_s.required bool enableTerminationProtection,
-    @_s.required String stackName,
+    required bool enableTerminationProtection,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(
         enableTerminationProtection, 'enableTerminationProtection');
@@ -5623,8 +5615,8 @@ class CloudFormation {
   /// <code>TemplateBody</code>. If both are passed, only
   /// <code>TemplateBody</code> is used.
   Future<ValidateTemplateOutput> validateTemplate({
-    String templateBody,
-    String templateURL,
+    String? templateBody,
+    String? templateURL,
   }) async {
     _s.validateStringLength(
       'templateBody',
@@ -5711,11 +5703,11 @@ class AccountGateResult {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  final AccountGateStatus status;
+  final AccountGateStatus? status;
 
   /// The reason for the account gate status assigned to this account and Region
   /// for the stack set operation.
-  final String statusReason;
+  final String? statusReason;
 
   AccountGateResult({
     this.status,
@@ -5730,12 +5722,22 @@ class AccountGateResult {
 }
 
 enum AccountGateStatus {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SKIPPED')
   skipped,
+}
+
+extension on AccountGateStatus {
+  String toValue() {
+    switch (this) {
+      case AccountGateStatus.succeeded:
+        return 'SUCCEEDED';
+      case AccountGateStatus.failed:
+        return 'FAILED';
+      case AccountGateStatus.skipped:
+        return 'SKIPPED';
+    }
+  }
 }
 
 extension on String {
@@ -5748,7 +5750,7 @@ extension on String {
       case 'SKIPPED':
         return AccountGateStatus.skipped;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AccountGateStatus');
   }
 }
 
@@ -5776,10 +5778,10 @@ class AccountLimit {
   ///
   /// Values: <code>ConcurrentResourcesLimit</code> | <code>StackLimit</code> |
   /// <code>StackOutputsLimit</code>
-  final String name;
+  final String? name;
 
   /// The value that is associated with the account limit name.
-  final int value;
+  final int? value;
 
   AccountLimit({
     this.name,
@@ -5796,26 +5798,19 @@ class AccountLimit {
 /// [<code>Service-managed</code> permissions] Describes whether StackSets
 /// automatically deploys to AWS Organizations accounts that are added to a
 /// target organization or organizational unit (OU).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoDeployment {
   /// If set to <code>true</code>, StackSets automatically deploys additional
   /// stack instances to AWS Organizations accounts that are added to a target
   /// organization or organizational unit (OU) in the specified Regions. If an
   /// account is removed from a target organization or OU, StackSets deletes stack
   /// instances from the account in the specified Regions.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// If set to <code>true</code>, stack resources are retained when an account is
   /// removed from a target organization or OU. If set to <code>false</code>,
   /// stack resources are deleted. Specify only if <code>Enabled</code> is set to
   /// <code>True</code>.
-  @_s.JsonKey(name: 'RetainStacksOnAccountRemoval')
-  final bool retainStacksOnAccountRemoval;
+  final bool? retainStacksOnAccountRemoval;
 
   AutoDeployment({
     this.enabled,
@@ -5829,15 +5824,20 @@ class AutoDeployment {
     );
   }
 
-  Map<String, dynamic> toJson() => _$AutoDeploymentToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final retainStacksOnAccountRemoval = this.retainStacksOnAccountRemoval;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (retainStacksOnAccountRemoval != null)
+        'RetainStacksOnAccountRemoval': retainStacksOnAccountRemoval,
+    };
+  }
 }
 
 enum Capability {
-  @_s.JsonValue('CAPABILITY_IAM')
   capabilityIam,
-  @_s.JsonValue('CAPABILITY_NAMED_IAM')
   capabilityNamedIam,
-  @_s.JsonValue('CAPABILITY_AUTO_EXPAND')
   capabilityAutoExpand,
 }
 
@@ -5851,7 +5851,6 @@ extension on Capability {
       case Capability.capabilityAutoExpand:
         return 'CAPABILITY_AUTO_EXPAND';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5865,7 +5864,7 @@ extension on String {
       case 'CAPABILITY_AUTO_EXPAND':
         return Capability.capabilityAutoExpand;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Capability');
   }
 }
 
@@ -5874,11 +5873,11 @@ extension on String {
 class Change {
   /// A <code>ResourceChange</code> structure that describes the resource and
   /// action that AWS CloudFormation will perform.
-  final ResourceChange resourceChange;
+  final ResourceChange? resourceChange;
 
   /// The type of entity that AWS CloudFormation changes. Currently, the only
   /// entity type is <code>Resource</code>.
-  final ChangeType type;
+  final ChangeType? type;
 
   Change({
     this.resourceChange,
@@ -5895,16 +5894,28 @@ class Change {
 }
 
 enum ChangeAction {
-  @_s.JsonValue('Add')
   add,
-  @_s.JsonValue('Modify')
   modify,
-  @_s.JsonValue('Remove')
   remove,
-  @_s.JsonValue('Import')
   import,
-  @_s.JsonValue('Dynamic')
   dynamic,
+}
+
+extension on ChangeAction {
+  String toValue() {
+    switch (this) {
+      case ChangeAction.add:
+        return 'Add';
+      case ChangeAction.modify:
+        return 'Modify';
+      case ChangeAction.remove:
+        return 'Remove';
+      case ChangeAction.import:
+        return 'Import';
+      case ChangeAction.dynamic:
+        return 'Dynamic';
+    }
+  }
 }
 
 extension on String {
@@ -5921,27 +5932,42 @@ extension on String {
       case 'Dynamic':
         return ChangeAction.dynamic;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeAction');
   }
 }
 
 enum ChangeSetStatus {
-  @_s.JsonValue('CREATE_PENDING')
   createPending,
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('DELETE_PENDING')
   deletePending,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on ChangeSetStatus {
+  String toValue() {
+    switch (this) {
+      case ChangeSetStatus.createPending:
+        return 'CREATE_PENDING';
+      case ChangeSetStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case ChangeSetStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case ChangeSetStatus.deletePending:
+        return 'DELETE_PENDING';
+      case ChangeSetStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case ChangeSetStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case ChangeSetStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case ChangeSetStatus.failed:
+        return 'FAILED';
+    }
+  }
 }
 
 extension on String {
@@ -5964,7 +5990,7 @@ extension on String {
       case 'FAILED':
         return ChangeSetStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeSetStatus');
   }
 }
 
@@ -5972,16 +5998,16 @@ extension on String {
 /// status, and the stack with which it's associated.
 class ChangeSetSummary {
   /// The ID of the change set.
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The name of the change set.
-  final String changeSetName;
+  final String? changeSetName;
 
   /// The start time when the change set was created, in UTC.
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Descriptive information about the change set.
-  final String description;
+  final String? description;
 
   /// If the change set execution status is <code>AVAILABLE</code>, you can
   /// execute the change set. If you can’t execute the change set, the status
@@ -5989,32 +6015,32 @@ class ChangeSetSummary {
   /// <code>UNAVAILABLE</code> state because AWS CloudFormation is still creating
   /// it or in an <code>OBSOLETE</code> state because the stack was already
   /// updated.
-  final ExecutionStatus executionStatus;
+  final ExecutionStatus? executionStatus;
 
   /// Specifies the current setting of <code>IncludeNestedStacks</code> for the
   /// change set.
-  final bool includeNestedStacks;
+  final bool? includeNestedStacks;
 
   /// The parent change set ID.
-  final String parentChangeSetId;
+  final String? parentChangeSetId;
 
   /// The root change set ID.
-  final String rootChangeSetId;
+  final String? rootChangeSetId;
 
   /// The ID of the stack with which the change set is associated.
-  final String stackId;
+  final String? stackId;
 
   /// The name of the stack with which the change set is associated.
-  final String stackName;
+  final String? stackName;
 
   /// The state of the change set, such as <code>CREATE_IN_PROGRESS</code>,
   /// <code>CREATE_COMPLETE</code>, or <code>FAILED</code>.
-  final ChangeSetStatus status;
+  final ChangeSetStatus? status;
 
   /// A description of the change set's status. For example, if your change set is
   /// in the <code>FAILED</code> state, AWS CloudFormation shows the error
   /// message.
-  final String statusReason;
+  final String? statusReason;
 
   ChangeSetSummary({
     this.changeSetId,
@@ -6051,11 +6077,8 @@ class ChangeSetSummary {
 }
 
 enum ChangeSetType {
-  @_s.JsonValue('CREATE')
   create,
-  @_s.JsonValue('UPDATE')
   update,
-  @_s.JsonValue('IMPORT')
   import,
 }
 
@@ -6069,7 +6092,6 @@ extension on ChangeSetType {
       case ChangeSetType.import:
         return 'IMPORT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6083,21 +6105,33 @@ extension on String {
       case 'IMPORT':
         return ChangeSetType.import;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeSetType');
   }
 }
 
 enum ChangeSource {
-  @_s.JsonValue('ResourceReference')
   resourceReference,
-  @_s.JsonValue('ParameterReference')
   parameterReference,
-  @_s.JsonValue('ResourceAttribute')
   resourceAttribute,
-  @_s.JsonValue('DirectModification')
   directModification,
-  @_s.JsonValue('Automatic')
   automatic,
+}
+
+extension on ChangeSource {
+  String toValue() {
+    switch (this) {
+      case ChangeSource.resourceReference:
+        return 'ResourceReference';
+      case ChangeSource.parameterReference:
+        return 'ParameterReference';
+      case ChangeSource.resourceAttribute:
+        return 'ResourceAttribute';
+      case ChangeSource.directModification:
+        return 'DirectModification';
+      case ChangeSource.automatic:
+        return 'Automatic';
+    }
+  }
 }
 
 extension on String {
@@ -6114,13 +6148,21 @@ extension on String {
       case 'Automatic':
         return ChangeSource.automatic;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeSource');
   }
 }
 
 enum ChangeType {
-  @_s.JsonValue('Resource')
   resource,
+}
+
+extension on ChangeType {
+  String toValue() {
+    switch (this) {
+      case ChangeType.resource:
+        return 'Resource';
+    }
+  }
 }
 
 extension on String {
@@ -6129,7 +6171,7 @@ extension on String {
       case 'Resource':
         return ChangeType.resource;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeType');
   }
 }
 
@@ -6146,10 +6188,10 @@ class ContinueUpdateRollbackOutput {
 /// The output for the <a>CreateChangeSet</a> action.
 class CreateChangeSetOutput {
   /// The Amazon Resource Name (ARN) of the change set.
-  final String id;
+  final String? id;
 
   /// The unique ID of the stack.
-  final String stackId;
+  final String? stackId;
 
   CreateChangeSetOutput({
     this.id,
@@ -6165,7 +6207,7 @@ class CreateChangeSetOutput {
 
 class CreateStackInstancesOutput {
   /// The unique identifier for this stack set operation.
-  final String operationId;
+  final String? operationId;
 
   CreateStackInstancesOutput({
     this.operationId,
@@ -6180,7 +6222,7 @@ class CreateStackInstancesOutput {
 /// The output for a <a>CreateStack</a> action.
 class CreateStackOutput {
   /// Unique identifier of the stack.
-  final String stackId;
+  final String? stackId;
 
   CreateStackOutput({
     this.stackId,
@@ -6194,7 +6236,7 @@ class CreateStackOutput {
 
 class CreateStackSetOutput {
   /// The ID of the stack set that you're creating.
-  final String stackSetId;
+  final String? stackSetId;
 
   CreateStackSetOutput({
     this.stackSetId,
@@ -6218,7 +6260,7 @@ class DeleteChangeSetOutput {
 
 class DeleteStackInstancesOutput {
   /// The unique identifier for this stack set operation.
-  final String operationId;
+  final String? operationId;
 
   DeleteStackInstancesOutput({
     this.operationId,
@@ -6247,21 +6289,14 @@ class DeleteStackSetOutput {
 /// For update operations, you can specify either <code>Accounts</code> or
 /// <code>OrganizationalUnitIds</code>. For create and delete operations,
 /// specify <code>OrganizationalUnitIds</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeploymentTargets {
   /// The names of one or more AWS accounts for which you want to deploy stack set
   /// updates.
-  @_s.JsonKey(name: 'Accounts')
-  final List<String> accounts;
+  final List<String>? accounts;
 
   /// The organization root ID or organizational unit (OU) IDs to which StackSets
   /// deploys.
-  @_s.JsonKey(name: 'OrganizationalUnitIds')
-  final List<String> organizationalUnitIds;
+  final List<String>? organizationalUnitIds;
 
   DeploymentTargets({
     this.accounts,
@@ -6278,13 +6313,19 @@ class DeploymentTargets {
     );
   }
 
-  Map<String, dynamic> toJson() => _$DeploymentTargetsToJson(this);
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final organizationalUnitIds = this.organizationalUnitIds;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (organizationalUnitIds != null)
+        'OrganizationalUnitIds': organizationalUnitIds,
+    };
+  }
 }
 
 enum DeprecatedStatus {
-  @_s.JsonValue('LIVE')
   live,
-  @_s.JsonValue('DEPRECATED')
   deprecated,
 }
 
@@ -6296,7 +6337,6 @@ extension on DeprecatedStatus {
       case DeprecatedStatus.deprecated:
         return 'DEPRECATED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6308,7 +6348,7 @@ extension on String {
       case 'DEPRECATED':
         return DeprecatedStatus.deprecated;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DeprecatedStatus');
   }
 }
 
@@ -6325,11 +6365,11 @@ class DeregisterTypeOutput {
 class DescribeAccountLimitsOutput {
   /// An account limit structure that contain a list of AWS CloudFormation account
   /// limits and their values.
-  final List<AccountLimit> accountLimits;
+  final List<AccountLimit>? accountLimits;
 
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of limits. If no additional page exists, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAccountLimitsOutput({
     this.accountLimits,
@@ -6351,23 +6391,23 @@ class DescribeAccountLimitsOutput {
 class DescribeChangeSetOutput {
   /// If you execute the change set, the list of capabilities that were explicitly
   /// acknowledged when the change set was created.
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
   /// The ARN of the change set.
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The name of the change set.
-  final String changeSetName;
+  final String? changeSetName;
 
   /// A list of <code>Change</code> structures that describes the resources AWS
   /// CloudFormation changes if you execute the change set.
-  final List<Change> changes;
+  final List<Change>? changes;
 
   /// The start time when the change set was created, in UTC.
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Information about the change set.
-  final String description;
+  final String? description;
 
   /// If the change set execution status is <code>AVAILABLE</code>, you can
   /// execute the change set. If you can’t execute the change set, the status
@@ -6375,57 +6415,57 @@ class DescribeChangeSetOutput {
   /// <code>UNAVAILABLE</code> state because AWS CloudFormation is still creating
   /// it or in an <code>OBSOLETE</code> state because the stack was already
   /// updated.
-  final ExecutionStatus executionStatus;
+  final ExecutionStatus? executionStatus;
 
   /// Verifies if <code>IncludeNestedStacks</code> is set to <code>True</code>.
-  final bool includeNestedStacks;
+  final bool? includeNestedStacks;
 
   /// If the output exceeds 1 MB, a string that identifies the next page of
   /// changes. If there is no additional page, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that
   /// will be associated with the stack if you execute the change set.
-  final List<String> notificationARNs;
+  final List<String>? notificationARNs;
 
   /// A list of <code>Parameter</code> structures that describes the input
   /// parameters and their values used to create the change set. For more
   /// information, see the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html">Parameter</a>
   /// data type.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   /// Specifies the change set ID of the parent change set in the current nested
   /// change set hierarchy.
-  final String parentChangeSetId;
+  final String? parentChangeSetId;
 
   /// The rollback triggers for AWS CloudFormation to monitor during stack
   /// creation and updating operations, and for the specified monitoring period
   /// afterwards.
-  final RollbackConfiguration rollbackConfiguration;
+  final RollbackConfiguration? rollbackConfiguration;
 
   /// Specifies the change set ID of the root change set in the current nested
   /// change set hierarchy.
-  final String rootChangeSetId;
+  final String? rootChangeSetId;
 
   /// The ARN of the stack that is associated with the change set.
-  final String stackId;
+  final String? stackId;
 
   /// The name of the stack that is associated with the change set.
-  final String stackName;
+  final String? stackName;
 
   /// The current status of the change set, such as
   /// <code>CREATE_IN_PROGRESS</code>, <code>CREATE_COMPLETE</code>, or
   /// <code>FAILED</code>.
-  final ChangeSetStatus status;
+  final ChangeSetStatus? status;
 
   /// A description of the change set's status. For example, if your attempt to
   /// create a change set failed, AWS CloudFormation shows the error message.
-  final String statusReason;
+  final String? statusReason;
 
   /// If you execute the change set, the tags that will be associated with the
   /// stack.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   DescribeChangeSetOutput({
     this.capabilities,
@@ -6528,13 +6568,13 @@ class DescribeStackDriftDetectionStatusOutput {
   final DateTime timestamp;
 
   /// The reason the stack drift detection operation has its current status.
-  final String detectionStatusReason;
+  final String? detectionStatusReason;
 
   /// Total number of stack resources that have drifted. This is NULL until the
   /// drift detection operation reaches a status of
   /// <code>DETECTION_COMPLETE</code>. This value will be 0 for stacks whose drift
   /// status is <code>IN_SYNC</code>.
-  final int driftedStackResourceCount;
+  final int? driftedStackResourceCount;
 
   /// Status of the stack's actual configuration compared to its expected
   /// configuration.
@@ -6557,13 +6597,13 @@ class DescribeStackDriftDetectionStatusOutput {
   /// <code>UNKNOWN</code>: This value is reserved for future use.
   /// </li>
   /// </ul>
-  final StackDriftStatus stackDriftStatus;
+  final StackDriftStatus? stackDriftStatus;
 
   DescribeStackDriftDetectionStatusOutput({
-    @_s.required this.detectionStatus,
-    @_s.required this.stackDriftDetectionId,
-    @_s.required this.stackId,
-    @_s.required this.timestamp,
+    required this.detectionStatus,
+    required this.stackDriftDetectionId,
+    required this.stackId,
+    required this.timestamp,
     this.detectionStatusReason,
     this.driftedStackResourceCount,
     this.stackDriftStatus,
@@ -6571,12 +6611,12 @@ class DescribeStackDriftDetectionStatusOutput {
   factory DescribeStackDriftDetectionStatusOutput.fromXml(_s.XmlElement elem) {
     return DescribeStackDriftDetectionStatusOutput(
       detectionStatus: _s
-          .extractXmlStringValue(elem, 'DetectionStatus')
-          ?.toStackDriftDetectionStatus(),
+          .extractXmlStringValue(elem, 'DetectionStatus')!
+          .toStackDriftDetectionStatus(),
       stackDriftDetectionId:
-          _s.extractXmlStringValue(elem, 'StackDriftDetectionId'),
-      stackId: _s.extractXmlStringValue(elem, 'StackId'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+          _s.extractXmlStringValue(elem, 'StackDriftDetectionId')!,
+      stackId: _s.extractXmlStringValue(elem, 'StackId')!,
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       detectionStatusReason:
           _s.extractXmlStringValue(elem, 'DetectionStatusReason'),
       driftedStackResourceCount:
@@ -6592,10 +6632,10 @@ class DescribeStackDriftDetectionStatusOutput {
 class DescribeStackEventsOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of events. If no additional page exists, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackEvents</code> structures.
-  final List<StackEvent> stackEvents;
+  final List<StackEvent>? stackEvents;
 
   DescribeStackEventsOutput({
     this.nextToken,
@@ -6614,7 +6654,7 @@ class DescribeStackEventsOutput {
 
 class DescribeStackInstanceOutput {
   /// The stack instance that matches the specified request parameters.
-  final StackInstance stackInstance;
+  final StackInstance? stackInstance;
 
   DescribeStackInstanceOutput({
     this.stackInstance,
@@ -6648,19 +6688,19 @@ class DescribeStackResourceDriftsOutput {
   /// token to the request object's <code>NextToken</code> parameter. If the
   /// request returns all results, <code>NextToken</code> is set to
   /// <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeStackResourceDriftsOutput({
-    @_s.required this.stackResourceDrifts,
+    required this.stackResourceDrifts,
     this.nextToken,
   });
   factory DescribeStackResourceDriftsOutput.fromXml(_s.XmlElement elem) {
     return DescribeStackResourceDriftsOutput(
-      stackResourceDrifts: _s.extractXmlChild(elem, 'StackResourceDrifts')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => StackResourceDrift.fromXml(c))
-              .toList()),
+      stackResourceDrifts: _s
+          .extractXmlChild(elem, 'StackResourceDrifts')!
+          .findElements('member')
+          .map((c) => StackResourceDrift.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -6670,7 +6710,7 @@ class DescribeStackResourceDriftsOutput {
 class DescribeStackResourceOutput {
   /// A <code>StackResourceDetail</code> structure containing the description of
   /// the specified resource in the specified stack.
-  final StackResourceDetail stackResourceDetail;
+  final StackResourceDetail? stackResourceDetail;
 
   DescribeStackResourceOutput({
     this.stackResourceDetail,
@@ -6687,7 +6727,7 @@ class DescribeStackResourceOutput {
 /// The output for a <a>DescribeStackResources</a> action.
 class DescribeStackResourcesOutput {
   /// A list of <code>StackResource</code> structures.
-  final List<StackResource> stackResources;
+  final List<StackResource>? stackResources;
 
   DescribeStackResourcesOutput({
     this.stackResources,
@@ -6705,7 +6745,7 @@ class DescribeStackResourcesOutput {
 
 class DescribeStackSetOperationOutput {
   /// The specified stack set operation.
-  final StackSetOperation stackSetOperation;
+  final StackSetOperation? stackSetOperation;
 
   DescribeStackSetOperationOutput({
     this.stackSetOperation,
@@ -6721,7 +6761,7 @@ class DescribeStackSetOperationOutput {
 
 class DescribeStackSetOutput {
   /// The specified stack set.
-  final StackSet stackSet;
+  final StackSet? stackSet;
 
   DescribeStackSetOutput({
     this.stackSet,
@@ -6738,10 +6778,10 @@ class DescribeStackSetOutput {
 class DescribeStacksOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of stacks. If no additional page exists, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of stack structures.
-  final List<Stack> stacks;
+  final List<Stack>? stacks;
 
   DescribeStacksOutput({
     this.nextToken,
@@ -6758,14 +6798,14 @@ class DescribeStacksOutput {
 
 class DescribeTypeOutput {
   /// The Amazon Resource Name (ARN) of the type.
-  final String arn;
+  final String? arn;
 
   /// The ID of the default version of the type. The default version is used when
   /// the type version is not specified.
   ///
   /// To set the default version of a type, use <code>
   /// <a>SetTypeDefaultVersion</a> </code>.
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// The deprecation status of the type.
   ///
@@ -6781,13 +6821,13 @@ class DescribeTypeOutput {
   /// used in CloudFormation operations.
   /// </li>
   /// </ul>
-  final DeprecatedStatus deprecatedStatus;
+  final DeprecatedStatus? deprecatedStatus;
 
   /// The description of the registered type.
-  final String description;
+  final String? description;
 
   /// The URL of a page providing detailed documentation for this type.
-  final String documentationUrl;
+  final String? documentationUrl;
 
   /// The Amazon Resource Name (ARN) of the IAM execution role used to register
   /// the type. If your resource type calls AWS APIs in any of its handlers, you
@@ -6797,16 +6837,16 @@ class DescribeTypeOutput {
   /// those AWS APIs, and provision that execution role in your account.
   /// CloudFormation then assumes that execution role to provide your resource
   /// type with the appropriate credentials.
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// Whether the specified type version is set as the default version.
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// When the specified type version was registered.
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// Contains logging configuration information for a type.
-  final LoggingConfig loggingConfig;
+  final LoggingConfig? loggingConfig;
 
   /// The provisioning behavior of the type. AWS CloudFormation determines the
   /// provisioning type during registration, based on the types of handlers in the
@@ -6840,28 +6880,28 @@ class DescribeTypeOutput {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  final ProvisioningType provisioningType;
+  final ProvisioningType? provisioningType;
 
   /// The schema that defines the type.
   ///
   /// For more information on type schemas, see <a
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html">Resource
   /// Provider Schema</a> in the <i>CloudFormation CLI User Guide</i>.
-  final String schema;
+  final String? schema;
 
   /// The URL of the source code for the type.
-  final String sourceUrl;
+  final String? sourceUrl;
 
   /// When the specified type version was registered.
-  final DateTime timeCreated;
+  final DateTime? timeCreated;
 
   /// The kind of type.
   ///
   /// Currently the only valid value is <code>RESOURCE</code>.
-  final RegistryType type;
+  final RegistryType? type;
 
   /// The name of the registered type.
-  final String typeName;
+  final String? typeName;
 
   /// The scope at which the type is visible and usable in CloudFormation
   /// operations.
@@ -6879,7 +6919,7 @@ class DescribeTypeOutput {
   /// Amazon account.
   /// </li>
   /// </ul>
-  final Visibility visibility;
+  final Visibility? visibility;
 
   DescribeTypeOutput({
     this.arn,
@@ -6929,23 +6969,23 @@ class DescribeTypeOutput {
 
 class DescribeTypeRegistrationOutput {
   /// The description of the type registration request.
-  final String description;
+  final String? description;
 
   /// The current status of the type registration request.
-  final RegistrationStatus progressStatus;
+  final RegistrationStatus? progressStatus;
 
   /// The Amazon Resource Name (ARN) of the type being registered.
   ///
   /// For registration requests with a <code>ProgressStatus</code> of other than
   /// <code>COMPLETE</code>, this will be <code>null</code>.
-  final String typeArn;
+  final String? typeArn;
 
   /// The Amazon Resource Name (ARN) of this specific version of the type being
   /// registered.
   ///
   /// For registration requests with a <code>ProgressStatus</code> of other than
   /// <code>COMPLETE</code>, this will be <code>null</code>.
-  final String typeVersionArn;
+  final String? typeVersionArn;
 
   DescribeTypeRegistrationOutput({
     this.description,
@@ -6974,12 +7014,12 @@ class DetectStackDriftOutput {
   final String stackDriftDetectionId;
 
   DetectStackDriftOutput({
-    @_s.required this.stackDriftDetectionId,
+    required this.stackDriftDetectionId,
   });
   factory DetectStackDriftOutput.fromXml(_s.XmlElement elem) {
     return DetectStackDriftOutput(
       stackDriftDetectionId:
-          _s.extractXmlStringValue(elem, 'StackDriftDetectionId'),
+          _s.extractXmlStringValue(elem, 'StackDriftDetectionId')!,
     );
   }
 }
@@ -6991,13 +7031,12 @@ class DetectStackResourceDriftOutput {
   final StackResourceDrift stackResourceDrift;
 
   DetectStackResourceDriftOutput({
-    @_s.required this.stackResourceDrift,
+    required this.stackResourceDrift,
   });
   factory DetectStackResourceDriftOutput.fromXml(_s.XmlElement elem) {
     return DetectStackResourceDriftOutput(
-      stackResourceDrift: _s
-          .extractXmlChild(elem, 'StackResourceDrift')
-          ?.let((e) => StackResourceDrift.fromXml(e)),
+      stackResourceDrift: StackResourceDrift.fromXml(
+          _s.extractXmlChild(elem, 'StackResourceDrift')!),
     );
   }
 }
@@ -7007,7 +7046,7 @@ class DetectStackSetDriftOutput {
   ///
   /// you can use this operation id with <code> <a>DescribeStackSetOperation</a>
   /// </code> to monitor the progress of the drift detection operation.
-  final String operationId;
+  final String? operationId;
 
   DetectStackSetDriftOutput({
     this.operationId,
@@ -7020,12 +7059,22 @@ class DetectStackSetDriftOutput {
 }
 
 enum DifferenceType {
-  @_s.JsonValue('ADD')
   add,
-  @_s.JsonValue('REMOVE')
   remove,
-  @_s.JsonValue('NOT_EQUAL')
   notEqual,
+}
+
+extension on DifferenceType {
+  String toValue() {
+    switch (this) {
+      case DifferenceType.add:
+        return 'ADD';
+      case DifferenceType.remove:
+        return 'REMOVE';
+      case DifferenceType.notEqual:
+        return 'NOT_EQUAL';
+    }
+  }
 }
 
 extension on String {
@@ -7038,7 +7087,7 @@ extension on String {
       case 'NOT_EQUAL':
         return DifferenceType.notEqual;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DifferenceType');
   }
 }
 
@@ -7046,7 +7095,7 @@ extension on String {
 class EstimateTemplateCostOutput {
   /// An AWS Simple Monthly Calculator URL with a query string that describes the
   /// resources required to run the template.
-  final String url;
+  final String? url;
 
   EstimateTemplateCostOutput({
     this.url,
@@ -7059,10 +7108,19 @@ class EstimateTemplateCostOutput {
 }
 
 enum EvaluationType {
-  @_s.JsonValue('Static')
   static,
-  @_s.JsonValue('Dynamic')
   dynamic,
+}
+
+extension on EvaluationType {
+  String toValue() {
+    switch (this) {
+      case EvaluationType.static:
+        return 'Static';
+      case EvaluationType.dynamic:
+        return 'Dynamic';
+    }
+  }
 }
 
 extension on String {
@@ -7073,7 +7131,7 @@ extension on String {
       case 'Dynamic':
         return EvaluationType.dynamic;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EvaluationType');
   }
 }
 
@@ -7088,18 +7146,31 @@ class ExecuteChangeSetOutput {
 }
 
 enum ExecutionStatus {
-  @_s.JsonValue('UNAVAILABLE')
   unavailable,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('EXECUTE_IN_PROGRESS')
   executeInProgress,
-  @_s.JsonValue('EXECUTE_COMPLETE')
   executeComplete,
-  @_s.JsonValue('EXECUTE_FAILED')
   executeFailed,
-  @_s.JsonValue('OBSOLETE')
   obsolete,
+}
+
+extension on ExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionStatus.unavailable:
+        return 'UNAVAILABLE';
+      case ExecutionStatus.available:
+        return 'AVAILABLE';
+      case ExecutionStatus.executeInProgress:
+        return 'EXECUTE_IN_PROGRESS';
+      case ExecutionStatus.executeComplete:
+        return 'EXECUTE_COMPLETE';
+      case ExecutionStatus.executeFailed:
+        return 'EXECUTE_FAILED';
+      case ExecutionStatus.obsolete:
+        return 'OBSOLETE';
+    }
+  }
 }
 
 extension on String {
@@ -7118,7 +7189,7 @@ extension on String {
       case 'OBSOLETE':
         return ExecutionStatus.obsolete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ExecutionStatus');
   }
 }
 
@@ -7126,18 +7197,18 @@ extension on String {
 /// stack.
 class Export {
   /// The stack that contains the exported output name and value.
-  final String exportingStackId;
+  final String? exportingStackId;
 
   /// The name of exported output value. Use this name and the
   /// <code>Fn::ImportValue</code> function to import the associated value into
   /// other stacks. The name is defined in the <code>Export</code> field in the
   /// associated stack's <code>Outputs</code> section.
-  final String name;
+  final String? name;
 
   /// The value of the exported output, such as a resource physical ID. This value
   /// is defined in the <code>Export</code> field in the associated stack's
   /// <code>Outputs</code> section.
-  final String value;
+  final String? value;
 
   Export({
     this.exportingStackId,
@@ -7159,7 +7230,7 @@ class GetStackPolicyOutput {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">
   /// Prevent Updates to Stack Resources</a> in the AWS CloudFormation User
   /// Guide.)
-  final String stackPolicyBody;
+  final String? stackPolicyBody;
 
   GetStackPolicyOutput({
     this.stackPolicyBody,
@@ -7178,7 +7249,7 @@ class GetTemplateOutput {
   /// available. For change sets, the <code>Original</code> template is always
   /// available. After AWS CloudFormation finishes creating the change set, the
   /// <code>Processed</code> template becomes available.
-  final List<TemplateStage> stagesAvailable;
+  final List<TemplateStage>? stagesAvailable;
 
   /// Structure containing the template body. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
@@ -7186,7 +7257,7 @@ class GetTemplateOutput {
   ///
   /// AWS CloudFormation returns the same template that was used when the stack
   /// was created.
-  final String templateBody;
+  final String? templateBody;
 
   GetTemplateOutput({
     this.stagesAvailable,
@@ -7215,41 +7286,41 @@ class GetTemplateSummaryOutput {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates</a>.
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
   /// The list of resources that generated the values in the
   /// <code>Capabilities</code> response element.
-  final String capabilitiesReason;
+  final String? capabilitiesReason;
 
   /// A list of the transforms that are declared in the template.
-  final List<String> declaredTransforms;
+  final List<String>? declaredTransforms;
 
   /// The value that is defined in the <code>Description</code> property of the
   /// template.
-  final String description;
+  final String? description;
 
   /// The value that is defined for the <code>Metadata</code> property of the
   /// template.
-  final String metadata;
+  final String? metadata;
 
   /// A list of parameter declarations that describe various properties for each
   /// parameter.
-  final List<ParameterDeclaration> parameters;
+  final List<ParameterDeclaration>? parameters;
 
   /// A list of resource identifier summaries that describe the target resources
   /// of an import operation and the properties you can provide during the import
   /// to identify the target resources. For example, <code>BucketName</code> is a
   /// possible identifier property for an <code>AWS::S3::Bucket</code> resource.
-  final List<ResourceIdentifierSummary> resourceIdentifierSummaries;
+  final List<ResourceIdentifierSummary>? resourceIdentifierSummaries;
 
   /// A list of all the template resource types that are defined in the template,
   /// such as <code>AWS::EC2::Instance</code>, <code>AWS::Dynamo::Table</code>,
   /// and <code>Custom::MyCustomInstance</code>.
-  final List<String> resourceTypes;
+  final List<String>? resourceTypes;
 
   /// The AWS template format version, which identifies the capabilities of the
   /// template.
-  final String version;
+  final String? version;
 
   GetTemplateSummaryOutput({
     this.capabilities,
@@ -7293,33 +7364,19 @@ class GetTemplateSummaryOutput {
 }
 
 enum HandlerErrorCode {
-  @_s.JsonValue('NotUpdatable')
   notUpdatable,
-  @_s.JsonValue('InvalidRequest')
   invalidRequest,
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('InvalidCredentials')
   invalidCredentials,
-  @_s.JsonValue('AlreadyExists')
   alreadyExists,
-  @_s.JsonValue('NotFound')
   notFound,
-  @_s.JsonValue('ResourceConflict')
   resourceConflict,
-  @_s.JsonValue('Throttling')
   throttling,
-  @_s.JsonValue('ServiceLimitExceeded')
   serviceLimitExceeded,
-  @_s.JsonValue('NotStabilized')
   notStabilized,
-  @_s.JsonValue('GeneralServiceException')
   generalServiceException,
-  @_s.JsonValue('ServiceInternalError')
   serviceInternalError,
-  @_s.JsonValue('NetworkFailure')
   networkFailure,
-  @_s.JsonValue('InternalFailure')
   internalFailure,
 }
 
@@ -7355,7 +7412,6 @@ extension on HandlerErrorCode {
       case HandlerErrorCode.internalFailure:
         return 'InternalFailure';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7391,7 +7447,7 @@ extension on String {
       case 'InternalFailure':
         return HandlerErrorCode.internalFailure;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HandlerErrorCode');
   }
 }
 
@@ -7399,11 +7455,11 @@ extension on String {
 class ListChangeSetsOutput {
   /// If the output exceeds 1 MB, a string that identifies the next page of change
   /// sets. If there is no additional page, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>ChangeSetSummary</code> structures that provides the ID and
   /// status of each change set for the specified stack.
-  final List<ChangeSetSummary> summaries;
+  final List<ChangeSetSummary>? summaries;
 
   ListChangeSetsOutput({
     this.nextToken,
@@ -7422,12 +7478,12 @@ class ListChangeSetsOutput {
 
 class ListExportsOutput {
   /// The output for the <a>ListExports</a> action.
-  final List<Export> exports;
+  final List<Export>? exports;
 
   /// If the output exceeds 100 exported output values, a string that identifies
   /// the next page of exports. If there is no additional page, this value is
   /// null.
-  final String nextToken;
+  final String? nextToken;
 
   ListExportsOutput({
     this.exports,
@@ -7445,11 +7501,11 @@ class ListExportsOutput {
 class ListImportsOutput {
   /// A list of stack names that are importing the specified exported output
   /// value.
-  final List<String> imports;
+  final List<String>? imports;
 
   /// A string that identifies the next page of exports. If there is no additional
   /// page, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   ListImportsOutput({
     this.imports,
@@ -7471,11 +7527,11 @@ class ListStackInstancesOutput {
   /// results, call <code>ListStackInstances</code> again and assign that token to
   /// the request object's <code>NextToken</code> parameter. If the request
   /// returns all results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackInstanceSummary</code> structures that contain
   /// information about the specified stack instances.
-  final List<StackInstanceSummary> summaries;
+  final List<StackInstanceSummary>? summaries;
 
   ListStackInstancesOutput({
     this.nextToken,
@@ -7496,10 +7552,10 @@ class ListStackInstancesOutput {
 class ListStackResourcesOutput {
   /// If the output exceeds 1 MB, a string that identifies the next page of stack
   /// resources. If no additional page exists, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackResourceSummary</code> structures.
-  final List<StackResourceSummary> stackResourceSummaries;
+  final List<StackResourceSummary>? stackResourceSummaries;
 
   ListStackResourcesOutput({
     this.nextToken,
@@ -7524,12 +7580,12 @@ class ListStackSetOperationResultsOutput {
   /// <code>ListOperationResults</code> again and assign that token to the request
   /// object's <code>NextToken</code> parameter. If there are no remaining
   /// results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackSetOperationResultSummary</code> structures that
   /// contain information about the specified operation results, for accounts and
   /// Regions that are included in the operation.
-  final List<StackSetOperationResultSummary> summaries;
+  final List<StackSetOperationResultSummary>? summaries;
 
   ListStackSetOperationResultsOutput({
     this.nextToken,
@@ -7552,11 +7608,11 @@ class ListStackSetOperationsOutput {
   /// <code>ListOperationResults</code> again and assign that token to the request
   /// object's <code>NextToken</code> parameter. If there are no remaining
   /// results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackSetOperationSummary</code> structures that contain
   /// summary information about operations for the specified stack set.
-  final List<StackSetOperationSummary> summaries;
+  final List<StackSetOperationSummary>? summaries;
 
   ListStackSetOperationsOutput({
     this.nextToken,
@@ -7579,11 +7635,11 @@ class ListStackSetsOutput {
   /// results, call <code>ListStackInstances</code> again and assign that token to
   /// the request object's <code>NextToken</code> parameter. If the request
   /// returns all results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackSetSummary</code> structures that contain information
   /// about the user's stack sets.
-  final List<StackSetSummary> summaries;
+  final List<StackSetSummary>? summaries;
 
   ListStackSetsOutput({
     this.nextToken,
@@ -7604,11 +7660,11 @@ class ListStackSetsOutput {
 class ListStacksOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of stacks. If no additional page exists, this value is null.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>StackSummary</code> structures containing information about
   /// the specified stacks.
-  final List<StackSummary> stackSummaries;
+  final List<StackSummary>? stackSummaries;
 
   ListStacksOutput({
     this.nextToken,
@@ -7632,13 +7688,13 @@ class ListTypeRegistrationsOutput {
   /// results, call this action again and assign that token to the request
   /// object's <code>NextToken</code> parameter. If the request returns all
   /// results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of type registration tokens.
   ///
   /// Use <code> <a>DescribeTypeRegistration</a> </code> to return detailed
   /// information about a type registration request.
-  final List<String> registrationTokenList;
+  final List<String>? registrationTokenList;
 
   ListTypeRegistrationsOutput({
     this.nextToken,
@@ -7660,11 +7716,11 @@ class ListTypeVersionsOutput {
   /// results, call this action again and assign that token to the request
   /// object's <code>NextToken</code> parameter. If the request returns all
   /// results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>TypeVersionSummary</code> structures that contain
   /// information about the specified type's versions.
-  final List<TypeVersionSummary> typeVersionSummaries;
+  final List<TypeVersionSummary>? typeVersionSummaries;
 
   ListTypeVersionsOutput({
     this.nextToken,
@@ -7689,11 +7745,11 @@ class ListTypesOutput {
   /// results, call this action again and assign that token to the request
   /// object's <code>NextToken</code> parameter. If the request returns all
   /// results, <code>NextToken</code> is set to <code>null</code>.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>TypeSummary</code> structures that contain information about
   /// the specified types.
-  final List<TypeSummary> typeSummaries;
+  final List<TypeSummary>? typeSummaries;
 
   ListTypesOutput({
     this.nextToken,
@@ -7712,34 +7768,34 @@ class ListTypesOutput {
 }
 
 /// Contains logging configuration information for a type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LoggingConfig {
   /// The Amazon CloudWatch log group to which CloudFormation sends error logging
   /// information when invoking the type's handlers.
-  @_s.JsonKey(name: 'LogGroupName')
   final String logGroupName;
 
   /// The ARN of the role that CloudFormation should assume when sending log
   /// entries to CloudWatch logs.
-  @_s.JsonKey(name: 'LogRoleArn')
   final String logRoleArn;
 
   LoggingConfig({
-    @_s.required this.logGroupName,
-    @_s.required this.logRoleArn,
+    required this.logGroupName,
+    required this.logRoleArn,
   });
   factory LoggingConfig.fromXml(_s.XmlElement elem) {
     return LoggingConfig(
-      logGroupName: _s.extractXmlStringValue(elem, 'LogGroupName'),
-      logRoleArn: _s.extractXmlStringValue(elem, 'LogRoleArn'),
+      logGroupName: _s.extractXmlStringValue(elem, 'LogGroupName')!,
+      logRoleArn: _s.extractXmlStringValue(elem, 'LogRoleArn')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$LoggingConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final logRoleArn = this.logRoleArn;
+    return {
+      'LogGroupName': logGroupName,
+      'LogRoleArn': logRoleArn,
+    };
+  }
 }
 
 /// Contains information about the module from which the resource was created,
@@ -7763,7 +7819,7 @@ class ModuleInfo {
   /// For more information, see <a
   /// href="AWSCloudFormation/latest/UserGuide/modules.html#module-ref-resources">Referencing
   /// resources in a module</a> in the <i>CloudFormation User Guide</i>.
-  final String logicalIdHierarchy;
+  final String? logicalIdHierarchy;
 
   /// A concantenated list of the the module type or types containing the
   /// resource. Module types are listed starting with the inner-most nested
@@ -7774,7 +7830,7 @@ class ModuleInfo {
   /// module of type <code>AWS::Second::Example::MODULE</code>.
   ///
   /// <code>AWS::First::Example::MODULE/AWS::Second::Example::MODULE</code>
-  final String typeHierarchy;
+  final String? typeHierarchy;
 
   ModuleInfo({
     this.logicalIdHierarchy,
@@ -7789,11 +7845,8 @@ class ModuleInfo {
 }
 
 enum OnFailure {
-  @_s.JsonValue('DO_NOTHING')
   doNothing,
-  @_s.JsonValue('ROLLBACK')
   rollback,
-  @_s.JsonValue('DELETE')
   delete,
 }
 
@@ -7807,7 +7860,6 @@ extension on OnFailure {
       case OnFailure.delete:
         return 'DELETE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7821,18 +7873,14 @@ extension on String {
       case 'DELETE':
         return OnFailure.delete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OnFailure');
   }
 }
 
 enum OperationStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -7848,7 +7896,6 @@ extension on OperationStatus {
       case OperationStatus.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7864,23 +7911,23 @@ extension on String {
       case 'FAILED':
         return OperationStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OperationStatus');
   }
 }
 
 /// The Output data type.
 class Output {
   /// User defined description associated with the output.
-  final String description;
+  final String? description;
 
   /// The name of the export associated with the output.
-  final String exportName;
+  final String? exportName;
 
   /// The key associated with the output.
-  final String outputKey;
+  final String? outputKey;
 
   /// The value associated with the output.
-  final String outputValue;
+  final String? outputValue;
 
   Output({
     this.description,
@@ -7899,34 +7946,25 @@ class Output {
 }
 
 /// The Parameter data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Parameter {
   /// The key associated with the parameter. If you don't specify a key and value
   /// for a particular parameter, AWS CloudFormation uses the default value that
   /// is specified in your template.
-  @_s.JsonKey(name: 'ParameterKey')
-  final String parameterKey;
+  final String? parameterKey;
 
   /// The input value associated with the parameter.
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
+  final String? parameterValue;
 
   /// Read-only. The value that corresponds to a Systems Manager parameter key.
   /// This field is returned only for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types">
   /// <code>SSM</code> parameter types</a> in the template.
-  @_s.JsonKey(name: 'ResolvedValue')
-  final String resolvedValue;
+  final String? resolvedValue;
 
   /// During a stack update, use the existing parameter value that the stack is
   /// using for a given parameter key. If you specify <code>true</code>, do not
   /// specify a parameter value.
-  @_s.JsonKey(name: 'UsePreviousValue')
-  final bool usePreviousValue;
+  final bool? usePreviousValue;
 
   Parameter({
     this.parameterKey,
@@ -7943,7 +7981,18 @@ class Parameter {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final parameterKey = this.parameterKey;
+    final parameterValue = this.parameterValue;
+    final resolvedValue = this.resolvedValue;
+    final usePreviousValue = this.usePreviousValue;
+    return {
+      if (parameterKey != null) 'ParameterKey': parameterKey,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (resolvedValue != null) 'ResolvedValue': resolvedValue,
+      if (usePreviousValue != null) 'UsePreviousValue': usePreviousValue,
+    };
+  }
 }
 
 /// A set of criteria that AWS CloudFormation uses to validate parameter values.
@@ -7951,7 +8000,7 @@ class Parameter {
 /// CloudFormation returns only the <code>AllowedValues</code> property.
 class ParameterConstraints {
   /// A list of values that are permitted for a parameter.
-  final List<String> allowedValues;
+  final List<String>? allowedValues;
 
   ParameterConstraints({
     this.allowedValues,
@@ -7968,23 +8017,23 @@ class ParameterConstraints {
 /// The ParameterDeclaration data type.
 class ParameterDeclaration {
   /// The default value of the parameter.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The description that is associate with the parameter.
-  final String description;
+  final String? description;
 
   /// Flag that indicates whether the parameter value is shown as plain text in
   /// logs and in the AWS Management Console.
-  final bool noEcho;
+  final bool? noEcho;
 
   /// The criteria that AWS CloudFormation uses to validate parameter values.
-  final ParameterConstraints parameterConstraints;
+  final ParameterConstraints? parameterConstraints;
 
   /// The name that is associated with the parameter.
-  final String parameterKey;
+  final String? parameterKey;
 
   /// The type of parameter.
-  final String parameterType;
+  final String? parameterType;
 
   ParameterDeclaration({
     this.defaultValue,
@@ -8009,9 +8058,7 @@ class ParameterDeclaration {
 }
 
 enum PermissionModels {
-  @_s.JsonValue('SERVICE_MANAGED')
   serviceManaged,
-  @_s.JsonValue('SELF_MANAGED')
   selfManaged,
 }
 
@@ -8023,7 +8070,6 @@ extension on PermissionModels {
       case PermissionModels.selfManaged:
         return 'SELF_MANAGED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8035,7 +8081,7 @@ extension on String {
       case 'SELF_MANAGED':
         return PermissionModels.selfManaged;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PermissionModels');
   }
 }
 
@@ -8052,13 +8098,13 @@ class PhysicalResourceIdContextKeyValuePair {
   final String value;
 
   PhysicalResourceIdContextKeyValuePair({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory PhysicalResourceIdContextKeyValuePair.fromXml(_s.XmlElement elem) {
     return PhysicalResourceIdContextKeyValuePair(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 }
@@ -8101,28 +8147,25 @@ class PropertyDifference {
   final String propertyPath;
 
   PropertyDifference({
-    @_s.required this.actualValue,
-    @_s.required this.differenceType,
-    @_s.required this.expectedValue,
-    @_s.required this.propertyPath,
+    required this.actualValue,
+    required this.differenceType,
+    required this.expectedValue,
+    required this.propertyPath,
   });
   factory PropertyDifference.fromXml(_s.XmlElement elem) {
     return PropertyDifference(
-      actualValue: _s.extractXmlStringValue(elem, 'ActualValue'),
+      actualValue: _s.extractXmlStringValue(elem, 'ActualValue')!,
       differenceType:
-          _s.extractXmlStringValue(elem, 'DifferenceType')?.toDifferenceType(),
-      expectedValue: _s.extractXmlStringValue(elem, 'ExpectedValue'),
-      propertyPath: _s.extractXmlStringValue(elem, 'PropertyPath'),
+          _s.extractXmlStringValue(elem, 'DifferenceType')!.toDifferenceType(),
+      expectedValue: _s.extractXmlStringValue(elem, 'ExpectedValue')!,
+      propertyPath: _s.extractXmlStringValue(elem, 'PropertyPath')!,
     );
   }
 }
 
 enum ProvisioningType {
-  @_s.JsonValue('NON_PROVISIONABLE')
   nonProvisionable,
-  @_s.JsonValue('IMMUTABLE')
   immutable,
-  @_s.JsonValue('FULLY_MUTABLE')
   fullyMutable,
 }
 
@@ -8136,7 +8179,6 @@ extension on ProvisioningType {
       case ProvisioningType.fullyMutable:
         return 'FULLY_MUTABLE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8150,7 +8192,7 @@ extension on String {
       case 'FULLY_MUTABLE':
         return ProvisioningType.fullyMutable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ProvisioningType');
   }
 }
 
@@ -8169,7 +8211,7 @@ class RegisterTypeOutput {
   /// Use this registration token when calling <code>
   /// <a>DescribeTypeRegistration</a> </code>, which returns information about the
   /// status and IDs of the type registration.
-  final String registrationToken;
+  final String? registrationToken;
 
   RegisterTypeOutput({
     this.registrationToken,
@@ -8182,11 +8224,8 @@ class RegisterTypeOutput {
 }
 
 enum RegistrationStatus {
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -8200,7 +8239,6 @@ extension on RegistrationStatus {
       case RegistrationStatus.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8214,14 +8252,12 @@ extension on String {
       case 'FAILED':
         return RegistrationStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RegistrationStatus');
   }
 }
 
 enum RegistryType {
-  @_s.JsonValue('RESOURCE')
   resource,
-  @_s.JsonValue('MODULE')
   module,
 }
 
@@ -8233,7 +8269,6 @@ extension on RegistryType {
       case RegistryType.module:
         return 'MODULE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8245,17 +8280,27 @@ extension on String {
       case 'MODULE':
         return RegistryType.module;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RegistryType');
   }
 }
 
 enum Replacement {
-  @_s.JsonValue('True')
   $true,
-  @_s.JsonValue('False')
   $false,
-  @_s.JsonValue('Conditional')
   conditional,
+}
+
+extension on Replacement {
+  String toValue() {
+    switch (this) {
+      case Replacement.$true:
+        return 'True';
+      case Replacement.$false:
+        return 'False';
+      case Replacement.conditional:
+        return 'Conditional';
+    }
+  }
 }
 
 extension on String {
@@ -8268,17 +8313,27 @@ extension on String {
       case 'Conditional':
         return Replacement.conditional;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Replacement');
   }
 }
 
 enum RequiresRecreation {
-  @_s.JsonValue('Never')
   never,
-  @_s.JsonValue('Conditionally')
   conditionally,
-  @_s.JsonValue('Always')
   always,
+}
+
+extension on RequiresRecreation {
+  String toValue() {
+    switch (this) {
+      case RequiresRecreation.never:
+        return 'Never';
+      case RequiresRecreation.conditionally:
+        return 'Conditionally';
+      case RequiresRecreation.always:
+        return 'Always';
+    }
+  }
 }
 
 extension on String {
@@ -8291,23 +8346,36 @@ extension on String {
       case 'Always':
         return RequiresRecreation.always;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RequiresRecreation');
   }
 }
 
 enum ResourceAttribute {
-  @_s.JsonValue('Properties')
   properties,
-  @_s.JsonValue('Metadata')
   metadata,
-  @_s.JsonValue('CreationPolicy')
   creationPolicy,
-  @_s.JsonValue('UpdatePolicy')
   updatePolicy,
-  @_s.JsonValue('DeletionPolicy')
   deletionPolicy,
-  @_s.JsonValue('Tags')
   tags,
+}
+
+extension on ResourceAttribute {
+  String toValue() {
+    switch (this) {
+      case ResourceAttribute.properties:
+        return 'Properties';
+      case ResourceAttribute.metadata:
+        return 'Metadata';
+      case ResourceAttribute.creationPolicy:
+        return 'CreationPolicy';
+      case ResourceAttribute.updatePolicy:
+        return 'UpdatePolicy';
+      case ResourceAttribute.deletionPolicy:
+        return 'DeletionPolicy';
+      case ResourceAttribute.tags:
+        return 'Tags';
+    }
+  }
 }
 
 extension on String {
@@ -8326,7 +8394,7 @@ extension on String {
       case 'Tags':
         return ResourceAttribute.tags;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResourceAttribute');
   }
 }
 
@@ -8339,26 +8407,26 @@ class ResourceChange {
   /// resource), <code>Remove</code> (deletes a resource), <code>Import</code>
   /// (imports a resource), or <code>Dynamic</code> (exact action for the resource
   /// cannot be determined).
-  final ChangeAction action;
+  final ChangeAction? action;
 
   /// The change set ID of the nested change set.
-  final String changeSetId;
+  final String? changeSetId;
 
   /// For the <code>Modify</code> action, a list of
   /// <code>ResourceChangeDetail</code> structures that describes the changes that
   /// AWS CloudFormation will make to the resource.
-  final List<ResourceChangeDetail> details;
+  final List<ResourceChangeDetail>? details;
 
   /// The resource's logical ID, which is defined in the stack's template.
-  final String logicalResourceId;
+  final String? logicalResourceId;
 
   /// Contains information about the module from which the resource was created,
   /// if the resource was created from a module included in the stack template.
-  final ModuleInfo moduleInfo;
+  final ModuleInfo? moduleInfo;
 
   /// The resource's physical ID (resource name). Resources that you are adding
   /// don't have physical IDs because they haven't been created.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// For the <code>Modify</code> action, indicates whether AWS CloudFormation
   /// will replace the resource by creating a new one and deleting the old one.
@@ -8376,16 +8444,16 @@ class ResourceChange {
   /// most impact. A <code>RequiresRecreation</code> value of <code>Always</code>
   /// has the most impact, followed by <code>Conditionally</code>, and then
   /// <code>Never</code>.
-  final Replacement replacement;
+  final Replacement? replacement;
 
   /// The type of AWS CloudFormation resource, such as
   /// <code>AWS::S3::Bucket</code>.
-  final String resourceType;
+  final String? resourceType;
 
   /// For the <code>Modify</code> action, indicates which resource attribute is
   /// triggering this update, such as a change in the resource attribute's
   /// <code>Metadata</code>, <code>Properties</code>, or <code>Tags</code>.
-  final List<ResourceAttribute> scope;
+  final List<ResourceAttribute>? scope;
 
   ResourceChange({
     this.action,
@@ -8434,7 +8502,7 @@ class ResourceChangeDetail {
   ///
   /// If the <code>ChangeSource</code> value is <code>DirectModification</code>,
   /// no value is given for <code>CausingEntity</code>.
-  final String causingEntity;
+  final String? causingEntity;
 
   /// The group to which the <code>CausingEntity</code> value belongs. There are
   /// five entity groups:
@@ -8469,7 +8537,7 @@ class ResourceChangeDetail {
   /// update on the parent stack.
   /// </li>
   /// </ul>
-  final ChangeSource changeSource;
+  final ChangeSource? changeSource;
 
   /// Indicates whether AWS CloudFormation can determine the target value, and
   /// whether the target value will change before you execute a change set.
@@ -8488,12 +8556,12 @@ class ResourceChangeDetail {
   /// physical ID of the resource) might change, depending on if the resource is
   /// recreated. If the resource is recreated, it will have a new physical ID, so
   /// all references to that resource will also be updated.
-  final EvaluationType evaluation;
+  final EvaluationType? evaluation;
 
   /// A <code>ResourceTargetDefinition</code> structure that describes the field
   /// that AWS CloudFormation will change and whether the resource will be
   /// recreated.
-  final ResourceTargetDefinition target;
+  final ResourceTargetDefinition? target;
 
   ResourceChangeDetail({
     this.causingEntity,
@@ -8521,16 +8589,16 @@ class ResourceChangeDetail {
 class ResourceIdentifierSummary {
   /// The logical IDs of the target resources of the specified
   /// <code>ResourceType</code>, as defined in the import template.
-  final List<String> logicalResourceIds;
+  final List<String>? logicalResourceIds;
 
   /// The resource properties you can provide during the import to identify your
   /// target resources. For example, <code>BucketName</code> is a possible
   /// identifier property for <code>AWS::S3::Bucket</code> resources.
-  final List<String> resourceIdentifiers;
+  final List<String>? resourceIdentifiers;
 
   /// The template resource type of the target resources, such as
   /// <code>AWS::S3::Bucket</code>.
-  final String resourceType;
+  final String? resourceType;
 
   ResourceIdentifierSummary({
     this.logicalResourceIds,
@@ -8551,9 +8619,7 @@ class ResourceIdentifierSummary {
 }
 
 enum ResourceSignalStatus {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILURE')
   failure,
 }
 
@@ -8565,7 +8631,6 @@ extension on ResourceSignalStatus {
       case ResourceSignalStatus.failure:
         return 'FAILURE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8577,43 +8642,66 @@ extension on String {
       case 'FAILURE':
         return ResourceSignalStatus.failure;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResourceSignalStatus');
   }
 }
 
 enum ResourceStatus {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('DELETE_SKIPPED')
   deleteSkipped,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
-  @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
-  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
-  @_s.JsonValue('IMPORT_FAILED')
   importFailed,
-  @_s.JsonValue('IMPORT_COMPLETE')
   importComplete,
-  @_s.JsonValue('IMPORT_IN_PROGRESS')
   importInProgress,
-  @_s.JsonValue('IMPORT_ROLLBACK_IN_PROGRESS')
   importRollbackInProgress,
-  @_s.JsonValue('IMPORT_ROLLBACK_FAILED')
   importRollbackFailed,
-  @_s.JsonValue('IMPORT_ROLLBACK_COMPLETE')
   importRollbackComplete,
+}
+
+extension on ResourceStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case ResourceStatus.createFailed:
+        return 'CREATE_FAILED';
+      case ResourceStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case ResourceStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case ResourceStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case ResourceStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case ResourceStatus.deleteSkipped:
+        return 'DELETE_SKIPPED';
+      case ResourceStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case ResourceStatus.updateFailed:
+        return 'UPDATE_FAILED';
+      case ResourceStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case ResourceStatus.importFailed:
+        return 'IMPORT_FAILED';
+      case ResourceStatus.importComplete:
+        return 'IMPORT_COMPLETE';
+      case ResourceStatus.importInProgress:
+        return 'IMPORT_IN_PROGRESS';
+      case ResourceStatus.importRollbackInProgress:
+        return 'IMPORT_ROLLBACK_IN_PROGRESS';
+      case ResourceStatus.importRollbackFailed:
+        return 'IMPORT_ROLLBACK_FAILED';
+      case ResourceStatus.importRollbackComplete:
+        return 'IMPORT_ROLLBACK_COMPLETE';
+    }
+  }
 }
 
 extension on String {
@@ -8652,7 +8740,7 @@ extension on String {
       case 'IMPORT_ROLLBACK_COMPLETE':
         return ResourceStatus.importRollbackComplete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResourceStatus');
   }
 }
 
@@ -8662,11 +8750,11 @@ class ResourceTargetDefinition {
   /// Indicates which resource attribute is triggering this update, such as a
   /// change in the resource attribute's <code>Metadata</code>,
   /// <code>Properties</code>, or <code>Tags</code>.
-  final ResourceAttribute attribute;
+  final ResourceAttribute? attribute;
 
   /// If the <code>Attribute</code> value is <code>Properties</code>, the name of
   /// the property. For all other attributes, the value is null.
-  final String name;
+  final String? name;
 
   /// If the <code>Attribute</code> value is <code>Properties</code>, indicates
   /// whether a change to this property causes the resource to be recreated. The
@@ -8675,7 +8763,7 @@ class ResourceTargetDefinition {
   /// <code>Conditionally</code> recreation, see the update behavior for that <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">property</a>
   /// in the AWS CloudFormation User Guide.
-  final RequiresRecreation requiresRecreation;
+  final RequiresRecreation? requiresRecreation;
 
   ResourceTargetDefinition({
     this.attribute,
@@ -8695,36 +8783,37 @@ class ResourceTargetDefinition {
 }
 
 /// Describes the target resource of an import operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResourceToImport {
   /// The logical ID of the target resource as specified in the template.
-  @_s.JsonKey(name: 'LogicalResourceId')
   final String logicalResourceId;
 
   /// A key-value pair that identifies the target resource. The key is an
   /// identifier property (for example, <code>BucketName</code> for
   /// <code>AWS::S3::Bucket</code> resources) and the value is the actual property
   /// value (for example, <code>MyS3Bucket</code>).
-  @_s.JsonKey(name: 'ResourceIdentifier')
   final Map<String, String> resourceIdentifier;
 
   /// The type of resource to import into your stack, such as
   /// <code>AWS::S3::Bucket</code>. For a list of supported resource types, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">Resources
   /// that support import operations</a> in the AWS CloudFormation User Guide.
-  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   ResourceToImport({
-    @_s.required this.logicalResourceId,
-    @_s.required this.resourceIdentifier,
-    @_s.required this.resourceType,
+    required this.logicalResourceId,
+    required this.resourceIdentifier,
+    required this.resourceType,
   });
-  Map<String, dynamic> toJson() => _$ResourceToImportToJson(this);
+  Map<String, dynamic> toJson() {
+    final logicalResourceId = this.logicalResourceId;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      'LogicalResourceId': logicalResourceId,
+      'ResourceIdentifier': resourceIdentifier,
+      'ResourceType': resourceType,
+    };
+  }
 }
 
 /// Structure containing the rollback triggers for AWS CloudFormation to monitor
@@ -8737,11 +8826,6 @@ class ResourceToImport {
 /// you've specified. For more information, see <a
 /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html">Monitor
 /// and Roll Back Stack Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RollbackConfiguration {
   /// The amount of time, in minutes, during which CloudFormation should monitor
   /// all the rollback triggers after the stack creation or update operation
@@ -8761,8 +8845,7 @@ class RollbackConfiguration {
   /// specified rollback triggers during stack creation and update operations.
   /// Then, for update operations, it begins disposing of old resources
   /// immediately once the operation completes.
-  @_s.JsonKey(name: 'MonitoringTimeInMinutes')
-  final int monitoringTimeInMinutes;
+  final int? monitoringTimeInMinutes;
 
   /// The triggers to monitor during stack creation or update actions.
   ///
@@ -8791,8 +8874,7 @@ class RollbackConfiguration {
   /// </ul>
   /// If a specified trigger is missing, the entire stack operation fails and is
   /// rolled back.
-  @_s.JsonKey(name: 'RollbackTriggers')
-  final List<RollbackTrigger> rollbackTriggers;
+  final List<RollbackTrigger>? rollbackTriggers;
 
   RollbackConfiguration({
     this.monitoringTimeInMinutes,
@@ -8810,44 +8892,52 @@ class RollbackConfiguration {
     );
   }
 
-  Map<String, dynamic> toJson() => _$RollbackConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
+    final rollbackTriggers = this.rollbackTriggers;
+    return {
+      if (monitoringTimeInMinutes != null)
+        'MonitoringTimeInMinutes': monitoringTimeInMinutes,
+      if (rollbackTriggers != null) 'RollbackTriggers': rollbackTriggers,
+    };
+  }
 }
 
 /// A rollback trigger AWS CloudFormation monitors during creation and updating
 /// of stacks. If any of the alarms you specify goes to ALARM state during the
 /// stack operation or within the specified monitoring period afterwards,
 /// CloudFormation rolls back the entire stack operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RollbackTrigger {
   /// The Amazon Resource Name (ARN) of the rollback trigger.
   ///
   /// If a specified trigger is missing, the entire stack operation fails and is
   /// rolled back.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The resource type of the rollback trigger. Currently, <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html">AWS::CloudWatch::Alarm</a>
   /// is the only supported resource type.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   RollbackTrigger({
-    @_s.required this.arn,
-    @_s.required this.type,
+    required this.arn,
+    required this.type,
   });
   factory RollbackTrigger.fromXml(_s.XmlElement elem) {
     return RollbackTrigger(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      type: _s.extractXmlStringValue(elem, 'Type'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$RollbackTriggerToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      'Arn': arn,
+      'Type': type,
+    };
+  }
 }
 
 class SetTypeDefaultVersionOutput {
@@ -8871,16 +8961,16 @@ class Stack {
   final StackStatus stackStatus;
 
   /// The capabilities allowed in the stack.
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
   /// The unique ID of the change set.
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The time the stack was deleted.
-  final DateTime deletionTime;
+  final DateTime? deletionTime;
 
   /// A user-defined description associated with the stack.
-  final String description;
+  final String? description;
 
   /// Boolean to enable or disable rollback on stack creation failures:
   ///
@@ -8892,7 +8982,7 @@ class Stack {
   /// <code>false</code>: enable rollback
   /// </li>
   /// </ul>
-  final bool disableRollback;
+  final bool? disableRollback;
 
   /// Information on whether a stack's actual configuration differs, or has
   /// <i>drifted</i>, from it's expected configuration, as defined in the stack
@@ -8900,7 +8990,7 @@ class Stack {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
-  final StackDriftInformation driftInformation;
+  final StackDriftInformation? driftInformation;
 
   /// Whether termination protection is enabled for the stack.
   ///
@@ -8910,20 +9000,20 @@ class Stack {
   /// changed directly on the nested stack. For more information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
   /// a Stack From Being Deleted</a> in the <i>AWS CloudFormation User Guide</i>.
-  final bool enableTerminationProtection;
+  final bool? enableTerminationProtection;
 
   /// The time the stack was last updated. This field will only be returned if the
   /// stack has been updated at least once.
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// SNS topic ARNs to which stack related events are published.
-  final List<String> notificationARNs;
+  final List<String>? notificationARNs;
 
   /// A list of output structures.
-  final List<Output> outputs;
+  final List<Output>? outputs;
 
   /// A list of <code>Parameter</code> structures.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   /// For nested stacks--stacks created as resources for another stack--the stack
   /// ID of the direct parent of this stack. For the first level of nested stacks,
@@ -8932,17 +9022,17 @@ class Stack {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>AWS CloudFormation User Guide</i>.
-  final String parentId;
+  final String? parentId;
 
   /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management
   /// (IAM) role that is associated with the stack. During a stack operation, AWS
   /// CloudFormation uses this role's credentials to make calls on your behalf.
-  final String roleARN;
+  final String? roleARN;
 
   /// The rollback triggers for AWS CloudFormation to monitor during stack
   /// creation and updating operations, and for the specified monitoring period
   /// afterwards.
-  final RollbackConfiguration rollbackConfiguration;
+  final RollbackConfiguration? rollbackConfiguration;
 
   /// For nested stacks--stacks created as resources for another stack--the stack
   /// ID of the top-level stack to which the nested stack ultimately belongs.
@@ -8950,24 +9040,24 @@ class Stack {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>AWS CloudFormation User Guide</i>.
-  final String rootId;
+  final String? rootId;
 
   /// Unique identifier of the stack.
-  final String stackId;
+  final String? stackId;
 
   /// Success/failure message associated with the stack status.
-  final String stackStatusReason;
+  final String? stackStatusReason;
 
   /// A list of <code>Tag</code>s that specify information about the stack.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The amount of time within which stack creation should complete.
-  final int timeoutInMinutes;
+  final int? timeoutInMinutes;
 
   Stack({
-    @_s.required this.creationTime,
-    @_s.required this.stackName,
-    @_s.required this.stackStatus,
+    required this.creationTime,
+    required this.stackName,
+    required this.stackStatus,
     this.capabilities,
     this.changeSetId,
     this.deletionTime,
@@ -8990,10 +9080,10 @@ class Stack {
   });
   factory Stack.fromXml(_s.XmlElement elem) {
     return Stack(
-      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
-      stackName: _s.extractXmlStringValue(elem, 'StackName'),
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime')!,
+      stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       stackStatus:
-          _s.extractXmlStringValue(elem, 'StackStatus')?.toStackStatus(),
+          _s.extractXmlStringValue(elem, 'StackStatus')!.toStackStatus(),
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
           .map((s) => s.toCapability())
@@ -9033,12 +9123,22 @@ class Stack {
 }
 
 enum StackDriftDetectionStatus {
-  @_s.JsonValue('DETECTION_IN_PROGRESS')
   detectionInProgress,
-  @_s.JsonValue('DETECTION_FAILED')
   detectionFailed,
-  @_s.JsonValue('DETECTION_COMPLETE')
   detectionComplete,
+}
+
+extension on StackDriftDetectionStatus {
+  String toValue() {
+    switch (this) {
+      case StackDriftDetectionStatus.detectionInProgress:
+        return 'DETECTION_IN_PROGRESS';
+      case StackDriftDetectionStatus.detectionFailed:
+        return 'DETECTION_FAILED';
+      case StackDriftDetectionStatus.detectionComplete:
+        return 'DETECTION_COMPLETE';
+    }
+  }
 }
 
 extension on String {
@@ -9051,7 +9151,7 @@ extension on String {
       case 'DETECTION_COMPLETE':
         return StackDriftDetectionStatus.detectionComplete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackDriftDetectionStatus');
   }
 }
 
@@ -9085,17 +9185,17 @@ class StackDriftInformation {
 
   /// Most recent time when a drift detection operation was initiated on the
   /// stack, or any of its individual resources that support drift detection.
-  final DateTime lastCheckTimestamp;
+  final DateTime? lastCheckTimestamp;
 
   StackDriftInformation({
-    @_s.required this.stackDriftStatus,
+    required this.stackDriftStatus,
     this.lastCheckTimestamp,
   });
   factory StackDriftInformation.fromXml(_s.XmlElement elem) {
     return StackDriftInformation(
       stackDriftStatus: _s
-          .extractXmlStringValue(elem, 'StackDriftStatus')
-          ?.toStackDriftStatus(),
+          .extractXmlStringValue(elem, 'StackDriftStatus')!
+          .toStackDriftStatus(),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -9132,17 +9232,17 @@ class StackDriftInformationSummary {
 
   /// Most recent time when a drift detection operation was initiated on the
   /// stack, or any of its individual resources that support drift detection.
-  final DateTime lastCheckTimestamp;
+  final DateTime? lastCheckTimestamp;
 
   StackDriftInformationSummary({
-    @_s.required this.stackDriftStatus,
+    required this.stackDriftStatus,
     this.lastCheckTimestamp,
   });
   factory StackDriftInformationSummary.fromXml(_s.XmlElement elem) {
     return StackDriftInformationSummary(
       stackDriftStatus: _s
-          .extractXmlStringValue(elem, 'StackDriftStatus')
-          ?.toStackDriftStatus(),
+          .extractXmlStringValue(elem, 'StackDriftStatus')!
+          .toStackDriftStatus(),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -9150,14 +9250,25 @@ class StackDriftInformationSummary {
 }
 
 enum StackDriftStatus {
-  @_s.JsonValue('DRIFTED')
   drifted,
-  @_s.JsonValue('IN_SYNC')
   inSync,
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('NOT_CHECKED')
   notChecked,
+}
+
+extension on StackDriftStatus {
+  String toValue() {
+    switch (this) {
+      case StackDriftStatus.drifted:
+        return 'DRIFTED';
+      case StackDriftStatus.inSync:
+        return 'IN_SYNC';
+      case StackDriftStatus.unknown:
+        return 'UNKNOWN';
+      case StackDriftStatus.notChecked:
+        return 'NOT_CHECKED';
+    }
+  }
 }
 
 extension on String {
@@ -9172,7 +9283,7 @@ extension on String {
       case 'NOT_CHECKED':
         return StackDriftStatus.notChecked;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackDriftStatus');
   }
 }
 
@@ -9206,34 +9317,34 @@ class StackEvent {
   /// console, each stack event would be assigned the same token in the following
   /// format:
   /// <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.
-  final String clientRequestToken;
+  final String? clientRequestToken;
 
   /// The logical name of the resource specified in the template.
-  final String logicalResourceId;
+  final String? logicalResourceId;
 
   /// The name or unique identifier associated with the physical instance of the
   /// resource.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// BLOB of the properties used to create the resource.
-  final String resourceProperties;
+  final String? resourceProperties;
 
   /// Current status of the resource.
-  final ResourceStatus resourceStatus;
+  final ResourceStatus? resourceStatus;
 
   /// Success/failure message associated with the resource.
-  final String resourceStatusReason;
+  final String? resourceStatusReason;
 
   /// Type of resource. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">
   /// AWS Resource Types Reference</a> in the AWS CloudFormation User Guide.)
-  final String resourceType;
+  final String? resourceType;
 
   StackEvent({
-    @_s.required this.eventId,
-    @_s.required this.stackId,
-    @_s.required this.stackName,
-    @_s.required this.timestamp,
+    required this.eventId,
+    required this.stackId,
+    required this.stackName,
+    required this.timestamp,
     this.clientRequestToken,
     this.logicalResourceId,
     this.physicalResourceId,
@@ -9244,10 +9355,10 @@ class StackEvent {
   });
   factory StackEvent.fromXml(_s.XmlElement elem) {
     return StackEvent(
-      eventId: _s.extractXmlStringValue(elem, 'EventId'),
-      stackId: _s.extractXmlStringValue(elem, 'StackId'),
-      stackName: _s.extractXmlStringValue(elem, 'StackName'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+      eventId: _s.extractXmlStringValue(elem, 'EventId')!,
+      stackId: _s.extractXmlStringValue(elem, 'StackId')!,
+      stackName: _s.extractXmlStringValue(elem, 'StackName')!,
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       clientRequestToken: _s.extractXmlStringValue(elem, 'ClientRequestToken'),
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
@@ -9271,7 +9382,7 @@ class StackEvent {
 class StackInstance {
   /// [<code>Self-managed</code> permissions] The name of the AWS account that the
   /// stack instance is associated with.
-  final String account;
+  final String? account;
 
   /// Status of the stack instance's actual configuration compared to the expected
   /// template and parameter configuration of the stack set to which it belongs.
@@ -9295,34 +9406,34 @@ class StackInstance {
   /// <code>UNKNOWN</code>: This value is reserved for future use.
   /// </li>
   /// </ul>
-  final StackDriftStatus driftStatus;
+  final StackDriftStatus? driftStatus;
 
   /// Most recent time when CloudFormation performed a drift detection operation
   /// on the stack instance. This value will be <code>NULL</code> for any stack
   /// instance on which drift detection has not yet been performed.
-  final DateTime lastDriftCheckTimestamp;
+  final DateTime? lastDriftCheckTimestamp;
 
   /// [<code>Service-managed</code> permissions] The organization root ID or
   /// organizational unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
-  final String organizationalUnitId;
+  final String? organizationalUnitId;
 
   /// A list of parameters from the stack set template whose values have been
   /// overridden in this stack instance.
-  final List<Parameter> parameterOverrides;
+  final List<Parameter>? parameterOverrides;
 
   /// The name of the AWS Region that the stack instance is associated with.
-  final String region;
+  final String? region;
 
   /// The ID of the stack instance.
-  final String stackId;
+  final String? stackId;
 
   /// The detailed status of the stack instance.
-  final StackInstanceComprehensiveStatus stackInstanceStatus;
+  final StackInstanceComprehensiveStatus? stackInstanceStatus;
 
   /// The name or unique ID of the stack set that the stack instance is associated
   /// with.
-  final String stackSetId;
+  final String? stackSetId;
 
   /// The status of the stack instance, in terms of its synchronization with its
   /// associated stack set.
@@ -9355,11 +9466,11 @@ class StackInstance {
   /// <code>CURRENT</code>: The stack is currently up to date with the stack set.
   /// </li>
   /// </ul>
-  final StackInstanceStatus status;
+  final StackInstanceStatus? status;
 
   /// The explanation for the specific status code that is assigned to this stack
   /// instance.
-  final String statusReason;
+  final String? statusReason;
 
   StackInstance({
     this.account,
@@ -9436,7 +9547,7 @@ class StackInstanceComprehensiveStatus {
   /// completed successfully.
   /// </li>
   /// </ul>
-  final StackInstanceDetailedStatus detailedStatus;
+  final StackInstanceDetailedStatus? detailedStatus;
 
   StackInstanceComprehensiveStatus({
     this.detailedStatus,
@@ -9451,18 +9562,31 @@ class StackInstanceComprehensiveStatus {
 }
 
 enum StackInstanceDetailedStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('INOPERABLE')
   inoperable,
+}
+
+extension on StackInstanceDetailedStatus {
+  String toValue() {
+    switch (this) {
+      case StackInstanceDetailedStatus.pending:
+        return 'PENDING';
+      case StackInstanceDetailedStatus.running:
+        return 'RUNNING';
+      case StackInstanceDetailedStatus.succeeded:
+        return 'SUCCEEDED';
+      case StackInstanceDetailedStatus.failed:
+        return 'FAILED';
+      case StackInstanceDetailedStatus.cancelled:
+        return 'CANCELLED';
+      case StackInstanceDetailedStatus.inoperable:
+        return 'INOPERABLE';
+    }
+  }
 }
 
 extension on String {
@@ -9481,35 +9605,43 @@ extension on String {
       case 'INOPERABLE':
         return StackInstanceDetailedStatus.inoperable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackInstanceDetailedStatus');
   }
 }
 
 /// The status that stack instances are filtered by.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StackInstanceFilter {
   /// The type of filter to apply.
-  @_s.JsonKey(name: 'Name')
-  final StackInstanceFilterName name;
+  final StackInstanceFilterName? name;
 
   /// The status to filter by.
-  @_s.JsonKey(name: 'Values')
-  final String values;
+  final String? values;
 
   StackInstanceFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$StackInstanceFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum StackInstanceFilterName {
-  @_s.JsonValue('DETAILED_STATUS')
   detailedStatus,
+}
+
+extension on StackInstanceFilterName {
+  String toValue() {
+    switch (this) {
+      case StackInstanceFilterName.detailedStatus:
+        return 'DETAILED_STATUS';
+    }
+  }
 }
 
 extension on String {
@@ -9518,17 +9650,27 @@ extension on String {
       case 'DETAILED_STATUS':
         return StackInstanceFilterName.detailedStatus;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackInstanceFilterName');
   }
 }
 
 enum StackInstanceStatus {
-  @_s.JsonValue('CURRENT')
   current,
-  @_s.JsonValue('OUTDATED')
   outdated,
-  @_s.JsonValue('INOPERABLE')
   inoperable,
+}
+
+extension on StackInstanceStatus {
+  String toValue() {
+    switch (this) {
+      case StackInstanceStatus.current:
+        return 'CURRENT';
+      case StackInstanceStatus.outdated:
+        return 'OUTDATED';
+      case StackInstanceStatus.inoperable:
+        return 'INOPERABLE';
+    }
+  }
 }
 
 extension on String {
@@ -9541,7 +9683,7 @@ extension on String {
       case 'INOPERABLE':
         return StackInstanceStatus.inoperable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackInstanceStatus');
   }
 }
 
@@ -9549,7 +9691,7 @@ extension on String {
 class StackInstanceSummary {
   /// [<code>Self-managed</code> permissions] The name of the AWS account that the
   /// stack instance is associated with.
-  final String account;
+  final String? account;
 
   /// Status of the stack instance's actual configuration compared to the expected
   /// template and parameter configuration of the stack set to which it belongs.
@@ -9573,30 +9715,30 @@ class StackInstanceSummary {
   /// <code>UNKNOWN</code>: This value is reserved for future use.
   /// </li>
   /// </ul>
-  final StackDriftStatus driftStatus;
+  final StackDriftStatus? driftStatus;
 
   /// Most recent time when CloudFormation performed a drift detection operation
   /// on the stack instance. This value will be <code>NULL</code> for any stack
   /// instance on which drift detection has not yet been performed.
-  final DateTime lastDriftCheckTimestamp;
+  final DateTime? lastDriftCheckTimestamp;
 
   /// [<code>Service-managed</code> permissions] The organization root ID or
   /// organizational unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
-  final String organizationalUnitId;
+  final String? organizationalUnitId;
 
   /// The name of the AWS Region that the stack instance is associated with.
-  final String region;
+  final String? region;
 
   /// The ID of the stack instance.
-  final String stackId;
+  final String? stackId;
 
   /// The detailed status of the stack instance.
-  final StackInstanceComprehensiveStatus stackInstanceStatus;
+  final StackInstanceComprehensiveStatus? stackInstanceStatus;
 
   /// The name or unique ID of the stack set that the stack instance is associated
   /// with.
-  final String stackSetId;
+  final String? stackSetId;
 
   /// The status of the stack instance, in terms of its synchronization with its
   /// associated stack set.
@@ -9629,11 +9771,11 @@ class StackInstanceSummary {
   /// <code>CURRENT</code>: The stack is currently up to date with the stack set.
   /// </li>
   /// </ul>
-  final StackInstanceStatus status;
+  final StackInstanceStatus? status;
 
   /// The explanation for the specific status code assigned to this stack
   /// instance.
-  final String statusReason;
+  final String? statusReason;
 
   StackInstanceSummary({
     this.account,
@@ -9685,7 +9827,7 @@ class StackResource {
   final DateTime timestamp;
 
   /// User defined description associated with the resource.
-  final String description;
+  final String? description;
 
   /// Information about whether the resource's actual configuration differs, or
   /// has <i>drifted</i>, from its expected configuration, as defined in the stack
@@ -9693,30 +9835,30 @@ class StackResource {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
-  final StackResourceDriftInformation driftInformation;
+  final StackResourceDriftInformation? driftInformation;
 
   /// Contains information about the module from which the resource was created,
   /// if the resource was created from a module included in the stack template.
-  final ModuleInfo moduleInfo;
+  final ModuleInfo? moduleInfo;
 
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// Success/failure message associated with the resource.
-  final String resourceStatusReason;
+  final String? resourceStatusReason;
 
   /// Unique identifier of the stack.
-  final String stackId;
+  final String? stackId;
 
   /// The name associated with the stack.
-  final String stackName;
+  final String? stackName;
 
   StackResource({
-    @_s.required this.logicalResourceId,
-    @_s.required this.resourceStatus,
-    @_s.required this.resourceType,
-    @_s.required this.timestamp,
+    required this.logicalResourceId,
+    required this.resourceStatus,
+    required this.resourceType,
+    required this.timestamp,
     this.description,
     this.driftInformation,
     this.moduleInfo,
@@ -9727,11 +9869,11 @@ class StackResource {
   });
   factory StackResource.fromXml(_s.XmlElement elem) {
     return StackResource(
-      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')?.toResourceStatus(),
-      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -9765,7 +9907,7 @@ class StackResourceDetail {
   final String resourceType;
 
   /// User defined description associated with the resource.
-  final String description;
+  final String? description;
 
   /// Information about whether the resource's actual configuration differs, or
   /// has <i>drifted</i>, from its expected configuration, as defined in the stack
@@ -9773,36 +9915,36 @@ class StackResourceDetail {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
-  final StackResourceDriftInformation driftInformation;
+  final StackResourceDriftInformation? driftInformation;
 
   /// The content of the <code>Metadata</code> attribute declared for the
   /// resource. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-metadata.html">Metadata
   /// Attribute</a> in the AWS CloudFormation User Guide.
-  final String metadata;
+  final String? metadata;
 
   /// Contains information about the module from which the resource was created,
   /// if the resource was created from a module included in the stack template.
-  final ModuleInfo moduleInfo;
+  final ModuleInfo? moduleInfo;
 
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// Success/failure message associated with the resource.
-  final String resourceStatusReason;
+  final String? resourceStatusReason;
 
   /// Unique identifier of the stack.
-  final String stackId;
+  final String? stackId;
 
   /// The name associated with the stack.
-  final String stackName;
+  final String? stackName;
 
   StackResourceDetail({
-    @_s.required this.lastUpdatedTimestamp,
-    @_s.required this.logicalResourceId,
-    @_s.required this.resourceStatus,
-    @_s.required this.resourceType,
+    required this.lastUpdatedTimestamp,
+    required this.logicalResourceId,
+    required this.resourceStatus,
+    required this.resourceType,
     this.description,
     this.driftInformation,
     this.metadata,
@@ -9815,11 +9957,11 @@ class StackResourceDetail {
   factory StackResourceDetail.fromXml(_s.XmlElement elem) {
     return StackResourceDetail(
       lastUpdatedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp'),
-      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
+          _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp')!,
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')?.toResourceStatus(),
-      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -9896,7 +10038,7 @@ class StackResourceDrift {
   ///
   /// For resources whose <code>StackResourceDriftStatus</code> is
   /// <code>DELETED</code>, this structure will not be present.
-  final String actualProperties;
+  final String? actualProperties;
 
   /// A JSON structure containing the expected property values of the stack
   /// resource, as defined in the stack template and any values specified as
@@ -9904,34 +10046,34 @@ class StackResourceDrift {
   ///
   /// For resources whose <code>StackResourceDriftStatus</code> is
   /// <code>DELETED</code>, this structure will not be present.
-  final String expectedProperties;
+  final String? expectedProperties;
 
   /// Contains information about the module from which the resource was created,
   /// if the resource was created from a module included in the stack template.
-  final ModuleInfo moduleInfo;
+  final ModuleInfo? moduleInfo;
 
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// Context information that enables AWS CloudFormation to uniquely identify a
   /// resource. AWS CloudFormation uses context key-value pairs in cases where a
   /// resource's logical and physical IDs are not enough to uniquely identify that
   /// resource. Each context key-value pair specifies a unique resource that
   /// contains the targeted resource.
-  final List<PhysicalResourceIdContextKeyValuePair> physicalResourceIdContext;
+  final List<PhysicalResourceIdContextKeyValuePair>? physicalResourceIdContext;
 
   /// A collection of the resource properties whose actual values differ from
   /// their expected values. These will be present only for resources whose
   /// <code>StackResourceDriftStatus</code> is <code>MODIFIED</code>.
-  final List<PropertyDifference> propertyDifferences;
+  final List<PropertyDifference>? propertyDifferences;
 
   StackResourceDrift({
-    @_s.required this.logicalResourceId,
-    @_s.required this.resourceType,
-    @_s.required this.stackId,
-    @_s.required this.stackResourceDriftStatus,
-    @_s.required this.timestamp,
+    required this.logicalResourceId,
+    required this.resourceType,
+    required this.stackId,
+    required this.stackResourceDriftStatus,
+    required this.timestamp,
     this.actualProperties,
     this.expectedProperties,
     this.moduleInfo,
@@ -9941,13 +10083,13 @@ class StackResourceDrift {
   });
   factory StackResourceDrift.fromXml(_s.XmlElement elem) {
     return StackResourceDrift(
-      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
-      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
-      stackId: _s.extractXmlStringValue(elem, 'StackId'),
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
+      stackId: _s.extractXmlStringValue(elem, 'StackId')!,
       stackResourceDriftStatus: _s
-          .extractXmlStringValue(elem, 'StackResourceDriftStatus')
-          ?.toStackResourceDriftStatus(),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+          .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
+          .toStackResourceDriftStatus(),
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       actualProperties: _s.extractXmlStringValue(elem, 'ActualProperties'),
       expectedProperties: _s.extractXmlStringValue(elem, 'ExpectedProperties'),
       moduleInfo: _s
@@ -10001,17 +10143,17 @@ class StackResourceDriftInformation {
 
   /// When AWS CloudFormation last checked if the resource had drifted from its
   /// expected configuration.
-  final DateTime lastCheckTimestamp;
+  final DateTime? lastCheckTimestamp;
 
   StackResourceDriftInformation({
-    @_s.required this.stackResourceDriftStatus,
+    required this.stackResourceDriftStatus,
     this.lastCheckTimestamp,
   });
   factory StackResourceDriftInformation.fromXml(_s.XmlElement elem) {
     return StackResourceDriftInformation(
       stackResourceDriftStatus: _s
-          .extractXmlStringValue(elem, 'StackResourceDriftStatus')
-          ?.toStackResourceDriftStatus(),
+          .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
+          .toStackResourceDriftStatus(),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -10056,17 +10198,17 @@ class StackResourceDriftInformationSummary {
 
   /// When AWS CloudFormation last checked if the resource had drifted from its
   /// expected configuration.
-  final DateTime lastCheckTimestamp;
+  final DateTime? lastCheckTimestamp;
 
   StackResourceDriftInformationSummary({
-    @_s.required this.stackResourceDriftStatus,
+    required this.stackResourceDriftStatus,
     this.lastCheckTimestamp,
   });
   factory StackResourceDriftInformationSummary.fromXml(_s.XmlElement elem) {
     return StackResourceDriftInformationSummary(
       stackResourceDriftStatus: _s
-          .extractXmlStringValue(elem, 'StackResourceDriftStatus')
-          ?.toStackResourceDriftStatus(),
+          .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
+          .toStackResourceDriftStatus(),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -10074,13 +10216,9 @@ class StackResourceDriftInformationSummary {
 }
 
 enum StackResourceDriftStatus {
-  @_s.JsonValue('IN_SYNC')
   inSync,
-  @_s.JsonValue('MODIFIED')
   modified,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('NOT_CHECKED')
   notChecked,
 }
 
@@ -10096,7 +10234,6 @@ extension on StackResourceDriftStatus {
       case StackResourceDriftStatus.notChecked:
         return 'NOT_CHECKED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10112,7 +10249,7 @@ extension on String {
       case 'NOT_CHECKED':
         return StackResourceDriftStatus.notChecked;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackResourceDriftStatus');
   }
 }
 
@@ -10138,24 +10275,24 @@ class StackResourceSummary {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
-  final StackResourceDriftInformationSummary driftInformation;
+  final StackResourceDriftInformationSummary? driftInformation;
 
   /// Contains information about the module from which the resource was created,
   /// if the resource was created from a module included in the stack template.
-  final ModuleInfo moduleInfo;
+  final ModuleInfo? moduleInfo;
 
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// the resource.
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// Success/failure message associated with the resource.
-  final String resourceStatusReason;
+  final String? resourceStatusReason;
 
   StackResourceSummary({
-    @_s.required this.lastUpdatedTimestamp,
-    @_s.required this.logicalResourceId,
-    @_s.required this.resourceStatus,
-    @_s.required this.resourceType,
+    required this.lastUpdatedTimestamp,
+    required this.logicalResourceId,
+    required this.resourceStatus,
+    required this.resourceType,
     this.driftInformation,
     this.moduleInfo,
     this.physicalResourceId,
@@ -10164,11 +10301,11 @@ class StackResourceSummary {
   factory StackResourceSummary.fromXml(_s.XmlElement elem) {
     return StackResourceSummary(
       lastUpdatedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp'),
-      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
+          _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp')!,
+      logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')?.toResourceStatus(),
-      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
           ?.let((e) => StackResourceDriftInformationSummary.fromXml(e)),
@@ -10197,12 +10334,12 @@ class StackSet {
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
   /// Granting Permissions for Stack Set Operations</a> in the <i>AWS
   /// CloudFormation User Guide</i>.
-  final String administrationRoleARN;
+  final String? administrationRoleARN;
 
   /// [<code>Service-managed</code> permissions] Describes whether StackSets
   /// automatically deploys to AWS Organizations accounts that are added to a
   /// target organization or organizational unit (OU).
-  final AutoDeployment autoDeployment;
+  final AutoDeployment? autoDeployment;
 
   /// The capabilities that are allowed in the stack set. Some stack set templates
   /// might include resources that can affect permissions in your AWS account—for
@@ -10210,25 +10347,25 @@ class StackSet {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates.</a>
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
   /// A description of the stack set that you specify when the stack set is
   /// created or updated.
-  final String description;
+  final String? description;
 
   /// The name of the IAM execution role used to create or update the stack set.
   ///
   /// Use customized execution roles to control which stack resources users and
   /// groups can include in their stack sets.
-  final String executionRoleName;
+  final String? executionRoleName;
 
   /// [<code>Service-managed</code> permissions] The organization root ID or
   /// organizational unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
-  final List<String> organizationalUnitIds;
+  final List<String>? organizationalUnitIds;
 
   /// A list of input parameters for a stack set.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   /// Describes how the IAM roles required for stack set operations are created.
   ///
@@ -10248,34 +10385,34 @@ class StackSet {
   /// Service-Managed Stack Set Permissions</a>.
   /// </li>
   /// </ul>
-  final PermissionModels permissionModel;
+  final PermissionModels? permissionModel;
 
   /// The Amazon Resource Number (ARN) of the stack set.
-  final String stackSetARN;
+  final String? stackSetARN;
 
   /// Detailed information about the drift status of the stack set.
   ///
   /// For stack sets, contains information about the last <i>completed</i> drift
   /// operation performed on the stack set. Information about drift operations
   /// currently in progress is not included.
-  final StackSetDriftDetectionDetails stackSetDriftDetectionDetails;
+  final StackSetDriftDetectionDetails? stackSetDriftDetectionDetails;
 
   /// The ID of the stack set.
-  final String stackSetId;
+  final String? stackSetId;
 
   /// The name that's associated with the stack set.
-  final String stackSetName;
+  final String? stackSetName;
 
   /// The status of the stack set.
-  final StackSetStatus status;
+  final StackSetStatus? status;
 
   /// A list of tags that specify information about the stack set. A maximum
   /// number of 50 tags can be specified.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The structure that contains the body of the template that was used to create
   /// or update the stack set.
-  final String templateBody;
+  final String? templateBody;
 
   StackSet({
     this.administrationRoleARN,
@@ -10368,7 +10505,7 @@ class StackSetDriftDetectionDetails {
   /// <code>STOPPED</code>: The user has cancelled the drift detection operation.
   /// </li>
   /// </ul>
-  final StackSetDriftDetectionStatus driftDetectionStatus;
+  final StackSetDriftDetectionStatus? driftDetectionStatus;
 
   /// Status of the stack set's actual configuration compared to its expected
   /// template and parameter configuration. A stack set is considered to have
@@ -10391,29 +10528,29 @@ class StackSetDriftDetectionDetails {
   /// stack match from the expected template and parameter configuration.
   /// </li>
   /// </ul>
-  final StackSetDriftStatus driftStatus;
+  final StackSetDriftStatus? driftStatus;
 
   /// The number of stack instances that have drifted from the expected template
   /// and parameter configuration of the stack set. A stack instance is considered
   /// to have drifted if one or more of the resources in the associated stack do
   /// not match their expected configuration.
-  final int driftedStackInstancesCount;
+  final int? driftedStackInstancesCount;
 
   /// The number of stack instances for which the drift detection operation
   /// failed.
-  final int failedStackInstancesCount;
+  final int? failedStackInstancesCount;
 
   /// The number of stack instances that are currently being checked for drift.
-  final int inProgressStackInstancesCount;
+  final int? inProgressStackInstancesCount;
 
   /// The number of stack instances which match the expected template and
   /// parameter configuration of the stack set.
-  final int inSyncStackInstancesCount;
+  final int? inSyncStackInstancesCount;
 
   /// Most recent time when CloudFormation performed a drift detection operation
   /// on the stack set. This value will be <code>NULL</code> for any stack set on
   /// which drift detection has not yet been performed.
-  final DateTime lastDriftCheckTimestamp;
+  final DateTime? lastDriftCheckTimestamp;
 
   /// The total number of stack instances belonging to this stack set.
   ///
@@ -10433,7 +10570,7 @@ class StackSetDriftDetectionDetails {
   /// Stack instances currently being checked for drift.
   /// </li>
   /// </ul>
-  final int totalStackInstancesCount;
+  final int? totalStackInstancesCount;
 
   StackSetDriftDetectionDetails({
     this.driftDetectionStatus,
@@ -10470,16 +10607,28 @@ class StackSetDriftDetectionDetails {
 }
 
 enum StackSetDriftDetectionStatus {
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PARTIAL_SUCCESS')
   partialSuccess,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('STOPPED')
   stopped,
+}
+
+extension on StackSetDriftDetectionStatus {
+  String toValue() {
+    switch (this) {
+      case StackSetDriftDetectionStatus.completed:
+        return 'COMPLETED';
+      case StackSetDriftDetectionStatus.failed:
+        return 'FAILED';
+      case StackSetDriftDetectionStatus.partialSuccess:
+        return 'PARTIAL_SUCCESS';
+      case StackSetDriftDetectionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case StackSetDriftDetectionStatus.stopped:
+        return 'STOPPED';
+    }
+  }
 }
 
 extension on String {
@@ -10496,17 +10645,27 @@ extension on String {
       case 'STOPPED':
         return StackSetDriftDetectionStatus.stopped;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetDriftDetectionStatus');
   }
 }
 
 enum StackSetDriftStatus {
-  @_s.JsonValue('DRIFTED')
   drifted,
-  @_s.JsonValue('IN_SYNC')
   inSync,
-  @_s.JsonValue('NOT_CHECKED')
   notChecked,
+}
+
+extension on StackSetDriftStatus {
+  String toValue() {
+    switch (this) {
+      case StackSetDriftStatus.drifted:
+        return 'DRIFTED';
+      case StackSetDriftStatus.inSync:
+        return 'IN_SYNC';
+      case StackSetDriftStatus.notChecked:
+        return 'NOT_CHECKED';
+    }
+  }
 }
 
 extension on String {
@@ -10519,7 +10678,7 @@ extension on String {
       case 'NOT_CHECKED':
         return StackSetDriftStatus.notChecked;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetDriftStatus');
   }
 }
 
@@ -10530,7 +10689,7 @@ class StackSetOperation {
   /// specified stack set instances that are associated with the specified stack
   /// set. Update operations affect both the stack set itself, as well as
   /// <i>all</i> associated stack set instances.
-  final StackSetOperationAction action;
+  final StackSetOperationAction? action;
 
   /// The Amazon Resource Number (ARN) of the IAM role used to perform this stack
   /// set operation.
@@ -10541,42 +10700,42 @@ class StackSetOperation {
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Define
   /// Permissions for Multiple Administrators</a> in the <i>AWS CloudFormation
   /// User Guide</i>.
-  final String administrationRoleARN;
+  final String? administrationRoleARN;
 
   /// The time at which the operation was initiated. Note that the creation times
   /// for the stack set operation might differ from the creation time of the
   /// individual stacks themselves. This is because AWS CloudFormation needs to
   /// perform preparatory work for the operation, such as dispatching the work to
   /// the requested Regions, before actually creating the first stacks.
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// [<code>Service-managed</code> permissions] The AWS Organizations accounts
   /// affected by the stack operation.
-  final DeploymentTargets deploymentTargets;
+  final DeploymentTargets? deploymentTargets;
 
   /// The time at which the stack set operation ended, across all accounts and
   /// Regions specified. Note that this doesn't necessarily mean that the stack
   /// set operation was successful, or even attempted, in each account or Region.
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The name of the IAM execution role used to create or update the stack set.
   ///
   /// Use customized execution roles to control which stack resources users and
   /// groups can include in their stack sets.
-  final String executionRoleName;
+  final String? executionRoleName;
 
   /// The unique ID of a stack set operation.
-  final String operationId;
+  final String? operationId;
 
   /// The preferences for how AWS CloudFormation performs this stack set
   /// operation.
-  final StackSetOperationPreferences operationPreferences;
+  final StackSetOperationPreferences? operationPreferences;
 
   /// For stack set operations of action type <code>DELETE</code>, specifies
   /// whether to remove the stack instances from the specified stack set, but
   /// doesn't delete the stacks. You can't reassociate a retained stack, or add an
   /// existing, saved stack to a new stack set.
-  final bool retainStacks;
+  final bool? retainStacks;
 
   /// Detailed information about the drift status of the stack set. This includes
   /// information about drift operations currently being performed on the stack
@@ -10588,10 +10747,10 @@ class StackSetOperation {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">Detecting
   /// Unmanaged Changes in Stack Sets</a> in the AWS CloudFormation User Guide.
-  final StackSetDriftDetectionDetails stackSetDriftDetectionDetails;
+  final StackSetDriftDetectionDetails? stackSetDriftDetectionDetails;
 
   /// The ID of the stack set.
-  final String stackSetId;
+  final String? stackSetId;
 
   /// The status of the operation.
   ///
@@ -10627,7 +10786,7 @@ class StackSetOperation {
   /// specified stacks without exceeding the failure tolerance for the operation.
   /// </li>
   /// </ul>
-  final StackSetOperationStatus status;
+  final StackSetOperationStatus? status;
 
   StackSetOperation({
     this.action,
@@ -10671,14 +10830,25 @@ class StackSetOperation {
 }
 
 enum StackSetOperationAction {
-  @_s.JsonValue('CREATE')
   create,
-  @_s.JsonValue('UPDATE')
   update,
-  @_s.JsonValue('DELETE')
   delete,
-  @_s.JsonValue('DETECT_DRIFT')
   detectDrift,
+}
+
+extension on StackSetOperationAction {
+  String toValue() {
+    switch (this) {
+      case StackSetOperationAction.create:
+        return 'CREATE';
+      case StackSetOperationAction.update:
+        return 'UPDATE';
+      case StackSetOperationAction.delete:
+        return 'DELETE';
+      case StackSetOperationAction.detectDrift:
+        return 'DETECT_DRIFT';
+    }
+  }
 }
 
 extension on String {
@@ -10693,7 +10863,7 @@ extension on String {
       case 'DETECT_DRIFT':
         return StackSetOperationAction.detectDrift;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetOperationAction');
   }
 }
 
@@ -10704,11 +10874,6 @@ extension on String {
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StackSetOperationPreferences {
   /// The number of accounts, per Region, for which this operation can fail before
   /// AWS CloudFormation stops the operation in that Region. If the operation is
@@ -10717,8 +10882,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>FailureToleranceCount</code> or
   /// <code>FailureTolerancePercentage</code> (but not both).
-  @_s.JsonKey(name: 'FailureToleranceCount')
-  final int failureToleranceCount;
+  final int? failureToleranceCount;
 
   /// The percentage of accounts, per Region, for which this stack operation can
   /// fail before AWS CloudFormation stops the operation in that Region. If the
@@ -10730,8 +10894,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>FailureToleranceCount</code> or
   /// <code>FailureTolerancePercentage</code>, but not both.
-  @_s.JsonKey(name: 'FailureTolerancePercentage')
-  final int failureTolerancePercentage;
+  final int? failureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
   /// time. This is dependent on the value of <code>FailureToleranceCount</code>.
@@ -10744,8 +10907,7 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>MaxConcurrentCount</code> or
   /// <code>MaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'MaxConcurrentCount')
-  final int maxConcurrentCount;
+  final int? maxConcurrentCount;
 
   /// The maximum percentage of accounts in which to perform this operation at one
   /// time.
@@ -10761,12 +10923,10 @@ class StackSetOperationPreferences {
   ///
   /// Conditional: You must specify either <code>MaxConcurrentCount</code> or
   /// <code>MaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'MaxConcurrentPercentage')
-  final int maxConcurrentPercentage;
+  final int? maxConcurrentPercentage;
 
   /// The order of the Regions in where you want to perform the stack operation.
-  @_s.JsonKey(name: 'RegionOrder')
-  final List<String> regionOrder;
+  final List<String>? regionOrder;
 
   StackSetOperationPreferences({
     this.failureToleranceCount,
@@ -10790,20 +10950,48 @@ class StackSetOperationPreferences {
     );
   }
 
-  Map<String, dynamic> toJson() => _$StackSetOperationPreferencesToJson(this);
+  Map<String, dynamic> toJson() {
+    final failureToleranceCount = this.failureToleranceCount;
+    final failureTolerancePercentage = this.failureTolerancePercentage;
+    final maxConcurrentCount = this.maxConcurrentCount;
+    final maxConcurrentPercentage = this.maxConcurrentPercentage;
+    final regionOrder = this.regionOrder;
+    return {
+      if (failureToleranceCount != null)
+        'FailureToleranceCount': failureToleranceCount,
+      if (failureTolerancePercentage != null)
+        'FailureTolerancePercentage': failureTolerancePercentage,
+      if (maxConcurrentCount != null) 'MaxConcurrentCount': maxConcurrentCount,
+      if (maxConcurrentPercentage != null)
+        'MaxConcurrentPercentage': maxConcurrentPercentage,
+      if (regionOrder != null) 'RegionOrder': regionOrder,
+    };
+  }
 }
 
 enum StackSetOperationResultStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
+}
+
+extension on StackSetOperationResultStatus {
+  String toValue() {
+    switch (this) {
+      case StackSetOperationResultStatus.pending:
+        return 'PENDING';
+      case StackSetOperationResultStatus.running:
+        return 'RUNNING';
+      case StackSetOperationResultStatus.succeeded:
+        return 'SUCCEEDED';
+      case StackSetOperationResultStatus.failed:
+        return 'FAILED';
+      case StackSetOperationResultStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
 }
 
 extension on String {
@@ -10820,7 +11008,7 @@ extension on String {
       case 'CANCELLED':
         return StackSetOperationResultStatus.cancelled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetOperationResultStatus');
   }
 }
 
@@ -10829,19 +11017,19 @@ extension on String {
 class StackSetOperationResultSummary {
   /// [<code>Self-managed</code> permissions] The name of the AWS account for this
   /// operation result.
-  final String account;
+  final String? account;
 
   /// The results of the account gate function AWS CloudFormation invokes, if
   /// present, before proceeding with stack set operations in an account
-  final AccountGateResult accountGateResult;
+  final AccountGateResult? accountGateResult;
 
   /// [<code>Service-managed</code> permissions] The organization root ID or
   /// organizational unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
-  final String organizationalUnitId;
+  final String? organizationalUnitId;
 
   /// The name of the AWS Region for this operation result.
-  final String region;
+  final String? region;
 
   /// The result status of the stack set operation for the given account in the
   /// given Region.
@@ -10873,10 +11061,10 @@ class StackSetOperationResultSummary {
   /// completed successfully.
   /// </li>
   /// </ul>
-  final StackSetOperationResultStatus status;
+  final StackSetOperationResultStatus? status;
 
   /// The reason for the assigned result status.
-  final String statusReason;
+  final String? statusReason;
 
   StackSetOperationResultSummary({
     this.account,
@@ -10904,18 +11092,31 @@ class StackSetOperationResultSummary {
 }
 
 enum StackSetOperationStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('QUEUED')
   queued,
+}
+
+extension on StackSetOperationStatus {
+  String toValue() {
+    switch (this) {
+      case StackSetOperationStatus.running:
+        return 'RUNNING';
+      case StackSetOperationStatus.succeeded:
+        return 'SUCCEEDED';
+      case StackSetOperationStatus.failed:
+        return 'FAILED';
+      case StackSetOperationStatus.stopping:
+        return 'STOPPING';
+      case StackSetOperationStatus.stopped:
+        return 'STOPPED';
+      case StackSetOperationStatus.queued:
+        return 'QUEUED';
+    }
+  }
 }
 
 extension on String {
@@ -10934,7 +11135,7 @@ extension on String {
       case 'QUEUED':
         return StackSetOperationStatus.queued;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetOperationStatus');
   }
 }
 
@@ -10946,22 +11147,22 @@ class StackSetOperationSummary {
   /// stack instances that are associated with the specified stack set. Update
   /// operations affect both the stack set itself as well as <i>all</i> associated
   /// stack set instances.
-  final StackSetOperationAction action;
+  final StackSetOperationAction? action;
 
   /// The time at which the operation was initiated. Note that the creation times
   /// for the stack set operation might differ from the creation time of the
   /// individual stacks themselves. This is because AWS CloudFormation needs to
   /// perform preparatory work for the operation, such as dispatching the work to
   /// the requested Regions, before actually creating the first stacks.
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The time at which the stack set operation ended, across all accounts and
   /// Regions specified. Note that this doesn't necessarily mean that the stack
   /// set operation was successful, or even attempted, in each account or Region.
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The unique ID of the stack set operation.
-  final String operationId;
+  final String? operationId;
 
   /// The overall status of the operation.
   ///
@@ -10997,7 +11198,7 @@ class StackSetOperationSummary {
   /// specified stacks without exceeding the failure tolerance for the operation.
   /// </li>
   /// </ul>
-  final StackSetOperationStatus status;
+  final StackSetOperationStatus? status;
 
   StackSetOperationSummary({
     this.action,
@@ -11020,9 +11221,7 @@ class StackSetOperationSummary {
 }
 
 enum StackSetStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -11034,7 +11233,6 @@ extension on StackSetStatus {
       case StackSetStatus.deleted:
         return 'DELETED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11046,7 +11244,7 @@ extension on String {
       case 'DELETED':
         return StackSetStatus.deleted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackSetStatus');
   }
 }
 
@@ -11056,11 +11254,11 @@ class StackSetSummary {
   /// [<code>Service-managed</code> permissions] Describes whether StackSets
   /// automatically deploys to AWS Organizations accounts that are added to a
   /// target organizational unit (OU).
-  final AutoDeployment autoDeployment;
+  final AutoDeployment? autoDeployment;
 
   /// A description of the stack set that you specify when the stack set is
   /// created or updated.
-  final String description;
+  final String? description;
 
   /// Status of the stack set's actual configuration compared to its expected
   /// template and parameter configuration. A stack set is considered to have
@@ -11086,12 +11284,12 @@ class StackSetSummary {
   /// <code>UNKNOWN</code>: This value is reserved for future use.
   /// </li>
   /// </ul>
-  final StackDriftStatus driftStatus;
+  final StackDriftStatus? driftStatus;
 
   /// Most recent time when CloudFormation performed a drift detection operation
   /// on the stack set. This value will be <code>NULL</code> for any stack set on
   /// which drift detection has not yet been performed.
-  final DateTime lastDriftCheckTimestamp;
+  final DateTime? lastDriftCheckTimestamp;
 
   /// Describes how the IAM roles required for stack set operations are created.
   ///
@@ -11111,16 +11309,16 @@ class StackSetSummary {
   /// Service-Managed Stack Set Permissions</a>.
   /// </li>
   /// </ul>
-  final PermissionModels permissionModel;
+  final PermissionModels? permissionModel;
 
   /// The ID of the stack set.
-  final String stackSetId;
+  final String? stackSetId;
 
   /// The name of the stack set.
-  final String stackSetName;
+  final String? stackSetName;
 
   /// The status of the stack set.
-  final StackSetStatus status;
+  final StackSetStatus? status;
 
   StackSetSummary({
     this.autoDeployment,
@@ -11153,49 +11351,27 @@ class StackSetSummary {
 }
 
 enum StackStatus {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('ROLLBACK_IN_PROGRESS')
   rollbackInProgress,
-  @_s.JsonValue('ROLLBACK_FAILED')
   rollbackFailed,
-  @_s.JsonValue('ROLLBACK_COMPLETE')
   rollbackComplete,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
-  @_s.JsonValue('UPDATE_COMPLETE_CLEANUP_IN_PROGRESS')
   updateCompleteCleanupInProgress,
-  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
-  @_s.JsonValue('UPDATE_ROLLBACK_IN_PROGRESS')
   updateRollbackInProgress,
-  @_s.JsonValue('UPDATE_ROLLBACK_FAILED')
   updateRollbackFailed,
-  @_s.JsonValue('UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS')
   updateRollbackCompleteCleanupInProgress,
-  @_s.JsonValue('UPDATE_ROLLBACK_COMPLETE')
   updateRollbackComplete,
-  @_s.JsonValue('REVIEW_IN_PROGRESS')
   reviewInProgress,
-  @_s.JsonValue('IMPORT_IN_PROGRESS')
   importInProgress,
-  @_s.JsonValue('IMPORT_COMPLETE')
   importComplete,
-  @_s.JsonValue('IMPORT_ROLLBACK_IN_PROGRESS')
   importRollbackInProgress,
-  @_s.JsonValue('IMPORT_ROLLBACK_FAILED')
   importRollbackFailed,
-  @_s.JsonValue('IMPORT_ROLLBACK_COMPLETE')
   importRollbackComplete,
 }
 
@@ -11247,7 +11423,6 @@ extension on StackStatus {
       case StackStatus.importRollbackComplete:
         return 'IMPORT_ROLLBACK_COMPLETE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11299,7 +11474,7 @@ extension on String {
       case 'IMPORT_ROLLBACK_COMPLETE':
         return StackStatus.importRollbackComplete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StackStatus');
   }
 }
 
@@ -11315,7 +11490,7 @@ class StackSummary {
   final StackStatus stackStatus;
 
   /// The time the stack was deleted.
-  final DateTime deletionTime;
+  final DateTime? deletionTime;
 
   /// Summarizes information on whether a stack's actual configuration differs, or
   /// has <i>drifted</i>, from it's expected configuration, as defined in the
@@ -11323,11 +11498,11 @@ class StackSummary {
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
-  final StackDriftInformationSummary driftInformation;
+  final StackDriftInformationSummary? driftInformation;
 
   /// The time the stack was last updated. This field will only be returned if the
   /// stack has been updated at least once.
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// For nested stacks--stacks created as resources for another stack--the stack
   /// ID of the direct parent of this stack. For the first level of nested stacks,
@@ -11336,7 +11511,7 @@ class StackSummary {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>AWS CloudFormation User Guide</i>.
-  final String parentId;
+  final String? parentId;
 
   /// For nested stacks--stacks created as resources for another stack--the stack
   /// ID of the top-level stack to which the nested stack ultimately belongs.
@@ -11344,21 +11519,21 @@ class StackSummary {
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">Working
   /// with Nested Stacks</a> in the <i>AWS CloudFormation User Guide</i>.
-  final String rootId;
+  final String? rootId;
 
   /// Unique stack identifier.
-  final String stackId;
+  final String? stackId;
 
   /// Success/Failure message associated with the stack status.
-  final String stackStatusReason;
+  final String? stackStatusReason;
 
   /// The template description of the template used to create the stack.
-  final String templateDescription;
+  final String? templateDescription;
 
   StackSummary({
-    @_s.required this.creationTime,
-    @_s.required this.stackName,
-    @_s.required this.stackStatus,
+    required this.creationTime,
+    required this.stackName,
+    required this.stackStatus,
     this.deletionTime,
     this.driftInformation,
     this.lastUpdatedTime,
@@ -11370,10 +11545,10 @@ class StackSummary {
   });
   factory StackSummary.fromXml(_s.XmlElement elem) {
     return StackSummary(
-      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
-      stackName: _s.extractXmlStringValue(elem, 'StackName'),
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime')!,
+      stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       stackStatus:
-          _s.extractXmlStringValue(elem, 'StackStatus')?.toStackStatus(),
+          _s.extractXmlStringValue(elem, 'StackStatus')!.toStackStatus(),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -11400,51 +11575,51 @@ class StopStackSetOperationOutput {
 
 /// The Tag type enables you to specify a key-value pair that can be used to
 /// store information about an AWS CloudFormation stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// <i>Required</i>. A string used to identify this tag. You can specify a
   /// maximum of 128 characters for a tag key. Tags owned by Amazon Web Services
   /// (AWS) have the reserved prefix: <code>aws:</code>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// <i>Required</i>. A string containing the value for this tag. You can specify
   /// a maximum of 256 characters for a tag value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The TemplateParameter data type.
 class TemplateParameter {
   /// The default value associated with the parameter.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// User defined description associated with the parameter.
-  final String description;
+  final String? description;
 
   /// Flag indicating whether the parameter should be displayed as plain text in
   /// logs and UIs.
-  final bool noEcho;
+  final bool? noEcho;
 
   /// The name associated with the parameter.
-  final String parameterKey;
+  final String? parameterKey;
 
   TemplateParameter({
     this.defaultValue,
@@ -11463,9 +11638,7 @@ class TemplateParameter {
 }
 
 enum TemplateStage {
-  @_s.JsonValue('Original')
   original,
-  @_s.JsonValue('Processed')
   processed,
 }
 
@@ -11477,7 +11650,6 @@ extension on TemplateStage {
       case TemplateStage.processed:
         return 'Processed';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11489,7 +11661,7 @@ extension on String {
       case 'Processed':
         return TemplateStage.processed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TemplateStage');
   }
 }
 
@@ -11500,22 +11672,22 @@ class TypeSummary {
   ///
   /// To set the default version of a type, use <code>
   /// <a>SetTypeDefaultVersion</a> </code>.
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// The description of the type.
-  final String description;
+  final String? description;
 
   /// When the current default version of the type was registered.
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The kind of type.
-  final RegistryType type;
+  final RegistryType? type;
 
   /// The Amazon Resource Name (ARN) of the type.
-  final String typeArn;
+  final String? typeArn;
 
   /// The name of the type.
-  final String typeName;
+  final String? typeName;
 
   TypeSummary({
     this.defaultVersionId,
@@ -11541,27 +11713,27 @@ class TypeSummary {
 /// type.
 class TypeVersionSummary {
   /// The Amazon Resource Name (ARN) of the type version.
-  final String arn;
+  final String? arn;
 
   /// The description of the type version.
-  final String description;
+  final String? description;
 
   /// Whether the specified type version is set as the default version.
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// When the version was registered.
-  final DateTime timeCreated;
+  final DateTime? timeCreated;
 
   /// The kind of type.
-  final RegistryType type;
+  final RegistryType? type;
 
   /// The name of the type.
-  final String typeName;
+  final String? typeName;
 
   /// The ID of a specific version of the type. The version ID is the value at the
   /// end of the Amazon Resource Name (ARN) assigned to the type version when it
   /// is registered.
-  final String versionId;
+  final String? versionId;
 
   TypeVersionSummary({
     this.arn,
@@ -11587,7 +11759,7 @@ class TypeVersionSummary {
 
 class UpdateStackInstancesOutput {
   /// The unique identifier for this stack set operation.
-  final String operationId;
+  final String? operationId;
 
   UpdateStackInstancesOutput({
     this.operationId,
@@ -11602,7 +11774,7 @@ class UpdateStackInstancesOutput {
 /// The output for an <a>UpdateStack</a> action.
 class UpdateStackOutput {
   /// Unique identifier of the stack.
-  final String stackId;
+  final String? stackId;
 
   UpdateStackOutput({
     this.stackId,
@@ -11616,7 +11788,7 @@ class UpdateStackOutput {
 
 class UpdateStackSetOutput {
   /// The unique ID for this stack set operation.
-  final String operationId;
+  final String? operationId;
 
   UpdateStackSetOutput({
     this.operationId,
@@ -11630,7 +11802,7 @@ class UpdateStackSetOutput {
 
 class UpdateTerminationProtectionOutput {
   /// The unique ID of the stack.
-  final String stackId;
+  final String? stackId;
 
   UpdateTerminationProtectionOutput({
     this.stackId,
@@ -11653,20 +11825,20 @@ class ValidateTemplateOutput {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates</a>.
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
   /// The list of resources that generated the values in the
   /// <code>Capabilities</code> response element.
-  final String capabilitiesReason;
+  final String? capabilitiesReason;
 
   /// A list of the transforms that are declared in the template.
-  final List<String> declaredTransforms;
+  final List<String>? declaredTransforms;
 
   /// The description found within the template.
-  final String description;
+  final String? description;
 
   /// A list of <code>TemplateParameter</code> structures.
-  final List<TemplateParameter> parameters;
+  final List<TemplateParameter>? parameters;
 
   ValidateTemplateOutput({
     this.capabilities,
@@ -11695,9 +11867,7 @@ class ValidateTemplateOutput {
 }
 
 enum Visibility {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
@@ -11709,7 +11879,6 @@ extension on Visibility {
       case Visibility.private:
         return 'PRIVATE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11721,33 +11890,33 @@ extension on String {
       case 'PRIVATE':
         return Visibility.private;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Visibility');
   }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class CFNRegistryException extends _s.GenericAwsException {
-  CFNRegistryException({String type, String message})
+  CFNRegistryException({String? type, String? message})
       : super(type: type, code: 'CFNRegistryException', message: message);
 }
 
 class ChangeSetNotFoundException extends _s.GenericAwsException {
-  ChangeSetNotFoundException({String type, String message})
+  ChangeSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'ChangeSetNotFoundException', message: message);
 }
 
 class CreatedButModifiedException extends _s.GenericAwsException {
-  CreatedButModifiedException({String type, String message})
+  CreatedButModifiedException({String? type, String? message})
       : super(
             type: type, code: 'CreatedButModifiedException', message: message);
 }
 
 class InsufficientCapabilitiesException extends _s.GenericAwsException {
-  InsufficientCapabilitiesException({String type, String message})
+  InsufficientCapabilitiesException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientCapabilitiesException',
@@ -11755,7 +11924,7 @@ class InsufficientCapabilitiesException extends _s.GenericAwsException {
 }
 
 class InvalidChangeSetStatusException extends _s.GenericAwsException {
-  InvalidChangeSetStatusException({String type, String message})
+  InvalidChangeSetStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidChangeSetStatusException',
@@ -11763,12 +11932,12 @@ class InvalidChangeSetStatusException extends _s.GenericAwsException {
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidStateTransitionException extends _s.GenericAwsException {
-  InvalidStateTransitionException({String type, String message})
+  InvalidStateTransitionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidStateTransitionException',
@@ -11776,17 +11945,17 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NameAlreadyExistsException extends _s.GenericAwsException {
-  NameAlreadyExistsException({String type, String message})
+  NameAlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'NameAlreadyExistsException', message: message);
 }
 
 class OperationIdAlreadyExistsException extends _s.GenericAwsException {
-  OperationIdAlreadyExistsException({String type, String message})
+  OperationIdAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationIdAlreadyExistsException',
@@ -11794,18 +11963,18 @@ class OperationIdAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class OperationInProgressException extends _s.GenericAwsException {
-  OperationInProgressException({String type, String message})
+  OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
 class OperationNotFoundException extends _s.GenericAwsException {
-  OperationNotFoundException({String type, String message})
+  OperationNotFoundException({String? type, String? message})
       : super(type: type, code: 'OperationNotFoundException', message: message);
 }
 
 class OperationStatusCheckFailedException extends _s.GenericAwsException {
-  OperationStatusCheckFailedException({String type, String message})
+  OperationStatusCheckFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationStatusCheckFailedException',
@@ -11813,7 +11982,7 @@ class OperationStatusCheckFailedException extends _s.GenericAwsException {
 }
 
 class StackInstanceNotFoundException extends _s.GenericAwsException {
-  StackInstanceNotFoundException({String type, String message})
+  StackInstanceNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'StackInstanceNotFoundException',
@@ -11821,28 +11990,28 @@ class StackInstanceNotFoundException extends _s.GenericAwsException {
 }
 
 class StackSetNotEmptyException extends _s.GenericAwsException {
-  StackSetNotEmptyException({String type, String message})
+  StackSetNotEmptyException({String? type, String? message})
       : super(type: type, code: 'StackSetNotEmptyException', message: message);
 }
 
 class StackSetNotFoundException extends _s.GenericAwsException {
-  StackSetNotFoundException({String type, String message})
+  StackSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'StackSetNotFoundException', message: message);
 }
 
 class StaleRequestException extends _s.GenericAwsException {
-  StaleRequestException({String type, String message})
+  StaleRequestException({String? type, String? message})
       : super(type: type, code: 'StaleRequestException', message: message);
 }
 
 class TokenAlreadyExistsException extends _s.GenericAwsException {
-  TokenAlreadyExistsException({String type, String message})
+  TokenAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TokenAlreadyExistsException', message: message);
 }
 
 class TypeNotFoundException extends _s.GenericAwsException {
-  TypeNotFoundException({String type, String message})
+  TypeNotFoundException({String? type, String? message})
       : super(type: type, code: 'TypeNotFoundException', message: message);
 }
 

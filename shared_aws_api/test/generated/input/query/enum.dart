@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'enum.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class Enum {
   final Map<String, _s.Shape> shapes;
 
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,13 +40,13 @@ class Enum {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    EnumType fooEnum,
-    List<EnumType> listEnums,
+    EnumType? fooEnum,
+    List<EnumType>? listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) =>
-        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
+    listEnums?.also(
+        (arg) => $request['ListEnums'] = arg.map((e) => e.toValue()).toList());
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -66,13 +60,13 @@ class Enum {
   }
 
   Future<void> operationName1({
-    EnumType fooEnum,
-    List<EnumType> listEnums,
+    EnumType? fooEnum,
+    List<EnumType>? listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) =>
-        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
+    listEnums?.also(
+        (arg) => $request['ListEnums'] = arg.map((e) => e.toValue()).toList());
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -86,13 +80,13 @@ class Enum {
   }
 
   Future<void> operationName2({
-    EnumType fooEnum,
-    List<EnumType> listEnums,
+    EnumType? fooEnum,
+    List<EnumType>? listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) =>
-        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
+    listEnums?.also(
+        (arg) => $request['ListEnums'] = arg.map((e) => e.toValue()).toList());
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -107,9 +101,7 @@ class Enum {
 }
 
 enum EnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
 }
 
@@ -121,7 +113,6 @@ extension on EnumType {
       case EnumType.bar:
         return 'bar';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -133,7 +124,7 @@ extension on String {
       case 'bar':
         return EnumType.bar;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnumType');
   }
 }
 

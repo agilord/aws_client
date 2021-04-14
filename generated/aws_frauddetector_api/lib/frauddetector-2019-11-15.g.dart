@@ -9,87 +9,88 @@ part of 'frauddetector-2019-11-15.dart';
 BatchCreateVariableError _$BatchCreateVariableErrorFromJson(
     Map<String, dynamic> json) {
   return BatchCreateVariableError(
-    code: json['code'] as int,
-    message: json['message'] as String,
-    name: json['name'] as String,
+    code: json['code'] as int?,
+    message: json['message'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 BatchCreateVariableResult _$BatchCreateVariableResultFromJson(
     Map<String, dynamic> json) {
   return BatchCreateVariableResult(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchCreateVariableError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map(
+            (e) => BatchCreateVariableError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetVariableError _$BatchGetVariableErrorFromJson(
     Map<String, dynamic> json) {
   return BatchGetVariableError(
-    code: json['code'] as int,
-    message: json['message'] as String,
-    name: json['name'] as String,
+    code: json['code'] as int?,
+    message: json['message'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 BatchGetVariableResult _$BatchGetVariableResultFromJson(
     Map<String, dynamic> json) {
   return BatchGetVariableResult(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchGetVariableError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    variables: (json['variables'] as List)
-        ?.map((e) =>
-            e == null ? null : Variable.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) => BatchGetVariableError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    variables: (json['variables'] as List<dynamic>?)
+        ?.map((e) => Variable.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateDetectorVersionResult _$CreateDetectorVersionResultFromJson(
     Map<String, dynamic> json) {
   return CreateDetectorVersionResult(
-    detectorId: json['detectorId'] as String,
-    detectorVersionId: json['detectorVersionId'] as String,
+    detectorId: json['detectorId'] as String?,
+    detectorVersionId: json['detectorVersionId'] as String?,
     status:
         _$enumDecodeNullable(_$DetectorVersionStatusEnumMap, json['status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DetectorVersionStatusEnumMap = {
@@ -105,10 +106,10 @@ CreateModelResult _$CreateModelResultFromJson(Map<String, dynamic> json) {
 CreateModelVersionResult _$CreateModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return CreateModelVersionResult(
-    modelId: json['modelId'] as String,
+    modelId: json['modelId'] as String?,
     modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
-    modelVersionNumber: json['modelVersionNumber'] as String,
-    status: json['status'] as String,
+    modelVersionNumber: json['modelVersionNumber'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -131,16 +132,12 @@ CreateVariableResult _$CreateVariableResultFromJson(Map<String, dynamic> json) {
 DataValidationMetrics _$DataValidationMetricsFromJson(
     Map<String, dynamic> json) {
   return DataValidationMetrics(
-    fieldLevelMessages: (json['fieldLevelMessages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FieldValidationMessage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    fileLevelMessages: (json['fileLevelMessages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FileValidationMessage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    fieldLevelMessages: (json['fieldLevelMessages'] as List<dynamic>?)
+        ?.map((e) => FieldValidationMessage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    fileLevelMessages: (json['fileLevelMessages'] as List<dynamic>?)
+        ?.map((e) => FileValidationMessage.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -200,87 +197,78 @@ DeleteVariableResult _$DeleteVariableResultFromJson(Map<String, dynamic> json) {
 DescribeDetectorResult _$DescribeDetectorResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDetectorResult(
-    arn: json['arn'] as String,
-    detectorId: json['detectorId'] as String,
-    detectorVersionSummaries: (json['detectorVersionSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DetectorVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    arn: json['arn'] as String?,
+    detectorId: json['detectorId'] as String?,
+    detectorVersionSummaries: (json['detectorVersionSummaries']
+            as List<dynamic>?)
+        ?.map((e) => DetectorVersionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 DescribeModelVersionsResult _$DescribeModelVersionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeModelVersionsResult(
-    modelVersionDetails: (json['modelVersionDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ModelVersionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    modelVersionDetails: (json['modelVersionDetails'] as List<dynamic>?)
+        ?.map((e) => ModelVersionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 Detector _$DetectorFromJson(Map<String, dynamic> json) {
   return Detector(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    detectorId: json['detectorId'] as String,
-    eventTypeName: json['eventTypeName'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    detectorId: json['detectorId'] as String?,
+    eventTypeName: json['eventTypeName'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
   );
 }
 
 DetectorVersionSummary _$DetectorVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return DetectorVersionSummary(
-    description: json['description'] as String,
-    detectorVersionId: json['detectorVersionId'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
+    description: json['description'] as String?,
+    detectorVersionId: json['detectorVersionId'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
     status:
         _$enumDecodeNullable(_$DetectorVersionStatusEnumMap, json['status']),
   );
 }
 
-Map<String, dynamic> _$EntityToJson(Entity instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('entityId', instance.entityId);
-  writeNotNull('entityType', instance.entityType);
-  return val;
-}
+Map<String, dynamic> _$EntityToJson(Entity instance) => <String, dynamic>{
+      'entityId': instance.entityId,
+      'entityType': instance.entityType,
+    };
 
 EntityType _$EntityTypeFromJson(Map<String, dynamic> json) {
   return EntityType(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    name: json['name'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 EventType _$EventTypeFromJson(Map<String, dynamic> json) {
   return EventType(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    entityTypes:
-        (json['entityTypes'] as List)?.map((e) => e as String)?.toList(),
-    eventVariables:
-        (json['eventVariables'] as List)?.map((e) => e as String)?.toList(),
-    labels: (json['labels'] as List)?.map((e) => e as String)?.toList(),
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    name: json['name'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    entityTypes: (json['entityTypes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    eventVariables: (json['eventVariables'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    labels:
+        (json['labels'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    name: json['name'] as String?,
   );
 }
 
@@ -292,31 +280,23 @@ ExternalEventsDetail _$ExternalEventsDetailFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ExternalEventsDetailToJson(
-    ExternalEventsDetail instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('dataAccessRoleArn', instance.dataAccessRoleArn);
-  writeNotNull('dataLocation', instance.dataLocation);
-  return val;
-}
+        ExternalEventsDetail instance) =>
+    <String, dynamic>{
+      'dataAccessRoleArn': instance.dataAccessRoleArn,
+      'dataLocation': instance.dataLocation,
+    };
 
 ExternalModel _$ExternalModelFromJson(Map<String, dynamic> json) {
   return ExternalModel(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
     inputConfiguration: json['inputConfiguration'] == null
         ? null
         : ModelInputConfiguration.fromJson(
             json['inputConfiguration'] as Map<String, dynamic>),
-    invokeModelEndpointRoleArn: json['invokeModelEndpointRoleArn'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    modelEndpoint: json['modelEndpoint'] as String,
+    invokeModelEndpointRoleArn: json['invokeModelEndpointRoleArn'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    modelEndpoint: json['modelEndpoint'] as String?,
     modelEndpointStatus: _$enumDecodeNullable(
         _$ModelEndpointStatusEnumMap, json['modelEndpointStatus']),
     modelSource:
@@ -340,45 +320,43 @@ const _$ModelSourceEnumMap = {
 FieldValidationMessage _$FieldValidationMessageFromJson(
     Map<String, dynamic> json) {
   return FieldValidationMessage(
-    content: json['content'] as String,
-    fieldName: json['fieldName'] as String,
-    identifier: json['identifier'] as String,
-    title: json['title'] as String,
-    type: json['type'] as String,
+    content: json['content'] as String?,
+    fieldName: json['fieldName'] as String?,
+    identifier: json['identifier'] as String?,
+    title: json['title'] as String?,
+    type: json['type'] as String?,
   );
 }
 
 FileValidationMessage _$FileValidationMessageFromJson(
     Map<String, dynamic> json) {
   return FileValidationMessage(
-    content: json['content'] as String,
-    title: json['title'] as String,
-    type: json['type'] as String,
+    content: json['content'] as String?,
+    title: json['title'] as String?,
+    type: json['type'] as String?,
   );
 }
 
 GetDetectorVersionResult _$GetDetectorVersionResultFromJson(
     Map<String, dynamic> json) {
   return GetDetectorVersionResult(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    detectorId: json['detectorId'] as String,
-    detectorVersionId: json['detectorVersionId'] as String,
-    externalModelEndpoints: (json['externalModelEndpoints'] as List)
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    detectorId: json['detectorId'] as String?,
+    detectorVersionId: json['detectorVersionId'] as String?,
+    externalModelEndpoints: (json['externalModelEndpoints'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    modelVersions: (json['modelVersions'] as List)
-        ?.map((e) =>
-            e == null ? null : ModelVersion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        .toList(),
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    modelVersions: (json['modelVersions'] as List<dynamic>?)
+        ?.map((e) => ModelVersion.fromJson(e as Map<String, dynamic>))
+        .toList(),
     ruleExecutionMode: _$enumDecodeNullable(
         _$RuleExecutionModeEnumMap, json['ruleExecutionMode']),
-    rules: (json['rules'] as List)
-        ?.map(
-            (e) => e == null ? null : Rule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['rules'] as List<dynamic>?)
+        ?.map((e) => Rule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status:
         _$enumDecodeNullable(_$DetectorVersionStatusEnumMap, json['status']),
   );
@@ -391,57 +369,50 @@ const _$RuleExecutionModeEnumMap = {
 
 GetDetectorsResult _$GetDetectorsResultFromJson(Map<String, dynamic> json) {
   return GetDetectorsResult(
-    detectors: (json['detectors'] as List)
-        ?.map((e) =>
-            e == null ? null : Detector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    detectors: (json['detectors'] as List<dynamic>?)
+        ?.map((e) => Detector.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetEntityTypesResult _$GetEntityTypesResultFromJson(Map<String, dynamic> json) {
   return GetEntityTypesResult(
-    entityTypes: (json['entityTypes'] as List)
-        ?.map((e) =>
-            e == null ? null : EntityType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    entityTypes: (json['entityTypes'] as List<dynamic>?)
+        ?.map((e) => EntityType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetEventPredictionResult _$GetEventPredictionResultFromJson(
     Map<String, dynamic> json) {
   return GetEventPredictionResult(
-    modelScores: (json['modelScores'] as List)
-        ?.map((e) =>
-            e == null ? null : ModelScores.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    ruleResults: (json['ruleResults'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    modelScores: (json['modelScores'] as List<dynamic>?)
+        ?.map((e) => ModelScores.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ruleResults: (json['ruleResults'] as List<dynamic>?)
+        ?.map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetEventTypesResult _$GetEventTypesResultFromJson(Map<String, dynamic> json) {
   return GetEventTypesResult(
-    eventTypes: (json['eventTypes'] as List)
-        ?.map((e) =>
-            e == null ? null : EventType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    eventTypes: (json['eventTypes'] as List<dynamic>?)
+        ?.map((e) => EventType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetExternalModelsResult _$GetExternalModelsResultFromJson(
     Map<String, dynamic> json) {
   return GetExternalModelsResult(
-    externalModels: (json['externalModels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ExternalModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    externalModels: (json['externalModels'] as List<dynamic>?)
+        ?.map((e) => ExternalModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -456,26 +427,25 @@ GetKMSEncryptionKeyResult _$GetKMSEncryptionKeyResultFromJson(
 
 GetLabelsResult _$GetLabelsResultFromJson(Map<String, dynamic> json) {
   return GetLabelsResult(
-    labels: (json['labels'] as List)
-        ?.map(
-            (e) => e == null ? null : Label.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    labels: (json['labels'] as List<dynamic>?)
+        ?.map((e) => Label.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetModelVersionResult _$GetModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return GetModelVersionResult(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     externalEventsDetail: json['externalEventsDetail'] == null
         ? null
         : ExternalEventsDetail.fromJson(
             json['externalEventsDetail'] as Map<String, dynamic>),
-    modelId: json['modelId'] as String,
+    modelId: json['modelId'] as String?,
     modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
-    modelVersionNumber: json['modelVersionNumber'] as String,
-    status: json['status'] as String,
+    modelVersionNumber: json['modelVersionNumber'] as String?,
+    status: json['status'] as String?,
     trainingDataSchema: json['trainingDataSchema'] == null
         ? null
         : TrainingDataSchema.fromJson(
@@ -491,108 +461,97 @@ const _$TrainingDataSourceEnumEnumMap = {
 
 GetModelsResult _$GetModelsResultFromJson(Map<String, dynamic> json) {
   return GetModelsResult(
-    models: (json['models'] as List)
-        ?.map(
-            (e) => e == null ? null : Model.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    models: (json['models'] as List<dynamic>?)
+        ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetOutcomesResult _$GetOutcomesResultFromJson(Map<String, dynamic> json) {
   return GetOutcomesResult(
-    nextToken: json['nextToken'] as String,
-    outcomes: (json['outcomes'] as List)
-        ?.map((e) =>
-            e == null ? null : Outcome.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    outcomes: (json['outcomes'] as List<dynamic>?)
+        ?.map((e) => Outcome.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetRulesResult _$GetRulesResultFromJson(Map<String, dynamic> json) {
   return GetRulesResult(
-    nextToken: json['nextToken'] as String,
-    ruleDetails: (json['ruleDetails'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    ruleDetails: (json['ruleDetails'] as List<dynamic>?)
+        ?.map((e) => RuleDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetVariablesResult _$GetVariablesResultFromJson(Map<String, dynamic> json) {
   return GetVariablesResult(
-    nextToken: json['nextToken'] as String,
-    variables: (json['variables'] as List)
-        ?.map((e) =>
-            e == null ? null : Variable.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    variables: (json['variables'] as List<dynamic>?)
+        ?.map((e) => Variable.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 KMSKey _$KMSKeyFromJson(Map<String, dynamic> json) {
   return KMSKey(
-    kmsEncryptionKeyArn: json['kmsEncryptionKeyArn'] as String,
+    kmsEncryptionKeyArn: json['kmsEncryptionKeyArn'] as String?,
   );
 }
 
 Label _$LabelFromJson(Map<String, dynamic> json) {
   return Label(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    name: json['name'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 LabelSchema _$LabelSchemaFromJson(Map<String, dynamic> json) {
   return LabelSchema(
-    labelMapper: (json['labelMapper'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    labelMapper: (json['labelMapper'] as Map<String, dynamic>).map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
   );
 }
 
-Map<String, dynamic> _$LabelSchemaToJson(LabelSchema instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('labelMapper', instance.labelMapper);
-  return val;
-}
+Map<String, dynamic> _$LabelSchemaToJson(LabelSchema instance) =>
+    <String, dynamic>{
+      'labelMapper': instance.labelMapper,
+    };
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResult(
-    nextToken: json['nextToken'] as String,
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MetricDataPoint _$MetricDataPointFromJson(Map<String, dynamic> json) {
   return MetricDataPoint(
-    fpr: (json['fpr'] as num)?.toDouble(),
-    precision: (json['precision'] as num)?.toDouble(),
-    threshold: (json['threshold'] as num)?.toDouble(),
-    tpr: (json['tpr'] as num)?.toDouble(),
+    fpr: (json['fpr'] as num?)?.toDouble(),
+    precision: (json['precision'] as num?)?.toDouble(),
+    threshold: (json['threshold'] as num?)?.toDouble(),
+    tpr: (json['tpr'] as num?)?.toDouble(),
   );
 }
 
 Model _$ModelFromJson(Map<String, dynamic> json) {
   return Model(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    eventTypeName: json['eventTypeName'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    modelId: json['modelId'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    eventTypeName: json['eventTypeName'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    modelId: json['modelId'] as String?,
     modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
   );
 }
@@ -607,8 +566,8 @@ Map<String, dynamic> _$ModelEndpointDataBlobToJson(
     }
   }
 
-  writeNotNull(
-      'byteBuffer', const Uint8ListConverter().toJson(instance.byteBuffer));
+  writeNotNull('byteBuffer',
+      const Uint8ListNullableConverter().toJson(instance.byteBuffer));
   writeNotNull('contentType', instance.contentType);
   return val;
 }
@@ -617,16 +576,18 @@ ModelInputConfiguration _$ModelInputConfigurationFromJson(
     Map<String, dynamic> json) {
   return ModelInputConfiguration(
     useEventVariables: json['useEventVariables'] as bool,
-    csvInputTemplate: json['csvInputTemplate'] as String,
-    eventTypeName: json['eventTypeName'] as String,
+    csvInputTemplate: json['csvInputTemplate'] as String?,
+    eventTypeName: json['eventTypeName'] as String?,
     format: _$enumDecodeNullable(_$ModelInputDataFormatEnumMap, json['format']),
-    jsonInputTemplate: json['jsonInputTemplate'] as String,
+    jsonInputTemplate: json['jsonInputTemplate'] as String?,
   );
 }
 
 Map<String, dynamic> _$ModelInputConfigurationToJson(
     ModelInputConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'useEventVariables': instance.useEventVariables,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -634,7 +595,6 @@ Map<String, dynamic> _$ModelInputConfigurationToJson(
     }
   }
 
-  writeNotNull('useEventVariables', instance.useEventVariables);
   writeNotNull('csvInputTemplate', instance.csvInputTemplate);
   writeNotNull('eventTypeName', instance.eventTypeName);
   writeNotNull('format', _$ModelInputDataFormatEnumMap[instance.format]);
@@ -650,14 +610,13 @@ const _$ModelInputDataFormatEnumMap = {
 ModelOutputConfiguration _$ModelOutputConfigurationFromJson(
     Map<String, dynamic> json) {
   return ModelOutputConfiguration(
-    format:
-        _$enumDecodeNullable(_$ModelOutputDataFormatEnumMap, json['format']),
+    format: _$enumDecode(_$ModelOutputDataFormatEnumMap, json['format']),
     csvIndexToVariableMap:
-        (json['csvIndexToVariableMap'] as Map<String, dynamic>)?.map(
+        (json['csvIndexToVariableMap'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     jsonKeyToVariableMap:
-        (json['jsonKeyToVariableMap'] as Map<String, dynamic>)?.map(
+        (json['jsonKeyToVariableMap'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -665,7 +624,9 @@ ModelOutputConfiguration _$ModelOutputConfigurationFromJson(
 
 Map<String, dynamic> _$ModelOutputConfigurationToJson(
     ModelOutputConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'format': _$ModelOutputDataFormatEnumMap[instance.format],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -673,7 +634,6 @@ Map<String, dynamic> _$ModelOutputConfigurationToJson(
     }
   }
 
-  writeNotNull('format', _$ModelOutputDataFormatEnumMap[instance.format]);
   writeNotNull('csvIndexToVariableMap', instance.csvIndexToVariableMap);
   writeNotNull('jsonKeyToVariableMap', instance.jsonKeyToVariableMap);
   return val;
@@ -689,8 +649,8 @@ ModelScores _$ModelScoresFromJson(Map<String, dynamic> json) {
     modelVersion: json['modelVersion'] == null
         ? null
         : ModelVersion.fromJson(json['modelVersion'] as Map<String, dynamic>),
-    scores: (json['scores'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as num)?.toDouble()),
+    scores: (json['scores'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, (e as num).toDouble()),
     ),
   );
 }
@@ -698,14 +658,18 @@ ModelScores _$ModelScoresFromJson(Map<String, dynamic> json) {
 ModelVersion _$ModelVersionFromJson(Map<String, dynamic> json) {
   return ModelVersion(
     modelId: json['modelId'] as String,
-    modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
+    modelType: _$enumDecode(_$ModelTypeEnumEnumMap, json['modelType']),
     modelVersionNumber: json['modelVersionNumber'] as String,
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
   );
 }
 
 Map<String, dynamic> _$ModelVersionToJson(ModelVersion instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'modelId': instance.modelId,
+    'modelType': _$ModelTypeEnumEnumMap[instance.modelType],
+    'modelVersionNumber': instance.modelVersionNumber,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -713,26 +677,23 @@ Map<String, dynamic> _$ModelVersionToJson(ModelVersion instance) {
     }
   }
 
-  writeNotNull('modelId', instance.modelId);
-  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
-  writeNotNull('modelVersionNumber', instance.modelVersionNumber);
   writeNotNull('arn', instance.arn);
   return val;
 }
 
 ModelVersionDetail _$ModelVersionDetailFromJson(Map<String, dynamic> json) {
   return ModelVersionDetail(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
     externalEventsDetail: json['externalEventsDetail'] == null
         ? null
         : ExternalEventsDetail.fromJson(
             json['externalEventsDetail'] as Map<String, dynamic>),
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    modelId: json['modelId'] as String,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    modelId: json['modelId'] as String?,
     modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
-    modelVersionNumber: json['modelVersionNumber'] as String,
-    status: json['status'] as String,
+    modelVersionNumber: json['modelVersionNumber'] as String?,
+    status: json['status'] as String?,
     trainingDataSchema: json['trainingDataSchema'] == null
         ? null
         : TrainingDataSchema.fromJson(
@@ -748,11 +709,11 @@ ModelVersionDetail _$ModelVersionDetailFromJson(Map<String, dynamic> json) {
 
 Outcome _$OutcomeFromJson(Map<String, dynamic> json) {
   return Outcome(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    name: json['name'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    name: json['name'] as String?,
   );
 }
 
@@ -794,33 +755,25 @@ Rule _$RuleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RuleToJson(Rule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('detectorId', instance.detectorId);
-  writeNotNull('ruleId', instance.ruleId);
-  writeNotNull('ruleVersion', instance.ruleVersion);
-  return val;
-}
+Map<String, dynamic> _$RuleToJson(Rule instance) => <String, dynamic>{
+      'detectorId': instance.detectorId,
+      'ruleId': instance.ruleId,
+      'ruleVersion': instance.ruleVersion,
+    };
 
 RuleDetail _$RuleDetailFromJson(Map<String, dynamic> json) {
   return RuleDetail(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
-    description: json['description'] as String,
-    detectorId: json['detectorId'] as String,
-    expression: json['expression'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
+    description: json['description'] as String?,
+    detectorId: json['detectorId'] as String?,
+    expression: json['expression'] as String?,
     language: _$enumDecodeNullable(_$LanguageEnumMap, json['language']),
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    outcomes: (json['outcomes'] as List)?.map((e) => e as String)?.toList(),
-    ruleId: json['ruleId'] as String,
-    ruleVersion: json['ruleVersion'] as String,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    outcomes:
+        (json['outcomes'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    ruleId: json['ruleId'] as String?,
+    ruleVersion: json['ruleVersion'] as String?,
   );
 }
 
@@ -830,8 +783,9 @@ const _$LanguageEnumMap = {
 
 RuleResult _$RuleResultFromJson(Map<String, dynamic> json) {
   return RuleResult(
-    outcomes: (json['outcomes'] as List)?.map((e) => e as String)?.toList(),
-    ruleId: json['ruleId'] as String,
+    outcomes:
+        (json['outcomes'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    ruleId: json['ruleId'] as String?,
   );
 }
 
@@ -842,19 +796,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
   return TagResourceResult();
@@ -862,36 +807,26 @@ TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
 
 TrainingDataSchema _$TrainingDataSchemaFromJson(Map<String, dynamic> json) {
   return TrainingDataSchema(
-    labelSchema: json['labelSchema'] == null
-        ? null
-        : LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>),
-    modelVariables:
-        (json['modelVariables'] as List)?.map((e) => e as String)?.toList(),
+    labelSchema:
+        LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>),
+    modelVariables: (json['modelVariables'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$TrainingDataSchemaToJson(TrainingDataSchema instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('labelSchema', instance.labelSchema?.toJson());
-  writeNotNull('modelVariables', instance.modelVariables);
-  return val;
-}
+Map<String, dynamic> _$TrainingDataSchemaToJson(TrainingDataSchema instance) =>
+    <String, dynamic>{
+      'labelSchema': instance.labelSchema.toJson(),
+      'modelVariables': instance.modelVariables,
+    };
 
 TrainingMetrics _$TrainingMetricsFromJson(Map<String, dynamic> json) {
   return TrainingMetrics(
-    auc: (json['auc'] as num)?.toDouble(),
-    metricDataPoints: (json['metricDataPoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MetricDataPoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    auc: (json['auc'] as num?)?.toDouble(),
+    metricDataPoints: (json['metricDataPoints'] as List<dynamic>?)
+        ?.map((e) => MetricDataPoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -934,10 +869,10 @@ UpdateModelResult _$UpdateModelResultFromJson(Map<String, dynamic> json) {
 UpdateModelVersionResult _$UpdateModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return UpdateModelVersionResult(
-    modelId: json['modelId'] as String,
+    modelId: json['modelId'] as String?,
     modelType: _$enumDecodeNullable(_$ModelTypeEnumEnumMap, json['modelType']),
-    modelVersionNumber: json['modelVersionNumber'] as String,
-    status: json['status'] as String,
+    modelVersionNumber: json['modelVersionNumber'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -966,15 +901,15 @@ UpdateVariableResult _$UpdateVariableResultFromJson(Map<String, dynamic> json) {
 
 Variable _$VariableFromJson(Map<String, dynamic> json) {
   return Variable(
-    arn: json['arn'] as String,
-    createdTime: json['createdTime'] as String,
+    arn: json['arn'] as String?,
+    createdTime: json['createdTime'] as String?,
     dataSource: _$enumDecodeNullable(_$DataSourceEnumMap, json['dataSource']),
     dataType: _$enumDecodeNullable(_$DataTypeEnumMap, json['dataType']),
-    defaultValue: json['defaultValue'] as String,
-    description: json['description'] as String,
-    lastUpdatedTime: json['lastUpdatedTime'] as String,
-    name: json['name'] as String,
-    variableType: json['variableType'] as String,
+    defaultValue: json['defaultValue'] as String?,
+    description: json['description'] as String?,
+    lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    name: json['name'] as String?,
+    variableType: json['variableType'] as String?,
   );
 }
 

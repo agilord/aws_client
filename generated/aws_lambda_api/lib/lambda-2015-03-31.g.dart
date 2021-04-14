@@ -8,44 +8,44 @@ part of 'lambda-2015-03-31.dart';
 
 AccountLimit _$AccountLimitFromJson(Map<String, dynamic> json) {
   return AccountLimit(
-    codeSizeUnzipped: json['CodeSizeUnzipped'] as int,
-    codeSizeZipped: json['CodeSizeZipped'] as int,
-    concurrentExecutions: json['ConcurrentExecutions'] as int,
-    totalCodeSize: json['TotalCodeSize'] as int,
+    codeSizeUnzipped: json['CodeSizeUnzipped'] as int?,
+    codeSizeZipped: json['CodeSizeZipped'] as int?,
+    concurrentExecutions: json['ConcurrentExecutions'] as int?,
+    totalCodeSize: json['TotalCodeSize'] as int?,
     unreservedConcurrentExecutions:
-        json['UnreservedConcurrentExecutions'] as int,
+        json['UnreservedConcurrentExecutions'] as int?,
   );
 }
 
 AccountUsage _$AccountUsageFromJson(Map<String, dynamic> json) {
   return AccountUsage(
-    functionCount: json['FunctionCount'] as int,
-    totalCodeSize: json['TotalCodeSize'] as int,
+    functionCount: json['FunctionCount'] as int?,
+    totalCodeSize: json['TotalCodeSize'] as int?,
   );
 }
 
 AddLayerVersionPermissionResponse _$AddLayerVersionPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return AddLayerVersionPermissionResponse(
-    revisionId: json['RevisionId'] as String,
-    statement: json['Statement'] as String,
+    revisionId: json['RevisionId'] as String?,
+    statement: json['Statement'] as String?,
   );
 }
 
 AddPermissionResponse _$AddPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return AddPermissionResponse(
-    statement: json['Statement'] as String,
+    statement: json['Statement'] as String?,
   );
 }
 
 AliasConfiguration _$AliasConfigurationFromJson(Map<String, dynamic> json) {
   return AliasConfiguration(
-    aliasArn: json['AliasArn'] as String,
-    description: json['Description'] as String,
-    functionVersion: json['FunctionVersion'] as String,
-    name: json['Name'] as String,
-    revisionId: json['RevisionId'] as String,
+    aliasArn: json['AliasArn'] as String?,
+    description: json['Description'] as String?,
+    functionVersion: json['FunctionVersion'] as String?,
+    name: json['Name'] as String?,
+    revisionId: json['RevisionId'] as String?,
     routingConfig: json['RoutingConfig'] == null
         ? null
         : AliasRoutingConfiguration.fromJson(
@@ -57,8 +57,8 @@ AliasRoutingConfiguration _$AliasRoutingConfigurationFromJson(
     Map<String, dynamic> json) {
   return AliasRoutingConfiguration(
     additionalVersionWeights:
-        (json['AdditionalVersionWeights'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as num)?.toDouble()),
+        (json['AdditionalVersionWeights'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, (e as num).toDouble()),
     ),
   );
 }
@@ -79,39 +79,28 @@ Map<String, dynamic> _$AliasRoutingConfigurationToJson(
 
 AllowedPublishers _$AllowedPublishersFromJson(Map<String, dynamic> json) {
   return AllowedPublishers(
-    signingProfileVersionArns: (json['SigningProfileVersionArns'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    signingProfileVersionArns:
+        (json['SigningProfileVersionArns'] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
   );
 }
 
-Map<String, dynamic> _$AllowedPublishersToJson(AllowedPublishers instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SigningProfileVersionArns', instance.signingProfileVersionArns);
-  return val;
-}
+Map<String, dynamic> _$AllowedPublishersToJson(AllowedPublishers instance) =>
+    <String, dynamic>{
+      'SigningProfileVersionArns': instance.signingProfileVersionArns,
+    };
 
 CodeSigningConfig _$CodeSigningConfigFromJson(Map<String, dynamic> json) {
   return CodeSigningConfig(
-    allowedPublishers: json['AllowedPublishers'] == null
-        ? null
-        : AllowedPublishers.fromJson(
-            json['AllowedPublishers'] as Map<String, dynamic>),
+    allowedPublishers: AllowedPublishers.fromJson(
+        json['AllowedPublishers'] as Map<String, dynamic>),
     codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
     codeSigningConfigId: json['CodeSigningConfigId'] as String,
-    codeSigningPolicies: json['CodeSigningPolicies'] == null
-        ? null
-        : CodeSigningPolicies.fromJson(
-            json['CodeSigningPolicies'] as Map<String, dynamic>),
+    codeSigningPolicies: CodeSigningPolicies.fromJson(
+        json['CodeSigningPolicies'] as Map<String, dynamic>),
     lastModified: json['LastModified'] as String,
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
@@ -136,36 +125,41 @@ Map<String, dynamic> _$CodeSigningPoliciesToJson(CodeSigningPolicies instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CodeSigningPolicyEnumMap = {
@@ -175,23 +169,21 @@ const _$CodeSigningPolicyEnumMap = {
 
 Concurrency _$ConcurrencyFromJson(Map<String, dynamic> json) {
   return Concurrency(
-    reservedConcurrentExecutions: json['ReservedConcurrentExecutions'] as int,
+    reservedConcurrentExecutions: json['ReservedConcurrentExecutions'] as int?,
   );
 }
 
 CreateCodeSigningConfigResponse _$CreateCodeSigningConfigResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCodeSigningConfigResponse(
-    codeSigningConfig: json['CodeSigningConfig'] == null
-        ? null
-        : CodeSigningConfig.fromJson(
-            json['CodeSigningConfig'] as Map<String, dynamic>),
+    codeSigningConfig: CodeSigningConfig.fromJson(
+        json['CodeSigningConfig'] as Map<String, dynamic>),
   );
 }
 
 DeadLetterConfig _$DeadLetterConfigFromJson(Map<String, dynamic> json) {
   return DeadLetterConfig(
-    targetArn: json['TargetArn'] as String,
+    targetArn: json['TargetArn'] as String?,
   );
 }
 
@@ -253,8 +245,8 @@ Map<String, dynamic> _$EnvironmentToJson(Environment instance) {
 
 EnvironmentError _$EnvironmentErrorFromJson(Map<String, dynamic> json) {
   return EnvironmentError(
-    errorCode: json['ErrorCode'] as String,
-    message: json['Message'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    message: json['Message'] as String?,
   );
 }
 
@@ -263,7 +255,7 @@ EnvironmentResponse _$EnvironmentResponseFromJson(Map<String, dynamic> json) {
     error: json['Error'] == null
         ? null
         : EnvironmentError.fromJson(json['Error'] as Map<String, dynamic>),
-    variables: (json['Variables'] as Map<String, dynamic>)?.map(
+    variables: (json['Variables'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -272,43 +264,45 @@ EnvironmentResponse _$EnvironmentResponseFromJson(Map<String, dynamic> json) {
 EventSourceMappingConfiguration _$EventSourceMappingConfigurationFromJson(
     Map<String, dynamic> json) {
   return EventSourceMappingConfiguration(
-    batchSize: json['BatchSize'] as int,
-    bisectBatchOnFunctionError: json['BisectBatchOnFunctionError'] as bool,
+    batchSize: json['BatchSize'] as int?,
+    bisectBatchOnFunctionError: json['BisectBatchOnFunctionError'] as bool?,
     destinationConfig: json['DestinationConfig'] == null
         ? null
         : DestinationConfig.fromJson(
             json['DestinationConfig'] as Map<String, dynamic>),
-    eventSourceArn: json['EventSourceArn'] as String,
-    functionArn: json['FunctionArn'] as String,
-    functionResponseTypes: (json['FunctionResponseTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$FunctionResponseTypeEnumMap, e))
-        ?.toList(),
+    eventSourceArn: json['EventSourceArn'] as String?,
+    functionArn: json['FunctionArn'] as String?,
+    functionResponseTypes: (json['FunctionResponseTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$FunctionResponseTypeEnumMap, e))
+        .toList(),
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    lastProcessingResult: json['LastProcessingResult'] as String,
+    lastProcessingResult: json['LastProcessingResult'] as String?,
     maximumBatchingWindowInSeconds:
-        json['MaximumBatchingWindowInSeconds'] as int,
-    maximumRecordAgeInSeconds: json['MaximumRecordAgeInSeconds'] as int,
-    maximumRetryAttempts: json['MaximumRetryAttempts'] as int,
-    parallelizationFactor: json['ParallelizationFactor'] as int,
-    queues: (json['Queues'] as List)?.map((e) => e as String)?.toList(),
+        json['MaximumBatchingWindowInSeconds'] as int?,
+    maximumRecordAgeInSeconds: json['MaximumRecordAgeInSeconds'] as int?,
+    maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
+    parallelizationFactor: json['ParallelizationFactor'] as int?,
+    queues:
+        (json['Queues'] as List<dynamic>?)?.map((e) => e as String).toList(),
     selfManagedEventSource: json['SelfManagedEventSource'] == null
         ? null
         : SelfManagedEventSource.fromJson(
             json['SelfManagedEventSource'] as Map<String, dynamic>),
-    sourceAccessConfigurations: (json['SourceAccessConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SourceAccessConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    sourceAccessConfigurations:
+        (json['SourceAccessConfigurations'] as List<dynamic>?)
+            ?.map((e) =>
+                SourceAccessConfiguration.fromJson(e as Map<String, dynamic>))
+            .toList(),
     startingPosition: _$enumDecodeNullable(
         _$EventSourcePositionEnumMap, json['StartingPosition']),
     startingPositionTimestamp: const UnixDateTimeConverter()
         .fromJson(json['StartingPositionTimestamp']),
-    state: json['State'] as String,
-    stateTransitionReason: json['StateTransitionReason'] as String,
-    topics: (json['Topics'] as List)?.map((e) => e as String)?.toList(),
-    tumblingWindowInSeconds: json['TumblingWindowInSeconds'] as int,
-    uuid: json['UUID'] as String,
+    state: json['State'] as String?,
+    stateTransitionReason: json['StateTransitionReason'] as String?,
+    topics:
+        (json['Topics'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    tumblingWindowInSeconds: json['TumblingWindowInSeconds'] as int?,
+    uuid: json['UUID'] as String?,
   );
 }
 
@@ -329,19 +323,11 @@ FileSystemConfig _$FileSystemConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FileSystemConfigToJson(FileSystemConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('LocalMountPath', instance.localMountPath);
-  return val;
-}
+Map<String, dynamic> _$FileSystemConfigToJson(FileSystemConfig instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+      'LocalMountPath': instance.localMountPath,
+    };
 
 Map<String, dynamic> _$FunctionCodeToJson(FunctionCode instance) {
   final val = <String, dynamic>{};
@@ -356,76 +342,74 @@ Map<String, dynamic> _$FunctionCodeToJson(FunctionCode instance) {
   writeNotNull('S3Bucket', instance.s3Bucket);
   writeNotNull('S3Key', instance.s3Key);
   writeNotNull('S3ObjectVersion', instance.s3ObjectVersion);
-  writeNotNull('ZipFile', const Uint8ListConverter().toJson(instance.zipFile));
+  writeNotNull(
+      'ZipFile', const Uint8ListNullableConverter().toJson(instance.zipFile));
   return val;
 }
 
 FunctionCodeLocation _$FunctionCodeLocationFromJson(Map<String, dynamic> json) {
   return FunctionCodeLocation(
-    imageUri: json['ImageUri'] as String,
-    location: json['Location'] as String,
-    repositoryType: json['RepositoryType'] as String,
-    resolvedImageUri: json['ResolvedImageUri'] as String,
+    imageUri: json['ImageUri'] as String?,
+    location: json['Location'] as String?,
+    repositoryType: json['RepositoryType'] as String?,
+    resolvedImageUri: json['ResolvedImageUri'] as String?,
   );
 }
 
 FunctionConfiguration _$FunctionConfigurationFromJson(
     Map<String, dynamic> json) {
   return FunctionConfiguration(
-    codeSha256: json['CodeSha256'] as String,
-    codeSize: json['CodeSize'] as int,
+    codeSha256: json['CodeSha256'] as String?,
+    codeSize: json['CodeSize'] as int?,
     deadLetterConfig: json['DeadLetterConfig'] == null
         ? null
         : DeadLetterConfig.fromJson(
             json['DeadLetterConfig'] as Map<String, dynamic>),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     environment: json['Environment'] == null
         ? null
         : EnvironmentResponse.fromJson(
             json['Environment'] as Map<String, dynamic>),
-    fileSystemConfigs: (json['FileSystemConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FileSystemConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    functionArn: json['FunctionArn'] as String,
-    functionName: json['FunctionName'] as String,
-    handler: json['Handler'] as String,
+    fileSystemConfigs: (json['FileSystemConfigs'] as List<dynamic>?)
+        ?.map((e) => FileSystemConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    functionArn: json['FunctionArn'] as String?,
+    functionName: json['FunctionName'] as String?,
+    handler: json['Handler'] as String?,
     imageConfigResponse: json['ImageConfigResponse'] == null
         ? null
         : ImageConfigResponse.fromJson(
             json['ImageConfigResponse'] as Map<String, dynamic>),
-    kMSKeyArn: json['KMSKeyArn'] as String,
-    lastModified: json['LastModified'] as String,
+    kMSKeyArn: json['KMSKeyArn'] as String?,
+    lastModified: json['LastModified'] as String?,
     lastUpdateStatus: _$enumDecodeNullable(
         _$LastUpdateStatusEnumMap, json['LastUpdateStatus']),
-    lastUpdateStatusReason: json['LastUpdateStatusReason'] as String,
+    lastUpdateStatusReason: json['LastUpdateStatusReason'] as String?,
     lastUpdateStatusReasonCode: _$enumDecodeNullable(
         _$LastUpdateStatusReasonCodeEnumMap,
         json['LastUpdateStatusReasonCode']),
-    layers: (json['Layers'] as List)
-        ?.map(
-            (e) => e == null ? null : Layer.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    masterArn: json['MasterArn'] as String,
-    memorySize: json['MemorySize'] as int,
+    layers: (json['Layers'] as List<dynamic>?)
+        ?.map((e) => Layer.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    masterArn: json['MasterArn'] as String?,
+    memorySize: json['MemorySize'] as int?,
     packageType:
         _$enumDecodeNullable(_$PackageTypeEnumMap, json['PackageType']),
-    revisionId: json['RevisionId'] as String,
-    role: json['Role'] as String,
+    revisionId: json['RevisionId'] as String?,
+    role: json['Role'] as String?,
     runtime: _$enumDecodeNullable(_$RuntimeEnumMap, json['Runtime']),
-    signingJobArn: json['SigningJobArn'] as String,
-    signingProfileVersionArn: json['SigningProfileVersionArn'] as String,
+    signingJobArn: json['SigningJobArn'] as String?,
+    signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
-    stateReason: json['StateReason'] as String,
+    stateReason: json['StateReason'] as String?,
     stateReasonCode:
         _$enumDecodeNullable(_$StateReasonCodeEnumMap, json['StateReasonCode']),
-    timeout: json['Timeout'] as int,
+    timeout: json['Timeout'] as int?,
     tracingConfig: json['TracingConfig'] == null
         ? null
         : TracingConfigResponse.fromJson(
             json['TracingConfig'] as Map<String, dynamic>),
-    version: json['Version'] as String,
+    version: json['Version'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfigResponse.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -513,10 +497,10 @@ FunctionEventInvokeConfig _$FunctionEventInvokeConfigFromJson(
         ? null
         : DestinationConfig.fromJson(
             json['DestinationConfig'] as Map<String, dynamic>),
-    functionArn: json['FunctionArn'] as String,
+    functionArn: json['FunctionArn'] as String?,
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int,
-    maximumRetryAttempts: json['MaximumRetryAttempts'] as int,
+    maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int?,
+    maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
   );
 }
 
@@ -535,10 +519,8 @@ GetAccountSettingsResponse _$GetAccountSettingsResponseFromJson(
 GetCodeSigningConfigResponse _$GetCodeSigningConfigResponseFromJson(
     Map<String, dynamic> json) {
   return GetCodeSigningConfigResponse(
-    codeSigningConfig: json['CodeSigningConfig'] == null
-        ? null
-        : CodeSigningConfig.fromJson(
-            json['CodeSigningConfig'] as Map<String, dynamic>),
+    codeSigningConfig: CodeSigningConfig.fromJson(
+        json['CodeSigningConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -553,7 +535,7 @@ GetFunctionCodeSigningConfigResponse
 GetFunctionConcurrencyResponse _$GetFunctionConcurrencyResponseFromJson(
     Map<String, dynamic> json) {
   return GetFunctionConcurrencyResponse(
-    reservedConcurrentExecutions: json['ReservedConcurrentExecutions'] as int,
+    reservedConcurrentExecutions: json['ReservedConcurrentExecutions'] as int?,
   );
 }
 
@@ -569,7 +551,7 @@ GetFunctionResponse _$GetFunctionResponseFromJson(Map<String, dynamic> json) {
         ? null
         : FunctionConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -578,34 +560,34 @@ GetFunctionResponse _$GetFunctionResponseFromJson(Map<String, dynamic> json) {
 GetLayerVersionPolicyResponse _$GetLayerVersionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetLayerVersionPolicyResponse(
-    policy: json['Policy'] as String,
-    revisionId: json['RevisionId'] as String,
+    policy: json['Policy'] as String?,
+    revisionId: json['RevisionId'] as String?,
   );
 }
 
 GetLayerVersionResponse _$GetLayerVersionResponseFromJson(
     Map<String, dynamic> json) {
   return GetLayerVersionResponse(
-    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
-        ?.toList(),
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$RuntimeEnumMap, e))
+        .toList(),
     content: json['Content'] == null
         ? null
         : LayerVersionContentOutput.fromJson(
             json['Content'] as Map<String, dynamic>),
-    createdDate: json['CreatedDate'] as String,
-    description: json['Description'] as String,
-    layerArn: json['LayerArn'] as String,
-    layerVersionArn: json['LayerVersionArn'] as String,
-    licenseInfo: json['LicenseInfo'] as String,
-    version: json['Version'] as int,
+    createdDate: json['CreatedDate'] as String?,
+    description: json['Description'] as String?,
+    layerArn: json['LayerArn'] as String?,
+    layerVersionArn: json['LayerVersionArn'] as String?,
+    licenseInfo: json['LicenseInfo'] as String?,
+    version: json['Version'] as int?,
   );
 }
 
 GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) {
   return GetPolicyResponse(
-    policy: json['Policy'] as String,
-    revisionId: json['RevisionId'] as String,
+    policy: json['Policy'] as String?,
+    revisionId: json['RevisionId'] as String?,
   );
 }
 
@@ -614,15 +596,15 @@ GetProvisionedConcurrencyConfigResponse
         Map<String, dynamic> json) {
   return GetProvisionedConcurrencyConfigResponse(
     allocatedProvisionedConcurrentExecutions:
-        json['AllocatedProvisionedConcurrentExecutions'] as int,
+        json['AllocatedProvisionedConcurrentExecutions'] as int?,
     availableProvisionedConcurrentExecutions:
-        json['AvailableProvisionedConcurrentExecutions'] as int,
-    lastModified: json['LastModified'] as String,
+        json['AvailableProvisionedConcurrentExecutions'] as int?,
+    lastModified: json['LastModified'] as String?,
     requestedProvisionedConcurrentExecutions:
-        json['RequestedProvisionedConcurrentExecutions'] as int,
+        json['RequestedProvisionedConcurrentExecutions'] as int?,
     status: _$enumDecodeNullable(
         _$ProvisionedConcurrencyStatusEnumEnumMap, json['Status']),
-    statusReason: json['StatusReason'] as String,
+    statusReason: json['StatusReason'] as String?,
   );
 }
 
@@ -634,9 +616,12 @@ const _$ProvisionedConcurrencyStatusEnumEnumMap = {
 
 ImageConfig _$ImageConfigFromJson(Map<String, dynamic> json) {
   return ImageConfig(
-    command: (json['Command'] as List)?.map((e) => e as String)?.toList(),
-    entryPoint: (json['EntryPoint'] as List)?.map((e) => e as String)?.toList(),
-    workingDirectory: json['WorkingDirectory'] as String,
+    command:
+        (json['Command'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    entryPoint: (json['EntryPoint'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    workingDirectory: json['WorkingDirectory'] as String?,
   );
 }
 
@@ -657,8 +642,8 @@ Map<String, dynamic> _$ImageConfigToJson(ImageConfig instance) {
 
 ImageConfigError _$ImageConfigErrorFromJson(Map<String, dynamic> json) {
   return ImageConfigError(
-    errorCode: json['ErrorCode'] as String,
-    message: json['Message'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    message: json['Message'] as String?,
   );
 }
 
@@ -675,26 +660,27 @@ ImageConfigResponse _$ImageConfigResponseFromJson(Map<String, dynamic> json) {
 
 InvocationResponse _$InvocationResponseFromJson(Map<String, dynamic> json) {
   return InvocationResponse(
-    executedVersion: json['X-Amz-Executed-Version'] as String,
-    functionError: json['X-Amz-Function-Error'] as String,
-    logResult: json['X-Amz-Log-Result'] as String,
-    payload: const Uint8ListConverter().fromJson(json['Payload'] as String),
-    statusCode: json['StatusCode'] as int,
+    executedVersion: json['X-Amz-Executed-Version'] as String?,
+    functionError: json['X-Amz-Function-Error'] as String?,
+    logResult: json['X-Amz-Log-Result'] as String?,
+    payload:
+        const Uint8ListNullableConverter().fromJson(json['Payload'] as String?),
+    statusCode: json['StatusCode'] as int?,
   );
 }
 
 InvokeAsyncResponse _$InvokeAsyncResponseFromJson(Map<String, dynamic> json) {
   return InvokeAsyncResponse(
-    status: json['Status'] as int,
+    status: json['Status'] as int?,
   );
 }
 
 Layer _$LayerFromJson(Map<String, dynamic> json) {
   return Layer(
-    arn: json['Arn'] as String,
-    codeSize: json['CodeSize'] as int,
-    signingJobArn: json['SigningJobArn'] as String,
-    signingProfileVersionArn: json['SigningProfileVersionArn'] as String,
+    arn: json['Arn'] as String?,
+    codeSize: json['CodeSize'] as int?,
+    signingJobArn: json['SigningJobArn'] as String?,
+    signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
   );
 }
 
@@ -711,32 +697,33 @@ Map<String, dynamic> _$LayerVersionContentInputToJson(
   writeNotNull('S3Bucket', instance.s3Bucket);
   writeNotNull('S3Key', instance.s3Key);
   writeNotNull('S3ObjectVersion', instance.s3ObjectVersion);
-  writeNotNull('ZipFile', const Uint8ListConverter().toJson(instance.zipFile));
+  writeNotNull(
+      'ZipFile', const Uint8ListNullableConverter().toJson(instance.zipFile));
   return val;
 }
 
 LayerVersionContentOutput _$LayerVersionContentOutputFromJson(
     Map<String, dynamic> json) {
   return LayerVersionContentOutput(
-    codeSha256: json['CodeSha256'] as String,
-    codeSize: json['CodeSize'] as int,
-    location: json['Location'] as String,
-    signingJobArn: json['SigningJobArn'] as String,
-    signingProfileVersionArn: json['SigningProfileVersionArn'] as String,
+    codeSha256: json['CodeSha256'] as String?,
+    codeSize: json['CodeSize'] as int?,
+    location: json['Location'] as String?,
+    signingJobArn: json['SigningJobArn'] as String?,
+    signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
   );
 }
 
 LayerVersionsListItem _$LayerVersionsListItemFromJson(
     Map<String, dynamic> json) {
   return LayerVersionsListItem(
-    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
-        ?.toList(),
-    createdDate: json['CreatedDate'] as String,
-    description: json['Description'] as String,
-    layerVersionArn: json['LayerVersionArn'] as String,
-    licenseInfo: json['LicenseInfo'] as String,
-    version: json['Version'] as int,
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$RuntimeEnumMap, e))
+        .toList(),
+    createdDate: json['CreatedDate'] as String?,
+    description: json['Description'] as String?,
+    layerVersionArn: json['LayerVersionArn'] as String?,
+    licenseInfo: json['LicenseInfo'] as String?,
+    version: json['Version'] as int?,
   );
 }
 
@@ -746,44 +733,38 @@ LayersListItem _$LayersListItemFromJson(Map<String, dynamic> json) {
         ? null
         : LayerVersionsListItem.fromJson(
             json['LatestMatchingVersion'] as Map<String, dynamic>),
-    layerArn: json['LayerArn'] as String,
-    layerName: json['LayerName'] as String,
+    layerArn: json['LayerArn'] as String?,
+    layerName: json['LayerName'] as String?,
   );
 }
 
 ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
   return ListAliasesResponse(
-    aliases: (json['Aliases'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AliasConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => AliasConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListCodeSigningConfigsResponse _$ListCodeSigningConfigsResponseFromJson(
     Map<String, dynamic> json) {
   return ListCodeSigningConfigsResponse(
-    codeSigningConfigs: (json['CodeSigningConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CodeSigningConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    codeSigningConfigs: (json['CodeSigningConfigs'] as List<dynamic>?)
+        ?.map((e) => CodeSigningConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListEventSourceMappingsResponse _$ListEventSourceMappingsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventSourceMappingsResponse(
-    eventSourceMappings: (json['EventSourceMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventSourceMappingConfiguration.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    eventSourceMappings: (json['EventSourceMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            EventSourceMappingConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
@@ -791,12 +772,12 @@ ListFunctionEventInvokeConfigsResponse
     _$ListFunctionEventInvokeConfigsResponseFromJson(
         Map<String, dynamic> json) {
   return ListFunctionEventInvokeConfigsResponse(
-    functionEventInvokeConfigs: (json['FunctionEventInvokeConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FunctionEventInvokeConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    functionEventInvokeConfigs:
+        (json['FunctionEventInvokeConfigs'] as List<dynamic>?)
+            ?.map((e) =>
+                FunctionEventInvokeConfig.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
@@ -804,44 +785,39 @@ ListFunctionsByCodeSigningConfigResponse
     _$ListFunctionsByCodeSigningConfigResponseFromJson(
         Map<String, dynamic> json) {
   return ListFunctionsByCodeSigningConfigResponse(
-    functionArns:
-        (json['FunctionArns'] as List)?.map((e) => e as String)?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    functionArns: (json['FunctionArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListFunctionsResponse _$ListFunctionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListFunctionsResponse(
-    functions: (json['Functions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FunctionConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    functions: (json['Functions'] as List<dynamic>?)
+        ?.map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListLayerVersionsResponse _$ListLayerVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLayerVersionsResponse(
-    layerVersions: (json['LayerVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LayerVersionsListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    layerVersions: (json['LayerVersions'] as List<dynamic>?)
+        ?.map((e) => LayerVersionsListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListLayersResponse _$ListLayersResponseFromJson(Map<String, dynamic> json) {
   return ListLayersResponse(
-    layers: (json['Layers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LayersListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    layers: (json['Layers'] as List<dynamic>?)
+        ?.map((e) => LayersListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
@@ -849,20 +825,18 @@ ListProvisionedConcurrencyConfigsResponse
     _$ListProvisionedConcurrencyConfigsResponseFromJson(
         Map<String, dynamic> json) {
   return ListProvisionedConcurrencyConfigsResponse(
-    nextMarker: json['NextMarker'] as String,
+    nextMarker: json['NextMarker'] as String?,
     provisionedConcurrencyConfigs:
-        (json['ProvisionedConcurrencyConfigs'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ProvisionedConcurrencyConfigListItem.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['ProvisionedConcurrencyConfigs'] as List<dynamic>?)
+            ?.map((e) => ProvisionedConcurrencyConfigListItem.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -871,18 +845,16 @@ ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
 ListVersionsByFunctionResponse _$ListVersionsByFunctionResponseFromJson(
     Map<String, dynamic> json) {
   return ListVersionsByFunctionResponse(
-    nextMarker: json['NextMarker'] as String,
-    versions: (json['Versions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FunctionConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    versions: (json['Versions'] as List<dynamic>?)
+        ?.map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OnFailure _$OnFailureFromJson(Map<String, dynamic> json) {
   return OnFailure(
-    destination: json['Destination'] as String,
+    destination: json['Destination'] as String?,
   );
 }
 
@@ -901,7 +873,7 @@ Map<String, dynamic> _$OnFailureToJson(OnFailure instance) {
 
 OnSuccess _$OnSuccessFromJson(Map<String, dynamic> json) {
   return OnSuccess(
-    destination: json['Destination'] as String,
+    destination: json['Destination'] as String?,
   );
 }
 
@@ -922,35 +894,35 @@ ProvisionedConcurrencyConfigListItem
     _$ProvisionedConcurrencyConfigListItemFromJson(Map<String, dynamic> json) {
   return ProvisionedConcurrencyConfigListItem(
     allocatedProvisionedConcurrentExecutions:
-        json['AllocatedProvisionedConcurrentExecutions'] as int,
+        json['AllocatedProvisionedConcurrentExecutions'] as int?,
     availableProvisionedConcurrentExecutions:
-        json['AvailableProvisionedConcurrentExecutions'] as int,
-    functionArn: json['FunctionArn'] as String,
-    lastModified: json['LastModified'] as String,
+        json['AvailableProvisionedConcurrentExecutions'] as int?,
+    functionArn: json['FunctionArn'] as String?,
+    lastModified: json['LastModified'] as String?,
     requestedProvisionedConcurrentExecutions:
-        json['RequestedProvisionedConcurrentExecutions'] as int,
+        json['RequestedProvisionedConcurrentExecutions'] as int?,
     status: _$enumDecodeNullable(
         _$ProvisionedConcurrencyStatusEnumEnumMap, json['Status']),
-    statusReason: json['StatusReason'] as String,
+    statusReason: json['StatusReason'] as String?,
   );
 }
 
 PublishLayerVersionResponse _$PublishLayerVersionResponseFromJson(
     Map<String, dynamic> json) {
   return PublishLayerVersionResponse(
-    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
-        ?.toList(),
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$RuntimeEnumMap, e))
+        .toList(),
     content: json['Content'] == null
         ? null
         : LayerVersionContentOutput.fromJson(
             json['Content'] as Map<String, dynamic>),
-    createdDate: json['CreatedDate'] as String,
-    description: json['Description'] as String,
-    layerArn: json['LayerArn'] as String,
-    layerVersionArn: json['LayerVersionArn'] as String,
-    licenseInfo: json['LicenseInfo'] as String,
-    version: json['Version'] as int,
+    createdDate: json['CreatedDate'] as String?,
+    description: json['Description'] as String?,
+    layerArn: json['LayerArn'] as String?,
+    layerVersionArn: json['LayerVersionArn'] as String?,
+    licenseInfo: json['LicenseInfo'] as String?,
+    version: json['Version'] as int?,
   );
 }
 
@@ -967,24 +939,24 @@ PutProvisionedConcurrencyConfigResponse
         Map<String, dynamic> json) {
   return PutProvisionedConcurrencyConfigResponse(
     allocatedProvisionedConcurrentExecutions:
-        json['AllocatedProvisionedConcurrentExecutions'] as int,
+        json['AllocatedProvisionedConcurrentExecutions'] as int?,
     availableProvisionedConcurrentExecutions:
-        json['AvailableProvisionedConcurrentExecutions'] as int,
-    lastModified: json['LastModified'] as String,
+        json['AvailableProvisionedConcurrentExecutions'] as int?,
+    lastModified: json['LastModified'] as String?,
     requestedProvisionedConcurrentExecutions:
-        json['RequestedProvisionedConcurrentExecutions'] as int,
+        json['RequestedProvisionedConcurrentExecutions'] as int?,
     status: _$enumDecodeNullable(
         _$ProvisionedConcurrencyStatusEnumEnumMap, json['Status']),
-    statusReason: json['StatusReason'] as String,
+    statusReason: json['StatusReason'] as String?,
   );
 }
 
 SelfManagedEventSource _$SelfManagedEventSourceFromJson(
     Map<String, dynamic> json) {
   return SelfManagedEventSource(
-    endpoints: (json['Endpoints'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(_$enumDecodeNullable(_$EndPointTypeEnumMap, k),
-          (e as List)?.map((e) => e as String)?.toList()),
+    endpoints: (json['Endpoints'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$EndPointTypeEnumMap, k),
+          (e as List<dynamic>).map((e) => e as String).toList()),
     ),
   );
 }
@@ -1012,7 +984,7 @@ SourceAccessConfiguration _$SourceAccessConfigurationFromJson(
     Map<String, dynamic> json) {
   return SourceAccessConfiguration(
     type: _$enumDecodeNullable(_$SourceAccessTypeEnumMap, json['Type']),
-    uri: json['URI'] as String,
+    uri: json['URI'] as String?,
   );
 }
 
@@ -1067,10 +1039,8 @@ TracingConfigResponse _$TracingConfigResponseFromJson(
 UpdateCodeSigningConfigResponse _$UpdateCodeSigningConfigResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateCodeSigningConfigResponse(
-    codeSigningConfig: json['CodeSigningConfig'] == null
-        ? null
-        : CodeSigningConfig.fromJson(
-            json['CodeSigningConfig'] as Map<String, dynamic>),
+    codeSigningConfig: CodeSigningConfig.fromJson(
+        json['CodeSigningConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -1090,9 +1060,11 @@ Map<String, dynamic> _$VpcConfigToJson(VpcConfig instance) {
 
 VpcConfigResponse _$VpcConfigResponseFromJson(Map<String, dynamic> json) {
   return VpcConfigResponse(
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    vpcId: json['VpcId'] as String,
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    vpcId: json['VpcId'] as String?,
   );
 }

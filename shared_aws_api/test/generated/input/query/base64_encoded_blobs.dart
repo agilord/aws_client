@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'base64_encoded_blobs.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class Base64EncodedBlobs {
   final Map<String, _s.Shape> shapes;
 
   Base64EncodedBlobs({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,7 +40,7 @@ class Base64EncodedBlobs {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    Uint8List blobArg,
+    Uint8List? blobArg,
   }) async {
     final $request = <String, dynamic>{};
     blobArg?.also((arg) => $request['BlobArg'] = arg);

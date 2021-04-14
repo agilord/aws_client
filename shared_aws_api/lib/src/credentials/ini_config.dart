@@ -78,7 +78,7 @@ class Config {
   Iterable<String>? options(String name) => _getSection(name)?.keys;
 
   bool hasOption(String name, String option) =>
-      (_getSection(name) ?? {})?.containsKey(option) ?? false;
+      (_getSection(name))?.containsKey(option) ?? false;
 
   String? get(String name, String option) => (_getSection(name) ?? {})[option];
 

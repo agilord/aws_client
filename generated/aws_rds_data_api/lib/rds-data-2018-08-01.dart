@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'rds-data-2018-08-01.g.dart';
 
 /// Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon
 /// Aurora Serverless DB cluster. To run these statements, you work with the
@@ -32,10 +24,10 @@ part 'rds-data-2018-08-01.g.dart';
 class RDSDataService {
   final _s.RestJsonProtocol _protocol;
   RDSDataService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -107,13 +99,13 @@ class RDSDataService {
   /// If the SQL statement is not part of a transaction, don't set this
   /// parameter.
   Future<BatchExecuteStatementResponse> batchExecuteStatement({
-    @_s.required String resourceArn,
-    @_s.required String secretArn,
-    @_s.required String sql,
-    String database,
-    List<List<SqlParameter>> parameterSets,
-    String schema,
-    String transactionId,
+    required String resourceArn,
+    required String secretArn,
+    required String sql,
+    String? database,
+    List<List<SqlParameter>>? parameterSets,
+    String? schema,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -205,10 +197,10 @@ class RDSDataService {
   /// Parameter [schema] :
   /// The name of the database schema.
   Future<BeginTransactionResponse> beginTransaction({
-    @_s.required String resourceArn,
-    @_s.required String secretArn,
-    String database,
-    String schema,
+    required String resourceArn,
+    required String secretArn,
+    String? database,
+    String? schema,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -272,9 +264,9 @@ class RDSDataService {
   /// Parameter [transactionId] :
   /// The identifier of the transaction to end and commit.
   Future<CommitTransactionResponse> commitTransaction({
-    @_s.required String resourceArn,
-    @_s.required String secretArn,
-    @_s.required String transactionId,
+    required String resourceArn,
+    required String secretArn,
+    required String transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -346,11 +338,11 @@ class RDSDataService {
   /// The name of the database schema.
   @Deprecated('Deprecated')
   Future<ExecuteSqlResponse> executeSql({
-    @_s.required String awsSecretStoreArn,
-    @_s.required String dbClusterOrInstanceArn,
-    @_s.required String sqlStatements,
-    String database,
-    String schema,
+    required String awsSecretStoreArn,
+    required String dbClusterOrInstanceArn,
+    required String sqlStatements,
+    String? database,
+    String? schema,
   }) async {
     ArgumentError.checkNotNull(awsSecretStoreArn, 'awsSecretStoreArn');
     _s.validateStringLength(
@@ -465,16 +457,16 @@ class RDSDataService {
   /// If the SQL statement is not part of a transaction, don't set this
   /// parameter.
   Future<ExecuteStatementResponse> executeStatement({
-    @_s.required String resourceArn,
-    @_s.required String secretArn,
-    @_s.required String sql,
-    bool continueAfterTimeout,
-    String database,
-    bool includeResultMetadata,
-    List<SqlParameter> parameters,
-    ResultSetOptions resultSetOptions,
-    String schema,
-    String transactionId,
+    required String resourceArn,
+    required String secretArn,
+    required String sql,
+    bool? continueAfterTimeout,
+    String? database,
+    bool? includeResultMetadata,
+    List<SqlParameter>? parameters,
+    ResultSetOptions? resultSetOptions,
+    String? schema,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -560,9 +552,9 @@ class RDSDataService {
   /// Parameter [transactionId] :
   /// The identifier of the transaction to roll back.
   Future<RollbackTransactionResponse> rollbackTransaction({
-    @_s.required String resourceArn,
-    @_s.required String secretArn,
-    @_s.required String transactionId,
+    required String resourceArn,
+    required String secretArn,
+    required String transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -604,31 +596,21 @@ class RDSDataService {
 }
 
 /// Contains an array.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ArrayValue {
   /// An array of arrays.
-  @_s.JsonKey(name: 'arrayValues')
-  final List<ArrayValue> arrayValues;
+  final List<ArrayValue>? arrayValues;
 
   /// An array of Boolean values.
-  @_s.JsonKey(name: 'booleanValues')
-  final List<bool> booleanValues;
+  final List<bool>? booleanValues;
 
   /// An array of integers.
-  @_s.JsonKey(name: 'doubleValues')
-  final List<double> doubleValues;
+  final List<double>? doubleValues;
 
   /// An array of floating point numbers.
-  @_s.JsonKey(name: 'longValues')
-  final List<int> longValues;
+  final List<int>? longValues;
 
   /// An array of strings.
-  @_s.JsonKey(name: 'stringValues')
-  final List<String> stringValues;
+  final List<String>? stringValues;
 
   ArrayValue({
     this.arrayValues,
@@ -637,112 +619,125 @@ class ArrayValue {
     this.longValues,
     this.stringValues,
   });
-  factory ArrayValue.fromJson(Map<String, dynamic> json) =>
-      _$ArrayValueFromJson(json);
+  factory ArrayValue.fromJson(Map<String, dynamic> json) {
+    return ArrayValue(
+      arrayValues: (json['arrayValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => ArrayValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      booleanValues: (json['booleanValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as bool)
+          .toList(),
+      doubleValues: (json['doubleValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      longValues: (json['longValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      stringValues: (json['stringValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ArrayValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final arrayValues = this.arrayValues;
+    final booleanValues = this.booleanValues;
+    final doubleValues = this.doubleValues;
+    final longValues = this.longValues;
+    final stringValues = this.stringValues;
+    return {
+      if (arrayValues != null) 'arrayValues': arrayValues,
+      if (booleanValues != null) 'booleanValues': booleanValues,
+      if (doubleValues != null) 'doubleValues': doubleValues,
+      if (longValues != null) 'longValues': longValues,
+      if (stringValues != null) 'stringValues': stringValues,
+    };
+  }
 }
 
 /// The response elements represent the output of a SQL statement over an array
 /// of data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchExecuteStatementResponse {
   /// The execution results of each batch entry.
-  @_s.JsonKey(name: 'updateResults')
-  final List<UpdateResult> updateResults;
+  final List<UpdateResult>? updateResults;
 
   BatchExecuteStatementResponse({
     this.updateResults,
   });
-  factory BatchExecuteStatementResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchExecuteStatementResponseFromJson(json);
+  factory BatchExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
+    return BatchExecuteStatementResponse(
+      updateResults: (json['updateResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpdateResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response elements represent the output of a request to start a SQL
 /// transaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BeginTransactionResponse {
   /// The transaction ID of the transaction started by the call.
-  @_s.JsonKey(name: 'transactionId')
-  final String transactionId;
+  final String? transactionId;
 
   BeginTransactionResponse({
     this.transactionId,
   });
-  factory BeginTransactionResponse.fromJson(Map<String, dynamic> json) =>
-      _$BeginTransactionResponseFromJson(json);
+  factory BeginTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return BeginTransactionResponse(
+      transactionId: json['transactionId'] as String?,
+    );
+  }
 }
 
 /// Contains the metadata for a column.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnMetadata {
   /// The type of the column.
-  @_s.JsonKey(name: 'arrayBaseColumnType')
-  final int arrayBaseColumnType;
+  final int? arrayBaseColumnType;
 
   /// A value that indicates whether the column increments automatically.
-  @_s.JsonKey(name: 'isAutoIncrement')
-  final bool isAutoIncrement;
+  final bool? isAutoIncrement;
 
   /// A value that indicates whether the column is case-sensitive.
-  @_s.JsonKey(name: 'isCaseSensitive')
-  final bool isCaseSensitive;
+  final bool? isCaseSensitive;
 
   /// A value that indicates whether the column contains currency values.
-  @_s.JsonKey(name: 'isCurrency')
-  final bool isCurrency;
+  final bool? isCurrency;
 
   /// A value that indicates whether an integer column is signed.
-  @_s.JsonKey(name: 'isSigned')
-  final bool isSigned;
+  final bool? isSigned;
 
   /// The label for the column.
-  @_s.JsonKey(name: 'label')
-  final String label;
+  final String? label;
 
   /// The name of the column.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A value that indicates whether the column is nullable.
-  @_s.JsonKey(name: 'nullable')
-  final int nullable;
+  final int? nullable;
 
   /// The precision value of a decimal number column.
-  @_s.JsonKey(name: 'precision')
-  final int precision;
+  final int? precision;
 
   /// The scale value of a decimal number column.
-  @_s.JsonKey(name: 'scale')
-  final int scale;
+  final int? scale;
 
   /// The name of the schema that owns the table that includes the column.
-  @_s.JsonKey(name: 'schemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The name of the table that includes the column.
-  @_s.JsonKey(name: 'tableName')
-  final String tableName;
+  final String? tableName;
 
   /// The type of the column.
-  @_s.JsonKey(name: 'type')
-  final int type;
+  final int? type;
 
   /// The database-specific data type of the column.
-  @_s.JsonKey(name: 'typeName')
-  final String typeName;
+  final String? typeName;
 
   ColumnMetadata({
     this.arrayBaseColumnType,
@@ -760,65 +755,93 @@ class ColumnMetadata {
     this.type,
     this.typeName,
   });
-  factory ColumnMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ColumnMetadataFromJson(json);
+  factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
+    return ColumnMetadata(
+      arrayBaseColumnType: json['arrayBaseColumnType'] as int?,
+      isAutoIncrement: json['isAutoIncrement'] as bool?,
+      isCaseSensitive: json['isCaseSensitive'] as bool?,
+      isCurrency: json['isCurrency'] as bool?,
+      isSigned: json['isSigned'] as bool?,
+      label: json['label'] as String?,
+      name: json['name'] as String?,
+      nullable: json['nullable'] as int?,
+      precision: json['precision'] as int?,
+      scale: json['scale'] as int?,
+      schemaName: json['schemaName'] as String?,
+      tableName: json['tableName'] as String?,
+      type: json['type'] as int?,
+      typeName: json['typeName'] as String?,
+    );
+  }
 }
 
 /// The response elements represent the output of a commit transaction request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommitTransactionResponse {
   /// The status of the commit operation.
-  @_s.JsonKey(name: 'transactionStatus')
-  final String transactionStatus;
+  final String? transactionStatus;
 
   CommitTransactionResponse({
     this.transactionStatus,
   });
-  factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CommitTransactionResponseFromJson(json);
+  factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return CommitTransactionResponse(
+      transactionStatus: json['transactionStatus'] as String?,
+    );
+  }
 }
 
 enum DecimalReturnType {
-  @_s.JsonValue('DOUBLE_OR_LONG')
   doubleOrLong,
-  @_s.JsonValue('STRING')
   string,
+}
+
+extension on DecimalReturnType {
+  String toValue() {
+    switch (this) {
+      case DecimalReturnType.doubleOrLong:
+        return 'DOUBLE_OR_LONG';
+      case DecimalReturnType.string:
+        return 'STRING';
+    }
+  }
+}
+
+extension on String {
+  DecimalReturnType toDecimalReturnType() {
+    switch (this) {
+      case 'DOUBLE_OR_LONG':
+        return DecimalReturnType.doubleOrLong;
+      case 'STRING':
+        return DecimalReturnType.string;
+    }
+    throw Exception('$this is not known in enum DecimalReturnType');
+  }
 }
 
 /// The response elements represent the output of a request to run one or more
 /// SQL statements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteSqlResponse {
   /// The results of the SQL statement or statements.
-  @_s.JsonKey(name: 'sqlStatementResults')
-  final List<SqlStatementResult> sqlStatementResults;
+  final List<SqlStatementResult>? sqlStatementResults;
 
   ExecuteSqlResponse({
     this.sqlStatementResults,
   });
-  factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteSqlResponseFromJson(json);
+  factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) {
+    return ExecuteSqlResponse(
+      sqlStatementResults: (json['sqlStatementResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => SqlStatementResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response elements represent the output of a request to run a SQL
 /// statement against a database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteStatementResponse {
   /// Metadata for the columns included in the results.
-  @_s.JsonKey(name: 'columnMetadata')
-  final List<ColumnMetadata> columnMetadata;
+  final List<ColumnMetadata>? columnMetadata;
 
   /// Values for fields generated during the request.
   /// <pre><code> &lt;note&gt; &lt;p&gt;The
@@ -828,16 +851,13 @@ class ExecuteStatementResponse {
   /// href=&quot;https://www.postgresql.org/docs/10/dml-returning.html&quot;&gt;Returning
   /// Data From Modified Rows&lt;/a&gt; in the PostgreSQL documentation.&lt;/p&gt;
   /// &lt;/note&gt; </code></pre>
-  @_s.JsonKey(name: 'generatedFields')
-  final List<Field> generatedFields;
+  final List<Field>? generatedFields;
 
   /// The number of records updated by the request.
-  @_s.JsonKey(name: 'numberOfRecordsUpdated')
-  final int numberOfRecordsUpdated;
+  final int? numberOfRecordsUpdated;
 
   /// The records returned by the SQL statement.
-  @_s.JsonKey(name: 'records')
-  final List<List<Field>> records;
+  final List<List<Field>>? records;
 
   ExecuteStatementResponse({
     this.columnMetadata,
@@ -845,45 +865,50 @@ class ExecuteStatementResponse {
     this.numberOfRecordsUpdated,
     this.records,
   });
-  factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteStatementResponseFromJson(json);
+  factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
+    return ExecuteStatementResponse(
+      columnMetadata: (json['columnMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      generatedFields: (json['generatedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
+      records: (json['records'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => Field.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
 }
 
 /// Contains a value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Field {
   /// An array of values.
-  @_s.JsonKey(name: 'arrayValue')
-  final ArrayValue arrayValue;
+  final ArrayValue? arrayValue;
 
   /// A value of BLOB data type.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'blobValue')
-  final Uint8List blobValue;
+  final Uint8List? blobValue;
 
   /// A value of Boolean data type.
-  @_s.JsonKey(name: 'booleanValue')
-  final bool booleanValue;
+  final bool? booleanValue;
 
   /// A value of double data type.
-  @_s.JsonKey(name: 'doubleValue')
-  final double doubleValue;
+  final double? doubleValue;
 
   /// A NULL value.
-  @_s.JsonKey(name: 'isNull')
-  final bool isNull;
+  final bool? isNull;
 
   /// A value of long data type.
-  @_s.JsonKey(name: 'longValue')
-  final int longValue;
+  final int? longValue;
 
   /// A value of string data type.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   Field({
     this.arrayValue,
@@ -894,80 +919,108 @@ class Field {
     this.longValue,
     this.stringValue,
   });
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      arrayValue: json['arrayValue'] != null
+          ? ArrayValue.fromJson(json['arrayValue'] as Map<String, dynamic>)
+          : null,
+      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      isNull: json['isNull'] as bool?,
+      longValue: json['longValue'] as int?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FieldToJson(this);
+  Map<String, dynamic> toJson() {
+    final arrayValue = this.arrayValue;
+    final blobValue = this.blobValue;
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final isNull = this.isNull;
+    final longValue = this.longValue;
+    final stringValue = this.stringValue;
+    return {
+      if (arrayValue != null) 'arrayValue': arrayValue,
+      if (blobValue != null) 'blobValue': base64Encode(blobValue),
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (isNull != null) 'isNull': isNull,
+      if (longValue != null) 'longValue': longValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
 /// A record returned by a call.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Record {
   /// The values returned in the record.
-  @_s.JsonKey(name: 'values')
-  final List<Value> values;
+  final List<Value>? values;
 
   Record({
     this.values,
   });
-  factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => Value.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The result set returned by a SQL statement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultFrame {
   /// The records in the result set.
-  @_s.JsonKey(name: 'records')
-  final List<Record> records;
+  final List<Record>? records;
 
   /// The result-set metadata in the result set.
-  @_s.JsonKey(name: 'resultSetMetadata')
-  final ResultSetMetadata resultSetMetadata;
+  final ResultSetMetadata? resultSetMetadata;
 
   ResultFrame({
     this.records,
     this.resultSetMetadata,
   });
-  factory ResultFrame.fromJson(Map<String, dynamic> json) =>
-      _$ResultFrameFromJson(json);
+  factory ResultFrame.fromJson(Map<String, dynamic> json) {
+    return ResultFrame(
+      records: (json['records'] as List?)
+          ?.whereNotNull()
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultSetMetadata: json['resultSetMetadata'] != null
+          ? ResultSetMetadata.fromJson(
+              json['resultSetMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The metadata of the result set returned by a SQL statement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultSetMetadata {
   /// The number of columns in the result set.
-  @_s.JsonKey(name: 'columnCount')
-  final int columnCount;
+  final int? columnCount;
 
   /// The metadata of the columns in the result set.
-  @_s.JsonKey(name: 'columnMetadata')
-  final List<ColumnMetadata> columnMetadata;
+  final List<ColumnMetadata>? columnMetadata;
 
   ResultSetMetadata({
     this.columnCount,
     this.columnMetadata,
   });
-  factory ResultSetMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ResultSetMetadataFromJson(json);
+  factory ResultSetMetadata.fromJson(Map<String, dynamic> json) {
+    return ResultSetMetadata(
+      columnCount: json['columnCount'] as int?,
+      columnMetadata: (json['columnMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Options that control how the result set is returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResultSetOptions {
   /// A value that indicates how a field of <code>DECIMAL</code> type is
   /// represented in the response. The value of <code>STRING</code>, the default,
@@ -979,44 +1032,40 @@ class ResultSetOptions {
   /// loss. We recommend converting to String, especially when working with
   /// currency values.
   /// </important>
-  @_s.JsonKey(name: 'decimalReturnType')
-  final DecimalReturnType decimalReturnType;
+  final DecimalReturnType? decimalReturnType;
 
   ResultSetOptions({
     this.decimalReturnType,
   });
-  Map<String, dynamic> toJson() => _$ResultSetOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final decimalReturnType = this.decimalReturnType;
+    return {
+      if (decimalReturnType != null)
+        'decimalReturnType': decimalReturnType.toValue(),
+    };
+  }
 }
 
 /// The response elements represent the output of a request to perform a
 /// rollback of a transaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RollbackTransactionResponse {
   /// The status of the rollback operation.
-  @_s.JsonKey(name: 'transactionStatus')
-  final String transactionStatus;
+  final String? transactionStatus;
 
   RollbackTransactionResponse({
     this.transactionStatus,
   });
-  factory RollbackTransactionResponse.fromJson(Map<String, dynamic> json) =>
-      _$RollbackTransactionResponseFromJson(json);
+  factory RollbackTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return RollbackTransactionResponse(
+      transactionStatus: json['transactionStatus'] as String?,
+    );
+  }
 }
 
 /// A parameter used in a SQL statement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SqlParameter {
   /// The name of the parameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A hint that specifies the correct object type for data type mapping.
   ///
@@ -1043,142 +1092,159 @@ class SqlParameter {
   /// format is <code>YYYY-MM-DD</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'typeHint')
-  final TypeHint typeHint;
+  final TypeHint? typeHint;
 
   /// The value of the parameter.
-  @_s.JsonKey(name: 'value')
-  final Field value;
+  final Field? value;
 
   SqlParameter({
     this.name,
     this.typeHint,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$SqlParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final typeHint = this.typeHint;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (typeHint != null) 'typeHint': typeHint.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// The result of a SQL statement.
 /// <pre><code> &lt;important&gt; &lt;p&gt;This data type is
 /// deprecated.&lt;/p&gt; &lt;/important&gt; </code></pre>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SqlStatementResult {
   /// The number of records updated by a SQL statement.
-  @_s.JsonKey(name: 'numberOfRecordsUpdated')
-  final int numberOfRecordsUpdated;
+  final int? numberOfRecordsUpdated;
 
   /// The result set of the SQL statement.
-  @_s.JsonKey(name: 'resultFrame')
-  final ResultFrame resultFrame;
+  final ResultFrame? resultFrame;
 
   SqlStatementResult({
     this.numberOfRecordsUpdated,
     this.resultFrame,
   });
-  factory SqlStatementResult.fromJson(Map<String, dynamic> json) =>
-      _$SqlStatementResultFromJson(json);
+  factory SqlStatementResult.fromJson(Map<String, dynamic> json) {
+    return SqlStatementResult(
+      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
+      resultFrame: json['resultFrame'] != null
+          ? ResultFrame.fromJson(json['resultFrame'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A structure value returned by a call.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StructValue {
   /// The attributes returned in the record.
-  @_s.JsonKey(name: 'attributes')
-  final List<Value> attributes;
+  final List<Value>? attributes;
 
   StructValue({
     this.attributes,
   });
-  factory StructValue.fromJson(Map<String, dynamic> json) =>
-      _$StructValueFromJson(json);
+  factory StructValue.fromJson(Map<String, dynamic> json) {
+    return StructValue(
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Value.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum TypeHint {
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('DECIMAL')
   decimal,
-  @_s.JsonValue('TIME')
   time,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
+extension on TypeHint {
+  String toValue() {
+    switch (this) {
+      case TypeHint.date:
+        return 'DATE';
+      case TypeHint.decimal:
+        return 'DECIMAL';
+      case TypeHint.time:
+        return 'TIME';
+      case TypeHint.timestamp:
+        return 'TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  TypeHint toTypeHint() {
+    switch (this) {
+      case 'DATE':
+        return TypeHint.date;
+      case 'DECIMAL':
+        return TypeHint.decimal;
+      case 'TIME':
+        return TypeHint.time;
+      case 'TIMESTAMP':
+        return TypeHint.timestamp;
+    }
+    throw Exception('$this is not known in enum TypeHint');
+  }
+}
+
 /// The response elements represent the results of an update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResult {
   /// Values for fields generated during the request.
-  @_s.JsonKey(name: 'generatedFields')
-  final List<Field> generatedFields;
+  final List<Field>? generatedFields;
 
   UpdateResult({
     this.generatedFields,
   });
-  factory UpdateResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResultFromJson(json);
+  factory UpdateResult.fromJson(Map<String, dynamic> json) {
+    return UpdateResult(
+      generatedFields: (json['generatedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the value of a column.
 /// <pre><code> &lt;important&gt; &lt;p&gt;This data type is
 /// deprecated.&lt;/p&gt; &lt;/important&gt; </code></pre>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Value {
   /// An array of column values.
-  @_s.JsonKey(name: 'arrayValues')
-  final List<Value> arrayValues;
+  final List<Value>? arrayValues;
 
   /// A value for a column of big integer data type.
-  @_s.JsonKey(name: 'bigIntValue')
-  final int bigIntValue;
+  final int? bigIntValue;
 
   /// A value for a column of BIT data type.
-  @_s.JsonKey(name: 'bitValue')
-  final bool bitValue;
+  final bool? bitValue;
 
   /// A value for a column of BLOB data type.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'blobValue')
-  final Uint8List blobValue;
+  final Uint8List? blobValue;
 
   /// A value for a column of double data type.
-  @_s.JsonKey(name: 'doubleValue')
-  final double doubleValue;
+  final double? doubleValue;
 
   /// A value for a column of integer data type.
-  @_s.JsonKey(name: 'intValue')
-  final int intValue;
+  final int? intValue;
 
   /// A NULL value.
-  @_s.JsonKey(name: 'isNull')
-  final bool isNull;
+  final bool? isNull;
 
   /// A value for a column of real data type.
-  @_s.JsonKey(name: 'realValue')
-  final double realValue;
+  final double? realValue;
 
   /// A value for a column of string data type.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   /// A value for a column of STRUCT data type.
-  @_s.JsonKey(name: 'structValue')
-  final StructValue structValue;
+  final StructValue? structValue;
 
   Value({
     this.arrayValues,
@@ -1192,37 +1258,55 @@ class Value {
     this.stringValue,
     this.structValue,
   });
-  factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
+  factory Value.fromJson(Map<String, dynamic> json) {
+    return Value(
+      arrayValues: (json['arrayValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => Value.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      bigIntValue: json['bigIntValue'] as int?,
+      bitValue: json['bitValue'] as bool?,
+      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
+      doubleValue: json['doubleValue'] as double?,
+      intValue: json['intValue'] as int?,
+      isNull: json['isNull'] as bool?,
+      realValue: json['realValue'] as double?,
+      stringValue: json['stringValue'] as String?,
+      structValue: json['structValue'] != null
+          ? StructValue.fromJson(json['structValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceUnavailableError extends _s.GenericAwsException {
-  ServiceUnavailableError({String type, String message})
+  ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);
 }
 
 class StatementTimeoutException extends _s.GenericAwsException {
-  StatementTimeoutException({String type, String message})
+  StatementTimeoutException({String? type, String? message})
       : super(type: type, code: 'StatementTimeoutException', message: message);
 }
 

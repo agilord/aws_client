@@ -12,13 +12,13 @@ AcceptMatchOutput _$AcceptMatchOutputFromJson(Map<String, dynamic> json) {
 
 Alias _$AliasFromJson(Map<String, dynamic> json) {
   return Alias(
-    aliasArn: json['AliasArn'] as String,
-    aliasId: json['AliasId'] as String,
+    aliasArn: json['AliasArn'] as String?,
+    aliasId: json['AliasId'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     routingStrategy: json['RoutingStrategy'] == null
         ? null
         : RoutingStrategy.fromJson(
@@ -28,12 +28,12 @@ Alias _$AliasFromJson(Map<String, dynamic> json) {
 
 AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   return AttributeValue(
-    n: (json['N'] as num)?.toDouble(),
-    s: json['S'] as String,
-    sdm: (json['SDM'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as num)?.toDouble()),
+    n: (json['N'] as num?)?.toDouble(),
+    s: json['S'] as String?,
+    sdm: (json['SDM'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, (e as num).toDouble()),
     ),
-    sl: (json['SL'] as List)?.map((e) => e as String)?.toList(),
+    sl: (json['SL'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -55,56 +55,61 @@ Map<String, dynamic> _$AttributeValueToJson(AttributeValue instance) {
 
 AwsCredentials _$AwsCredentialsFromJson(Map<String, dynamic> json) {
   return AwsCredentials(
-    accessKeyId: json['AccessKeyId'] as String,
-    secretAccessKey: json['SecretAccessKey'] as String,
-    sessionToken: json['SessionToken'] as String,
+    accessKeyId: json['AccessKeyId'] as String?,
+    secretAccessKey: json['SecretAccessKey'] as String?,
+    sessionToken: json['SessionToken'] as String?,
   );
 }
 
 Build _$BuildFromJson(Map<String, dynamic> json) {
   return Build(
-    buildArn: json['BuildArn'] as String,
-    buildId: json['BuildId'] as String,
+    buildArn: json['BuildArn'] as String?,
+    buildId: json['BuildId'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
-    sizeOnDisk: json['SizeOnDisk'] as int,
+    sizeOnDisk: json['SizeOnDisk'] as int?,
     status: _$enumDecodeNullable(_$BuildStatusEnumMap, json['Status']),
-    version: json['Version'] as String,
+    version: json['Version'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$OperatingSystemEnumMap = {
@@ -123,24 +128,15 @@ CertificateConfiguration _$CertificateConfigurationFromJson(
     Map<String, dynamic> json) {
   return CertificateConfiguration(
     certificateType:
-        _$enumDecodeNullable(_$CertificateTypeEnumMap, json['CertificateType']),
+        _$enumDecode(_$CertificateTypeEnumMap, json['CertificateType']),
   );
 }
 
 Map<String, dynamic> _$CertificateConfigurationToJson(
-    CertificateConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'CertificateType', _$CertificateTypeEnumMap[instance.certificateType]);
-  return val;
-}
+        CertificateConfiguration instance) =>
+    <String, dynamic>{
+      'CertificateType': _$CertificateTypeEnumMap[instance.certificateType],
+    };
 
 const _$CertificateTypeEnumMap = {
   CertificateType.disabled: 'DISABLED',
@@ -230,9 +226,8 @@ CreateMatchmakingConfigurationOutput
 CreateMatchmakingRuleSetOutput _$CreateMatchmakingRuleSetOutputFromJson(
     Map<String, dynamic> json) {
   return CreateMatchmakingRuleSetOutput(
-    ruleSet: json['RuleSet'] == null
-        ? null
-        : MatchmakingRuleSet.fromJson(json['RuleSet'] as Map<String, dynamic>),
+    ruleSet:
+        MatchmakingRuleSet.fromJson(json['RuleSet'] as Map<String, dynamic>),
   );
 }
 
@@ -248,11 +243,9 @@ CreatePlayerSessionOutput _$CreatePlayerSessionOutputFromJson(
 CreatePlayerSessionsOutput _$CreatePlayerSessionsOutputFromJson(
     Map<String, dynamic> json) {
   return CreatePlayerSessionsOutput(
-    playerSessions: (json['PlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    playerSessions: (json['PlayerSessions'] as List<dynamic>?)
+        ?.map((e) => PlayerSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -333,68 +326,58 @@ DescribeBuildOutput _$DescribeBuildOutputFromJson(Map<String, dynamic> json) {
 DescribeEC2InstanceLimitsOutput _$DescribeEC2InstanceLimitsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeEC2InstanceLimitsOutput(
-    eC2InstanceLimits: (json['EC2InstanceLimits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EC2InstanceLimit.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    eC2InstanceLimits: (json['EC2InstanceLimits'] as List<dynamic>?)
+        ?.map((e) => EC2InstanceLimit.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeFleetAttributesOutput _$DescribeFleetAttributesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetAttributesOutput(
-    fleetAttributes: (json['FleetAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetAttributes.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    fleetAttributes: (json['FleetAttributes'] as List<dynamic>?)
+        ?.map((e) => FleetAttributes.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFleetCapacityOutput _$DescribeFleetCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetCapacityOutput(
-    fleetCapacity: (json['FleetCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    fleetCapacity: (json['FleetCapacity'] as List<dynamic>?)
+        ?.map((e) => FleetCapacity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFleetEventsOutput _$DescribeFleetEventsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetEventsOutput(
-    events: (json['Events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    events: (json['Events'] as List<dynamic>?)
+        ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFleetPortSettingsOutput _$DescribeFleetPortSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetPortSettingsOutput(
-    inboundPermissions: (json['InboundPermissions'] as List)
-        ?.map((e) =>
-            e == null ? null : IpPermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inboundPermissions: (json['InboundPermissions'] as List<dynamic>?)
+        ?.map((e) => IpPermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeFleetUtilizationOutput _$DescribeFleetUtilizationOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetUtilizationOutput(
-    fleetUtilization: (json['FleetUtilization'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetUtilization.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    fleetUtilization: (json['FleetUtilization'] as List<dynamic>?)
+        ?.map((e) => FleetUtilization.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -411,12 +394,10 @@ DescribeGameServerGroupOutput _$DescribeGameServerGroupOutputFromJson(
 DescribeGameServerInstancesOutput _$DescribeGameServerInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGameServerInstancesOutput(
-    gameServerInstances: (json['GameServerInstances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameServerInstance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameServerInstances: (json['GameServerInstances'] as List<dynamic>?)
+        ?.map((e) => GameServerInstance.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -432,12 +413,10 @@ DescribeGameServerOutput _$DescribeGameServerOutputFromJson(
 DescribeGameSessionDetailsOutput _$DescribeGameSessionDetailsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGameSessionDetailsOutput(
-    gameSessionDetails: (json['GameSessionDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameSessionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameSessionDetails: (json['GameSessionDetails'] as List<dynamic>?)
+        ?.map((e) => GameSessionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -454,34 +433,30 @@ DescribeGameSessionPlacementOutput _$DescribeGameSessionPlacementOutputFromJson(
 DescribeGameSessionQueuesOutput _$DescribeGameSessionQueuesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGameSessionQueuesOutput(
-    gameSessionQueues: (json['GameSessionQueues'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameSessionQueue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameSessionQueues: (json['GameSessionQueues'] as List<dynamic>?)
+        ?.map((e) => GameSessionQueue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeGameSessionsOutput _$DescribeGameSessionsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGameSessionsOutput(
-    gameSessions: (json['GameSessions'] as List)
-        ?.map((e) =>
-            e == null ? null : GameSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameSessions: (json['GameSessions'] as List<dynamic>?)
+        ?.map((e) => GameSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeInstancesOutput _$DescribeInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeInstancesOutput(
-    instances: (json['Instances'] as List)
-        ?.map((e) =>
-            e == null ? null : Instance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instances: (json['Instances'] as List<dynamic>?)
+        ?.map((e) => Instance.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -489,47 +464,40 @@ DescribeMatchmakingConfigurationsOutput
     _$DescribeMatchmakingConfigurationsOutputFromJson(
         Map<String, dynamic> json) {
   return DescribeMatchmakingConfigurationsOutput(
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    configurations: (json['Configurations'] as List<dynamic>?)
+        ?.map(
+            (e) => MatchmakingConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeMatchmakingOutput _$DescribeMatchmakingOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeMatchmakingOutput(
-    ticketList: (json['TicketList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingTicket.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    ticketList: (json['TicketList'] as List<dynamic>?)
+        ?.map((e) => MatchmakingTicket.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeMatchmakingRuleSetsOutput _$DescribeMatchmakingRuleSetsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeMatchmakingRuleSetsOutput(
-    ruleSets: (json['RuleSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    ruleSets: (json['RuleSets'] as List<dynamic>)
+        .map((e) => MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribePlayerSessionsOutput _$DescribePlayerSessionsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePlayerSessionsOutput(
-    nextToken: json['NextToken'] as String,
-    playerSessions: (json['PlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    playerSessions: (json['PlayerSessions'] as List<dynamic>?)
+        ?.map((e) => PlayerSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -546,12 +514,10 @@ DescribeRuntimeConfigurationOutput _$DescribeRuntimeConfigurationOutputFromJson(
 DescribeScalingPoliciesOutput _$DescribeScalingPoliciesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeScalingPoliciesOutput(
-    nextToken: json['NextToken'] as String,
-    scalingPolicies: (json['ScalingPolicies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScalingPolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    scalingPolicies: (json['ScalingPolicies'] as List<dynamic>?)
+        ?.map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -567,22 +533,20 @@ DescribeVpcPeeringAuthorizationsOutput
     _$DescribeVpcPeeringAuthorizationsOutputFromJson(
         Map<String, dynamic> json) {
   return DescribeVpcPeeringAuthorizationsOutput(
-    vpcPeeringAuthorizations: (json['VpcPeeringAuthorizations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VpcPeeringAuthorization.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    vpcPeeringAuthorizations: (json['VpcPeeringAuthorizations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => VpcPeeringAuthorization.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeVpcPeeringConnectionsOutput
     _$DescribeVpcPeeringConnectionsOutputFromJson(Map<String, dynamic> json) {
   return DescribeVpcPeeringConnectionsOutput(
-    vpcPeeringConnections: (json['VpcPeeringConnections'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VpcPeeringConnection.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    vpcPeeringConnections: (json['VpcPeeringConnections'] as List<dynamic>?)
+        ?.map((e) => VpcPeeringConnection.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -603,22 +567,22 @@ Map<String, dynamic> _$DesiredPlayerSessionToJson(
 
 EC2InstanceCounts _$EC2InstanceCountsFromJson(Map<String, dynamic> json) {
   return EC2InstanceCounts(
-    active: json['ACTIVE'] as int,
-    desired: json['DESIRED'] as int,
-    idle: json['IDLE'] as int,
-    maximum: json['MAXIMUM'] as int,
-    minimum: json['MINIMUM'] as int,
-    pending: json['PENDING'] as int,
-    terminating: json['TERMINATING'] as int,
+    active: json['ACTIVE'] as int?,
+    desired: json['DESIRED'] as int?,
+    idle: json['IDLE'] as int?,
+    maximum: json['MAXIMUM'] as int?,
+    minimum: json['MINIMUM'] as int?,
+    pending: json['PENDING'] as int?,
+    terminating: json['TERMINATING'] as int?,
   );
 }
 
 EC2InstanceLimit _$EC2InstanceLimitFromJson(Map<String, dynamic> json) {
   return EC2InstanceLimit(
-    currentInstances: json['CurrentInstances'] as int,
+    currentInstances: json['CurrentInstances'] as int?,
     eC2InstanceType:
         _$enumDecodeNullable(_$EC2InstanceTypeEnumMap, json['EC2InstanceType']),
-    instanceLimit: json['InstanceLimit'] as int,
+    instanceLimit: json['InstanceLimit'] as int?,
   );
 }
 
@@ -710,11 +674,11 @@ const _$EC2InstanceTypeEnumMap = {
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     eventCode: _$enumDecodeNullable(_$EventCodeEnumMap, json['EventCode']),
-    eventId: json['EventId'] as String,
+    eventId: json['EventId'] as String?,
     eventTime: const UnixDateTimeConverter().fromJson(json['EventTime']),
-    message: json['Message'] as String,
-    preSignedLogUrl: json['PreSignedLogUrl'] as String,
-    resourceId: json['ResourceId'] as String,
+    message: json['Message'] as String?,
+    preSignedLogUrl: json['PreSignedLogUrl'] as String?,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
@@ -765,24 +729,26 @@ const _$EventCodeEnumMap = {
 
 FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
   return FleetAttributes(
-    buildArn: json['BuildArn'] as String,
-    buildId: json['BuildId'] as String,
+    buildArn: json['BuildArn'] as String?,
+    buildId: json['BuildId'] as String?,
     certificateConfiguration: json['CertificateConfiguration'] == null
         ? null
         : CertificateConfiguration.fromJson(
             json['CertificateConfiguration'] as Map<String, dynamic>),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    description: json['Description'] as String,
-    fleetArn: json['FleetArn'] as String,
-    fleetId: json['FleetId'] as String,
+    description: json['Description'] as String?,
+    fleetArn: json['FleetArn'] as String?,
+    fleetId: json['FleetId'] as String?,
     fleetType: _$enumDecodeNullable(_$FleetTypeEnumMap, json['FleetType']),
-    instanceRoleArn: json['InstanceRoleArn'] as String,
+    instanceRoleArn: json['InstanceRoleArn'] as String?,
     instanceType:
         _$enumDecodeNullable(_$EC2InstanceTypeEnumMap, json['InstanceType']),
-    logPaths: (json['LogPaths'] as List)?.map((e) => e as String)?.toList(),
-    metricGroups:
-        (json['MetricGroups'] as List)?.map((e) => e as String)?.toList(),
-    name: json['Name'] as String,
+    logPaths:
+        (json['LogPaths'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    metricGroups: (json['MetricGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    name: json['Name'] as String?,
     newGameSessionProtectionPolicy: _$enumDecodeNullable(
         _$ProtectionPolicyEnumMap, json['NewGameSessionProtectionPolicy']),
     operatingSystem:
@@ -791,14 +757,14 @@ FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
         ? null
         : ResourceCreationLimitPolicy.fromJson(
             json['ResourceCreationLimitPolicy'] as Map<String, dynamic>),
-    scriptArn: json['ScriptArn'] as String,
-    scriptId: json['ScriptId'] as String,
-    serverLaunchParameters: json['ServerLaunchParameters'] as String,
-    serverLaunchPath: json['ServerLaunchPath'] as String,
+    scriptArn: json['ScriptArn'] as String?,
+    scriptId: json['ScriptId'] as String?,
+    serverLaunchParameters: json['ServerLaunchParameters'] as String?,
+    serverLaunchPath: json['ServerLaunchPath'] as String?,
     status: _$enumDecodeNullable(_$FleetStatusEnumMap, json['Status']),
-    stoppedActions: (json['StoppedActions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$FleetActionEnumMap, e))
-        ?.toList(),
+    stoppedActions: (json['StoppedActions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$FleetActionEnumMap, e))
+        .toList(),
     terminationTime:
         const UnixDateTimeConverter().fromJson(json['TerminationTime']),
   );
@@ -832,7 +798,7 @@ const _$FleetActionEnumMap = {
 
 FleetCapacity _$FleetCapacityFromJson(Map<String, dynamic> json) {
   return FleetCapacity(
-    fleetId: json['FleetId'] as String,
+    fleetId: json['FleetId'] as String?,
     instanceCounts: json['InstanceCounts'] == null
         ? null
         : EC2InstanceCounts.fromJson(
@@ -844,11 +810,11 @@ FleetCapacity _$FleetCapacityFromJson(Map<String, dynamic> json) {
 
 FleetUtilization _$FleetUtilizationFromJson(Map<String, dynamic> json) {
   return FleetUtilization(
-    activeGameSessionCount: json['ActiveGameSessionCount'] as int,
-    activeServerProcessCount: json['ActiveServerProcessCount'] as int,
-    currentPlayerSessionCount: json['CurrentPlayerSessionCount'] as int,
-    fleetId: json['FleetId'] as String,
-    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int,
+    activeGameSessionCount: json['ActiveGameSessionCount'] as int?,
+    activeServerProcessCount: json['ActiveServerProcessCount'] as int?,
+    currentPlayerSessionCount: json['CurrentPlayerSessionCount'] as int?,
+    fleetId: json['FleetId'] as String?,
+    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int?,
   );
 }
 
@@ -859,30 +825,22 @@ GameProperty _$GamePropertyFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$GamePropertyToJson(GameProperty instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$GamePropertyToJson(GameProperty instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 GameServer _$GameServerFromJson(Map<String, dynamic> json) {
   return GameServer(
     claimStatus: _$enumDecodeNullable(
         _$GameServerClaimStatusEnumMap, json['ClaimStatus']),
-    connectionInfo: json['ConnectionInfo'] as String,
-    gameServerData: json['GameServerData'] as String,
-    gameServerGroupArn: json['GameServerGroupArn'] as String,
-    gameServerGroupName: json['GameServerGroupName'] as String,
-    gameServerId: json['GameServerId'] as String,
-    instanceId: json['InstanceId'] as String,
+    connectionInfo: json['ConnectionInfo'] as String?,
+    gameServerData: json['GameServerData'] as String?,
+    gameServerGroupArn: json['GameServerGroupArn'] as String?,
+    gameServerGroupName: json['GameServerGroupName'] as String?,
+    gameServerId: json['GameServerId'] as String?,
+    instanceId: json['InstanceId'] as String?,
     lastClaimTime:
         const UnixDateTimeConverter().fromJson(json['LastClaimTime']),
     lastHealthCheckTime:
@@ -905,29 +863,27 @@ const _$GameServerUtilizationStatusEnumMap = {
 
 GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
   return GameServerGroup(
-    autoScalingGroupArn: json['AutoScalingGroupArn'] as String,
+    autoScalingGroupArn: json['AutoScalingGroupArn'] as String?,
     balancingStrategy: _$enumDecodeNullable(
         _$BalancingStrategyEnumMap, json['BalancingStrategy']),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    gameServerGroupArn: json['GameServerGroupArn'] as String,
-    gameServerGroupName: json['GameServerGroupName'] as String,
+    gameServerGroupArn: json['GameServerGroupArn'] as String?,
+    gameServerGroupName: json['GameServerGroupName'] as String?,
     gameServerProtectionPolicy: _$enumDecodeNullable(
         _$GameServerProtectionPolicyEnumMap,
         json['GameServerProtectionPolicy']),
-    instanceDefinitions: (json['InstanceDefinitions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    instanceDefinitions: (json['InstanceDefinitions'] as List<dynamic>?)
+        ?.map((e) => InstanceDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    roleArn: json['RoleArn'] as String,
+    roleArn: json['RoleArn'] as String?,
     status:
         _$enumDecodeNullable(_$GameServerGroupStatusEnumMap, json['Status']),
-    statusReason: json['StatusReason'] as String,
-    suspendedActions: (json['SuspendedActions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$GameServerGroupActionEnumMap, e))
-        ?.toList(),
+    statusReason: json['StatusReason'] as String?,
+    suspendedActions: (json['SuspendedActions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$GameServerGroupActionEnumMap, e))
+        .toList(),
   );
 }
 
@@ -958,7 +914,10 @@ const _$GameServerGroupActionEnumMap = {
 
 Map<String, dynamic> _$GameServerGroupAutoScalingPolicyToJson(
     GameServerGroupAutoScalingPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TargetTrackingConfiguration':
+        instance.targetTrackingConfiguration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -966,17 +925,15 @@ Map<String, dynamic> _$GameServerGroupAutoScalingPolicyToJson(
     }
   }
 
-  writeNotNull('TargetTrackingConfiguration',
-      instance.targetTrackingConfiguration?.toJson());
   writeNotNull('EstimatedInstanceWarmup', instance.estimatedInstanceWarmup);
   return val;
 }
 
 GameServerInstance _$GameServerInstanceFromJson(Map<String, dynamic> json) {
   return GameServerInstance(
-    gameServerGroupArn: json['GameServerGroupArn'] as String,
-    gameServerGroupName: json['GameServerGroupName'] as String,
-    instanceId: json['InstanceId'] as String,
+    gameServerGroupArn: json['GameServerGroupArn'] as String?,
+    gameServerGroupName: json['GameServerGroupName'] as String?,
+    instanceId: json['InstanceId'] as String?,
     instanceStatus: _$enumDecodeNullable(
         _$GameServerInstanceStatusEnumMap, json['InstanceStatus']),
   );
@@ -991,25 +948,24 @@ const _$GameServerInstanceStatusEnumMap = {
 GameSession _$GameSessionFromJson(Map<String, dynamic> json) {
   return GameSession(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    creatorId: json['CreatorId'] as String,
-    currentPlayerSessionCount: json['CurrentPlayerSessionCount'] as int,
-    dnsName: json['DnsName'] as String,
-    fleetArn: json['FleetArn'] as String,
-    fleetId: json['FleetId'] as String,
-    gameProperties: (json['GameProperties'] as List)
-        ?.map((e) =>
-            e == null ? null : GameProperty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    gameSessionData: json['GameSessionData'] as String,
-    gameSessionId: json['GameSessionId'] as String,
-    ipAddress: json['IpAddress'] as String,
-    matchmakerData: json['MatchmakerData'] as String,
-    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int,
-    name: json['Name'] as String,
+    creatorId: json['CreatorId'] as String?,
+    currentPlayerSessionCount: json['CurrentPlayerSessionCount'] as int?,
+    dnsName: json['DnsName'] as String?,
+    fleetArn: json['FleetArn'] as String?,
+    fleetId: json['FleetId'] as String?,
+    gameProperties: (json['GameProperties'] as List<dynamic>?)
+        ?.map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gameSessionData: json['GameSessionData'] as String?,
+    gameSessionId: json['GameSessionId'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    matchmakerData: json['MatchmakerData'] as String?,
+    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int?,
+    name: json['Name'] as String?,
     playerSessionCreationPolicy: _$enumDecodeNullable(
         _$PlayerSessionCreationPolicyEnumMap,
         json['PlayerSessionCreationPolicy']),
-    port: json['Port'] as int,
+    port: json['Port'] as int?,
     status: _$enumDecodeNullable(_$GameSessionStatusEnumMap, json['Status']),
     statusReason: _$enumDecodeNullable(
         _$GameSessionStatusReasonEnumMap, json['StatusReason']),
@@ -1038,15 +994,13 @@ const _$GameSessionStatusReasonEnumMap = {
 GameSessionConnectionInfo _$GameSessionConnectionInfoFromJson(
     Map<String, dynamic> json) {
   return GameSessionConnectionInfo(
-    dnsName: json['DnsName'] as String,
-    gameSessionArn: json['GameSessionArn'] as String,
-    ipAddress: json['IpAddress'] as String,
-    matchedPlayerSessions: (json['MatchedPlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchedPlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    port: json['Port'] as int,
+    dnsName: json['DnsName'] as String?,
+    gameSessionArn: json['GameSessionArn'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    matchedPlayerSessions: (json['MatchedPlayerSessions'] as List<dynamic>?)
+        ?.map((e) => MatchedPlayerSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    port: json['Port'] as int?,
   );
 }
 
@@ -1062,33 +1016,28 @@ GameSessionDetail _$GameSessionDetailFromJson(Map<String, dynamic> json) {
 
 GameSessionPlacement _$GameSessionPlacementFromJson(Map<String, dynamic> json) {
   return GameSessionPlacement(
-    dnsName: json['DnsName'] as String,
+    dnsName: json['DnsName'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    gameProperties: (json['GameProperties'] as List)
-        ?.map((e) =>
-            e == null ? null : GameProperty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    gameSessionArn: json['GameSessionArn'] as String,
-    gameSessionData: json['GameSessionData'] as String,
-    gameSessionId: json['GameSessionId'] as String,
-    gameSessionName: json['GameSessionName'] as String,
-    gameSessionQueueName: json['GameSessionQueueName'] as String,
-    gameSessionRegion: json['GameSessionRegion'] as String,
-    ipAddress: json['IpAddress'] as String,
-    matchmakerData: json['MatchmakerData'] as String,
-    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int,
-    placedPlayerSessions: (json['PlacedPlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlacedPlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    placementId: json['PlacementId'] as String,
-    playerLatencies: (json['PlayerLatencies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerLatency.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    port: json['Port'] as int,
+    gameProperties: (json['GameProperties'] as List<dynamic>?)
+        ?.map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gameSessionArn: json['GameSessionArn'] as String?,
+    gameSessionData: json['GameSessionData'] as String?,
+    gameSessionId: json['GameSessionId'] as String?,
+    gameSessionName: json['GameSessionName'] as String?,
+    gameSessionQueueName: json['GameSessionQueueName'] as String?,
+    gameSessionRegion: json['GameSessionRegion'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    matchmakerData: json['MatchmakerData'] as String?,
+    maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int?,
+    placedPlayerSessions: (json['PlacedPlayerSessions'] as List<dynamic>?)
+        ?.map((e) => PlacedPlayerSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    placementId: json['PlacementId'] as String?,
+    playerLatencies: (json['PlayerLatencies'] as List<dynamic>?)
+        ?.map((e) => PlayerLatency.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    port: json['Port'] as int?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$GameSessionPlacementStateEnumMap, json['Status']),
@@ -1105,26 +1054,23 @@ const _$GameSessionPlacementStateEnumMap = {
 
 GameSessionQueue _$GameSessionQueueFromJson(Map<String, dynamic> json) {
   return GameSessionQueue(
-    destinations: (json['Destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameSessionQueueDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    gameSessionQueueArn: json['GameSessionQueueArn'] as String,
-    name: json['Name'] as String,
-    playerLatencyPolicies: (json['PlayerLatencyPolicies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerLatencyPolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    timeoutInSeconds: json['TimeoutInSeconds'] as int,
+    destinations: (json['Destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            GameSessionQueueDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gameSessionQueueArn: json['GameSessionQueueArn'] as String?,
+    name: json['Name'] as String?,
+    playerLatencyPolicies: (json['PlayerLatencyPolicies'] as List<dynamic>?)
+        ?.map((e) => PlayerLatencyPolicy.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    timeoutInSeconds: json['TimeoutInSeconds'] as int?,
   );
 }
 
 GameSessionQueueDestination _$GameSessionQueueDestinationFromJson(
     Map<String, dynamic> json) {
   return GameSessionQueueDestination(
-    destinationArn: json['DestinationArn'] as String,
+    destinationArn: json['DestinationArn'] as String?,
   );
 }
 
@@ -1145,7 +1091,7 @@ Map<String, dynamic> _$GameSessionQueueDestinationToJson(
 GetGameSessionLogUrlOutput _$GetGameSessionLogUrlOutputFromJson(
     Map<String, dynamic> json) {
   return GetGameSessionLogUrlOutput(
-    preSignedUrl: json['PreSignedUrl'] as String,
+    preSignedUrl: json['PreSignedUrl'] as String?,
   );
 }
 
@@ -1162,10 +1108,10 @@ GetInstanceAccessOutput _$GetInstanceAccessOutputFromJson(
 Instance _$InstanceFromJson(Map<String, dynamic> json) {
   return Instance(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    dnsName: json['DnsName'] as String,
-    fleetId: json['FleetId'] as String,
-    instanceId: json['InstanceId'] as String,
-    ipAddress: json['IpAddress'] as String,
+    dnsName: json['DnsName'] as String?,
+    fleetId: json['FleetId'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    ipAddress: json['IpAddress'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
     status: _$enumDecodeNullable(_$InstanceStatusEnumMap, json['Status']),
@@ -1185,9 +1131,9 @@ InstanceAccess _$InstanceAccessFromJson(Map<String, dynamic> json) {
         ? null
         : InstanceCredentials.fromJson(
             json['Credentials'] as Map<String, dynamic>),
-    fleetId: json['FleetId'] as String,
-    instanceId: json['InstanceId'] as String,
-    ipAddress: json['IpAddress'] as String,
+    fleetId: json['FleetId'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    ipAddress: json['IpAddress'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
   );
@@ -1195,21 +1141,23 @@ InstanceAccess _$InstanceAccessFromJson(Map<String, dynamic> json) {
 
 InstanceCredentials _$InstanceCredentialsFromJson(Map<String, dynamic> json) {
   return InstanceCredentials(
-    secret: json['Secret'] as String,
-    userName: json['UserName'] as String,
+    secret: json['Secret'] as String?,
+    userName: json['UserName'] as String?,
   );
 }
 
 InstanceDefinition _$InstanceDefinitionFromJson(Map<String, dynamic> json) {
   return InstanceDefinition(
-    instanceType: _$enumDecodeNullable(
+    instanceType: _$enumDecode(
         _$GameServerGroupInstanceTypeEnumMap, json['InstanceType']),
-    weightedCapacity: json['WeightedCapacity'] as String,
+    weightedCapacity: json['WeightedCapacity'] as String?,
   );
 }
 
 Map<String, dynamic> _$InstanceDefinitionToJson(InstanceDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceType': _$GameServerGroupInstanceTypeEnumMap[instance.instanceType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1217,8 +1165,6 @@ Map<String, dynamic> _$InstanceDefinitionToJson(InstanceDefinition instance) {
     }
   }
 
-  writeNotNull('InstanceType',
-      _$GameServerGroupInstanceTypeEnumMap[instance.instanceType]);
   writeNotNull('WeightedCapacity', instance.weightedCapacity);
   return val;
 }
@@ -1270,26 +1216,18 @@ IpPermission _$IpPermissionFromJson(Map<String, dynamic> json) {
   return IpPermission(
     fromPort: json['FromPort'] as int,
     ipRange: json['IpRange'] as String,
-    protocol: _$enumDecodeNullable(_$IpProtocolEnumMap, json['Protocol']),
+    protocol: _$enumDecode(_$IpProtocolEnumMap, json['Protocol']),
     toPort: json['ToPort'] as int,
   );
 }
 
-Map<String, dynamic> _$IpPermissionToJson(IpPermission instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FromPort', instance.fromPort);
-  writeNotNull('IpRange', instance.ipRange);
-  writeNotNull('Protocol', _$IpProtocolEnumMap[instance.protocol]);
-  writeNotNull('ToPort', instance.toPort);
-  return val;
-}
+Map<String, dynamic> _$IpPermissionToJson(IpPermission instance) =>
+    <String, dynamic>{
+      'FromPort': instance.fromPort,
+      'IpRange': instance.ipRange,
+      'Protocol': _$IpProtocolEnumMap[instance.protocol],
+      'ToPort': instance.toPort,
+    };
 
 const _$IpProtocolEnumMap = {
   IpProtocol.tcp: 'TCP',
@@ -1314,107 +1252,101 @@ Map<String, dynamic> _$LaunchTemplateSpecificationToJson(
 
 ListAliasesOutput _$ListAliasesOutputFromJson(Map<String, dynamic> json) {
   return ListAliasesOutput(
-    aliases: (json['Aliases'] as List)
-        ?.map(
-            (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => Alias.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBuildsOutput _$ListBuildsOutputFromJson(Map<String, dynamic> json) {
   return ListBuildsOutput(
-    builds: (json['Builds'] as List)
-        ?.map(
-            (e) => e == null ? null : Build.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    builds: (json['Builds'] as List<dynamic>?)
+        ?.map((e) => Build.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListFleetsOutput _$ListFleetsOutputFromJson(Map<String, dynamic> json) {
   return ListFleetsOutput(
-    fleetIds: (json['FleetIds'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    fleetIds:
+        (json['FleetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGameServerGroupsOutput _$ListGameServerGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return ListGameServerGroupsOutput(
-    gameServerGroups: (json['GameServerGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameServerGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameServerGroups: (json['GameServerGroups'] as List<dynamic>?)
+        ?.map((e) => GameServerGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGameServersOutput _$ListGameServersOutputFromJson(
     Map<String, dynamic> json) {
   return ListGameServersOutput(
-    gameServers: (json['GameServers'] as List)
-        ?.map((e) =>
-            e == null ? null : GameServer.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameServers: (json['GameServers'] as List<dynamic>?)
+        ?.map((e) => GameServer.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListScriptsOutput _$ListScriptsOutputFromJson(Map<String, dynamic> json) {
   return ListScriptsOutput(
-    nextToken: json['NextToken'] as String,
-    scripts: (json['Scripts'] as List)
-        ?.map((e) =>
-            e == null ? null : Script.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    scripts: (json['Scripts'] as List<dynamic>?)
+        ?.map((e) => Script.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MatchedPlayerSession _$MatchedPlayerSessionFromJson(Map<String, dynamic> json) {
   return MatchedPlayerSession(
-    playerId: json['PlayerId'] as String,
-    playerSessionId: json['PlayerSessionId'] as String,
+    playerId: json['PlayerId'] as String?,
+    playerSessionId: json['PlayerSessionId'] as String?,
   );
 }
 
 MatchmakingConfiguration _$MatchmakingConfigurationFromJson(
     Map<String, dynamic> json) {
   return MatchmakingConfiguration(
-    acceptanceRequired: json['AcceptanceRequired'] as bool,
-    acceptanceTimeoutSeconds: json['AcceptanceTimeoutSeconds'] as int,
-    additionalPlayerCount: json['AdditionalPlayerCount'] as int,
+    acceptanceRequired: json['AcceptanceRequired'] as bool?,
+    acceptanceTimeoutSeconds: json['AcceptanceTimeoutSeconds'] as int?,
+    additionalPlayerCount: json['AdditionalPlayerCount'] as int?,
     backfillMode:
         _$enumDecodeNullable(_$BackfillModeEnumMap, json['BackfillMode']),
-    configurationArn: json['ConfigurationArn'] as String,
+    configurationArn: json['ConfigurationArn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    customEventData: json['CustomEventData'] as String,
-    description: json['Description'] as String,
+    customEventData: json['CustomEventData'] as String?,
+    description: json['Description'] as String?,
     flexMatchMode:
         _$enumDecodeNullable(_$FlexMatchModeEnumMap, json['FlexMatchMode']),
-    gameProperties: (json['GameProperties'] as List)
-        ?.map((e) =>
-            e == null ? null : GameProperty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    gameSessionData: json['GameSessionData'] as String,
-    gameSessionQueueArns: (json['GameSessionQueueArns'] as List)
+    gameProperties: (json['GameProperties'] as List<dynamic>?)
+        ?.map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    gameSessionData: json['GameSessionData'] as String?,
+    gameSessionQueueArns: (json['GameSessionQueueArns'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    name: json['Name'] as String,
-    notificationTarget: json['NotificationTarget'] as String,
-    requestTimeoutSeconds: json['RequestTimeoutSeconds'] as int,
-    ruleSetArn: json['RuleSetArn'] as String,
-    ruleSetName: json['RuleSetName'] as String,
+        .toList(),
+    name: json['Name'] as String?,
+    notificationTarget: json['NotificationTarget'] as String?,
+    requestTimeoutSeconds: json['RequestTimeoutSeconds'] as int?,
+    ruleSetArn: json['RuleSetArn'] as String?,
+    ruleSetName: json['RuleSetName'] as String?,
   );
 }
 
@@ -1432,31 +1364,30 @@ MatchmakingRuleSet _$MatchmakingRuleSetFromJson(Map<String, dynamic> json) {
   return MatchmakingRuleSet(
     ruleSetBody: json['RuleSetBody'] as String,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    ruleSetArn: json['RuleSetArn'] as String,
-    ruleSetName: json['RuleSetName'] as String,
+    ruleSetArn: json['RuleSetArn'] as String?,
+    ruleSetName: json['RuleSetName'] as String?,
   );
 }
 
 MatchmakingTicket _$MatchmakingTicketFromJson(Map<String, dynamic> json) {
   return MatchmakingTicket(
-    configurationArn: json['ConfigurationArn'] as String,
-    configurationName: json['ConfigurationName'] as String,
+    configurationArn: json['ConfigurationArn'] as String?,
+    configurationName: json['ConfigurationName'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    estimatedWaitTime: json['EstimatedWaitTime'] as int,
+    estimatedWaitTime: json['EstimatedWaitTime'] as int?,
     gameSessionConnectionInfo: json['GameSessionConnectionInfo'] == null
         ? null
         : GameSessionConnectionInfo.fromJson(
             json['GameSessionConnectionInfo'] as Map<String, dynamic>),
-    players: (json['Players'] as List)
-        ?.map((e) =>
-            e == null ? null : Player.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    players: (json['Players'] as List<dynamic>?)
+        ?.map((e) => Player.fromJson(e as Map<String, dynamic>))
+        .toList(),
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MatchmakingConfigurationStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    statusReason: json['StatusReason'] as String,
-    ticketId: json['TicketId'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    statusReason: json['StatusReason'] as String?,
+    ticketId: json['TicketId'] as String?,
   );
 }
 
@@ -1473,25 +1404,21 @@ const _$MatchmakingConfigurationStatusEnumMap = {
 
 PlacedPlayerSession _$PlacedPlayerSessionFromJson(Map<String, dynamic> json) {
   return PlacedPlayerSession(
-    playerId: json['PlayerId'] as String,
-    playerSessionId: json['PlayerSessionId'] as String,
+    playerId: json['PlayerId'] as String?,
+    playerSessionId: json['PlayerSessionId'] as String?,
   );
 }
 
 Player _$PlayerFromJson(Map<String, dynamic> json) {
   return Player(
-    latencyInMs: (json['LatencyInMs'] as Map<String, dynamic>)?.map(
+    latencyInMs: (json['LatencyInMs'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as int),
     ),
-    playerAttributes: (json['PlayerAttributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    playerAttributes: (json['PlayerAttributes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    playerId: json['PlayerId'] as String,
-    team: json['Team'] as String,
+    playerId: json['PlayerId'] as String?,
+    team: json['Team'] as String?,
   );
 }
 
@@ -1506,7 +1433,7 @@ Map<String, dynamic> _$PlayerToJson(Player instance) {
 
   writeNotNull('LatencyInMs', instance.latencyInMs);
   writeNotNull('PlayerAttributes',
-      instance.playerAttributes?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.playerAttributes?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull('PlayerId', instance.playerId);
   writeNotNull('Team', instance.team);
   return val;
@@ -1514,9 +1441,9 @@ Map<String, dynamic> _$PlayerToJson(Player instance) {
 
 PlayerLatency _$PlayerLatencyFromJson(Map<String, dynamic> json) {
   return PlayerLatency(
-    latencyInMilliseconds: (json['LatencyInMilliseconds'] as num)?.toDouble(),
-    playerId: json['PlayerId'] as String,
-    regionIdentifier: json['RegionIdentifier'] as String,
+    latencyInMilliseconds: (json['LatencyInMilliseconds'] as num?)?.toDouble(),
+    playerId: json['PlayerId'] as String?,
+    regionIdentifier: json['RegionIdentifier'] as String?,
   );
 }
 
@@ -1538,8 +1465,8 @@ Map<String, dynamic> _$PlayerLatencyToJson(PlayerLatency instance) {
 PlayerLatencyPolicy _$PlayerLatencyPolicyFromJson(Map<String, dynamic> json) {
   return PlayerLatencyPolicy(
     maximumIndividualPlayerLatencyMilliseconds:
-        json['MaximumIndividualPlayerLatencyMilliseconds'] as int,
-    policyDurationSeconds: json['PolicyDurationSeconds'] as int,
+        json['MaximumIndividualPlayerLatencyMilliseconds'] as int?,
+    policyDurationSeconds: json['PolicyDurationSeconds'] as int?,
   );
 }
 
@@ -1561,15 +1488,15 @@ Map<String, dynamic> _$PlayerLatencyPolicyToJson(PlayerLatencyPolicy instance) {
 PlayerSession _$PlayerSessionFromJson(Map<String, dynamic> json) {
   return PlayerSession(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    dnsName: json['DnsName'] as String,
-    fleetArn: json['FleetArn'] as String,
-    fleetId: json['FleetId'] as String,
-    gameSessionId: json['GameSessionId'] as String,
-    ipAddress: json['IpAddress'] as String,
-    playerData: json['PlayerData'] as String,
-    playerId: json['PlayerId'] as String,
-    playerSessionId: json['PlayerSessionId'] as String,
-    port: json['Port'] as int,
+    dnsName: json['DnsName'] as String?,
+    fleetArn: json['FleetArn'] as String?,
+    fleetId: json['FleetId'] as String?,
+    gameSessionId: json['GameSessionId'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    playerData: json['PlayerData'] as String?,
+    playerId: json['PlayerId'] as String?,
+    playerSessionId: json['PlayerSessionId'] as String?,
+    port: json['Port'] as int?,
     status: _$enumDecodeNullable(_$PlayerSessionStatusEnumMap, json['Status']),
     terminationTime:
         const UnixDateTimeConverter().fromJson(json['TerminationTime']),
@@ -1586,7 +1513,7 @@ const _$PlayerSessionStatusEnumMap = {
 PutScalingPolicyOutput _$PutScalingPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return PutScalingPolicyOutput(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1614,16 +1541,16 @@ RequestUploadCredentialsOutput _$RequestUploadCredentialsOutputFromJson(
 
 ResolveAliasOutput _$ResolveAliasOutputFromJson(Map<String, dynamic> json) {
   return ResolveAliasOutput(
-    fleetArn: json['FleetArn'] as String,
-    fleetId: json['FleetId'] as String,
+    fleetArn: json['FleetArn'] as String?,
+    fleetId: json['FleetId'] as String?,
   );
 }
 
 ResourceCreationLimitPolicy _$ResourceCreationLimitPolicyFromJson(
     Map<String, dynamic> json) {
   return ResourceCreationLimitPolicy(
-    newGameSessionsPerCreator: json['NewGameSessionsPerCreator'] as int,
-    policyPeriodInMinutes: json['PolicyPeriodInMinutes'] as int,
+    newGameSessionsPerCreator: json['NewGameSessionsPerCreator'] as int?,
+    policyPeriodInMinutes: json['PolicyPeriodInMinutes'] as int?,
   );
 }
 
@@ -1654,8 +1581,8 @@ ResumeGameServerGroupOutput _$ResumeGameServerGroupOutputFromJson(
 
 RoutingStrategy _$RoutingStrategyFromJson(Map<String, dynamic> json) {
   return RoutingStrategy(
-    fleetId: json['FleetId'] as String,
-    message: json['Message'] as String,
+    fleetId: json['FleetId'] as String?,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$RoutingStrategyTypeEnumMap, json['Type']),
   );
 }
@@ -1683,14 +1610,12 @@ const _$RoutingStrategyTypeEnumMap = {
 RuntimeConfiguration _$RuntimeConfigurationFromJson(Map<String, dynamic> json) {
   return RuntimeConfiguration(
     gameSessionActivationTimeoutSeconds:
-        json['GameSessionActivationTimeoutSeconds'] as int,
+        json['GameSessionActivationTimeoutSeconds'] as int?,
     maxConcurrentGameSessionActivations:
-        json['MaxConcurrentGameSessionActivations'] as int,
-    serverProcesses: (json['ServerProcesses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ServerProcess.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        json['MaxConcurrentGameSessionActivations'] as int?,
+    serverProcesses: (json['ServerProcesses'] as List<dynamic>?)
+        ?.map((e) => ServerProcess.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1709,16 +1634,16 @@ Map<String, dynamic> _$RuntimeConfigurationToJson(
   writeNotNull('MaxConcurrentGameSessionActivations',
       instance.maxConcurrentGameSessionActivations);
   writeNotNull('ServerProcesses',
-      instance.serverProcesses?.map((e) => e?.toJson())?.toList());
+      instance.serverProcesses?.map((e) => e.toJson()).toList());
   return val;
 }
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
   return S3Location(
-    bucket: json['Bucket'] as String,
-    key: json['Key'] as String,
-    objectVersion: json['ObjectVersion'] as String,
-    roleArn: json['RoleArn'] as String,
+    bucket: json['Bucket'] as String?,
+    key: json['Key'] as String?,
+    objectVersion: json['ObjectVersion'] as String?,
+    roleArn: json['RoleArn'] as String?,
   );
 }
 
@@ -1742,12 +1667,12 @@ ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
   return ScalingPolicy(
     comparisonOperator: _$enumDecodeNullable(
         _$ComparisonOperatorTypeEnumMap, json['ComparisonOperator']),
-    evaluationPeriods: json['EvaluationPeriods'] as int,
-    fleetId: json['FleetId'] as String,
+    evaluationPeriods: json['EvaluationPeriods'] as int?,
+    fleetId: json['FleetId'] as String?,
     metricName: _$enumDecodeNullable(_$MetricNameEnumMap, json['MetricName']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     policyType: _$enumDecodeNullable(_$PolicyTypeEnumMap, json['PolicyType']),
-    scalingAdjustment: json['ScalingAdjustment'] as int,
+    scalingAdjustment: json['ScalingAdjustment'] as int?,
     scalingAdjustmentType: _$enumDecodeNullable(
         _$ScalingAdjustmentTypeEnumMap, json['ScalingAdjustmentType']),
     status: _$enumDecodeNullable(_$ScalingStatusTypeEnumMap, json['Status']),
@@ -1755,7 +1680,7 @@ ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
         ? null
         : TargetConfiguration.fromJson(
             json['TargetConfiguration'] as Map<String, dynamic>),
-    threshold: (json['Threshold'] as num)?.toDouble(),
+    threshold: (json['Threshold'] as num?)?.toDouble(),
   );
 }
 
@@ -1806,25 +1731,24 @@ const _$ScalingStatusTypeEnumMap = {
 Script _$ScriptFromJson(Map<String, dynamic> json) {
   return Script(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    name: json['Name'] as String,
-    scriptArn: json['ScriptArn'] as String,
-    scriptId: json['ScriptId'] as String,
-    sizeOnDisk: json['SizeOnDisk'] as int,
+    name: json['Name'] as String?,
+    scriptArn: json['ScriptArn'] as String?,
+    scriptId: json['ScriptId'] as String?,
+    sizeOnDisk: json['SizeOnDisk'] as int?,
     storageLocation: json['StorageLocation'] == null
         ? null
         : S3Location.fromJson(json['StorageLocation'] as Map<String, dynamic>),
-    version: json['Version'] as String,
+    version: json['Version'] as String?,
   );
 }
 
 SearchGameSessionsOutput _$SearchGameSessionsOutputFromJson(
     Map<String, dynamic> json) {
   return SearchGameSessionsOutput(
-    gameSessions: (json['GameSessions'] as List)
-        ?.map((e) =>
-            e == null ? null : GameSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    gameSessions: (json['GameSessions'] as List<dynamic>?)
+        ?.map((e) => GameSession.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1832,12 +1756,15 @@ ServerProcess _$ServerProcessFromJson(Map<String, dynamic> json) {
   return ServerProcess(
     concurrentExecutions: json['ConcurrentExecutions'] as int,
     launchPath: json['LaunchPath'] as String,
-    parameters: json['Parameters'] as String,
+    parameters: json['Parameters'] as String?,
   );
 }
 
 Map<String, dynamic> _$ServerProcessToJson(ServerProcess instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ConcurrentExecutions': instance.concurrentExecutions,
+    'LaunchPath': instance.launchPath,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1845,8 +1772,6 @@ Map<String, dynamic> _$ServerProcessToJson(ServerProcess instance) {
     }
   }
 
-  writeNotNull('ConcurrentExecutions', instance.concurrentExecutions);
-  writeNotNull('LaunchPath', instance.launchPath);
   writeNotNull('Parameters', instance.parameters);
   return val;
 }
@@ -1923,19 +1848,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -1943,36 +1859,21 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TargetConfiguration _$TargetConfigurationFromJson(Map<String, dynamic> json) {
   return TargetConfiguration(
-    targetValue: (json['TargetValue'] as num)?.toDouble(),
+    targetValue: (json['TargetValue'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$TargetConfigurationToJson(TargetConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TargetValue', instance.targetValue);
-  return val;
-}
+Map<String, dynamic> _$TargetConfigurationToJson(
+        TargetConfiguration instance) =>
+    <String, dynamic>{
+      'TargetValue': instance.targetValue,
+    };
 
 Map<String, dynamic> _$TargetTrackingConfigurationToJson(
-    TargetTrackingConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TargetValue', instance.targetValue);
-  return val;
-}
+        TargetTrackingConfiguration instance) =>
+    <String, dynamic>{
+      'TargetValue': instance.targetValue,
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -1998,21 +1899,21 @@ UpdateBuildOutput _$UpdateBuildOutputFromJson(Map<String, dynamic> json) {
 UpdateFleetAttributesOutput _$UpdateFleetAttributesOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateFleetAttributesOutput(
-    fleetId: json['FleetId'] as String,
+    fleetId: json['FleetId'] as String?,
   );
 }
 
 UpdateFleetCapacityOutput _$UpdateFleetCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateFleetCapacityOutput(
-    fleetId: json['FleetId'] as String,
+    fleetId: json['FleetId'] as String?,
   );
 }
 
 UpdateFleetPortSettingsOutput _$UpdateFleetPortSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateFleetPortSettingsOutput(
-    fleetId: json['FleetId'] as String,
+    fleetId: json['FleetId'] as String?,
   );
 }
 
@@ -2085,7 +1986,7 @@ UpdateScriptOutput _$UpdateScriptOutputFromJson(Map<String, dynamic> json) {
 ValidateMatchmakingRuleSetOutput _$ValidateMatchmakingRuleSetOutputFromJson(
     Map<String, dynamic> json) {
   return ValidateMatchmakingRuleSetOutput(
-    valid: json['Valid'] as bool,
+    valid: json['Valid'] as bool?,
   );
 }
 
@@ -2095,31 +1996,31 @@ VpcPeeringAuthorization _$VpcPeeringAuthorizationFromJson(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     expirationTime:
         const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
-    gameLiftAwsAccountId: json['GameLiftAwsAccountId'] as String,
-    peerVpcAwsAccountId: json['PeerVpcAwsAccountId'] as String,
-    peerVpcId: json['PeerVpcId'] as String,
+    gameLiftAwsAccountId: json['GameLiftAwsAccountId'] as String?,
+    peerVpcAwsAccountId: json['PeerVpcAwsAccountId'] as String?,
+    peerVpcId: json['PeerVpcId'] as String?,
   );
 }
 
 VpcPeeringConnection _$VpcPeeringConnectionFromJson(Map<String, dynamic> json) {
   return VpcPeeringConnection(
-    fleetArn: json['FleetArn'] as String,
-    fleetId: json['FleetId'] as String,
-    gameLiftVpcId: json['GameLiftVpcId'] as String,
-    ipV4CidrBlock: json['IpV4CidrBlock'] as String,
-    peerVpcId: json['PeerVpcId'] as String,
+    fleetArn: json['FleetArn'] as String?,
+    fleetId: json['FleetId'] as String?,
+    gameLiftVpcId: json['GameLiftVpcId'] as String?,
+    ipV4CidrBlock: json['IpV4CidrBlock'] as String?,
+    peerVpcId: json['PeerVpcId'] as String?,
     status: json['Status'] == null
         ? null
         : VpcPeeringConnectionStatus.fromJson(
             json['Status'] as Map<String, dynamic>),
-    vpcPeeringConnectionId: json['VpcPeeringConnectionId'] as String,
+    vpcPeeringConnectionId: json['VpcPeeringConnectionId'] as String?,
   );
 }
 
 VpcPeeringConnectionStatus _$VpcPeeringConnectionStatusFromJson(
     Map<String, dynamic> json) {
   return VpcPeeringConnectionStatus(
-    code: json['Code'] as String,
-    message: json['Message'] as String,
+    code: json['Code'] as String?,
+    message: json['Message'] as String?,
   );
 }

@@ -50,22 +50,22 @@ class RestXmlProtocol {
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
       final body = await rs.stream.bytesToString();
       XmlDocument? root;
-      if (body?.isNotEmpty == true) {
+      if (body.isNotEmpty == true) {
         root = XmlDocument.parse(body);
       }
       final elem = root?.rootElement;
 
-      if (elem?.name?.local == 'ErrorResponse') {
+      if (elem?.name.local == 'ErrorResponse') {
         final error = elem!.findElements('Error').first;
         final type = error.findElements('Type').first.text;
         final code = error.findElements('Code').first.text;
         final message = error.findElements('Message').first.text;
-        final AwsException Function(String, String)? fn = exceptionFnMap[code];
+        final fn = exceptionFnMap[code];
         final exception = fn != null
             ? fn(type, message)
             : GenericAwsException(type: type, code: code, message: message);
         throw exception;
-      } else if (elem?.name?.local == 'Error') {
+      } else if (elem?.name.local == 'Error') {
         final code = elem!.findElements('Code').first.text;
         final message = elem.findElements('Message').first.text;
         throw GenericAwsException(code: code, message: message);

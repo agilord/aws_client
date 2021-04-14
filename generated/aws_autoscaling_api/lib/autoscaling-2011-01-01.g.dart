@@ -7,7 +7,9 @@ part of 'autoscaling-2011-01-01.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$BlockDeviceMappingToJson(BlockDeviceMapping instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DeviceName': instance.deviceName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -15,7 +17,6 @@ Map<String, dynamic> _$BlockDeviceMappingToJson(BlockDeviceMapping instance) {
     }
   }
 
-  writeNotNull('DeviceName', instance.deviceName);
   writeNotNull('Ebs', instance.ebs?.toJson());
   writeNotNull('NoDevice', instance.noDevice);
   writeNotNull('VirtualName', instance.virtualName);
@@ -24,7 +25,11 @@ Map<String, dynamic> _$BlockDeviceMappingToJson(BlockDeviceMapping instance) {
 
 Map<String, dynamic> _$CustomizedMetricSpecificationToJson(
     CustomizedMetricSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MetricName': instance.metricName,
+    'Namespace': instance.namespace,
+    'Statistic': _$MetricStatisticEnumMap[instance.statistic],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -32,11 +37,8 @@ Map<String, dynamic> _$CustomizedMetricSpecificationToJson(
     }
   }
 
-  writeNotNull('MetricName', instance.metricName);
-  writeNotNull('Namespace', instance.namespace);
-  writeNotNull('Statistic', _$MetricStatisticEnumMap[instance.statistic]);
   writeNotNull(
-      'Dimensions', instance.dimensions?.map((e) => e?.toJson())?.toList());
+      'Dimensions', instance.dimensions?.map((e) => e.toJson()).toList());
   writeNotNull('Unit', instance.unit);
   return val;
 }
@@ -155,7 +157,7 @@ Map<String, dynamic> _$LaunchTemplateToJson(LaunchTemplate instance) {
   writeNotNull('LaunchTemplateSpecification',
       instance.launchTemplateSpecification?.toJson());
   writeNotNull(
-      'Overrides', instance.overrides?.map((e) => e?.toJson())?.toList());
+      'Overrides', instance.overrides?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -194,7 +196,10 @@ Map<String, dynamic> _$LaunchTemplateSpecificationToJson(
 
 Map<String, dynamic> _$LifecycleHookSpecificationToJson(
     LifecycleHookSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LifecycleHookName': instance.lifecycleHookName,
+    'LifecycleTransition': instance.lifecycleTransition,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -202,8 +207,6 @@ Map<String, dynamic> _$LifecycleHookSpecificationToJson(
     }
   }
 
-  writeNotNull('LifecycleHookName', instance.lifecycleHookName);
-  writeNotNull('LifecycleTransition', instance.lifecycleTransition);
   writeNotNull('DefaultResult', instance.defaultResult);
   writeNotNull('HeartbeatTimeout', instance.heartbeatTimeout);
   writeNotNull('NotificationMetadata', instance.notificationMetadata);
@@ -212,19 +215,11 @@ Map<String, dynamic> _$LifecycleHookSpecificationToJson(
   return val;
 }
 
-Map<String, dynamic> _$MetricDimensionToJson(MetricDimension instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$MetricDimensionToJson(MetricDimension instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Value': instance.value,
+    };
 
 Map<String, dynamic> _$MixedInstancesPolicyToJson(
     MixedInstancesPolicy instance) {
@@ -244,7 +239,9 @@ Map<String, dynamic> _$MixedInstancesPolicyToJson(
 
 Map<String, dynamic> _$PredefinedMetricSpecificationToJson(
     PredefinedMetricSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PredefinedMetricType': _$MetricTypeEnumMap[instance.predefinedMetricType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -252,8 +249,6 @@ Map<String, dynamic> _$PredefinedMetricSpecificationToJson(
     }
   }
 
-  writeNotNull('PredefinedMetricType',
-      _$MetricTypeEnumMap[instance.predefinedMetricType]);
   writeNotNull('ResourceLabel', instance.resourceLabel);
   return val;
 }
@@ -281,7 +276,9 @@ Map<String, dynamic> _$RefreshPreferencesToJson(RefreshPreferences instance) {
 
 Map<String, dynamic> _$ScheduledUpdateGroupActionRequestToJson(
     ScheduledUpdateGroupActionRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ScheduledActionName': instance.scheduledActionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -289,7 +286,6 @@ Map<String, dynamic> _$ScheduledUpdateGroupActionRequestToJson(
     }
   }
 
-  writeNotNull('ScheduledActionName', instance.scheduledActionName);
   writeNotNull('DesiredCapacity', instance.desiredCapacity);
   writeNotNull(
       'EndTime', const IsoDateTimeConverter().toJson(instance.endTime));
@@ -302,7 +298,9 @@ Map<String, dynamic> _$ScheduledUpdateGroupActionRequestToJson(
 }
 
 Map<String, dynamic> _$StepAdjustmentToJson(StepAdjustment instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ScalingAdjustment': instance.scalingAdjustment,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -310,14 +308,15 @@ Map<String, dynamic> _$StepAdjustmentToJson(StepAdjustment instance) {
     }
   }
 
-  writeNotNull('ScalingAdjustment', instance.scalingAdjustment);
   writeNotNull('MetricIntervalLowerBound', instance.metricIntervalLowerBound);
   writeNotNull('MetricIntervalUpperBound', instance.metricIntervalUpperBound);
   return val;
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -325,7 +324,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('PropagateAtLaunch', instance.propagateAtLaunch);
   writeNotNull('ResourceId', instance.resourceId);
   writeNotNull('ResourceType', instance.resourceType);
@@ -335,7 +333,9 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
 Map<String, dynamic> _$TargetTrackingConfigurationToJson(
     TargetTrackingConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TargetValue': instance.targetValue,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -343,7 +343,6 @@ Map<String, dynamic> _$TargetTrackingConfigurationToJson(
     }
   }
 
-  writeNotNull('TargetValue', instance.targetValue);
   writeNotNull('CustomizedMetricSpecification',
       instance.customizedMetricSpecification?.toJson());
   writeNotNull('DisableScaleIn', instance.disableScaleIn);

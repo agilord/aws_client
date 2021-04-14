@@ -21,36 +21,41 @@ AcknowledgeJobOutput _$AcknowledgeJobOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$JobStatusEnumMap = {
@@ -72,7 +77,7 @@ AcknowledgeThirdPartyJobOutput _$AcknowledgeThirdPartyJobOutputFromJson(
 
 ActionConfiguration _$ActionConfigurationFromJson(Map<String, dynamic> json) {
   return ActionConfiguration(
-    configuration: (json['configuration'] as Map<String, dynamic>)?.map(
+    configuration: (json['configuration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -85,8 +90,8 @@ ActionConfigurationProperty _$ActionConfigurationPropertyFromJson(
     name: json['name'] as String,
     required: json['required'] as bool,
     secret: json['secret'] as bool,
-    description: json['description'] as String,
-    queryable: json['queryable'] as bool,
+    description: json['description'] as String?,
+    queryable: json['queryable'] as bool?,
     type: _$enumDecodeNullable(
         _$ActionConfigurationPropertyTypeEnumMap, json['type']),
   );
@@ -94,7 +99,12 @@ ActionConfigurationProperty _$ActionConfigurationPropertyFromJson(
 
 Map<String, dynamic> _$ActionConfigurationPropertyToJson(
     ActionConfigurationProperty instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'key': instance.key,
+    'name': instance.name,
+    'required': instance.required,
+    'secret': instance.secret,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -102,10 +112,6 @@ Map<String, dynamic> _$ActionConfigurationPropertyToJson(
     }
   }
 
-  writeNotNull('key', instance.key);
-  writeNotNull('name', instance.name);
-  writeNotNull('required', instance.required);
-  writeNotNull('secret', instance.secret);
   writeNotNull('description', instance.description);
   writeNotNull('queryable', instance.queryable);
   writeNotNull('type', _$ActionConfigurationPropertyTypeEnumMap[instance.type]);
@@ -120,39 +126,37 @@ const _$ActionConfigurationPropertyTypeEnumMap = {
 
 ActionContext _$ActionContextFromJson(Map<String, dynamic> json) {
   return ActionContext(
-    actionExecutionId: json['actionExecutionId'] as String,
-    name: json['name'] as String,
+    actionExecutionId: json['actionExecutionId'] as String?,
+    name: json['name'] as String?,
   );
 }
 
 ActionDeclaration _$ActionDeclarationFromJson(Map<String, dynamic> json) {
   return ActionDeclaration(
-    actionTypeId: json['actionTypeId'] == null
-        ? null
-        : ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>),
+    actionTypeId:
+        ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>),
     name: json['name'] as String,
-    configuration: (json['configuration'] as Map<String, dynamic>)?.map(
+    configuration: (json['configuration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    inputArtifacts: (json['inputArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputArtifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    namespace: json['namespace'] as String,
-    outputArtifacts: (json['outputArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputArtifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    region: json['region'] as String,
-    roleArn: json['roleArn'] as String,
-    runOrder: json['runOrder'] as int,
+    inputArtifacts: (json['inputArtifacts'] as List<dynamic>?)
+        ?.map((e) => InputArtifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    namespace: json['namespace'] as String?,
+    outputArtifacts: (json['outputArtifacts'] as List<dynamic>?)
+        ?.map((e) => OutputArtifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    region: json['region'] as String?,
+    roleArn: json['roleArn'] as String?,
+    runOrder: json['runOrder'] as int?,
   );
 }
 
 Map<String, dynamic> _$ActionDeclarationToJson(ActionDeclaration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'actionTypeId': instance.actionTypeId.toJson(),
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -160,14 +164,12 @@ Map<String, dynamic> _$ActionDeclarationToJson(ActionDeclaration instance) {
     }
   }
 
-  writeNotNull('actionTypeId', instance.actionTypeId?.toJson());
-  writeNotNull('name', instance.name);
   writeNotNull('configuration', instance.configuration);
   writeNotNull('inputArtifacts',
-      instance.inputArtifacts?.map((e) => e?.toJson())?.toList());
+      instance.inputArtifacts?.map((e) => e.toJson()).toList());
   writeNotNull('namespace', instance.namespace);
   writeNotNull('outputArtifacts',
-      instance.outputArtifacts?.map((e) => e?.toJson())?.toList());
+      instance.outputArtifacts?.map((e) => e.toJson()).toList());
   writeNotNull('region', instance.region);
   writeNotNull('roleArn', instance.roleArn);
   writeNotNull('runOrder', instance.runOrder);
@@ -176,20 +178,20 @@ Map<String, dynamic> _$ActionDeclarationToJson(ActionDeclaration instance) {
 
 ActionExecution _$ActionExecutionFromJson(Map<String, dynamic> json) {
   return ActionExecution(
-    actionExecutionId: json['actionExecutionId'] as String,
+    actionExecutionId: json['actionExecutionId'] as String?,
     errorDetails: json['errorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>),
-    externalExecutionId: json['externalExecutionId'] as String,
-    externalExecutionUrl: json['externalExecutionUrl'] as String,
+    externalExecutionId: json['externalExecutionId'] as String?,
+    externalExecutionUrl: json['externalExecutionUrl'] as String?,
     lastStatusChange:
         const UnixDateTimeConverter().fromJson(json['lastStatusChange']),
-    lastUpdatedBy: json['lastUpdatedBy'] as String,
-    percentComplete: json['percentComplete'] as int,
+    lastUpdatedBy: json['lastUpdatedBy'] as String?,
+    percentComplete: json['percentComplete'] as int?,
     status:
         _$enumDecodeNullable(_$ActionExecutionStatusEnumMap, json['status']),
-    summary: json['summary'] as String,
-    token: json['token'] as String,
+    summary: json['summary'] as String?,
+    token: json['token'] as String?,
   );
 }
 
@@ -203,8 +205,8 @@ const _$ActionExecutionStatusEnumMap = {
 ActionExecutionDetail _$ActionExecutionDetailFromJson(
     Map<String, dynamic> json) {
   return ActionExecutionDetail(
-    actionExecutionId: json['actionExecutionId'] as String,
-    actionName: json['actionName'] as String,
+    actionExecutionId: json['actionExecutionId'] as String?,
+    actionName: json['actionName'] as String?,
     input: json['input'] == null
         ? null
         : ActionExecutionInput.fromJson(json['input'] as Map<String, dynamic>),
@@ -214,9 +216,9 @@ ActionExecutionDetail _$ActionExecutionDetailFromJson(
         ? null
         : ActionExecutionOutput.fromJson(
             json['output'] as Map<String, dynamic>),
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
-    pipelineVersion: json['pipelineVersion'] as int,
-    stageName: json['stageName'] as String,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    pipelineVersion: json['pipelineVersion'] as int?,
+    stageName: json['stageName'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$ActionExecutionStatusEnumMap, json['status']),
@@ -242,21 +244,19 @@ ActionExecutionInput _$ActionExecutionInputFromJson(Map<String, dynamic> json) {
     actionTypeId: json['actionTypeId'] == null
         ? null
         : ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>),
-    configuration: (json['configuration'] as Map<String, dynamic>)?.map(
+    configuration: (json['configuration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    inputArtifacts: (json['inputArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ArtifactDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    namespace: json['namespace'] as String,
-    region: json['region'] as String,
+    inputArtifacts: (json['inputArtifacts'] as List<dynamic>?)
+        ?.map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    namespace: json['namespace'] as String?,
+    region: json['region'] as String?,
     resolvedConfiguration:
-        (json['resolvedConfiguration'] as Map<String, dynamic>)?.map(
+        (json['resolvedConfiguration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    roleArn: json['roleArn'] as String,
+    roleArn: json['roleArn'] as String?,
   );
 }
 
@@ -267,12 +267,10 @@ ActionExecutionOutput _$ActionExecutionOutputFromJson(
         ? null
         : ActionExecutionResult.fromJson(
             json['executionResult'] as Map<String, dynamic>),
-    outputArtifacts: (json['outputArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ArtifactDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    outputVariables: (json['outputVariables'] as Map<String, dynamic>)?.map(
+    outputArtifacts: (json['outputArtifacts'] as List<dynamic>?)
+        ?.map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    outputVariables: (json['outputVariables'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -281,71 +279,55 @@ ActionExecutionOutput _$ActionExecutionOutputFromJson(
 ActionExecutionResult _$ActionExecutionResultFromJson(
     Map<String, dynamic> json) {
   return ActionExecutionResult(
-    externalExecutionId: json['externalExecutionId'] as String,
-    externalExecutionSummary: json['externalExecutionSummary'] as String,
-    externalExecutionUrl: json['externalExecutionUrl'] as String,
+    externalExecutionId: json['externalExecutionId'] as String?,
+    externalExecutionSummary: json['externalExecutionSummary'] as String?,
+    externalExecutionUrl: json['externalExecutionUrl'] as String?,
   );
 }
 
 ActionRevision _$ActionRevisionFromJson(Map<String, dynamic> json) {
   return ActionRevision(
-    created: const UnixDateTimeConverter().fromJson(json['created']),
+    created: DateTime.parse(json['created'] as String),
     revisionChangeId: json['revisionChangeId'] as String,
     revisionId: json['revisionId'] as String,
   );
 }
 
-Map<String, dynamic> _$ActionRevisionToJson(ActionRevision instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'created', const UnixDateTimeConverter().toJson(instance.created));
-  writeNotNull('revisionChangeId', instance.revisionChangeId);
-  writeNotNull('revisionId', instance.revisionId);
-  return val;
-}
+Map<String, dynamic> _$ActionRevisionToJson(ActionRevision instance) =>
+    <String, dynamic>{
+      'created': instance.created.toIso8601String(),
+      'revisionChangeId': instance.revisionChangeId,
+      'revisionId': instance.revisionId,
+    };
 
 ActionState _$ActionStateFromJson(Map<String, dynamic> json) {
   return ActionState(
-    actionName: json['actionName'] as String,
+    actionName: json['actionName'] as String?,
     currentRevision: json['currentRevision'] == null
         ? null
         : ActionRevision.fromJson(
             json['currentRevision'] as Map<String, dynamic>),
-    entityUrl: json['entityUrl'] as String,
+    entityUrl: json['entityUrl'] as String?,
     latestExecution: json['latestExecution'] == null
         ? null
         : ActionExecution.fromJson(
             json['latestExecution'] as Map<String, dynamic>),
-    revisionUrl: json['revisionUrl'] as String,
+    revisionUrl: json['revisionUrl'] as String?,
   );
 }
 
 ActionType _$ActionTypeFromJson(Map<String, dynamic> json) {
   return ActionType(
-    id: json['id'] == null
-        ? null
-        : ActionTypeId.fromJson(json['id'] as Map<String, dynamic>),
-    inputArtifactDetails: json['inputArtifactDetails'] == null
-        ? null
-        : ArtifactDetails.fromJson(
-            json['inputArtifactDetails'] as Map<String, dynamic>),
-    outputArtifactDetails: json['outputArtifactDetails'] == null
-        ? null
-        : ArtifactDetails.fromJson(
-            json['outputArtifactDetails'] as Map<String, dynamic>),
-    actionConfigurationProperties: (json['actionConfigurationProperties']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ActionConfigurationProperty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: ActionTypeId.fromJson(json['id'] as Map<String, dynamic>),
+    inputArtifactDetails: ArtifactDetails.fromJson(
+        json['inputArtifactDetails'] as Map<String, dynamic>),
+    outputArtifactDetails: ArtifactDetails.fromJson(
+        json['outputArtifactDetails'] as Map<String, dynamic>),
+    actionConfigurationProperties:
+        (json['actionConfigurationProperties'] as List<dynamic>?)
+            ?.map((e) =>
+                ActionConfigurationProperty.fromJson(e as Map<String, dynamic>))
+            .toList(),
     settings: json['settings'] == null
         ? null
         : ActionTypeSettings.fromJson(json['settings'] as Map<String, dynamic>),
@@ -354,28 +336,20 @@ ActionType _$ActionTypeFromJson(Map<String, dynamic> json) {
 
 ActionTypeId _$ActionTypeIdFromJson(Map<String, dynamic> json) {
   return ActionTypeId(
-    category: _$enumDecodeNullable(_$ActionCategoryEnumMap, json['category']),
-    owner: _$enumDecodeNullable(_$ActionOwnerEnumMap, json['owner']),
+    category: _$enumDecode(_$ActionCategoryEnumMap, json['category']),
+    owner: _$enumDecode(_$ActionOwnerEnumMap, json['owner']),
     provider: json['provider'] as String,
     version: json['version'] as String,
   );
 }
 
-Map<String, dynamic> _$ActionTypeIdToJson(ActionTypeId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('category', _$ActionCategoryEnumMap[instance.category]);
-  writeNotNull('owner', _$ActionOwnerEnumMap[instance.owner]);
-  writeNotNull('provider', instance.provider);
-  writeNotNull('version', instance.version);
-  return val;
-}
+Map<String, dynamic> _$ActionTypeIdToJson(ActionTypeId instance) =>
+    <String, dynamic>{
+      'category': _$ActionCategoryEnumMap[instance.category],
+      'owner': _$ActionOwnerEnumMap[instance.owner],
+      'provider': instance.provider,
+      'version': instance.version,
+    };
 
 const _$ActionCategoryEnumMap = {
   ActionCategory.source: 'Source',
@@ -394,10 +368,10 @@ const _$ActionOwnerEnumMap = {
 
 ActionTypeSettings _$ActionTypeSettingsFromJson(Map<String, dynamic> json) {
   return ActionTypeSettings(
-    entityUrlTemplate: json['entityUrlTemplate'] as String,
-    executionUrlTemplate: json['executionUrlTemplate'] as String,
-    revisionUrlTemplate: json['revisionUrlTemplate'] as String,
-    thirdPartyConfigurationUrl: json['thirdPartyConfigurationUrl'] as String,
+    entityUrlTemplate: json['entityUrlTemplate'] as String?,
+    executionUrlTemplate: json['executionUrlTemplate'] as String?,
+    revisionUrlTemplate: json['revisionUrlTemplate'] as String?,
+    thirdPartyConfigurationUrl: json['thirdPartyConfigurationUrl'] as String?,
   );
 }
 
@@ -418,19 +392,11 @@ Map<String, dynamic> _$ActionTypeSettingsToJson(ActionTypeSettings instance) {
   return val;
 }
 
-Map<String, dynamic> _$ApprovalResultToJson(ApprovalResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$ApprovalStatusEnumMap[instance.status]);
-  writeNotNull('summary', instance.summary);
-  return val;
-}
+Map<String, dynamic> _$ApprovalResultToJson(ApprovalResult instance) =>
+    <String, dynamic>{
+      'status': _$ApprovalStatusEnumMap[instance.status],
+      'summary': instance.summary,
+    };
 
 const _$ApprovalStatusEnumMap = {
   ApprovalStatus.approved: 'Approved',
@@ -442,14 +408,14 @@ Artifact _$ArtifactFromJson(Map<String, dynamic> json) {
     location: json['location'] == null
         ? null
         : ArtifactLocation.fromJson(json['location'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    revision: json['revision'] as String,
+    name: json['name'] as String?,
+    revision: json['revision'] as String?,
   );
 }
 
 ArtifactDetail _$ArtifactDetailFromJson(Map<String, dynamic> json) {
   return ArtifactDetail(
-    name: json['name'] as String,
+    name: json['name'] as String?,
     s3location: json['s3location'] == null
         ? null
         : S3Location.fromJson(json['s3location'] as Map<String, dynamic>),
@@ -463,19 +429,11 @@ ArtifactDetails _$ArtifactDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ArtifactDetailsToJson(ArtifactDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maximumCount', instance.maximumCount);
-  writeNotNull('minimumCount', instance.minimumCount);
-  return val;
-}
+Map<String, dynamic> _$ArtifactDetailsToJson(ArtifactDetails instance) =>
+    <String, dynamic>{
+      'maximumCount': instance.maximumCount,
+      'minimumCount': instance.minimumCount,
+    };
 
 ArtifactLocation _$ArtifactLocationFromJson(Map<String, dynamic> json) {
   return ArtifactLocation(
@@ -494,18 +452,18 @@ const _$ArtifactLocationTypeEnumMap = {
 ArtifactRevision _$ArtifactRevisionFromJson(Map<String, dynamic> json) {
   return ArtifactRevision(
     created: const UnixDateTimeConverter().fromJson(json['created']),
-    name: json['name'] as String,
-    revisionChangeIdentifier: json['revisionChangeIdentifier'] as String,
-    revisionId: json['revisionId'] as String,
-    revisionSummary: json['revisionSummary'] as String,
-    revisionUrl: json['revisionUrl'] as String,
+    name: json['name'] as String?,
+    revisionChangeIdentifier: json['revisionChangeIdentifier'] as String?,
+    revisionId: json['revisionId'] as String?,
+    revisionSummary: json['revisionSummary'] as String?,
+    revisionUrl: json['revisionUrl'] as String?,
   );
 }
 
 ArtifactStore _$ArtifactStoreFromJson(Map<String, dynamic> json) {
   return ArtifactStore(
     location: json['location'] as String,
-    type: _$enumDecodeNullable(_$ArtifactStoreTypeEnumMap, json['type']),
+    type: _$enumDecode(_$ArtifactStoreTypeEnumMap, json['type']),
     encryptionKey: json['encryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['encryptionKey'] as Map<String, dynamic>),
@@ -513,7 +471,10 @@ ArtifactStore _$ArtifactStoreFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ArtifactStoreToJson(ArtifactStore instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'location': instance.location,
+    'type': _$ArtifactStoreTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -521,8 +482,6 @@ Map<String, dynamic> _$ArtifactStoreToJson(ArtifactStore instance) {
     }
   }
 
-  writeNotNull('location', instance.location);
-  writeNotNull('type', _$ArtifactStoreTypeEnumMap[instance.type]);
   writeNotNull('encryptionKey', instance.encryptionKey?.toJson());
   return val;
 }
@@ -534,23 +493,15 @@ const _$ArtifactStoreTypeEnumMap = {
 BlockerDeclaration _$BlockerDeclarationFromJson(Map<String, dynamic> json) {
   return BlockerDeclaration(
     name: json['name'] as String,
-    type: _$enumDecodeNullable(_$BlockerTypeEnumMap, json['type']),
+    type: _$enumDecode(_$BlockerTypeEnumMap, json['type']),
   );
 }
 
-Map<String, dynamic> _$BlockerDeclarationToJson(BlockerDeclaration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('type', _$BlockerTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$BlockerDeclarationToJson(BlockerDeclaration instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'type': _$BlockerTypeEnumMap[instance.type],
+    };
 
 const _$BlockerTypeEnumMap = {
   BlockerType.schedule: 'Schedule',
@@ -559,12 +510,10 @@ const _$BlockerTypeEnumMap = {
 CreateCustomActionTypeOutput _$CreateCustomActionTypeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateCustomActionTypeOutput(
-    actionType: json['actionType'] == null
-        ? null
-        : ActionType.fromJson(json['actionType'] as Map<String, dynamic>),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actionType: ActionType.fromJson(json['actionType'] as Map<String, dynamic>),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -574,14 +523,17 @@ CreatePipelineOutput _$CreatePipelineOutputFromJson(Map<String, dynamic> json) {
         ? null
         : PipelineDeclaration.fromJson(
             json['pipeline'] as Map<String, dynamic>),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$CurrentRevisionToJson(CurrentRevision instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'changeIdentifier': instance.changeIdentifier,
+    'revision': instance.revision,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -589,8 +541,6 @@ Map<String, dynamic> _$CurrentRevisionToJson(CurrentRevision instance) {
     }
   }
 
-  writeNotNull('changeIdentifier', instance.changeIdentifier);
-  writeNotNull('revision', instance.revision);
   writeNotNull(
       'created', const UnixDateTimeConverter().toJson(instance.created));
   writeNotNull('revisionSummary', instance.revisionSummary);
@@ -609,23 +559,15 @@ DeregisterWebhookWithThirdPartyOutput
 EncryptionKey _$EncryptionKeyFromJson(Map<String, dynamic> json) {
   return EncryptionKey(
     id: json['id'] as String,
-    type: _$enumDecodeNullable(_$EncryptionKeyTypeEnumMap, json['type']),
+    type: _$enumDecode(_$EncryptionKeyTypeEnumMap, json['type']),
   );
 }
 
-Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('type', _$EncryptionKeyTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$EncryptionKeyTypeEnumMap[instance.type],
+    };
 
 const _$EncryptionKeyTypeEnumMap = {
   EncryptionKeyType.kms: 'KMS',
@@ -633,8 +575,8 @@ const _$EncryptionKeyTypeEnumMap = {
 
 ErrorDetails _$ErrorDetailsFromJson(Map<String, dynamic> json) {
   return ErrorDetails(
-    code: json['code'] as String,
-    message: json['message'] as String,
+    code: json['code'] as String?,
+    message: json['message'] as String?,
   );
 }
 
@@ -655,7 +597,7 @@ Map<String, dynamic> _$ExecutionDetailsToJson(ExecutionDetails instance) {
 
 ExecutionTrigger _$ExecutionTriggerFromJson(Map<String, dynamic> json) {
   return ExecutionTrigger(
-    triggerDetail: json['triggerDetail'] as String,
+    triggerDetail: json['triggerDetail'] as String?,
     triggerType:
         _$enumDecodeNullable(_$TriggerTypeEnumMap, json['triggerType']),
   );
@@ -671,7 +613,10 @@ const _$TriggerTypeEnumMap = {
 };
 
 Map<String, dynamic> _$FailureDetailsToJson(FailureDetails instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'message': instance.message,
+    'type': _$FailureTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -679,8 +624,6 @@ Map<String, dynamic> _$FailureDetailsToJson(FailureDetails instance) {
     }
   }
 
-  writeNotNull('message', instance.message);
-  writeNotNull('type', _$FailureTypeEnumMap[instance.type]);
   writeNotNull('externalExecutionId', instance.externalExecutionId);
   return val;
 }
@@ -728,12 +671,11 @@ GetPipelineStateOutput _$GetPipelineStateOutputFromJson(
     Map<String, dynamic> json) {
   return GetPipelineStateOutput(
     created: const UnixDateTimeConverter().fromJson(json['created']),
-    pipelineName: json['pipelineName'] as String,
-    pipelineVersion: json['pipelineVersion'] as int,
-    stageStates: (json['stageStates'] as List)
-        ?.map((e) =>
-            e == null ? null : StageState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pipelineName: json['pipelineName'] as String?,
+    pipelineVersion: json['pipelineVersion'] as int?,
+    stageStates: (json['stageStates'] as List<dynamic>?)
+        ?.map((e) => StageState.fromJson(e as Map<String, dynamic>))
+        .toList(),
     updated: const UnixDateTimeConverter().fromJson(json['updated']),
   );
 }
@@ -754,27 +696,19 @@ InputArtifact _$InputArtifactFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$InputArtifactToJson(InputArtifact instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$InputArtifactToJson(InputArtifact instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
 
 Job _$JobFromJson(Map<String, dynamic> json) {
   return Job(
-    accountId: json['accountId'] as String,
+    accountId: json['accountId'] as String?,
     data: json['data'] == null
         ? null
         : JobData.fromJson(json['data'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    nonce: json['nonce'] as String,
+    id: json['id'] as String?,
+    nonce: json['nonce'] as String?,
   );
 }
 
@@ -791,18 +725,16 @@ JobData _$JobDataFromJson(Map<String, dynamic> json) {
         ? null
         : AWSSessionCredentials.fromJson(
             json['artifactCredentials'] as Map<String, dynamic>),
-    continuationToken: json['continuationToken'] as String,
+    continuationToken: json['continuationToken'] as String?,
     encryptionKey: json['encryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['encryptionKey'] as Map<String, dynamic>),
-    inputArtifacts: (json['inputArtifacts'] as List)
-        ?.map((e) =>
-            e == null ? null : Artifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    outputArtifacts: (json['outputArtifacts'] as List)
-        ?.map((e) =>
-            e == null ? null : Artifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputArtifacts: (json['inputArtifacts'] as List<dynamic>?)
+        ?.map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    outputArtifacts: (json['outputArtifacts'] as List<dynamic>?)
+        ?.map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
     pipelineContext: json['pipelineContext'] == null
         ? null
         : PipelineContext.fromJson(
@@ -812,96 +744,87 @@ JobData _$JobDataFromJson(Map<String, dynamic> json) {
 
 JobDetails _$JobDetailsFromJson(Map<String, dynamic> json) {
   return JobDetails(
-    accountId: json['accountId'] as String,
+    accountId: json['accountId'] as String?,
     data: json['data'] == null
         ? null
         : JobData.fromJson(json['data'] as Map<String, dynamic>),
-    id: json['id'] as String,
+    id: json['id'] as String?,
   );
 }
 
 ListActionExecutionsOutput _$ListActionExecutionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListActionExecutionsOutput(
-    actionExecutionDetails: (json['actionExecutionDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActionExecutionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    actionExecutionDetails: (json['actionExecutionDetails'] as List<dynamic>?)
+        ?.map((e) => ActionExecutionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListActionTypesOutput _$ListActionTypesOutputFromJson(
     Map<String, dynamic> json) {
   return ListActionTypesOutput(
-    actionTypes: (json['actionTypes'] as List)
-        ?.map((e) =>
-            e == null ? null : ActionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    actionTypes: (json['actionTypes'] as List<dynamic>)
+        .map((e) => ActionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListPipelineExecutionsOutput _$ListPipelineExecutionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListPipelineExecutionsOutput(
-    nextToken: json['nextToken'] as String,
-    pipelineExecutionSummaries: (json['pipelineExecutionSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineExecutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    pipelineExecutionSummaries: (json['pipelineExecutionSummaries']
+            as List<dynamic>?)
+        ?.map(
+            (e) => PipelineExecutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPipelinesOutput _$ListPipelinesOutputFromJson(Map<String, dynamic> json) {
   return ListPipelinesOutput(
-    nextToken: json['nextToken'] as String,
-    pipelines: (json['pipelines'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    pipelines: (json['pipelines'] as List<dynamic>?)
+        ?.map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    nextToken: json['nextToken'] as String,
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListWebhookItem _$ListWebhookItemFromJson(Map<String, dynamic> json) {
   return ListWebhookItem(
-    definition: json['definition'] == null
-        ? null
-        : WebhookDefinition.fromJson(
-            json['definition'] as Map<String, dynamic>),
+    definition:
+        WebhookDefinition.fromJson(json['definition'] as Map<String, dynamic>),
     url: json['url'] as String,
-    arn: json['arn'] as String,
-    errorCode: json['errorCode'] as String,
-    errorMessage: json['errorMessage'] as String,
+    arn: json['arn'] as String?,
+    errorCode: json['errorCode'] as String?,
+    errorMessage: json['errorMessage'] as String?,
     lastTriggered:
         const UnixDateTimeConverter().fromJson(json['lastTriggered']),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListWebhooksOutput _$ListWebhooksOutputFromJson(Map<String, dynamic> json) {
   return ListWebhooksOutput(
-    nextToken: json['NextToken'] as String,
-    webhooks: (json['webhooks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ListWebhookItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    webhooks: (json['webhooks'] as List<dynamic>?)
+        ?.map((e) => ListWebhookItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -911,27 +834,19 @@ OutputArtifact _$OutputArtifactFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OutputArtifactToJson(OutputArtifact instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$OutputArtifactToJson(OutputArtifact instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
 
 PipelineContext _$PipelineContextFromJson(Map<String, dynamic> json) {
   return PipelineContext(
     action: json['action'] == null
         ? null
         : ActionContext.fromJson(json['action'] as Map<String, dynamic>),
-    pipelineArn: json['pipelineArn'] as String,
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
-    pipelineName: json['pipelineName'] as String,
+    pipelineArn: json['pipelineArn'] as String?,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    pipelineName: json['pipelineName'] as String?,
     stage: json['stage'] == null
         ? null
         : StageContext.fromJson(json['stage'] as Map<String, dynamic>),
@@ -942,24 +857,25 @@ PipelineDeclaration _$PipelineDeclarationFromJson(Map<String, dynamic> json) {
   return PipelineDeclaration(
     name: json['name'] as String,
     roleArn: json['roleArn'] as String,
-    stages: (json['stages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StageDeclaration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    stages: (json['stages'] as List<dynamic>)
+        .map((e) => StageDeclaration.fromJson(e as Map<String, dynamic>))
+        .toList(),
     artifactStore: json['artifactStore'] == null
         ? null
         : ArtifactStore.fromJson(json['artifactStore'] as Map<String, dynamic>),
-    artifactStores: (json['artifactStores'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : ArtifactStore.fromJson(e as Map<String, dynamic>)),
+    artifactStores: (json['artifactStores'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, ArtifactStore.fromJson(e as Map<String, dynamic>)),
     ),
-    version: json['version'] as int,
+    version: json['version'] as int?,
   );
 }
 
 Map<String, dynamic> _$PipelineDeclarationToJson(PipelineDeclaration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'roleArn': instance.roleArn,
+    'stages': instance.stages.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -967,26 +883,21 @@ Map<String, dynamic> _$PipelineDeclarationToJson(PipelineDeclaration instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('stages', instance.stages?.map((e) => e?.toJson())?.toList());
   writeNotNull('artifactStore', instance.artifactStore?.toJson());
   writeNotNull('artifactStores',
-      instance.artifactStores?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.artifactStores?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull('version', instance.version);
   return val;
 }
 
 PipelineExecution _$PipelineExecutionFromJson(Map<String, dynamic> json) {
   return PipelineExecution(
-    artifactRevisions: (json['artifactRevisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ArtifactRevision.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
-    pipelineName: json['pipelineName'] as String,
-    pipelineVersion: json['pipelineVersion'] as int,
+    artifactRevisions: (json['artifactRevisions'] as List<dynamic>?)
+        ?.map((e) => ArtifactRevision.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    pipelineName: json['pipelineName'] as String?,
+    pipelineVersion: json['pipelineVersion'] as int?,
     status:
         _$enumDecodeNullable(_$PipelineExecutionStatusEnumMap, json['status']),
   );
@@ -1006,12 +917,10 @@ PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
   return PipelineExecutionSummary(
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
-    sourceRevisions: (json['sourceRevisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SourceRevision.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    sourceRevisions: (json['sourceRevisions'] as List<dynamic>?)
+        ?.map((e) => SourceRevision.fromJson(e as Map<String, dynamic>))
+        .toList(),
     startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$PipelineExecutionStatusEnumMap, json['status']),
@@ -1028,7 +937,7 @@ PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
 PipelineMetadata _$PipelineMetadataFromJson(Map<String, dynamic> json) {
   return PipelineMetadata(
     created: const UnixDateTimeConverter().fromJson(json['created']),
-    pipelineArn: json['pipelineArn'] as String,
+    pipelineArn: json['pipelineArn'] as String?,
     updated: const UnixDateTimeConverter().fromJson(json['updated']),
   );
 }
@@ -1036,36 +945,34 @@ PipelineMetadata _$PipelineMetadataFromJson(Map<String, dynamic> json) {
 PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   return PipelineSummary(
     created: const UnixDateTimeConverter().fromJson(json['created']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     updated: const UnixDateTimeConverter().fromJson(json['updated']),
-    version: json['version'] as int,
+    version: json['version'] as int?,
   );
 }
 
 PollForJobsOutput _$PollForJobsOutputFromJson(Map<String, dynamic> json) {
   return PollForJobsOutput(
-    jobs: (json['jobs'] as List)
-        ?.map((e) => e == null ? null : Job.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    jobs: (json['jobs'] as List<dynamic>?)
+        ?.map((e) => Job.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 PollForThirdPartyJobsOutput _$PollForThirdPartyJobsOutputFromJson(
     Map<String, dynamic> json) {
   return PollForThirdPartyJobsOutput(
-    jobs: (json['jobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ThirdPartyJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    jobs: (json['jobs'] as List<dynamic>?)
+        ?.map((e) => ThirdPartyJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 PutActionRevisionOutput _$PutActionRevisionOutputFromJson(
     Map<String, dynamic> json) {
   return PutActionRevisionOutput(
-    newRevision: json['newRevision'] as bool,
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
+    newRevision: json['newRevision'] as bool?,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
   );
 }
 
@@ -1092,7 +999,7 @@ RegisterWebhookWithThirdPartyOutput
 RetryStageExecutionOutput _$RetryStageExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return RetryStageExecutionOutput(
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
   );
 }
 
@@ -1105,44 +1012,43 @@ S3ArtifactLocation _$S3ArtifactLocationFromJson(Map<String, dynamic> json) {
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
   return S3Location(
-    bucket: json['bucket'] as String,
-    key: json['key'] as String,
+    bucket: json['bucket'] as String?,
+    key: json['key'] as String?,
   );
 }
 
 SourceRevision _$SourceRevisionFromJson(Map<String, dynamic> json) {
   return SourceRevision(
     actionName: json['actionName'] as String,
-    revisionId: json['revisionId'] as String,
-    revisionSummary: json['revisionSummary'] as String,
-    revisionUrl: json['revisionUrl'] as String,
+    revisionId: json['revisionId'] as String?,
+    revisionSummary: json['revisionSummary'] as String?,
+    revisionUrl: json['revisionUrl'] as String?,
   );
 }
 
 StageContext _$StageContextFromJson(Map<String, dynamic> json) {
   return StageContext(
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
 StageDeclaration _$StageDeclarationFromJson(Map<String, dynamic> json) {
   return StageDeclaration(
-    actions: (json['actions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActionDeclaration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actions: (json['actions'] as List<dynamic>)
+        .map((e) => ActionDeclaration.fromJson(e as Map<String, dynamic>))
+        .toList(),
     name: json['name'] as String,
-    blockers: (json['blockers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BlockerDeclaration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    blockers: (json['blockers'] as List<dynamic>?)
+        ?.map((e) => BlockerDeclaration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$StageDeclarationToJson(StageDeclaration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'actions': instance.actions.map((e) => e.toJson()).toList(),
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1150,17 +1056,14 @@ Map<String, dynamic> _$StageDeclarationToJson(StageDeclaration instance) {
     }
   }
 
-  writeNotNull('actions', instance.actions?.map((e) => e?.toJson())?.toList());
-  writeNotNull('name', instance.name);
-  writeNotNull(
-      'blockers', instance.blockers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('blockers', instance.blockers?.map((e) => e.toJson()).toList());
   return val;
 }
 
 StageExecution _$StageExecutionFromJson(Map<String, dynamic> json) {
   return StageExecution(
     pipelineExecutionId: json['pipelineExecutionId'] as String,
-    status: _$enumDecodeNullable(_$StageExecutionStatusEnumMap, json['status']),
+    status: _$enumDecode(_$StageExecutionStatusEnumMap, json['status']),
   );
 }
 
@@ -1174,10 +1077,9 @@ const _$StageExecutionStatusEnumMap = {
 
 StageState _$StageStateFromJson(Map<String, dynamic> json) {
   return StageState(
-    actionStates: (json['actionStates'] as List)
-        ?.map((e) =>
-            e == null ? null : ActionState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actionStates: (json['actionStates'] as List<dynamic>?)
+        ?.map((e) => ActionState.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inboundExecution: json['inboundExecution'] == null
         ? null
         : StageExecution.fromJson(
@@ -1190,27 +1092,27 @@ StageState _$StageStateFromJson(Map<String, dynamic> json) {
         ? null
         : StageExecution.fromJson(
             json['latestExecution'] as Map<String, dynamic>),
-    stageName: json['stageName'] as String,
+    stageName: json['stageName'] as String?,
   );
 }
 
 StartPipelineExecutionOutput _$StartPipelineExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return StartPipelineExecutionOutput(
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
   );
 }
 
 StopExecutionTrigger _$StopExecutionTriggerFromJson(Map<String, dynamic> json) {
   return StopExecutionTrigger(
-    reason: json['reason'] as String,
+    reason: json['reason'] as String?,
   );
 }
 
 StopPipelineExecutionOutput _$StopPipelineExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return StopPipelineExecutionOutput(
-    pipelineExecutionId: json['pipelineExecutionId'] as String,
+    pipelineExecutionId: json['pipelineExecutionId'] as String?,
   );
 }
 
@@ -1221,19 +1123,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
@@ -1241,8 +1134,8 @@ TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
 
 ThirdPartyJob _$ThirdPartyJobFromJson(Map<String, dynamic> json) {
   return ThirdPartyJob(
-    clientId: json['clientId'] as String,
-    jobId: json['jobId'] as String,
+    clientId: json['clientId'] as String?,
+    jobId: json['jobId'] as String?,
   );
 }
 
@@ -1259,18 +1152,16 @@ ThirdPartyJobData _$ThirdPartyJobDataFromJson(Map<String, dynamic> json) {
         ? null
         : AWSSessionCredentials.fromJson(
             json['artifactCredentials'] as Map<String, dynamic>),
-    continuationToken: json['continuationToken'] as String,
+    continuationToken: json['continuationToken'] as String?,
     encryptionKey: json['encryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['encryptionKey'] as Map<String, dynamic>),
-    inputArtifacts: (json['inputArtifacts'] as List)
-        ?.map((e) =>
-            e == null ? null : Artifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    outputArtifacts: (json['outputArtifacts'] as List)
-        ?.map((e) =>
-            e == null ? null : Artifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputArtifacts: (json['inputArtifacts'] as List<dynamic>?)
+        ?.map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    outputArtifacts: (json['outputArtifacts'] as List<dynamic>?)
+        ?.map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
     pipelineContext: json['pipelineContext'] == null
         ? null
         : PipelineContext.fromJson(
@@ -1283,18 +1174,18 @@ ThirdPartyJobDetails _$ThirdPartyJobDetailsFromJson(Map<String, dynamic> json) {
     data: json['data'] == null
         ? null
         : ThirdPartyJobData.fromJson(json['data'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    nonce: json['nonce'] as String,
+    id: json['id'] as String?,
+    nonce: json['nonce'] as String?,
   );
 }
 
 TransitionState _$TransitionStateFromJson(Map<String, dynamic> json) {
   return TransitionState(
-    disabledReason: json['disabledReason'] as String,
-    enabled: json['enabled'] as bool,
+    disabledReason: json['disabledReason'] as String?,
+    enabled: json['enabled'] as bool?,
     lastChangedAt:
         const UnixDateTimeConverter().fromJson(json['lastChangedAt']),
-    lastChangedBy: json['lastChangedBy'] as String,
+    lastChangedBy: json['lastChangedBy'] as String?,
   );
 }
 
@@ -1314,8 +1205,8 @@ UpdatePipelineOutput _$UpdatePipelineOutputFromJson(Map<String, dynamic> json) {
 WebhookAuthConfiguration _$WebhookAuthConfigurationFromJson(
     Map<String, dynamic> json) {
   return WebhookAuthConfiguration(
-    allowedIPRange: json['AllowedIPRange'] as String,
-    secretToken: json['SecretToken'] as String,
+    allowedIPRange: json['AllowedIPRange'] as String?,
+    secretToken: json['SecretToken'] as String?,
   );
 }
 
@@ -1336,42 +1227,30 @@ Map<String, dynamic> _$WebhookAuthConfigurationToJson(
 
 WebhookDefinition _$WebhookDefinitionFromJson(Map<String, dynamic> json) {
   return WebhookDefinition(
-    authentication: _$enumDecodeNullable(
+    authentication: _$enumDecode(
         _$WebhookAuthenticationTypeEnumMap, json['authentication']),
-    authenticationConfiguration: json['authenticationConfiguration'] == null
-        ? null
-        : WebhookAuthConfiguration.fromJson(
-            json['authenticationConfiguration'] as Map<String, dynamic>),
-    filters: (json['filters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WebhookFilterRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    authenticationConfiguration: WebhookAuthConfiguration.fromJson(
+        json['authenticationConfiguration'] as Map<String, dynamic>),
+    filters: (json['filters'] as List<dynamic>)
+        .map((e) => WebhookFilterRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     name: json['name'] as String,
     targetAction: json['targetAction'] as String,
     targetPipeline: json['targetPipeline'] as String,
   );
 }
 
-Map<String, dynamic> _$WebhookDefinitionToJson(WebhookDefinition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('authentication',
-      _$WebhookAuthenticationTypeEnumMap[instance.authentication]);
-  writeNotNull('authenticationConfiguration',
-      instance.authenticationConfiguration?.toJson());
-  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
-  writeNotNull('name', instance.name);
-  writeNotNull('targetAction', instance.targetAction);
-  writeNotNull('targetPipeline', instance.targetPipeline);
-  return val;
-}
+Map<String, dynamic> _$WebhookDefinitionToJson(WebhookDefinition instance) =>
+    <String, dynamic>{
+      'authentication':
+          _$WebhookAuthenticationTypeEnumMap[instance.authentication],
+      'authenticationConfiguration':
+          instance.authenticationConfiguration.toJson(),
+      'filters': instance.filters.map((e) => e.toJson()).toList(),
+      'name': instance.name,
+      'targetAction': instance.targetAction,
+      'targetPipeline': instance.targetPipeline,
+    };
 
 const _$WebhookAuthenticationTypeEnumMap = {
   WebhookAuthenticationType.githubHmac: 'GITHUB_HMAC',
@@ -1382,12 +1261,14 @@ const _$WebhookAuthenticationTypeEnumMap = {
 WebhookFilterRule _$WebhookFilterRuleFromJson(Map<String, dynamic> json) {
   return WebhookFilterRule(
     jsonPath: json['jsonPath'] as String,
-    matchEquals: json['matchEquals'] as String,
+    matchEquals: json['matchEquals'] as String?,
   );
 }
 
 Map<String, dynamic> _$WebhookFilterRuleToJson(WebhookFilterRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'jsonPath': instance.jsonPath,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1395,7 +1276,6 @@ Map<String, dynamic> _$WebhookFilterRuleToJson(WebhookFilterRule instance) {
     }
   }
 
-  writeNotNull('jsonPath', instance.jsonPath);
   writeNotNull('matchEquals', instance.matchEquals);
   return val;
 }

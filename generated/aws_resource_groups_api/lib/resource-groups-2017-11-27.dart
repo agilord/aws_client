@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'resource-groups-2017-11-27.g.dart';
 
 /// AWS Resource Groups lets you organize AWS resources such as Amazon EC2
 /// instances, Amazon Relational Database Service databases, and Amazon S3
@@ -41,10 +33,10 @@ part 'resource-groups-2017-11-27.g.dart';
 class ResourceGroups {
   final _s.RestJsonProtocol _protocol;
   ResourceGroups({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -118,11 +110,11 @@ class ResourceGroups {
   /// Parameter [tags] :
   /// The tags to add to the group. A tag is key-value pair string.
   Future<CreateGroupOutput> createGroup({
-    @_s.required String name,
-    List<GroupConfigurationItem> configuration,
-    String description,
-    ResourceQuery resourceQuery,
-    Map<String, String> tags,
+    required String name,
+    List<GroupConfigurationItem>? configuration,
+    String? description,
+    ResourceQuery? resourceQuery,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -192,8 +184,8 @@ class ResourceGroups {
   /// Parameter [groupName] :
   /// Deprecated - don't use this parameter. Use <code>Group</code> instead.
   Future<DeleteGroupOutput> deleteGroup({
-    String group,
-    String groupName,
+    String? group,
+    String? groupName,
   }) async {
     _s.validateStringLength(
       'group',
@@ -255,8 +247,8 @@ class ResourceGroups {
   /// Parameter [groupName] :
   /// Deprecated - don't use this parameter. Use <code>Group</code> instead.
   Future<GetGroupOutput> getGroup({
-    String group,
-    String groupName,
+    String? group,
+    String? groupName,
   }) async {
     _s.validateStringLength(
       'group',
@@ -318,7 +310,7 @@ class ResourceGroups {
   /// Parameter [group] :
   /// The name or the ARN of the resource group.
   Future<GetGroupConfigurationOutput> getGroupConfiguration({
-    String group,
+    String? group,
   }) async {
     _s.validateStringLength(
       'group',
@@ -371,8 +363,8 @@ class ResourceGroups {
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
   Future<GetGroupQueryOutput> getGroupQuery({
-    String group,
-    String groupName,
+    String? group,
+    String? groupName,
   }) async {
     _s.validateStringLength(
       'group',
@@ -432,7 +424,7 @@ class ResourceGroups {
   /// Parameter [arn] :
   /// The ARN of the resource group whose tags you want to retrieve.
   Future<GetTagsOutput> getTags({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -482,8 +474,8 @@ class ResourceGroups {
   /// Parameter [resourceArns] :
   /// The list of ARNs for resources to be added to the group.
   Future<GroupResourcesOutput> groupResources({
-    @_s.required String group,
-    @_s.required List<String> resourceArns,
+    required String group,
+    required List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(group, 'group');
     _s.validateStringLength(
@@ -597,11 +589,11 @@ class ResourceGroups {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListGroupResourcesOutput> listGroupResources({
-    List<ResourceFilter> filters,
-    String group,
-    String groupName,
-    int maxResults,
-    String nextToken,
+    List<ResourceFilter>? filters,
+    String? group,
+    String? groupName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'group',
@@ -722,9 +714,9 @@ class ResourceGroups {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListGroupsOutput> listGroups({
-    List<GroupFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<GroupFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -799,8 +791,8 @@ class ResourceGroups {
   /// The name or ARN of the resource group with the configuration that you want
   /// to update.
   Future<void> putGroupConfiguration({
-    List<GroupConfigurationItem> configuration,
-    String group,
+    List<GroupConfigurationItem>? configuration,
+    String? group,
   }) async {
     _s.validateStringLength(
       'group',
@@ -823,7 +815,6 @@ class ResourceGroups {
       requestUri: '/put-group-configuration',
       exceptionFnMap: _exceptionFns,
     );
-    return PutGroupConfigurationOutput.fromJson(response);
   }
 
   /// Returns a list of AWS resource identifiers that matches the specified
@@ -871,9 +862,9 @@ class ResourceGroups {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<SearchResourcesOutput> searchResources({
-    @_s.required ResourceQuery resourceQuery,
-    int maxResults,
-    String nextToken,
+    required ResourceQuery resourceQuery,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceQuery, 'resourceQuery');
     _s.validateNumRange(
@@ -940,8 +931,8 @@ class ResourceGroups {
   /// The tags to add to the specified resource group. A tag is a
   /// string-to-string map of key-value pairs.
   Future<TagOutput> tag({
-    @_s.required String arn,
-    @_s.required Map<String, String> tags,
+    required String arn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -996,8 +987,8 @@ class ResourceGroups {
   /// Parameter [resourceArns] :
   /// The ARNs of the resources to be removed from the group.
   Future<UngroupResourcesOutput> ungroupResources({
-    @_s.required String group,
-    @_s.required List<String> resourceArns,
+    required String group,
+    required List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(group, 'group');
     _s.validateStringLength(
@@ -1053,8 +1044,8 @@ class ResourceGroups {
   /// Parameter [keys] :
   /// The keys of the tags to be removed.
   Future<UntagOutput> untag({
-    @_s.required String arn,
-    @_s.required List<String> keys,
+    required String arn,
+    required List<String> keys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1114,9 +1105,9 @@ class ResourceGroups {
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
   Future<UpdateGroupOutput> updateGroup({
-    String description,
-    String group,
-    String groupName,
+    String? description,
+    String? group,
+    String? groupName,
   }) async {
     _s.validateStringLength(
       'description',
@@ -1201,9 +1192,9 @@ class ResourceGroups {
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
   Future<UpdateGroupQueryOutput> updateGroupQuery({
-    @_s.required ResourceQuery resourceQuery,
-    String group,
-    String groupName,
+    required ResourceQuery resourceQuery,
+    String? group,
+    String? groupName,
   }) async {
     ArgumentError.checkNotNull(resourceQuery, 'resourceQuery');
     _s.validateStringLength(
@@ -1243,33 +1234,24 @@ class ResourceGroups {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupOutput {
   /// The description of the resource group.
-  @_s.JsonKey(name: 'Group')
-  final Group group;
+  final Group? group;
 
   /// The service configuration associated with the resource group. For details
   /// about the syntax of a service configuration, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
   /// configurations for resource groups</a>.
-  @_s.JsonKey(name: 'GroupConfiguration')
-  final GroupConfiguration groupConfiguration;
+  final GroupConfiguration? groupConfiguration;
 
   /// The resource query associated with the group. For more information about
   /// resource queries, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag">Create
   /// a tag-based group in Resource Groups</a>.
-  @_s.JsonKey(name: 'ResourceQuery')
-  final ResourceQuery resourceQuery;
+  final ResourceQuery? resourceQuery;
 
   /// The tags associated with the group.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateGroupOutput({
     this.group,
@@ -1277,132 +1259,139 @@ class CreateGroupOutput {
     this.resourceQuery,
     this.tags,
   });
-  factory CreateGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateGroupOutputFromJson(json);
+  factory CreateGroupOutput.fromJson(Map<String, dynamic> json) {
+    return CreateGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+      groupConfiguration: json['GroupConfiguration'] != null
+          ? GroupConfiguration.fromJson(
+              json['GroupConfiguration'] as Map<String, dynamic>)
+          : null,
+      resourceQuery: json['ResourceQuery'] != null
+          ? ResourceQuery.fromJson(
+              json['ResourceQuery'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGroupOutput {
   /// A full description of the deleted resource group.
-  @_s.JsonKey(name: 'Group')
-  final Group group;
+  final Group? group;
 
   DeleteGroupOutput({
     this.group,
   });
-  factory DeleteGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGroupOutputFromJson(json);
+  factory DeleteGroupOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A resource that failed to be added to or removed from a group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedResource {
   /// The error code associated with the failure.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message text associated with the failure.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ARN of the resource that failed to be added or removed.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   FailedResource({
     this.errorCode,
     this.errorMessage,
     this.resourceArn,
   });
-  factory FailedResource.fromJson(Map<String, dynamic> json) =>
-      _$FailedResourceFromJson(json);
+  factory FailedResource.fromJson(Map<String, dynamic> json) {
+    return FailedResource(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupConfigurationOutput {
   /// The service configuration associated with the specified group. For details
   /// about the service configuration syntax, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
   /// configurations for resource groups</a>.
-  @_s.JsonKey(name: 'GroupConfiguration')
-  final GroupConfiguration groupConfiguration;
+  final GroupConfiguration? groupConfiguration;
 
   GetGroupConfigurationOutput({
     this.groupConfiguration,
   });
-  factory GetGroupConfigurationOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupConfigurationOutputFromJson(json);
+  factory GetGroupConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return GetGroupConfigurationOutput(
+      groupConfiguration: json['GroupConfiguration'] != null
+          ? GroupConfiguration.fromJson(
+              json['GroupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupOutput {
   /// A full description of the resource group.
-  @_s.JsonKey(name: 'Group')
-  final Group group;
+  final Group? group;
 
   GetGroupOutput({
     this.group,
   });
-  factory GetGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupOutputFromJson(json);
+  factory GetGroupOutput.fromJson(Map<String, dynamic> json) {
+    return GetGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupQueryOutput {
   /// The resource query associated with the specified group. For more information
   /// about resource queries, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag">Create
   /// a tag-based group in Resource Groups</a>.
-  @_s.JsonKey(name: 'GroupQuery')
-  final GroupQuery groupQuery;
+  final GroupQuery? groupQuery;
 
   GetGroupQueryOutput({
     this.groupQuery,
   });
-  factory GetGroupQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupQueryOutputFromJson(json);
+  factory GetGroupQueryOutput.fromJson(Map<String, dynamic> json) {
+    return GetGroupQueryOutput(
+      groupQuery: json['GroupQuery'] != null
+          ? GroupQuery.fromJson(json['GroupQuery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagsOutput {
   /// The ARN of the tagged resource group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The tags associated with the specified resource group.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetTagsOutput({
     this.arn,
     this.tags,
   });
-  factory GetTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetTagsOutputFromJson(json);
+  factory GetTagsOutput.fromJson(Map<String, dynamic> json) {
+    return GetTagsOutput(
+      arn: json['Arn'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A resource group that contains AWS resources. You can assign resources to
@@ -1422,30 +1411,28 @@ class GetTagsOutput {
 /// can be included in the group.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Group {
   /// The ARN of the resource group.
-  @_s.JsonKey(name: 'GroupArn')
   final String groupArn;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The description of the resource group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   Group({
-    @_s.required this.groupArn,
-    @_s.required this.name,
+    required this.groupArn,
+    required this.name,
     this.description,
   });
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      groupArn: json['GroupArn'] as String,
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+    );
+  }
 }
 
 /// A service configuration associated with a resource group. The configuration
@@ -1456,29 +1443,20 @@ class Group {
 /// operation. For details about group service configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupConfiguration {
   /// The configuration currently associated with the group and in effect.
-  @_s.JsonKey(name: 'Configuration')
-  final List<GroupConfigurationItem> configuration;
+  final List<GroupConfigurationItem>? configuration;
 
   /// If present, the reason why a request to update the group configuration
   /// failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// If present, the new configuration that is in the process of being applied to
   /// the group.
-  @_s.JsonKey(name: 'ProposedConfiguration')
-  final List<GroupConfigurationItem> proposedConfiguration;
+  final List<GroupConfigurationItem>? proposedConfiguration;
 
   /// The current status of an attempt to update the group configuration.
-  @_s.JsonKey(name: 'Status')
-  final GroupConfigurationStatus status;
+  final GroupConfigurationStatus? status;
 
   GroupConfiguration({
     this.configuration,
@@ -1486,178 +1464,241 @@ class GroupConfiguration {
     this.proposedConfiguration,
     this.status,
   });
-  factory GroupConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$GroupConfigurationFromJson(json);
+  factory GroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return GroupConfiguration(
+      configuration: (json['Configuration'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failureReason: json['FailureReason'] as String?,
+      proposedConfiguration: (json['ProposedConfiguration'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toGroupConfigurationStatus(),
+    );
+  }
 }
 
 /// An item in a group configuration. A group service configuration can have one
 /// or more items. For details about group service configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroupConfigurationItem {
   /// Specifies the type of group configuration item. Each item must have a unique
   /// value for <code>type</code>. For the list of types that you can specify for
   /// a configuration item, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
   /// resource types and parameters</a>.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// A collection of parameters for this group configuration item. For the list
   /// of parameters that you can use with each configuration item type, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
   /// resource types and parameters</a>.
-  @_s.JsonKey(name: 'Parameters')
-  final List<GroupConfigurationParameter> parameters;
+  final List<GroupConfigurationParameter>? parameters;
 
   GroupConfigurationItem({
-    @_s.required this.type,
+    required this.type,
     this.parameters,
   });
-  factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) =>
-      _$GroupConfigurationItemFromJson(json);
+  factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return GroupConfigurationItem(
+      type: json['Type'] as String,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              GroupConfigurationParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GroupConfigurationItemToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final parameters = this.parameters;
+    return {
+      'Type': type,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// A parameter for a group configuration item. For details about group service
 /// configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroupConfigurationParameter {
   /// The name of the group configuration parameter. For the list of parameters
   /// that you can use with each configuration item type, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
   /// resource types and parameters</a>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value or values to be used for the specified parameter. For the list of
   /// values you can use with each parameter, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
   /// resource types and parameters</a>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   GroupConfigurationParameter({
-    @_s.required this.name,
+    required this.name,
     this.values,
   });
-  factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) =>
-      _$GroupConfigurationParameterFromJson(json);
+  factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
+    return GroupConfigurationParameter(
+      name: json['Name'] as String,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GroupConfigurationParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum GroupConfigurationStatus {
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
-  @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
+}
+
+extension on GroupConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case GroupConfigurationStatus.updating:
+        return 'UPDATING';
+      case GroupConfigurationStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case GroupConfigurationStatus.updateFailed:
+        return 'UPDATE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  GroupConfigurationStatus toGroupConfigurationStatus() {
+    switch (this) {
+      case 'UPDATING':
+        return GroupConfigurationStatus.updating;
+      case 'UPDATE_COMPLETE':
+        return GroupConfigurationStatus.updateComplete;
+      case 'UPDATE_FAILED':
+        return GroupConfigurationStatus.updateFailed;
+    }
+    throw Exception('$this is not known in enum GroupConfigurationStatus');
+  }
 }
 
 /// A filter collection that you can use to restrict the results from a
 /// <code>List</code> operation to only those you want to include.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GroupFilter {
   /// The name of the filter. Filter names are case-sensitive.
-  @_s.JsonKey(name: 'Name')
   final GroupFilterName name;
 
   /// One or more filter values. Allowed filter values vary by group filter name,
   /// and are case-sensitive.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   GroupFilter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$GroupFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum GroupFilterName {
-  @_s.JsonValue('resource-type')
   resourceType,
-  @_s.JsonValue('configuration-type')
   configurationType,
 }
 
+extension on GroupFilterName {
+  String toValue() {
+    switch (this) {
+      case GroupFilterName.resourceType:
+        return 'resource-type';
+      case GroupFilterName.configurationType:
+        return 'configuration-type';
+    }
+  }
+}
+
+extension on String {
+  GroupFilterName toGroupFilterName() {
+    switch (this) {
+      case 'resource-type':
+        return GroupFilterName.resourceType;
+      case 'configuration-type':
+        return GroupFilterName.configurationType;
+    }
+    throw Exception('$this is not known in enum GroupFilterName');
+  }
+}
+
 /// The unique identifiers for a resource group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupIdentifier {
   /// The ARN of the resource group.
-  @_s.JsonKey(name: 'GroupArn')
-  final String groupArn;
+  final String? groupArn;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'GroupName')
-  final String groupName;
+  final String? groupName;
 
   GroupIdentifier({
     this.groupArn,
     this.groupName,
   });
-  factory GroupIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$GroupIdentifierFromJson(json);
+  factory GroupIdentifier.fromJson(Map<String, dynamic> json) {
+    return GroupIdentifier(
+      groupArn: json['GroupArn'] as String?,
+      groupName: json['GroupName'] as String?,
+    );
+  }
 }
 
 /// A mapping of a query attached to a resource group that determines the AWS
 /// resources that are members of the group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupQuery {
   /// The name of the resource group that is associated with the specified
   /// resource query.
-  @_s.JsonKey(name: 'GroupName')
   final String groupName;
 
   /// The resource query that determines which AWS resources are members of the
   /// associated resource group.
-  @_s.JsonKey(name: 'ResourceQuery')
   final ResourceQuery resourceQuery;
 
   GroupQuery({
-    @_s.required this.groupName,
-    @_s.required this.resourceQuery,
+    required this.groupName,
+    required this.resourceQuery,
   });
-  factory GroupQuery.fromJson(Map<String, dynamic> json) =>
-      _$GroupQueryFromJson(json);
+  factory GroupQuery.fromJson(Map<String, dynamic> json) {
+    return GroupQuery(
+      groupName: json['GroupName'] as String,
+      resourceQuery:
+          ResourceQuery.fromJson(json['ResourceQuery'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupResourcesOutput {
   /// A list of ARNs of any resources that failed to be added to the group by this
   /// operation.
-  @_s.JsonKey(name: 'Failed')
-  final List<FailedResource> failed;
+  final List<FailedResource>? failed;
 
   /// A list of ARNs of any resources that are still in the process of being added
   /// to the group by this operation. These pending additions continue
@@ -1665,34 +1706,40 @@ class GroupResourcesOutput {
   /// <code> <a>ListGroupResources</a> </code> operation, and checking the
   /// <code>Resources</code> array in the response and the <code>Status</code>
   /// field of each object in that array.
-  @_s.JsonKey(name: 'Pending')
-  final List<PendingResource> pending;
+  final List<PendingResource>? pending;
 
   /// A list of ARNs of resources that were successfully added to the group by
   /// this operation.
-  @_s.JsonKey(name: 'Succeeded')
-  final List<String> succeeded;
+  final List<String>? succeeded;
 
   GroupResourcesOutput({
     this.failed,
     this.pending,
     this.succeeded,
   });
-  factory GroupResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GroupResourcesOutputFromJson(json);
+  factory GroupResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return GroupResourcesOutput(
+      failed: (json['Failed'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pending: (json['Pending'] as List?)
+          ?.whereNotNull()
+          .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      succeeded: (json['Succeeded'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A structure returned by the <a>ListGroupResources</a> operation that
 /// contains identity and group membership status information for one of the
 /// resources in the group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupResourcesItem {
-  @_s.JsonKey(name: 'Identifier')
-  final ResourceIdentifier identifier;
+  final ResourceIdentifier? identifier;
 
   /// A structure that contains the status of this resource's membership in the
   /// group.
@@ -1700,50 +1747,49 @@ class ListGroupResourcesItem {
   /// This field is present in the response only if the group is of type
   /// <code>AWS::EC2::HostManagement</code>.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final ResourceStatus status;
+  final ResourceStatus? status;
 
   ListGroupResourcesItem({
     this.identifier,
     this.status,
   });
-  factory ListGroupResourcesItem.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupResourcesItemFromJson(json);
+  factory ListGroupResourcesItem.fromJson(Map<String, dynamic> json) {
+    return ListGroupResourcesItem(
+      identifier: json['Identifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['Identifier'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? ResourceStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupResourcesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>QueryError</code> objects. Each error is an object that
   /// contains <code>ErrorCode</code> and <code>Message</code> structures.
   /// Possible values for <code>ErrorCode</code> are
   /// <code>CLOUDFORMATION_STACK_INACTIVE</code> and
   /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
-  @_s.JsonKey(name: 'QueryErrors')
-  final List<QueryError> queryErrors;
+  final List<QueryError>? queryErrors;
 
   /// <important>
   /// <b> <i>Deprecated - don't use this parameter. Use the <code>Resources</code>
   /// response field instead.</i> </b>
   /// </important>
-  @_s.JsonKey(name: 'ResourceIdentifiers')
-  final List<ResourceIdentifier> resourceIdentifiers;
+  final List<ResourceIdentifier>? resourceIdentifiers;
 
   /// An array of resources from which you can determine each resource's identity,
   /// type, and group membership status.
-  @_s.JsonKey(name: 'Resources')
-  final List<ListGroupResourcesItem> resources;
+  final List<ListGroupResourcesItem>? resources;
 
   ListGroupResourcesOutput({
     this.nextToken,
@@ -1751,74 +1797,86 @@ class ListGroupResourcesOutput {
     this.resourceIdentifiers,
     this.resources,
   });
-  factory ListGroupResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupResourcesOutputFromJson(json);
+  factory ListGroupResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return ListGroupResourcesOutput(
+      nextToken: json['NextToken'] as String?,
+      queryErrors: (json['QueryErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ListGroupResourcesItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupsOutput {
   /// A list of <a>GroupIdentifier</a> objects. Each identifier is an object that
   /// contains both the <code>Name</code> and the <code>GroupArn</code>.
-  @_s.JsonKey(name: 'GroupIdentifiers')
-  final List<GroupIdentifier> groupIdentifiers;
+  final List<GroupIdentifier>? groupIdentifiers;
 
   /// <important>
   /// <i> <b>Deprecated - don't use this field. Use the
   /// <code>GroupIdentifiers</code> response field instead.</b> </i>
   /// </important>
-  @_s.JsonKey(name: 'Groups')
-  final List<Group> groups;
+  final List<Group>? groups;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupsOutput({
     this.groupIdentifiers,
     this.groups,
     this.nextToken,
   });
-  factory ListGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupsOutputFromJson(json);
+  factory ListGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListGroupsOutput(
+      groupIdentifiers: (json['GroupIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A structure that identifies a resource that is currently pending addition to
 /// the group as a member. Adding a resource to a resource group happens
 /// asynchronously as a background task and this one isn't completed yet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PendingResource {
   /// The Amazon resource name (ARN) of the resource that's in a pending state.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   PendingResource({
     this.resourceArn,
   });
-  factory PendingResource.fromJson(Map<String, dynamic> json) =>
-      _$PendingResourceFromJson(json);
+  factory PendingResource.fromJson(Map<String, dynamic> json) {
+    return PendingResource(
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutGroupConfigurationOutput {
   PutGroupConfigurationOutput();
-  factory PutGroupConfigurationOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutGroupConfigurationOutputFromJson(json);
+  factory PutGroupConfigurationOutput.fromJson(Map<String, dynamic> _) {
+    return PutGroupConfigurationOutput();
+  }
 }
 
 /// A two-part error structure that can occur in <code>ListGroupResources</code>
@@ -1828,97 +1886,151 @@ class PutGroupConfigurationOutput {
 /// inactive. A <code>QueryError</code> occurrence does not necessarily mean
 /// that AWS Resource Groups could not complete the operation, but the resulting
 /// group might have no member resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryError {
   /// Possible values are <code>CLOUDFORMATION_STACK_INACTIVE</code> and
   /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
-  @_s.JsonKey(name: 'ErrorCode')
-  final QueryErrorCode errorCode;
+  final QueryErrorCode? errorCode;
 
   /// A message that explains the <code>ErrorCode</code> value. Messages might
   /// state that the specified CloudFormation stack does not exist (or no longer
   /// exists). For <code>CLOUDFORMATION_STACK_INACTIVE</code>, the message
   /// typically states that the CloudFormation stack has a status that is not (or
   /// no longer) active, such as <code>CREATE_FAILED</code>.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   QueryError({
     this.errorCode,
     this.message,
   });
-  factory QueryError.fromJson(Map<String, dynamic> json) =>
-      _$QueryErrorFromJson(json);
+  factory QueryError.fromJson(Map<String, dynamic> json) {
+    return QueryError(
+      errorCode: (json['ErrorCode'] as String?)?.toQueryErrorCode(),
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum QueryErrorCode {
-  @_s.JsonValue('CLOUDFORMATION_STACK_INACTIVE')
   cloudformationStackInactive,
-  @_s.JsonValue('CLOUDFORMATION_STACK_NOT_EXISTING')
   cloudformationStackNotExisting,
 }
 
+extension on QueryErrorCode {
+  String toValue() {
+    switch (this) {
+      case QueryErrorCode.cloudformationStackInactive:
+        return 'CLOUDFORMATION_STACK_INACTIVE';
+      case QueryErrorCode.cloudformationStackNotExisting:
+        return 'CLOUDFORMATION_STACK_NOT_EXISTING';
+    }
+  }
+}
+
+extension on String {
+  QueryErrorCode toQueryErrorCode() {
+    switch (this) {
+      case 'CLOUDFORMATION_STACK_INACTIVE':
+        return QueryErrorCode.cloudformationStackInactive;
+      case 'CLOUDFORMATION_STACK_NOT_EXISTING':
+        return QueryErrorCode.cloudformationStackNotExisting;
+    }
+    throw Exception('$this is not known in enum QueryErrorCode');
+  }
+}
+
 enum QueryType {
-  @_s.JsonValue('TAG_FILTERS_1_0')
   tagFilters_1_0,
-  @_s.JsonValue('CLOUDFORMATION_STACK_1_0')
   cloudformationStack_1_0,
+}
+
+extension on QueryType {
+  String toValue() {
+    switch (this) {
+      case QueryType.tagFilters_1_0:
+        return 'TAG_FILTERS_1_0';
+      case QueryType.cloudformationStack_1_0:
+        return 'CLOUDFORMATION_STACK_1_0';
+    }
+  }
+}
+
+extension on String {
+  QueryType toQueryType() {
+    switch (this) {
+      case 'TAG_FILTERS_1_0':
+        return QueryType.tagFilters_1_0;
+      case 'CLOUDFORMATION_STACK_1_0':
+        return QueryType.cloudformationStack_1_0;
+    }
+    throw Exception('$this is not known in enum QueryType');
+  }
 }
 
 /// A filter name and value pair that is used to obtain more specific results
 /// from a list of resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResourceFilter {
   /// The name of the filter. Filter names are case-sensitive.
-  @_s.JsonKey(name: 'Name')
   final ResourceFilterName name;
 
   /// One or more filter values. Allowed filter values vary by resource filter
   /// name, and are case-sensitive.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   ResourceFilter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$ResourceFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum ResourceFilterName {
-  @_s.JsonValue('resource-type')
   resourceType,
 }
 
+extension on ResourceFilterName {
+  String toValue() {
+    switch (this) {
+      case ResourceFilterName.resourceType:
+        return 'resource-type';
+    }
+  }
+}
+
+extension on String {
+  ResourceFilterName toResourceFilterName() {
+    switch (this) {
+      case 'resource-type':
+        return ResourceFilterName.resourceType;
+    }
+    throw Exception('$this is not known in enum ResourceFilterName');
+  }
+}
+
 /// A structure that contains the ARN of a resource and its resource type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceIdentifier {
   /// The ARN of a resource.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The resource type of a resource, such as <code>AWS::EC2::Instance</code>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   ResourceIdentifier({
     this.resourceArn,
     this.resourceType,
   });
-  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$ResourceIdentifierFromJson(json);
+  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return ResourceIdentifier(
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
 }
 
 /// The query that is used to define a resource group or a search for resources.
@@ -1990,14 +2102,8 @@ class ResourceIdentifier {
 /// "StackIdentifier":
 /// "arn:aws:cloudformation:us-west-2:123456789012:stack/AWStestuseraccount/fb0d5000-aba8-00e8-aa9e-50d5cEXAMPLE"
 /// } }</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceQuery {
   /// The query that defines a group or a search.
-  @_s.JsonKey(name: 'Query')
   final String query;
 
   /// The type of the query. You can use the following values:
@@ -2060,226 +2166,256 @@ class ResourceQuery {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
   final QueryType type;
 
   ResourceQuery({
-    @_s.required this.query,
-    @_s.required this.type,
+    required this.query,
+    required this.type,
   });
-  factory ResourceQuery.fromJson(Map<String, dynamic> json) =>
-      _$ResourceQueryFromJson(json);
+  factory ResourceQuery.fromJson(Map<String, dynamic> json) {
+    return ResourceQuery(
+      query: json['Query'] as String,
+      type: (json['Type'] as String).toQueryType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceQueryToJson(this);
+  Map<String, dynamic> toJson() {
+    final query = this.query;
+    final type = this.type;
+    return {
+      'Query': query,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 /// A structure that identifies the current group membership status for a
 /// resource. Adding a resource to a resource group is performed asynchronously
 /// as a background task. A <code>PENDING</code> status indicates, for this
 /// resource, that the process isn't completed yet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceStatus {
   /// The current status.
-  @_s.JsonKey(name: 'Name')
-  final ResourceStatusValue name;
+  final ResourceStatusValue? name;
 
   ResourceStatus({
     this.name,
   });
-  factory ResourceStatus.fromJson(Map<String, dynamic> json) =>
-      _$ResourceStatusFromJson(json);
+  factory ResourceStatus.fromJson(Map<String, dynamic> json) {
+    return ResourceStatus(
+      name: (json['Name'] as String?)?.toResourceStatusValue(),
+    );
+  }
 }
 
 enum ResourceStatusValue {
-  @_s.JsonValue('PENDING')
   pending,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ResourceStatusValue {
+  String toValue() {
+    switch (this) {
+      case ResourceStatusValue.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  ResourceStatusValue toResourceStatusValue() {
+    switch (this) {
+      case 'PENDING':
+        return ResourceStatusValue.pending;
+    }
+    throw Exception('$this is not known in enum ResourceStatusValue');
+  }
+}
+
 class SearchResourcesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>QueryError</code> objects. Each error is an object that
   /// contains <code>ErrorCode</code> and <code>Message</code> structures.
   /// Possible values for <code>ErrorCode</code> are
   /// <code>CLOUDFORMATION_STACK_INACTIVE</code> and
   /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
-  @_s.JsonKey(name: 'QueryErrors')
-  final List<QueryError> queryErrors;
+  final List<QueryError>? queryErrors;
 
   /// The ARNs and resource types of resources that are members of the group that
   /// you specified.
-  @_s.JsonKey(name: 'ResourceIdentifiers')
-  final List<ResourceIdentifier> resourceIdentifiers;
+  final List<ResourceIdentifier>? resourceIdentifiers;
 
   SearchResourcesOutput({
     this.nextToken,
     this.queryErrors,
     this.resourceIdentifiers,
   });
-  factory SearchResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$SearchResourcesOutputFromJson(json);
+  factory SearchResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return SearchResourcesOutput(
+      nextToken: json['NextToken'] as String?,
+      queryErrors: (json['QueryErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagOutput {
   /// The ARN of the tagged resource.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The tags that have been added to the specified resource group.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   TagOutput({
     this.arn,
     this.tags,
   });
-  factory TagOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagOutputFromJson(json);
+  factory TagOutput.fromJson(Map<String, dynamic> json) {
+    return TagOutput(
+      arn: json['Arn'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UngroupResourcesOutput {
   /// A list of any resources that failed to be removed from the group by this
   /// operation.
-  @_s.JsonKey(name: 'Failed')
-  final List<FailedResource> failed;
+  final List<FailedResource>? failed;
 
   /// A list of any resources that are still in the process of being removed from
   /// the group by this operation. These pending removals continue asynchronously.
   /// You can check the status of pending removals by using the <code>
   /// <a>ListGroupResources</a> </code> operation. After the resource is
   /// successfully removed, it no longer appears in the response.
-  @_s.JsonKey(name: 'Pending')
-  final List<PendingResource> pending;
+  final List<PendingResource>? pending;
 
   /// A list of resources that were successfully removed from the group by this
   /// operation.
-  @_s.JsonKey(name: 'Succeeded')
-  final List<String> succeeded;
+  final List<String>? succeeded;
 
   UngroupResourcesOutput({
     this.failed,
     this.pending,
     this.succeeded,
   });
-  factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$UngroupResourcesOutputFromJson(json);
+  factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return UngroupResourcesOutput(
+      failed: (json['Failed'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pending: (json['Pending'] as List?)
+          ?.whereNotNull()
+          .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      succeeded: (json['Succeeded'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagOutput {
   /// The ARN of the resource group from which tags have been removed.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The keys of the tags that were removed.
-  @_s.JsonKey(name: 'Keys')
-  final List<String> keys;
+  final List<String>? keys;
 
   UntagOutput({
     this.arn,
     this.keys,
   });
-  factory UntagOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagOutputFromJson(json);
+  factory UntagOutput.fromJson(Map<String, dynamic> json) {
+    return UntagOutput(
+      arn: json['Arn'] as String?,
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGroupOutput {
   /// The update description of the resource group.
-  @_s.JsonKey(name: 'Group')
-  final Group group;
+  final Group? group;
 
   UpdateGroupOutput({
     this.group,
   });
-  factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGroupOutputFromJson(json);
+  factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGroupQueryOutput {
   /// The updated resource query associated with the resource group after the
   /// update.
-  @_s.JsonKey(name: 'GroupQuery')
-  final GroupQuery groupQuery;
+  final GroupQuery? groupQuery;
 
   UpdateGroupQueryOutput({
     this.groupQuery,
   });
-  factory UpdateGroupQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGroupQueryOutputFromJson(json);
+  factory UpdateGroupQueryOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGroupQueryOutput(
+      groupQuery: json['GroupQuery'] != null
+          ? GroupQuery.fromJson(json['GroupQuery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class MethodNotAllowedException extends _s.GenericAwsException {
-  MethodNotAllowedException({String type, String message})
+  MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

@@ -34,6 +34,7 @@ void main() {
     );
 
     await service.operationName0(
+      pipelineId: "foo",
       ascending: "true",
       checksum: "12345",
       config: StructType(
@@ -41,7 +42,6 @@ void main() {
         b: "two",
       ),
       pageToken: "bar",
-      pipelineId: "foo",
     );
 /*
 {

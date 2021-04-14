@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'rds-2014-10-31.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'rds-2014-10-31.g.dart';
 
 /// Amazon Relational Database Service (Amazon RDS) is a web service that makes
 /// it easier to set up, operate, and scale a relational database in the cloud.
@@ -38,9 +30,9 @@ class RDS {
   final Map<String, _s.Shape> shapes;
 
   RDS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -79,9 +71,9 @@ class RDS {
   /// associated with. For the list of supported feature names, see
   /// <a>DBEngineVersion</a>.
   Future<void> addRoleToDBCluster({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String roleArn,
-    String featureName,
+    required String dBClusterIdentifier,
+    required String roleArn,
+    String? featureName,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -126,9 +118,9 @@ class RDS {
   /// instance, for example
   /// <code>arn:aws:iam::123456789012:role/AccessRole</code>.
   Future<void> addRoleToDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String featureName,
-    @_s.required String roleArn,
+    required String dBInstanceIdentifier,
+    required String featureName,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(featureName, 'featureName');
@@ -192,8 +184,8 @@ class RDS {
   /// source identifier to.
   Future<AddSourceIdentifierToSubscriptionResult>
       addSourceIdentifierToSubscription({
-    @_s.required String sourceIdentifier,
-    @_s.required String subscriptionName,
+    required String sourceIdentifier,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -238,8 +230,8 @@ class RDS {
   /// Parameter [tags] :
   /// The tags to be assigned to the Amazon RDS resource.
   Future<void> addTagsToResource({
-    @_s.required String resourceName,
-    @_s.required List<Tag> tags,
+    required String resourceName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -298,9 +290,9 @@ class RDS {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing">
   /// Constructing an RDS Amazon Resource Name (ARN)</a>.
   Future<ApplyPendingMaintenanceActionResult> applyPendingMaintenanceAction({
-    @_s.required String applyAction,
-    @_s.required String optInType,
-    @_s.required String resourceIdentifier,
+    required String applyAction,
+    required String optInType,
+    required String resourceIdentifier,
   }) async {
     ArgumentError.checkNotNull(applyAction, 'applyAction');
     ArgumentError.checkNotNull(optInType, 'optInType');
@@ -375,11 +367,11 @@ class RDS {
   /// be provided.
   Future<AuthorizeDBSecurityGroupIngressResult>
       authorizeDBSecurityGroupIngress({
-    @_s.required String dBSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupId,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String dBSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupId,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -469,10 +461,10 @@ class RDS {
   /// and <i>BacktrackTo</i> is set to a timestamp earlier than the earliest
   /// backtrack time, an error occurs.
   Future<DBClusterBacktrack> backtrackDBCluster({
-    @_s.required DateTime backtrackTo,
-    @_s.required String dBClusterIdentifier,
-    bool force,
-    bool useEarliestTimeOnPointInTimeUnavailable,
+    required DateTime backtrackTo,
+    required String dBClusterIdentifier,
+    bool? force,
+    bool? useEarliestTimeOnPointInTimeUnavailable,
   }) async {
     ArgumentError.checkNotNull(backtrackTo, 'backtrackTo');
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
@@ -505,7 +497,7 @@ class RDS {
   /// Parameter [exportTaskIdentifier] :
   /// The identifier of the snapshot export task to cancel.
   Future<ExportTask> cancelExportTask({
-    @_s.required String exportTaskIdentifier,
+    required String exportTaskIdentifier,
   }) async {
     ArgumentError.checkNotNull(exportTaskIdentifier, 'exportTaskIdentifier');
     final $request = <String, dynamic>{};
@@ -582,10 +574,10 @@ class RDS {
   /// </ul>
   /// Example: <code>my-cluster-param-group1</code>
   Future<CopyDBClusterParameterGroupResult> copyDBClusterParameterGroup({
-    @_s.required String sourceDBClusterParameterGroupIdentifier,
-    @_s.required String targetDBClusterParameterGroupDescription,
-    @_s.required String targetDBClusterParameterGroupIdentifier,
-    List<Tag> tags,
+    required String sourceDBClusterParameterGroupIdentifier,
+    required String targetDBClusterParameterGroupDescription,
+    required String targetDBClusterParameterGroupIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(sourceDBClusterParameterGroupIdentifier,
         'sourceDBClusterParameterGroupIdentifier');
@@ -849,13 +841,13 @@ class RDS {
   /// Parameter [sourceRegion] :
   /// The ID of the region that contains the snapshot to be copied.
   Future<CopyDBClusterSnapshotResult> copyDBClusterSnapshot({
-    @_s.required String sourceDBClusterSnapshotIdentifier,
-    @_s.required String targetDBClusterSnapshotIdentifier,
-    bool copyTags,
-    String kmsKeyId,
-    String preSignedUrl,
-    String sourceRegion,
-    List<Tag> tags,
+    required String sourceDBClusterSnapshotIdentifier,
+    required String targetDBClusterSnapshotIdentifier,
+    bool? copyTags,
+    String? kmsKeyId,
+    String? preSignedUrl,
+    String? sourceRegion,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
@@ -934,10 +926,10 @@ class RDS {
   /// </ul>
   /// Example: <code>my-db-parameter-group</code>
   Future<CopyDBParameterGroupResult> copyDBParameterGroup({
-    @_s.required String sourceDBParameterGroupIdentifier,
-    @_s.required String targetDBParameterGroupDescription,
-    @_s.required String targetDBParameterGroupIdentifier,
-    List<Tag> tags,
+    required String sourceDBParameterGroupIdentifier,
+    required String targetDBParameterGroupDescription,
+    required String targetDBParameterGroupIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBParameterGroupIdentifier, 'sourceDBParameterGroupIdentifier');
@@ -1145,15 +1137,15 @@ class RDS {
   ///
   /// Example: <code>rds-caz-aiqhTgQv</code>.
   Future<CopyDBSnapshotResult> copyDBSnapshot({
-    @_s.required String sourceDBSnapshotIdentifier,
-    @_s.required String targetDBSnapshotIdentifier,
-    bool copyTags,
-    String kmsKeyId,
-    String optionGroupName,
-    String preSignedUrl,
-    String sourceRegion,
-    List<Tag> tags,
-    String targetCustomAvailabilityZone,
+    required String sourceDBSnapshotIdentifier,
+    required String targetDBSnapshotIdentifier,
+    bool? copyTags,
+    String? kmsKeyId,
+    String? optionGroupName,
+    String? preSignedUrl,
+    String? sourceRegion,
+    List<Tag>? tags,
+    String? targetCustomAvailabilityZone,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBSnapshotIdentifier, 'sourceDBSnapshotIdentifier');
@@ -1225,10 +1217,10 @@ class RDS {
   /// </ul>
   /// Example: <code>my-option-group</code>
   Future<CopyOptionGroupResult> copyOptionGroup({
-    @_s.required String sourceOptionGroupIdentifier,
-    @_s.required String targetOptionGroupDescription,
-    @_s.required String targetOptionGroupIdentifier,
-    List<Tag> tags,
+    required String sourceOptionGroupIdentifier,
+    required String targetOptionGroupDescription,
+    required String targetOptionGroupIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         sourceOptionGroupIdentifier, 'sourceOptionGroupIdentifier');
@@ -1287,10 +1279,10 @@ class RDS {
   ///
   /// Specify this parameter only if <code>ExistingVpnId</code> isn't specified.
   Future<CreateCustomAvailabilityZoneResult> createCustomAvailabilityZone({
-    @_s.required String customAvailabilityZoneName,
-    String existingVpnId,
-    String newVpnTunnelName,
-    String vpnTunnelOriginatorIP,
+    required String customAvailabilityZoneName,
+    String? existingVpnId,
+    String? newVpnTunnelName,
+    String? vpnTunnelOriginatorIP,
   }) async {
     ArgumentError.checkNotNull(
         customAvailabilityZoneName, 'customAvailabilityZoneName');
@@ -1775,40 +1767,40 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of EC2 VPC security groups to associate with this DB cluster.
   Future<CreateDBClusterResult> createDBCluster({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String engine,
-    List<String> availabilityZones,
-    int backtrackWindow,
-    int backupRetentionPeriod,
-    String characterSetName,
-    bool copyTagsToSnapshot,
-    String dBClusterParameterGroupName,
-    String dBSubnetGroupName,
-    String databaseName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableGlobalWriteForwarding,
-    bool enableHttpEndpoint,
-    bool enableIAMDatabaseAuthentication,
-    String engineMode,
-    String engineVersion,
-    String globalClusterIdentifier,
-    String kmsKeyId,
-    String masterUserPassword,
-    String masterUsername,
-    String optionGroupName,
-    int port,
-    String preSignedUrl,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    String replicationSourceIdentifier,
-    ScalingConfiguration scalingConfiguration,
-    String sourceRegion,
-    bool storageEncrypted,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required String dBClusterIdentifier,
+    required String engine,
+    List<String>? availabilityZones,
+    int? backtrackWindow,
+    int? backupRetentionPeriod,
+    String? characterSetName,
+    bool? copyTagsToSnapshot,
+    String? dBClusterParameterGroupName,
+    String? dBSubnetGroupName,
+    String? databaseName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableGlobalWriteForwarding,
+    bool? enableHttpEndpoint,
+    bool? enableIAMDatabaseAuthentication,
+    String? engineMode,
+    String? engineVersion,
+    String? globalClusterIdentifier,
+    String? kmsKeyId,
+    String? masterUserPassword,
+    String? masterUsername,
+    String? optionGroupName,
+    int? port,
+    String? preSignedUrl,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    String? replicationSourceIdentifier,
+    ScalingConfiguration? scalingConfiguration,
+    String? sourceRegion,
+    bool? storageEncrypted,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
@@ -1907,12 +1899,12 @@ class RDS {
   /// Parameter [tags] :
   /// The tags to be assigned to the Amazon RDS resource.
   Future<DBClusterEndpoint> createDBClusterEndpoint({
-    @_s.required String dBClusterEndpointIdentifier,
-    @_s.required String dBClusterIdentifier,
-    @_s.required String endpointType,
-    List<String> excludedMembers,
-    List<String> staticMembers,
-    List<Tag> tags,
+    required String dBClusterEndpointIdentifier,
+    required String dBClusterIdentifier,
+    required String endpointType,
+    List<String>? excludedMembers,
+    List<String>? staticMembers,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
@@ -2010,10 +2002,10 @@ class RDS {
   /// Parameter [tags] :
   /// Tags to assign to the DB cluster parameter group.
   Future<CreateDBClusterParameterGroupResult> createDBClusterParameterGroup({
-    @_s.required String dBClusterParameterGroupName,
-    @_s.required String dBParameterGroupFamily,
-    @_s.required String description,
-    List<Tag> tags,
+    required String dBClusterParameterGroupName,
+    required String dBParameterGroupFamily,
+    required String description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
@@ -2088,9 +2080,9 @@ class RDS {
   /// Parameter [tags] :
   /// The tags to be assigned to the DB cluster snapshot.
   Future<CreateDBClusterSnapshotResult> createDBClusterSnapshot({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String dBClusterSnapshotIdentifier,
-    List<Tag> tags,
+    required String dBClusterIdentifier,
+    required String dBClusterSnapshotIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
@@ -3101,54 +3093,54 @@ class RDS {
   ///
   /// Default: The default EC2 VPC security group for the DB subnet group's VPC.
   Future<CreateDBInstanceResult> createDBInstance({
-    @_s.required String dBInstanceClass,
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String engine,
-    int allocatedStorage,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    int backupRetentionPeriod,
-    String characterSetName,
-    bool copyTagsToSnapshot,
-    String dBClusterIdentifier,
-    String dBName,
-    String dBParameterGroupName,
-    List<String> dBSecurityGroups,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableCustomerOwnedIp,
-    bool enableIAMDatabaseAuthentication,
-    bool enablePerformanceInsights,
-    String engineVersion,
-    int iops,
-    String kmsKeyId,
-    String licenseModel,
-    String masterUserPassword,
-    String masterUsername,
-    int maxAllocatedStorage,
-    int monitoringInterval,
-    String monitoringRoleArn,
-    bool multiAZ,
-    String ncharCharacterSetName,
-    String optionGroupName,
-    String performanceInsightsKMSKeyId,
-    int performanceInsightsRetentionPeriod,
-    int port,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    List<ProcessorFeature> processorFeatures,
-    int promotionTier,
-    bool publiclyAccessible,
-    bool storageEncrypted,
-    String storageType,
-    List<Tag> tags,
-    String tdeCredentialArn,
-    String tdeCredentialPassword,
-    String timezone,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceClass,
+    required String dBInstanceIdentifier,
+    required String engine,
+    int? allocatedStorage,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    int? backupRetentionPeriod,
+    String? characterSetName,
+    bool? copyTagsToSnapshot,
+    String? dBClusterIdentifier,
+    String? dBName,
+    String? dBParameterGroupName,
+    List<String>? dBSecurityGroups,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableCustomerOwnedIp,
+    bool? enableIAMDatabaseAuthentication,
+    bool? enablePerformanceInsights,
+    String? engineVersion,
+    int? iops,
+    String? kmsKeyId,
+    String? licenseModel,
+    String? masterUserPassword,
+    String? masterUsername,
+    int? maxAllocatedStorage,
+    int? monitoringInterval,
+    String? monitoringRoleArn,
+    bool? multiAZ,
+    String? ncharCharacterSetName,
+    String? optionGroupName,
+    String? performanceInsightsKMSKeyId,
+    int? performanceInsightsRetentionPeriod,
+    int? port,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    List<ProcessorFeature>? processorFeatures,
+    int? promotionTier,
+    bool? publiclyAccessible,
+    bool? storageEncrypted,
+    String? storageType,
+    List<Tag>? tags,
+    String? tdeCredentialArn,
+    String? tdeCredentialPassword,
+    String? timezone,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
@@ -3668,39 +3660,39 @@ class RDS {
   ///
   /// Default: The default EC2 VPC security group for the DB subnet group's VPC.
   Future<CreateDBInstanceReadReplicaResult> createDBInstanceReadReplica({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String sourceDBInstanceIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    bool copyTagsToSnapshot,
-    String dBInstanceClass,
-    String dBParameterGroupName,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableIAMDatabaseAuthentication,
-    bool enablePerformanceInsights,
-    int iops,
-    String kmsKeyId,
-    int maxAllocatedStorage,
-    int monitoringInterval,
-    String monitoringRoleArn,
-    bool multiAZ,
-    String optionGroupName,
-    String performanceInsightsKMSKeyId,
-    int performanceInsightsRetentionPeriod,
-    int port,
-    String preSignedUrl,
-    List<ProcessorFeature> processorFeatures,
-    bool publiclyAccessible,
-    ReplicaMode replicaMode,
-    String sourceRegion,
-    String storageType,
-    List<Tag> tags,
-    bool useDefaultProcessorFeatures,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceIdentifier,
+    required String sourceDBInstanceIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    bool? copyTagsToSnapshot,
+    String? dBInstanceClass,
+    String? dBParameterGroupName,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableIAMDatabaseAuthentication,
+    bool? enablePerformanceInsights,
+    int? iops,
+    String? kmsKeyId,
+    int? maxAllocatedStorage,
+    int? monitoringInterval,
+    String? monitoringRoleArn,
+    bool? multiAZ,
+    String? optionGroupName,
+    String? performanceInsightsKMSKeyId,
+    int? performanceInsightsRetentionPeriod,
+    int? port,
+    String? preSignedUrl,
+    List<ProcessorFeature>? processorFeatures,
+    bool? publiclyAccessible,
+    ReplicaMode? replicaMode,
+    String? sourceRegion,
+    String? storageType,
+    List<Tag>? tags,
+    bool? useDefaultProcessorFeatures,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(
@@ -3828,10 +3820,10 @@ class RDS {
   /// Parameter [tags] :
   /// Tags to assign to the DB parameter group.
   Future<CreateDBParameterGroupResult> createDBParameterGroup({
-    @_s.required String dBParameterGroupFamily,
-    @_s.required String dBParameterGroupName,
-    @_s.required String description,
-    List<Tag> tags,
+    required String dBParameterGroupFamily,
+    required String dBParameterGroupName,
+    required String description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
@@ -3910,16 +3902,16 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// One or more VPC security group IDs to associate with the new proxy.
   Future<CreateDBProxyResponse> createDBProxy({
-    @_s.required List<UserAuthConfig> auth,
-    @_s.required String dBProxyName,
-    @_s.required EngineFamily engineFamily,
-    @_s.required String roleArn,
-    @_s.required List<String> vpcSubnetIds,
-    bool debugLogging,
-    int idleClientTimeout,
-    bool requireTLS,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required List<UserAuthConfig> auth,
+    required String dBProxyName,
+    required EngineFamily engineFamily,
+    required String roleArn,
+    required List<String> vpcSubnetIds,
+    bool? debugLogging,
+    int? idleClientTimeout,
+    bool? requireTLS,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(auth, 'auth');
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
@@ -3990,9 +3982,9 @@ class RDS {
   /// Parameter [tags] :
   /// Tags to assign to the DB security group.
   Future<CreateDBSecurityGroupResult> createDBSecurityGroup({
-    @_s.required String dBSecurityGroupDescription,
-    @_s.required String dBSecurityGroupName,
-    List<Tag> tags,
+    required String dBSecurityGroupDescription,
+    required String dBSecurityGroupName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         dBSecurityGroupDescription, 'dBSecurityGroupDescription');
@@ -4055,9 +4047,9 @@ class RDS {
   /// </ul>
   /// Example: <code>my-snapshot-id</code>
   Future<CreateDBSnapshotResult> createDBSnapshot({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String dBSnapshotIdentifier,
-    List<Tag> tags,
+    required String dBInstanceIdentifier,
+    required String dBSnapshotIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
@@ -4106,10 +4098,10 @@ class RDS {
   /// Parameter [tags] :
   /// Tags to assign to the DB subnet group.
   Future<CreateDBSubnetGroupResult> createDBSubnetGroup({
-    @_s.required String dBSubnetGroupDescription,
-    @_s.required String dBSubnetGroupName,
-    @_s.required List<String> subnetIds,
-    List<Tag> tags,
+    required String dBSubnetGroupDescription,
+    required String dBSubnetGroupName,
+    required List<String> subnetIds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         dBSubnetGroupDescription, 'dBSubnetGroupDescription');
@@ -4247,13 +4239,13 @@ class RDS {
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
   /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
   Future<CreateEventSubscriptionResult> createEventSubscription({
-    @_s.required String snsTopicArn,
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    List<String> sourceIds,
-    String sourceType,
-    List<Tag> tags,
+    required String snsTopicArn,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    List<String>? sourceIds,
+    String? sourceType,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -4323,13 +4315,13 @@ class RDS {
   /// Parameter [storageEncrypted] :
   /// The storage encryption setting for the new global database cluster.
   Future<CreateGlobalClusterResult> createGlobalCluster({
-    String databaseName,
-    bool deletionProtection,
-    String engine,
-    String engineVersion,
-    String globalClusterIdentifier,
-    String sourceDBClusterIdentifier,
-    bool storageEncrypted,
+    String? databaseName,
+    bool? deletionProtection,
+    String? engine,
+    String? engineVersion,
+    String? globalClusterIdentifier,
+    String? sourceDBClusterIdentifier,
+    bool? storageEncrypted,
   }) async {
     final $request = <String, dynamic>{};
     databaseName?.also((arg) => $request['DatabaseName'] = arg);
@@ -4392,11 +4384,11 @@ class RDS {
   /// Parameter [tags] :
   /// Tags to assign to the option group.
   Future<CreateOptionGroupResult> createOptionGroup({
-    @_s.required String engineName,
-    @_s.required String majorEngineVersion,
-    @_s.required String optionGroupDescription,
-    @_s.required String optionGroupName,
-    List<Tag> tags,
+    required String engineName,
+    required String majorEngineVersion,
+    required String optionGroupDescription,
+    required String optionGroupName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(engineName, 'engineName');
     ArgumentError.checkNotNull(majorEngineVersion, 'majorEngineVersion');
@@ -4438,7 +4430,7 @@ class RDS {
   /// Parameter [customAvailabilityZoneId] :
   /// The custom AZ identifier.
   Future<DeleteCustomAvailabilityZoneResult> deleteCustomAvailabilityZone({
-    @_s.required String customAvailabilityZoneId,
+    required String customAvailabilityZoneId,
   }) async {
     ArgumentError.checkNotNull(
         customAvailabilityZoneId, 'customAvailabilityZoneId');
@@ -4522,9 +4514,9 @@ class RDS {
   /// <code>SkipFinalSnapshot</code> is disabled.
   /// </note>
   Future<DeleteDBClusterResult> deleteDBCluster({
-    @_s.required String dBClusterIdentifier,
-    String finalDBSnapshotIdentifier,
-    bool skipFinalSnapshot,
+    required String dBClusterIdentifier,
+    String? finalDBSnapshotIdentifier,
+    bool? skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -4559,7 +4551,7 @@ class RDS {
   /// The identifier associated with the custom endpoint. This parameter is
   /// stored as a lowercase string.
   Future<DBClusterEndpoint> deleteDBClusterEndpoint({
-    @_s.required String dBClusterEndpointIdentifier,
+    required String dBClusterEndpointIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
@@ -4609,7 +4601,7 @@ class RDS {
   /// </li>
   /// </ul>
   Future<void> deleteDBClusterParameterGroup({
-    @_s.required String dBClusterParameterGroupName,
+    required String dBClusterParameterGroupName,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
@@ -4649,7 +4641,7 @@ class RDS {
   /// Constraints: Must be the name of an existing DB cluster snapshot in the
   /// <code>available</code> state.
   Future<DeleteDBClusterSnapshotResult> deleteDBClusterSnapshot({
-    @_s.required String dBClusterSnapshotIdentifier,
+    required String dBClusterSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
@@ -4769,10 +4761,10 @@ class RDS {
   /// specified.
   /// </note>
   Future<DeleteDBInstanceResult> deleteDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    bool deleteAutomatedBackups,
-    String finalDBSnapshotIdentifier,
-    bool skipFinalSnapshot,
+    required String dBInstanceIdentifier,
+    bool? deleteAutomatedBackups,
+    String? finalDBSnapshotIdentifier,
+    bool? skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -4813,8 +4805,8 @@ class RDS {
   /// which is unique to an AWS Region.
   Future<DeleteDBInstanceAutomatedBackupResult>
       deleteDBInstanceAutomatedBackup({
-    String dBInstanceAutomatedBackupsArn,
-    String dbiResourceId,
+    String? dBInstanceAutomatedBackupsArn,
+    String? dbiResourceId,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceAutomatedBackupsArn
@@ -4857,7 +4849,7 @@ class RDS {
   /// </li>
   /// </ul>
   Future<void> deleteDBParameterGroup({
-    @_s.required String dBParameterGroupName,
+    required String dBParameterGroupName,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -4882,7 +4874,7 @@ class RDS {
   /// Parameter [dBProxyName] :
   /// The name of the DB proxy to delete.
   Future<DeleteDBProxyResponse> deleteDBProxy({
-    @_s.required String dBProxyName,
+    required String dBProxyName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
@@ -4932,7 +4924,7 @@ class RDS {
   /// </li>
   /// </ul>
   Future<void> deleteDBSecurityGroup({
-    @_s.required String dBSecurityGroupName,
+    required String dBSecurityGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -4964,7 +4956,7 @@ class RDS {
   /// Constraints: Must be the name of an existing DB snapshot in the
   /// <code>available</code> state.
   Future<DeleteDBSnapshotResult> deleteDBSnapshot({
-    @_s.required String dBSnapshotIdentifier,
+    required String dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
@@ -5005,7 +4997,7 @@ class RDS {
   ///
   /// Example: <code>mySubnetgroup</code>
   Future<void> deleteDBSubnetGroup({
-    @_s.required String dBSubnetGroupName,
+    required String dBSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     final $request = <String, dynamic>{};
@@ -5030,7 +5022,7 @@ class RDS {
   /// Parameter [subscriptionName] :
   /// The name of the RDS event notification subscription you want to delete.
   Future<DeleteEventSubscriptionResult> deleteEventSubscription({
-    @_s.required String subscriptionName,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
@@ -5061,7 +5053,7 @@ class RDS {
   /// Parameter [globalClusterIdentifier] :
   /// The cluster identifier of the global database cluster being deleted.
   Future<DeleteGlobalClusterResult> deleteGlobalCluster({
-    @_s.required String globalClusterIdentifier,
+    required String globalClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         globalClusterIdentifier, 'globalClusterIdentifier');
@@ -5089,7 +5081,7 @@ class RDS {
   /// Parameter [installationMediaId] :
   /// The installation medium ID.
   Future<InstallationMedia> deleteInstallationMedia({
-    @_s.required String installationMediaId,
+    required String installationMediaId,
   }) async {
     ArgumentError.checkNotNull(installationMediaId, 'installationMediaId');
     final $request = <String, dynamic>{};
@@ -5119,7 +5111,7 @@ class RDS {
   /// You can't delete default option groups.
   /// </note>
   Future<void> deleteOptionGroup({
-    @_s.required String optionGroupName,
+    required String optionGroupName,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
@@ -5157,10 +5149,10 @@ class RDS {
   /// Parameter [targetGroupName] :
   /// The identifier of the <code>DBProxyTargetGroup</code>.
   Future<void> deregisterDBProxyTargets({
-    @_s.required String dBProxyName,
-    List<String> dBClusterIdentifiers,
-    List<String> dBInstanceIdentifiers,
-    String targetGroupName,
+    required String dBProxyName,
+    List<String>? dBClusterIdentifiers,
+    List<String>? dBInstanceIdentifiers,
+    String? targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
@@ -5241,10 +5233,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<CertificateMessage> describeCertificates({
-    String certificateIdentifier,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? certificateIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     certificateIdentifier
@@ -5300,10 +5292,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<CustomAvailabilityZoneMessage> describeCustomAvailabilityZones({
-    String customAvailabilityZoneId,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? customAvailabilityZoneId,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     customAvailabilityZoneId
@@ -5421,11 +5413,11 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBClusterBacktrackMessage> describeDBClusterBacktracks({
-    @_s.required String dBClusterIdentifier,
-    String backtrackIdentifier,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    required String dBClusterIdentifier,
+    String? backtrackIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -5495,11 +5487,11 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBClusterEndpointMessage> describeDBClusterEndpoints({
-    String dBClusterEndpointIdentifier,
-    String dBClusterIdentifier,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBClusterEndpointIdentifier,
+    String? dBClusterIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBClusterEndpointIdentifier
@@ -5566,10 +5558,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBClusterParameterGroupsMessage> describeDBClusterParameterGroups({
-    String dBClusterParameterGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBClusterParameterGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBClusterParameterGroupName
@@ -5639,11 +5631,11 @@ class RDS {
   /// Parameter sources can be <code>engine</code>, <code>service</code>, or
   /// <code>customer</code>.
   Future<DBClusterParameterGroupDetails> describeDBClusterParameters({
-    @_s.required String dBClusterParameterGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String source,
+    required String dBClusterParameterGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? source,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
@@ -5691,7 +5683,7 @@ class RDS {
   /// The identifier for the DB cluster snapshot to describe the attributes for.
   Future<DescribeDBClusterSnapshotAttributesResult>
       describeDBClusterSnapshotAttributes({
-    @_s.required String dBClusterSnapshotIdentifier,
+    required String dBClusterSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
@@ -5846,14 +5838,14 @@ class RDS {
   /// <code>IncludeShared</code> parameter doesn't apply when
   /// <code>SnapshotType</code> is set to <code>public</code>.
   Future<DBClusterSnapshotMessage> describeDBClusterSnapshots({
-    String dBClusterIdentifier,
-    String dBClusterSnapshotIdentifier,
-    List<Filter> filters,
-    bool includePublic,
-    bool includeShared,
-    String marker,
-    int maxRecords,
-    String snapshotType,
+    String? dBClusterIdentifier,
+    String? dBClusterSnapshotIdentifier,
+    List<Filter>? filters,
+    bool? includePublic,
+    bool? includeShared,
+    String? marker,
+    int? maxRecords,
+    String? snapshotType,
   }) async {
     final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
@@ -5938,11 +5930,11 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBClusterMessage> describeDBClusters({
-    String dBClusterIdentifier,
-    List<Filter> filters,
-    bool includeShared,
-    String marker,
-    int maxRecords,
+    String? dBClusterIdentifier,
+    List<Filter>? filters,
+    bool? includeShared,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
@@ -6029,16 +6021,16 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBEngineVersionMessage> describeDBEngineVersions({
-    String dBParameterGroupFamily,
-    bool defaultOnly,
-    String engine,
-    String engineVersion,
-    List<Filter> filters,
-    bool includeAll,
-    bool listSupportedCharacterSets,
-    bool listSupportedTimezones,
-    String marker,
-    int maxRecords,
+    String? dBParameterGroupFamily,
+    bool? defaultOnly,
+    String? engine,
+    String? engineVersion,
+    List<Filter>? filters,
+    bool? includeAll,
+    bool? listSupportedCharacterSets,
+    bool? listSupportedTimezones,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBParameterGroupFamily
@@ -6141,12 +6133,12 @@ class RDS {
   /// called a marker is included in the response so that you can retrieve the
   /// remaining results.
   Future<DBInstanceAutomatedBackupMessage> describeDBInstanceAutomatedBackups({
-    String dBInstanceAutomatedBackupsArn,
-    String dBInstanceIdentifier,
-    String dbiResourceId,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBInstanceAutomatedBackupsArn,
+    String? dBInstanceIdentifier,
+    String? dbiResourceId,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceAutomatedBackupsArn
@@ -6241,10 +6233,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBInstanceMessage> describeDBInstances({
-    String dBInstanceIdentifier,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBInstanceIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
@@ -6306,13 +6298,13 @@ class RDS {
   /// marker is included in the response so you can retrieve the remaining
   /// results.
   Future<DescribeDBLogFilesResponse> describeDBLogFiles({
-    @_s.required String dBInstanceIdentifier,
-    int fileLastWritten,
-    int fileSize,
-    String filenameContains,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    required String dBInstanceIdentifier,
+    int? fileLastWritten,
+    int? fileSize,
+    String? filenameContains,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -6373,10 +6365,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBParameterGroupsMessage> describeDBParameterGroups({
-    String dBParameterGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBParameterGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBParameterGroupName?.also((arg) => $request['DBParameterGroupName'] = arg);
@@ -6438,11 +6430,11 @@ class RDS {
   ///
   /// Valid Values: <code>user | system | engine-default</code>
   Future<DBParameterGroupDetails> describeDBParameters({
-    @_s.required String dBParameterGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String source,
+    required String dBParameterGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? source,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -6490,10 +6482,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeDBProxiesResponse> describeDBProxies({
-    String dBProxyName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBProxyName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -6552,11 +6544,11 @@ class RDS {
   /// Parameter [targetGroupName] :
   /// The identifier of the <code>DBProxyTargetGroup</code> to describe.
   Future<DescribeDBProxyTargetGroupsResponse> describeDBProxyTargetGroups({
-    @_s.required String dBProxyName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String targetGroupName,
+    required String dBProxyName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     _s.validateNumRange(
@@ -6617,11 +6609,11 @@ class RDS {
   /// Parameter [targetGroupName] :
   /// The identifier of the <code>DBProxyTargetGroup</code> to describe.
   Future<DescribeDBProxyTargetsResponse> describeDBProxyTargets({
-    @_s.required String dBProxyName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String targetGroupName,
+    required String dBProxyName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     _s.validateNumRange(
@@ -6678,10 +6670,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBSecurityGroupMessage> describeDBSecurityGroups({
-    String dBSecurityGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBSecurityGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBSecurityGroupName?.also((arg) => $request['DBSecurityGroupName'] = arg);
@@ -6721,7 +6713,7 @@ class RDS {
   /// Parameter [dBSnapshotIdentifier] :
   /// The identifier for the DB snapshot to describe the attributes for.
   Future<DescribeDBSnapshotAttributesResult> describeDBSnapshotAttributes({
-    @_s.required String dBSnapshotIdentifier,
+    required String dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
@@ -6882,15 +6874,15 @@ class RDS {
   /// <code>IncludeShared</code> parameter doesn't apply when
   /// <code>SnapshotType</code> is set to <code>public</code>.
   Future<DBSnapshotMessage> describeDBSnapshots({
-    String dBInstanceIdentifier,
-    String dBSnapshotIdentifier,
-    String dbiResourceId,
-    List<Filter> filters,
-    bool includePublic,
-    bool includeShared,
-    String marker,
-    int maxRecords,
-    String snapshotType,
+    String? dBInstanceIdentifier,
+    String? dBSnapshotIdentifier,
+    String? dbiResourceId,
+    List<Filter>? filters,
+    bool? includePublic,
+    bool? includeShared,
+    String? marker,
+    int? maxRecords,
+    String? snapshotType,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
@@ -6948,10 +6940,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DBSubnetGroupMessage> describeDBSubnetGroups({
-    String dBSubnetGroupName,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    String? dBSubnetGroupName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
@@ -7003,10 +6995,10 @@ class RDS {
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeEngineDefaultClusterParametersResult>
       describeEngineDefaultClusterParameters({
-    @_s.required String dBParameterGroupFamily,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    required String dBParameterGroupFamily,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
@@ -7055,10 +7047,10 @@ class RDS {
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeEngineDefaultParametersResult>
       describeEngineDefaultParameters({
-    @_s.required String dBParameterGroupFamily,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    required String dBParameterGroupFamily,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
@@ -7097,8 +7089,8 @@ class RDS {
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
   /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
   Future<EventCategoriesMessage> describeEventCategories({
-    List<Filter> filters,
-    String sourceType,
+    List<Filter>? filters,
+    String? sourceType,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7150,10 +7142,10 @@ class RDS {
   /// Parameter [subscriptionName] :
   /// The name of the RDS event notification subscription you want to describe.
   Future<EventSubscriptionsMessage> describeEventSubscriptions({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String subscriptionName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7269,15 +7261,15 @@ class RDS {
   ///
   /// Example: 2009-07-08T18:00Z
   Future<EventsMessage> describeEvents({
-    int duration,
-    DateTime endTime,
-    List<String> eventCategories,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String sourceIdentifier,
-    SourceType sourceType,
-    DateTime startTime,
+    int? duration,
+    DateTime? endTime,
+    List<String>? eventCategories,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? sourceIdentifier,
+    SourceType? sourceType,
+    DateTime? startTime,
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
@@ -7356,11 +7348,11 @@ class RDS {
   /// Parameter [sourceArn] :
   /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
   Future<ExportTasksMessage> describeExportTasks({
-    String exportTaskIdentifier,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String sourceArn,
+    String? exportTaskIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? sourceArn,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -7442,10 +7434,10 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<GlobalClustersMessage> describeGlobalClusters({
-    List<Filter> filters,
-    String globalClusterIdentifier,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? globalClusterIdentifier,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7506,10 +7498,10 @@ class RDS {
   /// response includes only records beyond the marker, up to the value
   /// specified by <code>MaxRecords</code>.
   Future<InstallationMediaMessage> describeInstallationMedia({
-    List<Filter> filters,
-    String installationMediaId,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? installationMediaId,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7558,11 +7550,11 @@ class RDS {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<OptionGroupOptionsMessage> describeOptionGroupOptions({
-    @_s.required String engineName,
-    List<Filter> filters,
-    String majorEngineVersion,
-    String marker,
-    int maxRecords,
+    required String engineName,
+    List<Filter>? filters,
+    String? majorEngineVersion,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(engineName, 'engineName');
     final $request = <String, dynamic>{};
@@ -7621,12 +7613,12 @@ class RDS {
   /// The name of the option group to describe. Can't be supplied together with
   /// EngineName or MajorEngineVersion.
   Future<OptionGroups> describeOptionGroups({
-    String engineName,
-    List<Filter> filters,
-    String majorEngineVersion,
-    String marker,
-    int maxRecords,
-    String optionGroupName,
+    String? engineName,
+    List<Filter>? filters,
+    String? majorEngineVersion,
+    String? marker,
+    int? maxRecords,
+    String? optionGroupName,
   }) async {
     final $request = <String, dynamic>{};
     engineName?.also((arg) => $request['EngineName'] = arg);
@@ -7696,15 +7688,15 @@ class RDS {
   /// Parameter [vpc] :
   /// A value that indicates whether to show only VPC or non-VPC offerings.
   Future<OrderableDBInstanceOptionsMessage> describeOrderableDBInstanceOptions({
-    @_s.required String engine,
-    String availabilityZoneGroup,
-    String dBInstanceClass,
-    String engineVersion,
-    List<Filter> filters,
-    String licenseModel,
-    String marker,
-    int maxRecords,
-    bool vpc,
+    required String engine,
+    String? availabilityZoneGroup,
+    String? dBInstanceClass,
+    String? engineVersion,
+    List<Filter>? filters,
+    String? licenseModel,
+    String? marker,
+    int? maxRecords,
+    bool? vpc,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
@@ -7775,10 +7767,10 @@ class RDS {
   /// Parameter [resourceIdentifier] :
   /// The ARN of a resource to return pending maintenance actions for.
   Future<PendingMaintenanceActionsMessage> describePendingMaintenanceActions({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String resourceIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? resourceIdentifier,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7863,17 +7855,17 @@ class RDS {
   /// The offering identifier filter value. Specify this parameter to show only
   /// purchased reservations matching the specified offering identifier.
   Future<ReservedDBInstanceMessage> describeReservedDBInstances({
-    String dBInstanceClass,
-    String duration,
-    List<Filter> filters,
-    String leaseId,
-    String marker,
-    int maxRecords,
-    bool multiAZ,
-    String offeringType,
-    String productDescription,
-    String reservedDBInstanceId,
-    String reservedDBInstancesOfferingId,
+    String? dBInstanceClass,
+    String? duration,
+    List<Filter>? filters,
+    String? leaseId,
+    String? marker,
+    int? maxRecords,
+    bool? multiAZ,
+    String? offeringType,
+    String? productDescription,
+    String? reservedDBInstanceId,
+    String? reservedDBInstancesOfferingId,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -7959,15 +7951,15 @@ class RDS {
   /// Example: <code>438012d3-4052-4cc7-b2e3-8d3372e0e706</code>
   Future<ReservedDBInstancesOfferingMessage>
       describeReservedDBInstancesOfferings({
-    String dBInstanceClass,
-    String duration,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    bool multiAZ,
-    String offeringType,
-    String productDescription,
-    String reservedDBInstancesOfferingId,
+    String? dBInstanceClass,
+    String? duration,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    bool? multiAZ,
+    String? offeringType,
+    String? productDescription,
+    String? reservedDBInstancesOfferingId,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -8028,10 +8020,10 @@ class RDS {
   /// </li>
   /// </ul>
   Future<SourceRegionMessage> describeSourceRegions({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String regionName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? regionName,
   }) async {
     final $request = <String, dynamic>{};
     filters?.also((arg) => $request['Filters'] = arg);
@@ -8063,7 +8055,7 @@ class RDS {
   /// The customer identifier or the ARN of your DB instance.
   Future<DescribeValidDBInstanceModificationsResult>
       describeValidDBInstanceModifications({
-    @_s.required String dBInstanceIdentifier,
+    required String dBInstanceIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -8138,10 +8130,10 @@ class RDS {
   /// </li>
   /// </ul>
   Future<DownloadDBLogFilePortionDetails> downloadDBLogFilePortion({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String logFileName,
-    String marker,
-    int numberOfLines,
+    required String dBInstanceIdentifier,
+    required String logFileName,
+    String? marker,
+    int? numberOfLines,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(logFileName, 'logFileName');
@@ -8206,8 +8198,8 @@ class RDS {
   /// You must specify the instance identifier for an Aurora Replica in the DB
   /// cluster. For example, <code>mydbcluster-replica1</code>.
   Future<FailoverDBClusterResult> failoverDBCluster({
-    @_s.required String dBClusterIdentifier,
-    String targetDBInstanceIdentifier,
+    required String dBClusterIdentifier,
+    String? targetDBInstanceIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -8290,11 +8282,11 @@ class RDS {
   /// Example:
   /// <code>WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso</code>
   Future<InstallationMedia> importInstallationMedia({
-    @_s.required String customAvailabilityZoneId,
-    @_s.required String engine,
-    @_s.required String engineInstallationMediaPath,
-    @_s.required String engineVersion,
-    @_s.required String oSInstallationMediaPath,
+    required String customAvailabilityZoneId,
+    required String engine,
+    required String engineInstallationMediaPath,
+    required String engineVersion,
+    required String oSInstallationMediaPath,
   }) async {
     ArgumentError.checkNotNull(
         customAvailabilityZoneId, 'customAvailabilityZoneId');
@@ -8346,8 +8338,8 @@ class RDS {
   /// Parameter [filters] :
   /// This parameter isn't currently supported.
   Future<TagListMessage> listTagsForResource({
-    @_s.required String resourceName,
-    List<Filter> filters,
+    required String resourceName,
+    List<Filter>? filters,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
@@ -8417,8 +8409,8 @@ class RDS {
   /// certificate. If the override is removed, the default certificate is the
   /// system default.
   Future<ModifyCertificatesResult> modifyCertificates({
-    String certificateIdentifier,
-    bool removeCustomerOverride,
+    String? certificateIdentifier,
+    bool? removeCustomerOverride,
   }) async {
     final $request = <String, dynamic>{};
     certificateIdentifier
@@ -8525,10 +8517,10 @@ class RDS {
   /// <code>RollbackCapacityChange</code> ignores the capacity change if a
   /// scaling point isn't found in the timeout period.
   Future<DBClusterCapacityInfo> modifyCurrentDBClusterCapacity({
-    @_s.required String dBClusterIdentifier,
-    int capacity,
-    int secondsBeforeTimeout,
-    String timeoutAction,
+    required String dBClusterIdentifier,
+    int? capacity,
+    int? secondsBeforeTimeout,
+    String? timeoutAction,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -8842,30 +8834,30 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of VPC security groups that the DB cluster will belong to.
   Future<ModifyDBClusterResult> modifyDBCluster({
-    @_s.required String dBClusterIdentifier,
-    bool allowMajorVersionUpgrade,
-    bool applyImmediately,
-    int backtrackWindow,
-    int backupRetentionPeriod,
-    CloudwatchLogsExportConfiguration cloudwatchLogsExportConfiguration,
-    bool copyTagsToSnapshot,
-    String dBClusterParameterGroupName,
-    String dBInstanceParameterGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    bool enableGlobalWriteForwarding,
-    bool enableHttpEndpoint,
-    bool enableIAMDatabaseAuthentication,
-    String engineVersion,
-    String masterUserPassword,
-    String newDBClusterIdentifier,
-    String optionGroupName,
-    int port,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    ScalingConfiguration scalingConfiguration,
-    List<String> vpcSecurityGroupIds,
+    required String dBClusterIdentifier,
+    bool? allowMajorVersionUpgrade,
+    bool? applyImmediately,
+    int? backtrackWindow,
+    int? backupRetentionPeriod,
+    CloudwatchLogsExportConfiguration? cloudwatchLogsExportConfiguration,
+    bool? copyTagsToSnapshot,
+    String? dBClusterParameterGroupName,
+    String? dBInstanceParameterGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    bool? enableGlobalWriteForwarding,
+    bool? enableHttpEndpoint,
+    bool? enableIAMDatabaseAuthentication,
+    String? engineVersion,
+    String? masterUserPassword,
+    String? newDBClusterIdentifier,
+    String? optionGroupName,
+    int? port,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    ScalingConfiguration? scalingConfiguration,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -8945,10 +8937,10 @@ class RDS {
   /// List of DB instance identifiers that are part of the custom endpoint
   /// group.
   Future<DBClusterEndpoint> modifyDBClusterEndpoint({
-    @_s.required String dBClusterEndpointIdentifier,
-    String endpointType,
-    List<String> excludedMembers,
-    List<String> staticMembers,
+    required String dBClusterEndpointIdentifier,
+    String? endpointType,
+    List<String>? excludedMembers,
+    List<String>? staticMembers,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
@@ -9016,8 +9008,8 @@ class RDS {
   /// Parameter [parameters] :
   /// A list of parameters in the DB cluster parameter group to modify.
   Future<DBClusterParameterGroupNameMessage> modifyDBClusterParameterGroup({
-    @_s.required String dBClusterParameterGroupName,
-    @_s.required List<Parameter> parameters,
+    required String dBClusterParameterGroupName,
+    required List<Parameter> parameters,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
@@ -9108,10 +9100,10 @@ class RDS {
   /// cluster snapshot.
   Future<ModifyDBClusterSnapshotAttributeResult>
       modifyDBClusterSnapshotAttribute({
-    @_s.required String attributeName,
-    @_s.required String dBClusterSnapshotIdentifier,
-    List<String> valuesToAdd,
-    List<String> valuesToRemove,
+    required String attributeName,
+    required String dBClusterSnapshotIdentifier,
+    List<String>? valuesToAdd,
+    List<String>? valuesToRemove,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(
@@ -9812,50 +9804,50 @@ class RDS {
   /// </li>
   /// </ul>
   Future<ModifyDBInstanceResult> modifyDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    int allocatedStorage,
-    bool allowMajorVersionUpgrade,
-    bool applyImmediately,
-    bool autoMinorVersionUpgrade,
-    int backupRetentionPeriod,
-    String cACertificateIdentifier,
-    bool certificateRotationRestart,
-    CloudwatchLogsExportConfiguration cloudwatchLogsExportConfiguration,
-    bool copyTagsToSnapshot,
-    String dBInstanceClass,
-    String dBParameterGroupName,
-    int dBPortNumber,
-    List<String> dBSecurityGroups,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    bool enableCustomerOwnedIp,
-    bool enableIAMDatabaseAuthentication,
-    bool enablePerformanceInsights,
-    String engineVersion,
-    int iops,
-    String licenseModel,
-    String masterUserPassword,
-    int maxAllocatedStorage,
-    int monitoringInterval,
-    String monitoringRoleArn,
-    bool multiAZ,
-    String newDBInstanceIdentifier,
-    String optionGroupName,
-    String performanceInsightsKMSKeyId,
-    int performanceInsightsRetentionPeriod,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    List<ProcessorFeature> processorFeatures,
-    int promotionTier,
-    bool publiclyAccessible,
-    ReplicaMode replicaMode,
-    String storageType,
-    String tdeCredentialArn,
-    String tdeCredentialPassword,
-    bool useDefaultProcessorFeatures,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceIdentifier,
+    int? allocatedStorage,
+    bool? allowMajorVersionUpgrade,
+    bool? applyImmediately,
+    bool? autoMinorVersionUpgrade,
+    int? backupRetentionPeriod,
+    String? cACertificateIdentifier,
+    bool? certificateRotationRestart,
+    CloudwatchLogsExportConfiguration? cloudwatchLogsExportConfiguration,
+    bool? copyTagsToSnapshot,
+    String? dBInstanceClass,
+    String? dBParameterGroupName,
+    int? dBPortNumber,
+    List<String>? dBSecurityGroups,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    bool? enableCustomerOwnedIp,
+    bool? enableIAMDatabaseAuthentication,
+    bool? enablePerformanceInsights,
+    String? engineVersion,
+    int? iops,
+    String? licenseModel,
+    String? masterUserPassword,
+    int? maxAllocatedStorage,
+    int? monitoringInterval,
+    String? monitoringRoleArn,
+    bool? multiAZ,
+    String? newDBInstanceIdentifier,
+    String? optionGroupName,
+    String? performanceInsightsKMSKeyId,
+    int? performanceInsightsRetentionPeriod,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    List<ProcessorFeature>? processorFeatures,
+    int? promotionTier,
+    bool? publiclyAccessible,
+    ReplicaMode? replicaMode,
+    String? storageType,
+    String? tdeCredentialArn,
+    String? tdeCredentialPassword,
+    bool? useDefaultProcessorFeatures,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -9985,8 +9977,8 @@ class RDS {
   /// changes are applied when you reboot the DB instance without failover.
   /// </note>
   Future<DBParameterGroupNameMessage> modifyDBParameterGroup({
-    @_s.required String dBParameterGroupName,
-    @_s.required List<Parameter> parameters,
+    required String dBParameterGroupName,
+    required List<Parameter> parameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
@@ -10051,14 +10043,14 @@ class RDS {
   /// Parameter [securityGroups] :
   /// The new list of security groups for the <code>DBProxy</code>.
   Future<ModifyDBProxyResponse> modifyDBProxy({
-    @_s.required String dBProxyName,
-    List<UserAuthConfig> auth,
-    bool debugLogging,
-    int idleClientTimeout,
-    String newDBProxyName,
-    bool requireTLS,
-    String roleArn,
-    List<String> securityGroups,
+    required String dBProxyName,
+    List<UserAuthConfig>? auth,
+    bool? debugLogging,
+    int? idleClientTimeout,
+    String? newDBProxyName,
+    bool? requireTLS,
+    String? roleArn,
+    List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
@@ -10105,10 +10097,10 @@ class RDS {
   /// must begin with a letter and must contain only ASCII letters, digits, and
   /// hyphens; it can't end with a hyphen or contain two consecutive hyphens.
   Future<ModifyDBProxyTargetGroupResponse> modifyDBProxyTargetGroup({
-    @_s.required String dBProxyName,
-    @_s.required String targetGroupName,
-    ConnectionPoolConfiguration connectionPoolConfig,
-    String newName,
+    required String dBProxyName,
+    required String targetGroupName,
+    ConnectionPoolConfiguration? connectionPoolConfig,
+    String? newName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     ArgumentError.checkNotNull(targetGroupName, 'targetGroupName');
@@ -10184,9 +10176,9 @@ class RDS {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Oracle.html#USER_UpgradeDBInstance.Oracle.OGPG.OG">Option
   /// group considerations</a> in the <i>Amazon RDS User Guide.</i>
   Future<ModifyDBSnapshotResult> modifyDBSnapshot({
-    @_s.required String dBSnapshotIdentifier,
-    String engineVersion,
-    String optionGroupName,
+    required String dBSnapshotIdentifier,
+    String? engineVersion,
+    String? optionGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
@@ -10269,10 +10261,10 @@ class RDS {
   /// whose account ID is explicitly added to the <code>restore</code> attribute
   /// can still copy or restore the manual DB snapshot.
   Future<ModifyDBSnapshotAttributeResult> modifyDBSnapshotAttribute({
-    @_s.required String attributeName,
-    @_s.required String dBSnapshotIdentifier,
-    List<String> valuesToAdd,
-    List<String> valuesToRemove,
+    required String attributeName,
+    required String dBSnapshotIdentifier,
+    List<String>? valuesToAdd,
+    List<String>? valuesToRemove,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
@@ -10319,9 +10311,9 @@ class RDS {
   /// Parameter [dBSubnetGroupDescription] :
   /// The description for the DB subnet group.
   Future<ModifyDBSubnetGroupResult> modifyDBSubnetGroup({
-    @_s.required String dBSubnetGroupName,
-    @_s.required List<String> subnetIds,
-    String dBSubnetGroupDescription,
+    required String dBSubnetGroupName,
+    required List<String> subnetIds,
+    String? dBSubnetGroupDescription,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -10391,11 +10383,11 @@ class RDS {
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
   /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    String snsTopicArn,
-    String sourceType,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? snsTopicArn,
+    String? sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
@@ -10467,9 +10459,9 @@ class RDS {
   /// </ul>
   /// Example: <code>my-cluster2</code>
   Future<ModifyGlobalClusterResult> modifyGlobalCluster({
-    bool deletionProtection,
-    String globalClusterIdentifier,
-    String newGlobalClusterIdentifier,
+    bool? deletionProtection,
+    String? globalClusterIdentifier,
+    String? newGlobalClusterIdentifier,
   }) async {
     final $request = <String, dynamic>{};
     deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
@@ -10515,10 +10507,10 @@ class RDS {
   /// Parameter [optionsToRemove] :
   /// Options in this list are removed from the option group.
   Future<ModifyOptionGroupResult> modifyOptionGroup({
-    @_s.required String optionGroupName,
-    bool applyImmediately,
-    List<OptionConfiguration> optionsToInclude,
-    List<String> optionsToRemove,
+    required String optionGroupName,
+    bool? applyImmediately,
+    List<OptionConfiguration>? optionsToInclude,
+    List<String>? optionsToRemove,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
@@ -10619,9 +10611,9 @@ class RDS {
   /// </li>
   /// </ul>
   Future<PromoteReadReplicaResult> promoteReadReplica({
-    @_s.required String dBInstanceIdentifier,
-    int backupRetentionPeriod,
-    String preferredBackupWindow,
+    required String dBInstanceIdentifier,
+    int? backupRetentionPeriod,
+    String? preferredBackupWindow,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -10665,7 +10657,7 @@ class RDS {
   /// </ul>
   /// Example: <code>my-cluster-replica1</code>
   Future<PromoteReadReplicaDBClusterResult> promoteReadReplicaDBCluster({
-    @_s.required String dBClusterIdentifier,
+    required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -10706,10 +10698,10 @@ class RDS {
   /// Example: myreservationID
   Future<PurchaseReservedDBInstancesOfferingResult>
       purchaseReservedDBInstancesOffering({
-    @_s.required String reservedDBInstancesOfferingId,
-    int dBInstanceCount,
-    String reservedDBInstanceId,
-    List<Tag> tags,
+    required String reservedDBInstancesOfferingId,
+    int? dBInstanceCount,
+    String? reservedDBInstanceId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         reservedDBInstancesOfferingId, 'reservedDBInstancesOfferingId');
@@ -10767,8 +10759,8 @@ class RDS {
   /// Constraint: You can't enable force failover if the instance isn't
   /// configured for Multi-AZ.
   Future<RebootDBInstanceResult> rebootDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    bool forceFailover,
+    required String dBInstanceIdentifier,
+    bool? forceFailover,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -10814,10 +10806,10 @@ class RDS {
   /// Parameter [targetGroupName] :
   /// The identifier of the <code>DBProxyTargetGroup</code>.
   Future<RegisterDBProxyTargetsResponse> registerDBProxyTargets({
-    @_s.required String dBProxyName,
-    List<String> dBClusterIdentifiers,
-    List<String> dBInstanceIdentifiers,
-    String targetGroupName,
+    required String dBProxyName,
+    List<String>? dBClusterIdentifiers,
+    List<String>? dBInstanceIdentifiers,
+    String? targetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
@@ -10859,8 +10851,8 @@ class RDS {
   /// Parameter [globalClusterIdentifier] :
   /// The cluster identifier to detach from the Aurora global database cluster.
   Future<RemoveFromGlobalClusterResult> removeFromGlobalCluster({
-    String dbClusterIdentifier,
-    String globalClusterIdentifier,
+    String? dbClusterIdentifier,
+    String? globalClusterIdentifier,
   }) async {
     final $request = <String, dynamic>{};
     dbClusterIdentifier?.also((arg) => $request['DbClusterIdentifier'] = arg);
@@ -10906,9 +10898,9 @@ class RDS {
   /// disassociated from. For the list of supported feature names, see
   /// <a>DBEngineVersion</a>.
   Future<void> removeRoleFromDBCluster({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String roleArn,
-    String featureName,
+    required String dBClusterIdentifier,
+    required String roleArn,
+    String? featureName,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -10948,9 +10940,9 @@ class RDS {
   /// instance, for example,
   /// <code>arn:aws:iam::123456789012:role/AccessRole</code>.
   Future<void> removeRoleFromDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String featureName,
-    @_s.required String roleArn,
+    required String dBInstanceIdentifier,
+    required String featureName,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(featureName, 'featureName');
@@ -10987,8 +10979,8 @@ class RDS {
   /// source identifier from.
   Future<RemoveSourceIdentifierFromSubscriptionResult>
       removeSourceIdentifierFromSubscription({
-    @_s.required String sourceIdentifier,
-    @_s.required String subscriptionName,
+    required String sourceIdentifier,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -11031,8 +11023,8 @@ class RDS {
   /// Parameter [tagKeys] :
   /// The tag key (name) of the tag to be removed.
   Future<void> removeTagsFromResource({
-    @_s.required String resourceName,
-    @_s.required List<String> tagKeys,
+    required String resourceName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -11089,9 +11081,9 @@ class RDS {
   /// there is a list of parameter names specified for the
   /// <code>Parameters</code> parameter.
   Future<DBClusterParameterGroupNameMessage> resetDBClusterParameterGroup({
-    @_s.required String dBClusterParameterGroupName,
-    List<Parameter> parameters,
-    bool resetAllParameters,
+    required String dBClusterParameterGroupName,
+    List<Parameter>? parameters,
+    bool? resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(
         dBClusterParameterGroupName, 'dBClusterParameterGroupName');
@@ -11171,9 +11163,9 @@ class RDS {
   /// group to default values. By default, all parameters in the DB parameter
   /// group are reset to default values.
   Future<DBParameterGroupNameMessage> resetDBParameterGroup({
-    @_s.required String dBParameterGroupName,
-    List<Parameter> parameters,
-    bool resetAllParameters,
+    required String dBParameterGroupName,
+    List<Parameter>? parameters,
+    bool? resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -11521,37 +11513,37 @@ class RDS {
   /// A list of EC2 VPC security groups to associate with the restored DB
   /// cluster.
   Future<RestoreDBClusterFromS3Result> restoreDBClusterFromS3({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String engine,
-    @_s.required String masterUserPassword,
-    @_s.required String masterUsername,
-    @_s.required String s3BucketName,
-    @_s.required String s3IngestionRoleArn,
-    @_s.required String sourceEngine,
-    @_s.required String sourceEngineVersion,
-    List<String> availabilityZones,
-    int backtrackWindow,
-    int backupRetentionPeriod,
-    String characterSetName,
-    bool copyTagsToSnapshot,
-    String dBClusterParameterGroupName,
-    String dBSubnetGroupName,
-    String databaseName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableIAMDatabaseAuthentication,
-    String engineVersion,
-    String kmsKeyId,
-    String optionGroupName,
-    int port,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    String s3Prefix,
-    bool storageEncrypted,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required String dBClusterIdentifier,
+    required String engine,
+    required String masterUserPassword,
+    required String masterUsername,
+    required String s3BucketName,
+    required String s3IngestionRoleArn,
+    required String sourceEngine,
+    required String sourceEngineVersion,
+    List<String>? availabilityZones,
+    int? backtrackWindow,
+    int? backupRetentionPeriod,
+    String? characterSetName,
+    bool? copyTagsToSnapshot,
+    String? dBClusterParameterGroupName,
+    String? dBSubnetGroupName,
+    String? databaseName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableIAMDatabaseAuthentication,
+    String? engineVersion,
+    String? kmsKeyId,
+    String? optionGroupName,
+    int? port,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    String? s3Prefix,
+    bool? storageEncrypted,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
@@ -11879,28 +11871,28 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of VPC security groups that the new DB cluster will belong to.
   Future<RestoreDBClusterFromSnapshotResult> restoreDBClusterFromSnapshot({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String engine,
-    @_s.required String snapshotIdentifier,
-    List<String> availabilityZones,
-    int backtrackWindow,
-    bool copyTagsToSnapshot,
-    String dBClusterParameterGroupName,
-    String dBSubnetGroupName,
-    String databaseName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableIAMDatabaseAuthentication,
-    String engineMode,
-    String engineVersion,
-    String kmsKeyId,
-    String optionGroupName,
-    int port,
-    ScalingConfiguration scalingConfiguration,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required String dBClusterIdentifier,
+    required String engine,
+    required String snapshotIdentifier,
+    List<String>? availabilityZones,
+    int? backtrackWindow,
+    bool? copyTagsToSnapshot,
+    String? dBClusterParameterGroupName,
+    String? dBSubnetGroupName,
+    String? databaseName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableIAMDatabaseAuthentication,
+    String? engineMode,
+    String? engineVersion,
+    String? kmsKeyId,
+    String? optionGroupName,
+    int? port,
+    ScalingConfiguration? scalingConfiguration,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(engine, 'engine');
@@ -12200,25 +12192,25 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of VPC security groups that the new DB cluster belongs to.
   Future<RestoreDBClusterToPointInTimeResult> restoreDBClusterToPointInTime({
-    @_s.required String dBClusterIdentifier,
-    @_s.required String sourceDBClusterIdentifier,
-    int backtrackWindow,
-    bool copyTagsToSnapshot,
-    String dBClusterParameterGroupName,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableIAMDatabaseAuthentication,
-    String kmsKeyId,
-    String optionGroupName,
-    int port,
-    DateTime restoreToTime,
-    String restoreType,
-    List<Tag> tags,
-    bool useLatestRestorableTime,
-    List<String> vpcSecurityGroupIds,
+    required String dBClusterIdentifier,
+    required String sourceDBClusterIdentifier,
+    int? backtrackWindow,
+    bool? copyTagsToSnapshot,
+    String? dBClusterParameterGroupName,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableIAMDatabaseAuthentication,
+    String? kmsKeyId,
+    String? optionGroupName,
+    int? port,
+    DateTime? restoreToTime,
+    String? restoreType,
+    List<Tag>? tags,
+    bool? useLatestRestorableTime,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(
@@ -12604,35 +12596,35 @@ class RDS {
   /// Default: The default EC2 VPC security group for the DB subnet group's VPC.
   Future<RestoreDBInstanceFromDBSnapshotResult>
       restoreDBInstanceFromDBSnapshot({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String dBSnapshotIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    bool copyTagsToSnapshot,
-    String dBInstanceClass,
-    String dBName,
-    String dBParameterGroupName,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableCustomerOwnedIp,
-    bool enableIAMDatabaseAuthentication,
-    String engine,
-    int iops,
-    String licenseModel,
-    bool multiAZ,
-    String optionGroupName,
-    int port,
-    List<ProcessorFeature> processorFeatures,
-    bool publiclyAccessible,
-    String storageType,
-    List<Tag> tags,
-    String tdeCredentialArn,
-    String tdeCredentialPassword,
-    bool useDefaultProcessorFeatures,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceIdentifier,
+    required String dBSnapshotIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    bool? copyTagsToSnapshot,
+    String? dBInstanceClass,
+    String? dBName,
+    String? dBParameterGroupName,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableCustomerOwnedIp,
+    bool? enableIAMDatabaseAuthentication,
+    String? engine,
+    int? iops,
+    String? licenseModel,
+    bool? multiAZ,
+    String? optionGroupName,
+    int? port,
+    List<ProcessorFeature>? processorFeatures,
+    bool? publiclyAccessible,
+    String? storageType,
+    List<Tag>? tags,
+    String? tdeCredentialArn,
+    String? tdeCredentialPassword,
+    bool? useDefaultProcessorFeatures,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
@@ -13073,50 +13065,50 @@ class RDS {
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of VPC security groups to associate with this DB instance.
   Future<RestoreDBInstanceFromS3Result> restoreDBInstanceFromS3({
-    @_s.required String dBInstanceClass,
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String engine,
-    @_s.required String s3BucketName,
-    @_s.required String s3IngestionRoleArn,
-    @_s.required String sourceEngine,
-    @_s.required String sourceEngineVersion,
-    int allocatedStorage,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    int backupRetentionPeriod,
-    bool copyTagsToSnapshot,
-    String dBName,
-    String dBParameterGroupName,
-    List<String> dBSecurityGroups,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    List<String> enableCloudwatchLogsExports,
-    bool enableIAMDatabaseAuthentication,
-    bool enablePerformanceInsights,
-    String engineVersion,
-    int iops,
-    String kmsKeyId,
-    String licenseModel,
-    String masterUserPassword,
-    String masterUsername,
-    int maxAllocatedStorage,
-    int monitoringInterval,
-    String monitoringRoleArn,
-    bool multiAZ,
-    String optionGroupName,
-    String performanceInsightsKMSKeyId,
-    int performanceInsightsRetentionPeriod,
-    int port,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    List<ProcessorFeature> processorFeatures,
-    bool publiclyAccessible,
-    String s3Prefix,
-    bool storageEncrypted,
-    String storageType,
-    List<Tag> tags,
-    bool useDefaultProcessorFeatures,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceClass,
+    required String dBInstanceIdentifier,
+    required String engine,
+    required String s3BucketName,
+    required String s3IngestionRoleArn,
+    required String sourceEngine,
+    required String sourceEngineVersion,
+    int? allocatedStorage,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    int? backupRetentionPeriod,
+    bool? copyTagsToSnapshot,
+    String? dBName,
+    String? dBParameterGroupName,
+    List<String>? dBSecurityGroups,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableIAMDatabaseAuthentication,
+    bool? enablePerformanceInsights,
+    String? engineVersion,
+    int? iops,
+    String? kmsKeyId,
+    String? licenseModel,
+    String? masterUserPassword,
+    String? masterUsername,
+    int? maxAllocatedStorage,
+    int? monitoringInterval,
+    String? monitoringRoleArn,
+    bool? multiAZ,
+    String? optionGroupName,
+    String? performanceInsightsKMSKeyId,
+    int? performanceInsightsRetentionPeriod,
+    int? port,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    List<ProcessorFeature>? processorFeatures,
+    bool? publiclyAccessible,
+    String? s3Prefix,
+    bool? storageEncrypted,
+    String? storageType,
+    List<Tag>? tags,
+    bool? useDefaultProcessorFeatures,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
@@ -13554,40 +13546,40 @@ class RDS {
   ///
   /// Default: The default EC2 VPC security group for the DB subnet group's VPC.
   Future<RestoreDBInstanceToPointInTimeResult> restoreDBInstanceToPointInTime({
-    @_s.required String targetDBInstanceIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    bool copyTagsToSnapshot,
-    String dBInstanceClass,
-    String dBName,
-    String dBParameterGroupName,
-    String dBSubnetGroupName,
-    bool deletionProtection,
-    String domain,
-    String domainIAMRoleName,
-    List<String> enableCloudwatchLogsExports,
-    bool enableCustomerOwnedIp,
-    bool enableIAMDatabaseAuthentication,
-    String engine,
-    int iops,
-    String licenseModel,
-    int maxAllocatedStorage,
-    bool multiAZ,
-    String optionGroupName,
-    int port,
-    List<ProcessorFeature> processorFeatures,
-    bool publiclyAccessible,
-    DateTime restoreTime,
-    String sourceDBInstanceAutomatedBackupsArn,
-    String sourceDBInstanceIdentifier,
-    String sourceDbiResourceId,
-    String storageType,
-    List<Tag> tags,
-    String tdeCredentialArn,
-    String tdeCredentialPassword,
-    bool useDefaultProcessorFeatures,
-    bool useLatestRestorableTime,
-    List<String> vpcSecurityGroupIds,
+    required String targetDBInstanceIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    bool? copyTagsToSnapshot,
+    String? dBInstanceClass,
+    String? dBName,
+    String? dBParameterGroupName,
+    String? dBSubnetGroupName,
+    bool? deletionProtection,
+    String? domain,
+    String? domainIAMRoleName,
+    List<String>? enableCloudwatchLogsExports,
+    bool? enableCustomerOwnedIp,
+    bool? enableIAMDatabaseAuthentication,
+    String? engine,
+    int? iops,
+    String? licenseModel,
+    int? maxAllocatedStorage,
+    bool? multiAZ,
+    String? optionGroupName,
+    int? port,
+    List<ProcessorFeature>? processorFeatures,
+    bool? publiclyAccessible,
+    DateTime? restoreTime,
+    String? sourceDBInstanceAutomatedBackupsArn,
+    String? sourceDBInstanceIdentifier,
+    String? sourceDbiResourceId,
+    String? storageType,
+    List<Tag>? tags,
+    String? tdeCredentialArn,
+    String? tdeCredentialPassword,
+    bool? useDefaultProcessorFeatures,
+    bool? useLatestRestorableTime,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(
         targetDBInstanceIdentifier, 'targetDBInstanceIdentifier');
@@ -13689,11 +13681,11 @@ class RDS {
   /// EC2SecurityGroupOwnerId and either <code>EC2SecurityGroupName</code> or
   /// <code>EC2SecurityGroupId</code> must be provided.
   Future<RevokeDBSecurityGroupIngressResult> revokeDBSecurityGroupIngress({
-    @_s.required String dBSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupId,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String dBSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupId,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -13747,10 +13739,10 @@ class RDS {
   /// Specifies whether or not the database activity stream is to start as soon
   /// as possible, regardless of the maintenance window for the database.
   Future<StartActivityStreamResponse> startActivityStream({
-    @_s.required String kmsKeyId,
-    @_s.required ActivityStreamMode mode,
-    @_s.required String resourceArn,
-    bool applyImmediately,
+    required String kmsKeyId,
+    required ActivityStreamMode mode,
+    required String resourceArn,
+    bool? applyImmediately,
   }) async {
     ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
     ArgumentError.checkNotNull(mode, 'mode');
@@ -13793,7 +13785,7 @@ class RDS {
   /// The DB cluster identifier of the Amazon Aurora DB cluster to be started.
   /// This parameter is stored as a lowercase string.
   Future<StartDBClusterResult> startDBCluster({
-    @_s.required String dBClusterIdentifier,
+    required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -13839,7 +13831,7 @@ class RDS {
   /// Parameter [dBInstanceIdentifier] :
   /// The user-supplied instance identifier.
   Future<StartDBInstanceResult> startDBInstance({
-    @_s.required String dBInstanceIdentifier,
+    required String dBInstanceIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -13893,10 +13885,10 @@ class RDS {
   /// can be executed in the AWS Region that contains the source DB instance.
   Future<StartDBInstanceAutomatedBackupsReplicationResult>
       startDBInstanceAutomatedBackupsReplication({
-    @_s.required String sourceDBInstanceArn,
-    int backupRetentionPeriod,
-    String kmsKeyId,
-    String preSignedUrl,
+    required String sourceDBInstanceArn,
+    int? backupRetentionPeriod,
+    String? kmsKeyId,
+    String? preSignedUrl,
   }) async {
     ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
     final $request = <String, dynamic>{};
@@ -14014,13 +14006,13 @@ class RDS {
   /// The Amazon S3 bucket prefix to use as the file name and path of the
   /// exported snapshot.
   Future<ExportTask> startExportTask({
-    @_s.required String exportTaskIdentifier,
-    @_s.required String iamRoleArn,
-    @_s.required String kmsKeyId,
-    @_s.required String s3BucketName,
-    @_s.required String sourceArn,
-    List<String> exportOnly,
-    String s3Prefix,
+    required String exportTaskIdentifier,
+    required String iamRoleArn,
+    required String kmsKeyId,
+    required String s3BucketName,
+    required String sourceArn,
+    List<String>? exportOnly,
+    String? s3Prefix,
   }) async {
     ArgumentError.checkNotNull(exportTaskIdentifier, 'exportTaskIdentifier');
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
@@ -14072,8 +14064,8 @@ class RDS {
   /// Specifies whether or not the database activity stream is to stop as soon
   /// as possible, regardless of the maintenance window for the database.
   Future<StopActivityStreamResponse> stopActivityStream({
-    @_s.required String resourceArn,
-    bool applyImmediately,
+    required String resourceArn,
+    bool? applyImmediately,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
@@ -14114,7 +14106,7 @@ class RDS {
   /// The DB cluster identifier of the Amazon Aurora DB cluster to be stopped.
   /// This parameter is stored as a lowercase string.
   Future<StopDBClusterResult> stopDBCluster({
-    @_s.required String dBClusterIdentifier,
+    required String dBClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
@@ -14160,8 +14152,8 @@ class RDS {
   /// The user-supplied instance identifier of the DB Snapshot created
   /// immediately before the DB instance is stopped.
   Future<StopDBInstanceResult> stopDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    String dBSnapshotIdentifier,
+    required String dBInstanceIdentifier,
+    String? dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -14197,7 +14189,7 @@ class RDS {
   /// <code>arn:aws:rds:us-west-2:123456789012:db:mydatabase</code>.
   Future<StopDBInstanceAutomatedBackupsReplicationResult>
       stopDBInstanceAutomatedBackupsReplication({
-    @_s.required String sourceDBInstanceArn,
+    required String sourceDBInstanceArn,
   }) async {
     ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
     final $request = <String, dynamic>{};
@@ -14222,7 +14214,7 @@ class AccountAttributesMessage {
   /// A list of <code>AccountQuota</code> objects. Within this list, each quota
   /// has a name, a count of usage toward the quota maximum, and a maximum value
   /// for the quota.
-  final List<AccountQuota> accountQuotas;
+  final List<AccountQuota>? accountQuotas;
 
   AccountAttributesMessage({
     this.accountQuotas,
@@ -14346,13 +14338,13 @@ class AccountAttributesMessage {
 /// for Amazon Aurora</a> in the <i>Amazon Aurora User Guide</i>.
 class AccountQuota {
   /// The name of the Amazon RDS quota for this AWS account.
-  final String accountQuotaName;
+  final String? accountQuotaName;
 
   /// The maximum allowed value for the quota.
-  final int max;
+  final int? max;
 
   /// The amount currently used toward the quota maximum.
-  final int used;
+  final int? used;
 
   AccountQuota({
     this.accountQuotaName,
@@ -14369,9 +14361,7 @@ class AccountQuota {
 }
 
 enum ActivityStreamMode {
-  @_s.JsonValue('sync')
   sync,
-  @_s.JsonValue('async')
   async,
 }
 
@@ -14383,7 +14373,6 @@ extension on ActivityStreamMode {
       case ActivityStreamMode.async:
         return 'async';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14395,19 +14384,30 @@ extension on String {
       case 'async':
         return ActivityStreamMode.async;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActivityStreamMode');
   }
 }
 
 enum ActivityStreamStatus {
-  @_s.JsonValue('stopped')
   stopped,
-  @_s.JsonValue('starting')
   starting,
-  @_s.JsonValue('started')
   started,
-  @_s.JsonValue('stopping')
   stopping,
+}
+
+extension on ActivityStreamStatus {
+  String toValue() {
+    switch (this) {
+      case ActivityStreamStatus.stopped:
+        return 'stopped';
+      case ActivityStreamStatus.starting:
+        return 'starting';
+      case ActivityStreamStatus.started:
+        return 'started';
+      case ActivityStreamStatus.stopping:
+        return 'stopping';
+    }
+  }
 }
 
 extension on String {
@@ -14422,12 +14422,12 @@ extension on String {
       case 'stopping':
         return ActivityStreamStatus.stopping;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActivityStreamStatus');
   }
 }
 
 class AddSourceIdentifierToSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   AddSourceIdentifierToSubscriptionResult({
     this.eventSubscription,
@@ -14442,10 +14442,19 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
-  @_s.JsonValue('immediate')
   immediate,
-  @_s.JsonValue('pending-reboot')
   pendingReboot,
+}
+
+extension on ApplyMethod {
+  String toValue() {
+    switch (this) {
+      case ApplyMethod.immediate:
+        return 'immediate';
+      case ApplyMethod.pendingReboot:
+        return 'pending-reboot';
+    }
+  }
 }
 
 extension on String {
@@ -14456,12 +14465,12 @@ extension on String {
       case 'pending-reboot':
         return ApplyMethod.pendingReboot;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ApplyMethod');
   }
 }
 
 class ApplyPendingMaintenanceActionResult {
-  final ResourcePendingMaintenanceActions resourcePendingMaintenanceActions;
+  final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
   ApplyPendingMaintenanceActionResult({
     this.resourcePendingMaintenanceActions,
@@ -14476,8 +14485,16 @@ class ApplyPendingMaintenanceActionResult {
 }
 
 enum AuthScheme {
-  @_s.JsonValue('SECRETS')
   secrets,
+}
+
+extension on AuthScheme {
+  String toValue() {
+    switch (this) {
+      case AuthScheme.secrets:
+        return 'SECRETS';
+    }
+  }
 }
 
 extension on String {
@@ -14486,12 +14503,12 @@ extension on String {
       case 'SECRETS':
         return AuthScheme.secrets;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AuthScheme');
   }
 }
 
 class AuthorizeDBSecurityGroupIngressResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   AuthorizeDBSecurityGroupIngressResult({
     this.dBSecurityGroup,
@@ -14511,7 +14528,7 @@ class AuthorizeDBSecurityGroupIngressResult {
 /// <code>OrderableDBInstanceOption</code> data type.
 class AvailabilityZone {
   /// The name of the Availability Zone.
-  final String name;
+  final String? name;
 
   AvailabilityZone({
     this.name,
@@ -14532,14 +14549,14 @@ class AvailabilityZone {
 /// </i>
 class AvailableProcessorFeature {
   /// The allowed values for the processor feature of the DB instance class.
-  final String allowedValues;
+  final String? allowedValues;
 
   /// The default value for the processor feature of the DB instance class.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The name of the processor feature. Valid names are <code>coreCount</code>
   /// and <code>threadsPerCore</code>.
-  final String name;
+  final String? name;
 
   AvailableProcessorFeature({
     this.allowedValues,
@@ -14558,29 +14575,29 @@ class AvailableProcessorFeature {
 /// A CA certificate for an AWS account.
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The unique key that identifies a certificate.
-  final String certificateIdentifier;
+  final String? certificateIdentifier;
 
   /// The type of the certificate.
-  final String certificateType;
+  final String? certificateType;
 
   /// Whether there is an override for the default certificate identifier.
-  final bool customerOverride;
+  final bool? customerOverride;
 
   /// If there is an override for the default certificate identifier, when the
   /// override expires.
-  final DateTime customerOverrideValidTill;
+  final DateTime? customerOverrideValidTill;
 
   /// The thumbprint of the certificate.
-  final String thumbprint;
+  final String? thumbprint;
 
   /// The starting date from which the certificate is valid.
-  final DateTime validFrom;
+  final DateTime? validFrom;
 
   /// The final date that the certificate continues to be valid.
-  final DateTime validTill;
+  final DateTime? validTill;
 
   Certificate({
     this.certificateArn,
@@ -14611,13 +14628,13 @@ class Certificate {
 /// Data returned by the <b>DescribeCertificates</b> action.
 class CertificateMessage {
   /// The list of <code>Certificate</code> objects for the AWS account.
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeCertificates</code> request. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
   /// specified by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   CertificateMessage({
     this.certificates,
@@ -14638,10 +14655,10 @@ class CertificateMessage {
 /// <code>DescribeDBEngineVersions</code>.
 class CharacterSet {
   /// The description of the character set.
-  final String characterSetDescription;
+  final String? characterSetDescription;
 
   /// The name of the character set.
-  final String characterSetName;
+  final String? characterSetName;
 
   CharacterSet({
     this.characterSetDescription,
@@ -14674,26 +14691,25 @@ class CharacterSet {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
 /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
-  @_s.JsonKey(name: 'DisableLogTypes')
-  final List<String> disableLogTypes;
+  final List<String>? disableLogTypes;
 
   /// The list of log types to enable.
-  @_s.JsonKey(name: 'EnableLogTypes')
-  final List<String> enableLogTypes;
+  final List<String>? enableLogTypes;
 
   CloudwatchLogsExportConfiguration({
     this.disableLogTypes,
     this.enableLogTypes,
   });
-  Map<String, dynamic> toJson() =>
-      _$CloudwatchLogsExportConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final disableLogTypes = this.disableLogTypes;
+    final enableLogTypes = this.enableLogTypes;
+    return {
+      if (disableLogTypes != null) 'DisableLogTypes': disableLogTypes,
+      if (enableLogTypes != null) 'EnableLogTypes': enableLogTypes,
+    };
+  }
 }
 
 /// This data type is used as a response element in the
@@ -14701,18 +14717,18 @@ class CloudwatchLogsExportConfiguration {
 /// applied during the next maintenance window.
 class ClusterPendingModifiedValues {
   /// The DBClusterIdentifier for the DB cluster.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// The database engine version.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// Whether mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// The master credentials for the DB cluster.
-  final String masterUserPassword;
-  final PendingCloudwatchLogsExports pendingCloudwatchLogsExports;
+  final String? masterUserPassword;
+  final PendingCloudwatchLogsExports? pendingCloudwatchLogsExports;
 
   ClusterPendingModifiedValues({
     this.dBClusterIdentifier,
@@ -14738,11 +14754,6 @@ class ClusterPendingModifiedValues {
 
 /// Specifies the settings that control the size and behavior of the connection
 /// pool associated with a <code>DBProxyTargetGroup</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConnectionPoolConfiguration {
   /// The number of seconds for a proxy to wait for a connection to become
   /// available in the connection pool. Only applies when the proxy has opened its
@@ -14752,8 +14763,7 @@ class ConnectionPoolConfiguration {
   /// Default: 120
   ///
   /// Constraints: between 1 and 3600, or 0 representing unlimited
-  @_s.JsonKey(name: 'ConnectionBorrowTimeout')
-  final int connectionBorrowTimeout;
+  final int? connectionBorrowTimeout;
 
   /// One or more SQL statements for the proxy to run when opening each new
   /// database connection. Typically used with <code>SET</code> statements to make
@@ -14763,8 +14773,7 @@ class ConnectionPoolConfiguration {
   /// such as <code>SET x=1, y=2</code>.
   ///
   /// Default: no initialization query
-  @_s.JsonKey(name: 'InitQuery')
-  final String initQuery;
+  final String? initQuery;
 
   /// The maximum size of the connection pool for each target in a target group.
   /// For Aurora MySQL, it is expressed as a percentage of the
@@ -14774,8 +14783,7 @@ class ConnectionPoolConfiguration {
   /// Default: 100
   ///
   /// Constraints: between 1 and 100
-  @_s.JsonKey(name: 'MaxConnectionsPercent')
-  final int maxConnectionsPercent;
+  final int? maxConnectionsPercent;
 
   /// Controls how actively the proxy closes idle database connections in the
   /// connection pool. A high value enables the proxy to leave a high percentage
@@ -14788,8 +14796,7 @@ class ConnectionPoolConfiguration {
   /// Default: 50
   ///
   /// Constraints: between 0 and <code>MaxConnectionsPercent</code>
-  @_s.JsonKey(name: 'MaxIdleConnectionsPercent')
-  final int maxIdleConnectionsPercent;
+  final int? maxIdleConnectionsPercent;
 
   /// Each item in the list represents a class of SQL operations that normally
   /// cause all later statements in a session using a proxy to be pinned to the
@@ -14797,8 +14804,7 @@ class ConnectionPoolConfiguration {
   /// that class of SQL operations from the pinning behavior.
   ///
   /// Default: no session pinning filters
-  @_s.JsonKey(name: 'SessionPinningFilters')
-  final List<String> sessionPinningFilters;
+  final List<String>? sessionPinningFilters;
 
   ConnectionPoolConfiguration({
     this.connectionBorrowTimeout,
@@ -14807,7 +14813,24 @@ class ConnectionPoolConfiguration {
     this.maxIdleConnectionsPercent,
     this.sessionPinningFilters,
   });
-  Map<String, dynamic> toJson() => _$ConnectionPoolConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectionBorrowTimeout = this.connectionBorrowTimeout;
+    final initQuery = this.initQuery;
+    final maxConnectionsPercent = this.maxConnectionsPercent;
+    final maxIdleConnectionsPercent = this.maxIdleConnectionsPercent;
+    final sessionPinningFilters = this.sessionPinningFilters;
+    return {
+      if (connectionBorrowTimeout != null)
+        'ConnectionBorrowTimeout': connectionBorrowTimeout,
+      if (initQuery != null) 'InitQuery': initQuery,
+      if (maxConnectionsPercent != null)
+        'MaxConnectionsPercent': maxConnectionsPercent,
+      if (maxIdleConnectionsPercent != null)
+        'MaxIdleConnectionsPercent': maxIdleConnectionsPercent,
+      if (sessionPinningFilters != null)
+        'SessionPinningFilters': sessionPinningFilters,
+    };
+  }
 }
 
 /// Displays the settings that control the size and behavior of the connection
@@ -14817,7 +14840,7 @@ class ConnectionPoolConfigurationInfo {
   /// available in the connection pool. Only applies when the proxy has opened its
   /// maximum number of connections and all connections are busy with client
   /// sessions.
-  final int connectionBorrowTimeout;
+  final int? connectionBorrowTimeout;
 
   /// One or more SQL statements for the proxy to run when opening each new
   /// database connection. Typically used with <code>SET</code> statements to make
@@ -14825,13 +14848,13 @@ class ConnectionPoolConfigurationInfo {
   /// character set. This setting is empty by default. For multiple statements,
   /// use semicolons as the separator. You can also include multiple variables in
   /// a single <code>SET</code> statement, such as <code>SET x=1, y=2</code>.
-  final String initQuery;
+  final String? initQuery;
 
   /// The maximum size of the connection pool for each target in a target group.
   /// For Aurora MySQL, it is expressed as a percentage of the
   /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
   /// cluster used by the target group.
-  final int maxConnectionsPercent;
+  final int? maxConnectionsPercent;
 
   /// Controls how actively the proxy closes idle database connections in the
   /// connection pool. A high value enables the proxy to leave a high percentage
@@ -14840,14 +14863,14 @@ class ConnectionPoolConfigurationInfo {
   /// pool. For Aurora MySQL, it is expressed as a percentage of the
   /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
   /// cluster used by the target group.
-  final int maxIdleConnectionsPercent;
+  final int? maxIdleConnectionsPercent;
 
   /// Each item in the list represents a class of SQL operations that normally
   /// cause all later statements in a session using a proxy to be pinned to the
   /// same underlying database connection. Including an item in the list exempts
   /// that class of SQL operations from the pinning behavior. Currently, the only
   /// allowed value is <code>EXCLUDE_VARIABLE_SETS</code>.
-  final List<String> sessionPinningFilters;
+  final List<String>? sessionPinningFilters;
 
   ConnectionPoolConfigurationInfo({
     this.connectionBorrowTimeout,
@@ -14873,7 +14896,7 @@ class ConnectionPoolConfigurationInfo {
 }
 
 class CopyDBClusterParameterGroupResult {
-  final DBClusterParameterGroup dBClusterParameterGroup;
+  final DBClusterParameterGroup? dBClusterParameterGroup;
 
   CopyDBClusterParameterGroupResult({
     this.dBClusterParameterGroup,
@@ -14888,7 +14911,7 @@ class CopyDBClusterParameterGroupResult {
 }
 
 class CopyDBClusterSnapshotResult {
-  final DBClusterSnapshot dBClusterSnapshot;
+  final DBClusterSnapshot? dBClusterSnapshot;
 
   CopyDBClusterSnapshotResult({
     this.dBClusterSnapshot,
@@ -14903,7 +14926,7 @@ class CopyDBClusterSnapshotResult {
 }
 
 class CopyDBParameterGroupResult {
-  final DBParameterGroup dBParameterGroup;
+  final DBParameterGroup? dBParameterGroup;
 
   CopyDBParameterGroupResult({
     this.dBParameterGroup,
@@ -14918,7 +14941,7 @@ class CopyDBParameterGroupResult {
 }
 
 class CopyDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   CopyDBSnapshotResult({
     this.dBSnapshot,
@@ -14933,7 +14956,7 @@ class CopyDBSnapshotResult {
 }
 
 class CopyOptionGroupResult {
-  final OptionGroup optionGroup;
+  final OptionGroup? optionGroup;
 
   CopyOptionGroupResult({
     this.optionGroup,
@@ -14948,7 +14971,7 @@ class CopyOptionGroupResult {
 }
 
 class CreateCustomAvailabilityZoneResult {
-  final CustomAvailabilityZone customAvailabilityZone;
+  final CustomAvailabilityZone? customAvailabilityZone;
 
   CreateCustomAvailabilityZoneResult({
     this.customAvailabilityZone,
@@ -14963,7 +14986,7 @@ class CreateCustomAvailabilityZoneResult {
 }
 
 class CreateDBClusterParameterGroupResult {
-  final DBClusterParameterGroup dBClusterParameterGroup;
+  final DBClusterParameterGroup? dBClusterParameterGroup;
 
   CreateDBClusterParameterGroupResult({
     this.dBClusterParameterGroup,
@@ -14978,7 +15001,7 @@ class CreateDBClusterParameterGroupResult {
 }
 
 class CreateDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   CreateDBClusterResult({
     this.dBCluster,
@@ -14993,7 +15016,7 @@ class CreateDBClusterResult {
 }
 
 class CreateDBClusterSnapshotResult {
-  final DBClusterSnapshot dBClusterSnapshot;
+  final DBClusterSnapshot? dBClusterSnapshot;
 
   CreateDBClusterSnapshotResult({
     this.dBClusterSnapshot,
@@ -15008,7 +15031,7 @@ class CreateDBClusterSnapshotResult {
 }
 
 class CreateDBInstanceReadReplicaResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   CreateDBInstanceReadReplicaResult({
     this.dBInstance,
@@ -15023,7 +15046,7 @@ class CreateDBInstanceReadReplicaResult {
 }
 
 class CreateDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   CreateDBInstanceResult({
     this.dBInstance,
@@ -15038,7 +15061,7 @@ class CreateDBInstanceResult {
 }
 
 class CreateDBParameterGroupResult {
-  final DBParameterGroup dBParameterGroup;
+  final DBParameterGroup? dBParameterGroup;
 
   CreateDBParameterGroupResult({
     this.dBParameterGroup,
@@ -15054,7 +15077,7 @@ class CreateDBParameterGroupResult {
 
 class CreateDBProxyResponse {
   /// The <code>DBProxy</code> structure corresponding to the new proxy.
-  final DBProxy dBProxy;
+  final DBProxy? dBProxy;
 
   CreateDBProxyResponse({
     this.dBProxy,
@@ -15068,7 +15091,7 @@ class CreateDBProxyResponse {
 }
 
 class CreateDBSecurityGroupResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   CreateDBSecurityGroupResult({
     this.dBSecurityGroup,
@@ -15083,7 +15106,7 @@ class CreateDBSecurityGroupResult {
 }
 
 class CreateDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   CreateDBSnapshotResult({
     this.dBSnapshot,
@@ -15098,7 +15121,7 @@ class CreateDBSnapshotResult {
 }
 
 class CreateDBSubnetGroupResult {
-  final DBSubnetGroup dBSubnetGroup;
+  final DBSubnetGroup? dBSubnetGroup;
 
   CreateDBSubnetGroupResult({
     this.dBSubnetGroup,
@@ -15113,7 +15136,7 @@ class CreateDBSubnetGroupResult {
 }
 
 class CreateEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   CreateEventSubscriptionResult({
     this.eventSubscription,
@@ -15128,7 +15151,7 @@ class CreateEventSubscriptionResult {
 }
 
 class CreateGlobalClusterResult {
-  final GlobalCluster globalCluster;
+  final GlobalCluster? globalCluster;
 
   CreateGlobalClusterResult({
     this.globalCluster,
@@ -15143,7 +15166,7 @@ class CreateGlobalClusterResult {
 }
 
 class CreateOptionGroupResult {
-  final OptionGroup optionGroup;
+  final OptionGroup? optionGroup;
 
   CreateOptionGroupResult({
     this.optionGroup,
@@ -15167,17 +15190,17 @@ class CustomAvailabilityZone {
   /// The identifier of the custom AZ.
   ///
   /// Amazon RDS generates a unique identifier when a custom AZ is created.
-  final String customAvailabilityZoneId;
+  final String? customAvailabilityZoneId;
 
   /// The name of the custom AZ.
-  final String customAvailabilityZoneName;
+  final String? customAvailabilityZoneName;
 
   /// The status of the custom AZ.
-  final String customAvailabilityZoneStatus;
+  final String? customAvailabilityZoneStatus;
 
   /// Information about the virtual private network (VPN) between the VMware
   /// vSphere cluster and the AWS website.
-  final VpnDetails vpnDetails;
+  final VpnDetails? vpnDetails;
 
   CustomAvailabilityZone({
     this.customAvailabilityZoneId,
@@ -15202,13 +15225,13 @@ class CustomAvailabilityZone {
 
 class CustomAvailabilityZoneMessage {
   /// The list of <a>CustomAvailabilityZone</a> objects for the AWS account.
-  final List<CustomAvailabilityZone> customAvailabilityZones;
+  final List<CustomAvailabilityZone>? customAvailabilityZones;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeCustomAvailabilityZones</code> request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to the
   /// value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   CustomAvailabilityZoneMessage({
     this.customAvailabilityZones,
@@ -15235,49 +15258,49 @@ class CustomAvailabilityZoneMessage {
 class DBCluster {
   /// The name of the Amazon Kinesis data stream used for the database activity
   /// stream.
-  final String activityStreamKinesisStreamName;
+  final String? activityStreamKinesisStreamName;
 
   /// The AWS KMS key identifier used for encrypting messages in the database
   /// activity stream.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String activityStreamKmsKeyId;
+  final String? activityStreamKmsKeyId;
 
   /// The mode of the database activity stream. Database events such as a change
   /// or access generate an activity stream event. The database session can handle
   /// these events either synchronously or asynchronously.
-  final ActivityStreamMode activityStreamMode;
+  final ActivityStreamMode? activityStreamMode;
 
   /// The status of the database activity stream.
-  final ActivityStreamStatus activityStreamStatus;
+  final ActivityStreamStatus? activityStreamStatus;
 
   /// For all database engines except Amazon Aurora, <code>AllocatedStorage</code>
   /// specifies the allocated storage size in gibibytes (GiB). For Aurora,
   /// <code>AllocatedStorage</code> always returns 1, because Aurora DB cluster
   /// storage size isn't fixed, but instead automatically adjusts as needed.
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// Provides a list of the AWS Identity and Access Management (IAM) roles that
   /// are associated with the DB cluster. IAM roles that are associated with a DB
   /// cluster grant permission for the DB cluster to access other AWS services on
   /// your behalf.
-  final List<DBClusterRole> associatedRoles;
+  final List<DBClusterRole>? associatedRoles;
 
   /// Provides the list of Availability Zones (AZs) where instances in the DB
   /// cluster can be created.
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// The number of change records stored for Backtrack.
-  final int backtrackConsumedChangeRecords;
+  final int? backtrackConsumedChangeRecords;
 
   /// The target backtrack window, in seconds. If this value is set to 0,
   /// backtracking is disabled for the DB cluster. Otherwise, backtracking is
   /// enabled.
-  final int backtrackWindow;
+  final int? backtrackWindow;
 
   /// Specifies the number of days for which automatic DB snapshots are retained.
-  final int backupRetentionPeriod;
+  final int? backupRetentionPeriod;
 
   /// The current capacity of an Aurora Serverless DB cluster. The capacity is 0
   /// (zero) when the cluster is paused.
@@ -15285,74 +15308,74 @@ class DBCluster {
   /// For more information about Aurora Serverless, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
   /// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
-  final int capacity;
+  final int? capacity;
 
   /// If present, specifies the name of the character set that this cluster is
   /// associated with.
-  final String characterSetName;
+  final String? characterSetName;
 
   /// Identifies the clone group to which the DB cluster is associated.
-  final String cloneGroupId;
+  final String? cloneGroupId;
 
   /// Specifies the time when the DB cluster was created, in Universal Coordinated
   /// Time (UTC).
-  final DateTime clusterCreateTime;
+  final DateTime? clusterCreateTime;
 
   /// Specifies whether tags are copied from the DB cluster to snapshots of the DB
   /// cluster.
-  final bool copyTagsToSnapshot;
+  final bool? copyTagsToSnapshot;
 
   /// Specifies whether the DB cluster is a clone of a DB cluster owned by a
   /// different AWS account.
-  final bool crossAccountClone;
+  final bool? crossAccountClone;
 
   /// Identifies all custom endpoints associated with the cluster.
-  final List<String> customEndpoints;
+  final List<String>? customEndpoints;
 
   /// The Amazon Resource Name (ARN) for the DB cluster.
-  final String dBClusterArn;
+  final String? dBClusterArn;
 
   /// Contains a user-supplied DB cluster identifier. This identifier is the
   /// unique key that identifies a DB cluster.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// Provides the list of instances that make up the DB cluster.
-  final List<DBClusterMember> dBClusterMembers;
+  final List<DBClusterMember>? dBClusterMembers;
 
   /// Provides the list of option group memberships for this DB cluster.
-  final List<DBClusterOptionGroupStatus> dBClusterOptionGroupMemberships;
+  final List<DBClusterOptionGroupStatus>? dBClusterOptionGroupMemberships;
 
   /// Specifies the name of the DB cluster parameter group for the DB cluster.
-  final String dBClusterParameterGroup;
+  final String? dBClusterParameterGroup;
 
   /// Specifies information on the subnet group associated with the DB cluster,
   /// including the name, description, and subnets in the subnet group.
-  final String dBSubnetGroup;
+  final String? dBSubnetGroup;
 
   /// Contains the name of the initial database of this DB cluster that was
   /// provided at create time, if one was specified when the DB cluster was
   /// created. This same name is returned for the life of the DB cluster.
-  final String databaseName;
+  final String? databaseName;
 
   /// The AWS Region-unique, immutable identifier for the DB cluster. This
   /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS CMK
   /// for the DB cluster is accessed.
-  final String dbClusterResourceId;
+  final String? dbClusterResourceId;
 
   /// Indicates if the DB cluster has deletion protection enabled. The database
   /// can't be deleted when deletion protection is enabled.
-  final bool deletionProtection;
+  final bool? deletionProtection;
 
   /// The Active Directory Domain membership records associated with the DB
   /// cluster.
-  final List<DomainMembership> domainMemberships;
+  final List<DomainMembership>? domainMemberships;
 
   /// The earliest time to which a DB cluster can be backtracked.
-  final DateTime earliestBacktrackTime;
+  final DateTime? earliestBacktrackTime;
 
   /// The earliest time to which a database can be restored with point-in-time
   /// restore.
-  final DateTime earliestRestorableTime;
+  final DateTime? earliestRestorableTime;
 
   /// A list of log types that this DB cluster is configured to export to
   /// CloudWatch Logs.
@@ -15361,14 +15384,14 @@ class DBCluster {
   /// engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html">Amazon
   /// RDS Database Log Files</a> in the <i>Amazon Aurora User Guide.</i>
-  final List<String> enabledCloudwatchLogsExports;
+  final List<String>? enabledCloudwatchLogsExports;
 
   /// Specifies the connection endpoint for the primary instance of the DB
   /// cluster.
-  final String endpoint;
+  final String? endpoint;
 
   /// The name of the database engine to be used for this DB cluster.
-  final String engine;
+  final String? engine;
 
   /// The DB engine mode of the DB cluster, either <code>provisioned</code>,
   /// <code>serverless</code>, <code>parallelquery</code>, <code>global</code>, or
@@ -15377,24 +15400,24 @@ class DBCluster {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html">
   /// CreateDBCluster</a>.
-  final String engineMode;
+  final String? engineMode;
 
   /// Indicates the database engine version.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// Specifies whether you have requested to enable write forwarding for a
   /// secondary cluster in an Aurora global database. Because write forwarding
   /// takes time to enable, check the value of
   /// <code>GlobalWriteForwardingStatus</code> to confirm that the request has
   /// completed before using the write forwarding feature for this cluster.
-  final bool globalWriteForwardingRequested;
+  final bool? globalWriteForwardingRequested;
 
   /// Specifies whether a secondary cluster in an Aurora global database has write
   /// forwarding enabled, not enabled, or is in the process of enabling it.
-  final WriteForwardingStatus globalWriteForwardingStatus;
+  final WriteForwardingStatus? globalWriteForwardingStatus;
 
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   /// A value that indicates whether the HTTP endpoint for an Aurora Serverless DB
   /// cluster is enabled.
@@ -15407,53 +15430,53 @@ class DBCluster {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
   /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User
   /// Guide</i>.
-  final bool httpEndpointEnabled;
+  final bool? httpEndpointEnabled;
 
   /// A value that indicates whether the mapping of AWS Identity and Access
   /// Management (IAM) accounts to database accounts is enabled.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// If <code>StorageEncrypted</code> is enabled, the AWS KMS key identifier for
   /// the encrypted DB cluster.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies the latest time to which a database can be restored with
   /// point-in-time restore.
-  final DateTime latestRestorableTime;
+  final DateTime? latestRestorableTime;
 
   /// Contains the master username for the DB cluster.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// Specifies whether the DB cluster has instances in multiple Availability
   /// Zones.
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// Specifies that changes to the DB cluster are pending. This element is only
   /// included when changes are pending. Specific changes are identified by
   /// subelements.
-  final ClusterPendingModifiedValues pendingModifiedValues;
+  final ClusterPendingModifiedValues? pendingModifiedValues;
 
   /// Specifies the progress of the operation as a percentage.
-  final String percentProgress;
+  final String? percentProgress;
 
   /// Specifies the port that the database engine is listening on.
-  final int port;
+  final int? port;
 
   /// Specifies the daily time range during which automated backups are created if
   /// automated backups are enabled, as determined by the
   /// <code>BackupRetentionPeriod</code>.
-  final String preferredBackupWindow;
+  final String? preferredBackupWindow;
 
   /// Specifies the weekly time range during which system maintenance can occur,
   /// in Universal Coordinated Time (UTC).
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// Contains one or more identifiers of the read replicas associated with this
   /// DB cluster.
-  final List<String> readReplicaIdentifiers;
+  final List<String>? readReplicaIdentifiers;
 
   /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster
   /// load-balances connections across the Aurora Replicas that are available in a
@@ -15466,22 +15489,22 @@ class DBCluster {
   /// promoted to be the primary instance, your connection is dropped. To continue
   /// sending your read workload to other Aurora Replicas in the cluster, you can
   /// then reconnect to the reader endpoint.
-  final String readerEndpoint;
+  final String? readerEndpoint;
 
   /// Contains the identifier of the source DB cluster if this DB cluster is a
   /// read replica.
-  final String replicationSourceIdentifier;
-  final ScalingConfigurationInfo scalingConfigurationInfo;
+  final String? replicationSourceIdentifier;
+  final ScalingConfigurationInfo? scalingConfigurationInfo;
 
   /// Specifies the current state of this DB cluster.
-  final String status;
+  final String? status;
 
   /// Specifies whether the DB cluster is encrypted.
-  final bool storageEncrypted;
-  final List<Tag> tagList;
+  final bool? storageEncrypted;
+  final List<Tag>? tagList;
 
   /// Provides a list of VPC security groups that the DB cluster belongs to.
-  final List<VpcSecurityGroupMembership> vpcSecurityGroups;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
 
   DBCluster({
     this.activityStreamKinesisStreamName,
@@ -15662,20 +15685,20 @@ class DBCluster {
 /// <code>DescribeDBClusterBacktracks</code> action.
 class DBClusterBacktrack {
   /// Contains the backtrack identifier.
-  final String backtrackIdentifier;
+  final String? backtrackIdentifier;
 
   /// The timestamp of the time at which the backtrack was requested.
-  final DateTime backtrackRequestCreationTime;
+  final DateTime? backtrackRequestCreationTime;
 
   /// The timestamp of the time to which the DB cluster was backtracked.
-  final DateTime backtrackTo;
+  final DateTime? backtrackTo;
 
   /// The timestamp of the time from which the DB cluster was backtracked.
-  final DateTime backtrackedFrom;
+  final DateTime? backtrackedFrom;
 
   /// Contains a user-supplied DB cluster identifier. This identifier is the
   /// unique key that identifies a DB cluster.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// The status of the backtrack. This property returns one of the following
   /// values:
@@ -15698,7 +15721,7 @@ class DBClusterBacktrack {
   /// rollback from the DB cluster.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   DBClusterBacktrack({
     this.backtrackIdentifier,
@@ -15727,11 +15750,11 @@ class DBClusterBacktrack {
 /// <code>DescribeDBClusterBacktracks</code> action.
 class DBClusterBacktrackMessage {
   /// Contains a list of backtracks for the user.
-  final List<DBClusterBacktrack> dBClusterBacktracks;
+  final List<DBClusterBacktrack>? dBClusterBacktracks;
 
   /// A pagination token that can be used in a later
   /// <code>DescribeDBClusterBacktracks</code> request.
-  final String marker;
+  final String? marker;
 
   DBClusterBacktrackMessage({
     this.dBClusterBacktracks,
@@ -15751,23 +15774,23 @@ class DBClusterBacktrackMessage {
 
 class DBClusterCapacityInfo {
   /// The current capacity of the DB cluster.
-  final int currentCapacity;
+  final int? currentCapacity;
 
   /// A user-supplied DB cluster identifier. This identifier is the unique key
   /// that identifies a DB cluster.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// A value that specifies the capacity that the DB cluster scales to next.
-  final int pendingCapacity;
+  final int? pendingCapacity;
 
   /// The number of seconds before a call to
   /// <code>ModifyCurrentDBClusterCapacity</code> times out.
-  final int secondsBeforeTimeout;
+  final int? secondsBeforeTimeout;
 
   /// The timeout action of a call to <code>ModifyCurrentDBClusterCapacity</code>,
   /// either <code>ForceApplyCapacityChange</code> or
   /// <code>RollbackCapacityChange</code>.
-  final String timeoutAction;
+  final String? timeoutAction;
 
   DBClusterCapacityInfo({
     this.currentCapacity,
@@ -15811,37 +15834,37 @@ class DBClusterCapacityInfo {
 class DBClusterEndpoint {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
-  final String customEndpointType;
+  final String? customEndpointType;
 
   /// The Amazon Resource Name (ARN) for the endpoint.
-  final String dBClusterEndpointArn;
+  final String? dBClusterEndpointArn;
 
   /// The identifier associated with the endpoint. This parameter is stored as a
   /// lowercase string.
-  final String dBClusterEndpointIdentifier;
+  final String? dBClusterEndpointIdentifier;
 
   /// A unique system-generated identifier for an endpoint. It remains the same
   /// for the whole life of the endpoint.
-  final String dBClusterEndpointResourceIdentifier;
+  final String? dBClusterEndpointResourceIdentifier;
 
   /// The DB cluster identifier of the DB cluster associated with the endpoint.
   /// This parameter is stored as a lowercase string.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// The DNS address of the endpoint.
-  final String endpoint;
+  final String? endpoint;
 
   /// The type of the endpoint. One of: <code>READER</code>, <code>WRITER</code>,
   /// <code>CUSTOM</code>.
-  final String endpointType;
+  final String? endpointType;
 
   /// List of DB instance identifiers that aren't part of the custom endpoint
   /// group. All other eligible instances are reachable through the custom
   /// endpoint. Only relevant if the list of static members is empty.
-  final List<String> excludedMembers;
+  final List<String>? excludedMembers;
 
   /// List of DB instance identifiers that are part of the custom endpoint group.
-  final List<String> staticMembers;
+  final List<String>? staticMembers;
 
   /// The current status of the endpoint. One of: <code>creating</code>,
   /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
@@ -15849,7 +15872,7 @@ class DBClusterEndpoint {
   /// endpoint that can't be used for a certain kind of cluster, such as a
   /// <code>writer</code> endpoint for a read-only secondary cluster in a global
   /// database.
-  final String status;
+  final String? status;
 
   DBClusterEndpoint({
     this.customEndpointType,
@@ -15890,13 +15913,13 @@ class DBClusterEndpoint {
 class DBClusterEndpointMessage {
   /// Contains the details of the endpoints associated with the cluster and
   /// matching any filter conditions.
-  final List<DBClusterEndpoint> dBClusterEndpoints;
+  final List<DBClusterEndpoint>? dBClusterEndpoints;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeDBClusterEndpoints</code> request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to the
   /// value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBClusterEndpointMessage({
     this.dBClusterEndpoints,
@@ -15918,14 +15941,14 @@ class DBClusterEndpointMessage {
 class DBClusterMember {
   /// Specifies the status of the DB cluster parameter group for this member of
   /// the DB cluster.
-  final String dBClusterParameterGroupStatus;
+  final String? dBClusterParameterGroupStatus;
 
   /// Specifies the instance identifier for this member of the DB cluster.
-  final String dBInstanceIdentifier;
+  final String? dBInstanceIdentifier;
 
   /// Value that is <code>true</code> if the cluster member is the primary
   /// instance for the DB cluster and <code>false</code> otherwise.
-  final bool isClusterWriter;
+  final bool? isClusterWriter;
 
   /// A value that specifies the order in which an Aurora Replica is promoted to
   /// the primary instance after a failure of the existing primary instance. For
@@ -15933,7 +15956,7 @@ class DBClusterMember {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance">
   /// Fault Tolerance for an Aurora DB Cluster</a> in the <i>Amazon Aurora User
   /// Guide</i>.
-  final int promotionTier;
+  final int? promotionTier;
 
   DBClusterMember({
     this.dBClusterParameterGroupStatus,
@@ -15957,10 +15980,10 @@ class DBClusterMember {
 /// <code>DescribeDBClusters</code> action.
 class DBClusterMessage {
   /// Contains a list of DB clusters for the user.
-  final List<DBCluster> dBClusters;
+  final List<DBCluster>? dBClusters;
 
   /// A pagination token that can be used in a later DescribeDBClusters request.
-  final String marker;
+  final String? marker;
 
   DBClusterMessage({
     this.dBClusters,
@@ -15980,10 +16003,10 @@ class DBClusterMessage {
 /// Contains status information for a DB cluster option group.
 class DBClusterOptionGroupStatus {
   /// Specifies the name of the DB cluster option group.
-  final String dBClusterOptionGroupName;
+  final String? dBClusterOptionGroupName;
 
   /// Specifies the status of the DB cluster option group.
-  final String status;
+  final String? status;
 
   DBClusterOptionGroupStatus({
     this.dBClusterOptionGroupName,
@@ -16004,18 +16027,18 @@ class DBClusterOptionGroupStatus {
 /// <code>DescribeDBClusterParameterGroups</code> action.
 class DBClusterParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
-  final String dBClusterParameterGroupArn;
+  final String? dBClusterParameterGroupArn;
 
   /// The name of the DB cluster parameter group.
-  final String dBClusterParameterGroupName;
+  final String? dBClusterParameterGroupName;
 
   /// The name of the DB parameter group family that this DB cluster parameter
   /// group is compatible with.
-  final String dBParameterGroupFamily;
+  final String? dBParameterGroupFamily;
 
   /// Provides the customer-specified description for this DB cluster parameter
   /// group.
-  final String description;
+  final String? description;
 
   DBClusterParameterGroup({
     this.dBClusterParameterGroupArn,
@@ -16043,10 +16066,10 @@ class DBClusterParameterGroupDetails {
   /// DescribeDBClusterParameters request. If this parameter is specified, the
   /// response includes only records beyond the marker, up to the value specified
   /// by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   /// Provides a list of parameters for the DB cluster parameter group.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   DBClusterParameterGroupDetails({
     this.marker,
@@ -16082,7 +16105,7 @@ class DBClusterParameterGroupNameMessage {
   /// </ul> <note>
   /// This value is stored as a lowercase string.
   /// </note>
-  final String dBClusterParameterGroupName;
+  final String? dBClusterParameterGroupName;
 
   DBClusterParameterGroupNameMessage({
     this.dBClusterParameterGroupName,
@@ -16098,13 +16121,13 @@ class DBClusterParameterGroupNameMessage {
 /// <p/>
 class DBClusterParameterGroupsMessage {
   /// A list of DB cluster parameter groups.
-  final List<DBClusterParameterGroup> dBClusterParameterGroups;
+  final List<DBClusterParameterGroup>? dBClusterParameterGroups;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeDBClusterParameterGroups</code> request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to the
   /// value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBClusterParameterGroupsMessage({
     this.dBClusterParameterGroups,
@@ -16129,11 +16152,11 @@ class DBClusterRole {
   /// The name of the feature associated with the AWS Identity and Access
   /// Management (IAM) role. For the list of supported feature names, see
   /// <a>DBEngineVersion</a>.
-  final String featureName;
+  final String? featureName;
 
   /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
   /// DB cluster.
-  final String roleArn;
+  final String? roleArn;
 
   /// Describes the state of association between the IAM role and the DB cluster.
   /// The Status property returns one of the following values:
@@ -16153,7 +16176,7 @@ class DBClusterRole {
   /// AWS services on your behalf.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   DBClusterRole({
     this.featureName,
@@ -16175,77 +16198,77 @@ class DBClusterRole {
 /// <code>DescribeDBClusterSnapshots</code> action.
 class DBClusterSnapshot {
   /// Specifies the allocated storage size in gibibytes (GiB).
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// Provides the list of Availability Zones (AZs) where instances in the DB
   /// cluster snapshot can be restored.
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// Specifies the time when the DB cluster was created, in Universal Coordinated
   /// Time (UTC).
-  final DateTime clusterCreateTime;
+  final DateTime? clusterCreateTime;
 
   /// Specifies the DB cluster identifier of the DB cluster that this DB cluster
   /// snapshot was created from.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
-  final String dBClusterSnapshotArn;
+  final String? dBClusterSnapshotArn;
 
   /// Specifies the identifier for the DB cluster snapshot.
-  final String dBClusterSnapshotIdentifier;
+  final String? dBClusterSnapshotIdentifier;
 
   /// Specifies the name of the database engine.
-  final String engine;
+  final String? engine;
 
   /// Provides the version of the database engine for this DB cluster snapshot.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// True if mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB cluster snapshot.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Provides the license model information for this DB cluster snapshot.
-  final String licenseModel;
+  final String? licenseModel;
 
   /// Provides the master username for the DB cluster snapshot.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// Specifies the percentage of the estimated data that has been transferred.
-  final int percentProgress;
+  final int? percentProgress;
 
   /// Specifies the port that the DB cluster was listening on at the time of the
   /// snapshot.
-  final int port;
+  final int? port;
 
   /// Provides the time when the snapshot was taken, in Universal Coordinated Time
   /// (UTC).
-  final DateTime snapshotCreateTime;
+  final DateTime? snapshotCreateTime;
 
   /// Provides the type of the DB cluster snapshot.
-  final String snapshotType;
+  final String? snapshotType;
 
   /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the
   /// Amazon Resource Name (ARN) for the source DB cluster snapshot, otherwise, a
   /// null value.
-  final String sourceDBClusterSnapshotArn;
+  final String? sourceDBClusterSnapshotArn;
 
   /// Specifies the status of this DB cluster snapshot.
-  final String status;
+  final String? status;
 
   /// Specifies whether the DB cluster snapshot is encrypted.
-  final bool storageEncrypted;
-  final List<Tag> tagList;
+  final bool? storageEncrypted;
+  final List<Tag>? tagList;
 
   /// Provides the VPC ID associated with the DB cluster snapshot.
-  final String vpcId;
+  final String? vpcId;
 
   DBClusterSnapshot({
     this.allocatedStorage,
@@ -16317,7 +16340,7 @@ class DBClusterSnapshotAttribute {
   /// that have permission to copy or restore the manual DB cluster snapshot. For
   /// more information, see the <code>ModifyDBClusterSnapshotAttribute</code> API
   /// action.
-  final String attributeName;
+  final String? attributeName;
 
   /// The value(s) for the manual DB cluster snapshot attribute.
   ///
@@ -16326,7 +16349,7 @@ class DBClusterSnapshotAttribute {
   /// to copy or restore the manual DB cluster snapshot. If a value of
   /// <code>all</code> is in the list, then the manual DB cluster snapshot is
   /// public and available for any AWS account to copy or restore.
-  final List<String> attributeValues;
+  final List<String>? attributeValues;
 
   DBClusterSnapshotAttribute({
     this.attributeName,
@@ -16350,11 +16373,11 @@ class DBClusterSnapshotAttribute {
 /// action.
 class DBClusterSnapshotAttributesResult {
   /// The list of attributes and values for the manual DB cluster snapshot.
-  final List<DBClusterSnapshotAttribute> dBClusterSnapshotAttributes;
+  final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
 
   /// The identifier of the manual DB cluster snapshot that the attributes apply
   /// to.
-  final String dBClusterSnapshotIdentifier;
+  final String? dBClusterSnapshotIdentifier;
 
   DBClusterSnapshotAttributesResult({
     this.dBClusterSnapshotAttributes,
@@ -16378,13 +16401,13 @@ class DBClusterSnapshotAttributesResult {
 /// to the <code>DescribeDBClusterSnapshots</code> action.
 class DBClusterSnapshotMessage {
   /// Provides a list of DB cluster snapshots for the user.
-  final List<DBClusterSnapshot> dBClusterSnapshots;
+  final List<DBClusterSnapshot>? dBClusterSnapshots;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeDBClusterSnapshots</code> request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to the
   /// value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBClusterSnapshotMessage({
     this.dBClusterSnapshots,
@@ -16406,40 +16429,40 @@ class DBClusterSnapshotMessage {
 /// <code>DescribeDBEngineVersions</code>.
 class DBEngineVersion {
   /// The description of the database engine.
-  final String dBEngineDescription;
+  final String? dBEngineDescription;
 
   /// The description of the database engine version.
-  final String dBEngineVersionDescription;
+  final String? dBEngineVersionDescription;
 
   /// The name of the DB parameter group family for the database engine.
-  final String dBParameterGroupFamily;
+  final String? dBParameterGroupFamily;
 
   /// The default character set for new instances of this engine version, if the
   /// <code>CharacterSetName</code> parameter of the CreateDBInstance API isn't
   /// specified.
-  final CharacterSet defaultCharacterSet;
+  final CharacterSet? defaultCharacterSet;
 
   /// The name of the database engine.
-  final String engine;
+  final String? engine;
 
   /// The version number of the database engine.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The types of logs that the database engine has available for export to
   /// CloudWatch Logs.
-  final List<String> exportableLogTypes;
+  final List<String>? exportableLogTypes;
 
   /// The status of the DB engine version, either <code>available</code> or
   /// <code>deprecated</code>.
-  final String status;
+  final String? status;
 
   /// A list of the character sets supported by this engine for the
   /// <code>CharacterSetName</code> parameter of the <code>CreateDBInstance</code>
   /// operation.
-  final List<CharacterSet> supportedCharacterSets;
+  final List<CharacterSet>? supportedCharacterSets;
 
   /// A list of the supported DB engine modes.
-  final List<String> supportedEngineModes;
+  final List<String>? supportedEngineModes;
 
   /// A list of features supported by the DB engine. Supported feature names
   /// include the following.
@@ -16449,35 +16472,35 @@ class DBEngineVersion {
   /// s3Import
   /// </li>
   /// </ul>
-  final List<String> supportedFeatureNames;
+  final List<String>? supportedFeatureNames;
 
   /// A list of the character sets supported by the Oracle DB engine for the
   /// <code>NcharCharacterSetName</code> parameter of the
   /// <code>CreateDBInstance</code> operation.
-  final List<CharacterSet> supportedNcharCharacterSets;
+  final List<CharacterSet>? supportedNcharCharacterSets;
 
   /// A list of the time zones supported by this engine for the
   /// <code>Timezone</code> parameter of the <code>CreateDBInstance</code> action.
-  final List<Timezone> supportedTimezones;
+  final List<Timezone>? supportedTimezones;
 
   /// A value that indicates whether you can use Aurora global databases with a
   /// specific DB engine version.
-  final bool supportsGlobalDatabases;
+  final bool? supportsGlobalDatabases;
 
   /// A value that indicates whether the engine version supports exporting the log
   /// types specified by ExportableLogTypes to CloudWatch Logs.
-  final bool supportsLogExportsToCloudwatchLogs;
+  final bool? supportsLogExportsToCloudwatchLogs;
 
   /// A value that indicates whether you can use Aurora parallel query with a
   /// specific DB engine version.
-  final bool supportsParallelQuery;
+  final bool? supportsParallelQuery;
 
   /// Indicates whether the database engine version supports read replicas.
-  final bool supportsReadReplica;
+  final bool? supportsReadReplica;
 
   /// A list of engine versions that this database engine version can be upgraded
   /// to.
-  final List<UpgradeTarget> validUpgradeTarget;
+  final List<UpgradeTarget>? validUpgradeTarget;
 
   DBEngineVersion({
     this.dBEngineDescription,
@@ -16559,12 +16582,12 @@ class DBEngineVersion {
 /// <code>DescribeDBEngineVersions</code> action.
 class DBEngineVersionMessage {
   /// A list of <code>DBEngineVersion</code> elements.
-  final List<DBEngineVersion> dBEngineVersions;
+  final List<DBEngineVersion>? dBEngineVersions;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBEngineVersionMessage({
     this.dBEngineVersions,
@@ -16588,27 +16611,27 @@ class DBEngineVersionMessage {
 /// <code>DescribeDBInstances</code> action.
 class DBInstance {
   /// Specifies the allocated storage size specified in gibibytes.
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// The AWS Identity and Access Management (IAM) roles associated with the DB
   /// instance.
-  final List<DBInstanceRole> associatedRoles;
+  final List<DBInstanceRole>? associatedRoles;
 
   /// Indicates that minor version patches are applied automatically.
-  final bool autoMinorVersionUpgrade;
+  final bool? autoMinorVersionUpgrade;
 
   /// Specifies the name of the Availability Zone the DB instance is located in.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Specifies the number of days for which automatic DB snapshots are retained.
-  final int backupRetentionPeriod;
+  final int? backupRetentionPeriod;
 
   /// The identifier of the CA certificate for this DB instance.
-  final String cACertificateIdentifier;
+  final String? cACertificateIdentifier;
 
   /// If present, specifies the name of the character set that this instance is
   /// associated with.
-  final String characterSetName;
+  final String? characterSetName;
 
   /// Specifies whether tags are copied from the DB instance to snapshots of the
   /// DB instance.
@@ -16618,7 +16641,7 @@ class DBInstance {
   /// Not applicable. Copying tags to snapshots is managed by the DB cluster.
   /// Setting this value for an Aurora DB instance has no effect on the DB cluster
   /// setting. For more information, see <code>DBCluster</code>.
-  final bool copyTagsToSnapshot;
+  final bool? copyTagsToSnapshot;
 
   /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS
   /// on Outposts DB instance.
@@ -16635,33 +16658,33 @@ class DBInstance {
   /// For more information about CoIPs, see <a
   /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
   /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
-  final bool customerOwnedIpEnabled;
+  final bool? customerOwnedIpEnabled;
 
   /// If the DB instance is a member of a DB cluster, contains the name of the DB
   /// cluster that the DB instance is a member of.
-  final String dBClusterIdentifier;
+  final String? dBClusterIdentifier;
 
   /// The Amazon Resource Name (ARN) for the DB instance.
-  final String dBInstanceArn;
+  final String? dBInstanceArn;
 
   /// The list of replicated automated backups associated with the DB instance.
-  final List<DBInstanceAutomatedBackupsReplication>
+  final List<DBInstanceAutomatedBackupsReplication>?
       dBInstanceAutomatedBackupsReplications;
 
   /// Contains the name of the compute and memory capacity class of the DB
   /// instance.
-  final String dBInstanceClass;
+  final String? dBInstanceClass;
 
   /// Contains a user-supplied database identifier. This identifier is the unique
   /// key that identifies a DB instance.
-  final String dBInstanceIdentifier;
+  final String? dBInstanceIdentifier;
 
   /// Specifies the current state of this database.
   ///
   /// For information about DB instance statuses, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Status.html">DB
   /// Instance Status</a> in the <i>Amazon RDS User Guide.</i>
-  final String dBInstanceStatus;
+  final String? dBInstanceStatus;
 
   /// The meaning of this parameter differs according to the database engine you
   /// use.
@@ -16678,39 +16701,39 @@ class DBInstance {
   ///
   /// Contains the Oracle System ID (SID) of the created DB instance. Not shown
   /// when the returned parameters do not apply to an Oracle DB instance.
-  final String dBName;
+  final String? dBName;
 
   /// Provides the list of DB parameter groups applied to this DB instance.
-  final List<DBParameterGroupStatus> dBParameterGroups;
+  final List<DBParameterGroupStatus>? dBParameterGroups;
 
   /// A list of DB security group elements containing
   /// <code>DBSecurityGroup.Name</code> and <code>DBSecurityGroup.Status</code>
   /// subelements.
-  final List<DBSecurityGroupMembership> dBSecurityGroups;
+  final List<DBSecurityGroupMembership>? dBSecurityGroups;
 
   /// Specifies information on the subnet group associated with the DB instance,
   /// including the name, description, and subnets in the subnet group.
-  final DBSubnetGroup dBSubnetGroup;
+  final DBSubnetGroup? dBSubnetGroup;
 
   /// Specifies the port that the DB instance listens on. If the DB instance is
   /// part of a DB cluster, this can be a different port than the DB cluster port.
-  final int dbInstancePort;
+  final int? dbInstancePort;
 
   /// The AWS Region-unique, immutable identifier for the DB instance. This
   /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS
   /// customer master key (CMK) for the DB instance is accessed.
-  final String dbiResourceId;
+  final String? dbiResourceId;
 
   /// Indicates if the DB instance has deletion protection enabled. The database
   /// can't be deleted when deletion protection is enabled. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
   /// Deleting a DB Instance</a>.
-  final bool deletionProtection;
+  final bool? deletionProtection;
 
   /// The Active Directory Domain membership records associated with the DB
   /// instance.
-  final List<DomainMembership> domainMemberships;
+  final List<DomainMembership>? domainMemberships;
 
   /// A list of log types that this DB instance is configured to export to
   /// CloudWatch Logs.
@@ -16719,20 +16742,20 @@ class DBInstance {
   /// engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html">Amazon
   /// RDS Database Log Files</a> in the <i>Amazon RDS User Guide.</i>
-  final List<String> enabledCloudwatchLogsExports;
+  final List<String>? enabledCloudwatchLogsExports;
 
   /// Specifies the connection endpoint.
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   /// The name of the database engine to be used for this DB instance.
-  final String engine;
+  final String? engine;
 
   /// Indicates the database engine version.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that
   /// receives the Enhanced Monitoring metrics data for the DB instance.
-  final String enhancedMonitoringResourceArn;
+  final String? enhancedMonitoringResourceArn;
 
   /// True if mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
@@ -16752,88 +16775,88 @@ class DBInstance {
   /// DBCluster Type.
   /// </li>
   /// </ul>
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// Provides the date and time the DB instance was created.
-  final DateTime instanceCreateTime;
+  final DateTime? instanceCreateTime;
 
   /// Specifies the Provisioned IOPS (I/O operations per second) value.
-  final int iops;
+  final int? iops;
 
   /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB instance.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies the latest time to which a database can be restored with
   /// point-in-time restore.
-  final DateTime latestRestorableTime;
+  final DateTime? latestRestorableTime;
 
   /// License model information for this DB instance.
-  final String licenseModel;
+  final String? licenseModel;
 
   /// Specifies the listener connection endpoint for SQL Server Always On.
-  final Endpoint listenerEndpoint;
+  final Endpoint? listenerEndpoint;
 
   /// Contains the master username for the DB instance.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// The upper limit to which Amazon RDS can automatically scale the storage of
   /// the DB instance.
-  final int maxAllocatedStorage;
+  final int? maxAllocatedStorage;
 
   /// The interval, in seconds, between points when Enhanced Monitoring metrics
   /// are collected for the DB instance.
-  final int monitoringInterval;
+  final int? monitoringInterval;
 
   /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring
   /// metrics to Amazon CloudWatch Logs.
-  final String monitoringRoleArn;
+  final String? monitoringRoleArn;
 
   /// Specifies if the DB instance is a Multi-AZ deployment.
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// The name of the NCHAR character set for the Oracle DB instance. This
   /// character set specifies the Unicode encoding for data stored in table
   /// columns of type NCHAR, NCLOB, or NVARCHAR2.
-  final String ncharCharacterSetName;
+  final String? ncharCharacterSetName;
 
   /// Provides the list of option group memberships for this DB instance.
-  final List<OptionGroupMembership> optionGroupMemberships;
+  final List<OptionGroupMembership>? optionGroupMemberships;
 
   /// Specifies that changes to the DB instance are pending. This element is only
   /// included when changes are pending. Specific changes are identified by
   /// subelements.
-  final PendingModifiedValues pendingModifiedValues;
+  final PendingModifiedValues? pendingModifiedValues;
 
   /// True if Performance Insights is enabled for the DB instance, and otherwise
   /// false.
-  final bool performanceInsightsEnabled;
+  final bool? performanceInsightsEnabled;
 
   /// The AWS KMS key identifier for encryption of Performance Insights data.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String performanceInsightsKMSKeyId;
+  final String? performanceInsightsKMSKeyId;
 
   /// The amount of time, in days, to retain Performance Insights data. Valid
   /// values are 7 or 731 (2 years).
-  final int performanceInsightsRetentionPeriod;
+  final int? performanceInsightsRetentionPeriod;
 
   /// Specifies the daily time range during which automated backups are created if
   /// automated backups are enabled, as determined by the
   /// <code>BackupRetentionPeriod</code>.
-  final String preferredBackupWindow;
+  final String? preferredBackupWindow;
 
   /// Specifies the weekly time range during which system maintenance can occur,
   /// in Universal Coordinated Time (UTC).
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// The number of CPU cores and the number of threads per core for the DB
   /// instance class of the DB instance.
-  final List<ProcessorFeature> processorFeatures;
+  final List<ProcessorFeature>? processorFeatures;
 
   /// A value that specifies the order in which an Aurora Replica is promoted to
   /// the primary instance after a failure of the existing primary instance. For
@@ -16841,7 +16864,7 @@ class DBInstance {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance">
   /// Fault Tolerance for an Aurora DB Cluster</a> in the <i>Amazon Aurora User
   /// Guide</i>.
-  final int promotionTier;
+  final int? promotionTier;
 
   /// Specifies the accessibility options for the DB instance.
   ///
@@ -16856,7 +16879,7 @@ class DBInstance {
   /// instance with a DNS name that resolves to a private IP address.
   ///
   /// For more information, see <a>CreateDBInstance</a>.
-  final bool publiclyAccessible;
+  final bool? publiclyAccessible;
 
   /// Contains one or more identifiers of Aurora DB clusters to which the RDS DB
   /// instance is replicated as a read replica. For example, when you create an
@@ -16866,15 +16889,15 @@ class DBInstance {
   /// <note>
   /// Currently, each RDS DB instance can have only one Aurora read replica.
   /// </note>
-  final List<String> readReplicaDBClusterIdentifiers;
+  final List<String>? readReplicaDBClusterIdentifiers;
 
   /// Contains one or more identifiers of the read replicas associated with this
   /// DB instance.
-  final List<String> readReplicaDBInstanceIdentifiers;
+  final List<String>? readReplicaDBInstanceIdentifiers;
 
   /// Contains the identifier of the source DB instance if this DB instance is a
   /// read replica.
-  final String readReplicaSourceDBInstanceIdentifier;
+  final String? readReplicaSourceDBInstanceIdentifier;
 
   /// The open mode of an Oracle read replica. The default is
   /// <code>open-read-only</code>. For more information, see <a
@@ -16884,35 +16907,35 @@ class DBInstance {
   /// <note>
   /// This attribute is only supported in RDS for Oracle.
   /// </note>
-  final ReplicaMode replicaMode;
+  final ReplicaMode? replicaMode;
 
   /// If present, specifies the name of the secondary Availability Zone for a DB
   /// instance with multi-AZ support.
-  final String secondaryAvailabilityZone;
+  final String? secondaryAvailabilityZone;
 
   /// The status of a read replica. If the instance isn't a read replica, this is
   /// blank.
-  final List<DBInstanceStatusInfo> statusInfos;
+  final List<DBInstanceStatusInfo>? statusInfos;
 
   /// Specifies whether the DB instance is encrypted.
-  final bool storageEncrypted;
+  final bool? storageEncrypted;
 
   /// Specifies the storage type associated with DB instance.
-  final String storageType;
-  final List<Tag> tagList;
+  final String? storageType;
+  final List<Tag>? tagList;
 
   /// The ARN from the key store with which the instance is associated for TDE
   /// encryption.
-  final String tdeCredentialArn;
+  final String? tdeCredentialArn;
 
   /// The time zone of the DB instance. In most cases, the <code>Timezone</code>
   /// element is empty. <code>Timezone</code> content appears only for Microsoft
   /// SQL Server DB instances that were created with a time zone specified.
-  final String timezone;
+  final String? timezone;
 
   /// Provides a list of VPC security group elements that the DB instance belongs
   /// to.
-  final List<VpcSecurityGroupMembership> vpcSecurityGroups;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
 
   DBInstance({
     this.allocatedStorage,
@@ -17125,83 +17148,83 @@ class DBInstance {
 /// time you deleted the source instance.
 class DBInstanceAutomatedBackup {
   /// Specifies the allocated storage size in gibibytes (GiB).
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// The Availability Zone that the automated backup was created in. For
   /// information on AWS Regions and Availability Zones, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html">Regions
   /// and Availability Zones</a>.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The retention period for the automated backups.
-  final int backupRetentionPeriod;
+  final int? backupRetentionPeriod;
 
   /// The Amazon Resource Name (ARN) for the automated backups.
-  final String dBInstanceArn;
+  final String? dBInstanceArn;
 
   /// The Amazon Resource Name (ARN) for the replicated automated backups.
-  final String dBInstanceAutomatedBackupsArn;
+  final String? dBInstanceAutomatedBackupsArn;
 
   /// The list of replications to different AWS Regions associated with the
   /// automated backup.
-  final List<DBInstanceAutomatedBackupsReplication>
+  final List<DBInstanceAutomatedBackupsReplication>?
       dBInstanceAutomatedBackupsReplications;
 
   /// The customer id of the instance that is/was associated with the automated
   /// backup.
-  final String dBInstanceIdentifier;
+  final String? dBInstanceIdentifier;
 
   /// The identifier for the source DB instance, which can't be changed and which
   /// is unique to an AWS Region.
-  final String dbiResourceId;
+  final String? dbiResourceId;
 
   /// Specifies whether the automated backup is encrypted.
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The name of the database engine for this automated backup.
-  final String engine;
+  final String? engine;
 
   /// The version of the database engine for the automated backup.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// True if mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// Provides the date and time that the DB instance was created.
-  final DateTime instanceCreateTime;
+  final DateTime? instanceCreateTime;
 
   /// The IOPS (I/O operations per second) value for the automated backup.
-  final int iops;
+  final int? iops;
 
   /// The AWS KMS key ID for an automated backup.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// License model information for the automated backup.
-  final String licenseModel;
+  final String? licenseModel;
 
   /// The license model of an automated backup.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// The option group the automated backup is associated with. If omitted, the
   /// default option group for the engine specified is used.
-  final String optionGroupName;
+  final String? optionGroupName;
 
   /// The port number that the automated backup used for connections.
   ///
   /// Default: Inherits from the source DB instance
   ///
   /// Valid Values: <code>1150-65535</code>
-  final int port;
+  final int? port;
 
   /// The AWS Region associated with the automated backup.
-  final String region;
+  final String? region;
 
   /// Earliest and latest time an instance can be restored to.
-  final RestoreWindow restoreWindow;
+  final RestoreWindow? restoreWindow;
 
   /// Provides a list of status information for an automated backup:
   ///
@@ -17217,23 +17240,23 @@ class DBInstanceAutomatedBackup {
   /// automated snapshot to be available.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   /// Specifies the storage type associated with the automated backup.
-  final String storageType;
+  final String? storageType;
 
   /// The ARN from the key store with which the automated backup is associated for
   /// TDE encryption.
-  final String tdeCredentialArn;
+  final String? tdeCredentialArn;
 
   /// The time zone of the automated backup. In most cases, the
   /// <code>Timezone</code> element is empty. <code>Timezone</code> content
   /// appears only for Microsoft SQL Server DB instances that were created with a
   /// time zone specified.
-  final String timezone;
+  final String? timezone;
 
   /// Provides the VPC ID associated with the DB instance
-  final String vpcId;
+  final String? vpcId;
 
   DBInstanceAutomatedBackup({
     this.allocatedStorage,
@@ -17311,12 +17334,12 @@ class DBInstanceAutomatedBackup {
 /// <code>DescribeDBInstanceAutomatedBackups</code> action.
 class DBInstanceAutomatedBackupMessage {
   /// A list of <code>DBInstanceAutomatedBackup</code> instances.
-  final List<DBInstanceAutomatedBackup> dBInstanceAutomatedBackups;
+  final List<DBInstanceAutomatedBackup>? dBInstanceAutomatedBackups;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   DBInstanceAutomatedBackupMessage({
     this.dBInstanceAutomatedBackups,
@@ -17340,7 +17363,7 @@ class DBInstanceAutomatedBackupMessage {
 /// properties.
 class DBInstanceAutomatedBackupsReplication {
   /// The Amazon Resource Name (ARN) of the replicated automated backups.
-  final String dBInstanceAutomatedBackupsArn;
+  final String? dBInstanceAutomatedBackupsArn;
 
   DBInstanceAutomatedBackupsReplication({
     this.dBInstanceAutomatedBackupsArn,
@@ -17357,12 +17380,12 @@ class DBInstanceAutomatedBackupsReplication {
 /// <code>DescribeDBInstances</code> action.
 class DBInstanceMessage {
   /// A list of <code>DBInstance</code> instances.
-  final List<DBInstance> dBInstances;
+  final List<DBInstance>? dBInstances;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   DBInstanceMessage({
     this.dBInstances,
@@ -17385,11 +17408,11 @@ class DBInstanceRole {
   /// The name of the feature associated with the AWS Identity and Access
   /// Management (IAM) role. For the list of supported feature names, see
   /// <code>DBEngineVersion</code>.
-  final String featureName;
+  final String? featureName;
 
   /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
   /// DB instance.
-  final String roleArn;
+  final String? roleArn;
 
   /// Describes the state of association between the IAM role and the DB instance.
   /// The Status property returns one of the following values:
@@ -17409,7 +17432,7 @@ class DBInstanceRole {
   /// other AWS services on your behalf.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   DBInstanceRole({
     this.featureName,
@@ -17429,19 +17452,19 @@ class DBInstanceRole {
 class DBInstanceStatusInfo {
   /// Details of the error if there is an error for the instance. If the instance
   /// isn't in an error state, this value is blank.
-  final String message;
+  final String? message;
 
   /// Boolean value that is true if the instance is operating normally, or false
   /// if the instance is in an error state.
-  final bool normal;
+  final bool? normal;
 
   /// Status of the DB instance. For a StatusType of read replica, the values can
   /// be replicating, replication stop point set, replication stop point reached,
   /// error, stopped, or terminated.
-  final String status;
+  final String? status;
 
   /// This value is currently "read replication."
-  final String statusType;
+  final String? statusType;
 
   DBInstanceStatusInfo({
     this.message,
@@ -17465,17 +17488,17 @@ class DBInstanceStatusInfo {
 /// <code>DescribeDBParameterGroups</code> action.
 class DBParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB parameter group.
-  final String dBParameterGroupArn;
+  final String? dBParameterGroupArn;
 
   /// The name of the DB parameter group family that this DB parameter group is
   /// compatible with.
-  final String dBParameterGroupFamily;
+  final String? dBParameterGroupFamily;
 
   /// The name of the DB parameter group.
-  final String dBParameterGroupName;
+  final String? dBParameterGroupName;
 
   /// Provides the customer-specified description for this DB parameter group.
-  final String description;
+  final String? description;
 
   DBParameterGroup({
     this.dBParameterGroupArn,
@@ -17502,10 +17525,10 @@ class DBParameterGroupDetails {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// A list of <code>Parameter</code> values.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   DBParameterGroupDetails({
     this.marker,
@@ -17527,7 +17550,7 @@ class DBParameterGroupDetails {
 /// action.
 class DBParameterGroupNameMessage {
   /// The name of the DB parameter group.
-  final String dBParameterGroupName;
+  final String? dBParameterGroupName;
 
   DBParameterGroupNameMessage({
     this.dBParameterGroupName,
@@ -17566,10 +17589,10 @@ class DBParameterGroupNameMessage {
 /// </ul>
 class DBParameterGroupStatus {
   /// The name of the DB parameter group.
-  final String dBParameterGroupName;
+  final String? dBParameterGroupName;
 
   /// The status of parameter updates.
-  final String parameterApplyStatus;
+  final String? parameterApplyStatus;
 
   DBParameterGroupStatus({
     this.dBParameterGroupName,
@@ -17589,12 +17612,12 @@ class DBParameterGroupStatus {
 /// <code>DescribeDBParameterGroups</code> action.
 class DBParameterGroupsMessage {
   /// A list of <code>DBParameterGroup</code> instances.
-  final List<DBParameterGroup> dBParameterGroups;
+  final List<DBParameterGroup>? dBParameterGroups;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBParameterGroupsMessage({
     this.dBParameterGroups,
@@ -17619,17 +17642,17 @@ class DBParameterGroupsMessage {
 class DBProxy {
   /// One or more data structures specifying the authorization mechanism to
   /// connect to the associated RDS DB instance or Aurora DB cluster.
-  final List<UserAuthConfigInfo> auth;
+  final List<UserAuthConfigInfo>? auth;
 
   /// The date and time when the proxy was first created.
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The Amazon Resource Name (ARN) for the proxy.
-  final String dBProxyArn;
+  final String? dBProxyArn;
 
   /// The identifier for the proxy. This name must be unique for all proxies owned
   /// by your AWS account in the specified AWS Region.
-  final String dBProxyName;
+  final String? dBProxyName;
 
   /// Whether the proxy includes detailed information about SQL statements in its
   /// logs. This information helps you to debug issues involving SQL behavior or
@@ -17638,14 +17661,14 @@ class DBProxy {
   /// proxy. Thus, only enable this setting when needed for debugging, and only
   /// when you have security measures in place to safeguard any sensitive
   /// information that appears in the logs.
-  final bool debugLogging;
+  final bool? debugLogging;
 
   /// The endpoint that you can use to connect to the proxy. You include the
   /// endpoint value in the connection string for a database client application.
-  final String endpoint;
+  final String? endpoint;
 
   /// The engine family applies to MySQL and PostgreSQL for both RDS and Aurora.
-  final String engineFamily;
+  final String? engineFamily;
 
   /// The number of seconds a connection to the proxy can have no activity before
   /// the proxy drops the client connection. The proxy keeps the underlying
@@ -17655,29 +17678,29 @@ class DBProxy {
   /// Default: 1800 (30 minutes)
   ///
   /// Constraints: 1 to 28,800
-  final int idleClientTimeout;
+  final int? idleClientTimeout;
 
   /// Indicates whether Transport Layer Security (TLS) encryption is required for
   /// connections to the proxy.
-  final bool requireTLS;
+  final bool? requireTLS;
 
   /// The Amazon Resource Name (ARN) for the IAM role that the proxy uses to
   /// access Amazon Secrets Manager.
-  final String roleArn;
+  final String? roleArn;
 
   /// The current status of this proxy. A status of <code>available</code> means
   /// the proxy is ready to handle requests. Other values indicate that you must
   /// wait for the proxy to be ready, or take some action to resolve an issue.
-  final DBProxyStatus status;
+  final DBProxyStatus? status;
 
   /// The date and time when the proxy was last updated.
-  final DateTime updatedDate;
+  final DateTime? updatedDate;
 
   /// Provides a list of VPC security groups that the proxy belongs to.
-  final List<String> vpcSecurityGroupIds;
+  final List<String>? vpcSecurityGroupIds;
 
   /// The EC2 subnet IDs for the proxy.
-  final List<String> vpcSubnetIds;
+  final List<String>? vpcSubnetIds;
 
   DBProxy({
     this.auth,
@@ -17723,24 +17746,40 @@ class DBProxy {
 }
 
 enum DBProxyStatus {
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('modifying')
   modifying,
-  @_s.JsonValue('incompatible-network')
   incompatibleNetwork,
-  @_s.JsonValue('insufficient-resource-limits')
   insufficientResourceLimits,
-  @_s.JsonValue('creating')
   creating,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('suspended')
   suspended,
-  @_s.JsonValue('suspending')
   suspending,
-  @_s.JsonValue('reactivating')
   reactivating,
+}
+
+extension on DBProxyStatus {
+  String toValue() {
+    switch (this) {
+      case DBProxyStatus.available:
+        return 'available';
+      case DBProxyStatus.modifying:
+        return 'modifying';
+      case DBProxyStatus.incompatibleNetwork:
+        return 'incompatible-network';
+      case DBProxyStatus.insufficientResourceLimits:
+        return 'insufficient-resource-limits';
+      case DBProxyStatus.creating:
+        return 'creating';
+      case DBProxyStatus.deleting:
+        return 'deleting';
+      case DBProxyStatus.suspended:
+        return 'suspended';
+      case DBProxyStatus.suspending:
+        return 'suspending';
+      case DBProxyStatus.reactivating:
+        return 'reactivating';
+    }
+  }
 }
 
 extension on String {
@@ -17765,7 +17804,7 @@ extension on String {
       case 'reactivating':
         return DBProxyStatus.reactivating;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DBProxyStatus');
   }
 }
 
@@ -17777,29 +17816,29 @@ extension on String {
 /// <code>DescribeDBProxyTargets</code> action.
 class DBProxyTarget {
   /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
-  final String endpoint;
+  final String? endpoint;
 
   /// The port that the RDS Proxy uses to connect to the target RDS DB instance or
   /// Aurora DB cluster.
-  final int port;
+  final int? port;
 
   /// The identifier representing the target. It can be the instance identifier
   /// for an RDS DB instance, or the cluster identifier for an Aurora DB cluster.
-  final String rdsResourceId;
+  final String? rdsResourceId;
 
   /// The Amazon Resource Name (ARN) for the RDS DB instance or Aurora DB cluster.
-  final String targetArn;
+  final String? targetArn;
 
   /// Information about the connection health of the RDS Proxy target.
-  final TargetHealth targetHealth;
+  final TargetHealth? targetHealth;
 
   /// The DB cluster identifier when the target represents an Aurora DB cluster.
   /// This field is blank when the target represents an RDS DB instance.
-  final String trackedClusterId;
+  final String? trackedClusterId;
 
   /// Specifies the kind of database, such as an RDS DB instance or an Aurora DB
   /// cluster, that the target represents.
-  final TargetType type;
+  final TargetType? type;
 
   DBProxyTarget({
     this.endpoint,
@@ -17834,34 +17873,34 @@ class DBProxyTarget {
 class DBProxyTargetGroup {
   /// The settings that determine the size and behavior of the connection pool for
   /// the target group.
-  final ConnectionPoolConfigurationInfo connectionPoolConfig;
+  final ConnectionPoolConfigurationInfo? connectionPoolConfig;
 
   /// The date and time when the target group was first created.
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for the RDS proxy associated with this target group.
-  final String dBProxyName;
+  final String? dBProxyName;
 
   /// Whether this target group is the first one used for connection requests by
   /// the associated proxy. Because each proxy is currently associated with a
   /// single target group, currently this setting is always <code>true</code>.
-  final bool isDefault;
+  final bool? isDefault;
 
   /// The current status of this target group. A status of <code>available</code>
   /// means the target group is correctly associated with a database. Other values
   /// indicate that you must wait for the target group to be ready, or take some
   /// action to resolve an issue.
-  final String status;
+  final String? status;
 
   /// The Amazon Resource Name (ARN) representing the target group.
-  final String targetGroupArn;
+  final String? targetGroupArn;
 
   /// The identifier for the target group. This name must be unique for all target
   /// groups owned by your AWS account in the specified AWS Region.
-  final String targetGroupName;
+  final String? targetGroupName;
 
   /// The date and time when the target group was last updated.
-  final DateTime updatedDate;
+  final DateTime? updatedDate;
 
   DBProxyTargetGroup({
     this.connectionPoolConfig,
@@ -17895,25 +17934,25 @@ class DBProxyTargetGroup {
 /// <code>DescribeDBSecurityGroups</code> action.
 class DBSecurityGroup {
   /// The Amazon Resource Name (ARN) for the DB security group.
-  final String dBSecurityGroupArn;
+  final String? dBSecurityGroupArn;
 
   /// Provides the description of the DB security group.
-  final String dBSecurityGroupDescription;
+  final String? dBSecurityGroupDescription;
 
   /// Specifies the name of the DB security group.
-  final String dBSecurityGroupName;
+  final String? dBSecurityGroupName;
 
   /// Contains a list of <code>EC2SecurityGroup</code> elements.
-  final List<EC2SecurityGroup> eC2SecurityGroups;
+  final List<EC2SecurityGroup>? eC2SecurityGroups;
 
   /// Contains a list of <code>IPRange</code> elements.
-  final List<IPRange> iPRanges;
+  final List<IPRange>? iPRanges;
 
   /// Provides the AWS ID of the owner of a specific DB security group.
-  final String ownerId;
+  final String? ownerId;
 
   /// Provides the VpcId of the DB security group.
-  final String vpcId;
+  final String? vpcId;
 
   DBSecurityGroup({
     this.dBSecurityGroupArn,
@@ -17962,10 +18001,10 @@ class DBSecurityGroup {
 /// </ul>
 class DBSecurityGroupMembership {
   /// The name of the DB security group.
-  final String dBSecurityGroupName;
+  final String? dBSecurityGroupName;
 
   /// The status of the DB security group.
-  final String status;
+  final String? status;
 
   DBSecurityGroupMembership({
     this.dBSecurityGroupName,
@@ -17984,12 +18023,12 @@ class DBSecurityGroupMembership {
 /// <code>DescribeDBSecurityGroups</code> action.
 class DBSecurityGroupMessage {
   /// A list of <code>DBSecurityGroup</code> instances.
-  final List<DBSecurityGroup> dBSecurityGroups;
+  final List<DBSecurityGroup>? dBSecurityGroups;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBSecurityGroupMessage({
     this.dBSecurityGroups,
@@ -18013,106 +18052,106 @@ class DBSecurityGroupMessage {
 /// <code>DescribeDBSnapshots</code> action.
 class DBSnapshot {
   /// Specifies the allocated storage size in gibibytes (GiB).
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// Specifies the name of the Availability Zone the DB instance was located in
   /// at the time of the DB snapshot.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Specifies the DB instance identifier of the DB instance this DB snapshot was
   /// created from.
-  final String dBInstanceIdentifier;
+  final String? dBInstanceIdentifier;
 
   /// The Amazon Resource Name (ARN) for the DB snapshot.
-  final String dBSnapshotArn;
+  final String? dBSnapshotArn;
 
   /// Specifies the identifier for the DB snapshot.
-  final String dBSnapshotIdentifier;
+  final String? dBSnapshotIdentifier;
 
   /// The identifier for the source DB instance, which can't be changed and which
   /// is unique to an AWS Region.
-  final String dbiResourceId;
+  final String? dbiResourceId;
 
   /// Specifies whether the DB snapshot is encrypted.
-  final bool encrypted;
+  final bool? encrypted;
 
   /// Specifies the name of the database engine.
-  final String engine;
+  final String? engine;
 
   /// Specifies the version of the database engine.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// True if mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance,
   /// from which the snapshot was taken, was created.
-  final DateTime instanceCreateTime;
+  final DateTime? instanceCreateTime;
 
   /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB
   /// instance at the time of the snapshot.
-  final int iops;
+  final int? iops;
 
   /// If <code>Encrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB snapshot.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// License model information for the restored DB instance.
-  final String licenseModel;
+  final String? licenseModel;
 
   /// Provides the master username for the DB snapshot.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// Provides the option group name for the DB snapshot.
-  final String optionGroupName;
+  final String? optionGroupName;
 
   /// The percentage of the estimated data that has been transferred.
-  final int percentProgress;
+  final int? percentProgress;
 
   /// Specifies the port that the database engine was listening on at the time of
   /// the snapshot.
-  final int port;
+  final int? port;
 
   /// The number of CPU cores and the number of threads per core for the DB
   /// instance class of the DB instance when the DB snapshot was created.
-  final List<ProcessorFeature> processorFeatures;
+  final List<ProcessorFeature>? processorFeatures;
 
   /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC).
-  final DateTime snapshotCreateTime;
+  final DateTime? snapshotCreateTime;
 
   /// Provides the type of the DB snapshot.
-  final String snapshotType;
+  final String? snapshotType;
 
   /// The DB snapshot Amazon Resource Name (ARN) that the DB snapshot was copied
   /// from. It only has value in case of cross-customer or cross-region copy.
-  final String sourceDBSnapshotIdentifier;
+  final String? sourceDBSnapshotIdentifier;
 
   /// The AWS Region that the DB snapshot was created in or copied from.
-  final String sourceRegion;
+  final String? sourceRegion;
 
   /// Specifies the status of this DB snapshot.
-  final String status;
+  final String? status;
 
   /// Specifies the storage type associated with DB snapshot.
-  final String storageType;
-  final List<Tag> tagList;
+  final String? storageType;
+  final List<Tag>? tagList;
 
   /// The ARN from the key store with which to associate the instance for TDE
   /// encryption.
-  final String tdeCredentialArn;
+  final String? tdeCredentialArn;
 
   /// The time zone of the DB snapshot. In most cases, the <code>Timezone</code>
   /// element is empty. <code>Timezone</code> content appears only for snapshots
   /// taken from Microsoft SQL Server DB instances that were created with a time
   /// zone specified.
-  final String timezone;
+  final String? timezone;
 
   /// Provides the VPC ID associated with the DB snapshot.
-  final String vpcId;
+  final String? vpcId;
 
   DBSnapshot({
     this.allocatedStorage,
@@ -18202,7 +18241,7 @@ class DBSnapshotAttribute {
   /// The attribute named <code>restore</code> refers to the list of AWS accounts
   /// that have permission to copy or restore the manual DB cluster snapshot. For
   /// more information, see the <code>ModifyDBSnapshotAttribute</code> API action.
-  final String attributeName;
+  final String? attributeName;
 
   /// The value or values for the manual DB snapshot attribute.
   ///
@@ -18211,7 +18250,7 @@ class DBSnapshotAttribute {
   /// to copy or restore the manual DB snapshot. If a value of <code>all</code> is
   /// in the list, then the manual DB snapshot is public and available for any AWS
   /// account to copy or restore.
-  final List<String> attributeValues;
+  final List<String>? attributeValues;
 
   DBSnapshotAttribute({
     this.attributeName,
@@ -18234,10 +18273,10 @@ class DBSnapshotAttribute {
 /// <code>ModifyDBSnapshotAttribute</code> API action.
 class DBSnapshotAttributesResult {
   /// The list of attributes and values for the manual DB snapshot.
-  final List<DBSnapshotAttribute> dBSnapshotAttributes;
+  final List<DBSnapshotAttribute>? dBSnapshotAttributes;
 
   /// The identifier of the manual DB snapshot that the attributes apply to.
-  final String dBSnapshotIdentifier;
+  final String? dBSnapshotIdentifier;
 
   DBSnapshotAttributesResult({
     this.dBSnapshotAttributes,
@@ -18261,12 +18300,12 @@ class DBSnapshotAttributesResult {
 /// <code>DescribeDBSnapshots</code> action.
 class DBSnapshotMessage {
   /// A list of <code>DBSnapshot</code> instances.
-  final List<DBSnapshot> dBSnapshots;
+  final List<DBSnapshot>? dBSnapshots;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBSnapshotMessage({
     this.dBSnapshots,
@@ -18289,22 +18328,22 @@ class DBSnapshotMessage {
 /// <code>DescribeDBSubnetGroups</code> action.
 class DBSubnetGroup {
   /// The Amazon Resource Name (ARN) for the DB subnet group.
-  final String dBSubnetGroupArn;
+  final String? dBSubnetGroupArn;
 
   /// Provides the description of the DB subnet group.
-  final String dBSubnetGroupDescription;
+  final String? dBSubnetGroupDescription;
 
   /// The name of the DB subnet group.
-  final String dBSubnetGroupName;
+  final String? dBSubnetGroupName;
 
   /// Provides the status of the DB subnet group.
-  final String subnetGroupStatus;
+  final String? subnetGroupStatus;
 
   /// Contains a list of <code>Subnet</code> elements.
-  final List<Subnet> subnets;
+  final List<Subnet>? subnets;
 
   /// Provides the VpcId of the DB subnet group.
-  final String vpcId;
+  final String? vpcId;
 
   DBSubnetGroup({
     this.dBSubnetGroupArn,
@@ -18332,12 +18371,12 @@ class DBSubnetGroup {
 /// <code>DescribeDBSubnetGroups</code> action.
 class DBSubnetGroupMessage {
   /// A list of <code>DBSubnetGroup</code> instances.
-  final List<DBSubnetGroup> dBSubnetGroups;
+  final List<DBSubnetGroup>? dBSubnetGroups;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DBSubnetGroupMessage({
     this.dBSubnetGroups,
@@ -18356,7 +18395,7 @@ class DBSubnetGroupMessage {
 }
 
 class DeleteCustomAvailabilityZoneResult {
-  final CustomAvailabilityZone customAvailabilityZone;
+  final CustomAvailabilityZone? customAvailabilityZone;
 
   DeleteCustomAvailabilityZoneResult({
     this.customAvailabilityZone,
@@ -18371,7 +18410,7 @@ class DeleteCustomAvailabilityZoneResult {
 }
 
 class DeleteDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   DeleteDBClusterResult({
     this.dBCluster,
@@ -18386,7 +18425,7 @@ class DeleteDBClusterResult {
 }
 
 class DeleteDBClusterSnapshotResult {
-  final DBClusterSnapshot dBClusterSnapshot;
+  final DBClusterSnapshot? dBClusterSnapshot;
 
   DeleteDBClusterSnapshotResult({
     this.dBClusterSnapshot,
@@ -18401,7 +18440,7 @@ class DeleteDBClusterSnapshotResult {
 }
 
 class DeleteDBInstanceAutomatedBackupResult {
-  final DBInstanceAutomatedBackup dBInstanceAutomatedBackup;
+  final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
   DeleteDBInstanceAutomatedBackupResult({
     this.dBInstanceAutomatedBackup,
@@ -18416,7 +18455,7 @@ class DeleteDBInstanceAutomatedBackupResult {
 }
 
 class DeleteDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   DeleteDBInstanceResult({
     this.dBInstance,
@@ -18432,7 +18471,7 @@ class DeleteDBInstanceResult {
 
 class DeleteDBProxyResponse {
   /// The data structure representing the details of the DB proxy that you delete.
-  final DBProxy dBProxy;
+  final DBProxy? dBProxy;
 
   DeleteDBProxyResponse({
     this.dBProxy,
@@ -18446,7 +18485,7 @@ class DeleteDBProxyResponse {
 }
 
 class DeleteDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   DeleteDBSnapshotResult({
     this.dBSnapshot,
@@ -18461,7 +18500,7 @@ class DeleteDBSnapshotResult {
 }
 
 class DeleteEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   DeleteEventSubscriptionResult({
     this.eventSubscription,
@@ -18476,7 +18515,7 @@ class DeleteEventSubscriptionResult {
 }
 
 class DeleteGlobalClusterResult {
-  final GlobalCluster globalCluster;
+  final GlobalCluster? globalCluster;
 
   DeleteGlobalClusterResult({
     this.globalCluster,
@@ -18500,7 +18539,7 @@ class DeregisterDBProxyTargetsResponse {
 }
 
 class DescribeDBClusterSnapshotAttributesResult {
-  final DBClusterSnapshotAttributesResult dBClusterSnapshotAttributesResult;
+  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
   DescribeDBClusterSnapshotAttributesResult({
     this.dBClusterSnapshotAttributesResult,
@@ -18519,13 +18558,13 @@ class DescribeDBClusterSnapshotAttributesResult {
 /// <code>DescribeDBLogFiles</code>.
 class DescribeDBLogFilesDetails {
   /// A POSIX timestamp when the last log entry was written.
-  final int lastWritten;
+  final int? lastWritten;
 
   /// The name of the log file for the specified DB instance.
-  final String logFileName;
+  final String? logFileName;
 
   /// The size, in bytes, of the log file for the specified DB instance.
-  final int size;
+  final int? size;
 
   DescribeDBLogFilesDetails({
     this.lastWritten,
@@ -18544,10 +18583,10 @@ class DescribeDBLogFilesDetails {
 /// The response from a call to <code>DescribeDBLogFiles</code>.
 class DescribeDBLogFilesResponse {
   /// The DB log files returned.
-  final List<DescribeDBLogFilesDetails> describeDBLogFiles;
+  final List<DescribeDBLogFilesDetails>? describeDBLogFiles;
 
   /// A pagination token that can be used in a later DescribeDBLogFiles request.
-  final String marker;
+  final String? marker;
 
   DescribeDBLogFilesResponse({
     this.describeDBLogFiles,
@@ -18568,12 +18607,12 @@ class DescribeDBLogFilesResponse {
 class DescribeDBProxiesResponse {
   /// A return value representing an arbitrary number of <code>DBProxy</code> data
   /// structures.
-  final List<DBProxy> dBProxies;
+  final List<DBProxy>? dBProxies;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   DescribeDBProxiesResponse({
     this.dBProxies,
@@ -18592,11 +18631,11 @@ class DescribeDBProxyTargetGroupsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// An arbitrary number of <code>DBProxyTargetGroup</code> objects, containing
   /// details of the corresponding target groups.
-  final List<DBProxyTargetGroup> targetGroups;
+  final List<DBProxyTargetGroup>? targetGroups;
 
   DescribeDBProxyTargetGroupsResponse({
     this.marker,
@@ -18617,11 +18656,11 @@ class DescribeDBProxyTargetsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// An arbitrary number of <code>DBProxyTarget</code> objects, containing
   /// details of the corresponding targets.
-  final List<DBProxyTarget> targets;
+  final List<DBProxyTarget>? targets;
 
   DescribeDBProxyTargetsResponse({
     this.marker,
@@ -18639,7 +18678,7 @@ class DescribeDBProxyTargetsResponse {
 }
 
 class DescribeDBSnapshotAttributesResult {
-  final DBSnapshotAttributesResult dBSnapshotAttributesResult;
+  final DBSnapshotAttributesResult? dBSnapshotAttributesResult;
 
   DescribeDBSnapshotAttributesResult({
     this.dBSnapshotAttributesResult,
@@ -18654,7 +18693,7 @@ class DescribeDBSnapshotAttributesResult {
 }
 
 class DescribeEngineDefaultClusterParametersResult {
-  final EngineDefaults engineDefaults;
+  final EngineDefaults? engineDefaults;
 
   DescribeEngineDefaultClusterParametersResult({
     this.engineDefaults,
@@ -18670,7 +18709,7 @@ class DescribeEngineDefaultClusterParametersResult {
 }
 
 class DescribeEngineDefaultParametersResult {
-  final EngineDefaults engineDefaults;
+  final EngineDefaults? engineDefaults;
 
   DescribeEngineDefaultParametersResult({
     this.engineDefaults,
@@ -18685,7 +18724,8 @@ class DescribeEngineDefaultParametersResult {
 }
 
 class DescribeValidDBInstanceModificationsResult {
-  final ValidDBInstanceModificationsMessage validDBInstanceModificationsMessage;
+  final ValidDBInstanceModificationsMessage?
+      validDBInstanceModificationsMessage;
 
   DescribeValidDBInstanceModificationsResult({
     this.validDBInstanceModificationsMessage,
@@ -18704,18 +18744,18 @@ class DescribeValidDBInstanceModificationsResult {
 /// or cluster.
 class DomainMembership {
   /// The identifier of the Active Directory Domain.
-  final String domain;
+  final String? domain;
 
   /// The fully qualified domain name of the Active Directory Domain.
-  final String fqdn;
+  final String? fqdn;
 
   /// The name of the IAM role to be used when making API calls to the Directory
   /// Service.
-  final String iAMRoleName;
+  final String? iAMRoleName;
 
   /// The status of the Active Directory Domain membership for the DB instance or
   /// cluster. Values include joined, pending-join, failed, and so on.
-  final String status;
+  final String? status;
 
   DomainMembership({
     this.domain,
@@ -18736,10 +18776,10 @@ class DomainMembership {
 /// A range of double values.
 class DoubleRange {
   /// The minimum value in the range.
-  final double from;
+  final double? from;
 
   /// The maximum value in the range.
-  final double to;
+  final double? to;
 
   DoubleRange({
     this.from,
@@ -18757,14 +18797,14 @@ class DoubleRange {
 /// <code>DownloadDBLogFilePortion</code>.
 class DownloadDBLogFilePortionDetails {
   /// Boolean value that if true, indicates there is more data to be downloaded.
-  final bool additionalDataPending;
+  final bool? additionalDataPending;
 
   /// Entries from the specified log file.
-  final String logFileData;
+  final String? logFileData;
 
   /// A pagination token that can be used in a later DownloadDBLogFilePortion
   /// request.
-  final String marker;
+  final String? marker;
 
   DownloadDBLogFilePortionDetails({
     this.additionalDataPending,
@@ -18796,18 +18836,18 @@ class DownloadDBLogFilePortionDetails {
 /// </ul>
 class EC2SecurityGroup {
   /// Specifies the id of the EC2 security group.
-  final String eC2SecurityGroupId;
+  final String? eC2SecurityGroupId;
 
   /// Specifies the name of the EC2 security group.
-  final String eC2SecurityGroupName;
+  final String? eC2SecurityGroupName;
 
   /// Specifies the AWS ID of the owner of the EC2 security group specified in the
   /// <code>EC2SecurityGroupName</code> field.
-  final String eC2SecurityGroupOwnerId;
+  final String? eC2SecurityGroupOwnerId;
 
   /// Provides the status of the EC2 security group. Status can be "authorizing",
   /// "authorized", "revoking", and "revoked".
-  final String status;
+  final String? status;
 
   EC2SecurityGroup({
     this.eC2SecurityGroupId,
@@ -18846,13 +18886,13 @@ class EC2SecurityGroup {
 /// see <code>DBClusterEndpoint</code>.
 class Endpoint {
   /// Specifies the DNS address of the DB instance.
-  final String address;
+  final String? address;
 
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   /// Specifies the port that the database engine is listening on.
-  final int port;
+  final int? port;
 
   Endpoint({
     this.address,
@@ -18873,15 +18913,15 @@ class Endpoint {
 class EngineDefaults {
   /// Specifies the name of the DB parameter group family that the engine default
   /// parameters apply to.
-  final String dBParameterGroupFamily;
+  final String? dBParameterGroupFamily;
 
   /// An optional pagination token provided by a previous EngineDefaults request.
   /// If this parameter is specified, the response includes only records beyond
   /// the marker, up to the value specified by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   /// Contains a list of engine default parameters.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   EngineDefaults({
     this.dBParameterGroupFamily,
@@ -18902,9 +18942,7 @@ class EngineDefaults {
 }
 
 enum EngineFamily {
-  @_s.JsonValue('MYSQL')
   mysql,
-  @_s.JsonValue('POSTGRESQL')
   postgresql,
 }
 
@@ -18916,7 +18954,6 @@ extension on EngineFamily {
       case EngineFamily.postgresql:
         return 'POSTGRESQL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18928,7 +18965,7 @@ extension on String {
       case 'POSTGRESQL':
         return EngineFamily.postgresql;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EngineFamily');
   }
 }
 
@@ -18936,22 +18973,22 @@ extension on String {
 /// <code>DescribeEvents</code> action.
 class Event {
   /// Specifies the date and time of the event.
-  final DateTime date;
+  final DateTime? date;
 
   /// Specifies the category for the event.
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// Provides the text of this event.
-  final String message;
+  final String? message;
 
   /// The Amazon Resource Name (ARN) for the event.
-  final String sourceArn;
+  final String? sourceArn;
 
   /// Provides the identifier for the source of the event.
-  final String sourceIdentifier;
+  final String? sourceIdentifier;
 
   /// Specifies the source type for this event.
-  final SourceType sourceType;
+  final SourceType? sourceType;
 
   Event({
     this.date,
@@ -18979,10 +19016,10 @@ class Event {
 /// <code>DescribeEventCategories</code> operation.
 class EventCategoriesMap {
   /// The event categories for the specified source type
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// The source type that the returned categories belong to
-  final String sourceType;
+  final String? sourceType;
 
   EventCategoriesMap({
     this.eventCategories,
@@ -19001,7 +19038,7 @@ class EventCategoriesMap {
 /// Data returned from the <code>DescribeEventCategories</code> operation.
 class EventCategoriesMessage {
   /// A list of EventCategoriesMap data types.
-  final List<EventCategoriesMap> eventCategoriesMapList;
+  final List<EventCategoriesMap>? eventCategoriesMapList;
 
   EventCategoriesMessage({
     this.eventCategoriesMapList,
@@ -19022,30 +19059,30 @@ class EventCategoriesMessage {
 /// <code>DescribeEventSubscriptions</code> action.
 class EventSubscription {
   /// The RDS event notification subscription Id.
-  final String custSubscriptionId;
+  final String? custSubscriptionId;
 
   /// The AWS customer account associated with the RDS event notification
   /// subscription.
-  final String customerAwsId;
+  final String? customerAwsId;
 
   /// A Boolean value indicating if the subscription is enabled. True indicates
   /// the subscription is enabled.
-  final bool enabled;
+  final bool? enabled;
 
   /// A list of event categories for the RDS event notification subscription.
-  final List<String> eventCategoriesList;
+  final List<String>? eventCategoriesList;
 
   /// The Amazon Resource Name (ARN) for the event subscription.
-  final String eventSubscriptionArn;
+  final String? eventSubscriptionArn;
 
   /// The topic ARN of the RDS event notification subscription.
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   /// A list of source IDs for the RDS event notification subscription.
-  final List<String> sourceIdsList;
+  final List<String>? sourceIdsList;
 
   /// The source type for the RDS event notification subscription.
-  final String sourceType;
+  final String? sourceType;
 
   /// The status of the RDS event notification subscription.
   ///
@@ -19057,10 +19094,10 @@ class EventSubscription {
   /// The status "no-permission" indicates that RDS no longer has permission to
   /// post to the SNS topic. The status "topic-not-exist" indicates that the topic
   /// was deleted after the subscription was created.
-  final String status;
+  final String? status;
 
   /// The time the RDS event notification subscription was created.
-  final String subscriptionCreationTime;
+  final String? subscriptionCreationTime;
 
   EventSubscription({
     this.custSubscriptionId,
@@ -19099,13 +19136,13 @@ class EventSubscription {
 /// Data returned by the <b>DescribeEventSubscriptions</b> action.
 class EventSubscriptionsMessage {
   /// A list of EventSubscriptions data types.
-  final List<EventSubscription> eventSubscriptionsList;
+  final List<EventSubscription>? eventSubscriptionsList;
 
   /// An optional pagination token provided by a previous
   /// DescribeOrderableDBInstanceOptions request. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
   /// specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   EventSubscriptionsMessage({
     this.eventSubscriptionsList,
@@ -19128,12 +19165,12 @@ class EventSubscriptionsMessage {
 /// <code>DescribeEvents</code> action.
 class EventsMessage {
   /// A list of <code>Event</code> instances.
-  final List<Event> events;
+  final List<Event>? events;
 
   /// An optional pagination token provided by a previous Events request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   EventsMessage({
     this.events,
@@ -19175,56 +19212,56 @@ class ExportTask {
   /// PostgreSQL.
   /// </li>
   /// </ul>
-  final List<String> exportOnly;
+  final List<String>? exportOnly;
 
   /// A unique identifier for the snapshot export task. This ID isn't an
   /// identifier for the Amazon S3 bucket where the snapshot is exported to.
-  final String exportTaskIdentifier;
+  final String? exportTaskIdentifier;
 
   /// The reason the export failed, if it failed.
-  final String failureCause;
+  final String? failureCause;
 
   /// The name of the IAM role that is used to write to Amazon S3 when exporting a
   /// snapshot.
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The key identifier of the AWS KMS customer master key (CMK) that is used to
   /// encrypt the snapshot when it's exported to Amazon S3. The AWS KMS CMK
   /// identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role
   /// used for the snapshot export must have encryption and decryption permissions
   /// to use this AWS KMS CMK.
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The progress of the snapshot export task as a percentage.
-  final int percentProgress;
+  final int? percentProgress;
 
   /// The Amazon S3 bucket that the snapshot is exported to.
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The Amazon S3 bucket prefix that is the file name and path of the exported
   /// snapshot.
-  final String s3Prefix;
+  final String? s3Prefix;
 
   /// The time that the snapshot was created.
-  final DateTime snapshotTime;
+  final DateTime? snapshotTime;
 
   /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The progress status of the export task.
-  final String status;
+  final String? status;
 
   /// The time that the snapshot export task completed.
-  final DateTime taskEndTime;
+  final DateTime? taskEndTime;
 
   /// The time that the snapshot export task started.
-  final DateTime taskStartTime;
+  final DateTime? taskStartTime;
 
   /// The total amount of data exported, in gigabytes.
-  final int totalExtractedDataInGB;
+  final int? totalExtractedDataInGB;
 
   /// A warning about the snapshot export task.
-  final String warningMessage;
+  final String? warningMessage;
 
   ExportTask({
     this.exportOnly,
@@ -19270,13 +19307,13 @@ class ExportTask {
 
 class ExportTasksMessage {
   /// Information about an export of a snapshot to Amazon S3.
-  final List<ExportTask> exportTasks;
+  final List<ExportTask>? exportTasks;
 
   /// A pagination token that can be used in a later
   /// <code>DescribeExportTasks</code> request. A marker is used for pagination to
   /// identify the location to begin output for the next response of
   /// <code>DescribeExportTasks</code>.
-  final String marker;
+  final String? marker;
 
   ExportTasksMessage({
     this.exportTasks,
@@ -19294,7 +19331,7 @@ class ExportTasksMessage {
 }
 
 class FailoverDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   FailoverDBClusterResult({
     this.dBCluster,
@@ -19334,62 +19371,62 @@ class FailoverDBClusterResult {
 /// <code>DescribePendingMaintenanceActions</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name of the filter. Filter names are case-sensitive.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// One or more filter values. Filter values are case-sensitive.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
 }
 
 /// A data type representing an Aurora global database.
 class GlobalCluster {
   /// The default database name within the new global database cluster.
-  final String databaseName;
+  final String? databaseName;
 
   /// The deletion protection setting for the new global database cluster.
-  final bool deletionProtection;
+  final bool? deletionProtection;
 
   /// The Aurora database engine used by the global database cluster.
-  final String engine;
+  final String? engine;
 
   /// Indicates the database engine version.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The Amazon Resource Name (ARN) for the global database cluster.
-  final String globalClusterArn;
+  final String? globalClusterArn;
 
   /// Contains a user-supplied global database cluster identifier. This identifier
   /// is the unique key that identifies a global database cluster.
-  final String globalClusterIdentifier;
+  final String? globalClusterIdentifier;
 
   /// The list of cluster IDs for secondary clusters within the global database
   /// cluster. Currently limited to 1 item.
-  final List<GlobalClusterMember> globalClusterMembers;
+  final List<GlobalClusterMember>? globalClusterMembers;
 
   /// The AWS Region-unique, immutable identifier for the global database cluster.
   /// This identifier is found in AWS CloudTrail log entries whenever the AWS KMS
   /// customer master key (CMK) for the DB cluster is accessed.
-  final String globalClusterResourceId;
+  final String? globalClusterResourceId;
 
   /// Specifies the current state of this global database cluster.
-  final String status;
+  final String? status;
 
   /// The storage encryption setting for the global database cluster.
-  final bool storageEncrypted;
+  final bool? storageEncrypted;
 
   GlobalCluster({
     this.databaseName,
@@ -19430,20 +19467,20 @@ class GlobalCluster {
 /// associated with an Aurora global database.
 class GlobalClusterMember {
   /// The Amazon Resource Name (ARN) for each Aurora cluster.
-  final String dBClusterArn;
+  final String? dBClusterArn;
 
   /// Specifies whether a secondary cluster in an Aurora global database has write
   /// forwarding enabled, not enabled, or is in the process of enabling it.
-  final WriteForwardingStatus globalWriteForwardingStatus;
+  final WriteForwardingStatus? globalWriteForwardingStatus;
 
   /// Specifies whether the Aurora cluster is the primary cluster (that is, has
   /// read-write capability) for the Aurora global database with which it is
   /// associated.
-  final bool isWriter;
+  final bool? isWriter;
 
   /// The Amazon Resource Name (ARN) for each read-only secondary cluster
   /// associated with the Aurora global database.
-  final List<String> readers;
+  final List<String>? readers;
 
   GlobalClusterMember({
     this.dBClusterArn,
@@ -19467,13 +19504,13 @@ class GlobalClusterMember {
 
 class GlobalClustersMessage {
   /// The list of global clusters returned by this request.
-  final List<GlobalCluster> globalClusters;
+  final List<GlobalCluster>? globalClusters;
 
   /// An optional pagination token provided by a previous
   /// <code>DescribeGlobalClusters</code> request. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
   /// specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   GlobalClustersMessage({
     this.globalClusters,
@@ -19492,10 +19529,19 @@ class GlobalClustersMessage {
 }
 
 enum IAMAuthMode {
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('REQUIRED')
   required,
+}
+
+extension on IAMAuthMode {
+  String toValue() {
+    switch (this) {
+      case IAMAuthMode.disabled:
+        return 'DISABLED';
+      case IAMAuthMode.required:
+        return 'REQUIRED';
+    }
+  }
 }
 
 extension on String {
@@ -19506,7 +19552,7 @@ extension on String {
       case 'REQUIRED':
         return IAMAuthMode.required;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IAMAuthMode');
   }
 }
 
@@ -19514,11 +19560,11 @@ extension on String {
 /// <code>DescribeDBSecurityGroups</code> action.
 class IPRange {
   /// Specifies the IP range.
-  final String cidrip;
+  final String? cidrip;
 
   /// Specifies the status of the IP range. Status can be "authorizing",
   /// "authorized", "revoking", and "revoked".
-  final String status;
+  final String? status;
 
   IPRange({
     this.cidrip,
@@ -19536,29 +19582,29 @@ class IPRange {
 /// customer provided license, such as Microsoft SQL Server.
 class InstallationMedia {
   /// The custom Availability Zone (AZ) that contains the installation media.
-  final String customAvailabilityZoneId;
+  final String? customAvailabilityZoneId;
 
   /// The DB engine.
-  final String engine;
+  final String? engine;
 
   /// The path to the installation medium for the DB engine.
-  final String engineInstallationMediaPath;
+  final String? engineInstallationMediaPath;
 
   /// The engine version of the DB engine.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// If an installation media failure occurred, the cause of the failure.
-  final InstallationMediaFailureCause failureCause;
+  final InstallationMediaFailureCause? failureCause;
 
   /// The installation medium ID.
-  final String installationMediaId;
+  final String? installationMediaId;
 
   /// The path to the installation medium for the operating system associated with
   /// the DB engine.
-  final String oSInstallationMediaPath;
+  final String? oSInstallationMediaPath;
 
   /// The status of the installation medium.
-  final String status;
+  final String? status;
 
   InstallationMedia({
     this.customAvailabilityZoneId,
@@ -19595,7 +19641,7 @@ class InstallationMedia {
 /// such as Microsoft SQL Server.
 class InstallationMediaFailureCause {
   /// The reason that an installation media import failed.
-  final String message;
+  final String? message;
 
   InstallationMediaFailureCause({
     this.message,
@@ -19609,13 +19655,13 @@ class InstallationMediaFailureCause {
 
 class InstallationMediaMessage {
   /// The list of <a>InstallationMedia</a> objects for the AWS account.
-  final List<InstallationMedia> installationMedia;
+  final List<InstallationMedia>? installationMedia;
 
   /// An optional pagination token provided by a previous
   /// <a>DescribeInstallationMedia</a> request. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
   /// specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   InstallationMediaMessage({
     this.installationMedia,
@@ -19637,10 +19683,10 @@ class InstallationMediaMessage {
 /// for an option setting.
 class MinimumEngineVersionPerAllowedValue {
   /// The allowed value for an option setting.
-  final String allowedValue;
+  final String? allowedValue;
 
   /// The minimum DB engine version required for the allowed value.
-  final String minimumEngineVersion;
+  final String? minimumEngineVersion;
 
   MinimumEngineVersionPerAllowedValue({
     this.allowedValue,
@@ -19656,7 +19702,7 @@ class MinimumEngineVersionPerAllowedValue {
 }
 
 class ModifyCertificatesResult {
-  final Certificate certificate;
+  final Certificate? certificate;
 
   ModifyCertificatesResult({
     this.certificate,
@@ -19671,7 +19717,7 @@ class ModifyCertificatesResult {
 }
 
 class ModifyDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   ModifyDBClusterResult({
     this.dBCluster,
@@ -19686,7 +19732,7 @@ class ModifyDBClusterResult {
 }
 
 class ModifyDBClusterSnapshotAttributeResult {
-  final DBClusterSnapshotAttributesResult dBClusterSnapshotAttributesResult;
+  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
   ModifyDBClusterSnapshotAttributeResult({
     this.dBClusterSnapshotAttributesResult,
@@ -19701,7 +19747,7 @@ class ModifyDBClusterSnapshotAttributeResult {
 }
 
 class ModifyDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   ModifyDBInstanceResult({
     this.dBInstance,
@@ -19717,7 +19763,7 @@ class ModifyDBInstanceResult {
 
 class ModifyDBProxyResponse {
   /// The <code>DBProxy</code> object representing the new settings for the proxy.
-  final DBProxy dBProxy;
+  final DBProxy? dBProxy;
 
   ModifyDBProxyResponse({
     this.dBProxy,
@@ -19732,7 +19778,7 @@ class ModifyDBProxyResponse {
 
 class ModifyDBProxyTargetGroupResponse {
   /// The settings of the modified <code>DBProxyTarget</code>.
-  final DBProxyTargetGroup dBProxyTargetGroup;
+  final DBProxyTargetGroup? dBProxyTargetGroup;
 
   ModifyDBProxyTargetGroupResponse({
     this.dBProxyTargetGroup,
@@ -19747,7 +19793,7 @@ class ModifyDBProxyTargetGroupResponse {
 }
 
 class ModifyDBSnapshotAttributeResult {
-  final DBSnapshotAttributesResult dBSnapshotAttributesResult;
+  final DBSnapshotAttributesResult? dBSnapshotAttributesResult;
 
   ModifyDBSnapshotAttributeResult({
     this.dBSnapshotAttributesResult,
@@ -19762,7 +19808,7 @@ class ModifyDBSnapshotAttributeResult {
 }
 
 class ModifyDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   ModifyDBSnapshotResult({
     this.dBSnapshot,
@@ -19777,7 +19823,7 @@ class ModifyDBSnapshotResult {
 }
 
 class ModifyDBSubnetGroupResult {
-  final DBSubnetGroup dBSubnetGroup;
+  final DBSubnetGroup? dBSubnetGroup;
 
   ModifyDBSubnetGroupResult({
     this.dBSubnetGroup,
@@ -19792,7 +19838,7 @@ class ModifyDBSubnetGroupResult {
 }
 
 class ModifyEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   ModifyEventSubscriptionResult({
     this.eventSubscription,
@@ -19807,7 +19853,7 @@ class ModifyEventSubscriptionResult {
 }
 
 class ModifyGlobalClusterResult {
-  final GlobalCluster globalCluster;
+  final GlobalCluster? globalCluster;
 
   ModifyGlobalClusterResult({
     this.globalCluster,
@@ -19822,7 +19868,7 @@ class ModifyGlobalClusterResult {
 }
 
 class ModifyOptionGroupResult {
-  final OptionGroup optionGroup;
+  final OptionGroup? optionGroup;
 
   ModifyOptionGroupResult({
     this.optionGroup,
@@ -19840,32 +19886,32 @@ class ModifyOptionGroupResult {
 class Option {
   /// If the option requires access to a port, then this DB security group allows
   /// access to the port.
-  final List<DBSecurityGroupMembership> dBSecurityGroupMemberships;
+  final List<DBSecurityGroupMembership>? dBSecurityGroupMemberships;
 
   /// The description of the option.
-  final String optionDescription;
+  final String? optionDescription;
 
   /// The name of the option.
-  final String optionName;
+  final String? optionName;
 
   /// The option settings for this option.
-  final List<OptionSetting> optionSettings;
+  final List<OptionSetting>? optionSettings;
 
   /// The version of the option.
-  final String optionVersion;
+  final String? optionVersion;
 
   /// Indicate if this option is permanent.
-  final bool permanent;
+  final bool? permanent;
 
   /// Indicate if this option is persistent.
-  final bool persistent;
+  final bool? persistent;
 
   /// If required, the port configured for this option to use.
-  final int port;
+  final int? port;
 
   /// If the option requires access to a port, then this VPC security group allows
   /// access to the port.
-  final List<VpcSecurityGroupMembership> vpcSecurityGroupMemberships;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroupMemberships;
 
   Option({
     this.dBSecurityGroupMemberships,
@@ -19908,45 +19954,51 @@ class Option {
 }
 
 /// A list of all available options
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionConfiguration {
   /// The configuration of options to include in a group.
-  @_s.JsonKey(name: 'OptionName')
   final String optionName;
 
   /// A list of DBSecurityGroupMembership name strings used for this option.
-  @_s.JsonKey(name: 'DBSecurityGroupMemberships')
-  final List<String> dBSecurityGroupMemberships;
+  final List<String>? dBSecurityGroupMemberships;
 
   /// The option settings to include in an option group.
-  @_s.JsonKey(name: 'OptionSettings')
-  final List<OptionSetting> optionSettings;
+  final List<OptionSetting>? optionSettings;
 
   /// The version for the option.
-  @_s.JsonKey(name: 'OptionVersion')
-  final String optionVersion;
+  final String? optionVersion;
 
   /// The optional port for the option.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// A list of VpcSecurityGroupMembership name strings used for this option.
-  @_s.JsonKey(name: 'VpcSecurityGroupMemberships')
-  final List<String> vpcSecurityGroupMemberships;
+  final List<String>? vpcSecurityGroupMemberships;
 
   OptionConfiguration({
-    @_s.required this.optionName,
+    required this.optionName,
     this.dBSecurityGroupMemberships,
     this.optionSettings,
     this.optionVersion,
     this.port,
     this.vpcSecurityGroupMemberships,
   });
-  Map<String, dynamic> toJson() => _$OptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final optionName = this.optionName;
+    final dBSecurityGroupMemberships = this.dBSecurityGroupMemberships;
+    final optionSettings = this.optionSettings;
+    final optionVersion = this.optionVersion;
+    final port = this.port;
+    final vpcSecurityGroupMemberships = this.vpcSecurityGroupMemberships;
+    return {
+      'OptionName': optionName,
+      if (dBSecurityGroupMemberships != null)
+        'DBSecurityGroupMemberships': dBSecurityGroupMemberships,
+      if (optionSettings != null) 'OptionSettings': optionSettings,
+      if (optionVersion != null) 'OptionVersion': optionVersion,
+      if (port != null) 'Port': port,
+      if (vpcSecurityGroupMemberships != null)
+        'VpcSecurityGroupMemberships': vpcSecurityGroupMemberships,
+    };
+  }
 }
 
 /// <p/>
@@ -19954,25 +20006,25 @@ class OptionGroup {
   /// Indicates whether this option group can be applied to both VPC and non-VPC
   /// instances. The value <code>true</code> indicates the option group can be
   /// applied to both VPC and non-VPC instances.
-  final bool allowsVpcAndNonVpcInstanceMemberships;
+  final bool? allowsVpcAndNonVpcInstanceMemberships;
 
   /// Indicates the name of the engine that this option group can be applied to.
-  final String engineName;
+  final String? engineName;
 
   /// Indicates the major engine version associated with this option group.
-  final String majorEngineVersion;
+  final String? majorEngineVersion;
 
   /// The Amazon Resource Name (ARN) for the option group.
-  final String optionGroupArn;
+  final String? optionGroupArn;
 
   /// Provides a description of the option group.
-  final String optionGroupDescription;
+  final String? optionGroupDescription;
 
   /// Specifies the name of the option group.
-  final String optionGroupName;
+  final String? optionGroupName;
 
   /// Indicates what options are available in the option group.
-  final List<Option> options;
+  final List<Option>? options;
 
   /// If <b>AllowsVpcAndNonVpcInstanceMemberships</b> is <code>false</code>, this
   /// field is blank. If <b>AllowsVpcAndNonVpcInstanceMemberships</b> is
@@ -19980,7 +20032,7 @@ class OptionGroup {
   /// applied to both VPC and non-VPC instances. If this field contains a value,
   /// then this option group can only be applied to instances that are in the VPC
   /// indicated by this field.
-  final String vpcId;
+  final String? vpcId;
 
   OptionGroup({
     this.allowsVpcAndNonVpcInstanceMemberships,
@@ -20012,14 +20064,14 @@ class OptionGroup {
 /// Provides information on the option groups the DB instance is a member of.
 class OptionGroupMembership {
   /// The name of the option group that the instance belongs to.
-  final String optionGroupName;
+  final String? optionGroupName;
 
   /// The status of the DB instance's option group membership. Valid values are:
   /// <code>in-sync</code>, <code>pending-apply</code>,
   /// <code>pending-removal</code>, <code>pending-maintenance-apply</code>,
   /// <code>pending-maintenance-removal</code>, <code>applying</code>,
   /// <code>removing</code>, and <code>failed</code>.
-  final String status;
+  final String? status;
 
   OptionGroupMembership({
     this.optionGroupName,
@@ -20036,61 +20088,61 @@ class OptionGroupMembership {
 /// Available option.
 class OptionGroupOption {
   /// If the option requires a port, specifies the default port for the option.
-  final int defaultPort;
+  final int? defaultPort;
 
   /// The description of the option.
-  final String description;
+  final String? description;
 
   /// The name of the engine that this option can be applied to.
-  final String engineName;
+  final String? engineName;
 
   /// Indicates the major engine version that the option is available for.
-  final String majorEngineVersion;
+  final String? majorEngineVersion;
 
   /// The minimum required engine version for the option to be applied.
-  final String minimumRequiredMinorEngineVersion;
+  final String? minimumRequiredMinorEngineVersion;
 
   /// The name of the option.
-  final String name;
+  final String? name;
 
   /// The option settings that are available (and the default value) for each
   /// option in an option group.
-  final List<OptionGroupOptionSetting> optionGroupOptionSettings;
+  final List<OptionGroupOptionSetting>? optionGroupOptionSettings;
 
   /// The versions that are available for the option.
-  final List<OptionVersion> optionGroupOptionVersions;
+  final List<OptionVersion>? optionGroupOptionVersions;
 
   /// The options that conflict with this option.
-  final List<String> optionsConflictsWith;
+  final List<String>? optionsConflictsWith;
 
   /// The options that are prerequisites for this option.
-  final List<String> optionsDependedOn;
+  final List<String>? optionsDependedOn;
 
   /// Permanent options can never be removed from an option group. An option group
   /// containing a permanent option can't be removed from a DB instance.
-  final bool permanent;
+  final bool? permanent;
 
   /// Persistent options can't be removed from an option group while DB instances
   /// are associated with the option group. If you disassociate all DB instances
   /// from the option group, your can remove the persistent option from the option
   /// group.
-  final bool persistent;
+  final bool? persistent;
 
   /// Specifies whether the option requires a port.
-  final bool portRequired;
+  final bool? portRequired;
 
   /// If true, you must enable the Auto Minor Version Upgrade setting for your DB
   /// instance before you can use this option. You can enable Auto Minor Version
   /// Upgrade when you first create your DB instance, or by modifying your DB
   /// instance later.
-  final bool requiresAutoMinorEngineVersionUpgrade;
+  final bool? requiresAutoMinorEngineVersionUpgrade;
 
   /// If true, you can change the option to an earlier version of the option. This
   /// only applies to options that have different versions available.
-  final bool supportsOptionVersionDowngrade;
+  final bool? supportsOptionVersionDowngrade;
 
   /// If true, you can only use this option with a DB instance that is in a VPC.
-  final bool vpcOnly;
+  final bool? vpcOnly;
 
   OptionGroupOption({
     this.defaultPort,
@@ -20155,32 +20207,32 @@ class OptionGroupOption {
 /// used with the DescribeOptionGroupOptions action.
 class OptionGroupOptionSetting {
   /// Indicates the acceptable values for the option group option.
-  final String allowedValues;
+  final String? allowedValues;
 
   /// The DB engine specific parameter type for the option group option.
-  final String applyType;
+  final String? applyType;
 
   /// The default value for the option group option.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Boolean value where true indicates that this option group option can be
   /// changed from the default value.
-  final bool isModifiable;
+  final bool? isModifiable;
 
   /// Boolean value where true indicates that a value must be specified for this
   /// option setting of the option group option.
-  final bool isRequired;
+  final bool? isRequired;
 
   /// The minimum DB engine version required for the corresponding allowed value
   /// for this option setting.
-  final List<MinimumEngineVersionPerAllowedValue>
+  final List<MinimumEngineVersionPerAllowedValue>?
       minimumEngineVersionPerAllowedValue;
 
   /// The description of the option group option.
-  final String settingDescription;
+  final String? settingDescription;
 
   /// The name of the option group option.
-  final String settingName;
+  final String? settingName;
 
   OptionGroupOptionSetting({
     this.allowedValues,
@@ -20216,8 +20268,8 @@ class OptionGroupOptionsMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
-  final List<OptionGroupOption> optionGroupOptions;
+  final String? marker;
+  final List<OptionGroupOption>? optionGroupOptions;
 
   OptionGroupOptionsMessage({
     this.marker,
@@ -20240,10 +20292,10 @@ class OptionGroups {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// List of option groups.
-  final List<OptionGroup> optionGroupsList;
+  final List<OptionGroup>? optionGroupsList;
 
   OptionGroups({
     this.marker,
@@ -20265,48 +20317,34 @@ class OptionGroups {
 /// option. It is used when you modify an option group or describe option
 /// groups. For example, the NATIVE_NETWORK_ENCRYPTION option has a setting
 /// called SQLNET.ENCRYPTION_SERVER that can have several different values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionSetting {
   /// The allowed values of the option setting.
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
+  final String? allowedValues;
 
   /// The DB engine specific parameter type.
-  @_s.JsonKey(name: 'ApplyType')
-  final String applyType;
+  final String? applyType;
 
   /// The data type of the option setting.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// The default value of the option setting.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The description of the option setting.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Indicates if the option setting is part of a collection.
-  @_s.JsonKey(name: 'IsCollection')
-  final bool isCollection;
+  final bool? isCollection;
 
   /// A Boolean value that, when true, indicates the option setting can be
   /// modified from the default.
-  @_s.JsonKey(name: 'IsModifiable')
-  final bool isModifiable;
+  final bool? isModifiable;
 
   /// The name of the option that has settings that you can set.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current value of the option setting.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   OptionSetting({
     this.allowedValues,
@@ -20333,7 +20371,28 @@ class OptionSetting {
     );
   }
 
-  Map<String, dynamic> toJson() => _$OptionSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final isCollection = this.isCollection;
+    final isModifiable = this.isModifiable;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (isCollection != null) 'IsCollection': isCollection,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The version for an option. Option group option versions are returned by the
@@ -20341,10 +20400,10 @@ class OptionSetting {
 class OptionVersion {
   /// True if the version is the default version of the option, and otherwise
   /// false.
-  final bool isDefault;
+  final bool? isDefault;
 
   /// The version of the option.
-  final String version;
+  final String? version;
 
   OptionVersion({
     this.isDefault,
@@ -20364,93 +20423,93 @@ class OptionVersion {
 /// <code>DescribeOrderableDBInstanceOptions</code> action.
 class OrderableDBInstanceOption {
   /// The Availability Zone group for a DB instance.
-  final String availabilityZoneGroup;
+  final String? availabilityZoneGroup;
 
   /// A list of Availability Zones for a DB instance.
-  final List<AvailabilityZone> availabilityZones;
+  final List<AvailabilityZone>? availabilityZones;
 
   /// A list of the available processor features for the DB instance class of a DB
   /// instance.
-  final List<AvailableProcessorFeature> availableProcessorFeatures;
+  final List<AvailableProcessorFeature>? availableProcessorFeatures;
 
   /// The DB instance class for a DB instance.
-  final String dBInstanceClass;
+  final String? dBInstanceClass;
 
   /// The engine type of a DB instance.
-  final String engine;
+  final String? engine;
 
   /// The engine version of a DB instance.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The license model for a DB instance.
-  final String licenseModel;
+  final String? licenseModel;
 
   /// Maximum total provisioned IOPS for a DB instance.
-  final int maxIopsPerDbInstance;
+  final int? maxIopsPerDbInstance;
 
   /// Maximum provisioned IOPS per GiB for a DB instance.
-  final double maxIopsPerGib;
+  final double? maxIopsPerGib;
 
   /// Maximum storage size for a DB instance.
-  final int maxStorageSize;
+  final int? maxStorageSize;
 
   /// Minimum total provisioned IOPS for a DB instance.
-  final int minIopsPerDbInstance;
+  final int? minIopsPerDbInstance;
 
   /// Minimum provisioned IOPS per GiB for a DB instance.
-  final double minIopsPerGib;
+  final double? minIopsPerGib;
 
   /// Minimum storage size for a DB instance.
-  final int minStorageSize;
+  final int? minStorageSize;
 
   /// Indicates whether a DB instance is Multi-AZ capable.
-  final bool multiAZCapable;
+  final bool? multiAZCapable;
 
   /// Whether a DB instance supports RDS on Outposts.
   ///
   /// For more information about RDS on Outposts, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
   /// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
-  final bool outpostCapable;
+  final bool? outpostCapable;
 
   /// Indicates whether a DB instance can have a read replica.
-  final bool readReplicaCapable;
+  final bool? readReplicaCapable;
 
   /// Indicates the storage type for a DB instance.
-  final String storageType;
+  final String? storageType;
 
   /// A list of the supported DB engine modes.
-  final List<String> supportedEngineModes;
+  final List<String>? supportedEngineModes;
 
   /// Indicates whether a DB instance supports Enhanced Monitoring at intervals
   /// from 1 to 60 seconds.
-  final bool supportsEnhancedMonitoring;
+  final bool? supportsEnhancedMonitoring;
 
   /// A value that indicates whether you can use Aurora global databases with a
   /// specific combination of other DB engine attributes.
-  final bool supportsGlobalDatabases;
+  final bool? supportsGlobalDatabases;
 
   /// Indicates whether a DB instance supports IAM database authentication.
-  final bool supportsIAMDatabaseAuthentication;
+  final bool? supportsIAMDatabaseAuthentication;
 
   /// Indicates whether a DB instance supports provisioned IOPS.
-  final bool supportsIops;
+  final bool? supportsIops;
 
   /// Whether a DB instance supports Kerberos Authentication.
-  final bool supportsKerberosAuthentication;
+  final bool? supportsKerberosAuthentication;
 
   /// True if a DB instance supports Performance Insights, otherwise false.
-  final bool supportsPerformanceInsights;
+  final bool? supportsPerformanceInsights;
 
   /// Whether Amazon RDS can automatically scale storage for DB instances that use
   /// the specified DB instance class.
-  final bool supportsStorageAutoscaling;
+  final bool? supportsStorageAutoscaling;
 
   /// Indicates whether a DB instance supports encrypted storage.
-  final bool supportsStorageEncryption;
+  final bool? supportsStorageEncryption;
 
   /// Indicates whether a DB instance is in a VPC.
-  final bool vpc;
+  final bool? vpc;
 
   OrderableDBInstanceOption({
     this.availabilityZoneGroup,
@@ -20540,11 +20599,11 @@ class OrderableDBInstanceOptionsMessage {
   /// OrderableDBInstanceOptions request. If this parameter is specified, the
   /// response includes only records beyond the marker, up to the value specified
   /// by <code>MaxRecords</code> .
-  final String marker;
+  final String? marker;
 
   /// An <code>OrderableDBInstanceOption</code> structure containing information
   /// about orderable options for the DB instance.
-  final List<OrderableDBInstanceOption> orderableDBInstanceOptions;
+  final List<OrderableDBInstanceOption>? orderableDBInstanceOptions;
 
   OrderableDBInstanceOptionsMessage({
     this.marker,
@@ -20570,7 +20629,7 @@ class OrderableDBInstanceOptionsMessage {
 /// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
 class Outpost {
   /// The Amazon Resource Name (ARN) of the Outpost.
-  final String arn;
+  final String? arn;
 
   Outpost({
     this.arn,
@@ -20589,57 +20648,41 @@ class Outpost {
 /// This data type is used as a response element in the
 /// <code>DescribeEngineDefaultParameters</code> and
 /// <code>DescribeDBParameters</code> actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Parameter {
   /// Specifies the valid range of values for the parameter.
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
+  final String? allowedValues;
 
   /// Indicates when to apply parameter updates.
-  @_s.JsonKey(name: 'ApplyMethod')
-  final ApplyMethod applyMethod;
+  final ApplyMethod? applyMethod;
 
   /// Specifies the engine specific parameters type.
-  @_s.JsonKey(name: 'ApplyType')
-  final String applyType;
+  final String? applyType;
 
   /// Specifies the valid data type for the parameter.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// Provides a description of the parameter.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
   /// parameter can be modified. Some parameters have security or operational
   /// implications that prevent them from being changed.
-  @_s.JsonKey(name: 'IsModifiable')
-  final bool isModifiable;
+  final bool? isModifiable;
 
   /// The earliest engine version to which the parameter can apply.
-  @_s.JsonKey(name: 'MinimumEngineVersion')
-  final String minimumEngineVersion;
+  final String? minimumEngineVersion;
 
   /// Specifies the name of the parameter.
-  @_s.JsonKey(name: 'ParameterName')
-  final String parameterName;
+  final String? parameterName;
 
   /// Specifies the value of the parameter.
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
+  final String? parameterValue;
 
   /// Indicates the source of the parameter value.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The valid DB engine modes.
-  @_s.JsonKey(name: 'SupportedEngineModes')
-  final List<String> supportedEngineModes;
+  final List<String>? supportedEngineModes;
 
   Parameter({
     this.allowedValues,
@@ -20674,7 +20717,34 @@ class Parameter {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final applyMethod = this.applyMethod;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    final supportedEngineModes = this.supportedEngineModes;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+      if (supportedEngineModes != null)
+        'SupportedEngineModes': supportedEngineModes,
+    };
+  }
 }
 
 /// A list of the log types whose configuration is still pending. In other
@@ -20682,11 +20752,11 @@ class Parameter {
 class PendingCloudwatchLogsExports {
   /// Log types that are in the process of being enabled. After they are enabled,
   /// these log types are exported to CloudWatch Logs.
-  final List<String> logTypesToDisable;
+  final List<String>? logTypesToDisable;
 
   /// Log types that are in the process of being deactivated. After they are
   /// deactivated, these log types aren't exported to CloudWatch Logs.
-  final List<String> logTypesToEnable;
+  final List<String>? logTypesToEnable;
 
   PendingCloudwatchLogsExports({
     this.logTypesToDisable,
@@ -20709,12 +20779,12 @@ class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
   /// Valid actions are <code>system-update</code>, <code>db-upgrade</code>,
   /// <code>hardware-maintenance</code>, and <code>ca-certificate-rotation</code>.
-  final String action;
+  final String? action;
 
   /// The date of the maintenance window when the action is applied. The
   /// maintenance action is applied to the resource during its first maintenance
   /// window after this date.
-  final DateTime autoAppliedAfterDate;
+  final DateTime? autoAppliedAfterDate;
 
   /// The effective date when the pending maintenance action is applied to the
   /// resource. This date takes into account opt-in requests received from the
@@ -20723,10 +20793,10 @@ class PendingMaintenanceAction {
   /// This value is blank if an opt-in request has not been received and nothing
   /// has been specified as <code>AutoAppliedAfterDate</code> or
   /// <code>ForcedApplyDate</code>.
-  final DateTime currentApplyDate;
+  final DateTime? currentApplyDate;
 
   /// A description providing more detail about the maintenance action.
-  final String description;
+  final String? description;
 
   /// The date when the maintenance action is automatically applied.
   ///
@@ -20734,11 +20804,11 @@ class PendingMaintenanceAction {
   /// possible, regardless of the maintenance window for the resource. There might
   /// be a delay of one or more days from this date before the maintenance action
   /// is applied.
-  final DateTime forcedApplyDate;
+  final DateTime? forcedApplyDate;
 
   /// Indicates the type of opt-in request that has been received for the
   /// resource.
-  final String optInStatus;
+  final String? optInStatus;
 
   PendingMaintenanceAction({
     this.action,
@@ -20767,10 +20837,10 @@ class PendingMaintenanceActionsMessage {
   /// <code>DescribePendingMaintenanceActions</code> request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to a
   /// number of records specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// A list of the pending maintenance actions for the resource.
-  final List<ResourcePendingMaintenanceActions> pendingMaintenanceActions;
+  final List<ResourcePendingMaintenanceActions>? pendingMaintenanceActions;
 
   PendingMaintenanceActionsMessage({
     this.marker,
@@ -20794,56 +20864,56 @@ class PendingMaintenanceActionsMessage {
 /// applied during the next maintenance window.
 class PendingModifiedValues {
   /// The allocated storage size for the DB instance specified in gibibytes .
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// The number of days for which automated backups are retained.
-  final int backupRetentionPeriod;
+  final int? backupRetentionPeriod;
 
   /// The identifier of the CA certificate for the DB instance.
-  final String cACertificateIdentifier;
+  final String? cACertificateIdentifier;
 
   /// The name of the compute and memory capacity class for the DB instance.
-  final String dBInstanceClass;
+  final String? dBInstanceClass;
 
   /// The database identifier for the DB instance.
-  final String dBInstanceIdentifier;
+  final String? dBInstanceIdentifier;
 
   /// The DB subnet group for the DB instance.
-  final String dBSubnetGroupName;
+  final String? dBSubnetGroupName;
 
   /// The database engine version.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// Whether mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled.
-  final bool iAMDatabaseAuthenticationEnabled;
+  final bool? iAMDatabaseAuthenticationEnabled;
 
   /// The Provisioned IOPS value for the DB instance.
-  final int iops;
+  final int? iops;
 
   /// The license model for the DB instance.
   ///
   /// Valid values: <code>license-included</code> |
   /// <code>bring-your-own-license</code> | <code>general-public-license</code>
-  final String licenseModel;
+  final String? licenseModel;
 
   /// The master credentials for the DB instance.
-  final String masterUserPassword;
+  final String? masterUserPassword;
 
   /// Indicates that the Single-AZ DB instance will change to a Multi-AZ
   /// deployment.
-  final bool multiAZ;
-  final PendingCloudwatchLogsExports pendingCloudwatchLogsExports;
+  final bool? multiAZ;
+  final PendingCloudwatchLogsExports? pendingCloudwatchLogsExports;
 
   /// The port for the DB instance.
-  final int port;
+  final int? port;
 
   /// The number of CPU cores and the number of threads per core for the DB
   /// instance class of the DB instance.
-  final List<ProcessorFeature> processorFeatures;
+  final List<ProcessorFeature>? processorFeatures;
 
   /// The storage type of the DB instance.
-  final String storageType;
+  final String? storageType;
 
   PendingModifiedValues({
     this.allocatedStorage,
@@ -20960,20 +21030,13 @@ class PendingModifiedValues {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor">Configuring
 /// the Processor of the DB Instance Class</a> in the <i>Amazon RDS User Guide.
 /// </i>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProcessorFeature {
   /// The name of the processor feature. Valid names are <code>coreCount</code>
   /// and <code>threadsPerCore</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of a processor feature name.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ProcessorFeature({
     this.name,
@@ -20986,11 +21049,18 @@ class ProcessorFeature {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ProcessorFeatureToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class PromoteReadReplicaDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   PromoteReadReplicaDBClusterResult({
     this.dBCluster,
@@ -21005,7 +21075,7 @@ class PromoteReadReplicaDBClusterResult {
 }
 
 class PromoteReadReplicaResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   PromoteReadReplicaResult({
     this.dBInstance,
@@ -21020,7 +21090,7 @@ class PromoteReadReplicaResult {
 }
 
 class PurchaseReservedDBInstancesOfferingResult {
-  final ReservedDBInstance reservedDBInstance;
+  final ReservedDBInstance? reservedDBInstance;
 
   PurchaseReservedDBInstancesOfferingResult({
     this.reservedDBInstance,
@@ -21038,16 +21108,16 @@ class PurchaseReservedDBInstancesOfferingResult {
 /// A range of integer values.
 class Range {
   /// The minimum value in the range.
-  final int from;
+  final int? from;
 
   /// The step value for the range. For example, if you have a range of 5,000 to
   /// 10,000, with a step value of 1,000, the valid values start at 5,000 and step
   /// up by 1,000. Even though 7,500 is within the range, it isn't a valid value
   /// for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
-  final int step;
+  final int? step;
 
   /// The maximum value in the range.
-  final int to;
+  final int? to;
 
   Range({
     this.from,
@@ -21064,7 +21134,7 @@ class Range {
 }
 
 class RebootDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RebootDBInstanceResult({
     this.dBInstance,
@@ -21083,10 +21153,10 @@ class RebootDBInstanceResult {
 /// <code>DescribeReservedDBInstancesOfferings</code> actions.
 class RecurringCharge {
   /// The amount of the recurring charge.
-  final double recurringChargeAmount;
+  final double? recurringChargeAmount;
 
   /// The frequency of the recurring charge.
-  final String recurringChargeFrequency;
+  final String? recurringChargeFrequency;
 
   RecurringCharge({
     this.recurringChargeAmount,
@@ -21105,7 +21175,7 @@ class RecurringCharge {
 class RegisterDBProxyTargetsResponse {
   /// One or more <code>DBProxyTarget</code> objects that are created when you
   /// register targets with a target group.
-  final List<DBProxyTarget> dBProxyTargets;
+  final List<DBProxyTarget>? dBProxyTargets;
 
   RegisterDBProxyTargetsResponse({
     this.dBProxyTargets,
@@ -21122,7 +21192,7 @@ class RegisterDBProxyTargetsResponse {
 }
 
 class RemoveFromGlobalClusterResult {
-  final GlobalCluster globalCluster;
+  final GlobalCluster? globalCluster;
 
   RemoveFromGlobalClusterResult({
     this.globalCluster,
@@ -21137,7 +21207,7 @@ class RemoveFromGlobalClusterResult {
 }
 
 class RemoveSourceIdentifierFromSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   RemoveSourceIdentifierFromSubscriptionResult({
     this.eventSubscription,
@@ -21153,9 +21223,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
 }
 
 enum ReplicaMode {
-  @_s.JsonValue('open-read-only')
   openReadOnly,
-  @_s.JsonValue('mounted')
   mounted,
 }
 
@@ -21167,7 +21235,6 @@ extension on ReplicaMode {
       case ReplicaMode.mounted:
         return 'mounted';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21179,7 +21246,7 @@ extension on String {
       case 'mounted':
         return ReplicaMode.mounted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReplicaMode');
   }
 }
 
@@ -21188,19 +21255,19 @@ extension on String {
 /// <code>PurchaseReservedDBInstancesOffering</code> actions.
 class ReservedDBInstance {
   /// The currency code for the reserved DB instance.
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The DB instance class for the reserved DB instance.
-  final String dBInstanceClass;
+  final String? dBInstanceClass;
 
   /// The number of reserved DB instances.
-  final int dBInstanceCount;
+  final int? dBInstanceCount;
 
   /// The duration of the reservation in seconds.
-  final int duration;
+  final int? duration;
 
   /// The fixed price charged for this reserved DB instance.
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// The unique identifier for the lease associated with the reserved DB
   /// instance.
@@ -21208,37 +21275,37 @@ class ReservedDBInstance {
   /// AWS Support might request the lease ID for an issue related to a reserved DB
   /// instance.
   /// </note>
-  final String leaseId;
+  final String? leaseId;
 
   /// Indicates if the reservation applies to Multi-AZ deployments.
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// The offering type of this reserved DB instance.
-  final String offeringType;
+  final String? offeringType;
 
   /// The description of the reserved DB instance.
-  final String productDescription;
+  final String? productDescription;
 
   /// The recurring price charged to run this reserved DB instance.
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The Amazon Resource Name (ARN) for the reserved DB instance.
-  final String reservedDBInstanceArn;
+  final String? reservedDBInstanceArn;
 
   /// The unique identifier for the reservation.
-  final String reservedDBInstanceId;
+  final String? reservedDBInstanceId;
 
   /// The offering identifier.
-  final String reservedDBInstancesOfferingId;
+  final String? reservedDBInstancesOfferingId;
 
   /// The time the reservation started.
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the reserved DB instance.
-  final String state;
+  final String? state;
 
   /// The hourly price charged for this reserved DB instance.
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedDBInstance({
     this.currencyCode,
@@ -21293,10 +21360,10 @@ class ReservedDBInstanceMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// A list of reserved DB instances.
-  final List<ReservedDBInstance> reservedDBInstances;
+  final List<ReservedDBInstance>? reservedDBInstances;
 
   ReservedDBInstanceMessage({
     this.marker,
@@ -21318,34 +21385,34 @@ class ReservedDBInstanceMessage {
 /// <code>DescribeReservedDBInstancesOfferings</code> action.
 class ReservedDBInstancesOffering {
   /// The currency code for the reserved DB instance offering.
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The DB instance class for the reserved DB instance.
-  final String dBInstanceClass;
+  final String? dBInstanceClass;
 
   /// The duration of the offering in seconds.
-  final int duration;
+  final int? duration;
 
   /// The fixed price charged for this offering.
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// Indicates if the offering applies to Multi-AZ deployments.
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// The offering type.
-  final String offeringType;
+  final String? offeringType;
 
   /// The database engine used by the offering.
-  final String productDescription;
+  final String? productDescription;
 
   /// The recurring price charged to run this reserved DB instance.
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The offering identifier.
-  final String reservedDBInstancesOfferingId;
+  final String? reservedDBInstancesOfferingId;
 
   /// The hourly price charged for this offering.
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedDBInstancesOffering({
     this.currencyCode,
@@ -21386,10 +21453,10 @@ class ReservedDBInstancesOfferingMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// A list of reserved DB instance offerings.
-  final List<ReservedDBInstancesOffering> reservedDBInstancesOfferings;
+  final List<ReservedDBInstancesOffering>? reservedDBInstancesOfferings;
 
   ReservedDBInstancesOfferingMessage({
     this.marker,
@@ -21412,10 +21479,10 @@ class ReservedDBInstancesOfferingMessage {
 class ResourcePendingMaintenanceActions {
   /// A list that provides details about the pending maintenance actions for the
   /// resource.
-  final List<PendingMaintenanceAction> pendingMaintenanceActionDetails;
+  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
 
   /// The ARN of the resource that has pending maintenance actions.
-  final String resourceIdentifier;
+  final String? resourceIdentifier;
 
   ResourcePendingMaintenanceActions({
     this.pendingMaintenanceActionDetails,
@@ -21435,7 +21502,7 @@ class ResourcePendingMaintenanceActions {
 }
 
 class RestoreDBClusterFromS3Result {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   RestoreDBClusterFromS3Result({
     this.dBCluster,
@@ -21450,7 +21517,7 @@ class RestoreDBClusterFromS3Result {
 }
 
 class RestoreDBClusterFromSnapshotResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   RestoreDBClusterFromSnapshotResult({
     this.dBCluster,
@@ -21465,7 +21532,7 @@ class RestoreDBClusterFromSnapshotResult {
 }
 
 class RestoreDBClusterToPointInTimeResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   RestoreDBClusterToPointInTimeResult({
     this.dBCluster,
@@ -21480,7 +21547,7 @@ class RestoreDBClusterToPointInTimeResult {
 }
 
 class RestoreDBInstanceFromDBSnapshotResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RestoreDBInstanceFromDBSnapshotResult({
     this.dBInstance,
@@ -21495,7 +21562,7 @@ class RestoreDBInstanceFromDBSnapshotResult {
 }
 
 class RestoreDBInstanceFromS3Result {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RestoreDBInstanceFromS3Result({
     this.dBInstance,
@@ -21510,7 +21577,7 @@ class RestoreDBInstanceFromS3Result {
 }
 
 class RestoreDBInstanceToPointInTimeResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RestoreDBInstanceToPointInTimeResult({
     this.dBInstance,
@@ -21527,10 +21594,10 @@ class RestoreDBInstanceToPointInTimeResult {
 /// Earliest and latest time an instance can be restored to:
 class RestoreWindow {
   /// The earliest time you can restore an instance to.
-  final DateTime earliestTime;
+  final DateTime? earliestTime;
 
   /// The latest time you can restore an instance to.
-  final DateTime latestTime;
+  final DateTime? latestTime;
 
   RestoreWindow({
     this.earliestTime,
@@ -21545,7 +21612,7 @@ class RestoreWindow {
 }
 
 class RevokeDBSecurityGroupIngressResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   RevokeDBSecurityGroupIngressResult({
     this.dBSecurityGroup,
@@ -21564,11 +21631,6 @@ class RevokeDBSecurityGroupIngressResult {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
 /// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScalingConfiguration {
   /// A value that indicates whether to allow or disallow automatic pause for an
   /// Aurora DB cluster in <code>serverless</code> DB engine mode. A DB cluster
@@ -21578,8 +21640,7 @@ class ScalingConfiguration {
   /// backed up with a snapshot. In this case, the DB cluster is restored when
   /// there is a request to connect to it.
   /// </note>
-  @_s.JsonKey(name: 'AutoPause')
-  final bool autoPause;
+  final bool? autoPause;
 
   /// The maximum capacity for an Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
@@ -21593,8 +21654,7 @@ class ScalingConfiguration {
   /// <code>64</code>, <code>192</code>, and <code>384</code>.
   ///
   /// The maximum capacity must be greater than or equal to the minimum capacity.
-  @_s.JsonKey(name: 'MaxCapacity')
-  final int maxCapacity;
+  final int? maxCapacity;
 
   /// The minimum capacity for an Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
@@ -21608,13 +21668,11 @@ class ScalingConfiguration {
   /// <code>64</code>, <code>192</code>, and <code>384</code>.
   ///
   /// The minimum capacity must be less than or equal to the maximum capacity.
-  @_s.JsonKey(name: 'MinCapacity')
-  final int minCapacity;
+  final int? minCapacity;
 
   /// The time, in seconds, before an Aurora DB cluster in <code>serverless</code>
   /// mode is paused.
-  @_s.JsonKey(name: 'SecondsUntilAutoPause')
-  final int secondsUntilAutoPause;
+  final int? secondsUntilAutoPause;
 
   /// The action to take when the timeout is reached, either
   /// <code>ForceApplyCapacityChange</code> or
@@ -21633,8 +21691,7 @@ class ScalingConfiguration {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling">
   /// Autoscaling for Aurora Serverless</a> in the <i>Amazon Aurora User
   /// Guide</i>.
-  @_s.JsonKey(name: 'TimeoutAction')
-  final String timeoutAction;
+  final String? timeoutAction;
 
   ScalingConfiguration({
     this.autoPause,
@@ -21643,7 +21700,21 @@ class ScalingConfiguration {
     this.secondsUntilAutoPause,
     this.timeoutAction,
   });
-  Map<String, dynamic> toJson() => _$ScalingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoPause = this.autoPause;
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    final secondsUntilAutoPause = this.secondsUntilAutoPause;
+    final timeoutAction = this.timeoutAction;
+    return {
+      if (autoPause != null) 'AutoPause': autoPause,
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (secondsUntilAutoPause != null)
+        'SecondsUntilAutoPause': secondsUntilAutoPause,
+      if (timeoutAction != null) 'TimeoutAction': timeoutAction,
+    };
+  }
 }
 
 /// Shows the scaling configuration for an Aurora DB cluster in
@@ -21658,25 +21729,25 @@ class ScalingConfigurationInfo {
   ///
   /// When the value is set to false for an Aurora Serverless DB cluster, the DB
   /// cluster automatically resumes.
-  final bool autoPause;
+  final bool? autoPause;
 
   /// The maximum capacity for an Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
-  final int maxCapacity;
+  final int? maxCapacity;
 
   /// The maximum capacity for the Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
-  final int minCapacity;
+  final int? minCapacity;
 
   /// The remaining amount of time, in seconds, before the Aurora DB cluster in
   /// <code>serverless</code> mode is paused. A DB cluster can be paused only when
   /// it's idle (it has no connections).
-  final int secondsUntilAutoPause;
+  final int? secondsUntilAutoPause;
 
   /// The timeout action of a call to <code>ModifyCurrentDBClusterCapacity</code>,
   /// either <code>ForceApplyCapacityChange</code> or
   /// <code>RollbackCapacityChange</code>.
-  final String timeoutAction;
+  final String? timeoutAction;
 
   ScalingConfigurationInfo({
     this.autoPause,
@@ -21701,17 +21772,17 @@ class ScalingConfigurationInfo {
 /// <code>DescribeSourceRegions</code> action.
 class SourceRegion {
   /// The endpoint for the source AWS Region endpoint.
-  final String endpoint;
+  final String? endpoint;
 
   /// The name of the source AWS Region.
-  final String regionName;
+  final String? regionName;
 
   /// The status of the source AWS Region.
-  final String status;
+  final String? status;
 
   /// Whether the source AWS Region supports replicating automated backups to the
   /// current AWS Region.
-  final bool supportsDBInstanceAutomatedBackupsReplication;
+  final bool? supportsDBInstanceAutomatedBackupsReplication;
 
   SourceRegion({
     this.endpoint,
@@ -21736,11 +21807,11 @@ class SourceRegionMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String marker;
+  final String? marker;
 
   /// A list of SourceRegion instances that contains each source AWS Region that
   /// the current AWS Region can get a read replica or a DB snapshot from.
-  final List<SourceRegion> sourceRegions;
+  final List<SourceRegion>? sourceRegions;
 
   SourceRegionMessage({
     this.marker,
@@ -21759,17 +21830,11 @@ class SourceRegionMessage {
 }
 
 enum SourceType {
-  @_s.JsonValue('db-instance')
   dbInstance,
-  @_s.JsonValue('db-parameter-group')
   dbParameterGroup,
-  @_s.JsonValue('db-security-group')
   dbSecurityGroup,
-  @_s.JsonValue('db-snapshot')
   dbSnapshot,
-  @_s.JsonValue('db-cluster')
   dbCluster,
-  @_s.JsonValue('db-cluster-snapshot')
   dbClusterSnapshot,
 }
 
@@ -21789,7 +21854,6 @@ extension on SourceType {
       case SourceType.dbClusterSnapshot:
         return 'db-cluster-snapshot';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21809,28 +21873,28 @@ extension on String {
       case 'db-cluster-snapshot':
         return SourceType.dbClusterSnapshot;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
 class StartActivityStreamResponse {
   /// Indicates whether or not the database activity stream will start as soon as
   /// possible, regardless of the maintenance window for the database.
-  final bool applyImmediately;
+  final bool? applyImmediately;
 
   /// The name of the Amazon Kinesis data stream to be used for the database
   /// activity stream.
-  final String kinesisStreamName;
+  final String? kinesisStreamName;
 
   /// The AWS KMS key identifier for encryption of messages in the database
   /// activity stream.
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The mode of the database activity stream.
-  final ActivityStreamMode mode;
+  final ActivityStreamMode? mode;
 
   /// The status of the database activity stream.
-  final ActivityStreamStatus status;
+  final ActivityStreamStatus? status;
 
   StartActivityStreamResponse({
     this.applyImmediately,
@@ -21852,7 +21916,7 @@ class StartActivityStreamResponse {
 }
 
 class StartDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   StartDBClusterResult({
     this.dBCluster,
@@ -21867,7 +21931,7 @@ class StartDBClusterResult {
 }
 
 class StartDBInstanceAutomatedBackupsReplicationResult {
-  final DBInstanceAutomatedBackup dBInstanceAutomatedBackup;
+  final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
   StartDBInstanceAutomatedBackupsReplicationResult({
     this.dBInstanceAutomatedBackup,
@@ -21883,7 +21947,7 @@ class StartDBInstanceAutomatedBackupsReplicationResult {
 }
 
 class StartDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   StartDBInstanceResult({
     this.dBInstance,
@@ -21900,17 +21964,17 @@ class StartDBInstanceResult {
 class StopActivityStreamResponse {
   /// The name of the Amazon Kinesis data stream used for the database activity
   /// stream.
-  final String kinesisStreamName;
+  final String? kinesisStreamName;
 
   /// The AWS KMS key identifier used for encrypting messages in the database
   /// activity stream.
   ///
   /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
   /// for the AWS KMS customer master key (CMK).
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The status of the database activity stream.
-  final ActivityStreamStatus status;
+  final ActivityStreamStatus? status;
 
   StopActivityStreamResponse({
     this.kinesisStreamName,
@@ -21928,7 +21992,7 @@ class StopActivityStreamResponse {
 }
 
 class StopDBClusterResult {
-  final DBCluster dBCluster;
+  final DBCluster? dBCluster;
 
   StopDBClusterResult({
     this.dBCluster,
@@ -21943,7 +22007,7 @@ class StopDBClusterResult {
 }
 
 class StopDBInstanceAutomatedBackupsReplicationResult {
-  final DBInstanceAutomatedBackup dBInstanceAutomatedBackup;
+  final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
   StopDBInstanceAutomatedBackupsReplicationResult({
     this.dBInstanceAutomatedBackup,
@@ -21959,7 +22023,7 @@ class StopDBInstanceAutomatedBackupsReplicationResult {
 }
 
 class StopDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   StopDBInstanceResult({
     this.dBInstance,
@@ -21976,10 +22040,10 @@ class StopDBInstanceResult {
 /// This data type is used as a response element for the
 /// <code>DescribeDBSubnetGroups</code> operation.
 class Subnet {
-  final AvailabilityZone subnetAvailabilityZone;
+  final AvailabilityZone? subnetAvailabilityZone;
 
   /// The identifier of the subnet.
-  final String subnetIdentifier;
+  final String? subnetIdentifier;
 
   /// If the subnet is associated with an Outpost, this value specifies the
   /// Outpost.
@@ -21987,10 +22051,10 @@ class Subnet {
   /// For more information about RDS on Outposts, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
   /// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
-  final Outpost subnetOutpost;
+  final Outpost? subnetOutpost;
 
   /// The status of the subnet.
-  final String subnetStatus;
+  final String? subnetStatus;
 
   Subnet({
     this.subnetAvailabilityZone,
@@ -22013,27 +22077,20 @@ class Subnet {
 }
 
 /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with "aws:" or "rds:".
   /// The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
   /// 256 Unicode characters in length and can't be prefixed with "aws:" or
   /// "rds:". The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
@@ -22046,13 +22103,20 @@ class Tag {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// <p/>
 class TagListMessage {
   /// List of tags returned by the ListTagsForResource operation.
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   TagListMessage({
     this.tagList,
@@ -22069,11 +22133,11 @@ class TagListMessage {
 class TargetHealth {
   /// A description of the health of the RDS Proxy target. If the
   /// <code>State</code> is <code>AVAILABLE</code>, a description is not included.
-  final String description;
+  final String? description;
 
   /// The reason for the current health <code>State</code> of the RDS Proxy
   /// target.
-  final TargetHealthReason reason;
+  final TargetHealthReason? reason;
 
   /// The current state of the connection health lifecycle for the RDS Proxy
   /// target. The following is a typical lifecycle example for the states of an
@@ -22082,7 +22146,7 @@ class TargetHealth {
   /// <code>registering</code> &gt; <code>unavailable</code> &gt;
   /// <code>available</code> &gt; <code>unavailable</code> &gt;
   /// <code>available</code>
-  final TargetState state;
+  final TargetState? state;
 
   TargetHealth({
     this.description,
@@ -22099,14 +22163,25 @@ class TargetHealth {
 }
 
 enum TargetHealthReason {
-  @_s.JsonValue('UNREACHABLE')
   unreachable,
-  @_s.JsonValue('CONNECTION_FAILED')
   connectionFailed,
-  @_s.JsonValue('AUTH_FAILURE')
   authFailure,
-  @_s.JsonValue('PENDING_PROXY_CAPACITY')
   pendingProxyCapacity,
+}
+
+extension on TargetHealthReason {
+  String toValue() {
+    switch (this) {
+      case TargetHealthReason.unreachable:
+        return 'UNREACHABLE';
+      case TargetHealthReason.connectionFailed:
+        return 'CONNECTION_FAILED';
+      case TargetHealthReason.authFailure:
+        return 'AUTH_FAILURE';
+      case TargetHealthReason.pendingProxyCapacity:
+        return 'PENDING_PROXY_CAPACITY';
+    }
+  }
 }
 
 extension on String {
@@ -22121,17 +22196,27 @@ extension on String {
       case 'PENDING_PROXY_CAPACITY':
         return TargetHealthReason.pendingProxyCapacity;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetHealthReason');
   }
 }
 
 enum TargetState {
-  @_s.JsonValue('REGISTERING')
   registering,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('UNAVAILABLE')
   unavailable,
+}
+
+extension on TargetState {
+  String toValue() {
+    switch (this) {
+      case TargetState.registering:
+        return 'REGISTERING';
+      case TargetState.available:
+        return 'AVAILABLE';
+      case TargetState.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
 }
 
 extension on String {
@@ -22144,17 +22229,27 @@ extension on String {
       case 'UNAVAILABLE':
         return TargetState.unavailable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetState');
   }
 }
 
 enum TargetType {
-  @_s.JsonValue('RDS_INSTANCE')
   rdsInstance,
-  @_s.JsonValue('RDS_SERVERLESS_ENDPOINT')
   rdsServerlessEndpoint,
-  @_s.JsonValue('TRACKED_CLUSTER')
   trackedCluster,
+}
+
+extension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.rdsInstance:
+        return 'RDS_INSTANCE';
+      case TargetType.rdsServerlessEndpoint:
+        return 'RDS_SERVERLESS_ENDPOINT';
+      case TargetType.trackedCluster:
+        return 'TRACKED_CLUSTER';
+    }
+  }
 }
 
 extension on String {
@@ -22167,7 +22262,7 @@ extension on String {
       case 'TRACKED_CLUSTER':
         return TargetType.trackedCluster;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetType');
   }
 }
 
@@ -22177,7 +22272,7 @@ extension on String {
 /// the <code>DescribeDBEngineVersions</code> actions.
 class Timezone {
   /// The name of the time zone.
-  final String timezoneName;
+  final String? timezoneName;
 
   Timezone({
     this.timezoneName,
@@ -22193,20 +22288,20 @@ class Timezone {
 class UpgradeTarget {
   /// A value that indicates whether the target version is applied to any source
   /// DB instances that have <code>AutoMinorVersionUpgrade</code> set to true.
-  final bool autoUpgrade;
+  final bool? autoUpgrade;
 
   /// The version of the database engine that a DB instance can be upgraded to.
-  final String description;
+  final String? description;
 
   /// The name of the upgrade target database engine.
-  final String engine;
+  final String? engine;
 
   /// The version number of the upgrade target database engine.
-  final String engineVersion;
+  final String? engineVersion;
 
   /// A value that indicates whether a database engine is upgraded to a major
   /// version.
-  final bool isMajorVersionUpgrade;
+  final bool? isMajorVersionUpgrade;
 
   UpgradeTarget({
     this.autoUpgrade,
@@ -22229,36 +22324,26 @@ class UpgradeTarget {
 
 /// Specifies the details of authentication used by a proxy to log in as a
 /// specific database user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UserAuthConfig {
   /// The type of authentication that the proxy uses for connections from the
   /// proxy to the underlying database.
-  @_s.JsonKey(name: 'AuthScheme')
-  final AuthScheme authScheme;
+  final AuthScheme? authScheme;
 
   /// A user-specified description about the authentication used by a proxy to log
   /// in as a specific database user.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Whether to require or disallow AWS Identity and Access Management (IAM)
   /// authentication for connections to the proxy.
-  @_s.JsonKey(name: 'IAMAuth')
-  final IAMAuthMode iAMAuth;
+  final IAMAuthMode? iAMAuth;
 
   /// The Amazon Resource Name (ARN) representing the secret that the proxy uses
   /// to authenticate to the RDS DB instance or Aurora DB cluster. These secrets
   /// are stored within Amazon Secrets Manager.
-  @_s.JsonKey(name: 'SecretArn')
-  final String secretArn;
+  final String? secretArn;
 
   /// The name of the database user to which the proxy connects.
-  @_s.JsonKey(name: 'UserName')
-  final String userName;
+  final String? userName;
 
   UserAuthConfig({
     this.authScheme,
@@ -22267,7 +22352,20 @@ class UserAuthConfig {
     this.secretArn,
     this.userName,
   });
-  Map<String, dynamic> toJson() => _$UserAuthConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final authScheme = this.authScheme;
+    final description = this.description;
+    final iAMAuth = this.iAMAuth;
+    final secretArn = this.secretArn;
+    final userName = this.userName;
+    return {
+      if (authScheme != null) 'AuthScheme': authScheme.toValue(),
+      if (description != null) 'Description': description,
+      if (iAMAuth != null) 'IAMAuth': iAMAuth.toValue(),
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (userName != null) 'UserName': userName,
+    };
+  }
 }
 
 /// Returns the details of authentication used by a proxy to log in as a
@@ -22275,23 +22373,23 @@ class UserAuthConfig {
 class UserAuthConfigInfo {
   /// The type of authentication that the proxy uses for connections from the
   /// proxy to the underlying database.
-  final AuthScheme authScheme;
+  final AuthScheme? authScheme;
 
   /// A user-specified description about the authentication used by a proxy to log
   /// in as a specific database user.
-  final String description;
+  final String? description;
 
   /// Whether to require or disallow AWS Identity and Access Management (IAM)
   /// authentication for connections to the proxy.
-  final IAMAuthMode iAMAuth;
+  final IAMAuthMode? iAMAuth;
 
   /// The Amazon Resource Name (ARN) representing the secret that the proxy uses
   /// to authenticate to the RDS DB instance or Aurora DB cluster. These secrets
   /// are stored within Amazon Secrets Manager.
-  final String secretArn;
+  final String? secretArn;
 
   /// The name of the database user to which the proxy connects.
-  final String userName;
+  final String? userName;
 
   UserAuthConfigInfo({
     this.authScheme,
@@ -22317,10 +22415,10 @@ class UserAuthConfigInfo {
 /// information when you call <code>ModifyDBInstance</code>.
 class ValidDBInstanceModificationsMessage {
   /// Valid storage options for your DB instance.
-  final List<ValidStorageOptions> storage;
+  final List<ValidStorageOptions>? storage;
 
   /// Valid processor features for your DB instance.
-  final List<AvailableProcessorFeature> validProcessorFeatures;
+  final List<AvailableProcessorFeature>? validProcessorFeatures;
 
   ValidDBInstanceModificationsMessage({
     this.storage,
@@ -22349,20 +22447,20 @@ class ValidStorageOptions {
   /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For
   /// example, 3-10, which means that provisioned IOPS can be between 3 and 10
   /// times storage.
-  final List<DoubleRange> iopsToStorageRatio;
+  final List<DoubleRange>? iopsToStorageRatio;
 
   /// The valid range of provisioned IOPS. For example, 1000-20000.
-  final List<Range> provisionedIops;
+  final List<Range>? provisionedIops;
 
   /// The valid range of storage in gibibytes. For example, 100 to 16384.
-  final List<Range> storageSize;
+  final List<Range>? storageSize;
 
   /// The valid storage types for your DB instance. For example, gp2, io1.
-  final String storageType;
+  final String? storageType;
 
   /// Whether or not Amazon RDS can automatically scale storage for DB instances
   /// that use the new instance class.
-  final bool supportsStorageAutoscaling;
+  final bool? supportsStorageAutoscaling;
 
   ValidStorageOptions({
     this.iopsToStorageRatio,
@@ -22394,10 +22492,10 @@ class ValidStorageOptions {
 /// group membership.
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
-  final String status;
+  final String? status;
 
   /// The name of the VPC security group.
-  final String vpcSecurityGroupId;
+  final String? vpcSecurityGroupId;
 
   VpcSecurityGroupMembership({
     this.status,
@@ -22419,23 +22517,23 @@ class VpcSecurityGroupMembership {
 /// RDS on VMware User Guide.</a>
 class VpnDetails {
   /// The IP address of network traffic from AWS to your on-premises data center.
-  final String vpnGatewayIp;
+  final String? vpnGatewayIp;
 
   /// The ID of the VPN.
-  final String vpnId;
+  final String? vpnId;
 
   /// The name of the VPN.
-  final String vpnName;
+  final String? vpnName;
 
   /// The preshared key (PSK) for the VPN.
-  final String vpnPSK;
+  final String? vpnPSK;
 
   /// The state of the VPN.
-  final String vpnState;
+  final String? vpnState;
 
   /// The IP address of network traffic from your on-premises data center. A
   /// custom AZ receives the network traffic.
-  final String vpnTunnelOriginatorIP;
+  final String? vpnTunnelOriginatorIP;
 
   VpnDetails({
     this.vpnGatewayIp,
@@ -22459,16 +22557,28 @@ class VpnDetails {
 }
 
 enum WriteForwardingStatus {
-  @_s.JsonValue('enabled')
   enabled,
-  @_s.JsonValue('disabled')
   disabled,
-  @_s.JsonValue('enabling')
   enabling,
-  @_s.JsonValue('disabling')
   disabling,
-  @_s.JsonValue('unknown')
   unknown,
+}
+
+extension on WriteForwardingStatus {
+  String toValue() {
+    switch (this) {
+      case WriteForwardingStatus.enabled:
+        return 'enabled';
+      case WriteForwardingStatus.disabled:
+        return 'disabled';
+      case WriteForwardingStatus.enabling:
+        return 'enabling';
+      case WriteForwardingStatus.disabling:
+        return 'disabling';
+      case WriteForwardingStatus.unknown:
+        return 'unknown';
+    }
+  }
 }
 
 extension on String {
@@ -22485,12 +22595,12 @@ extension on String {
       case 'unknown':
         return WriteForwardingStatus.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum WriteForwardingStatus');
   }
 }
 
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
-  AuthorizationAlreadyExistsFault({String type, String message})
+  AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationAlreadyExistsFault',
@@ -22498,12 +22608,12 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
-  AuthorizationNotFoundFault({String type, String message})
+  AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
 class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
-  AuthorizationQuotaExceededFault({String type, String message})
+  AuthorizationQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationQuotaExceededFault',
@@ -22511,17 +22621,17 @@ class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class BackupPolicyNotFoundFault extends _s.GenericAwsException {
-  BackupPolicyNotFoundFault({String type, String message})
+  BackupPolicyNotFoundFault({String? type, String? message})
       : super(type: type, code: 'BackupPolicyNotFoundFault', message: message);
 }
 
 class CertificateNotFoundFault extends _s.GenericAwsException {
-  CertificateNotFoundFault({String type, String message})
+  CertificateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CertificateNotFoundFault', message: message);
 }
 
 class CustomAvailabilityZoneAlreadyExistsFault extends _s.GenericAwsException {
-  CustomAvailabilityZoneAlreadyExistsFault({String type, String message})
+  CustomAvailabilityZoneAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'CustomAvailabilityZoneAlreadyExistsFault',
@@ -22529,7 +22639,7 @@ class CustomAvailabilityZoneAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class CustomAvailabilityZoneNotFoundFault extends _s.GenericAwsException {
-  CustomAvailabilityZoneNotFoundFault({String type, String message})
+  CustomAvailabilityZoneNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'CustomAvailabilityZoneNotFoundFault',
@@ -22537,7 +22647,7 @@ class CustomAvailabilityZoneNotFoundFault extends _s.GenericAwsException {
 }
 
 class CustomAvailabilityZoneQuotaExceededFault extends _s.GenericAwsException {
-  CustomAvailabilityZoneQuotaExceededFault({String type, String message})
+  CustomAvailabilityZoneQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'CustomAvailabilityZoneQuotaExceededFault',
@@ -22545,13 +22655,13 @@ class CustomAvailabilityZoneQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBClusterAlreadyExistsFault extends _s.GenericAwsException {
-  DBClusterAlreadyExistsFault({String type, String message})
+  DBClusterAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterAlreadyExistsFault', message: message);
 }
 
 class DBClusterBacktrackNotFoundFault extends _s.GenericAwsException {
-  DBClusterBacktrackNotFoundFault({String type, String message})
+  DBClusterBacktrackNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterBacktrackNotFoundFault',
@@ -22559,7 +22669,7 @@ class DBClusterBacktrackNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
-  DBClusterEndpointAlreadyExistsFault({String type, String message})
+  DBClusterEndpointAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterEndpointAlreadyExistsFault',
@@ -22567,7 +22677,7 @@ class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
-  DBClusterEndpointNotFoundFault({String type, String message})
+  DBClusterEndpointNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterEndpointNotFoundFault',
@@ -22575,7 +22685,7 @@ class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
-  DBClusterEndpointQuotaExceededFault({String type, String message})
+  DBClusterEndpointQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterEndpointQuotaExceededFault',
@@ -22583,12 +22693,12 @@ class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBClusterNotFoundFault extends _s.GenericAwsException {
-  DBClusterNotFoundFault({String type, String message})
+  DBClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterNotFoundFault', message: message);
 }
 
 class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
-  DBClusterParameterGroupNotFoundFault({String type, String message})
+  DBClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterParameterGroupNotFoundFault',
@@ -22596,13 +22706,13 @@ class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBClusterQuotaExceededFault extends _s.GenericAwsException {
-  DBClusterQuotaExceededFault({String type, String message})
+  DBClusterQuotaExceededFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterQuotaExceededFault', message: message);
 }
 
 class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
-  DBClusterRoleAlreadyExistsFault({String type, String message})
+  DBClusterRoleAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterRoleAlreadyExistsFault',
@@ -22610,12 +22720,12 @@ class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBClusterRoleNotFoundFault extends _s.GenericAwsException {
-  DBClusterRoleNotFoundFault({String type, String message})
+  DBClusterRoleNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterRoleNotFoundFault', message: message);
 }
 
 class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
-  DBClusterRoleQuotaExceededFault({String type, String message})
+  DBClusterRoleQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterRoleQuotaExceededFault',
@@ -22623,7 +22733,7 @@ class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
-  DBClusterSnapshotAlreadyExistsFault({String type, String message})
+  DBClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterSnapshotAlreadyExistsFault',
@@ -22631,7 +22741,7 @@ class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
-  DBClusterSnapshotNotFoundFault({String type, String message})
+  DBClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBClusterSnapshotNotFoundFault',
@@ -22639,13 +22749,13 @@ class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBInstanceAlreadyExistsFault extends _s.GenericAwsException {
-  DBInstanceAlreadyExistsFault({String type, String message})
+  DBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceAlreadyExistsFault', message: message);
 }
 
 class DBInstanceAutomatedBackupNotFoundFault extends _s.GenericAwsException {
-  DBInstanceAutomatedBackupNotFoundFault({String type, String message})
+  DBInstanceAutomatedBackupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBInstanceAutomatedBackupNotFoundFault',
@@ -22654,7 +22764,7 @@ class DBInstanceAutomatedBackupNotFoundFault extends _s.GenericAwsException {
 
 class DBInstanceAutomatedBackupQuotaExceededFault
     extends _s.GenericAwsException {
-  DBInstanceAutomatedBackupQuotaExceededFault({String type, String message})
+  DBInstanceAutomatedBackupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBInstanceAutomatedBackupQuotaExceededFault',
@@ -22662,12 +22772,12 @@ class DBInstanceAutomatedBackupQuotaExceededFault
 }
 
 class DBInstanceNotFoundFault extends _s.GenericAwsException {
-  DBInstanceNotFoundFault({String type, String message})
+  DBInstanceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotFoundFault', message: message);
 }
 
 class DBInstanceRoleAlreadyExistsFault extends _s.GenericAwsException {
-  DBInstanceRoleAlreadyExistsFault({String type, String message})
+  DBInstanceRoleAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBInstanceRoleAlreadyExistsFault',
@@ -22675,13 +22785,13 @@ class DBInstanceRoleAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBInstanceRoleNotFoundFault extends _s.GenericAwsException {
-  DBInstanceRoleNotFoundFault({String type, String message})
+  DBInstanceRoleNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceRoleNotFoundFault', message: message);
 }
 
 class DBInstanceRoleQuotaExceededFault extends _s.GenericAwsException {
-  DBInstanceRoleQuotaExceededFault({String type, String message})
+  DBInstanceRoleQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBInstanceRoleQuotaExceededFault',
@@ -22689,12 +22799,12 @@ class DBInstanceRoleQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBLogFileNotFoundFault extends _s.GenericAwsException {
-  DBLogFileNotFoundFault({String type, String message})
+  DBLogFileNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBLogFileNotFoundFault', message: message);
 }
 
 class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBParameterGroupAlreadyExistsFault({String type, String message})
+  DBParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupAlreadyExistsFault',
@@ -22702,7 +22812,7 @@ class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
-  DBParameterGroupNotFoundFault({String type, String message})
+  DBParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupNotFoundFault',
@@ -22710,7 +22820,7 @@ class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBParameterGroupQuotaExceededFault({String type, String message})
+  DBParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupQuotaExceededFault',
@@ -22718,22 +22828,22 @@ class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBProxyAlreadyExistsFault extends _s.GenericAwsException {
-  DBProxyAlreadyExistsFault({String type, String message})
+  DBProxyAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'DBProxyAlreadyExistsFault', message: message);
 }
 
 class DBProxyNotFoundFault extends _s.GenericAwsException {
-  DBProxyNotFoundFault({String type, String message})
+  DBProxyNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBProxyNotFoundFault', message: message);
 }
 
 class DBProxyQuotaExceededFault extends _s.GenericAwsException {
-  DBProxyQuotaExceededFault({String type, String message})
+  DBProxyQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBProxyQuotaExceededFault', message: message);
 }
 
 class DBProxyTargetAlreadyRegisteredFault extends _s.GenericAwsException {
-  DBProxyTargetAlreadyRegisteredFault({String type, String message})
+  DBProxyTargetAlreadyRegisteredFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBProxyTargetAlreadyRegisteredFault',
@@ -22741,7 +22851,7 @@ class DBProxyTargetAlreadyRegisteredFault extends _s.GenericAwsException {
 }
 
 class DBProxyTargetGroupNotFoundFault extends _s.GenericAwsException {
-  DBProxyTargetGroupNotFoundFault({String type, String message})
+  DBProxyTargetGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBProxyTargetGroupNotFoundFault',
@@ -22749,12 +22859,12 @@ class DBProxyTargetGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBProxyTargetNotFoundFault extends _s.GenericAwsException {
-  DBProxyTargetNotFoundFault({String type, String message})
+  DBProxyTargetNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBProxyTargetNotFoundFault', message: message);
 }
 
 class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBSecurityGroupAlreadyExistsFault({String type, String message})
+  DBSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupAlreadyExistsFault',
@@ -22762,13 +22872,13 @@ class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBSecurityGroupNotFoundFault extends _s.GenericAwsException {
-  DBSecurityGroupNotFoundFault({String type, String message})
+  DBSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBSecurityGroupNotFoundFault', message: message);
 }
 
 class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
-  DBSecurityGroupNotSupportedFault({String type, String message})
+  DBSecurityGroupNotSupportedFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupNotSupportedFault',
@@ -22776,7 +22886,7 @@ class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
 }
 
 class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBSecurityGroupQuotaExceededFault({String type, String message})
+  DBSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupQuotaExceededFault',
@@ -22784,18 +22894,18 @@ class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBSnapshotAlreadyExistsFault extends _s.GenericAwsException {
-  DBSnapshotAlreadyExistsFault({String type, String message})
+  DBSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBSnapshotAlreadyExistsFault', message: message);
 }
 
 class DBSnapshotNotFoundFault extends _s.GenericAwsException {
-  DBSnapshotNotFoundFault({String type, String message})
+  DBSnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSnapshotNotFoundFault', message: message);
 }
 
 class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBSubnetGroupAlreadyExistsFault({String type, String message})
+  DBSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupAlreadyExistsFault',
@@ -22803,7 +22913,7 @@ class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
-  DBSubnetGroupDoesNotCoverEnoughAZs({String type, String message})
+  DBSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupDoesNotCoverEnoughAZs',
@@ -22811,18 +22921,18 @@ class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
 }
 
 class DBSubnetGroupNotAllowedFault extends _s.GenericAwsException {
-  DBSubnetGroupNotAllowedFault({String type, String message})
+  DBSubnetGroupNotAllowedFault({String? type, String? message})
       : super(
             type: type, code: 'DBSubnetGroupNotAllowedFault', message: message);
 }
 
 class DBSubnetGroupNotFoundFault extends _s.GenericAwsException {
-  DBSubnetGroupNotFoundFault({String type, String message})
+  DBSubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetGroupNotFoundFault', message: message);
 }
 
 class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBSubnetGroupQuotaExceededFault({String type, String message})
+  DBSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupQuotaExceededFault',
@@ -22830,12 +22940,12 @@ class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBSubnetQuotaExceededFault extends _s.GenericAwsException {
-  DBSubnetQuotaExceededFault({String type, String message})
+  DBSubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetQuotaExceededFault', message: message);
 }
 
 class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
-  DBUpgradeDependencyFailureFault({String type, String message})
+  DBUpgradeDependencyFailureFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBUpgradeDependencyFailureFault',
@@ -22843,12 +22953,12 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
 }
 
 class DomainNotFoundFault extends _s.GenericAwsException {
-  DomainNotFoundFault({String type, String message})
+  DomainNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DomainNotFoundFault', message: message);
 }
 
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
-  EventSubscriptionQuotaExceededFault({String type, String message})
+  EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'EventSubscriptionQuotaExceededFault',
@@ -22856,18 +22966,18 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ExportTaskAlreadyExistsFault extends _s.GenericAwsException {
-  ExportTaskAlreadyExistsFault({String type, String message})
+  ExportTaskAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'ExportTaskAlreadyExistsFault', message: message);
 }
 
 class ExportTaskNotFoundFault extends _s.GenericAwsException {
-  ExportTaskNotFoundFault({String type, String message})
+  ExportTaskNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ExportTaskNotFoundFault', message: message);
 }
 
 class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
-  GlobalClusterAlreadyExistsFault({String type, String message})
+  GlobalClusterAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'GlobalClusterAlreadyExistsFault',
@@ -22875,12 +22985,12 @@ class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class GlobalClusterNotFoundFault extends _s.GenericAwsException {
-  GlobalClusterNotFoundFault({String type, String message})
+  GlobalClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
 }
 
 class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
-  GlobalClusterQuotaExceededFault({String type, String message})
+  GlobalClusterQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'GlobalClusterQuotaExceededFault',
@@ -22888,7 +22998,7 @@ class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class IamRoleMissingPermissionsFault extends _s.GenericAwsException {
-  IamRoleMissingPermissionsFault({String type, String message})
+  IamRoleMissingPermissionsFault({String? type, String? message})
       : super(
             type: type,
             code: 'IamRoleMissingPermissionsFault',
@@ -22896,12 +23006,12 @@ class IamRoleMissingPermissionsFault extends _s.GenericAwsException {
 }
 
 class IamRoleNotFoundFault extends _s.GenericAwsException {
-  IamRoleNotFoundFault({String type, String message})
+  IamRoleNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IamRoleNotFoundFault', message: message);
 }
 
 class InstallationMediaAlreadyExistsFault extends _s.GenericAwsException {
-  InstallationMediaAlreadyExistsFault({String type, String message})
+  InstallationMediaAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'InstallationMediaAlreadyExistsFault',
@@ -22909,7 +23019,7 @@ class InstallationMediaAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class InstallationMediaNotFoundFault extends _s.GenericAwsException {
-  InstallationMediaNotFoundFault({String type, String message})
+  InstallationMediaNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'InstallationMediaNotFoundFault',
@@ -22917,12 +23027,12 @@ class InstallationMediaNotFoundFault extends _s.GenericAwsException {
 }
 
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
-  InstanceQuotaExceededFault({String type, String message})
+  InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
 }
 
 class InsufficientAvailableIPsInSubnetFault extends _s.GenericAwsException {
-  InsufficientAvailableIPsInSubnetFault({String type, String message})
+  InsufficientAvailableIPsInSubnetFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientAvailableIPsInSubnetFault',
@@ -22930,7 +23040,7 @@ class InsufficientAvailableIPsInSubnetFault extends _s.GenericAwsException {
 }
 
 class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
-  InsufficientDBClusterCapacityFault({String type, String message})
+  InsufficientDBClusterCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientDBClusterCapacityFault',
@@ -22938,7 +23048,7 @@ class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
 }
 
 class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
-  InsufficientDBInstanceCapacityFault({String type, String message})
+  InsufficientDBInstanceCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientDBInstanceCapacityFault',
@@ -22946,7 +23056,7 @@ class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
 }
 
 class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
-  InsufficientStorageClusterCapacityFault({String type, String message})
+  InsufficientStorageClusterCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientStorageClusterCapacityFault',
@@ -22954,7 +23064,7 @@ class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
 }
 
 class InvalidDBClusterCapacityFault extends _s.GenericAwsException {
-  InvalidDBClusterCapacityFault({String type, String message})
+  InvalidDBClusterCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBClusterCapacityFault',
@@ -22962,7 +23072,7 @@ class InvalidDBClusterCapacityFault extends _s.GenericAwsException {
 }
 
 class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
-  InvalidDBClusterEndpointStateFault({String type, String message})
+  InvalidDBClusterEndpointStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBClusterEndpointStateFault',
@@ -22970,7 +23080,7 @@ class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
-  InvalidDBClusterSnapshotStateFault({String type, String message})
+  InvalidDBClusterSnapshotStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBClusterSnapshotStateFault',
@@ -22978,13 +23088,13 @@ class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBClusterStateFault extends _s.GenericAwsException {
-  InvalidDBClusterStateFault({String type, String message})
+  InvalidDBClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBClusterStateFault', message: message);
 }
 
 class InvalidDBInstanceAutomatedBackupStateFault
     extends _s.GenericAwsException {
-  InvalidDBInstanceAutomatedBackupStateFault({String type, String message})
+  InvalidDBInstanceAutomatedBackupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBInstanceAutomatedBackupStateFault',
@@ -22992,13 +23102,13 @@ class InvalidDBInstanceAutomatedBackupStateFault
 }
 
 class InvalidDBInstanceStateFault extends _s.GenericAwsException {
-  InvalidDBInstanceStateFault({String type, String message})
+  InvalidDBInstanceStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBInstanceStateFault', message: message);
 }
 
 class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
-  InvalidDBParameterGroupStateFault({String type, String message})
+  InvalidDBParameterGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBParameterGroupStateFault',
@@ -23006,12 +23116,12 @@ class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBProxyStateFault extends _s.GenericAwsException {
-  InvalidDBProxyStateFault({String type, String message})
+  InvalidDBProxyStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBProxyStateFault', message: message);
 }
 
 class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
-  InvalidDBSecurityGroupStateFault({String type, String message})
+  InvalidDBSecurityGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBSecurityGroupStateFault',
@@ -23019,18 +23129,18 @@ class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBSnapshotStateFault extends _s.GenericAwsException {
-  InvalidDBSnapshotStateFault({String type, String message})
+  InvalidDBSnapshotStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBSnapshotStateFault', message: message);
 }
 
 class InvalidDBSubnetGroupFault extends _s.GenericAwsException {
-  InvalidDBSubnetGroupFault({String type, String message})
+  InvalidDBSubnetGroupFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetGroupFault', message: message);
 }
 
 class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
-  InvalidDBSubnetGroupStateFault({String type, String message})
+  InvalidDBSubnetGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBSubnetGroupStateFault',
@@ -23038,12 +23148,12 @@ class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBSubnetStateFault extends _s.GenericAwsException {
-  InvalidDBSubnetStateFault({String type, String message})
+  InvalidDBSubnetStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
 class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
-  InvalidEventSubscriptionStateFault({String type, String message})
+  InvalidEventSubscriptionStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEventSubscriptionStateFault',
@@ -23051,12 +23161,12 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
 }
 
 class InvalidExportOnlyFault extends _s.GenericAwsException {
-  InvalidExportOnlyFault({String type, String message})
+  InvalidExportOnlyFault({String? type, String? message})
       : super(type: type, code: 'InvalidExportOnlyFault', message: message);
 }
 
 class InvalidExportSourceStateFault extends _s.GenericAwsException {
-  InvalidExportSourceStateFault({String type, String message})
+  InvalidExportSourceStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidExportSourceStateFault',
@@ -23064,13 +23174,13 @@ class InvalidExportSourceStateFault extends _s.GenericAwsException {
 }
 
 class InvalidExportTaskStateFault extends _s.GenericAwsException {
-  InvalidExportTaskStateFault({String type, String message})
+  InvalidExportTaskStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidExportTaskStateFault', message: message);
 }
 
 class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
-  InvalidGlobalClusterStateFault({String type, String message})
+  InvalidGlobalClusterStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidGlobalClusterStateFault',
@@ -23078,39 +23188,39 @@ class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
 }
 
 class InvalidOptionGroupStateFault extends _s.GenericAwsException {
-  InvalidOptionGroupStateFault({String type, String message})
+  InvalidOptionGroupStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidOptionGroupStateFault', message: message);
 }
 
 class InvalidRestoreFault extends _s.GenericAwsException {
-  InvalidRestoreFault({String type, String message})
+  InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
 class InvalidS3BucketFault extends _s.GenericAwsException {
-  InvalidS3BucketFault({String type, String message})
+  InvalidS3BucketFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketFault', message: message);
 }
 
 class InvalidSubnet extends _s.GenericAwsException {
-  InvalidSubnet({String type, String message})
+  InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
-  InvalidVPCNetworkStateFault({String type, String message})
+  InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
-  KMSKeyNotAccessibleFault({String type, String message})
+  KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
 class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
-  OptionGroupAlreadyExistsFault({String type, String message})
+  OptionGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'OptionGroupAlreadyExistsFault',
@@ -23118,12 +23228,12 @@ class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class OptionGroupNotFoundFault extends _s.GenericAwsException {
-  OptionGroupNotFoundFault({String type, String message})
+  OptionGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'OptionGroupNotFoundFault', message: message);
 }
 
 class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
-  OptionGroupQuotaExceededFault({String type, String message})
+  OptionGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'OptionGroupQuotaExceededFault',
@@ -23131,7 +23241,7 @@ class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
-  PointInTimeRestoreNotEnabledFault({String type, String message})
+  PointInTimeRestoreNotEnabledFault({String? type, String? message})
       : super(
             type: type,
             code: 'PointInTimeRestoreNotEnabledFault',
@@ -23139,7 +23249,7 @@ class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
 }
 
 class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
-  ProvisionedIopsNotAvailableInAZFault({String type, String message})
+  ProvisionedIopsNotAvailableInAZFault({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedIopsNotAvailableInAZFault',
@@ -23147,7 +23257,7 @@ class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
-  ReservedDBInstanceAlreadyExistsFault({String type, String message})
+  ReservedDBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceAlreadyExistsFault',
@@ -23155,7 +23265,7 @@ class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
-  ReservedDBInstanceNotFoundFault({String type, String message})
+  ReservedDBInstanceNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceNotFoundFault',
@@ -23163,7 +23273,7 @@ class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
-  ReservedDBInstanceQuotaExceededFault({String type, String message})
+  ReservedDBInstanceQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceQuotaExceededFault',
@@ -23171,7 +23281,7 @@ class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
-  ReservedDBInstancesOfferingNotFoundFault({String type, String message})
+  ReservedDBInstancesOfferingNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstancesOfferingNotFoundFault',
@@ -23179,27 +23289,27 @@ class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundFault extends _s.GenericAwsException {
-  ResourceNotFoundFault({String type, String message})
+  ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
 class SNSInvalidTopicFault extends _s.GenericAwsException {
-  SNSInvalidTopicFault({String type, String message})
+  SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
-  SNSNoAuthorizationFault({String type, String message})
+  SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
-  SNSTopicArnNotFoundFault({String type, String message})
+  SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
 class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
-  SharedSnapshotQuotaExceededFault({String type, String message})
+  SharedSnapshotQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'SharedSnapshotQuotaExceededFault',
@@ -23207,33 +23317,33 @@ class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
-  SnapshotQuotaExceededFault({String type, String message})
+  SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
 class SourceNotFoundFault extends _s.GenericAwsException {
-  SourceNotFoundFault({String type, String message})
+  SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
 class StorageQuotaExceededFault extends _s.GenericAwsException {
-  StorageQuotaExceededFault({String type, String message})
+  StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
 class StorageTypeNotSupportedFault extends _s.GenericAwsException {
-  StorageTypeNotSupportedFault({String type, String message})
+  StorageTypeNotSupportedFault({String? type, String? message})
       : super(
             type: type, code: 'StorageTypeNotSupportedFault', message: message);
 }
 
 class SubnetAlreadyInUse extends _s.GenericAwsException {
-  SubnetAlreadyInUse({String type, String message})
+  SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
-  SubscriptionAlreadyExistFault({String type, String message})
+  SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionAlreadyExistFault',
@@ -23241,7 +23351,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
 }
 
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
-  SubscriptionCategoryNotFoundFault({String type, String message})
+  SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionCategoryNotFoundFault',
@@ -23249,7 +23359,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
 }
 
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
-  SubscriptionNotFoundFault({String type, String message})
+  SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 

@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:meta/meta.dart';
 import 'package:aws_client.generator/builders/builder_utils.dart';
 import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
 import 'package:aws_client.generator/builders/protocols/json_builder.dart';
@@ -48,7 +48,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson, RfcDateTimeConverter, IsoDateTimeConverter, UnixDateTimeConverter, StringJsonConverter, Base64JsonConverter' : ''};
+  show rfc822ToJson, iso8601ToJson, unixTimestampToJson, nonNullableTimeStampFromJson, timeStampFromJson;
 """);
   buf.writeln(builder.imports());
   buf.writeln(
@@ -59,9 +59,6 @@ import 'package:shared_aws_api/shared.dart'
     ..putShapes(api)
     ..putExceptions(api);
 
-  if (api.requiresJsonMethods) {
-    buf.writeln("part '${api.fileBasename}.g.dart';\n");
-  }
   buf.writeln(body);
   return buf.toString();
 }
@@ -108,8 +105,7 @@ ${builder.constructor()}
     }
 
     operation.output?.shapeClass?.markUsed(false);
-    write(
-        '  Future<${operation.returnType}${operation.returnType == 'void' ? '' : '?'}> ${operation.methodName}(');
+    write('  Future<${operation.returnType}> ${operation.methodName}(');
     if (useParameter) write('{');
 
     for (final member in parameterShape?.members ?? <Member>[]) {
@@ -183,16 +179,12 @@ ${builder.constructor()}
       final enumFieldNames =
           shape.enumeration.where((s) => s.isNotEmpty).map((value) {
         final fieldName = toEnumerationFieldName(value);
-        if (shape.api.generateJson) {
-          writeln("  @_s.JsonValue('$value')");
-        }
         writeln('  $fieldName,');
         return fieldName;
       }).toList();
       writeln('}');
 
-      if (shape.api.generateToXml || shape.isTopLevelInputEnum) {
-        writeln("""extension on $name {
+      writeln("""extension on $name {
   String toValue() {
     switch (this) {
     ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
@@ -202,29 +194,22 @@ ${builder.constructor()}
   }
 }
         """);
-      }
-      if (shape.api.generateFromXml || shape.isTopLevelOutputEnum) {
-        writeln("""extension on String {
+
+      writeln("""extension on String {
   $name to$name() {
     switch (this) {
     ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case '$value':
     return $name.${enumFieldNames[index]};
     ''').join()}
     }
+    throw Exception('\$this is not known in enum ${shape.className}');
   }
 }
         """);
-      }
     } else if (shape.type == 'structure') {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
         writeln(r'@deprecated');
-      }
-      if (shape.requiresJson) {
-        writeln(
-            '@_s.JsonSerializable(includeIfNull: false, explicitToJson: true, '
-            'createFactory: ${shape.generateFromJson},'
-            'createToJson: ${shape.generateToJson})');
       }
 
       final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';
@@ -235,46 +220,7 @@ ${builder.constructor()}
           writeln(dartdocComment(member.documentation));
         }
 
-        if (shape.requiresJson) {
-          if (member.dartType == 'Uint8List') {
-            writeln('@Uint8ListConverter()');
-          } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@Uint8ListListConverter()');
-          } else if (member.dartType == 'DateTime' ||
-              (member.shapeClass.type == 'list' &&
-                  member.shapeClass.member.shapeClass.type == 'timestamp') ||
-              (member.shapeClass.type == 'map' &&
-                  member.shapeClass.value.shapeClass.type == 'timestamp')) {
-            var prefix = 'ThisShouldNotBeAPossibleValue';
-            final ret = calculateDateTimeToJson(member);
-
-            if (ret.startsWith('rfc')) {
-              prefix = 'Rfc';
-            } else if (ret.startsWith('iso')) {
-              prefix = 'Iso';
-            } else if (ret.startsWith('unix')) {
-              prefix = 'Unix';
-            } else {
-              throw Exception('Unknown time format "$ret"');
-            }
-            write('@${prefix}DateTimeConverter()');
-          } else if (member.jsonvalue &&
-              member.location?.contains('header') == true) {
-            write('@Base64JsonConverter()');
-          }
-          writeln(
-              "  @_s.JsonKey(name: '${member.locationName ?? member.name}')");
-        }
-        var dartType = member.dartType;
-
-        if (member.jsonvalue || member.shapeClass.member?.jsonvalue == true) {
-          if (member.shapeClass.type == 'list') {
-            dartType = 'List<Object>';
-          } else {
-            dartType = 'Object';
-          }
-        }
-
+        final dartType = member.dartType;
         final nullable = member.isRequired ? '' : '?';
 
         writeln('  final $dartType$nullable ${member.fieldName};');
@@ -291,8 +237,21 @@ ${builder.constructor()}
       }
 
       if (shape.generateFromJson) {
+        final members = shape.members.where((m) => m.isBody).toList();
         writeln(
-            '\n  factory $name.fromJson(Map<String, dynamic> json) => _\$${name}FromJson(json);');
+            '\n  factory $name.fromJson(Map<String, dynamic> ${members.isEmpty ? '_' : 'json'}) {');
+        writeln('return $name(');
+        for (var member in members) {
+          final decoder = extractJsonCode(member.shapeClass,
+              "json['${member.locationName ?? member.name}']",
+              member: member,
+              nullability: member.isRequired
+                  ? Nullability.input
+                  : Nullability.inputOutput);
+          writeln('${member.fieldName}: $decoder,');
+        }
+        writeln(');');
+        writeln('}');
       }
 
       if (shape.generateFromXml && !shape.hasHeaderMembers) {
@@ -315,6 +274,8 @@ ${builder.constructor()}
             flattened: member.flattened,
             container: shape,
             member: member,
+            nullability:
+                member.isRequired ? Nullability.input : Nullability.inputOutput,
           );
           constructorParams.add('    ${member.fieldName}: $extractor,');
         }
@@ -323,12 +284,32 @@ ${builder.constructor()}
       }
 
       if (shape.generateToJson) {
-        writeln('\n  Map<String, dynamic> toJson() => _\$${name}ToJson(this);');
+        writeln('\n  Map<String, dynamic> toJson() {');
+        for (var member in shape.members.where((m) => m.isBody)) {
+          writeln('final ${member.fieldName} = this.${member.fieldName};');
+        }
+        writeln('return {');
+        for (var member in shape.members.where((m) => m.isBody)) {
+          if (!member.isRequired) {
+            writeln('if (${member.fieldName} != null)');
+          }
+          final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
+              member: member, nullability: Nullability.none);
+          final location = member.locationName ??
+              member.shapeClass.locationName ??
+              member.name;
+          writeln("'$location': $encodeCode,");
+        }
+        writeln('};');
+        writeln('}');
       }
 
       if (shape.generateToXml) {
         writeln(
-            '\n  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {');
+            '\n  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {');
+        for (var member in shape.members) {
+          writeln('final ${member.fieldName} = this.${member.fieldName};');
+        }
         writeln('    final \$children = <_s.XmlNode>[');
         for (final member
             in shape.membersMap.values.where((e) => !e.xmlAttribute)) {
@@ -339,7 +320,7 @@ ${builder.constructor()}
             member.shapeClass,
             member.fieldName,
             structureMember: member,
-            maybeNull: member.isRequired,
+            nullability: Nullability.none,
           );
           if (!member.isRequired) {
             writeln('if (${member.fieldName} != null)');
@@ -359,13 +340,15 @@ ${builder.constructor()}
           final nsPrefix = member.xmlNamespace?.prefix ?? '';
           final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
           final isEnum = member.shapeClass.enumeration?.isNotEmpty ?? false;
-          writeln('if (${member.fieldName} != null)');
+          if (!member.isRequired) {
+            writeln('if (${member.fieldName} != null)');
+          }
           writeln(
               "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.toValue()' : ''}),");
         }
         writeln('];');
         writeln(
-            '    return _s.XmlElement(_s.XmlName(elemName), \$attributes, \$children.where((e) => e != null),);');
+            '    return _s.XmlElement(_s.XmlName(elemName), \$attributes, \$children,);');
         writeln('  }');
       }
 
@@ -377,7 +360,7 @@ ${builder.constructor()}
     for (final exception in api.exceptions) {
       if (api.shapes.containsKey(exception)) continue;
       writeln('\nclass $exception extends _s.GenericAwsException {');
-      writeln('  $exception({String type, String message}) '
+      writeln('  $exception({String? type, String? message}) '
           ': super(type: type, code: \'$exception\', message: message);');
       writeln('}');
     }
@@ -430,14 +413,13 @@ String calculateDateTimeToJson(Member member) {
   return timeStampFormat;
 }
 
-String extractXmlCode(
-  Shape shapeRef, {
-  String elemVar,
-  String elemName,
-  bool flattened = false,
-  Member member,
-  Shape container,
-}) {
+String extractXmlCode(Shape shapeRef,
+    {String elemVar,
+    String elemName,
+    bool flattened = false,
+    Member member,
+    Shape container,
+    @required Nullability nullability}) {
   final api = shapeRef.api;
   flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
@@ -454,7 +436,16 @@ String extractXmlCode(
     if (member?.xmlAttribute == true) {
       functionSuffix = 'Attribute';
     }
-    return '_s.extractXml${uppercaseName(dartType)}$functionSuffix($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${shapeRef.className}()' : ''}';
+    var code =
+        '_s.extractXml${uppercaseName(dartType)}$functionSuffix($elemVar, \'$elemName\'$extraParameters)';
+    if (!nullability.outputNullable) {
+      code = '$code!';
+    }
+    if (enumeration) {
+      code =
+          '$code${enumeration ? '${nullability.inputNullable && nullability.outputNullable ? '?' : ''}.to${shapeRef.className}()' : ''}';
+    }
+    return code;
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     var memberElemName = shapeRef.member.locationName;
@@ -462,6 +453,10 @@ String extractXmlCode(
       memberElemName ??= elemName;
     } else {
       memberElemName ??= 'member';
+    }
+
+    if (!flattened && !nullability.outputNullable) {
+      elemVar = '_s.extractXmlChild($elemVar, \'$elemName\')!';
     }
 
     String fn;
@@ -476,8 +471,10 @@ String extractXmlCode(
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
     }
     if (!flattened) {
-      fn =
-          '_s.extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
+      if (nullability.outputNullable) {
+        fn =
+            '_s.extractXmlChild($elemVar, \'$elemName\')?.let(($elemVar) => $fn)';
+      }
     }
     return fn;
   } else if (type == 'map') {
@@ -486,27 +483,39 @@ String extractXmlCode(
       elemVar: 'c',
       elemName: shapeRef.key.locationName ?? 'key',
       container: container,
+      nullability: Nullability.none,
     );
     final valueExtractor = extractXmlCode(
       shapeRef.value.shapeClass,
       elemVar: 'c',
       elemName: shapeRef.value.locationName ?? 'value',
+      nullability: Nullability.none,
     );
     var getElementCode = '';
     var subElementName = elemName;
+    var mapFallback = '';
     if (!flattened) {
-      getElementCode = ".getElement('$elemName')";
+      getElementCode = ".getElement('$elemName')?";
+      mapFallback = '?? {}';
       subElementName = 'entry';
     }
 
     return 'Map.fromEntries($elemVar$getElementCode.findElements(\'$subElementName\')'
-        '.map((c) => MapEntry($keyExtractor, $valueExtractor,),),)';
+        '.map((c) => MapEntry($keyExtractor, $valueExtractor,),)$mapFallback,)';
   } else {
-    final fromXmlCode = '?.let((e)=>${shapeRef.className}.fromXml(e))';
-    if (container?.payload == elemName) {
-      return '$elemVar$fromXmlCode';
+    if (nullability.outputNullable) {
+      final fromXmlCode = '?.let((e)=>${shapeRef.className}.fromXml(e))';
+      if (container?.payload == elemName) {
+        return '$elemVar$fromXmlCode';
+      } else {
+        return '_s.extractXmlChild($elemVar, \'$elemName\')$fromXmlCode';
+      }
     } else {
-      return '_s.extractXmlChild($elemVar, \'$elemName\')$fromXmlCode';
+      if (container?.payload == elemName) {
+        return '${shapeRef.className}.fromXml($elemVar)';
+      } else {
+        return '${shapeRef.className}.fromXml(_s.extractXmlChild($elemVar, \'$elemName\')!)';
+      }
     }
   }
 }

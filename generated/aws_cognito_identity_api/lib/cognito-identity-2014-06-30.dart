@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cognito-identity-2014-06-30.g.dart';
 
 /// Amazon Cognito Federated Identities is a web service that delivers scoped
 /// temporary credentials to mobile devices and other untrusted environments. It
@@ -33,10 +25,10 @@ part 'cognito-identity-2014-06-30.g.dart';
 class CognitoIdentity {
   final _s.JsonProtocol _protocol;
   CognitoIdentity({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -118,15 +110,15 @@ class CognitoIdentity {
   /// Parameter [supportedLoginProviders] :
   /// Optional key:value pairs mapping provider names to provider app IDs.
   Future<IdentityPool> createIdentityPool({
-    @_s.required bool allowUnauthenticatedIdentities,
-    @_s.required String identityPoolName,
-    bool allowClassicFlow,
-    List<CognitoIdentityProvider> cognitoIdentityProviders,
-    String developerProviderName,
-    Map<String, String> identityPoolTags,
-    List<String> openIdConnectProviderARNs,
-    List<String> samlProviderARNs,
-    Map<String, String> supportedLoginProviders,
+    required bool allowUnauthenticatedIdentities,
+    required String identityPoolName,
+    bool? allowClassicFlow,
+    List<CognitoIdentityProvider>? cognitoIdentityProviders,
+    String? developerProviderName,
+    Map<String, String>? identityPoolTags,
+    List<String>? openIdConnectProviderARNs,
+    List<String>? samlProviderARNs,
+    Map<String, String>? supportedLoginProviders,
   }) async {
     ArgumentError.checkNotNull(
         allowUnauthenticatedIdentities, 'allowUnauthenticatedIdentities');
@@ -197,7 +189,7 @@ class CognitoIdentity {
   /// Parameter [identityIdsToDelete] :
   /// A list of 1-60 identities that you want to delete.
   Future<DeleteIdentitiesResponse> deleteIdentities({
-    @_s.required List<String> identityIdsToDelete,
+    required List<String> identityIdsToDelete,
   }) async {
     ArgumentError.checkNotNull(identityIdsToDelete, 'identityIdsToDelete');
     final headers = <String, String>{
@@ -232,7 +224,7 @@ class CognitoIdentity {
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
   Future<void> deleteIdentityPool({
-    @_s.required String identityPoolId,
+    required String identityPoolId,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -252,7 +244,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.DeleteIdentityPool'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -278,7 +270,7 @@ class CognitoIdentity {
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
   Future<IdentityDescription> describeIdentity({
-    @_s.required String identityId,
+    required String identityId,
   }) async {
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
@@ -326,7 +318,7 @@ class CognitoIdentity {
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
   Future<IdentityPool> describeIdentityPool({
-    @_s.required String identityPoolId,
+    required String identityPoolId,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -399,9 +391,9 @@ class CognitoIdentity {
   /// href="http://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html">External
   /// Identity Providers</a> section of the Amazon Cognito Developer Guide.
   Future<GetCredentialsForIdentityResponse> getCredentialsForIdentity({
-    @_s.required String identityId,
-    String customRoleArn,
-    Map<String, String> logins,
+    required String identityId,
+    String? customRoleArn,
+    Map<String, String>? logins,
   }) async {
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
@@ -492,9 +484,9 @@ class CognitoIdentity {
   /// </li>
   /// </ul>
   Future<GetIdResponse> getId({
-    @_s.required String identityPoolId,
-    String accountId,
-    Map<String, String> logins,
+    required String identityPoolId,
+    String? accountId,
+    Map<String, String>? logins,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -555,7 +547,7 @@ class CognitoIdentity {
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
   Future<GetIdentityPoolRolesResponse> getIdentityPoolRoles({
-    @_s.required String identityPoolId,
+    required String identityPoolId,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -615,8 +607,8 @@ class CognitoIdentity {
   /// accounts.google.com, an Amazon Cognito user pool provider, or any other
   /// OpenId Connect provider, always include the <code>id_token</code>.
   Future<GetOpenIdTokenResponse> getOpenIdToken({
-    @_s.required String identityId,
-    Map<String, String> logins,
+    required String identityId,
+    Map<String, String>? logins,
   }) async {
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
@@ -710,10 +702,10 @@ class CognitoIdentity {
   /// </note>
   Future<GetOpenIdTokenForDeveloperIdentityResponse>
       getOpenIdTokenForDeveloperIdentity({
-    @_s.required String identityPoolId,
-    @_s.required Map<String, String> logins,
-    String identityId,
-    int tokenDuration,
+    required String identityPoolId,
+    required Map<String, String> logins,
+    String? identityId,
+    int? tokenDuration,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -794,10 +786,10 @@ class CognitoIdentity {
   /// Parameter [nextToken] :
   /// A pagination token.
   Future<ListIdentitiesResponse> listIdentities({
-    @_s.required String identityPoolId,
-    @_s.required int maxResults,
-    bool hideDisabled,
-    String nextToken,
+    required String identityPoolId,
+    required int maxResults,
+    bool? hideDisabled,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -869,8 +861,8 @@ class CognitoIdentity {
   /// Parameter [nextToken] :
   /// A pagination token.
   Future<ListIdentityPoolsResponse> listIdentityPools({
-    @_s.required int maxResults,
-    String nextToken,
+    required int maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -928,7 +920,7 @@ class CognitoIdentity {
   /// The Amazon Resource Name (ARN) of the identity pool that the tags are
   /// assigned to.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1007,11 +999,11 @@ class CognitoIdentity {
   /// the response. This token can be used to call the API again and get results
   /// starting from the 11th match.
   Future<LookupDeveloperIdentityResponse> lookupDeveloperIdentity({
-    @_s.required String identityPoolId,
-    String developerUserIdentifier,
-    String identityId,
-    int maxResults,
-    String nextToken,
+    required String identityPoolId,
+    String? developerUserIdentifier,
+    String? identityId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -1127,10 +1119,10 @@ class CognitoIdentity {
   /// User identifier for the source user. The value should be a
   /// <code>DeveloperUserIdentifier</code>.
   Future<MergeDeveloperIdentitiesResponse> mergeDeveloperIdentities({
-    @_s.required String destinationUserIdentifier,
-    @_s.required String developerProviderName,
-    @_s.required String identityPoolId,
-    @_s.required String sourceUserIdentifier,
+    required String destinationUserIdentifier,
+    required String developerProviderName,
+    required String identityPoolId,
+    required String sourceUserIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         destinationUserIdentifier, 'destinationUserIdentifier');
@@ -1227,9 +1219,9 @@ class CognitoIdentity {
   ///
   /// Up to 25 rules can be specified per identity provider.
   Future<void> setIdentityPoolRoles({
-    @_s.required String identityPoolId,
-    @_s.required Map<String, String> roles,
-    Map<String, RoleMapping> roleMappings,
+    required String identityPoolId,
+    required Map<String, String> roles,
+    Map<String, RoleMapping>? roleMappings,
   }) async {
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
@@ -1250,7 +1242,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.SetIdentityPoolRoles'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1296,8 +1288,8 @@ class CognitoIdentity {
   /// Parameter [tags] :
   /// The tags to assign to the identity pool.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1312,7 +1304,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1323,8 +1315,6 @@ class CognitoIdentity {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Unlinks a <code>DeveloperUserIdentifier</code> from an existing identity.
@@ -1355,10 +1345,10 @@ class CognitoIdentity {
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
   Future<void> unlinkDeveloperIdentity({
-    @_s.required String developerProviderName,
-    @_s.required String developerUserIdentifier,
-    @_s.required String identityId,
-    @_s.required String identityPoolId,
+    required String developerProviderName,
+    required String developerUserIdentifier,
+    required String identityId,
+    required String identityPoolId,
   }) async {
     ArgumentError.checkNotNull(developerProviderName, 'developerProviderName');
     _s.validateStringLength(
@@ -1415,7 +1405,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.UnlinkDeveloperIdentity'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1454,9 +1444,9 @@ class CognitoIdentity {
   /// Parameter [loginsToRemove] :
   /// Provider names to unlink from this identity.
   Future<void> unlinkIdentity({
-    @_s.required String identityId,
-    @_s.required Map<String, String> logins,
-    @_s.required List<String> loginsToRemove,
+    required String identityId,
+    required Map<String, String> logins,
+    required List<String> loginsToRemove,
   }) async {
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
@@ -1478,7 +1468,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.UnlinkIdentity'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1508,8 +1498,8 @@ class CognitoIdentity {
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove from the user pool.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1524,7 +1514,7 @@ class CognitoIdentity {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1535,8 +1525,6 @@ class CognitoIdentity {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an identity pool.
@@ -1589,16 +1577,16 @@ class CognitoIdentity {
   /// Parameter [supportedLoginProviders] :
   /// Optional key:value pairs mapping provider names to provider app IDs.
   Future<IdentityPool> updateIdentityPool({
-    @_s.required bool allowUnauthenticatedIdentities,
-    @_s.required String identityPoolId,
-    @_s.required String identityPoolName,
-    bool allowClassicFlow,
-    List<CognitoIdentityProvider> cognitoIdentityProviders,
-    String developerProviderName,
-    Map<String, String> identityPoolTags,
-    List<String> openIdConnectProviderARNs,
-    List<String> samlProviderARNs,
-    Map<String, String> supportedLoginProviders,
+    required bool allowUnauthenticatedIdentities,
+    required String identityPoolId,
+    required String identityPoolName,
+    bool? allowClassicFlow,
+    List<CognitoIdentityProvider>? cognitoIdentityProviders,
+    String? developerProviderName,
+    Map<String, String>? identityPoolTags,
+    List<String>? openIdConnectProviderARNs,
+    List<String>? samlProviderARNs,
+    Map<String, String>? supportedLoginProviders,
   }) async {
     ArgumentError.checkNotNull(
         allowUnauthenticatedIdentities, 'allowUnauthenticatedIdentities');
@@ -1674,27 +1662,41 @@ class CognitoIdentity {
 }
 
 enum AmbiguousRoleResolutionType {
-  @_s.JsonValue('AuthenticatedRole')
   authenticatedRole,
-  @_s.JsonValue('Deny')
   deny,
 }
 
+extension on AmbiguousRoleResolutionType {
+  String toValue() {
+    switch (this) {
+      case AmbiguousRoleResolutionType.authenticatedRole:
+        return 'AuthenticatedRole';
+      case AmbiguousRoleResolutionType.deny:
+        return 'Deny';
+    }
+  }
+}
+
+extension on String {
+  AmbiguousRoleResolutionType toAmbiguousRoleResolutionType() {
+    switch (this) {
+      case 'AuthenticatedRole':
+        return AmbiguousRoleResolutionType.authenticatedRole;
+      case 'Deny':
+        return AmbiguousRoleResolutionType.deny;
+    }
+    throw Exception('$this is not known in enum AmbiguousRoleResolutionType');
+  }
+}
+
 /// A provider representing an Amazon Cognito user pool and its client ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CognitoIdentityProvider {
   /// The client ID for the Amazon Cognito user pool.
-  @_s.JsonKey(name: 'ClientId')
-  final String clientId;
+  final String? clientId;
 
   /// The provider name for an Amazon Cognito user pool. For example,
   /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789</code>.
-  @_s.JsonKey(name: 'ProviderName')
-  final String providerName;
+  final String? providerName;
 
   /// TRUE if server-side token validation is enabled for the identity provider’s
   /// token.
@@ -1706,43 +1708,47 @@ class CognitoIdentityProvider {
   ///
   /// If the user is signed out or deleted, the identity pool will return a 400
   /// Not Authorized error.
-  @_s.JsonKey(name: 'ServerSideTokenCheck')
-  final bool serverSideTokenCheck;
+  final bool? serverSideTokenCheck;
 
   CognitoIdentityProvider({
     this.clientId,
     this.providerName,
     this.serverSideTokenCheck,
   });
-  factory CognitoIdentityProvider.fromJson(Map<String, dynamic> json) =>
-      _$CognitoIdentityProviderFromJson(json);
+  factory CognitoIdentityProvider.fromJson(Map<String, dynamic> json) {
+    return CognitoIdentityProvider(
+      clientId: json['ClientId'] as String?,
+      providerName: json['ProviderName'] as String?,
+      serverSideTokenCheck: json['ServerSideTokenCheck'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CognitoIdentityProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final providerName = this.providerName;
+    final serverSideTokenCheck = this.serverSideTokenCheck;
+    return {
+      if (clientId != null) 'ClientId': clientId,
+      if (providerName != null) 'ProviderName': providerName,
+      if (serverSideTokenCheck != null)
+        'ServerSideTokenCheck': serverSideTokenCheck,
+    };
+  }
 }
 
 /// Credentials for the provided identity ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Credentials {
   /// The Access Key portion of the credentials.
-  @_s.JsonKey(name: 'AccessKeyId')
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// The date at which these credentials will expire.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Expiration')
-  final DateTime expiration;
+  final DateTime? expiration;
 
   /// The Secret Access Key portion of the credentials
-  @_s.JsonKey(name: 'SecretKey')
-  final String secretKey;
+  final String? secretKey;
 
   /// The Session Token portion of the credentials
-  @_s.JsonKey(name: 'SessionToken')
-  final String sessionToken;
+  final String? sessionToken;
 
   Credentials({
     this.accessKeyId,
@@ -1750,186 +1756,192 @@ class Credentials {
     this.secretKey,
     this.sessionToken,
   });
-  factory Credentials.fromJson(Map<String, dynamic> json) =>
-      _$CredentialsFromJson(json);
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      accessKeyId: json['AccessKeyId'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      secretKey: json['SecretKey'] as String?,
+      sessionToken: json['SessionToken'] as String?,
+    );
+  }
 }
 
 /// Returned in response to a successful <code>DeleteIdentities</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteIdentitiesResponse {
   /// An array of UnprocessedIdentityId objects, each of which contains an
   /// ErrorCode and IdentityId.
-  @_s.JsonKey(name: 'UnprocessedIdentityIds')
-  final List<UnprocessedIdentityId> unprocessedIdentityIds;
+  final List<UnprocessedIdentityId>? unprocessedIdentityIds;
 
   DeleteIdentitiesResponse({
     this.unprocessedIdentityIds,
   });
-  factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteIdentitiesResponseFromJson(json);
+  factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteIdentitiesResponse(
+      unprocessedIdentityIds: (json['UnprocessedIdentityIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedIdentityId.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('InternalServerError')
   internalServerError,
+}
+
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.accessDenied:
+        return 'AccessDenied';
+      case ErrorCode.internalServerError:
+        return 'InternalServerError';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'AccessDenied':
+        return ErrorCode.accessDenied;
+      case 'InternalServerError':
+        return ErrorCode.internalServerError;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
 }
 
 /// Returned in response to a successful <code>GetCredentialsForIdentity</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCredentialsForIdentityResponse {
   /// Credentials for the provided identity ID.
-  @_s.JsonKey(name: 'Credentials')
-  final Credentials credentials;
+  final Credentials? credentials;
 
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   GetCredentialsForIdentityResponse({
     this.credentials,
     this.identityId,
   });
   factory GetCredentialsForIdentityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCredentialsForIdentityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCredentialsForIdentityResponse(
+      credentials: json['Credentials'] != null
+          ? Credentials.fromJson(json['Credentials'] as Map<String, dynamic>)
+          : null,
+      identityId: json['IdentityId'] as String?,
+    );
+  }
 }
 
 /// Returned in response to a GetId request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIdResponse {
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   GetIdResponse({
     this.identityId,
   });
-  factory GetIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIdResponseFromJson(json);
+  factory GetIdResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdResponse(
+      identityId: json['IdentityId'] as String?,
+    );
+  }
 }
 
 /// Returned in response to a successful <code>GetIdentityPoolRoles</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIdentityPoolRolesResponse {
   /// An identity pool ID in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityPoolId')
-  final String identityPoolId;
+  final String? identityPoolId;
 
   /// How users for a specific identity provider are to mapped to roles. This is a
   /// String-to-<a>RoleMapping</a> object map. The string identifies the identity
   /// provider, for example, "graph.facebook.com" or
   /// "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
-  @_s.JsonKey(name: 'RoleMappings')
-  final Map<String, RoleMapping> roleMappings;
+  final Map<String, RoleMapping>? roleMappings;
 
   /// The map of roles associated with this pool. Currently only authenticated and
   /// unauthenticated roles are supported.
-  @_s.JsonKey(name: 'Roles')
-  final Map<String, String> roles;
+  final Map<String, String>? roles;
 
   GetIdentityPoolRolesResponse({
     this.identityPoolId,
     this.roleMappings,
     this.roles,
   });
-  factory GetIdentityPoolRolesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIdentityPoolRolesResponseFromJson(json);
+  factory GetIdentityPoolRolesResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdentityPoolRolesResponse(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      roleMappings: (json['RoleMappings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RoleMapping.fromJson(e as Map<String, dynamic>))),
+      roles: (json['Roles'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Returned in response to a successful
 /// <code>GetOpenIdTokenForDeveloperIdentity</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOpenIdTokenForDeveloperIdentityResponse {
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// An OpenID token.
-  @_s.JsonKey(name: 'Token')
-  final String token;
+  final String? token;
 
   GetOpenIdTokenForDeveloperIdentityResponse({
     this.identityId,
     this.token,
   });
   factory GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetOpenIdTokenForDeveloperIdentityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetOpenIdTokenForDeveloperIdentityResponse(
+      identityId: json['IdentityId'] as String?,
+      token: json['Token'] as String?,
+    );
+  }
 }
 
 /// Returned in response to a successful GetOpenIdToken request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOpenIdTokenResponse {
   /// A unique identifier in the format REGION:GUID. Note that the IdentityId
   /// returned may not match the one passed on input.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// An OpenID token, valid for 10 minutes.
-  @_s.JsonKey(name: 'Token')
-  final String token;
+  final String? token;
 
   GetOpenIdTokenResponse({
     this.identityId,
     this.token,
   });
-  factory GetOpenIdTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOpenIdTokenResponseFromJson(json);
+  factory GetOpenIdTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetOpenIdTokenResponse(
+      identityId: json['IdentityId'] as String?,
+      token: json['Token'] as String?,
+    );
+  }
 }
 
 /// A description of the identity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdentityDescription {
   /// Date on which the identity was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// Date on which the identity was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The provider names.
-  @_s.JsonKey(name: 'Logins')
-  final List<String> logins;
+  final List<String>? logins;
 
   IdentityDescription({
     this.creationDate,
@@ -1937,27 +1949,28 @@ class IdentityDescription {
     this.lastModifiedDate,
     this.logins,
   });
-  factory IdentityDescription.fromJson(Map<String, dynamic> json) =>
-      _$IdentityDescriptionFromJson(json);
+  factory IdentityDescription.fromJson(Map<String, dynamic> json) {
+    return IdentityDescription(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      identityId: json['IdentityId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      logins: (json['Logins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// An object representing an Amazon Cognito identity pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdentityPool {
   /// TRUE if the identity pool supports unauthenticated logins.
-  @_s.JsonKey(name: 'AllowUnauthenticatedIdentities')
   final bool allowUnauthenticatedIdentities;
 
   /// An identity pool ID in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityPoolId')
   final String identityPoolId;
 
   /// A string that you provide.
-  @_s.JsonKey(name: 'IdentityPoolName')
   final String identityPoolName;
 
   /// Enables or disables the Basic (Classic) authentication flow. For more
@@ -1965,40 +1978,33 @@ class IdentityPool {
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Identity
   /// Pools (Federated Identities) Authentication Flow</a> in the <i>Amazon
   /// Cognito Developer Guide</i>.
-  @_s.JsonKey(name: 'AllowClassicFlow')
-  final bool allowClassicFlow;
+  final bool? allowClassicFlow;
 
   /// A list representing an Amazon Cognito user pool and its client ID.
-  @_s.JsonKey(name: 'CognitoIdentityProviders')
-  final List<CognitoIdentityProvider> cognitoIdentityProviders;
+  final List<CognitoIdentityProvider>? cognitoIdentityProviders;
 
   /// The "domain" by which Cognito will refer to your users.
-  @_s.JsonKey(name: 'DeveloperProviderName')
-  final String developerProviderName;
+  final String? developerProviderName;
 
   /// The tags that are assigned to the identity pool. A tag is a label that you
   /// can apply to identity pools to categorize and manage them in different ways,
   /// such as by purpose, owner, environment, or other criteria.
-  @_s.JsonKey(name: 'IdentityPoolTags')
-  final Map<String, String> identityPoolTags;
+  final Map<String, String>? identityPoolTags;
 
   /// A list of OpendID Connect provider ARNs.
-  @_s.JsonKey(name: 'OpenIdConnectProviderARNs')
-  final List<String> openIdConnectProviderARNs;
+  final List<String>? openIdConnectProviderARNs;
 
   /// An array of Amazon Resource Names (ARNs) of the SAML provider for your
   /// identity pool.
-  @_s.JsonKey(name: 'SamlProviderARNs')
-  final List<String> samlProviderARNs;
+  final List<String>? samlProviderARNs;
 
   /// Optional key:value pairs mapping provider names to provider app IDs.
-  @_s.JsonKey(name: 'SupportedLoginProviders')
-  final Map<String, String> supportedLoginProviders;
+  final Map<String, String>? supportedLoginProviders;
 
   IdentityPool({
-    @_s.required this.allowUnauthenticatedIdentities,
-    @_s.required this.identityPoolId,
-    @_s.required this.identityPoolName,
+    required this.allowUnauthenticatedIdentities,
+    required this.identityPoolId,
+    required this.identityPoolName,
     this.allowClassicFlow,
     this.cognitoIdentityProviders,
     this.developerProviderName,
@@ -2007,118 +2013,133 @@ class IdentityPool {
     this.samlProviderARNs,
     this.supportedLoginProviders,
   });
-  factory IdentityPool.fromJson(Map<String, dynamic> json) =>
-      _$IdentityPoolFromJson(json);
+  factory IdentityPool.fromJson(Map<String, dynamic> json) {
+    return IdentityPool(
+      allowUnauthenticatedIdentities:
+          json['AllowUnauthenticatedIdentities'] as bool,
+      identityPoolId: json['IdentityPoolId'] as String,
+      identityPoolName: json['IdentityPoolName'] as String,
+      allowClassicFlow: json['AllowClassicFlow'] as bool?,
+      cognitoIdentityProviders: (json['CognitoIdentityProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CognitoIdentityProvider.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      developerProviderName: json['DeveloperProviderName'] as String?,
+      identityPoolTags: (json['IdentityPoolTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      openIdConnectProviderARNs: (json['OpenIdConnectProviderARNs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      samlProviderARNs: (json['SamlProviderARNs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedLoginProviders:
+          (json['SupportedLoginProviders'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A description of the identity pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdentityPoolShortDescription {
   /// An identity pool ID in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityPoolId')
-  final String identityPoolId;
+  final String? identityPoolId;
 
   /// A string that you provide.
-  @_s.JsonKey(name: 'IdentityPoolName')
-  final String identityPoolName;
+  final String? identityPoolName;
 
   IdentityPoolShortDescription({
     this.identityPoolId,
     this.identityPoolName,
   });
-  factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) =>
-      _$IdentityPoolShortDescriptionFromJson(json);
+  factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) {
+    return IdentityPoolShortDescription(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      identityPoolName: json['IdentityPoolName'] as String?,
+    );
+  }
 }
 
 /// The response to a ListIdentities request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIdentitiesResponse {
   /// An object containing a set of identities and associated mappings.
-  @_s.JsonKey(name: 'Identities')
-  final List<IdentityDescription> identities;
+  final List<IdentityDescription>? identities;
 
   /// An identity pool ID in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityPoolId')
-  final String identityPoolId;
+  final String? identityPoolId;
 
   /// A pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIdentitiesResponse({
     this.identities,
     this.identityPoolId,
     this.nextToken,
   });
-  factory ListIdentitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIdentitiesResponseFromJson(json);
+  factory ListIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIdentitiesResponse(
+      identities: (json['Identities'] as List?)
+          ?.whereNotNull()
+          .map((e) => IdentityDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      identityPoolId: json['IdentityPoolId'] as String?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The result of a successful ListIdentityPools action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIdentityPoolsResponse {
   /// The identity pools returned by the ListIdentityPools action.
-  @_s.JsonKey(name: 'IdentityPools')
-  final List<IdentityPoolShortDescription> identityPools;
+  final List<IdentityPoolShortDescription>? identityPools;
 
   /// A pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIdentityPoolsResponse({
     this.identityPools,
     this.nextToken,
   });
-  factory ListIdentityPoolsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIdentityPoolsResponseFromJson(json);
+  factory ListIdentityPoolsResponse.fromJson(Map<String, dynamic> json) {
+    return ListIdentityPoolsResponse(
+      identityPools: (json['IdentityPools'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              IdentityPoolShortDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags that are assigned to the identity pool.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Returned in response to a successful <code>LookupDeveloperIdentity</code>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LookupDeveloperIdentityResponse {
   /// This is the list of developer user identifiers associated with an identity
   /// ID. Cognito supports the association of multiple developer user identifiers
   /// with an identity ID.
-  @_s.JsonKey(name: 'DeveloperUserIdentifierList')
-  final List<String> developerUserIdentifierList;
+  final List<String>? developerUserIdentifierList;
 
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// A pagination token. The first call you make will have <code>NextToken</code>
   /// set to null. After that the service will return <code>NextToken</code>
@@ -2127,99 +2148,132 @@ class LookupDeveloperIdentityResponse {
   /// The service will return a pagination token as a part of the response. This
   /// token can be used to call the API again and get results starting from the
   /// 11th match.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   LookupDeveloperIdentityResponse({
     this.developerUserIdentifierList,
     this.identityId,
     this.nextToken,
   });
-  factory LookupDeveloperIdentityResponse.fromJson(Map<String, dynamic> json) =>
-      _$LookupDeveloperIdentityResponseFromJson(json);
+  factory LookupDeveloperIdentityResponse.fromJson(Map<String, dynamic> json) {
+    return LookupDeveloperIdentityResponse(
+      developerUserIdentifierList:
+          (json['DeveloperUserIdentifierList'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      identityId: json['IdentityId'] as String?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A rule that maps a claim name, a claim value, and a match type to a role
 /// ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MappingRule {
   /// The claim name that must be present in the token, for example, "isAdmin" or
   /// "paid".
-  @_s.JsonKey(name: 'Claim')
   final String claim;
 
   /// The match condition that specifies how closely the claim value in the IdP
   /// token must match <code>Value</code>.
-  @_s.JsonKey(name: 'MatchType')
   final MappingRuleMatchType matchType;
 
   /// The role ARN.
-  @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
   /// A brief string that the claim must match, for example, "paid" or "yes".
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   MappingRule({
-    @_s.required this.claim,
-    @_s.required this.matchType,
-    @_s.required this.roleARN,
-    @_s.required this.value,
+    required this.claim,
+    required this.matchType,
+    required this.roleARN,
+    required this.value,
   });
-  factory MappingRule.fromJson(Map<String, dynamic> json) =>
-      _$MappingRuleFromJson(json);
+  factory MappingRule.fromJson(Map<String, dynamic> json) {
+    return MappingRule(
+      claim: json['Claim'] as String,
+      matchType: (json['MatchType'] as String).toMappingRuleMatchType(),
+      roleARN: json['RoleARN'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MappingRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final claim = this.claim;
+    final matchType = this.matchType;
+    final roleARN = this.roleARN;
+    final value = this.value;
+    return {
+      'Claim': claim,
+      'MatchType': matchType.toValue(),
+      'RoleARN': roleARN,
+      'Value': value,
+    };
+  }
 }
 
 enum MappingRuleMatchType {
-  @_s.JsonValue('Equals')
   equals,
-  @_s.JsonValue('Contains')
   contains,
-  @_s.JsonValue('StartsWith')
   startsWith,
-  @_s.JsonValue('NotEqual')
   notEqual,
+}
+
+extension on MappingRuleMatchType {
+  String toValue() {
+    switch (this) {
+      case MappingRuleMatchType.equals:
+        return 'Equals';
+      case MappingRuleMatchType.contains:
+        return 'Contains';
+      case MappingRuleMatchType.startsWith:
+        return 'StartsWith';
+      case MappingRuleMatchType.notEqual:
+        return 'NotEqual';
+    }
+  }
+}
+
+extension on String {
+  MappingRuleMatchType toMappingRuleMatchType() {
+    switch (this) {
+      case 'Equals':
+        return MappingRuleMatchType.equals;
+      case 'Contains':
+        return MappingRuleMatchType.contains;
+      case 'StartsWith':
+        return MappingRuleMatchType.startsWith;
+      case 'NotEqual':
+        return MappingRuleMatchType.notEqual;
+    }
+    throw Exception('$this is not known in enum MappingRuleMatchType');
+  }
 }
 
 /// Returned in response to a successful <code>MergeDeveloperIdentities</code>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeDeveloperIdentitiesResponse {
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   MergeDeveloperIdentitiesResponse({
     this.identityId,
   });
-  factory MergeDeveloperIdentitiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$MergeDeveloperIdentitiesResponseFromJson(json);
+  factory MergeDeveloperIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return MergeDeveloperIdentitiesResponse(
+      identityId: json['IdentityId'] as String?,
+    );
+  }
 }
 
 /// A role mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RoleMapping {
   /// The role mapping type. Token will use <code>cognito:roles</code> and
   /// <code>cognito:preferred_role</code> claims from the Cognito identity
   /// provider token to map groups to roles. Rules will attempt to match claims
   /// from the token to map to a role.
-  @_s.JsonKey(name: 'Type')
   final RoleMappingType type;
 
   /// If you specify Token or Rules as the <code>Type</code>,
@@ -2229,104 +2283,136 @@ class RoleMapping {
   /// for the <code>Rules</code> type, or there is no
   /// <code>cognito:preferred_role</code> claim and there are multiple
   /// <code>cognito:roles</code> matches for the <code>Token</code> type.
-  @_s.JsonKey(name: 'AmbiguousRoleResolution')
-  final AmbiguousRoleResolutionType ambiguousRoleResolution;
+  final AmbiguousRoleResolutionType? ambiguousRoleResolution;
 
   /// The rules to be used for mapping users to roles.
   ///
   /// If you specify Rules as the role mapping type,
   /// <code>RulesConfiguration</code> is required.
-  @_s.JsonKey(name: 'RulesConfiguration')
-  final RulesConfigurationType rulesConfiguration;
+  final RulesConfigurationType? rulesConfiguration;
 
   RoleMapping({
-    @_s.required this.type,
+    required this.type,
     this.ambiguousRoleResolution,
     this.rulesConfiguration,
   });
-  factory RoleMapping.fromJson(Map<String, dynamic> json) =>
-      _$RoleMappingFromJson(json);
+  factory RoleMapping.fromJson(Map<String, dynamic> json) {
+    return RoleMapping(
+      type: (json['Type'] as String).toRoleMappingType(),
+      ambiguousRoleResolution: (json['AmbiguousRoleResolution'] as String?)
+          ?.toAmbiguousRoleResolutionType(),
+      rulesConfiguration: json['RulesConfiguration'] != null
+          ? RulesConfigurationType.fromJson(
+              json['RulesConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RoleMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final ambiguousRoleResolution = this.ambiguousRoleResolution;
+    final rulesConfiguration = this.rulesConfiguration;
+    return {
+      'Type': type.toValue(),
+      if (ambiguousRoleResolution != null)
+        'AmbiguousRoleResolution': ambiguousRoleResolution.toValue(),
+      if (rulesConfiguration != null) 'RulesConfiguration': rulesConfiguration,
+    };
+  }
 }
 
 enum RoleMappingType {
-  @_s.JsonValue('Token')
   token,
-  @_s.JsonValue('Rules')
   rules,
 }
 
+extension on RoleMappingType {
+  String toValue() {
+    switch (this) {
+      case RoleMappingType.token:
+        return 'Token';
+      case RoleMappingType.rules:
+        return 'Rules';
+    }
+  }
+}
+
+extension on String {
+  RoleMappingType toRoleMappingType() {
+    switch (this) {
+      case 'Token':
+        return RoleMappingType.token;
+      case 'Rules':
+        return RoleMappingType.rules;
+    }
+    throw Exception('$this is not known in enum RoleMappingType');
+  }
+}
+
 /// A container for rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RulesConfigurationType {
   /// An array of rules. You can specify up to 25 rules per identity provider.
   ///
   /// Rules are evaluated in order. The first one to match specifies the role.
-  @_s.JsonKey(name: 'Rules')
   final List<MappingRule> rules;
 
   RulesConfigurationType({
-    @_s.required this.rules,
+    required this.rules,
   });
-  factory RulesConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$RulesConfigurationTypeFromJson(json);
+  factory RulesConfigurationType.fromJson(Map<String, dynamic> json) {
+    return RulesConfigurationType(
+      rules: (json['Rules'] as List)
+          .whereNotNull()
+          .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RulesConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'Rules': rules,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// An array of UnprocessedIdentityId objects, each of which contains an
 /// ErrorCode and IdentityId.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedIdentityId {
   /// The error code indicating the type of error that occurred.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// A unique identifier in the format REGION:GUID.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   UnprocessedIdentityId({
     this.errorCode,
     this.identityId,
   });
-  factory UnprocessedIdentityId.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedIdentityIdFromJson(json);
+  factory UnprocessedIdentityId.fromJson(Map<String, dynamic> json) {
+    return UnprocessedIdentityId(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      identityId: json['IdentityId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -2334,7 +2420,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class DeveloperUserAlreadyRegisteredException extends _s.GenericAwsException {
-  DeveloperUserAlreadyRegisteredException({String type, String message})
+  DeveloperUserAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'DeveloperUserAlreadyRegisteredException',
@@ -2342,17 +2428,17 @@ class DeveloperUserAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class ExternalServiceException extends _s.GenericAwsException {
-  ExternalServiceException({String type, String message})
+  ExternalServiceException({String? type, String? message})
       : super(type: type, code: 'ExternalServiceException', message: message);
 }
 
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidIdentityPoolConfigurationException extends _s.GenericAwsException {
-  InvalidIdentityPoolConfigurationException({String type, String message})
+  InvalidIdentityPoolConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidIdentityPoolConfigurationException',
@@ -2360,32 +2446,32 @@ class InvalidIdentityPoolConfigurationException extends _s.GenericAwsException {
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceConflictException extends _s.GenericAwsException {
-  ResourceConflictException({String type, String message})
+  ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

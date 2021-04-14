@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'elastic-inference-2017-07-25.g.dart';
 
 /// Elastic Inference public APIs.
 class ElasticInference {
   final _s.RestJsonProtocol _protocol;
   ElasticInference({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -63,12 +55,12 @@ class ElasticInference {
   /// Parameter [acceleratorTypes] :
   /// The list of accelerator types to describe.
   Future<DescribeAcceleratorOfferingsResponse> describeAcceleratorOfferings({
-    @_s.required LocationType locationType,
-    List<String> acceleratorTypes,
+    required LocationType locationType,
+    List<String>? acceleratorTypes,
   }) async {
     ArgumentError.checkNotNull(locationType, 'locationType');
     final $payload = <String, dynamic>{
-      'locationType': locationType?.toValue() ?? '',
+      'locationType': locationType.toValue(),
       if (acceleratorTypes != null) 'acceleratorTypes': acceleratorTypes,
     };
     final response = await _protocol.send(
@@ -121,10 +113,10 @@ class ElasticInference {
   /// A token to specify where to start paginating. This is the NextToken from a
   /// previously truncated response.
   Future<DescribeAcceleratorsResponse> describeAccelerators({
-    List<String> acceleratorIds,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<String>? acceleratorIds,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -167,7 +159,7 @@ class ElasticInference {
   /// Parameter [resourceArn] :
   /// The ARN of the Elastic Inference Accelerator to list the tags for.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -204,8 +196,8 @@ class ElasticInference {
   /// Parameter [tags] :
   /// The tags to add to the Elastic Inference Accelerator.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -231,7 +223,6 @@ class ElasticInference {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResult.fromJson(response);
   }
 
   /// Removes the specified tags from an Elastic Inference Accelerator.
@@ -246,8 +237,8 @@ class ElasticInference {
   /// Parameter [tagKeys] :
   /// The list of tags to remove from the Elastic Inference Accelerator.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -265,7 +256,7 @@ class ElasticInference {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -274,158 +265,147 @@ class ElasticInference {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResult.fromJson(response);
   }
 }
 
 /// The details of an Elastic Inference Accelerator type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceleratorType {
   /// The name of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'acceleratorTypeName')
-  final String acceleratorTypeName;
+  final String? acceleratorTypeName;
 
   /// The memory information of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'memoryInfo')
-  final MemoryInfo memoryInfo;
+  final MemoryInfo? memoryInfo;
 
   /// The throughput information of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'throughputInfo')
-  final List<KeyValuePair> throughputInfo;
+  final List<KeyValuePair>? throughputInfo;
 
   AcceleratorType({
     this.acceleratorTypeName,
     this.memoryInfo,
     this.throughputInfo,
   });
-  factory AcceleratorType.fromJson(Map<String, dynamic> json) =>
-      _$AcceleratorTypeFromJson(json);
+  factory AcceleratorType.fromJson(Map<String, dynamic> json) {
+    return AcceleratorType(
+      acceleratorTypeName: json['acceleratorTypeName'] as String?,
+      memoryInfo: json['memoryInfo'] != null
+          ? MemoryInfo.fromJson(json['memoryInfo'] as Map<String, dynamic>)
+          : null,
+      throughputInfo: (json['throughputInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The offering for an Elastic Inference Accelerator type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceleratorTypeOffering {
   /// The name of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'acceleratorType')
-  final String acceleratorType;
+  final String? acceleratorType;
 
   /// The location for the offering. It will return either the region,
   /// availability zone or availability zone id for the offering depending on the
   /// locationType value.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// The location type for the offering. It can assume the following values:
   /// region: defines that the offering is at the regional level.
   /// availability-zone: defines that the offering is at the availability zone
   /// level. availability-zone-id: defines that the offering is at the
   /// availability zone level, defined by the availability zone id.
-  @_s.JsonKey(name: 'locationType')
-  final LocationType locationType;
+  final LocationType? locationType;
 
   AcceleratorTypeOffering({
     this.acceleratorType,
     this.location,
     this.locationType,
   });
-  factory AcceleratorTypeOffering.fromJson(Map<String, dynamic> json) =>
-      _$AcceleratorTypeOfferingFromJson(json);
+  factory AcceleratorTypeOffering.fromJson(Map<String, dynamic> json) {
+    return AcceleratorTypeOffering(
+      acceleratorType: json['acceleratorType'] as String?,
+      location: json['location'] as String?,
+      locationType: (json['locationType'] as String?)?.toLocationType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAcceleratorOfferingsResponse {
   /// The list of accelerator type offerings for a specific location.
-  @_s.JsonKey(name: 'acceleratorTypeOfferings')
-  final List<AcceleratorTypeOffering> acceleratorTypeOfferings;
+  final List<AcceleratorTypeOffering>? acceleratorTypeOfferings;
 
   DescribeAcceleratorOfferingsResponse({
     this.acceleratorTypeOfferings,
   });
   factory DescribeAcceleratorOfferingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAcceleratorOfferingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAcceleratorOfferingsResponse(
+      acceleratorTypeOfferings: (json['acceleratorTypeOfferings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AcceleratorTypeOffering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAcceleratorTypesResponse {
   /// The available accelerator types.
-  @_s.JsonKey(name: 'acceleratorTypes')
-  final List<AcceleratorType> acceleratorTypes;
+  final List<AcceleratorType>? acceleratorTypes;
 
   DescribeAcceleratorTypesResponse({
     this.acceleratorTypes,
   });
-  factory DescribeAcceleratorTypesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAcceleratorTypesResponseFromJson(json);
+  factory DescribeAcceleratorTypesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcceleratorTypesResponse(
+      acceleratorTypes: (json['acceleratorTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AcceleratorType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAcceleratorsResponse {
   /// The details of the Elastic Inference Accelerators.
-  @_s.JsonKey(name: 'acceleratorSet')
-  final List<ElasticInferenceAccelerator> acceleratorSet;
+  final List<ElasticInferenceAccelerator>? acceleratorSet;
 
   /// A token to specify where to start paginating. This is the NextToken from a
   /// previously truncated response.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAcceleratorsResponse({
     this.acceleratorSet,
     this.nextToken,
   });
-  factory DescribeAcceleratorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAcceleratorsResponseFromJson(json);
+  factory DescribeAcceleratorsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcceleratorsResponse(
+      acceleratorSet: (json['acceleratorSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ElasticInferenceAccelerator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// The details of an Elastic Inference Accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticInferenceAccelerator {
   /// The health of the Elastic Inference Accelerator.
-  @_s.JsonKey(name: 'acceleratorHealth')
-  final ElasticInferenceAcceleratorHealth acceleratorHealth;
+  final ElasticInferenceAcceleratorHealth? acceleratorHealth;
 
   /// The ID of the Elastic Inference Accelerator.
-  @_s.JsonKey(name: 'acceleratorId')
-  final String acceleratorId;
+  final String? acceleratorId;
 
   /// The type of the Elastic Inference Accelerator.
-  @_s.JsonKey(name: 'acceleratorType')
-  final String acceleratorType;
+  final String? acceleratorType;
 
   /// The ARN of the resource that the Elastic Inference Accelerator is attached
   /// to.
-  @_s.JsonKey(name: 'attachedResource')
-  final String attachedResource;
+  final String? attachedResource;
 
   /// The availability zone where the Elastic Inference Accelerator is present.
-  @_s.JsonKey(name: 'availabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   ElasticInferenceAccelerator({
     this.acceleratorHealth,
@@ -434,101 +414,100 @@ class ElasticInferenceAccelerator {
     this.attachedResource,
     this.availabilityZone,
   });
-  factory ElasticInferenceAccelerator.fromJson(Map<String, dynamic> json) =>
-      _$ElasticInferenceAcceleratorFromJson(json);
+  factory ElasticInferenceAccelerator.fromJson(Map<String, dynamic> json) {
+    return ElasticInferenceAccelerator(
+      acceleratorHealth: json['acceleratorHealth'] != null
+          ? ElasticInferenceAcceleratorHealth.fromJson(
+              json['acceleratorHealth'] as Map<String, dynamic>)
+          : null,
+      acceleratorId: json['acceleratorId'] as String?,
+      acceleratorType: json['acceleratorType'] as String?,
+      attachedResource: json['attachedResource'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
+    );
+  }
 }
 
 /// The health details of an Elastic Inference Accelerator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticInferenceAcceleratorHealth {
   /// The health status of the Elastic Inference Accelerator.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   ElasticInferenceAcceleratorHealth({
     this.status,
   });
   factory ElasticInferenceAcceleratorHealth.fromJson(
-          Map<String, dynamic> json) =>
-      _$ElasticInferenceAcceleratorHealthFromJson(json);
+      Map<String, dynamic> json) {
+    return ElasticInferenceAcceleratorHealth(
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// A filter expression for the Elastic Inference Accelerator list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The filter name for the Elastic Inference Accelerator list. It can assume
   /// the following values: accelerator-type: the type of Elastic Inference
   /// Accelerator to filter for. instance-id: an EC2 instance id to filter for.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The values for the filter of the Elastic Inference Accelerator list.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name,
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// A throughput entry for an Elastic Inference Accelerator type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyValuePair {
   /// The throughput value of the Elastic Inference Accelerator type. It can
   /// assume the following values: TFLOPS16bit: the throughput expressed in 16bit
   /// TeraFLOPS. TFLOPS32bit: the throughput expressed in 32bit TeraFLOPS.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The throughput value of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'value')
-  final int value;
+  final int? value;
 
   KeyValuePair({
     this.key,
     this.value,
   });
-  factory KeyValuePair.fromJson(Map<String, dynamic> json) =>
-      _$KeyValuePairFromJson(json);
+  factory KeyValuePair.fromJson(Map<String, dynamic> json) {
+    return KeyValuePair(
+      key: json['key'] as String?,
+      value: json['value'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResult {
   /// The tags of the Elastic Inference Accelerator.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResult({
     this.tags,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum LocationType {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('availability-zone')
   availabilityZone,
-  @_s.JsonValue('availability-zone-id')
   availabilityZoneId,
 }
 
@@ -542,62 +521,64 @@ extension on LocationType {
       case LocationType.availabilityZoneId:
         return 'availability-zone-id';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LocationType toLocationType() {
+    switch (this) {
+      case 'region':
+        return LocationType.region;
+      case 'availability-zone':
+        return LocationType.availabilityZone;
+      case 'availability-zone-id':
+        return LocationType.availabilityZoneId;
+    }
+    throw Exception('$this is not known in enum LocationType');
   }
 }
 
 /// The memory information of an Elastic Inference Accelerator type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemoryInfo {
   /// The size in mebibytes of the Elastic Inference Accelerator type.
-  @_s.JsonKey(name: 'sizeInMiB')
-  final int sizeInMiB;
+  final int? sizeInMiB;
 
   MemoryInfo({
     this.sizeInMiB,
   });
-  factory MemoryInfo.fromJson(Map<String, dynamic> json) =>
-      _$MemoryInfoFromJson(json);
+  factory MemoryInfo.fromJson(Map<String, dynamic> json) {
+    return MemoryInfo(
+      sizeInMiB: json['sizeInMiB'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResult {
   TagResourceResult();
-  factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResultFromJson(json);
+  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
+    return TagResourceResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResult {
   UntagResourceResult();
-  factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResultFromJson(json);
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

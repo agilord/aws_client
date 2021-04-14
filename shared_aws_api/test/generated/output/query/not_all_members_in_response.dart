@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'not_all_members_in_response.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class NotAllMembersInResponse {
   final Map<String, _s.Shape> shapes;
 
   NotAllMembersInResponse({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +56,8 @@ class NotAllMembersInResponse {
 }
 
 class OutputShape {
-  final int num;
-  final String str;
+  final int? num;
+  final String? str;
 
   OutputShape({
     this.num,

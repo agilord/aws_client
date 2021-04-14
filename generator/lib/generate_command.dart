@@ -12,7 +12,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:path/path.dart' as p;
 import 'package:pool/pool.dart';
-import 'package:process_runner/process_runner.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
@@ -48,7 +47,7 @@ in the config file, from the downloaded models.''';
       )
       ..addFlag(
         'build',
-        help: 'Gets dependencies and runs build_runner in all_apis',
+        help: 'Gets dependencies in all_apis',
         defaultsTo: true,
         negatable: true,
       )
@@ -224,9 +223,8 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         }
 
         if (api.usesQueryProtocol) {
-          File(
-              '$allApisDir/lib/${api.packageName}/${api.fileBasename}.meta.dart')
-            ..writeAsStringSync(metaContents);
+          File('$allApisDir/lib/${api.packageName}/${api.fileBasename}.meta.dart')
+              .writeAsStringSync(metaContents);
         }
 
         String pubspecYaml;
@@ -295,10 +293,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
     printPercentageInPlace(100, 'Done');
     print('\n');
 
-    if (argResults['build'] == true) {
-      await _runBuildRunner(allApisDir);
-    }
-
     for (var api in generatedApis.keys) {
       final targetDir = Directory('$generatedDir/$api/lib');
       final source = Directory('$allApisDir/lib/$api');
@@ -357,21 +351,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
       print(pr.stderr);
       throw Exception('pub get failed at $baseDir');
     }
-  }
-
-  Future<void> _runBuildRunner(String baseDir) async {
-    await _getDependencies(baseDir);
-    await ProcessRunner(printOutputDefault: true).runProcess(
-      [
-        'dart',
-        'pub',
-        'run',
-        'build_runner',
-        'build',
-        '--delete-conflicting-outputs'
-      ],
-      workingDirectory: Directory(baseDir),
-    );
   }
 
   final _configDataFile = File('./apis/config/region_config_data.json');
@@ -442,7 +421,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
     }
 
     _generateTestAllFile(generatedDir);
-    await _runBuildRunner(sharedLibDir);
   }
 
   // Generates a "test_all.dart" file with an import to all the generated tests.

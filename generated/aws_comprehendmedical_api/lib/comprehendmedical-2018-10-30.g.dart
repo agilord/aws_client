@@ -8,53 +8,57 @@ part of 'comprehendmedical-2018-10-30.dart';
 
 Attribute _$AttributeFromJson(Map<String, dynamic> json) {
   return Attribute(
-    beginOffset: json['BeginOffset'] as int,
+    beginOffset: json['BeginOffset'] as int?,
     category: _$enumDecodeNullable(_$EntityTypeEnumMap, json['Category']),
-    endOffset: json['EndOffset'] as int,
-    id: json['Id'] as int,
-    relationshipScore: (json['RelationshipScore'] as num)?.toDouble(),
+    endOffset: json['EndOffset'] as int?,
+    id: json['Id'] as int?,
+    relationshipScore: (json['RelationshipScore'] as num?)?.toDouble(),
     relationshipType: _$enumDecodeNullable(
         _$RelationshipTypeEnumMap, json['RelationshipType']),
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map(
-            (e) => e == null ? null : Trait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => Trait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$EntitySubTypeEnumMap, json['Type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$EntityTypeEnumMap = {
@@ -156,7 +160,7 @@ const _$JobStatusEnumMap = {
 ComprehendMedicalAsyncJobProperties
     _$ComprehendMedicalAsyncJobPropertiesFromJson(Map<String, dynamic> json) {
   return ComprehendMedicalAsyncJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     expirationTime:
         const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
@@ -164,15 +168,15 @@ ComprehendMedicalAsyncJobProperties
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
-    kMSKey: json['KMSKey'] as String,
+    kMSKey: json['KMSKey'] as String?,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    manifestFilePath: json['ManifestFilePath'] as String,
-    message: json['Message'] as String,
-    modelVersion: json['ModelVersion'] as String,
+    manifestFilePath: json['ManifestFilePath'] as String?,
+    message: json['Message'] as String?,
+    modelVersion: json['ModelVersion'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
@@ -237,80 +241,70 @@ DescribeRxNormInferenceJobResponse _$DescribeRxNormInferenceJobResponseFromJson(
 DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DetectEntitiesResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entities: (json['Entities'] as List<dynamic>)
+        .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+        .toList(),
     modelVersion: json['ModelVersion'] as String,
-    paginationToken: json['PaginationToken'] as String,
-    unmappedAttributes: (json['UnmappedAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UnmappedAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    paginationToken: json['PaginationToken'] as String?,
+    unmappedAttributes: (json['UnmappedAttributes'] as List<dynamic>?)
+        ?.map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DetectEntitiesV2Response _$DetectEntitiesV2ResponseFromJson(
     Map<String, dynamic> json) {
   return DetectEntitiesV2Response(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entities: (json['Entities'] as List<dynamic>)
+        .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+        .toList(),
     modelVersion: json['ModelVersion'] as String,
-    paginationToken: json['PaginationToken'] as String,
-    unmappedAttributes: (json['UnmappedAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UnmappedAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    paginationToken: json['PaginationToken'] as String?,
+    unmappedAttributes: (json['UnmappedAttributes'] as List<dynamic>?)
+        ?.map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DetectPHIResponse _$DetectPHIResponseFromJson(Map<String, dynamic> json) {
   return DetectPHIResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entities: (json['Entities'] as List<dynamic>)
+        .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+        .toList(),
     modelVersion: json['ModelVersion'] as String,
-    paginationToken: json['PaginationToken'] as String,
+    paginationToken: json['PaginationToken'] as String?,
   );
 }
 
 Entity _$EntityFromJson(Map<String, dynamic> json) {
   return Entity(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) =>
-            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    beginOffset: json['BeginOffset'] as int,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    beginOffset: json['BeginOffset'] as int?,
     category: _$enumDecodeNullable(_$EntityTypeEnumMap, json['Category']),
-    endOffset: json['EndOffset'] as int,
-    id: json['Id'] as int,
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map(
-            (e) => e == null ? null : Trait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    endOffset: json['EndOffset'] as int?,
+    id: json['Id'] as int?,
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => Trait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$EntitySubTypeEnumMap, json['Type']),
   );
 }
 
 ICD10CMAttribute _$ICD10CMAttributeFromJson(Map<String, dynamic> json) {
   return ICD10CMAttribute(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
-    id: json['Id'] as int,
-    relationshipScore: (json['RelationshipScore'] as num)?.toDouble(),
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map((e) =>
-            e == null ? null : ICD10CMTrait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
+    id: json['Id'] as int?,
+    relationshipScore: (json['RelationshipScore'] as num?)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$ICD10CMAttributeTypeEnumMap, json['Type']),
   );
 }
@@ -325,35 +319,30 @@ const _$ICD10CMAttributeTypeEnumMap = {
 
 ICD10CMConcept _$ICD10CMConceptFromJson(Map<String, dynamic> json) {
   return ICD10CMConcept(
-    code: json['Code'] as String,
-    description: json['Description'] as String,
-    score: (json['Score'] as num)?.toDouble(),
+    code: json['Code'] as String?,
+    description: json['Description'] as String?,
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
 ICD10CMEntity _$ICD10CMEntityFromJson(Map<String, dynamic> json) {
   return ICD10CMEntity(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    beginOffset: json['BeginOffset'] as int,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    beginOffset: json['BeginOffset'] as int?,
     category:
         _$enumDecodeNullable(_$ICD10CMEntityCategoryEnumMap, json['Category']),
-    endOffset: json['EndOffset'] as int,
-    iCD10CMConcepts: (json['ICD10CMConcepts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ICD10CMConcept.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['Id'] as int,
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map((e) =>
-            e == null ? null : ICD10CMTrait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    endOffset: json['EndOffset'] as int?,
+    iCD10CMConcepts: (json['ICD10CMConcepts'] as List<dynamic>?)
+        ?.map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['Id'] as int?,
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$ICD10CMEntityTypeEnumMap, json['Type']),
   );
 }
@@ -369,7 +358,7 @@ const _$ICD10CMEntityTypeEnumMap = {
 ICD10CMTrait _$ICD10CMTraitFromJson(Map<String, dynamic> json) {
   return ICD10CMTrait(
     name: _$enumDecodeNullable(_$ICD10CMTraitNameEnumMap, json['Name']),
-    score: (json['Score'] as num)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
@@ -382,36 +371,35 @@ const _$ICD10CMTraitNameEnumMap = {
 
 InferICD10CMResponse _$InferICD10CMResponseFromJson(Map<String, dynamic> json) {
   return InferICD10CMResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ICD10CMEntity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    modelVersion: json['ModelVersion'] as String,
-    paginationToken: json['PaginationToken'] as String,
+    entities: (json['Entities'] as List<dynamic>)
+        .map((e) => ICD10CMEntity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    modelVersion: json['ModelVersion'] as String?,
+    paginationToken: json['PaginationToken'] as String?,
   );
 }
 
 InferRxNormResponse _$InferRxNormResponseFromJson(Map<String, dynamic> json) {
   return InferRxNormResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : RxNormEntity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    modelVersion: json['ModelVersion'] as String,
-    paginationToken: json['PaginationToken'] as String,
+    entities: (json['Entities'] as List<dynamic>)
+        .map((e) => RxNormEntity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    modelVersion: json['ModelVersion'] as String?,
+    paginationToken: json['PaginationToken'] as String?,
   );
 }
 
 InputDataConfig _$InputDataConfigFromJson(Map<String, dynamic> json) {
   return InputDataConfig(
     s3Bucket: json['S3Bucket'] as String,
-    s3Key: json['S3Key'] as String,
+    s3Key: json['S3Key'] as String?,
   );
 }
 
 Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'S3Bucket': instance.s3Bucket,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -419,7 +407,6 @@ Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
     }
   }
 
-  writeNotNull('S3Bucket', instance.s3Bucket);
   writeNotNull('S3Key', instance.s3Key);
   return val;
 }
@@ -428,13 +415,11 @@ ListEntitiesDetectionV2JobsResponse
     _$ListEntitiesDetectionV2JobsResponseFromJson(Map<String, dynamic> json) {
   return ListEntitiesDetectionV2JobsResponse(
     comprehendMedicalAsyncJobPropertiesList:
-        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ComprehendMedicalAsyncJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -442,13 +427,11 @@ ListICD10CMInferenceJobsResponse _$ListICD10CMInferenceJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListICD10CMInferenceJobsResponse(
     comprehendMedicalAsyncJobPropertiesList:
-        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ComprehendMedicalAsyncJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -456,13 +439,11 @@ ListPHIDetectionJobsResponse _$ListPHIDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPHIDetectionJobsResponse(
     comprehendMedicalAsyncJobPropertiesList:
-        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ComprehendMedicalAsyncJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -470,25 +451,25 @@ ListRxNormInferenceJobsResponse _$ListRxNormInferenceJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRxNormInferenceJobsResponse(
     comprehendMedicalAsyncJobPropertiesList:
-        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ComprehendMedicalAsyncJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 OutputDataConfig _$OutputDataConfigFromJson(Map<String, dynamic> json) {
   return OutputDataConfig(
     s3Bucket: json['S3Bucket'] as String,
-    s3Key: json['S3Key'] as String,
+    s3Key: json['S3Key'] as String?,
   );
 }
 
 Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'S3Bucket': instance.s3Bucket,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -496,23 +477,21 @@ Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
     }
   }
 
-  writeNotNull('S3Bucket', instance.s3Bucket);
   writeNotNull('S3Key', instance.s3Key);
   return val;
 }
 
 RxNormAttribute _$RxNormAttributeFromJson(Map<String, dynamic> json) {
   return RxNormAttribute(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
-    id: json['Id'] as int,
-    relationshipScore: (json['RelationshipScore'] as num)?.toDouble(),
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map((e) =>
-            e == null ? null : RxNormTrait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
+    id: json['Id'] as int?,
+    relationshipScore: (json['RelationshipScore'] as num?)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$RxNormAttributeTypeEnumMap, json['Type']),
   );
 }
@@ -529,35 +508,30 @@ const _$RxNormAttributeTypeEnumMap = {
 
 RxNormConcept _$RxNormConceptFromJson(Map<String, dynamic> json) {
   return RxNormConcept(
-    code: json['Code'] as String,
-    description: json['Description'] as String,
-    score: (json['Score'] as num)?.toDouble(),
+    code: json['Code'] as String?,
+    description: json['Description'] as String?,
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
 RxNormEntity _$RxNormEntityFromJson(Map<String, dynamic> json) {
   return RxNormEntity(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RxNormAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    beginOffset: json['BeginOffset'] as int,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    beginOffset: json['BeginOffset'] as int?,
     category:
         _$enumDecodeNullable(_$RxNormEntityCategoryEnumMap, json['Category']),
-    endOffset: json['EndOffset'] as int,
-    id: json['Id'] as int,
-    rxNormConcepts: (json['RxNormConcepts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RxNormConcept.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
-    traits: (json['Traits'] as List)
-        ?.map((e) =>
-            e == null ? null : RxNormTrait.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    endOffset: json['EndOffset'] as int?,
+    id: json['Id'] as int?,
+    rxNormConcepts: (json['RxNormConcepts'] as List<dynamic>?)
+        ?.map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
+    traits: (json['Traits'] as List<dynamic>?)
+        ?.map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$RxNormEntityTypeEnumMap, json['Type']),
   );
 }
@@ -574,7 +548,7 @@ const _$RxNormEntityTypeEnumMap = {
 RxNormTrait _$RxNormTraitFromJson(Map<String, dynamic> json) {
   return RxNormTrait(
     name: _$enumDecodeNullable(_$RxNormTraitNameEnumMap, json['Name']),
-    score: (json['Score'] as num)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
@@ -585,63 +559,63 @@ const _$RxNormTraitNameEnumMap = {
 StartEntitiesDetectionV2JobResponse
     _$StartEntitiesDetectionV2JobResponseFromJson(Map<String, dynamic> json) {
   return StartEntitiesDetectionV2JobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StartICD10CMInferenceJobResponse _$StartICD10CMInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartICD10CMInferenceJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StartPHIDetectionJobResponse _$StartPHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartPHIDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StartRxNormInferenceJobResponse _$StartRxNormInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartRxNormInferenceJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StopEntitiesDetectionV2JobResponse _$StopEntitiesDetectionV2JobResponseFromJson(
     Map<String, dynamic> json) {
   return StopEntitiesDetectionV2JobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StopICD10CMInferenceJobResponse _$StopICD10CMInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopICD10CMInferenceJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StopPHIDetectionJobResponse _$StopPHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopPHIDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 StopRxNormInferenceJobResponse _$StopRxNormInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopRxNormInferenceJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
 Trait _$TraitFromJson(Map<String, dynamic> json) {
   return Trait(
     name: _$enumDecodeNullable(_$AttributeNameEnumMap, json['Name']),
-    score: (json['Score'] as num)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 

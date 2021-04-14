@@ -2,6 +2,8 @@ import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
+import 'query_builder.dart';
+
 abstract class ServiceBuilder {
   String imports();
 
@@ -13,33 +15,39 @@ abstract class ServiceBuilder {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasHeaderMembers) return;
 
-    out.writeln('final headers = <String, String>{};');
+    out.writeln('final headers = <String, String>{');
     for (var m in sc.headerMembers) {
+      final headerName = m.locationName ?? m.shapeClass.locationName ?? m.name;
       final location = m.location ?? m.shapeClass.location;
+      if (!m.isRequired) {
+        out.writeln('if (${m.fieldName} != null)');
+      }
       if (location == 'headers') {
         out.writeln(
-            '${m.fieldName}?.forEach((key, value) => headers[\'${m.locationName ?? m.shapeClass.locationName ?? m.name}\$key\'] = value);');
+            "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
       } else {
-        var converter = 'v.toString()';
+        final variable = m.fieldName;
+        var converter = '$variable.toString()';
         if (m.dartType == 'DateTime') {
           final timestampFormat = m.timestampFormat ??
               m.shapeClass.timestampFormat ??
               (location == 'header' ? 'rfc822' : 'iso8601');
-          converter = '_s.${timestampFormat}ToJson(v)';
+          converter = '_s.${timestampFormat}ToJson($variable)';
           if (timestampFormat == 'unixTimestamp') {
             converter += '.toString()';
           }
         } else if (m.jsonvalue) {
-          converter = 'base64Encode(utf8.encode(v))';
+          converter = 'base64Encode(utf8.encode(jsonEncode($variable)))';
         }
         if (m.shapeClass.enumeration != null) {
           m.shapeClass.isTopLevelInputEnum = true;
-          converter = 'v.toValue()';
+          converter = '$variable.toValue()';
         }
-        out.writeln(
-            '${m.fieldName}?.let((v) => headers[\'${m.locationName ?? m.shapeClass.locationName ?? m.name}\'] = $converter);');
+
+        out.writeln("'$headerName': $converter,");
       }
     }
+    out.writeln('};');
   }
 
   String buildRequestUri(Operation operation) {
@@ -68,7 +76,9 @@ abstract class ServiceBuilder {
       final location =
           member.locationName ?? member.shapeClass.locationName ?? member.name;
 
-      out.writeln('if(${member.fieldName} != null)');
+      if (!member.isRequired) {
+        out.writeln('if(${member.fieldName} != null)');
+      }
       if (member.shapeClass.type == 'map') {
         final variable = _encodeQueryParamCode(
             member.shapeClass.value.shapeClass, 'e.value',
@@ -97,7 +107,12 @@ abstract class ServiceBuilder {
 
 String _encodeQueryParamCode(Shape shape, String variable,
     {Member member, bool maybeNull = false}) {
-  var code = _queryCode(shape, variable, member: member, maybeNull: maybeNull);
+  if (shape.type == 'list') {
+    maybeNull = false;
+  }
+
+  var code =
+      encodeQueryCode(shape, variable, member: member, maybeNull: maybeNull);
   if (shape.type == 'list') {
     return code;
   } else if (shape.type == 'map') {
@@ -108,27 +123,6 @@ String _encodeQueryParamCode(Shape shape, String variable,
     }
     return '[$code]';
   }
-}
-
-String _queryCode(Shape shape, String variable,
-    {Member member, bool maybeNull = false}) {
-  if (shape.enumeration != null) {
-    shape.isTopLevelInputEnum = true;
-    return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
-  } else if (shape.type == 'list') {
-    final code = _queryCode(shape.member.shapeClass, 'e', maybeNull: true);
-    if (code != 'e') {
-      final nullAware = maybeNull ? '?' : '';
-      return '$nullAware$variable$nullAware.map((e) => $code)$nullAware.toList()';
-    }
-  } else if (shape.type == 'timestamp') {
-    final timestampFormat =
-        member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
-    variable =
-        '_s.${timestampFormat}ToJson($variable)${timestampFormat == 'unixTimestamp' ? '.toString()' : ''}';
-  }
-
-  return variable;
 }
 
 String _encodePath(Shape shape, String variable) {

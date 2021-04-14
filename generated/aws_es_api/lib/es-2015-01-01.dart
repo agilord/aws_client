@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'es-2015-01-01.g.dart';
 
 /// Use the Amazon Elasticsearch Configuration API to create, configure, and
 /// manage Elasticsearch domains.
 class ElasticsearchService {
   final _s.RestJsonProtocol _protocol;
   ElasticsearchService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -56,7 +48,7 @@ class ElasticsearchService {
   /// The id of the inbound connection that you want to accept.
   Future<AcceptInboundCrossClusterSearchConnectionResponse>
       acceptInboundCrossClusterSearchConnection({
-    @_s.required String crossClusterSearchConnectionId,
+    required String crossClusterSearchConnectionId,
   }) async {
     ArgumentError.checkNotNull(
         crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
@@ -89,8 +81,8 @@ class ElasticsearchService {
   /// List of <code>Tag</code> that need to be added for the Elasticsearch
   /// domain.
   Future<void> addTags({
-    @_s.required String arn,
-    @_s.required List<Tag> tagList,
+    required String arn,
+    required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagList, 'tagList');
@@ -122,8 +114,8 @@ class ElasticsearchService {
   /// Internal ID of the package that you want to associate with a domain. Use
   /// <code>DescribePackages</code> to find this value.
   Future<AssociatePackageResponse> associatePackage({
-    @_s.required String domainName,
-    @_s.required String packageID,
+    required String domainName,
+    required String packageID,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -165,7 +157,7 @@ class ElasticsearchService {
   /// update on.
   Future<CancelElasticsearchServiceSoftwareUpdateResponse>
       cancelElasticsearchServiceSoftwareUpdate({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -271,20 +263,20 @@ class ElasticsearchService {
   /// target="_blank">Creating a VPC</a> in <i>VPC Endpoints for Amazon
   /// Elasticsearch Service Domains</i>
   Future<CreateElasticsearchDomainResponse> createElasticsearchDomain({
-    @_s.required String domainName,
-    String accessPolicies,
-    Map<String, String> advancedOptions,
-    AdvancedSecurityOptionsInput advancedSecurityOptions,
-    CognitoOptions cognitoOptions,
-    DomainEndpointOptions domainEndpointOptions,
-    EBSOptions eBSOptions,
-    ElasticsearchClusterConfig elasticsearchClusterConfig,
-    String elasticsearchVersion,
-    EncryptionAtRestOptions encryptionAtRestOptions,
-    Map<LogType, LogPublishingOption> logPublishingOptions,
-    NodeToNodeEncryptionOptions nodeToNodeEncryptionOptions,
-    SnapshotOptions snapshotOptions,
-    VPCOptions vPCOptions,
+    required String domainName,
+    String? accessPolicies,
+    Map<String, String>? advancedOptions,
+    AdvancedSecurityOptionsInput? advancedSecurityOptions,
+    CognitoOptions? cognitoOptions,
+    DomainEndpointOptions? domainEndpointOptions,
+    EBSOptions? eBSOptions,
+    ElasticsearchClusterConfig? elasticsearchClusterConfig,
+    String? elasticsearchVersion,
+    EncryptionAtRestOptions? encryptionAtRestOptions,
+    Map<LogType, LogPublishingOption>? logPublishingOptions,
+    NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
+    SnapshotOptions? snapshotOptions,
+    VPCOptions? vPCOptions,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -354,9 +346,9 @@ class ElasticsearchService {
   /// Elasticsearch domain.
   Future<CreateOutboundCrossClusterSearchConnectionResponse>
       createOutboundCrossClusterSearchConnection({
-    @_s.required String connectionAlias,
-    @_s.required DomainInformation destinationDomainInfo,
-    @_s.required DomainInformation sourceDomainInfo,
+    required String connectionAlias,
+    required DomainInformation destinationDomainInfo,
+    required DomainInformation sourceDomainInfo,
   }) async {
     ArgumentError.checkNotNull(connectionAlias, 'connectionAlias');
     _s.validateStringLength(
@@ -406,10 +398,10 @@ class ElasticsearchService {
   /// Parameter [packageDescription] :
   /// Description of the package.
   Future<CreatePackageResponse> createPackage({
-    @_s.required String packageName,
-    @_s.required PackageSource packageSource,
-    @_s.required PackageType packageType,
-    String packageDescription,
+    required String packageName,
+    required PackageSource packageSource,
+    required PackageType packageType,
+    String? packageDescription,
   }) async {
     ArgumentError.checkNotNull(packageName, 'packageName');
     _s.validateStringLength(
@@ -436,7 +428,7 @@ class ElasticsearchService {
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
-      'PackageType': packageType?.toValue() ?? '',
+      'PackageType': packageType.toValue(),
       if (packageDescription != null) 'PackageDescription': packageDescription,
     };
     final response = await _protocol.send(
@@ -459,7 +451,7 @@ class ElasticsearchService {
   /// Parameter [domainName] :
   /// The name of the Elasticsearch domain that you want to permanently delete.
   Future<DeleteElasticsearchDomainResponse> deleteElasticsearchDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -514,7 +506,7 @@ class ElasticsearchService {
   /// The id of the inbound connection that you want to permanently delete.
   Future<DeleteInboundCrossClusterSearchConnectionResponse>
       deleteInboundCrossClusterSearchConnection({
-    @_s.required String crossClusterSearchConnectionId,
+    required String crossClusterSearchConnectionId,
   }) async {
     ArgumentError.checkNotNull(
         crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
@@ -538,7 +530,7 @@ class ElasticsearchService {
   /// The id of the outbound connection that you want to permanently delete.
   Future<DeleteOutboundCrossClusterSearchConnectionResponse>
       deleteOutboundCrossClusterSearchConnection({
-    @_s.required String crossClusterSearchConnectionId,
+    required String crossClusterSearchConnectionId,
   }) async {
     ArgumentError.checkNotNull(
         crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
@@ -566,7 +558,7 @@ class ElasticsearchService {
   /// Internal ID of the package that you want to delete. Use
   /// <code>DescribePackages</code> to find this value.
   Future<DeletePackageResponse> deletePackage({
-    @_s.required String packageID,
+    required String packageID,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
@@ -589,7 +581,7 @@ class ElasticsearchService {
   /// Parameter [domainName] :
   /// The name of the Elasticsearch domain for which you want information.
   Future<DescribeElasticsearchDomainResponse> describeElasticsearchDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -627,7 +619,7 @@ class ElasticsearchService {
   /// The Elasticsearch domain that you want to get information about.
   Future<DescribeElasticsearchDomainConfigResponse>
       describeElasticsearchDomainConfig({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -663,7 +655,7 @@ class ElasticsearchService {
   /// Parameter [domainNames] :
   /// The Elasticsearch domains for which you want information.
   Future<DescribeElasticsearchDomainsResponse> describeElasticsearchDomains({
-    @_s.required List<String> domainNames,
+    required List<String> domainNames,
   }) async {
     ArgumentError.checkNotNull(domainNames, 'domainNames');
     final $payload = <String, dynamic>{
@@ -703,9 +695,9 @@ class ElasticsearchService {
   /// <a>Limits</a> </code> for existing domain.
   Future<DescribeElasticsearchInstanceTypeLimitsResponse>
       describeElasticsearchInstanceTypeLimits({
-    @_s.required String elasticsearchVersion,
-    @_s.required ESPartitionInstanceType instanceType,
-    String domainName,
+    required String elasticsearchVersion,
+    required ESPartitionInstanceType instanceType,
+    String? domainName,
   }) async {
     ArgumentError.checkNotNull(elasticsearchVersion, 'elasticsearchVersion');
     ArgumentError.checkNotNull(instanceType, 'instanceType');
@@ -761,9 +753,9 @@ class ElasticsearchService {
   /// NextToken. It is used for pagination.
   Future<DescribeInboundCrossClusterSearchConnectionsResponse>
       describeInboundCrossClusterSearchConnections({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -813,9 +805,9 @@ class ElasticsearchService {
   /// NextToken. It is used for pagination.
   Future<DescribeOutboundCrossClusterSearchConnectionsResponse>
       describeOutboundCrossClusterSearchConnections({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -858,9 +850,9 @@ class ElasticsearchService {
   /// Used for pagination. Only necessary if a previous API call includes a
   /// non-null NextToken value. If provided, returns results for the next page.
   Future<DescribePackagesResponse> describePackages({
-    List<DescribePackagesFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<DescribePackagesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -902,9 +894,9 @@ class ElasticsearchService {
   /// available offering that matches the specified reservation identifier.
   Future<DescribeReservedElasticsearchInstanceOfferingsResponse>
       describeReservedElasticsearchInstanceOfferings({
-    int maxResults,
-    String nextToken,
-    String reservedElasticsearchInstanceOfferingId,
+    int? maxResults,
+    String? nextToken,
+    String? reservedElasticsearchInstanceOfferingId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -956,9 +948,9 @@ class ElasticsearchService {
   /// instance ID.
   Future<DescribeReservedElasticsearchInstancesResponse>
       describeReservedElasticsearchInstances({
-    int maxResults,
-    String nextToken,
-    String reservedElasticsearchInstanceId,
+    int? maxResults,
+    String? nextToken,
+    String? reservedElasticsearchInstanceId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1003,8 +995,8 @@ class ElasticsearchService {
   /// Internal ID of the package that you want to associate with a domain. Use
   /// <code>DescribePackages</code> to find this value.
   Future<DissociatePackageResponse> dissociatePackage({
-    @_s.required String domainName,
-    @_s.required String packageID,
+    required String domainName,
+    required String packageID,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1042,7 +1034,7 @@ class ElasticsearchService {
   /// May throw [InternalException].
   Future<GetCompatibleElasticsearchVersionsResponse>
       getCompatibleElasticsearchVersions({
-    String domainName,
+    String? domainName,
   }) async {
     _s.validateStringLength(
       'domainName',
@@ -1087,9 +1079,9 @@ class ElasticsearchService {
   /// Used for pagination. Only necessary if a previous API call includes a
   /// non-null NextToken value. If provided, returns results for the next page.
   Future<GetPackageVersionHistoryResponse> getPackageVersionHistory({
-    @_s.required String packageID,
-    int maxResults,
-    String nextToken,
+    required String packageID,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
@@ -1122,9 +1114,9 @@ class ElasticsearchService {
   /// May throw [ValidationException].
   /// May throw [InternalException].
   Future<GetUpgradeHistoryResponse> getUpgradeHistory({
-    @_s.required String domainName,
-    int maxResults,
-    String nextToken,
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1170,7 +1162,7 @@ class ElasticsearchService {
   /// May throw [ValidationException].
   /// May throw [InternalException].
   Future<GetUpgradeStatusResponse> getUpgradeStatus({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1229,9 +1221,9 @@ class ElasticsearchService {
   /// Used for pagination. Only necessary if a previous API call includes a
   /// non-null NextToken value. If provided, returns results for the next page.
   Future<ListDomainsForPackageResponse> listDomainsForPackage({
-    @_s.required String packageID,
-    int maxResults,
-    String nextToken,
+    required String packageID,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
@@ -1281,10 +1273,10 @@ class ElasticsearchService {
   /// containing NextToken. It is used for pagination.
   Future<ListElasticsearchInstanceTypesResponse>
       listElasticsearchInstanceTypes({
-    @_s.required String elasticsearchVersion,
-    String domainName,
-    int maxResults,
-    String nextToken,
+    required String elasticsearchVersion,
+    String? domainName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(elasticsearchVersion, 'elasticsearchVersion');
     _s.validateStringLength(
@@ -1331,8 +1323,8 @@ class ElasticsearchService {
   /// Set this value to limit the number of results returned. Value provided
   /// must be greater than 10 else it wont be honored.
   Future<ListElasticsearchVersionsResponse> listElasticsearchVersions({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1372,9 +1364,9 @@ class ElasticsearchService {
   /// Used for pagination. Only necessary if a previous API call includes a
   /// non-null NextToken value. If provided, returns results for the next page.
   Future<ListPackagesForDomainResponse> listPackagesForDomain({
-    @_s.required String domainName,
-    int maxResults,
-    String nextToken,
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1422,11 +1414,11 @@ class ElasticsearchService {
   /// Specify the <code>ARN</code> for the Elasticsearch domain to which the
   /// tags are attached that you want to view.
   Future<ListTagsResponse> listTags({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final $query = <String, List<String>>{
-      if (arn != null) 'arn': [arn],
+      'arn': [arn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1457,9 +1449,9 @@ class ElasticsearchService {
   /// The number of Elasticsearch instances to reserve.
   Future<PurchaseReservedElasticsearchInstanceOfferingResponse>
       purchaseReservedElasticsearchInstanceOffering({
-    @_s.required String reservationName,
-    @_s.required String reservedElasticsearchInstanceOfferingId,
-    int instanceCount,
+    required String reservationName,
+    required String reservedElasticsearchInstanceOfferingId,
+    int? instanceCount,
   }) async {
     ArgumentError.checkNotNull(reservationName, 'reservationName');
     _s.validateStringLength(
@@ -1509,7 +1501,7 @@ class ElasticsearchService {
   /// The id of the inbound connection that you want to reject.
   Future<RejectInboundCrossClusterSearchConnectionResponse>
       rejectInboundCrossClusterSearchConnection({
-    @_s.required String crossClusterSearchConnectionId,
+    required String crossClusterSearchConnectionId,
   }) async {
     ArgumentError.checkNotNull(
         crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
@@ -1537,8 +1529,8 @@ class ElasticsearchService {
   /// Specifies the <code>TagKey</code> list which you want to remove from the
   /// Elasticsearch domain.
   Future<void> removeTags({
-    @_s.required String arn,
-    @_s.required List<String> tagKeys,
+    required String arn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1566,7 +1558,7 @@ class ElasticsearchService {
   /// software.
   Future<StartElasticsearchServiceSoftwareUpdateResponse>
       startElasticsearchServiceSoftwareUpdate({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1653,17 +1645,17 @@ class ElasticsearchService {
   /// Elasticsearch Service Domains</i>
   Future<UpdateElasticsearchDomainConfigResponse>
       updateElasticsearchDomainConfig({
-    @_s.required String domainName,
-    String accessPolicies,
-    Map<String, String> advancedOptions,
-    AdvancedSecurityOptionsInput advancedSecurityOptions,
-    CognitoOptions cognitoOptions,
-    DomainEndpointOptions domainEndpointOptions,
-    EBSOptions eBSOptions,
-    ElasticsearchClusterConfig elasticsearchClusterConfig,
-    Map<LogType, LogPublishingOption> logPublishingOptions,
-    SnapshotOptions snapshotOptions,
-    VPCOptions vPCOptions,
+    required String domainName,
+    String? accessPolicies,
+    Map<String, String>? advancedOptions,
+    AdvancedSecurityOptionsInput? advancedSecurityOptions,
+    CognitoOptions? cognitoOptions,
+    DomainEndpointOptions? domainEndpointOptions,
+    EBSOptions? eBSOptions,
+    ElasticsearchClusterConfig? elasticsearchClusterConfig,
+    Map<LogType, LogPublishingOption>? logPublishingOptions,
+    SnapshotOptions? snapshotOptions,
+    VPCOptions? vPCOptions,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1725,10 +1717,10 @@ class ElasticsearchService {
   /// Parameter [packageDescription] :
   /// New description of the package.
   Future<UpdatePackageResponse> updatePackage({
-    @_s.required String packageID,
-    @_s.required PackageSource packageSource,
-    String commitMessage,
-    String packageDescription,
+    required String packageID,
+    required PackageSource packageSource,
+    String? commitMessage,
+    String? packageDescription,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
     ArgumentError.checkNotNull(packageSource, 'packageSource');
@@ -1776,9 +1768,9 @@ class ElasticsearchService {
   /// This flag, when set to True, indicates that an Upgrade Eligibility Check
   /// needs to be performed. This will not actually perform the Upgrade.
   Future<UpgradeElasticsearchDomainResponse> upgradeElasticsearchDomain({
-    @_s.required String domainName,
-    @_s.required String targetVersion,
-    bool performCheckOnly,
+    required String domainName,
+    required String targetVersion,
+    bool? performCheckOnly,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1813,60 +1805,52 @@ class ElasticsearchService {
 /// The result of a
 /// <code><a>AcceptInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of accepted inbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// accepted inbound connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnection')
-  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+  final InboundCrossClusterSearchConnection? crossClusterSearchConnection;
 
   AcceptInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
   factory AcceptInboundCrossClusterSearchConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AcceptInboundCrossClusterSearchConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AcceptInboundCrossClusterSearchConnectionResponse(
+      crossClusterSearchConnection: json['CrossClusterSearchConnection'] != null
+          ? InboundCrossClusterSearchConnection.fromJson(
+              json['CrossClusterSearchConnection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The configured access rules for the domain's document and search endpoints,
 /// and the current status of those rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessPoliciesStatus {
   /// The access policy configured for the Elasticsearch domain. Access policies
   /// may be resource-based, IP-based, or IAM-based. See <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-access-policies"
   /// target="_blank"> Configuring Access Policies</a>for more information.
-  @_s.JsonKey(name: 'Options')
   final String options;
 
   /// The status of the access policy for the Elasticsearch domain. See
   /// <code>OptionStatus</code> for the status information that's included.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   AccessPoliciesStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) =>
-      _$AccessPoliciesStatusFromJson(json);
+  factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) {
+    return AccessPoliciesStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// List of limits that are specific to a given InstanceType and for each of
 /// it's <code> <a>InstanceRole</a> </code> .
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdditionalLimit {
   /// Name of Additional Limit is specific to a given InstanceType and for each of
   /// it's <code> <a>InstanceRole</a> </code> etc. <br/> Attributes and their
@@ -1880,19 +1864,24 @@ class AdditionalLimit {
   /// <a>ESPartitionInstanceType</a> </code> upto which you don't need any master
   /// nodes to govern them.
   /// </ul>
-  @_s.JsonKey(name: 'LimitName')
-  final String limitName;
+  final String? limitName;
 
   /// Value for given <code> <a>AdditionalLimit$LimitName</a> </code> .
-  @_s.JsonKey(name: 'LimitValues')
-  final List<String> limitValues;
+  final List<String>? limitValues;
 
   AdditionalLimit({
     this.limitName,
     this.limitValues,
   });
-  factory AdditionalLimit.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalLimitFromJson(json);
+  factory AdditionalLimit.fromJson(Map<String, dynamic> json) {
+    return AdditionalLimit(
+      limitName: json['LimitName'] as String?,
+      limitValues: (json['LimitValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Status of the advanced options for the specified Elasticsearch domain.
@@ -1911,84 +1900,73 @@ class AdditionalLimit {
 /// For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options">Configuring
 /// Advanced Options</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdvancedOptionsStatus {
   /// Specifies the status of advanced options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Options')
   final Map<String, String> options;
 
   /// Specifies the status of <code>OptionStatus</code> for advanced options for
   /// the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   AdvancedOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory AdvancedOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedOptionsStatusFromJson(json);
+  factory AdvancedOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return AdvancedOptionsStatus(
+      options: (json['Options'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Specifies the advanced security configuration: whether advanced security is
 /// enabled, whether the internal database option is enabled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdvancedSecurityOptions {
   /// True if advanced security is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// True if the internal user database is enabled.
-  @_s.JsonKey(name: 'InternalUserDatabaseEnabled')
-  final bool internalUserDatabaseEnabled;
+  final bool? internalUserDatabaseEnabled;
 
   /// Describes the SAML application configured for a domain.
-  @_s.JsonKey(name: 'SAMLOptions')
-  final SAMLOptionsOutput sAMLOptions;
+  final SAMLOptionsOutput? sAMLOptions;
 
   AdvancedSecurityOptions({
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.sAMLOptions,
   });
-  factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedSecurityOptionsFromJson(json);
+  factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) {
+    return AdvancedSecurityOptions(
+      enabled: json['Enabled'] as bool?,
+      internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
+      sAMLOptions: json['SAMLOptions'] != null
+          ? SAMLOptionsOutput.fromJson(
+              json['SAMLOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies the advanced security configuration: whether advanced security is
 /// enabled, whether the internal database option is enabled, master username
 /// and password (if internal database is enabled), and master user ARN (if IAM
 /// is enabled).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AdvancedSecurityOptionsInput {
   /// True if advanced security is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// True if the internal user database is enabled.
-  @_s.JsonKey(name: 'InternalUserDatabaseEnabled')
-  final bool internalUserDatabaseEnabled;
+  final bool? internalUserDatabaseEnabled;
 
   /// Credentials for the master user: username and password, ARN, or both.
-  @_s.JsonKey(name: 'MasterUserOptions')
-  final MasterUserOptions masterUserOptions;
+  final MasterUserOptions? masterUserOptions;
 
   /// Specifies the SAML application configuration for the domain.
-  @_s.JsonKey(name: 'SAMLOptions')
-  final SAMLOptionsInput sAMLOptions;
+  final SAMLOptionsInput? sAMLOptions;
 
   AdvancedSecurityOptionsInput({
     this.enabled,
@@ -1996,99 +1974,100 @@ class AdvancedSecurityOptionsInput {
     this.masterUserOptions,
     this.sAMLOptions,
   });
-  Map<String, dynamic> toJson() => _$AdvancedSecurityOptionsInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
+    final masterUserOptions = this.masterUserOptions;
+    final sAMLOptions = this.sAMLOptions;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (internalUserDatabaseEnabled != null)
+        'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
+      if (masterUserOptions != null) 'MasterUserOptions': masterUserOptions,
+      if (sAMLOptions != null) 'SAMLOptions': sAMLOptions,
+    };
+  }
 }
 
 /// Specifies the status of advanced security options for the specified
 /// Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdvancedSecurityOptionsStatus {
   /// Specifies advanced security options for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final AdvancedSecurityOptions options;
 
   /// Status of the advanced security options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   AdvancedSecurityOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory AdvancedSecurityOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedSecurityOptionsStatusFromJson(json);
+  factory AdvancedSecurityOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return AdvancedSecurityOptionsStatus(
+      options: AdvancedSecurityOptions.fromJson(
+          json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>AssociatePackage</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatePackageResponse {
   /// <code>DomainPackageDetails</code>
-  @_s.JsonKey(name: 'DomainPackageDetails')
-  final DomainPackageDetails domainPackageDetails;
+  final DomainPackageDetails? domainPackageDetails;
 
   AssociatePackageResponse({
     this.domainPackageDetails,
   });
-  factory AssociatePackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociatePackageResponseFromJson(json);
+  factory AssociatePackageResponse.fromJson(Map<String, dynamic> json) {
+    return AssociatePackageResponse(
+      domainPackageDetails: json['DomainPackageDetails'] != null
+          ? DomainPackageDetails.fromJson(
+              json['DomainPackageDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a <code>CancelElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelElasticsearchServiceSoftwareUpdateResponse {
   /// The current status of the Elasticsearch service software update.
-  @_s.JsonKey(name: 'ServiceSoftwareOptions')
-  final ServiceSoftwareOptions serviceSoftwareOptions;
+  final ServiceSoftwareOptions? serviceSoftwareOptions;
 
   CancelElasticsearchServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
   factory CancelElasticsearchServiceSoftwareUpdateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelElasticsearchServiceSoftwareUpdateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CancelElasticsearchServiceSoftwareUpdateResponse(
+      serviceSoftwareOptions: json['ServiceSoftwareOptions'] != null
+          ? ServiceSoftwareOptions.fromJson(
+              json['ServiceSoftwareOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Options to specify the Cognito user and identity pools for Kibana
 /// authentication. For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
 /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CognitoOptions {
   /// Specifies the option to enable Cognito for Kibana authentication.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies the Cognito identity pool ID for Kibana authentication.
-  @_s.JsonKey(name: 'IdentityPoolId')
-  final String identityPoolId;
+  final String? identityPoolId;
 
   /// Specifies the role ARN that provides Elasticsearch permissions for accessing
   /// Cognito resources.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// Specifies the Cognito user pool ID for Kibana authentication.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   CognitoOptions({
     this.enabled,
@@ -2096,112 +2075,116 @@ class CognitoOptions {
     this.roleArn,
     this.userPoolId,
   });
-  factory CognitoOptions.fromJson(Map<String, dynamic> json) =>
-      _$CognitoOptionsFromJson(json);
+  factory CognitoOptions.fromJson(Map<String, dynamic> json) {
+    return CognitoOptions(
+      enabled: json['Enabled'] as bool?,
+      identityPoolId: json['IdentityPoolId'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CognitoOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final identityPoolId = this.identityPoolId;
+    final roleArn = this.roleArn;
+    final userPoolId = this.userPoolId;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (userPoolId != null) 'UserPoolId': userPoolId,
+    };
+  }
 }
 
 /// Status of the Cognito options for the specified Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CognitoOptionsStatus {
   /// Specifies the Cognito options for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final CognitoOptions options;
 
   /// Specifies the status of the Cognito options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   CognitoOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory CognitoOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$CognitoOptionsStatusFromJson(json);
+  factory CognitoOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return CognitoOptionsStatus(
+      options: CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// A map from an <code> <a>ElasticsearchVersion</a> </code> to a list of
 /// compatible <code> <a>ElasticsearchVersion</a> </code> s to which the domain
 /// can be upgraded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompatibleVersionsMap {
   /// The current version of Elasticsearch on which a domain is.
-  @_s.JsonKey(name: 'SourceVersion')
-  final String sourceVersion;
-  @_s.JsonKey(name: 'TargetVersions')
-  final List<String> targetVersions;
+  final String? sourceVersion;
+  final List<String>? targetVersions;
 
   CompatibleVersionsMap({
     this.sourceVersion,
     this.targetVersions,
   });
-  factory CompatibleVersionsMap.fromJson(Map<String, dynamic> json) =>
-      _$CompatibleVersionsMapFromJson(json);
+  factory CompatibleVersionsMap.fromJson(Map<String, dynamic> json) {
+    return CompatibleVersionsMap(
+      sourceVersion: json['SourceVersion'] as String?,
+      targetVersions: (json['TargetVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The result of a <code>CreateElasticsearchDomain</code> operation. Contains
 /// the status of the newly created Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateElasticsearchDomainResponse {
   /// The status of the newly created Elasticsearch domain.
-  @_s.JsonKey(name: 'DomainStatus')
-  final ElasticsearchDomainStatus domainStatus;
+  final ElasticsearchDomainStatus? domainStatus;
 
   CreateElasticsearchDomainResponse({
     this.domainStatus,
   });
   factory CreateElasticsearchDomainResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateElasticsearchDomainResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateElasticsearchDomainResponse(
+      domainStatus: json['DomainStatus'] != null
+          ? ElasticsearchDomainStatus.fromJson(
+              json['DomainStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>CreateOutboundCrossClusterSearchConnection</a></code> request.
 /// Contains the details of the newly created cross-cluster search connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOutboundCrossClusterSearchConnectionResponse {
   /// Specifies the connection alias provided during the create connection
   /// request.
-  @_s.JsonKey(name: 'ConnectionAlias')
-  final String connectionAlias;
+  final String? connectionAlias;
 
   /// Specifies the <code><a>OutboundCrossClusterSearchConnectionStatus</a></code>
   /// for the newly created connection.
-  @_s.JsonKey(name: 'ConnectionStatus')
-  final OutboundCrossClusterSearchConnectionStatus connectionStatus;
+  final OutboundCrossClusterSearchConnectionStatus? connectionStatus;
 
   /// Unique id for the created outbound connection, which is used for subsequent
   /// operations on connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
-  final String crossClusterSearchConnectionId;
+  final String? crossClusterSearchConnectionId;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the destination
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'DestinationDomainInfo')
-  final DomainInformation destinationDomainInfo;
+  final DomainInformation? destinationDomainInfo;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the source
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'SourceDomainInfo')
-  final DomainInformation sourceDomainInfo;
+  final DomainInformation? sourceDomainInfo;
 
   CreateOutboundCrossClusterSearchConnectionResponse({
     this.connectionAlias,
@@ -2211,335 +2194,399 @@ class CreateOutboundCrossClusterSearchConnectionResponse {
     this.sourceDomainInfo,
   });
   factory CreateOutboundCrossClusterSearchConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateOutboundCrossClusterSearchConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateOutboundCrossClusterSearchConnectionResponse(
+      connectionAlias: json['ConnectionAlias'] as String?,
+      connectionStatus: json['ConnectionStatus'] != null
+          ? OutboundCrossClusterSearchConnectionStatus.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
+      crossClusterSearchConnectionId:
+          json['CrossClusterSearchConnectionId'] as String?,
+      destinationDomainInfo: json['DestinationDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['DestinationDomainInfo'] as Map<String, dynamic>)
+          : null,
+      sourceDomainInfo: json['SourceDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['SourceDomainInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>CreatePackage</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePackageResponse {
   /// Information about the package <code>PackageDetails</code>.
-  @_s.JsonKey(name: 'PackageDetails')
-  final PackageDetails packageDetails;
+  final PackageDetails? packageDetails;
 
   CreatePackageResponse({
     this.packageDetails,
   });
-  factory CreatePackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePackageResponseFromJson(json);
+  factory CreatePackageResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePackageResponse(
+      packageDetails: json['PackageDetails'] != null
+          ? PackageDetails.fromJson(
+              json['PackageDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a <code>DeleteElasticsearchDomain</code> request. Contains the
 /// status of the pending deletion, or no status if the domain and all of its
 /// resources have been deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteElasticsearchDomainResponse {
   /// The status of the Elasticsearch domain being deleted.
-  @_s.JsonKey(name: 'DomainStatus')
-  final ElasticsearchDomainStatus domainStatus;
+  final ElasticsearchDomainStatus? domainStatus;
 
   DeleteElasticsearchDomainResponse({
     this.domainStatus,
   });
   factory DeleteElasticsearchDomainResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteElasticsearchDomainResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteElasticsearchDomainResponse(
+      domainStatus: json['DomainStatus'] != null
+          ? ElasticsearchDomainStatus.fromJson(
+              json['DomainStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>DeleteInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of deleted inbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// deleted inbound connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnection')
-  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+  final InboundCrossClusterSearchConnection? crossClusterSearchConnection;
 
   DeleteInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
   factory DeleteInboundCrossClusterSearchConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteInboundCrossClusterSearchConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteInboundCrossClusterSearchConnectionResponse(
+      crossClusterSearchConnection: json['CrossClusterSearchConnection'] != null
+          ? InboundCrossClusterSearchConnection.fromJson(
+              json['CrossClusterSearchConnection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>DeleteOutboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of deleted outbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOutboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>OutboundCrossClusterSearchConnection</a></code> of
   /// deleted outbound connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnection')
-  final OutboundCrossClusterSearchConnection crossClusterSearchConnection;
+  final OutboundCrossClusterSearchConnection? crossClusterSearchConnection;
 
   DeleteOutboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
   factory DeleteOutboundCrossClusterSearchConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteOutboundCrossClusterSearchConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteOutboundCrossClusterSearchConnectionResponse(
+      crossClusterSearchConnection: json['CrossClusterSearchConnection'] != null
+          ? OutboundCrossClusterSearchConnection.fromJson(
+              json['CrossClusterSearchConnection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Container for response parameters to <code> <a>DeletePackage</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePackageResponse {
   /// <code>PackageDetails</code>
-  @_s.JsonKey(name: 'PackageDetails')
-  final PackageDetails packageDetails;
+  final PackageDetails? packageDetails;
 
   DeletePackageResponse({
     this.packageDetails,
   });
-  factory DeletePackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePackageResponseFromJson(json);
+  factory DeletePackageResponse.fromJson(Map<String, dynamic> json) {
+    return DeletePackageResponse(
+      packageDetails: json['PackageDetails'] != null
+          ? PackageDetails.fromJson(
+              json['PackageDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DeploymentStatus {
-  @_s.JsonValue('PENDING_UPDATE')
   pendingUpdate,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('NOT_ELIGIBLE')
   notEligible,
-  @_s.JsonValue('ELIGIBLE')
   eligible,
+}
+
+extension on DeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case DeploymentStatus.pendingUpdate:
+        return 'PENDING_UPDATE';
+      case DeploymentStatus.inProgress:
+        return 'IN_PROGRESS';
+      case DeploymentStatus.completed:
+        return 'COMPLETED';
+      case DeploymentStatus.notEligible:
+        return 'NOT_ELIGIBLE';
+      case DeploymentStatus.eligible:
+        return 'ELIGIBLE';
+    }
+  }
+}
+
+extension on String {
+  DeploymentStatus toDeploymentStatus() {
+    switch (this) {
+      case 'PENDING_UPDATE':
+        return DeploymentStatus.pendingUpdate;
+      case 'IN_PROGRESS':
+        return DeploymentStatus.inProgress;
+      case 'COMPLETED':
+        return DeploymentStatus.completed;
+      case 'NOT_ELIGIBLE':
+        return DeploymentStatus.notEligible;
+      case 'ELIGIBLE':
+        return DeploymentStatus.eligible;
+    }
+    throw Exception('$this is not known in enum DeploymentStatus');
+  }
 }
 
 /// The result of a <code>DescribeElasticsearchDomainConfig</code> request.
 /// Contains the configuration information of the requested domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticsearchDomainConfigResponse {
   /// The configuration information of the domain requested in the
   /// <code>DescribeElasticsearchDomainConfig</code> request.
-  @_s.JsonKey(name: 'DomainConfig')
   final ElasticsearchDomainConfig domainConfig;
 
   DescribeElasticsearchDomainConfigResponse({
-    @_s.required this.domainConfig,
+    required this.domainConfig,
   });
   factory DescribeElasticsearchDomainConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeElasticsearchDomainConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeElasticsearchDomainConfigResponse(
+      domainConfig: ElasticsearchDomainConfig.fromJson(
+          json['DomainConfig'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The result of a <code>DescribeElasticsearchDomain</code> request. Contains
 /// the status of the domain specified in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticsearchDomainResponse {
   /// The current status of the Elasticsearch domain.
-  @_s.JsonKey(name: 'DomainStatus')
   final ElasticsearchDomainStatus domainStatus;
 
   DescribeElasticsearchDomainResponse({
-    @_s.required this.domainStatus,
+    required this.domainStatus,
   });
   factory DescribeElasticsearchDomainResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeElasticsearchDomainResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeElasticsearchDomainResponse(
+      domainStatus: ElasticsearchDomainStatus.fromJson(
+          json['DomainStatus'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The result of a <code>DescribeElasticsearchDomains</code> request. Contains
 /// the status of the specified domains or all domains owned by the account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticsearchDomainsResponse {
   /// The status of the domains requested in the
   /// <code>DescribeElasticsearchDomains</code> request.
-  @_s.JsonKey(name: 'DomainStatusList')
   final List<ElasticsearchDomainStatus> domainStatusList;
 
   DescribeElasticsearchDomainsResponse({
-    @_s.required this.domainStatusList,
+    required this.domainStatusList,
   });
   factory DescribeElasticsearchDomainsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeElasticsearchDomainsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeElasticsearchDomainsResponse(
+      domainStatusList: (json['DomainStatusList'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ElasticsearchDomainStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for the parameters received from <code>
 /// <a>DescribeElasticsearchInstanceTypeLimits</a> </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticsearchInstanceTypeLimitsResponse {
-  @_s.JsonKey(name: 'LimitsByRole')
-  final Map<String, Limits> limitsByRole;
+  final Map<String, Limits>? limitsByRole;
 
   DescribeElasticsearchInstanceTypeLimitsResponse({
     this.limitsByRole,
   });
   factory DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeElasticsearchInstanceTypeLimitsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeElasticsearchInstanceTypeLimitsResponse(
+      limitsByRole: (json['LimitsByRole'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Limits.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>DescribeInboundCrossClusterSearchConnections</a></code> request.
 /// Contains the list of connections matching the filter criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInboundCrossClusterSearchConnectionsResponse {
   /// Consists of list of <code><a>InboundCrossClusterSearchConnection</a></code>
   /// matching the specified filter criteria.
-  @_s.JsonKey(name: 'CrossClusterSearchConnections')
-  final List<InboundCrossClusterSearchConnection> crossClusterSearchConnections;
+  final List<InboundCrossClusterSearchConnection>?
+      crossClusterSearchConnections;
 
   /// If more results are available and NextToken is present, make the next
   /// request to the same API with the received NextToken to paginate the
   /// remaining results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInboundCrossClusterSearchConnectionsResponse({
     this.crossClusterSearchConnections,
     this.nextToken,
   });
   factory DescribeInboundCrossClusterSearchConnectionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInboundCrossClusterSearchConnectionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInboundCrossClusterSearchConnectionsResponse(
+      crossClusterSearchConnections:
+          (json['CrossClusterSearchConnections'] as List?)
+              ?.whereNotNull()
+              .map((e) => InboundCrossClusterSearchConnection.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>DescribeOutboundCrossClusterSearchConnections</a></code> request.
 /// Contains the list of connections matching the filter criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOutboundCrossClusterSearchConnectionsResponse {
   /// Consists of list of <code><a>OutboundCrossClusterSearchConnection</a></code>
   /// matching the specified filter criteria.
-  @_s.JsonKey(name: 'CrossClusterSearchConnections')
-  final List<OutboundCrossClusterSearchConnection>
+  final List<OutboundCrossClusterSearchConnection>?
       crossClusterSearchConnections;
 
   /// If more results are available and NextToken is present, make the next
   /// request to the same API with the received NextToken to paginate the
   /// remaining results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeOutboundCrossClusterSearchConnectionsResponse({
     this.crossClusterSearchConnections,
     this.nextToken,
   });
   factory DescribeOutboundCrossClusterSearchConnectionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeOutboundCrossClusterSearchConnectionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeOutboundCrossClusterSearchConnectionsResponse(
+      crossClusterSearchConnections:
+          (json['CrossClusterSearchConnections'] as List?)
+              ?.whereNotNull()
+              .map((e) => OutboundCrossClusterSearchConnection.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Filter to apply in <code>DescribePackage</code> response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DescribePackagesFilter {
   /// Any field from <code>PackageDetails</code>.
-  @_s.JsonKey(name: 'Name')
-  final DescribePackagesFilterName name;
+  final DescribePackagesFilterName? name;
 
   /// A list of values for the specified field.
-  @_s.JsonKey(name: 'Value')
-  final List<String> value;
+  final List<String>? value;
 
   DescribePackagesFilter({
     this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$DescribePackagesFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum DescribePackagesFilterName {
-  @_s.JsonValue('PackageID')
   packageID,
-  @_s.JsonValue('PackageName')
   packageName,
-  @_s.JsonValue('PackageStatus')
   packageStatus,
+}
+
+extension on DescribePackagesFilterName {
+  String toValue() {
+    switch (this) {
+      case DescribePackagesFilterName.packageID:
+        return 'PackageID';
+      case DescribePackagesFilterName.packageName:
+        return 'PackageName';
+      case DescribePackagesFilterName.packageStatus:
+        return 'PackageStatus';
+    }
+  }
+}
+
+extension on String {
+  DescribePackagesFilterName toDescribePackagesFilterName() {
+    switch (this) {
+      case 'PackageID':
+        return DescribePackagesFilterName.packageID;
+      case 'PackageName':
+        return DescribePackagesFilterName.packageName;
+      case 'PackageStatus':
+        return DescribePackagesFilterName.packageStatus;
+    }
+    throw Exception('$this is not known in enum DescribePackagesFilterName');
+  }
 }
 
 /// Container for response returned by <code> <a>DescribePackages</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePackagesResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of <code>PackageDetails</code> objects.
-  @_s.JsonKey(name: 'PackageDetailsList')
-  final List<PackageDetails> packageDetailsList;
+  final List<PackageDetails>? packageDetailsList;
 
   DescribePackagesResponse({
     this.nextToken,
     this.packageDetailsList,
   });
-  factory DescribePackagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePackagesResponseFromJson(json);
+  factory DescribePackagesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePackagesResponse(
+      nextToken: json['NextToken'] as String?,
+      packageDetailsList: (json['PackageDetailsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for results from
 /// <code>DescribeReservedElasticsearchInstanceOfferings</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReservedElasticsearchInstanceOfferingsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of reserved Elasticsearch instance offerings
-  @_s.JsonKey(name: 'ReservedElasticsearchInstanceOfferings')
-  final List<ReservedElasticsearchInstanceOffering>
+  final List<ReservedElasticsearchInstanceOffering>?
       reservedElasticsearchInstanceOfferings;
 
   DescribeReservedElasticsearchInstanceOfferingsResponse({
@@ -2547,77 +2594,79 @@ class DescribeReservedElasticsearchInstanceOfferingsResponse {
     this.reservedElasticsearchInstanceOfferings,
   });
   factory DescribeReservedElasticsearchInstanceOfferingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReservedElasticsearchInstanceOfferingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReservedElasticsearchInstanceOfferingsResponse(
+      nextToken: json['NextToken'] as String?,
+      reservedElasticsearchInstanceOfferings:
+          (json['ReservedElasticsearchInstanceOfferings'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReservedElasticsearchInstanceOffering.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Container for results from
 /// <code>DescribeReservedElasticsearchInstances</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReservedElasticsearchInstancesResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of reserved Elasticsearch instances.
-  @_s.JsonKey(name: 'ReservedElasticsearchInstances')
-  final List<ReservedElasticsearchInstance> reservedElasticsearchInstances;
+  final List<ReservedElasticsearchInstance>? reservedElasticsearchInstances;
 
   DescribeReservedElasticsearchInstancesResponse({
     this.nextToken,
     this.reservedElasticsearchInstances,
   });
   factory DescribeReservedElasticsearchInstancesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReservedElasticsearchInstancesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReservedElasticsearchInstancesResponse(
+      nextToken: json['NextToken'] as String?,
+      reservedElasticsearchInstances: (json['ReservedElasticsearchInstances']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReservedElasticsearchInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>DissociatePackage</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DissociatePackageResponse {
   /// <code>DomainPackageDetails</code>
-  @_s.JsonKey(name: 'DomainPackageDetails')
-  final DomainPackageDetails domainPackageDetails;
+  final DomainPackageDetails? domainPackageDetails;
 
   DissociatePackageResponse({
     this.domainPackageDetails,
   });
-  factory DissociatePackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$DissociatePackageResponseFromJson(json);
+  factory DissociatePackageResponse.fromJson(Map<String, dynamic> json) {
+    return DissociatePackageResponse(
+      domainPackageDetails: json['DomainPackageDetails'] != null
+          ? DomainPackageDetails.fromJson(
+              json['DomainPackageDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Options to configure endpoint for the Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DomainEndpointOptions {
   /// Specify the fully qualified domain for your custom endpoint.
-  @_s.JsonKey(name: 'CustomEndpoint')
-  final String customEndpoint;
+  final String? customEndpoint;
 
   /// Specify ACM certificate ARN for your custom endpoint.
-  @_s.JsonKey(name: 'CustomEndpointCertificateArn')
-  final String customEndpointCertificateArn;
+  final String? customEndpointCertificateArn;
 
   /// Specify if custom endpoint should be enabled for the Elasticsearch domain.
-  @_s.JsonKey(name: 'CustomEndpointEnabled')
-  final bool customEndpointEnabled;
+  final bool? customEndpointEnabled;
 
   /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'EnforceHTTPS')
-  final bool enforceHTTPS;
+  final bool? enforceHTTPS;
 
   /// Specify the TLS security policy that needs to be applied to the HTTPS
   /// endpoint of Elasticsearch domain. <br/> It can be one of the following
@@ -2628,8 +2677,7 @@ class DomainEndpointOptions {
   /// <li><b>Policy-Min-TLS-1-2-2019-07: </b> TLS security policy which supports
   /// only TLSv1.2</li>
   /// </ul>
-  @_s.JsonKey(name: 'TLSSecurityPolicy')
-  final TLSSecurityPolicy tLSSecurityPolicy;
+  final TLSSecurityPolicy? tLSSecurityPolicy;
 
   DomainEndpointOptions({
     this.customEndpoint,
@@ -2638,120 +2686,131 @@ class DomainEndpointOptions {
     this.enforceHTTPS,
     this.tLSSecurityPolicy,
   });
-  factory DomainEndpointOptions.fromJson(Map<String, dynamic> json) =>
-      _$DomainEndpointOptionsFromJson(json);
+  factory DomainEndpointOptions.fromJson(Map<String, dynamic> json) {
+    return DomainEndpointOptions(
+      customEndpoint: json['CustomEndpoint'] as String?,
+      customEndpointCertificateArn:
+          json['CustomEndpointCertificateArn'] as String?,
+      customEndpointEnabled: json['CustomEndpointEnabled'] as bool?,
+      enforceHTTPS: json['EnforceHTTPS'] as bool?,
+      tLSSecurityPolicy:
+          (json['TLSSecurityPolicy'] as String?)?.toTLSSecurityPolicy(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DomainEndpointOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final customEndpoint = this.customEndpoint;
+    final customEndpointCertificateArn = this.customEndpointCertificateArn;
+    final customEndpointEnabled = this.customEndpointEnabled;
+    final enforceHTTPS = this.enforceHTTPS;
+    final tLSSecurityPolicy = this.tLSSecurityPolicy;
+    return {
+      if (customEndpoint != null) 'CustomEndpoint': customEndpoint,
+      if (customEndpointCertificateArn != null)
+        'CustomEndpointCertificateArn': customEndpointCertificateArn,
+      if (customEndpointEnabled != null)
+        'CustomEndpointEnabled': customEndpointEnabled,
+      if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS,
+      if (tLSSecurityPolicy != null)
+        'TLSSecurityPolicy': tLSSecurityPolicy.toValue(),
+    };
+  }
 }
 
 /// The configured endpoint options for the domain and their current status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainEndpointOptionsStatus {
   /// Options to configure endpoint for the Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final DomainEndpointOptions options;
 
   /// The status of the endpoint options for the Elasticsearch domain. See
   /// <code>OptionStatus</code> for the status information that's included.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   DomainEndpointOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory DomainEndpointOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$DomainEndpointOptionsStatusFromJson(json);
+  factory DomainEndpointOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return DomainEndpointOptionsStatus(
+      options: DomainEndpointOptions.fromJson(
+          json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainInfo {
   /// Specifies the <code>DomainName</code>.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   DomainInfo({
     this.domainName,
   });
-  factory DomainInfo.fromJson(Map<String, dynamic> json) =>
-      _$DomainInfoFromJson(json);
+  factory DomainInfo.fromJson(Map<String, dynamic> json) {
+    return DomainInfo(
+      domainName: json['DomainName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DomainInformation {
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? ownerId;
+  final String? region;
 
   DomainInformation({
-    @_s.required this.domainName,
+    required this.domainName,
     this.ownerId,
     this.region,
   });
-  factory DomainInformation.fromJson(Map<String, dynamic> json) =>
-      _$DomainInformationFromJson(json);
+  factory DomainInformation.fromJson(Map<String, dynamic> json) {
+    return DomainInformation(
+      domainName: json['DomainName'] as String,
+      ownerId: json['OwnerId'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DomainInformationToJson(this);
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final ownerId = this.ownerId;
+    final region = this.region;
+    return {
+      'DomainName': domainName,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (region != null) 'Region': region,
+    };
+  }
 }
 
 /// Information on a package that is associated with a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainPackageDetails {
   /// Name of the domain you've associated a package with.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// State of the association. Values are
   /// ASSOCIATING/ASSOCIATION_FAILED/ACTIVE/DISSOCIATING/DISSOCIATION_FAILED.
-  @_s.JsonKey(name: 'DomainPackageStatus')
-  final DomainPackageStatus domainPackageStatus;
+  final DomainPackageStatus? domainPackageStatus;
 
   /// Additional information if the package is in an error state. Null otherwise.
-  @_s.JsonKey(name: 'ErrorDetails')
-  final ErrorDetails errorDetails;
+  final ErrorDetails? errorDetails;
 
   /// Timestamp of the most-recent update to the association status.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// Internal ID of the package.
-  @_s.JsonKey(name: 'PackageID')
-  final String packageID;
+  final String? packageID;
 
   /// User specified name of the package.
-  @_s.JsonKey(name: 'PackageName')
-  final String packageName;
+  final String? packageName;
 
   /// Currently supports only TXT-DICTIONARY.
-  @_s.JsonKey(name: 'PackageType')
-  final PackageType packageType;
-  @_s.JsonKey(name: 'PackageVersion')
-  final String packageVersion;
+  final PackageType? packageType;
+  final String? packageVersion;
 
   /// The relative path on Amazon ES nodes, which can be used as synonym_path when
   /// the package is synonym file.
-  @_s.JsonKey(name: 'ReferencePath')
-  final String referencePath;
+  final String? referencePath;
 
   DomainPackageDetails({
     this.domainName,
@@ -2764,48 +2823,83 @@ class DomainPackageDetails {
     this.packageVersion,
     this.referencePath,
   });
-  factory DomainPackageDetails.fromJson(Map<String, dynamic> json) =>
-      _$DomainPackageDetailsFromJson(json);
+  factory DomainPackageDetails.fromJson(Map<String, dynamic> json) {
+    return DomainPackageDetails(
+      domainName: json['DomainName'] as String?,
+      domainPackageStatus:
+          (json['DomainPackageStatus'] as String?)?.toDomainPackageStatus(),
+      errorDetails: json['ErrorDetails'] != null
+          ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
+          : null,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      packageID: json['PackageID'] as String?,
+      packageName: json['PackageName'] as String?,
+      packageType: (json['PackageType'] as String?)?.toPackageType(),
+      packageVersion: json['PackageVersion'] as String?,
+      referencePath: json['ReferencePath'] as String?,
+    );
+  }
 }
 
 enum DomainPackageStatus {
-  @_s.JsonValue('ASSOCIATING')
   associating,
-  @_s.JsonValue('ASSOCIATION_FAILED')
   associationFailed,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DISSOCIATING')
   dissociating,
-  @_s.JsonValue('DISSOCIATION_FAILED')
   dissociationFailed,
+}
+
+extension on DomainPackageStatus {
+  String toValue() {
+    switch (this) {
+      case DomainPackageStatus.associating:
+        return 'ASSOCIATING';
+      case DomainPackageStatus.associationFailed:
+        return 'ASSOCIATION_FAILED';
+      case DomainPackageStatus.active:
+        return 'ACTIVE';
+      case DomainPackageStatus.dissociating:
+        return 'DISSOCIATING';
+      case DomainPackageStatus.dissociationFailed:
+        return 'DISSOCIATION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  DomainPackageStatus toDomainPackageStatus() {
+    switch (this) {
+      case 'ASSOCIATING':
+        return DomainPackageStatus.associating;
+      case 'ASSOCIATION_FAILED':
+        return DomainPackageStatus.associationFailed;
+      case 'ACTIVE':
+        return DomainPackageStatus.active;
+      case 'DISSOCIATING':
+        return DomainPackageStatus.dissociating;
+      case 'DISSOCIATION_FAILED':
+        return DomainPackageStatus.dissociationFailed;
+    }
+    throw Exception('$this is not known in enum DomainPackageStatus');
+  }
 }
 
 /// Options to enable, disable, and specify the properties of EBS storage
 /// volumes. For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank"> Configuring EBS-based Storage</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EBSOptions {
   /// Specifies whether EBS-based storage is enabled.
-  @_s.JsonKey(name: 'EBSEnabled')
-  final bool eBSEnabled;
+  final bool? eBSEnabled;
 
   /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// Integer to specify the size of an EBS volume.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   /// Specifies the volume type for EBS-based storage.
-  @_s.JsonKey(name: 'VolumeType')
-  final VolumeType volumeType;
+  final VolumeType? volumeType;
 
   EBSOptions({
     this.eBSEnabled,
@@ -2813,152 +2907,108 @@ class EBSOptions {
     this.volumeSize,
     this.volumeType,
   });
-  factory EBSOptions.fromJson(Map<String, dynamic> json) =>
-      _$EBSOptionsFromJson(json);
+  factory EBSOptions.fromJson(Map<String, dynamic> json) {
+    return EBSOptions(
+      eBSEnabled: json['EBSEnabled'] as bool?,
+      iops: json['Iops'] as int?,
+      volumeSize: json['VolumeSize'] as int?,
+      volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EBSOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final eBSEnabled = this.eBSEnabled;
+    final iops = this.iops;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (eBSEnabled != null) 'EBSEnabled': eBSEnabled,
+      if (iops != null) 'Iops': iops,
+      if (volumeSize != null) 'VolumeSize': volumeSize,
+      if (volumeType != null) 'VolumeType': volumeType.toValue(),
+    };
+  }
 }
 
 /// Status of the EBS options for the specified Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EBSOptionsStatus {
   /// Specifies the EBS options for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final EBSOptions options;
 
   /// Specifies the status of the EBS options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   EBSOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory EBSOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$EBSOptionsStatusFromJson(json);
+  factory EBSOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return EBSOptionsStatus(
+      options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 enum ESPartitionInstanceType {
-  @_s.JsonValue('m3.medium.elasticsearch')
   m3MediumElasticsearch,
-  @_s.JsonValue('m3.large.elasticsearch')
   m3LargeElasticsearch,
-  @_s.JsonValue('m3.xlarge.elasticsearch')
   m3XlargeElasticsearch,
-  @_s.JsonValue('m3.2xlarge.elasticsearch')
   m3_2xlargeElasticsearch,
-  @_s.JsonValue('m4.large.elasticsearch')
   m4LargeElasticsearch,
-  @_s.JsonValue('m4.xlarge.elasticsearch')
   m4XlargeElasticsearch,
-  @_s.JsonValue('m4.2xlarge.elasticsearch')
   m4_2xlargeElasticsearch,
-  @_s.JsonValue('m4.4xlarge.elasticsearch')
   m4_4xlargeElasticsearch,
-  @_s.JsonValue('m4.10xlarge.elasticsearch')
   m4_10xlargeElasticsearch,
-  @_s.JsonValue('m5.large.elasticsearch')
   m5LargeElasticsearch,
-  @_s.JsonValue('m5.xlarge.elasticsearch')
   m5XlargeElasticsearch,
-  @_s.JsonValue('m5.2xlarge.elasticsearch')
   m5_2xlargeElasticsearch,
-  @_s.JsonValue('m5.4xlarge.elasticsearch')
   m5_4xlargeElasticsearch,
-  @_s.JsonValue('m5.12xlarge.elasticsearch')
   m5_12xlargeElasticsearch,
-  @_s.JsonValue('r5.large.elasticsearch')
   r5LargeElasticsearch,
-  @_s.JsonValue('r5.xlarge.elasticsearch')
   r5XlargeElasticsearch,
-  @_s.JsonValue('r5.2xlarge.elasticsearch')
   r5_2xlargeElasticsearch,
-  @_s.JsonValue('r5.4xlarge.elasticsearch')
   r5_4xlargeElasticsearch,
-  @_s.JsonValue('r5.12xlarge.elasticsearch')
   r5_12xlargeElasticsearch,
-  @_s.JsonValue('c5.large.elasticsearch')
   c5LargeElasticsearch,
-  @_s.JsonValue('c5.xlarge.elasticsearch')
   c5XlargeElasticsearch,
-  @_s.JsonValue('c5.2xlarge.elasticsearch')
   c5_2xlargeElasticsearch,
-  @_s.JsonValue('c5.4xlarge.elasticsearch')
   c5_4xlargeElasticsearch,
-  @_s.JsonValue('c5.9xlarge.elasticsearch')
   c5_9xlargeElasticsearch,
-  @_s.JsonValue('c5.18xlarge.elasticsearch')
   c5_18xlargeElasticsearch,
-  @_s.JsonValue('ultrawarm1.medium.elasticsearch')
   ultrawarm1MediumElasticsearch,
-  @_s.JsonValue('ultrawarm1.large.elasticsearch')
   ultrawarm1LargeElasticsearch,
-  @_s.JsonValue('t2.micro.elasticsearch')
   t2MicroElasticsearch,
-  @_s.JsonValue('t2.small.elasticsearch')
   t2SmallElasticsearch,
-  @_s.JsonValue('t2.medium.elasticsearch')
   t2MediumElasticsearch,
-  @_s.JsonValue('r3.large.elasticsearch')
   r3LargeElasticsearch,
-  @_s.JsonValue('r3.xlarge.elasticsearch')
   r3XlargeElasticsearch,
-  @_s.JsonValue('r3.2xlarge.elasticsearch')
   r3_2xlargeElasticsearch,
-  @_s.JsonValue('r3.4xlarge.elasticsearch')
   r3_4xlargeElasticsearch,
-  @_s.JsonValue('r3.8xlarge.elasticsearch')
   r3_8xlargeElasticsearch,
-  @_s.JsonValue('i2.xlarge.elasticsearch')
   i2XlargeElasticsearch,
-  @_s.JsonValue('i2.2xlarge.elasticsearch')
   i2_2xlargeElasticsearch,
-  @_s.JsonValue('d2.xlarge.elasticsearch')
   d2XlargeElasticsearch,
-  @_s.JsonValue('d2.2xlarge.elasticsearch')
   d2_2xlargeElasticsearch,
-  @_s.JsonValue('d2.4xlarge.elasticsearch')
   d2_4xlargeElasticsearch,
-  @_s.JsonValue('d2.8xlarge.elasticsearch')
   d2_8xlargeElasticsearch,
-  @_s.JsonValue('c4.large.elasticsearch')
   c4LargeElasticsearch,
-  @_s.JsonValue('c4.xlarge.elasticsearch')
   c4XlargeElasticsearch,
-  @_s.JsonValue('c4.2xlarge.elasticsearch')
   c4_2xlargeElasticsearch,
-  @_s.JsonValue('c4.4xlarge.elasticsearch')
   c4_4xlargeElasticsearch,
-  @_s.JsonValue('c4.8xlarge.elasticsearch')
   c4_8xlargeElasticsearch,
-  @_s.JsonValue('r4.large.elasticsearch')
   r4LargeElasticsearch,
-  @_s.JsonValue('r4.xlarge.elasticsearch')
   r4XlargeElasticsearch,
-  @_s.JsonValue('r4.2xlarge.elasticsearch')
   r4_2xlargeElasticsearch,
-  @_s.JsonValue('r4.4xlarge.elasticsearch')
   r4_4xlargeElasticsearch,
-  @_s.JsonValue('r4.8xlarge.elasticsearch')
   r4_8xlargeElasticsearch,
-  @_s.JsonValue('r4.16xlarge.elasticsearch')
   r4_16xlargeElasticsearch,
-  @_s.JsonValue('i3.large.elasticsearch')
   i3LargeElasticsearch,
-  @_s.JsonValue('i3.xlarge.elasticsearch')
   i3XlargeElasticsearch,
-  @_s.JsonValue('i3.2xlarge.elasticsearch')
   i3_2xlargeElasticsearch,
-  @_s.JsonValue('i3.4xlarge.elasticsearch')
   i3_4xlargeElasticsearch,
-  @_s.JsonValue('i3.8xlarge.elasticsearch')
   i3_8xlargeElasticsearch,
-  @_s.JsonValue('i3.16xlarge.elasticsearch')
   i3_16xlargeElasticsearch,
 }
 
@@ -3082,72 +3132,201 @@ extension on ESPartitionInstanceType {
       case ESPartitionInstanceType.i3_16xlargeElasticsearch:
         return 'i3.16xlarge.elasticsearch';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ESPartitionInstanceType toESPartitionInstanceType() {
+    switch (this) {
+      case 'm3.medium.elasticsearch':
+        return ESPartitionInstanceType.m3MediumElasticsearch;
+      case 'm3.large.elasticsearch':
+        return ESPartitionInstanceType.m3LargeElasticsearch;
+      case 'm3.xlarge.elasticsearch':
+        return ESPartitionInstanceType.m3XlargeElasticsearch;
+      case 'm3.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.m3_2xlargeElasticsearch;
+      case 'm4.large.elasticsearch':
+        return ESPartitionInstanceType.m4LargeElasticsearch;
+      case 'm4.xlarge.elasticsearch':
+        return ESPartitionInstanceType.m4XlargeElasticsearch;
+      case 'm4.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.m4_2xlargeElasticsearch;
+      case 'm4.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.m4_4xlargeElasticsearch;
+      case 'm4.10xlarge.elasticsearch':
+        return ESPartitionInstanceType.m4_10xlargeElasticsearch;
+      case 'm5.large.elasticsearch':
+        return ESPartitionInstanceType.m5LargeElasticsearch;
+      case 'm5.xlarge.elasticsearch':
+        return ESPartitionInstanceType.m5XlargeElasticsearch;
+      case 'm5.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.m5_2xlargeElasticsearch;
+      case 'm5.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.m5_4xlargeElasticsearch;
+      case 'm5.12xlarge.elasticsearch':
+        return ESPartitionInstanceType.m5_12xlargeElasticsearch;
+      case 'r5.large.elasticsearch':
+        return ESPartitionInstanceType.r5LargeElasticsearch;
+      case 'r5.xlarge.elasticsearch':
+        return ESPartitionInstanceType.r5XlargeElasticsearch;
+      case 'r5.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.r5_2xlargeElasticsearch;
+      case 'r5.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.r5_4xlargeElasticsearch;
+      case 'r5.12xlarge.elasticsearch':
+        return ESPartitionInstanceType.r5_12xlargeElasticsearch;
+      case 'c5.large.elasticsearch':
+        return ESPartitionInstanceType.c5LargeElasticsearch;
+      case 'c5.xlarge.elasticsearch':
+        return ESPartitionInstanceType.c5XlargeElasticsearch;
+      case 'c5.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.c5_2xlargeElasticsearch;
+      case 'c5.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.c5_4xlargeElasticsearch;
+      case 'c5.9xlarge.elasticsearch':
+        return ESPartitionInstanceType.c5_9xlargeElasticsearch;
+      case 'c5.18xlarge.elasticsearch':
+        return ESPartitionInstanceType.c5_18xlargeElasticsearch;
+      case 'ultrawarm1.medium.elasticsearch':
+        return ESPartitionInstanceType.ultrawarm1MediumElasticsearch;
+      case 'ultrawarm1.large.elasticsearch':
+        return ESPartitionInstanceType.ultrawarm1LargeElasticsearch;
+      case 't2.micro.elasticsearch':
+        return ESPartitionInstanceType.t2MicroElasticsearch;
+      case 't2.small.elasticsearch':
+        return ESPartitionInstanceType.t2SmallElasticsearch;
+      case 't2.medium.elasticsearch':
+        return ESPartitionInstanceType.t2MediumElasticsearch;
+      case 'r3.large.elasticsearch':
+        return ESPartitionInstanceType.r3LargeElasticsearch;
+      case 'r3.xlarge.elasticsearch':
+        return ESPartitionInstanceType.r3XlargeElasticsearch;
+      case 'r3.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.r3_2xlargeElasticsearch;
+      case 'r3.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.r3_4xlargeElasticsearch;
+      case 'r3.8xlarge.elasticsearch':
+        return ESPartitionInstanceType.r3_8xlargeElasticsearch;
+      case 'i2.xlarge.elasticsearch':
+        return ESPartitionInstanceType.i2XlargeElasticsearch;
+      case 'i2.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.i2_2xlargeElasticsearch;
+      case 'd2.xlarge.elasticsearch':
+        return ESPartitionInstanceType.d2XlargeElasticsearch;
+      case 'd2.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.d2_2xlargeElasticsearch;
+      case 'd2.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.d2_4xlargeElasticsearch;
+      case 'd2.8xlarge.elasticsearch':
+        return ESPartitionInstanceType.d2_8xlargeElasticsearch;
+      case 'c4.large.elasticsearch':
+        return ESPartitionInstanceType.c4LargeElasticsearch;
+      case 'c4.xlarge.elasticsearch':
+        return ESPartitionInstanceType.c4XlargeElasticsearch;
+      case 'c4.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.c4_2xlargeElasticsearch;
+      case 'c4.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.c4_4xlargeElasticsearch;
+      case 'c4.8xlarge.elasticsearch':
+        return ESPartitionInstanceType.c4_8xlargeElasticsearch;
+      case 'r4.large.elasticsearch':
+        return ESPartitionInstanceType.r4LargeElasticsearch;
+      case 'r4.xlarge.elasticsearch':
+        return ESPartitionInstanceType.r4XlargeElasticsearch;
+      case 'r4.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.r4_2xlargeElasticsearch;
+      case 'r4.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.r4_4xlargeElasticsearch;
+      case 'r4.8xlarge.elasticsearch':
+        return ESPartitionInstanceType.r4_8xlargeElasticsearch;
+      case 'r4.16xlarge.elasticsearch':
+        return ESPartitionInstanceType.r4_16xlargeElasticsearch;
+      case 'i3.large.elasticsearch':
+        return ESPartitionInstanceType.i3LargeElasticsearch;
+      case 'i3.xlarge.elasticsearch':
+        return ESPartitionInstanceType.i3XlargeElasticsearch;
+      case 'i3.2xlarge.elasticsearch':
+        return ESPartitionInstanceType.i3_2xlargeElasticsearch;
+      case 'i3.4xlarge.elasticsearch':
+        return ESPartitionInstanceType.i3_4xlargeElasticsearch;
+      case 'i3.8xlarge.elasticsearch':
+        return ESPartitionInstanceType.i3_8xlargeElasticsearch;
+      case 'i3.16xlarge.elasticsearch':
+        return ESPartitionInstanceType.i3_16xlargeElasticsearch;
+    }
+    throw Exception('$this is not known in enum ESPartitionInstanceType');
   }
 }
 
 enum ESWarmPartitionInstanceType {
-  @_s.JsonValue('ultrawarm1.medium.elasticsearch')
   ultrawarm1MediumElasticsearch,
-  @_s.JsonValue('ultrawarm1.large.elasticsearch')
   ultrawarm1LargeElasticsearch,
+}
+
+extension on ESWarmPartitionInstanceType {
+  String toValue() {
+    switch (this) {
+      case ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch:
+        return 'ultrawarm1.medium.elasticsearch';
+      case ESWarmPartitionInstanceType.ultrawarm1LargeElasticsearch:
+        return 'ultrawarm1.large.elasticsearch';
+    }
+  }
+}
+
+extension on String {
+  ESWarmPartitionInstanceType toESWarmPartitionInstanceType() {
+    switch (this) {
+      case 'ultrawarm1.medium.elasticsearch':
+        return ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch;
+      case 'ultrawarm1.large.elasticsearch':
+        return ESWarmPartitionInstanceType.ultrawarm1LargeElasticsearch;
+    }
+    throw Exception('$this is not known in enum ESWarmPartitionInstanceType');
+  }
 }
 
 /// Specifies the configuration for the domain cluster, such as the type and
 /// number of instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchClusterConfig {
   /// Total number of dedicated master nodes, active and on standby, for the
   /// cluster.
-  @_s.JsonKey(name: 'DedicatedMasterCount')
-  final int dedicatedMasterCount;
+  final int? dedicatedMasterCount;
 
   /// A boolean value to indicate whether a dedicated master node is enabled. See
   /// <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-dedicatedmasternodes"
   /// target="_blank">About Dedicated Master Nodes</a> for more information.
-  @_s.JsonKey(name: 'DedicatedMasterEnabled')
-  final bool dedicatedMasterEnabled;
+  final bool? dedicatedMasterEnabled;
 
   /// The instance type for a dedicated master node.
-  @_s.JsonKey(name: 'DedicatedMasterType')
-  final ESPartitionInstanceType dedicatedMasterType;
+  final ESPartitionInstanceType? dedicatedMasterType;
 
   /// The number of instances in the specified domain cluster.
-  @_s.JsonKey(name: 'InstanceCount')
-  final int instanceCount;
+  final int? instanceCount;
 
   /// The instance type for an Elasticsearch cluster. UltraWarm instance types are
   /// not supported for data instances.
-  @_s.JsonKey(name: 'InstanceType')
-  final ESPartitionInstanceType instanceType;
+  final ESPartitionInstanceType? instanceType;
 
   /// The number of warm nodes in the cluster.
-  @_s.JsonKey(name: 'WarmCount')
-  final int warmCount;
+  final int? warmCount;
 
   /// True to enable warm storage.
-  @_s.JsonKey(name: 'WarmEnabled')
-  final bool warmEnabled;
+  final bool? warmEnabled;
 
   /// The instance type for the Elasticsearch cluster's warm nodes.
-  @_s.JsonKey(name: 'WarmType')
-  final ESWarmPartitionInstanceType warmType;
+  final ESWarmPartitionInstanceType? warmType;
 
   /// Specifies the zone awareness configuration for a domain when zone awareness
   /// is enabled.
-  @_s.JsonKey(name: 'ZoneAwarenessConfig')
-  final ZoneAwarenessConfig zoneAwarenessConfig;
+  final ZoneAwarenessConfig? zoneAwarenessConfig;
 
   /// A boolean value to indicate whether zone awareness is enabled. See <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-zoneawareness"
   /// target="_blank">About Zone Awareness</a> for more information.
-  @_s.JsonKey(name: 'ZoneAwarenessEnabled')
-  final bool zoneAwarenessEnabled;
+  final bool? zoneAwarenessEnabled;
 
   ElasticsearchClusterConfig({
     this.dedicatedMasterCount,
@@ -3161,107 +3340,131 @@ class ElasticsearchClusterConfig {
     this.zoneAwarenessConfig,
     this.zoneAwarenessEnabled,
   });
-  factory ElasticsearchClusterConfig.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchClusterConfigFromJson(json);
+  factory ElasticsearchClusterConfig.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchClusterConfig(
+      dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
+      dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
+      dedicatedMasterType:
+          (json['DedicatedMasterType'] as String?)?.toESPartitionInstanceType(),
+      instanceCount: json['InstanceCount'] as int?,
+      instanceType:
+          (json['InstanceType'] as String?)?.toESPartitionInstanceType(),
+      warmCount: json['WarmCount'] as int?,
+      warmEnabled: json['WarmEnabled'] as bool?,
+      warmType: (json['WarmType'] as String?)?.toESWarmPartitionInstanceType(),
+      zoneAwarenessConfig: json['ZoneAwarenessConfig'] != null
+          ? ZoneAwarenessConfig.fromJson(
+              json['ZoneAwarenessConfig'] as Map<String, dynamic>)
+          : null,
+      zoneAwarenessEnabled: json['ZoneAwarenessEnabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ElasticsearchClusterConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final dedicatedMasterCount = this.dedicatedMasterCount;
+    final dedicatedMasterEnabled = this.dedicatedMasterEnabled;
+    final dedicatedMasterType = this.dedicatedMasterType;
+    final instanceCount = this.instanceCount;
+    final instanceType = this.instanceType;
+    final warmCount = this.warmCount;
+    final warmEnabled = this.warmEnabled;
+    final warmType = this.warmType;
+    final zoneAwarenessConfig = this.zoneAwarenessConfig;
+    final zoneAwarenessEnabled = this.zoneAwarenessEnabled;
+    return {
+      if (dedicatedMasterCount != null)
+        'DedicatedMasterCount': dedicatedMasterCount,
+      if (dedicatedMasterEnabled != null)
+        'DedicatedMasterEnabled': dedicatedMasterEnabled,
+      if (dedicatedMasterType != null)
+        'DedicatedMasterType': dedicatedMasterType.toValue(),
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (warmCount != null) 'WarmCount': warmCount,
+      if (warmEnabled != null) 'WarmEnabled': warmEnabled,
+      if (warmType != null) 'WarmType': warmType.toValue(),
+      if (zoneAwarenessConfig != null)
+        'ZoneAwarenessConfig': zoneAwarenessConfig,
+      if (zoneAwarenessEnabled != null)
+        'ZoneAwarenessEnabled': zoneAwarenessEnabled,
+    };
+  }
 }
 
 /// Specifies the configuration status for the specified Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticsearchClusterConfigStatus {
   /// Specifies the cluster configuration for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final ElasticsearchClusterConfig options;
 
   /// Specifies the status of the configuration for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   ElasticsearchClusterConfigStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory ElasticsearchClusterConfigStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$ElasticsearchClusterConfigStatusFromJson(json);
+  factory ElasticsearchClusterConfigStatus.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchClusterConfigStatus(
+      options: ElasticsearchClusterConfig.fromJson(
+          json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The configuration of an Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticsearchDomainConfig {
   /// IAM access policy as a JSON-formatted string.
-  @_s.JsonKey(name: 'AccessPolicies')
-  final AccessPoliciesStatus accessPolicies;
+  final AccessPoliciesStatus? accessPolicies;
 
   /// Specifies the <code>AdvancedOptions</code> for the domain. See <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options"
   /// target="_blank">Configuring Advanced Options</a> for more information.
-  @_s.JsonKey(name: 'AdvancedOptions')
-  final AdvancedOptionsStatus advancedOptions;
+  final AdvancedOptionsStatus? advancedOptions;
 
   /// Specifies <code>AdvancedSecurityOptions</code> for the domain.
-  @_s.JsonKey(name: 'AdvancedSecurityOptions')
-  final AdvancedSecurityOptionsStatus advancedSecurityOptions;
+  final AdvancedSecurityOptionsStatus? advancedSecurityOptions;
 
   /// The <code>CognitoOptions</code> for the specified domain. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
   /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
-  @_s.JsonKey(name: 'CognitoOptions')
-  final CognitoOptionsStatus cognitoOptions;
+  final CognitoOptionsStatus? cognitoOptions;
 
   /// Specifies the <code>DomainEndpointOptions</code> for the Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'DomainEndpointOptions')
-  final DomainEndpointOptionsStatus domainEndpointOptions;
+  final DomainEndpointOptionsStatus? domainEndpointOptions;
 
   /// Specifies the <code>EBSOptions</code> for the Elasticsearch domain.
-  @_s.JsonKey(name: 'EBSOptions')
-  final EBSOptionsStatus eBSOptions;
+  final EBSOptionsStatus? eBSOptions;
 
   /// Specifies the <code>ElasticsearchClusterConfig</code> for the Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'ElasticsearchClusterConfig')
-  final ElasticsearchClusterConfigStatus elasticsearchClusterConfig;
+  final ElasticsearchClusterConfigStatus? elasticsearchClusterConfig;
 
   /// String of format X.Y to specify version for the Elasticsearch domain.
-  @_s.JsonKey(name: 'ElasticsearchVersion')
-  final ElasticsearchVersionStatus elasticsearchVersion;
+  final ElasticsearchVersionStatus? elasticsearchVersion;
 
   /// Specifies the <code>EncryptionAtRestOptions</code> for the Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'EncryptionAtRestOptions')
-  final EncryptionAtRestOptionsStatus encryptionAtRestOptions;
+  final EncryptionAtRestOptionsStatus? encryptionAtRestOptions;
 
   /// Log publishing options for the given domain.
-  @_s.JsonKey(name: 'LogPublishingOptions')
-  final LogPublishingOptionsStatus logPublishingOptions;
+  final LogPublishingOptionsStatus? logPublishingOptions;
 
   /// Specifies the <code>NodeToNodeEncryptionOptions</code> for the Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'NodeToNodeEncryptionOptions')
-  final NodeToNodeEncryptionOptionsStatus nodeToNodeEncryptionOptions;
+  final NodeToNodeEncryptionOptionsStatus? nodeToNodeEncryptionOptions;
 
   /// Specifies the <code>SnapshotOptions</code> for the Elasticsearch domain.
-  @_s.JsonKey(name: 'SnapshotOptions')
-  final SnapshotOptionsStatus snapshotOptions;
+  final SnapshotOptionsStatus? snapshotOptions;
 
   /// The <code>VPCOptions</code> for the specified domain. For more information,
   /// see <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
   /// target="_blank">VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
-  @_s.JsonKey(name: 'VPCOptions')
-  final VPCDerivedInfoStatus vPCOptions;
+  final VPCDerivedInfoStatus? vPCOptions;
 
   ElasticsearchDomainConfig({
     this.accessPolicies,
@@ -3278,138 +3481,164 @@ class ElasticsearchDomainConfig {
     this.snapshotOptions,
     this.vPCOptions,
   });
-  factory ElasticsearchDomainConfig.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchDomainConfigFromJson(json);
+  factory ElasticsearchDomainConfig.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchDomainConfig(
+      accessPolicies: json['AccessPolicies'] != null
+          ? AccessPoliciesStatus.fromJson(
+              json['AccessPolicies'] as Map<String, dynamic>)
+          : null,
+      advancedOptions: json['AdvancedOptions'] != null
+          ? AdvancedOptionsStatus.fromJson(
+              json['AdvancedOptions'] as Map<String, dynamic>)
+          : null,
+      advancedSecurityOptions: json['AdvancedSecurityOptions'] != null
+          ? AdvancedSecurityOptionsStatus.fromJson(
+              json['AdvancedSecurityOptions'] as Map<String, dynamic>)
+          : null,
+      cognitoOptions: json['CognitoOptions'] != null
+          ? CognitoOptionsStatus.fromJson(
+              json['CognitoOptions'] as Map<String, dynamic>)
+          : null,
+      domainEndpointOptions: json['DomainEndpointOptions'] != null
+          ? DomainEndpointOptionsStatus.fromJson(
+              json['DomainEndpointOptions'] as Map<String, dynamic>)
+          : null,
+      eBSOptions: json['EBSOptions'] != null
+          ? EBSOptionsStatus.fromJson(
+              json['EBSOptions'] as Map<String, dynamic>)
+          : null,
+      elasticsearchClusterConfig: json['ElasticsearchClusterConfig'] != null
+          ? ElasticsearchClusterConfigStatus.fromJson(
+              json['ElasticsearchClusterConfig'] as Map<String, dynamic>)
+          : null,
+      elasticsearchVersion: json['ElasticsearchVersion'] != null
+          ? ElasticsearchVersionStatus.fromJson(
+              json['ElasticsearchVersion'] as Map<String, dynamic>)
+          : null,
+      encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
+          ? EncryptionAtRestOptionsStatus.fromJson(
+              json['EncryptionAtRestOptions'] as Map<String, dynamic>)
+          : null,
+      logPublishingOptions: json['LogPublishingOptions'] != null
+          ? LogPublishingOptionsStatus.fromJson(
+              json['LogPublishingOptions'] as Map<String, dynamic>)
+          : null,
+      nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
+          ? NodeToNodeEncryptionOptionsStatus.fromJson(
+              json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
+          : null,
+      snapshotOptions: json['SnapshotOptions'] != null
+          ? SnapshotOptionsStatus.fromJson(
+              json['SnapshotOptions'] as Map<String, dynamic>)
+          : null,
+      vPCOptions: json['VPCOptions'] != null
+          ? VPCDerivedInfoStatus.fromJson(
+              json['VPCOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The current status of an Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticsearchDomainStatus {
   /// The Amazon resource name (ARN) of an Elasticsearch domain. See <a
   /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/index.html?Using_Identifiers.html"
   /// target="_blank">Identifiers for IAM Entities</a> in <i>Using AWS Identity
   /// and Access Management</i> for more information.
-  @_s.JsonKey(name: 'ARN')
   final String arn;
 
   /// The unique identifier for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'DomainId')
   final String domainId;
 
   /// The name of an Elasticsearch domain. Domain names are unique across the
   /// domains owned by an account within an AWS region. Domain names start with a
   /// letter or number and can contain the following characters: a-z (lowercase),
   /// 0-9, and - (hyphen).
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
   /// The type and number of instances in the domain cluster.
-  @_s.JsonKey(name: 'ElasticsearchClusterConfig')
   final ElasticsearchClusterConfig elasticsearchClusterConfig;
 
   /// IAM access policy as a JSON-formatted string.
-  @_s.JsonKey(name: 'AccessPolicies')
-  final String accessPolicies;
+  final String? accessPolicies;
 
   /// Specifies the status of the <code>AdvancedOptions</code>
-  @_s.JsonKey(name: 'AdvancedOptions')
-  final Map<String, String> advancedOptions;
+  final Map<String, String>? advancedOptions;
 
   /// The current status of the Elasticsearch domain's advanced security options.
-  @_s.JsonKey(name: 'AdvancedSecurityOptions')
-  final AdvancedSecurityOptions advancedSecurityOptions;
+  final AdvancedSecurityOptions? advancedSecurityOptions;
 
   /// The <code>CognitoOptions</code> for the specified domain. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
   /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
-  @_s.JsonKey(name: 'CognitoOptions')
-  final CognitoOptions cognitoOptions;
+  final CognitoOptions? cognitoOptions;
 
   /// The domain creation status. <code>True</code> if the creation of an
   /// Elasticsearch domain is complete. <code>False</code> if domain creation is
   /// still in progress.
-  @_s.JsonKey(name: 'Created')
-  final bool created;
+  final bool? created;
 
   /// The domain deletion status. <code>True</code> if a delete request has been
   /// received for the domain but resource cleanup is still in progress.
   /// <code>False</code> if the domain has not been deleted. Once domain deletion
   /// is complete, the status of the domain is no longer returned.
-  @_s.JsonKey(name: 'Deleted')
-  final bool deleted;
+  final bool? deleted;
 
   /// The current status of the Elasticsearch domain's endpoint options.
-  @_s.JsonKey(name: 'DomainEndpointOptions')
-  final DomainEndpointOptions domainEndpointOptions;
+  final DomainEndpointOptions? domainEndpointOptions;
 
   /// The <code>EBSOptions</code> for the specified domain. See <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
   /// target="_blank">Configuring EBS-based Storage</a> for more information.
-  @_s.JsonKey(name: 'EBSOptions')
-  final EBSOptions eBSOptions;
-  @_s.JsonKey(name: 'ElasticsearchVersion')
-  final String elasticsearchVersion;
+  final EBSOptions? eBSOptions;
+  final String? elasticsearchVersion;
 
   /// Specifies the status of the <code>EncryptionAtRestOptions</code>.
-  @_s.JsonKey(name: 'EncryptionAtRestOptions')
-  final EncryptionAtRestOptions encryptionAtRestOptions;
+  final EncryptionAtRestOptions? encryptionAtRestOptions;
 
   /// The Elasticsearch domain endpoint that you use to submit index and search
   /// requests.
-  @_s.JsonKey(name: 'Endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// Map containing the Elasticsearch domain endpoints used to submit index and
   /// search requests. Example <code>key, value</code>:
   /// <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>.
-  @_s.JsonKey(name: 'Endpoints')
-  final Map<String, String> endpoints;
+  final Map<String, String>? endpoints;
 
   /// Log publishing options for the given domain.
-  @_s.JsonKey(name: 'LogPublishingOptions')
-  final Map<LogType, LogPublishingOption> logPublishingOptions;
+  final Map<LogType, LogPublishingOption>? logPublishingOptions;
 
   /// Specifies the status of the <code>NodeToNodeEncryptionOptions</code>.
-  @_s.JsonKey(name: 'NodeToNodeEncryptionOptions')
-  final NodeToNodeEncryptionOptions nodeToNodeEncryptionOptions;
+  final NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions;
 
   /// The status of the Elasticsearch domain configuration. <code>True</code> if
   /// Amazon Elasticsearch Service is processing configuration changes.
   /// <code>False</code> if the configuration is active.
-  @_s.JsonKey(name: 'Processing')
-  final bool processing;
+  final bool? processing;
 
   /// The current status of the Elasticsearch domain's service software.
-  @_s.JsonKey(name: 'ServiceSoftwareOptions')
-  final ServiceSoftwareOptions serviceSoftwareOptions;
+  final ServiceSoftwareOptions? serviceSoftwareOptions;
 
   /// Specifies the status of the <code>SnapshotOptions</code>
-  @_s.JsonKey(name: 'SnapshotOptions')
-  final SnapshotOptions snapshotOptions;
+  final SnapshotOptions? snapshotOptions;
 
   /// The status of an Elasticsearch domain version upgrade. <code>True</code> if
   /// Amazon Elasticsearch Service is undergoing a version upgrade.
   /// <code>False</code> if the configuration is active.
-  @_s.JsonKey(name: 'UpgradeProcessing')
-  final bool upgradeProcessing;
+  final bool? upgradeProcessing;
 
   /// The <code>VPCOptions</code> for the specified domain. For more information,
   /// see <a
   /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
   /// target="_blank">VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
-  @_s.JsonKey(name: 'VPCOptions')
-  final VPCDerivedInfo vPCOptions;
+  final VPCDerivedInfo? vPCOptions;
 
   ElasticsearchDomainStatus({
-    @_s.required this.arn,
-    @_s.required this.domainId,
-    @_s.required this.domainName,
-    @_s.required this.elasticsearchClusterConfig,
+    required this.arn,
+    required this.domainId,
+    required this.domainName,
+    required this.elasticsearchClusterConfig,
     this.accessPolicies,
     this.advancedOptions,
     this.advancedSecurityOptions,
@@ -3430,212 +3659,259 @@ class ElasticsearchDomainStatus {
     this.upgradeProcessing,
     this.vPCOptions,
   });
-  factory ElasticsearchDomainStatus.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchDomainStatusFromJson(json);
+  factory ElasticsearchDomainStatus.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchDomainStatus(
+      arn: json['ARN'] as String,
+      domainId: json['DomainId'] as String,
+      domainName: json['DomainName'] as String,
+      elasticsearchClusterConfig: ElasticsearchClusterConfig.fromJson(
+          json['ElasticsearchClusterConfig'] as Map<String, dynamic>),
+      accessPolicies: json['AccessPolicies'] as String?,
+      advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      advancedSecurityOptions: json['AdvancedSecurityOptions'] != null
+          ? AdvancedSecurityOptions.fromJson(
+              json['AdvancedSecurityOptions'] as Map<String, dynamic>)
+          : null,
+      cognitoOptions: json['CognitoOptions'] != null
+          ? CognitoOptions.fromJson(
+              json['CognitoOptions'] as Map<String, dynamic>)
+          : null,
+      created: json['Created'] as bool?,
+      deleted: json['Deleted'] as bool?,
+      domainEndpointOptions: json['DomainEndpointOptions'] != null
+          ? DomainEndpointOptions.fromJson(
+              json['DomainEndpointOptions'] as Map<String, dynamic>)
+          : null,
+      eBSOptions: json['EBSOptions'] != null
+          ? EBSOptions.fromJson(json['EBSOptions'] as Map<String, dynamic>)
+          : null,
+      elasticsearchVersion: json['ElasticsearchVersion'] as String?,
+      encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
+          ? EncryptionAtRestOptions.fromJson(
+              json['EncryptionAtRestOptions'] as Map<String, dynamic>)
+          : null,
+      endpoint: json['Endpoint'] as String?,
+      endpoints: (json['Endpoints'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      logPublishingOptions:
+          (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(k.toLogType(),
+                  LogPublishingOption.fromJson(e as Map<String, dynamic>))),
+      nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
+          ? NodeToNodeEncryptionOptions.fromJson(
+              json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
+          : null,
+      processing: json['Processing'] as bool?,
+      serviceSoftwareOptions: json['ServiceSoftwareOptions'] != null
+          ? ServiceSoftwareOptions.fromJson(
+              json['ServiceSoftwareOptions'] as Map<String, dynamic>)
+          : null,
+      snapshotOptions: json['SnapshotOptions'] != null
+          ? SnapshotOptions.fromJson(
+              json['SnapshotOptions'] as Map<String, dynamic>)
+          : null,
+      upgradeProcessing: json['UpgradeProcessing'] as bool?,
+      vPCOptions: json['VPCOptions'] != null
+          ? VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Status of the Elasticsearch version options for the specified Elasticsearch
 /// domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticsearchVersionStatus {
   /// Specifies the Elasticsearch version for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final String options;
 
   /// Specifies the status of the Elasticsearch version options for the specified
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   ElasticsearchVersionStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory ElasticsearchVersionStatus.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchVersionStatusFromJson(json);
+  factory ElasticsearchVersionStatus.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchVersionStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Specifies the Encryption At Rest Options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionAtRestOptions {
   /// Specifies the option to enable Encryption At Rest.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies the KMS Key ID for Encryption At Rest options.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   EncryptionAtRestOptions({
     this.enabled,
     this.kmsKeyId,
   });
-  factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionAtRestOptionsFromJson(json);
+  factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) {
+    return EncryptionAtRestOptions(
+      enabled: json['Enabled'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionAtRestOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
 }
 
 /// Status of the Encryption At Rest options for the specified Elasticsearch
 /// domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EncryptionAtRestOptionsStatus {
   /// Specifies the Encryption At Rest options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Options')
   final EncryptionAtRestOptions options;
 
   /// Specifies the status of the Encryption At Rest options for the specified
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   EncryptionAtRestOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory EncryptionAtRestOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionAtRestOptionsStatusFromJson(json);
+  factory EncryptionAtRestOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return EncryptionAtRestOptionsStatus(
+      options: EncryptionAtRestOptions.fromJson(
+          json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetails {
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
-  @_s.JsonKey(name: 'ErrorType')
-  final String errorType;
+  final String? errorMessage;
+  final String? errorType;
 
   ErrorDetails({
     this.errorMessage,
     this.errorType,
   });
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailsFromJson(json);
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorMessage: json['ErrorMessage'] as String?,
+      errorType: json['ErrorType'] as String?,
+    );
+  }
 }
 
 /// A filter used to limit results when describing inbound or outbound
 /// cross-cluster search connections. Multiple values can be specified per
 /// filter. A cross-cluster search connection must match at least one of the
 /// specified values for it to be returned from an operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// Specifies the name of the filter.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Contains one or more values for the filter.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Container for response returned by <code>
 /// <a>GetCompatibleElasticsearchVersions</a> </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCompatibleElasticsearchVersionsResponse {
   /// A map of compatible Elasticsearch versions returned as part of the <code>
   /// <a>GetCompatibleElasticsearchVersions</a> </code> operation.
-  @_s.JsonKey(name: 'CompatibleElasticsearchVersions')
-  final List<CompatibleVersionsMap> compatibleElasticsearchVersions;
+  final List<CompatibleVersionsMap>? compatibleElasticsearchVersions;
 
   GetCompatibleElasticsearchVersionsResponse({
     this.compatibleElasticsearchVersions,
   });
   factory GetCompatibleElasticsearchVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCompatibleElasticsearchVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCompatibleElasticsearchVersionsResponse(
+      compatibleElasticsearchVersions: (json['CompatibleElasticsearchVersions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => CompatibleVersionsMap.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>GetPackageVersionHistory</a>
 /// </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPackageVersionHistoryResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'PackageID')
-  final String packageID;
+  final String? nextToken;
+  final String? packageID;
 
   /// List of <code>PackageVersionHistory</code> objects.
-  @_s.JsonKey(name: 'PackageVersionHistoryList')
-  final List<PackageVersionHistory> packageVersionHistoryList;
+  final List<PackageVersionHistory>? packageVersionHistoryList;
 
   GetPackageVersionHistoryResponse({
     this.nextToken,
     this.packageID,
     this.packageVersionHistoryList,
   });
-  factory GetPackageVersionHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPackageVersionHistoryResponseFromJson(json);
+  factory GetPackageVersionHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetPackageVersionHistoryResponse(
+      nextToken: json['NextToken'] as String?,
+      packageID: json['PackageID'] as String?,
+      packageVersionHistoryList: (json['PackageVersionHistoryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageVersionHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>GetUpgradeHistory</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUpgradeHistoryResponse {
   /// Pagination token that needs to be supplied to the next call to get the next
   /// page of results
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code> <a>UpgradeHistory</a> </code> objects corresponding to each
   /// Upgrade or Upgrade Eligibility Check performed on a domain returned as part
   /// of <code> <a>GetUpgradeHistoryResponse</a> </code> object.
-  @_s.JsonKey(name: 'UpgradeHistories')
-  final List<UpgradeHistory> upgradeHistories;
+  final List<UpgradeHistory>? upgradeHistories;
 
   GetUpgradeHistoryResponse({
     this.nextToken,
     this.upgradeHistories,
   });
-  factory GetUpgradeHistoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUpgradeHistoryResponseFromJson(json);
+  factory GetUpgradeHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetUpgradeHistoryResponse(
+      nextToken: json['NextToken'] as String?,
+      upgradeHistories: (json['UpgradeHistories'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpgradeHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>GetUpgradeStatus</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUpgradeStatusResponse {
   /// One of 4 statuses that a step can go through returned as part of the <code>
   /// <a>GetUpgradeStatusResponse</a> </code> object. The status can take one of
@@ -3646,12 +3922,10 @@ class GetUpgradeStatusResponse {
   /// <li>Succeeded with Issues</li>
   /// <li>Failed</li>
   /// </ul>
-  @_s.JsonKey(name: 'StepStatus')
-  final UpgradeStatus stepStatus;
+  final UpgradeStatus? stepStatus;
 
   /// A string that describes the update briefly
-  @_s.JsonKey(name: 'UpgradeName')
-  final String upgradeName;
+  final String? upgradeName;
 
   /// Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does
   /// through:
@@ -3660,43 +3934,38 @@ class GetUpgradeStatusResponse {
   /// <li>Snapshot</li>
   /// <li>Upgrade</li>
   /// </ul>
-  @_s.JsonKey(name: 'UpgradeStep')
-  final UpgradeStep upgradeStep;
+  final UpgradeStep? upgradeStep;
 
   GetUpgradeStatusResponse({
     this.stepStatus,
     this.upgradeName,
     this.upgradeStep,
   });
-  factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUpgradeStatusResponseFromJson(json);
+  factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetUpgradeStatusResponse(
+      stepStatus: (json['StepStatus'] as String?)?.toUpgradeStatus(),
+      upgradeName: json['UpgradeName'] as String?,
+      upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
+    );
+  }
 }
 
 /// Specifies details of an inbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InboundCrossClusterSearchConnection {
   /// Specifies the <code><a>InboundCrossClusterSearchConnectionStatus</a></code>
   /// for the outbound connection.
-  @_s.JsonKey(name: 'ConnectionStatus')
-  final InboundCrossClusterSearchConnectionStatus connectionStatus;
+  final InboundCrossClusterSearchConnectionStatus? connectionStatus;
 
   /// Specifies the connection id for the inbound cross-cluster search connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
-  final String crossClusterSearchConnectionId;
+  final String? crossClusterSearchConnectionId;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the destination
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'DestinationDomainInfo')
-  final DomainInformation destinationDomainInfo;
+  final DomainInformation? destinationDomainInfo;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the source
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'SourceDomainInfo')
-  final DomainInformation sourceDomainInfo;
+  final DomainInformation? sourceDomainInfo;
 
   InboundCrossClusterSearchConnection({
     this.connectionStatus,
@@ -3705,21 +3974,31 @@ class InboundCrossClusterSearchConnection {
     this.sourceDomainInfo,
   });
   factory InboundCrossClusterSearchConnection.fromJson(
-          Map<String, dynamic> json) =>
-      _$InboundCrossClusterSearchConnectionFromJson(json);
+      Map<String, dynamic> json) {
+    return InboundCrossClusterSearchConnection(
+      connectionStatus: json['ConnectionStatus'] != null
+          ? InboundCrossClusterSearchConnectionStatus.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
+      crossClusterSearchConnectionId:
+          json['CrossClusterSearchConnectionId'] as String?,
+      destinationDomainInfo: json['DestinationDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['DestinationDomainInfo'] as Map<String, dynamic>)
+          : null,
+      sourceDomainInfo: json['SourceDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['SourceDomainInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies the coonection status of an inbound cross-cluster search
 /// connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InboundCrossClusterSearchConnectionStatus {
   /// Specifies verbose information for the inbound connection status.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The state code for inbound connection. This can be one of the following:
   ///
@@ -3733,234 +4012,277 @@ class InboundCrossClusterSearchConnectionStatus {
   /// <li>DELETING: Inbound connection deletion is in progress.</li>
   /// <li>DELETED: Inbound connection is deleted and cannot be used further.</li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusCode')
-  final InboundCrossClusterSearchConnectionStatusCode statusCode;
+  final InboundCrossClusterSearchConnectionStatusCode? statusCode;
 
   InboundCrossClusterSearchConnectionStatus({
     this.message,
     this.statusCode,
   });
   factory InboundCrossClusterSearchConnectionStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$InboundCrossClusterSearchConnectionStatusFromJson(json);
+      Map<String, dynamic> json) {
+    return InboundCrossClusterSearchConnectionStatus(
+      message: json['Message'] as String?,
+      statusCode: (json['StatusCode'] as String?)
+          ?.toInboundCrossClusterSearchConnectionStatusCode(),
+    );
+  }
 }
 
 enum InboundCrossClusterSearchConnectionStatusCode {
-  @_s.JsonValue('PENDING_ACCEPTANCE')
   pendingAcceptance,
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('REJECTING')
   rejecting,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on InboundCrossClusterSearchConnectionStatusCode {
+  String toValue() {
+    switch (this) {
+      case InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
+        return 'PENDING_ACCEPTANCE';
+      case InboundCrossClusterSearchConnectionStatusCode.approved:
+        return 'APPROVED';
+      case InboundCrossClusterSearchConnectionStatusCode.rejecting:
+        return 'REJECTING';
+      case InboundCrossClusterSearchConnectionStatusCode.rejected:
+        return 'REJECTED';
+      case InboundCrossClusterSearchConnectionStatusCode.deleting:
+        return 'DELETING';
+      case InboundCrossClusterSearchConnectionStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  InboundCrossClusterSearchConnectionStatusCode
+      toInboundCrossClusterSearchConnectionStatusCode() {
+    switch (this) {
+      case 'PENDING_ACCEPTANCE':
+        return InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance;
+      case 'APPROVED':
+        return InboundCrossClusterSearchConnectionStatusCode.approved;
+      case 'REJECTING':
+        return InboundCrossClusterSearchConnectionStatusCode.rejecting;
+      case 'REJECTED':
+        return InboundCrossClusterSearchConnectionStatusCode.rejected;
+      case 'DELETING':
+        return InboundCrossClusterSearchConnectionStatusCode.deleting;
+      case 'DELETED':
+        return InboundCrossClusterSearchConnectionStatusCode.deleted;
+    }
+    throw Exception(
+        '$this is not known in enum InboundCrossClusterSearchConnectionStatusCode');
+  }
 }
 
 /// InstanceCountLimits represents the limits on number of instances that be
 /// created in Amazon Elasticsearch for given InstanceType.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceCountLimits {
-  @_s.JsonKey(name: 'MaximumInstanceCount')
-  final int maximumInstanceCount;
-  @_s.JsonKey(name: 'MinimumInstanceCount')
-  final int minimumInstanceCount;
+  final int? maximumInstanceCount;
+  final int? minimumInstanceCount;
 
   InstanceCountLimits({
     this.maximumInstanceCount,
     this.minimumInstanceCount,
   });
-  factory InstanceCountLimits.fromJson(Map<String, dynamic> json) =>
-      _$InstanceCountLimitsFromJson(json);
+  factory InstanceCountLimits.fromJson(Map<String, dynamic> json) {
+    return InstanceCountLimits(
+      maximumInstanceCount: json['MaximumInstanceCount'] as int?,
+      minimumInstanceCount: json['MinimumInstanceCount'] as int?,
+    );
+  }
 }
 
 /// InstanceLimits represents the list of instance related attributes that are
 /// available for given InstanceType.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceLimits {
-  @_s.JsonKey(name: 'InstanceCountLimits')
-  final InstanceCountLimits instanceCountLimits;
+  final InstanceCountLimits? instanceCountLimits;
 
   InstanceLimits({
     this.instanceCountLimits,
   });
-  factory InstanceLimits.fromJson(Map<String, dynamic> json) =>
-      _$InstanceLimitsFromJson(json);
+  factory InstanceLimits.fromJson(Map<String, dynamic> json) {
+    return InstanceLimits(
+      instanceCountLimits: json['InstanceCountLimits'] != null
+          ? InstanceCountLimits.fromJson(
+              json['InstanceCountLimits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Limits for given InstanceType and for each of it's role. <br/> Limits
 /// contains following <code> <a>StorageTypes,</a> </code> <code>
 /// <a>InstanceLimits</a> </code> and <code> <a>AdditionalLimits</a> </code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Limits {
   /// List of additional limits that are specific to a given InstanceType and for
   /// each of it's <code> <a>InstanceRole</a> </code> .
-  @_s.JsonKey(name: 'AdditionalLimits')
-  final List<AdditionalLimit> additionalLimits;
-  @_s.JsonKey(name: 'InstanceLimits')
-  final InstanceLimits instanceLimits;
+  final List<AdditionalLimit>? additionalLimits;
+  final InstanceLimits? instanceLimits;
 
   /// StorageType represents the list of storage related types and attributes that
   /// are available for given InstanceType.
-  @_s.JsonKey(name: 'StorageTypes')
-  final List<StorageType> storageTypes;
+  final List<StorageType>? storageTypes;
 
   Limits({
     this.additionalLimits,
     this.instanceLimits,
     this.storageTypes,
   });
-  factory Limits.fromJson(Map<String, dynamic> json) => _$LimitsFromJson(json);
+  factory Limits.fromJson(Map<String, dynamic> json) {
+    return Limits(
+      additionalLimits: (json['AdditionalLimits'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdditionalLimit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceLimits: json['InstanceLimits'] != null
+          ? InstanceLimits.fromJson(
+              json['InstanceLimits'] as Map<String, dynamic>)
+          : null,
+      storageTypes: (json['StorageTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => StorageType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The result of a <code>ListDomainNames</code> operation. Contains the names
 /// of all Elasticsearch domains owned by this account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainNamesResponse {
   /// List of Elasticsearch domain names.
-  @_s.JsonKey(name: 'DomainNames')
-  final List<DomainInfo> domainNames;
+  final List<DomainInfo>? domainNames;
 
   ListDomainNamesResponse({
     this.domainNames,
   });
-  factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainNamesResponseFromJson(json);
+  factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainNamesResponse(
+      domainNames: (json['DomainNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Container for response parameters to <code> <a>ListDomainsForPackage</a>
 /// </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainsForPackageResponse {
   /// List of <code>DomainPackageDetails</code> objects.
-  @_s.JsonKey(name: 'DomainPackageDetailsList')
-  final List<DomainPackageDetails> domainPackageDetailsList;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<DomainPackageDetails>? domainPackageDetailsList;
+  final String? nextToken;
 
   ListDomainsForPackageResponse({
     this.domainPackageDetailsList,
     this.nextToken,
   });
-  factory ListDomainsForPackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainsForPackageResponseFromJson(json);
+  factory ListDomainsForPackageResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainsForPackageResponse(
+      domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Container for the parameters returned by <code>
 /// <a>ListElasticsearchInstanceTypes</a> </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListElasticsearchInstanceTypesResponse {
   /// List of instance types supported by Amazon Elasticsearch service for given
   /// <code> <a>ElasticsearchVersion</a> </code>
-  @_s.JsonKey(name: 'ElasticsearchInstanceTypes')
-  final List<ESPartitionInstanceType> elasticsearchInstanceTypes;
+  final List<ESPartitionInstanceType>? elasticsearchInstanceTypes;
 
   /// In case if there are more results available NextToken would be present, make
   /// further request to the same API with received NextToken to paginate
   /// remaining results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListElasticsearchInstanceTypesResponse({
     this.elasticsearchInstanceTypes,
     this.nextToken,
   });
   factory ListElasticsearchInstanceTypesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListElasticsearchInstanceTypesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListElasticsearchInstanceTypesResponse(
+      elasticsearchInstanceTypes: (json['ElasticsearchInstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toESPartitionInstanceType())
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Container for the parameters for response received from <code>
 /// <a>ListElasticsearchVersions</a> </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListElasticsearchVersionsResponse {
-  @_s.JsonKey(name: 'ElasticsearchVersions')
-  final List<String> elasticsearchVersions;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<String>? elasticsearchVersions;
+  final String? nextToken;
 
   ListElasticsearchVersionsResponse({
     this.elasticsearchVersions,
     this.nextToken,
   });
   factory ListElasticsearchVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListElasticsearchVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListElasticsearchVersionsResponse(
+      elasticsearchVersions: (json['ElasticsearchVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Container for response parameters to <code> <a>ListPackagesForDomain</a>
 /// </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackagesForDomainResponse {
   /// List of <code>DomainPackageDetails</code> objects.
-  @_s.JsonKey(name: 'DomainPackageDetailsList')
-  final List<DomainPackageDetails> domainPackageDetailsList;
+  final List<DomainPackageDetails>? domainPackageDetailsList;
 
   /// Pagination token that needs to be supplied to the next call to get the next
   /// page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPackagesForDomainResponse({
     this.domainPackageDetailsList,
     this.nextToken,
   });
-  factory ListPackagesForDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPackagesForDomainResponseFromJson(json);
+  factory ListPackagesForDomainResponse.fromJson(Map<String, dynamic> json) {
+    return ListPackagesForDomainResponse(
+      domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The result of a <code>ListTags</code> operation. Contains tags for all
 /// requested Elasticsearch domains.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// List of <code>Tag</code> for the requested Elasticsearch domain.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   ListTagsResponse({
     this.tagList,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Log Publishing option that is set for given domain. <br/>Attributes and
@@ -3971,52 +4293,58 @@ class ListTagsResponse {
 /// <li>Enabled: Whether the log publishing for given log type is enabled or
 /// not</li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogPublishingOption {
-  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
-  final String cloudWatchLogsLogGroupArn;
+  final String? cloudWatchLogsLogGroupArn;
 
   /// Specifies whether given log publishing option is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   LogPublishingOption({
     this.cloudWatchLogsLogGroupArn,
     this.enabled,
   });
-  factory LogPublishingOption.fromJson(Map<String, dynamic> json) =>
-      _$LogPublishingOptionFromJson(json);
+  factory LogPublishingOption.fromJson(Map<String, dynamic> json) {
+    return LogPublishingOption(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+      enabled: json['Enabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogPublishingOptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final enabled = this.enabled;
+    return {
+      if (cloudWatchLogsLogGroupArn != null)
+        'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// The configured log publishing options for the domain and their current
 /// status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogPublishingOptionsStatus {
   /// The log publishing options configured for the Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
-  final Map<LogType, LogPublishingOption> options;
+  final Map<LogType, LogPublishingOption>? options;
 
   /// The status of the log publishing options for the Elasticsearch domain. See
   /// <code>OptionStatus</code> for the status information that's included.
-  @_s.JsonKey(name: 'Status')
-  final OptionStatus status;
+  final OptionStatus? status;
 
   LogPublishingOptionsStatus({
     this.options,
     this.status,
   });
-  factory LogPublishingOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$LogPublishingOptionsStatusFromJson(json);
+  factory LogPublishingOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return LogPublishingOptionsStatus(
+      options: (json['Options'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k.toLogType(),
+              LogPublishingOption.fromJson(e as Map<String, dynamic>))),
+      status: json['Status'] != null
+          ? OptionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Type of Log File, it can be one of the following:
@@ -4032,13 +4360,9 @@ class LogPublishingOptionsStatus {
 /// the domain.</li>
 /// </ul>
 enum LogType {
-  @_s.JsonValue('INDEX_SLOW_LOGS')
   indexSlowLogs,
-  @_s.JsonValue('SEARCH_SLOW_LOGS')
   searchSlowLogs,
-  @_s.JsonValue('ES_APPLICATION_LOGS')
   esApplicationLogs,
-  @_s.JsonValue('AUDIT_LOGS')
   auditLogs,
 }
 
@@ -4054,84 +4378,100 @@ extension on LogType {
       case LogType.auditLogs:
         return 'AUDIT_LOGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LogType toLogType() {
+    switch (this) {
+      case 'INDEX_SLOW_LOGS':
+        return LogType.indexSlowLogs;
+      case 'SEARCH_SLOW_LOGS':
+        return LogType.searchSlowLogs;
+      case 'ES_APPLICATION_LOGS':
+        return LogType.esApplicationLogs;
+      case 'AUDIT_LOGS':
+        return LogType.auditLogs;
+    }
+    throw Exception('$this is not known in enum LogType');
   }
 }
 
 /// Credentials for the master user: username and password, ARN, or both.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MasterUserOptions {
   /// ARN for the master user (if IAM is enabled).
-  @_s.JsonKey(name: 'MasterUserARN')
-  final String masterUserARN;
+  final String? masterUserARN;
 
   /// The master user's username, which is stored in the Amazon Elasticsearch
   /// Service domain's internal database.
-  @_s.JsonKey(name: 'MasterUserName')
-  final String masterUserName;
+  final String? masterUserName;
 
   /// The master user's password, which is stored in the Amazon Elasticsearch
   /// Service domain's internal database.
-  @_s.JsonKey(name: 'MasterUserPassword')
-  final String masterUserPassword;
+  final String? masterUserPassword;
 
   MasterUserOptions({
     this.masterUserARN,
     this.masterUserName,
     this.masterUserPassword,
   });
-  Map<String, dynamic> toJson() => _$MasterUserOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final masterUserARN = this.masterUserARN;
+    final masterUserName = this.masterUserName;
+    final masterUserPassword = this.masterUserPassword;
+    return {
+      if (masterUserARN != null) 'MasterUserARN': masterUserARN,
+      if (masterUserName != null) 'MasterUserName': masterUserName,
+      if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+    };
+  }
 }
 
 /// Specifies the node-to-node encryption options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodeToNodeEncryptionOptions {
   /// Specify true to enable node-to-node encryption.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   NodeToNodeEncryptionOptions({
     this.enabled,
   });
-  factory NodeToNodeEncryptionOptions.fromJson(Map<String, dynamic> json) =>
-      _$NodeToNodeEncryptionOptionsFromJson(json);
+  factory NodeToNodeEncryptionOptions.fromJson(Map<String, dynamic> json) {
+    return NodeToNodeEncryptionOptions(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NodeToNodeEncryptionOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// Status of the node-to-node encryption options for the specified
 /// Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeToNodeEncryptionOptionsStatus {
   /// Specifies the node-to-node encryption options for the specified
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final NodeToNodeEncryptionOptions options;
 
   /// Specifies the status of the node-to-node encryption options for the
   /// specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   NodeToNodeEncryptionOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
   factory NodeToNodeEncryptionOptionsStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$NodeToNodeEncryptionOptionsStatusFromJson(json);
+      Map<String, dynamic> json) {
+    return NodeToNodeEncryptionOptionsStatus(
+      options: NodeToNodeEncryptionOptions.fromJson(
+          json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The state of a requested change. One of the following:
@@ -4142,85 +4482,95 @@ class NodeToNodeEncryptionOptionsStatus {
 /// Elasticsearch domain.</li>
 /// </ul>
 enum OptionState {
-  @_s.JsonValue('RequiresIndexDocuments')
   requiresIndexDocuments,
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Active')
   active,
 }
 
+extension on OptionState {
+  String toValue() {
+    switch (this) {
+      case OptionState.requiresIndexDocuments:
+        return 'RequiresIndexDocuments';
+      case OptionState.processing:
+        return 'Processing';
+      case OptionState.active:
+        return 'Active';
+    }
+  }
+}
+
+extension on String {
+  OptionState toOptionState() {
+    switch (this) {
+      case 'RequiresIndexDocuments':
+        return OptionState.requiresIndexDocuments;
+      case 'Processing':
+        return OptionState.processing;
+      case 'Active':
+        return OptionState.active;
+    }
+    throw Exception('$this is not known in enum OptionState');
+  }
+}
+
 /// Provides the current status of the entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OptionStatus {
   /// Timestamp which tells the creation date for the entity.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Provides the <code>OptionState</code> for the Elasticsearch domain.
-  @_s.JsonKey(name: 'State')
   final OptionState state;
 
   /// Timestamp which tells the last updated time for the entity.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateDate')
   final DateTime updateDate;
 
   /// Indicates whether the Elasticsearch domain is being deleted.
-  @_s.JsonKey(name: 'PendingDeletion')
-  final bool pendingDeletion;
+  final bool? pendingDeletion;
 
   /// Specifies the latest version for the entity.
-  @_s.JsonKey(name: 'UpdateVersion')
-  final int updateVersion;
+  final int? updateVersion;
 
   OptionStatus({
-    @_s.required this.creationDate,
-    @_s.required this.state,
-    @_s.required this.updateDate,
+    required this.creationDate,
+    required this.state,
+    required this.updateDate,
     this.pendingDeletion,
     this.updateVersion,
   });
-  factory OptionStatus.fromJson(Map<String, dynamic> json) =>
-      _$OptionStatusFromJson(json);
+  factory OptionStatus.fromJson(Map<String, dynamic> json) {
+    return OptionStatus(
+      creationDate:
+          nonNullableTimeStampFromJson(json['CreationDate'] as Object),
+      state: (json['State'] as String).toOptionState(),
+      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
+      pendingDeletion: json['PendingDeletion'] as bool?,
+      updateVersion: json['UpdateVersion'] as int?,
+    );
+  }
 }
 
 /// Specifies details of an outbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutboundCrossClusterSearchConnection {
   /// Specifies the connection alias for the outbound cross-cluster search
   /// connection.
-  @_s.JsonKey(name: 'ConnectionAlias')
-  final String connectionAlias;
+  final String? connectionAlias;
 
   /// Specifies the <code><a>OutboundCrossClusterSearchConnectionStatus</a></code>
   /// for the outbound connection.
-  @_s.JsonKey(name: 'ConnectionStatus')
-  final OutboundCrossClusterSearchConnectionStatus connectionStatus;
+  final OutboundCrossClusterSearchConnectionStatus? connectionStatus;
 
   /// Specifies the connection id for the outbound cross-cluster search
   /// connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
-  final String crossClusterSearchConnectionId;
+  final String? crossClusterSearchConnectionId;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the destination
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'DestinationDomainInfo')
-  final DomainInformation destinationDomainInfo;
+  final DomainInformation? destinationDomainInfo;
 
   /// Specifies the <code><a>DomainInformation</a></code> for the source
   /// Elasticsearch domain.
-  @_s.JsonKey(name: 'SourceDomainInfo')
-  final DomainInformation sourceDomainInfo;
+  final DomainInformation? sourceDomainInfo;
 
   OutboundCrossClusterSearchConnection({
     this.connectionAlias,
@@ -4230,21 +4580,32 @@ class OutboundCrossClusterSearchConnection {
     this.sourceDomainInfo,
   });
   factory OutboundCrossClusterSearchConnection.fromJson(
-          Map<String, dynamic> json) =>
-      _$OutboundCrossClusterSearchConnectionFromJson(json);
+      Map<String, dynamic> json) {
+    return OutboundCrossClusterSearchConnection(
+      connectionAlias: json['ConnectionAlias'] as String?,
+      connectionStatus: json['ConnectionStatus'] != null
+          ? OutboundCrossClusterSearchConnectionStatus.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
+      crossClusterSearchConnectionId:
+          json['CrossClusterSearchConnectionId'] as String?,
+      destinationDomainInfo: json['DestinationDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['DestinationDomainInfo'] as Map<String, dynamic>)
+          : null,
+      sourceDomainInfo: json['SourceDomainInfo'] != null
+          ? DomainInformation.fromJson(
+              json['SourceDomainInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies the connection status of an outbound cross-cluster search
 /// connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutboundCrossClusterSearchConnectionStatus {
   /// Specifies verbose information for the outbound connection status.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The state code for outbound connection. This can be one of the following:
   ///
@@ -4260,79 +4621,108 @@ class OutboundCrossClusterSearchConnectionStatus {
   /// <li>DELETING: Outbound connection deletion is in progress.</li>
   /// <li>DELETED: Outbound connection is deleted and cannot be used further.</li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusCode')
-  final OutboundCrossClusterSearchConnectionStatusCode statusCode;
+  final OutboundCrossClusterSearchConnectionStatusCode? statusCode;
 
   OutboundCrossClusterSearchConnectionStatus({
     this.message,
     this.statusCode,
   });
   factory OutboundCrossClusterSearchConnectionStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$OutboundCrossClusterSearchConnectionStatusFromJson(json);
+      Map<String, dynamic> json) {
+    return OutboundCrossClusterSearchConnectionStatus(
+      message: json['Message'] as String?,
+      statusCode: (json['StatusCode'] as String?)
+          ?.toOutboundCrossClusterSearchConnectionStatusCode(),
+    );
+  }
 }
 
 enum OutboundCrossClusterSearchConnectionStatusCode {
-  @_s.JsonValue('PENDING_ACCEPTANCE')
   pendingAcceptance,
-  @_s.JsonValue('VALIDATING')
   validating,
-  @_s.JsonValue('VALIDATION_FAILED')
   validationFailed,
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on OutboundCrossClusterSearchConnectionStatusCode {
+  String toValue() {
+    switch (this) {
+      case OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
+        return 'PENDING_ACCEPTANCE';
+      case OutboundCrossClusterSearchConnectionStatusCode.validating:
+        return 'VALIDATING';
+      case OutboundCrossClusterSearchConnectionStatusCode.validationFailed:
+        return 'VALIDATION_FAILED';
+      case OutboundCrossClusterSearchConnectionStatusCode.provisioning:
+        return 'PROVISIONING';
+      case OutboundCrossClusterSearchConnectionStatusCode.active:
+        return 'ACTIVE';
+      case OutboundCrossClusterSearchConnectionStatusCode.rejected:
+        return 'REJECTED';
+      case OutboundCrossClusterSearchConnectionStatusCode.deleting:
+        return 'DELETING';
+      case OutboundCrossClusterSearchConnectionStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  OutboundCrossClusterSearchConnectionStatusCode
+      toOutboundCrossClusterSearchConnectionStatusCode() {
+    switch (this) {
+      case 'PENDING_ACCEPTANCE':
+        return OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance;
+      case 'VALIDATING':
+        return OutboundCrossClusterSearchConnectionStatusCode.validating;
+      case 'VALIDATION_FAILED':
+        return OutboundCrossClusterSearchConnectionStatusCode.validationFailed;
+      case 'PROVISIONING':
+        return OutboundCrossClusterSearchConnectionStatusCode.provisioning;
+      case 'ACTIVE':
+        return OutboundCrossClusterSearchConnectionStatusCode.active;
+      case 'REJECTED':
+        return OutboundCrossClusterSearchConnectionStatusCode.rejected;
+      case 'DELETING':
+        return OutboundCrossClusterSearchConnectionStatusCode.deleting;
+      case 'DELETED':
+        return OutboundCrossClusterSearchConnectionStatusCode.deleted;
+    }
+    throw Exception(
+        '$this is not known in enum OutboundCrossClusterSearchConnectionStatusCode');
+  }
+}
+
 /// Basic information about a package.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackageDetails {
-  @_s.JsonKey(name: 'AvailablePackageVersion')
-  final String availablePackageVersion;
+  final String? availablePackageVersion;
 
   /// Timestamp which tells creation date of the package.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Additional information if the package is in an error state. Null otherwise.
-  @_s.JsonKey(name: 'ErrorDetails')
-  final ErrorDetails errorDetails;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final ErrorDetails? errorDetails;
+  final DateTime? lastUpdatedAt;
 
   /// User-specified description of the package.
-  @_s.JsonKey(name: 'PackageDescription')
-  final String packageDescription;
+  final String? packageDescription;
 
   /// Internal ID of the package.
-  @_s.JsonKey(name: 'PackageID')
-  final String packageID;
+  final String? packageID;
 
   /// User specified name of the package.
-  @_s.JsonKey(name: 'PackageName')
-  final String packageName;
+  final String? packageName;
 
   /// Current state of the package. Values are
   /// COPYING/COPY_FAILED/AVAILABLE/DELETING/DELETE_FAILED
-  @_s.JsonKey(name: 'PackageStatus')
-  final PackageStatus packageStatus;
+  final PackageStatus? packageStatus;
 
   /// Currently supports only TXT-DICTIONARY.
-  @_s.JsonKey(name: 'PackageType')
-  final PackageType packageType;
+  final PackageType? packageType;
 
   PackageDetails({
     this.availablePackageVersion,
@@ -4345,54 +4735,105 @@ class PackageDetails {
     this.packageStatus,
     this.packageType,
   });
-  factory PackageDetails.fromJson(Map<String, dynamic> json) =>
-      _$PackageDetailsFromJson(json);
+  factory PackageDetails.fromJson(Map<String, dynamic> json) {
+    return PackageDetails(
+      availablePackageVersion: json['AvailablePackageVersion'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      errorDetails: json['ErrorDetails'] != null
+          ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      packageDescription: json['PackageDescription'] as String?,
+      packageID: json['PackageID'] as String?,
+      packageName: json['PackageName'] as String?,
+      packageStatus: (json['PackageStatus'] as String?)?.toPackageStatus(),
+      packageType: (json['PackageType'] as String?)?.toPackageType(),
+    );
+  }
 }
 
 /// The S3 location for importing the package specified as
 /// <code>S3BucketName</code> and <code>S3Key</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PackageSource {
   /// Name of the bucket containing the package.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// Key (file name) of the package.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   PackageSource({
     this.s3BucketName,
     this.s3Key,
   });
-  Map<String, dynamic> toJson() => _$PackageSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3BucketName = this.s3BucketName;
+    final s3Key = this.s3Key;
+    return {
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
 enum PackageStatus {
-  @_s.JsonValue('COPYING')
   copying,
-  @_s.JsonValue('COPY_FAILED')
   copyFailed,
-  @_s.JsonValue('VALIDATING')
   validating,
-  @_s.JsonValue('VALIDATION_FAILED')
   validationFailed,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
 }
 
+extension on PackageStatus {
+  String toValue() {
+    switch (this) {
+      case PackageStatus.copying:
+        return 'COPYING';
+      case PackageStatus.copyFailed:
+        return 'COPY_FAILED';
+      case PackageStatus.validating:
+        return 'VALIDATING';
+      case PackageStatus.validationFailed:
+        return 'VALIDATION_FAILED';
+      case PackageStatus.available:
+        return 'AVAILABLE';
+      case PackageStatus.deleting:
+        return 'DELETING';
+      case PackageStatus.deleted:
+        return 'DELETED';
+      case PackageStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  PackageStatus toPackageStatus() {
+    switch (this) {
+      case 'COPYING':
+        return PackageStatus.copying;
+      case 'COPY_FAILED':
+        return PackageStatus.copyFailed;
+      case 'VALIDATING':
+        return PackageStatus.validating;
+      case 'VALIDATION_FAILED':
+        return PackageStatus.validationFailed;
+      case 'AVAILABLE':
+        return PackageStatus.available;
+      case 'DELETING':
+        return PackageStatus.deleting;
+      case 'DELETED':
+        return PackageStatus.deleted;
+      case 'DELETE_FAILED':
+        return PackageStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum PackageStatus');
+  }
+}
+
 enum PackageType {
-  @_s.JsonValue('TXT-DICTIONARY')
   txtDictionary,
 }
 
@@ -4402,174 +4843,155 @@ extension on PackageType {
       case PackageType.txtDictionary:
         return 'TXT-DICTIONARY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PackageType toPackageType() {
+    switch (this) {
+      case 'TXT-DICTIONARY':
+        return PackageType.txtDictionary;
+    }
+    throw Exception('$this is not known in enum PackageType');
   }
 }
 
 /// Details of a package version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackageVersionHistory {
   /// A message associated with the version.
-  @_s.JsonKey(name: 'CommitMessage')
-  final String commitMessage;
+  final String? commitMessage;
 
   /// Timestamp which tells creation time of the package version.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Version of the package.
-  @_s.JsonKey(name: 'PackageVersion')
-  final String packageVersion;
+  final String? packageVersion;
 
   PackageVersionHistory({
     this.commitMessage,
     this.createdAt,
     this.packageVersion,
   });
-  factory PackageVersionHistory.fromJson(Map<String, dynamic> json) =>
-      _$PackageVersionHistoryFromJson(json);
+  factory PackageVersionHistory.fromJson(Map<String, dynamic> json) {
+    return PackageVersionHistory(
+      commitMessage: json['CommitMessage'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      packageVersion: json['PackageVersion'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a
 /// <code>PurchaseReservedElasticsearchInstanceOffering</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PurchaseReservedElasticsearchInstanceOfferingResponse {
   /// The customer-specified identifier used to track this reservation.
-  @_s.JsonKey(name: 'ReservationName')
-  final String reservationName;
+  final String? reservationName;
 
   /// Details of the reserved Elasticsearch instance which was purchased.
-  @_s.JsonKey(name: 'ReservedElasticsearchInstanceId')
-  final String reservedElasticsearchInstanceId;
+  final String? reservedElasticsearchInstanceId;
 
   PurchaseReservedElasticsearchInstanceOfferingResponse({
     this.reservationName,
     this.reservedElasticsearchInstanceId,
   });
   factory PurchaseReservedElasticsearchInstanceOfferingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PurchaseReservedElasticsearchInstanceOfferingResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PurchaseReservedElasticsearchInstanceOfferingResponse(
+      reservationName: json['ReservationName'] as String?,
+      reservedElasticsearchInstanceId:
+          json['ReservedElasticsearchInstanceId'] as String?,
+    );
+  }
 }
 
 /// Contains the specific price and frequency of a recurring charges for a
 /// reserved Elasticsearch instance, or for a reserved Elasticsearch instance
 /// offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecurringCharge {
   /// The monetary amount of the recurring charge.
-  @_s.JsonKey(name: 'RecurringChargeAmount')
-  final double recurringChargeAmount;
+  final double? recurringChargeAmount;
 
   /// The frequency of the recurring charge.
-  @_s.JsonKey(name: 'RecurringChargeFrequency')
-  final String recurringChargeFrequency;
+  final String? recurringChargeFrequency;
 
   RecurringCharge({
     this.recurringChargeAmount,
     this.recurringChargeFrequency,
   });
-  factory RecurringCharge.fromJson(Map<String, dynamic> json) =>
-      _$RecurringChargeFromJson(json);
+  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
+    return RecurringCharge(
+      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
+    );
+  }
 }
 
 /// The result of a
 /// <code><a>RejectInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of rejected inbound connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// rejected inbound connection.
-  @_s.JsonKey(name: 'CrossClusterSearchConnection')
-  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+  final InboundCrossClusterSearchConnection? crossClusterSearchConnection;
 
   RejectInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
   factory RejectInboundCrossClusterSearchConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RejectInboundCrossClusterSearchConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RejectInboundCrossClusterSearchConnectionResponse(
+      crossClusterSearchConnection: json['CrossClusterSearchConnection'] != null
+          ? InboundCrossClusterSearchConnection.fromJson(
+              json['CrossClusterSearchConnection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Details of a reserved Elasticsearch instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservedElasticsearchInstance {
   /// The currency code for the reserved Elasticsearch instance offering.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The duration, in seconds, for which the Elasticsearch instance is reserved.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// The number of Elasticsearch instances that have been reserved.
-  @_s.JsonKey(name: 'ElasticsearchInstanceCount')
-  final int elasticsearchInstanceCount;
+  final int? elasticsearchInstanceCount;
 
   /// The Elasticsearch instance type offered by the reserved instance offering.
-  @_s.JsonKey(name: 'ElasticsearchInstanceType')
-  final ESPartitionInstanceType elasticsearchInstanceType;
+  final ESPartitionInstanceType? elasticsearchInstanceType;
 
   /// The upfront fixed charge you will paid to purchase the specific reserved
   /// Elasticsearch instance offering.
-  @_s.JsonKey(name: 'FixedPrice')
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// The payment option as defined in the reserved Elasticsearch instance
   /// offering.
-  @_s.JsonKey(name: 'PaymentOption')
-  final ReservedElasticsearchInstancePaymentOption paymentOption;
+  final ReservedElasticsearchInstancePaymentOption? paymentOption;
 
   /// The charge to your account regardless of whether you are creating any
   /// domains using the instance offering.
-  @_s.JsonKey(name: 'RecurringCharges')
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The customer-specified identifier to track this reservation.
-  @_s.JsonKey(name: 'ReservationName')
-  final String reservationName;
+  final String? reservationName;
 
   /// The unique identifier for the reservation.
-  @_s.JsonKey(name: 'ReservedElasticsearchInstanceId')
-  final String reservedElasticsearchInstanceId;
+  final String? reservedElasticsearchInstanceId;
 
   /// The offering identifier.
-  @_s.JsonKey(name: 'ReservedElasticsearchInstanceOfferingId')
-  final String reservedElasticsearchInstanceOfferingId;
+  final String? reservedElasticsearchInstanceOfferingId;
 
   /// The time the reservation started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the reserved Elasticsearch instance.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   /// The rate you are charged for each hour for the domain that is using this
   /// reserved instance.
-  @_s.JsonKey(name: 'UsagePrice')
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedElasticsearchInstance({
     this.currencyCode,
@@ -4586,52 +5008,61 @@ class ReservedElasticsearchInstance {
     this.state,
     this.usagePrice,
   });
-  factory ReservedElasticsearchInstance.fromJson(Map<String, dynamic> json) =>
-      _$ReservedElasticsearchInstanceFromJson(json);
+  factory ReservedElasticsearchInstance.fromJson(Map<String, dynamic> json) {
+    return ReservedElasticsearchInstance(
+      currencyCode: json['CurrencyCode'] as String?,
+      duration: json['Duration'] as int?,
+      elasticsearchInstanceCount: json['ElasticsearchInstanceCount'] as int?,
+      elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
+          ?.toESPartitionInstanceType(),
+      fixedPrice: json['FixedPrice'] as double?,
+      paymentOption: (json['PaymentOption'] as String?)
+          ?.toReservedElasticsearchInstancePaymentOption(),
+      recurringCharges: (json['RecurringCharges'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reservationName: json['ReservationName'] as String?,
+      reservedElasticsearchInstanceId:
+          json['ReservedElasticsearchInstanceId'] as String?,
+      reservedElasticsearchInstanceOfferingId:
+          json['ReservedElasticsearchInstanceOfferingId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: json['State'] as String?,
+      usagePrice: json['UsagePrice'] as double?,
+    );
+  }
 }
 
 /// Details of a reserved Elasticsearch instance offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservedElasticsearchInstanceOffering {
   /// The currency code for the reserved Elasticsearch instance offering.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The duration, in seconds, for which the offering will reserve the
   /// Elasticsearch instance.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// The Elasticsearch instance type offered by the reserved instance offering.
-  @_s.JsonKey(name: 'ElasticsearchInstanceType')
-  final ESPartitionInstanceType elasticsearchInstanceType;
+  final ESPartitionInstanceType? elasticsearchInstanceType;
 
   /// The upfront fixed charge you will pay to purchase the specific reserved
   /// Elasticsearch instance offering.
-  @_s.JsonKey(name: 'FixedPrice')
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// Payment option for the reserved Elasticsearch instance offering
-  @_s.JsonKey(name: 'PaymentOption')
-  final ReservedElasticsearchInstancePaymentOption paymentOption;
+  final ReservedElasticsearchInstancePaymentOption? paymentOption;
 
   /// The charge to your account regardless of whether you are creating any
   /// domains using the instance offering.
-  @_s.JsonKey(name: 'RecurringCharges')
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The Elasticsearch reserved instance offering identifier.
-  @_s.JsonKey(name: 'ReservedElasticsearchInstanceOfferingId')
-  final String reservedElasticsearchInstanceOfferingId;
+  final String? reservedElasticsearchInstanceOfferingId;
 
   /// The rate you are charged for each hour the domain that is using the offering
   /// is running.
-  @_s.JsonKey(name: 'UsagePrice')
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedElasticsearchInstanceOffering({
     this.currencyCode,
@@ -4644,80 +5075,114 @@ class ReservedElasticsearchInstanceOffering {
     this.usagePrice,
   });
   factory ReservedElasticsearchInstanceOffering.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReservedElasticsearchInstanceOfferingFromJson(json);
+      Map<String, dynamic> json) {
+    return ReservedElasticsearchInstanceOffering(
+      currencyCode: json['CurrencyCode'] as String?,
+      duration: json['Duration'] as int?,
+      elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
+          ?.toESPartitionInstanceType(),
+      fixedPrice: json['FixedPrice'] as double?,
+      paymentOption: (json['PaymentOption'] as String?)
+          ?.toReservedElasticsearchInstancePaymentOption(),
+      recurringCharges: (json['RecurringCharges'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reservedElasticsearchInstanceOfferingId:
+          json['ReservedElasticsearchInstanceOfferingId'] as String?,
+      usagePrice: json['UsagePrice'] as double?,
+    );
+  }
 }
 
 enum ReservedElasticsearchInstancePaymentOption {
-  @_s.JsonValue('ALL_UPFRONT')
   allUpfront,
-  @_s.JsonValue('PARTIAL_UPFRONT')
   partialUpfront,
-  @_s.JsonValue('NO_UPFRONT')
   noUpfront,
 }
 
+extension on ReservedElasticsearchInstancePaymentOption {
+  String toValue() {
+    switch (this) {
+      case ReservedElasticsearchInstancePaymentOption.allUpfront:
+        return 'ALL_UPFRONT';
+      case ReservedElasticsearchInstancePaymentOption.partialUpfront:
+        return 'PARTIAL_UPFRONT';
+      case ReservedElasticsearchInstancePaymentOption.noUpfront:
+        return 'NO_UPFRONT';
+    }
+  }
+}
+
+extension on String {
+  ReservedElasticsearchInstancePaymentOption
+      toReservedElasticsearchInstancePaymentOption() {
+    switch (this) {
+      case 'ALL_UPFRONT':
+        return ReservedElasticsearchInstancePaymentOption.allUpfront;
+      case 'PARTIAL_UPFRONT':
+        return ReservedElasticsearchInstancePaymentOption.partialUpfront;
+      case 'NO_UPFRONT':
+        return ReservedElasticsearchInstancePaymentOption.noUpfront;
+    }
+    throw Exception(
+        '$this is not known in enum ReservedElasticsearchInstancePaymentOption');
+  }
+}
+
 /// Specifies the SAML Identity Provider's information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SAMLIdp {
   /// The unique Entity ID of the application in SAML Identity Provider.
-  @_s.JsonKey(name: 'EntityId')
   final String entityId;
 
   /// The Metadata of the SAML application in xml format.
-  @_s.JsonKey(name: 'MetadataContent')
   final String metadataContent;
 
   SAMLIdp({
-    @_s.required this.entityId,
-    @_s.required this.metadataContent,
+    required this.entityId,
+    required this.metadataContent,
   });
-  factory SAMLIdp.fromJson(Map<String, dynamic> json) =>
-      _$SAMLIdpFromJson(json);
+  factory SAMLIdp.fromJson(Map<String, dynamic> json) {
+    return SAMLIdp(
+      entityId: json['EntityId'] as String,
+      metadataContent: json['MetadataContent'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SAMLIdpToJson(this);
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final metadataContent = this.metadataContent;
+    return {
+      'EntityId': entityId,
+      'MetadataContent': metadataContent,
+    };
+  }
 }
 
 /// Specifies the SAML application configuration for the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SAMLOptionsInput {
   /// True if SAML is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies the SAML Identity Provider's information.
-  @_s.JsonKey(name: 'Idp')
-  final SAMLIdp idp;
+  final SAMLIdp? idp;
 
   /// The backend role to which the SAML master user is mapped to.
-  @_s.JsonKey(name: 'MasterBackendRole')
-  final String masterBackendRole;
+  final String? masterBackendRole;
 
   /// The SAML master username, which is stored in the Amazon Elasticsearch
   /// Service domain's internal database.
-  @_s.JsonKey(name: 'MasterUserName')
-  final String masterUserName;
+  final String? masterUserName;
 
   /// The key to use for matching the SAML Roles attribute.
-  @_s.JsonKey(name: 'RolesKey')
-  final String rolesKey;
+  final String? rolesKey;
 
   /// The duration, in minutes, after which a user session becomes inactive.
   /// Acceptable values are between 1 and 1440, and the default value is 60.
-  @_s.JsonKey(name: 'SessionTimeoutMinutes')
-  final int sessionTimeoutMinutes;
+  final int? sessionTimeoutMinutes;
 
   /// The key to use for matching the SAML Subject attribute.
-  @_s.JsonKey(name: 'SubjectKey')
-  final String subjectKey;
+  final String? subjectKey;
 
   SAMLOptionsInput({
     this.enabled,
@@ -4728,35 +5193,43 @@ class SAMLOptionsInput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
-  Map<String, dynamic> toJson() => _$SAMLOptionsInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final idp = this.idp;
+    final masterBackendRole = this.masterBackendRole;
+    final masterUserName = this.masterUserName;
+    final rolesKey = this.rolesKey;
+    final sessionTimeoutMinutes = this.sessionTimeoutMinutes;
+    final subjectKey = this.subjectKey;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (idp != null) 'Idp': idp,
+      if (masterBackendRole != null) 'MasterBackendRole': masterBackendRole,
+      if (masterUserName != null) 'MasterUserName': masterUserName,
+      if (rolesKey != null) 'RolesKey': rolesKey,
+      if (sessionTimeoutMinutes != null)
+        'SessionTimeoutMinutes': sessionTimeoutMinutes,
+      if (subjectKey != null) 'SubjectKey': subjectKey,
+    };
+  }
 }
 
 /// Describes the SAML application configured for the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SAMLOptionsOutput {
   /// True if SAML is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Describes the SAML Identity Provider's information.
-  @_s.JsonKey(name: 'Idp')
-  final SAMLIdp idp;
+  final SAMLIdp? idp;
 
   /// The key used for matching the SAML Roles attribute.
-  @_s.JsonKey(name: 'RolesKey')
-  final String rolesKey;
+  final String? rolesKey;
 
   /// The duration, in minutes, after which a user session becomes inactive.
-  @_s.JsonKey(name: 'SessionTimeoutMinutes')
-  final int sessionTimeoutMinutes;
+  final int? sessionTimeoutMinutes;
 
   /// The key used for matching the SAML Subject attribute.
-  @_s.JsonKey(name: 'SubjectKey')
-  final String subjectKey;
+  final String? subjectKey;
 
   SAMLOptionsOutput({
     this.enabled,
@@ -4765,60 +5238,55 @@ class SAMLOptionsOutput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
-  factory SAMLOptionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$SAMLOptionsOutputFromJson(json);
+  factory SAMLOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return SAMLOptionsOutput(
+      enabled: json['Enabled'] as bool?,
+      idp: json['Idp'] != null
+          ? SAMLIdp.fromJson(json['Idp'] as Map<String, dynamic>)
+          : null,
+      rolesKey: json['RolesKey'] as String?,
+      sessionTimeoutMinutes: json['SessionTimeoutMinutes'] as int?,
+      subjectKey: json['SubjectKey'] as String?,
+    );
+  }
 }
 
 /// The current options of an Elasticsearch domain service software options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceSoftwareOptions {
   /// Timestamp, in Epoch time, until which you can manually request a service
   /// software update. After this date, we automatically update your service
   /// software.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AutomatedUpdateDate')
-  final DateTime automatedUpdateDate;
+  final DateTime? automatedUpdateDate;
 
   /// <code>True</code> if you are able to cancel your service software version
   /// update. <code>False</code> if you are not able to cancel your service
   /// software version.
-  @_s.JsonKey(name: 'Cancellable')
-  final bool cancellable;
+  final bool? cancellable;
 
   /// The current service software version that is present on the domain.
-  @_s.JsonKey(name: 'CurrentVersion')
-  final String currentVersion;
+  final String? currentVersion;
 
   /// The description of the <code>UpdateStatus</code>.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The new service software version if one is available.
-  @_s.JsonKey(name: 'NewVersion')
-  final String newVersion;
+  final String? newVersion;
 
   /// <code>True</code> if a service software is never automatically updated.
   /// <code>False</code> if a service software is automatically updated after
   /// <code>AutomatedUpdateDate</code>.
-  @_s.JsonKey(name: 'OptionalDeployment')
-  final bool optionalDeployment;
+  final bool? optionalDeployment;
 
   /// <code>True</code> if you are able to update you service software version.
   /// <code>False</code> if you are not able to update your service software
   /// version.
-  @_s.JsonKey(name: 'UpdateAvailable')
-  final bool updateAvailable;
+  final bool? updateAvailable;
 
   /// The status of your service software update. This field can take the
   /// following values: <code>ELIGIBLE</code>, <code>PENDING_UPDATE</code>,
   /// <code>IN_PROGRESS</code>, <code>COMPLETED</code>, and
   /// <code>NOT_ELIGIBLE</code>.
-  @_s.JsonKey(name: 'UpdateStatus')
-  final DeploymentStatus updateStatus;
+  final DeploymentStatus? updateStatus;
 
   ServiceSoftwareOptions({
     this.automatedUpdateDate,
@@ -4830,109 +5298,115 @@ class ServiceSoftwareOptions {
     this.updateAvailable,
     this.updateStatus,
   });
-  factory ServiceSoftwareOptions.fromJson(Map<String, dynamic> json) =>
-      _$ServiceSoftwareOptionsFromJson(json);
+  factory ServiceSoftwareOptions.fromJson(Map<String, dynamic> json) {
+    return ServiceSoftwareOptions(
+      automatedUpdateDate: timeStampFromJson(json['AutomatedUpdateDate']),
+      cancellable: json['Cancellable'] as bool?,
+      currentVersion: json['CurrentVersion'] as String?,
+      description: json['Description'] as String?,
+      newVersion: json['NewVersion'] as String?,
+      optionalDeployment: json['OptionalDeployment'] as bool?,
+      updateAvailable: json['UpdateAvailable'] as bool?,
+      updateStatus: (json['UpdateStatus'] as String?)?.toDeploymentStatus(),
+    );
+  }
 }
 
 /// Specifies the time, in UTC format, when the service takes a daily automated
 /// snapshot of the specified Elasticsearch domain. Default value is
 /// <code>0</code> hours.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SnapshotOptions {
   /// Specifies the time, in UTC format, when the service takes a daily automated
   /// snapshot of the specified Elasticsearch domain. Default value is
   /// <code>0</code> hours.
-  @_s.JsonKey(name: 'AutomatedSnapshotStartHour')
-  final int automatedSnapshotStartHour;
+  final int? automatedSnapshotStartHour;
 
   SnapshotOptions({
     this.automatedSnapshotStartHour,
   });
-  factory SnapshotOptions.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotOptionsFromJson(json);
+  factory SnapshotOptions.fromJson(Map<String, dynamic> json) {
+    return SnapshotOptions(
+      automatedSnapshotStartHour: json['AutomatedSnapshotStartHour'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SnapshotOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final automatedSnapshotStartHour = this.automatedSnapshotStartHour;
+    return {
+      if (automatedSnapshotStartHour != null)
+        'AutomatedSnapshotStartHour': automatedSnapshotStartHour,
+    };
+  }
 }
 
 /// Status of a daily automated snapshot.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SnapshotOptionsStatus {
   /// Specifies the daily snapshot options specified for the Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final SnapshotOptions options;
 
   /// Specifies the status of a daily automated snapshot.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   SnapshotOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory SnapshotOptionsStatus.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotOptionsStatusFromJson(json);
+  factory SnapshotOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return SnapshotOptionsStatus(
+      options:
+          SnapshotOptions.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The result of a <code>StartElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartElasticsearchServiceSoftwareUpdateResponse {
   /// The current status of the Elasticsearch service software update.
-  @_s.JsonKey(name: 'ServiceSoftwareOptions')
-  final ServiceSoftwareOptions serviceSoftwareOptions;
+  final ServiceSoftwareOptions? serviceSoftwareOptions;
 
   StartElasticsearchServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
   factory StartElasticsearchServiceSoftwareUpdateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartElasticsearchServiceSoftwareUpdateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartElasticsearchServiceSoftwareUpdateResponse(
+      serviceSoftwareOptions: json['ServiceSoftwareOptions'] != null
+          ? ServiceSoftwareOptions.fromJson(
+              json['ServiceSoftwareOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// StorageTypes represents the list of storage related types and their
 /// attributes that are available for given InstanceType.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StorageType {
-  @_s.JsonKey(name: 'StorageSubTypeName')
-  final String storageSubTypeName;
+  final String? storageSubTypeName;
 
   /// List of limits that are applicable for given storage type.
-  @_s.JsonKey(name: 'StorageTypeLimits')
-  final List<StorageTypeLimit> storageTypeLimits;
-  @_s.JsonKey(name: 'StorageTypeName')
-  final String storageTypeName;
+  final List<StorageTypeLimit>? storageTypeLimits;
+  final String? storageTypeName;
 
   StorageType({
     this.storageSubTypeName,
     this.storageTypeLimits,
     this.storageTypeName,
   });
-  factory StorageType.fromJson(Map<String, dynamic> json) =>
-      _$StorageTypeFromJson(json);
+  factory StorageType.fromJson(Map<String, dynamic> json) {
+    return StorageType(
+      storageSubTypeName: json['StorageSubTypeName'] as String?,
+      storageTypeLimits: (json['StorageTypeLimits'] as List?)
+          ?.whereNotNull()
+          .map((e) => StorageTypeLimit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      storageTypeName: json['StorageTypeName'] as String?,
+    );
+  }
 }
 
 /// Limits that are applicable for given storage type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StorageTypeLimit {
   /// Name of storage limits that are applicable for given storage type. If <code>
   /// <a>StorageType</a> </code> is ebs, following storage options are applicable
@@ -4945,114 +5419,135 @@ class StorageTypeLimit {
   /// storage type.It can be empty if it is not applicable.
   /// <li>MinimumIops</li> Minimum amount of Iops that is applicable for given
   /// storage type.It can be empty if it is not applicable. </ol>
-  @_s.JsonKey(name: 'LimitName')
-  final String limitName;
+  final String? limitName;
 
   /// Values for the <code> <a>StorageTypeLimit$LimitName</a> </code> .
-  @_s.JsonKey(name: 'LimitValues')
-  final List<String> limitValues;
+  final List<String>? limitValues;
 
   StorageTypeLimit({
     this.limitName,
     this.limitValues,
   });
-  factory StorageTypeLimit.fromJson(Map<String, dynamic> json) =>
-      _$StorageTypeLimitFromJson(json);
+  factory StorageTypeLimit.fromJson(Map<String, dynamic> json) {
+    return StorageTypeLimit(
+      limitName: json['LimitName'] as String?,
+      limitValues: (json['LimitValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum TLSSecurityPolicy {
-  @_s.JsonValue('Policy-Min-TLS-1-0-2019-07')
   policyMinTls_1_0_2019_07,
-  @_s.JsonValue('Policy-Min-TLS-1-2-2019-07')
   policyMinTls_1_2_2019_07,
 }
 
+extension on TLSSecurityPolicy {
+  String toValue() {
+    switch (this) {
+      case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
+        return 'Policy-Min-TLS-1-0-2019-07';
+      case TLSSecurityPolicy.policyMinTls_1_2_2019_07:
+        return 'Policy-Min-TLS-1-2-2019-07';
+    }
+  }
+}
+
+extension on String {
+  TLSSecurityPolicy toTLSSecurityPolicy() {
+    switch (this) {
+      case 'Policy-Min-TLS-1-0-2019-07':
+        return TLSSecurityPolicy.policyMinTls_1_0_2019_07;
+      case 'Policy-Min-TLS-1-2-2019-07':
+        return TLSSecurityPolicy.policyMinTls_1_2_2019_07;
+    }
+    throw Exception('$this is not known in enum TLSSecurityPolicy');
+  }
+}
+
 /// Specifies a key value pair for a resource tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Specifies the <code>TagKey</code>, the name of the tag. Tag keys must be
   /// unique for the Elasticsearch domain to which they are attached.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Specifies the <code>TagValue</code>, the value assigned to the corresponding
   /// tag key. Tag values can be null and do not have to be unique in a tag set.
   /// For example, you can have a key value pair in a tag set of <code>project :
   /// Trinity</code> and <code>cost-center : Trinity</code>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The result of an <code>UpdateElasticsearchDomain</code> request. Contains
 /// the status of the Elasticsearch domain being updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateElasticsearchDomainConfigResponse {
   /// The status of the updated Elasticsearch domain.
-  @_s.JsonKey(name: 'DomainConfig')
   final ElasticsearchDomainConfig domainConfig;
 
   UpdateElasticsearchDomainConfigResponse({
-    @_s.required this.domainConfig,
+    required this.domainConfig,
   });
   factory UpdateElasticsearchDomainConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateElasticsearchDomainConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateElasticsearchDomainConfigResponse(
+      domainConfig: ElasticsearchDomainConfig.fromJson(
+          json['DomainConfig'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>UpdatePackage</a> </code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePackageResponse {
   /// Information about the package <code>PackageDetails</code>.
-  @_s.JsonKey(name: 'PackageDetails')
-  final PackageDetails packageDetails;
+  final PackageDetails? packageDetails;
 
   UpdatePackageResponse({
     this.packageDetails,
   });
-  factory UpdatePackageResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePackageResponseFromJson(json);
+  factory UpdatePackageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePackageResponse(
+      packageDetails: json['PackageDetails'] != null
+          ? PackageDetails.fromJson(
+              json['PackageDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Container for response returned by <code> <a>UpgradeElasticsearchDomain</a>
 /// </code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpgradeElasticsearchDomainResponse {
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// This flag, when set to True, indicates that an Upgrade Eligibility Check
   /// needs to be performed. This will not actually perform the Upgrade.
-  @_s.JsonKey(name: 'PerformCheckOnly')
-  final bool performCheckOnly;
+  final bool? performCheckOnly;
 
   /// The version of Elasticsearch that you intend to upgrade the domain to.
-  @_s.JsonKey(name: 'TargetVersion')
-  final String targetVersion;
+  final String? targetVersion;
 
   UpgradeElasticsearchDomainResponse({
     this.domainName,
@@ -5060,32 +5555,28 @@ class UpgradeElasticsearchDomainResponse {
     this.targetVersion,
   });
   factory UpgradeElasticsearchDomainResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpgradeElasticsearchDomainResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpgradeElasticsearchDomainResponse(
+      domainName: json['DomainName'] as String?,
+      performCheckOnly: json['PerformCheckOnly'] as bool?,
+      targetVersion: json['TargetVersion'] as String?,
+    );
+  }
 }
 
 /// History of the last 10 Upgrades and Upgrade Eligibility Checks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpgradeHistory {
   /// UTC Timestamp at which the Upgrade API call was made in
   /// "yyyy-MM-ddTHH:mm:ssZ" format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   /// A list of <code> <a>UpgradeStepItem</a> </code> s representing information
   /// about each step performed as pard of a specific Upgrade or Upgrade
   /// Eligibility Check.
-  @_s.JsonKey(name: 'StepsList')
-  final List<UpgradeStepItem> stepsList;
+  final List<UpgradeStepItem>? stepsList;
 
   /// A string that describes the update briefly
-  @_s.JsonKey(name: 'UpgradeName')
-  final String upgradeName;
+  final String? upgradeName;
 
   /// The overall status of the update. The status can take one of the following
   /// values:
@@ -5095,8 +5586,7 @@ class UpgradeHistory {
   /// <li>Succeeded with Issues</li>
   /// <li>Failed</li>
   /// </ul>
-  @_s.JsonKey(name: 'UpgradeStatus')
-  final UpgradeStatus upgradeStatus;
+  final UpgradeStatus? upgradeStatus;
 
   UpgradeHistory({
     this.startTimestamp,
@@ -5104,47 +5594,100 @@ class UpgradeHistory {
     this.upgradeName,
     this.upgradeStatus,
   });
-  factory UpgradeHistory.fromJson(Map<String, dynamic> json) =>
-      _$UpgradeHistoryFromJson(json);
+  factory UpgradeHistory.fromJson(Map<String, dynamic> json) {
+    return UpgradeHistory(
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+      stepsList: (json['StepsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpgradeStepItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      upgradeName: json['UpgradeName'] as String?,
+      upgradeStatus: (json['UpgradeStatus'] as String?)?.toUpgradeStatus(),
+    );
+  }
 }
 
 enum UpgradeStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('SUCCEEDED_WITH_ISSUES')
   succeededWithIssues,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on UpgradeStatus {
+  String toValue() {
+    switch (this) {
+      case UpgradeStatus.inProgress:
+        return 'IN_PROGRESS';
+      case UpgradeStatus.succeeded:
+        return 'SUCCEEDED';
+      case UpgradeStatus.succeededWithIssues:
+        return 'SUCCEEDED_WITH_ISSUES';
+      case UpgradeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  UpgradeStatus toUpgradeStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return UpgradeStatus.inProgress;
+      case 'SUCCEEDED':
+        return UpgradeStatus.succeeded;
+      case 'SUCCEEDED_WITH_ISSUES':
+        return UpgradeStatus.succeededWithIssues;
+      case 'FAILED':
+        return UpgradeStatus.failed;
+    }
+    throw Exception('$this is not known in enum UpgradeStatus');
+  }
+}
+
 enum UpgradeStep {
-  @_s.JsonValue('PRE_UPGRADE_CHECK')
   preUpgradeCheck,
-  @_s.JsonValue('SNAPSHOT')
   snapshot,
-  @_s.JsonValue('UPGRADE')
   upgrade,
+}
+
+extension on UpgradeStep {
+  String toValue() {
+    switch (this) {
+      case UpgradeStep.preUpgradeCheck:
+        return 'PRE_UPGRADE_CHECK';
+      case UpgradeStep.snapshot:
+        return 'SNAPSHOT';
+      case UpgradeStep.upgrade:
+        return 'UPGRADE';
+    }
+  }
+}
+
+extension on String {
+  UpgradeStep toUpgradeStep() {
+    switch (this) {
+      case 'PRE_UPGRADE_CHECK':
+        return UpgradeStep.preUpgradeCheck;
+      case 'SNAPSHOT':
+        return UpgradeStep.snapshot;
+      case 'UPGRADE':
+        return UpgradeStep.upgrade;
+    }
+    throw Exception('$this is not known in enum UpgradeStep');
+  }
 }
 
 /// Represents a single step of the Upgrade or Upgrade Eligibility Check
 /// workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpgradeStepItem {
   /// A list of strings containing detailed information about the errors
   /// encountered in a particular step.
-  @_s.JsonKey(name: 'Issues')
-  final List<String> issues;
+  final List<String>? issues;
 
   /// The Floating point value representing progress percentage of a particular
   /// step.
-  @_s.JsonKey(name: 'ProgressPercent')
-  final double progressPercent;
+  final double? progressPercent;
 
   /// Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does
   /// through:
@@ -5153,8 +5696,7 @@ class UpgradeStepItem {
   /// <li>Snapshot</li>
   /// <li>Upgrade</li>
   /// </ul>
-  @_s.JsonKey(name: 'UpgradeStep')
-  final UpgradeStep upgradeStep;
+  final UpgradeStep? upgradeStep;
 
   /// The status of a particular step during an upgrade. The status can take one
   /// of the following values:
@@ -5164,8 +5706,7 @@ class UpgradeStepItem {
   /// <li>Succeeded with Issues</li>
   /// <li>Failed</li>
   /// </ul>
-  @_s.JsonKey(name: 'UpgradeStepStatus')
-  final UpgradeStatus upgradeStepStatus;
+  final UpgradeStatus? upgradeStepStatus;
 
   UpgradeStepItem({
     this.issues,
@@ -5173,37 +5714,38 @@ class UpgradeStepItem {
     this.upgradeStep,
     this.upgradeStepStatus,
   });
-  factory UpgradeStepItem.fromJson(Map<String, dynamic> json) =>
-      _$UpgradeStepItemFromJson(json);
+  factory UpgradeStepItem.fromJson(Map<String, dynamic> json) {
+    return UpgradeStepItem(
+      issues: (json['Issues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      progressPercent: json['ProgressPercent'] as double?,
+      upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
+      upgradeStepStatus:
+          (json['UpgradeStepStatus'] as String?)?.toUpgradeStatus(),
+    );
+  }
 }
 
 /// Options to specify the subnets and security groups for VPC endpoint. For
 /// more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
 /// target="_blank"> VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VPCDerivedInfo {
   /// The availability zones for the Elasticsearch domain. Exists only if the
   /// domain was created with VPCOptions.
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// Specifies the security groups for VPC endpoint.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// Specifies the subnets for VPC endpoint.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The VPC Id for the Elasticsearch domain. Exists only if the domain was
   /// created with VPCOptions.
-  @_s.JsonKey(name: 'VPCId')
-  final String vPCId;
+  final String? vPCId;
 
   VPCDerivedInfo({
     this.availabilityZones,
@@ -5211,121 +5753,160 @@ class VPCDerivedInfo {
     this.subnetIds,
     this.vPCId,
   });
-  factory VPCDerivedInfo.fromJson(Map<String, dynamic> json) =>
-      _$VPCDerivedInfoFromJson(json);
+  factory VPCDerivedInfo.fromJson(Map<String, dynamic> json) {
+    return VPCDerivedInfo(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vPCId: json['VPCId'] as String?,
+    );
+  }
 }
 
 /// Status of the VPC options for the specified Elasticsearch domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VPCDerivedInfoStatus {
   /// Specifies the VPC options for the specified Elasticsearch domain.
-  @_s.JsonKey(name: 'Options')
   final VPCDerivedInfo options;
 
   /// Specifies the status of the VPC options for the specified Elasticsearch
   /// domain.
-  @_s.JsonKey(name: 'Status')
   final OptionStatus status;
 
   VPCDerivedInfoStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
-  factory VPCDerivedInfoStatus.fromJson(Map<String, dynamic> json) =>
-      _$VPCDerivedInfoStatusFromJson(json);
+  factory VPCDerivedInfoStatus.fromJson(Map<String, dynamic> json) {
+    return VPCDerivedInfoStatus(
+      options: VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Options to specify the subnets and security groups for VPC endpoint. For
 /// more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
 /// target="_blank"> VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VPCOptions {
   /// Specifies the security groups for VPC endpoint.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// Specifies the subnets for VPC endpoint.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   VPCOptions({
     this.securityGroupIds,
     this.subnetIds,
   });
-  Map<String, dynamic> toJson() => _$VPCOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
 }
 
 /// The type of EBS volume, standard, gp2, or io1. See <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a>for more information.
 enum VolumeType {
-  @_s.JsonValue('standard')
   standard,
-  @_s.JsonValue('gp2')
   gp2,
-  @_s.JsonValue('io1')
   io1,
+}
+
+extension on VolumeType {
+  String toValue() {
+    switch (this) {
+      case VolumeType.standard:
+        return 'standard';
+      case VolumeType.gp2:
+        return 'gp2';
+      case VolumeType.io1:
+        return 'io1';
+    }
+  }
+}
+
+extension on String {
+  VolumeType toVolumeType() {
+    switch (this) {
+      case 'standard':
+        return VolumeType.standard;
+      case 'gp2':
+        return VolumeType.gp2;
+      case 'io1':
+        return VolumeType.io1;
+    }
+    throw Exception('$this is not known in enum VolumeType');
+  }
 }
 
 /// Specifies the zone awareness configuration for the domain cluster, such as
 /// the number of availability zones.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ZoneAwarenessConfig {
   /// An integer value to indicate the number of availability zones for a domain
   /// when zone awareness is enabled. This should be equal to number of subnets if
   /// VPC endpoints is enabled
-  @_s.JsonKey(name: 'AvailabilityZoneCount')
-  final int availabilityZoneCount;
+  final int? availabilityZoneCount;
 
   ZoneAwarenessConfig({
     this.availabilityZoneCount,
   });
-  factory ZoneAwarenessConfig.fromJson(Map<String, dynamic> json) =>
-      _$ZoneAwarenessConfigFromJson(json);
+  factory ZoneAwarenessConfig.fromJson(Map<String, dynamic> json) {
+    return ZoneAwarenessConfig(
+      availabilityZoneCount: json['AvailabilityZoneCount'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ZoneAwarenessConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final availabilityZoneCount = this.availabilityZoneCount;
+    return {
+      if (availabilityZoneCount != null)
+        'AvailabilityZoneCount': availabilityZoneCount,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BaseException extends _s.GenericAwsException {
-  BaseException({String type, String message})
+  BaseException({String? type, String? message})
       : super(type: type, code: 'BaseException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DisabledOperationException extends _s.GenericAwsException {
-  DisabledOperationException({String type, String message})
+  DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InvalidPaginationTokenException extends _s.GenericAwsException {
-  InvalidPaginationTokenException({String type, String message})
+  InvalidPaginationTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPaginationTokenException',
@@ -5333,17 +5914,17 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
 }
 
 class InvalidTypeException extends _s.GenericAwsException {
-  InvalidTypeException({String type, String message})
+  InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -5351,12 +5932,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class GreedyKeys {
   final _s.RestXmlProtocol _protocol;
   GreedyKeys({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,9 +37,11 @@ class GreedyKeys {
         );
 
   Future<void> operationName0({
-    String bucket,
-    String key,
+    required String bucket,
+    required String key,
   }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(key, 'key');
     await _protocol.send(
       method: 'GET',
       requestUri:

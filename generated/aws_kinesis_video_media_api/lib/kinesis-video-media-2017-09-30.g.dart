@@ -8,13 +8,16 @@ part of 'kinesis-video-media-2017-09-30.dart';
 
 GetMediaOutput _$GetMediaOutputFromJson(Map<String, dynamic> json) {
   return GetMediaOutput(
-    contentType: json['Content-Type'] as String,
-    payload: const Uint8ListConverter().fromJson(json['Payload'] as String),
+    contentType: json['Content-Type'] as String?,
+    payload:
+        const Uint8ListNullableConverter().fromJson(json['Payload'] as String?),
   );
 }
 
 Map<String, dynamic> _$StartSelectorToJson(StartSelector instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StartSelectorType': _$StartSelectorTypeEnumMap[instance.startSelectorType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -22,8 +25,6 @@ Map<String, dynamic> _$StartSelectorToJson(StartSelector instance) {
     }
   }
 
-  writeNotNull('StartSelectorType',
-      _$StartSelectorTypeEnumMap[instance.startSelectorType]);
   writeNotNull('AfterFragmentNumber', instance.afterFragmentNumber);
   writeNotNull('ContinuationToken', instance.continuationToken);
   writeNotNull('StartTimestamp',

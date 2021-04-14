@@ -6,19 +6,11 @@ part of 'email-2010-12-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$AddHeaderActionToJson(AddHeaderAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('HeaderName', instance.headerName);
-  writeNotNull('HeaderValue', instance.headerValue);
-  return val;
-}
+Map<String, dynamic> _$AddHeaderActionToJson(AddHeaderAction instance) =>
+    <String, dynamic>{
+      'HeaderName': instance.headerName,
+      'HeaderValue': instance.headerValue,
+    };
 
 Map<String, dynamic> _$BodyToJson(Body instance) {
   final val = <String, dynamic>{};
@@ -35,7 +27,11 @@ Map<String, dynamic> _$BodyToJson(Body instance) {
 }
 
 Map<String, dynamic> _$BounceActionToJson(BounceAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Message': instance.message,
+    'Sender': instance.sender,
+    'SmtpReplyCode': instance.smtpReplyCode,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -43,9 +39,6 @@ Map<String, dynamic> _$BounceActionToJson(BounceAction instance) {
     }
   }
 
-  writeNotNull('Message', instance.message);
-  writeNotNull('Sender', instance.sender);
-  writeNotNull('SmtpReplyCode', instance.smtpReplyCode);
   writeNotNull('StatusCode', instance.statusCode);
   writeNotNull('TopicArn', instance.topicArn);
   return val;
@@ -53,7 +46,9 @@ Map<String, dynamic> _$BounceActionToJson(BounceAction instance) {
 
 Map<String, dynamic> _$BouncedRecipientInfoToJson(
     BouncedRecipientInfo instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Recipient': instance.recipient,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -61,7 +56,6 @@ Map<String, dynamic> _$BouncedRecipientInfoToJson(
     }
   }
 
-  writeNotNull('Recipient', instance.recipient);
   writeNotNull('BounceType', _$BounceTypeEnumMap[instance.bounceType]);
   writeNotNull('RecipientArn', instance.recipientArn);
   writeNotNull('RecipientDsnFields', instance.recipientDsnFields?.toJson());
@@ -79,7 +73,9 @@ const _$BounceTypeEnumMap = {
 
 Map<String, dynamic> _$BulkEmailDestinationToJson(
     BulkEmailDestination instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -87,44 +83,27 @@ Map<String, dynamic> _$BulkEmailDestinationToJson(
     }
   }
 
-  writeNotNull('Destination', instance.destination?.toJson());
   writeNotNull('ReplacementTags',
-      instance.replacementTags?.map((e) => e?.toJson())?.toList());
+      instance.replacementTags?.map((e) => e.toJson()).toList());
   writeNotNull('ReplacementTemplateData', instance.replacementTemplateData);
   return val;
 }
 
 Map<String, dynamic> _$CloudWatchDestinationToJson(
-    CloudWatchDestination instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DimensionConfigurations',
-      instance.dimensionConfigurations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        CloudWatchDestination instance) =>
+    <String, dynamic>{
+      'DimensionConfigurations':
+          instance.dimensionConfigurations.map((e) => e.toJson()).toList(),
+    };
 
 Map<String, dynamic> _$CloudWatchDimensionConfigurationToJson(
-    CloudWatchDimensionConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DefaultDimensionValue', instance.defaultDimensionValue);
-  writeNotNull('DimensionName', instance.dimensionName);
-  writeNotNull('DimensionValueSource',
-      _$DimensionValueSourceEnumMap[instance.dimensionValueSource]);
-  return val;
-}
+        CloudWatchDimensionConfiguration instance) =>
+    <String, dynamic>{
+      'DefaultDimensionValue': instance.defaultDimensionValue,
+      'DimensionName': instance.dimensionName,
+      'DimensionValueSource':
+          _$DimensionValueSourceEnumMap[instance.dimensionValueSource],
+    };
 
 const _$DimensionValueSourceEnumMap = {
   DimensionValueSource.messageTag: 'messageTag',
@@ -132,21 +111,15 @@ const _$DimensionValueSourceEnumMap = {
   DimensionValueSource.linkTag: 'linkTag',
 };
 
-Map<String, dynamic> _$ConfigurationSetToJson(ConfigurationSet instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$ConfigurationSetToJson(ConfigurationSet instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 Map<String, dynamic> _$ContentToJson(Content instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Data': instance.data,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -154,7 +127,6 @@ Map<String, dynamic> _$ContentToJson(Content instance) {
     }
   }
 
-  writeNotNull('Data', instance.data);
   writeNotNull('Charset', instance.charset);
   return val;
 }
@@ -193,7 +165,11 @@ Map<String, dynamic> _$DestinationToJson(Destination instance) {
 }
 
 Map<String, dynamic> _$EventDestinationToJson(EventDestination instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MatchingEventTypes':
+        instance.matchingEventTypes.map((e) => _$EventTypeEnumMap[e]).toList(),
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -201,9 +177,6 @@ Map<String, dynamic> _$EventDestinationToJson(EventDestination instance) {
     }
   }
 
-  writeNotNull('MatchingEventTypes',
-      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
-  writeNotNull('Name', instance.name);
   writeNotNull(
       'CloudWatchDestination', instance.cloudWatchDestination?.toJson());
   writeNotNull('Enabled', instance.enabled);
@@ -224,37 +197,23 @@ const _$EventTypeEnumMap = {
   EventType.renderingFailure: 'renderingFailure',
 };
 
-Map<String, dynamic> _$ExtensionFieldToJson(ExtensionField instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$ExtensionFieldToJson(ExtensionField instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Value': instance.value,
+    };
 
 Map<String, dynamic> _$KinesisFirehoseDestinationToJson(
-    KinesisFirehoseDestination instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DeliveryStreamARN', instance.deliveryStreamARN);
-  writeNotNull('IAMRoleARN', instance.iAMRoleARN);
-  return val;
-}
+        KinesisFirehoseDestination instance) =>
+    <String, dynamic>{
+      'DeliveryStreamARN': instance.deliveryStreamARN,
+      'IAMRoleARN': instance.iAMRoleARN,
+    };
 
 Map<String, dynamic> _$LambdaActionToJson(LambdaAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'FunctionArn': instance.functionArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -262,7 +221,6 @@ Map<String, dynamic> _$LambdaActionToJson(LambdaAction instance) {
     }
   }
 
-  writeNotNull('FunctionArn', instance.functionArn);
   writeNotNull(
       'InvocationType', _$InvocationTypeEnumMap[instance.invocationType]);
   writeNotNull('TopicArn', instance.topicArn);
@@ -274,22 +232,15 @@ const _$InvocationTypeEnumMap = {
   InvocationType.requestResponse: 'RequestResponse',
 };
 
-Map<String, dynamic> _$MessageToJson(Message instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Body', instance.body?.toJson());
-  writeNotNull('Subject', instance.subject?.toJson());
-  return val;
-}
+Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
+      'Body': instance.body.toJson(),
+      'Subject': instance.subject.toJson(),
+    };
 
 Map<String, dynamic> _$MessageDsnToJson(MessageDsn instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ReportingMta': instance.reportingMta,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -297,27 +248,18 @@ Map<String, dynamic> _$MessageDsnToJson(MessageDsn instance) {
     }
   }
 
-  writeNotNull('ReportingMta', instance.reportingMta);
   writeNotNull(
       'ArrivalDate', const IsoDateTimeConverter().toJson(instance.arrivalDate));
   writeNotNull('ExtensionFields',
-      instance.extensionFields?.map((e) => e?.toJson())?.toList());
+      instance.extensionFields?.map((e) => e.toJson()).toList());
   return val;
 }
 
-Map<String, dynamic> _$MessageTagToJson(MessageTag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$MessageTagToJson(MessageTag instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Value': instance.value,
+    };
 
 Map<String, dynamic> _$RawMessageToJson(RawMessage instance) {
   final val = <String, dynamic>{};
@@ -351,33 +293,17 @@ Map<String, dynamic> _$ReceiptActionToJson(ReceiptAction instance) {
   return val;
 }
 
-Map<String, dynamic> _$ReceiptFilterToJson(ReceiptFilter instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$ReceiptFilterToJson(ReceiptFilter instance) =>
+    <String, dynamic>{
+      'IpFilter': instance.ipFilter.toJson(),
+      'Name': instance.name,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IpFilter', instance.ipFilter?.toJson());
-  writeNotNull('Name', instance.name);
-  return val;
-}
-
-Map<String, dynamic> _$ReceiptIpFilterToJson(ReceiptIpFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Cidr', instance.cidr);
-  writeNotNull('Policy', _$ReceiptFilterPolicyEnumMap[instance.policy]);
-  return val;
-}
+Map<String, dynamic> _$ReceiptIpFilterToJson(ReceiptIpFilter instance) =>
+    <String, dynamic>{
+      'Cidr': instance.cidr,
+      'Policy': _$ReceiptFilterPolicyEnumMap[instance.policy],
+    };
 
 const _$ReceiptFilterPolicyEnumMap = {
   ReceiptFilterPolicy.block: 'Block',
@@ -385,7 +311,9 @@ const _$ReceiptFilterPolicyEnumMap = {
 };
 
 Map<String, dynamic> _$ReceiptRuleToJson(ReceiptRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -393,8 +321,7 @@ Map<String, dynamic> _$ReceiptRuleToJson(ReceiptRule instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('Actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Actions', instance.actions?.map((e) => e.toJson()).toList());
   writeNotNull('Enabled', instance.enabled);
   writeNotNull('Recipients', instance.recipients);
   writeNotNull('ScanEnabled', instance.scanEnabled);
@@ -403,7 +330,10 @@ Map<String, dynamic> _$ReceiptRuleToJson(ReceiptRule instance) {
 }
 
 Map<String, dynamic> _$RecipientDsnFieldsToJson(RecipientDsnFields instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Action': _$DsnActionEnumMap[instance.action],
+    'Status': instance.status,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -411,11 +341,9 @@ Map<String, dynamic> _$RecipientDsnFieldsToJson(RecipientDsnFields instance) {
     }
   }
 
-  writeNotNull('Action', _$DsnActionEnumMap[instance.action]);
-  writeNotNull('Status', instance.status);
   writeNotNull('DiagnosticCode', instance.diagnosticCode);
   writeNotNull('ExtensionFields',
-      instance.extensionFields?.map((e) => e?.toJson())?.toList());
+      instance.extensionFields?.map((e) => e.toJson()).toList());
   writeNotNull('FinalRecipient', instance.finalRecipient);
   writeNotNull('LastAttemptDate',
       const IsoDateTimeConverter().toJson(instance.lastAttemptDate));
@@ -432,7 +360,9 @@ const _$DsnActionEnumMap = {
 };
 
 Map<String, dynamic> _$S3ActionToJson(S3Action instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketName': instance.bucketName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -440,7 +370,6 @@ Map<String, dynamic> _$S3ActionToJson(S3Action instance) {
     }
   }
 
-  writeNotNull('BucketName', instance.bucketName);
   writeNotNull('KmsKeyArn', instance.kmsKeyArn);
   writeNotNull('ObjectKeyPrefix', instance.objectKeyPrefix);
   writeNotNull('TopicArn', instance.topicArn);
@@ -448,7 +377,9 @@ Map<String, dynamic> _$S3ActionToJson(S3Action instance) {
 }
 
 Map<String, dynamic> _$SNSActionToJson(SNSAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TopicArn': instance.topicArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -456,7 +387,6 @@ Map<String, dynamic> _$SNSActionToJson(SNSAction instance) {
     }
   }
 
-  writeNotNull('TopicArn', instance.topicArn);
   writeNotNull('Encoding', _$SNSActionEncodingEnumMap[instance.encoding]);
   return val;
 }
@@ -466,21 +396,15 @@ const _$SNSActionEncodingEnumMap = {
   SNSActionEncoding.base64: 'Base64',
 };
 
-Map<String, dynamic> _$SNSDestinationToJson(SNSDestination instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TopicARN', instance.topicARN);
-  return val;
-}
+Map<String, dynamic> _$SNSDestinationToJson(SNSDestination instance) =>
+    <String, dynamic>{
+      'TopicARN': instance.topicARN,
+    };
 
 Map<String, dynamic> _$StopActionToJson(StopAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Scope': _$StopScopeEnumMap[instance.scope],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -488,7 +412,6 @@ Map<String, dynamic> _$StopActionToJson(StopAction instance) {
     }
   }
 
-  writeNotNull('Scope', _$StopScopeEnumMap[instance.scope]);
   writeNotNull('TopicArn', instance.topicArn);
   return val;
 }
@@ -498,7 +421,9 @@ const _$StopScopeEnumMap = {
 };
 
 Map<String, dynamic> _$TemplateToJson(Template instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TemplateName': instance.templateName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -506,7 +431,6 @@ Map<String, dynamic> _$TemplateToJson(Template instance) {
     }
   }
 
-  writeNotNull('TemplateName', instance.templateName);
   writeNotNull('HtmlPart', instance.htmlPart);
   writeNotNull('SubjectPart', instance.subjectPart);
   writeNotNull('TextPart', instance.textPart);
@@ -527,7 +451,9 @@ Map<String, dynamic> _$TrackingOptionsToJson(TrackingOptions instance) {
 }
 
 Map<String, dynamic> _$WorkmailActionToJson(WorkmailAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OrganizationArn': instance.organizationArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -535,7 +461,6 @@ Map<String, dynamic> _$WorkmailActionToJson(WorkmailAction instance) {
     }
   }
 
-  writeNotNull('OrganizationArn', instance.organizationArn);
   writeNotNull('TopicArn', instance.topicArn);
   return val;
 }

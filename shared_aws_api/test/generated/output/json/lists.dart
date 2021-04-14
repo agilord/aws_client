@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'lists.g.dart';
 
 /// Lists
 class Lists {
   final _s.JsonProtocol _protocol;
   Lists({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,37 +69,40 @@ class Lists {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'ListMember')
-  final List<String> listMember;
-  @_s.JsonKey(name: 'ListMemberMap')
-  final List<Map<String, String>> listMemberMap;
-  @_s.JsonKey(name: 'ListMemberStruct')
-  final List<StructType> listMemberStruct;
+  final List<String>? listMember;
+  final List<Map<String, String>>? listMemberMap;
+  final List<StructType>? listMemberStruct;
 
   OutputShape({
     this.listMember,
     this.listMemberMap,
     this.listMemberStruct,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      listMember: (json['ListMember'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      listMemberMap: (json['ListMemberMap'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      listMemberStruct: (json['ListMemberStruct'] as List?)
+          ?.whereNotNull()
+          .map((e) => StructType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StructType {
   StructType();
-  factory StructType.fromJson(Map<String, dynamic> json) =>
-      _$StructTypeFromJson(json);
+  factory StructType.fromJson(Map<String, dynamic> _) {
+    return StructType();
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

@@ -42,16 +42,11 @@ class Endpoint {
       required this.url,
       required this.signingRegion,
       String? signatureVersion})
-      : assert(service != null),
-        assert(url != null),
-        assert(signingRegion != null),
-        signatureVersion = signatureVersion ?? 'v4';
+      : signatureVersion = signatureVersion ?? 'v4';
 
   /// Creates a `Endpoint` using only the service prefix and an optional region
   /// The other information will be inferred from the global configuration rules.
   static Endpoint fromConfig(ServiceMetadata service, {String? region}) {
-    assert(service != null);
-
     final regionConfig = _findRegionConfig(service, region);
     final urlPattern =
         regionConfig?.endpoint ?? '{service}.{region}.amazonaws.com';

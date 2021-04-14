@@ -32,15 +32,15 @@ Map<String, dynamic> _$CommitTransactionRequestToJson(
 
   writeNotNull(
       'CommitDigest', const Uint8ListConverter().toJson(instance.commitDigest));
-  writeNotNull('TransactionId', instance.transactionId);
+  val['TransactionId'] = instance.transactionId;
   return val;
 }
 
 CommitTransactionResult _$CommitTransactionResultFromJson(
     Map<String, dynamic> json) {
   return CommitTransactionResult(
-    commitDigest:
-        const Uint8ListConverter().fromJson(json['CommitDigest'] as String),
+    commitDigest: const Uint8ListNullableConverter()
+        .fromJson(json['CommitDigest'] as String?),
     consumedIOs: json['ConsumedIOs'] == null
         ? null
         : IOUsage.fromJson(json['ConsumedIOs'] as Map<String, dynamic>),
@@ -48,7 +48,7 @@ CommitTransactionResult _$CommitTransactionResultFromJson(
         ? null
         : TimingInformation.fromJson(
             json['TimingInformation'] as Map<String, dynamic>),
-    transactionId: json['TransactionId'] as String,
+    transactionId: json['TransactionId'] as String?,
   );
 }
 
@@ -66,7 +66,10 @@ EndSessionResult _$EndSessionResultFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ExecuteStatementRequestToJson(
     ExecuteStatementRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Statement': instance.statement,
+    'TransactionId': instance.transactionId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -74,10 +77,8 @@ Map<String, dynamic> _$ExecuteStatementRequestToJson(
     }
   }
 
-  writeNotNull('Statement', instance.statement);
-  writeNotNull('TransactionId', instance.transactionId);
   writeNotNull(
-      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+      'Parameters', instance.parameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -97,19 +98,11 @@ ExecuteStatementResult _$ExecuteStatementResultFromJson(
   );
 }
 
-Map<String, dynamic> _$FetchPageRequestToJson(FetchPageRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('NextPageToken', instance.nextPageToken);
-  writeNotNull('TransactionId', instance.transactionId);
-  return val;
-}
+Map<String, dynamic> _$FetchPageRequestToJson(FetchPageRequest instance) =>
+    <String, dynamic>{
+      'NextPageToken': instance.nextPageToken,
+      'TransactionId': instance.transactionId,
+    };
 
 FetchPageResult _$FetchPageResultFromJson(Map<String, dynamic> json) {
   return FetchPageResult(
@@ -128,18 +121,17 @@ FetchPageResult _$FetchPageResultFromJson(Map<String, dynamic> json) {
 
 IOUsage _$IOUsageFromJson(Map<String, dynamic> json) {
   return IOUsage(
-    readIOs: json['ReadIOs'] as int,
-    writeIOs: json['WriteIOs'] as int,
+    readIOs: json['ReadIOs'] as int?,
+    writeIOs: json['WriteIOs'] as int?,
   );
 }
 
 Page _$PageFromJson(Map<String, dynamic> json) {
   return Page(
-    nextPageToken: json['NextPageToken'] as String,
-    values: (json['Values'] as List)
-        ?.map((e) =>
-            e == null ? null : ValueHolder.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    values: (json['Values'] as List<dynamic>?)
+        ?.map((e) => ValueHolder.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -174,22 +166,15 @@ SendCommandResult _$SendCommandResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$StartSessionRequestToJson(StartSessionRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LedgerName', instance.ledgerName);
-  return val;
-}
+Map<String, dynamic> _$StartSessionRequestToJson(
+        StartSessionRequest instance) =>
+    <String, dynamic>{
+      'LedgerName': instance.ledgerName,
+    };
 
 StartSessionResult _$StartSessionResultFromJson(Map<String, dynamic> json) {
   return StartSessionResult(
-    sessionToken: json['SessionToken'] as String,
+    sessionToken: json['SessionToken'] as String?,
     timingInformation: json['TimingInformation'] == null
         ? null
         : TimingInformation.fromJson(
@@ -208,20 +193,21 @@ StartTransactionResult _$StartTransactionResultFromJson(
         ? null
         : TimingInformation.fromJson(
             json['TimingInformation'] as Map<String, dynamic>),
-    transactionId: json['TransactionId'] as String,
+    transactionId: json['TransactionId'] as String?,
   );
 }
 
 TimingInformation _$TimingInformationFromJson(Map<String, dynamic> json) {
   return TimingInformation(
-    processingTimeMilliseconds: json['ProcessingTimeMilliseconds'] as int,
+    processingTimeMilliseconds: json['ProcessingTimeMilliseconds'] as int?,
   );
 }
 
 ValueHolder _$ValueHolderFromJson(Map<String, dynamic> json) {
   return ValueHolder(
-    ionBinary: const Uint8ListConverter().fromJson(json['IonBinary'] as String),
-    ionText: json['IonText'] as String,
+    ionBinary: const Uint8ListNullableConverter()
+        .fromJson(json['IonBinary'] as String?),
+    ionText: json['IonText'] as String?,
   );
 }
 
@@ -234,8 +220,8 @@ Map<String, dynamic> _$ValueHolderToJson(ValueHolder instance) {
     }
   }
 
-  writeNotNull(
-      'IonBinary', const Uint8ListConverter().toJson(instance.ionBinary));
+  writeNotNull('IonBinary',
+      const Uint8ListNullableConverter().toJson(instance.ionBinary));
   writeNotNull('IonText', instance.ionText);
   return val;
 }

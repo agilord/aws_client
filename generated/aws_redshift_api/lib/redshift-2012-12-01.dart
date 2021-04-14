@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'redshift-2012-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'redshift-2012-12-01.g.dart';
 
 /// This is an interface reference for Amazon Redshift. It contains
 /// documentation for one of the programming or command line interfaces you can
@@ -43,9 +35,9 @@ class Redshift {
   final Map<String, _s.Shape> shapes;
 
   Redshift({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -78,8 +70,8 @@ class Redshift {
   /// exchange. You can obtain the value for the parameter by calling
   /// <a>GetReservedNodeExchangeOfferings</a>
   Future<AcceptReservedNodeExchangeOutputMessage> acceptReservedNodeExchange({
-    @_s.required String reservedNodeId,
-    @_s.required String targetReservedNodeOfferingId,
+    required String reservedNodeId,
+    required String targetReservedNodeOfferingId,
   }) async {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
     _s.validateStringLength(
@@ -162,10 +154,10 @@ class Redshift {
   /// Example: <code>111122223333</code>
   Future<AuthorizeClusterSecurityGroupIngressResult>
       authorizeClusterSecurityGroupIngress({
-    @_s.required String clusterSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String clusterSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
@@ -244,9 +236,9 @@ class Redshift {
   /// resource element that specifies anything other than * for the cluster
   /// name.
   Future<AuthorizeSnapshotAccessResult> authorizeSnapshotAccess({
-    @_s.required String accountWithRestoreAccess,
-    @_s.required String snapshotIdentifier,
-    String snapshotClusterIdentifier,
+    required String accountWithRestoreAccess,
+    required String snapshotIdentifier,
+    String? snapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
@@ -297,7 +289,7 @@ class Redshift {
   /// Parameter [identifiers] :
   /// A list of identifiers for the snapshots that you want to delete.
   Future<BatchDeleteClusterSnapshotsResult> batchDeleteClusterSnapshots({
-    @_s.required List<DeleteClusterSnapshotMessage> identifiers,
+    required List<DeleteClusterSnapshotMessage> identifiers,
   }) async {
     ArgumentError.checkNotNull(identifiers, 'identifiers');
     final $request = <String, dynamic>{};
@@ -339,9 +331,9 @@ class Redshift {
   /// period will return an error. If you want to suppress the errors and delete
   /// the snapshots, use the force option.
   Future<BatchModifyClusterSnapshotsOutputMessage> batchModifyClusterSnapshots({
-    @_s.required List<String> snapshotIdentifierList,
-    bool force,
-    int manualSnapshotRetentionPeriod,
+    required List<String> snapshotIdentifierList,
+    bool? force,
+    int? manualSnapshotRetentionPeriod,
   }) async {
     ArgumentError.checkNotNull(
         snapshotIdentifierList, 'snapshotIdentifierList');
@@ -375,7 +367,7 @@ class Redshift {
   /// The unique identifier for the cluster that you want to cancel a resize
   /// operation for.
   Future<ResizeProgressMessage> cancelResize({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -479,10 +471,10 @@ class Redshift {
   /// </li>
   /// </ul>
   Future<CopyClusterSnapshotResult> copyClusterSnapshot({
-    @_s.required String sourceSnapshotIdentifier,
-    @_s.required String targetSnapshotIdentifier,
-    int manualSnapshotRetentionPeriod,
-    String sourceSnapshotClusterIdentifier,
+    required String sourceSnapshotIdentifier,
+    required String targetSnapshotIdentifier,
+    int? manualSnapshotRetentionPeriod,
+    String? sourceSnapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         sourceSnapshotIdentifier, 'sourceSnapshotIdentifier');
@@ -894,37 +886,37 @@ class Redshift {
   ///
   /// Default: The default VPC security group is associated with the cluster.
   Future<CreateClusterResult> createCluster({
-    @_s.required String clusterIdentifier,
-    @_s.required String masterUserPassword,
-    @_s.required String masterUsername,
-    @_s.required String nodeType,
-    String additionalInfo,
-    bool allowVersionUpgrade,
-    int automatedSnapshotRetentionPeriod,
-    String availabilityZone,
-    bool availabilityZoneRelocation,
-    String clusterParameterGroupName,
-    List<String> clusterSecurityGroups,
-    String clusterSubnetGroupName,
-    String clusterType,
-    String clusterVersion,
-    String dBName,
-    String elasticIp,
-    bool encrypted,
-    bool enhancedVpcRouting,
-    String hsmClientCertificateIdentifier,
-    String hsmConfigurationIdentifier,
-    List<String> iamRoles,
-    String kmsKeyId,
-    String maintenanceTrackName,
-    int manualSnapshotRetentionPeriod,
-    int numberOfNodes,
-    int port,
-    String preferredMaintenanceWindow,
-    bool publiclyAccessible,
-    String snapshotScheduleIdentifier,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required String clusterIdentifier,
+    required String masterUserPassword,
+    required String masterUsername,
+    required String nodeType,
+    String? additionalInfo,
+    bool? allowVersionUpgrade,
+    int? automatedSnapshotRetentionPeriod,
+    String? availabilityZone,
+    bool? availabilityZoneRelocation,
+    String? clusterParameterGroupName,
+    List<String>? clusterSecurityGroups,
+    String? clusterSubnetGroupName,
+    String? clusterType,
+    String? clusterVersion,
+    String? dBName,
+    String? elasticIp,
+    bool? encrypted,
+    bool? enhancedVpcRouting,
+    String? hsmClientCertificateIdentifier,
+    String? hsmConfigurationIdentifier,
+    List<String>? iamRoles,
+    String? kmsKeyId,
+    String? maintenanceTrackName,
+    int? manualSnapshotRetentionPeriod,
+    int? numberOfNodes,
+    int? port,
+    String? preferredMaintenanceWindow,
+    bool? publiclyAccessible,
+    String? snapshotScheduleIdentifier,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -1157,10 +1149,10 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateClusterParameterGroupResult> createClusterParameterGroup({
-    @_s.required String description,
-    @_s.required String parameterGroupFamily,
-    @_s.required String parameterGroupName,
-    List<Tag> tags,
+    required String description,
+    required String parameterGroupFamily,
+    required String parameterGroupName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -1244,9 +1236,9 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateClusterSecurityGroupResult> createClusterSecurityGroup({
-    @_s.required String clusterSecurityGroupName,
-    @_s.required String description,
-    List<Tag> tags,
+    required String clusterSecurityGroupName,
+    required String description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
@@ -1335,10 +1327,10 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateClusterSnapshotResult> createClusterSnapshot({
-    @_s.required String clusterIdentifier,
-    @_s.required String snapshotIdentifier,
-    int manualSnapshotRetentionPeriod,
-    List<Tag> tags,
+    required String clusterIdentifier,
+    required String snapshotIdentifier,
+    int? manualSnapshotRetentionPeriod,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -1423,10 +1415,10 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateClusterSubnetGroupResult> createClusterSubnetGroup({
-    @_s.required String clusterSubnetGroupName,
-    @_s.required String description,
-    @_s.required List<String> subnetIds,
-    List<Tag> tags,
+    required String clusterSubnetGroupName,
+    required String description,
+    required List<String> subnetIds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
@@ -1568,14 +1560,14 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateEventSubscriptionResult> createEventSubscription({
-    @_s.required String snsTopicArn,
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    String severity,
-    List<String> sourceIds,
-    String sourceType,
-    List<Tag> tags,
+    required String snsTopicArn,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? severity,
+    List<String>? sourceIds,
+    String? sourceType,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     _s.validateStringLength(
@@ -1653,8 +1645,8 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateHsmClientCertificateResult> createHsmClientCertificate({
-    @_s.required String hsmClientCertificateIdentifier,
-    List<Tag> tags,
+    required String hsmClientCertificateIdentifier,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
@@ -1723,13 +1715,13 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateHsmConfigurationResult> createHsmConfiguration({
-    @_s.required String description,
-    @_s.required String hsmConfigurationIdentifier,
-    @_s.required String hsmIpAddress,
-    @_s.required String hsmPartitionName,
-    @_s.required String hsmPartitionPassword,
-    @_s.required String hsmServerPublicCertificate,
-    List<Tag> tags,
+    required String description,
+    required String hsmConfigurationIdentifier,
+    required String hsmIpAddress,
+    required String hsmPartitionName,
+    required String hsmPartitionPassword,
+    required String hsmServerPublicCertificate,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -1850,14 +1842,14 @@ class Redshift {
   /// scheduled action does not trigger. For more information about this
   /// parameter, see <a>ScheduledAction</a>.
   Future<ScheduledAction> createScheduledAction({
-    @_s.required String iamRole,
-    @_s.required String schedule,
-    @_s.required String scheduledActionName,
-    @_s.required ScheduledActionType targetAction,
-    bool enable,
-    DateTime endTime,
-    String scheduledActionDescription,
-    DateTime startTime,
+    required String iamRole,
+    required String schedule,
+    required String scheduledActionName,
+    required ScheduledActionType targetAction,
+    bool? enable,
+    DateTime? endTime,
+    String? scheduledActionDescription,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(iamRole, 'iamRole');
     _s.validateStringLength(
@@ -1962,9 +1954,9 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<CreateSnapshotCopyGrantResult> createSnapshotCopyGrant({
-    @_s.required String snapshotCopyGrantName,
-    String kmsKeyId,
-    List<Tag> tags,
+    required String snapshotCopyGrantName,
+    String? kmsKeyId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
     _s.validateStringLength(
@@ -2028,12 +2020,12 @@ class Redshift {
   /// Parameter [tags] :
   /// An optional set of tags you can use to search for the schedule.
   Future<SnapshotSchedule> createSnapshotSchedule({
-    bool dryRun,
-    int nextInvocations,
-    List<String> scheduleDefinitions,
-    String scheduleDescription,
-    String scheduleIdentifier,
-    List<Tag> tags,
+    bool? dryRun,
+    int? nextInvocations,
+    List<String>? scheduleDefinitions,
+    String? scheduleDescription,
+    String? scheduleIdentifier,
+    List<Tag>? tags,
   }) async {
     _s.validateStringLength(
       'scheduleDescription',
@@ -2094,8 +2086,8 @@ class Redshift {
   /// "Key"="owner","Value"="admin" "Key"="environment","Value"="test"
   /// "Key"="version","Value"="1.0"</code>.
   Future<void> createTags({
-    @_s.required String resourceName,
-    @_s.required List<Tag> tags,
+    required String resourceName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     _s.validateStringLength(
@@ -2163,13 +2155,13 @@ class Redshift {
   /// Parameter [tags] :
   /// A list of tag instances.
   Future<UsageLimit> createUsageLimit({
-    @_s.required int amount,
-    @_s.required String clusterIdentifier,
-    @_s.required UsageLimitFeatureType featureType,
-    @_s.required UsageLimitLimitType limitType,
-    UsageLimitBreachAction breachAction,
-    UsageLimitPeriod period,
-    List<Tag> tags,
+    required int amount,
+    required String clusterIdentifier,
+    required UsageLimitFeatureType featureType,
+    required UsageLimitLimitType limitType,
+    UsageLimitBreachAction? breachAction,
+    UsageLimitPeriod? period,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(amount, 'amount');
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
@@ -2291,10 +2283,10 @@ class Redshift {
   /// </note>
   /// Default: <code>false</code>
   Future<DeleteClusterResult> deleteCluster({
-    @_s.required String clusterIdentifier,
-    String finalClusterSnapshotIdentifier,
-    int finalClusterSnapshotRetentionPeriod,
-    bool skipFinalClusterSnapshot,
+    required String clusterIdentifier,
+    String? finalClusterSnapshotIdentifier,
+    int? finalClusterSnapshotRetentionPeriod,
+    bool? skipFinalClusterSnapshot,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -2354,7 +2346,7 @@ class Redshift {
   /// </li>
   /// </ul>
   Future<void> deleteClusterParameterGroup({
-    @_s.required String parameterGroupName,
+    required String parameterGroupName,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     _s.validateStringLength(
@@ -2394,7 +2386,7 @@ class Redshift {
   /// Parameter [clusterSecurityGroupName] :
   /// The name of the cluster security group to be deleted.
   Future<void> deleteClusterSecurityGroup({
-    @_s.required String clusterSecurityGroupName,
+    required String clusterSecurityGroupName,
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
@@ -2447,8 +2439,8 @@ class Redshift {
   ///
   /// Constraints: Must be the name of valid cluster.
   Future<DeleteClusterSnapshotResult> deleteClusterSnapshot({
-    @_s.required String snapshotIdentifier,
-    String snapshotClusterIdentifier,
+    required String snapshotIdentifier,
+    String? snapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     _s.validateStringLength(
@@ -2491,7 +2483,7 @@ class Redshift {
   /// Parameter [clusterSubnetGroupName] :
   /// The name of the cluster subnet group name to be deleted.
   Future<void> deleteClusterSubnetGroup({
-    @_s.required String clusterSubnetGroupName,
+    required String clusterSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
@@ -2525,7 +2517,7 @@ class Redshift {
   /// The name of the Amazon Redshift event notification subscription to be
   /// deleted.
   Future<void> deleteEventSubscription({
-    @_s.required String subscriptionName,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     _s.validateStringLength(
@@ -2557,7 +2549,7 @@ class Redshift {
   /// Parameter [hsmClientCertificateIdentifier] :
   /// The identifier of the HSM client certificate to be deleted.
   Future<void> deleteHsmClientCertificate({
-    @_s.required String hsmClientCertificateIdentifier,
+    required String hsmClientCertificateIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
@@ -2590,7 +2582,7 @@ class Redshift {
   /// Parameter [hsmConfigurationIdentifier] :
   /// The identifier of the Amazon Redshift HSM configuration to be deleted.
   Future<void> deleteHsmConfiguration({
-    @_s.required String hsmConfigurationIdentifier,
+    required String hsmConfigurationIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         hsmConfigurationIdentifier, 'hsmConfigurationIdentifier');
@@ -2623,7 +2615,7 @@ class Redshift {
   /// Parameter [scheduledActionName] :
   /// The name of the scheduled action to delete.
   Future<void> deleteScheduledAction({
-    @_s.required String scheduledActionName,
+    required String scheduledActionName,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -2655,7 +2647,7 @@ class Redshift {
   /// Parameter [snapshotCopyGrantName] :
   /// The name of the snapshot copy grant to delete.
   Future<void> deleteSnapshotCopyGrant({
-    @_s.required String snapshotCopyGrantName,
+    required String snapshotCopyGrantName,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
     _s.validateStringLength(
@@ -2687,7 +2679,7 @@ class Redshift {
   /// Parameter [scheduleIdentifier] :
   /// A unique identifier of the snapshot schedule to delete.
   Future<void> deleteSnapshotSchedule({
-    @_s.required String scheduleIdentifier,
+    required String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
     _s.validateStringLength(
@@ -2725,8 +2717,8 @@ class Redshift {
   /// Parameter [tagKeys] :
   /// The tag key that you want to delete.
   Future<void> deleteTags({
-    @_s.required String resourceName,
-    @_s.required List<String> tagKeys,
+    required String resourceName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     _s.validateStringLength(
@@ -2760,7 +2752,7 @@ class Redshift {
   /// Parameter [usageLimitId] :
   /// The identifier of the usage limit to delete.
   Future<void> deleteUsageLimit({
-    @_s.required String usageLimitId,
+    required String usageLimitId,
   }) async {
     ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
     _s.validateStringLength(
@@ -2789,7 +2781,7 @@ class Redshift {
   /// Parameter [attributeNames] :
   /// A list of attribute names.
   Future<AccountAttributeList> describeAccountAttributes({
-    List<String> attributeNames,
+    List<String>? attributeNames,
   }) async {
     final $request = <String, dynamic>{};
     attributeNames?.also((arg) => $request['AttributeNames'] = arg);
@@ -2841,9 +2833,9 @@ class Redshift {
   ///
   /// Constraints: minimum 20, maximum 100.
   Future<ClusterDbRevisionsMessage> describeClusterDbRevisions({
-    String clusterIdentifier,
-    String marker,
-    int maxRecords,
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -2943,11 +2935,11 @@ class Redshift {
   /// response with the parameter groups that have either or both of these tag
   /// values associated with them.
   Future<ClusterParameterGroupsMessage> describeClusterParameterGroups({
-    String marker,
-    int maxRecords,
-    String parameterGroupName,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? marker,
+    int? maxRecords,
+    String? parameterGroupName,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -3030,10 +3022,10 @@ class Redshift {
   ///
   /// Valid Values: <code>user</code> | <code>engine-default</code>
   Future<ClusterParameterGroupDetails> describeClusterParameters({
-    @_s.required String parameterGroupName,
-    String marker,
-    int maxRecords,
-    String source,
+    required String parameterGroupName,
+    String? marker,
+    int? maxRecords,
+    String? source,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     _s.validateStringLength(
@@ -3145,11 +3137,11 @@ class Redshift {
   /// response with the security groups that have either or both of these tag
   /// values associated with them.
   Future<ClusterSecurityGroupMessage> describeClusterSecurityGroups({
-    String clusterSecurityGroupName,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? clusterSecurityGroupName,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'clusterSecurityGroupName',
@@ -3308,18 +3300,18 @@ class Redshift {
   /// the snapshots that have either or both of these tag values associated with
   /// them.
   Future<SnapshotMessage> describeClusterSnapshots({
-    bool clusterExists,
-    String clusterIdentifier,
-    DateTime endTime,
-    String marker,
-    int maxRecords,
-    String ownerAccount,
-    String snapshotIdentifier,
-    String snapshotType,
-    List<SnapshotSortingEntity> sortingEntities,
-    DateTime startTime,
-    List<String> tagKeys,
-    List<String> tagValues,
+    bool? clusterExists,
+    String? clusterIdentifier,
+    DateTime? endTime,
+    String? marker,
+    int? maxRecords,
+    String? ownerAccount,
+    String? snapshotIdentifier,
+    String? snapshotType,
+    List<SnapshotSortingEntity>? sortingEntities,
+    DateTime? startTime,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -3437,11 +3429,11 @@ class Redshift {
   /// response with the subnet groups that have either or both of these tag
   /// values associated with them.
   Future<ClusterSubnetGroupMessage> describeClusterSubnetGroups({
-    String clusterSubnetGroupName,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? clusterSubnetGroupName,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'clusterSubnetGroupName',
@@ -3496,9 +3488,9 @@ class Redshift {
   /// Parameter [maxRecords] :
   /// An integer value for the maximum number of maintenance tracks to return.
   Future<TrackListMessage> describeClusterTracks({
-    String maintenanceTrackName,
-    String marker,
-    int maxRecords,
+    String? maintenanceTrackName,
+    String? marker,
+    int? maxRecords,
   }) async {
     _s.validateStringLength(
       'maintenanceTrackName',
@@ -3580,10 +3572,10 @@ class Redshift {
   ///
   /// Constraints: minimum 20, maximum 100.
   Future<ClusterVersionsMessage> describeClusterVersions({
-    String clusterParameterGroupFamily,
-    String clusterVersion,
-    String marker,
-    int maxRecords,
+    String? clusterParameterGroupFamily,
+    String? clusterVersion,
+    String? marker,
+    int? maxRecords,
   }) async {
     _s.validateStringLength(
       'clusterParameterGroupFamily',
@@ -3690,11 +3682,11 @@ class Redshift {
   /// clusters that have either or both of these tag values associated with
   /// them.
   Future<ClustersMessage> describeClusters({
-    String clusterIdentifier,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -3760,9 +3752,9 @@ class Redshift {
   /// Constraints: minimum 20, maximum 100.
   Future<DescribeDefaultClusterParametersResult>
       describeDefaultClusterParameters({
-    @_s.required String parameterGroupFamily,
-    String marker,
-    int maxRecords,
+    required String parameterGroupFamily,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(parameterGroupFamily, 'parameterGroupFamily');
     _s.validateStringLength(
@@ -3809,7 +3801,7 @@ class Redshift {
   /// Valid values: cluster, cluster-snapshot, cluster-parameter-group,
   /// cluster-security-group, and scheduled-action.
   Future<EventCategoriesMessage> describeEventCategories({
-    String sourceType,
+    String? sourceType,
   }) async {
     _s.validateStringLength(
       'sourceType',
@@ -3892,11 +3884,11 @@ class Redshift {
   /// response with the subscriptions that have either or both of these tag
   /// values associated with them.
   Future<EventSubscriptionsMessage> describeEventSubscriptions({
-    String marker,
-    int maxRecords,
-    String subscriptionName,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4034,13 +4026,13 @@ class Redshift {
   ///
   /// Example: <code>2009-07-08T18:00Z</code>
   Future<EventsMessage> describeEvents({
-    int duration,
-    DateTime endTime,
-    String marker,
-    int maxRecords,
-    String sourceIdentifier,
-    SourceType sourceType,
-    DateTime startTime,
+    int? duration,
+    DateTime? endTime,
+    String? marker,
+    int? maxRecords,
+    String? sourceIdentifier,
+    SourceType? sourceType,
+    DateTime? startTime,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4137,11 +4129,11 @@ class Redshift {
   /// response with the HSM client certificates that have either or both of
   /// these tag values associated with them.
   Future<HsmClientCertificateMessage> describeHsmClientCertificates({
-    String hsmClientCertificateIdentifier,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? hsmClientCertificateIdentifier,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'hsmClientCertificateIdentifier',
@@ -4236,11 +4228,11 @@ class Redshift {
   /// response with the HSM configurations that have either or both of these tag
   /// values associated with them.
   Future<HsmConfigurationMessage> describeHsmConfigurations({
-    String hsmConfigurationIdentifier,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? hsmConfigurationIdentifier,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'hsmConfigurationIdentifier',
@@ -4285,7 +4277,7 @@ class Redshift {
   ///
   /// Example: <code>examplecluster</code>
   Future<LoggingStatus> describeLoggingStatus({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -4363,13 +4355,13 @@ class Redshift {
   /// The identifier of the snapshot to evaluate for possible node
   /// configurations.
   Future<NodeConfigurationOptionsMessage> describeNodeConfigurationOptions({
-    @_s.required ActionType actionType,
-    String clusterIdentifier,
-    List<NodeConfigurationOptionsFilter> filters,
-    String marker,
-    int maxRecords,
-    String ownerAccount,
-    String snapshotIdentifier,
+    required ActionType actionType,
+    String? clusterIdentifier,
+    List<NodeConfigurationOptionsFilter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? ownerAccount,
+    String? snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(actionType, 'actionType');
     _s.validateStringLength(
@@ -4463,10 +4455,10 @@ class Redshift {
   /// The node type filter value. Specify this parameter to show only the
   /// available offerings matching the specified node type.
   Future<OrderableClusterOptionsMessage> describeOrderableClusterOptions({
-    String clusterVersion,
-    String marker,
-    int maxRecords,
-    String nodeType,
+    String? clusterVersion,
+    String? marker,
+    int? maxRecords,
+    String? nodeType,
   }) async {
     _s.validateStringLength(
       'clusterVersion',
@@ -4544,9 +4536,9 @@ class Redshift {
   /// Parameter [reservedNodeOfferingId] :
   /// The unique identifier for the offering.
   Future<ReservedNodeOfferingsMessage> describeReservedNodeOfferings({
-    String marker,
-    int maxRecords,
-    String reservedNodeOfferingId,
+    String? marker,
+    int? maxRecords,
+    String? reservedNodeOfferingId,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4606,9 +4598,9 @@ class Redshift {
   /// Parameter [reservedNodeId] :
   /// Identifier for the node reservation.
   Future<ReservedNodesMessage> describeReservedNodes({
-    String marker,
-    int maxRecords,
-    String reservedNodeId,
+    String? marker,
+    int? maxRecords,
+    String? reservedNodeId,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4659,7 +4651,7 @@ class Redshift {
   /// By default, resize operations for all clusters defined for an AWS account
   /// are returned.
   Future<ResizeProgressMessage> describeResize({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -4730,14 +4722,14 @@ class Redshift {
   /// Parameter [targetActionType] :
   /// The type of the scheduled actions to retrieve.
   Future<ScheduledActionsMessage> describeScheduledActions({
-    bool active,
-    DateTime endTime,
-    List<ScheduledActionFilter> filters,
-    String marker,
-    int maxRecords,
-    String scheduledActionName,
-    DateTime startTime,
-    ScheduledActionTypeValues targetActionType,
+    bool? active,
+    DateTime? endTime,
+    List<ScheduledActionFilter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? scheduledActionName,
+    DateTime? startTime,
+    ScheduledActionTypeValues? targetActionType,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4829,11 +4821,11 @@ class Redshift {
   /// resources that have either or both of these tag values associated with
   /// them.
   Future<SnapshotCopyGrantMessage> describeSnapshotCopyGrants({
-    String marker,
-    int maxRecords,
-    String snapshotCopyGrantName,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? marker,
+    int? maxRecords,
+    String? snapshotCopyGrantName,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4899,12 +4891,12 @@ class Redshift {
   /// Parameter [tagValues] :
   /// The value corresponding to the key of the snapshot schedule tag.
   Future<DescribeSnapshotSchedulesOutputMessage> describeSnapshotSchedules({
-    String clusterIdentifier,
-    String marker,
-    int maxRecords,
-    String scheduleIdentifier,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
+    String? scheduleIdentifier,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -4993,10 +4985,10 @@ class Redshift {
   /// <code>DescribeTableRestoreStatus</code> returns the status of all
   /// in-progress table restore requests.
   Future<TableRestoreStatusMessage> describeTableRestoreStatus({
-    String clusterIdentifier,
-    String marker,
-    int maxRecords,
-    String tableRestoreRequestId,
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
+    String? tableRestoreRequestId,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -5150,12 +5142,12 @@ class Redshift {
   /// resources that have either or both of these tag values associated with
   /// them.
   Future<TaggedResourceListMessage> describeTags({
-    String marker,
-    int maxRecords,
-    String resourceName,
-    String resourceType,
-    List<String> tagKeys,
-    List<String> tagValues,
+    String? marker,
+    int? maxRecords,
+    String? resourceName,
+    String? resourceType,
+    List<String>? tagKeys,
+    List<String>? tagValues,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -5269,13 +5261,13 @@ class Redshift {
   /// Parameter [usageLimitId] :
   /// The identifier of the usage limit to describe.
   Future<UsageLimitList> describeUsageLimits({
-    String clusterIdentifier,
-    UsageLimitFeatureType featureType,
-    String marker,
-    int maxRecords,
-    List<String> tagKeys,
-    List<String> tagValues,
-    String usageLimitId,
+    String? clusterIdentifier,
+    UsageLimitFeatureType? featureType,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
+    String? usageLimitId,
   }) async {
     _s.validateStringLength(
       'clusterIdentifier',
@@ -5327,7 +5319,7 @@ class Redshift {
   ///
   /// Example: <code>examplecluster</code>
   Future<LoggingStatus> disableLogging({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -5373,7 +5365,7 @@ class Redshift {
   /// Constraints: Must be the valid name of an existing cluster that has
   /// cross-region snapshot copy enabled.
   Future<DisableSnapshotCopyResult> disableSnapshotCopy({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -5461,9 +5453,9 @@ class Redshift {
   /// </ul> </li>
   /// </ul>
   Future<LoggingStatus> enableLogging({
-    @_s.required String bucketName,
-    @_s.required String clusterIdentifier,
-    String s3KeyPrefix,
+    required String bucketName,
+    required String clusterIdentifier,
+    String? s3KeyPrefix,
   }) async {
     ArgumentError.checkNotNull(bucketName, 'bucketName');
     _s.validateStringLength(
@@ -5553,11 +5545,11 @@ class Redshift {
   /// The name of the snapshot copy grant to use when snapshots of an AWS
   /// KMS-encrypted cluster are copied to the destination region.
   Future<EnableSnapshotCopyResult> enableSnapshotCopy({
-    @_s.required String clusterIdentifier,
-    @_s.required String destinationRegion,
-    int manualSnapshotRetentionPeriod,
-    int retentionPeriod,
-    String snapshotCopyGrantName,
+    required String clusterIdentifier,
+    required String destinationRegion,
+    int? manualSnapshotRetentionPeriod,
+    int? retentionPeriod,
+    String? snapshotCopyGrantName,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -5750,12 +5742,12 @@ class Redshift {
   ///
   /// Default: 900
   Future<ClusterCredentials> getClusterCredentials({
-    @_s.required String clusterIdentifier,
-    @_s.required String dbUser,
-    bool autoCreate,
-    List<String> dbGroups,
-    String dbName,
-    int durationSeconds,
+    required String clusterIdentifier,
+    required String dbUser,
+    bool? autoCreate,
+    List<String>? dbGroups,
+    String? dbName,
+    int? durationSeconds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -5823,9 +5815,9 @@ class Redshift {
   /// retrieve.
   Future<GetReservedNodeExchangeOfferingsOutputMessage>
       getReservedNodeExchangeOfferings({
-    @_s.required String reservedNodeId,
-    String marker,
-    int maxRecords,
+    required String reservedNodeId,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
     _s.validateStringLength(
@@ -6158,31 +6150,31 @@ class Redshift {
   /// with the cluster. This change is asynchronously applied as soon as
   /// possible.
   Future<ModifyClusterResult> modifyCluster({
-    @_s.required String clusterIdentifier,
-    bool allowVersionUpgrade,
-    int automatedSnapshotRetentionPeriod,
-    String availabilityZone,
-    bool availabilityZoneRelocation,
-    String clusterParameterGroupName,
-    List<String> clusterSecurityGroups,
-    String clusterType,
-    String clusterVersion,
-    String elasticIp,
-    bool encrypted,
-    bool enhancedVpcRouting,
-    String hsmClientCertificateIdentifier,
-    String hsmConfigurationIdentifier,
-    String kmsKeyId,
-    String maintenanceTrackName,
-    int manualSnapshotRetentionPeriod,
-    String masterUserPassword,
-    String newClusterIdentifier,
-    String nodeType,
-    int numberOfNodes,
-    int port,
-    String preferredMaintenanceWindow,
-    bool publiclyAccessible,
-    List<String> vpcSecurityGroupIds,
+    required String clusterIdentifier,
+    bool? allowVersionUpgrade,
+    int? automatedSnapshotRetentionPeriod,
+    String? availabilityZone,
+    bool? availabilityZoneRelocation,
+    String? clusterParameterGroupName,
+    List<String>? clusterSecurityGroups,
+    String? clusterType,
+    String? clusterVersion,
+    String? elasticIp,
+    bool? encrypted,
+    bool? enhancedVpcRouting,
+    String? hsmClientCertificateIdentifier,
+    String? hsmConfigurationIdentifier,
+    String? kmsKeyId,
+    String? maintenanceTrackName,
+    int? manualSnapshotRetentionPeriod,
+    String? masterUserPassword,
+    String? newClusterIdentifier,
+    String? nodeType,
+    int? numberOfNodes,
+    int? port,
+    String? preferredMaintenanceWindow,
+    bool? publiclyAccessible,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -6335,8 +6327,8 @@ class Redshift {
   /// The identifier of the database revision. You can retrieve this value from
   /// the response to the <a>DescribeClusterDbRevisions</a> request.
   Future<ModifyClusterDbRevisionResult> modifyClusterDbRevision({
-    @_s.required String clusterIdentifier,
-    @_s.required String revisionTarget,
+    required String clusterIdentifier,
+    required String revisionTarget,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -6393,9 +6385,9 @@ class Redshift {
   /// can disassociate up to 10 IAM roles from a single cluster in a single
   /// request.
   Future<ModifyClusterIamRolesResult> modifyClusterIamRoles({
-    @_s.required String clusterIdentifier,
-    List<String> addIamRoles,
-    List<String> removeIamRoles,
+    required String clusterIdentifier,
+    List<String>? addIamRoles,
+    List<String>? removeIamRoles,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -6449,12 +6441,12 @@ class Redshift {
   /// Parameter [deferMaintenanceStartTime] :
   /// A timestamp indicating the start time for the deferred maintenance window.
   Future<ModifyClusterMaintenanceResult> modifyClusterMaintenance({
-    @_s.required String clusterIdentifier,
-    bool deferMaintenance,
-    int deferMaintenanceDuration,
-    DateTime deferMaintenanceEndTime,
-    String deferMaintenanceIdentifier,
-    DateTime deferMaintenanceStartTime,
+    required String clusterIdentifier,
+    bool? deferMaintenance,
+    int? deferMaintenanceDuration,
+    DateTime? deferMaintenanceEndTime,
+    String? deferMaintenanceIdentifier,
+    DateTime? deferMaintenanceStartTime,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -6519,8 +6511,8 @@ class Redshift {
   /// For the workload management (WLM) configuration, you must supply all the
   /// name-value pairs in the wlm_json_configuration parameter.
   Future<ClusterParameterGroupNameMessage> modifyClusterParameterGroup({
-    @_s.required String parameterGroupName,
-    @_s.required List<Parameter> parameters,
+    required String parameterGroupName,
+    required List<Parameter> parameters,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     _s.validateStringLength(
@@ -6573,9 +6565,9 @@ class Redshift {
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
   Future<ModifyClusterSnapshotResult> modifyClusterSnapshot({
-    @_s.required String snapshotIdentifier,
-    bool force,
-    int manualSnapshotRetentionPeriod,
+    required String snapshotIdentifier,
+    bool? force,
+    int? manualSnapshotRetentionPeriod,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     _s.validateStringLength(
@@ -6622,9 +6614,9 @@ class Redshift {
   /// A unique alphanumeric identifier for the schedule that you want to
   /// associate with the cluster.
   Future<void> modifyClusterSnapshotSchedule({
-    @_s.required String clusterIdentifier,
-    bool disassociateSchedule,
-    String scheduleIdentifier,
+    required String clusterIdentifier,
+    bool? disassociateSchedule,
+    String? scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -6677,9 +6669,9 @@ class Redshift {
   /// Parameter [description] :
   /// A text description of the subnet group to be modified.
   Future<ModifyClusterSubnetGroupResult> modifyClusterSubnetGroup({
-    @_s.required String clusterSubnetGroupName,
-    @_s.required List<String> subnetIds,
-    String description,
+    required String clusterSubnetGroupName,
+    required List<String> subnetIds,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
@@ -6771,13 +6763,13 @@ class Redshift {
   /// Valid values: cluster, cluster-parameter-group, cluster-security-group,
   /// cluster-snapshot, and scheduled-action.
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    String severity,
-    String snsTopicArn,
-    List<String> sourceIds,
-    String sourceType,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? severity,
+    String? snsTopicArn,
+    List<String>? sourceIds,
+    String? sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     _s.validateStringLength(
@@ -6866,14 +6858,14 @@ class Redshift {
   /// A modified JSON format of the scheduled action. For more information about
   /// this parameter, see <a>ScheduledAction</a>.
   Future<ScheduledAction> modifyScheduledAction({
-    @_s.required String scheduledActionName,
-    bool enable,
-    DateTime endTime,
-    String iamRole,
-    String schedule,
-    String scheduledActionDescription,
-    DateTime startTime,
-    ScheduledActionType targetAction,
+    required String scheduledActionName,
+    bool? enable,
+    DateTime? endTime,
+    String? iamRole,
+    String? schedule,
+    String? scheduledActionDescription,
+    DateTime? startTime,
+    ScheduledActionType? targetAction,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
     _s.validateStringLength(
@@ -6977,9 +6969,9 @@ class Redshift {
   /// manual snapshots instead of automated snapshots.
   Future<ModifySnapshotCopyRetentionPeriodResult>
       modifySnapshotCopyRetentionPeriod({
-    @_s.required String clusterIdentifier,
-    @_s.required int retentionPeriod,
-    bool manual,
+    required String clusterIdentifier,
+    required int retentionPeriod,
+    bool? manual,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7022,8 +7014,8 @@ class Redshift {
   /// Parameter [scheduleIdentifier] :
   /// A unique alphanumeric identifier of the schedule to modify.
   Future<SnapshotSchedule> modifySnapshotSchedule({
-    @_s.required List<String> scheduleDefinitions,
-    @_s.required String scheduleIdentifier,
+    required List<String> scheduleDefinitions,
+    required String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(scheduleDefinitions, 'scheduleDefinitions');
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
@@ -7069,9 +7061,9 @@ class Redshift {
   /// The new action that Amazon Redshift takes when the limit is reached. For
   /// more information about this parameter, see <a>UsageLimit</a>.
   Future<UsageLimit> modifyUsageLimit({
-    @_s.required String usageLimitId,
-    int amount,
-    UsageLimitBreachAction breachAction,
+    required String usageLimitId,
+    int? amount,
+    UsageLimitBreachAction? breachAction,
   }) async {
     ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
     _s.validateStringLength(
@@ -7107,7 +7099,7 @@ class Redshift {
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to be paused.
   Future<PauseClusterResult> pauseCluster({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7157,8 +7149,8 @@ class Redshift {
   ///
   /// Default: <code>1</code>
   Future<PurchaseReservedNodeOfferingResult> purchaseReservedNodeOffering({
-    @_s.required String reservedNodeOfferingId,
-    int nodeCount,
+    required String reservedNodeOfferingId,
+    int? nodeCount,
   }) async {
     ArgumentError.checkNotNull(
         reservedNodeOfferingId, 'reservedNodeOfferingId');
@@ -7202,7 +7194,7 @@ class Redshift {
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier.
   Future<RebootClusterResult> rebootCluster({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7252,9 +7244,9 @@ class Redshift {
   ///
   /// Default: <code>true</code>
   Future<ClusterParameterGroupNameMessage> resetClusterParameterGroup({
-    @_s.required String parameterGroupName,
-    List<Parameter> parameters,
-    bool resetAllParameters,
+    required String parameterGroupName,
+    List<Parameter>? parameters,
+    bool? resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     _s.validateStringLength(
@@ -7357,11 +7349,11 @@ class Redshift {
   /// The new number of nodes for the cluster. If not specified, the cluster's
   /// current number of nodes is used.
   Future<ResizeClusterResult> resizeCluster({
-    @_s.required String clusterIdentifier,
-    bool classic,
-    String clusterType,
-    String nodeType,
-    int numberOfNodes,
+    required String clusterIdentifier,
+    bool? classic,
+    String? clusterType,
+    String? nodeType,
+    int? numberOfNodes,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7661,33 +7653,33 @@ class Redshift {
   ///
   /// VPC security groups only apply to clusters in VPCs.
   Future<RestoreFromClusterSnapshotResult> restoreFromClusterSnapshot({
-    @_s.required String clusterIdentifier,
-    @_s.required String snapshotIdentifier,
-    String additionalInfo,
-    bool allowVersionUpgrade,
-    int automatedSnapshotRetentionPeriod,
-    String availabilityZone,
-    bool availabilityZoneRelocation,
-    String clusterParameterGroupName,
-    List<String> clusterSecurityGroups,
-    String clusterSubnetGroupName,
-    String elasticIp,
-    bool enhancedVpcRouting,
-    String hsmClientCertificateIdentifier,
-    String hsmConfigurationIdentifier,
-    List<String> iamRoles,
-    String kmsKeyId,
-    String maintenanceTrackName,
-    int manualSnapshotRetentionPeriod,
-    String nodeType,
-    int numberOfNodes,
-    String ownerAccount,
-    int port,
-    String preferredMaintenanceWindow,
-    bool publiclyAccessible,
-    String snapshotClusterIdentifier,
-    String snapshotScheduleIdentifier,
-    List<String> vpcSecurityGroupIds,
+    required String clusterIdentifier,
+    required String snapshotIdentifier,
+    String? additionalInfo,
+    bool? allowVersionUpgrade,
+    int? automatedSnapshotRetentionPeriod,
+    String? availabilityZone,
+    bool? availabilityZoneRelocation,
+    String? clusterParameterGroupName,
+    List<String>? clusterSecurityGroups,
+    String? clusterSubnetGroupName,
+    String? elasticIp,
+    bool? enhancedVpcRouting,
+    String? hsmClientCertificateIdentifier,
+    String? hsmConfigurationIdentifier,
+    List<String>? iamRoles,
+    String? kmsKeyId,
+    String? maintenanceTrackName,
+    int? manualSnapshotRetentionPeriod,
+    String? nodeType,
+    int? numberOfNodes,
+    String? ownerAccount,
+    int? port,
+    String? preferredMaintenanceWindow,
+    bool? publiclyAccessible,
+    String? snapshotClusterIdentifier,
+    String? snapshotScheduleIdentifier,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7894,14 +7886,14 @@ class Redshift {
   /// The name of the schema to restore the table to.
   Future<RestoreTableFromClusterSnapshotResult>
       restoreTableFromClusterSnapshot({
-    @_s.required String clusterIdentifier,
-    @_s.required String newTableName,
-    @_s.required String snapshotIdentifier,
-    @_s.required String sourceDatabaseName,
-    @_s.required String sourceTableName,
-    String sourceSchemaName,
-    String targetDatabaseName,
-    String targetSchemaName,
+    required String clusterIdentifier,
+    required String newTableName,
+    required String snapshotIdentifier,
+    required String sourceDatabaseName,
+    required String sourceTableName,
+    String? sourceSchemaName,
+    String? targetDatabaseName,
+    String? targetSchemaName,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -7993,7 +7985,7 @@ class Redshift {
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to be resumed.
   Future<ResumeClusterResult> resumeCluster({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -8056,10 +8048,10 @@ class Redshift {
   /// Example: <code>111122223333</code>
   Future<RevokeClusterSecurityGroupIngressResult>
       revokeClusterSecurityGroupIngress({
-    @_s.required String clusterSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String clusterSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
@@ -8134,9 +8126,9 @@ class Redshift {
   /// resource element that specifies anything other than * for the cluster
   /// name.
   Future<RevokeSnapshotAccessResult> revokeSnapshotAccess({
-    @_s.required String accountWithRestoreAccess,
-    @_s.required String snapshotIdentifier,
-    String snapshotClusterIdentifier,
+    required String accountWithRestoreAccess,
+    required String snapshotIdentifier,
+    String? snapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
@@ -8193,7 +8185,7 @@ class Redshift {
   /// Constraints: Must be the name of valid cluster that has encryption
   /// enabled.
   Future<RotateEncryptionKeyResult> rotateEncryptionKey({
-    @_s.required String clusterIdentifier,
+    required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     _s.validateStringLength(
@@ -8222,7 +8214,7 @@ class Redshift {
 
 class AcceptReservedNodeExchangeOutputMessage {
   /// <p/>
-  final ReservedNode exchangedReservedNode;
+  final ReservedNode? exchangedReservedNode;
 
   AcceptReservedNodeExchangeOutputMessage({
     this.exchangedReservedNode,
@@ -8239,10 +8231,10 @@ class AcceptReservedNodeExchangeOutputMessage {
 /// A name value pair that describes an aspect of an account.
 class AccountAttribute {
   /// The name of the attribute.
-  final String attributeName;
+  final String? attributeName;
 
   /// A list of attribute values.
-  final List<AttributeValueTarget> attributeValues;
+  final List<AttributeValueTarget>? attributeValues;
 
   AccountAttribute({
     this.attributeName,
@@ -8262,7 +8254,7 @@ class AccountAttribute {
 
 class AccountAttributeList {
   /// A list of attributes assigned to an account.
-  final List<AccountAttribute> accountAttributes;
+  final List<AccountAttribute>? accountAttributes;
 
   AccountAttributeList({
     this.accountAttributes,
@@ -8282,10 +8274,10 @@ class AccountAttributeList {
 class AccountWithRestoreAccess {
   /// The identifier of an AWS support account authorized to restore a snapshot.
   /// For AWS support, the identifier is <code>amazon-redshift-support</code>.
-  final String accountAlias;
+  final String? accountAlias;
 
   /// The identifier of an AWS customer account authorized to restore a snapshot.
-  final String accountId;
+  final String? accountId;
 
   AccountWithRestoreAccess({
     this.accountAlias,
@@ -8300,11 +8292,8 @@ class AccountWithRestoreAccess {
 }
 
 enum ActionType {
-  @_s.JsonValue('restore-cluster')
   restoreCluster,
-  @_s.JsonValue('recommend-node-config')
   recommendNodeConfig,
-  @_s.JsonValue('resize-cluster')
   resizeCluster,
 }
 
@@ -8318,7 +8307,6 @@ extension on ActionType {
       case ActionType.resizeCluster:
         return 'resize-cluster';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8332,14 +8320,14 @@ extension on String {
       case 'resize-cluster':
         return ActionType.resizeCluster;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionType');
   }
 }
 
 /// Describes an attribute value.
 class AttributeValueTarget {
   /// The value of the attribute.
-  final String attributeValue;
+  final String? attributeValue;
 
   AttributeValueTarget({
     this.attributeValue,
@@ -8352,7 +8340,7 @@ class AttributeValueTarget {
 }
 
 class AuthorizeClusterSecurityGroupIngressResult {
-  final ClusterSecurityGroup clusterSecurityGroup;
+  final ClusterSecurityGroup? clusterSecurityGroup;
 
   AuthorizeClusterSecurityGroupIngressResult({
     this.clusterSecurityGroup,
@@ -8368,7 +8356,7 @@ class AuthorizeClusterSecurityGroupIngressResult {
 }
 
 class AuthorizeSnapshotAccessResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   AuthorizeSnapshotAccessResult({
     this.snapshot,
@@ -8384,10 +8372,10 @@ class AuthorizeSnapshotAccessResult {
 /// Describes an availability zone.
 class AvailabilityZone {
   /// The name of the availability zone.
-  final String name;
+  final String? name;
 
   /// <p/>
-  final List<SupportedPlatform> supportedPlatforms;
+  final List<SupportedPlatform>? supportedPlatforms;
 
   AvailabilityZone({
     this.name,
@@ -8407,10 +8395,10 @@ class AvailabilityZone {
 
 class BatchDeleteClusterSnapshotsResult {
   /// A list of any errors returned.
-  final List<SnapshotErrorMessage> errors;
+  final List<SnapshotErrorMessage>? errors;
 
   /// A list of the snapshot identifiers that were deleted.
-  final List<String> resources;
+  final List<String>? resources;
 
   BatchDeleteClusterSnapshotsResult({
     this.errors,
@@ -8431,10 +8419,10 @@ class BatchDeleteClusterSnapshotsResult {
 
 class BatchModifyClusterSnapshotsOutputMessage {
   /// A list of any errors returned.
-  final List<SnapshotErrorMessage> errors;
+  final List<SnapshotErrorMessage>? errors;
 
   /// A list of the snapshots that were modified.
-  final List<String> resources;
+  final List<String>? resources;
 
   BatchModifyClusterSnapshotsOutputMessage({
     this.errors,
@@ -8458,16 +8446,16 @@ class Cluster {
   /// A boolean value that, if <code>true</code>, indicates that major version
   /// upgrades will be applied automatically to the cluster during the maintenance
   /// window.
-  final bool allowVersionUpgrade;
+  final bool? allowVersionUpgrade;
 
   /// The number of days that automatic cluster snapshots are retained.
-  final int automatedSnapshotRetentionPeriod;
+  final int? automatedSnapshotRetentionPeriod;
 
   /// The name of the Availability Zone in which the cluster is located.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Describes the status of the Availability Zone relocation operation.
-  final String availabilityZoneRelocationStatus;
+  final String? availabilityZoneRelocationStatus;
 
   /// The availability status of the cluster for queries. Possible values are the
   /// following:
@@ -8491,29 +8479,29 @@ class Cluster {
   /// Failed - The cluster failed and is not available for queries.
   /// </li>
   /// </ul>
-  final String clusterAvailabilityStatus;
+  final String? clusterAvailabilityStatus;
 
   /// The date and time that the cluster was created.
-  final DateTime clusterCreateTime;
+  final DateTime? clusterCreateTime;
 
   /// The unique identifier of the cluster.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The namespace Amazon Resource Name (ARN) of the cluster.
-  final String clusterNamespaceArn;
+  final String? clusterNamespaceArn;
 
   /// The nodes in the cluster.
-  final List<ClusterNode> clusterNodes;
+  final List<ClusterNode>? clusterNodes;
 
   /// The list of cluster parameter groups that are associated with this cluster.
   /// Each parameter group in the list is returned with its status.
-  final List<ClusterParameterGroupStatus> clusterParameterGroups;
+  final List<ClusterParameterGroupStatus>? clusterParameterGroups;
 
   /// The public key for the cluster.
-  final String clusterPublicKey;
+  final String? clusterPublicKey;
 
   /// The specific revision number of the database in the cluster.
-  final String clusterRevisionNumber;
+  final String? clusterRevisionNumber;
 
   /// A list of cluster security group that are associated with the cluster. Each
   /// security group is represented by an element that contains
@@ -8524,11 +8512,11 @@ class Cluster {
   /// Amazon Virtual Private Cloud (VPC). Clusters that are created in a VPC use
   /// VPC security groups, which are listed by the <b>VpcSecurityGroups</b>
   /// parameter.
-  final List<ClusterSecurityGroupMembership> clusterSecurityGroups;
+  final List<ClusterSecurityGroupMembership>? clusterSecurityGroups;
 
   /// A value that returns the destination region and retention period that are
   /// configured for cross-region snapshot copy.
-  final ClusterSnapshotCopyStatus clusterSnapshotCopyStatus;
+  final ClusterSnapshotCopyStatus? clusterSnapshotCopyStatus;
 
   /// The current state of the cluster. Possible values are the following:
   ///
@@ -8594,40 +8582,40 @@ class Cluster {
   /// <code>updating-hsm</code>
   /// </li>
   /// </ul>
-  final String clusterStatus;
+  final String? clusterStatus;
 
   /// The name of the subnet group that is associated with the cluster. This
   /// parameter is valid only when the cluster is in a VPC.
-  final String clusterSubnetGroupName;
+  final String? clusterSubnetGroupName;
 
   /// The version ID of the Amazon Redshift engine that is running on the cluster.
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The name of the initial database that was created when the cluster was
   /// created. This same name is returned for the life of the cluster. If an
   /// initial database was not specified, a database named <code>dev</code>dev was
   /// created by default.
-  final String dBName;
+  final String? dBName;
 
   /// <p/>
-  final DataTransferProgress dataTransferProgress;
+  final DataTransferProgress? dataTransferProgress;
 
   /// Describes a group of <code>DeferredMaintenanceWindow</code> objects.
-  final List<DeferredMaintenanceWindow> deferredMaintenanceWindows;
+  final List<DeferredMaintenanceWindow>? deferredMaintenanceWindows;
 
   /// The status of the elastic IP (EIP) address.
-  final ElasticIpStatus elasticIpStatus;
+  final ElasticIpStatus? elasticIpStatus;
 
   /// The number of nodes that you can resize the cluster to with the elastic
   /// resize method.
-  final String elasticResizeNumberOfNodeOptions;
+  final String? elasticResizeNumberOfNodeOptions;
 
   /// A boolean value that, if <code>true</code>, indicates that data in the
   /// cluster is encrypted at rest.
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The connection endpoint.
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   /// An option that specifies whether to create the cluster with enhanced VPC
   /// routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -8638,11 +8626,11 @@ class Cluster {
   /// If this option is <code>true</code>, enhanced VPC routing is enabled.
   ///
   /// Default: false
-  final bool enhancedVpcRouting;
+  final bool? enhancedVpcRouting;
 
   /// The date and time when the next snapshot is expected to be taken for
   /// clusters with a valid snapshot schedule and backups enabled.
-  final DateTime expectedNextSnapshotScheduleTime;
+  final DateTime? expectedNextSnapshotScheduleTime;
 
   /// The status of next expected snapshot for clusters having a valid snapshot
   /// schedule and backups enabled. Possible values are the following:
@@ -8655,63 +8643,63 @@ class Cluster {
   /// Pending - The next snapshot is pending to be taken.
   /// </li>
   /// </ul>
-  final String expectedNextSnapshotScheduleTimeStatus;
+  final String? expectedNextSnapshotScheduleTimeStatus;
 
   /// A value that reports whether the Amazon Redshift cluster has finished
   /// applying any hardware security module (HSM) settings changes specified in a
   /// modify cluster command.
   ///
   /// Values: active, applying
-  final HsmStatus hsmStatus;
+  final HsmStatus? hsmStatus;
 
   /// A list of AWS Identity and Access Management (IAM) roles that can be used by
   /// the cluster to access other AWS services.
-  final List<ClusterIamRole> iamRoles;
+  final List<ClusterIamRole>? iamRoles;
 
   /// The AWS Key Management Service (AWS KMS) key ID of the encryption key used
   /// to encrypt data in the cluster.
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The name of the maintenance track for the cluster.
-  final String maintenanceTrackName;
+  final String? maintenanceTrackName;
 
   /// The default number of days to retain a manual snapshot. If the value is -1,
   /// the snapshot is retained indefinitely. This setting doesn't change the
   /// retention period of existing snapshots.
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
-  final int manualSnapshotRetentionPeriod;
+  final int? manualSnapshotRetentionPeriod;
 
   /// The master user name for the cluster. This name is used to connect to the
   /// database that is specified in the <b>DBName</b> parameter.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// The status of a modify operation, if any, initiated for the cluster.
-  final String modifyStatus;
+  final String? modifyStatus;
 
   /// The date and time in UTC when system maintenance can begin.
-  final DateTime nextMaintenanceWindowStartTime;
+  final DateTime? nextMaintenanceWindowStartTime;
 
   /// The node type for the nodes in the cluster.
-  final String nodeType;
+  final String? nodeType;
 
   /// The number of compute nodes in the cluster.
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   /// Cluster operations that are waiting to be started.
-  final List<String> pendingActions;
+  final List<String>? pendingActions;
 
   /// A value that, if present, indicates that changes to the cluster are pending.
   /// Specific pending changes are identified by subelements.
-  final PendingModifiedValues pendingModifiedValues;
+  final PendingModifiedValues? pendingModifiedValues;
 
   /// The weekly time range, in Universal Coordinated Time (UTC), during which
   /// system maintenance can occur.
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// A boolean value that, if <code>true</code>, indicates that the cluster can
   /// be accessed from a public network.
-  final bool publiclyAccessible;
+  final bool? publiclyAccessible;
 
   /// Returns the following:
   ///
@@ -8724,29 +8712,29 @@ class Cluster {
   /// ResizeType: Returns ClassicResize
   /// </li>
   /// </ul>
-  final ResizeInfo resizeInfo;
+  final ResizeInfo? resizeInfo;
 
   /// A value that describes the status of a cluster restore action. This
   /// parameter returns null if the cluster was not created by restoring a
   /// snapshot.
-  final RestoreStatus restoreStatus;
+  final RestoreStatus? restoreStatus;
 
   /// A unique identifier for the cluster snapshot schedule.
-  final String snapshotScheduleIdentifier;
+  final String? snapshotScheduleIdentifier;
 
   /// The current state of the cluster snapshot schedule.
-  final ScheduleState snapshotScheduleState;
+  final ScheduleState? snapshotScheduleState;
 
   /// The list of tags for the cluster.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
-  final String vpcId;
+  final String? vpcId;
 
   /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are
   /// associated with the cluster. This parameter is returned only if the cluster
   /// is in a VPC.
-  final List<VpcSecurityGroupMembership> vpcSecurityGroups;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
 
   Cluster({
     this.allowVersionUpgrade,
@@ -8914,10 +8902,10 @@ class Cluster {
 /// <p/>
 class ClusterAssociatedToSchedule {
   /// <p/>
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// <p/>
-  final ScheduleState scheduleAssociationState;
+  final ScheduleState? scheduleAssociationState;
 
   ClusterAssociatedToSchedule({
     this.clusterIdentifier,
@@ -8938,7 +8926,7 @@ class ClusterAssociatedToSchedule {
 class ClusterCredentials {
   /// A temporary password that authorizes the user name returned by
   /// <code>DbUser</code> to log on to the database <code>DbName</code>.
-  final String dbPassword;
+  final String? dbPassword;
 
   /// A database user name that is authorized to log on to the database
   /// <code>DbName</code> using the password <code>DbPassword</code>. If the
@@ -8947,10 +8935,10 @@ class ClusterCredentials {
   /// added to PUBLIC. If the <code>DbGroups</code> parameter is specifed,
   /// <code>DbUser</code> is added to the listed groups for any sessions created
   /// using these credentials.
-  final String dbUser;
+  final String? dbUser;
 
   /// The date and time the password in <code>DbPassword</code> expires.
-  final DateTime expiration;
+  final DateTime? expiration;
 
   ClusterCredentials({
     this.dbPassword,
@@ -8969,17 +8957,17 @@ class ClusterCredentials {
 /// Describes a <code>ClusterDbRevision</code>.
 class ClusterDbRevision {
   /// The unique identifier of the cluster.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// A string representing the current cluster version.
-  final String currentDatabaseRevision;
+  final String? currentDatabaseRevision;
 
   /// The date on which the database revision was released.
-  final DateTime databaseRevisionReleaseDate;
+  final DateTime? databaseRevisionReleaseDate;
 
   /// A list of <code>RevisionTarget</code> objects, where each object describes
   /// the database revision that a cluster can be updated to.
-  final List<RevisionTarget> revisionTargets;
+  final List<RevisionTarget>? revisionTargets;
 
   ClusterDbRevision({
     this.clusterIdentifier,
@@ -9005,14 +8993,14 @@ class ClusterDbRevision {
 
 class ClusterDbRevisionsMessage {
   /// A list of revisions.
-  final List<ClusterDbRevision> clusterDbRevisions;
+  final List<ClusterDbRevision>? clusterDbRevisions;
 
   /// A string representing the starting point for the next set of revisions. If a
   /// value is returned in a response, you can retrieve the next set of revisions
   /// by providing the value in the <code>marker</code> parameter and retrying the
   /// command. If the <code>marker</code> field is empty, all revisions have
   /// already been returned.
-  final String marker;
+  final String? marker;
 
   ClusterDbRevisionsMessage({
     this.clusterDbRevisions,
@@ -9051,11 +9039,11 @@ class ClusterIamRole {
   /// with the cluster.
   /// </li>
   /// </ul>
-  final String applyStatus;
+  final String? applyStatus;
 
   /// The Amazon Resource Name (ARN) of the IAM role, for example,
   /// <code>arn:aws:iam::123456789012:role/RedshiftCopyUnload</code>.
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   ClusterIamRole({
     this.applyStatus,
@@ -9072,13 +9060,13 @@ class ClusterIamRole {
 /// The identifier of a node in a cluster.
 class ClusterNode {
   /// Whether the node is a leader node or a compute node.
-  final String nodeRole;
+  final String? nodeRole;
 
   /// The private IP address of a node within a cluster.
-  final String privateIPAddress;
+  final String? privateIPAddress;
 
   /// The public IP address of a node within a cluster.
-  final String publicIPAddress;
+  final String? publicIPAddress;
 
   ClusterNode({
     this.nodeRole,
@@ -9097,17 +9085,17 @@ class ClusterNode {
 /// Describes a parameter group.
 class ClusterParameterGroup {
   /// The description of the parameter group.
-  final String description;
+  final String? description;
 
   /// The name of the cluster parameter group family that this cluster parameter
   /// group is compatible with.
-  final String parameterGroupFamily;
+  final String? parameterGroupFamily;
 
   /// The name of the cluster parameter group.
-  final String parameterGroupName;
+  final String? parameterGroupName;
 
   /// The list of tags for the cluster parameter group.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ClusterParameterGroup({
     this.description,
@@ -9135,11 +9123,11 @@ class ClusterParameterGroupDetails {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of <a>Parameter</a> instances. Each instance lists the parameters of
   /// one cluster parameter group.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   ClusterParameterGroupDetails({
     this.marker,
@@ -9159,12 +9147,12 @@ class ClusterParameterGroupDetails {
 /// <p/>
 class ClusterParameterGroupNameMessage {
   /// The name of the cluster parameter group.
-  final String parameterGroupName;
+  final String? parameterGroupName;
 
   /// The status of the parameter group. For example, if you made a change to a
   /// parameter group name-value pair, then the change could be pending a reboot
   /// of an associated cluster.
-  final String parameterGroupStatus;
+  final String? parameterGroupStatus;
 
   ClusterParameterGroupNameMessage({
     this.parameterGroupName,
@@ -9187,13 +9175,13 @@ class ClusterParameterGroupStatus {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
   /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
-  final List<ClusterParameterStatus> clusterParameterStatusList;
+  final List<ClusterParameterStatus>? clusterParameterStatusList;
 
   /// The status of parameter updates.
-  final String parameterApplyStatus;
+  final String? parameterApplyStatus;
 
   /// The name of the cluster parameter group.
-  final String parameterGroupName;
+  final String? parameterGroupName;
 
   ClusterParameterGroupStatus({
     this.clusterParameterStatusList,
@@ -9223,11 +9211,11 @@ class ClusterParameterGroupsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of <a>ClusterParameterGroup</a> instances. Each instance describes
   /// one cluster parameter group.
-  final List<ClusterParameterGroup> parameterGroups;
+  final List<ClusterParameterGroup>? parameterGroups;
 
   ClusterParameterGroupsMessage({
     this.marker,
@@ -9248,7 +9236,7 @@ class ClusterParameterGroupsMessage {
 /// Describes the status of a parameter group.
 class ClusterParameterStatus {
   /// The error that prevented the parameter from being applied to the database.
-  final String parameterApplyErrorDescription;
+  final String? parameterApplyErrorDescription;
 
   /// The status of the parameter that indicates whether the parameter is in sync
   /// with the database, waiting for a cluster reboot, or encountered an error
@@ -9284,10 +9272,10 @@ class ClusterParameterStatus {
   /// change will be applied after the cluster reboots.
   /// </li>
   /// </ul>
-  final String parameterApplyStatus;
+  final String? parameterApplyStatus;
 
   /// The name of the parameter.
-  final String parameterName;
+  final String? parameterName;
 
   ClusterParameterStatus({
     this.parameterApplyErrorDescription,
@@ -9308,21 +9296,21 @@ class ClusterParameterStatus {
 /// Describes a security group.
 class ClusterSecurityGroup {
   /// The name of the cluster security group to which the operation was applied.
-  final String clusterSecurityGroupName;
+  final String? clusterSecurityGroupName;
 
   /// A description of the security group.
-  final String description;
+  final String? description;
 
   /// A list of EC2 security groups that are permitted to access clusters
   /// associated with this cluster security group.
-  final List<EC2SecurityGroup> eC2SecurityGroups;
+  final List<EC2SecurityGroup>? eC2SecurityGroups;
 
   /// A list of IP ranges (CIDR blocks) that are permitted to access clusters
   /// associated with this cluster security group.
-  final List<IPRange> iPRanges;
+  final List<IPRange>? iPRanges;
 
   /// The list of tags for the cluster security group.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ClusterSecurityGroup({
     this.clusterSecurityGroupName,
@@ -9352,10 +9340,10 @@ class ClusterSecurityGroup {
 /// Describes a cluster security group.
 class ClusterSecurityGroupMembership {
   /// The name of the cluster security group.
-  final String clusterSecurityGroupName;
+  final String? clusterSecurityGroupName;
 
   /// The status of the cluster security group.
-  final String status;
+  final String? status;
 
   ClusterSecurityGroupMembership({
     this.clusterSecurityGroupName,
@@ -9373,7 +9361,7 @@ class ClusterSecurityGroupMembership {
 /// <p/>
 class ClusterSecurityGroupMessage {
   /// A list of <a>ClusterSecurityGroup</a> instances.
-  final List<ClusterSecurityGroup> clusterSecurityGroups;
+  final List<ClusterSecurityGroup>? clusterSecurityGroups;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -9381,7 +9369,7 @@ class ClusterSecurityGroupMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   ClusterSecurityGroupMessage({
     this.clusterSecurityGroups,
@@ -9405,21 +9393,21 @@ class ClusterSecurityGroupMessage {
 class ClusterSnapshotCopyStatus {
   /// The destination region that snapshots are automatically copied to when
   /// cross-region snapshot copy is enabled.
-  final String destinationRegion;
+  final String? destinationRegion;
 
   /// The number of days that automated snapshots are retained in the destination
   /// region after they are copied from a source region. If the value is -1, the
   /// manual snapshot is retained indefinitely.
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
-  final int manualSnapshotRetentionPeriod;
+  final int? manualSnapshotRetentionPeriod;
 
   /// The number of days that automated snapshots are retained in the destination
   /// region after they are copied from a source region.
-  final int retentionPeriod;
+  final int? retentionPeriod;
 
   /// The name of the snapshot copy grant.
-  final String snapshotCopyGrantName;
+  final String? snapshotCopyGrantName;
 
   ClusterSnapshotCopyStatus({
     this.destinationRegion,
@@ -9442,23 +9430,23 @@ class ClusterSnapshotCopyStatus {
 /// Describes a subnet group.
 class ClusterSubnetGroup {
   /// The name of the cluster subnet group.
-  final String clusterSubnetGroupName;
+  final String? clusterSubnetGroupName;
 
   /// The description of the cluster subnet group.
-  final String description;
+  final String? description;
 
   /// The status of the cluster subnet group. Possible values are
   /// <code>Complete</code>, <code>Incomplete</code> and <code>Invalid</code>.
-  final String subnetGroupStatus;
+  final String? subnetGroupStatus;
 
   /// A list of the VPC <a>Subnet</a> elements.
-  final List<Subnet> subnets;
+  final List<Subnet>? subnets;
 
   /// The list of tags for the cluster subnet group.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The VPC ID of the cluster subnet group.
-  final String vpcId;
+  final String? vpcId;
 
   ClusterSubnetGroup({
     this.clusterSubnetGroupName,
@@ -9486,7 +9474,7 @@ class ClusterSubnetGroup {
 /// Contains the output from the <a>DescribeClusterSubnetGroups</a> action.
 class ClusterSubnetGroupMessage {
   /// A list of <a>ClusterSubnetGroup</a> instances.
-  final List<ClusterSubnetGroup> clusterSubnetGroups;
+  final List<ClusterSubnetGroup>? clusterSubnetGroups;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -9494,7 +9482,7 @@ class ClusterSubnetGroupMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   ClusterSubnetGroupMessage({
     this.clusterSubnetGroups,
@@ -9516,13 +9504,13 @@ class ClusterSubnetGroupMessage {
 /// description of the version.
 class ClusterVersion {
   /// The name of the cluster parameter group family for the cluster.
-  final String clusterParameterGroupFamily;
+  final String? clusterParameterGroupFamily;
 
   /// The version number used by the cluster.
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The description of the cluster version.
-  final String description;
+  final String? description;
 
   ClusterVersion({
     this.clusterParameterGroupFamily,
@@ -9542,7 +9530,7 @@ class ClusterVersion {
 /// Contains the output from the <a>DescribeClusterVersions</a> action.
 class ClusterVersionsMessage {
   /// A list of <code>Version</code> elements.
-  final List<ClusterVersion> clusterVersions;
+  final List<ClusterVersion>? clusterVersions;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -9550,7 +9538,7 @@ class ClusterVersionsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   ClusterVersionsMessage({
     this.clusterVersions,
@@ -9572,7 +9560,7 @@ class ClusterVersionsMessage {
 class ClustersMessage {
   /// A list of <code>Cluster</code> objects, where each object describes one
   /// cluster.
-  final List<Cluster> clusters;
+  final List<Cluster>? clusters;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -9580,7 +9568,7 @@ class ClustersMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   ClustersMessage({
     this.clusters,
@@ -9596,7 +9584,7 @@ class ClustersMessage {
 }
 
 class CopyClusterSnapshotResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   CopyClusterSnapshotResult({
     this.snapshot,
@@ -9610,7 +9598,7 @@ class CopyClusterSnapshotResult {
 }
 
 class CreateClusterParameterGroupResult {
-  final ClusterParameterGroup clusterParameterGroup;
+  final ClusterParameterGroup? clusterParameterGroup;
 
   CreateClusterParameterGroupResult({
     this.clusterParameterGroup,
@@ -9625,7 +9613,7 @@ class CreateClusterParameterGroupResult {
 }
 
 class CreateClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   CreateClusterResult({
     this.cluster,
@@ -9639,7 +9627,7 @@ class CreateClusterResult {
 }
 
 class CreateClusterSecurityGroupResult {
-  final ClusterSecurityGroup clusterSecurityGroup;
+  final ClusterSecurityGroup? clusterSecurityGroup;
 
   CreateClusterSecurityGroupResult({
     this.clusterSecurityGroup,
@@ -9654,7 +9642,7 @@ class CreateClusterSecurityGroupResult {
 }
 
 class CreateClusterSnapshotResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   CreateClusterSnapshotResult({
     this.snapshot,
@@ -9668,7 +9656,7 @@ class CreateClusterSnapshotResult {
 }
 
 class CreateClusterSubnetGroupResult {
-  final ClusterSubnetGroup clusterSubnetGroup;
+  final ClusterSubnetGroup? clusterSubnetGroup;
 
   CreateClusterSubnetGroupResult({
     this.clusterSubnetGroup,
@@ -9683,7 +9671,7 @@ class CreateClusterSubnetGroupResult {
 }
 
 class CreateEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   CreateEventSubscriptionResult({
     this.eventSubscription,
@@ -9698,7 +9686,7 @@ class CreateEventSubscriptionResult {
 }
 
 class CreateHsmClientCertificateResult {
-  final HsmClientCertificate hsmClientCertificate;
+  final HsmClientCertificate? hsmClientCertificate;
 
   CreateHsmClientCertificateResult({
     this.hsmClientCertificate,
@@ -9713,7 +9701,7 @@ class CreateHsmClientCertificateResult {
 }
 
 class CreateHsmConfigurationResult {
-  final HsmConfiguration hsmConfiguration;
+  final HsmConfiguration? hsmConfiguration;
 
   CreateHsmConfigurationResult({
     this.hsmConfiguration,
@@ -9728,7 +9716,7 @@ class CreateHsmConfigurationResult {
 }
 
 class CreateSnapshotCopyGrantResult {
-  final SnapshotCopyGrant snapshotCopyGrant;
+  final SnapshotCopyGrant? snapshotCopyGrant;
 
   CreateSnapshotCopyGrantResult({
     this.snapshotCopyGrant,
@@ -9744,10 +9732,10 @@ class CreateSnapshotCopyGrantResult {
 
 class CustomerStorageMessage {
   /// The total amount of storage currently used for snapshots.
-  final double totalBackupSizeInMegaBytes;
+  final double? totalBackupSizeInMegaBytes;
 
   /// The total amount of storage currently provisioned.
-  final double totalProvisionedStorageInMegaBytes;
+  final double? totalProvisionedStorageInMegaBytes;
 
   CustomerStorageMessage({
     this.totalBackupSizeInMegaBytes,
@@ -9767,24 +9755,24 @@ class CustomerStorageMessage {
 /// with an incremental resize.
 class DataTransferProgress {
   /// Describes the data transfer rate in MB's per second.
-  final double currentRateInMegaBytesPerSecond;
+  final double? currentRateInMegaBytesPerSecond;
 
   /// Describes the total amount of data that has been transfered in MB's.
-  final int dataTransferredInMegaBytes;
+  final int? dataTransferredInMegaBytes;
 
   /// Describes the number of seconds that have elapsed during the data transfer.
-  final int elapsedTimeInSeconds;
+  final int? elapsedTimeInSeconds;
 
   /// Describes the estimated number of seconds remaining to complete the
   /// transfer.
-  final int estimatedTimeToCompletionInSeconds;
+  final int? estimatedTimeToCompletionInSeconds;
 
   /// Describes the status of the cluster. While the transfer is in progress the
   /// status is <code>transferringdata</code>.
-  final String status;
+  final String? status;
 
   /// Describes the total amount of data to be transfered in megabytes.
-  final int totalDataInMegaBytes;
+  final int? totalDataInMegaBytes;
 
   DataTransferProgress({
     this.currentRateInMegaBytesPerSecond,
@@ -9817,14 +9805,14 @@ class DefaultClusterParameters {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// The name of the cluster parameter group family to which the engine default
   /// parameters apply.
-  final String parameterGroupFamily;
+  final String? parameterGroupFamily;
 
   /// The list of cluster default parameters.
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   DefaultClusterParameters({
     this.marker,
@@ -9847,13 +9835,13 @@ class DefaultClusterParameters {
 /// Describes a deferred maintenance window
 class DeferredMaintenanceWindow {
   /// A timestamp for the end of the time period when we defer maintenance.
-  final DateTime deferMaintenanceEndTime;
+  final DateTime? deferMaintenanceEndTime;
 
   /// A unique identifier for the maintenance window.
-  final String deferMaintenanceIdentifier;
+  final String? deferMaintenanceIdentifier;
 
   /// A timestamp for the beginning of the time period when we defer maintenance.
-  final DateTime deferMaintenanceStartTime;
+  final DateTime? deferMaintenanceStartTime;
 
   DeferredMaintenanceWindow({
     this.deferMaintenanceEndTime,
@@ -9873,7 +9861,7 @@ class DeferredMaintenanceWindow {
 }
 
 class DeleteClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DeleteClusterResult({
     this.cluster,
@@ -9887,18 +9875,12 @@ class DeleteClusterResult {
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteClusterSnapshotMessage {
   /// The unique identifier of the manual snapshot to be deleted.
   ///
   /// Constraints: Must be the name of an existing snapshot that is in the
   /// <code>available</code>, <code>failed</code>, or <code>cancelled</code>
   /// state.
-  @_s.JsonKey(name: 'SnapshotIdentifier')
   final String snapshotIdentifier;
 
   /// The unique identifier of the cluster the snapshot was created from. This
@@ -9906,18 +9888,25 @@ class DeleteClusterSnapshotMessage {
   /// resource element that specifies anything other than * for the cluster name.
   ///
   /// Constraints: Must be the name of valid cluster.
-  @_s.JsonKey(name: 'SnapshotClusterIdentifier')
-  final String snapshotClusterIdentifier;
+  final String? snapshotClusterIdentifier;
 
   DeleteClusterSnapshotMessage({
-    @_s.required this.snapshotIdentifier,
+    required this.snapshotIdentifier,
     this.snapshotClusterIdentifier,
   });
-  Map<String, dynamic> toJson() => _$DeleteClusterSnapshotMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final snapshotIdentifier = this.snapshotIdentifier;
+    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
+    return {
+      'SnapshotIdentifier': snapshotIdentifier,
+      if (snapshotClusterIdentifier != null)
+        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
+    };
+  }
 }
 
 class DeleteClusterSnapshotResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   DeleteClusterSnapshotResult({
     this.snapshot,
@@ -9931,7 +9920,7 @@ class DeleteClusterSnapshotResult {
 }
 
 class DescribeDefaultClusterParametersResult {
-  final DefaultClusterParameters defaultClusterParameters;
+  final DefaultClusterParameters? defaultClusterParameters;
 
   DescribeDefaultClusterParametersResult({
     this.defaultClusterParameters,
@@ -9952,10 +9941,10 @@ class DescribeSnapshotSchedulesOutputMessage {
   /// in the <code>marker</code> parameter and retrying the command. If the
   /// <code>marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of SnapshotSchedules.
-  final List<SnapshotSchedule> snapshotSchedules;
+  final List<SnapshotSchedule>? snapshotSchedules;
 
   DescribeSnapshotSchedulesOutputMessage({
     this.marker,
@@ -9974,7 +9963,7 @@ class DescribeSnapshotSchedulesOutputMessage {
 }
 
 class DisableSnapshotCopyResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DisableSnapshotCopyResult({
     this.cluster,
@@ -9990,17 +9979,17 @@ class DisableSnapshotCopyResult {
 /// Describes an Amazon EC2 security group.
 class EC2SecurityGroup {
   /// The name of the EC2 Security Group.
-  final String eC2SecurityGroupName;
+  final String? eC2SecurityGroupName;
 
   /// The AWS ID of the owner of the EC2 security group specified in the
   /// <code>EC2SecurityGroupName</code> field.
-  final String eC2SecurityGroupOwnerId;
+  final String? eC2SecurityGroupOwnerId;
 
   /// The status of the EC2 security group.
-  final String status;
+  final String? status;
 
   /// The list of tags for the EC2 security group.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   EC2SecurityGroup({
     this.eC2SecurityGroupName,
@@ -10024,10 +10013,10 @@ class EC2SecurityGroup {
 /// Describes the status of the elastic IP (EIP) address.
 class ElasticIpStatus {
   /// The elastic IP (EIP) address for the cluster.
-  final String elasticIp;
+  final String? elasticIp;
 
   /// The status of the elastic IP (EIP) address.
-  final String status;
+  final String? status;
 
   ElasticIpStatus({
     this.elasticIp,
@@ -10042,7 +10031,7 @@ class ElasticIpStatus {
 }
 
 class EnableSnapshotCopyResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   EnableSnapshotCopyResult({
     this.cluster,
@@ -10058,13 +10047,13 @@ class EnableSnapshotCopyResult {
 /// Describes a connection endpoint.
 class Endpoint {
   /// The DNS address of the Cluster.
-  final String address;
+  final String? address;
 
   /// The port that the database engine is listening on.
-  final int port;
+  final int? port;
 
   /// Describes a connection endpoint.
-  final List<SpartaProxyVpcEndpoint> vpcEndpoints;
+  final List<SpartaProxyVpcEndpoint>? vpcEndpoints;
 
   Endpoint({
     this.address,
@@ -10086,29 +10075,29 @@ class Endpoint {
 /// Describes an event.
 class Event {
   /// The date and time of the event.
-  final DateTime date;
+  final DateTime? date;
 
   /// A list of the event categories.
   ///
   /// Values: Configuration, Management, Monitoring, Security
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// The identifier of the event.
-  final String eventId;
+  final String? eventId;
 
   /// The text of this event.
-  final String message;
+  final String? message;
 
   /// The severity of the event.
   ///
   /// Values: ERROR, INFO
-  final String severity;
+  final String? severity;
 
   /// The identifier for the source of the event.
-  final String sourceIdentifier;
+  final String? sourceIdentifier;
 
   /// The source type for this event.
-  final SourceType sourceType;
+  final SourceType? sourceType;
 
   Event({
     this.date,
@@ -10137,11 +10126,11 @@ class Event {
 /// Describes event categories.
 class EventCategoriesMap {
   /// The events in the event category.
-  final List<EventInfoMap> events;
+  final List<EventInfoMap>? events;
 
   /// The source type, such as cluster or cluster-snapshot, that the returned
   /// categories belong to.
-  final String sourceType;
+  final String? sourceType;
 
   EventCategoriesMap({
     this.events,
@@ -10161,7 +10150,7 @@ class EventCategoriesMap {
 /// <p/>
 class EventCategoriesMessage {
   /// A list of event categories descriptions.
-  final List<EventCategoriesMap> eventCategoriesMapList;
+  final List<EventCategoriesMap>? eventCategoriesMapList;
 
   EventCategoriesMessage({
     this.eventCategoriesMapList,
@@ -10181,18 +10170,18 @@ class EventCategoriesMessage {
 /// Describes event information.
 class EventInfoMap {
   /// The category of an Amazon Redshift event.
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// The description of an Amazon Redshift event.
-  final String eventDescription;
+  final String? eventDescription;
 
   /// The identifier of an Amazon Redshift event.
-  final String eventId;
+  final String? eventId;
 
   /// The severity of the event.
   ///
   /// Values: ERROR, INFO
-  final String severity;
+  final String? severity;
 
   EventInfoMap({
     this.eventCategories,
@@ -10215,40 +10204,40 @@ class EventInfoMap {
 /// Describes event subscriptions.
 class EventSubscription {
   /// The name of the Amazon Redshift event notification subscription.
-  final String custSubscriptionId;
+  final String? custSubscriptionId;
 
   /// The AWS customer account associated with the Amazon Redshift event
   /// notification subscription.
-  final String customerAwsId;
+  final String? customerAwsId;
 
   /// A boolean value indicating whether the subscription is enabled;
   /// <code>true</code> indicates that the subscription is enabled.
-  final bool enabled;
+  final bool? enabled;
 
   /// The list of Amazon Redshift event categories specified in the event
   /// notification subscription.
   ///
   /// Values: Configuration, Management, Monitoring, Security
-  final List<String> eventCategoriesList;
+  final List<String>? eventCategoriesList;
 
   /// The event severity specified in the Amazon Redshift event notification
   /// subscription.
   ///
   /// Values: ERROR, INFO
-  final String severity;
+  final String? severity;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic used by the event
   /// notification subscription.
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   /// A list of the sources that publish events to the Amazon Redshift event
   /// notification subscription.
-  final List<String> sourceIdsList;
+  final List<String>? sourceIdsList;
 
   /// The source type of the events returned by the Amazon Redshift event
   /// notification, such as cluster, cluster-snapshot, cluster-parameter-group,
   /// cluster-security-group, or scheduled-action.
-  final String sourceType;
+  final String? sourceType;
 
   /// The status of the Amazon Redshift event notification subscription.
   ///
@@ -10264,14 +10253,14 @@ class EventSubscription {
   /// indicates that the topic was deleted after the subscription was created.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   /// The date and time the Amazon Redshift event notification subscription was
   /// created.
-  final DateTime subscriptionCreationTime;
+  final DateTime? subscriptionCreationTime;
 
   /// The list of tags for the event subscription.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   EventSubscription({
     this.custSubscriptionId,
@@ -10312,7 +10301,7 @@ class EventSubscription {
 /// <p/>
 class EventSubscriptionsMessage {
   /// A list of event subscriptions.
-  final List<EventSubscription> eventSubscriptionsList;
+  final List<EventSubscription>? eventSubscriptionsList;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -10320,7 +10309,7 @@ class EventSubscriptionsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   EventSubscriptionsMessage({
     this.eventSubscriptionsList,
@@ -10342,7 +10331,7 @@ class EventSubscriptionsMessage {
 /// <p/>
 class EventsMessage {
   /// A list of <code>Event</code> instances.
-  final List<Event> events;
+  final List<Event>? events;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -10350,7 +10339,7 @@ class EventsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   EventsMessage({
     this.events,
@@ -10373,10 +10362,10 @@ class GetReservedNodeExchangeOfferingsOutputMessage {
   /// of the response. You can retrieve the next set of response records by
   /// providing the returned marker value in the marker parameter and retrying the
   /// request.
-  final String marker;
+  final String? marker;
 
   /// Returns an array of <a>ReservedNodeOffering</a> objects.
-  final List<ReservedNodeOffering> reservedNodeOfferings;
+  final List<ReservedNodeOffering>? reservedNodeOfferings;
 
   GetReservedNodeExchangeOfferingsOutputMessage({
     this.marker,
@@ -10401,14 +10390,14 @@ class GetReservedNodeExchangeOfferingsOutputMessage {
 /// Redshift cluster to encrypt data files.
 class HsmClientCertificate {
   /// The identifier of the HSM client certificate.
-  final String hsmClientCertificateIdentifier;
+  final String? hsmClientCertificateIdentifier;
 
   /// The public key that the Amazon Redshift cluster will use to connect to the
   /// HSM. You must register the public key in the HSM.
-  final String hsmClientCertificatePublicKey;
+  final String? hsmClientCertificatePublicKey;
 
   /// The list of tags for the HSM client certificate.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   HsmClientCertificate({
     this.hsmClientCertificateIdentifier,
@@ -10432,7 +10421,7 @@ class HsmClientCertificateMessage {
   /// A list of the identifiers for one or more HSM client certificates used by
   /// Amazon Redshift clusters to store and retrieve database encryption keys in
   /// an HSM.
-  final List<HsmClientCertificate> hsmClientCertificates;
+  final List<HsmClientCertificate>? hsmClientCertificates;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -10440,7 +10429,7 @@ class HsmClientCertificateMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   HsmClientCertificateMessage({
     this.hsmClientCertificates,
@@ -10464,20 +10453,20 @@ class HsmClientCertificateMessage {
 /// connect to an HSM where they can store database encryption keys.
 class HsmConfiguration {
   /// A text description of the HSM configuration.
-  final String description;
+  final String? description;
 
   /// The name of the Amazon Redshift HSM configuration.
-  final String hsmConfigurationIdentifier;
+  final String? hsmConfigurationIdentifier;
 
   /// The IP address that the Amazon Redshift cluster must use to access the HSM.
-  final String hsmIpAddress;
+  final String? hsmIpAddress;
 
   /// The name of the partition in the HSM where the Amazon Redshift clusters will
   /// store their database encryption keys.
-  final String hsmPartitionName;
+  final String? hsmPartitionName;
 
   /// The list of tags for the HSM configuration.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   HsmConfiguration({
     this.description,
@@ -10502,7 +10491,7 @@ class HsmConfiguration {
 /// <p/>
 class HsmConfigurationMessage {
   /// A list of <code>HsmConfiguration</code> objects.
-  final List<HsmConfiguration> hsmConfigurations;
+  final List<HsmConfiguration>? hsmConfigurations;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -10510,7 +10499,7 @@ class HsmConfigurationMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   HsmConfigurationMessage({
     this.hsmConfigurations,
@@ -10532,17 +10521,17 @@ class HsmConfigurationMessage {
 class HsmStatus {
   /// Specifies the name of the HSM client certificate the Amazon Redshift cluster
   /// uses to retrieve the data encryption keys stored in an HSM.
-  final String hsmClientCertificateIdentifier;
+  final String? hsmClientCertificateIdentifier;
 
   /// Specifies the name of the HSM configuration that contains the information
   /// the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-  final String hsmConfigurationIdentifier;
+  final String? hsmConfigurationIdentifier;
 
   /// Reports whether the Amazon Redshift cluster has finished applying any HSM
   /// settings changes specified in a modify cluster command.
   ///
   /// Values: active, applying
-  final String status;
+  final String? status;
 
   HsmStatus({
     this.hsmClientCertificateIdentifier,
@@ -10563,13 +10552,13 @@ class HsmStatus {
 /// Describes an IP range used in a security group.
 class IPRange {
   /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
-  final String cidrip;
+  final String? cidrip;
 
   /// The status of the IP range, for example, "authorized".
-  final String status;
+  final String? status;
 
   /// The list of tags for the IP range.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   IPRange({
     this.cidrip,
@@ -10589,22 +10578,22 @@ class IPRange {
 /// Describes the status of logging for a cluster.
 class LoggingStatus {
   /// The name of the S3 bucket where the log files are stored.
-  final String bucketName;
+  final String? bucketName;
 
   /// The message indicating that logs failed to be delivered.
-  final String lastFailureMessage;
+  final String? lastFailureMessage;
 
   /// The last time when logs failed to be delivered.
-  final DateTime lastFailureTime;
+  final DateTime? lastFailureTime;
 
   /// The last time that logs were delivered.
-  final DateTime lastSuccessfulDeliveryTime;
+  final DateTime? lastSuccessfulDeliveryTime;
 
   /// <code>true</code> if logging is on, <code>false</code> if logging is off.
-  final bool loggingEnabled;
+  final bool? loggingEnabled;
 
   /// The prefix applied to the log file names.
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   LoggingStatus({
     this.bucketName,
@@ -10635,15 +10624,15 @@ class LoggingStatus {
 /// maintenance release.
 class MaintenanceTrack {
   /// The version number for the cluster release.
-  final String databaseVersion;
+  final String? databaseVersion;
 
   /// The name of the maintenance track. Possible values are <code>current</code>
   /// and <code>trailing</code>.
-  final String maintenanceTrackName;
+  final String? maintenanceTrackName;
 
   /// An array of <a>UpdateTarget</a> objects to update with the maintenance
   /// track.
-  final List<UpdateTarget> updateTargets;
+  final List<UpdateTarget>? updateTargets;
 
   MaintenanceTrack({
     this.databaseVersion,
@@ -10665,10 +10654,19 @@ class MaintenanceTrack {
 }
 
 enum Mode {
-  @_s.JsonValue('standard')
   standard,
-  @_s.JsonValue('high-performance')
   highPerformance,
+}
+
+extension on Mode {
+  String toValue() {
+    switch (this) {
+      case Mode.standard:
+        return 'standard';
+      case Mode.highPerformance:
+        return 'high-performance';
+    }
+  }
 }
 
 extension on String {
@@ -10679,12 +10677,12 @@ extension on String {
       case 'high-performance':
         return Mode.highPerformance;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Mode');
   }
 }
 
 class ModifyClusterDbRevisionResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifyClusterDbRevisionResult({
     this.cluster,
@@ -10698,7 +10696,7 @@ class ModifyClusterDbRevisionResult {
 }
 
 class ModifyClusterIamRolesResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifyClusterIamRolesResult({
     this.cluster,
@@ -10712,7 +10710,7 @@ class ModifyClusterIamRolesResult {
 }
 
 class ModifyClusterMaintenanceResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifyClusterMaintenanceResult({
     this.cluster,
@@ -10726,7 +10724,7 @@ class ModifyClusterMaintenanceResult {
 }
 
 class ModifyClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifyClusterResult({
     this.cluster,
@@ -10740,7 +10738,7 @@ class ModifyClusterResult {
 }
 
 class ModifyClusterSnapshotResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   ModifyClusterSnapshotResult({
     this.snapshot,
@@ -10754,7 +10752,7 @@ class ModifyClusterSnapshotResult {
 }
 
 class ModifyClusterSubnetGroupResult {
-  final ClusterSubnetGroup clusterSubnetGroup;
+  final ClusterSubnetGroup? clusterSubnetGroup;
 
   ModifyClusterSubnetGroupResult({
     this.clusterSubnetGroup,
@@ -10769,7 +10767,7 @@ class ModifyClusterSubnetGroupResult {
 }
 
 class ModifyEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   ModifyEventSubscriptionResult({
     this.eventSubscription,
@@ -10784,7 +10782,7 @@ class ModifyEventSubscriptionResult {
 }
 
 class ModifySnapshotCopyRetentionPeriodResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifySnapshotCopyRetentionPeriodResult({
     this.cluster,
@@ -10800,16 +10798,16 @@ class ModifySnapshotCopyRetentionPeriodResult {
 /// A list of node configurations.
 class NodeConfigurationOption {
   /// The estimated disk utilizaton percentage.
-  final double estimatedDiskUtilizationPercent;
+  final double? estimatedDiskUtilizationPercent;
 
   /// The category of the node configuration recommendation.
-  final Mode mode;
+  final Mode? mode;
 
   /// The node type, such as, "ds2.8xlarge".
-  final String nodeType;
+  final String? nodeType;
 
   /// The number of nodes.
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   NodeConfigurationOption({
     this.estimatedDiskUtilizationPercent,
@@ -10829,47 +10827,59 @@ class NodeConfigurationOption {
 }
 
 /// A set of elements to filter the returned node configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NodeConfigurationOptionsFilter {
   /// The name of the element to filter.
-  @_s.JsonKey(name: 'Name')
-  final NodeConfigurationOptionsFilterName name;
+  final NodeConfigurationOptionsFilterName? name;
 
   /// The filter operator. If filter Name is NodeType only the 'in' operator is
   /// supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and
   /// 'ge'. Provide two values to evaluate for 'between'. Provide a list of values
   /// for 'in'.
-  @_s.JsonKey(name: 'Operator')
-  final OperatorType operator;
+  final OperatorType? operator;
 
   /// List of values. Compare Name using Operator to Values. If filter Name is
   /// NumberOfNodes, then values can range from 0 to 200. If filter Name is
   /// EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For
   /// example, filter NumberOfNodes (name) GT (operator) 3 (values).
-  @_s.JsonKey(name: 'Value')
-  final List<String> values;
+  final List<String>? values;
 
   NodeConfigurationOptionsFilter({
     this.name,
     this.operator,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$NodeConfigurationOptionsFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (operator != null) 'Operator': operator.toValue(),
+      if (values != null) 'Value': values,
+    };
+  }
 }
 
 enum NodeConfigurationOptionsFilterName {
-  @_s.JsonValue('NodeType')
   nodeType,
-  @_s.JsonValue('NumberOfNodes')
   numberOfNodes,
-  @_s.JsonValue('EstimatedDiskUtilizationPercent')
   estimatedDiskUtilizationPercent,
-  @_s.JsonValue('Mode')
   mode,
+}
+
+extension on NodeConfigurationOptionsFilterName {
+  String toValue() {
+    switch (this) {
+      case NodeConfigurationOptionsFilterName.nodeType:
+        return 'NodeType';
+      case NodeConfigurationOptionsFilterName.numberOfNodes:
+        return 'NumberOfNodes';
+      case NodeConfigurationOptionsFilterName.estimatedDiskUtilizationPercent:
+        return 'EstimatedDiskUtilizationPercent';
+      case NodeConfigurationOptionsFilterName.mode:
+        return 'Mode';
+    }
+  }
 }
 
 extension on String {
@@ -10885,7 +10895,8 @@ extension on String {
       case 'Mode':
         return NodeConfigurationOptionsFilterName.mode;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum NodeConfigurationOptionsFilterName');
   }
 }
 
@@ -10896,10 +10907,10 @@ class NodeConfigurationOptionsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of valid node configurations.
-  final List<NodeConfigurationOption> nodeConfigurationOptionList;
+  final List<NodeConfigurationOption>? nodeConfigurationOptionList;
 
   NodeConfigurationOptionsMessage({
     this.marker,
@@ -10919,20 +10930,34 @@ class NodeConfigurationOptionsMessage {
 }
 
 enum OperatorType {
-  @_s.JsonValue('eq')
   eq,
-  @_s.JsonValue('lt')
   lt,
-  @_s.JsonValue('gt')
   gt,
-  @_s.JsonValue('le')
   le,
-  @_s.JsonValue('ge')
   ge,
-  @_s.JsonValue('in')
   $in,
-  @_s.JsonValue('between')
   between,
+}
+
+extension on OperatorType {
+  String toValue() {
+    switch (this) {
+      case OperatorType.eq:
+        return 'eq';
+      case OperatorType.lt:
+        return 'lt';
+      case OperatorType.gt:
+        return 'gt';
+      case OperatorType.le:
+        return 'le';
+      case OperatorType.ge:
+        return 'ge';
+      case OperatorType.$in:
+        return 'in';
+      case OperatorType.between:
+        return 'between';
+    }
+  }
 }
 
 extension on String {
@@ -10953,23 +10978,23 @@ extension on String {
       case 'between':
         return OperatorType.between;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OperatorType');
   }
 }
 
 /// Describes an orderable cluster option.
 class OrderableClusterOption {
   /// A list of availability zones for the orderable cluster.
-  final List<AvailabilityZone> availabilityZones;
+  final List<AvailabilityZone>? availabilityZones;
 
   /// The cluster type, for example <code>multi-node</code>.
-  final String clusterType;
+  final String? clusterType;
 
   /// The version of the orderable cluster.
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The node type for the orderable cluster.
-  final String nodeType;
+  final String? nodeType;
 
   OrderableClusterOption({
     this.availabilityZones,
@@ -10999,11 +11024,11 @@ class OrderableClusterOptionsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// An <code>OrderableClusterOption</code> structure containing information
   /// about orderable options for the cluster.
-  final List<OrderableClusterOption> orderableClusterOptions;
+  final List<OrderableClusterOption>? orderableClusterOptions;
 
   OrderableClusterOptionsMessage({
     this.marker,
@@ -11023,15 +11048,9 @@ class OrderableClusterOptionsMessage {
 }
 
 /// Describes a parameter in a cluster parameter group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Parameter {
   /// The valid range of values for the parameter.
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
+  final String? allowedValues;
 
   /// Specifies how to apply the WLM configuration parameter. Some properties can
   /// be applied dynamically, while other properties require that any associated
@@ -11040,37 +11059,29 @@ class Parameter {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
   /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
-  @_s.JsonKey(name: 'ApplyType')
-  final ParameterApplyType applyType;
+  final ParameterApplyType? applyType;
 
   /// The data type of the parameter.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// A description of the parameter.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// If <code>true</code>, the parameter can be modified. Some parameters have
   /// security or operational implications that prevent them from being changed.
-  @_s.JsonKey(name: 'IsModifiable')
-  final bool isModifiable;
+  final bool? isModifiable;
 
   /// The earliest engine version to which the parameter can apply.
-  @_s.JsonKey(name: 'MinimumEngineVersion')
-  final String minimumEngineVersion;
+  final String? minimumEngineVersion;
 
   /// The name of the parameter.
-  @_s.JsonKey(name: 'ParameterName')
-  final String parameterName;
+  final String? parameterName;
 
   /// The value of the parameter.
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
+  final String? parameterValue;
 
   /// The source of the parameter value, such as "engine-default" or "user".
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   Parameter({
     this.allowedValues,
@@ -11099,14 +11110,45 @@ class Parameter {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyType != null) 'ApplyType': applyType.toValue(),
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+    };
+  }
 }
 
 enum ParameterApplyType {
-  @_s.JsonValue('static')
   static,
-  @_s.JsonValue('dynamic')
   dynamic,
+}
+
+extension on ParameterApplyType {
+  String toValue() {
+    switch (this) {
+      case ParameterApplyType.static:
+        return 'static';
+      case ParameterApplyType.dynamic:
+        return 'dynamic';
+    }
+  }
 }
 
 extension on String {
@@ -11117,36 +11159,35 @@ extension on String {
       case 'dynamic':
         return ParameterApplyType.dynamic;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ParameterApplyType');
   }
 }
 
 /// Describes a pause cluster operation. For example, a scheduled action to run
 /// the <code>PauseCluster</code> API operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PauseClusterMessage {
   /// The identifier of the cluster to be paused.
-  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   PauseClusterMessage({
-    @_s.required this.clusterIdentifier,
+    required this.clusterIdentifier,
   });
   factory PauseClusterMessage.fromXml(_s.XmlElement elem) {
     return PauseClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$PauseClusterMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
 }
 
 class PauseClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   PauseClusterResult({
     this.cluster,
@@ -11164,19 +11205,19 @@ class PauseClusterResult {
 class PendingModifiedValues {
   /// The pending or in-progress change of the automated snapshot retention
   /// period.
-  final int automatedSnapshotRetentionPeriod;
+  final int? automatedSnapshotRetentionPeriod;
 
   /// The pending or in-progress change of the new identifier for the cluster.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The pending or in-progress change of the cluster type.
-  final String clusterType;
+  final String? clusterType;
 
   /// The pending or in-progress change of the service version.
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The encryption type for a cluster. Possible values are: KMS and None.
-  final String encryptionType;
+  final String? encryptionType;
 
   /// An option that specifies whether to create the cluster with enhanced VPC
   /// routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -11187,25 +11228,25 @@ class PendingModifiedValues {
   /// If this option is <code>true</code>, enhanced VPC routing is enabled.
   ///
   /// Default: false
-  final bool enhancedVpcRouting;
+  final bool? enhancedVpcRouting;
 
   /// The name of the maintenance track that the cluster will change to during the
   /// next maintenance window.
-  final String maintenanceTrackName;
+  final String? maintenanceTrackName;
 
   /// The pending or in-progress change of the master user password for the
   /// cluster.
-  final String masterUserPassword;
+  final String? masterUserPassword;
 
   /// The pending or in-progress change of the cluster's node type.
-  final String nodeType;
+  final String? nodeType;
 
   /// The pending or in-progress change of the number of nodes in the cluster.
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   /// The pending or in-progress change of the ability to connect to the cluster
   /// from the public network.
-  final bool publiclyAccessible;
+  final bool? publiclyAccessible;
 
   PendingModifiedValues({
     this.automatedSnapshotRetentionPeriod,
@@ -11240,7 +11281,7 @@ class PendingModifiedValues {
 }
 
 class PurchaseReservedNodeOfferingResult {
-  final ReservedNode reservedNode;
+  final ReservedNode? reservedNode;
 
   PurchaseReservedNodeOfferingResult({
     this.reservedNode,
@@ -11255,7 +11296,7 @@ class PurchaseReservedNodeOfferingResult {
 }
 
 class RebootClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   RebootClusterResult({
     this.cluster,
@@ -11272,10 +11313,10 @@ class RebootClusterResult {
 class RecurringCharge {
   /// The amount charged per the period of time specified by the recurring charge
   /// frequency.
-  final double recurringChargeAmount;
+  final double? recurringChargeAmount;
 
   /// The frequency at which the recurring charge amount is applied.
-  final String recurringChargeFrequency;
+  final String? recurringChargeFrequency;
 
   RecurringCharge({
     this.recurringChargeAmount,
@@ -11296,39 +11337,39 @@ class RecurringCharge {
 /// node offerings.
 class ReservedNode {
   /// The currency code for the reserved cluster.
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The duration of the node reservation in seconds.
-  final int duration;
+  final int? duration;
 
   /// The fixed cost Amazon Redshift charges you for this reserved node.
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// The number of reserved compute nodes.
-  final int nodeCount;
+  final int? nodeCount;
 
   /// The node type of the reserved node.
-  final String nodeType;
+  final String? nodeType;
 
   /// The anticipated utilization of the reserved node, as defined in the reserved
   /// node offering.
-  final String offeringType;
+  final String? offeringType;
 
   /// The recurring charges for the reserved node.
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The unique identifier for the reservation.
-  final String reservedNodeId;
+  final String? reservedNodeId;
 
   /// The identifier for the reserved node offering.
-  final String reservedNodeOfferingId;
+  final String? reservedNodeOfferingId;
 
   /// <p/>
-  final ReservedNodeOfferingType reservedNodeOfferingType;
+  final ReservedNodeOfferingType? reservedNodeOfferingType;
 
   /// The time the reservation started. You purchase a reserved node offering for
   /// a duration. This is the start time of that duration.
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the reserved compute node.
   ///
@@ -11353,10 +11394,10 @@ class ReservedNode {
   /// node.
   /// </li>
   /// </ul>
-  final String state;
+  final String? state;
 
   /// The hourly rate Amazon Redshift charges you for this reserved node.
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedNode({
     this.currencyCode,
@@ -11402,36 +11443,36 @@ class ReservedNode {
 /// Describes a reserved node offering.
 class ReservedNodeOffering {
   /// The currency code for the compute nodes offering.
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The duration, in seconds, for which the offering will reserve the node.
-  final int duration;
+  final int? duration;
 
   /// The upfront fixed charge you will pay to purchase the specific reserved node
   /// offering.
-  final double fixedPrice;
+  final double? fixedPrice;
 
   /// The node type offered by the reserved node offering.
-  final String nodeType;
+  final String? nodeType;
 
   /// The anticipated utilization of the reserved node, as defined in the reserved
   /// node offering.
-  final String offeringType;
+  final String? offeringType;
 
   /// The charge to your account regardless of whether you are creating any
   /// clusters using the node offering. Recurring charges are only in effect for
   /// heavy-utilization reserved nodes.
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The offering identifier.
-  final String reservedNodeOfferingId;
+  final String? reservedNodeOfferingId;
 
   /// <p/>
-  final ReservedNodeOfferingType reservedNodeOfferingType;
+  final ReservedNodeOfferingType? reservedNodeOfferingType;
 
   /// The rate you are charged for each hour the cluster that is using the
   /// offering is running.
-  final double usagePrice;
+  final double? usagePrice;
 
   ReservedNodeOffering({
     this.currencyCode,
@@ -11467,10 +11508,19 @@ class ReservedNodeOffering {
 }
 
 enum ReservedNodeOfferingType {
-  @_s.JsonValue('Regular')
   regular,
-  @_s.JsonValue('Upgradable')
   upgradable,
+}
+
+extension on ReservedNodeOfferingType {
+  String toValue() {
+    switch (this) {
+      case ReservedNodeOfferingType.regular:
+        return 'Regular';
+      case ReservedNodeOfferingType.upgradable:
+        return 'Upgradable';
+    }
+  }
 }
 
 extension on String {
@@ -11481,7 +11531,7 @@ extension on String {
       case 'Upgradable':
         return ReservedNodeOfferingType.upgradable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReservedNodeOfferingType');
   }
 }
 
@@ -11493,10 +11543,10 @@ class ReservedNodeOfferingsMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of <code>ReservedNodeOffering</code> objects.
-  final List<ReservedNodeOffering> reservedNodeOfferings;
+  final List<ReservedNodeOffering>? reservedNodeOfferings;
 
   ReservedNodeOfferingsMessage({
     this.marker,
@@ -11523,10 +11573,10 @@ class ReservedNodesMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// The list of <code>ReservedNode</code> objects.
-  final List<ReservedNode> reservedNodes;
+  final List<ReservedNode>? reservedNodes;
 
   ReservedNodesMessage({
     this.marker,
@@ -11546,38 +11596,28 @@ class ReservedNodesMessage {
 
 /// Describes a resize cluster operation. For example, a scheduled action to run
 /// the <code>ResizeCluster</code> API operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResizeClusterMessage {
   /// The unique identifier for the cluster to resize.
-  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   /// A boolean value indicating whether the resize operation is using the classic
   /// resize process. If you don't provide this parameter or set the value to
   /// <code>false</code>, the resize type is elastic.
-  @_s.JsonKey(name: 'Classic')
-  final bool classic;
+  final bool? classic;
 
   /// The new cluster type for the specified cluster.
-  @_s.JsonKey(name: 'ClusterType')
-  final String clusterType;
+  final String? clusterType;
 
   /// The new node type for the nodes you are adding. If not specified, the
   /// cluster's current node type is used.
-  @_s.JsonKey(name: 'NodeType')
-  final String nodeType;
+  final String? nodeType;
 
   /// The new number of nodes for the cluster. If not specified, the cluster's
   /// current number of nodes is used.
-  @_s.JsonKey(name: 'NumberOfNodes')
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   ResizeClusterMessage({
-    @_s.required this.clusterIdentifier,
+    required this.clusterIdentifier,
     this.classic,
     this.clusterType,
     this.nodeType,
@@ -11585,7 +11625,7 @@ class ResizeClusterMessage {
   });
   factory ResizeClusterMessage.fromXml(_s.XmlElement elem) {
     return ResizeClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
       classic: _s.extractXmlBoolValue(elem, 'Classic'),
       clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
@@ -11593,11 +11633,24 @@ class ResizeClusterMessage {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ResizeClusterMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final classic = this.classic;
+    final clusterType = this.clusterType;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+      if (classic != null) 'Classic': classic,
+      if (clusterType != null) 'ClusterType': clusterType,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+    };
+  }
 }
 
 class ResizeClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ResizeClusterResult({
     this.cluster,
@@ -11613,10 +11666,10 @@ class ResizeClusterResult {
 /// Describes a resize operation.
 class ResizeInfo {
   /// A boolean value indicating if the resize operation can be cancelled.
-  final bool allowCancelResize;
+  final bool? allowCancelResize;
 
   /// Returns the value <code>ClassicResize</code>.
-  final String resizeType;
+  final String? resizeType;
 
   ResizeInfo({
     this.allowCancelResize,
@@ -11635,39 +11688,39 @@ class ResizeProgressMessage {
   /// The average rate of the resize operation over the last few minutes, measured
   /// in megabytes per second. After the resize operation completes, this value
   /// shows the average rate of the entire resize operation.
-  final double avgResizeRateInMegaBytesPerSecond;
+  final double? avgResizeRateInMegaBytesPerSecond;
 
   /// The percent of data transferred from source cluster to target cluster.
-  final double dataTransferProgressPercent;
+  final double? dataTransferProgressPercent;
 
   /// The amount of seconds that have elapsed since the resize operation began.
   /// After the resize operation completes, this value shows the total actual
   /// time, in seconds, for the resize operation.
-  final int elapsedTimeInSeconds;
+  final int? elapsedTimeInSeconds;
 
   /// The estimated time remaining, in seconds, until the resize operation is
   /// complete. This value is calculated based on the average resize rate and the
   /// estimated amount of data remaining to be processed. Once the resize
   /// operation is complete, this value will be 0.
-  final int estimatedTimeToCompletionInSeconds;
+  final int? estimatedTimeToCompletionInSeconds;
 
   /// The names of tables that have been completely imported .
   ///
   /// Valid Values: List of table names.
-  final List<String> importTablesCompleted;
+  final List<String>? importTablesCompleted;
 
   /// The names of tables that are being currently imported.
   ///
   /// Valid Values: List of table names.
-  final List<String> importTablesInProgress;
+  final List<String>? importTablesInProgress;
 
   /// The names of tables that have not been yet imported.
   ///
   /// Valid Values: List of table names
-  final List<String> importTablesNotStarted;
+  final List<String>? importTablesNotStarted;
 
   /// An optional string to provide additional details about the resize action.
-  final String message;
+  final String? message;
 
   /// While the resize operation is in progress, this value shows the current
   /// amount of data, in megabytes, that has been processed so far. When the
@@ -11675,40 +11728,40 @@ class ResizeProgressMessage {
   /// megabytes, on the cluster, which may be more or less than
   /// TotalResizeDataInMegaBytes (the estimated total amount of data before
   /// resize).
-  final int progressInMegaBytes;
+  final int? progressInMegaBytes;
 
   /// An enum with possible values of <code>ClassicResize</code> and
   /// <code>ElasticResize</code>. These values describe the type of resize
   /// operation being performed.
-  final String resizeType;
+  final String? resizeType;
 
   /// The status of the resize operation.
   ///
   /// Valid Values: <code>NONE</code> | <code>IN_PROGRESS</code> |
   /// <code>FAILED</code> | <code>SUCCEEDED</code> | <code>CANCELLING</code>
-  final String status;
+  final String? status;
 
   /// The cluster type after the resize operation is complete.
   ///
   /// Valid Values: <code>multi-node</code> | <code>single-node</code>
-  final String targetClusterType;
+  final String? targetClusterType;
 
   /// The type of encryption for the cluster after the resize is complete.
   ///
   /// Possible values are <code>KMS</code> and <code>None</code>.
-  final String targetEncryptionType;
+  final String? targetEncryptionType;
 
   /// The node type that the cluster will have after the resize operation is
   /// complete.
-  final String targetNodeType;
+  final String? targetNodeType;
 
   /// The number of nodes that the cluster will have after the resize operation is
   /// complete.
-  final int targetNumberOfNodes;
+  final int? targetNumberOfNodes;
 
   /// The estimated total amount of data, in megabytes, on the cluster before the
   /// resize operation began.
-  final int totalResizeDataInMegaBytes;
+  final int? totalResizeDataInMegaBytes;
 
   ResizeProgressMessage({
     this.avgResizeRateInMegaBytesPerSecond,
@@ -11762,7 +11815,7 @@ class ResizeProgressMessage {
 }
 
 class RestoreFromClusterSnapshotResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   RestoreFromClusterSnapshotResult({
     this.cluster,
@@ -11781,29 +11834,29 @@ class RestoreStatus {
   /// The number of megabytes per second being transferred from the backup
   /// storage. Returns the average rate for a completed backup. This field is only
   /// updated when you restore to DC2 and DS2 node types.
-  final double currentRestoreRateInMegaBytesPerSecond;
+  final double? currentRestoreRateInMegaBytesPerSecond;
 
   /// The amount of time an in-progress restore has been running, or the amount of
   /// time it took a completed restore to finish. This field is only updated when
   /// you restore to DC2 and DS2 node types.
-  final int elapsedTimeInSeconds;
+  final int? elapsedTimeInSeconds;
 
   /// The estimate of the time remaining before the restore will complete. Returns
   /// 0 for a completed restore. This field is only updated when you restore to
   /// DC2 and DS2 node types.
-  final int estimatedTimeToCompletionInSeconds;
+  final int? estimatedTimeToCompletionInSeconds;
 
   /// The number of megabytes that have been transferred from snapshot storage.
   /// This field is only updated when you restore to DC2 and DS2 node types.
-  final int progressInMegaBytes;
+  final int? progressInMegaBytes;
 
   /// The size of the set of snapshot data used to restore the cluster. This field
   /// is only updated when you restore to DC2 and DS2 node types.
-  final int snapshotSizeInMegaBytes;
+  final int? snapshotSizeInMegaBytes;
 
   /// The status of the restore action. Returns starting, restoring, completed, or
   /// failed.
-  final String status;
+  final String? status;
 
   RestoreStatus({
     this.currentRestoreRateInMegaBytesPerSecond,
@@ -11829,7 +11882,7 @@ class RestoreStatus {
 }
 
 class RestoreTableFromClusterSnapshotResult {
-  final TableRestoreStatus tableRestoreStatus;
+  final TableRestoreStatus? tableRestoreStatus;
 
   RestoreTableFromClusterSnapshotResult({
     this.tableRestoreStatus,
@@ -11845,30 +11898,29 @@ class RestoreTableFromClusterSnapshotResult {
 
 /// Describes a resume cluster operation. For example, a scheduled action to run
 /// the <code>ResumeCluster</code> API operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResumeClusterMessage {
   /// The identifier of the cluster to be resumed.
-  @_s.JsonKey(name: 'ClusterIdentifier')
   final String clusterIdentifier;
 
   ResumeClusterMessage({
-    @_s.required this.clusterIdentifier,
+    required this.clusterIdentifier,
   });
   factory ResumeClusterMessage.fromXml(_s.XmlElement elem) {
     return ResumeClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$ResumeClusterMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
 }
 
 class ResumeClusterResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ResumeClusterResult({
     this.cluster,
@@ -11885,14 +11937,14 @@ class ResumeClusterResult {
 class RevisionTarget {
   /// A unique string that identifies the version to update the cluster to. You
   /// can use this value in <a>ModifyClusterDbRevision</a>.
-  final String databaseRevision;
+  final String? databaseRevision;
 
   /// The date on which the database revision was released.
-  final DateTime databaseRevisionReleaseDate;
+  final DateTime? databaseRevisionReleaseDate;
 
   /// A string that describes the changes and features that will be applied to the
   /// cluster when it is updated to the corresponding <a>ClusterDbRevision</a>.
-  final String description;
+  final String? description;
 
   RevisionTarget({
     this.databaseRevision,
@@ -11910,7 +11962,7 @@ class RevisionTarget {
 }
 
 class RevokeClusterSecurityGroupIngressResult {
-  final ClusterSecurityGroup clusterSecurityGroup;
+  final ClusterSecurityGroup? clusterSecurityGroup;
 
   RevokeClusterSecurityGroupIngressResult({
     this.clusterSecurityGroup,
@@ -11925,7 +11977,7 @@ class RevokeClusterSecurityGroupIngressResult {
 }
 
 class RevokeSnapshotAccessResult {
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   RevokeSnapshotAccessResult({
     this.snapshot,
@@ -11939,7 +11991,7 @@ class RevokeSnapshotAccessResult {
 }
 
 class RotateEncryptionKeyResult {
-  final Cluster cluster;
+  final Cluster? cluster;
 
   RotateEncryptionKeyResult({
     this.cluster,
@@ -11953,12 +12005,22 @@ class RotateEncryptionKeyResult {
 }
 
 enum ScheduleState {
-  @_s.JsonValue('MODIFYING')
   modifying,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on ScheduleState {
+  String toValue() {
+    switch (this) {
+      case ScheduleState.modifying:
+        return 'MODIFYING';
+      case ScheduleState.active:
+        return 'ACTIVE';
+      case ScheduleState.failed:
+        return 'FAILED';
+    }
+  }
 }
 
 extension on String {
@@ -11971,7 +12033,7 @@ extension on String {
       case 'FAILED':
         return ScheduleState.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScheduleState');
   }
 }
 
@@ -11981,7 +12043,7 @@ extension on String {
 class ScheduledAction {
   /// The end time in UTC when the schedule is no longer active. After this time,
   /// the scheduled action does not trigger.
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The IAM role to assume to run the scheduled action. This IAM role must have
   /// permission to run the Amazon Redshift API operation in the scheduled action.
@@ -11992,10 +12054,10 @@ class ScheduledAction {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
   /// Identity-Based Policies for Amazon Redshift</a> in the <i>Amazon Redshift
   /// Cluster Management Guide</i>.
-  final String iamRole;
+  final String? iamRole;
 
   /// List of times when the scheduled action will run.
-  final List<DateTime> nextInvocations;
+  final List<DateTime>? nextInvocations;
 
   /// The schedule for a one-time (at format) or recurring (cron format) scheduled
   /// action. Schedule invocations must be separated by at least one hour.
@@ -12008,26 +12070,26 @@ class ScheduledAction {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
   /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
-  final String schedule;
+  final String? schedule;
 
   /// The description of the scheduled action.
-  final String scheduledActionDescription;
+  final String? scheduledActionDescription;
 
   /// The name of the scheduled action.
-  final String scheduledActionName;
+  final String? scheduledActionName;
 
   /// The start time in UTC when the schedule is active. Before this time, the
   /// scheduled action does not trigger.
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the scheduled action. For example, <code>DISABLED</code>.
-  final ScheduledActionState state;
+  final ScheduledActionState? state;
 
   /// A JSON format string of the Amazon Redshift API operation with input
   /// parameters.
   ///
   /// "<code>{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}</code>".
-  final ScheduledActionType targetAction;
+  final ScheduledActionType? targetAction;
 
   ScheduledAction({
     this.endTime,
@@ -12062,33 +12124,42 @@ class ScheduledAction {
 }
 
 /// A set of elements to filter the returned scheduled actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduledActionFilter {
   /// The type of element to filter.
-  @_s.JsonKey(name: 'Name')
   final ScheduledActionFilterName name;
 
   /// List of values. Compare if the value (of type defined by <code>Name</code>)
   /// equals an item in the list of scheduled actions.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   ScheduledActionFilter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$ScheduledActionFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum ScheduledActionFilterName {
-  @_s.JsonValue('cluster-identifier')
   clusterIdentifier,
-  @_s.JsonValue('iam-role')
   iamRole,
+}
+
+extension on ScheduledActionFilterName {
+  String toValue() {
+    switch (this) {
+      case ScheduledActionFilterName.clusterIdentifier:
+        return 'cluster-identifier';
+      case ScheduledActionFilterName.iamRole:
+        return 'iam-role';
+    }
+  }
 }
 
 extension on String {
@@ -12099,15 +12170,24 @@ extension on String {
       case 'iam-role':
         return ScheduledActionFilterName.iamRole;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScheduledActionFilterName');
   }
 }
 
 enum ScheduledActionState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on ScheduledActionState {
+  String toValue() {
+    switch (this) {
+      case ScheduledActionState.active:
+        return 'ACTIVE';
+      case ScheduledActionState.disabled:
+        return 'DISABLED';
+    }
+  }
 }
 
 extension on String {
@@ -12118,29 +12198,21 @@ extension on String {
       case 'DISABLED':
         return ScheduledActionState.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScheduledActionState');
   }
 }
 
 /// The action type that specifies an Amazon Redshift API operation that is
 /// supported by the Amazon Redshift scheduler.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduledActionType {
   /// An action that runs a <code>PauseCluster</code> API operation.
-  @_s.JsonKey(name: 'PauseCluster')
-  final PauseClusterMessage pauseCluster;
+  final PauseClusterMessage? pauseCluster;
 
   /// An action that runs a <code>ResizeCluster</code> API operation.
-  @_s.JsonKey(name: 'ResizeCluster')
-  final ResizeClusterMessage resizeCluster;
+  final ResizeClusterMessage? resizeCluster;
 
   /// An action that runs a <code>ResumeCluster</code> API operation.
-  @_s.JsonKey(name: 'ResumeCluster')
-  final ResumeClusterMessage resumeCluster;
+  final ResumeClusterMessage? resumeCluster;
 
   ScheduledActionType({
     this.pauseCluster,
@@ -12161,15 +12233,21 @@ class ScheduledActionType {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ScheduledActionTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final pauseCluster = this.pauseCluster;
+    final resizeCluster = this.resizeCluster;
+    final resumeCluster = this.resumeCluster;
+    return {
+      if (pauseCluster != null) 'PauseCluster': pauseCluster,
+      if (resizeCluster != null) 'ResizeCluster': resizeCluster,
+      if (resumeCluster != null) 'ResumeCluster': resumeCluster,
+    };
+  }
 }
 
 enum ScheduledActionTypeValues {
-  @_s.JsonValue('ResizeCluster')
   resizeCluster,
-  @_s.JsonValue('PauseCluster')
   pauseCluster,
-  @_s.JsonValue('ResumeCluster')
   resumeCluster,
 }
 
@@ -12183,7 +12261,6 @@ extension on ScheduledActionTypeValues {
       case ScheduledActionTypeValues.resumeCluster:
         return 'ResumeCluster';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12197,7 +12274,7 @@ extension on String {
       case 'ResumeCluster':
         return ScheduledActionTypeValues.resumeCluster;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScheduledActionTypeValues');
   }
 }
 
@@ -12208,10 +12285,10 @@ class ScheduledActionsMessage {
   /// value in the <code>Marker</code> field of the response. You can retrieve the
   /// next set of response records by providing the returned marker value in the
   /// <code>Marker</code> parameter and retrying the request.
-  final String marker;
+  final String? marker;
 
   /// List of retrieved scheduled actions.
-  final List<ScheduledAction> scheduledActions;
+  final List<ScheduledAction>? scheduledActions;
 
   ScheduledActionsMessage({
     this.marker,
@@ -12234,48 +12311,48 @@ class Snapshot {
   /// A list of the AWS customer accounts authorized to restore the snapshot.
   /// Returns <code>null</code> if no accounts are authorized. Visible only to the
   /// snapshot owner.
-  final List<AccountWithRestoreAccess> accountsWithRestoreAccess;
+  final List<AccountWithRestoreAccess>? accountsWithRestoreAccess;
 
   /// The size of the incremental backup.
-  final double actualIncrementalBackupSizeInMegaBytes;
+  final double? actualIncrementalBackupSizeInMegaBytes;
 
   /// The Availability Zone in which the cluster was created.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The number of megabytes that have been transferred to the snapshot backup.
-  final double backupProgressInMegaBytes;
+  final double? backupProgressInMegaBytes;
 
   /// The time (UTC) when the cluster was originally created.
-  final DateTime clusterCreateTime;
+  final DateTime? clusterCreateTime;
 
   /// The identifier of the cluster for which the snapshot was taken.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The version ID of the Amazon Redshift engine that is running on the cluster.
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The number of megabytes per second being transferred to the snapshot backup.
   /// Returns <code>0</code> for a completed backup.
-  final double currentBackupRateInMegaBytesPerSecond;
+  final double? currentBackupRateInMegaBytesPerSecond;
 
   /// The name of the database that was created when the cluster was created.
-  final String dBName;
+  final String? dBName;
 
   /// The amount of time an in-progress snapshot backup has been running, or the
   /// amount of time it took a completed backup to finish.
-  final int elapsedTimeInSeconds;
+  final int? elapsedTimeInSeconds;
 
   /// If <code>true</code>, the data in the snapshot is encrypted at rest.
-  final bool encrypted;
+  final bool? encrypted;
 
   /// A boolean that indicates whether the snapshot data is encrypted using the
   /// HSM keys of the source cluster. <code>true</code> indicates that the data is
   /// encrypted using HSM keys.
-  final bool encryptedWithHSM;
+  final bool? encryptedWithHSM;
 
   /// The cluster version of the cluster used to create the snapshot. For example,
   /// 1.0.15503.
-  final String engineFullVersion;
+  final String? engineFullVersion;
 
   /// An option that specifies whether to create the cluster with enhanced VPC
   /// routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -12286,64 +12363,64 @@ class Snapshot {
   /// If this option is <code>true</code>, enhanced VPC routing is enabled.
   ///
   /// Default: false
-  final bool enhancedVpcRouting;
+  final bool? enhancedVpcRouting;
 
   /// The estimate of the time remaining before the snapshot backup will complete.
   /// Returns <code>0</code> for a completed backup.
-  final int estimatedSecondsToCompletion;
+  final int? estimatedSecondsToCompletion;
 
   /// The AWS Key Management Service (KMS) key ID of the encryption key that was
   /// used to encrypt data in the cluster from which the snapshot was taken.
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The name of the maintenance track for the snapshot.
-  final String maintenanceTrackName;
+  final String? maintenanceTrackName;
 
   /// The number of days until a manual snapshot will pass its retention period.
-  final int manualSnapshotRemainingDays;
+  final int? manualSnapshotRemainingDays;
 
   /// The number of days that a manual snapshot is retained. If the value is -1,
   /// the manual snapshot is retained indefinitely.
   ///
   /// The value must be either -1 or an integer between 1 and 3,653.
-  final int manualSnapshotRetentionPeriod;
+  final int? manualSnapshotRetentionPeriod;
 
   /// The master user name for the cluster.
-  final String masterUsername;
+  final String? masterUsername;
 
   /// The node type of the nodes in the cluster.
-  final String nodeType;
+  final String? nodeType;
 
   /// The number of nodes in the cluster.
-  final int numberOfNodes;
+  final int? numberOfNodes;
 
   /// For manual snapshots, the AWS customer account used to create or copy the
   /// snapshot. For automatic snapshots, the owner of the cluster. The owner can
   /// perform all snapshot actions, such as sharing a manual snapshot.
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The port that the cluster is listening on.
-  final int port;
+  final int? port;
 
   /// The list of node types that this cluster snapshot is able to restore into.
-  final List<String> restorableNodeTypes;
+  final List<String>? restorableNodeTypes;
 
   /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot
   /// contains a copy of the cluster data as of this exact time.
-  final DateTime snapshotCreateTime;
+  final DateTime? snapshotCreateTime;
 
   /// The snapshot identifier that is provided in the request.
-  final String snapshotIdentifier;
+  final String? snapshotIdentifier;
 
   /// A timestamp representing the start of the retention period for the snapshot.
-  final DateTime snapshotRetentionStartTime;
+  final DateTime? snapshotRetentionStartTime;
 
   /// The snapshot type. Snapshots created using <a>CreateClusterSnapshot</a> and
   /// <a>CopyClusterSnapshot</a> are of type "manual".
-  final String snapshotType;
+  final String? snapshotType;
 
   /// The source region from which the snapshot was copied.
-  final String sourceRegion;
+  final String? sourceRegion;
 
   /// The snapshot status. The value of the status depends on the API operation
   /// used:
@@ -12361,18 +12438,18 @@ class Snapshot {
   /// <a>DeleteClusterSnapshot</a> returns status as "deleted".
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   /// The list of tags for the cluster snapshot.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The size of the complete set of backup data that would be used to restore
   /// the cluster.
-  final double totalBackupSizeInMegaBytes;
+  final double? totalBackupSizeInMegaBytes;
 
   /// The VPC identifier of the cluster if the snapshot is from a cluster in a
   /// VPC. Otherwise, this field is not in the output.
-  final String vpcId;
+  final String? vpcId;
 
   Snapshot({
     this.accountsWithRestoreAccess,
@@ -12469,12 +12546,22 @@ class Snapshot {
 }
 
 enum SnapshotAttributeToSortBy {
-  @_s.JsonValue('SOURCE_TYPE')
   sourceType,
-  @_s.JsonValue('TOTAL_SIZE')
   totalSize,
-  @_s.JsonValue('CREATE_TIME')
   createTime,
+}
+
+extension on SnapshotAttributeToSortBy {
+  String toValue() {
+    switch (this) {
+      case SnapshotAttributeToSortBy.sourceType:
+        return 'SOURCE_TYPE';
+      case SnapshotAttributeToSortBy.totalSize:
+        return 'TOTAL_SIZE';
+      case SnapshotAttributeToSortBy.createTime:
+        return 'CREATE_TIME';
+    }
+  }
 }
 
 extension on String {
@@ -12487,7 +12574,7 @@ extension on String {
       case 'CREATE_TIME':
         return SnapshotAttributeToSortBy.createTime;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SnapshotAttributeToSortBy');
   }
 }
 
@@ -12502,13 +12589,13 @@ extension on String {
 class SnapshotCopyGrant {
   /// The unique identifier of the customer master key (CMK) in AWS KMS to which
   /// Amazon Redshift is granted permission.
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The name of the snapshot copy grant.
-  final String snapshotCopyGrantName;
+  final String? snapshotCopyGrantName;
 
   /// A list of tag instances.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   SnapshotCopyGrant({
     this.kmsKeyId,
@@ -12538,10 +12625,10 @@ class SnapshotCopyGrantMessage {
   ///
   /// Constraints: You can specify either the <b>SnapshotCopyGrantName</b>
   /// parameter or the <b>Marker</b> parameter, but not both.
-  final String marker;
+  final String? marker;
 
   /// The list of <code>SnapshotCopyGrant</code> objects.
-  final List<SnapshotCopyGrant> snapshotCopyGrants;
+  final List<SnapshotCopyGrant>? snapshotCopyGrants;
 
   SnapshotCopyGrantMessage({
     this.marker,
@@ -12562,16 +12649,16 @@ class SnapshotCopyGrantMessage {
 /// Describes the errors returned by a snapshot.
 class SnapshotErrorMessage {
   /// The failure code for the error.
-  final String failureCode;
+  final String? failureCode;
 
   /// The text message describing the error.
-  final String failureReason;
+  final String? failureReason;
 
   /// A unique identifier for the cluster.
-  final String snapshotClusterIdentifier;
+  final String? snapshotClusterIdentifier;
 
   /// A unique identifier for the snapshot returning the error.
-  final String snapshotIdentifier;
+  final String? snapshotIdentifier;
 
   SnapshotErrorMessage({
     this.failureCode,
@@ -12598,10 +12685,10 @@ class SnapshotMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of <a>Snapshot</a> instances.
-  final List<Snapshot> snapshots;
+  final List<Snapshot>? snapshots;
 
   SnapshotMessage({
     this.marker,
@@ -12622,26 +12709,26 @@ class SnapshotMessage {
 /// snapshots of a cluster. You can also schedule snapshots for specific dates.
 class SnapshotSchedule {
   /// The number of clusters associated with the schedule.
-  final int associatedClusterCount;
+  final int? associatedClusterCount;
 
   /// A list of clusters associated with the schedule. A maximum of 100 clusters
   /// is returned.
-  final List<ClusterAssociatedToSchedule> associatedClusters;
+  final List<ClusterAssociatedToSchedule>? associatedClusters;
 
   /// <p/>
-  final List<DateTime> nextInvocations;
+  final List<DateTime>? nextInvocations;
 
   /// A list of ScheduleDefinitions.
-  final List<String> scheduleDefinitions;
+  final List<String>? scheduleDefinitions;
 
   /// The description of the schedule.
-  final String scheduleDescription;
+  final String? scheduleDescription;
 
   /// A unique identifier for the schedule.
-  final String scheduleIdentifier;
+  final String? scheduleIdentifier;
 
   /// An optional set of tags describing the schedule.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   SnapshotSchedule({
     this.associatedClusterCount,
@@ -12675,32 +12762,41 @@ class SnapshotSchedule {
 }
 
 /// Describes a sorting entity
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SnapshotSortingEntity {
   /// The category for sorting the snapshots.
-  @_s.JsonKey(name: 'Attribute')
   final SnapshotAttributeToSortBy attribute;
 
   /// The order for listing the attributes.
-  @_s.JsonKey(name: 'SortOrder')
-  final SortByOrder sortOrder;
+  final SortByOrder? sortOrder;
 
   SnapshotSortingEntity({
-    @_s.required this.attribute,
+    required this.attribute,
     this.sortOrder,
   });
-  Map<String, dynamic> toJson() => _$SnapshotSortingEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final sortOrder = this.sortOrder;
+    return {
+      'Attribute': attribute.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+    };
+  }
 }
 
 enum SortByOrder {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
+}
+
+extension on SortByOrder {
+  String toValue() {
+    switch (this) {
+      case SortByOrder.asc:
+        return 'ASC';
+      case SortByOrder.desc:
+        return 'DESC';
+    }
+  }
 }
 
 extension on String {
@@ -12711,20 +12807,15 @@ extension on String {
       case 'DESC':
         return SortByOrder.desc;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SortByOrder');
   }
 }
 
 enum SourceType {
-  @_s.JsonValue('cluster')
   cluster,
-  @_s.JsonValue('cluster-parameter-group')
   clusterParameterGroup,
-  @_s.JsonValue('cluster-security-group')
   clusterSecurityGroup,
-  @_s.JsonValue('cluster-snapshot')
   clusterSnapshot,
-  @_s.JsonValue('scheduled-action')
   scheduledAction,
 }
 
@@ -12742,7 +12833,6 @@ extension on SourceType {
       case SourceType.scheduledAction:
         return 'scheduled-action';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12760,7 +12850,7 @@ extension on String {
       case 'scheduled-action':
         return SourceType.scheduledAction;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
@@ -12769,7 +12859,7 @@ extension on String {
 class SpartaProxyVpcEndpoint {
   /// The connection endpoint ID for connecting an Amazon Redshift cluster through
   /// the proxy.
-  final String vpcEndpointId;
+  final String? vpcEndpointId;
 
   SpartaProxyVpcEndpoint({
     this.vpcEndpointId,
@@ -12784,13 +12874,13 @@ class SpartaProxyVpcEndpoint {
 /// Describes a subnet.
 class Subnet {
   /// <p/>
-  final AvailabilityZone subnetAvailabilityZone;
+  final AvailabilityZone? subnetAvailabilityZone;
 
   /// The identifier of the subnet.
-  final String subnetIdentifier;
+  final String? subnetIdentifier;
 
   /// The status of the subnet.
-  final String subnetStatus;
+  final String? subnetStatus;
 
   Subnet({
     this.subnetAvailabilityZone,
@@ -12811,7 +12901,7 @@ class Subnet {
 /// Describes the operations that are allowed on a maintenance track.
 class SupportedOperation {
   /// A list of the supported operations.
-  final String operationName;
+  final String? operationName;
 
   SupportedOperation({
     this.operationName,
@@ -12826,7 +12916,7 @@ class SupportedOperation {
 /// A list of supported platforms for orderable clusters.
 class SupportedPlatform {
   /// <p/>
-  final String name;
+  final String? name;
 
   SupportedPlatform({
     this.name,
@@ -12842,52 +12932,52 @@ class SupportedPlatform {
 class TableRestoreStatus {
   /// The identifier of the Amazon Redshift cluster that the table is being
   /// restored to.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// A description of the status of the table restore request. Status values
   /// include <code>SUCCEEDED</code>, <code>FAILED</code>, <code>CANCELED</code>,
   /// <code>PENDING</code>, <code>IN_PROGRESS</code>.
-  final String message;
+  final String? message;
 
   /// The name of the table to create as a result of the table restore request.
-  final String newTableName;
+  final String? newTableName;
 
   /// The amount of data restored to the new table so far, in megabytes (MB).
-  final int progressInMegaBytes;
+  final int? progressInMegaBytes;
 
   /// The time that the table restore request was made, in Universal Coordinated
   /// Time (UTC).
-  final DateTime requestTime;
+  final DateTime? requestTime;
 
   /// The identifier of the snapshot that the table is being restored from.
-  final String snapshotIdentifier;
+  final String? snapshotIdentifier;
 
   /// The name of the source database that contains the table being restored.
-  final String sourceDatabaseName;
+  final String? sourceDatabaseName;
 
   /// The name of the source schema that contains the table being restored.
-  final String sourceSchemaName;
+  final String? sourceSchemaName;
 
   /// The name of the source table being restored.
-  final String sourceTableName;
+  final String? sourceTableName;
 
   /// A value that describes the current state of the table restore request.
   ///
   /// Valid Values: <code>SUCCEEDED</code>, <code>FAILED</code>,
   /// <code>CANCELED</code>, <code>PENDING</code>, <code>IN_PROGRESS</code>
-  final TableRestoreStatusType status;
+  final TableRestoreStatusType? status;
 
   /// The unique identifier for the table restore request.
-  final String tableRestoreRequestId;
+  final String? tableRestoreRequestId;
 
   /// The name of the database to restore the table to.
-  final String targetDatabaseName;
+  final String? targetDatabaseName;
 
   /// The name of the schema to restore the table to.
-  final String targetSchemaName;
+  final String? targetSchemaName;
 
   /// The total amount of data to restore to the new table, in megabytes (MB).
-  final int totalDataInMegaBytes;
+  final int? totalDataInMegaBytes;
 
   TableRestoreStatus({
     this.clusterIdentifier,
@@ -12931,10 +13021,10 @@ class TableRestoreStatus {
 class TableRestoreStatusMessage {
   /// A pagination token that can be used in a subsequent
   /// <a>DescribeTableRestoreStatus</a> request.
-  final String marker;
+  final String? marker;
 
   /// A list of status details for one or more table restore requests.
-  final List<TableRestoreStatus> tableRestoreStatusDetails;
+  final List<TableRestoreStatus>? tableRestoreStatusDetails;
 
   TableRestoreStatusMessage({
     this.marker,
@@ -12954,16 +13044,28 @@ class TableRestoreStatusMessage {
 }
 
 enum TableRestoreStatusType {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
+}
+
+extension on TableRestoreStatusType {
+  String toValue() {
+    switch (this) {
+      case TableRestoreStatusType.pending:
+        return 'PENDING';
+      case TableRestoreStatusType.inProgress:
+        return 'IN_PROGRESS';
+      case TableRestoreStatusType.succeeded:
+        return 'SUCCEEDED';
+      case TableRestoreStatusType.failed:
+        return 'FAILED';
+      case TableRestoreStatusType.canceled:
+        return 'CANCELED';
+    }
+  }
 }
 
 extension on String {
@@ -12980,24 +13082,17 @@ extension on String {
       case 'CANCELED':
         return TableRestoreStatusType.canceled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TableRestoreStatusType');
   }
 }
 
 /// A tag consisting of a name/value pair for a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key, or name, for the resource tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value for the resource tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
@@ -13010,14 +13105,21 @@ class Tag {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// A tag and its associated resource.
 class TaggedResource {
   /// The Amazon Resource Name (ARN) with which the tag is associated, for
   /// example: <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
-  final String resourceName;
+  final String? resourceName;
 
   /// The type of resource with which the tag is associated. Valid resource types
   /// are:
@@ -13056,10 +13158,10 @@ class TaggedResource {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions">Constructing
   /// an Amazon Redshift Amazon Resource Name (ARN)</a> in the Amazon Redshift
   /// Cluster Management Guide.
-  final String resourceType;
+  final String? resourceType;
 
   /// The tag for the resource.
-  final Tag tag;
+  final Tag? tag;
 
   TaggedResource({
     this.resourceName,
@@ -13083,10 +13185,10 @@ class TaggedResourceListMessage {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// A list of tags with their associated resources.
-  final List<TaggedResource> taggedResources;
+  final List<TaggedResource>? taggedResources;
 
   TaggedResourceListMessage({
     this.marker,
@@ -13107,12 +13209,12 @@ class TaggedResourceListMessage {
 class TrackListMessage {
   /// A list of maintenance tracks output by the
   /// <code>DescribeClusterTracks</code> operation.
-  final List<MaintenanceTrack> maintenanceTracks;
+  final List<MaintenanceTrack>? maintenanceTracks;
 
   /// The starting point to return a set of response tracklist records. You can
   /// retrieve the next set of response records by providing the returned marker
   /// value in the <code>Marker</code> parameter and retrying the request.
-  final String marker;
+  final String? marker;
 
   TrackListMessage({
     this.maintenanceTracks,
@@ -13133,13 +13235,13 @@ class TrackListMessage {
 /// A maintenance track that you can switch the current track to.
 class UpdateTarget {
   /// The cluster version for the new maintenance track.
-  final String databaseVersion;
+  final String? databaseVersion;
 
   /// The name of the new maintenance track.
-  final String maintenanceTrackName;
+  final String? maintenanceTrackName;
 
   /// A list of operations supported by the maintenance track.
-  final List<SupportedOperation> supportedOperations;
+  final List<SupportedOperation>? supportedOperations;
 
   UpdateTarget({
     this.databaseVersion,
@@ -13164,7 +13266,7 @@ class UpdateTarget {
 class UsageLimit {
   /// The limit amount. If time-based, this amount is in minutes. If data-based,
   /// this amount is in terabytes (TB).
-  final int amount;
+  final int? amount;
 
   /// The action that Amazon Redshift takes when the limit is reached. Possible
   /// values are:
@@ -13180,27 +13282,27 @@ class UsageLimit {
   /// <b>disable</b> - To disable the feature until the next usage period begins.
   /// </li>
   /// </ul>
-  final UsageLimitBreachAction breachAction;
+  final UsageLimitBreachAction? breachAction;
 
   /// The identifier of the cluster with a usage limit.
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The Amazon Redshift feature to which the limit applies.
-  final UsageLimitFeatureType featureType;
+  final UsageLimitFeatureType? featureType;
 
   /// The type of limit. Depending on the feature type, this can be based on a
   /// time duration or data size.
-  final UsageLimitLimitType limitType;
+  final UsageLimitLimitType? limitType;
 
   /// The time period that the amount applies to. A <code>weekly</code> period
   /// begins on Sunday. The default is <code>monthly</code>.
-  final UsageLimitPeriod period;
+  final UsageLimitPeriod? period;
 
   /// A list of tag instances.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The identifier of the usage limit.
-  final String usageLimitId;
+  final String? usageLimitId;
 
   UsageLimit({
     this.amount,
@@ -13233,11 +13335,8 @@ class UsageLimit {
 }
 
 enum UsageLimitBreachAction {
-  @_s.JsonValue('log')
   log,
-  @_s.JsonValue('emit-metric')
   emitMetric,
-  @_s.JsonValue('disable')
   disable,
 }
 
@@ -13251,7 +13350,6 @@ extension on UsageLimitBreachAction {
       case UsageLimitBreachAction.disable:
         return 'disable';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -13265,14 +13363,12 @@ extension on String {
       case 'disable':
         return UsageLimitBreachAction.disable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum UsageLimitBreachAction');
   }
 }
 
 enum UsageLimitFeatureType {
-  @_s.JsonValue('spectrum')
   spectrum,
-  @_s.JsonValue('concurrency-scaling')
   concurrencyScaling,
 }
 
@@ -13284,7 +13380,6 @@ extension on UsageLimitFeatureType {
       case UsageLimitFeatureType.concurrencyScaling:
         return 'concurrency-scaling';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -13296,14 +13391,12 @@ extension on String {
       case 'concurrency-scaling':
         return UsageLimitFeatureType.concurrencyScaling;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum UsageLimitFeatureType');
   }
 }
 
 enum UsageLimitLimitType {
-  @_s.JsonValue('time')
   time,
-  @_s.JsonValue('data-scanned')
   dataScanned,
 }
 
@@ -13315,7 +13408,6 @@ extension on UsageLimitLimitType {
       case UsageLimitLimitType.dataScanned:
         return 'data-scanned';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -13327,7 +13419,7 @@ extension on String {
       case 'data-scanned':
         return UsageLimitLimitType.dataScanned;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum UsageLimitLimitType');
   }
 }
 
@@ -13338,10 +13430,10 @@ class UsageLimitList {
   /// in the <code>Marker</code> parameter and retrying the command. If the
   /// <code>Marker</code> field is empty, all response records have been retrieved
   /// for the request.
-  final String marker;
+  final String? marker;
 
   /// Contains the output from the <a>DescribeUsageLimits</a> action.
-  final List<UsageLimit> usageLimits;
+  final List<UsageLimit>? usageLimits;
 
   UsageLimitList({
     this.marker,
@@ -13359,11 +13451,8 @@ class UsageLimitList {
 }
 
 enum UsageLimitPeriod {
-  @_s.JsonValue('daily')
   daily,
-  @_s.JsonValue('weekly')
   weekly,
-  @_s.JsonValue('monthly')
   monthly,
 }
 
@@ -13377,7 +13466,6 @@ extension on UsageLimitPeriod {
       case UsageLimitPeriod.monthly:
         return 'monthly';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -13391,17 +13479,17 @@ extension on String {
       case 'monthly':
         return UsageLimitPeriod.monthly;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum UsageLimitPeriod');
   }
 }
 
 /// Describes the members of a VPC security group.
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
-  final String status;
+  final String? status;
 
   /// The identifier of the VPC security group.
-  final String vpcSecurityGroupId;
+  final String? vpcSecurityGroupId;
 
   VpcSecurityGroupMembership({
     this.status,
@@ -13416,13 +13504,13 @@ class VpcSecurityGroupMembership {
 }
 
 class AccessToSnapshotDeniedFault extends _s.GenericAwsException {
-  AccessToSnapshotDeniedFault({String type, String message})
+  AccessToSnapshotDeniedFault({String? type, String? message})
       : super(
             type: type, code: 'AccessToSnapshotDeniedFault', message: message);
 }
 
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
-  AuthorizationAlreadyExistsFault({String type, String message})
+  AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationAlreadyExistsFault',
@@ -13430,12 +13518,12 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
-  AuthorizationNotFoundFault({String type, String message})
+  AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
 class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
-  AuthorizationQuotaExceededFault({String type, String message})
+  AuthorizationQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationQuotaExceededFault',
@@ -13443,7 +13531,7 @@ class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class BatchDeleteRequestSizeExceededFault extends _s.GenericAwsException {
-  BatchDeleteRequestSizeExceededFault({String type, String message})
+  BatchDeleteRequestSizeExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'BatchDeleteRequestSizeExceededFault',
@@ -13452,7 +13540,7 @@ class BatchDeleteRequestSizeExceededFault extends _s.GenericAwsException {
 
 class BatchModifyClusterSnapshotsLimitExceededFault
     extends _s.GenericAwsException {
-  BatchModifyClusterSnapshotsLimitExceededFault({String type, String message})
+  BatchModifyClusterSnapshotsLimitExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'BatchModifyClusterSnapshotsLimitExceededFault',
@@ -13460,28 +13548,28 @@ class BatchModifyClusterSnapshotsLimitExceededFault
 }
 
 class BucketNotFoundFault extends _s.GenericAwsException {
-  BucketNotFoundFault({String type, String message})
+  BucketNotFoundFault({String? type, String? message})
       : super(type: type, code: 'BucketNotFoundFault', message: message);
 }
 
 class ClusterAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterAlreadyExistsFault({String type, String message})
+  ClusterAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ClusterAlreadyExistsFault', message: message);
 }
 
 class ClusterNotFoundFault extends _s.GenericAwsException {
-  ClusterNotFoundFault({String type, String message})
+  ClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundFault', message: message);
 }
 
 class ClusterOnLatestRevisionFault extends _s.GenericAwsException {
-  ClusterOnLatestRevisionFault({String type, String message})
+  ClusterOnLatestRevisionFault({String? type, String? message})
       : super(
             type: type, code: 'ClusterOnLatestRevisionFault', message: message);
 }
 
 class ClusterParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterParameterGroupAlreadyExistsFault({String type, String message})
+  ClusterParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterParameterGroupAlreadyExistsFault',
@@ -13489,7 +13577,7 @@ class ClusterParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
-  ClusterParameterGroupNotFoundFault({String type, String message})
+  ClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterParameterGroupNotFoundFault',
@@ -13497,7 +13585,7 @@ class ClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class ClusterParameterGroupQuotaExceededFault extends _s.GenericAwsException {
-  ClusterParameterGroupQuotaExceededFault({String type, String message})
+  ClusterParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterParameterGroupQuotaExceededFault',
@@ -13505,12 +13593,12 @@ class ClusterParameterGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ClusterQuotaExceededFault extends _s.GenericAwsException {
-  ClusterQuotaExceededFault({String type, String message})
+  ClusterQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'ClusterQuotaExceededFault', message: message);
 }
 
 class ClusterSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterSecurityGroupAlreadyExistsFault({String type, String message})
+  ClusterSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSecurityGroupAlreadyExistsFault',
@@ -13518,7 +13606,7 @@ class ClusterSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ClusterSecurityGroupNotFoundFault extends _s.GenericAwsException {
-  ClusterSecurityGroupNotFoundFault({String type, String message})
+  ClusterSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSecurityGroupNotFoundFault',
@@ -13526,7 +13614,7 @@ class ClusterSecurityGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class ClusterSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
-  ClusterSecurityGroupQuotaExceededFault({String type, String message})
+  ClusterSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSecurityGroupQuotaExceededFault',
@@ -13534,7 +13622,7 @@ class ClusterSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterSnapshotAlreadyExistsFault({String type, String message})
+  ClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSnapshotAlreadyExistsFault',
@@ -13542,13 +13630,13 @@ class ClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ClusterSnapshotNotFoundFault extends _s.GenericAwsException {
-  ClusterSnapshotNotFoundFault({String type, String message})
+  ClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ClusterSnapshotNotFoundFault', message: message);
 }
 
 class ClusterSnapshotQuotaExceededFault extends _s.GenericAwsException {
-  ClusterSnapshotQuotaExceededFault({String type, String message})
+  ClusterSnapshotQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSnapshotQuotaExceededFault',
@@ -13556,7 +13644,7 @@ class ClusterSnapshotQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ClusterSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterSubnetGroupAlreadyExistsFault({String type, String message})
+  ClusterSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSubnetGroupAlreadyExistsFault',
@@ -13564,7 +13652,7 @@ class ClusterSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ClusterSubnetGroupNotFoundFault extends _s.GenericAwsException {
-  ClusterSubnetGroupNotFoundFault({String type, String message})
+  ClusterSubnetGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSubnetGroupNotFoundFault',
@@ -13572,7 +13660,7 @@ class ClusterSubnetGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class ClusterSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
-  ClusterSubnetGroupQuotaExceededFault({String type, String message})
+  ClusterSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSubnetGroupQuotaExceededFault',
@@ -13580,7 +13668,7 @@ class ClusterSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ClusterSubnetQuotaExceededFault extends _s.GenericAwsException {
-  ClusterSubnetQuotaExceededFault({String type, String message})
+  ClusterSubnetQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterSubnetQuotaExceededFault',
@@ -13588,12 +13676,12 @@ class ClusterSubnetQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class CopyToRegionDisabledFault extends _s.GenericAwsException {
-  CopyToRegionDisabledFault({String type, String message})
+  CopyToRegionDisabledFault({String? type, String? message})
       : super(type: type, code: 'CopyToRegionDisabledFault', message: message);
 }
 
 class DependentServiceRequestThrottlingFault extends _s.GenericAwsException {
-  DependentServiceRequestThrottlingFault({String type, String message})
+  DependentServiceRequestThrottlingFault({String? type, String? message})
       : super(
             type: type,
             code: 'DependentServiceRequestThrottlingFault',
@@ -13601,7 +13689,7 @@ class DependentServiceRequestThrottlingFault extends _s.GenericAwsException {
 }
 
 class DependentServiceUnavailableFault extends _s.GenericAwsException {
-  DependentServiceUnavailableFault({String type, String message})
+  DependentServiceUnavailableFault({String? type, String? message})
       : super(
             type: type,
             code: 'DependentServiceUnavailableFault',
@@ -13609,7 +13697,7 @@ class DependentServiceUnavailableFault extends _s.GenericAwsException {
 }
 
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
-  EventSubscriptionQuotaExceededFault({String type, String message})
+  EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'EventSubscriptionQuotaExceededFault',
@@ -13617,7 +13705,7 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class HsmClientCertificateAlreadyExistsFault extends _s.GenericAwsException {
-  HsmClientCertificateAlreadyExistsFault({String type, String message})
+  HsmClientCertificateAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmClientCertificateAlreadyExistsFault',
@@ -13625,7 +13713,7 @@ class HsmClientCertificateAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class HsmClientCertificateNotFoundFault extends _s.GenericAwsException {
-  HsmClientCertificateNotFoundFault({String type, String message})
+  HsmClientCertificateNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmClientCertificateNotFoundFault',
@@ -13633,7 +13721,7 @@ class HsmClientCertificateNotFoundFault extends _s.GenericAwsException {
 }
 
 class HsmClientCertificateQuotaExceededFault extends _s.GenericAwsException {
-  HsmClientCertificateQuotaExceededFault({String type, String message})
+  HsmClientCertificateQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmClientCertificateQuotaExceededFault',
@@ -13641,7 +13729,7 @@ class HsmClientCertificateQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class HsmConfigurationAlreadyExistsFault extends _s.GenericAwsException {
-  HsmConfigurationAlreadyExistsFault({String type, String message})
+  HsmConfigurationAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmConfigurationAlreadyExistsFault',
@@ -13649,7 +13737,7 @@ class HsmConfigurationAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class HsmConfigurationNotFoundFault extends _s.GenericAwsException {
-  HsmConfigurationNotFoundFault({String type, String message})
+  HsmConfigurationNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmConfigurationNotFoundFault',
@@ -13657,7 +13745,7 @@ class HsmConfigurationNotFoundFault extends _s.GenericAwsException {
 }
 
 class HsmConfigurationQuotaExceededFault extends _s.GenericAwsException {
-  HsmConfigurationQuotaExceededFault({String type, String message})
+  HsmConfigurationQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'HsmConfigurationQuotaExceededFault',
@@ -13665,7 +13753,7 @@ class HsmConfigurationQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class InProgressTableRestoreQuotaExceededFault extends _s.GenericAwsException {
-  InProgressTableRestoreQuotaExceededFault({String type, String message})
+  InProgressTableRestoreQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'InProgressTableRestoreQuotaExceededFault',
@@ -13673,13 +13761,13 @@ class InProgressTableRestoreQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class IncompatibleOrderableOptions extends _s.GenericAwsException {
-  IncompatibleOrderableOptions({String type, String message})
+  IncompatibleOrderableOptions({String? type, String? message})
       : super(
             type: type, code: 'IncompatibleOrderableOptions', message: message);
 }
 
 class InsufficientClusterCapacityFault extends _s.GenericAwsException {
-  InsufficientClusterCapacityFault({String type, String message})
+  InsufficientClusterCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientClusterCapacityFault',
@@ -13687,7 +13775,7 @@ class InsufficientClusterCapacityFault extends _s.GenericAwsException {
 }
 
 class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
-  InsufficientS3BucketPolicyFault({String type, String message})
+  InsufficientS3BucketPolicyFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientS3BucketPolicyFault',
@@ -13695,7 +13783,7 @@ class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterParameterGroupStateFault extends _s.GenericAwsException {
-  InvalidClusterParameterGroupStateFault({String type, String message})
+  InvalidClusterParameterGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterParameterGroupStateFault',
@@ -13703,7 +13791,7 @@ class InvalidClusterParameterGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterSecurityGroupStateFault extends _s.GenericAwsException {
-  InvalidClusterSecurityGroupStateFault({String type, String message})
+  InvalidClusterSecurityGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterSecurityGroupStateFault',
@@ -13711,7 +13799,7 @@ class InvalidClusterSecurityGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterSnapshotScheduleStateFault extends _s.GenericAwsException {
-  InvalidClusterSnapshotScheduleStateFault({String type, String message})
+  InvalidClusterSnapshotScheduleStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterSnapshotScheduleStateFault',
@@ -13719,7 +13807,7 @@ class InvalidClusterSnapshotScheduleStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterSnapshotStateFault extends _s.GenericAwsException {
-  InvalidClusterSnapshotStateFault({String type, String message})
+  InvalidClusterSnapshotStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterSnapshotStateFault',
@@ -13727,12 +13815,12 @@ class InvalidClusterSnapshotStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterStateFault extends _s.GenericAwsException {
-  InvalidClusterStateFault({String type, String message})
+  InvalidClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterStateFault', message: message);
 }
 
 class InvalidClusterSubnetGroupStateFault extends _s.GenericAwsException {
-  InvalidClusterSubnetGroupStateFault({String type, String message})
+  InvalidClusterSubnetGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterSubnetGroupStateFault',
@@ -13740,7 +13828,7 @@ class InvalidClusterSubnetGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterSubnetStateFault extends _s.GenericAwsException {
-  InvalidClusterSubnetStateFault({String type, String message})
+  InvalidClusterSubnetStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClusterSubnetStateFault',
@@ -13748,17 +13836,17 @@ class InvalidClusterSubnetStateFault extends _s.GenericAwsException {
 }
 
 class InvalidClusterTrackFault extends _s.GenericAwsException {
-  InvalidClusterTrackFault({String type, String message})
+  InvalidClusterTrackFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterTrackFault', message: message);
 }
 
 class InvalidElasticIpFault extends _s.GenericAwsException {
-  InvalidElasticIpFault({String type, String message})
+  InvalidElasticIpFault({String? type, String? message})
       : super(type: type, code: 'InvalidElasticIpFault', message: message);
 }
 
 class InvalidHsmClientCertificateStateFault extends _s.GenericAwsException {
-  InvalidHsmClientCertificateStateFault({String type, String message})
+  InvalidHsmClientCertificateStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidHsmClientCertificateStateFault',
@@ -13766,7 +13854,7 @@ class InvalidHsmClientCertificateStateFault extends _s.GenericAwsException {
 }
 
 class InvalidHsmConfigurationStateFault extends _s.GenericAwsException {
-  InvalidHsmConfigurationStateFault({String type, String message})
+  InvalidHsmConfigurationStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidHsmConfigurationStateFault',
@@ -13774,7 +13862,7 @@ class InvalidHsmConfigurationStateFault extends _s.GenericAwsException {
 }
 
 class InvalidReservedNodeStateFault extends _s.GenericAwsException {
-  InvalidReservedNodeStateFault({String type, String message})
+  InvalidReservedNodeStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReservedNodeStateFault',
@@ -13782,39 +13870,39 @@ class InvalidReservedNodeStateFault extends _s.GenericAwsException {
 }
 
 class InvalidRestoreFault extends _s.GenericAwsException {
-  InvalidRestoreFault({String type, String message})
+  InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
 class InvalidRetentionPeriodFault extends _s.GenericAwsException {
-  InvalidRetentionPeriodFault({String type, String message})
+  InvalidRetentionPeriodFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidRetentionPeriodFault', message: message);
 }
 
 class InvalidS3BucketNameFault extends _s.GenericAwsException {
-  InvalidS3BucketNameFault({String type, String message})
+  InvalidS3BucketNameFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketNameFault', message: message);
 }
 
 class InvalidS3KeyPrefixFault extends _s.GenericAwsException {
-  InvalidS3KeyPrefixFault({String type, String message})
+  InvalidS3KeyPrefixFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3KeyPrefixFault', message: message);
 }
 
 class InvalidScheduleFault extends _s.GenericAwsException {
-  InvalidScheduleFault({String type, String message})
+  InvalidScheduleFault({String? type, String? message})
       : super(type: type, code: 'InvalidScheduleFault', message: message);
 }
 
 class InvalidScheduledActionFault extends _s.GenericAwsException {
-  InvalidScheduledActionFault({String type, String message})
+  InvalidScheduledActionFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidScheduledActionFault', message: message);
 }
 
 class InvalidSnapshotCopyGrantStateFault extends _s.GenericAwsException {
-  InvalidSnapshotCopyGrantStateFault({String type, String message})
+  InvalidSnapshotCopyGrantStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSnapshotCopyGrantStateFault',
@@ -13822,12 +13910,12 @@ class InvalidSnapshotCopyGrantStateFault extends _s.GenericAwsException {
 }
 
 class InvalidSubnet extends _s.GenericAwsException {
-  InvalidSubnet({String type, String message})
+  InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
 class InvalidSubscriptionStateFault extends _s.GenericAwsException {
-  InvalidSubscriptionStateFault({String type, String message})
+  InvalidSubscriptionStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSubscriptionStateFault',
@@ -13835,7 +13923,7 @@ class InvalidSubscriptionStateFault extends _s.GenericAwsException {
 }
 
 class InvalidTableRestoreArgumentFault extends _s.GenericAwsException {
-  InvalidTableRestoreArgumentFault({String type, String message})
+  InvalidTableRestoreArgumentFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTableRestoreArgumentFault',
@@ -13843,28 +13931,28 @@ class InvalidTableRestoreArgumentFault extends _s.GenericAwsException {
 }
 
 class InvalidTagFault extends _s.GenericAwsException {
-  InvalidTagFault({String type, String message})
+  InvalidTagFault({String? type, String? message})
       : super(type: type, code: 'InvalidTagFault', message: message);
 }
 
 class InvalidUsageLimitFault extends _s.GenericAwsException {
-  InvalidUsageLimitFault({String type, String message})
+  InvalidUsageLimitFault({String? type, String? message})
       : super(type: type, code: 'InvalidUsageLimitFault', message: message);
 }
 
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
-  InvalidVPCNetworkStateFault({String type, String message})
+  InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
 class LimitExceededFault extends _s.GenericAwsException {
-  LimitExceededFault({String type, String message})
+  LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
 class NumberOfNodesPerClusterLimitExceededFault extends _s.GenericAwsException {
-  NumberOfNodesPerClusterLimitExceededFault({String type, String message})
+  NumberOfNodesPerClusterLimitExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'NumberOfNodesPerClusterLimitExceededFault',
@@ -13872,7 +13960,7 @@ class NumberOfNodesPerClusterLimitExceededFault extends _s.GenericAwsException {
 }
 
 class NumberOfNodesQuotaExceededFault extends _s.GenericAwsException {
-  NumberOfNodesQuotaExceededFault({String type, String message})
+  NumberOfNodesQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'NumberOfNodesQuotaExceededFault',
@@ -13880,7 +13968,7 @@ class NumberOfNodesQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
-  ReservedNodeAlreadyExistsFault({String type, String message})
+  ReservedNodeAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedNodeAlreadyExistsFault',
@@ -13888,7 +13976,7 @@ class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ReservedNodeAlreadyMigratedFault extends _s.GenericAwsException {
-  ReservedNodeAlreadyMigratedFault({String type, String message})
+  ReservedNodeAlreadyMigratedFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedNodeAlreadyMigratedFault',
@@ -13896,12 +13984,12 @@ class ReservedNodeAlreadyMigratedFault extends _s.GenericAwsException {
 }
 
 class ReservedNodeNotFoundFault extends _s.GenericAwsException {
-  ReservedNodeNotFoundFault({String type, String message})
+  ReservedNodeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ReservedNodeNotFoundFault', message: message);
 }
 
 class ReservedNodeOfferingNotFoundFault extends _s.GenericAwsException {
-  ReservedNodeOfferingNotFoundFault({String type, String message})
+  ReservedNodeOfferingNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedNodeOfferingNotFoundFault',
@@ -13909,7 +13997,7 @@ class ReservedNodeOfferingNotFoundFault extends _s.GenericAwsException {
 }
 
 class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
-  ReservedNodeQuotaExceededFault({String type, String message})
+  ReservedNodeQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedNodeQuotaExceededFault',
@@ -13917,32 +14005,32 @@ class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ResizeNotFoundFault extends _s.GenericAwsException {
-  ResizeNotFoundFault({String type, String message})
+  ResizeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResizeNotFoundFault', message: message);
 }
 
 class ResourceNotFoundFault extends _s.GenericAwsException {
-  ResourceNotFoundFault({String type, String message})
+  ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
 class SNSInvalidTopicFault extends _s.GenericAwsException {
-  SNSInvalidTopicFault({String type, String message})
+  SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
-  SNSNoAuthorizationFault({String type, String message})
+  SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
-  SNSTopicArnNotFoundFault({String type, String message})
+  SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
 class ScheduleDefinitionTypeUnsupportedFault extends _s.GenericAwsException {
-  ScheduleDefinitionTypeUnsupportedFault({String type, String message})
+  ScheduleDefinitionTypeUnsupportedFault({String? type, String? message})
       : super(
             type: type,
             code: 'ScheduleDefinitionTypeUnsupportedFault',
@@ -13950,7 +14038,7 @@ class ScheduleDefinitionTypeUnsupportedFault extends _s.GenericAwsException {
 }
 
 class ScheduledActionAlreadyExistsFault extends _s.GenericAwsException {
-  ScheduledActionAlreadyExistsFault({String type, String message})
+  ScheduledActionAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ScheduledActionAlreadyExistsFault',
@@ -13958,13 +14046,13 @@ class ScheduledActionAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ScheduledActionNotFoundFault extends _s.GenericAwsException {
-  ScheduledActionNotFoundFault({String type, String message})
+  ScheduledActionNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ScheduledActionNotFoundFault', message: message);
 }
 
 class ScheduledActionQuotaExceededFault extends _s.GenericAwsException {
-  ScheduledActionQuotaExceededFault({String type, String message})
+  ScheduledActionQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ScheduledActionQuotaExceededFault',
@@ -13972,7 +14060,7 @@ class ScheduledActionQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ScheduledActionTypeUnsupportedFault extends _s.GenericAwsException {
-  ScheduledActionTypeUnsupportedFault({String type, String message})
+  ScheduledActionTypeUnsupportedFault({String? type, String? message})
       : super(
             type: type,
             code: 'ScheduledActionTypeUnsupportedFault',
@@ -13980,7 +14068,7 @@ class ScheduledActionTypeUnsupportedFault extends _s.GenericAwsException {
 }
 
 class SnapshotCopyAlreadyDisabledFault extends _s.GenericAwsException {
-  SnapshotCopyAlreadyDisabledFault({String type, String message})
+  SnapshotCopyAlreadyDisabledFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotCopyAlreadyDisabledFault',
@@ -13988,7 +14076,7 @@ class SnapshotCopyAlreadyDisabledFault extends _s.GenericAwsException {
 }
 
 class SnapshotCopyAlreadyEnabledFault extends _s.GenericAwsException {
-  SnapshotCopyAlreadyEnabledFault({String type, String message})
+  SnapshotCopyAlreadyEnabledFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotCopyAlreadyEnabledFault',
@@ -13996,12 +14084,12 @@ class SnapshotCopyAlreadyEnabledFault extends _s.GenericAwsException {
 }
 
 class SnapshotCopyDisabledFault extends _s.GenericAwsException {
-  SnapshotCopyDisabledFault({String type, String message})
+  SnapshotCopyDisabledFault({String? type, String? message})
       : super(type: type, code: 'SnapshotCopyDisabledFault', message: message);
 }
 
 class SnapshotCopyGrantAlreadyExistsFault extends _s.GenericAwsException {
-  SnapshotCopyGrantAlreadyExistsFault({String type, String message})
+  SnapshotCopyGrantAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotCopyGrantAlreadyExistsFault',
@@ -14009,7 +14097,7 @@ class SnapshotCopyGrantAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class SnapshotCopyGrantNotFoundFault extends _s.GenericAwsException {
-  SnapshotCopyGrantNotFoundFault({String type, String message})
+  SnapshotCopyGrantNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotCopyGrantNotFoundFault',
@@ -14017,7 +14105,7 @@ class SnapshotCopyGrantNotFoundFault extends _s.GenericAwsException {
 }
 
 class SnapshotCopyGrantQuotaExceededFault extends _s.GenericAwsException {
-  SnapshotCopyGrantQuotaExceededFault({String type, String message})
+  SnapshotCopyGrantQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotCopyGrantQuotaExceededFault',
@@ -14025,7 +14113,7 @@ class SnapshotCopyGrantQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class SnapshotScheduleAlreadyExistsFault extends _s.GenericAwsException {
-  SnapshotScheduleAlreadyExistsFault({String type, String message})
+  SnapshotScheduleAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotScheduleAlreadyExistsFault',
@@ -14033,7 +14121,7 @@ class SnapshotScheduleAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class SnapshotScheduleNotFoundFault extends _s.GenericAwsException {
-  SnapshotScheduleNotFoundFault({String type, String message})
+  SnapshotScheduleNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotScheduleNotFoundFault',
@@ -14041,7 +14129,7 @@ class SnapshotScheduleNotFoundFault extends _s.GenericAwsException {
 }
 
 class SnapshotScheduleQuotaExceededFault extends _s.GenericAwsException {
-  SnapshotScheduleQuotaExceededFault({String type, String message})
+  SnapshotScheduleQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotScheduleQuotaExceededFault',
@@ -14049,7 +14137,7 @@ class SnapshotScheduleQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class SnapshotScheduleUpdateInProgressFault extends _s.GenericAwsException {
-  SnapshotScheduleUpdateInProgressFault({String type, String message})
+  SnapshotScheduleUpdateInProgressFault({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotScheduleUpdateInProgressFault',
@@ -14057,17 +14145,17 @@ class SnapshotScheduleUpdateInProgressFault extends _s.GenericAwsException {
 }
 
 class SourceNotFoundFault extends _s.GenericAwsException {
-  SourceNotFoundFault({String type, String message})
+  SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
 class SubnetAlreadyInUse extends _s.GenericAwsException {
-  SubnetAlreadyInUse({String type, String message})
+  SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
-  SubscriptionAlreadyExistFault({String type, String message})
+  SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionAlreadyExistFault',
@@ -14075,7 +14163,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
 }
 
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
-  SubscriptionCategoryNotFoundFault({String type, String message})
+  SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionCategoryNotFoundFault',
@@ -14083,7 +14171,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
 }
 
 class SubscriptionEventIdNotFoundFault extends _s.GenericAwsException {
-  SubscriptionEventIdNotFoundFault({String type, String message})
+  SubscriptionEventIdNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionEventIdNotFoundFault',
@@ -14091,12 +14179,12 @@ class SubscriptionEventIdNotFoundFault extends _s.GenericAwsException {
 }
 
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
-  SubscriptionNotFoundFault({String type, String message})
+  SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 
 class SubscriptionSeverityNotFoundFault extends _s.GenericAwsException {
-  SubscriptionSeverityNotFoundFault({String type, String message})
+  SubscriptionSeverityNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionSeverityNotFoundFault',
@@ -14104,27 +14192,27 @@ class SubscriptionSeverityNotFoundFault extends _s.GenericAwsException {
 }
 
 class TableLimitExceededFault extends _s.GenericAwsException {
-  TableLimitExceededFault({String type, String message})
+  TableLimitExceededFault({String? type, String? message})
       : super(type: type, code: 'TableLimitExceededFault', message: message);
 }
 
 class TableRestoreNotFoundFault extends _s.GenericAwsException {
-  TableRestoreNotFoundFault({String type, String message})
+  TableRestoreNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TableRestoreNotFoundFault', message: message);
 }
 
 class TagLimitExceededFault extends _s.GenericAwsException {
-  TagLimitExceededFault({String type, String message})
+  TagLimitExceededFault({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededFault', message: message);
 }
 
 class UnauthorizedOperation extends _s.GenericAwsException {
-  UnauthorizedOperation({String type, String message})
+  UnauthorizedOperation({String? type, String? message})
       : super(type: type, code: 'UnauthorizedOperation', message: message);
 }
 
 class UnknownSnapshotCopyRegionFault extends _s.GenericAwsException {
-  UnknownSnapshotCopyRegionFault({String type, String message})
+  UnknownSnapshotCopyRegionFault({String? type, String? message})
       : super(
             type: type,
             code: 'UnknownSnapshotCopyRegionFault',
@@ -14132,23 +14220,23 @@ class UnknownSnapshotCopyRegionFault extends _s.GenericAwsException {
 }
 
 class UnsupportedOperationFault extends _s.GenericAwsException {
-  UnsupportedOperationFault({String type, String message})
+  UnsupportedOperationFault({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperationFault', message: message);
 }
 
 class UnsupportedOptionFault extends _s.GenericAwsException {
-  UnsupportedOptionFault({String type, String message})
+  UnsupportedOptionFault({String? type, String? message})
       : super(type: type, code: 'UnsupportedOptionFault', message: message);
 }
 
 class UsageLimitAlreadyExistsFault extends _s.GenericAwsException {
-  UsageLimitAlreadyExistsFault({String type, String message})
+  UsageLimitAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'UsageLimitAlreadyExistsFault', message: message);
 }
 
 class UsageLimitNotFoundFault extends _s.GenericAwsException {
-  UsageLimitNotFoundFault({String type, String message})
+  UsageLimitNotFoundFault({String? type, String? message})
       : super(type: type, code: 'UsageLimitNotFoundFault', message: message);
 }
 

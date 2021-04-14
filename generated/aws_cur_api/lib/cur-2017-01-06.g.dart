@@ -9,19 +9,17 @@ part of 'cur-2017-01-06.dart';
 DeleteReportDefinitionResponse _$DeleteReportDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReportDefinitionResponse(
-    responseMessage: json['ResponseMessage'] as String,
+    responseMessage: json['ResponseMessage'] as String?,
   );
 }
 
 DescribeReportDefinitionsResponse _$DescribeReportDefinitionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeReportDefinitionsResponse(
-    nextToken: json['NextToken'] as String,
-    reportDefinitions: (json['ReportDefinitions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReportDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    reportDefinitions: (json['ReportDefinitions'] as List<dynamic>?)
+        ?.map((e) => ReportDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -37,28 +35,39 @@ PutReportDefinitionResponse _$PutReportDefinitionResponseFromJson(
 
 ReportDefinition _$ReportDefinitionFromJson(Map<String, dynamic> json) {
   return ReportDefinition(
-    additionalSchemaElements: (json['AdditionalSchemaElements'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$SchemaElementEnumMap, e))
-        ?.toList(),
-    compression:
-        _$enumDecodeNullable(_$CompressionFormatEnumMap, json['Compression']),
-    format: _$enumDecodeNullable(_$ReportFormatEnumMap, json['Format']),
+    additionalSchemaElements:
+        (json['AdditionalSchemaElements'] as List<dynamic>)
+            .map((e) => _$enumDecode(_$SchemaElementEnumMap, e))
+            .toList(),
+    compression: _$enumDecode(_$CompressionFormatEnumMap, json['Compression']),
+    format: _$enumDecode(_$ReportFormatEnumMap, json['Format']),
     reportName: json['ReportName'] as String,
     s3Bucket: json['S3Bucket'] as String,
     s3Prefix: json['S3Prefix'] as String,
-    s3Region: _$enumDecodeNullable(_$AWSRegionEnumMap, json['S3Region']),
-    timeUnit: _$enumDecodeNullable(_$TimeUnitEnumMap, json['TimeUnit']),
-    additionalArtifacts: (json['AdditionalArtifacts'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$AdditionalArtifactEnumMap, e))
-        ?.toList(),
-    refreshClosedReports: json['RefreshClosedReports'] as bool,
+    s3Region: _$enumDecode(_$AWSRegionEnumMap, json['S3Region']),
+    timeUnit: _$enumDecode(_$TimeUnitEnumMap, json['TimeUnit']),
+    additionalArtifacts: (json['AdditionalArtifacts'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$AdditionalArtifactEnumMap, e))
+        .toList(),
+    refreshClosedReports: json['RefreshClosedReports'] as bool?,
     reportVersioning: _$enumDecodeNullable(
         _$ReportVersioningEnumMap, json['ReportVersioning']),
   );
 }
 
 Map<String, dynamic> _$ReportDefinitionToJson(ReportDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AdditionalSchemaElements': instance.additionalSchemaElements
+        .map((e) => _$SchemaElementEnumMap[e])
+        .toList(),
+    'Compression': _$CompressionFormatEnumMap[instance.compression],
+    'Format': _$ReportFormatEnumMap[instance.format],
+    'ReportName': instance.reportName,
+    'S3Bucket': instance.s3Bucket,
+    'S3Prefix': instance.s3Prefix,
+    'S3Region': _$AWSRegionEnumMap[instance.s3Region],
+    'TimeUnit': _$TimeUnitEnumMap[instance.timeUnit],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -67,58 +76,40 @@ Map<String, dynamic> _$ReportDefinitionToJson(ReportDefinition instance) {
   }
 
   writeNotNull(
-      'AdditionalSchemaElements',
-      instance.additionalSchemaElements
-          ?.map((e) => _$SchemaElementEnumMap[e])
-          ?.toList());
-  writeNotNull('Compression', _$CompressionFormatEnumMap[instance.compression]);
-  writeNotNull('Format', _$ReportFormatEnumMap[instance.format]);
-  writeNotNull('ReportName', instance.reportName);
-  writeNotNull('S3Bucket', instance.s3Bucket);
-  writeNotNull('S3Prefix', instance.s3Prefix);
-  writeNotNull('S3Region', _$AWSRegionEnumMap[instance.s3Region]);
-  writeNotNull('TimeUnit', _$TimeUnitEnumMap[instance.timeUnit]);
-  writeNotNull(
       'AdditionalArtifacts',
       instance.additionalArtifacts
           ?.map((e) => _$AdditionalArtifactEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('RefreshClosedReports', instance.refreshClosedReports);
   writeNotNull(
       'ReportVersioning', _$ReportVersioningEnumMap[instance.reportVersioning]);
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$SchemaElementEnumMap = {
@@ -173,6 +164,17 @@ const _$AdditionalArtifactEnumMap = {
   AdditionalArtifact.quicksight: 'QUICKSIGHT',
   AdditionalArtifact.athena: 'ATHENA',
 };
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
 
 const _$ReportVersioningEnumMap = {
   ReportVersioning.createNewReport: 'CREATE_NEW_REPORT',

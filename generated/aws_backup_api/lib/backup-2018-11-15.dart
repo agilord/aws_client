@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'backup-2018-11-15.g.dart';
 
 /// AWS Backup is a unified backup service designed to protect AWS services and
 /// their associated data. AWS Backup simplifies the creation, migration,
@@ -33,10 +25,10 @@ part 'backup-2018-11-15.g.dart';
 class Backup {
   final _s.RestJsonProtocol _protocol;
   Backup({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,9 +67,9 @@ class Backup {
   /// <code>CreatorRequestId</code> that matches an existing backup plan, that
   /// plan is returned. This parameter is optional.
   Future<CreateBackupPlanOutput> createBackupPlan({
-    @_s.required BackupPlanInput backupPlan,
-    Map<String, String> backupPlanTags,
-    String creatorRequestId,
+    required BackupPlanInput backupPlan,
+    Map<String, String>? backupPlanTags,
+    String? creatorRequestId,
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     final $payload = <String, dynamic>{
@@ -148,9 +140,9 @@ class Backup {
   /// A unique string that identifies the request and allows failed requests to
   /// be retried without the risk of running the operation twice.
   Future<CreateBackupSelectionOutput> createBackupSelection({
-    @_s.required String backupPlanId,
-    @_s.required BackupSelection backupSelection,
-    String creatorRequestId,
+    required String backupPlanId,
+    required BackupSelection backupSelection,
+    String? creatorRequestId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(backupSelection, 'backupSelection');
@@ -201,10 +193,10 @@ class Backup {
   /// example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
   Future<CreateBackupVaultOutput> createBackupVault({
-    @_s.required String backupVaultName,
-    Map<String, String> backupVaultTags,
-    String creatorRequestId,
-    String encryptionKeyArn,
+    required String backupVaultName,
+    Map<String, String>? backupVaultTags,
+    String? creatorRequestId,
+    String? encryptionKeyArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -241,7 +233,7 @@ class Backup {
   /// Parameter [backupPlanId] :
   /// Uniquely identifies a backup plan.
   Future<DeleteBackupPlanOutput> deleteBackupPlan({
-    @_s.required String backupPlanId,
+    required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final response = await _protocol.send(
@@ -268,8 +260,8 @@ class Backup {
   /// Uniquely identifies the body of a request to assign a set of resources to
   /// a backup plan.
   Future<void> deleteBackupSelection({
-    @_s.required String backupPlanId,
-    @_s.required String selectionId,
+    required String backupPlanId,
+    required String selectionId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(selectionId, 'selectionId');
@@ -297,7 +289,7 @@ class Backup {
   /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<void> deleteBackupVault({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     await _protocol.send(
@@ -321,7 +313,7 @@ class Backup {
   /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<void> deleteBackupVaultAccessPolicy({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -352,7 +344,7 @@ class Backup {
   /// and the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
   Future<void> deleteBackupVaultNotifications({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -389,8 +381,8 @@ class Backup {
   /// for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   Future<void> deleteRecoveryPoint({
-    @_s.required String backupVaultName,
-    @_s.required String recoveryPointArn,
+    required String backupVaultName,
+    required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -420,7 +412,7 @@ class Backup {
   /// Parameter [backupJobId] :
   /// Uniquely identifies a request to AWS Backup to back up a resource.
   Future<DescribeBackupJobOutput> describeBackupJob({
-    @_s.required String backupJobId,
+    required String backupJobId,
   }) async {
     ArgumentError.checkNotNull(backupJobId, 'backupJobId');
     final response = await _protocol.send(
@@ -445,7 +437,7 @@ class Backup {
   /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<DescribeBackupVaultOutput> describeBackupVault({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final response = await _protocol.send(
@@ -467,7 +459,7 @@ class Backup {
   /// Parameter [copyJobId] :
   /// Uniquely identifies a copy job.
   Future<DescribeCopyJobOutput> describeCopyJob({
-    @_s.required String copyJobId,
+    required String copyJobId,
   }) async {
     ArgumentError.checkNotNull(copyJobId, 'copyJobId');
     final response = await _protocol.send(
@@ -505,7 +497,7 @@ class Backup {
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
   Future<DescribeProtectedResourceOutput> describeProtectedResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -536,8 +528,8 @@ class Backup {
   /// for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   Future<DescribeRecoveryPointOutput> describeRecoveryPoint({
-    @_s.required String backupVaultName,
-    @_s.required String recoveryPointArn,
+    required String backupVaultName,
+    required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -587,7 +579,7 @@ class Backup {
   /// Parameter [restoreJobId] :
   /// Uniquely identifies the job that restores a recovery point.
   Future<DescribeRestoreJobOutput> describeRestoreJob({
-    @_s.required String restoreJobId,
+    required String restoreJobId,
   }) async {
     ArgumentError.checkNotNull(restoreJobId, 'restoreJobId');
     final response = await _protocol.send(
@@ -610,7 +602,7 @@ class Backup {
   /// Parameter [backupPlanId] :
   /// Uniquely identifies a backup plan.
   Future<ExportBackupPlanTemplateOutput> exportBackupPlanTemplate({
-    @_s.required String backupPlanId,
+    required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final response = await _protocol.send(
@@ -639,8 +631,8 @@ class Backup {
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at
   /// most 1,024 bytes long. Version IDs cannot be edited.
   Future<GetBackupPlanOutput> getBackupPlan({
-    @_s.required String backupPlanId,
-    String versionId,
+    required String backupPlanId,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final $query = <String, List<String>>{
@@ -667,7 +659,7 @@ class Backup {
   /// Parameter [backupPlanTemplateJson] :
   /// A customer-supplied backup plan document in JSON format.
   Future<GetBackupPlanFromJSONOutput> getBackupPlanFromJSON({
-    @_s.required String backupPlanTemplateJson,
+    required String backupPlanTemplateJson,
   }) async {
     ArgumentError.checkNotNull(
         backupPlanTemplateJson, 'backupPlanTemplateJson');
@@ -694,7 +686,7 @@ class Backup {
   /// Parameter [backupPlanTemplateId] :
   /// Uniquely identifies a stored backup plan template.
   Future<GetBackupPlanFromTemplateOutput> getBackupPlanFromTemplate({
-    @_s.required String backupPlanTemplateId,
+    required String backupPlanTemplateId,
   }) async {
     ArgumentError.checkNotNull(backupPlanTemplateId, 'backupPlanTemplateId');
     final response = await _protocol.send(
@@ -722,8 +714,8 @@ class Backup {
   /// Uniquely identifies the body of a request to assign a set of resources to
   /// a backup plan.
   Future<GetBackupSelectionOutput> getBackupSelection({
-    @_s.required String backupPlanId,
-    @_s.required String selectionId,
+    required String backupPlanId,
+    required String selectionId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(selectionId, 'selectionId');
@@ -751,7 +743,7 @@ class Backup {
   /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<GetBackupVaultAccessPolicyOutput> getBackupVaultAccessPolicy({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -783,7 +775,7 @@ class Backup {
   /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<GetBackupVaultNotificationsOutput> getBackupVaultNotifications({
-    @_s.required String backupVaultName,
+    required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -822,8 +814,8 @@ class Backup {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   Future<GetRecoveryPointRestoreMetadataOutput>
       getRecoveryPointRestoreMetadata({
-    @_s.required String backupVaultName,
-    @_s.required String recoveryPointArn,
+    required String backupVaultName,
+    required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -917,15 +909,15 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupJobsOutput> listBackupJobs({
-    String byAccountId,
-    String byBackupVaultName,
-    DateTime byCreatedAfter,
-    DateTime byCreatedBefore,
-    String byResourceArn,
-    String byResourceType,
-    BackupJobState byState,
-    int maxResults,
-    String nextToken,
+    String? byAccountId,
+    String? byBackupVaultName,
+    DateTime? byCreatedAfter,
+    DateTime? byCreatedBefore,
+    String? byResourceArn,
+    String? byResourceType,
+    BackupJobState? byState,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'byAccountId',
@@ -988,8 +980,8 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlanTemplatesOutput> listBackupPlanTemplates({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1032,9 +1024,9 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlanVersionsOutput> listBackupPlanVersions({
-    @_s.required String backupPlanId,
-    int maxResults,
-    String nextToken,
+    required String backupPlanId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     _s.validateNumRange(
@@ -1082,9 +1074,9 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupPlansOutput> listBackupPlans({
-    bool includeDeleted,
-    int maxResults,
-    String nextToken,
+    bool? includeDeleted,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1127,9 +1119,9 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupSelectionsOutput> listBackupSelections({
-    @_s.required String backupPlanId,
-    int maxResults,
-    String nextToken,
+    required String backupPlanId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     _s.validateNumRange(
@@ -1170,8 +1162,8 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupVaultsOutput> listBackupVaults({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1253,15 +1245,15 @@ class Backup {
   /// you to return more items in your list starting at the location pointed to
   /// by the next token.
   Future<ListCopyJobsOutput> listCopyJobs({
-    String byAccountId,
-    DateTime byCreatedAfter,
-    DateTime byCreatedBefore,
-    String byDestinationVaultArn,
-    String byResourceArn,
-    String byResourceType,
-    CopyJobState byState,
-    int maxResults,
-    String nextToken,
+    String? byAccountId,
+    DateTime? byCreatedAfter,
+    DateTime? byCreatedBefore,
+    String? byDestinationVaultArn,
+    String? byResourceArn,
+    String? byResourceType,
+    CopyJobState? byState,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'byAccountId',
@@ -1319,8 +1311,8 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListProtectedResourcesOutput> listProtectedResources({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1384,14 +1376,14 @@ class Backup {
   /// starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByBackupVaultOutput>
       listRecoveryPointsByBackupVault({
-    @_s.required String backupVaultName,
-    String byBackupPlanId,
-    DateTime byCreatedAfter,
-    DateTime byCreatedBefore,
-    String byResourceArn,
-    String byResourceType,
-    int maxResults,
-    String nextToken,
+    required String backupVaultName,
+    String? byBackupPlanId,
+    DateTime? byCreatedAfter,
+    DateTime? byCreatedBefore,
+    String? byResourceArn,
+    String? byResourceType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -1454,9 +1446,9 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByResourceOutput> listRecoveryPointsByResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
@@ -1510,12 +1502,12 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRestoreJobsOutput> listRestoreJobs({
-    String byAccountId,
-    DateTime byCreatedAfter,
-    DateTime byCreatedBefore,
-    RestoreJobStatus byStatus,
-    int maxResults,
-    String nextToken,
+    String? byAccountId,
+    DateTime? byCreatedAfter,
+    DateTime? byCreatedBefore,
+    RestoreJobStatus? byStatus,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'byAccountId',
@@ -1575,9 +1567,9 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListTagsOutput> listTags({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
@@ -1618,8 +1610,8 @@ class Backup {
   /// Parameter [policy] :
   /// The backup vault access policy document in JSON format.
   Future<void> putBackupVaultAccessPolicy({
-    @_s.required String backupVaultName,
-    String policy,
+    required String backupVaultName,
+    String? policy,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -1663,9 +1655,9 @@ class Backup {
   /// vault’s events; for example,
   /// <code>arn:aws:sns:us-west-2:111122223333:MyVaultTopic</code>.
   Future<void> putBackupVaultNotifications({
-    @_s.required List<BackupVaultEvent> backupVaultEvents,
-    @_s.required String backupVaultName,
-    @_s.required String sNSTopicArn,
+    required List<BackupVaultEvent> backupVaultEvents,
+    required String backupVaultName,
+    required String sNSTopicArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultEvents, 'backupVaultEvents');
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
@@ -1677,8 +1669,7 @@ class Backup {
     );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
     final $payload = <String, dynamic>{
-      'BackupVaultEvents':
-          backupVaultEvents?.map((e) => e?.toValue() ?? '')?.toList(),
+      'BackupVaultEvents': backupVaultEvents.map((e) => e.toValue()).toList(),
       'SNSTopicArn': sNSTopicArn,
     };
     await _protocol.send(
@@ -1750,15 +1741,15 @@ class Backup {
   /// A value in minutes after a backup is scheduled before a job will be
   /// canceled if it doesn't start successfully. This value is optional.
   Future<StartBackupJobOutput> startBackupJob({
-    @_s.required String backupVaultName,
-    @_s.required String iamRoleArn,
-    @_s.required String resourceArn,
-    Map<String, String> backupOptions,
-    int completeWindowMinutes,
-    String idempotencyToken,
-    Lifecycle lifecycle,
-    Map<String, String> recoveryPointTags,
-    int startWindowMinutes,
+    required String backupVaultName,
+    required String iamRoleArn,
+    required String resourceArn,
+    Map<String, String>? backupOptions,
+    int? completeWindowMinutes,
+    String? idempotencyToken,
+    Lifecycle? lifecycle,
+    Map<String, String>? recoveryPointTags,
+    int? startWindowMinutes,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -1822,12 +1813,12 @@ class Backup {
   /// A customer chosen string that can be used to distinguish between calls to
   /// <code>StartCopyJob</code>.
   Future<StartCopyJobOutput> startCopyJob({
-    @_s.required String destinationBackupVaultArn,
-    @_s.required String iamRoleArn,
-    @_s.required String recoveryPointArn,
-    @_s.required String sourceBackupVaultName,
-    String idempotencyToken,
-    Lifecycle lifecycle,
+    required String destinationBackupVaultArn,
+    required String iamRoleArn,
+    required String recoveryPointArn,
+    required String sourceBackupVaultName,
+    String? idempotencyToken,
+    Lifecycle? lifecycle,
   }) async {
     ArgumentError.checkNotNull(
         destinationBackupVaultArn, 'destinationBackupVaultArn');
@@ -1952,11 +1943,11 @@ class Backup {
   /// </li>
   /// </ul>
   Future<StartRestoreJobOutput> startRestoreJob({
-    @_s.required String iamRoleArn,
-    @_s.required Map<String, String> metadata,
-    @_s.required String recoveryPointArn,
-    String idempotencyToken,
-    String resourceType,
+    required String iamRoleArn,
+    required Map<String, String> metadata,
+    required String recoveryPointArn,
+    String? idempotencyToken,
+    String? resourceType,
   }) async {
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(metadata, 'metadata');
@@ -1993,7 +1984,7 @@ class Backup {
   /// Parameter [backupJobId] :
   /// Uniquely identifies a request to AWS Backup to back up a resource.
   Future<void> stopBackupJob({
-    @_s.required String backupJobId,
+    required String backupJobId,
   }) async {
     ArgumentError.checkNotNull(backupJobId, 'backupJobId');
     await _protocol.send(
@@ -2021,8 +2012,8 @@ class Backup {
   /// Key-value pairs that are used to help organize your resources. You can
   /// assign your own metadata to the resources you create.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2052,8 +2043,8 @@ class Backup {
   /// Parameter [tagKeyList] :
   /// A list of keys to identify which key-value tags to remove from a resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeyList,
+    required String resourceArn,
+    required List<String> tagKeyList,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
@@ -2084,8 +2075,8 @@ class Backup {
   /// Parameter [backupPlanId] :
   /// Uniquely identifies a backup plan.
   Future<UpdateBackupPlanOutput> updateBackupPlan({
-    @_s.required BackupPlanInput backupPlan,
-    @_s.required String backupPlanId,
+    required BackupPlanInput backupPlan,
+    required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
@@ -2112,7 +2103,7 @@ class Backup {
   /// Parameter [globalSettings] :
   /// A list of resources along with the opt-in preferences for the account.
   Future<void> updateGlobalSettings({
-    Map<String, String> globalSettings,
+    Map<String, String>? globalSettings,
   }) async {
     final $payload = <String, dynamic>{
       if (globalSettings != null) 'GlobalSettings': globalSettings,
@@ -2164,9 +2155,9 @@ class Backup {
   /// “transition to cold after days” setting cannot be changed after a backup
   /// has been transitioned to cold.
   Future<UpdateRecoveryPointLifecycleOutput> updateRecoveryPointLifecycle({
-    @_s.required String backupVaultName,
-    @_s.required String recoveryPointArn,
-    Lifecycle lifecycle,
+    required String backupVaultName,
+    required String recoveryPointArn,
+    Lifecycle? lifecycle,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateStringPattern(
@@ -2205,7 +2196,7 @@ class Backup {
   /// Updates the list of services along with the opt-in preferences for the
   /// Region.
   Future<void> updateRegionSettings({
-    Map<String, bool> resourceTypeOptInPreference,
+    Map<String, bool>? resourceTypeOptInPreference,
   }) async {
     final $payload = <String, dynamic>{
       if (resourceTypeOptInPreference != null)
@@ -2221,11 +2212,6 @@ class Backup {
 }
 
 /// A list of backup options for each resource type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdvancedBackupSetting {
   /// Specifies the backup option for a selected resource. This option is only
   /// available for Windows VSS backup jobs.
@@ -2244,40 +2230,43 @@ class AdvancedBackupSetting {
   /// For more information about Windows VSS backups, see <a
   /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html">Creating
   /// a VSS-Enabled Windows Backup</a>.
-  @_s.JsonKey(name: 'BackupOptions')
-  final Map<String, String> backupOptions;
+  final Map<String, String>? backupOptions;
 
   /// The type of AWS resource to be backed up. For VSS Windows backups, the only
   /// supported resource type is Amazon EC2.
   ///
   /// Valid values: <code>EC2</code>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   AdvancedBackupSetting({
     this.backupOptions,
     this.resourceType,
   });
-  factory AdvancedBackupSetting.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedBackupSettingFromJson(json);
+  factory AdvancedBackupSetting.fromJson(Map<String, dynamic> json) {
+    return AdvancedBackupSetting(
+      backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AdvancedBackupSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final backupOptions = this.backupOptions;
+    final resourceType = this.resourceType;
+    return {
+      if (backupOptions != null) 'BackupOptions': backupOptions,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
 }
 
 /// Contains detailed information about a backup job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupJob {
   /// The account ID that owns the backup job.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// Uniquely identifies a request to AWS Backup to back up a resource.
-  @_s.JsonKey(name: 'BackupJobId')
-  final String backupJobId;
+  final String? backupJobId;
 
   /// Specifies the backup option for a selected resource. This option is only
   /// available for Windows VSS backup jobs.
@@ -2287,93 +2276,75 @@ class BackupJob {
   /// “WindowsVSS”:”disabled” to create a regular backup. If you specify an
   /// invalid option, you get an <code>InvalidParameterValueException</code>
   /// exception.
-  @_s.JsonKey(name: 'BackupOptions')
-  final Map<String, String> backupOptions;
+  final Map<String, String>? backupOptions;
 
   /// The size, in bytes, of a backup.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// Represents the type of backup for a backup job.
-  @_s.JsonKey(name: 'BackupType')
-  final String backupType;
+  final String? backupType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The size in bytes transferred to a backup vault at the time that the job
   /// status was queried.
-  @_s.JsonKey(name: 'BytesTransferred')
-  final int bytesTransferred;
+  final int? bytesTransferred;
 
   /// The date and time a job to create a backup job is completed, in Unix format
   /// and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// Contains identifying information about the creation of a backup job,
   /// including the <code>BackupPlanArn</code>, <code>BackupPlanId</code>,
   /// <code>BackupPlanVersion</code>, and <code>BackupRuleId</code> of the backup
   /// plan used to create it.
-  @_s.JsonKey(name: 'CreatedBy')
-  final RecoveryPointCreator createdBy;
+  final RecoveryPointCreator? createdBy;
 
   /// The date and time a backup job is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time a job to back up resources is expected to be completed, in
   /// Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>ExpectedCompletionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpectedCompletionDate')
-  final DateTime expectedCompletionDate;
+  final DateTime? expectedCompletionDate;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// Contains an estimated percentage complete of a job at the time the job
   /// status was queried.
-  @_s.JsonKey(name: 'PercentDone')
-  final String percentDone;
+  final String? percentDone;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
   /// the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource to be backed up; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
   /// (Amazon RDS) database. For VSS Windows backups, the only supported resource
   /// type is Amazon EC2.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when
   /// a backup job must be started before it is canceled. The value is calculated
@@ -2382,17 +2353,13 @@ class BackupJob {
   /// would be 8:00 PM on the date specified. The value of <code>StartBy</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartBy')
-  final DateTime startBy;
+  final DateTime? startBy;
 
   /// The current state of a resource recovery point.
-  @_s.JsonKey(name: 'State')
-  final BackupJobState state;
+  final BackupJobState? state;
 
   /// A detailed message explaining the status of the job to back up a resource.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   BackupJob({
     this.accountId,
@@ -2416,26 +2383,44 @@ class BackupJob {
     this.state,
     this.statusMessage,
   });
-  factory BackupJob.fromJson(Map<String, dynamic> json) =>
-      _$BackupJobFromJson(json);
+  factory BackupJob.fromJson(Map<String, dynamic> json) {
+    return BackupJob(
+      accountId: json['AccountId'] as String?,
+      backupJobId: json['BackupJobId'] as String?,
+      backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      backupType: json['BackupType'] as String?,
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      bytesTransferred: json['BytesTransferred'] as int?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RecoveryPointCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
+      iamRoleArn: json['IamRoleArn'] as String?,
+      percentDone: json['PercentDone'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      startBy: timeStampFromJson(json['StartBy']),
+      state: (json['State'] as String?)?.toBackupJobState(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
 enum BackupJobState {
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('ABORTING')
   aborting,
-  @_s.JsonValue('ABORTED')
   aborted,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
@@ -2459,7 +2444,30 @@ extension on BackupJobState {
       case BackupJobState.expired:
         return 'EXPIRED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BackupJobState toBackupJobState() {
+    switch (this) {
+      case 'CREATED':
+        return BackupJobState.created;
+      case 'PENDING':
+        return BackupJobState.pending;
+      case 'RUNNING':
+        return BackupJobState.running;
+      case 'ABORTING':
+        return BackupJobState.aborting;
+      case 'ABORTED':
+        return BackupJobState.aborted;
+      case 'COMPLETED':
+        return BackupJobState.completed;
+      case 'FAILED':
+        return BackupJobState.failed;
+      case 'EXPIRED':
+        return BackupJobState.expired;
+    }
+    throw Exception('$this is not known in enum BackupJobState');
   }
 }
 
@@ -2467,147 +2475,132 @@ extension on BackupJobState {
 /// <code>BackupRule</code> objects, each of which specifies a backup rule. Each
 /// rule in a backup plan is a separate scheduled task and can back up a
 /// different selection of AWS resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupPlan {
   /// The display name of a backup plan.
-  @_s.JsonKey(name: 'BackupPlanName')
   final String backupPlanName;
 
   /// An array of <code>BackupRule</code> objects, each of which specifies a
   /// scheduled task that is used to back up a selection of resources.
-  @_s.JsonKey(name: 'Rules')
   final List<BackupRule> rules;
 
   /// Contains a list of <code>BackupOptions</code> for each resource type.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   BackupPlan({
-    @_s.required this.backupPlanName,
-    @_s.required this.rules,
+    required this.backupPlanName,
+    required this.rules,
     this.advancedBackupSettings,
   });
-  factory BackupPlan.fromJson(Map<String, dynamic> json) =>
-      _$BackupPlanFromJson(json);
+  factory BackupPlan.fromJson(Map<String, dynamic> json) {
+    return BackupPlan(
+      backupPlanName: json['BackupPlanName'] as String,
+      rules: (json['Rules'] as List)
+          .whereNotNull()
+          .map((e) => BackupRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains an optional backup plan display name and an array of
 /// <code>BackupRule</code> objects, each of which specifies a backup rule. Each
 /// rule in a backup plan is a separate scheduled task and can back up a
 /// different selection of AWS resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BackupPlanInput {
   /// The optional display name of a backup plan.
-  @_s.JsonKey(name: 'BackupPlanName')
   final String backupPlanName;
 
   /// An array of <code>BackupRule</code> objects, each of which specifies a
   /// scheduled task that is used to back up a selection of resources.
-  @_s.JsonKey(name: 'Rules')
   final List<BackupRuleInput> rules;
 
   /// Specifies a list of <code>BackupOptions</code> for each resource type. These
   /// settings are only available for Windows VSS backup jobs.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   BackupPlanInput({
-    @_s.required this.backupPlanName,
-    @_s.required this.rules,
+    required this.backupPlanName,
+    required this.rules,
     this.advancedBackupSettings,
   });
-  Map<String, dynamic> toJson() => _$BackupPlanInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final backupPlanName = this.backupPlanName;
+    final rules = this.rules;
+    final advancedBackupSettings = this.advancedBackupSettings;
+    return {
+      'BackupPlanName': backupPlanName,
+      'Rules': rules,
+      if (advancedBackupSettings != null)
+        'AdvancedBackupSettings': advancedBackupSettings,
+    };
+  }
 }
 
 /// An object specifying metadata associated with a backup plan template.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupPlanTemplatesListMember {
   /// Uniquely identifies a stored backup plan template.
-  @_s.JsonKey(name: 'BackupPlanTemplateId')
-  final String backupPlanTemplateId;
+  final String? backupPlanTemplateId;
 
   /// The optional display name of a backup plan template.
-  @_s.JsonKey(name: 'BackupPlanTemplateName')
-  final String backupPlanTemplateName;
+  final String? backupPlanTemplateName;
 
   BackupPlanTemplatesListMember({
     this.backupPlanTemplateId,
     this.backupPlanTemplateName,
   });
-  factory BackupPlanTemplatesListMember.fromJson(Map<String, dynamic> json) =>
-      _$BackupPlanTemplatesListMemberFromJson(json);
+  factory BackupPlanTemplatesListMember.fromJson(Map<String, dynamic> json) {
+    return BackupPlanTemplatesListMember(
+      backupPlanTemplateId: json['BackupPlanTemplateId'] as String?,
+      backupPlanTemplateName: json['BackupPlanTemplateName'] as String?,
+    );
+  }
 }
 
 /// Contains metadata about a backup plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupPlansListMember {
   /// Contains a list of <code>BackupOptions</code> for a resource type.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The display name of a saved backup plan.
-  @_s.JsonKey(name: 'BackupPlanName')
-  final String backupPlanName;
+  final String? backupPlanName;
 
   /// The date and time a resource backup plan is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// The date and time a backup plan is deleted, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>DeletionDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// The last time a job to back up resources was run with this rule. A date and
   /// time, in Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>LastExecutionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
   /// 1,024 bytes long. Version IDs cannot be edited.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   BackupPlansListMember({
     this.advancedBackupSettings,
@@ -2620,37 +2613,42 @@ class BackupPlansListMember {
     this.lastExecutionDate,
     this.versionId,
   });
-  factory BackupPlansListMember.fromJson(Map<String, dynamic> json) =>
-      _$BackupPlansListMemberFromJson(json);
+  factory BackupPlansListMember.fromJson(Map<String, dynamic> json) {
+    return BackupPlansListMember(
+      advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      backupPlanName: json['BackupPlanName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
 /// Specifies a scheduled task used to back up a selection of resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupRule {
   /// An optional display name for a backup rule.
-  @_s.JsonKey(name: 'RuleName')
   final String ruleName;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'TargetBackupVaultName')
   final String targetBackupVaultName;
 
   /// A value in minutes after a backup job is successfully started before it must
   /// be completed or it will be canceled by AWS Backup. This value is optional.
-  @_s.JsonKey(name: 'CompletionWindowMinutes')
-  final int completionWindowMinutes;
+  final int? completionWindowMinutes;
 
   /// An array of <code>CopyAction</code> objects, which contains the details of
   /// the copy operation.
-  @_s.JsonKey(name: 'CopyActions')
-  final List<CopyAction> copyActions;
+  final List<CopyAction>? copyActions;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
   /// storage and when it expires. AWS Backup transitions and expires backups
@@ -2661,18 +2659,15 @@ class BackupRule {
   /// days greater than the “transition to cold after days” setting. The
   /// “transition to cold after days” setting cannot be changed after a backup has
   /// been transitioned to cold.
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   /// An array of key-value pair strings that are assigned to resources that are
   /// associated with this rule when restored from backup.
-  @_s.JsonKey(name: 'RecoveryPointTags')
-  final Map<String, String> recoveryPointTags;
+  final Map<String, String>? recoveryPointTags;
 
   /// Uniquely identifies a rule that is used to schedule the backup of a
   /// selection of resources.
-  @_s.JsonKey(name: 'RuleId')
-  final String ruleId;
+  final String? ruleId;
 
   /// A CRON expression specifying when AWS Backup initiates a backup job. For
   /// more information about cron expressions, see <a
@@ -2681,17 +2676,15 @@ class BackupRule {
   /// Guide.</i>. Prior to specifying a value for this parameter, we recommend
   /// testing your cron expression using one of the many available cron generator
   /// and testing tools.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// A value in minutes after a backup is scheduled before a job will be canceled
   /// if it doesn't start successfully. This value is optional.
-  @_s.JsonKey(name: 'StartWindowMinutes')
-  final int startWindowMinutes;
+  final int? startWindowMinutes;
 
   BackupRule({
-    @_s.required this.ruleName,
-    @_s.required this.targetBackupVaultName,
+    required this.ruleName,
+    required this.targetBackupVaultName,
     this.completionWindowMinutes,
     this.copyActions,
     this.lifecycle,
@@ -2700,37 +2693,45 @@ class BackupRule {
     this.scheduleExpression,
     this.startWindowMinutes,
   });
-  factory BackupRule.fromJson(Map<String, dynamic> json) =>
-      _$BackupRuleFromJson(json);
+  factory BackupRule.fromJson(Map<String, dynamic> json) {
+    return BackupRule(
+      ruleName: json['RuleName'] as String,
+      targetBackupVaultName: json['TargetBackupVaultName'] as String,
+      completionWindowMinutes: json['CompletionWindowMinutes'] as int?,
+      copyActions: (json['CopyActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CopyAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lifecycle: json['Lifecycle'] != null
+          ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
+          : null,
+      recoveryPointTags: (json['RecoveryPointTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      ruleId: json['RuleId'] as String?,
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      startWindowMinutes: json['StartWindowMinutes'] as int?,
+    );
+  }
 }
 
 /// Specifies a scheduled task used to back up a selection of resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BackupRuleInput {
   /// An optional display name for a backup rule.
-  @_s.JsonKey(name: 'RuleName')
   final String ruleName;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'TargetBackupVaultName')
   final String targetBackupVaultName;
 
   /// A value in minutes after a backup job is successfully started before it must
   /// be completed or it will be canceled by AWS Backup. This value is optional.
-  @_s.JsonKey(name: 'CompletionWindowMinutes')
-  final int completionWindowMinutes;
+  final int? completionWindowMinutes;
 
   /// An array of <code>CopyAction</code> objects, which contains the details of
   /// the copy operation.
-  @_s.JsonKey(name: 'CopyActions')
-  final List<CopyAction> copyActions;
+  final List<CopyAction>? copyActions;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
   /// storage and when it expires. AWS Backup will transition and expire backups
@@ -2741,26 +2742,22 @@ class BackupRuleInput {
   /// days greater than the “transition to cold after days” setting. The
   /// “transition to cold after days” setting cannot be changed after a backup has
   /// been transitioned to cold.
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   /// To help organize your resources, you can assign your own metadata to the
   /// resources that you create. Each tag is a key-value pair.
-  @_s.JsonKey(name: 'RecoveryPointTags')
-  final Map<String, String> recoveryPointTags;
+  final Map<String, String>? recoveryPointTags;
 
   /// A CRON expression specifying when AWS Backup initiates a backup job.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// A value in minutes after a backup is scheduled before a job will be canceled
   /// if it doesn't start successfully. This value is optional.
-  @_s.JsonKey(name: 'StartWindowMinutes')
-  final int startWindowMinutes;
+  final int? startWindowMinutes;
 
   BackupRuleInput({
-    @_s.required this.ruleName,
-    @_s.required this.targetBackupVaultName,
+    required this.ruleName,
+    required this.targetBackupVaultName,
     this.completionWindowMinutes,
     this.copyActions,
     this.lifecycle,
@@ -2768,86 +2765,108 @@ class BackupRuleInput {
     this.scheduleExpression,
     this.startWindowMinutes,
   });
-  Map<String, dynamic> toJson() => _$BackupRuleInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final ruleName = this.ruleName;
+    final targetBackupVaultName = this.targetBackupVaultName;
+    final completionWindowMinutes = this.completionWindowMinutes;
+    final copyActions = this.copyActions;
+    final lifecycle = this.lifecycle;
+    final recoveryPointTags = this.recoveryPointTags;
+    final scheduleExpression = this.scheduleExpression;
+    final startWindowMinutes = this.startWindowMinutes;
+    return {
+      'RuleName': ruleName,
+      'TargetBackupVaultName': targetBackupVaultName,
+      if (completionWindowMinutes != null)
+        'CompletionWindowMinutes': completionWindowMinutes,
+      if (copyActions != null) 'CopyActions': copyActions,
+      if (lifecycle != null) 'Lifecycle': lifecycle,
+      if (recoveryPointTags != null) 'RecoveryPointTags': recoveryPointTags,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (startWindowMinutes != null) 'StartWindowMinutes': startWindowMinutes,
+    };
+  }
 }
 
 /// Used to specify a set of resources to a backup plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackupSelection {
   /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up
   /// the target resource; for example,
   /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
   final String iamRoleArn;
 
   /// The display name of a resource selection document.
-  @_s.JsonKey(name: 'SelectionName')
   final String selectionName;
 
   /// An array of conditions used to specify a set of resources to assign to a
   /// backup plan; for example, <code>"StringEquals":
   /// {"ec2:ResourceTag/Department": "accounting"</code>.
-  @_s.JsonKey(name: 'ListOfTags')
-  final List<Condition> listOfTags;
+  final List<Condition>? listOfTags;
 
   /// An array of strings that contain Amazon Resource Names (ARNs) of resources
   /// to assign to a backup plan.
-  @_s.JsonKey(name: 'Resources')
-  final List<String> resources;
+  final List<String>? resources;
 
   BackupSelection({
-    @_s.required this.iamRoleArn,
-    @_s.required this.selectionName,
+    required this.iamRoleArn,
+    required this.selectionName,
     this.listOfTags,
     this.resources,
   });
-  factory BackupSelection.fromJson(Map<String, dynamic> json) =>
-      _$BackupSelectionFromJson(json);
+  factory BackupSelection.fromJson(Map<String, dynamic> json) {
+    return BackupSelection(
+      iamRoleArn: json['IamRoleArn'] as String,
+      selectionName: json['SelectionName'] as String,
+      listOfTags: (json['ListOfTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BackupSelectionToJson(this);
+  Map<String, dynamic> toJson() {
+    final iamRoleArn = this.iamRoleArn;
+    final selectionName = this.selectionName;
+    final listOfTags = this.listOfTags;
+    final resources = this.resources;
+    return {
+      'IamRoleArn': iamRoleArn,
+      'SelectionName': selectionName,
+      if (listOfTags != null) 'ListOfTags': listOfTags,
+      if (resources != null) 'Resources': resources,
+    };
+  }
 }
 
 /// Contains metadata about a <code>BackupSelection</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupSelectionsListMember {
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time a backup plan is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// Specifies the IAM role Amazon Resource Name (ARN) to create the target
   /// recovery point; for example,
   /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// Uniquely identifies a request to assign a set of resources to a backup plan.
-  @_s.JsonKey(name: 'SelectionId')
-  final String selectionId;
+  final String? selectionId;
 
   /// The display name of a resource selection document.
-  @_s.JsonKey(name: 'SelectionName')
-  final String selectionName;
+  final String? selectionName;
 
   BackupSelectionsListMember({
     this.backupPlanId,
@@ -2857,40 +2876,33 @@ class BackupSelectionsListMember {
     this.selectionId,
     this.selectionName,
   });
-  factory BackupSelectionsListMember.fromJson(Map<String, dynamic> json) =>
-      _$BackupSelectionsListMemberFromJson(json);
+  factory BackupSelectionsListMember.fromJson(Map<String, dynamic> json) {
+    return BackupSelectionsListMember(
+      backupPlanId: json['BackupPlanId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      selectionId: json['SelectionId'] as String?,
+      selectionName: json['SelectionName'] as String?,
+    );
+  }
 }
 
 enum BackupVaultEvent {
-  @_s.JsonValue('BACKUP_JOB_STARTED')
   backupJobStarted,
-  @_s.JsonValue('BACKUP_JOB_COMPLETED')
   backupJobCompleted,
-  @_s.JsonValue('BACKUP_JOB_SUCCESSFUL')
   backupJobSuccessful,
-  @_s.JsonValue('BACKUP_JOB_FAILED')
   backupJobFailed,
-  @_s.JsonValue('BACKUP_JOB_EXPIRED')
   backupJobExpired,
-  @_s.JsonValue('RESTORE_JOB_STARTED')
   restoreJobStarted,
-  @_s.JsonValue('RESTORE_JOB_COMPLETED')
   restoreJobCompleted,
-  @_s.JsonValue('RESTORE_JOB_SUCCESSFUL')
   restoreJobSuccessful,
-  @_s.JsonValue('RESTORE_JOB_FAILED')
   restoreJobFailed,
-  @_s.JsonValue('COPY_JOB_STARTED')
   copyJobStarted,
-  @_s.JsonValue('COPY_JOB_SUCCESSFUL')
   copyJobSuccessful,
-  @_s.JsonValue('COPY_JOB_FAILED')
   copyJobFailed,
-  @_s.JsonValue('RECOVERY_POINT_MODIFIED')
   recoveryPointModified,
-  @_s.JsonValue('BACKUP_PLAN_CREATED')
   backupPlanCreated,
-  @_s.JsonValue('BACKUP_PLAN_MODIFIED')
   backupPlanModified,
 }
 
@@ -2928,52 +2940,77 @@ extension on BackupVaultEvent {
       case BackupVaultEvent.backupPlanModified:
         return 'BACKUP_PLAN_MODIFIED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BackupVaultEvent toBackupVaultEvent() {
+    switch (this) {
+      case 'BACKUP_JOB_STARTED':
+        return BackupVaultEvent.backupJobStarted;
+      case 'BACKUP_JOB_COMPLETED':
+        return BackupVaultEvent.backupJobCompleted;
+      case 'BACKUP_JOB_SUCCESSFUL':
+        return BackupVaultEvent.backupJobSuccessful;
+      case 'BACKUP_JOB_FAILED':
+        return BackupVaultEvent.backupJobFailed;
+      case 'BACKUP_JOB_EXPIRED':
+        return BackupVaultEvent.backupJobExpired;
+      case 'RESTORE_JOB_STARTED':
+        return BackupVaultEvent.restoreJobStarted;
+      case 'RESTORE_JOB_COMPLETED':
+        return BackupVaultEvent.restoreJobCompleted;
+      case 'RESTORE_JOB_SUCCESSFUL':
+        return BackupVaultEvent.restoreJobSuccessful;
+      case 'RESTORE_JOB_FAILED':
+        return BackupVaultEvent.restoreJobFailed;
+      case 'COPY_JOB_STARTED':
+        return BackupVaultEvent.copyJobStarted;
+      case 'COPY_JOB_SUCCESSFUL':
+        return BackupVaultEvent.copyJobSuccessful;
+      case 'COPY_JOB_FAILED':
+        return BackupVaultEvent.copyJobFailed;
+      case 'RECOVERY_POINT_MODIFIED':
+        return BackupVaultEvent.recoveryPointModified;
+      case 'BACKUP_PLAN_CREATED':
+        return BackupVaultEvent.backupPlanCreated;
+      case 'BACKUP_PLAN_MODIFIED':
+        return BackupVaultEvent.backupPlanModified;
+    }
+    throw Exception('$this is not known in enum BackupVaultEvent');
   }
 }
 
 /// Contains metadata about a backup vault.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupVaultListMember {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The date and time a resource backup is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// The server-side encryption key that is used to protect your backups; for
   /// example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  @_s.JsonKey(name: 'EncryptionKeyArn')
-  final String encryptionKeyArn;
+  final String? encryptionKeyArn;
 
   /// The number of recovery points that are stored in a backup vault.
-  @_s.JsonKey(name: 'NumberOfRecoveryPoints')
-  final int numberOfRecoveryPoints;
+  final int? numberOfRecoveryPoints;
 
   BackupVaultListMember({
     this.backupVaultArn,
@@ -2983,8 +3020,16 @@ class BackupVaultListMember {
     this.encryptionKeyArn,
     this.numberOfRecoveryPoints,
   });
-  factory BackupVaultListMember.fromJson(Map<String, dynamic> json) =>
-      _$BackupVaultListMemberFromJson(json);
+  factory BackupVaultListMember.fromJson(Map<String, dynamic> json) {
+    return BackupVaultListMember(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+      numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
+    );
+  }
 }
 
 /// Contains <code>DeleteAt</code> and <code>MoveToColdStorageAt</code>
@@ -2999,181 +3044,184 @@ class BackupVaultListMember {
 /// days greater than the “transition to cold after days” setting. The
 /// “transition to cold after days” setting cannot be changed after a backup has
 /// been transitioned to cold.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeleteAt')
-  final DateTime deleteAt;
+  final DateTime? deleteAt;
 
   /// A timestamp that specifies when to transition a recovery point to cold
   /// storage.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'MoveToColdStorageAt')
-  final DateTime moveToColdStorageAt;
+  final DateTime? moveToColdStorageAt;
 
   CalculatedLifecycle({
     this.deleteAt,
     this.moveToColdStorageAt,
   });
-  factory CalculatedLifecycle.fromJson(Map<String, dynamic> json) =>
-      _$CalculatedLifecycleFromJson(json);
+  factory CalculatedLifecycle.fromJson(Map<String, dynamic> json) {
+    return CalculatedLifecycle(
+      deleteAt: timeStampFromJson(json['DeleteAt']),
+      moveToColdStorageAt: timeStampFromJson(json['MoveToColdStorageAt']),
+    );
+  }
 }
 
 /// Contains an array of triplets made up of a condition type (such as
 /// <code>StringEquals</code>), a key, and a value. Conditions are used to
 /// filter resources in a selection that is assigned to a backup plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Condition {
   /// The key in a key-value pair. For example, in
   /// <code>"ec2:ResourceTag/Department": "accounting"</code>,
   /// <code>"ec2:ResourceTag/Department"</code> is the key.
-  @_s.JsonKey(name: 'ConditionKey')
   final String conditionKey;
 
   /// An operation, such as <code>StringEquals</code>, that is applied to a
   /// key-value pair used to filter resources in a selection.
-  @_s.JsonKey(name: 'ConditionType')
   final ConditionType conditionType;
 
   /// The value in a key-value pair. For example, in
   /// <code>"ec2:ResourceTag/Department": "accounting"</code>,
   /// <code>"accounting"</code> is the value.
-  @_s.JsonKey(name: 'ConditionValue')
   final String conditionValue;
 
   Condition({
-    @_s.required this.conditionKey,
-    @_s.required this.conditionType,
-    @_s.required this.conditionValue,
+    required this.conditionKey,
+    required this.conditionType,
+    required this.conditionValue,
   });
-  factory Condition.fromJson(Map<String, dynamic> json) =>
-      _$ConditionFromJson(json);
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      conditionKey: json['ConditionKey'] as String,
+      conditionType: (json['ConditionType'] as String).toConditionType(),
+      conditionValue: json['ConditionValue'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+  Map<String, dynamic> toJson() {
+    final conditionKey = this.conditionKey;
+    final conditionType = this.conditionType;
+    final conditionValue = this.conditionValue;
+    return {
+      'ConditionKey': conditionKey,
+      'ConditionType': conditionType.toValue(),
+      'ConditionValue': conditionValue,
+    };
+  }
 }
 
 enum ConditionType {
-  @_s.JsonValue('STRINGEQUALS')
   stringequals,
 }
 
+extension on ConditionType {
+  String toValue() {
+    switch (this) {
+      case ConditionType.stringequals:
+        return 'STRINGEQUALS';
+    }
+  }
+}
+
+extension on String {
+  ConditionType toConditionType() {
+    switch (this) {
+      case 'STRINGEQUALS':
+        return ConditionType.stringequals;
+    }
+    throw Exception('$this is not known in enum ConditionType');
+  }
+}
+
 /// The details of the copy operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CopyAction {
   /// An Amazon Resource Name (ARN) that uniquely identifies the destination
   /// backup vault for the copied backup. For example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'DestinationBackupVaultArn')
   final String destinationBackupVaultArn;
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   CopyAction({
-    @_s.required this.destinationBackupVaultArn,
+    required this.destinationBackupVaultArn,
     this.lifecycle,
   });
-  factory CopyAction.fromJson(Map<String, dynamic> json) =>
-      _$CopyActionFromJson(json);
+  factory CopyAction.fromJson(Map<String, dynamic> json) {
+    return CopyAction(
+      destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String,
+      lifecycle: json['Lifecycle'] != null
+          ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CopyActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final destinationBackupVaultArn = this.destinationBackupVaultArn;
+    final lifecycle = this.lifecycle;
+    return {
+      'DestinationBackupVaultArn': destinationBackupVaultArn,
+      if (lifecycle != null) 'Lifecycle': lifecycle,
+    };
+  }
 }
 
 /// Contains detailed information about a copy job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CopyJob {
   /// The account ID that owns the copy job.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The size, in bytes, of a copy job.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// The date and time a copy job is completed, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CompletionDate</code> is accurate
   /// to milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// Uniquely identifies a copy job.
-  @_s.JsonKey(name: 'CopyJobId')
-  final String copyJobId;
-  @_s.JsonKey(name: 'CreatedBy')
-  final RecoveryPointCreator createdBy;
+  final String? copyJobId;
+  final RecoveryPointCreator? createdBy;
 
   /// The date and time a copy job is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy
   /// vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'DestinationBackupVaultArn')
-  final String destinationBackupVaultArn;
+  final String? destinationBackupVaultArn;
 
   /// An ARN that uniquely identifies a destination recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'DestinationRecoveryPointArn')
-  final String destinationRecoveryPointArn;
+  final String? destinationRecoveryPointArn;
 
   /// Specifies the IAM role ARN used to copy the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The AWS resource to be copied; for example, an Amazon Elastic Block Store
   /// (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS)
   /// database.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource to be copied; for example, an Amazon Elastic Block
   /// Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon
   /// RDS) database.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault;
   /// for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'SourceBackupVaultArn')
-  final String sourceBackupVaultArn;
+  final String? sourceBackupVaultArn;
 
   /// An ARN that uniquely identifies a source recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'SourceRecoveryPointArn')
-  final String sourceRecoveryPointArn;
+  final String? sourceRecoveryPointArn;
 
   /// The current state of a copy job.
-  @_s.JsonKey(name: 'State')
-  final CopyJobState state;
+  final CopyJobState? state;
 
   /// A detailed message explaining the status of the job to copy a resource.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   CopyJob({
     this.accountId,
@@ -3192,18 +3240,35 @@ class CopyJob {
     this.state,
     this.statusMessage,
   });
-  factory CopyJob.fromJson(Map<String, dynamic> json) =>
-      _$CopyJobFromJson(json);
+  factory CopyJob.fromJson(Map<String, dynamic> json) {
+    return CopyJob(
+      accountId: json['AccountId'] as String?,
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      copyJobId: json['CopyJobId'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? RecoveryPointCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String?,
+      destinationRecoveryPointArn:
+          json['DestinationRecoveryPointArn'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
+      sourceRecoveryPointArn: json['SourceRecoveryPointArn'] as String?,
+      state: (json['State'] as String?)?.toCopyJobState(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
 enum CopyJobState {
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -3219,43 +3284,47 @@ extension on CopyJobState {
       case CopyJobState.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  CopyJobState toCopyJobState() {
+    switch (this) {
+      case 'CREATED':
+        return CopyJobState.created;
+      case 'RUNNING':
+        return CopyJobState.running;
+      case 'COMPLETED':
+        return CopyJobState.completed;
+      case 'FAILED':
+        return CopyJobState.failed;
+    }
+    throw Exception('$this is not known in enum CopyJobState');
+  }
+}
+
 class CreateBackupPlanOutput {
   /// A list of <code>BackupOptions</code> settings for a resource type. This
   /// option is only available for Windows VSS backup jobs.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time that a backup plan is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
   /// 1,024 bytes long. They cannot be edited.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   CreateBackupPlanOutput({
     this.advancedBackupSettings,
@@ -3264,106 +3333,98 @@ class CreateBackupPlanOutput {
     this.creationDate,
     this.versionId,
   });
-  factory CreateBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupPlanOutputFromJson(json);
+  factory CreateBackupPlanOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBackupPlanOutput(
+      advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackupSelectionOutput {
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time a backup selection is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Uniquely identifies the body of a request to assign a set of resources to a
   /// backup plan.
-  @_s.JsonKey(name: 'SelectionId')
-  final String selectionId;
+  final String? selectionId;
 
   CreateBackupSelectionOutput({
     this.backupPlanId,
     this.creationDate,
     this.selectionId,
   });
-  factory CreateBackupSelectionOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupSelectionOutputFromJson(json);
+  factory CreateBackupSelectionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBackupSelectionOutput(
+      backupPlanId: json['BackupPlanId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      selectionId: json['SelectionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The date and time a backup vault is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   CreateBackupVaultOutput({
     this.backupVaultArn,
     this.backupVaultName,
     this.creationDate,
   });
-  factory CreateBackupVaultOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupVaultOutputFromJson(json);
+  factory CreateBackupVaultOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBackupVaultOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackupPlanOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time a backup plan is deleted, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>DeletionDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
   /// 1,024 bytes long. Version IDs cannot be edited.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   DeleteBackupPlanOutput({
     this.backupPlanArn,
@@ -3371,115 +3432,96 @@ class DeleteBackupPlanOutput {
     this.deletionDate,
     this.versionId,
   });
-  factory DeleteBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackupPlanOutputFromJson(json);
+  factory DeleteBackupPlanOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBackupPlanOutput(
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupJobOutput {
   /// Returns the account ID that owns the backup job.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// Uniquely identifies a request to AWS Backup to back up a resource.
-  @_s.JsonKey(name: 'BackupJobId')
-  final String backupJobId;
+  final String? backupJobId;
 
   /// Represents the options specified as part of backup plan or on-demand backup
   /// job.
-  @_s.JsonKey(name: 'BackupOptions')
-  final Map<String, String> backupOptions;
+  final Map<String, String>? backupOptions;
 
   /// The size, in bytes, of a backup.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// Represents the actual backup type selected for a backup job. For example, if
   /// a successful WindowsVSS backup was taken, <code>BackupType</code> returns
   /// "WindowsVSS". If <code>BackupType</code> is empty, then the backup type that
   /// was is a regular backup.
-  @_s.JsonKey(name: 'BackupType')
-  final String backupType;
+  final String? backupType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The size in bytes transferred to a backup vault at the time that the job
   /// status was queried.
-  @_s.JsonKey(name: 'BytesTransferred')
-  final int bytesTransferred;
+  final int? bytesTransferred;
 
   /// The date and time that a job to create a backup job is completed, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// Contains identifying information about the creation of a backup job,
   /// including the <code>BackupPlanArn</code>, <code>BackupPlanId</code>,
   /// <code>BackupPlanVersion</code>, and <code>BackupRuleId</code> of the backup
   /// plan that is used to create it.
-  @_s.JsonKey(name: 'CreatedBy')
-  final RecoveryPointCreator createdBy;
+  final RecoveryPointCreator? createdBy;
 
   /// The date and time that a backup job is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time that a job to back up resources is expected to be
   /// completed, in Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>ExpectedCompletionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpectedCompletionDate')
-  final DateTime expectedCompletionDate;
+  final DateTime? expectedCompletionDate;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// Contains an estimated percentage that is complete of a job at the time the
   /// job status was queried.
-  @_s.JsonKey(name: 'PercentDone')
-  final String percentDone;
+  final String? percentDone;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// An ARN that uniquely identifies a saved resource. The format of the ARN
   /// depends on the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource to be backed up; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
   /// (Amazon RDS) database.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when
   /// a backup job must be started before it is canceled. The value is calculated
@@ -3488,17 +3530,13 @@ class DescribeBackupJobOutput {
   /// would be 8:00 PM on the date specified. The value of <code>StartBy</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartBy')
-  final DateTime startBy;
+  final DateTime? startBy;
 
   /// The current state of a resource recovery point.
-  @_s.JsonKey(name: 'State')
-  final BackupJobState state;
+  final BackupJobState? state;
 
   /// A detailed message explaining the status of the job to back up a resource.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   DescribeBackupJobOutput({
     this.accountId,
@@ -3522,51 +3560,65 @@ class DescribeBackupJobOutput {
     this.state,
     this.statusMessage,
   });
-  factory DescribeBackupJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupJobOutputFromJson(json);
+  factory DescribeBackupJobOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupJobOutput(
+      accountId: json['AccountId'] as String?,
+      backupJobId: json['BackupJobId'] as String?,
+      backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      backupType: json['BackupType'] as String?,
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      bytesTransferred: json['BytesTransferred'] as int?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RecoveryPointCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
+      iamRoleArn: json['IamRoleArn'] as String?,
+      percentDone: json['PercentDone'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      startBy: timeStampFromJson(json['StartBy']),
+      state: (json['State'] as String?)?.toBackupJobState(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The date and time that a backup vault is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// The server-side encryption key that is used to protect your backups; for
   /// example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  @_s.JsonKey(name: 'EncryptionKeyArn')
-  final String encryptionKeyArn;
+  final String? encryptionKeyArn;
 
   /// The number of recovery points that are stored in a backup vault.
-  @_s.JsonKey(name: 'NumberOfRecoveryPoints')
-  final int numberOfRecoveryPoints;
+  final int? numberOfRecoveryPoints;
 
   DescribeBackupVaultOutput({
     this.backupVaultArn,
@@ -3576,159 +3628,140 @@ class DescribeBackupVaultOutput {
     this.encryptionKeyArn,
     this.numberOfRecoveryPoints,
   });
-  factory DescribeBackupVaultOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupVaultOutputFromJson(json);
+  factory DescribeBackupVaultOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupVaultOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+      numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCopyJobOutput {
   /// Contains detailed information about a copy job.
-  @_s.JsonKey(name: 'CopyJob')
-  final CopyJob copyJob;
+  final CopyJob? copyJob;
 
   DescribeCopyJobOutput({
     this.copyJob,
   });
-  factory DescribeCopyJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCopyJobOutputFromJson(json);
+  factory DescribeCopyJobOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCopyJobOutput(
+      copyJob: json['CopyJob'] != null
+          ? CopyJob.fromJson(json['CopyJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGlobalSettingsOutput {
   /// A list of resources along with the opt-in preferences for the account.
-  @_s.JsonKey(name: 'GlobalSettings')
-  final Map<String, String> globalSettings;
+  final Map<String, String>? globalSettings;
 
   /// The date and time that the global settings was last updated. This update is
   /// in Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>LastUpdateTime</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   DescribeGlobalSettingsOutput({
     this.globalSettings,
     this.lastUpdateTime,
   });
-  factory DescribeGlobalSettingsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGlobalSettingsOutputFromJson(json);
+  factory DescribeGlobalSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeGlobalSettingsOutput(
+      globalSettings: (json['GlobalSettings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProtectedResourceOutput {
   /// The date and time that a resource was last backed up, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastBackupTime')
-  final DateTime lastBackupTime;
+  final DateTime? lastBackupTime;
 
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
   /// the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource saved as a recovery point; for example, an EBS
   /// volume or an Amazon RDS database.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   DescribeProtectedResourceOutput({
     this.lastBackupTime,
     this.resourceArn,
     this.resourceType,
   });
-  factory DescribeProtectedResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProtectedResourceOutputFromJson(json);
+  factory DescribeProtectedResourceOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProtectedResourceOutput(
+      lastBackupTime: timeStampFromJson(json['LastBackupTime']),
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRecoveryPointOutput {
   /// The size, in bytes, of a backup.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
   /// and <code>MoveToColdStorageAt</code> timestamps.
-  @_s.JsonKey(name: 'CalculatedLifecycle')
-  final CalculatedLifecycle calculatedLifecycle;
+  final CalculatedLifecycle? calculatedLifecycle;
 
   /// The date and time that a job to create a recovery point is completed, in
   /// Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// Contains identifying information about the creation of a recovery point,
   /// including the <code>BackupPlanArn</code>, <code>BackupPlanId</code>,
   /// <code>BackupPlanVersion</code>, and <code>BackupRuleId</code> of the backup
   /// plan used to create it.
-  @_s.JsonKey(name: 'CreatedBy')
-  final RecoveryPointCreator createdBy;
+  final RecoveryPointCreator? createdBy;
 
   /// The date and time that a recovery point is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The server-side encryption key used to protect your backups; for example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  @_s.JsonKey(name: 'EncryptionKeyArn')
-  final String encryptionKeyArn;
+  final String? encryptionKeyArn;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// A Boolean value that is returned as <code>TRUE</code> if the specified
   /// recovery point is encrypted, or <code>FALSE</code> if the recovery point is
   /// not encrypted.
-  @_s.JsonKey(name: 'IsEncrypted')
-  final bool isEncrypted;
+  final bool? isEncrypted;
 
   /// The date and time that a recovery point was last restored, in Unix format
   /// and Coordinated Universal Time (UTC). The value of
   /// <code>LastRestoreTime</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRestoreTime')
-  final DateTime lastRestoreTime;
+  final DateTime? lastRestoreTime;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
   /// storage and when it expires. AWS Backup transitions and expires backups
@@ -3739,45 +3772,38 @@ class DescribeRecoveryPointOutput {
   /// 90 days greater than the “transition to cold after days” setting. The
   /// “transition to cold after days” setting cannot be changed after a backup has
   /// been transitioned to cold.
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// An ARN that uniquely identifies a saved resource. The format of the ARN
   /// depends on the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource to save as a recovery point; for example, an Amazon
   /// Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
   /// Service (Amazon RDS) database.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies the source vault
   /// where the resource was originally backed up in; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:BackupVault</code>. If the
   /// recovery is restored to the same AWS account or Region, this value will be
   /// <code>null</code>.
-  @_s.JsonKey(name: 'SourceBackupVaultArn')
-  final String sourceBackupVaultArn;
+  final String? sourceBackupVaultArn;
 
   /// A status code specifying the state of the recovery point.
   /// <note>
   /// A partial status indicates that the recovery point was not successfully
   /// re-created and must be retried.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final RecoveryPointStatus status;
+  final RecoveryPointStatus? status;
 
   /// Specifies the storage class of the recovery point. Valid values are
   /// <code>WARM</code> or <code>COLD</code>.
-  @_s.JsonKey(name: 'StorageClass')
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   DescribeRecoveryPointOutput({
     this.backupSizeInBytes,
@@ -3799,100 +3825,107 @@ class DescribeRecoveryPointOutput {
     this.status,
     this.storageClass,
   });
-  factory DescribeRecoveryPointOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRecoveryPointOutputFromJson(json);
+  factory DescribeRecoveryPointOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeRecoveryPointOutput(
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      calculatedLifecycle: json['CalculatedLifecycle'] != null
+          ? CalculatedLifecycle.fromJson(
+              json['CalculatedLifecycle'] as Map<String, dynamic>)
+          : null,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RecoveryPointCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      isEncrypted: json['IsEncrypted'] as bool?,
+      lastRestoreTime: timeStampFromJson(json['LastRestoreTime']),
+      lifecycle: json['Lifecycle'] != null
+          ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
+          : null,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
+      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRegionSettingsOutput {
   /// Returns a list of all services along with the opt-in preferences in the
   /// Region.
-  @_s.JsonKey(name: 'ResourceTypeOptInPreference')
-  final Map<String, bool> resourceTypeOptInPreference;
+  final Map<String, bool>? resourceTypeOptInPreference;
 
   DescribeRegionSettingsOutput({
     this.resourceTypeOptInPreference,
   });
-  factory DescribeRegionSettingsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRegionSettingsOutputFromJson(json);
+  factory DescribeRegionSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeRegionSettingsOutput(
+      resourceTypeOptInPreference:
+          (json['ResourceTypeOptInPreference'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as bool)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRestoreJobOutput {
   /// Returns the account ID that owns the restore job.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The size, in bytes, of the restored resource.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// The date and time that a job to restore a recovery point is completed, in
   /// Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose
   /// recovery point is being restored. The format of the ARN depends on the
   /// resource type of the backed-up resource.
-  @_s.JsonKey(name: 'CreatedResourceArn')
-  final String createdResourceArn;
+  final String? createdResourceArn;
 
   /// The date and time that a restore job is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The amount of time in minutes that a job restoring a recovery point is
   /// expected to take.
-  @_s.JsonKey(name: 'ExpectedCompletionTimeMinutes')
-  final int expectedCompletionTimeMinutes;
+  final int? expectedCompletionTimeMinutes;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// Contains an estimated percentage that is complete of a job at the time the
   /// job status was queried.
-  @_s.JsonKey(name: 'PercentDone')
-  final String percentDone;
+  final String? percentDone;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// Returns metadata associated with a restore job listed by resource type.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// Uniquely identifies the job that restores a recovery point.
-  @_s.JsonKey(name: 'RestoreJobId')
-  final String restoreJobId;
+  final String? restoreJobId;
 
   /// Status code specifying the state of the job that is initiated by AWS Backup
   /// to restore a recovery point.
-  @_s.JsonKey(name: 'Status')
-  final RestoreJobStatus status;
+  final RestoreJobStatus? status;
 
   /// A message showing the status of a job to restore a recovery point.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   DescribeRestoreJobOutput({
     this.accountId,
@@ -3909,127 +3942,122 @@ class DescribeRestoreJobOutput {
     this.status,
     this.statusMessage,
   });
-  factory DescribeRestoreJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRestoreJobOutputFromJson(json);
+  factory DescribeRestoreJobOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeRestoreJobOutput(
+      accountId: json['AccountId'] as String?,
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdResourceArn: json['CreatedResourceArn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      expectedCompletionTimeMinutes:
+          json['ExpectedCompletionTimeMinutes'] as int?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      percentDone: json['PercentDone'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      restoreJobId: json['RestoreJobId'] as String?,
+      status: (json['Status'] as String?)?.toRestoreJobStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportBackupPlanTemplateOutput {
   /// The body of a backup plan template in JSON format.
   /// <note>
   /// This is a signed JSON document that cannot be modified before being passed
   /// to <code>GetBackupPlanFromJSON.</code>
   /// </note>
-  @_s.JsonKey(name: 'BackupPlanTemplateJson')
-  final String backupPlanTemplateJson;
+  final String? backupPlanTemplateJson;
 
   ExportBackupPlanTemplateOutput({
     this.backupPlanTemplateJson,
   });
-  factory ExportBackupPlanTemplateOutput.fromJson(Map<String, dynamic> json) =>
-      _$ExportBackupPlanTemplateOutputFromJson(json);
+  factory ExportBackupPlanTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return ExportBackupPlanTemplateOutput(
+      backupPlanTemplateJson: json['BackupPlanTemplateJson'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupPlanFromJSONOutput {
   /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
   /// and one or more sets of <code>Rules</code>.
-  @_s.JsonKey(name: 'BackupPlan')
-  final BackupPlan backupPlan;
+  final BackupPlan? backupPlan;
 
   GetBackupPlanFromJSONOutput({
     this.backupPlan,
   });
-  factory GetBackupPlanFromJSONOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBackupPlanFromJSONOutputFromJson(json);
+  factory GetBackupPlanFromJSONOutput.fromJson(Map<String, dynamic> json) {
+    return GetBackupPlanFromJSONOutput(
+      backupPlan: json['BackupPlan'] != null
+          ? BackupPlan.fromJson(json['BackupPlan'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupPlanFromTemplateOutput {
   /// Returns the body of a backup plan based on the target template, including
   /// the name, rules, and backup vault of the plan.
-  @_s.JsonKey(name: 'BackupPlanDocument')
-  final BackupPlan backupPlanDocument;
+  final BackupPlan? backupPlanDocument;
 
   GetBackupPlanFromTemplateOutput({
     this.backupPlanDocument,
   });
-  factory GetBackupPlanFromTemplateOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBackupPlanFromTemplateOutputFromJson(json);
+  factory GetBackupPlanFromTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetBackupPlanFromTemplateOutput(
+      backupPlanDocument: json['BackupPlanDocument'] != null
+          ? BackupPlan.fromJson(
+              json['BackupPlanDocument'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupPlanOutput {
   /// Contains a list of <code>BackupOptions</code> for each resource type. The
   /// list is populated only if the advanced option is set for the backup plan.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
   /// and one or more sets of <code>Rules</code>.
-  @_s.JsonKey(name: 'BackupPlan')
-  final BackupPlan backupPlan;
+  final BackupPlan? backupPlan;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time that a backup plan is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// The date and time that a backup plan is deleted, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>DeletionDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// The last time a job to back up resources was run with this backup plan. A
   /// date and time, in Unix format and Coordinated Universal Time (UTC). The
   /// value of <code>LastExecutionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
   /// 1,024 bytes long. Version IDs cannot be edited.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   GetBackupPlanOutput({
     this.advancedBackupSettings,
@@ -4042,42 +4070,47 @@ class GetBackupPlanOutput {
     this.lastExecutionDate,
     this.versionId,
   });
-  factory GetBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBackupPlanOutputFromJson(json);
+  factory GetBackupPlanOutput.fromJson(Map<String, dynamic> json) {
+    return GetBackupPlanOutput(
+      advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backupPlan: json['BackupPlan'] != null
+          ? BackupPlan.fromJson(json['BackupPlan'] as Map<String, dynamic>)
+          : null,
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupSelectionOutput {
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// Specifies the body of a request to assign a set of resources to a backup
   /// plan.
-  @_s.JsonKey(name: 'BackupSelection')
-  final BackupSelection backupSelection;
+  final BackupSelection? backupSelection;
 
   /// The date and time a backup selection is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
   /// retried without the risk of running the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// Uniquely identifies the body of a request to assign a set of resources to a
   /// backup plan.
-  @_s.JsonKey(name: 'SelectionId')
-  final String selectionId;
+  final String? selectionId;
 
   GetBackupSelectionOutput({
     this.backupPlanId,
@@ -4086,72 +4119,69 @@ class GetBackupSelectionOutput {
     this.creatorRequestId,
     this.selectionId,
   });
-  factory GetBackupSelectionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBackupSelectionOutputFromJson(json);
+  factory GetBackupSelectionOutput.fromJson(Map<String, dynamic> json) {
+    return GetBackupSelectionOutput(
+      backupPlanId: json['BackupPlanId'] as String?,
+      backupSelection: json['BackupSelection'] != null
+          ? BackupSelection.fromJson(
+              json['BackupSelection'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      selectionId: json['SelectionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupVaultAccessPolicyOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The backup vault access policy document in JSON format.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   GetBackupVaultAccessPolicyOutput({
     this.backupVaultArn,
     this.backupVaultName,
     this.policy,
   });
-  factory GetBackupVaultAccessPolicyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetBackupVaultAccessPolicyOutputFromJson(json);
+  factory GetBackupVaultAccessPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetBackupVaultAccessPolicyOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackupVaultNotificationsOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// An array of events that indicate the status of jobs to back up resources to
   /// the backup vault.
-  @_s.JsonKey(name: 'BackupVaultEvents')
-  final List<BackupVaultEvent> backupVaultEvents;
+  final List<BackupVaultEvent>? backupVaultEvents;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// An ARN that uniquely identifies an Amazon Simple Notification Service
   /// (Amazon SNS) topic; for example,
   /// <code>arn:aws:sns:us-west-2:111122223333:MyTopic</code>.
-  @_s.JsonKey(name: 'SNSTopicArn')
-  final String sNSTopicArn;
+  final String? sNSTopicArn;
 
   GetBackupVaultNotificationsOutput({
     this.backupVaultArn,
@@ -4160,31 +4190,32 @@ class GetBackupVaultNotificationsOutput {
     this.sNSTopicArn,
   });
   factory GetBackupVaultNotificationsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetBackupVaultNotificationsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetBackupVaultNotificationsOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultEvents: (json['BackupVaultEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toBackupVaultEvent())
+          .toList(),
+      backupVaultName: json['BackupVaultName'] as String?,
+      sNSTopicArn: json['SNSTopicArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecoveryPointRestoreMetadataOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// The set of metadata key-value pairs that describe the original configuration
   /// of the backed-up resource. These values vary depending on the service that
   /// is being restored.
-  @_s.JsonKey(name: 'RestoreMetadata')
-  final Map<String, String> restoreMetadata;
+  final Map<String, String>? restoreMetadata;
 
   GetRecoveryPointRestoreMetadataOutput({
     this.backupVaultArn,
@@ -4192,15 +4223,16 @@ class GetRecoveryPointRestoreMetadataOutput {
     this.restoreMetadata,
   });
   factory GetRecoveryPointRestoreMetadataOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRecoveryPointRestoreMetadataOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRecoveryPointRestoreMetadataOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      restoreMetadata: (json['RestoreMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSupportedResourceTypesOutput {
   /// Contains a string with the supported AWS resource types:
   ///
@@ -4224,14 +4256,19 @@ class GetSupportedResourceTypesOutput {
   /// <code>Storage Gateway</code> for AWS Storage Gateway
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ResourceTypes')
-  final List<String> resourceTypes;
+  final List<String>? resourceTypes;
 
   GetSupportedResourceTypesOutput({
     this.resourceTypes,
   });
-  factory GetSupportedResourceTypesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetSupportedResourceTypesOutputFromJson(json);
+  factory GetSupportedResourceTypesOutput.fromJson(Map<String, dynamic> json) {
+    return GetSupportedResourceTypesOutput(
+      resourceTypes: (json['ResourceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Contains an array of <code>Transition</code> objects specifying how long in
@@ -4242,460 +4279,444 @@ class GetSupportedResourceTypesOutput {
 /// setting must be 90 days greater than the “transition to cold after days”
 /// setting. The “transition to cold after days” setting cannot be changed after
 /// a backup has been transitioned to cold.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Lifecycle {
   /// Specifies the number of days after creation that a recovery point is
   /// deleted. Must be greater than 90 days plus
   /// <code>MoveToColdStorageAfterDays</code>.
-  @_s.JsonKey(name: 'DeleteAfterDays')
-  final int deleteAfterDays;
+  final int? deleteAfterDays;
 
   /// Specifies the number of days after creation that a recovery point is moved
   /// to cold storage.
-  @_s.JsonKey(name: 'MoveToColdStorageAfterDays')
-  final int moveToColdStorageAfterDays;
+  final int? moveToColdStorageAfterDays;
 
   Lifecycle({
     this.deleteAfterDays,
     this.moveToColdStorageAfterDays,
   });
-  factory Lifecycle.fromJson(Map<String, dynamic> json) =>
-      _$LifecycleFromJson(json);
+  factory Lifecycle.fromJson(Map<String, dynamic> json) {
+    return Lifecycle(
+      deleteAfterDays: json['DeleteAfterDays'] as int?,
+      moveToColdStorageAfterDays: json['MoveToColdStorageAfterDays'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LifecycleToJson(this);
+  Map<String, dynamic> toJson() {
+    final deleteAfterDays = this.deleteAfterDays;
+    final moveToColdStorageAfterDays = this.moveToColdStorageAfterDays;
+    return {
+      if (deleteAfterDays != null) 'DeleteAfterDays': deleteAfterDays,
+      if (moveToColdStorageAfterDays != null)
+        'MoveToColdStorageAfterDays': moveToColdStorageAfterDays,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupJobsOutput {
   /// An array of structures containing metadata about your backup jobs returned
   /// in JSON format.
-  @_s.JsonKey(name: 'BackupJobs')
-  final List<BackupJob> backupJobs;
+  final List<BackupJob>? backupJobs;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupJobsOutput({
     this.backupJobs,
     this.nextToken,
   });
-  factory ListBackupJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupJobsOutputFromJson(json);
+  factory ListBackupJobsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupJobsOutput(
+      backupJobs: (json['BackupJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupPlanTemplatesOutput {
   /// An array of template list items containing metadata about your saved
   /// templates.
-  @_s.JsonKey(name: 'BackupPlanTemplatesList')
-  final List<BackupPlanTemplatesListMember> backupPlanTemplatesList;
+  final List<BackupPlanTemplatesListMember>? backupPlanTemplatesList;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupPlanTemplatesOutput({
     this.backupPlanTemplatesList,
     this.nextToken,
   });
-  factory ListBackupPlanTemplatesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupPlanTemplatesOutputFromJson(json);
+  factory ListBackupPlanTemplatesOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupPlanTemplatesOutput(
+      backupPlanTemplatesList: (json['BackupPlanTemplatesList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BackupPlanTemplatesListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupPlanVersionsOutput {
   /// An array of version list items containing metadata about your backup plans.
-  @_s.JsonKey(name: 'BackupPlanVersionsList')
-  final List<BackupPlansListMember> backupPlanVersionsList;
+  final List<BackupPlansListMember>? backupPlanVersionsList;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupPlanVersionsOutput({
     this.backupPlanVersionsList,
     this.nextToken,
   });
-  factory ListBackupPlanVersionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupPlanVersionsOutputFromJson(json);
+  factory ListBackupPlanVersionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupPlanVersionsOutput(
+      backupPlanVersionsList: (json['BackupPlanVersionsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupPlansOutput {
   /// An array of backup plan list items containing metadata about your saved
   /// backup plans.
-  @_s.JsonKey(name: 'BackupPlansList')
-  final List<BackupPlansListMember> backupPlansList;
+  final List<BackupPlansListMember>? backupPlansList;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupPlansOutput({
     this.backupPlansList,
     this.nextToken,
   });
-  factory ListBackupPlansOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupPlansOutputFromJson(json);
+  factory ListBackupPlansOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupPlansOutput(
+      backupPlansList: (json['BackupPlansList'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupSelectionsOutput {
   /// An array of backup selection list items containing metadata about each
   /// resource in the list.
-  @_s.JsonKey(name: 'BackupSelectionsList')
-  final List<BackupSelectionsListMember> backupSelectionsList;
+  final List<BackupSelectionsListMember>? backupSelectionsList;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupSelectionsOutput({
     this.backupSelectionsList,
     this.nextToken,
   });
-  factory ListBackupSelectionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupSelectionsOutputFromJson(json);
+  factory ListBackupSelectionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupSelectionsOutput(
+      backupSelectionsList: (json['BackupSelectionsList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BackupSelectionsListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupVaultsOutput {
   /// An array of backup vault list members containing vault metadata, including
   /// Amazon Resource Name (ARN), display name, creation date, number of saved
   /// recovery points, and encryption information if the resources saved in the
   /// backup vault are encrypted.
-  @_s.JsonKey(name: 'BackupVaultList')
-  final List<BackupVaultListMember> backupVaultList;
+  final List<BackupVaultListMember>? backupVaultList;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackupVaultsOutput({
     this.backupVaultList,
     this.nextToken,
   });
-  factory ListBackupVaultsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupVaultsOutputFromJson(json);
+  factory ListBackupVaultsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupVaultsOutput(
+      backupVaultList: (json['BackupVaultList'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupVaultListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCopyJobsOutput {
   /// An array of structures containing metadata about your copy jobs returned in
   /// JSON format.
-  @_s.JsonKey(name: 'CopyJobs')
-  final List<CopyJob> copyJobs;
+  final List<CopyJob>? copyJobs;
 
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return maxResults number of items, NextToken allows you
   /// to return more items in your list starting at the location pointed to by the
   /// next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCopyJobsOutput({
     this.copyJobs,
     this.nextToken,
   });
-  factory ListCopyJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListCopyJobsOutputFromJson(json);
+  factory ListCopyJobsOutput.fromJson(Map<String, dynamic> json) {
+    return ListCopyJobsOutput(
+      copyJobs: (json['CopyJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => CopyJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProtectedResourcesOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of resources successfully backed up by AWS Backup including the
   /// time the resource was saved, an Amazon Resource Name (ARN) of the resource,
   /// and a resource type.
-  @_s.JsonKey(name: 'Results')
-  final List<ProtectedResource> results;
+  final List<ProtectedResource>? results;
 
   ListProtectedResourcesOutput({
     this.nextToken,
     this.results,
   });
-  factory ListProtectedResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProtectedResourcesOutputFromJson(json);
+  factory ListProtectedResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return ListProtectedResourcesOutput(
+      nextToken: json['NextToken'] as String?,
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProtectedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecoveryPointsByBackupVaultOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain detailed information about recovery points
   /// saved in a backup vault.
-  @_s.JsonKey(name: 'RecoveryPoints')
-  final List<RecoveryPointByBackupVault> recoveryPoints;
+  final List<RecoveryPointByBackupVault>? recoveryPoints;
 
   ListRecoveryPointsByBackupVaultOutput({
     this.nextToken,
     this.recoveryPoints,
   });
   factory ListRecoveryPointsByBackupVaultOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRecoveryPointsByBackupVaultOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRecoveryPointsByBackupVaultOutput(
+      nextToken: json['NextToken'] as String?,
+      recoveryPoints: (json['RecoveryPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RecoveryPointByBackupVault.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecoveryPointsByResourceOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain detailed information about recovery points
   /// of the specified resource type.
-  @_s.JsonKey(name: 'RecoveryPoints')
-  final List<RecoveryPointByResource> recoveryPoints;
+  final List<RecoveryPointByResource>? recoveryPoints;
 
   ListRecoveryPointsByResourceOutput({
     this.nextToken,
     this.recoveryPoints,
   });
   factory ListRecoveryPointsByResourceOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRecoveryPointsByResourceOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRecoveryPointsByResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      recoveryPoints: (json['RecoveryPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RecoveryPointByResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRestoreJobsOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain detailed information about jobs to restore
   /// saved resources.
-  @_s.JsonKey(name: 'RestoreJobs')
-  final List<RestoreJobsListMember> restoreJobs;
+  final List<RestoreJobsListMember>? restoreJobs;
 
   ListRestoreJobsOutput({
     this.nextToken,
     this.restoreJobs,
   });
-  factory ListRestoreJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListRestoreJobsOutputFromJson(json);
+  factory ListRestoreJobsOutput.fromJson(Map<String, dynamic> json) {
+    return ListRestoreJobsOutput(
+      nextToken: json['NextToken'] as String?,
+      restoreJobs: (json['RestoreJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>maxResults</code> number of items,
   /// <code>NextToken</code> allows you to return more items in your list starting
   /// at the location pointed to by the next token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// To help organize your resources, you can assign your own metadata to the
   /// resources you create. Each tag is a key-value pair.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsOutputFromJson(json);
+  factory ListTagsOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A structure that contains information about a backed-up resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectedResource {
   /// The date and time a resource was last backed up, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastBackupTime')
-  final DateTime lastBackupTime;
+  final DateTime? lastBackupTime;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon
   /// EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
   /// For VSS Windows backups, the only supported resource type is Amazon EC2.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   ProtectedResource({
     this.lastBackupTime,
     this.resourceArn,
     this.resourceType,
   });
-  factory ProtectedResource.fromJson(Map<String, dynamic> json) =>
-      _$ProtectedResourceFromJson(json);
+  factory ProtectedResource.fromJson(Map<String, dynamic> json) {
+    return ProtectedResource(
+      lastBackupTime: timeStampFromJson(json['LastBackupTime']),
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
 }
 
 /// Contains detailed information about the recovery points stored in a backup
 /// vault.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecoveryPointByBackupVault {
   /// The size, in bytes, of a backup.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
   /// and <code>MoveToColdStorageAt</code> timestamps.
-  @_s.JsonKey(name: 'CalculatedLifecycle')
-  final CalculatedLifecycle calculatedLifecycle;
+  final CalculatedLifecycle? calculatedLifecycle;
 
   /// The date and time a job to restore a recovery point is completed, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// Contains identifying information about the creation of a recovery point,
   /// including the <code>BackupPlanArn</code>, <code>BackupPlanId</code>,
   /// <code>BackupPlanVersion</code>, and <code>BackupRuleId</code> of the backup
   /// plan that is used to create it.
-  @_s.JsonKey(name: 'CreatedBy')
-  final RecoveryPointCreator createdBy;
+  final RecoveryPointCreator? createdBy;
 
   /// The date and time a recovery point is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The server-side encryption key that is used to protect your backups; for
   /// example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  @_s.JsonKey(name: 'EncryptionKeyArn')
-  final String encryptionKeyArn;
+  final String? encryptionKeyArn;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// A Boolean value that is returned as <code>TRUE</code> if the specified
   /// recovery point is encrypted, or <code>FALSE</code> if the recovery point is
   /// not encrypted.
-  @_s.JsonKey(name: 'IsEncrypted')
-  final bool isEncrypted;
+  final bool? isEncrypted;
 
   /// The date and time a recovery point was last restored, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>LastRestoreTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRestoreTime')
-  final DateTime lastRestoreTime;
+  final DateTime? lastRestoreTime;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
   /// storage and when it expires. AWS Backup transitions and expires backups
@@ -4706,36 +4727,30 @@ class RecoveryPointByBackupVault {
   /// days greater than the “transition to cold after days” setting. The
   /// “transition to cold after days” setting cannot be changed after a backup has
   /// been transitioned to cold.
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
   /// the resource type.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The type of AWS resource saved as a recovery point; for example, an Amazon
   /// Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
   /// Service (Amazon RDS) database. For VSS Windows backups, the only supported
   /// resource type is Amazon EC2.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The backup vault where the recovery point was originally copied from. If the
   /// recovery point is restored to the same account this value will be
   /// <code>null</code>.
-  @_s.JsonKey(name: 'SourceBackupVaultArn')
-  final String sourceBackupVaultArn;
+  final String? sourceBackupVaultArn;
 
   /// A status code specifying the state of the recovery point.
-  @_s.JsonKey(name: 'Status')
-  final RecoveryPointStatus status;
+  final RecoveryPointStatus? status;
 
   RecoveryPointByBackupVault({
     this.backupSizeInBytes,
@@ -4756,51 +4771,66 @@ class RecoveryPointByBackupVault {
     this.sourceBackupVaultArn,
     this.status,
   });
-  factory RecoveryPointByBackupVault.fromJson(Map<String, dynamic> json) =>
-      _$RecoveryPointByBackupVaultFromJson(json);
+  factory RecoveryPointByBackupVault.fromJson(Map<String, dynamic> json) {
+    return RecoveryPointByBackupVault(
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      calculatedLifecycle: json['CalculatedLifecycle'] != null
+          ? CalculatedLifecycle.fromJson(
+              json['CalculatedLifecycle'] as Map<String, dynamic>)
+          : null,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdBy: json['CreatedBy'] != null
+          ? RecoveryPointCreator.fromJson(
+              json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      isEncrypted: json['IsEncrypted'] as bool?,
+      lastRestoreTime: timeStampFromJson(json['LastRestoreTime']),
+      lifecycle: json['Lifecycle'] != null
+          ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
+          : null,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
+      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+    );
+  }
 }
 
 /// Contains detailed information about a saved recovery point.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecoveryPointByResource {
   /// The size, in bytes, of a backup.
-  @_s.JsonKey(name: 'BackupSizeBytes')
-  final int backupSizeBytes;
+  final int? backupSizeBytes;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
   /// the AWS Region where they are created. They consist of lowercase letters,
   /// numbers, and hyphens.
-  @_s.JsonKey(name: 'BackupVaultName')
-  final String backupVaultName;
+  final String? backupVaultName;
 
   /// The date and time a recovery point is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The server-side encryption key that is used to protect your backups; for
   /// example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  @_s.JsonKey(name: 'EncryptionKeyArn')
-  final String encryptionKeyArn;
+  final String? encryptionKeyArn;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// A status code specifying the state of the recovery point.
-  @_s.JsonKey(name: 'Status')
-  final RecoveryPointStatus status;
+  final RecoveryPointStatus? status;
 
   RecoveryPointByResource({
     this.backupSizeBytes,
@@ -4810,37 +4840,36 @@ class RecoveryPointByResource {
     this.recoveryPointArn,
     this.status,
   });
-  factory RecoveryPointByResource.fromJson(Map<String, dynamic> json) =>
-      _$RecoveryPointByResourceFromJson(json);
+  factory RecoveryPointByResource.fromJson(Map<String, dynamic> json) {
+    return RecoveryPointByResource(
+      backupSizeBytes: json['BackupSizeBytes'] as int?,
+      backupVaultName: json['BackupVaultName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+    );
+  }
 }
 
 /// Contains information about the backup plan and rule that AWS Backup used to
 /// initiate the recovery point backup.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecoveryPointCreator {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// Version IDs are unique, randomly generated, Unicode, UTF-8 encoded strings
   /// that are at most 1,024 bytes long. They cannot be edited.
-  @_s.JsonKey(name: 'BackupPlanVersion')
-  final String backupPlanVersion;
+  final String? backupPlanVersion;
 
   /// Uniquely identifies a rule used to schedule the backup of a selection of
   /// resources.
-  @_s.JsonKey(name: 'BackupRuleId')
-  final String backupRuleId;
+  final String? backupRuleId;
 
   RecoveryPointCreator({
     this.backupPlanArn,
@@ -4848,31 +4877,59 @@ class RecoveryPointCreator {
     this.backupPlanVersion,
     this.backupRuleId,
   });
-  factory RecoveryPointCreator.fromJson(Map<String, dynamic> json) =>
-      _$RecoveryPointCreatorFromJson(json);
+  factory RecoveryPointCreator.fromJson(Map<String, dynamic> json) {
+    return RecoveryPointCreator(
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      backupPlanVersion: json['BackupPlanVersion'] as String?,
+      backupRuleId: json['BackupRuleId'] as String?,
+    );
+  }
 }
 
 enum RecoveryPointStatus {
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('PARTIAL')
   partial,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on RecoveryPointStatus {
+  String toValue() {
+    switch (this) {
+      case RecoveryPointStatus.completed:
+        return 'COMPLETED';
+      case RecoveryPointStatus.partial:
+        return 'PARTIAL';
+      case RecoveryPointStatus.deleting:
+        return 'DELETING';
+      case RecoveryPointStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  RecoveryPointStatus toRecoveryPointStatus() {
+    switch (this) {
+      case 'COMPLETED':
+        return RecoveryPointStatus.completed;
+      case 'PARTIAL':
+        return RecoveryPointStatus.partial;
+      case 'DELETING':
+        return RecoveryPointStatus.deleting;
+      case 'EXPIRED':
+        return RecoveryPointStatus.expired;
+    }
+    throw Exception('$this is not known in enum RecoveryPointStatus');
+  }
+}
+
 enum RestoreJobStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('ABORTED')
   aborted,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -4890,86 +4947,83 @@ extension on RestoreJobStatus {
       case RestoreJobStatus.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RestoreJobStatus toRestoreJobStatus() {
+    switch (this) {
+      case 'PENDING':
+        return RestoreJobStatus.pending;
+      case 'RUNNING':
+        return RestoreJobStatus.running;
+      case 'COMPLETED':
+        return RestoreJobStatus.completed;
+      case 'ABORTED':
+        return RestoreJobStatus.aborted;
+      case 'FAILED':
+        return RestoreJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum RestoreJobStatus');
   }
 }
 
 /// Contains metadata about a restore job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreJobsListMember {
   /// The account ID that owns the restore job.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The size, in bytes, of the restored resource.
-  @_s.JsonKey(name: 'BackupSizeInBytes')
-  final int backupSizeInBytes;
+  final int? backupSizeInBytes;
 
   /// The date and time a job to restore a recovery point is completed, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
-  @_s.JsonKey(name: 'CreatedResourceArn')
-  final String createdResourceArn;
+  final String? createdResourceArn;
 
   /// The date and time a restore job is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The amount of time in minutes that a job restoring a recovery point is
   /// expected to take.
-  @_s.JsonKey(name: 'ExpectedCompletionTimeMinutes')
-  final int expectedCompletionTimeMinutes;
+  final int? expectedCompletionTimeMinutes;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// Contains an estimated percentage complete of a job at the time the job
   /// status was queried.
-  @_s.JsonKey(name: 'PercentDone')
-  final String percentDone;
+  final String? percentDone;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   /// The resource type of the listed restore jobs; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
   /// (Amazon RDS) database. For VSS Windows backups, the only supported resource
   /// type is Amazon EC2.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// Uniquely identifies the job that restores a recovery point.
-  @_s.JsonKey(name: 'RestoreJobId')
-  final String restoreJobId;
+  final String? restoreJobId;
 
   /// A status code specifying the state of the job initiated by AWS Backup to
   /// restore a recovery point.
-  @_s.JsonKey(name: 'Status')
-  final RestoreJobStatus status;
+  final RestoreJobStatus? status;
 
   /// A detailed message explaining the status of the job to restore a recovery
   /// point.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   RestoreJobsListMember({
     this.accountId,
@@ -4986,126 +5040,144 @@ class RestoreJobsListMember {
     this.status,
     this.statusMessage,
   });
-  factory RestoreJobsListMember.fromJson(Map<String, dynamic> json) =>
-      _$RestoreJobsListMemberFromJson(json);
+  factory RestoreJobsListMember.fromJson(Map<String, dynamic> json) {
+    return RestoreJobsListMember(
+      accountId: json['AccountId'] as String?,
+      backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      createdResourceArn: json['CreatedResourceArn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      expectedCompletionTimeMinutes:
+          json['ExpectedCompletionTimeMinutes'] as int?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      percentDone: json['PercentDone'] as String?,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      restoreJobId: json['RestoreJobId'] as String?,
+      status: (json['Status'] as String?)?.toRestoreJobStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartBackupJobOutput {
   /// Uniquely identifies a request to AWS Backup to back up a resource.
-  @_s.JsonKey(name: 'BackupJobId')
-  final String backupJobId;
+  final String? backupJobId;
 
   /// The date and time that a backup job is started, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   StartBackupJobOutput({
     this.backupJobId,
     this.creationDate,
     this.recoveryPointArn,
   });
-  factory StartBackupJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartBackupJobOutputFromJson(json);
+  factory StartBackupJobOutput.fromJson(Map<String, dynamic> json) {
+    return StartBackupJobOutput(
+      backupJobId: json['BackupJobId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartCopyJobOutput {
   /// Uniquely identifies a copy job.
-  @_s.JsonKey(name: 'CopyJobId')
-  final String copyJobId;
+  final String? copyJobId;
 
   /// The date and time that a copy job is started, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   StartCopyJobOutput({
     this.copyJobId,
     this.creationDate,
   });
-  factory StartCopyJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartCopyJobOutputFromJson(json);
+  factory StartCopyJobOutput.fromJson(Map<String, dynamic> json) {
+    return StartCopyJobOutput(
+      copyJobId: json['CopyJobId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartRestoreJobOutput {
   /// Uniquely identifies the job that restores a recovery point.
-  @_s.JsonKey(name: 'RestoreJobId')
-  final String restoreJobId;
+  final String? restoreJobId;
 
   StartRestoreJobOutput({
     this.restoreJobId,
   });
-  factory StartRestoreJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartRestoreJobOutputFromJson(json);
+  factory StartRestoreJobOutput.fromJson(Map<String, dynamic> json) {
+    return StartRestoreJobOutput(
+      restoreJobId: json['RestoreJobId'] as String?,
+    );
+  }
 }
 
 enum StorageClass {
-  @_s.JsonValue('WARM')
   warm,
-  @_s.JsonValue('COLD')
   cold,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StorageClass {
+  String toValue() {
+    switch (this) {
+      case StorageClass.warm:
+        return 'WARM';
+      case StorageClass.cold:
+        return 'COLD';
+      case StorageClass.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  StorageClass toStorageClass() {
+    switch (this) {
+      case 'WARM':
+        return StorageClass.warm;
+      case 'COLD':
+        return StorageClass.cold;
+      case 'DELETED':
+        return StorageClass.deleted;
+    }
+    throw Exception('$this is not known in enum StorageClass');
+  }
+}
+
 class UpdateBackupPlanOutput {
   /// Contains a list of <code>BackupOptions</code> for each resource type.
-  @_s.JsonKey(name: 'AdvancedBackupSettings')
-  final List<AdvancedBackupSetting> advancedBackupSettings;
+  final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
-  @_s.JsonKey(name: 'BackupPlanArn')
-  final String backupPlanArn;
+  final String? backupPlanArn;
 
   /// Uniquely identifies a backup plan.
-  @_s.JsonKey(name: 'BackupPlanId')
-  final String backupPlanId;
+  final String? backupPlanId;
 
   /// The date and time a backup plan is updated, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
   /// 1,024 bytes long. Version Ids cannot be edited.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   UpdateBackupPlanOutput({
     this.advancedBackupSettings,
@@ -5114,25 +5186,28 @@ class UpdateBackupPlanOutput {
     this.creationDate,
     this.versionId,
   });
-  factory UpdateBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBackupPlanOutputFromJson(json);
+  factory UpdateBackupPlanOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateBackupPlanOutput(
+      advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backupPlanArn: json['BackupPlanArn'] as String?,
+      backupPlanId: json['BackupPlanId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRecoveryPointLifecycleOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
-  @_s.JsonKey(name: 'BackupVaultArn')
-  final String backupVaultArn;
+  final String? backupVaultArn;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
   /// and <code>MoveToColdStorageAt</code> timestamps.
-  @_s.JsonKey(name: 'CalculatedLifecycle')
-  final CalculatedLifecycle calculatedLifecycle;
+  final CalculatedLifecycle? calculatedLifecycle;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
   /// storage and when it expires. AWS Backup transitions and expires backups
@@ -5143,14 +5218,12 @@ class UpdateRecoveryPointLifecycleOutput {
   /// days greater than the “transition to cold after days” setting. The
   /// “transition to cold after days” setting cannot be changed after a backup has
   /// been transitioned to cold.
-  @_s.JsonKey(name: 'Lifecycle')
-  final Lifecycle lifecycle;
+  final Lifecycle? lifecycle;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
-  @_s.JsonKey(name: 'RecoveryPointArn')
-  final String recoveryPointArn;
+  final String? recoveryPointArn;
 
   UpdateRecoveryPointLifecycleOutput({
     this.backupVaultArn,
@@ -5159,22 +5232,33 @@ class UpdateRecoveryPointLifecycleOutput {
     this.recoveryPointArn,
   });
   factory UpdateRecoveryPointLifecycleOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateRecoveryPointLifecycleOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateRecoveryPointLifecycleOutput(
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      calculatedLifecycle: json['CalculatedLifecycle'] != null
+          ? CalculatedLifecycle.fromJson(
+              json['CalculatedLifecycle'] as Map<String, dynamic>)
+          : null,
+      lifecycle: json['Lifecycle'] != null
+          ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
+          : null,
+      recoveryPointArn: json['RecoveryPointArn'] as String?,
+    );
+  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class DependencyFailureException extends _s.GenericAwsException {
-  DependencyFailureException({String type, String message})
+  DependencyFailureException({String? type, String? message})
       : super(type: type, code: 'DependencyFailureException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -5182,17 +5266,17 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MissingParameterValueException extends _s.GenericAwsException {
-  MissingParameterValueException({String type, String message})
+  MissingParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingParameterValueException',
@@ -5200,12 +5284,12 @@ class MissingParameterValueException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }

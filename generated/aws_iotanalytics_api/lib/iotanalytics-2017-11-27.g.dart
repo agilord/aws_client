@@ -9,17 +9,18 @@ part of 'iotanalytics-2017-11-27.dart';
 AddAttributesActivity _$AddAttributesActivityFromJson(
     Map<String, dynamic> json) {
   return AddAttributesActivity(
-    attributes: (json['attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
+    attributes: Map<String, String>.from(json['attributes'] as Map),
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$AddAttributesActivityToJson(
     AddAttributesActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attributes': instance.attributes,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -27,8 +28,6 @@ Map<String, dynamic> _$AddAttributesActivityToJson(
     }
   }
 
-  writeNotNull('attributes', instance.attributes);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -36,20 +35,20 @@ Map<String, dynamic> _$AddAttributesActivityToJson(
 BatchPutMessageErrorEntry _$BatchPutMessageErrorEntryFromJson(
     Map<String, dynamic> json) {
   return BatchPutMessageErrorEntry(
-    errorCode: json['errorCode'] as String,
-    errorMessage: json['errorMessage'] as String,
-    messageId: json['messageId'] as String,
+    errorCode: json['errorCode'] as String?,
+    errorMessage: json['errorMessage'] as String?,
+    messageId: json['messageId'] as String?,
   );
 }
 
 BatchPutMessageResponse _$BatchPutMessageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchPutMessageResponse(
-    batchPutMessageErrorEntries: (json['batchPutMessageErrorEntries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    batchPutMessageErrorEntries:
+        (json['batchPutMessageErrorEntries'] as List<dynamic>?)
+            ?.map((e) =>
+                BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -60,13 +59,13 @@ CancelPipelineReprocessingResponse _$CancelPipelineReprocessingResponseFromJson(
 
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastMessageArrivalTime:
         const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
@@ -78,36 +77,41 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ChannelStatusEnumMap = {
@@ -120,12 +124,15 @@ ChannelActivity _$ChannelActivityFromJson(Map<String, dynamic> json) {
   return ChannelActivity(
     channelName: json['channelName'] as String,
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$ChannelActivityToJson(ChannelActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'channelName': instance.channelName,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -133,8 +140,6 @@ Map<String, dynamic> _$ChannelActivityToJson(ChannelActivity instance) {
     }
   }
 
-  writeNotNull('channelName', instance.channelName);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -203,7 +208,7 @@ ChannelStorageSummary _$ChannelStorageSummaryFromJson(
 
 ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
   return ChannelSummary(
-    channelName: json['channelName'] as String,
+    channelName: json['channelName'] as String?,
     channelStorage: json['channelStorage'] == null
         ? null
         : ChannelStorageSummary.fromJson(
@@ -224,39 +229,31 @@ Column _$ColumnFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ColumnToJson(Column instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('type', instance.type);
-  return val;
-}
+Map<String, dynamic> _$ColumnToJson(Column instance) => <String, dynamic>{
+      'name': instance.name,
+      'type': instance.type,
+    };
 
 ContainerDatasetAction _$ContainerDatasetActionFromJson(
     Map<String, dynamic> json) {
   return ContainerDatasetAction(
     executionRoleArn: json['executionRoleArn'] as String,
     image: json['image'] as String,
-    resourceConfiguration: json['resourceConfiguration'] == null
-        ? null
-        : ResourceConfiguration.fromJson(
-            json['resourceConfiguration'] as Map<String, dynamic>),
-    variables: (json['variables'] as List)
-        ?.map((e) =>
-            e == null ? null : Variable.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resourceConfiguration: ResourceConfiguration.fromJson(
+        json['resourceConfiguration'] as Map<String, dynamic>),
+    variables: (json['variables'] as List<dynamic>?)
+        ?.map((e) => Variable.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ContainerDatasetActionToJson(
     ContainerDatasetAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'executionRoleArn': instance.executionRoleArn,
+    'image': instance.image,
+    'resourceConfiguration': instance.resourceConfiguration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -264,20 +261,16 @@ Map<String, dynamic> _$ContainerDatasetActionToJson(
     }
   }
 
-  writeNotNull('executionRoleArn', instance.executionRoleArn);
-  writeNotNull('image', instance.image);
   writeNotNull(
-      'resourceConfiguration', instance.resourceConfiguration?.toJson());
-  writeNotNull(
-      'variables', instance.variables?.map((e) => e?.toJson())?.toList());
+      'variables', instance.variables?.map((e) => e.toJson()).toList());
   return val;
 }
 
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
-    channelArn: json['channelArn'] as String,
-    channelName: json['channelName'] as String,
+    channelArn: json['channelArn'] as String?,
+    channelName: json['channelName'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
@@ -288,15 +281,15 @@ CreateChannelResponse _$CreateChannelResponseFromJson(
 CreateDatasetContentResponse _$CreateDatasetContentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetContentResponse(
-    versionId: json['versionId'] as String,
+    versionId: json['versionId'] as String?,
   );
 }
 
 CreateDatasetResponse _$CreateDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetResponse(
-    datasetArn: json['datasetArn'] as String,
-    datasetName: json['datasetName'] as String,
+    datasetArn: json['datasetArn'] as String?,
+    datasetName: json['datasetName'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
@@ -307,8 +300,8 @@ CreateDatasetResponse _$CreateDatasetResponseFromJson(
 CreateDatastoreResponse _$CreateDatastoreResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatastoreResponse(
-    datastoreArn: json['datastoreArn'] as String,
-    datastoreName: json['datastoreName'] as String,
+    datastoreArn: json['datastoreArn'] as String?,
+    datastoreName: json['datastoreName'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
@@ -319,8 +312,8 @@ CreateDatastoreResponse _$CreateDatastoreResponseFromJson(
 CreatePipelineResponse _$CreatePipelineResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePipelineResponse(
-    pipelineArn: json['pipelineArn'] as String,
-    pipelineName: json['pipelineName'] as String,
+    pipelineArn: json['pipelineArn'] as String?,
+    pipelineName: json['pipelineName'] as String?,
   );
 }
 
@@ -329,13 +322,16 @@ CustomerManagedChannelS3Storage _$CustomerManagedChannelS3StorageFromJson(
   return CustomerManagedChannelS3Storage(
     bucket: json['bucket'] as String,
     roleArn: json['roleArn'] as String,
-    keyPrefix: json['keyPrefix'] as String,
+    keyPrefix: json['keyPrefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$CustomerManagedChannelS3StorageToJson(
     CustomerManagedChannelS3Storage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'bucket': instance.bucket,
+    'roleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -343,8 +339,6 @@ Map<String, dynamic> _$CustomerManagedChannelS3StorageToJson(
     }
   }
 
-  writeNotNull('bucket', instance.bucket);
-  writeNotNull('roleArn', instance.roleArn);
   writeNotNull('keyPrefix', instance.keyPrefix);
   return val;
 }
@@ -353,9 +347,9 @@ CustomerManagedChannelS3StorageSummary
     _$CustomerManagedChannelS3StorageSummaryFromJson(
         Map<String, dynamic> json) {
   return CustomerManagedChannelS3StorageSummary(
-    bucket: json['bucket'] as String,
-    keyPrefix: json['keyPrefix'] as String,
-    roleArn: json['roleArn'] as String,
+    bucket: json['bucket'] as String?,
+    keyPrefix: json['keyPrefix'] as String?,
+    roleArn: json['roleArn'] as String?,
   );
 }
 
@@ -364,13 +358,16 @@ CustomerManagedDatastoreS3Storage _$CustomerManagedDatastoreS3StorageFromJson(
   return CustomerManagedDatastoreS3Storage(
     bucket: json['bucket'] as String,
     roleArn: json['roleArn'] as String,
-    keyPrefix: json['keyPrefix'] as String,
+    keyPrefix: json['keyPrefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$CustomerManagedDatastoreS3StorageToJson(
     CustomerManagedDatastoreS3Storage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'bucket': instance.bucket,
+    'roleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -378,8 +375,6 @@ Map<String, dynamic> _$CustomerManagedDatastoreS3StorageToJson(
     }
   }
 
-  writeNotNull('bucket', instance.bucket);
-  writeNotNull('roleArn', instance.roleArn);
   writeNotNull('keyPrefix', instance.keyPrefix);
   return val;
 }
@@ -388,43 +383,37 @@ CustomerManagedDatastoreS3StorageSummary
     _$CustomerManagedDatastoreS3StorageSummaryFromJson(
         Map<String, dynamic> json) {
   return CustomerManagedDatastoreS3StorageSummary(
-    bucket: json['bucket'] as String,
-    keyPrefix: json['keyPrefix'] as String,
-    roleArn: json['roleArn'] as String,
+    bucket: json['bucket'] as String?,
+    keyPrefix: json['keyPrefix'] as String?,
+    roleArn: json['roleArn'] as String?,
   );
 }
 
 Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   return Dataset(
-    actions: (json['actions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    arn: json['arn'] as String,
-    contentDeliveryRules: (json['contentDeliveryRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetContentDeliveryRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actions: (json['actions'] as List<dynamic>?)
+        ?.map((e) => DatasetAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    arn: json['arn'] as String?,
+    contentDeliveryRules: (json['contentDeliveryRules'] as List<dynamic>?)
+        ?.map((e) =>
+            DatasetContentDeliveryRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    lateDataRules: (json['lateDataRules'] as List)
-        ?.map((e) =>
-            e == null ? null : LateDataRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['name'] as String,
+    lateDataRules: (json['lateDataRules'] as List<dynamic>?)
+        ?.map((e) => LateDataRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['name'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
             json['retentionPeriod'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$DatasetStatusEnumMap, json['status']),
-    triggers: (json['triggers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetTrigger.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    triggers: (json['triggers'] as List<dynamic>?)
+        ?.map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
+        .toList(),
     versioningConfiguration: json['versioningConfiguration'] == null
         ? null
         : VersioningConfiguration.fromJson(
@@ -440,7 +429,7 @@ const _$DatasetStatusEnumMap = {
 
 DatasetAction _$DatasetActionFromJson(Map<String, dynamic> json) {
   return DatasetAction(
-    actionName: json['actionName'] as String,
+    actionName: json['actionName'] as String?,
     containerAction: json['containerAction'] == null
         ? null
         : ContainerDatasetAction.fromJson(
@@ -469,7 +458,7 @@ Map<String, dynamic> _$DatasetActionToJson(DatasetAction instance) {
 
 DatasetActionSummary _$DatasetActionSummaryFromJson(Map<String, dynamic> json) {
   return DatasetActionSummary(
-    actionName: json['actionName'] as String,
+    actionName: json['actionName'] as String?,
     actionType:
         _$enumDecodeNullable(_$DatasetActionTypeEnumMap, json['actionType']),
   );
@@ -516,17 +505,17 @@ Map<String, dynamic> _$DatasetContentDeliveryDestinationToJson(
 DatasetContentDeliveryRule _$DatasetContentDeliveryRuleFromJson(
     Map<String, dynamic> json) {
   return DatasetContentDeliveryRule(
-    destination: json['destination'] == null
-        ? null
-        : DatasetContentDeliveryDestination.fromJson(
-            json['destination'] as Map<String, dynamic>),
-    entryName: json['entryName'] as String,
+    destination: DatasetContentDeliveryDestination.fromJson(
+        json['destination'] as Map<String, dynamic>),
+    entryName: json['entryName'] as String?,
   );
 }
 
 Map<String, dynamic> _$DatasetContentDeliveryRuleToJson(
     DatasetContentDeliveryRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -534,14 +523,13 @@ Map<String, dynamic> _$DatasetContentDeliveryRuleToJson(
     }
   }
 
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('entryName', instance.entryName);
   return val;
 }
 
 DatasetContentStatus _$DatasetContentStatusFromJson(Map<String, dynamic> json) {
   return DatasetContentStatus(
-    reason: json['reason'] as String,
+    reason: json['reason'] as String?,
     state: _$enumDecodeNullable(_$DatasetContentStateEnumMap, json['state']),
   );
 }
@@ -562,7 +550,7 @@ DatasetContentSummary _$DatasetContentSummaryFromJson(
     status: json['status'] == null
         ? null
         : DatasetContentStatus.fromJson(json['status'] as Map<String, dynamic>),
-    version: json['version'] as String,
+    version: json['version'] as String?,
   );
 }
 
@@ -574,43 +562,31 @@ DatasetContentVersionValue _$DatasetContentVersionValueFromJson(
 }
 
 Map<String, dynamic> _$DatasetContentVersionValueToJson(
-    DatasetContentVersionValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('datasetName', instance.datasetName);
-  return val;
-}
+        DatasetContentVersionValue instance) =>
+    <String, dynamic>{
+      'datasetName': instance.datasetName,
+    };
 
 DatasetEntry _$DatasetEntryFromJson(Map<String, dynamic> json) {
   return DatasetEntry(
-    dataURI: json['dataURI'] as String,
-    entryName: json['entryName'] as String,
+    dataURI: json['dataURI'] as String?,
+    entryName: json['entryName'] as String?,
   );
 }
 
 DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
   return DatasetSummary(
-    actions: (json['actions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetActionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actions: (json['actions'] as List<dynamic>?)
+        ?.map((e) => DatasetActionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    datasetName: json['datasetName'] as String,
+    datasetName: json['datasetName'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$DatasetStatusEnumMap, json['status']),
-    triggers: (json['triggers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetTrigger.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    triggers: (json['triggers'] as List<dynamic>?)
+        ?.map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -641,7 +617,7 @@ Map<String, dynamic> _$DatasetTriggerToJson(DatasetTrigger instance) {
 
 Datastore _$DatastoreFromJson(Map<String, dynamic> json) {
   return Datastore(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     fileFormatConfiguration: json['fileFormatConfiguration'] == null
         ? null
@@ -651,7 +627,7 @@ Datastore _$DatastoreFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
         : RetentionPeriod.fromJson(
@@ -676,19 +652,11 @@ DatastoreActivity _$DatastoreActivityFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DatastoreActivityToJson(DatastoreActivity instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('datastoreName', instance.datastoreName);
-  writeNotNull('name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$DatastoreActivityToJson(DatastoreActivity instance) =>
+    <String, dynamic>{
+      'datastoreName': instance.datastoreName,
+      'name': instance.name,
+    };
 
 DatastoreStatistics _$DatastoreStatisticsFromJson(Map<String, dynamic> json) {
   return DatastoreStatistics(
@@ -742,7 +710,7 @@ DatastoreStorageSummary _$DatastoreStorageSummaryFromJson(
 DatastoreSummary _$DatastoreSummaryFromJson(Map<String, dynamic> json) {
   return DatastoreSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    datastoreName: json['datastoreName'] as String,
+    datastoreName: json['datastoreName'] as String?,
     datastoreStorage: json['datastoreStorage'] == null
         ? null
         : DatastoreStorageSummary.fromJson(
@@ -769,19 +737,10 @@ DeltaTime _$DeltaTimeFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DeltaTimeToJson(DeltaTime instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('offsetSeconds', instance.offsetSeconds);
-  writeNotNull('timeExpression', instance.timeExpression);
-  return val;
-}
+Map<String, dynamic> _$DeltaTimeToJson(DeltaTime instance) => <String, dynamic>{
+      'offsetSeconds': instance.offsetSeconds,
+      'timeExpression': instance.timeExpression,
+    };
 
 DeltaTimeSessionWindowConfiguration
     _$DeltaTimeSessionWindowConfigurationFromJson(Map<String, dynamic> json) {
@@ -791,18 +750,10 @@ DeltaTimeSessionWindowConfiguration
 }
 
 Map<String, dynamic> _$DeltaTimeSessionWindowConfigurationToJson(
-    DeltaTimeSessionWindowConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('timeoutInMinutes', instance.timeoutInMinutes);
-  return val;
-}
+        DeltaTimeSessionWindowConfiguration instance) =>
+    <String, dynamic>{
+      'timeoutInMinutes': instance.timeoutInMinutes,
+    };
 
 DescribeChannelResponse _$DescribeChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -865,13 +816,18 @@ DeviceRegistryEnrichActivity _$DeviceRegistryEnrichActivityFromJson(
     name: json['name'] as String,
     roleArn: json['roleArn'] as String,
     thingName: json['thingName'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$DeviceRegistryEnrichActivityToJson(
     DeviceRegistryEnrichActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attribute': instance.attribute,
+    'name': instance.name,
+    'roleArn': instance.roleArn,
+    'thingName': instance.thingName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -879,10 +835,6 @@ Map<String, dynamic> _$DeviceRegistryEnrichActivityToJson(
     }
   }
 
-  writeNotNull('attribute', instance.attribute);
-  writeNotNull('name', instance.name);
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('thingName', instance.thingName);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -894,13 +846,18 @@ DeviceShadowEnrichActivity _$DeviceShadowEnrichActivityFromJson(
     name: json['name'] as String,
     roleArn: json['roleArn'] as String,
     thingName: json['thingName'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$DeviceShadowEnrichActivityToJson(
     DeviceShadowEnrichActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attribute': instance.attribute,
+    'name': instance.name,
+    'roleArn': instance.roleArn,
+    'thingName': instance.thingName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -908,10 +865,6 @@ Map<String, dynamic> _$DeviceShadowEnrichActivityToJson(
     }
   }
 
-  writeNotNull('attribute', instance.attribute);
-  writeNotNull('name', instance.name);
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('thingName', instance.thingName);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -920,7 +873,7 @@ EstimatedResourceSize _$EstimatedResourceSizeFromJson(
     Map<String, dynamic> json) {
   return EstimatedResourceSize(
     estimatedOn: const UnixDateTimeConverter().fromJson(json['estimatedOn']),
-    estimatedSizeInBytes: (json['estimatedSizeInBytes'] as num)?.toDouble(),
+    estimatedSizeInBytes: (json['estimatedSizeInBytes'] as num?)?.toDouble(),
   );
 }
 
@@ -957,12 +910,15 @@ FilterActivity _$FilterActivityFromJson(Map<String, dynamic> json) {
   return FilterActivity(
     filter: json['filter'] as String,
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$FilterActivityToJson(FilterActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'filter': instance.filter,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -970,8 +926,6 @@ Map<String, dynamic> _$FilterActivityToJson(FilterActivity instance) {
     }
   }
 
-  writeNotNull('filter', instance.filter);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -979,10 +933,9 @@ Map<String, dynamic> _$FilterActivityToJson(FilterActivity instance) {
 GetDatasetContentResponse _$GetDatasetContentResponseFromJson(
     Map<String, dynamic> json) {
   return GetDatasetContentResponse(
-    entries: (json['entries'] as List)
-        ?.map((e) =>
-            e == null ? null : DatasetEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entries: (json['entries'] as List<dynamic>?)
+        ?.map((e) => DatasetEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: json['status'] == null
         ? null
         : DatasetContentStatus.fromJson(json['status'] as Map<String, dynamic>),
@@ -997,19 +950,11 @@ GlueConfiguration _$GlueConfigurationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$GlueConfigurationToJson(GlueConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('databaseName', instance.databaseName);
-  writeNotNull('tableName', instance.tableName);
-  return val;
-}
+Map<String, dynamic> _$GlueConfigurationToJson(GlueConfiguration instance) =>
+    <String, dynamic>{
+      'databaseName': instance.databaseName,
+      'tableName': instance.tableName,
+    };
 
 IotEventsDestinationConfiguration _$IotEventsDestinationConfigurationFromJson(
     Map<String, dynamic> json) {
@@ -1020,19 +965,11 @@ IotEventsDestinationConfiguration _$IotEventsDestinationConfigurationFromJson(
 }
 
 Map<String, dynamic> _$IotEventsDestinationConfigurationToJson(
-    IotEventsDestinationConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('inputName', instance.inputName);
-  writeNotNull('roleArn', instance.roleArn);
-  return val;
-}
+        IotEventsDestinationConfiguration instance) =>
+    <String, dynamic>{
+      'inputName': instance.inputName,
+      'roleArn': instance.roleArn,
+    };
 
 JsonConfiguration _$JsonConfigurationFromJson(Map<String, dynamic> json) {
   return JsonConfiguration();
@@ -1046,12 +983,16 @@ LambdaActivity _$LambdaActivityFromJson(Map<String, dynamic> json) {
     batchSize: json['batchSize'] as int,
     lambdaName: json['lambdaName'] as String,
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$LambdaActivityToJson(LambdaActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'batchSize': instance.batchSize,
+    'lambdaName': instance.lambdaName,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1059,25 +1000,22 @@ Map<String, dynamic> _$LambdaActivityToJson(LambdaActivity instance) {
     }
   }
 
-  writeNotNull('batchSize', instance.batchSize);
-  writeNotNull('lambdaName', instance.lambdaName);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
 
 LateDataRule _$LateDataRuleFromJson(Map<String, dynamic> json) {
   return LateDataRule(
-    ruleConfiguration: json['ruleConfiguration'] == null
-        ? null
-        : LateDataRuleConfiguration.fromJson(
-            json['ruleConfiguration'] as Map<String, dynamic>),
-    ruleName: json['ruleName'] as String,
+    ruleConfiguration: LateDataRuleConfiguration.fromJson(
+        json['ruleConfiguration'] as Map<String, dynamic>),
+    ruleName: json['ruleName'] as String?,
   );
 }
 
 Map<String, dynamic> _$LateDataRuleToJson(LateDataRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ruleConfiguration': instance.ruleConfiguration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1085,7 +1023,6 @@ Map<String, dynamic> _$LateDataRuleToJson(LateDataRule instance) {
     }
   }
 
-  writeNotNull('ruleConfiguration', instance.ruleConfiguration?.toJson());
   writeNotNull('ruleName', instance.ruleName);
   return val;
 }
@@ -1119,93 +1056,75 @@ Map<String, dynamic> _$LateDataRuleConfigurationToJson(
 
 ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
   return ListChannelsResponse(
-    channelSummaries: (json['channelSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    channelSummaries: (json['channelSummaries'] as List<dynamic>?)
+        ?.map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatasetContentsResponse _$ListDatasetContentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatasetContentsResponse(
-    datasetContentSummaries: (json['datasetContentSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetContentSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datasetContentSummaries: (json['datasetContentSummaries'] as List<dynamic>?)
+        ?.map((e) => DatasetContentSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
   return ListDatasetsResponse(
-    datasetSummaries: (json['datasetSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datasetSummaries: (json['datasetSummaries'] as List<dynamic>?)
+        ?.map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatastoresResponse _$ListDatastoresResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatastoresResponse(
-    datastoreSummaries: (json['datastoreSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatastoreSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datastoreSummaries: (json['datastoreSummaries'] as List<dynamic>?)
+        ?.map((e) => DatastoreSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListPipelinesResponse _$ListPipelinesResponseFromJson(
     Map<String, dynamic> json) {
   return ListPipelinesResponse(
-    nextToken: json['nextToken'] as String,
-    pipelineSummaries: (json['pipelineSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    pipelineSummaries: (json['pipelineSummaries'] as List<dynamic>?)
+        ?.map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoggingOptions _$LoggingOptionsFromJson(Map<String, dynamic> json) {
   return LoggingOptions(
     enabled: json['enabled'] as bool,
-    level: _$enumDecodeNullable(_$LoggingLevelEnumMap, json['level']),
+    level: _$enumDecode(_$LoggingLevelEnumMap, json['level']),
     roleArn: json['roleArn'] as String,
   );
 }
 
-Map<String, dynamic> _$LoggingOptionsToJson(LoggingOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('enabled', instance.enabled);
-  writeNotNull('level', _$LoggingLevelEnumMap[instance.level]);
-  writeNotNull('roleArn', instance.roleArn);
-  return val;
-}
+Map<String, dynamic> _$LoggingOptionsToJson(LoggingOptions instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'level': _$LoggingLevelEnumMap[instance.level],
+      'roleArn': instance.roleArn,
+    };
 
 const _$LoggingLevelEnumMap = {
   LoggingLevel.error: 'ERROR',
@@ -1216,12 +1135,16 @@ MathActivity _$MathActivityFromJson(Map<String, dynamic> json) {
     attribute: json['attribute'] as String,
     math: json['math'] as String,
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$MathActivityToJson(MathActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attribute': instance.attribute,
+    'math': instance.math,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1229,15 +1152,14 @@ Map<String, dynamic> _$MathActivityToJson(MathActivity instance) {
     }
   }
 
-  writeNotNull('attribute', instance.attribute);
-  writeNotNull('math', instance.math);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
 
 Map<String, dynamic> _$MessageToJson(Message instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'messageId': instance.messageId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1245,7 +1167,6 @@ Map<String, dynamic> _$MessageToJson(Message instance) {
     }
   }
 
-  writeNotNull('messageId', instance.messageId);
   writeNotNull('payload', const Uint8ListConverter().toJson(instance.payload));
   return val;
 }
@@ -1256,18 +1177,10 @@ OutputFileUriValue _$OutputFileUriValueFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OutputFileUriValueToJson(OutputFileUriValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('fileName', instance.fileName);
-  return val;
-}
+Map<String, dynamic> _$OutputFileUriValueToJson(OutputFileUriValue instance) =>
+    <String, dynamic>{
+      'fileName': instance.fileName,
+    };
 
 ParquetConfiguration _$ParquetConfigurationFromJson(Map<String, dynamic> json) {
   return ParquetConfiguration(
@@ -1294,21 +1207,17 @@ Map<String, dynamic> _$ParquetConfigurationToJson(
 
 Pipeline _$PipelineFromJson(Map<String, dynamic> json) {
   return Pipeline(
-    activities: (json['activities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineActivity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    arn: json['arn'] as String,
+    activities: (json['activities'] as List<dynamic>?)
+        ?.map((e) => PipelineActivity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    name: json['name'] as String,
-    reprocessingSummaries: (json['reprocessingSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReprocessingSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['name'] as String?,
+    reprocessingSummaries: (json['reprocessingSummaries'] as List<dynamic>?)
+        ?.map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1379,12 +1288,10 @@ PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    pipelineName: json['pipelineName'] as String,
-    reprocessingSummaries: (json['reprocessingSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReprocessingSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pipelineName: json['pipelineName'] as String?,
+    reprocessingSummaries: (json['reprocessingSummaries'] as List<dynamic>?)
+        ?.map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1412,15 +1319,19 @@ Map<String, dynamic> _$QueryFilterToJson(QueryFilter instance) {
 RemoveAttributesActivity _$RemoveAttributesActivityFromJson(
     Map<String, dynamic> json) {
   return RemoveAttributesActivity(
-    attributes: (json['attributes'] as List)?.map((e) => e as String)?.toList(),
+    attributes:
+        (json['attributes'] as List<dynamic>).map((e) => e as String).toList(),
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$RemoveAttributesActivityToJson(
     RemoveAttributesActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attributes': instance.attributes,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1428,8 +1339,6 @@ Map<String, dynamic> _$RemoveAttributesActivityToJson(
     }
   }
 
-  writeNotNull('attributes', instance.attributes);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -1437,7 +1346,7 @@ Map<String, dynamic> _$RemoveAttributesActivityToJson(
 ReprocessingSummary _$ReprocessingSummaryFromJson(Map<String, dynamic> json) {
   return ReprocessingSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    id: json['id'] as String,
+    id: json['id'] as String?,
     status: _$enumDecodeNullable(_$ReprocessingStatusEnumMap, json['status']),
   );
 }
@@ -1452,26 +1361,17 @@ const _$ReprocessingStatusEnumMap = {
 ResourceConfiguration _$ResourceConfigurationFromJson(
     Map<String, dynamic> json) {
   return ResourceConfiguration(
-    computeType:
-        _$enumDecodeNullable(_$ComputeTypeEnumMap, json['computeType']),
+    computeType: _$enumDecode(_$ComputeTypeEnumMap, json['computeType']),
     volumeSizeInGB: json['volumeSizeInGB'] as int,
   );
 }
 
 Map<String, dynamic> _$ResourceConfigurationToJson(
-    ResourceConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('computeType', _$ComputeTypeEnumMap[instance.computeType]);
-  writeNotNull('volumeSizeInGB', instance.volumeSizeInGB);
-  return val;
-}
+        ResourceConfiguration instance) =>
+    <String, dynamic>{
+      'computeType': _$ComputeTypeEnumMap[instance.computeType],
+      'volumeSizeInGB': instance.volumeSizeInGB,
+    };
 
 const _$ComputeTypeEnumMap = {
   ComputeType.acu_1: 'ACU_1',
@@ -1480,8 +1380,8 @@ const _$ComputeTypeEnumMap = {
 
 RetentionPeriod _$RetentionPeriodFromJson(Map<String, dynamic> json) {
   return RetentionPeriod(
-    numberOfDays: json['numberOfDays'] as int,
-    unlimited: json['unlimited'] as bool,
+    numberOfDays: json['numberOfDays'] as int?,
+    unlimited: json['unlimited'] as bool?,
   );
 }
 
@@ -1502,8 +1402,10 @@ Map<String, dynamic> _$RetentionPeriodToJson(RetentionPeriod instance) {
 RunPipelineActivityResponse _$RunPipelineActivityResponseFromJson(
     Map<String, dynamic> json) {
   return RunPipelineActivityResponse(
-    logResult: json['logResult'] as String,
-    payloads: const Uint8ListListConverter().fromJson(json['payloads'] as List),
+    logResult: json['logResult'] as String?,
+    payloads: (json['payloads'] as List<dynamic>?)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        .toList(),
   );
 }
 
@@ -1522,7 +1424,11 @@ S3DestinationConfiguration _$S3DestinationConfigurationFromJson(
 
 Map<String, dynamic> _$S3DestinationConfigurationToJson(
     S3DestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'bucket': instance.bucket,
+    'key': instance.key,
+    'roleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1530,9 +1436,6 @@ Map<String, dynamic> _$S3DestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('bucket', instance.bucket);
-  writeNotNull('key', instance.key);
-  writeNotNull('roleArn', instance.roleArn);
   writeNotNull('glueConfiguration', instance.glueConfiguration?.toJson());
   return val;
 }
@@ -1540,13 +1443,15 @@ Map<String, dynamic> _$S3DestinationConfigurationToJson(
 SampleChannelDataResponse _$SampleChannelDataResponseFromJson(
     Map<String, dynamic> json) {
   return SampleChannelDataResponse(
-    payloads: const Uint8ListListConverter().fromJson(json['payloads'] as List),
+    payloads: (json['payloads'] as List<dynamic>?)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        .toList(),
   );
 }
 
 Schedule _$ScheduleFromJson(Map<String, dynamic> json) {
   return Schedule(
-    expression: json['expression'] as String,
+    expression: json['expression'] as String?,
   );
 }
 
@@ -1565,10 +1470,9 @@ Map<String, dynamic> _$ScheduleToJson(Schedule instance) {
 
 SchemaDefinition _$SchemaDefinitionFromJson(Map<String, dynamic> json) {
   return SchemaDefinition(
-    columns: (json['columns'] as List)
-        ?.map((e) =>
-            e == null ? null : Column.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    columns: (json['columns'] as List<dynamic>?)
+        ?.map((e) => Column.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1581,22 +1485,26 @@ Map<String, dynamic> _$SchemaDefinitionToJson(SchemaDefinition instance) {
     }
   }
 
-  writeNotNull('columns', instance.columns?.map((e) => e?.toJson())?.toList());
+  writeNotNull('columns', instance.columns?.map((e) => e.toJson()).toList());
   return val;
 }
 
 SelectAttributesActivity _$SelectAttributesActivityFromJson(
     Map<String, dynamic> json) {
   return SelectAttributesActivity(
-    attributes: (json['attributes'] as List)?.map((e) => e as String)?.toList(),
+    attributes:
+        (json['attributes'] as List<dynamic>).map((e) => e as String).toList(),
     name: json['name'] as String,
-    next: json['next'] as String,
+    next: json['next'] as String?,
   );
 }
 
 Map<String, dynamic> _$SelectAttributesActivityToJson(
     SelectAttributesActivity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'attributes': instance.attributes,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1604,8 +1512,6 @@ Map<String, dynamic> _$SelectAttributesActivityToJson(
     }
   }
 
-  writeNotNull('attributes', instance.attributes);
-  writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
   return val;
 }
@@ -1643,16 +1549,17 @@ SqlQueryDatasetAction _$SqlQueryDatasetActionFromJson(
     Map<String, dynamic> json) {
   return SqlQueryDatasetAction(
     sqlQuery: json['sqlQuery'] as String,
-    filters: (json['filters'] as List)
-        ?.map((e) =>
-            e == null ? null : QueryFilter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    filters: (json['filters'] as List<dynamic>?)
+        ?.map((e) => QueryFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SqlQueryDatasetActionToJson(
     SqlQueryDatasetAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'sqlQuery': instance.sqlQuery,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1660,15 +1567,14 @@ Map<String, dynamic> _$SqlQueryDatasetActionToJson(
     }
   }
 
-  writeNotNull('sqlQuery', instance.sqlQuery);
-  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('filters', instance.filters?.map((e) => e.toJson()).toList());
   return val;
 }
 
 StartPipelineReprocessingResponse _$StartPipelineReprocessingResponseFromJson(
     Map<String, dynamic> json) {
   return StartPipelineReprocessingResponse(
-    reprocessingId: json['reprocessingId'] as String,
+    reprocessingId: json['reprocessingId'] as String?,
   );
 }
 
@@ -1679,19 +1585,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -1703,18 +1600,10 @@ TriggeringDataset _$TriggeringDatasetFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TriggeringDatasetToJson(TriggeringDataset instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$TriggeringDatasetToJson(TriggeringDataset instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -1728,17 +1617,19 @@ Variable _$VariableFromJson(Map<String, dynamic> json) {
         ? null
         : DatasetContentVersionValue.fromJson(
             json['datasetContentVersionValue'] as Map<String, dynamic>),
-    doubleValue: (json['doubleValue'] as num)?.toDouble(),
+    doubleValue: (json['doubleValue'] as num?)?.toDouble(),
     outputFileUriValue: json['outputFileUriValue'] == null
         ? null
         : OutputFileUriValue.fromJson(
             json['outputFileUriValue'] as Map<String, dynamic>),
-    stringValue: json['stringValue'] as String,
+    stringValue: json['stringValue'] as String?,
   );
 }
 
 Map<String, dynamic> _$VariableToJson(Variable instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1746,7 +1637,6 @@ Map<String, dynamic> _$VariableToJson(Variable instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('datasetContentVersionValue',
       instance.datasetContentVersionValue?.toJson());
   writeNotNull('doubleValue', instance.doubleValue);
@@ -1758,8 +1648,8 @@ Map<String, dynamic> _$VariableToJson(Variable instance) {
 VersioningConfiguration _$VersioningConfigurationFromJson(
     Map<String, dynamic> json) {
   return VersioningConfiguration(
-    maxVersions: json['maxVersions'] as int,
-    unlimited: json['unlimited'] as bool,
+    maxVersions: json['maxVersions'] as int?,
+    unlimited: json['unlimited'] as bool?,
   );
 }
 

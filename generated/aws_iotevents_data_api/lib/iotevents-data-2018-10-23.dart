@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'iotevents-data-2018-10-23.g.dart';
 
 /// AWS IoT Events monitors your equipment or device fleets for failures or
 /// changes in operation, and triggers actions when such events occur. AWS IoT
@@ -33,10 +25,10 @@ part 'iotevents-data-2018-10-23.g.dart';
 class IoTEventsData {
   final _s.RestJsonProtocol _protocol;
   IoTEventsData({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,7 +57,7 @@ class IoTEventsData {
   /// <code>'{ "messageId": "string", "inputName": "string", "payload":
   /// "string"}'</code>
   Future<BatchPutMessageResponse> batchPutMessage({
-    @_s.required List<Message> messages,
+    required List<Message> messages,
   }) async {
     ArgumentError.checkNotNull(messages, 'messages');
     final $payload = <String, dynamic>{
@@ -92,7 +84,7 @@ class IoTEventsData {
   /// The list of detectors (instances) to update, along with the values to
   /// update.
   Future<BatchUpdateDetectorResponse> batchUpdateDetector({
-    @_s.required List<UpdateDetectorRequest> detectors,
+    required List<UpdateDetectorRequest> detectors,
   }) async {
     ArgumentError.checkNotNull(detectors, 'detectors');
     final $payload = <String, dynamic>{
@@ -123,8 +115,8 @@ class IoTEventsData {
   /// A filter used to limit results to detectors (instances) created because of
   /// the given key ID.
   Future<DescribeDetectorResponse> describeDetector({
-    @_s.required String detectorModelName,
-    String keyValue,
+    required String detectorModelName,
+    String? keyValue,
   }) async {
     ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
     _s.validateStringLength(
@@ -186,10 +178,10 @@ class IoTEventsData {
   /// A filter that limits results to those detectors (instances) in the given
   /// state.
   Future<ListDetectorsResponse> listDetectors({
-    @_s.required String detectorModelName,
-    int maxResults,
-    String nextToken,
-    String stateName,
+    required String detectorModelName,
+    int? maxResults,
+    String? nextToken,
+    String? stateName,
   }) async {
     ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
     _s.validateStringLength(
@@ -234,150 +226,134 @@ class IoTEventsData {
 }
 
 /// Contains information about the errors encountered.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutMessageErrorEntry {
   /// The code associated with the error.
-  @_s.JsonKey(name: 'errorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// More information about the error.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the message that caused the error. (See the value corresponding to
   /// the <code>"messageId"</code> key in the <code>"message"</code> object.)
-  @_s.JsonKey(name: 'messageId')
-  final String messageId;
+  final String? messageId;
 
   BatchPutMessageErrorEntry({
     this.errorCode,
     this.errorMessage,
     this.messageId,
   });
-  factory BatchPutMessageErrorEntry.fromJson(Map<String, dynamic> json) =>
-      _$BatchPutMessageErrorEntryFromJson(json);
+  factory BatchPutMessageErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchPutMessageErrorEntry(
+      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+      messageId: json['messageId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutMessageResponse {
   /// A list of any errors encountered when sending the messages.
-  @_s.JsonKey(name: 'BatchPutMessageErrorEntries')
-  final List<BatchPutMessageErrorEntry> batchPutMessageErrorEntries;
+  final List<BatchPutMessageErrorEntry>? batchPutMessageErrorEntries;
 
   BatchPutMessageResponse({
     this.batchPutMessageErrorEntries,
   });
-  factory BatchPutMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchPutMessageResponseFromJson(json);
+  factory BatchPutMessageResponse.fromJson(Map<String, dynamic> json) {
+    return BatchPutMessageResponse(
+      batchPutMessageErrorEntries:
+          (json['BatchPutMessageErrorEntries'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Information about the error that occured when attempting to update a
 /// detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateDetectorErrorEntry {
   /// The code of the error.
-  @_s.JsonKey(name: 'errorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// A message describing the error.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The <code>"messageId"</code> of the update request that caused the error.
   /// (The value of the <code>"messageId"</code> in the update request
   /// <code>"Detector"</code> object.)
-  @_s.JsonKey(name: 'messageId')
-  final String messageId;
+  final String? messageId;
 
   BatchUpdateDetectorErrorEntry({
     this.errorCode,
     this.errorMessage,
     this.messageId,
   });
-  factory BatchUpdateDetectorErrorEntry.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdateDetectorErrorEntryFromJson(json);
+  factory BatchUpdateDetectorErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchUpdateDetectorErrorEntry(
+      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+      messageId: json['messageId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateDetectorResponse {
   /// A list of those detector updates that resulted in errors. (If an error is
   /// listed here, the specific update did not occur.)
-  @_s.JsonKey(name: 'batchUpdateDetectorErrorEntries')
-  final List<BatchUpdateDetectorErrorEntry> batchUpdateDetectorErrorEntries;
+  final List<BatchUpdateDetectorErrorEntry>? batchUpdateDetectorErrorEntries;
 
   BatchUpdateDetectorResponse({
     this.batchUpdateDetectorErrorEntries,
   });
-  factory BatchUpdateDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdateDetectorResponseFromJson(json);
+  factory BatchUpdateDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUpdateDetectorResponse(
+      batchUpdateDetectorErrorEntries: (json['batchUpdateDetectorErrorEntries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchUpdateDetectorErrorEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDetectorResponse {
   /// Information about the detector (instance).
-  @_s.JsonKey(name: 'detector')
-  final Detector detector;
+  final Detector? detector;
 
   DescribeDetectorResponse({
     this.detector,
   });
-  factory DescribeDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDetectorResponseFromJson(json);
+  factory DescribeDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDetectorResponse(
+      detector: json['detector'] != null
+          ? Detector.fromJson(json['detector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the detector (instance).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Detector {
   /// The time the detector (instance) was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the detector model that created this detector (instance).
-  @_s.JsonKey(name: 'detectorModelName')
-  final String detectorModelName;
+  final String? detectorModelName;
 
   /// The version of the detector model that created this detector (instance).
-  @_s.JsonKey(name: 'detectorModelVersion')
-  final String detectorModelVersion;
+  final String? detectorModelVersion;
 
   /// The value of the key (identifying the device or system) that caused the
   /// creation of this detector (instance).
-  @_s.JsonKey(name: 'keyValue')
-  final String keyValue;
+  final String? keyValue;
 
   /// The time the detector (instance) was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The current state of the detector (instance).
-  @_s.JsonKey(name: 'state')
-  final DetectorState state;
+  final DetectorState? state;
 
   Detector({
     this.creationTime,
@@ -387,119 +363,117 @@ class Detector {
     this.lastUpdateTime,
     this.state,
   });
-  factory Detector.fromJson(Map<String, dynamic> json) =>
-      _$DetectorFromJson(json);
+  factory Detector.fromJson(Map<String, dynamic> json) {
+    return Detector(
+      creationTime: timeStampFromJson(json['creationTime']),
+      detectorModelName: json['detectorModelName'] as String?,
+      detectorModelVersion: json['detectorModelVersion'] as String?,
+      keyValue: json['keyValue'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      state: json['state'] != null
+          ? DetectorState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the current state of the detector instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorState {
   /// The name of the state.
-  @_s.JsonKey(name: 'stateName')
   final String stateName;
 
   /// The current state of the detector's timers.
-  @_s.JsonKey(name: 'timers')
   final List<Timer> timers;
 
   /// The current values of the detector's variables.
-  @_s.JsonKey(name: 'variables')
   final List<Variable> variables;
 
   DetectorState({
-    @_s.required this.stateName,
-    @_s.required this.timers,
-    @_s.required this.variables,
+    required this.stateName,
+    required this.timers,
+    required this.variables,
   });
-  factory DetectorState.fromJson(Map<String, dynamic> json) =>
-      _$DetectorStateFromJson(json);
+  factory DetectorState.fromJson(Map<String, dynamic> json) {
+    return DetectorState(
+      stateName: json['stateName'] as String,
+      timers: (json['timers'] as List)
+          .whereNotNull()
+          .map((e) => Timer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variables: (json['variables'] as List)
+          .whereNotNull()
+          .map((e) => Variable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The new state, variable values, and timer settings of the detector
 /// (instance).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DetectorStateDefinition {
   /// The name of the new state of the detector (instance).
-  @_s.JsonKey(name: 'stateName')
   final String stateName;
 
   /// The new values of the detector's timers. Any timer whose value isn't
   /// specified is cleared, and its timeout event won't occur.
-  @_s.JsonKey(name: 'timers')
   final List<TimerDefinition> timers;
 
   /// The new values of the detector's variables. Any variable whose value isn't
   /// specified is cleared.
-  @_s.JsonKey(name: 'variables')
   final List<VariableDefinition> variables;
 
   DetectorStateDefinition({
-    @_s.required this.stateName,
-    @_s.required this.timers,
-    @_s.required this.variables,
+    required this.stateName,
+    required this.timers,
+    required this.variables,
   });
-  Map<String, dynamic> toJson() => _$DetectorStateDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final stateName = this.stateName;
+    final timers = this.timers;
+    final variables = this.variables;
+    return {
+      'stateName': stateName,
+      'timers': timers,
+      'variables': variables,
+    };
+  }
 }
 
 /// Information about the detector state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorStateSummary {
   /// The name of the state.
-  @_s.JsonKey(name: 'stateName')
-  final String stateName;
+  final String? stateName;
 
   DetectorStateSummary({
     this.stateName,
   });
-  factory DetectorStateSummary.fromJson(Map<String, dynamic> json) =>
-      _$DetectorStateSummaryFromJson(json);
+  factory DetectorStateSummary.fromJson(Map<String, dynamic> json) {
+    return DetectorStateSummary(
+      stateName: json['stateName'] as String?,
+    );
+  }
 }
 
 /// Information about the detector (instance).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorSummary {
   /// The time the detector (instance) was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the detector model that created this detector (instance).
-  @_s.JsonKey(name: 'detectorModelName')
-  final String detectorModelName;
+  final String? detectorModelName;
 
   /// The version of the detector model that created this detector (instance).
-  @_s.JsonKey(name: 'detectorModelVersion')
-  final String detectorModelVersion;
+  final String? detectorModelVersion;
 
   /// The value of the key (identifying the device or system) that caused the
   /// creation of this detector (instance).
-  @_s.JsonKey(name: 'keyValue')
-  final String keyValue;
+  final String? keyValue;
 
   /// The time the detector (instance) was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The current state of the detector (instance).
-  @_s.JsonKey(name: 'state')
-  final DetectorStateSummary state;
+  final DetectorStateSummary? state;
 
   DetectorSummary({
     this.creationTime,
@@ -509,225 +483,261 @@ class DetectorSummary {
     this.lastUpdateTime,
     this.state,
   });
-  factory DetectorSummary.fromJson(Map<String, dynamic> json) =>
-      _$DetectorSummaryFromJson(json);
+  factory DetectorSummary.fromJson(Map<String, dynamic> json) {
+    return DetectorSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      detectorModelName: json['detectorModelName'] as String?,
+      detectorModelVersion: json['detectorModelVersion'] as String?,
+      keyValue: json['keyValue'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      state: json['state'] != null
+          ? DetectorStateSummary.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('ResourceNotFoundException')
   resourceNotFoundException,
-  @_s.JsonValue('InvalidRequestException')
   invalidRequestException,
-  @_s.JsonValue('InternalFailureException')
   internalFailureException,
-  @_s.JsonValue('ServiceUnavailableException')
   serviceUnavailableException,
-  @_s.JsonValue('ThrottlingException')
   throttlingException,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case ErrorCode.invalidRequestException:
+        return 'InvalidRequestException';
+      case ErrorCode.internalFailureException:
+        return 'InternalFailureException';
+      case ErrorCode.serviceUnavailableException:
+        return 'ServiceUnavailableException';
+      case ErrorCode.throttlingException:
+        return 'ThrottlingException';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'ResourceNotFoundException':
+        return ErrorCode.resourceNotFoundException;
+      case 'InvalidRequestException':
+        return ErrorCode.invalidRequestException;
+      case 'InternalFailureException':
+        return ErrorCode.internalFailureException;
+      case 'ServiceUnavailableException':
+        return ErrorCode.serviceUnavailableException;
+      case 'ThrottlingException':
+        return ErrorCode.throttlingException;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
 class ListDetectorsResponse {
   /// A list of summary information about the detectors (instances).
-  @_s.JsonKey(name: 'detectorSummaries')
-  final List<DetectorSummary> detectorSummaries;
+  final List<DetectorSummary>? detectorSummaries;
 
   /// A token to retrieve the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDetectorsResponse({
     this.detectorSummaries,
     this.nextToken,
   });
-  factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDetectorsResponseFromJson(json);
+  factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDetectorsResponse(
+      detectorSummaries: (json['detectorSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetectorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Information about a message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Message {
   /// The name of the input into which the message payload is transformed.
-  @_s.JsonKey(name: 'inputName')
   final String inputName;
 
   /// The ID to assign to the message. Within each batch sent, each
   /// <code>"messageId"</code> must be unique.
-  @_s.JsonKey(name: 'messageId')
   final String messageId;
 
   /// The payload of the message. This can be a JSON string or a Base-64-encoded
   /// string representing binary data (in which case you must decode it).
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'payload')
   final Uint8List payload;
 
   Message({
-    @_s.required this.inputName,
-    @_s.required this.messageId,
-    @_s.required this.payload,
+    required this.inputName,
+    required this.messageId,
+    required this.payload,
   });
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final inputName = this.inputName;
+    final messageId = this.messageId;
+    final payload = this.payload;
+    return {
+      'inputName': inputName,
+      'messageId': messageId,
+      'payload': base64Encode(payload),
+    };
+  }
 }
 
 /// The current state of a timer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Timer {
   /// The name of the timer.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The number of seconds which have elapsed on the timer.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'timestamp')
   final DateTime timestamp;
 
   Timer({
-    @_s.required this.name,
-    @_s.required this.timestamp,
+    required this.name,
+    required this.timestamp,
   });
-  factory Timer.fromJson(Map<String, dynamic> json) => _$TimerFromJson(json);
+  factory Timer.fromJson(Map<String, dynamic> json) {
+    return Timer(
+      name: json['name'] as String,
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
+    );
+  }
 }
 
 /// The new setting of a timer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimerDefinition {
   /// The name of the timer.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The new setting of the timer (the number of seconds before the timer
   /// elapses).
-  @_s.JsonKey(name: 'seconds')
   final int seconds;
 
   TimerDefinition({
-    @_s.required this.name,
-    @_s.required this.seconds,
+    required this.name,
+    required this.seconds,
   });
-  Map<String, dynamic> toJson() => _$TimerDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final seconds = this.seconds;
+    return {
+      'name': name,
+      'seconds': seconds,
+    };
+  }
 }
 
 /// Information used to update the detector (instance).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateDetectorRequest {
   /// The name of the detector model that created the detectors (instances).
-  @_s.JsonKey(name: 'detectorModelName')
   final String detectorModelName;
 
   /// The ID to assign to the detector update <code>"message"</code>. Each
   /// <code>"messageId"</code> must be unique within each batch sent.
-  @_s.JsonKey(name: 'messageId')
   final String messageId;
 
   /// The new state, variable values, and timer settings of the detector
   /// (instance).
-  @_s.JsonKey(name: 'state')
   final DetectorStateDefinition state;
 
   /// The value of the input key attribute (identifying the device or system) that
   /// caused the creation of this detector (instance).
-  @_s.JsonKey(name: 'keyValue')
-  final String keyValue;
+  final String? keyValue;
 
   UpdateDetectorRequest({
-    @_s.required this.detectorModelName,
-    @_s.required this.messageId,
-    @_s.required this.state,
+    required this.detectorModelName,
+    required this.messageId,
+    required this.state,
     this.keyValue,
   });
-  Map<String, dynamic> toJson() => _$UpdateDetectorRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final detectorModelName = this.detectorModelName;
+    final messageId = this.messageId;
+    final state = this.state;
+    final keyValue = this.keyValue;
+    return {
+      'detectorModelName': detectorModelName,
+      'messageId': messageId,
+      'state': state,
+      if (keyValue != null) 'keyValue': keyValue,
+    };
+  }
 }
 
 /// The current state of the variable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Variable {
   /// The name of the variable.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The current value of the variable.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Variable({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  factory Variable.fromJson(Map<String, dynamic> json) =>
-      _$VariableFromJson(json);
+  factory Variable.fromJson(Map<String, dynamic> json) {
+    return Variable(
+      name: json['name'] as String,
+      value: json['value'] as String,
+    );
+  }
 }
 
 /// The new value of the variable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VariableDefinition {
   /// The name of the variable.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The new value of the variable.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   VariableDefinition({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$VariableDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'inspector-2016-02-16.g.dart';
 
 /// Amazon Inspector enables you to analyze the behavior of your AWS resources
 /// and to identify potential security issues. For more information, see <a
@@ -33,10 +25,10 @@ part 'inspector-2016-02-16.g.dart';
 class Inspector {
   final _s.JsonProtocol _protocol;
   Inspector({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +54,8 @@ class Inspector {
   /// Parameter [findingArns] :
   /// The ARNs that specify the findings that you want to assign attributes to.
   Future<AddAttributesToFindingsResponse> addAttributesToFindings({
-    @_s.required List<Attribute> attributes,
-    @_s.required List<String> findingArns,
+    required List<Attribute> attributes,
+    required List<String> findingArns,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(findingArns, 'findingArns');
@@ -117,8 +109,8 @@ class Inspector {
   /// in the current AWS account and region are included in the assessment
   /// target.
   Future<CreateAssessmentTargetResponse> createAssessmentTarget({
-    @_s.required String assessmentTargetName,
-    String resourceGroupArn,
+    required String assessmentTargetName,
+    String? resourceGroupArn,
   }) async {
     ArgumentError.checkNotNull(assessmentTargetName, 'assessmentTargetName');
     _s.validateStringLength(
@@ -190,11 +182,11 @@ class Inspector {
   /// attribute is a key and value pair (an <a>Attribute</a> object). Within an
   /// assessment template, each key must be unique.
   Future<CreateAssessmentTemplateResponse> createAssessmentTemplate({
-    @_s.required String assessmentTargetArn,
-    @_s.required String assessmentTemplateName,
-    @_s.required int durationInSeconds,
-    @_s.required List<String> rulesPackageArns,
-    List<Attribute> userAttributesForFindings,
+    required String assessmentTargetArn,
+    required String assessmentTemplateName,
+    required int durationInSeconds,
+    required List<String> rulesPackageArns,
+    List<Attribute>? userAttributesForFindings,
   }) async {
     ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
     _s.validateStringLength(
@@ -261,7 +253,7 @@ class Inspector {
   /// The ARN that specifies the assessment template for which you want to
   /// create an exclusions preview.
   Future<CreateExclusionsPreviewResponse> createExclusionsPreview({
-    @_s.required String assessmentTemplateArn,
+    required String assessmentTemplateArn,
   }) async {
     ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
     _s.validateStringLength(
@@ -307,7 +299,7 @@ class Inspector {
   ///
   /// For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
   Future<CreateResourceGroupResponse> createResourceGroup({
-    @_s.required List<ResourceGroupTag> resourceGroupTags,
+    required List<ResourceGroupTag> resourceGroupTags,
   }) async {
     ArgumentError.checkNotNull(resourceGroupTags, 'resourceGroupTags');
     final headers = <String, String>{
@@ -341,7 +333,7 @@ class Inspector {
   /// Parameter [assessmentRunArn] :
   /// The ARN that specifies the assessment run that you want to delete.
   Future<void> deleteAssessmentRun({
-    @_s.required String assessmentRunArn,
+    required String assessmentRunArn,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -355,7 +347,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentRun'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -380,7 +372,7 @@ class Inspector {
   /// Parameter [assessmentTargetArn] :
   /// The ARN that specifies the assessment target that you want to delete.
   Future<void> deleteAssessmentTarget({
-    @_s.required String assessmentTargetArn,
+    required String assessmentTargetArn,
   }) async {
     ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
     _s.validateStringLength(
@@ -394,7 +386,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentTarget'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -419,7 +411,7 @@ class Inspector {
   /// Parameter [assessmentTemplateArn] :
   /// The ARN that specifies the assessment template that you want to delete.
   Future<void> deleteAssessmentTemplate({
-    @_s.required String assessmentTemplateArn,
+    required String assessmentTemplateArn,
   }) async {
     ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
     _s.validateStringLength(
@@ -433,7 +425,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -454,7 +446,7 @@ class Inspector {
   /// Parameter [assessmentRunArns] :
   /// The ARN that specifies the assessment run that you want to describe.
   Future<DescribeAssessmentRunsResponse> describeAssessmentRuns({
-    @_s.required List<String> assessmentRunArns,
+    required List<String> assessmentRunArns,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArns, 'assessmentRunArns');
     final headers = <String, String>{
@@ -484,7 +476,7 @@ class Inspector {
   /// Parameter [assessmentTargetArns] :
   /// The ARNs that specifies the assessment targets that you want to describe.
   Future<DescribeAssessmentTargetsResponse> describeAssessmentTargets({
-    @_s.required List<String> assessmentTargetArns,
+    required List<String> assessmentTargetArns,
   }) async {
     ArgumentError.checkNotNull(assessmentTargetArns, 'assessmentTargetArns');
     final headers = <String, String>{
@@ -511,7 +503,7 @@ class Inspector {
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   Future<DescribeAssessmentTemplatesResponse> describeAssessmentTemplates({
-    @_s.required List<String> assessmentTemplateArns,
+    required List<String> assessmentTemplateArns,
   }) async {
     ArgumentError.checkNotNull(
         assessmentTemplateArns, 'assessmentTemplateArns');
@@ -566,8 +558,8 @@ class Inspector {
   /// The locale into which you want to translate the exclusion's title,
   /// description, and recommendation.
   Future<DescribeExclusionsResponse> describeExclusions({
-    @_s.required List<String> exclusionArns,
-    Locale locale,
+    required List<String> exclusionArns,
+    Locale? locale,
   }) async {
     ArgumentError.checkNotNull(exclusionArns, 'exclusionArns');
     final headers = <String, String>{
@@ -601,8 +593,8 @@ class Inspector {
   /// The locale into which you want to translate a finding description,
   /// recommendation, and the short description that identifies the finding.
   Future<DescribeFindingsResponse> describeFindings({
-    @_s.required List<String> findingArns,
-    Locale locale,
+    required List<String> findingArns,
+    Locale? locale,
   }) async {
     ArgumentError.checkNotNull(findingArns, 'findingArns');
     final headers = <String, String>{
@@ -633,7 +625,7 @@ class Inspector {
   /// Parameter [resourceGroupArns] :
   /// The ARN that specifies the resource group that you want to describe.
   Future<DescribeResourceGroupsResponse> describeResourceGroups({
-    @_s.required List<String> resourceGroupArns,
+    required List<String> resourceGroupArns,
   }) async {
     ArgumentError.checkNotNull(resourceGroupArns, 'resourceGroupArns');
     final headers = <String, String>{
@@ -666,8 +658,8 @@ class Inspector {
   /// Parameter [locale] :
   /// The locale that you want to translate a rules package description into.
   Future<DescribeRulesPackagesResponse> describeRulesPackages({
-    @_s.required List<String> rulesPackageArns,
-    Locale locale,
+    required List<String> rulesPackageArns,
+    Locale? locale,
   }) async {
     ArgumentError.checkNotNull(rulesPackageArns, 'rulesPackageArns');
     final headers = <String, String>{
@@ -715,9 +707,9 @@ class Inspector {
   /// href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_reports.html">Assessment
   /// Reports</a>.
   Future<GetAssessmentReportResponse> getAssessmentReport({
-    @_s.required String assessmentRunArn,
-    @_s.required ReportFileFormat reportFileFormat,
-    @_s.required ReportType reportType,
+    required String assessmentRunArn,
+    required ReportFileFormat reportFileFormat,
+    required ReportType reportType,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -741,8 +733,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat?.toValue() ?? '',
-        'reportType': reportType?.toValue() ?? '',
+        'reportFileFormat': reportFileFormat.toValue(),
+        'reportType': reportType.toValue(),
       },
     );
 
@@ -780,11 +772,11 @@ class Inspector {
   /// the value of nextToken from the previous response to continue listing
   /// data.
   Future<GetExclusionsPreviewResponse> getExclusionsPreview({
-    @_s.required String assessmentTemplateArn,
-    @_s.required String previewToken,
-    Locale locale,
-    int maxResults,
-    String nextToken,
+    required String assessmentTemplateArn,
+    required String previewToken,
+    Locale? locale,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
     _s.validateStringLength(
@@ -841,7 +833,7 @@ class Inspector {
   /// The ARN that specifies the assessment run that has the telemetry data that
   /// you want to obtain.
   Future<GetTelemetryMetadataResponse> getTelemetryMetadata({
-    @_s.required String assessmentRunArn,
+    required String assessmentRunArn,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -900,10 +892,10 @@ class Inspector {
   /// request with the value of <b>NextToken</b> from the previous response to
   /// continue listing data.
   Future<ListAssessmentRunAgentsResponse> listAssessmentRunAgents({
-    @_s.required String assessmentRunArn,
-    AgentFilter filter,
-    int maxResults,
-    String nextToken,
+    required String assessmentRunArn,
+    AgentFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -972,10 +964,10 @@ class Inspector {
   /// request with the value of <b>NextToken</b> from the previous response to
   /// continue listing data.
   Future<ListAssessmentRunsResponse> listAssessmentRuns({
-    List<String> assessmentTemplateArns,
-    AssessmentRunFilter filter,
-    int maxResults,
-    String nextToken,
+    List<String>? assessmentTemplateArns,
+    AssessmentRunFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1033,9 +1025,9 @@ class Inspector {
   /// request with the value of <b>NextToken</b> from the previous response to
   /// continue listing data.
   Future<ListAssessmentTargetsResponse> listAssessmentTargets({
-    AssessmentTargetFilter filter,
-    int maxResults,
-    String nextToken,
+    AssessmentTargetFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1094,10 +1086,10 @@ class Inspector {
   /// request with the value of <b>NextToken</b> from the previous response to
   /// continue listing data.
   Future<ListAssessmentTemplatesResponse> listAssessmentTemplates({
-    List<String> assessmentTargetArns,
-    AssessmentTemplateFilter filter,
-    int maxResults,
-    String nextToken,
+    List<String>? assessmentTargetArns,
+    AssessmentTemplateFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1151,9 +1143,9 @@ class Inspector {
   /// The ARN of the assessment template for which you want to list the existing
   /// event subscriptions.
   Future<ListEventSubscriptionsResponse> listEventSubscriptions({
-    int maxResults,
-    String nextToken,
-    String resourceArn,
+    int? maxResults,
+    String? nextToken,
+    String? resourceArn,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1208,9 +1200,9 @@ class Inspector {
   /// Subsequent calls to the action fill nextToken in the request with the
   /// value of nextToken from the previous response to continue listing data.
   Future<ListExclusionsResponse> listExclusions({
-    @_s.required String assessmentRunArn,
-    int maxResults,
-    String nextToken,
+    required String assessmentRunArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -1277,10 +1269,10 @@ class Inspector {
   /// the value of <b>NextToken</b> from the previous response to continue
   /// listing data.
   Future<ListFindingsResponse> listFindings({
-    List<String> assessmentRunArns,
-    FindingFilter filter,
-    int maxResults,
-    String nextToken,
+    List<String>? assessmentRunArns,
+    FindingFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1326,8 +1318,8 @@ class Inspector {
   /// request with the value of <b>NextToken</b> from the previous response to
   /// continue listing data.
   Future<ListRulesPackagesResponse> listRulesPackages({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1365,7 +1357,7 @@ class Inspector {
   /// The ARN that specifies the assessment template whose tags you want to
   /// list.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1416,9 +1408,9 @@ class Inspector {
   /// the value of <b>NextToken</b> from the previous response to continue
   /// listing data.
   Future<PreviewAgentsResponse> previewAgents({
-    @_s.required String previewAgentsArn,
-    int maxResults,
-    String nextToken,
+    required String previewAgentsArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(previewAgentsArn, 'previewAgentsArn');
     _s.validateStringLength(
@@ -1467,7 +1459,7 @@ class Inspector {
   /// The ARN of the IAM role that grants Amazon Inspector access to AWS
   /// Services needed to perform security assessments.
   Future<void> registerCrossAccountAccessRole({
-    @_s.required String roleArn,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -1481,7 +1473,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.RegisterCrossAccountAccessRole'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1511,8 +1503,8 @@ class Inspector {
   /// The ARNs that specify the findings that you want to remove attributes
   /// from.
   Future<RemoveAttributesFromFindingsResponse> removeAttributesFromFindings({
-    @_s.required List<String> attributeKeys,
-    @_s.required List<String> findingArns,
+    required List<String> attributeKeys,
+    required List<String> findingArns,
   }) async {
     ArgumentError.checkNotNull(attributeKeys, 'attributeKeys');
     ArgumentError.checkNotNull(findingArns, 'findingArns');
@@ -1551,8 +1543,8 @@ class Inspector {
   /// A collection of key and value pairs that you want to set to the assessment
   /// template.
   Future<void> setTagsForResource({
-    @_s.required String resourceArn,
-    List<Tag> tags,
+    required String resourceArn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1566,7 +1558,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.SetTagsForResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1600,8 +1592,8 @@ class Inspector {
   /// You can specify the name for the assessment run. The name must be unique
   /// for the assessment template whose ARN is used to start the assessment run.
   Future<StartAssessmentRunResponse> startAssessmentRun({
-    @_s.required String assessmentTemplateArn,
-    String assessmentRunName,
+    required String assessmentTemplateArn,
+    String? assessmentRunName,
   }) async {
     ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
     _s.validateStringLength(
@@ -1655,8 +1647,8 @@ class Inspector {
   /// generation process. SKIP_EVALUATION cancels the assessment run
   /// immediately, after which no findings are generated.
   Future<void> stopAssessmentRun({
-    @_s.required String assessmentRunArn,
-    StopAction stopAction,
+    required String assessmentRunArn,
+    StopAction? stopAction,
   }) async {
     ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
     _s.validateStringLength(
@@ -1670,7 +1662,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.StopAssessmentRun'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1703,9 +1695,9 @@ class Inspector {
   /// Parameter [topicArn] :
   /// The ARN of the SNS topic to which the SNS notifications are sent.
   Future<void> subscribeToEvent({
-    @_s.required InspectorEvent event,
-    @_s.required String resourceArn,
-    @_s.required String topicArn,
+    required InspectorEvent event,
+    required String resourceArn,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(event, 'event');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -1728,14 +1720,14 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.SubscribeToEvent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event?.toValue() ?? '',
+        'event': event.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1761,9 +1753,9 @@ class Inspector {
   /// Parameter [topicArn] :
   /// The ARN of the SNS topic to which SNS notifications are sent.
   Future<void> unsubscribeFromEvent({
-    @_s.required InspectorEvent event,
-    @_s.required String resourceArn,
-    @_s.required String topicArn,
+    required InspectorEvent event,
+    required String resourceArn,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(event, 'event');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -1786,14 +1778,14 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.UnsubscribeFromEvent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event?.toValue() ?? '',
+        'event': event.toValue(),
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1822,9 +1814,9 @@ class Inspector {
   /// The ARN of the resource group that is used to specify the new resource
   /// group to associate with the assessment target.
   Future<void> updateAssessmentTarget({
-    @_s.required String assessmentTargetArn,
-    @_s.required String assessmentTargetName,
-    String resourceGroupArn,
+    required String assessmentTargetArn,
+    required String assessmentTargetName,
+    String? resourceGroupArn,
   }) async {
     ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
     _s.validateStringLength(
@@ -1852,7 +1844,7 @@ class Inspector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.UpdateAssessmentTarget'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1867,119 +1859,161 @@ class Inspector {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddAttributesToFindingsResponse {
   /// Attribute details that cannot be described. An error code is provided for
   /// each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   AddAttributesToFindingsResponse({
-    @_s.required this.failedItems,
+    required this.failedItems,
   });
-  factory AddAttributesToFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddAttributesToFindingsResponseFromJson(json);
+  factory AddAttributesToFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return AddAttributesToFindingsResponse(
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
 /// Contains information about an Amazon Inspector agent. This data type is used
 /// as a request parameter in the <a>ListAssessmentRunAgents</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AgentFilter {
   /// The detailed health state of the agent. Values can be set to <b>IDLE</b>,
   /// <b>RUNNING</b>, <b>SHUTDOWN</b>, <b>UNHEALTHY</b>, <b>THROTTLED</b>, and
   /// <b>UNKNOWN</b>.
-  @_s.JsonKey(name: 'agentHealthCodes')
   final List<AgentHealthCode> agentHealthCodes;
 
   /// The current health state of the agent. Values can be set to <b>HEALTHY</b>
   /// or <b>UNHEALTHY</b>.
-  @_s.JsonKey(name: 'agentHealths')
   final List<AgentHealth> agentHealths;
 
   AgentFilter({
-    @_s.required this.agentHealthCodes,
-    @_s.required this.agentHealths,
+    required this.agentHealthCodes,
+    required this.agentHealths,
   });
-  Map<String, dynamic> toJson() => _$AgentFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final agentHealthCodes = this.agentHealthCodes;
+    final agentHealths = this.agentHealths;
+    return {
+      'agentHealthCodes': agentHealthCodes.map((e) => e.toValue()).toList(),
+      'agentHealths': agentHealths.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum AgentHealth {
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('UNKNOWN')
   unknown,
+}
+
+extension on AgentHealth {
+  String toValue() {
+    switch (this) {
+      case AgentHealth.healthy:
+        return 'HEALTHY';
+      case AgentHealth.unhealthy:
+        return 'UNHEALTHY';
+      case AgentHealth.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  AgentHealth toAgentHealth() {
+    switch (this) {
+      case 'HEALTHY':
+        return AgentHealth.healthy;
+      case 'UNHEALTHY':
+        return AgentHealth.unhealthy;
+      case 'UNKNOWN':
+        return AgentHealth.unknown;
+    }
+    throw Exception('$this is not known in enum AgentHealth');
+  }
 }
 
 enum AgentHealthCode {
-  @_s.JsonValue('IDLE')
   idle,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SHUTDOWN')
   shutdown,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('THROTTLED')
   throttled,
-  @_s.JsonValue('UNKNOWN')
   unknown,
 }
 
+extension on AgentHealthCode {
+  String toValue() {
+    switch (this) {
+      case AgentHealthCode.idle:
+        return 'IDLE';
+      case AgentHealthCode.running:
+        return 'RUNNING';
+      case AgentHealthCode.shutdown:
+        return 'SHUTDOWN';
+      case AgentHealthCode.unhealthy:
+        return 'UNHEALTHY';
+      case AgentHealthCode.throttled:
+        return 'THROTTLED';
+      case AgentHealthCode.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  AgentHealthCode toAgentHealthCode() {
+    switch (this) {
+      case 'IDLE':
+        return AgentHealthCode.idle;
+      case 'RUNNING':
+        return AgentHealthCode.running;
+      case 'SHUTDOWN':
+        return AgentHealthCode.shutdown;
+      case 'UNHEALTHY':
+        return AgentHealthCode.unhealthy;
+      case 'THROTTLED':
+        return AgentHealthCode.throttled;
+      case 'UNKNOWN':
+        return AgentHealthCode.unknown;
+    }
+    throw Exception('$this is not known in enum AgentHealthCode');
+  }
+}
+
 /// Used as a response element in the <a>PreviewAgents</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgentPreview {
   /// The ID of the EC2 instance where the agent is installed.
-  @_s.JsonKey(name: 'agentId')
   final String agentId;
 
   /// The health status of the Amazon Inspector Agent.
-  @_s.JsonKey(name: 'agentHealth')
-  final AgentHealth agentHealth;
+  final AgentHealth? agentHealth;
 
   /// The version of the Amazon Inspector Agent.
-  @_s.JsonKey(name: 'agentVersion')
-  final String agentVersion;
+  final String? agentVersion;
 
   /// The Auto Scaling group for the EC2 instance where the agent is installed.
-  @_s.JsonKey(name: 'autoScalingGroup')
-  final String autoScalingGroup;
+  final String? autoScalingGroup;
 
   /// The hostname of the EC2 instance on which the Amazon Inspector Agent is
   /// installed.
-  @_s.JsonKey(name: 'hostname')
-  final String hostname;
+  final String? hostname;
 
   /// The IP address of the EC2 instance on which the Amazon Inspector Agent is
   /// installed.
-  @_s.JsonKey(name: 'ipv4Address')
-  final String ipv4Address;
+  final String? ipv4Address;
 
   /// The kernel version of the operating system running on the EC2 instance on
   /// which the Amazon Inspector Agent is installed.
-  @_s.JsonKey(name: 'kernelVersion')
-  final String kernelVersion;
+  final String? kernelVersion;
 
   /// The operating system running on the EC2 instance on which the Amazon
   /// Inspector Agent is installed.
-  @_s.JsonKey(name: 'operatingSystem')
-  final String operatingSystem;
+  final String? operatingSystem;
 
   AgentPreview({
-    @_s.required this.agentId,
+    required this.agentId,
     this.agentHealth,
     this.agentVersion,
     this.autoScalingGroup,
@@ -1988,212 +2022,219 @@ class AgentPreview {
     this.kernelVersion,
     this.operatingSystem,
   });
-  factory AgentPreview.fromJson(Map<String, dynamic> json) =>
-      _$AgentPreviewFromJson(json);
+  factory AgentPreview.fromJson(Map<String, dynamic> json) {
+    return AgentPreview(
+      agentId: json['agentId'] as String,
+      agentHealth: (json['agentHealth'] as String?)?.toAgentHealth(),
+      agentVersion: json['agentVersion'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+      hostname: json['hostname'] as String?,
+      ipv4Address: json['ipv4Address'] as String?,
+      kernelVersion: json['kernelVersion'] as String?,
+      operatingSystem: json['operatingSystem'] as String?,
+    );
+  }
 }
 
 /// A snapshot of an Amazon Inspector assessment run that contains the findings
 /// of the assessment run .
 ///
 /// Used as the response element in the <a>DescribeAssessmentRuns</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentRun {
   /// The ARN of the assessment run.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The ARN of the assessment template that is associated with the assessment
   /// run.
-  @_s.JsonKey(name: 'assessmentTemplateArn')
   final String assessmentTemplateArn;
 
   /// The time when <a>StartAssessmentRun</a> was called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A Boolean value (true or false) that specifies whether the process of
   /// collecting data from the agents is completed.
-  @_s.JsonKey(name: 'dataCollected')
   final bool dataCollected;
 
   /// The duration of the assessment run.
-  @_s.JsonKey(name: 'durationInSeconds')
   final int durationInSeconds;
 
   /// Provides a total count of generated findings per severity.
-  @_s.JsonKey(name: 'findingCounts')
   final Map<Severity, int> findingCounts;
 
   /// The auto-generated name for the assessment run.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// A list of notifications for the event subscriptions. A notification about a
   /// particular generated finding is added to this list only once.
-  @_s.JsonKey(name: 'notifications')
   final List<AssessmentRunNotification> notifications;
 
   /// The rules packages selected for the assessment run.
-  @_s.JsonKey(name: 'rulesPackageArns')
   final List<String> rulesPackageArns;
 
   /// The state of the assessment run.
-  @_s.JsonKey(name: 'state')
   final AssessmentRunState state;
 
   /// The last time when the assessment run's state changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stateChangedAt')
   final DateTime stateChangedAt;
 
   /// A list of the assessment run state changes.
-  @_s.JsonKey(name: 'stateChanges')
   final List<AssessmentRunStateChange> stateChanges;
 
   /// The user-defined attributes that are assigned to every generated finding.
-  @_s.JsonKey(name: 'userAttributesForFindings')
   final List<Attribute> userAttributesForFindings;
 
   /// The assessment run completion time that corresponds to the rules packages
   /// evaluation completion time or failure.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// The time when <a>StartAssessmentRun</a> was called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   AssessmentRun({
-    @_s.required this.arn,
-    @_s.required this.assessmentTemplateArn,
-    @_s.required this.createdAt,
-    @_s.required this.dataCollected,
-    @_s.required this.durationInSeconds,
-    @_s.required this.findingCounts,
-    @_s.required this.name,
-    @_s.required this.notifications,
-    @_s.required this.rulesPackageArns,
-    @_s.required this.state,
-    @_s.required this.stateChangedAt,
-    @_s.required this.stateChanges,
-    @_s.required this.userAttributesForFindings,
+    required this.arn,
+    required this.assessmentTemplateArn,
+    required this.createdAt,
+    required this.dataCollected,
+    required this.durationInSeconds,
+    required this.findingCounts,
+    required this.name,
+    required this.notifications,
+    required this.rulesPackageArns,
+    required this.state,
+    required this.stateChangedAt,
+    required this.stateChanges,
+    required this.userAttributesForFindings,
     this.completedAt,
     this.startedAt,
   });
-  factory AssessmentRun.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentRunFromJson(json);
+  factory AssessmentRun.fromJson(Map<String, dynamic> json) {
+    return AssessmentRun(
+      arn: json['arn'] as String,
+      assessmentTemplateArn: json['assessmentTemplateArn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      dataCollected: json['dataCollected'] as bool,
+      durationInSeconds: json['durationInSeconds'] as int,
+      findingCounts: (json['findingCounts'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k.toSeverity(), e as int)),
+      name: json['name'] as String,
+      notifications: (json['notifications'] as List)
+          .whereNotNull()
+          .map((e) =>
+              AssessmentRunNotification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rulesPackageArns: (json['rulesPackageArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      state: (json['state'] as String).toAssessmentRunState(),
+      stateChangedAt:
+          nonNullableTimeStampFromJson(json['stateChangedAt'] as Object),
+      stateChanges: (json['stateChanges'] as List)
+          .whereNotNull()
+          .map((e) =>
+              AssessmentRunStateChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userAttributesForFindings: (json['userAttributesForFindings'] as List)
+          .whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      completedAt: timeStampFromJson(json['completedAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
+    );
+  }
 }
 
 /// Contains information about an Amazon Inspector agent. This data type is used
 /// as a response element in the <a>ListAssessmentRunAgents</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentRunAgent {
   /// The current health state of the agent.
-  @_s.JsonKey(name: 'agentHealth')
   final AgentHealth agentHealth;
 
   /// The detailed health state of the agent.
-  @_s.JsonKey(name: 'agentHealthCode')
   final AgentHealthCode agentHealthCode;
 
   /// The AWS account of the EC2 instance where the agent is installed.
-  @_s.JsonKey(name: 'agentId')
   final String agentId;
 
   /// The ARN of the assessment run that is associated with the agent.
-  @_s.JsonKey(name: 'assessmentRunArn')
   final String assessmentRunArn;
 
   /// The Amazon Inspector application data metrics that are collected by the
   /// agent.
-  @_s.JsonKey(name: 'telemetryMetadata')
   final List<TelemetryMetadata> telemetryMetadata;
 
   /// The description for the agent health code.
-  @_s.JsonKey(name: 'agentHealthDetails')
-  final String agentHealthDetails;
+  final String? agentHealthDetails;
 
   /// The Auto Scaling group of the EC2 instance that is specified by the agent
   /// ID.
-  @_s.JsonKey(name: 'autoScalingGroup')
-  final String autoScalingGroup;
+  final String? autoScalingGroup;
 
   AssessmentRunAgent({
-    @_s.required this.agentHealth,
-    @_s.required this.agentHealthCode,
-    @_s.required this.agentId,
-    @_s.required this.assessmentRunArn,
-    @_s.required this.telemetryMetadata,
+    required this.agentHealth,
+    required this.agentHealthCode,
+    required this.agentId,
+    required this.assessmentRunArn,
+    required this.telemetryMetadata,
     this.agentHealthDetails,
     this.autoScalingGroup,
   });
-  factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentRunAgentFromJson(json);
+  factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunAgent(
+      agentHealth: (json['agentHealth'] as String).toAgentHealth(),
+      agentHealthCode: (json['agentHealthCode'] as String).toAgentHealthCode(),
+      agentId: json['agentId'] as String,
+      assessmentRunArn: json['assessmentRunArn'] as String,
+      telemetryMetadata: (json['telemetryMetadata'] as List)
+          .whereNotNull()
+          .map((e) => TelemetryMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      agentHealthDetails: json['agentHealthDetails'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+    );
+  }
 }
 
 /// Used as the request parameter in the <a>ListAssessmentRuns</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssessmentRunFilter {
   /// For a record to match a filter, the value that is specified for this data
   /// type property must inclusively match any value between the specified minimum
   /// and maximum values of the <b>completedAt</b> property of the
   /// <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'completionTimeRange')
-  final TimestampRange completionTimeRange;
+  final TimestampRange? completionTimeRange;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must inclusively match any value between the specified minimum
   /// and maximum values of the <b>durationInSeconds</b> property of the
   /// <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'durationRange')
-  final DurationRange durationRange;
+  final DurationRange? durationRange;
 
   /// For a record to match a filter, an explicit value or a string containing a
   /// wildcard that is specified for this data type property must match the value
   /// of the <b>assessmentRunName</b> property of the <a>AssessmentRun</a> data
   /// type.
-  @_s.JsonKey(name: 'namePattern')
-  final String namePattern;
+  final String? namePattern;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must be contained in the list of values of the
   /// <b>rulesPackages</b> property of the <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'rulesPackageArns')
-  final List<String> rulesPackageArns;
+  final List<String>? rulesPackageArns;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must inclusively match any value between the specified minimum
   /// and maximum values of the <b>startTime</b> property of the
   /// <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'startTimeRange')
-  final TimestampRange startTimeRange;
+  final TimestampRange? startTimeRange;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must match the <b>stateChangedAt</b> property of the
   /// <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'stateChangeTimeRange')
-  final TimestampRange stateChangeTimeRange;
+  final TimestampRange? stateChangeTimeRange;
 
   /// For a record to match a filter, one of the values specified for this data
   /// type property must be the exact match of the value of the
   /// <b>assessmentRunState</b> property of the <a>AssessmentRun</a> data type.
-  @_s.JsonKey(name: 'states')
-  final List<AssessmentRunState> states;
+  final List<AssessmentRunState>? states;
 
   AssessmentRunFilter({
     this.completionTimeRange,
@@ -2204,329 +2245,410 @@ class AssessmentRunFilter {
     this.stateChangeTimeRange,
     this.states,
   });
-  Map<String, dynamic> toJson() => _$AssessmentRunFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final completionTimeRange = this.completionTimeRange;
+    final durationRange = this.durationRange;
+    final namePattern = this.namePattern;
+    final rulesPackageArns = this.rulesPackageArns;
+    final startTimeRange = this.startTimeRange;
+    final stateChangeTimeRange = this.stateChangeTimeRange;
+    final states = this.states;
+    return {
+      if (completionTimeRange != null)
+        'completionTimeRange': completionTimeRange,
+      if (durationRange != null) 'durationRange': durationRange,
+      if (namePattern != null) 'namePattern': namePattern,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+      if (startTimeRange != null) 'startTimeRange': startTimeRange,
+      if (stateChangeTimeRange != null)
+        'stateChangeTimeRange': stateChangeTimeRange,
+      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentRunNotification {
   /// The date of the notification.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'date')
   final DateTime date;
 
   /// The Boolean value that specifies whether the notification represents an
   /// error.
-  @_s.JsonKey(name: 'error')
   final bool error;
 
   /// The event for which a notification is sent.
-  @_s.JsonKey(name: 'event')
   final InspectorEvent event;
 
   /// The message included in the notification.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The status code of the SNS notification.
-  @_s.JsonKey(name: 'snsPublishStatusCode')
-  final AssessmentRunNotificationSnsStatusCode snsPublishStatusCode;
+  final AssessmentRunNotificationSnsStatusCode? snsPublishStatusCode;
 
   /// The SNS topic to which the SNS notification is sent.
-  @_s.JsonKey(name: 'snsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   AssessmentRunNotification({
-    @_s.required this.date,
-    @_s.required this.error,
-    @_s.required this.event,
+    required this.date,
+    required this.error,
+    required this.event,
     this.message,
     this.snsPublishStatusCode,
     this.snsTopicArn,
   });
-  factory AssessmentRunNotification.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentRunNotificationFromJson(json);
+  factory AssessmentRunNotification.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunNotification(
+      date: nonNullableTimeStampFromJson(json['date'] as Object),
+      error: json['error'] as bool,
+      event: (json['event'] as String).toInspectorEvent(),
+      message: json['message'] as String?,
+      snsPublishStatusCode: (json['snsPublishStatusCode'] as String?)
+          ?.toAssessmentRunNotificationSnsStatusCode(),
+      snsTopicArn: json['snsTopicArn'] as String?,
+    );
+  }
 }
 
 enum AssessmentRunNotificationSnsStatusCode {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('TOPIC_DOES_NOT_EXIST')
   topicDoesNotExist,
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
 }
 
+extension on AssessmentRunNotificationSnsStatusCode {
+  String toValue() {
+    switch (this) {
+      case AssessmentRunNotificationSnsStatusCode.success:
+        return 'SUCCESS';
+      case AssessmentRunNotificationSnsStatusCode.topicDoesNotExist:
+        return 'TOPIC_DOES_NOT_EXIST';
+      case AssessmentRunNotificationSnsStatusCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case AssessmentRunNotificationSnsStatusCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  AssessmentRunNotificationSnsStatusCode
+      toAssessmentRunNotificationSnsStatusCode() {
+    switch (this) {
+      case 'SUCCESS':
+        return AssessmentRunNotificationSnsStatusCode.success;
+      case 'TOPIC_DOES_NOT_EXIST':
+        return AssessmentRunNotificationSnsStatusCode.topicDoesNotExist;
+      case 'ACCESS_DENIED':
+        return AssessmentRunNotificationSnsStatusCode.accessDenied;
+      case 'INTERNAL_ERROR':
+        return AssessmentRunNotificationSnsStatusCode.internalError;
+    }
+    throw Exception(
+        '$this is not known in enum AssessmentRunNotificationSnsStatusCode');
+  }
+}
+
 enum AssessmentRunState {
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('START_DATA_COLLECTION_PENDING')
   startDataCollectionPending,
-  @_s.JsonValue('START_DATA_COLLECTION_IN_PROGRESS')
   startDataCollectionInProgress,
-  @_s.JsonValue('COLLECTING_DATA')
   collectingData,
-  @_s.JsonValue('STOP_DATA_COLLECTION_PENDING')
   stopDataCollectionPending,
-  @_s.JsonValue('DATA_COLLECTED')
   dataCollected,
-  @_s.JsonValue('START_EVALUATING_RULES_PENDING')
   startEvaluatingRulesPending,
-  @_s.JsonValue('EVALUATING_RULES')
   evaluatingRules,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('COMPLETED_WITH_ERRORS')
   completedWithErrors,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
+extension on AssessmentRunState {
+  String toValue() {
+    switch (this) {
+      case AssessmentRunState.created:
+        return 'CREATED';
+      case AssessmentRunState.startDataCollectionPending:
+        return 'START_DATA_COLLECTION_PENDING';
+      case AssessmentRunState.startDataCollectionInProgress:
+        return 'START_DATA_COLLECTION_IN_PROGRESS';
+      case AssessmentRunState.collectingData:
+        return 'COLLECTING_DATA';
+      case AssessmentRunState.stopDataCollectionPending:
+        return 'STOP_DATA_COLLECTION_PENDING';
+      case AssessmentRunState.dataCollected:
+        return 'DATA_COLLECTED';
+      case AssessmentRunState.startEvaluatingRulesPending:
+        return 'START_EVALUATING_RULES_PENDING';
+      case AssessmentRunState.evaluatingRules:
+        return 'EVALUATING_RULES';
+      case AssessmentRunState.failed:
+        return 'FAILED';
+      case AssessmentRunState.error:
+        return 'ERROR';
+      case AssessmentRunState.completed:
+        return 'COMPLETED';
+      case AssessmentRunState.completedWithErrors:
+        return 'COMPLETED_WITH_ERRORS';
+      case AssessmentRunState.canceled:
+        return 'CANCELED';
+    }
+  }
+}
+
+extension on String {
+  AssessmentRunState toAssessmentRunState() {
+    switch (this) {
+      case 'CREATED':
+        return AssessmentRunState.created;
+      case 'START_DATA_COLLECTION_PENDING':
+        return AssessmentRunState.startDataCollectionPending;
+      case 'START_DATA_COLLECTION_IN_PROGRESS':
+        return AssessmentRunState.startDataCollectionInProgress;
+      case 'COLLECTING_DATA':
+        return AssessmentRunState.collectingData;
+      case 'STOP_DATA_COLLECTION_PENDING':
+        return AssessmentRunState.stopDataCollectionPending;
+      case 'DATA_COLLECTED':
+        return AssessmentRunState.dataCollected;
+      case 'START_EVALUATING_RULES_PENDING':
+        return AssessmentRunState.startEvaluatingRulesPending;
+      case 'EVALUATING_RULES':
+        return AssessmentRunState.evaluatingRules;
+      case 'FAILED':
+        return AssessmentRunState.failed;
+      case 'ERROR':
+        return AssessmentRunState.error;
+      case 'COMPLETED':
+        return AssessmentRunState.completed;
+      case 'COMPLETED_WITH_ERRORS':
+        return AssessmentRunState.completedWithErrors;
+      case 'CANCELED':
+        return AssessmentRunState.canceled;
+    }
+    throw Exception('$this is not known in enum AssessmentRunState');
+  }
+}
+
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentRunStateChange {
   /// The assessment run state.
-  @_s.JsonKey(name: 'state')
   final AssessmentRunState state;
 
   /// The last time the assessment run state changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stateChangedAt')
   final DateTime stateChangedAt;
 
   AssessmentRunStateChange({
-    @_s.required this.state,
-    @_s.required this.stateChangedAt,
+    required this.state,
+    required this.stateChangedAt,
   });
-  factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentRunStateChangeFromJson(json);
+  factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunStateChange(
+      state: (json['state'] as String).toAssessmentRunState(),
+      stateChangedAt:
+          nonNullableTimeStampFromJson(json['stateChangedAt'] as Object),
+    );
+  }
 }
 
 /// Contains information about an Amazon Inspector application. This data type
 /// is used as the response element in the <a>DescribeAssessmentTargets</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentTarget {
   /// The ARN that specifies the Amazon Inspector assessment target.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The time at which the assessment target is created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the Amazon Inspector assessment target.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The time at which <a>UpdateAssessmentTarget</a> is called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The ARN that specifies the resource group that is associated with the
   /// assessment target.
-  @_s.JsonKey(name: 'resourceGroupArn')
-  final String resourceGroupArn;
+  final String? resourceGroupArn;
 
   AssessmentTarget({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.name,
-    @_s.required this.updatedAt,
+    required this.arn,
+    required this.createdAt,
+    required this.name,
+    required this.updatedAt,
     this.resourceGroupArn,
   });
-  factory AssessmentTarget.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentTargetFromJson(json);
+  factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
+    return AssessmentTarget(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      resourceGroupArn: json['resourceGroupArn'] as String?,
+    );
+  }
 }
 
 /// Used as the request parameter in the <a>ListAssessmentTargets</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssessmentTargetFilter {
   /// For a record to match a filter, an explicit value or a string that contains
   /// a wildcard that is specified for this data type property must match the
   /// value of the <b>assessmentTargetName</b> property of the
   /// <a>AssessmentTarget</a> data type.
-  @_s.JsonKey(name: 'assessmentTargetNamePattern')
-  final String assessmentTargetNamePattern;
+  final String? assessmentTargetNamePattern;
 
   AssessmentTargetFilter({
     this.assessmentTargetNamePattern,
   });
-  Map<String, dynamic> toJson() => _$AssessmentTargetFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final assessmentTargetNamePattern = this.assessmentTargetNamePattern;
+    return {
+      if (assessmentTargetNamePattern != null)
+        'assessmentTargetNamePattern': assessmentTargetNamePattern,
+    };
+  }
 }
 
 /// Contains information about an Amazon Inspector assessment template. This
 /// data type is used as the response element in the
 /// <a>DescribeAssessmentTemplates</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssessmentTemplate {
   /// The ARN of the assessment template.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The number of existing assessment runs associated with this assessment
   /// template. This value can be zero or a positive integer.
-  @_s.JsonKey(name: 'assessmentRunCount')
   final int assessmentRunCount;
 
   /// The ARN of the assessment target that corresponds to this assessment
   /// template.
-  @_s.JsonKey(name: 'assessmentTargetArn')
   final String assessmentTargetArn;
 
   /// The time at which the assessment template is created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The duration in seconds specified for this assessment template. The default
   /// value is 3600 seconds (one hour). The maximum value is 86400 seconds (one
   /// day).
-  @_s.JsonKey(name: 'durationInSeconds')
   final int durationInSeconds;
 
   /// The name of the assessment template.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The rules packages that are specified for this assessment template.
-  @_s.JsonKey(name: 'rulesPackageArns')
   final List<String> rulesPackageArns;
 
   /// The user-defined attributes that are assigned to every generated finding
   /// from the assessment run that uses this assessment template.
-  @_s.JsonKey(name: 'userAttributesForFindings')
   final List<Attribute> userAttributesForFindings;
 
   /// The Amazon Resource Name (ARN) of the most recent assessment run associated
   /// with this assessment template. This value exists only when the value of
   /// assessmentRunCount is greaterpa than zero.
-  @_s.JsonKey(name: 'lastAssessmentRunArn')
-  final String lastAssessmentRunArn;
+  final String? lastAssessmentRunArn;
 
   AssessmentTemplate({
-    @_s.required this.arn,
-    @_s.required this.assessmentRunCount,
-    @_s.required this.assessmentTargetArn,
-    @_s.required this.createdAt,
-    @_s.required this.durationInSeconds,
-    @_s.required this.name,
-    @_s.required this.rulesPackageArns,
-    @_s.required this.userAttributesForFindings,
+    required this.arn,
+    required this.assessmentRunCount,
+    required this.assessmentTargetArn,
+    required this.createdAt,
+    required this.durationInSeconds,
+    required this.name,
+    required this.rulesPackageArns,
+    required this.userAttributesForFindings,
     this.lastAssessmentRunArn,
   });
-  factory AssessmentTemplate.fromJson(Map<String, dynamic> json) =>
-      _$AssessmentTemplateFromJson(json);
+  factory AssessmentTemplate.fromJson(Map<String, dynamic> json) {
+    return AssessmentTemplate(
+      arn: json['arn'] as String,
+      assessmentRunCount: json['assessmentRunCount'] as int,
+      assessmentTargetArn: json['assessmentTargetArn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      durationInSeconds: json['durationInSeconds'] as int,
+      name: json['name'] as String,
+      rulesPackageArns: (json['rulesPackageArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      userAttributesForFindings: (json['userAttributesForFindings'] as List)
+          .whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastAssessmentRunArn: json['lastAssessmentRunArn'] as String?,
+    );
+  }
 }
 
 /// Used as the request parameter in the <a>ListAssessmentTemplates</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssessmentTemplateFilter {
   /// For a record to match a filter, the value specified for this data type
   /// property must inclusively match any value between the specified minimum and
   /// maximum values of the <b>durationInSeconds</b> property of the
   /// <a>AssessmentTemplate</a> data type.
-  @_s.JsonKey(name: 'durationRange')
-  final DurationRange durationRange;
+  final DurationRange? durationRange;
 
   /// For a record to match a filter, an explicit value or a string that contains
   /// a wildcard that is specified for this data type property must match the
   /// value of the <b>assessmentTemplateName</b> property of the
   /// <a>AssessmentTemplate</a> data type.
-  @_s.JsonKey(name: 'namePattern')
-  final String namePattern;
+  final String? namePattern;
 
   /// For a record to match a filter, the values that are specified for this data
   /// type property must be contained in the list of values of the
   /// <b>rulesPackageArns</b> property of the <a>AssessmentTemplate</a> data type.
-  @_s.JsonKey(name: 'rulesPackageArns')
-  final List<String> rulesPackageArns;
+  final List<String>? rulesPackageArns;
 
   AssessmentTemplateFilter({
     this.durationRange,
     this.namePattern,
     this.rulesPackageArns,
   });
-  Map<String, dynamic> toJson() => _$AssessmentTemplateFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationRange = this.durationRange;
+    final namePattern = this.namePattern;
+    final rulesPackageArns = this.rulesPackageArns;
+    return {
+      if (durationRange != null) 'durationRange': durationRange,
+      if (namePattern != null) 'namePattern': namePattern,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+    };
+  }
 }
 
 /// A collection of attributes of the host from which the finding is generated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssetAttributes {
   /// The schema version of this data type.
-  @_s.JsonKey(name: 'schemaVersion')
   final int schemaVersion;
 
   /// The ID of the agent that is installed on the EC2 instance where the finding
   /// is generated.
-  @_s.JsonKey(name: 'agentId')
-  final String agentId;
+  final String? agentId;
 
   /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2
   /// instance where the finding is generated.
-  @_s.JsonKey(name: 'amiId')
-  final String amiId;
+  final String? amiId;
 
   /// The Auto Scaling group of the EC2 instance where the finding is generated.
-  @_s.JsonKey(name: 'autoScalingGroup')
-  final String autoScalingGroup;
+  final String? autoScalingGroup;
 
   /// The hostname of the EC2 instance where the finding is generated.
-  @_s.JsonKey(name: 'hostname')
-  final String hostname;
+  final String? hostname;
 
   /// The list of IP v4 addresses of the EC2 instance where the finding is
   /// generated.
-  @_s.JsonKey(name: 'ipv4Addresses')
-  final List<String> ipv4Addresses;
+  final List<String>? ipv4Addresses;
 
   /// An array of the network interfaces interacting with the EC2 instance where
   /// the finding is generated.
-  @_s.JsonKey(name: 'networkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// The tags related to the EC2 instance where the finding is generated.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   AssetAttributes({
-    @_s.required this.schemaVersion,
+    required this.schemaVersion,
     this.agentId,
     this.amiId,
     this.autoScalingGroup,
@@ -2535,564 +2657,602 @@ class AssetAttributes {
     this.networkInterfaces,
     this.tags,
   });
-  factory AssetAttributes.fromJson(Map<String, dynamic> json) =>
-      _$AssetAttributesFromJson(json);
+  factory AssetAttributes.fromJson(Map<String, dynamic> json) {
+    return AssetAttributes(
+      schemaVersion: json['schemaVersion'] as int,
+      agentId: json['agentId'] as String?,
+      amiId: json['amiId'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+      hostname: json['hostname'] as String?,
+      ipv4Addresses: (json['ipv4Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum AssetType {
-  @_s.JsonValue('ec2-instance')
   ec2Instance,
+}
+
+extension on AssetType {
+  String toValue() {
+    switch (this) {
+      case AssetType.ec2Instance:
+        return 'ec2-instance';
+    }
+  }
+}
+
+extension on String {
+  AssetType toAssetType() {
+    switch (this) {
+      case 'ec2-instance':
+        return AssetType.ec2Instance;
+    }
+    throw Exception('$this is not known in enum AssetType');
+  }
 }
 
 /// This data type is used as a request parameter in the
 /// <a>AddAttributesToFindings</a> and <a>CreateAssessmentTemplate</a> actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Attribute {
   /// The attribute key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value assigned to the attribute key.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Attribute({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAssessmentTargetResponse {
   /// The ARN that specifies the assessment target that is created.
-  @_s.JsonKey(name: 'assessmentTargetArn')
   final String assessmentTargetArn;
 
   CreateAssessmentTargetResponse({
-    @_s.required this.assessmentTargetArn,
+    required this.assessmentTargetArn,
   });
-  factory CreateAssessmentTargetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssessmentTargetResponseFromJson(json);
+  factory CreateAssessmentTargetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssessmentTargetResponse(
+      assessmentTargetArn: json['assessmentTargetArn'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAssessmentTemplateResponse {
   /// The ARN that specifies the assessment template that is created.
-  @_s.JsonKey(name: 'assessmentTemplateArn')
   final String assessmentTemplateArn;
 
   CreateAssessmentTemplateResponse({
-    @_s.required this.assessmentTemplateArn,
+    required this.assessmentTemplateArn,
   });
-  factory CreateAssessmentTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateAssessmentTemplateResponseFromJson(json);
+  factory CreateAssessmentTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssessmentTemplateResponse(
+      assessmentTemplateArn: json['assessmentTemplateArn'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateExclusionsPreviewResponse {
   /// Specifies the unique identifier of the requested exclusions preview. You can
   /// use the unique identifier to retrieve the exclusions preview when running
   /// the GetExclusionsPreview API.
-  @_s.JsonKey(name: 'previewToken')
   final String previewToken;
 
   CreateExclusionsPreviewResponse({
-    @_s.required this.previewToken,
+    required this.previewToken,
   });
-  factory CreateExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateExclusionsPreviewResponseFromJson(json);
+  factory CreateExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
+    return CreateExclusionsPreviewResponse(
+      previewToken: json['previewToken'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceGroupResponse {
   /// The ARN that specifies the resource group that is created.
-  @_s.JsonKey(name: 'resourceGroupArn')
   final String resourceGroupArn;
 
   CreateResourceGroupResponse({
-    @_s.required this.resourceGroupArn,
+    required this.resourceGroupArn,
   });
-  factory CreateResourceGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResourceGroupResponseFromJson(json);
+  factory CreateResourceGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResourceGroupResponse(
+      resourceGroupArn: json['resourceGroupArn'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssessmentRunsResponse {
   /// Information about the assessment run.
-  @_s.JsonKey(name: 'assessmentRuns')
   final List<AssessmentRun> assessmentRuns;
 
   /// Assessment run details that cannot be described. An error code is provided
   /// for each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   DescribeAssessmentRunsResponse({
-    @_s.required this.assessmentRuns,
-    @_s.required this.failedItems,
+    required this.assessmentRuns,
+    required this.failedItems,
   });
-  factory DescribeAssessmentRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAssessmentRunsResponseFromJson(json);
+  factory DescribeAssessmentRunsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAssessmentRunsResponse(
+      assessmentRuns: (json['assessmentRuns'] as List)
+          .whereNotNull()
+          .map((e) => AssessmentRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssessmentTargetsResponse {
   /// Information about the assessment targets.
-  @_s.JsonKey(name: 'assessmentTargets')
   final List<AssessmentTarget> assessmentTargets;
 
   /// Assessment target details that cannot be described. An error code is
   /// provided for each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   DescribeAssessmentTargetsResponse({
-    @_s.required this.assessmentTargets,
-    @_s.required this.failedItems,
+    required this.assessmentTargets,
+    required this.failedItems,
   });
   factory DescribeAssessmentTargetsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAssessmentTargetsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAssessmentTargetsResponse(
+      assessmentTargets: (json['assessmentTargets'] as List)
+          .whereNotNull()
+          .map((e) => AssessmentTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssessmentTemplatesResponse {
   /// Information about the assessment templates.
-  @_s.JsonKey(name: 'assessmentTemplates')
   final List<AssessmentTemplate> assessmentTemplates;
 
   /// Assessment template details that cannot be described. An error code is
   /// provided for each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   DescribeAssessmentTemplatesResponse({
-    @_s.required this.assessmentTemplates,
-    @_s.required this.failedItems,
+    required this.assessmentTemplates,
+    required this.failedItems,
   });
   factory DescribeAssessmentTemplatesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAssessmentTemplatesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAssessmentTemplatesResponse(
+      assessmentTemplates: (json['assessmentTemplates'] as List)
+          .whereNotNull()
+          .map((e) => AssessmentTemplate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCrossAccountAccessRoleResponse {
   /// The date when the cross-account access role was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'registeredAt')
   final DateTime registeredAt;
 
   /// The ARN that specifies the IAM role that Amazon Inspector uses to access
   /// your AWS account.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// A Boolean value that specifies whether the IAM role has the necessary
   /// policies attached to enable Amazon Inspector to access your AWS account.
-  @_s.JsonKey(name: 'valid')
   final bool valid;
 
   DescribeCrossAccountAccessRoleResponse({
-    @_s.required this.registeredAt,
-    @_s.required this.roleArn,
-    @_s.required this.valid,
+    required this.registeredAt,
+    required this.roleArn,
+    required this.valid,
   });
   factory DescribeCrossAccountAccessRoleResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCrossAccountAccessRoleResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCrossAccountAccessRoleResponse(
+      registeredAt:
+          nonNullableTimeStampFromJson(json['registeredAt'] as Object),
+      roleArn: json['roleArn'] as String,
+      valid: json['valid'] as bool,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeExclusionsResponse {
   /// Information about the exclusions.
-  @_s.JsonKey(name: 'exclusions')
   final Map<String, Exclusion> exclusions;
 
   /// Exclusion details that cannot be described. An error code is provided for
   /// each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   DescribeExclusionsResponse({
-    @_s.required this.exclusions,
-    @_s.required this.failedItems,
+    required this.exclusions,
+    required this.failedItems,
   });
-  factory DescribeExclusionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeExclusionsResponseFromJson(json);
+  factory DescribeExclusionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExclusionsResponse(
+      exclusions: (json['exclusions'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, Exclusion.fromJson(e as Map<String, dynamic>))),
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFindingsResponse {
   /// Finding details that cannot be described. An error code is provided for each
   /// failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   /// Information about the finding.
-  @_s.JsonKey(name: 'findings')
   final List<Finding> findings;
 
   DescribeFindingsResponse({
-    @_s.required this.failedItems,
-    @_s.required this.findings,
+    required this.failedItems,
+    required this.findings,
   });
-  factory DescribeFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFindingsResponseFromJson(json);
+  factory DescribeFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFindingsResponse(
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => Finding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourceGroupsResponse {
   /// Resource group details that cannot be described. An error code is provided
   /// for each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   /// Information about a resource group.
-  @_s.JsonKey(name: 'resourceGroups')
   final List<ResourceGroup> resourceGroups;
 
   DescribeResourceGroupsResponse({
-    @_s.required this.failedItems,
-    @_s.required this.resourceGroups,
+    required this.failedItems,
+    required this.resourceGroups,
   });
-  factory DescribeResourceGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeResourceGroupsResponseFromJson(json);
+  factory DescribeResourceGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourceGroupsResponse(
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+      resourceGroups: (json['resourceGroups'] as List)
+          .whereNotNull()
+          .map((e) => ResourceGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRulesPackagesResponse {
   /// Rules package details that cannot be described. An error code is provided
   /// for each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   /// Information about the rules package.
-  @_s.JsonKey(name: 'rulesPackages')
   final List<RulesPackage> rulesPackages;
 
   DescribeRulesPackagesResponse({
-    @_s.required this.failedItems,
-    @_s.required this.rulesPackages,
+    required this.failedItems,
+    required this.rulesPackages,
   });
-  factory DescribeRulesPackagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRulesPackagesResponseFromJson(json);
+  factory DescribeRulesPackagesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRulesPackagesResponse(
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+      rulesPackages: (json['rulesPackages'] as List)
+          .whereNotNull()
+          .map((e) => RulesPackage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// This data type is used in the <a>AssessmentTemplateFilter</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DurationRange {
   /// The maximum value of the duration range. Must be less than or equal to
   /// 604800 seconds (1 week).
-  @_s.JsonKey(name: 'maxSeconds')
-  final int maxSeconds;
+  final int? maxSeconds;
 
   /// The minimum value of the duration range. Must be greater than zero.
-  @_s.JsonKey(name: 'minSeconds')
-  final int minSeconds;
+  final int? minSeconds;
 
   DurationRange({
     this.maxSeconds,
     this.minSeconds,
   });
-  Map<String, dynamic> toJson() => _$DurationRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxSeconds = this.maxSeconds;
+    final minSeconds = this.minSeconds;
+    return {
+      if (maxSeconds != null) 'maxSeconds': maxSeconds,
+      if (minSeconds != null) 'minSeconds': minSeconds,
+    };
+  }
 }
 
 /// This data type is used in the <a>Subscription</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventSubscription {
   /// The event for which Amazon Simple Notification Service (SNS) notifications
   /// are sent.
-  @_s.JsonKey(name: 'event')
   final InspectorEvent event;
 
   /// The time at which <a>SubscribeToEvent</a> is called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'subscribedAt')
   final DateTime subscribedAt;
 
   EventSubscription({
-    @_s.required this.event,
-    @_s.required this.subscribedAt,
+    required this.event,
+    required this.subscribedAt,
   });
-  factory EventSubscription.fromJson(Map<String, dynamic> json) =>
-      _$EventSubscriptionFromJson(json);
+  factory EventSubscription.fromJson(Map<String, dynamic> json) {
+    return EventSubscription(
+      event: (json['event'] as String).toInspectorEvent(),
+      subscribedAt:
+          nonNullableTimeStampFromJson(json['subscribedAt'] as Object),
+    );
+  }
 }
 
 /// Contains information about what was excluded from an assessment run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Exclusion {
   /// The ARN that specifies the exclusion.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The description of the exclusion.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The recommendation for the exclusion.
-  @_s.JsonKey(name: 'recommendation')
   final String recommendation;
 
   /// The AWS resources for which the exclusion pertains.
-  @_s.JsonKey(name: 'scopes')
   final List<Scope> scopes;
 
   /// The name of the exclusion.
-  @_s.JsonKey(name: 'title')
   final String title;
 
   /// The system-defined attributes for the exclusion.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   Exclusion({
-    @_s.required this.arn,
-    @_s.required this.description,
-    @_s.required this.recommendation,
-    @_s.required this.scopes,
-    @_s.required this.title,
+    required this.arn,
+    required this.description,
+    required this.recommendation,
+    required this.scopes,
+    required this.title,
     this.attributes,
   });
-  factory Exclusion.fromJson(Map<String, dynamic> json) =>
-      _$ExclusionFromJson(json);
+  factory Exclusion.fromJson(Map<String, dynamic> json) {
+    return Exclusion(
+      arn: json['arn'] as String,
+      description: json['description'] as String,
+      recommendation: json['recommendation'] as String,
+      scopes: (json['scopes'] as List)
+          .whereNotNull()
+          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      title: json['title'] as String,
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about what is excluded from an assessment run given the
 /// current state of the assessment template.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExclusionPreview {
   /// The description of the exclusion preview.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The recommendation for the exclusion preview.
-  @_s.JsonKey(name: 'recommendation')
   final String recommendation;
 
   /// The AWS resources for which the exclusion preview pertains.
-  @_s.JsonKey(name: 'scopes')
   final List<Scope> scopes;
 
   /// The name of the exclusion preview.
-  @_s.JsonKey(name: 'title')
   final String title;
 
   /// The system-defined attributes for the exclusion preview.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   ExclusionPreview({
-    @_s.required this.description,
-    @_s.required this.recommendation,
-    @_s.required this.scopes,
-    @_s.required this.title,
+    required this.description,
+    required this.recommendation,
+    required this.scopes,
+    required this.title,
     this.attributes,
   });
-  factory ExclusionPreview.fromJson(Map<String, dynamic> json) =>
-      _$ExclusionPreviewFromJson(json);
+  factory ExclusionPreview.fromJson(Map<String, dynamic> json) {
+    return ExclusionPreview(
+      description: json['description'] as String,
+      recommendation: json['recommendation'] as String,
+      scopes: (json['scopes'] as List)
+          .whereNotNull()
+          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      title: json['title'] as String,
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Includes details about the failed items.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedItemDetails {
   /// The status code of a failed item.
-  @_s.JsonKey(name: 'failureCode')
   final FailedItemErrorCode failureCode;
 
   /// Indicates whether you can immediately retry a request for this item for a
   /// specified resource.
-  @_s.JsonKey(name: 'retryable')
   final bool retryable;
 
   FailedItemDetails({
-    @_s.required this.failureCode,
-    @_s.required this.retryable,
+    required this.failureCode,
+    required this.retryable,
   });
-  factory FailedItemDetails.fromJson(Map<String, dynamic> json) =>
-      _$FailedItemDetailsFromJson(json);
+  factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
+    return FailedItemDetails(
+      failureCode: (json['failureCode'] as String).toFailedItemErrorCode(),
+      retryable: json['retryable'] as bool,
+    );
+  }
 }
 
 enum FailedItemErrorCode {
-  @_s.JsonValue('INVALID_ARN')
   invalidArn,
-  @_s.JsonValue('DUPLICATE_ARN')
   duplicateArn,
-  @_s.JsonValue('ITEM_DOES_NOT_EXIST')
   itemDoesNotExist,
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('LIMIT_EXCEEDED')
   limitExceeded,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
+}
+
+extension on FailedItemErrorCode {
+  String toValue() {
+    switch (this) {
+      case FailedItemErrorCode.invalidArn:
+        return 'INVALID_ARN';
+      case FailedItemErrorCode.duplicateArn:
+        return 'DUPLICATE_ARN';
+      case FailedItemErrorCode.itemDoesNotExist:
+        return 'ITEM_DOES_NOT_EXIST';
+      case FailedItemErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case FailedItemErrorCode.limitExceeded:
+        return 'LIMIT_EXCEEDED';
+      case FailedItemErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  FailedItemErrorCode toFailedItemErrorCode() {
+    switch (this) {
+      case 'INVALID_ARN':
+        return FailedItemErrorCode.invalidArn;
+      case 'DUPLICATE_ARN':
+        return FailedItemErrorCode.duplicateArn;
+      case 'ITEM_DOES_NOT_EXIST':
+        return FailedItemErrorCode.itemDoesNotExist;
+      case 'ACCESS_DENIED':
+        return FailedItemErrorCode.accessDenied;
+      case 'LIMIT_EXCEEDED':
+        return FailedItemErrorCode.limitExceeded;
+      case 'INTERNAL_ERROR':
+        return FailedItemErrorCode.internalError;
+    }
+    throw Exception('$this is not known in enum FailedItemErrorCode');
+  }
 }
 
 /// Contains information about an Amazon Inspector finding. This data type is
 /// used as the response element in the <a>DescribeFindings</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Finding {
   /// The ARN that specifies the finding.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The system-defined attributes for the finding.
-  @_s.JsonKey(name: 'attributes')
   final List<Attribute> attributes;
 
   /// The time when the finding was generated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The time when <a>AddAttributesToFindings</a> is called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The user-defined attributes that are assigned to the finding.
-  @_s.JsonKey(name: 'userAttributes')
   final List<Attribute> userAttributes;
 
   /// A collection of attributes of the host from which the finding is generated.
-  @_s.JsonKey(name: 'assetAttributes')
-  final AssetAttributes assetAttributes;
+  final AssetAttributes? assetAttributes;
 
   /// The type of the host from which the finding is generated.
-  @_s.JsonKey(name: 'assetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// This data element is currently not used.
-  @_s.JsonKey(name: 'confidence')
-  final int confidence;
+  final int? confidence;
 
   /// The description of the finding.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ID of the finding.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// This data element is currently not used.
-  @_s.JsonKey(name: 'indicatorOfCompromise')
-  final bool indicatorOfCompromise;
+  final bool? indicatorOfCompromise;
 
   /// The numeric value of the finding severity.
-  @_s.JsonKey(name: 'numericSeverity')
-  final double numericSeverity;
+  final double? numericSeverity;
 
   /// The recommendation for the finding.
-  @_s.JsonKey(name: 'recommendation')
-  final String recommendation;
+  final String? recommendation;
 
   /// The schema version of this data type.
-  @_s.JsonKey(name: 'schemaVersion')
-  final int schemaVersion;
+  final int? schemaVersion;
 
   /// The data element is set to "Inspector".
-  @_s.JsonKey(name: 'service')
-  final String service;
+  final String? service;
 
   /// This data type is used in the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'serviceAttributes')
-  final InspectorServiceAttributes serviceAttributes;
+  final InspectorServiceAttributes? serviceAttributes;
 
   /// The finding severity. Values can be set to High, Medium, Low, and
   /// Informational.
-  @_s.JsonKey(name: 'severity')
-  final Severity severity;
+  final Severity? severity;
 
   /// The name of the finding.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   Finding({
-    @_s.required this.arn,
-    @_s.required this.attributes,
-    @_s.required this.createdAt,
-    @_s.required this.updatedAt,
-    @_s.required this.userAttributes,
+    required this.arn,
+    required this.attributes,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.userAttributes,
     this.assetAttributes,
     this.assetType,
     this.confidence,
@@ -3107,63 +3267,82 @@ class Finding {
     this.severity,
     this.title,
   });
-  factory Finding.fromJson(Map<String, dynamic> json) =>
-      _$FindingFromJson(json);
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      arn: json['arn'] as String,
+      attributes: (json['attributes'] as List)
+          .whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      userAttributes: (json['userAttributes'] as List)
+          .whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetAttributes: json['assetAttributes'] != null
+          ? AssetAttributes.fromJson(
+              json['assetAttributes'] as Map<String, dynamic>)
+          : null,
+      assetType: (json['assetType'] as String?)?.toAssetType(),
+      confidence: json['confidence'] as int?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      indicatorOfCompromise: json['indicatorOfCompromise'] as bool?,
+      numericSeverity: json['numericSeverity'] as double?,
+      recommendation: json['recommendation'] as String?,
+      schemaVersion: json['schemaVersion'] as int?,
+      service: json['service'] as String?,
+      serviceAttributes: json['serviceAttributes'] != null
+          ? InspectorServiceAttributes.fromJson(
+              json['serviceAttributes'] as Map<String, dynamic>)
+          : null,
+      severity: (json['severity'] as String?)?.toSeverity(),
+      title: json['title'] as String?,
+    );
+  }
 }
 
 /// This data type is used as a request parameter in the <a>ListFindings</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FindingFilter {
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
   /// <b>agentId</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'agentIds')
-  final List<String> agentIds;
+  final List<String>? agentIds;
 
   /// For a record to match a filter, the list of values that are specified for
   /// this data type property must be contained in the list of values of the
   /// <b>attributes</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
   /// <b>autoScalingGroup</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'autoScalingGroups')
-  final List<String> autoScalingGroups;
+  final List<String>? autoScalingGroups;
 
   /// The time range during which the finding is generated.
-  @_s.JsonKey(name: 'creationTimeRange')
-  final TimestampRange creationTimeRange;
+  final TimestampRange? creationTimeRange;
 
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
   /// <b>ruleName</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'ruleNames')
-  final List<String> ruleNames;
+  final List<String>? ruleNames;
 
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
   /// <b>rulesPackageArn</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'rulesPackageArns')
-  final List<String> rulesPackageArns;
+  final List<String>? rulesPackageArns;
 
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
   /// <b>severity</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'severities')
-  final List<Severity> severities;
+  final List<Severity>? severities;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must be contained in the list of values of the
   /// <b>userAttributes</b> property of the <a>Finding</a> data type.
-  @_s.JsonKey(name: 'userAttributes')
-  final List<Attribute> userAttributes;
+  final List<Attribute>? userAttributes;
 
   FindingFilter({
     this.agentIds,
@@ -3175,89 +3354,101 @@ class FindingFilter {
     this.severities,
     this.userAttributes,
   });
-  Map<String, dynamic> toJson() => _$FindingFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final agentIds = this.agentIds;
+    final attributes = this.attributes;
+    final autoScalingGroups = this.autoScalingGroups;
+    final creationTimeRange = this.creationTimeRange;
+    final ruleNames = this.ruleNames;
+    final rulesPackageArns = this.rulesPackageArns;
+    final severities = this.severities;
+    final userAttributes = this.userAttributes;
+    return {
+      if (agentIds != null) 'agentIds': agentIds,
+      if (attributes != null) 'attributes': attributes,
+      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+      if (creationTimeRange != null) 'creationTimeRange': creationTimeRange,
+      if (ruleNames != null) 'ruleNames': ruleNames,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+      if (severities != null)
+        'severities': severities.map((e) => e.toValue()).toList(),
+      if (userAttributes != null) 'userAttributes': userAttributes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAssessmentReportResponse {
   /// Specifies the status of the request to generate an assessment report.
-  @_s.JsonKey(name: 'status')
   final ReportStatus status;
 
   /// Specifies the URL where you can find the generated assessment report. This
   /// parameter is only returned if the report is successfully generated.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   GetAssessmentReportResponse({
-    @_s.required this.status,
+    required this.status,
     this.url,
   });
-  factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAssessmentReportResponseFromJson(json);
+  factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssessmentReportResponse(
+      status: (json['status'] as String).toReportStatus(),
+      url: json['url'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetExclusionsPreviewResponse {
   /// Specifies the status of the request to generate an exclusions preview.
-  @_s.JsonKey(name: 'previewStatus')
   final PreviewStatus previewStatus;
 
   /// Information about the exclusions included in the preview.
-  @_s.JsonKey(name: 'exclusionPreviews')
-  final List<ExclusionPreview> exclusionPreviews;
+  final List<ExclusionPreview>? exclusionPreviews;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameters is present in the response and contains the value to use for the
   /// nextToken parameter in a subsequent pagination request. If there is no more
   /// data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetExclusionsPreviewResponse({
-    @_s.required this.previewStatus,
+    required this.previewStatus,
     this.exclusionPreviews,
     this.nextToken,
   });
-  factory GetExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetExclusionsPreviewResponseFromJson(json);
+  factory GetExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
+    return GetExclusionsPreviewResponse(
+      previewStatus: (json['previewStatus'] as String).toPreviewStatus(),
+      exclusionPreviews: (json['exclusionPreviews'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExclusionPreview.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTelemetryMetadataResponse {
   /// Telemetry details.
-  @_s.JsonKey(name: 'telemetryMetadata')
   final List<TelemetryMetadata> telemetryMetadata;
 
   GetTelemetryMetadataResponse({
-    @_s.required this.telemetryMetadata,
+    required this.telemetryMetadata,
   });
-  factory GetTelemetryMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTelemetryMetadataResponseFromJson(json);
+  factory GetTelemetryMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return GetTelemetryMetadataResponse(
+      telemetryMetadata: (json['telemetryMetadata'] as List)
+          .whereNotNull()
+          .map((e) => TelemetryMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum InspectorEvent {
-  @_s.JsonValue('ASSESSMENT_RUN_STARTED')
   assessmentRunStarted,
-  @_s.JsonValue('ASSESSMENT_RUN_COMPLETED')
   assessmentRunCompleted,
-  @_s.JsonValue('ASSESSMENT_RUN_STATE_CHANGED')
   assessmentRunStateChanged,
-  @_s.JsonValue('FINDING_REPORTED')
   findingReported,
-  @_s.JsonValue('OTHER')
   other,
 }
 
@@ -3275,260 +3466,273 @@ extension on InspectorEvent {
       case InspectorEvent.other:
         return 'OTHER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InspectorEvent toInspectorEvent() {
+    switch (this) {
+      case 'ASSESSMENT_RUN_STARTED':
+        return InspectorEvent.assessmentRunStarted;
+      case 'ASSESSMENT_RUN_COMPLETED':
+        return InspectorEvent.assessmentRunCompleted;
+      case 'ASSESSMENT_RUN_STATE_CHANGED':
+        return InspectorEvent.assessmentRunStateChanged;
+      case 'FINDING_REPORTED':
+        return InspectorEvent.findingReported;
+      case 'OTHER':
+        return InspectorEvent.other;
+    }
+    throw Exception('$this is not known in enum InspectorEvent');
   }
 }
 
 /// This data type is used in the <a>Finding</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InspectorServiceAttributes {
   /// The schema version of this data type.
-  @_s.JsonKey(name: 'schemaVersion')
   final int schemaVersion;
 
   /// The ARN of the assessment run during which the finding is generated.
-  @_s.JsonKey(name: 'assessmentRunArn')
-  final String assessmentRunArn;
+  final String? assessmentRunArn;
 
   /// The ARN of the rules package that is used to generate the finding.
-  @_s.JsonKey(name: 'rulesPackageArn')
-  final String rulesPackageArn;
+  final String? rulesPackageArn;
 
   InspectorServiceAttributes({
-    @_s.required this.schemaVersion,
+    required this.schemaVersion,
     this.assessmentRunArn,
     this.rulesPackageArn,
   });
-  factory InspectorServiceAttributes.fromJson(Map<String, dynamic> json) =>
-      _$InspectorServiceAttributesFromJson(json);
+  factory InspectorServiceAttributes.fromJson(Map<String, dynamic> json) {
+    return InspectorServiceAttributes(
+      schemaVersion: json['schemaVersion'] as int,
+      assessmentRunArn: json['assessmentRunArn'] as String?,
+      rulesPackageArn: json['rulesPackageArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssessmentRunAgentsResponse {
   /// A list of ARNs that specifies the agents returned by the action.
-  @_s.JsonKey(name: 'assessmentRunAgents')
   final List<AssessmentRunAgent> assessmentRunAgents;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssessmentRunAgentsResponse({
-    @_s.required this.assessmentRunAgents,
+    required this.assessmentRunAgents,
     this.nextToken,
   });
-  factory ListAssessmentRunAgentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssessmentRunAgentsResponseFromJson(json);
+  factory ListAssessmentRunAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssessmentRunAgentsResponse(
+      assessmentRunAgents: (json['assessmentRunAgents'] as List)
+          .whereNotNull()
+          .map((e) => AssessmentRunAgent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssessmentRunsResponse {
   /// A list of ARNs that specifies the assessment runs that are returned by the
   /// action.
-  @_s.JsonKey(name: 'assessmentRunArns')
   final List<String> assessmentRunArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssessmentRunsResponse({
-    @_s.required this.assessmentRunArns,
+    required this.assessmentRunArns,
     this.nextToken,
   });
-  factory ListAssessmentRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssessmentRunsResponseFromJson(json);
+  factory ListAssessmentRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssessmentRunsResponse(
+      assessmentRunArns: (json['assessmentRunArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssessmentTargetsResponse {
   /// A list of ARNs that specifies the assessment targets that are returned by
   /// the action.
-  @_s.JsonKey(name: 'assessmentTargetArns')
   final List<String> assessmentTargetArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssessmentTargetsResponse({
-    @_s.required this.assessmentTargetArns,
+    required this.assessmentTargetArns,
     this.nextToken,
   });
-  factory ListAssessmentTargetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssessmentTargetsResponseFromJson(json);
+  factory ListAssessmentTargetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssessmentTargetsResponse(
+      assessmentTargetArns: (json['assessmentTargetArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssessmentTemplatesResponse {
   /// A list of ARNs that specifies the assessment templates returned by the
   /// action.
-  @_s.JsonKey(name: 'assessmentTemplateArns')
   final List<String> assessmentTemplateArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssessmentTemplatesResponse({
-    @_s.required this.assessmentTemplateArns,
+    required this.assessmentTemplateArns,
     this.nextToken,
   });
-  factory ListAssessmentTemplatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssessmentTemplatesResponseFromJson(json);
+  factory ListAssessmentTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssessmentTemplatesResponse(
+      assessmentTemplateArns: (json['assessmentTemplateArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventSubscriptionsResponse {
   /// Details of the returned event subscriptions.
-  @_s.JsonKey(name: 'subscriptions')
   final List<Subscription> subscriptions;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventSubscriptionsResponse({
-    @_s.required this.subscriptions,
+    required this.subscriptions,
     this.nextToken,
   });
-  factory ListEventSubscriptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventSubscriptionsResponseFromJson(json);
+  factory ListEventSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventSubscriptionsResponse(
+      subscriptions: (json['subscriptions'] as List)
+          .whereNotNull()
+          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListExclusionsResponse {
   /// A list of exclusions' ARNs returned by the action.
-  @_s.JsonKey(name: 'exclusionArns')
   final List<String> exclusionArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameters is present in the response and contains the value to use for the
   /// nextToken parameter in a subsequent pagination request. If there is no more
   /// data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListExclusionsResponse({
-    @_s.required this.exclusionArns,
+    required this.exclusionArns,
     this.nextToken,
   });
-  factory ListExclusionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListExclusionsResponseFromJson(json);
+  factory ListExclusionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListExclusionsResponse(
+      exclusionArns: (json['exclusionArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFindingsResponse {
   /// A list of ARNs that specifies the findings returned by the action.
-  @_s.JsonKey(name: 'findingArns')
   final List<String> findingArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFindingsResponse({
-    @_s.required this.findingArns,
+    required this.findingArns,
     this.nextToken,
   });
-  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFindingsResponseFromJson(json);
+  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFindingsResponse(
+      findingArns: (json['findingArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRulesPackagesResponse {
   /// The list of ARNs that specifies the rules packages returned by the action.
-  @_s.JsonKey(name: 'rulesPackageArns')
   final List<String> rulesPackageArns;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRulesPackagesResponse({
-    @_s.required this.rulesPackageArns,
+    required this.rulesPackageArns,
     this.nextToken,
   });
-  factory ListRulesPackagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRulesPackagesResponseFromJson(json);
+  factory ListRulesPackagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRulesPackagesResponse(
+      rulesPackageArns: (json['rulesPackageArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A collection of key and value pairs.
-  @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
   ListTagsForResourceResponse({
-    @_s.required this.tags,
+    required this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum Locale {
-  @_s.JsonValue('EN_US')
   enUs,
 }
 
@@ -3538,60 +3742,54 @@ extension on Locale {
       case Locale.enUs:
         return 'EN_US';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Locale toLocale() {
+    switch (this) {
+      case 'EN_US':
+        return Locale.enUs;
+    }
+    throw Exception('$this is not known in enum Locale');
   }
 }
 
 /// Contains information about the network interfaces interacting with an EC2
 /// instance. This data type is used as one of the elements of the
 /// <a>AssetAttributes</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The IP addresses associated with the network interface.
-  @_s.JsonKey(name: 'ipv6Addresses')
-  final List<String> ipv6Addresses;
+  final List<String>? ipv6Addresses;
 
   /// The ID of the network interface.
-  @_s.JsonKey(name: 'networkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// The name of a private DNS associated with the network interface.
-  @_s.JsonKey(name: 'privateDnsName')
-  final String privateDnsName;
+  final String? privateDnsName;
 
   /// The private IP address associated with the network interface.
-  @_s.JsonKey(name: 'privateIpAddress')
-  final String privateIpAddress;
+  final String? privateIpAddress;
 
   /// A list of the private IP addresses associated with the network interface.
   /// Includes the privateDnsName and privateIpAddress.
-  @_s.JsonKey(name: 'privateIpAddresses')
-  final List<PrivateIp> privateIpAddresses;
+  final List<PrivateIp>? privateIpAddresses;
 
   /// The name of a public DNS associated with the network interface.
-  @_s.JsonKey(name: 'publicDnsName')
-  final String publicDnsName;
+  final String? publicDnsName;
 
   /// The public IP address from which the network interface is reachable.
-  @_s.JsonKey(name: 'publicIp')
-  final String publicIp;
+  final String? publicIp;
 
   /// A list of the security groups associated with the network interface.
   /// Includes the groupId and groupName.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<SecurityGroup> securityGroups;
+  final List<SecurityGroup>? securityGroups;
 
   /// The ID of a subnet associated with the network interface.
-  @_s.JsonKey(name: 'subnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The ID of a VPC associated with the network interface.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   NetworkInterface({
     this.ipv6Addresses,
@@ -3605,90 +3803,125 @@ class NetworkInterface {
     this.subnetId,
     this.vpcId,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      ipv6Addresses: (json['ipv6Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      networkInterfaceId: json['networkInterfaceId'] as String?,
+      privateDnsName: json['privateDnsName'] as String?,
+      privateIpAddress: json['privateIpAddress'] as String?,
+      privateIpAddresses: (json['privateIpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => PrivateIp.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      publicDnsName: json['publicDnsName'] as String?,
+      publicIp: json['publicIp'] as String?,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subnetId: json['subnetId'] as String?,
+      vpcId: json['vpcId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PreviewAgentsResponse {
   /// The resulting list of agents.
-  @_s.JsonKey(name: 'agentPreviews')
   final List<AgentPreview> agentPreviews;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
   /// no more data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   PreviewAgentsResponse({
-    @_s.required this.agentPreviews,
+    required this.agentPreviews,
     this.nextToken,
   });
-  factory PreviewAgentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PreviewAgentsResponseFromJson(json);
+  factory PreviewAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return PreviewAgentsResponse(
+      agentPreviews: (json['agentPreviews'] as List)
+          .whereNotNull()
+          .map((e) => AgentPreview.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 enum PreviewStatus {
-  @_s.JsonValue('WORK_IN_PROGRESS')
   workInProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
+}
+
+extension on PreviewStatus {
+  String toValue() {
+    switch (this) {
+      case PreviewStatus.workInProgress:
+        return 'WORK_IN_PROGRESS';
+      case PreviewStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  PreviewStatus toPreviewStatus() {
+    switch (this) {
+      case 'WORK_IN_PROGRESS':
+        return PreviewStatus.workInProgress;
+      case 'COMPLETED':
+        return PreviewStatus.completed;
+    }
+    throw Exception('$this is not known in enum PreviewStatus');
+  }
 }
 
 /// Contains information about a private IP address associated with a network
 /// interface. This data type is used as a response element in the
 /// <a>DescribeFindings</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PrivateIp {
   /// The DNS name of the private IP address.
-  @_s.JsonKey(name: 'privateDnsName')
-  final String privateDnsName;
+  final String? privateDnsName;
 
   /// The full IP address of the network inteface.
-  @_s.JsonKey(name: 'privateIpAddress')
-  final String privateIpAddress;
+  final String? privateIpAddress;
 
   PrivateIp({
     this.privateDnsName,
     this.privateIpAddress,
   });
-  factory PrivateIp.fromJson(Map<String, dynamic> json) =>
-      _$PrivateIpFromJson(json);
+  factory PrivateIp.fromJson(Map<String, dynamic> json) {
+    return PrivateIp(
+      privateDnsName: json['privateDnsName'] as String?,
+      privateIpAddress: json['privateIpAddress'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveAttributesFromFindingsResponse {
   /// Attributes details that cannot be described. An error code is provided for
   /// each failed item.
-  @_s.JsonKey(name: 'failedItems')
   final Map<String, FailedItemDetails> failedItems;
 
   RemoveAttributesFromFindingsResponse({
-    @_s.required this.failedItems,
+    required this.failedItems,
   });
   factory RemoveAttributesFromFindingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RemoveAttributesFromFindingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RemoveAttributesFromFindingsResponse(
+      failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
 enum ReportFileFormat {
-  @_s.JsonValue('HTML')
   html,
-  @_s.JsonValue('PDF')
   pdf,
 }
 
@@ -3700,23 +3933,56 @@ extension on ReportFileFormat {
       case ReportFileFormat.pdf:
         return 'PDF';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReportFileFormat toReportFileFormat() {
+    switch (this) {
+      case 'HTML':
+        return ReportFileFormat.html;
+      case 'PDF':
+        return ReportFileFormat.pdf;
+    }
+    throw Exception('$this is not known in enum ReportFileFormat');
   }
 }
 
 enum ReportStatus {
-  @_s.JsonValue('WORK_IN_PROGRESS')
   workInProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
+extension on ReportStatus {
+  String toValue() {
+    switch (this) {
+      case ReportStatus.workInProgress:
+        return 'WORK_IN_PROGRESS';
+      case ReportStatus.failed:
+        return 'FAILED';
+      case ReportStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  ReportStatus toReportStatus() {
+    switch (this) {
+      case 'WORK_IN_PROGRESS':
+        return ReportStatus.workInProgress;
+      case 'FAILED':
+        return ReportStatus.failed;
+      case 'COMPLETED':
+        return ReportStatus.completed;
+    }
+    throw Exception('$this is not known in enum ReportStatus');
+  }
+}
+
 enum ReportType {
-  @_s.JsonValue('FINDING')
   finding,
-  @_s.JsonValue('FULL')
   full,
 }
 
@@ -3728,7 +3994,18 @@ extension on ReportType {
       case ReportType.full:
         return 'FULL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReportType toReportType() {
+    switch (this) {
+      case 'FINDING':
+        return ReportType.finding;
+      case 'FULL':
+        return ReportType.full;
+    }
+    throw Exception('$this is not known in enum ReportType');
   }
 }
 
@@ -3736,189 +4013,230 @@ extension on ReportType {
 /// set of tags that, when queried, identify the AWS resources that make up the
 /// assessment target. This data type is used as the response element in the
 /// <a>DescribeResourceGroups</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceGroup {
   /// The ARN of the resource group.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The time at which resource group is created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The tags (key and value pairs) of the resource group. This data type
   /// property is used in the <a>CreateResourceGroup</a> action.
-  @_s.JsonKey(name: 'tags')
   final List<ResourceGroupTag> tags;
 
   ResourceGroup({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.tags,
+    required this.arn,
+    required this.createdAt,
+    required this.tags,
   });
-  factory ResourceGroup.fromJson(Map<String, dynamic> json) =>
-      _$ResourceGroupFromJson(json);
+  factory ResourceGroup.fromJson(Map<String, dynamic> json) {
+    return ResourceGroup(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      tags: (json['tags'] as List)
+          .whereNotNull()
+          .map((e) => ResourceGroupTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// This data type is used as one of the elements of the <a>ResourceGroup</a>
 /// data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceGroupTag {
   /// A tag key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value assigned to a tag key.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ResourceGroupTag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory ResourceGroupTag.fromJson(Map<String, dynamic> json) =>
-      _$ResourceGroupTagFromJson(json);
+  factory ResourceGroupTag.fromJson(Map<String, dynamic> json) {
+    return ResourceGroupTag(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceGroupTagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Contains information about an Amazon Inspector rules package. This data type
 /// is used as the response element in the <a>DescribeRulesPackages</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RulesPackage {
   /// The ARN of the rules package.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The name of the rules package.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The provider of the rules package.
-  @_s.JsonKey(name: 'provider')
   final String provider;
 
   /// The version ID of the rules package.
-  @_s.JsonKey(name: 'version')
   final String version;
 
   /// The description of the rules package.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   RulesPackage({
-    @_s.required this.arn,
-    @_s.required this.name,
-    @_s.required this.provider,
-    @_s.required this.version,
+    required this.arn,
+    required this.name,
+    required this.provider,
+    required this.version,
     this.description,
   });
-  factory RulesPackage.fromJson(Map<String, dynamic> json) =>
-      _$RulesPackageFromJson(json);
+  factory RulesPackage.fromJson(Map<String, dynamic> json) {
+    return RulesPackage(
+      arn: json['arn'] as String,
+      name: json['name'] as String,
+      provider: json['provider'] as String,
+      version: json['version'] as String,
+      description: json['description'] as String?,
+    );
+  }
 }
 
 /// This data type contains key-value pairs that identify various Amazon
 /// resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Scope {
   /// The type of the scope.
-  @_s.JsonKey(name: 'key')
-  final ScopeType key;
+  final ScopeType? key;
 
   /// The resource identifier for the specified scope type.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Scope({
     this.key,
     this.value,
   });
-  factory Scope.fromJson(Map<String, dynamic> json) => _$ScopeFromJson(json);
+  factory Scope.fromJson(Map<String, dynamic> json) {
+    return Scope(
+      key: (json['key'] as String?)?.toScopeType(),
+      value: json['value'] as String?,
+    );
+  }
 }
 
 enum ScopeType {
-  @_s.JsonValue('INSTANCE_ID')
   instanceId,
-  @_s.JsonValue('RULES_PACKAGE_ARN')
   rulesPackageArn,
+}
+
+extension on ScopeType {
+  String toValue() {
+    switch (this) {
+      case ScopeType.instanceId:
+        return 'INSTANCE_ID';
+      case ScopeType.rulesPackageArn:
+        return 'RULES_PACKAGE_ARN';
+    }
+  }
+}
+
+extension on String {
+  ScopeType toScopeType() {
+    switch (this) {
+      case 'INSTANCE_ID':
+        return ScopeType.instanceId;
+      case 'RULES_PACKAGE_ARN':
+        return ScopeType.rulesPackageArn;
+    }
+    throw Exception('$this is not known in enum ScopeType');
+  }
 }
 
 /// Contains information about a security group associated with a network
 /// interface. This data type is used as one of the elements of the
 /// <a>NetworkInterface</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityGroup {
   /// The ID of the security group.
-  @_s.JsonKey(name: 'groupId')
-  final String groupId;
+  final String? groupId;
 
   /// The name of the security group.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   SecurityGroup({
     this.groupId,
     this.groupName,
   });
-  factory SecurityGroup.fromJson(Map<String, dynamic> json) =>
-      _$SecurityGroupFromJson(json);
+  factory SecurityGroup.fromJson(Map<String, dynamic> json) {
+    return SecurityGroup(
+      groupId: json['groupId'] as String?,
+      groupName: json['groupName'] as String?,
+    );
+  }
 }
 
 enum Severity {
-  @_s.JsonValue('Low')
   low,
-  @_s.JsonValue('Medium')
   medium,
-  @_s.JsonValue('High')
   high,
-  @_s.JsonValue('Informational')
   informational,
-  @_s.JsonValue('Undefined')
   undefined,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Severity {
+  String toValue() {
+    switch (this) {
+      case Severity.low:
+        return 'Low';
+      case Severity.medium:
+        return 'Medium';
+      case Severity.high:
+        return 'High';
+      case Severity.informational:
+        return 'Informational';
+      case Severity.undefined:
+        return 'Undefined';
+    }
+  }
+}
+
+extension on String {
+  Severity toSeverity() {
+    switch (this) {
+      case 'Low':
+        return Severity.low;
+      case 'Medium':
+        return Severity.medium;
+      case 'High':
+        return Severity.high;
+      case 'Informational':
+        return Severity.informational;
+      case 'Undefined':
+        return Severity.undefined;
+    }
+    throw Exception('$this is not known in enum Severity');
+  }
+}
+
 class StartAssessmentRunResponse {
   /// The ARN of the assessment run that has been started.
-  @_s.JsonKey(name: 'assessmentRunArn')
   final String assessmentRunArn;
 
   StartAssessmentRunResponse({
-    @_s.required this.assessmentRunArn,
+    required this.assessmentRunArn,
   });
-  factory StartAssessmentRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartAssessmentRunResponseFromJson(json);
+  factory StartAssessmentRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartAssessmentRunResponse(
+      assessmentRunArn: json['assessmentRunArn'] as String,
+    );
+  }
 }
 
 enum StopAction {
-  @_s.JsonValue('START_EVALUATION')
   startEvaluation,
-  @_s.JsonValue('SKIP_EVALUATION')
   skipEvaluation,
 }
 
@@ -3930,129 +4248,140 @@ extension on StopAction {
       case StopAction.skipEvaluation:
         return 'SKIP_EVALUATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StopAction toStopAction() {
+    switch (this) {
+      case 'START_EVALUATION':
+        return StopAction.startEvaluation;
+      case 'SKIP_EVALUATION':
+        return StopAction.skipEvaluation;
+    }
+    throw Exception('$this is not known in enum StopAction');
   }
 }
 
 /// This data type is used as a response element in the
 /// <a>ListEventSubscriptions</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Subscription {
   /// The list of existing event subscriptions.
-  @_s.JsonKey(name: 'eventSubscriptions')
   final List<EventSubscription> eventSubscriptions;
 
   /// The ARN of the assessment template that is used during the event for which
   /// the SNS notification is sent.
-  @_s.JsonKey(name: 'resourceArn')
   final String resourceArn;
 
   /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the
   /// SNS notifications are sent.
-  @_s.JsonKey(name: 'topicArn')
   final String topicArn;
 
   Subscription({
-    @_s.required this.eventSubscriptions,
-    @_s.required this.resourceArn,
-    @_s.required this.topicArn,
+    required this.eventSubscriptions,
+    required this.resourceArn,
+    required this.topicArn,
   });
-  factory Subscription.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionFromJson(json);
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      eventSubscriptions: (json['eventSubscriptions'] as List)
+          .whereNotNull()
+          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceArn: json['resourceArn'] as String,
+      topicArn: json['topicArn'] as String,
+    );
+  }
 }
 
 /// A key and value pair. This data type is used as a request parameter in the
 /// <a>SetTagsForResource</a> action and a response element in the
 /// <a>ListTagsForResource</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A tag key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// A value assigned to a tag key.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// The metadata about the Amazon Inspector application data metrics collected
 /// by the agent. This data type is used as the response element in the
 /// <a>GetTelemetryMetadata</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TelemetryMetadata {
   /// The count of messages that the agent sends to the Amazon Inspector service.
-  @_s.JsonKey(name: 'count')
   final int count;
 
   /// A specific type of behavioral data that is collected by the agent.
-  @_s.JsonKey(name: 'messageType')
   final String messageType;
 
   /// The data size of messages that the agent sends to the Amazon Inspector
   /// service.
-  @_s.JsonKey(name: 'dataSize')
-  final int dataSize;
+  final int? dataSize;
 
   TelemetryMetadata({
-    @_s.required this.count,
-    @_s.required this.messageType,
+    required this.count,
+    required this.messageType,
     this.dataSize,
   });
-  factory TelemetryMetadata.fromJson(Map<String, dynamic> json) =>
-      _$TelemetryMetadataFromJson(json);
+  factory TelemetryMetadata.fromJson(Map<String, dynamic> json) {
+    return TelemetryMetadata(
+      count: json['count'] as int,
+      messageType: json['messageType'] as String,
+      dataSize: json['dataSize'] as int?,
+    );
+  }
 }
 
 /// This data type is used in the <a>AssessmentRunFilter</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimestampRange {
   /// The minimum value of the timestamp range.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'beginDate')
-  final DateTime beginDate;
+  final DateTime? beginDate;
 
   /// The maximum value of the timestamp range.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endDate')
-  final DateTime endDate;
+  final DateTime? endDate;
 
   TimestampRange({
     this.beginDate,
     this.endDate,
   });
-  Map<String, dynamic> toJson() => _$TimestampRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final beginDate = this.beginDate;
+    final endDate = this.endDate;
+    return {
+      if (beginDate != null) 'beginDate': unixTimestampToJson(beginDate),
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AgentsAlreadyRunningAssessmentException extends _s.GenericAwsException {
-  AgentsAlreadyRunningAssessmentException({String type, String message})
+  AgentsAlreadyRunningAssessmentException({String? type, String? message})
       : super(
             type: type,
             code: 'AgentsAlreadyRunningAssessmentException',
@@ -4060,7 +4389,7 @@ class AgentsAlreadyRunningAssessmentException extends _s.GenericAwsException {
 }
 
 class AssessmentRunInProgressException extends _s.GenericAwsException {
-  AssessmentRunInProgressException({String type, String message})
+  AssessmentRunInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'AssessmentRunInProgressException',
@@ -4068,12 +4397,12 @@ class AssessmentRunInProgressException extends _s.GenericAwsException {
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InvalidCrossAccountRoleException extends _s.GenericAwsException {
-  InvalidCrossAccountRoleException({String type, String message})
+  InvalidCrossAccountRoleException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCrossAccountRoleException',
@@ -4081,22 +4410,22 @@ class InvalidCrossAccountRoleException extends _s.GenericAwsException {
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NoSuchEntityException extends _s.GenericAwsException {
-  NoSuchEntityException({String type, String message})
+  NoSuchEntityException({String? type, String? message})
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
 class PreviewGenerationInProgressException extends _s.GenericAwsException {
-  PreviewGenerationInProgressException({String type, String message})
+  PreviewGenerationInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'PreviewGenerationInProgressException',
@@ -4104,7 +4433,7 @@ class PreviewGenerationInProgressException extends _s.GenericAwsException {
 }
 
 class ServiceTemporarilyUnavailableException extends _s.GenericAwsException {
-  ServiceTemporarilyUnavailableException({String type, String message})
+  ServiceTemporarilyUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceTemporarilyUnavailableException',
@@ -4112,7 +4441,7 @@ class ServiceTemporarilyUnavailableException extends _s.GenericAwsException {
 }
 
 class UnsupportedFeatureException extends _s.GenericAwsException {
-  UnsupportedFeatureException({String type, String message})
+  UnsupportedFeatureException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedFeatureException', message: message);
 }

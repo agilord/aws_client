@@ -17,27 +17,20 @@ Map<String, dynamic> _$AnomalyDetectorConfigurationToJson(
   }
 
   writeNotNull('ExcludedTimeRanges',
-      instance.excludedTimeRanges?.map((e) => e?.toJson())?.toList());
+      instance.excludedTimeRanges?.map((e) => e.toJson()).toList());
   writeNotNull('MetricTimezone', instance.metricTimezone);
   return val;
 }
 
-Map<String, dynamic> _$DimensionToJson(Dimension instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$DimensionToJson(Dimension instance) => <String, dynamic>{
+      'Name': instance.name,
+      'Value': instance.value,
+    };
 
 Map<String, dynamic> _$DimensionFilterToJson(DimensionFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -45,7 +38,6 @@ Map<String, dynamic> _$DimensionFilterToJson(DimensionFilter instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('Value', instance.value);
   return val;
 }
@@ -60,14 +52,16 @@ Map<String, dynamic> _$MetricToJson(Metric instance) {
   }
 
   writeNotNull(
-      'Dimensions', instance.dimensions?.map((e) => e?.toJson())?.toList());
+      'Dimensions', instance.dimensions?.map((e) => e.toJson()).toList());
   writeNotNull('MetricName', instance.metricName);
   writeNotNull('Namespace', instance.namespace);
   return val;
 }
 
 Map<String, dynamic> _$MetricDataQueryToJson(MetricDataQuery instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Id': instance.id,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -75,7 +69,6 @@ Map<String, dynamic> _$MetricDataQueryToJson(MetricDataQuery instance) {
     }
   }
 
-  writeNotNull('Id', instance.id);
   writeNotNull('Expression', instance.expression);
   writeNotNull('Label', instance.label);
   writeNotNull('MetricStat', instance.metricStat?.toJson());
@@ -85,7 +78,9 @@ Map<String, dynamic> _$MetricDataQueryToJson(MetricDataQuery instance) {
 }
 
 Map<String, dynamic> _$MetricDatumToJson(MetricDatum instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MetricName': instance.metricName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -93,10 +88,9 @@ Map<String, dynamic> _$MetricDatumToJson(MetricDatum instance) {
     }
   }
 
-  writeNotNull('MetricName', instance.metricName);
   writeNotNull('Counts', instance.counts);
   writeNotNull(
-      'Dimensions', instance.dimensions?.map((e) => e?.toJson())?.toList());
+      'Dimensions', instance.dimensions?.map((e) => e.toJson()).toList());
   writeNotNull('StatisticValues', instance.statisticValues?.toJson());
   writeNotNull('StorageResolution', instance.storageResolution);
   writeNotNull(
@@ -138,7 +132,11 @@ const _$StandardUnitEnumMap = {
 };
 
 Map<String, dynamic> _$MetricStatToJson(MetricStat instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Metric': instance.metric.toJson(),
+    'Period': instance.period,
+    'Stat': instance.stat,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -146,55 +144,24 @@ Map<String, dynamic> _$MetricStatToJson(MetricStat instance) {
     }
   }
 
-  writeNotNull('Metric', instance.metric?.toJson());
-  writeNotNull('Period', instance.period);
-  writeNotNull('Stat', instance.stat);
   writeNotNull('Unit', _$StandardUnitEnumMap[instance.unit]);
   return val;
 }
 
-Map<String, dynamic> _$RangeToJson(Range instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$RangeToJson(Range instance) => <String, dynamic>{
+      'EndTime': instance.endTime.toIso8601String(),
+      'StartTime': instance.startTime.toIso8601String(),
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+Map<String, dynamic> _$StatisticSetToJson(StatisticSet instance) =>
+    <String, dynamic>{
+      'Maximum': instance.maximum,
+      'Minimum': instance.minimum,
+      'SampleCount': instance.sampleCount,
+      'Sum': instance.sum,
+    };
 
-  writeNotNull(
-      'EndTime', const IsoDateTimeConverter().toJson(instance.endTime));
-  writeNotNull(
-      'StartTime', const IsoDateTimeConverter().toJson(instance.startTime));
-  return val;
-}
-
-Map<String, dynamic> _$StatisticSetToJson(StatisticSet instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Maximum', instance.maximum);
-  writeNotNull('Minimum', instance.minimum);
-  writeNotNull('SampleCount', instance.sampleCount);
-  writeNotNull('Sum', instance.sum);
-  return val;
-}
-
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };

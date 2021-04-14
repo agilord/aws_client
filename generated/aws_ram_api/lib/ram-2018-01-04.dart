@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'ram-2018-01-04.g.dart';
 
 /// Use AWS Resource Access Manager to share AWS resources between AWS accounts.
 /// To share a resource, you create a resource share, associate the resource
@@ -39,10 +31,10 @@ part 'ram-2018-01-04.g.dart';
 class RAM {
   final _s.RestJsonProtocol _protocol;
   RAM({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -73,8 +65,8 @@ class RAM {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<AcceptResourceShareInvitationResponse> acceptResourceShareInvitation({
-    @_s.required String resourceShareInvitationArn,
-    String clientToken,
+    required String resourceShareInvitationArn,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
@@ -120,10 +112,10 @@ class RAM {
   /// Parameter [resourceArns] :
   /// The Amazon Resource Names (ARN) of the resources.
   Future<AssociateResourceShareResponse> associateResourceShare({
-    @_s.required String resourceShareArn,
-    String clientToken,
-    List<String> principals,
-    List<String> resourceArns,
+    required String resourceShareArn,
+    String? clientToken,
+    List<String>? principals,
+    List<String>? resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
@@ -168,10 +160,10 @@ class RAM {
   /// permission to the current permission.
   Future<AssociateResourceSharePermissionResponse>
       associateResourceSharePermission({
-    @_s.required String permissionArn,
-    @_s.required String resourceShareArn,
-    String clientToken,
-    bool replace,
+    required String permissionArn,
+    required String resourceShareArn,
+    String? clientToken,
+    bool? replace,
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
@@ -232,13 +224,13 @@ class RAM {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateResourceShareResponse> createResourceShare({
-    @_s.required String name,
-    bool allowExternalPrincipals,
-    String clientToken,
-    List<String> permissionArns,
-    List<String> principals,
-    List<String> resourceArns,
-    List<Tag> tags,
+    required String name,
+    bool? allowExternalPrincipals,
+    String? clientToken,
+    List<String>? permissionArns,
+    List<String>? principals,
+    List<String>? resourceArns,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
@@ -279,12 +271,12 @@ class RAM {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<DeleteResourceShareResponse> deleteResourceShare({
-    @_s.required String resourceShareArn,
-    String clientToken,
+    required String resourceShareArn,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $query = <String, List<String>>{
-      if (resourceShareArn != null) 'resourceShareArn': [resourceShareArn],
+      'resourceShareArn': [resourceShareArn],
       if (clientToken != null) 'clientToken': [clientToken],
     };
     final response = await _protocol.send(
@@ -324,10 +316,10 @@ class RAM {
   /// Parameter [resourceArns] :
   /// The Amazon Resource Names (ARNs) of the resources.
   Future<DisassociateResourceShareResponse> disassociateResourceShare({
-    @_s.required String resourceShareArn,
-    String clientToken,
-    List<String> principals,
-    List<String> resourceArns,
+    required String resourceShareArn,
+    String? clientToken,
+    List<String>? principals,
+    List<String>? resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
@@ -366,9 +358,9 @@ class RAM {
   /// idempotency of the request.
   Future<DisassociateResourceSharePermissionResponse>
       disassociateResourceSharePermission({
-    @_s.required String permissionArn,
-    @_s.required String resourceShareArn,
-    String clientToken,
+    required String permissionArn,
+    required String resourceShareArn,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
@@ -419,8 +411,8 @@ class RAM {
   /// Parameter [permissionVersion] :
   /// The identifier for the version of the permission.
   Future<GetPermissionResponse> getPermission({
-    @_s.required String permissionArn,
-    int permissionVersion,
+    required String permissionArn,
+    int? permissionVersion,
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     final $payload = <String, dynamic>{
@@ -460,10 +452,10 @@ class RAM {
   /// Parameter [principal] :
   /// The principal.
   Future<GetResourcePoliciesResponse> getResourcePolicies({
-    @_s.required List<String> resourceArns,
-    int maxResults,
-    String nextToken,
-    String principal,
+    required List<String> resourceArns,
+    int? maxResults,
+    String? nextToken,
+    String? principal,
   }) async {
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     _s.validateNumRange(
@@ -525,13 +517,13 @@ class RAM {
   /// Parameter [resourceShareArns] :
   /// The Amazon Resource Names (ARN) of the resource shares.
   Future<GetResourceShareAssociationsResponse> getResourceShareAssociations({
-    @_s.required ResourceShareAssociationType associationType,
-    ResourceShareAssociationStatus associationStatus,
-    int maxResults,
-    String nextToken,
-    String principal,
-    String resourceArn,
-    List<String> resourceShareArns,
+    required ResourceShareAssociationType associationType,
+    ResourceShareAssociationStatus? associationStatus,
+    int? maxResults,
+    String? nextToken,
+    String? principal,
+    String? resourceArn,
+    List<String>? resourceShareArns,
   }) async {
     ArgumentError.checkNotNull(associationType, 'associationType');
     _s.validateNumRange(
@@ -541,7 +533,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'associationType': associationType?.toValue() ?? '',
+      'associationType': associationType.toValue(),
       if (associationStatus != null)
         'associationStatus': associationStatus.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
@@ -584,10 +576,10 @@ class RAM {
   /// Parameter [resourceShareInvitationArns] :
   /// The Amazon Resource Names (ARN) of the invitations.
   Future<GetResourceShareInvitationsResponse> getResourceShareInvitations({
-    int maxResults,
-    String nextToken,
-    List<String> resourceShareArns,
-    List<String> resourceShareInvitationArns,
+    int? maxResults,
+    String? nextToken,
+    List<String>? resourceShareArns,
+    List<String>? resourceShareInvitationArns,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -644,13 +636,13 @@ class RAM {
   /// Parameter [tagFilters] :
   /// One or more tag filters.
   Future<GetResourceSharesResponse> getResourceShares({
-    @_s.required ResourceOwner resourceOwner,
-    int maxResults,
-    String name,
-    String nextToken,
-    List<String> resourceShareArns,
-    ResourceShareStatus resourceShareStatus,
-    List<TagFilter> tagFilters,
+    required ResourceOwner resourceOwner,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    List<String>? resourceShareArns,
+    ResourceShareStatus? resourceShareStatus,
+    List<TagFilter>? tagFilters,
   }) async {
     ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
@@ -660,7 +652,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue() ?? '',
+      'resourceOwner': resourceOwner.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (name != null) 'name': name,
       if (nextToken != null) 'nextToken': nextToken,
@@ -703,9 +695,9 @@ class RAM {
   /// The token for the next page of results.
   Future<ListPendingInvitationResourcesResponse>
       listPendingInvitationResources({
-    @_s.required String resourceShareInvitationArn,
-    int maxResults,
-    String nextToken,
+    required String resourceShareInvitationArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
@@ -750,9 +742,9 @@ class RAM {
   /// list only permissions that apply to EC2 subnets, specify
   /// <code>ec2:Subnet</code>.
   Future<ListPermissionsResponse> listPermissions({
-    int maxResults,
-    String nextToken,
-    String resourceType,
+    int? maxResults,
+    String? nextToken,
+    String? resourceType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -817,13 +809,13 @@ class RAM {
   /// <code>resource-groups:Group</code> | <code>rds:Cluster</code> |
   /// <code>route53resolver:ResolverRule</code>
   Future<ListPrincipalsResponse> listPrincipals({
-    @_s.required ResourceOwner resourceOwner,
-    int maxResults,
-    String nextToken,
-    List<String> principals,
-    String resourceArn,
-    List<String> resourceShareArns,
-    String resourceType,
+    required ResourceOwner resourceOwner,
+    int? maxResults,
+    String? nextToken,
+    List<String>? principals,
+    String? resourceArn,
+    List<String>? resourceShareArns,
+    String? resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
@@ -833,7 +825,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue() ?? '',
+      'resourceOwner': resourceOwner.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (principals != null) 'principals': principals,
@@ -871,9 +863,9 @@ class RAM {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListResourceSharePermissionsResponse> listResourceSharePermissions({
-    @_s.required String resourceShareArn,
-    int maxResults,
-    String nextToken,
+    required String resourceShareArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     _s.validateNumRange(
@@ -911,8 +903,8 @@ class RAM {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListResourceTypesResponse> listResourceTypes({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -977,13 +969,13 @@ class RAM {
   /// <code>resource-groups:Group</code> | <code>rds:Cluster</code> |
   /// <code>route53resolver:ResolverRule</code>
   Future<ListResourcesResponse> listResources({
-    @_s.required ResourceOwner resourceOwner,
-    int maxResults,
-    String nextToken,
-    String principal,
-    List<String> resourceArns,
-    List<String> resourceShareArns,
-    String resourceType,
+    required ResourceOwner resourceOwner,
+    int? maxResults,
+    String? nextToken,
+    String? principal,
+    List<String>? resourceArns,
+    List<String>? resourceShareArns,
+    String? resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
@@ -993,7 +985,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue() ?? '',
+      'resourceOwner': resourceOwner.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (principal != null) 'principal': principal,
@@ -1038,11 +1030,11 @@ class RAM {
   /// The ARN of the resource share to promote.
   Future<PromoteResourceShareCreatedFromPolicyResponse>
       promoteResourceShareCreatedFromPolicy({
-    @_s.required String resourceShareArn,
+    required String resourceShareArn,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $query = <String, List<String>>{
-      if (resourceShareArn != null) 'resourceShareArn': [resourceShareArn],
+      'resourceShareArn': [resourceShareArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1074,8 +1066,8 @@ class RAM {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<RejectResourceShareInvitationResponse> rejectResourceShareInvitation({
-    @_s.required String resourceShareInvitationArn,
-    String clientToken,
+    required String resourceShareInvitationArn,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
@@ -1108,8 +1100,8 @@ class RAM {
   /// Parameter [tags] :
   /// One or more tags.
   Future<void> tagResource({
-    @_s.required String resourceShareArn,
-    @_s.required List<Tag> tags,
+    required String resourceShareArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1123,7 +1115,6 @@ class RAM {
       requestUri: '/tagresource',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes the specified tags from the specified resource share that you own.
@@ -1138,8 +1129,8 @@ class RAM {
   /// Parameter [tagKeys] :
   /// The tag keys of the tags to remove.
   Future<void> untagResource({
-    @_s.required String resourceShareArn,
-    @_s.required List<String> tagKeys,
+    required String resourceShareArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1153,7 +1144,6 @@ class RAM {
       requestUri: '/untagresource',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the specified resource share that you own.
@@ -1182,10 +1172,10 @@ class RAM {
   /// Parameter [name] :
   /// The name of the resource share.
   Future<UpdateResourceShareResponse> updateResourceShare({
-    @_s.required String resourceShareArn,
-    bool allowExternalPrincipals,
-    String clientToken,
-    String name,
+    required String resourceShareArn,
+    bool? allowExternalPrincipals,
+    String? clientToken,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
@@ -1205,469 +1195,452 @@ class RAM {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptResourceShareInvitationResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the invitation.
-  @_s.JsonKey(name: 'resourceShareInvitation')
-  final ResourceShareInvitation resourceShareInvitation;
+  final ResourceShareInvitation? resourceShareInvitation;
 
   AcceptResourceShareInvitationResponse({
     this.clientToken,
     this.resourceShareInvitation,
   });
   factory AcceptResourceShareInvitationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AcceptResourceShareInvitationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AcceptResourceShareInvitationResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShareInvitation: json['resourceShareInvitation'] != null
+          ? ResourceShareInvitation.fromJson(
+              json['resourceShareInvitation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateResourceSharePermissionResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Indicates whether the request succeeded.
-  @_s.JsonKey(name: 'returnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   AssociateResourceSharePermissionResponse({
     this.clientToken,
     this.returnValue,
   });
   factory AssociateResourceSharePermissionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateResourceSharePermissionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateResourceSharePermissionResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateResourceShareResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the associations.
-  @_s.JsonKey(name: 'resourceShareAssociations')
-  final List<ResourceShareAssociation> resourceShareAssociations;
+  final List<ResourceShareAssociation>? resourceShareAssociations;
 
   AssociateResourceShareResponse({
     this.clientToken,
     this.resourceShareAssociations,
   });
-  factory AssociateResourceShareResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateResourceShareResponseFromJson(json);
+  factory AssociateResourceShareResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShareAssociations: (json['resourceShareAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceShareResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the resource share.
-  @_s.JsonKey(name: 'resourceShare')
-  final ResourceShare resourceShare;
+  final ResourceShare? resourceShare;
 
   CreateResourceShareResponse({
     this.clientToken,
     this.resourceShare,
   });
-  factory CreateResourceShareResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResourceShareResponseFromJson(json);
+  factory CreateResourceShareResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShare: json['resourceShare'] != null
+          ? ResourceShare.fromJson(
+              json['resourceShare'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourceShareResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Indicates whether the request succeeded.
-  @_s.JsonKey(name: 'returnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   DeleteResourceShareResponse({
     this.clientToken,
     this.returnValue,
   });
-  factory DeleteResourceShareResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourceShareResponseFromJson(json);
+  factory DeleteResourceShareResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateResourceSharePermissionResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Indicates whether the request succeeded.
-  @_s.JsonKey(name: 'returnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   DisassociateResourceSharePermissionResponse({
     this.clientToken,
     this.returnValue,
   });
   factory DisassociateResourceSharePermissionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateResourceSharePermissionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateResourceSharePermissionResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateResourceShareResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the associations.
-  @_s.JsonKey(name: 'resourceShareAssociations')
-  final List<ResourceShareAssociation> resourceShareAssociations;
+  final List<ResourceShareAssociation>? resourceShareAssociations;
 
   DisassociateResourceShareResponse({
     this.clientToken,
     this.resourceShareAssociations,
   });
   factory DisassociateResourceShareResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateResourceShareResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShareAssociations: (json['resourceShareAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableSharingWithAwsOrganizationResponse {
   /// Indicates whether the request succeeded.
-  @_s.JsonKey(name: 'returnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   EnableSharingWithAwsOrganizationResponse({
     this.returnValue,
   });
   factory EnableSharingWithAwsOrganizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableSharingWithAwsOrganizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return EnableSharingWithAwsOrganizationResponse(
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPermissionResponse {
   /// Information about the permission.
-  @_s.JsonKey(name: 'permission')
-  final ResourceSharePermissionDetail permission;
+  final ResourceSharePermissionDetail? permission;
 
   GetPermissionResponse({
     this.permission,
   });
-  factory GetPermissionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPermissionResponseFromJson(json);
+  factory GetPermissionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPermissionResponse(
+      permission: json['permission'] != null
+          ? ResourceSharePermissionDetail.fromJson(
+              json['permission'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePoliciesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A key policy document, in JSON format.
-  @_s.JsonKey(name: 'policies')
-  final List<String> policies;
+  final List<String>? policies;
 
   GetResourcePoliciesResponse({
     this.nextToken,
     this.policies,
   });
-  factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePoliciesResponseFromJson(json);
+  factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePoliciesResponse(
+      nextToken: json['nextToken'] as String?,
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceShareAssociationsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the associations.
-  @_s.JsonKey(name: 'resourceShareAssociations')
-  final List<ResourceShareAssociation> resourceShareAssociations;
+  final List<ResourceShareAssociation>? resourceShareAssociations;
 
   GetResourceShareAssociationsResponse({
     this.nextToken,
     this.resourceShareAssociations,
   });
   factory GetResourceShareAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResourceShareAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResourceShareAssociationsResponse(
+      nextToken: json['nextToken'] as String?,
+      resourceShareAssociations: (json['resourceShareAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceShareInvitationsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the invitations.
-  @_s.JsonKey(name: 'resourceShareInvitations')
-  final List<ResourceShareInvitation> resourceShareInvitations;
+  final List<ResourceShareInvitation>? resourceShareInvitations;
 
   GetResourceShareInvitationsResponse({
     this.nextToken,
     this.resourceShareInvitations,
   });
   factory GetResourceShareInvitationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResourceShareInvitationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResourceShareInvitationsResponse(
+      nextToken: json['nextToken'] as String?,
+      resourceShareInvitations: (json['resourceShareInvitations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceShareInvitation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceSharesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the resource shares.
-  @_s.JsonKey(name: 'resourceShares')
-  final List<ResourceShare> resourceShares;
+  final List<ResourceShare>? resourceShares;
 
   GetResourceSharesResponse({
     this.nextToken,
     this.resourceShares,
   });
-  factory GetResourceSharesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourceSharesResponseFromJson(json);
+  factory GetResourceSharesResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceSharesResponse(
+      nextToken: json['nextToken'] as String?,
+      resourceShares: (json['resourceShares'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceShare.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPendingInvitationResourcesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the resources included the resource share.
-  @_s.JsonKey(name: 'resources')
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   ListPendingInvitationResourcesResponse({
     this.nextToken,
     this.resources,
   });
   factory ListPendingInvitationResourcesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPendingInvitationResourcesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPendingInvitationResourcesResponse(
+      nextToken: json['nextToken'] as String?,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPermissionsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the permissions.
-  @_s.JsonKey(name: 'permissions')
-  final List<ResourceSharePermissionSummary> permissions;
+  final List<ResourceSharePermissionSummary>? permissions;
 
   ListPermissionsResponse({
     this.nextToken,
     this.permissions,
   });
-  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPermissionsResponseFromJson(json);
+  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceSharePermissionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPrincipalsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The principals.
-  @_s.JsonKey(name: 'principals')
-  final List<Principal> principals;
+  final List<Principal>? principals;
 
   ListPrincipalsResponse({
     this.nextToken,
     this.principals,
   });
-  factory ListPrincipalsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPrincipalsResponseFromJson(json);
+  factory ListPrincipalsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPrincipalsResponse(
+      nextToken: json['nextToken'] as String?,
+      principals: (json['principals'] as List?)
+          ?.whereNotNull()
+          .map((e) => Principal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceSharePermissionsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The permissions associated with the resource share.
-  @_s.JsonKey(name: 'permissions')
-  final List<ResourceSharePermissionSummary> permissions;
+  final List<ResourceSharePermissionSummary>? permissions;
 
   ListResourceSharePermissionsResponse({
     this.nextToken,
     this.permissions,
   });
   factory ListResourceSharePermissionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResourceSharePermissionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResourceSharePermissionsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceSharePermissionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceTypesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The shareable resource types supported by AWS RAM.
-  @_s.JsonKey(name: 'resourceTypes')
-  final List<ServiceNameAndResourceType> resourceTypes;
+  final List<ServiceNameAndResourceType>? resourceTypes;
 
   ListResourceTypesResponse({
     this.nextToken,
     this.resourceTypes,
   });
-  factory ListResourceTypesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceTypesResponseFromJson(json);
+  factory ListResourceTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceTypesResponse(
+      nextToken: json['nextToken'] as String?,
+      resourceTypes: (json['resourceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ServiceNameAndResourceType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourcesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the resources.
-  @_s.JsonKey(name: 'resources')
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   ListResourcesResponse({
     this.nextToken,
     this.resources,
   });
-  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourcesResponseFromJson(json);
+  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourcesResponse(
+      nextToken: json['nextToken'] as String?,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a principal for use with AWS Resource Access Manager.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Principal {
   /// The time when the principal was associated with the resource share.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Indicates whether the principal belongs to the same AWS organization as the
   /// AWS account that owns the resource share.
-  @_s.JsonKey(name: 'external')
-  final bool external;
+  final bool? external;
 
   /// The ID of the principal.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The time when the association was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the resource share.
-  @_s.JsonKey(name: 'resourceShareArn')
-  final String resourceShareArn;
+  final String? resourceShareArn;
 
   Principal({
     this.creationTime,
@@ -1676,93 +1649,82 @@ class Principal {
     this.lastUpdatedTime,
     this.resourceShareArn,
   });
-  factory Principal.fromJson(Map<String, dynamic> json) =>
-      _$PrincipalFromJson(json);
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      creationTime: timeStampFromJson(json['creationTime']),
+      external: json['external'] as bool?,
+      id: json['id'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceShareArn: json['resourceShareArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PromoteResourceShareCreatedFromPolicyResponse {
   /// Indicates whether the request succeeded.
-  @_s.JsonKey(name: 'returnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   PromoteResourceShareCreatedFromPolicyResponse({
     this.returnValue,
   });
   factory PromoteResourceShareCreatedFromPolicyResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PromoteResourceShareCreatedFromPolicyResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PromoteResourceShareCreatedFromPolicyResponse(
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectResourceShareInvitationResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the invitation.
-  @_s.JsonKey(name: 'resourceShareInvitation')
-  final ResourceShareInvitation resourceShareInvitation;
+  final ResourceShareInvitation? resourceShareInvitation;
 
   RejectResourceShareInvitationResponse({
     this.clientToken,
     this.resourceShareInvitation,
   });
   factory RejectResourceShareInvitationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RejectResourceShareInvitationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RejectResourceShareInvitationResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShareInvitation: json['resourceShareInvitation'] != null
+          ? ResourceShareInvitation.fromJson(
+              json['resourceShareInvitation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes a resource associated with a resource share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resource {
   /// The Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time when the resource was associated with the resource share.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The time when the association was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The ARN of the resource group. This value is returned only if the resource
   /// is a resource group.
-  @_s.JsonKey(name: 'resourceGroupArn')
-  final String resourceGroupArn;
+  final String? resourceGroupArn;
 
   /// The Amazon Resource Name (ARN) of the resource share.
-  @_s.JsonKey(name: 'resourceShareArn')
-  final String resourceShareArn;
+  final String? resourceShareArn;
 
   /// The status of the resource.
-  @_s.JsonKey(name: 'status')
-  final ResourceStatus status;
+  final ResourceStatus? status;
 
   /// A message about the status of the resource.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The resource type.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   Resource({
     this.arn,
@@ -1774,14 +1736,22 @@ class Resource {
     this.statusMessage,
     this.type,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceGroupArn: json['resourceGroupArn'] as String?,
+      resourceShareArn: json['resourceShareArn'] as String?,
+      status: (json['status'] as String?)?.toResourceStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      type: json['type'] as String?,
+    );
+  }
 }
 
 enum ResourceOwner {
-  @_s.JsonValue('SELF')
   self,
-  @_s.JsonValue('OTHER-ACCOUNTS')
   otherAccounts,
 }
 
@@ -1793,26 +1763,29 @@ extension on ResourceOwner {
       case ResourceOwner.otherAccounts:
         return 'OTHER-ACCOUNTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceOwner toResourceOwner() {
+    switch (this) {
+      case 'SELF':
+        return ResourceOwner.self;
+      case 'OTHER-ACCOUNTS':
+        return ResourceOwner.otherAccounts;
+    }
+    throw Exception('$this is not known in enum ResourceOwner');
   }
 }
 
 /// Describes a resource share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceShare {
   /// Indicates whether principals outside your AWS organization can be associated
   /// with a resource share.
-  @_s.JsonKey(name: 'allowExternalPrincipals')
-  final bool allowExternalPrincipals;
+  final bool? allowExternalPrincipals;
 
   /// The time when the resource share was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Indicates how the resource share was created. Possible values include:
   ///
@@ -1834,37 +1807,28 @@ class ResourceShare {
   /// principals. They can be modified in AWS RAM.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'featureSet')
-  final ResourceShareFeatureSet featureSet;
+  final ResourceShareFeatureSet? featureSet;
 
   /// The time when the resource share was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The name of the resource share.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The ID of the AWS account that owns the resource share.
-  @_s.JsonKey(name: 'owningAccountId')
-  final String owningAccountId;
+  final String? owningAccountId;
 
   /// The Amazon Resource Name (ARN) of the resource share.
-  @_s.JsonKey(name: 'resourceShareArn')
-  final String resourceShareArn;
+  final String? resourceShareArn;
 
   /// The status of the resource share.
-  @_s.JsonKey(name: 'status')
-  final ResourceShareStatus status;
+  final ResourceShareStatus? status;
 
   /// A message about the status of the resource share.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The tags for the resource share.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ResourceShare({
     this.allowExternalPrincipals,
@@ -1878,57 +1842,56 @@ class ResourceShare {
     this.statusMessage,
     this.tags,
   });
-  factory ResourceShare.fromJson(Map<String, dynamic> json) =>
-      _$ResourceShareFromJson(json);
+  factory ResourceShare.fromJson(Map<String, dynamic> json) {
+    return ResourceShare(
+      allowExternalPrincipals: json['allowExternalPrincipals'] as bool?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      featureSet: (json['featureSet'] as String?)?.toResourceShareFeatureSet(),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      owningAccountId: json['owningAccountId'] as String?,
+      resourceShareArn: json['resourceShareArn'] as String?,
+      status: (json['status'] as String?)?.toResourceShareStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes an association with a resource share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceShareAssociation {
   /// The associated entity. For resource associations, this is the ARN of the
   /// resource. For principal associations, this is the ID of an AWS account or
   /// the ARN of an OU or organization from AWS Organizations.
-  @_s.JsonKey(name: 'associatedEntity')
-  final String associatedEntity;
+  final String? associatedEntity;
 
   /// The association type.
-  @_s.JsonKey(name: 'associationType')
-  final ResourceShareAssociationType associationType;
+  final ResourceShareAssociationType? associationType;
 
   /// The time when the association was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Indicates whether the principal belongs to the same AWS organization as the
   /// AWS account that owns the resource share.
-  @_s.JsonKey(name: 'external')
-  final bool external;
+  final bool? external;
 
   /// The time when the association was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the resource share.
-  @_s.JsonKey(name: 'resourceShareArn')
-  final String resourceShareArn;
+  final String? resourceShareArn;
 
   /// The name of the resource share.
-  @_s.JsonKey(name: 'resourceShareName')
-  final String resourceShareName;
+  final String? resourceShareName;
 
   /// The status of the association.
-  @_s.JsonKey(name: 'status')
-  final ResourceShareAssociationStatus status;
+  final ResourceShareAssociationStatus? status;
 
   /// A message about the status of the association.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   ResourceShareAssociation({
     this.associatedEntity,
@@ -1941,20 +1904,27 @@ class ResourceShareAssociation {
     this.status,
     this.statusMessage,
   });
-  factory ResourceShareAssociation.fromJson(Map<String, dynamic> json) =>
-      _$ResourceShareAssociationFromJson(json);
+  factory ResourceShareAssociation.fromJson(Map<String, dynamic> json) {
+    return ResourceShareAssociation(
+      associatedEntity: json['associatedEntity'] as String?,
+      associationType: (json['associationType'] as String?)
+          ?.toResourceShareAssociationType(),
+      creationTime: timeStampFromJson(json['creationTime']),
+      external: json['external'] as bool?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceShareArn: json['resourceShareArn'] as String?,
+      resourceShareName: json['resourceShareName'] as String?,
+      status: (json['status'] as String?)?.toResourceShareAssociationStatus(),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
 }
 
 enum ResourceShareAssociationStatus {
-  @_s.JsonValue('ASSOCIATING')
   associating,
-  @_s.JsonValue('ASSOCIATED')
   associated,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DISASSOCIATING')
   disassociating,
-  @_s.JsonValue('DISASSOCIATED')
   disassociated,
 }
 
@@ -1972,14 +1942,30 @@ extension on ResourceShareAssociationStatus {
       case ResourceShareAssociationStatus.disassociated:
         return 'DISASSOCIATED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceShareAssociationStatus toResourceShareAssociationStatus() {
+    switch (this) {
+      case 'ASSOCIATING':
+        return ResourceShareAssociationStatus.associating;
+      case 'ASSOCIATED':
+        return ResourceShareAssociationStatus.associated;
+      case 'FAILED':
+        return ResourceShareAssociationStatus.failed;
+      case 'DISASSOCIATING':
+        return ResourceShareAssociationStatus.disassociating;
+      case 'DISASSOCIATED':
+        return ResourceShareAssociationStatus.disassociated;
+    }
+    throw Exception(
+        '$this is not known in enum ResourceShareAssociationStatus');
   }
 }
 
 enum ResourceShareAssociationType {
-  @_s.JsonValue('PRINCIPAL')
   principal,
-  @_s.JsonValue('RESOURCE')
   resource,
 }
 
@@ -1991,61 +1977,82 @@ extension on ResourceShareAssociationType {
       case ResourceShareAssociationType.resource:
         return 'RESOURCE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceShareAssociationType toResourceShareAssociationType() {
+    switch (this) {
+      case 'PRINCIPAL':
+        return ResourceShareAssociationType.principal;
+      case 'RESOURCE':
+        return ResourceShareAssociationType.resource;
+    }
+    throw Exception('$this is not known in enum ResourceShareAssociationType');
   }
 }
 
 enum ResourceShareFeatureSet {
-  @_s.JsonValue('CREATED_FROM_POLICY')
   createdFromPolicy,
-  @_s.JsonValue('PROMOTING_TO_STANDARD')
   promotingToStandard,
-  @_s.JsonValue('STANDARD')
   standard,
 }
 
+extension on ResourceShareFeatureSet {
+  String toValue() {
+    switch (this) {
+      case ResourceShareFeatureSet.createdFromPolicy:
+        return 'CREATED_FROM_POLICY';
+      case ResourceShareFeatureSet.promotingToStandard:
+        return 'PROMOTING_TO_STANDARD';
+      case ResourceShareFeatureSet.standard:
+        return 'STANDARD';
+    }
+  }
+}
+
+extension on String {
+  ResourceShareFeatureSet toResourceShareFeatureSet() {
+    switch (this) {
+      case 'CREATED_FROM_POLICY':
+        return ResourceShareFeatureSet.createdFromPolicy;
+      case 'PROMOTING_TO_STANDARD':
+        return ResourceShareFeatureSet.promotingToStandard;
+      case 'STANDARD':
+        return ResourceShareFeatureSet.standard;
+    }
+    throw Exception('$this is not known in enum ResourceShareFeatureSet');
+  }
+}
+
 /// Describes an invitation to join a resource share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceShareInvitation {
   /// The date and time when the invitation was sent.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'invitationTimestamp')
-  final DateTime invitationTimestamp;
+  final DateTime? invitationTimestamp;
 
   /// The ID of the AWS account that received the invitation.
-  @_s.JsonKey(name: 'receiverAccountId')
-  final String receiverAccountId;
+  final String? receiverAccountId;
 
   /// The Amazon Resource Name (ARN) of the resource share.
-  @_s.JsonKey(name: 'resourceShareArn')
-  final String resourceShareArn;
+  final String? resourceShareArn;
 
   /// To view the resources associated with a pending resource share invitation,
   /// use <a
   /// href="https://docs.aws.amazon.com/ram/latest/APIReference/API_ListPendingInvitationResources.html">
   /// ListPendingInvitationResources</a>.
-  @_s.JsonKey(name: 'resourceShareAssociations')
-  final List<ResourceShareAssociation> resourceShareAssociations;
+  final List<ResourceShareAssociation>? resourceShareAssociations;
 
   /// The Amazon Resource Name (ARN) of the invitation.
-  @_s.JsonKey(name: 'resourceShareInvitationArn')
-  final String resourceShareInvitationArn;
+  final String? resourceShareInvitationArn;
 
   /// The name of the resource share.
-  @_s.JsonKey(name: 'resourceShareName')
-  final String resourceShareName;
+  final String? resourceShareName;
 
   /// The ID of the AWS account that sent the invitation.
-  @_s.JsonKey(name: 'senderAccountId')
-  final String senderAccountId;
+  final String? senderAccountId;
 
   /// The status of the invitation.
-  @_s.JsonKey(name: 'status')
-  final ResourceShareInvitationStatus status;
+  final ResourceShareInvitationStatus? status;
 
   ResourceShareInvitation({
     this.invitationTimestamp,
@@ -2057,65 +2064,91 @@ class ResourceShareInvitation {
     this.senderAccountId,
     this.status,
   });
-  factory ResourceShareInvitation.fromJson(Map<String, dynamic> json) =>
-      _$ResourceShareInvitationFromJson(json);
+  factory ResourceShareInvitation.fromJson(Map<String, dynamic> json) {
+    return ResourceShareInvitation(
+      invitationTimestamp: timeStampFromJson(json['invitationTimestamp']),
+      receiverAccountId: json['receiverAccountId'] as String?,
+      resourceShareArn: json['resourceShareArn'] as String?,
+      resourceShareAssociations: (json['resourceShareAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceShareInvitationArn: json['resourceShareInvitationArn'] as String?,
+      resourceShareName: json['resourceShareName'] as String?,
+      senderAccountId: json['senderAccountId'] as String?,
+      status: (json['status'] as String?)?.toResourceShareInvitationStatus(),
+    );
+  }
 }
 
 enum ResourceShareInvitationStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACCEPTED')
   accepted,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on ResourceShareInvitationStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceShareInvitationStatus.pending:
+        return 'PENDING';
+      case ResourceShareInvitationStatus.accepted:
+        return 'ACCEPTED';
+      case ResourceShareInvitationStatus.rejected:
+        return 'REJECTED';
+      case ResourceShareInvitationStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  ResourceShareInvitationStatus toResourceShareInvitationStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ResourceShareInvitationStatus.pending;
+      case 'ACCEPTED':
+        return ResourceShareInvitationStatus.accepted;
+      case 'REJECTED':
+        return ResourceShareInvitationStatus.rejected;
+      case 'EXPIRED':
+        return ResourceShareInvitationStatus.expired;
+    }
+    throw Exception('$this is not known in enum ResourceShareInvitationStatus');
+  }
+}
+
 /// Information about an AWS RAM permission.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceSharePermissionDetail {
   /// The ARN of the permission.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time when the permission was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The identifier for the version of the permission that is set as the default
   /// version.
-  @_s.JsonKey(name: 'defaultVersion')
-  final bool defaultVersion;
+  final bool? defaultVersion;
 
   /// The date and time when the permission was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The name of the permission.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The permission's effect and actions in JSON format. The <code>effect</code>
   /// indicates whether the actions are allowed or denied. The
   /// <code>actions</code> list the API actions to which the principal is granted
   /// or denied access.
-  @_s.JsonKey(name: 'permission')
-  final String permission;
+  final String? permission;
 
   /// The resource type to which the permission applies.
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The identifier for the version of the permission.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   ResourceSharePermissionDetail({
     this.arn,
@@ -2127,51 +2160,46 @@ class ResourceSharePermissionDetail {
     this.resourceType,
     this.version,
   });
-  factory ResourceSharePermissionDetail.fromJson(Map<String, dynamic> json) =>
-      _$ResourceSharePermissionDetailFromJson(json);
+  factory ResourceSharePermissionDetail.fromJson(Map<String, dynamic> json) {
+    return ResourceSharePermissionDetail(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      defaultVersion: json['defaultVersion'] as bool?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      permission: json['permission'] as String?,
+      resourceType: json['resourceType'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 }
 
 /// Information about a permission that is associated with a resource share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceSharePermissionSummary {
   /// The ARN of the permission.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time when the permission was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The identifier for the version of the permission that is set as the default
   /// version.
-  @_s.JsonKey(name: 'defaultVersion')
-  final bool defaultVersion;
+  final bool? defaultVersion;
 
   /// The date and time when the permission was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The name of the permission.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The type of resource to which the permission applies.
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The current status of the permission.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The identifier for the version of the permission.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   ResourceSharePermissionSummary({
     this.arn,
@@ -2183,20 +2211,25 @@ class ResourceSharePermissionSummary {
     this.status,
     this.version,
   });
-  factory ResourceSharePermissionSummary.fromJson(Map<String, dynamic> json) =>
-      _$ResourceSharePermissionSummaryFromJson(json);
+  factory ResourceSharePermissionSummary.fromJson(Map<String, dynamic> json) {
+    return ResourceSharePermissionSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      defaultVersion: json['defaultVersion'] as bool?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      resourceType: json['resourceType'] as String?,
+      status: json['status'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 }
 
 enum ResourceShareStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -2214,140 +2247,181 @@ extension on ResourceShareStatus {
       case ResourceShareStatus.deleted:
         return 'DELETED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceShareStatus toResourceShareStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ResourceShareStatus.pending;
+      case 'ACTIVE':
+        return ResourceShareStatus.active;
+      case 'FAILED':
+        return ResourceShareStatus.failed;
+      case 'DELETING':
+        return ResourceShareStatus.deleting;
+      case 'DELETED':
+        return ResourceShareStatus.deleted;
+    }
+    throw Exception('$this is not known in enum ResourceShareStatus');
   }
 }
 
 enum ResourceStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('ZONAL_RESOURCE_INACCESSIBLE')
   zonalResourceInaccessible,
-  @_s.JsonValue('LIMIT_EXCEEDED')
   limitExceeded,
-  @_s.JsonValue('UNAVAILABLE')
   unavailable,
-  @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on ResourceStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceStatus.available:
+        return 'AVAILABLE';
+      case ResourceStatus.zonalResourceInaccessible:
+        return 'ZONAL_RESOURCE_INACCESSIBLE';
+      case ResourceStatus.limitExceeded:
+        return 'LIMIT_EXCEEDED';
+      case ResourceStatus.unavailable:
+        return 'UNAVAILABLE';
+      case ResourceStatus.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  ResourceStatus toResourceStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return ResourceStatus.available;
+      case 'ZONAL_RESOURCE_INACCESSIBLE':
+        return ResourceStatus.zonalResourceInaccessible;
+      case 'LIMIT_EXCEEDED':
+        return ResourceStatus.limitExceeded;
+      case 'UNAVAILABLE':
+        return ResourceStatus.unavailable;
+      case 'PENDING':
+        return ResourceStatus.pending;
+    }
+    throw Exception('$this is not known in enum ResourceStatus');
+  }
 }
 
 /// Information about the shareable resource types and the AWS services to which
 /// they belong.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceNameAndResourceType {
   /// The shareable resource types.
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The name of the AWS services to which the resources belong.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   ServiceNameAndResourceType({
     this.resourceType,
     this.serviceName,
   });
-  factory ServiceNameAndResourceType.fromJson(Map<String, dynamic> json) =>
-      _$ServiceNameAndResourceTypeFromJson(json);
+  factory ServiceNameAndResourceType.fromJson(Map<String, dynamic> json) {
+    return ServiceNameAndResourceType(
+      resourceType: json['resourceType'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
 }
 
 /// Information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Used to filter information based on tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TagFilter {
   /// The tag key.
-  @_s.JsonKey(name: 'tagKey')
-  final String tagKey;
+  final String? tagKey;
 
   /// The tag values.
-  @_s.JsonKey(name: 'tagValues')
-  final List<String> tagValues;
+  final List<String>? tagValues;
 
   TagFilter({
     this.tagKey,
     this.tagValues,
   });
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagValues = this.tagValues;
+    return {
+      if (tagKey != null) 'tagKey': tagKey,
+      if (tagValues != null) 'tagValues': tagValues,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResourceShareResponse {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// Information about the resource share.
-  @_s.JsonKey(name: 'resourceShare')
-  final ResourceShare resourceShare;
+  final ResourceShare? resourceShare;
 
   UpdateResourceShareResponse({
     this.clientToken,
     this.resourceShare,
   });
-  factory UpdateResourceShareResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResourceShareResponseFromJson(json);
+  factory UpdateResourceShareResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShare: json['resourceShare'] != null
+          ? ResourceShare.fromJson(
+              json['resourceShare'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
-  IdempotentParameterMismatchException({String type, String message})
+  IdempotentParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
@@ -2355,34 +2429,34 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
 }
 
 class InvalidClientTokenException extends _s.GenericAwsException {
-  InvalidClientTokenException({String type, String message})
+  InvalidClientTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidClientTokenException', message: message);
 }
 
 class InvalidMaxResultsException extends _s.GenericAwsException {
-  InvalidMaxResultsException({String type, String message})
+  InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidResourceTypeException extends _s.GenericAwsException {
-  InvalidResourceTypeException({String type, String message})
+  InvalidResourceTypeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidResourceTypeException', message: message);
 }
 
 class InvalidStateTransitionException extends _s.GenericAwsException {
-  InvalidStateTransitionException({String type, String message})
+  InvalidStateTransitionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidStateTransitionException',
@@ -2390,12 +2464,12 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
 }
 
 class MalformedArnException extends _s.GenericAwsException {
-  MalformedArnException({String type, String message})
+  MalformedArnException({String? type, String? message})
       : super(type: type, code: 'MalformedArnException', message: message);
 }
 
 class MissingRequiredParameterException extends _s.GenericAwsException {
-  MissingRequiredParameterException({String type, String message})
+  MissingRequiredParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingRequiredParameterException',
@@ -2403,7 +2477,7 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -2411,14 +2485,15 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class ResourceArnNotFoundException extends _s.GenericAwsException {
-  ResourceArnNotFoundException({String type, String message})
+  ResourceArnNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnNotFoundException', message: message);
 }
 
 class ResourceShareInvitationAlreadyAcceptedException
     extends _s.GenericAwsException {
-  ResourceShareInvitationAlreadyAcceptedException({String type, String message})
+  ResourceShareInvitationAlreadyAcceptedException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'ResourceShareInvitationAlreadyAcceptedException',
@@ -2427,7 +2502,8 @@ class ResourceShareInvitationAlreadyAcceptedException
 
 class ResourceShareInvitationAlreadyRejectedException
     extends _s.GenericAwsException {
-  ResourceShareInvitationAlreadyRejectedException({String type, String message})
+  ResourceShareInvitationAlreadyRejectedException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'ResourceShareInvitationAlreadyRejectedException',
@@ -2436,7 +2512,7 @@ class ResourceShareInvitationAlreadyRejectedException
 
 class ResourceShareInvitationArnNotFoundException
     extends _s.GenericAwsException {
-  ResourceShareInvitationArnNotFoundException({String type, String message})
+  ResourceShareInvitationArnNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceShareInvitationArnNotFoundException',
@@ -2444,7 +2520,7 @@ class ResourceShareInvitationArnNotFoundException
 }
 
 class ResourceShareInvitationExpiredException extends _s.GenericAwsException {
-  ResourceShareInvitationExpiredException({String type, String message})
+  ResourceShareInvitationExpiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceShareInvitationExpiredException',
@@ -2452,7 +2528,7 @@ class ResourceShareInvitationExpiredException extends _s.GenericAwsException {
 }
 
 class ResourceShareLimitExceededException extends _s.GenericAwsException {
-  ResourceShareLimitExceededException({String type, String message})
+  ResourceShareLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceShareLimitExceededException',
@@ -2460,29 +2536,29 @@ class ResourceShareLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServerInternalException extends _s.GenericAwsException {
-  ServerInternalException({String type, String message})
+  ServerInternalException({String? type, String? message})
       : super(type: type, code: 'ServerInternalException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TagLimitExceededException extends _s.GenericAwsException {
-  TagLimitExceededException({String type, String message})
+  TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
 class TagPolicyViolationException extends _s.GenericAwsException {
-  TagPolicyViolationException({String type, String message})
+  TagPolicyViolationException({String? type, String? message})
       : super(
             type: type, code: 'TagPolicyViolationException', message: message);
 }
 
 class UnknownResourceException extends _s.GenericAwsException {
-  UnknownResourceException({String type, String message})
+  UnknownResourceException({String? type, String? message})
       : super(type: type, code: 'UnknownResourceException', message: message);
 }
 

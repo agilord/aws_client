@@ -9,82 +9,58 @@ part of 'groundstation-2019-05-23.dart';
 AntennaDemodDecodeDetails _$AntennaDemodDecodeDetailsFromJson(
     Map<String, dynamic> json) {
   return AntennaDemodDecodeDetails(
-    outputNode: json['outputNode'] as String,
+    outputNode: json['outputNode'] as String?,
   );
 }
 
 AntennaDownlinkConfig _$AntennaDownlinkConfigFromJson(
     Map<String, dynamic> json) {
   return AntennaDownlinkConfig(
-    spectrumConfig: json['spectrumConfig'] == null
-        ? null
-        : SpectrumConfig.fromJson(
-            json['spectrumConfig'] as Map<String, dynamic>),
+    spectrumConfig:
+        SpectrumConfig.fromJson(json['spectrumConfig'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AntennaDownlinkConfigToJson(
-    AntennaDownlinkConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('spectrumConfig', instance.spectrumConfig?.toJson());
-  return val;
-}
+        AntennaDownlinkConfig instance) =>
+    <String, dynamic>{
+      'spectrumConfig': instance.spectrumConfig.toJson(),
+    };
 
 AntennaDownlinkDemodDecodeConfig _$AntennaDownlinkDemodDecodeConfigFromJson(
     Map<String, dynamic> json) {
   return AntennaDownlinkDemodDecodeConfig(
-    decodeConfig: json['decodeConfig'] == null
-        ? null
-        : DecodeConfig.fromJson(json['decodeConfig'] as Map<String, dynamic>),
-    demodulationConfig: json['demodulationConfig'] == null
-        ? null
-        : DemodulationConfig.fromJson(
-            json['demodulationConfig'] as Map<String, dynamic>),
-    spectrumConfig: json['spectrumConfig'] == null
-        ? null
-        : SpectrumConfig.fromJson(
-            json['spectrumConfig'] as Map<String, dynamic>),
+    decodeConfig:
+        DecodeConfig.fromJson(json['decodeConfig'] as Map<String, dynamic>),
+    demodulationConfig: DemodulationConfig.fromJson(
+        json['demodulationConfig'] as Map<String, dynamic>),
+    spectrumConfig:
+        SpectrumConfig.fromJson(json['spectrumConfig'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AntennaDownlinkDemodDecodeConfigToJson(
-    AntennaDownlinkDemodDecodeConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('decodeConfig', instance.decodeConfig?.toJson());
-  writeNotNull('demodulationConfig', instance.demodulationConfig?.toJson());
-  writeNotNull('spectrumConfig', instance.spectrumConfig?.toJson());
-  return val;
-}
+        AntennaDownlinkDemodDecodeConfig instance) =>
+    <String, dynamic>{
+      'decodeConfig': instance.decodeConfig.toJson(),
+      'demodulationConfig': instance.demodulationConfig.toJson(),
+      'spectrumConfig': instance.spectrumConfig.toJson(),
+    };
 
 AntennaUplinkConfig _$AntennaUplinkConfigFromJson(Map<String, dynamic> json) {
   return AntennaUplinkConfig(
-    spectrumConfig: json['spectrumConfig'] == null
-        ? null
-        : UplinkSpectrumConfig.fromJson(
-            json['spectrumConfig'] as Map<String, dynamic>),
-    targetEirp: json['targetEirp'] == null
-        ? null
-        : Eirp.fromJson(json['targetEirp'] as Map<String, dynamic>),
-    transmitDisabled: json['transmitDisabled'] as bool,
+    spectrumConfig: UplinkSpectrumConfig.fromJson(
+        json['spectrumConfig'] as Map<String, dynamic>),
+    targetEirp: Eirp.fromJson(json['targetEirp'] as Map<String, dynamic>),
+    transmitDisabled: json['transmitDisabled'] as bool?,
   );
 }
 
 Map<String, dynamic> _$AntennaUplinkConfigToJson(AntennaUplinkConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'spectrumConfig': instance.spectrumConfig.toJson(),
+    'targetEirp': instance.targetEirp.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -92,8 +68,6 @@ Map<String, dynamic> _$AntennaUplinkConfigToJson(AntennaUplinkConfig instance) {
     }
   }
 
-  writeNotNull('spectrumConfig', instance.spectrumConfig?.toJson());
-  writeNotNull('targetEirp', instance.targetEirp?.toJson());
   writeNotNull('transmitDisabled', instance.transmitDisabled);
   return val;
 }
@@ -113,43 +87,48 @@ ConfigDetails _$ConfigDetailsFromJson(Map<String, dynamic> json) {
 
 ConfigIdResponse _$ConfigIdResponseFromJson(Map<String, dynamic> json) {
   return ConfigIdResponse(
-    configArn: json['configArn'] as String,
-    configId: json['configId'] as String,
+    configArn: json['configArn'] as String?,
+    configId: json['configId'] as String?,
     configType:
         _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ConfigCapabilityTypeEnumMap = {
@@ -164,11 +143,11 @@ const _$ConfigCapabilityTypeEnumMap = {
 
 ConfigListItem _$ConfigListItemFromJson(Map<String, dynamic> json) {
   return ConfigListItem(
-    configArn: json['configArn'] as String,
-    configId: json['configId'] as String,
+    configArn: json['configArn'] as String?,
+    configId: json['configId'] as String?,
     configType:
         _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -226,24 +205,24 @@ Map<String, dynamic> _$ConfigTypeDataToJson(ConfigTypeData instance) {
 
 ContactData _$ContactDataFromJson(Map<String, dynamic> json) {
   return ContactData(
-    contactId: json['contactId'] as String,
+    contactId: json['contactId'] as String?,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
-    errorMessage: json['errorMessage'] as String,
-    groundStation: json['groundStation'] as String,
+    errorMessage: json['errorMessage'] as String?,
+    groundStation: json['groundStation'] as String?,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
-    missionProfileArn: json['missionProfileArn'] as String,
+    missionProfileArn: json['missionProfileArn'] as String?,
     postPassEndTime:
         const UnixDateTimeConverter().fromJson(json['postPassEndTime']),
     prePassStartTime:
         const UnixDateTimeConverter().fromJson(json['prePassStartTime']),
-    region: json['region'] as String,
-    satelliteArn: json['satelliteArn'] as String,
+    region: json['region'] as String?,
+    satelliteArn: json['satelliteArn'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -267,7 +246,7 @@ const _$ContactStatusEnumMap = {
 
 ContactIdResponse _$ContactIdResponseFromJson(Map<String, dynamic> json) {
   return ContactIdResponse(
-    contactId: json['contactId'] as String,
+    contactId: json['contactId'] as String?,
   );
 }
 
@@ -276,7 +255,7 @@ DataflowDetail _$DataflowDetailFromJson(Map<String, dynamic> json) {
     destination: json['destination'] == null
         ? null
         : Destination.fromJson(json['destination'] as Map<String, dynamic>),
-    errorMessage: json['errorMessage'] as String,
+    errorMessage: json['errorMessage'] as String?,
     source: json['source'] == null
         ? null
         : Source.fromJson(json['source'] as Map<String, dynamic>),
@@ -288,8 +267,8 @@ DataflowEndpoint _$DataflowEndpointFromJson(Map<String, dynamic> json) {
     address: json['address'] == null
         ? null
         : SocketAddress.fromJson(json['address'] as Map<String, dynamic>),
-    mtu: json['mtu'] as int,
-    name: json['name'] as String,
+    mtu: json['mtu'] as int?,
+    name: json['name'] as String?,
     status: _$enumDecodeNullable(_$EndpointStatusEnumMap, json['status']),
   );
 }
@@ -322,13 +301,15 @@ DataflowEndpointConfig _$DataflowEndpointConfigFromJson(
     Map<String, dynamic> json) {
   return DataflowEndpointConfig(
     dataflowEndpointName: json['dataflowEndpointName'] as String,
-    dataflowEndpointRegion: json['dataflowEndpointRegion'] as String,
+    dataflowEndpointRegion: json['dataflowEndpointRegion'] as String?,
   );
 }
 
 Map<String, dynamic> _$DataflowEndpointConfigToJson(
     DataflowEndpointConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'dataflowEndpointName': instance.dataflowEndpointName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -336,7 +317,6 @@ Map<String, dynamic> _$DataflowEndpointConfigToJson(
     }
   }
 
-  writeNotNull('dataflowEndpointName', instance.dataflowEndpointName);
   writeNotNull('dataflowEndpointRegion', instance.dataflowEndpointRegion);
   return val;
 }
@@ -344,15 +324,15 @@ Map<String, dynamic> _$DataflowEndpointConfigToJson(
 DataflowEndpointGroupIdResponse _$DataflowEndpointGroupIdResponseFromJson(
     Map<String, dynamic> json) {
   return DataflowEndpointGroupIdResponse(
-    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String,
+    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
   );
 }
 
 DataflowEndpointListItem _$DataflowEndpointListItemFromJson(
     Map<String, dynamic> json) {
   return DataflowEndpointListItem(
-    dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String,
-    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String,
+    dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
+    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
   );
 }
 
@@ -362,18 +342,10 @@ DecodeConfig _$DecodeConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DecodeConfigToJson(DecodeConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('unvalidatedJSON', instance.unvalidatedJSON);
-  return val;
-}
+Map<String, dynamic> _$DecodeConfigToJson(DecodeConfig instance) =>
+    <String, dynamic>{
+      'unvalidatedJSON': instance.unvalidatedJSON,
+    };
 
 DemodulationConfig _$DemodulationConfigFromJson(Map<String, dynamic> json) {
   return DemodulationConfig(
@@ -381,45 +353,35 @@ DemodulationConfig _$DemodulationConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DemodulationConfigToJson(DemodulationConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('unvalidatedJSON', instance.unvalidatedJSON);
-  return val;
-}
+Map<String, dynamic> _$DemodulationConfigToJson(DemodulationConfig instance) =>
+    <String, dynamic>{
+      'unvalidatedJSON': instance.unvalidatedJSON,
+    };
 
 DescribeContactResponse _$DescribeContactResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeContactResponse(
-    contactId: json['contactId'] as String,
+    contactId: json['contactId'] as String?,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
-    dataflowList: (json['dataflowList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataflowDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    dataflowList: (json['dataflowList'] as List<dynamic>?)
+        ?.map((e) => DataflowDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
-    errorMessage: json['errorMessage'] as String,
-    groundStation: json['groundStation'] as String,
+    errorMessage: json['errorMessage'] as String?,
+    groundStation: json['groundStation'] as String?,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
-    missionProfileArn: json['missionProfileArn'] as String,
+    missionProfileArn: json['missionProfileArn'] as String?,
     postPassEndTime:
         const UnixDateTimeConverter().fromJson(json['postPassEndTime']),
     prePassStartTime:
         const UnixDateTimeConverter().fromJson(json['prePassStartTime']),
-    region: json['region'] as String,
-    satelliteArn: json['satelliteArn'] as String,
+    region: json['region'] as String?,
+    satelliteArn: json['satelliteArn'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -430,33 +392,24 @@ Destination _$DestinationFromJson(Map<String, dynamic> json) {
     configDetails: json['configDetails'] == null
         ? null
         : ConfigDetails.fromJson(json['configDetails'] as Map<String, dynamic>),
-    configId: json['configId'] as String,
+    configId: json['configId'] as String?,
     configType:
         _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
-    dataflowDestinationRegion: json['dataflowDestinationRegion'] as String,
+    dataflowDestinationRegion: json['dataflowDestinationRegion'] as String?,
   );
 }
 
 Eirp _$EirpFromJson(Map<String, dynamic> json) {
   return Eirp(
-    units: _$enumDecodeNullable(_$EirpUnitsEnumMap, json['units']),
-    value: (json['value'] as num)?.toDouble(),
+    units: _$enumDecode(_$EirpUnitsEnumMap, json['units']),
+    value: (json['value'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$EirpToJson(Eirp instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('units', _$EirpUnitsEnumMap[instance.units]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$EirpToJson(Eirp instance) => <String, dynamic>{
+      'units': _$EirpUnitsEnumMap[instance.units],
+      'value': instance.value,
+    };
 
 const _$EirpUnitsEnumMap = {
   EirpUnits.dbw: 'dBW',
@@ -464,8 +417,8 @@ const _$EirpUnitsEnumMap = {
 
 Elevation _$ElevationFromJson(Map<String, dynamic> json) {
   return Elevation(
-    unit: _$enumDecodeNullable(_$AngleUnitsEnumMap, json['unit']),
-    value: (json['value'] as num)?.toDouble(),
+    unit: _$enumDecode(_$AngleUnitsEnumMap, json['unit']),
+    value: (json['value'] as num).toDouble(),
   );
 }
 
@@ -502,24 +455,15 @@ Map<String, dynamic> _$EndpointDetailsToJson(EndpointDetails instance) {
 
 Frequency _$FrequencyFromJson(Map<String, dynamic> json) {
   return Frequency(
-    units: _$enumDecodeNullable(_$FrequencyUnitsEnumMap, json['units']),
-    value: (json['value'] as num)?.toDouble(),
+    units: _$enumDecode(_$FrequencyUnitsEnumMap, json['units']),
+    value: (json['value'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$FrequencyToJson(Frequency instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('units', _$FrequencyUnitsEnumMap[instance.units]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$FrequencyToJson(Frequency instance) => <String, dynamic>{
+      'units': _$FrequencyUnitsEnumMap[instance.units],
+      'value': instance.value,
+    };
 
 const _$FrequencyUnitsEnumMap = {
   FrequencyUnits.gHz: 'GHz',
@@ -529,24 +473,16 @@ const _$FrequencyUnitsEnumMap = {
 
 FrequencyBandwidth _$FrequencyBandwidthFromJson(Map<String, dynamic> json) {
   return FrequencyBandwidth(
-    units: _$enumDecodeNullable(_$BandwidthUnitsEnumMap, json['units']),
-    value: (json['value'] as num)?.toDouble(),
+    units: _$enumDecode(_$BandwidthUnitsEnumMap, json['units']),
+    value: (json['value'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$FrequencyBandwidthToJson(FrequencyBandwidth instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('units', _$BandwidthUnitsEnumMap[instance.units]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$FrequencyBandwidthToJson(FrequencyBandwidth instance) =>
+    <String, dynamic>{
+      'units': _$BandwidthUnitsEnumMap[instance.units],
+      'value': instance.value,
+    };
 
 const _$BandwidthUnitsEnumMap = {
   BandwidthUnits.gHz: 'GHz',
@@ -557,14 +493,13 @@ const _$BandwidthUnitsEnumMap = {
 GetConfigResponse _$GetConfigResponseFromJson(Map<String, dynamic> json) {
   return GetConfigResponse(
     configArn: json['configArn'] as String,
-    configData: json['configData'] == null
-        ? null
-        : ConfigTypeData.fromJson(json['configData'] as Map<String, dynamic>),
+    configData:
+        ConfigTypeData.fromJson(json['configData'] as Map<String, dynamic>),
     configId: json['configId'] as String,
     name: json['name'] as String,
     configType:
         _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -573,14 +508,12 @@ GetConfigResponse _$GetConfigResponseFromJson(Map<String, dynamic> json) {
 GetDataflowEndpointGroupResponse _$GetDataflowEndpointGroupResponseFromJson(
     Map<String, dynamic> json) {
   return GetDataflowEndpointGroupResponse(
-    dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String,
-    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String,
-    endpointsDetails: (json['endpointsDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EndpointDetails.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
+    dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
+    endpointsDetails: (json['endpointsDetails'] as List<dynamic>?)
+        ?.map((e) => EndpointDetails.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -589,11 +522,12 @@ GetDataflowEndpointGroupResponse _$GetDataflowEndpointGroupResponseFromJson(
 GetMinuteUsageResponse _$GetMinuteUsageResponseFromJson(
     Map<String, dynamic> json) {
   return GetMinuteUsageResponse(
-    estimatedMinutesRemaining: json['estimatedMinutesRemaining'] as int,
-    isReservedMinutesCustomer: json['isReservedMinutesCustomer'] as bool,
-    totalReservedMinuteAllocation: json['totalReservedMinuteAllocation'] as int,
-    totalScheduledMinutes: json['totalScheduledMinutes'] as int,
-    upcomingMinutesScheduled: json['upcomingMinutesScheduled'] as int,
+    estimatedMinutesRemaining: json['estimatedMinutesRemaining'] as int?,
+    isReservedMinutesCustomer: json['isReservedMinutesCustomer'] as bool?,
+    totalReservedMinuteAllocation:
+        json['totalReservedMinuteAllocation'] as int?,
+    totalScheduledMinutes: json['totalScheduledMinutes'] as int?,
+    upcomingMinutesScheduled: json['upcomingMinutesScheduled'] as int?,
   );
 }
 
@@ -601,115 +535,108 @@ GetMissionProfileResponse _$GetMissionProfileResponseFromJson(
     Map<String, dynamic> json) {
   return GetMissionProfileResponse(
     contactPostPassDurationSeconds:
-        json['contactPostPassDurationSeconds'] as int,
-    contactPrePassDurationSeconds: json['contactPrePassDurationSeconds'] as int,
-    dataflowEdges: (json['dataflowEdges'] as List)
-        ?.map((e) => (e as List)?.map((e) => e as String)?.toList())
-        ?.toList(),
+        json['contactPostPassDurationSeconds'] as int?,
+    contactPrePassDurationSeconds:
+        json['contactPrePassDurationSeconds'] as int?,
+    dataflowEdges: (json['dataflowEdges'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+        .toList(),
     minimumViableContactDurationSeconds:
-        json['minimumViableContactDurationSeconds'] as int,
-    missionProfileArn: json['missionProfileArn'] as String,
-    missionProfileId: json['missionProfileId'] as String,
-    name: json['name'] as String,
-    region: json['region'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+        json['minimumViableContactDurationSeconds'] as int?,
+    missionProfileArn: json['missionProfileArn'] as String?,
+    missionProfileId: json['missionProfileId'] as String?,
+    name: json['name'] as String?,
+    region: json['region'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    trackingConfigArn: json['trackingConfigArn'] as String,
+    trackingConfigArn: json['trackingConfigArn'] as String?,
   );
 }
 
 GetSatelliteResponse _$GetSatelliteResponseFromJson(Map<String, dynamic> json) {
   return GetSatelliteResponse(
-    groundStations:
-        (json['groundStations'] as List)?.map((e) => e as String)?.toList(),
-    noradSatelliteID: json['noradSatelliteID'] as int,
-    satelliteArn: json['satelliteArn'] as String,
-    satelliteId: json['satelliteId'] as String,
+    groundStations: (json['groundStations'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    noradSatelliteID: json['noradSatelliteID'] as int?,
+    satelliteArn: json['satelliteArn'] as String?,
+    satelliteId: json['satelliteId'] as String?,
   );
 }
 
 GroundStationData _$GroundStationDataFromJson(Map<String, dynamic> json) {
   return GroundStationData(
-    groundStationId: json['groundStationId'] as String,
-    groundStationName: json['groundStationName'] as String,
-    region: json['region'] as String,
+    groundStationId: json['groundStationId'] as String?,
+    groundStationName: json['groundStationName'] as String?,
+    region: json['region'] as String?,
   );
 }
 
 ListConfigsResponse _$ListConfigsResponseFromJson(Map<String, dynamic> json) {
   return ListConfigsResponse(
-    configList: (json['configList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    configList: (json['configList'] as List<dynamic>?)
+        ?.map((e) => ConfigListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListContactsResponse _$ListContactsResponseFromJson(Map<String, dynamic> json) {
   return ListContactsResponse(
-    contactList: (json['contactList'] as List)
-        ?.map((e) =>
-            e == null ? null : ContactData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    contactList: (json['contactList'] as List<dynamic>?)
+        ?.map((e) => ContactData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDataflowEndpointGroupsResponse _$ListDataflowEndpointGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataflowEndpointGroupsResponse(
-    dataflowEndpointGroupList: (json['dataflowEndpointGroupList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    dataflowEndpointGroupList: (json['dataflowEndpointGroupList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListGroundStationsResponse _$ListGroundStationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListGroundStationsResponse(
-    groundStationList: (json['groundStationList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroundStationData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    groundStationList: (json['groundStationList'] as List<dynamic>?)
+        ?.map((e) => GroundStationData.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListMissionProfilesResponse _$ListMissionProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return ListMissionProfilesResponse(
-    missionProfileList: (json['missionProfileList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MissionProfileListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    missionProfileList: (json['missionProfileList'] as List<dynamic>?)
+        ?.map((e) => MissionProfileListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListSatellitesResponse _$ListSatellitesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSatellitesResponse(
-    nextToken: json['nextToken'] as String,
-    satellites: (json['satellites'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SatelliteListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    satellites: (json['satellites'] as List<dynamic>?)
+        ?.map((e) => SatelliteListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -718,53 +645,48 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 MissionProfileIdResponse _$MissionProfileIdResponseFromJson(
     Map<String, dynamic> json) {
   return MissionProfileIdResponse(
-    missionProfileId: json['missionProfileId'] as String,
+    missionProfileId: json['missionProfileId'] as String?,
   );
 }
 
 MissionProfileListItem _$MissionProfileListItemFromJson(
     Map<String, dynamic> json) {
   return MissionProfileListItem(
-    missionProfileArn: json['missionProfileArn'] as String,
-    missionProfileId: json['missionProfileId'] as String,
-    name: json['name'] as String,
-    region: json['region'] as String,
+    missionProfileArn: json['missionProfileArn'] as String?,
+    missionProfileId: json['missionProfileId'] as String?,
+    name: json['name'] as String?,
+    region: json['region'] as String?,
   );
 }
 
 SatelliteListItem _$SatelliteListItemFromJson(Map<String, dynamic> json) {
   return SatelliteListItem(
-    groundStations:
-        (json['groundStations'] as List)?.map((e) => e as String)?.toList(),
-    noradSatelliteID: json['noradSatelliteID'] as int,
-    satelliteArn: json['satelliteArn'] as String,
-    satelliteId: json['satelliteId'] as String,
+    groundStations: (json['groundStations'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    noradSatelliteID: json['noradSatelliteID'] as int?,
+    satelliteArn: json['satelliteArn'] as String?,
+    satelliteId: json['satelliteId'] as String?,
   );
 }
 
 SecurityDetails _$SecurityDetailsFromJson(Map<String, dynamic> json) {
   return SecurityDetails(
     roleArn: json['roleArn'] as String,
-    securityGroupIds:
-        (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['subnetIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['securityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['subnetIds'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$SecurityDetailsToJson(SecurityDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('securityGroupIds', instance.securityGroupIds);
-  writeNotNull('subnetIds', instance.subnetIds);
-  return val;
-}
+Map<String, dynamic> _$SecurityDetailsToJson(SecurityDetails instance) =>
+    <String, dynamic>{
+      'roleArn': instance.roleArn,
+      'securityGroupIds': instance.securityGroupIds,
+      'subnetIds': instance.subnetIds,
+    };
 
 SocketAddress _$SocketAddressFromJson(Map<String, dynamic> json) {
   return SocketAddress(
@@ -773,48 +695,40 @@ SocketAddress _$SocketAddressFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SocketAddressToJson(SocketAddress instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$SocketAddressToJson(SocketAddress instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'port': instance.port,
+    };
 
 Source _$SourceFromJson(Map<String, dynamic> json) {
   return Source(
     configDetails: json['configDetails'] == null
         ? null
         : ConfigDetails.fromJson(json['configDetails'] as Map<String, dynamic>),
-    configId: json['configId'] as String,
+    configId: json['configId'] as String?,
     configType:
         _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
-    dataflowSourceRegion: json['dataflowSourceRegion'] as String,
+    dataflowSourceRegion: json['dataflowSourceRegion'] as String?,
   );
 }
 
 SpectrumConfig _$SpectrumConfigFromJson(Map<String, dynamic> json) {
   return SpectrumConfig(
-    bandwidth: json['bandwidth'] == null
-        ? null
-        : FrequencyBandwidth.fromJson(
-            json['bandwidth'] as Map<String, dynamic>),
-    centerFrequency: json['centerFrequency'] == null
-        ? null
-        : Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
+    bandwidth:
+        FrequencyBandwidth.fromJson(json['bandwidth'] as Map<String, dynamic>),
+    centerFrequency:
+        Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
     polarization:
         _$enumDecodeNullable(_$PolarizationEnumMap, json['polarization']),
   );
 }
 
 Map<String, dynamic> _$SpectrumConfigToJson(SpectrumConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'bandwidth': instance.bandwidth.toJson(),
+    'centerFrequency': instance.centerFrequency.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -822,8 +736,6 @@ Map<String, dynamic> _$SpectrumConfigToJson(SpectrumConfig instance) {
     }
   }
 
-  writeNotNull('bandwidth', instance.bandwidth?.toJson());
-  writeNotNull('centerFrequency', instance.centerFrequency?.toJson());
   writeNotNull('polarization', _$PolarizationEnumMap[instance.polarization]);
   return val;
 }
@@ -840,22 +752,14 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TrackingConfig _$TrackingConfigFromJson(Map<String, dynamic> json) {
   return TrackingConfig(
-    autotrack: _$enumDecodeNullable(_$CriticalityEnumMap, json['autotrack']),
+    autotrack: _$enumDecode(_$CriticalityEnumMap, json['autotrack']),
   );
 }
 
-Map<String, dynamic> _$TrackingConfigToJson(TrackingConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('autotrack', _$CriticalityEnumMap[instance.autotrack]);
-  return val;
-}
+Map<String, dynamic> _$TrackingConfigToJson(TrackingConfig instance) =>
+    <String, dynamic>{
+      'autotrack': _$CriticalityEnumMap[instance.autotrack],
+    };
 
 const _$CriticalityEnumMap = {
   Criticality.preferred: 'PREFERRED',
@@ -875,25 +779,16 @@ UplinkEchoConfig _$UplinkEchoConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$UplinkEchoConfigToJson(UplinkEchoConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('antennaUplinkConfigArn', instance.antennaUplinkConfigArn);
-  writeNotNull('enabled', instance.enabled);
-  return val;
-}
+Map<String, dynamic> _$UplinkEchoConfigToJson(UplinkEchoConfig instance) =>
+    <String, dynamic>{
+      'antennaUplinkConfigArn': instance.antennaUplinkConfigArn,
+      'enabled': instance.enabled,
+    };
 
 UplinkSpectrumConfig _$UplinkSpectrumConfigFromJson(Map<String, dynamic> json) {
   return UplinkSpectrumConfig(
-    centerFrequency: json['centerFrequency'] == null
-        ? null
-        : Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
+    centerFrequency:
+        Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
     polarization:
         _$enumDecodeNullable(_$PolarizationEnumMap, json['polarization']),
   );
@@ -901,7 +796,9 @@ UplinkSpectrumConfig _$UplinkSpectrumConfigFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UplinkSpectrumConfigToJson(
     UplinkSpectrumConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'centerFrequency': instance.centerFrequency.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -909,7 +806,6 @@ Map<String, dynamic> _$UplinkSpectrumConfigToJson(
     }
   }
 
-  writeNotNull('centerFrequency', instance.centerFrequency?.toJson());
   writeNotNull('polarization', _$PolarizationEnumMap[instance.polarization]);
   return val;
 }

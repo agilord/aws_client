@@ -61,13 +61,11 @@ BatchAssociateServiceActionWithProvisioningArtifactOutput
     _$BatchAssociateServiceActionWithProvisioningArtifactOutputFromJson(
         Map<String, dynamic> json) {
   return BatchAssociateServiceActionWithProvisioningArtifactOutput(
-    failedServiceActionAssociations:
-        (json['FailedServiceActionAssociations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : FailedServiceActionAssociation.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    failedServiceActionAssociations: (json['FailedServiceActionAssociations']
+            as List<dynamic>?)
+        ?.map((e) =>
+            FailedServiceActionAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -75,49 +73,47 @@ BatchDisassociateServiceActionFromProvisioningArtifactOutput
     _$BatchDisassociateServiceActionFromProvisioningArtifactOutputFromJson(
         Map<String, dynamic> json) {
   return BatchDisassociateServiceActionFromProvisioningArtifactOutput(
-    failedServiceActionAssociations:
-        (json['FailedServiceActionAssociations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : FailedServiceActionAssociation.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    failedServiceActionAssociations: (json['FailedServiceActionAssociations']
+            as List<dynamic>?)
+        ?.map((e) =>
+            FailedServiceActionAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BudgetDetail _$BudgetDetailFromJson(Map<String, dynamic> json) {
   return BudgetDetail(
-    budgetName: json['BudgetName'] as String,
+    budgetName: json['BudgetName'] as String?,
   );
 }
 
 CloudWatchDashboard _$CloudWatchDashboardFromJson(Map<String, dynamic> json) {
   return CloudWatchDashboard(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 ConstraintDetail _$ConstraintDetailFromJson(Map<String, dynamic> json) {
   return ConstraintDetail(
-    constraintId: json['ConstraintId'] as String,
-    description: json['Description'] as String,
-    owner: json['Owner'] as String,
-    portfolioId: json['PortfolioId'] as String,
-    productId: json['ProductId'] as String,
-    type: json['Type'] as String,
+    constraintId: json['ConstraintId'] as String?,
+    description: json['Description'] as String?,
+    owner: json['Owner'] as String?,
+    portfolioId: json['PortfolioId'] as String?,
+    productId: json['ProductId'] as String?,
+    type: json['Type'] as String?,
   );
 }
 
 ConstraintSummary _$ConstraintSummaryFromJson(Map<String, dynamic> json) {
   return ConstraintSummary(
-    description: json['Description'] as String,
-    type: json['Type'] as String,
+    description: json['Description'] as String?,
+    type: json['Type'] as String?,
   );
 }
 
 CopyProductOutput _$CopyProductOutputFromJson(Map<String, dynamic> json) {
   return CopyProductOutput(
-    copyProductToken: json['CopyProductToken'] as String,
+    copyProductToken: json['CopyProductToken'] as String?,
   );
 }
 
@@ -128,41 +124,46 @@ CreateConstraintOutput _$CreateConstraintOutputFromJson(
         ? null
         : ConstraintDetail.fromJson(
             json['ConstraintDetail'] as Map<String, dynamic>),
-    constraintParameters: json['ConstraintParameters'] as String,
+    constraintParameters: json['ConstraintParameters'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$StatusEnumMap = {
@@ -178,16 +179,16 @@ CreatePortfolioOutput _$CreatePortfolioOutputFromJson(
         ? null
         : PortfolioDetail.fromJson(
             json['PortfolioDetail'] as Map<String, dynamic>),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreatePortfolioShareOutput _$CreatePortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return CreatePortfolioShareOutput(
-    portfolioShareToken: json['PortfolioShareToken'] as String,
+    portfolioShareToken: json['PortfolioShareToken'] as String?,
   );
 }
 
@@ -201,27 +202,27 @@ CreateProductOutput _$CreateProductOutputFromJson(Map<String, dynamic> json) {
         ? null
         : ProvisioningArtifactDetail.fromJson(
             json['ProvisioningArtifactDetail'] as Map<String, dynamic>),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateProvisionedProductPlanOutput _$CreateProvisionedProductPlanOutputFromJson(
     Map<String, dynamic> json) {
   return CreateProvisionedProductPlanOutput(
-    planId: json['PlanId'] as String,
-    planName: json['PlanName'] as String,
-    provisionProductId: json['ProvisionProductId'] as String,
-    provisionedProductName: json['ProvisionedProductName'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
+    planId: json['PlanId'] as String?,
+    planName: json['PlanName'] as String?,
+    provisionProductId: json['ProvisionProductId'] as String?,
+    provisionedProductName: json['ProvisionedProductName'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
   );
 }
 
 CreateProvisioningArtifactOutput _$CreateProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return CreateProvisioningArtifactOutput(
-    info: (json['Info'] as Map<String, dynamic>)?.map(
+    info: (json['Info'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     provisioningArtifactDetail: json['ProvisioningArtifactDetail'] == null
@@ -265,7 +266,7 @@ DeletePortfolioOutput _$DeletePortfolioOutputFromJson(
 DeletePortfolioShareOutput _$DeletePortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return DeletePortfolioShareOutput(
-    portfolioShareToken: json['PortfolioShareToken'] as String,
+    portfolioShareToken: json['PortfolioShareToken'] as String?,
   );
 }
 
@@ -300,7 +301,7 @@ DescribeConstraintOutput _$DescribeConstraintOutputFromJson(
         ? null
         : ConstraintDetail.fromJson(
             json['ConstraintDetail'] as Map<String, dynamic>),
-    constraintParameters: json['ConstraintParameters'] as String,
+    constraintParameters: json['ConstraintParameters'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
 }
@@ -310,8 +311,8 @@ DescribeCopyProductStatusOutput _$DescribeCopyProductStatusOutputFromJson(
   return DescribeCopyProductStatusOutput(
     copyProductStatus: _$enumDecodeNullable(
         _$CopyProductStatusEnumMap, json['CopyProductStatus']),
-    statusDetail: json['StatusDetail'] as String,
-    targetProductId: json['TargetProductId'] as String,
+    statusDetail: json['StatusDetail'] as String?,
+    targetProductId: json['TargetProductId'] as String?,
   );
 }
 
@@ -324,31 +325,28 @@ const _$CopyProductStatusEnumMap = {
 DescribePortfolioOutput _$DescribePortfolioOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePortfolioOutput(
-    budgets: (json['Budgets'] as List)
-        ?.map((e) =>
-            e == null ? null : BudgetDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    budgets: (json['Budgets'] as List<dynamic>?)
+        ?.map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
     portfolioDetail: json['PortfolioDetail'] == null
         ? null
         : PortfolioDetail.fromJson(
             json['PortfolioDetail'] as Map<String, dynamic>),
-    tagOptions: (json['TagOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TagOptionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagOptions: (json['TagOptions'] as List<dynamic>?)
+        ?.map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribePortfolioShareStatusOutput _$DescribePortfolioShareStatusOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePortfolioShareStatusOutput(
-    organizationNodeValue: json['OrganizationNodeValue'] as String,
-    portfolioId: json['PortfolioId'] as String,
-    portfolioShareToken: json['PortfolioShareToken'] as String,
+    organizationNodeValue: json['OrganizationNodeValue'] as String?,
+    portfolioId: json['PortfolioId'] as String?,
+    portfolioShareToken: json['PortfolioShareToken'] as String?,
     shareDetails: json['ShareDetails'] == null
         ? null
         : ShareDetails.fromJson(json['ShareDetails'] as Map<String, dynamic>),
@@ -367,63 +365,53 @@ const _$ShareStatusEnumMap = {
 DescribePortfolioSharesOutput _$DescribePortfolioSharesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePortfolioSharesOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    portfolioShareDetails: (json['PortfolioShareDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    portfolioShareDetails: (json['PortfolioShareDetails'] as List<dynamic>?)
+        ?.map((e) => PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeProductAsAdminOutput _$DescribeProductAsAdminOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProductAsAdminOutput(
-    budgets: (json['Budgets'] as List)
-        ?.map((e) =>
-            e == null ? null : BudgetDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    budgets: (json['Budgets'] as List<dynamic>?)
+        ?.map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
     productViewDetail: json['ProductViewDetail'] == null
         ? null
         : ProductViewDetail.fromJson(
             json['ProductViewDetail'] as Map<String, dynamic>),
-    provisioningArtifactSummaries: (json['ProvisioningArtifactSummaries']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifactSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tagOptions: (json['TagOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TagOptionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    provisioningArtifactSummaries:
+        (json['ProvisioningArtifactSummaries'] as List<dynamic>?)
+            ?.map((e) =>
+                ProvisioningArtifactSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    tagOptions: (json['TagOptions'] as List<dynamic>?)
+        ?.map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeProductOutput _$DescribeProductOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProductOutput(
-    budgets: (json['Budgets'] as List)
-        ?.map((e) =>
-            e == null ? null : BudgetDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    launchPaths: (json['LaunchPaths'] as List)
-        ?.map((e) =>
-            e == null ? null : LaunchPath.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    budgets: (json['Budgets'] as List<dynamic>?)
+        ?.map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    launchPaths: (json['LaunchPaths'] as List<dynamic>?)
+        ?.map((e) => LaunchPath.fromJson(e as Map<String, dynamic>))
+        .toList(),
     productViewSummary: json['ProductViewSummary'] == null
         ? null
         : ProductViewSummary.fromJson(
             json['ProductViewSummary'] as Map<String, dynamic>),
-    provisioningArtifacts: (json['ProvisioningArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    provisioningArtifacts: (json['ProvisioningArtifacts'] as List<dynamic>?)
+        ?.map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -434,22 +422,18 @@ DescribeProductViewOutput _$DescribeProductViewOutputFromJson(
         ? null
         : ProductViewSummary.fromJson(
             json['ProductViewSummary'] as Map<String, dynamic>),
-    provisioningArtifacts: (json['ProvisioningArtifacts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    provisioningArtifacts: (json['ProvisioningArtifacts'] as List<dynamic>?)
+        ?.map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeProvisionedProductOutput _$DescribeProvisionedProductOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProvisionedProductOutput(
-    cloudWatchDashboards: (json['CloudWatchDashboards'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CloudWatchDashboard.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    cloudWatchDashboards: (json['CloudWatchDashboards'] as List<dynamic>?)
+        ?.map((e) => CloudWatchDashboard.fromJson(e as Map<String, dynamic>))
+        .toList(),
     provisionedProductDetail: json['ProvisionedProductDetail'] == null
         ? null
         : ProvisionedProductDetail.fromJson(
@@ -460,23 +444,21 @@ DescribeProvisionedProductOutput _$DescribeProvisionedProductOutputFromJson(
 DescribeProvisionedProductPlanOutput
     _$DescribeProvisionedProductPlanOutputFromJson(Map<String, dynamic> json) {
   return DescribeProvisionedProductPlanOutput(
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
     provisionedProductPlanDetails: json['ProvisionedProductPlanDetails'] == null
         ? null
         : ProvisionedProductPlanDetails.fromJson(
             json['ProvisionedProductPlanDetails'] as Map<String, dynamic>),
-    resourceChanges: (json['ResourceChanges'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceChange.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resourceChanges: (json['ResourceChanges'] as List<dynamic>?)
+        ?.map((e) => ResourceChange.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeProvisioningArtifactOutput _$DescribeProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProvisioningArtifactOutput(
-    info: (json['Info'] as Map<String, dynamic>)?.map(
+    info: (json['Info'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     provisioningArtifactDetail: json['ProvisioningArtifactDetail'] == null
@@ -490,50 +472,42 @@ DescribeProvisioningArtifactOutput _$DescribeProvisioningArtifactOutputFromJson(
 DescribeProvisioningParametersOutput
     _$DescribeProvisioningParametersOutputFromJson(Map<String, dynamic> json) {
   return DescribeProvisioningParametersOutput(
-    constraintSummaries: (json['ConstraintSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConstraintSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    provisioningArtifactOutputs: (json['ProvisioningArtifactOutputs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    constraintSummaries: (json['ConstraintSummaries'] as List<dynamic>?)
+        ?.map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    provisioningArtifactOutputs:
+        (json['ProvisioningArtifactOutputs'] as List<dynamic>?)
+            ?.map((e) =>
+                ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
+            .toList(),
     provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
     provisioningArtifactPreferences: json['ProvisioningArtifactPreferences'] ==
             null
         ? null
         : ProvisioningArtifactPreferences.fromJson(
             json['ProvisioningArtifactPreferences'] as Map<String, dynamic>),
-    tagOptions: (json['TagOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TagOptionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    usageInstructions: (json['UsageInstructions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UsageInstruction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagOptions: (json['TagOptions'] as List<dynamic>?)
+        ?.map((e) => TagOptionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    usageInstructions: (json['UsageInstructions'] as List<dynamic>?)
+        ?.map((e) => UsageInstruction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeRecordOutput _$DescribeRecordOutputFromJson(Map<String, dynamic> json) {
   return DescribeRecordOutput(
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
     recordDetail: json['RecordDetail'] == null
         ? null
         : RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>),
-    recordOutputs: (json['RecordOutputs'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordOutput.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    recordOutputs: (json['RecordOutputs'] as List<dynamic>?)
+        ?.map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -541,11 +515,9 @@ DescribeServiceActionExecutionParametersOutput
     _$DescribeServiceActionExecutionParametersOutputFromJson(
         Map<String, dynamic> json) {
   return DescribeServiceActionExecutionParametersOutput(
-    serviceActionParameters: (json['ServiceActionParameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ExecutionParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    serviceActionParameters: (json['ServiceActionParameters'] as List<dynamic>?)
+        ?.map((e) => ExecutionParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -629,10 +601,11 @@ ExecuteProvisionedProductServiceActionOutput
 
 ExecutionParameter _$ExecutionParameterFromJson(Map<String, dynamic> json) {
   return ExecutionParameter(
-    defaultValues:
-        (json['DefaultValues'] as List)?.map((e) => e as String)?.toList(),
-    name: json['Name'] as String,
-    type: json['Type'] as String,
+    defaultValues: (json['DefaultValues'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    name: json['Name'] as String?,
+    type: json['Type'] as String?,
   );
 }
 
@@ -641,10 +614,10 @@ FailedServiceActionAssociation _$FailedServiceActionAssociationFromJson(
   return FailedServiceActionAssociation(
     errorCode: _$enumDecodeNullable(
         _$ServiceActionAssociationErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    productId: json['ProductId'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
-    serviceActionId: json['ServiceActionId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    productId: json['ProductId'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    serviceActionId: json['ServiceActionId'] as String?,
   );
 }
 
@@ -673,11 +646,10 @@ const _$AccessStatusEnumMap = {
 GetProvisionedProductOutputsOutput _$GetProvisionedProductOutputsOutputFromJson(
     Map<String, dynamic> json) {
   return GetProvisionedProductOutputsOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    outputs: (json['Outputs'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordOutput.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    outputs: (json['Outputs'] as List<dynamic>?)
+        ?.map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -692,136 +664,121 @@ ImportAsProvisionedProductOutput _$ImportAsProvisionedProductOutputFromJson(
 
 LaunchPath _$LaunchPathFromJson(Map<String, dynamic> json) {
   return LaunchPath(
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 LaunchPathSummary _$LaunchPathSummaryFromJson(Map<String, dynamic> json) {
   return LaunchPathSummary(
-    constraintSummaries: (json['ConstraintSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConstraintSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    constraintSummaries: (json['ConstraintSummaries'] as List<dynamic>?)
+        ?.map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListAcceptedPortfolioSharesOutput _$ListAcceptedPortfolioSharesOutputFromJson(
     Map<String, dynamic> json) {
   return ListAcceptedPortfolioSharesOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    portfolioDetails: (json['PortfolioDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PortfolioDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    portfolioDetails: (json['PortfolioDetails'] as List<dynamic>?)
+        ?.map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListBudgetsForResourceOutput _$ListBudgetsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListBudgetsForResourceOutput(
-    budgets: (json['Budgets'] as List)
-        ?.map((e) =>
-            e == null ? null : BudgetDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    budgets: (json['Budgets'] as List<dynamic>?)
+        ?.map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 ListConstraintsForPortfolioOutput _$ListConstraintsForPortfolioOutputFromJson(
     Map<String, dynamic> json) {
   return ListConstraintsForPortfolioOutput(
-    constraintDetails: (json['ConstraintDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConstraintDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    constraintDetails: (json['ConstraintDetails'] as List<dynamic>?)
+        ?.map((e) => ConstraintDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 ListLaunchPathsOutput _$ListLaunchPathsOutputFromJson(
     Map<String, dynamic> json) {
   return ListLaunchPathsOutput(
-    launchPathSummaries: (json['LaunchPathSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LaunchPathSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    launchPathSummaries: (json['LaunchPathSummaries'] as List<dynamic>?)
+        ?.map((e) => LaunchPathSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 ListOrganizationPortfolioAccessOutput
     _$ListOrganizationPortfolioAccessOutputFromJson(Map<String, dynamic> json) {
   return ListOrganizationPortfolioAccessOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    organizationNodes: (json['OrganizationNodes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationNode.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    organizationNodes: (json['OrganizationNodes'] as List<dynamic>?)
+        ?.map((e) => OrganizationNode.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPortfolioAccessOutput _$ListPortfolioAccessOutputFromJson(
     Map<String, dynamic> json) {
   return ListPortfolioAccessOutput(
-    accountIds: (json['AccountIds'] as List)?.map((e) => e as String)?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    accountIds: (json['AccountIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 ListPortfoliosForProductOutput _$ListPortfoliosForProductOutputFromJson(
     Map<String, dynamic> json) {
   return ListPortfoliosForProductOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    portfolioDetails: (json['PortfolioDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PortfolioDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    portfolioDetails: (json['PortfolioDetails'] as List<dynamic>?)
+        ?.map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPortfoliosOutput _$ListPortfoliosOutputFromJson(Map<String, dynamic> json) {
   return ListPortfoliosOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    portfolioDetails: (json['PortfolioDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PortfolioDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    portfolioDetails: (json['PortfolioDetails'] as List<dynamic>?)
+        ?.map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPrincipalsForPortfolioOutput _$ListPrincipalsForPortfolioOutputFromJson(
     Map<String, dynamic> json) {
   return ListPrincipalsForPortfolioOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    principals: (json['Principals'] as List)
-        ?.map((e) =>
-            e == null ? null : Principal.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    principals: (json['Principals'] as List<dynamic>?)
+        ?.map((e) => Principal.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListProvisionedProductPlansOutput _$ListProvisionedProductPlansOutputFromJson(
     Map<String, dynamic> json) {
   return ListProvisionedProductPlansOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    provisionedProductPlans: (json['ProvisionedProductPlans'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisionedProductPlanSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    provisionedProductPlans: (json['ProvisionedProductPlans'] as List<dynamic>?)
+        ?.map((e) =>
+            ProvisionedProductPlanSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -829,35 +786,34 @@ ListProvisioningArtifactsForServiceActionOutput
     _$ListProvisioningArtifactsForServiceActionOutputFromJson(
         Map<String, dynamic> json) {
   return ListProvisioningArtifactsForServiceActionOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    provisioningArtifactViews: (json['ProvisioningArtifactViews'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifactView.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    provisioningArtifactViews: (json['ProvisioningArtifactViews']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ProvisioningArtifactView.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListProvisioningArtifactsOutput _$ListProvisioningArtifactsOutputFromJson(
     Map<String, dynamic> json) {
   return ListProvisioningArtifactsOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    provisioningArtifactDetails: (json['ProvisioningArtifactDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    provisioningArtifactDetails:
+        (json['ProvisioningArtifactDetails'] as List<dynamic>?)
+            ?.map((e) =>
+                ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListRecordHistoryOutput _$ListRecordHistoryOutputFromJson(
     Map<String, dynamic> json) {
   return ListRecordHistoryOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    recordDetails: (json['RecordDetails'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    recordDetails: (json['RecordDetails'] as List<dynamic>?)
+        ?.map((e) => RecordDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -879,12 +835,10 @@ Map<String, dynamic> _$ListRecordHistorySearchFilterToJson(
 ListResourcesForTagOptionOutput _$ListResourcesForTagOptionOutputFromJson(
     Map<String, dynamic> json) {
   return ListResourcesForTagOptionOutput(
-    pageToken: json['PageToken'] as String,
-    resourceDetails: (json['ResourceDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pageToken: json['PageToken'] as String?,
+    resourceDetails: (json['ResourceDetails'] as List<dynamic>?)
+        ?.map((e) => ResourceDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -892,24 +846,20 @@ ListServiceActionsForProvisioningArtifactOutput
     _$ListServiceActionsForProvisioningArtifactOutputFromJson(
         Map<String, dynamic> json) {
   return ListServiceActionsForProvisioningArtifactOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    serviceActionSummaries: (json['ServiceActionSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ServiceActionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    serviceActionSummaries: (json['ServiceActionSummaries'] as List<dynamic>?)
+        ?.map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListServiceActionsOutput _$ListServiceActionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListServiceActionsOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    serviceActionSummaries: (json['ServiceActionSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ServiceActionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    serviceActionSummaries: (json['ServiceActionSummaries'] as List<dynamic>?)
+        ?.map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -917,12 +867,10 @@ ListStackInstancesForProvisionedProductOutput
     _$ListStackInstancesForProvisionedProductOutputFromJson(
         Map<String, dynamic> json) {
   return ListStackInstancesForProvisionedProductOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    stackInstances: (json['StackInstances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StackInstance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    stackInstances: (json['StackInstances'] as List<dynamic>?)
+        ?.map((e) => StackInstance.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -944,19 +892,17 @@ Map<String, dynamic> _$ListTagOptionsFiltersToJson(
 
 ListTagOptionsOutput _$ListTagOptionsOutputFromJson(Map<String, dynamic> json) {
   return ListTagOptionsOutput(
-    pageToken: json['PageToken'] as String,
-    tagOptionDetails: (json['TagOptionDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TagOptionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pageToken: json['PageToken'] as String?,
+    tagOptionDetails: (json['TagOptionDetails'] as List<dynamic>?)
+        ?.map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OrganizationNode _$OrganizationNodeFromJson(Map<String, dynamic> json) {
   return OrganizationNode(
     type: _$enumDecodeNullable(_$OrganizationNodeTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -982,33 +928,34 @@ const _$OrganizationNodeTypeEnumMap = {
 
 ParameterConstraints _$ParameterConstraintsFromJson(Map<String, dynamic> json) {
   return ParameterConstraints(
-    allowedPattern: json['AllowedPattern'] as String,
-    allowedValues:
-        (json['AllowedValues'] as List)?.map((e) => e as String)?.toList(),
-    constraintDescription: json['ConstraintDescription'] as String,
-    maxLength: json['MaxLength'] as String,
-    maxValue: json['MaxValue'] as String,
-    minLength: json['MinLength'] as String,
-    minValue: json['MinValue'] as String,
+    allowedPattern: json['AllowedPattern'] as String?,
+    allowedValues: (json['AllowedValues'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    constraintDescription: json['ConstraintDescription'] as String?,
+    maxLength: json['MaxLength'] as String?,
+    maxValue: json['MaxValue'] as String?,
+    minLength: json['MinLength'] as String?,
+    minValue: json['MinValue'] as String?,
   );
 }
 
 PortfolioDetail _$PortfolioDetailFromJson(Map<String, dynamic> json) {
   return PortfolioDetail(
-    arn: json['ARN'] as String,
+    arn: json['ARN'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    displayName: json['DisplayName'] as String,
-    id: json['Id'] as String,
-    providerName: json['ProviderName'] as String,
+    description: json['Description'] as String?,
+    displayName: json['DisplayName'] as String?,
+    id: json['Id'] as String?,
+    providerName: json['ProviderName'] as String?,
   );
 }
 
 PortfolioShareDetail _$PortfolioShareDetailFromJson(Map<String, dynamic> json) {
   return PortfolioShareDetail(
-    accepted: json['Accepted'] as bool,
-    principalId: json['PrincipalId'] as String,
-    shareTagOptions: json['ShareTagOptions'] as bool,
+    accepted: json['Accepted'] as bool?,
+    principalId: json['PrincipalId'] as String?,
+    shareTagOptions: json['ShareTagOptions'] as bool?,
     type:
         _$enumDecodeNullable(_$DescribePortfolioShareTypeEnumMap, json['Type']),
   );
@@ -1024,7 +971,7 @@ const _$DescribePortfolioShareTypeEnumMap = {
 
 Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   return Principal(
-    principalARN: json['PrincipalARN'] as String,
+    principalARN: json['PrincipalARN'] as String?,
     principalType:
         _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['PrincipalType']),
   );
@@ -1037,15 +984,15 @@ const _$PrincipalTypeEnumMap = {
 ProductViewAggregationValue _$ProductViewAggregationValueFromJson(
     Map<String, dynamic> json) {
   return ProductViewAggregationValue(
-    approximateCount: json['ApproximateCount'] as int,
-    value: json['Value'] as String,
+    approximateCount: json['ApproximateCount'] as int?,
+    value: json['Value'] as String?,
   );
 }
 
 ProductViewDetail _$ProductViewDetailFromJson(Map<String, dynamic> json) {
   return ProductViewDetail(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    productARN: json['ProductARN'] as String,
+    productARN: json['ProductARN'] as String?,
     productViewSummary: json['ProductViewSummary'] == null
         ? null
         : ProductViewSummary.fromJson(
@@ -1056,16 +1003,16 @@ ProductViewDetail _$ProductViewDetailFromJson(Map<String, dynamic> json) {
 
 ProductViewSummary _$ProductViewSummaryFromJson(Map<String, dynamic> json) {
   return ProductViewSummary(
-    distributor: json['Distributor'] as String,
-    hasDefaultPath: json['HasDefaultPath'] as bool,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
-    productId: json['ProductId'] as String,
-    shortDescription: json['ShortDescription'] as String,
-    supportDescription: json['SupportDescription'] as String,
-    supportEmail: json['SupportEmail'] as String,
-    supportUrl: json['SupportUrl'] as String,
+    distributor: json['Distributor'] as String?,
+    hasDefaultPath: json['HasDefaultPath'] as bool?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
+    productId: json['ProductId'] as String?,
+    shortDescription: json['ShortDescription'] as String?,
+    supportDescription: json['SupportDescription'] as String?,
+    supportEmail: json['SupportEmail'] as String?,
+    supportUrl: json['SupportUrl'] as String?,
     type: _$enumDecodeNullable(_$ProductTypeEnumMap, json['Type']),
   );
 }
@@ -1087,29 +1034,29 @@ ProvisionProductOutput _$ProvisionProductOutputFromJson(
 ProvisionedProductAttribute _$ProvisionedProductAttributeFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductAttribute(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    id: json['Id'] as String,
-    idempotencyToken: json['IdempotencyToken'] as String,
-    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String,
-    lastRecordId: json['LastRecordId'] as String,
+    id: json['Id'] as String?,
+    idempotencyToken: json['IdempotencyToken'] as String?,
+    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+    lastRecordId: json['LastRecordId'] as String?,
     lastSuccessfulProvisioningRecordId:
-        json['LastSuccessfulProvisioningRecordId'] as String,
-    name: json['Name'] as String,
-    physicalId: json['PhysicalId'] as String,
-    productId: json['ProductId'] as String,
-    productName: json['ProductName'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
-    provisioningArtifactName: json['ProvisioningArtifactName'] as String,
+        json['LastSuccessfulProvisioningRecordId'] as String?,
+    name: json['Name'] as String?,
+    physicalId: json['PhysicalId'] as String?,
+    productId: json['ProductId'] as String?,
+    productName: json['ProductName'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    provisioningArtifactName: json['ProvisioningArtifactName'] as String?,
     status:
         _$enumDecodeNullable(_$ProvisionedProductStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    type: json['Type'] as String,
-    userArn: json['UserArn'] as String,
-    userArnSession: json['UserArnSession'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    type: json['Type'] as String?,
+    userArn: json['UserArn'] as String?,
+    userArnSession: json['UserArnSession'] as String?,
   );
 }
 
@@ -1124,22 +1071,22 @@ const _$ProvisionedProductStatusEnumMap = {
 ProvisionedProductDetail _$ProvisionedProductDetailFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductDetail(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    id: json['Id'] as String,
-    idempotencyToken: json['IdempotencyToken'] as String,
-    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String,
-    lastRecordId: json['LastRecordId'] as String,
+    id: json['Id'] as String?,
+    idempotencyToken: json['IdempotencyToken'] as String?,
+    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+    lastRecordId: json['LastRecordId'] as String?,
     lastSuccessfulProvisioningRecordId:
-        json['LastSuccessfulProvisioningRecordId'] as String,
-    launchRoleArn: json['LaunchRoleArn'] as String,
-    name: json['Name'] as String,
-    productId: json['ProductId'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
+        json['LastSuccessfulProvisioningRecordId'] as String?,
+    launchRoleArn: json['LaunchRoleArn'] as String?,
+    name: json['Name'] as String?,
+    productId: json['ProductId'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
     status:
         _$enumDecodeNullable(_$ProvisionedProductStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    type: json['Type'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    type: json['Type'] as String?,
   );
 }
 
@@ -1147,28 +1094,28 @@ ProvisionedProductPlanDetails _$ProvisionedProductPlanDetailsFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductPlanDetails(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    notificationArns:
-        (json['NotificationArns'] as List)?.map((e) => e as String)?.toList(),
-    pathId: json['PathId'] as String,
-    planId: json['PlanId'] as String,
-    planName: json['PlanName'] as String,
+    notificationArns: (json['NotificationArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    pathId: json['PathId'] as String?,
+    planId: json['PlanId'] as String?,
+    planName: json['PlanName'] as String?,
     planType: _$enumDecodeNullable(
         _$ProvisionedProductPlanTypeEnumMap, json['PlanType']),
-    productId: json['ProductId'] as String,
-    provisionProductId: json['ProvisionProductId'] as String,
-    provisionProductName: json['ProvisionProductName'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
-    provisioningParameters: (json['ProvisioningParameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    productId: json['ProductId'] as String?,
+    provisionProductId: json['ProvisionProductId'] as String?,
+    provisionProductName: json['ProvisionProductName'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    provisioningParameters: (json['ProvisioningParameters'] as List<dynamic>?)
+        ?.map((e) =>
+            UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(
         _$ProvisionedProductPlanStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    statusMessage: json['StatusMessage'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
     updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
 }
@@ -1189,24 +1136,24 @@ const _$ProvisionedProductPlanStatusEnumMap = {
 ProvisionedProductPlanSummary _$ProvisionedProductPlanSummaryFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductPlanSummary(
-    planId: json['PlanId'] as String,
-    planName: json['PlanName'] as String,
+    planId: json['PlanId'] as String?,
+    planName: json['PlanName'] as String?,
     planType: _$enumDecodeNullable(
         _$ProvisionedProductPlanTypeEnumMap, json['PlanType']),
-    provisionProductId: json['ProvisionProductId'] as String,
-    provisionProductName: json['ProvisionProductName'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
+    provisionProductId: json['ProvisionProductId'] as String?,
+    provisionProductName: json['ProvisionProductName'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
   );
 }
 
 ProvisioningArtifact _$ProvisioningArtifactFromJson(Map<String, dynamic> json) {
   return ProvisioningArtifact(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     guidance: _$enumDecodeNullable(
         _$ProvisioningArtifactGuidanceEnumMap, json['Guidance']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1218,13 +1165,13 @@ const _$ProvisioningArtifactGuidanceEnumMap = {
 ProvisioningArtifactDetail _$ProvisioningArtifactDetailFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactDetail(
-    active: json['Active'] as bool,
+    active: json['Active'] as bool?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     guidance: _$enumDecodeNullable(
         _$ProvisioningArtifactGuidanceEnumMap, json['Guidance']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     type: _$enumDecodeNullable(_$ProvisioningArtifactTypeEnumMap, json['Type']),
   );
 }
@@ -1238,39 +1185,43 @@ const _$ProvisioningArtifactTypeEnumMap = {
 ProvisioningArtifactOutput _$ProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactOutput(
-    description: json['Description'] as String,
-    key: json['Key'] as String,
+    description: json['Description'] as String?,
+    key: json['Key'] as String?,
   );
 }
 
 ProvisioningArtifactParameter _$ProvisioningArtifactParameterFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactParameter(
-    defaultValue: json['DefaultValue'] as String,
-    description: json['Description'] as String,
-    isNoEcho: json['IsNoEcho'] as bool,
+    defaultValue: json['DefaultValue'] as String?,
+    description: json['Description'] as String?,
+    isNoEcho: json['IsNoEcho'] as bool?,
     parameterConstraints: json['ParameterConstraints'] == null
         ? null
         : ParameterConstraints.fromJson(
             json['ParameterConstraints'] as Map<String, dynamic>),
-    parameterKey: json['ParameterKey'] as String,
-    parameterType: json['ParameterType'] as String,
+    parameterKey: json['ParameterKey'] as String?,
+    parameterType: json['ParameterType'] as String?,
   );
 }
 
 ProvisioningArtifactPreferences _$ProvisioningArtifactPreferencesFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactPreferences(
-    stackSetAccounts:
-        (json['StackSetAccounts'] as List)?.map((e) => e as String)?.toList(),
-    stackSetRegions:
-        (json['StackSetRegions'] as List)?.map((e) => e as String)?.toList(),
+    stackSetAccounts: (json['StackSetAccounts'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    stackSetRegions: (json['StackSetRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ProvisioningArtifactPropertiesToJson(
     ProvisioningArtifactProperties instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Info': instance.info,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1278,7 +1229,6 @@ Map<String, dynamic> _$ProvisioningArtifactPropertiesToJson(
     }
   }
 
-  writeNotNull('Info', instance.info);
   writeNotNull('Description', instance.description);
   writeNotNull('DisableTemplateValidation', instance.disableTemplateValidation);
   writeNotNull('Name', instance.name);
@@ -1290,11 +1240,11 @@ ProvisioningArtifactSummary _$ProvisioningArtifactSummaryFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactSummary(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     provisioningArtifactMetadata:
-        (json['ProvisioningArtifactMetadata'] as Map<String, dynamic>)?.map(
+        (json['ProvisioningArtifactMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1355,23 +1305,21 @@ Map<String, dynamic> _$ProvisioningPreferencesToJson(
 RecordDetail _$RecordDetailFromJson(Map<String, dynamic> json) {
   return RecordDetail(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    launchRoleArn: json['LaunchRoleArn'] as String,
-    pathId: json['PathId'] as String,
-    productId: json['ProductId'] as String,
-    provisionedProductId: json['ProvisionedProductId'] as String,
-    provisionedProductName: json['ProvisionedProductName'] as String,
-    provisionedProductType: json['ProvisionedProductType'] as String,
-    provisioningArtifactId: json['ProvisioningArtifactId'] as String,
-    recordErrors: (json['RecordErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recordId: json['RecordId'] as String,
-    recordTags: (json['RecordTags'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordTag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recordType: json['RecordType'] as String,
+    launchRoleArn: json['LaunchRoleArn'] as String?,
+    pathId: json['PathId'] as String?,
+    productId: json['ProductId'] as String?,
+    provisionedProductId: json['ProvisionedProductId'] as String?,
+    provisionedProductName: json['ProvisionedProductName'] as String?,
+    provisionedProductType: json['ProvisionedProductType'] as String?,
+    provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    recordErrors: (json['RecordErrors'] as List<dynamic>?)
+        ?.map((e) => RecordError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recordId: json['RecordId'] as String?,
+    recordTags: (json['RecordTags'] as List<dynamic>?)
+        ?.map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recordType: json['RecordType'] as String?,
     status: _$enumDecodeNullable(_$RecordStatusEnumMap, json['Status']),
     updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
@@ -1387,23 +1335,23 @@ const _$RecordStatusEnumMap = {
 
 RecordError _$RecordErrorFromJson(Map<String, dynamic> json) {
   return RecordError(
-    code: json['Code'] as String,
-    description: json['Description'] as String,
+    code: json['Code'] as String?,
+    description: json['Description'] as String?,
   );
 }
 
 RecordOutput _$RecordOutputFromJson(Map<String, dynamic> json) {
   return RecordOutput(
-    description: json['Description'] as String,
-    outputKey: json['OutputKey'] as String,
-    outputValue: json['OutputValue'] as String,
+    description: json['Description'] as String?,
+    outputKey: json['OutputKey'] as String?,
+    outputValue: json['OutputValue'] as String?,
   );
 }
 
 RecordTag _$RecordTagFromJson(Map<String, dynamic> json) {
   return RecordTag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1415,19 +1363,17 @@ RejectPortfolioShareOutput _$RejectPortfolioShareOutputFromJson(
 ResourceChange _$ResourceChangeFromJson(Map<String, dynamic> json) {
   return ResourceChange(
     action: _$enumDecodeNullable(_$ChangeActionEnumMap, json['Action']),
-    details: (json['Details'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    logicalResourceId: json['LogicalResourceId'] as String,
-    physicalResourceId: json['PhysicalResourceId'] as String,
+    details: (json['Details'] as List<dynamic>?)
+        ?.map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    logicalResourceId: json['LogicalResourceId'] as String?,
+    physicalResourceId: json['PhysicalResourceId'] as String?,
     replacement:
         _$enumDecodeNullable(_$ReplacementEnumMap, json['Replacement']),
-    resourceType: json['ResourceType'] as String,
-    scope: (json['Scope'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ResourceAttributeEnumMap, e))
-        ?.toList(),
+    resourceType: json['ResourceType'] as String?,
+    scope: (json['Scope'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ResourceAttributeEnumMap, e))
+        .toList(),
   );
 }
 
@@ -1454,7 +1400,7 @@ const _$ResourceAttributeEnumMap = {
 
 ResourceChangeDetail _$ResourceChangeDetailFromJson(Map<String, dynamic> json) {
   return ResourceChangeDetail(
-    causingEntity: json['CausingEntity'] as String,
+    causingEntity: json['CausingEntity'] as String?,
     evaluation:
         _$enumDecodeNullable(_$EvaluationTypeEnumMap, json['Evaluation']),
     target: json['Target'] == null
@@ -1471,11 +1417,11 @@ const _$EvaluationTypeEnumMap = {
 
 ResourceDetail _$ResourceDetailFromJson(Map<String, dynamic> json) {
   return ResourceDetail(
-    arn: json['ARN'] as String,
+    arn: json['ARN'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1484,7 +1430,7 @@ ResourceTargetDefinition _$ResourceTargetDefinitionFromJson(
   return ResourceTargetDefinition(
     attribute:
         _$enumDecodeNullable(_$ResourceAttributeEnumMap, json['Attribute']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     requiresRecreation: _$enumDecodeNullable(
         _$RequiresRecreationEnumMap, json['RequiresRecreation']),
   );
@@ -1499,84 +1445,67 @@ const _$RequiresRecreationEnumMap = {
 ScanProvisionedProductsOutput _$ScanProvisionedProductsOutputFromJson(
     Map<String, dynamic> json) {
   return ScanProvisionedProductsOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    provisionedProducts: (json['ProvisionedProducts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisionedProductDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    provisionedProducts: (json['ProvisionedProducts'] as List<dynamic>?)
+        ?.map(
+            (e) => ProvisionedProductDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchProductsAsAdminOutput _$SearchProductsAsAdminOutputFromJson(
     Map<String, dynamic> json) {
   return SearchProductsAsAdminOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    productViewDetails: (json['ProductViewDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProductViewDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    productViewDetails: (json['ProductViewDetails'] as List<dynamic>?)
+        ?.map((e) => ProductViewDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchProductsOutput _$SearchProductsOutputFromJson(Map<String, dynamic> json) {
   return SearchProductsOutput(
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
     productViewAggregations:
-        (json['ProductViewAggregations'] as Map<String, dynamic>)?.map(
+        (json['ProductViewAggregations'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : ProductViewAggregationValue.fromJson(
-                      e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) => ProductViewAggregationValue.fromJson(
+                  e as Map<String, dynamic>))
+              .toList()),
     ),
-    productViewSummaries: (json['ProductViewSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProductViewSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    productViewSummaries: (json['ProductViewSummaries'] as List<dynamic>?)
+        ?.map((e) => ProductViewSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchProvisionedProductsOutput _$SearchProvisionedProductsOutputFromJson(
     Map<String, dynamic> json) {
   return SearchProvisionedProductsOutput(
-    nextPageToken: json['NextPageToken'] as String,
-    provisionedProducts: (json['ProvisionedProducts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisionedProductAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalResultsCount: json['TotalResultsCount'] as int,
+    nextPageToken: json['NextPageToken'] as String?,
+    provisionedProducts: (json['ProvisionedProducts'] as List<dynamic>?)
+        ?.map((e) =>
+            ProvisionedProductAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalResultsCount: json['TotalResultsCount'] as int?,
   );
 }
 
 Map<String, dynamic> _$ServiceActionAssociationToJson(
-    ServiceActionAssociation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ProductId', instance.productId);
-  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
-  writeNotNull('ServiceActionId', instance.serviceActionId);
-  return val;
-}
+        ServiceActionAssociation instance) =>
+    <String, dynamic>{
+      'ProductId': instance.productId,
+      'ProvisioningArtifactId': instance.provisioningArtifactId,
+      'ServiceActionId': instance.serviceActionId,
+    };
 
 ServiceActionDetail _$ServiceActionDetailFromJson(Map<String, dynamic> json) {
   return ServiceActionDetail(
-    definition: (json['Definition'] as Map<String, dynamic>)?.map(
+    definition: (json['Definition'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
-          _$enumDecodeNullable(_$ServiceActionDefinitionKeyEnumMap, k),
-          e as String),
+          _$enumDecode(_$ServiceActionDefinitionKeyEnumMap, k), e as String),
     ),
     serviceActionSummary: json['ServiceActionSummary'] == null
         ? null
@@ -1596,9 +1525,9 @@ ServiceActionSummary _$ServiceActionSummaryFromJson(Map<String, dynamic> json) {
   return ServiceActionSummary(
     definitionType: _$enumDecodeNullable(
         _$ServiceActionDefinitionTypeEnumMap, json['DefinitionType']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1608,27 +1537,28 @@ const _$ServiceActionDefinitionTypeEnumMap = {
 
 ShareDetails _$ShareDetailsFromJson(Map<String, dynamic> json) {
   return ShareDetails(
-    shareErrors: (json['ShareErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : ShareError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    successfulShares:
-        (json['SuccessfulShares'] as List)?.map((e) => e as String)?.toList(),
+    shareErrors: (json['ShareErrors'] as List<dynamic>?)
+        ?.map((e) => ShareError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    successfulShares: (json['SuccessfulShares'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ShareError _$ShareErrorFromJson(Map<String, dynamic> json) {
   return ShareError(
-    accounts: (json['Accounts'] as List)?.map((e) => e as String)?.toList(),
-    error: json['Error'] as String,
-    message: json['Message'] as String,
+    accounts:
+        (json['Accounts'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    error: json['Error'] as String?,
+    message: json['Message'] as String?,
   );
 }
 
 StackInstance _$StackInstanceFromJson(Map<String, dynamic> json) {
   return StackInstance(
-    account: json['Account'] as String,
-    region: json['Region'] as String,
+    account: json['Account'] as String?,
+    region: json['Region'] as String?,
     stackInstanceStatus: _$enumDecodeNullable(
         _$StackInstanceStatusEnumMap, json['StackInstanceStatus']),
   );
@@ -1647,34 +1577,26 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagOptionDetail _$TagOptionDetailFromJson(Map<String, dynamic> json) {
   return TagOptionDetail(
-    active: json['Active'] as bool,
-    id: json['Id'] as String,
-    key: json['Key'] as String,
-    owner: json['Owner'] as String,
-    value: json['Value'] as String,
+    active: json['Active'] as bool?,
+    id: json['Id'] as String?,
+    key: json['Key'] as String?,
+    owner: json['Owner'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
 TagOptionSummary _$TagOptionSummaryFromJson(Map<String, dynamic> json) {
   return TagOptionSummary(
-    key: json['Key'] as String,
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    key: json['Key'] as String?,
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -1694,7 +1616,7 @@ UpdateConstraintOutput _$UpdateConstraintOutputFromJson(
         ? null
         : ConstraintDetail.fromJson(
             json['ConstraintDetail'] as Map<String, dynamic>),
-    constraintParameters: json['ConstraintParameters'] as String,
+    constraintParameters: json['ConstraintParameters'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
 }
@@ -1706,16 +1628,16 @@ UpdatePortfolioOutput _$UpdatePortfolioOutputFromJson(
         ? null
         : PortfolioDetail.fromJson(
             json['PortfolioDetail'] as Map<String, dynamic>),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 UpdatePortfolioShareOutput _$UpdatePortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return UpdatePortfolioShareOutput(
-    portfolioShareToken: json['PortfolioShareToken'] as String,
+    portfolioShareToken: json['PortfolioShareToken'] as String?,
     status: _$enumDecodeNullable(_$ShareStatusEnumMap, json['Status']),
   );
 }
@@ -1726,9 +1648,9 @@ UpdateProductOutput _$UpdateProductOutputFromJson(Map<String, dynamic> json) {
         ? null
         : ProductViewDetail.fromJson(
             json['ProductViewDetail'] as Map<String, dynamic>),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1745,13 +1667,12 @@ UpdateProvisionedProductPropertiesOutput
     _$UpdateProvisionedProductPropertiesOutputFromJson(
         Map<String, dynamic> json) {
   return UpdateProvisionedProductPropertiesOutput(
-    provisionedProductId: json['ProvisionedProductId'] as String,
+    provisionedProductId: json['ProvisionedProductId'] as String?,
     provisionedProductProperties:
-        (json['ProvisionedProductProperties'] as Map<String, dynamic>)?.map(
-      (k, e) =>
-          MapEntry(_$enumDecodeNullable(_$PropertyKeyEnumMap, k), e as String),
+        (json['ProvisionedProductProperties'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$PropertyKeyEnumMap, k), e as String),
     ),
-    recordId: json['RecordId'] as String,
+    recordId: json['RecordId'] as String?,
     status: _$enumDecodeNullable(_$RecordStatusEnumMap, json['Status']),
   );
 }
@@ -1764,7 +1685,7 @@ const _$PropertyKeyEnumMap = {
 UpdateProvisioningArtifactOutput _$UpdateProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateProvisioningArtifactOutput(
-    info: (json['Info'] as Map<String, dynamic>)?.map(
+    info: (json['Info'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     provisioningArtifactDetail: json['ProvisioningArtifactDetail'] == null
@@ -1778,9 +1699,9 @@ UpdateProvisioningArtifactOutput _$UpdateProvisioningArtifactOutputFromJson(
 UpdateProvisioningParameter _$UpdateProvisioningParameterFromJson(
     Map<String, dynamic> json) {
   return UpdateProvisioningParameter(
-    key: json['Key'] as String,
-    usePreviousValue: json['UsePreviousValue'] as bool,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    usePreviousValue: json['UsePreviousValue'] as bool?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1853,7 +1774,7 @@ UpdateTagOptionOutput _$UpdateTagOptionOutputFromJson(
 
 UsageInstruction _$UsageInstructionFromJson(Map<String, dynamic> json) {
   return UsageInstruction(
-    type: json['Type'] as String,
-    value: json['Value'] as String,
+    type: json['Type'] as String?,
+    value: json['Value'] as String?,
   );
 }

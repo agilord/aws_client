@@ -23,8 +23,8 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
     initiator: json['Initiator'] == null
         ? null
         : UserMetadata.fromJson(json['Initiator'] as Map<String, dynamic>),
-    isIndirectActivity: json['IsIndirectActivity'] as bool,
-    organizationId: json['OrganizationId'] as String,
+    isIndirectActivity: json['IsIndirectActivity'] as bool?,
+    organizationId: json['OrganizationId'] as String?,
     originalParent: json['OriginalParent'] == null
         ? null
         : ResourceMetadata.fromJson(
@@ -41,36 +41,41 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ActivityTypeEnumMap = {
@@ -115,10 +120,9 @@ const _$ActivityTypeEnumMap = {
 AddResourcePermissionsResponse _$AddResourcePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return AddResourcePermissionsResponse(
-    shareResults: (json['ShareResults'] as List)
-        ?.map((e) =>
-            e == null ? null : ShareResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    shareResults: (json['ShareResults'] as List<dynamic>?)
+        ?.map((e) => ShareResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -130,11 +134,11 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
         : User.fromJson(json['Contributor'] as Map<String, dynamic>),
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    parentId: json['ParentId'] as String,
-    recipientId: json['RecipientId'] as String,
+    parentId: json['ParentId'] as String?,
+    recipientId: json['RecipientId'] as String?,
     status: _$enumDecodeNullable(_$CommentStatusTypeEnumMap, json['Status']),
-    text: json['Text'] as String,
-    threadId: json['ThreadId'] as String,
+    text: json['Text'] as String?,
+    threadId: json['ThreadId'] as String?,
     visibility: _$enumDecodeNullable(
         _$CommentVisibilityTypeEnumMap, json['Visibility']),
   );
@@ -153,7 +157,7 @@ const _$CommentVisibilityTypeEnumMap = {
 
 CommentMetadata _$CommentMetadataFromJson(Map<String, dynamic> json) {
   return CommentMetadata(
-    commentId: json['CommentId'] as String,
+    commentId: json['CommentId'] as String?,
     commentStatus:
         _$enumDecodeNullable(_$CommentStatusTypeEnumMap, json['CommentStatus']),
     contributor: json['Contributor'] == null
@@ -161,7 +165,7 @@ CommentMetadata _$CommentMetadataFromJson(Map<String, dynamic> json) {
         : User.fromJson(json['Contributor'] as Map<String, dynamic>),
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    recipientId: json['RecipientId'] as String,
+    recipientId: json['RecipientId'] as String?,
   );
 }
 
@@ -221,63 +225,54 @@ DeleteLabelsResponse _$DeleteLabelsResponseFromJson(Map<String, dynamic> json) {
 DescribeActivitiesResponse _$DescribeActivitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeActivitiesResponse(
-    marker: json['Marker'] as String,
-    userActivities: (json['UserActivities'] as List)
-        ?.map((e) =>
-            e == null ? null : Activity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    userActivities: (json['UserActivities'] as List<dynamic>?)
+        ?.map((e) => Activity.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeCommentsResponse _$DescribeCommentsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCommentsResponse(
-    comments: (json['Comments'] as List)
-        ?.map((e) =>
-            e == null ? null : Comment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    comments: (json['Comments'] as List<dynamic>?)
+        ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 DescribeDocumentVersionsResponse _$DescribeDocumentVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDocumentVersionsResponse(
-    documentVersions: (json['DocumentVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentVersionMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    documentVersions: (json['DocumentVersions'] as List<dynamic>?)
+        ?.map(
+            (e) => DocumentVersionMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 DescribeFolderContentsResponse _$DescribeFolderContentsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFolderContentsResponse(
-    documents: (json['Documents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    folders: (json['Folders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FolderMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    documents: (json['Documents'] as List<dynamic>?)
+        ?.map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    folders: (json['Folders'] as List<dynamic>?)
+        ?.map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 DescribeGroupsResponse _$DescribeGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeGroupsResponse(
-    groups: (json['Groups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroupMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
@@ -285,46 +280,41 @@ DescribeNotificationSubscriptionsResponse
     _$DescribeNotificationSubscriptionsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeNotificationSubscriptionsResponse(
-    marker: json['Marker'] as String,
-    subscriptions: (json['Subscriptions'] as List)
-        ?.map((e) =>
-            e == null ? null : Subscription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    subscriptions: (json['Subscriptions'] as List<dynamic>?)
+        ?.map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeResourcePermissionsResponse
     _$DescribeResourcePermissionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeResourcePermissionsResponse(
-    marker: json['Marker'] as String,
-    principals: (json['Principals'] as List)
-        ?.map((e) =>
-            e == null ? null : Principal.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    principals: (json['Principals'] as List<dynamic>?)
+        ?.map((e) => Principal.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeRootFoldersResponse _$DescribeRootFoldersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRootFoldersResponse(
-    folders: (json['Folders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FolderMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    folders: (json['Folders'] as List<dynamic>?)
+        ?.map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 DescribeUsersResponse _$DescribeUsersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeUsersResponse(
-    marker: json['Marker'] as String,
-    totalNumberOfUsers: json['TotalNumberOfUsers'] as int,
-    users: (json['Users'] as List)
-        ?.map(
-            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    totalNumberOfUsers: json['TotalNumberOfUsers'] as int?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -332,16 +322,17 @@ DocumentMetadata _$DocumentMetadataFromJson(Map<String, dynamic> json) {
   return DocumentMetadata(
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    creatorId: json['CreatorId'] as String,
-    id: json['Id'] as String,
-    labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
+    creatorId: json['CreatorId'] as String?,
+    id: json['Id'] as String?,
+    labels:
+        (json['Labels'] as List<dynamic>?)?.map((e) => e as String).toList(),
     latestVersionMetadata: json['LatestVersionMetadata'] == null
         ? null
         : DocumentVersionMetadata.fromJson(
             json['LatestVersionMetadata'] as Map<String, dynamic>),
     modifiedTimestamp:
         const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
-    parentFolderId: json['ParentFolderId'] as String,
+    parentFolderId: json['ParentFolderId'] as String?,
     resourceState:
         _$enumDecodeNullable(_$ResourceStateTypeEnumMap, json['ResourceState']),
   );
@@ -361,24 +352,24 @@ DocumentVersionMetadata _$DocumentVersionMetadataFromJson(
         const UnixDateTimeConverter().fromJson(json['ContentCreatedTimestamp']),
     contentModifiedTimestamp: const UnixDateTimeConverter()
         .fromJson(json['ContentModifiedTimestamp']),
-    contentType: json['ContentType'] as String,
+    contentType: json['ContentType'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    creatorId: json['CreatorId'] as String,
-    id: json['Id'] as String,
+    creatorId: json['CreatorId'] as String?,
+    id: json['Id'] as String?,
     modifiedTimestamp:
         const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
-    name: json['Name'] as String,
-    signature: json['Signature'] as String,
-    size: json['Size'] as int,
-    source: (json['Source'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          _$enumDecodeNullable(_$DocumentSourceTypeEnumMap, k), e as String),
+    name: json['Name'] as String?,
+    signature: json['Signature'] as String?,
+    size: json['Size'] as int?,
+    source: (json['Source'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(_$enumDecode(_$DocumentSourceTypeEnumMap, k), e as String),
     ),
     status: _$enumDecodeNullable(_$DocumentStatusTypeEnumMap, json['Status']),
-    thumbnail: (json['Thumbnail'] as Map<String, dynamic>)?.map(
+    thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
-          _$enumDecodeNullable(_$DocumentThumbnailTypeEnumMap, k), e as String),
+          _$enumDecode(_$DocumentThumbnailTypeEnumMap, k), e as String),
     ),
   );
 }
@@ -403,18 +394,19 @@ FolderMetadata _$FolderMetadataFromJson(Map<String, dynamic> json) {
   return FolderMetadata(
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    creatorId: json['CreatorId'] as String,
-    id: json['Id'] as String,
-    labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
-    latestVersionSize: json['LatestVersionSize'] as int,
+    creatorId: json['CreatorId'] as String?,
+    id: json['Id'] as String?,
+    labels:
+        (json['Labels'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    latestVersionSize: json['LatestVersionSize'] as int?,
     modifiedTimestamp:
         const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
-    name: json['Name'] as String,
-    parentFolderId: json['ParentFolderId'] as String,
+    name: json['Name'] as String?,
+    parentFolderId: json['ParentFolderId'] as String?,
     resourceState:
         _$enumDecodeNullable(_$ResourceStateTypeEnumMap, json['ResourceState']),
-    signature: json['Signature'] as String,
-    size: json['Size'] as int,
+    signature: json['Signature'] as String?,
+    size: json['Size'] as int?,
   );
 }
 
@@ -438,7 +430,7 @@ GetDocumentPathResponse _$GetDocumentPathResponseFromJson(
 
 GetDocumentResponse _$GetDocumentResponseFromJson(Map<String, dynamic> json) {
   return GetDocumentResponse(
-    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>)?.map(
+    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     metadata: json['Metadata'] == null
@@ -450,7 +442,7 @@ GetDocumentResponse _$GetDocumentResponseFromJson(Map<String, dynamic> json) {
 GetDocumentVersionResponse _$GetDocumentVersionResponseFromJson(
     Map<String, dynamic> json) {
   return GetDocumentVersionResponse(
-    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>)?.map(
+    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     metadata: json['Metadata'] == null
@@ -471,7 +463,7 @@ GetFolderPathResponse _$GetFolderPathResponseFromJson(
 
 GetFolderResponse _$GetFolderResponseFromJson(Map<String, dynamic> json) {
   return GetFolderResponse(
-    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>)?.map(
+    customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     metadata: json['Metadata'] == null
@@ -482,24 +474,20 @@ GetFolderResponse _$GetFolderResponseFromJson(Map<String, dynamic> json) {
 
 GetResourcesResponse _$GetResourcesResponseFromJson(Map<String, dynamic> json) {
   return GetResourcesResponse(
-    documents: (json['Documents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    folders: (json['Folders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FolderMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    documents: (json['Documents'] as List<dynamic>?)
+        ?.map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    folders: (json['Folders'] as List<dynamic>?)
+        ?.map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 GroupMetadata _$GroupMetadataFromJson(Map<String, dynamic> json) {
   return GroupMetadata(
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -532,15 +520,12 @@ Map<String, dynamic> _$NotificationOptionsToJson(NotificationOptions instance) {
 
 Participants _$ParticipantsFromJson(Map<String, dynamic> json) {
   return Participants(
-    groups: (json['Groups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroupMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    users: (json['Users'] as List)
-        ?.map((e) =>
-            e == null ? null : UserMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => UserMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -565,12 +550,10 @@ const _$RolePermissionTypeEnumMap = {
 
 Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   return Principal(
-    id: json['Id'] as String,
-    roles: (json['Roles'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PermissionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['Id'] as String?,
+    roles: (json['Roles'] as List<dynamic>?)
+        ?.map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
     type: _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['Type']),
   );
 }
@@ -585,15 +568,15 @@ const _$PrincipalTypeEnumMap = {
 
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    originalName: json['OriginalName'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    originalName: json['OriginalName'] as String?,
     owner: json['Owner'] == null
         ? null
         : UserMetadata.fromJson(json['Owner'] as Map<String, dynamic>),
-    parentId: json['ParentId'] as String,
+    parentId: json['ParentId'] as String?,
     type: _$enumDecodeNullable(_$ResourceTypeEnumMap, json['Type']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
@@ -604,45 +587,35 @@ const _$ResourceTypeEnumMap = {
 
 ResourcePath _$ResourcePathFromJson(Map<String, dynamic> json) {
   return ResourcePath(
-    components: (json['Components'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePathComponent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    components: (json['Components'] as List<dynamic>?)
+        ?.map((e) => ResourcePathComponent.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ResourcePathComponent _$ResourcePathComponentFromJson(
     Map<String, dynamic> json) {
   return ResourcePathComponent(
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
-Map<String, dynamic> _$SharePrincipalToJson(SharePrincipal instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Role', _$RoleTypeEnumMap[instance.role]);
-  writeNotNull('Type', _$PrincipalTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$SharePrincipalToJson(SharePrincipal instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'Role': _$RoleTypeEnumMap[instance.role],
+      'Type': _$PrincipalTypeEnumMap[instance.type],
+    };
 
 ShareResult _$ShareResultFromJson(Map<String, dynamic> json) {
   return ShareResult(
-    inviteePrincipalId: json['InviteePrincipalId'] as String,
-    principalId: json['PrincipalId'] as String,
+    inviteePrincipalId: json['InviteePrincipalId'] as String?,
+    principalId: json['PrincipalId'] as String?,
     role: _$enumDecodeNullable(_$RoleTypeEnumMap, json['Role']),
-    shareId: json['ShareId'] as String,
+    shareId: json['ShareId'] as String?,
     status: _$enumDecodeNullable(_$ShareStatusTypeEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
@@ -653,7 +626,7 @@ const _$ShareStatusTypeEnumMap = {
 
 StorageRuleType _$StorageRuleTypeFromJson(Map<String, dynamic> json) {
   return StorageRuleType(
-    storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int,
+    storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
     storageType:
         _$enumDecodeNullable(_$StorageTypeEnumMap, json['StorageType']),
   );
@@ -680,10 +653,10 @@ const _$StorageTypeEnumMap = {
 
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   return Subscription(
-    endPoint: json['EndPoint'] as String,
+    endPoint: json['EndPoint'] as String?,
     protocol: _$enumDecodeNullable(
         _$SubscriptionProtocolTypeEnumMap, json['Protocol']),
-    subscriptionId: json['SubscriptionId'] as String,
+    subscriptionId: json['SubscriptionId'] as String?,
   );
 }
 
@@ -701,10 +674,10 @@ UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
 
 UploadMetadata _$UploadMetadataFromJson(Map<String, dynamic> json) {
   return UploadMetadata(
-    signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>)?.map(
+    signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    uploadUrl: json['UploadUrl'] as String,
+    uploadUrl: json['UploadUrl'] as String?,
   );
 }
 
@@ -712,23 +685,23 @@ User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    emailAddress: json['EmailAddress'] as String,
-    givenName: json['GivenName'] as String,
-    id: json['Id'] as String,
+    emailAddress: json['EmailAddress'] as String?,
+    givenName: json['GivenName'] as String?,
+    id: json['Id'] as String?,
     locale: _$enumDecodeNullable(_$LocaleTypeEnumMap, json['Locale']),
     modifiedTimestamp:
         const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
-    organizationId: json['OrganizationId'] as String,
-    recycleBinFolderId: json['RecycleBinFolderId'] as String,
-    rootFolderId: json['RootFolderId'] as String,
+    organizationId: json['OrganizationId'] as String?,
+    recycleBinFolderId: json['RecycleBinFolderId'] as String?,
+    rootFolderId: json['RootFolderId'] as String?,
     status: _$enumDecodeNullable(_$UserStatusTypeEnumMap, json['Status']),
     storage: json['Storage'] == null
         ? null
         : UserStorageMetadata.fromJson(json['Storage'] as Map<String, dynamic>),
-    surname: json['Surname'] as String,
-    timeZoneId: json['TimeZoneId'] as String,
+    surname: json['Surname'] as String?,
+    timeZoneId: json['TimeZoneId'] as String?,
     type: _$enumDecodeNullable(_$UserTypeEnumMap, json['Type']),
-    username: json['Username'] as String,
+    username: json['Username'] as String?,
   );
 }
 
@@ -762,11 +735,11 @@ const _$UserTypeEnumMap = {
 
 UserMetadata _$UserMetadataFromJson(Map<String, dynamic> json) {
   return UserMetadata(
-    emailAddress: json['EmailAddress'] as String,
-    givenName: json['GivenName'] as String,
-    id: json['Id'] as String,
-    surname: json['Surname'] as String,
-    username: json['Username'] as String,
+    emailAddress: json['EmailAddress'] as String?,
+    givenName: json['GivenName'] as String?,
+    id: json['Id'] as String?,
+    surname: json['Surname'] as String?,
+    username: json['Username'] as String?,
   );
 }
 
@@ -775,6 +748,6 @@ UserStorageMetadata _$UserStorageMetadataFromJson(Map<String, dynamic> json) {
     storageRule: json['StorageRule'] == null
         ? null
         : StorageRuleType.fromJson(json['StorageRule'] as Map<String, dynamic>),
-    storageUtilizedInBytes: json['StorageUtilizedInBytes'] as int,
+    storageUtilizedInBytes: json['StorageUtilizedInBytes'] as int?,
   );
 }

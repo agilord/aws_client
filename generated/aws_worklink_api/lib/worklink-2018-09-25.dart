@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'worklink-2018-09-25.g.dart';
 
 /// Amazon WorkLink is a cloud-based service that provides secure access to
 /// internal websites and web apps from iOS and Android phones. In a single
@@ -38,10 +30,10 @@ part 'worklink-2018-09-25.g.dart';
 class WorkLink {
   final _s.RestJsonProtocol _protocol;
   WorkLink({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,10 +67,10 @@ class WorkLink {
   /// Parameter [displayName] :
   /// The name to display.
   Future<void> associateDomain({
-    @_s.required String acmCertificateArn,
-    @_s.required String domainName,
-    @_s.required String fleetArn,
-    String displayName,
+    required String acmCertificateArn,
+    required String domainName,
+    required String fleetArn,
+    String? displayName,
   }) async {
     ArgumentError.checkNotNull(acmCertificateArn, 'acmCertificateArn');
     _s.validateStringPattern(
@@ -127,7 +119,6 @@ class WorkLink {
       requestUri: '/associateDomain',
       exceptionFnMap: _exceptionFns,
     );
-    return AssociateDomainResponse.fromJson(response);
   }
 
   /// Associates a website authorization provider with a specified fleet. This
@@ -152,9 +143,9 @@ class WorkLink {
   /// SAML-based authorization providers.
   Future<AssociateWebsiteAuthorizationProviderResponse>
       associateWebsiteAuthorizationProvider({
-    @_s.required AuthorizationProviderType authorizationProviderType,
-    @_s.required String fleetArn,
-    String domainName,
+    required AuthorizationProviderType authorizationProviderType,
+    required String fleetArn,
+    String? domainName,
   }) async {
     ArgumentError.checkNotNull(
         authorizationProviderType, 'authorizationProviderType');
@@ -178,7 +169,7 @@ class WorkLink {
       r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
     );
     final $payload = <String, dynamic>{
-      'AuthorizationProviderType': authorizationProviderType?.toValue() ?? '',
+      'AuthorizationProviderType': authorizationProviderType.toValue(),
       'FleetArn': fleetArn,
       if (domainName != null) 'DomainName': domainName,
     };
@@ -212,9 +203,9 @@ class WorkLink {
   /// The certificate name to display.
   Future<AssociateWebsiteCertificateAuthorityResponse>
       associateWebsiteCertificateAuthority({
-    @_s.required String certificate,
-    @_s.required String fleetArn,
-    String displayName,
+    required String certificate,
+    required String fleetArn,
+    String? displayName,
   }) async {
     ArgumentError.checkNotNull(certificate, 'certificate');
     _s.validateStringLength(
@@ -282,10 +273,10 @@ class WorkLink {
   /// Parameter [tags] :
   /// The tags to add to the resource. A tag is a key-value pair.
   Future<CreateFleetResponse> createFleet({
-    @_s.required String fleetName,
-    String displayName,
-    bool optimizeForEndUserLocation,
-    Map<String, String> tags,
+    required String fleetName,
+    String? displayName,
+    bool? optimizeForEndUserLocation,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -335,7 +326,7 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<void> deleteFleet({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -354,7 +345,6 @@ class WorkLink {
       requestUri: '/deleteFleet',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteFleetResponse.fromJson(response);
   }
 
   /// Describes the configuration for delivering audit streams to the customer
@@ -370,7 +360,7 @@ class WorkLink {
   /// The ARN of the fleet.
   Future<DescribeAuditStreamConfigurationResponse>
       describeAuditStreamConfiguration({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -405,7 +395,7 @@ class WorkLink {
   /// The ARN of the fleet.
   Future<DescribeCompanyNetworkConfigurationResponse>
       describeCompanyNetworkConfiguration({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -441,8 +431,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<DescribeDeviceResponse> describeDevice({
-    @_s.required String deviceId,
-    @_s.required String fleetArn,
+    required String deviceId,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     _s.validateStringLength(
@@ -485,7 +475,7 @@ class WorkLink {
   /// The ARN of the fleet.
   Future<DescribeDevicePolicyConfigurationResponse>
       describeDevicePolicyConfiguration({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -521,8 +511,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<DescribeDomainResponse> describeDomain({
-    @_s.required String domainName,
-    @_s.required String fleetArn,
+    required String domainName,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -571,7 +561,7 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The Amazon Resource Name (ARN) of the fleet.
   Future<DescribeFleetMetadataResponse> describeFleetMetadata({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -605,7 +595,7 @@ class WorkLink {
   /// The ARN of the fleet.
   Future<DescribeIdentityProviderConfigurationResponse>
       describeIdentityProviderConfiguration({
-    @_s.required String fleetArn,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -642,8 +632,8 @@ class WorkLink {
   /// A unique identifier for the certificate authority.
   Future<DescribeWebsiteCertificateAuthorityResponse>
       describeWebsiteCertificateAuthority({
-    @_s.required String fleetArn,
-    @_s.required String websiteCaId,
+    required String fleetArn,
+    required String websiteCaId,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -689,8 +679,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<void> disassociateDomain({
-    @_s.required String domainName,
-    @_s.required String fleetArn,
+    required String domainName,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -724,7 +714,6 @@ class WorkLink {
       requestUri: '/disassociateDomain',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateDomainResponse.fromJson(response);
   }
 
   /// Disassociates a website authorization provider from a specified fleet.
@@ -744,8 +733,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<void> disassociateWebsiteAuthorizationProvider({
-    @_s.required String authorizationProviderId,
-    @_s.required String fleetArn,
+    required String authorizationProviderId,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(
         authorizationProviderId, 'authorizationProviderId');
@@ -774,7 +763,6 @@ class WorkLink {
       requestUri: '/disassociateWebsiteAuthorizationProvider',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateWebsiteAuthorizationProviderResponse.fromJson(response);
   }
 
   /// Removes a certificate authority (CA).
@@ -791,8 +779,8 @@ class WorkLink {
   /// Parameter [websiteCaId] :
   /// A unique identifier for the CA.
   Future<void> disassociateWebsiteCertificateAuthority({
-    @_s.required String fleetArn,
-    @_s.required String websiteCaId,
+    required String fleetArn,
+    required String websiteCaId,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -820,7 +808,6 @@ class WorkLink {
       requestUri: '/disassociateWebsiteCertificateAuthority',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateWebsiteCertificateAuthorityResponse.fromJson(response);
   }
 
   /// Retrieves a list of devices registered with the specified fleet.
@@ -841,9 +828,9 @@ class WorkLink {
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<ListDevicesResponse> listDevices({
-    @_s.required String fleetArn,
-    int maxResults,
-    String nextToken,
+    required String fleetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -902,9 +889,9 @@ class WorkLink {
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<ListDomainsResponse> listDomains({
-    @_s.required String fleetArn,
-    int maxResults,
-    String nextToken,
+    required String fleetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -959,8 +946,8 @@ class WorkLink {
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<ListFleetsResponse> listFleets({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -999,7 +986,7 @@ class WorkLink {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the fleet.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1038,9 +1025,9 @@ class WorkLink {
   /// operation. If this value is null, it retrieves the first page.
   Future<ListWebsiteAuthorizationProvidersResponse>
       listWebsiteAuthorizationProviders({
-    @_s.required String fleetArn,
-    int maxResults,
-    String nextToken,
+    required String fleetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1100,9 +1087,9 @@ class WorkLink {
   /// operation. If this value is null, it retrieves the first page.
   Future<ListWebsiteCertificateAuthoritiesResponse>
       listWebsiteCertificateAuthorities({
-    @_s.required String fleetArn,
-    int maxResults,
-    String nextToken,
+    required String fleetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1157,8 +1144,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<void> restoreDomainAccess({
-    @_s.required String domainName,
-    @_s.required String fleetArn,
+    required String domainName,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1192,7 +1179,6 @@ class WorkLink {
       requestUri: '/restoreDomainAccess',
       exceptionFnMap: _exceptionFns,
     );
-    return RestoreDomainAccessResponse.fromJson(response);
   }
 
   /// Moves a domain to INACTIVE status if it was in the ACTIVE status.
@@ -1209,8 +1195,8 @@ class WorkLink {
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
   Future<void> revokeDomainAccess({
-    @_s.required String domainName,
-    @_s.required String fleetArn,
+    required String domainName,
+    required String fleetArn,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1244,7 +1230,6 @@ class WorkLink {
       requestUri: '/revokeDomainAccess',
       exceptionFnMap: _exceptionFns,
     );
-    return RevokeDomainAccessResponse.fromJson(response);
   }
 
   /// Signs the user out from all of their devices. The user can sign in again
@@ -1262,8 +1247,8 @@ class WorkLink {
   /// Parameter [username] :
   /// The name of the user.
   Future<void> signOutUser({
-    @_s.required String fleetArn,
-    @_s.required String username,
+    required String fleetArn,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1291,7 +1276,6 @@ class WorkLink {
       requestUri: '/signOutUser',
       exceptionFnMap: _exceptionFns,
     );
-    return SignOutUserResponse.fromJson(response);
   }
 
   /// Adds or overwrites one or more tags for the specified resource, such as a
@@ -1306,8 +1290,8 @@ class WorkLink {
   /// Parameter [tags] :
   /// The tags to add to the resource. A tag is a key-value pair.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1327,7 +1311,6 @@ class WorkLink {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes one or more tags from the specified resource.
@@ -1340,8 +1323,8 @@ class WorkLink {
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1353,7 +1336,7 @@ class WorkLink {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1362,7 +1345,6 @@ class WorkLink {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the audit stream configuration for the fleet.
@@ -1379,8 +1361,8 @@ class WorkLink {
   /// Parameter [auditStreamArn] :
   /// The ARN of the Amazon Kinesis data stream that receives the audit events.
   Future<void> updateAuditStreamConfiguration({
-    @_s.required String fleetArn,
-    String auditStreamArn,
+    required String fleetArn,
+    String? auditStreamArn,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1405,7 +1387,6 @@ class WorkLink {
       requestUri: '/updateAuditStreamConfiguration',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAuditStreamConfigurationResponse.fromJson(response);
   }
 
   /// Updates the company network configuration for the fleet.
@@ -1429,10 +1410,10 @@ class WorkLink {
   /// Parameter [vpcId] :
   /// The VPC with connectivity to associated websites.
   Future<void> updateCompanyNetworkConfiguration({
-    @_s.required String fleetArn,
-    @_s.required List<String> securityGroupIds,
-    @_s.required List<String> subnetIds,
-    @_s.required String vpcId,
+    required String fleetArn,
+    required List<String> securityGroupIds,
+    required List<String> subnetIds,
+    required String vpcId,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1463,7 +1444,6 @@ class WorkLink {
       requestUri: '/updateCompanyNetworkConfiguration',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateCompanyNetworkConfigurationResponse.fromJson(response);
   }
 
   /// Updates the device policy configuration for the fleet.
@@ -1481,8 +1461,8 @@ class WorkLink {
   /// The certificate chain, including intermediate certificates and the root
   /// certificate authority certificate used to issue device certificates.
   Future<void> updateDevicePolicyConfiguration({
-    @_s.required String fleetArn,
-    String deviceCaCertificate,
+    required String fleetArn,
+    String? deviceCaCertificate,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1514,7 +1494,6 @@ class WorkLink {
       requestUri: '/updateDevicePolicyConfiguration',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDevicePolicyConfigurationResponse.fromJson(response);
   }
 
   /// Updates domain metadata, such as DisplayName.
@@ -1534,9 +1513,9 @@ class WorkLink {
   /// Parameter [displayName] :
   /// The name to display.
   Future<void> updateDomainMetadata({
-    @_s.required String domainName,
-    @_s.required String fleetArn,
-    String displayName,
+    required String domainName,
+    required String fleetArn,
+    String? displayName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1577,7 +1556,6 @@ class WorkLink {
       requestUri: '/updateDomainMetadata',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDomainMetadataResponse.fromJson(response);
   }
 
   /// Updates fleet metadata, such as DisplayName.
@@ -1599,9 +1577,9 @@ class WorkLink {
   /// The option to optimize for better performance by routing traffic through
   /// the closest AWS Region to users, which may be outside of your home Region.
   Future<void> updateFleetMetadata({
-    @_s.required String fleetArn,
-    String displayName,
-    bool optimizeForEndUserLocation,
+    required String fleetArn,
+    String? displayName,
+    bool? optimizeForEndUserLocation,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1629,7 +1607,6 @@ class WorkLink {
       requestUri: '/UpdateFleetMetadata',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFleetMetadataResponse.fromJson(response);
   }
 
   /// Updates the identity provider configuration for the fleet.
@@ -1650,9 +1627,9 @@ class WorkLink {
   /// The SAML metadata document provided by the customer’s identity provider.
   /// The existing IdentityProviderSamlMetadata is unset if null is passed.
   Future<void> updateIdentityProviderConfiguration({
-    @_s.required String fleetArn,
-    @_s.required IdentityProviderType identityProviderType,
-    String identityProviderSamlMetadata,
+    required String fleetArn,
+    required IdentityProviderType identityProviderType,
+    String? identityProviderSamlMetadata,
   }) async {
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
@@ -1671,7 +1648,7 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'IdentityProviderType': identityProviderType?.toValue() ?? '',
+      'IdentityProviderType': identityProviderType.toValue(),
       if (identityProviderSamlMetadata != null)
         'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
     };
@@ -1681,59 +1658,47 @@ class WorkLink {
       requestUri: '/updateIdentityProviderConfiguration',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateIdentityProviderConfigurationResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDomainResponse {
   AssociateDomainResponse();
-  factory AssociateDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateDomainResponseFromJson(json);
+  factory AssociateDomainResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateDomainResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateWebsiteAuthorizationProviderResponse {
   /// A unique identifier for the authorization provider.
-  @_s.JsonKey(name: 'AuthorizationProviderId')
-  final String authorizationProviderId;
+  final String? authorizationProviderId;
 
   AssociateWebsiteAuthorizationProviderResponse({
     this.authorizationProviderId,
   });
   factory AssociateWebsiteAuthorizationProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateWebsiteAuthorizationProviderResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateWebsiteAuthorizationProviderResponse(
+      authorizationProviderId: json['AuthorizationProviderId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateWebsiteCertificateAuthorityResponse {
   /// A unique identifier for the CA.
-  @_s.JsonKey(name: 'WebsiteCaId')
-  final String websiteCaId;
+  final String? websiteCaId;
 
   AssociateWebsiteCertificateAuthorityResponse({
     this.websiteCaId,
   });
   factory AssociateWebsiteCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateWebsiteCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateWebsiteCertificateAuthorityResponse(
+      websiteCaId: json['WebsiteCaId'] as String?,
+    );
+  }
 }
 
 enum AuthorizationProviderType {
-  @_s.JsonValue('SAML')
   saml,
 }
 
@@ -1743,75 +1708,66 @@ extension on AuthorizationProviderType {
       case AuthorizationProviderType.saml:
         return 'SAML';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  AuthorizationProviderType toAuthorizationProviderType() {
+    switch (this) {
+      case 'SAML':
+        return AuthorizationProviderType.saml;
+    }
+    throw Exception('$this is not known in enum AuthorizationProviderType');
+  }
+}
+
 class CreateFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
-  @_s.JsonKey(name: 'FleetArn')
-  final String fleetArn;
+  final String? fleetArn;
 
   CreateFleetResponse({
     this.fleetArn,
   });
-  factory CreateFleetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFleetResponseFromJson(json);
+  factory CreateFleetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFleetResponse(
+      fleetArn: json['FleetArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFleetResponse {
   DeleteFleetResponse();
-  factory DeleteFleetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFleetResponseFromJson(json);
+  factory DeleteFleetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFleetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuditStreamConfigurationResponse {
   /// The ARN of the Amazon Kinesis data stream that will receive the audit
   /// events.
-  @_s.JsonKey(name: 'AuditStreamArn')
-  final String auditStreamArn;
+  final String? auditStreamArn;
 
   DescribeAuditStreamConfigurationResponse({
     this.auditStreamArn,
   });
   factory DescribeAuditStreamConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAuditStreamConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAuditStreamConfigurationResponse(
+      auditStreamArn: json['AuditStreamArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCompanyNetworkConfigurationResponse {
   /// The security groups associated with access to the provided subnets.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The subnets used for X-ENI connections from Amazon WorkLink rendering
   /// containers.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The VPC with connectivity to associated websites.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   DescribeCompanyNetworkConfigurationResponse({
     this.securityGroupIds,
@@ -1819,72 +1775,64 @@ class DescribeCompanyNetworkConfigurationResponse {
     this.vpcId,
   });
   factory DescribeCompanyNetworkConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCompanyNetworkConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCompanyNetworkConfigurationResponse(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDevicePolicyConfigurationResponse {
   /// The certificate chain, including intermediate certificates and the root
   /// certificate authority certificate used to issue device certificates.
-  @_s.JsonKey(name: 'DeviceCaCertificate')
-  final String deviceCaCertificate;
+  final String? deviceCaCertificate;
 
   DescribeDevicePolicyConfigurationResponse({
     this.deviceCaCertificate,
   });
   factory DescribeDevicePolicyConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDevicePolicyConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDevicePolicyConfigurationResponse(
+      deviceCaCertificate: json['DeviceCaCertificate'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDeviceResponse {
   /// The date that the device first signed in to Amazon WorkLink.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FirstAccessedTime')
-  final DateTime firstAccessedTime;
+  final DateTime? firstAccessedTime;
 
   /// The date that the device last accessed Amazon WorkLink.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessedTime')
-  final DateTime lastAccessedTime;
+  final DateTime? lastAccessedTime;
 
   /// The manufacturer of the device.
-  @_s.JsonKey(name: 'Manufacturer')
-  final String manufacturer;
+  final String? manufacturer;
 
   /// The model of the device.
-  @_s.JsonKey(name: 'Model')
-  final String model;
+  final String? model;
 
   /// The operating system of the device.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final String operatingSystem;
+  final String? operatingSystem;
 
   /// The operating system version of the device.
-  @_s.JsonKey(name: 'OperatingSystemVersion')
-  final String operatingSystemVersion;
+  final String? operatingSystemVersion;
 
   /// The operating system patch level of the device.
-  @_s.JsonKey(name: 'PatchLevel')
-  final String patchLevel;
+  final String? patchLevel;
 
   /// The current state of the device.
-  @_s.JsonKey(name: 'Status')
-  final DeviceStatus status;
+  final DeviceStatus? status;
 
   /// The user name associated with the device.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   DescribeDeviceResponse({
     this.firstAccessedTime,
@@ -1897,37 +1845,37 @@ class DescribeDeviceResponse {
     this.status,
     this.username,
   });
-  factory DescribeDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDeviceResponseFromJson(json);
+  factory DescribeDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeviceResponse(
+      firstAccessedTime: timeStampFromJson(json['FirstAccessedTime']),
+      lastAccessedTime: timeStampFromJson(json['LastAccessedTime']),
+      manufacturer: json['Manufacturer'] as String?,
+      model: json['Model'] as String?,
+      operatingSystem: json['OperatingSystem'] as String?,
+      operatingSystemVersion: json['OperatingSystemVersion'] as String?,
+      patchLevel: json['PatchLevel'] as String?,
+      status: (json['Status'] as String?)?.toDeviceStatus(),
+      username: json['Username'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDomainResponse {
   /// The ARN of an issued ACM certificate that is valid for the domain being
   /// associated.
-  @_s.JsonKey(name: 'AcmCertificateArn')
-  final String acmCertificateArn;
+  final String? acmCertificateArn;
 
   /// The time that the domain was added.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The current state for the domain.
-  @_s.JsonKey(name: 'DomainStatus')
-  final DomainStatus domainStatus;
+  final DomainStatus? domainStatus;
 
   DescribeDomainResponse({
     this.acmCertificateArn,
@@ -1936,50 +1884,42 @@ class DescribeDomainResponse {
     this.domainName,
     this.domainStatus,
   });
-  factory DescribeDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDomainResponseFromJson(json);
+  factory DescribeDomainResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainResponse(
+      acmCertificateArn: json['AcmCertificateArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      displayName: json['DisplayName'] as String?,
+      domainName: json['DomainName'] as String?,
+      domainStatus: (json['DomainStatus'] as String?)?.toDomainStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFleetMetadataResponse {
   /// The identifier used by users to sign in to the Amazon WorkLink app.
-  @_s.JsonKey(name: 'CompanyCode')
-  final String companyCode;
+  final String? companyCode;
 
   /// The time that the fleet was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The name of the fleet.
-  @_s.JsonKey(name: 'FleetName')
-  final String fleetName;
+  final String? fleetName;
 
   /// The current state of the fleet.
-  @_s.JsonKey(name: 'FleetStatus')
-  final FleetStatus fleetStatus;
+  final FleetStatus? fleetStatus;
 
   /// The time that the fleet was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The option to optimize for better performance by routing traffic through the
   /// closest AWS Region to users, which may be outside of your home Region.
-  @_s.JsonKey(name: 'OptimizeForEndUserLocation')
-  final bool optimizeForEndUserLocation;
+  final bool? optimizeForEndUserLocation;
 
   /// The tags attached to the resource. A tag is a key-value pair.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DescribeFleetMetadataResponse({
     this.companyCode,
@@ -1991,27 +1931,30 @@ class DescribeFleetMetadataResponse {
     this.optimizeForEndUserLocation,
     this.tags,
   });
-  factory DescribeFleetMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFleetMetadataResponseFromJson(json);
+  factory DescribeFleetMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFleetMetadataResponse(
+      companyCode: json['CompanyCode'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      displayName: json['DisplayName'] as String?,
+      fleetName: json['FleetName'] as String?,
+      fleetStatus: (json['FleetStatus'] as String?)?.toFleetStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      optimizeForEndUserLocation: json['OptimizeForEndUserLocation'] as bool?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeIdentityProviderConfigurationResponse {
   /// The SAML metadata document provided by the user’s identity provider.
-  @_s.JsonKey(name: 'IdentityProviderSamlMetadata')
-  final String identityProviderSamlMetadata;
+  final String? identityProviderSamlMetadata;
 
   /// The type of identity provider.
-  @_s.JsonKey(name: 'IdentityProviderType')
-  final IdentityProviderType identityProviderType;
+  final IdentityProviderType? identityProviderType;
 
   /// The SAML metadata document uploaded to the user’s identity provider.
-  @_s.JsonKey(name: 'ServiceProviderSamlMetadata')
-  final String serviceProviderSamlMetadata;
+  final String? serviceProviderSamlMetadata;
 
   DescribeIdentityProviderConfigurationResponse({
     this.identityProviderSamlMetadata,
@@ -2019,28 +1962,27 @@ class DescribeIdentityProviderConfigurationResponse {
     this.serviceProviderSamlMetadata,
   });
   factory DescribeIdentityProviderConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeIdentityProviderConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeIdentityProviderConfigurationResponse(
+      identityProviderSamlMetadata:
+          json['IdentityProviderSamlMetadata'] as String?,
+      identityProviderType:
+          (json['IdentityProviderType'] as String?)?.toIdentityProviderType(),
+      serviceProviderSamlMetadata:
+          json['ServiceProviderSamlMetadata'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWebsiteCertificateAuthorityResponse {
   /// The root certificate of the certificate authority.
-  @_s.JsonKey(name: 'Certificate')
-  final String certificate;
+  final String? certificate;
 
   /// The time that the certificate authority was added.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The certificate name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   DescribeWebsiteCertificateAuthorityResponse({
     this.certificate,
@@ -2048,183 +1990,247 @@ class DescribeWebsiteCertificateAuthorityResponse {
     this.displayName,
   });
   factory DescribeWebsiteCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeWebsiteCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeWebsiteCertificateAuthorityResponse(
+      certificate: json['Certificate'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      displayName: json['DisplayName'] as String?,
+    );
+  }
 }
 
 enum DeviceStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('SIGNED_OUT')
   signedOut,
 }
 
+extension on DeviceStatus {
+  String toValue() {
+    switch (this) {
+      case DeviceStatus.active:
+        return 'ACTIVE';
+      case DeviceStatus.signedOut:
+        return 'SIGNED_OUT';
+    }
+  }
+}
+
+extension on String {
+  DeviceStatus toDeviceStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DeviceStatus.active;
+      case 'SIGNED_OUT':
+        return DeviceStatus.signedOut;
+    }
+    throw Exception('$this is not known in enum DeviceStatus');
+  }
+}
+
 /// The summary of devices.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceSummary {
   /// The ID of the device.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The status of the device.
-  @_s.JsonKey(name: 'DeviceStatus')
-  final DeviceStatus deviceStatus;
+  final DeviceStatus? deviceStatus;
 
   DeviceSummary({
     this.deviceId,
     this.deviceStatus,
   });
-  factory DeviceSummary.fromJson(Map<String, dynamic> json) =>
-      _$DeviceSummaryFromJson(json);
+  factory DeviceSummary.fromJson(Map<String, dynamic> json) {
+    return DeviceSummary(
+      deviceId: json['DeviceId'] as String?,
+      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDomainResponse {
   DisassociateDomainResponse();
-  factory DisassociateDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateDomainResponseFromJson(json);
+  factory DisassociateDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateDomainResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateWebsiteAuthorizationProviderResponse {
   DisassociateWebsiteAuthorizationProviderResponse();
   factory DisassociateWebsiteAuthorizationProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateWebsiteAuthorizationProviderResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateWebsiteAuthorizationProviderResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateWebsiteCertificateAuthorityResponse {
   DisassociateWebsiteCertificateAuthorityResponse();
   factory DisassociateWebsiteCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateWebsiteCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateWebsiteCertificateAuthorityResponse();
+  }
 }
 
 enum DomainStatus {
-  @_s.JsonValue('PENDING_VALIDATION')
   pendingValidation,
-  @_s.JsonValue('ASSOCIATING')
   associating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DISASSOCIATING')
   disassociating,
-  @_s.JsonValue('DISASSOCIATED')
   disassociated,
-  @_s.JsonValue('FAILED_TO_ASSOCIATE')
   failedToAssociate,
-  @_s.JsonValue('FAILED_TO_DISASSOCIATE')
   failedToDisassociate,
 }
 
+extension on DomainStatus {
+  String toValue() {
+    switch (this) {
+      case DomainStatus.pendingValidation:
+        return 'PENDING_VALIDATION';
+      case DomainStatus.associating:
+        return 'ASSOCIATING';
+      case DomainStatus.active:
+        return 'ACTIVE';
+      case DomainStatus.inactive:
+        return 'INACTIVE';
+      case DomainStatus.disassociating:
+        return 'DISASSOCIATING';
+      case DomainStatus.disassociated:
+        return 'DISASSOCIATED';
+      case DomainStatus.failedToAssociate:
+        return 'FAILED_TO_ASSOCIATE';
+      case DomainStatus.failedToDisassociate:
+        return 'FAILED_TO_DISASSOCIATE';
+    }
+  }
+}
+
+extension on String {
+  DomainStatus toDomainStatus() {
+    switch (this) {
+      case 'PENDING_VALIDATION':
+        return DomainStatus.pendingValidation;
+      case 'ASSOCIATING':
+        return DomainStatus.associating;
+      case 'ACTIVE':
+        return DomainStatus.active;
+      case 'INACTIVE':
+        return DomainStatus.inactive;
+      case 'DISASSOCIATING':
+        return DomainStatus.disassociating;
+      case 'DISASSOCIATED':
+        return DomainStatus.disassociated;
+      case 'FAILED_TO_ASSOCIATE':
+        return DomainStatus.failedToAssociate;
+      case 'FAILED_TO_DISASSOCIATE':
+        return DomainStatus.failedToDisassociate;
+    }
+    throw Exception('$this is not known in enum DomainStatus');
+  }
+}
+
 /// The summary of the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainSummary {
   /// The time that the domain was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
   /// The status of the domain.
-  @_s.JsonKey(name: 'DomainStatus')
   final DomainStatus domainStatus;
 
   /// The name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   DomainSummary({
-    @_s.required this.createdTime,
-    @_s.required this.domainName,
-    @_s.required this.domainStatus,
+    required this.createdTime,
+    required this.domainName,
+    required this.domainStatus,
     this.displayName,
   });
-  factory DomainSummary.fromJson(Map<String, dynamic> json) =>
-      _$DomainSummaryFromJson(json);
+  factory DomainSummary.fromJson(Map<String, dynamic> json) {
+    return DomainSummary(
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
+      domainName: json['DomainName'] as String,
+      domainStatus: (json['DomainStatus'] as String).toDomainStatus(),
+      displayName: json['DisplayName'] as String?,
+    );
+  }
 }
 
 enum FleetStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('FAILED_TO_CREATE')
   failedToCreate,
-  @_s.JsonValue('FAILED_TO_DELETE')
   failedToDelete,
 }
 
+extension on FleetStatus {
+  String toValue() {
+    switch (this) {
+      case FleetStatus.creating:
+        return 'CREATING';
+      case FleetStatus.active:
+        return 'ACTIVE';
+      case FleetStatus.deleting:
+        return 'DELETING';
+      case FleetStatus.deleted:
+        return 'DELETED';
+      case FleetStatus.failedToCreate:
+        return 'FAILED_TO_CREATE';
+      case FleetStatus.failedToDelete:
+        return 'FAILED_TO_DELETE';
+    }
+  }
+}
+
+extension on String {
+  FleetStatus toFleetStatus() {
+    switch (this) {
+      case 'CREATING':
+        return FleetStatus.creating;
+      case 'ACTIVE':
+        return FleetStatus.active;
+      case 'DELETING':
+        return FleetStatus.deleting;
+      case 'DELETED':
+        return FleetStatus.deleted;
+      case 'FAILED_TO_CREATE':
+        return FleetStatus.failedToCreate;
+      case 'FAILED_TO_DELETE':
+        return FleetStatus.failedToDelete;
+    }
+    throw Exception('$this is not known in enum FleetStatus');
+  }
+}
+
 /// The summary of the fleet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FleetSummary {
   /// The identifier used by users to sign into the Amazon WorkLink app.
-  @_s.JsonKey(name: 'CompanyCode')
-  final String companyCode;
+  final String? companyCode;
 
   /// The time when the fleet was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The name of the fleet to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The Amazon Resource Name (ARN) of the fleet.
-  @_s.JsonKey(name: 'FleetArn')
-  final String fleetArn;
+  final String? fleetArn;
 
   /// The name of the fleet.
-  @_s.JsonKey(name: 'FleetName')
-  final String fleetName;
+  final String? fleetName;
 
   /// The status of the fleet.
-  @_s.JsonKey(name: 'FleetStatus')
-  final FleetStatus fleetStatus;
+  final FleetStatus? fleetStatus;
 
   /// The time when the fleet was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The tags attached to the resource. A tag is a key-value pair.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   FleetSummary({
     this.companyCode,
@@ -2236,12 +2242,22 @@ class FleetSummary {
     this.lastUpdatedTime,
     this.tags,
   });
-  factory FleetSummary.fromJson(Map<String, dynamic> json) =>
-      _$FleetSummaryFromJson(json);
+  factory FleetSummary.fromJson(Map<String, dynamic> json) {
+    return FleetSummary(
+      companyCode: json['CompanyCode'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      displayName: json['DisplayName'] as String?,
+      fleetArn: json['FleetArn'] as String?,
+      fleetName: json['FleetName'] as String?,
+      fleetStatus: (json['FleetStatus'] as String?)?.toFleetStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum IdentityProviderType {
-  @_s.JsonValue('SAML')
   saml,
 }
 
@@ -2251,347 +2267,307 @@ extension on IdentityProviderType {
       case IdentityProviderType.saml:
         return 'SAML';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  IdentityProviderType toIdentityProviderType() {
+    switch (this) {
+      case 'SAML':
+        return IdentityProviderType.saml;
+    }
+    throw Exception('$this is not known in enum IdentityProviderType');
+  }
+}
+
 class ListDevicesResponse {
   /// Information about the devices.
-  @_s.JsonKey(name: 'Devices')
-  final List<DeviceSummary> devices;
+  final List<DeviceSummary>? devices;
 
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDevicesResponse({
     this.devices,
     this.nextToken,
   });
-  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDevicesResponseFromJson(json);
+  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevicesResponse(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainsResponse {
   /// Information about the domains.
-  @_s.JsonKey(name: 'Domains')
-  final List<DomainSummary> domains;
+  final List<DomainSummary>? domains;
 
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDomainsResponse({
     this.domains,
     this.nextToken,
   });
-  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainsResponseFromJson(json);
+  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainsResponse(
+      domains: (json['Domains'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFleetsResponse {
   /// The summary list of the fleets.
-  @_s.JsonKey(name: 'FleetSummaryList')
-  final List<FleetSummary> fleetSummaryList;
+  final List<FleetSummary>? fleetSummaryList;
 
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFleetsResponse({
     this.fleetSummaryList,
     this.nextToken,
   });
-  factory ListFleetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFleetsResponseFromJson(json);
+  factory ListFleetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFleetsResponse(
+      fleetSummaryList: (json['FleetSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => FleetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags attached to the resource. A tag is a key-value pair.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebsiteAuthorizationProvidersResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The website authorization providers.
-  @_s.JsonKey(name: 'WebsiteAuthorizationProviders')
-  final List<WebsiteAuthorizationProviderSummary> websiteAuthorizationProviders;
+  final List<WebsiteAuthorizationProviderSummary>?
+      websiteAuthorizationProviders;
 
   ListWebsiteAuthorizationProvidersResponse({
     this.nextToken,
     this.websiteAuthorizationProviders,
   });
   factory ListWebsiteAuthorizationProvidersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListWebsiteAuthorizationProvidersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListWebsiteAuthorizationProvidersResponse(
+      nextToken: json['NextToken'] as String?,
+      websiteAuthorizationProviders:
+          (json['WebsiteAuthorizationProviders'] as List?)
+              ?.whereNotNull()
+              .map((e) => WebsiteAuthorizationProviderSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebsiteCertificateAuthoritiesResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the certificates.
-  @_s.JsonKey(name: 'WebsiteCertificateAuthorities')
-  final List<WebsiteCaSummary> websiteCertificateAuthorities;
+  final List<WebsiteCaSummary>? websiteCertificateAuthorities;
 
   ListWebsiteCertificateAuthoritiesResponse({
     this.nextToken,
     this.websiteCertificateAuthorities,
   });
   factory ListWebsiteCertificateAuthoritiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListWebsiteCertificateAuthoritiesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListWebsiteCertificateAuthoritiesResponse(
+      nextToken: json['NextToken'] as String?,
+      websiteCertificateAuthorities:
+          (json['WebsiteCertificateAuthorities'] as List?)
+              ?.whereNotNull()
+              .map((e) => WebsiteCaSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreDomainAccessResponse {
   RestoreDomainAccessResponse();
-  factory RestoreDomainAccessResponse.fromJson(Map<String, dynamic> json) =>
-      _$RestoreDomainAccessResponseFromJson(json);
+  factory RestoreDomainAccessResponse.fromJson(Map<String, dynamic> _) {
+    return RestoreDomainAccessResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RevokeDomainAccessResponse {
   RevokeDomainAccessResponse();
-  factory RevokeDomainAccessResponse.fromJson(Map<String, dynamic> json) =>
-      _$RevokeDomainAccessResponseFromJson(json);
+  factory RevokeDomainAccessResponse.fromJson(Map<String, dynamic> _) {
+    return RevokeDomainAccessResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignOutUserResponse {
   SignOutUserResponse();
-  factory SignOutUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignOutUserResponseFromJson(json);
+  factory SignOutUserResponse.fromJson(Map<String, dynamic> _) {
+    return SignOutUserResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAuditStreamConfigurationResponse {
   UpdateAuditStreamConfigurationResponse();
   factory UpdateAuditStreamConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateAuditStreamConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateAuditStreamConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCompanyNetworkConfigurationResponse {
   UpdateCompanyNetworkConfigurationResponse();
   factory UpdateCompanyNetworkConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateCompanyNetworkConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateCompanyNetworkConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDevicePolicyConfigurationResponse {
   UpdateDevicePolicyConfigurationResponse();
   factory UpdateDevicePolicyConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDevicePolicyConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateDevicePolicyConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainMetadataResponse {
   UpdateDomainMetadataResponse();
-  factory UpdateDomainMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDomainMetadataResponseFromJson(json);
+  factory UpdateDomainMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDomainMetadataResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFleetMetadataResponse {
   UpdateFleetMetadataResponse();
-  factory UpdateFleetMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFleetMetadataResponseFromJson(json);
+  factory UpdateFleetMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFleetMetadataResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIdentityProviderConfigurationResponse {
   UpdateIdentityProviderConfigurationResponse();
   factory UpdateIdentityProviderConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateIdentityProviderConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateIdentityProviderConfigurationResponse();
+  }
 }
 
 /// The summary of the website authorization provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WebsiteAuthorizationProviderSummary {
   /// The authorization provider type.
-  @_s.JsonKey(name: 'AuthorizationProviderType')
   final AuthorizationProviderType authorizationProviderType;
 
   /// A unique identifier for the authorization provider.
-  @_s.JsonKey(name: 'AuthorizationProviderId')
-  final String authorizationProviderId;
+  final String? authorizationProviderId;
 
   /// The time of creation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The domain name of the authorization provider. This applies only to
   /// SAML-based authorization providers.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   WebsiteAuthorizationProviderSummary({
-    @_s.required this.authorizationProviderType,
+    required this.authorizationProviderType,
     this.authorizationProviderId,
     this.createdTime,
     this.domainName,
   });
   factory WebsiteAuthorizationProviderSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$WebsiteAuthorizationProviderSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return WebsiteAuthorizationProviderSummary(
+      authorizationProviderType: (json['AuthorizationProviderType'] as String)
+          .toAuthorizationProviderType(),
+      authorizationProviderId: json['AuthorizationProviderId'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      domainName: json['DomainName'] as String?,
+    );
+  }
 }
 
 /// The summary of the certificate authority (CA).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WebsiteCaSummary {
   /// The time when the CA was added.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// A unique identifier for the CA.
-  @_s.JsonKey(name: 'WebsiteCaId')
-  final String websiteCaId;
+  final String? websiteCaId;
 
   WebsiteCaSummary({
     this.createdTime,
     this.displayName,
     this.websiteCaId,
   });
-  factory WebsiteCaSummary.fromJson(Map<String, dynamic> json) =>
-      _$WebsiteCaSummaryFromJson(json);
+  factory WebsiteCaSummary.fromJson(Map<String, dynamic> json) {
+    return WebsiteCaSummary(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      displayName: json['DisplayName'] as String?,
+      websiteCaId: json['WebsiteCaId'] as String?,
+    );
+  }
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -2599,17 +2575,17 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

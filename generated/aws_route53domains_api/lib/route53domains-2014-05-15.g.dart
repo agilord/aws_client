@@ -10,50 +10,55 @@ AcceptDomainTransferFromAnotherAwsAccountResponse
     _$AcceptDomainTransferFromAnotherAwsAccountResponseFromJson(
         Map<String, dynamic> json) {
   return AcceptDomainTransferFromAnotherAwsAccountResponse(
-    operationId: json['OperationId'] as String,
+    operationId: json['OperationId'] as String?,
   );
 }
 
 BillingRecord _$BillingRecordFromJson(Map<String, dynamic> json) {
   return BillingRecord(
     billDate: const UnixDateTimeConverter().fromJson(json['BillDate']),
-    domainName: json['DomainName'] as String,
-    invoiceId: json['InvoiceId'] as String,
+    domainName: json['DomainName'] as String?,
+    invoiceId: json['InvoiceId'] as String?,
     operation: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Operation']),
-    price: (json['Price'] as num)?.toDouble(),
+    price: (json['Price'] as num?)?.toDouble(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$OperationTypeEnumMap = {
@@ -81,7 +86,7 @@ CancelDomainTransferToAnotherAwsAccountResponse
     _$CancelDomainTransferToAnotherAwsAccountResponseFromJson(
         Map<String, dynamic> json) {
   return CancelDomainTransferToAnotherAwsAccountResponse(
-    operationId: json['OperationId'] as String,
+    operationId: json['OperationId'] as String?,
   );
 }
 
@@ -89,7 +94,7 @@ CheckDomainAvailabilityResponse _$CheckDomainAvailabilityResponseFromJson(
     Map<String, dynamic> json) {
   return CheckDomainAvailabilityResponse(
     availability:
-        _$enumDecodeNullable(_$DomainAvailabilityEnumMap, json['Availability']),
+        _$enumDecode(_$DomainAvailabilityEnumMap, json['Availability']),
   );
 }
 
@@ -107,34 +112,31 @@ const _$DomainAvailabilityEnumMap = {
 CheckDomainTransferabilityResponse _$CheckDomainTransferabilityResponseFromJson(
     Map<String, dynamic> json) {
   return CheckDomainTransferabilityResponse(
-    transferability: json['Transferability'] == null
-        ? null
-        : DomainTransferability.fromJson(
-            json['Transferability'] as Map<String, dynamic>),
+    transferability: DomainTransferability.fromJson(
+        json['Transferability'] as Map<String, dynamic>),
   );
 }
 
 ContactDetail _$ContactDetailFromJson(Map<String, dynamic> json) {
   return ContactDetail(
-    addressLine1: json['AddressLine1'] as String,
-    addressLine2: json['AddressLine2'] as String,
-    city: json['City'] as String,
+    addressLine1: json['AddressLine1'] as String?,
+    addressLine2: json['AddressLine2'] as String?,
+    city: json['City'] as String?,
     contactType:
         _$enumDecodeNullable(_$ContactTypeEnumMap, json['ContactType']),
     countryCode:
         _$enumDecodeNullable(_$CountryCodeEnumMap, json['CountryCode']),
-    email: json['Email'] as String,
-    extraParams: (json['ExtraParams'] as List)
-        ?.map((e) =>
-            e == null ? null : ExtraParam.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    fax: json['Fax'] as String,
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
-    organizationName: json['OrganizationName'] as String,
-    phoneNumber: json['PhoneNumber'] as String,
-    state: json['State'] as String,
-    zipCode: json['ZipCode'] as String,
+    email: json['Email'] as String?,
+    extraParams: (json['ExtraParams'] as List<dynamic>?)
+        ?.map((e) => ExtraParam.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    fax: json['Fax'] as String?,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
+    organizationName: json['OrganizationName'] as String?,
+    phoneNumber: json['PhoneNumber'] as String?,
+    state: json['State'] as String?,
+    zipCode: json['ZipCode'] as String?,
   );
 }
 
@@ -154,7 +156,7 @@ Map<String, dynamic> _$ContactDetailToJson(ContactDetail instance) {
   writeNotNull('CountryCode', _$CountryCodeEnumMap[instance.countryCode]);
   writeNotNull('Email', instance.email);
   writeNotNull(
-      'ExtraParams', instance.extraParams?.map((e) => e?.toJson())?.toList());
+      'ExtraParams', instance.extraParams?.map((e) => e.toJson()).toList());
   writeNotNull('Fax', instance.fax);
   writeNotNull('FirstName', instance.firstName);
   writeNotNull('LastName', instance.lastName);
@@ -424,17 +426,17 @@ DisableDomainTransferLockResponse _$DisableDomainTransferLockResponseFromJson(
 
 DomainSuggestion _$DomainSuggestionFromJson(Map<String, dynamic> json) {
   return DomainSuggestion(
-    availability: json['Availability'] as String,
-    domainName: json['DomainName'] as String,
+    availability: json['Availability'] as String?,
+    domainName: json['DomainName'] as String?,
   );
 }
 
 DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
   return DomainSummary(
     domainName: json['DomainName'] as String,
-    autoRenew: json['AutoRenew'] as bool,
+    autoRenew: json['AutoRenew'] as bool?,
     expiry: const UnixDateTimeConverter().fromJson(json['Expiry']),
-    transferLock: json['TransferLock'] as bool,
+    transferLock: json['TransferLock'] as bool?,
   );
 }
 
@@ -466,24 +468,16 @@ EnableDomainTransferLockResponse _$EnableDomainTransferLockResponseFromJson(
 
 ExtraParam _$ExtraParamFromJson(Map<String, dynamic> json) {
   return ExtraParam(
-    name: _$enumDecodeNullable(_$ExtraParamNameEnumMap, json['Name']),
+    name: _$enumDecode(_$ExtraParamNameEnumMap, json['Name']),
     value: json['Value'] as String,
   );
 }
 
-Map<String, dynamic> _$ExtraParamToJson(ExtraParam instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$ExtraParamNameEnumMap[instance.name]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$ExtraParamToJson(ExtraParam instance) =>
+    <String, dynamic>{
+      'Name': _$ExtraParamNameEnumMap[instance.name],
+      'Value': instance.value,
+    };
 
 const _$ExtraParamNameEnumMap = {
   ExtraParamName.dunsNumber: 'DUNS_NUMBER',
@@ -521,7 +515,7 @@ const _$ExtraParamNameEnumMap = {
 GetContactReachabilityStatusResponse
     _$GetContactReachabilityStatusResponseFromJson(Map<String, dynamic> json) {
   return GetContactReachabilityStatusResponse(
-    domainName: json['domainName'] as String,
+    domainName: json['domainName'] as String?,
     status: _$enumDecodeNullable(_$ReachabilityStatusEnumMap, json['status']),
   );
 }
@@ -535,58 +529,53 @@ const _$ReachabilityStatusEnumMap = {
 GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     Map<String, dynamic> json) {
   return GetDomainDetailResponse(
-    adminContact: json['AdminContact'] == null
-        ? null
-        : ContactDetail.fromJson(json['AdminContact'] as Map<String, dynamic>),
+    adminContact:
+        ContactDetail.fromJson(json['AdminContact'] as Map<String, dynamic>),
     domainName: json['DomainName'] as String,
-    nameservers: (json['Nameservers'] as List)
-        ?.map((e) =>
-            e == null ? null : Nameserver.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    registrantContact: json['RegistrantContact'] == null
-        ? null
-        : ContactDetail.fromJson(
-            json['RegistrantContact'] as Map<String, dynamic>),
-    techContact: json['TechContact'] == null
-        ? null
-        : ContactDetail.fromJson(json['TechContact'] as Map<String, dynamic>),
-    abuseContactEmail: json['AbuseContactEmail'] as String,
-    abuseContactPhone: json['AbuseContactPhone'] as String,
-    adminPrivacy: json['AdminPrivacy'] as bool,
-    autoRenew: json['AutoRenew'] as bool,
+    nameservers: (json['Nameservers'] as List<dynamic>)
+        .map((e) => Nameserver.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    registrantContact: ContactDetail.fromJson(
+        json['RegistrantContact'] as Map<String, dynamic>),
+    techContact:
+        ContactDetail.fromJson(json['TechContact'] as Map<String, dynamic>),
+    abuseContactEmail: json['AbuseContactEmail'] as String?,
+    abuseContactPhone: json['AbuseContactPhone'] as String?,
+    adminPrivacy: json['AdminPrivacy'] as bool?,
+    autoRenew: json['AutoRenew'] as bool?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    dnsSec: json['DnsSec'] as String,
+    dnsSec: json['DnsSec'] as String?,
     expirationDate:
         const UnixDateTimeConverter().fromJson(json['ExpirationDate']),
-    registrantPrivacy: json['RegistrantPrivacy'] as bool,
-    registrarName: json['RegistrarName'] as String,
-    registrarUrl: json['RegistrarUrl'] as String,
-    registryDomainId: json['RegistryDomainId'] as String,
-    reseller: json['Reseller'] as String,
-    statusList: (json['StatusList'] as List)?.map((e) => e as String)?.toList(),
-    techPrivacy: json['TechPrivacy'] as bool,
+    registrantPrivacy: json['RegistrantPrivacy'] as bool?,
+    registrarName: json['RegistrarName'] as String?,
+    registrarUrl: json['RegistrarUrl'] as String?,
+    registryDomainId: json['RegistryDomainId'] as String?,
+    reseller: json['Reseller'] as String?,
+    statusList: (json['StatusList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    techPrivacy: json['TechPrivacy'] as bool?,
     updatedDate: const UnixDateTimeConverter().fromJson(json['UpdatedDate']),
-    whoIsServer: json['WhoIsServer'] as String,
+    whoIsServer: json['WhoIsServer'] as String?,
   );
 }
 
 GetDomainSuggestionsResponse _$GetDomainSuggestionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetDomainSuggestionsResponse(
-    suggestionsList: (json['SuggestionsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainSuggestion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    suggestionsList: (json['SuggestionsList'] as List<dynamic>?)
+        ?.map((e) => DomainSuggestion.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetOperationDetailResponse _$GetOperationDetailResponseFromJson(
     Map<String, dynamic> json) {
   return GetOperationDetailResponse(
-    domainName: json['DomainName'] as String,
-    message: json['Message'] as String,
-    operationId: json['OperationId'] as String,
+    domainName: json['DomainName'] as String?,
+    message: json['Message'] as String?,
+    operationId: json['OperationId'] as String?,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
     submittedDate:
         const UnixDateTimeConverter().fromJson(json['SubmittedDate']),
@@ -604,45 +593,44 @@ const _$OperationStatusEnumMap = {
 
 ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
   return ListDomainsResponse(
-    domains: (json['Domains'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageMarker: json['NextPageMarker'] as String,
+    domains: (json['Domains'] as List<dynamic>)
+        .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageMarker: json['NextPageMarker'] as String?,
   );
 }
 
 ListOperationsResponse _$ListOperationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOperationsResponse(
-    operations: (json['Operations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OperationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageMarker: json['NextPageMarker'] as String,
+    operations: (json['Operations'] as List<dynamic>)
+        .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageMarker: json['NextPageMarker'] as String?,
   );
 }
 
 ListTagsForDomainResponse _$ListTagsForDomainResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForDomainResponse(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>)
+        .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Nameserver _$NameserverFromJson(Map<String, dynamic> json) {
   return Nameserver(
     name: json['Name'] as String,
-    glueIps: (json['GlueIps'] as List)?.map((e) => e as String)?.toList(),
+    glueIps:
+        (json['GlueIps'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$NameserverToJson(Nameserver instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -650,7 +638,6 @@ Map<String, dynamic> _$NameserverToJson(Nameserver instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('GlueIps', instance.glueIps);
   return val;
 }
@@ -658,10 +645,9 @@ Map<String, dynamic> _$NameserverToJson(Nameserver instance) {
 OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   return OperationSummary(
     operationId: json['OperationId'] as String,
-    status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
-    submittedDate:
-        const UnixDateTimeConverter().fromJson(json['SubmittedDate']),
-    type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
+    status: _$enumDecode(_$OperationStatusEnumMap, json['Status']),
+    submittedDate: DateTime.parse(json['SubmittedDate'] as String),
+    type: _$enumDecode(_$OperationTypeEnumMap, json['Type']),
   );
 }
 
@@ -676,7 +662,7 @@ RejectDomainTransferFromAnotherAwsAccountResponse
     _$RejectDomainTransferFromAnotherAwsAccountResponseFromJson(
         Map<String, dynamic> json) {
   return RejectDomainTransferFromAnotherAwsAccountResponse(
-    operationId: json['OperationId'] as String,
+    operationId: json['OperationId'] as String?,
   );
 }
 
@@ -690,9 +676,9 @@ ResendContactReachabilityEmailResponse
     _$ResendContactReachabilityEmailResponseFromJson(
         Map<String, dynamic> json) {
   return ResendContactReachabilityEmailResponse(
-    domainName: json['domainName'] as String,
-    emailAddress: json['emailAddress'] as String,
-    isAlreadyVerified: json['isAlreadyVerified'] as bool,
+    domainName: json['domainName'] as String?,
+    emailAddress: json['emailAddress'] as String?,
+    isAlreadyVerified: json['isAlreadyVerified'] as bool?,
   );
 }
 
@@ -705,8 +691,8 @@ RetrieveDomainAuthCodeResponse _$RetrieveDomainAuthCodeResponseFromJson(
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -735,8 +721,8 @@ TransferDomainToAnotherAwsAccountResponse
     _$TransferDomainToAnotherAwsAccountResponseFromJson(
         Map<String, dynamic> json) {
   return TransferDomainToAnotherAwsAccountResponse(
-    operationId: json['OperationId'] as String,
-    password: json['Password'] as String,
+    operationId: json['OperationId'] as String?,
+    password: json['Password'] as String?,
   );
 }
 
@@ -768,11 +754,9 @@ UpdateTagsForDomainResponse _$UpdateTagsForDomainResponseFromJson(
 
 ViewBillingResponse _$ViewBillingResponseFromJson(Map<String, dynamic> json) {
   return ViewBillingResponse(
-    billingRecords: (json['BillingRecords'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BillingRecord.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageMarker: json['NextPageMarker'] as String,
+    billingRecords: (json['BillingRecords'] as List<dynamic>?)
+        ?.map((e) => BillingRecord.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageMarker: json['NextPageMarker'] as String?,
   );
 }

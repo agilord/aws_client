@@ -80,7 +80,7 @@ class RestJsonProtocol {
     return rs;
   }
 
-  Future<Map<String, dynamic>?> send({
+  Future<Map<String, dynamic>> send({
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,

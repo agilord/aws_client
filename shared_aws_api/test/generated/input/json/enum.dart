@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -28,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class Enum {
   final _s.JsonProtocol _protocol;
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -43,14 +37,14 @@ class Enum {
         );
 
   Future<void> operationName0({
-    EnumType fooEnum,
-    List<EnumType> listEnums,
+    EnumType? fooEnum,
+    List<EnumType>? listEnums,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Enum.OperationName'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -59,20 +53,20 @@ class Enum {
       payload: {
         if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
         if (listEnums != null)
-          'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
+          'ListEnums': listEnums.map((e) => e.toValue()).toList(),
       },
     );
   }
 
   Future<void> operationName1({
-    EnumType fooEnum,
-    List<EnumType> listEnums,
+    EnumType? fooEnum,
+    List<EnumType>? listEnums,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Enum.OperationName'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -81,16 +75,14 @@ class Enum {
       payload: {
         if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
         if (listEnums != null)
-          'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
+          'ListEnums': listEnums.map((e) => e.toValue()).toList(),
       },
     );
   }
 }
 
 enum EnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
 }
 
@@ -102,7 +94,18 @@ extension on EnumType {
       case EnumType.bar:
         return 'bar';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnumType toEnumType() {
+    switch (this) {
+      case 'foo':
+        return EnumType.foo;
+      case 'bar':
+        return EnumType.bar;
+    }
+    throw Exception('$this is not known in enum EnumType');
   }
 }
 

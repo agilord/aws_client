@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'elasticfilesystem-2015-02-01.g.dart';
 
 /// Amazon Elastic File System (Amazon EFS) provides simple, scalable file
 /// storage for use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS,
@@ -36,10 +28,10 @@ part 'elasticfilesystem-2015-02-01.g.dart';
 class EFS {
   final _s.RestJsonProtocol _protocol;
   EFS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,12 +62,12 @@ class EFS {
   /// May throw [FileSystemNotFound].
   /// May throw [AccessPointLimitExceeded].
   ///
+  /// Parameter [fileSystemId] :
+  /// The ID of the EFS file system that the access point provides access to.
+  ///
   /// Parameter [clientToken] :
   /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure
   /// idempotent creation.
-  ///
-  /// Parameter [fileSystemId] :
-  /// The ID of the EFS file system that the access point provides access to.
   ///
   /// Parameter [posixUser] :
   /// The operating system user and group applied to all file system requests
@@ -95,20 +87,12 @@ class EFS {
   /// Creates tags associated with the access point. Each tag is a key-value
   /// pair.
   Future<AccessPointDescription> createAccessPoint({
-    @_s.required String clientToken,
-    @_s.required String fileSystemId,
-    PosixUser posixUser,
-    RootDirectory rootDirectory,
-    List<Tag> tags,
+    required String fileSystemId,
+    String? clientToken,
+    PosixUser? posixUser,
+    RootDirectory? rootDirectory,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
       'fileSystemId',
@@ -123,9 +107,15 @@ class EFS {
       r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+    );
     final $payload = <String, dynamic>{
-      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       'FileSystemId': fileSystemId,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (posixUser != null) 'PosixUser': posixUser,
       if (rootDirectory != null) 'RootDirectory': rootDirectory,
       if (tags != null) 'Tags': tags,
@@ -282,27 +272,24 @@ class EFS {
   /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#provisioned-throughput">Specifying
   /// Throughput with Provisioned Mode</a> in the <i>Amazon EFS User Guide.</i>
   Future<FileSystemDescription> createFileSystem({
-    @_s.required String creationToken,
-    bool encrypted,
-    String kmsKeyId,
-    PerformanceMode performanceMode,
-    double provisionedThroughputInMibps,
-    List<Tag> tags,
-    ThroughputMode throughputMode,
+    String? creationToken,
+    bool? encrypted,
+    String? kmsKeyId,
+    PerformanceMode? performanceMode,
+    double? provisionedThroughputInMibps,
+    List<Tag>? tags,
+    ThroughputMode? throughputMode,
   }) async {
-    ArgumentError.checkNotNull(creationToken, 'creationToken');
     _s.validateStringLength(
       'creationToken',
       creationToken,
       1,
       64,
-      isRequired: true,
     );
     _s.validateStringPattern(
       'creationToken',
       creationToken,
       r'''.+''',
-      isRequired: true,
     );
     _s.validateStringLength(
       'kmsKeyId',
@@ -504,10 +491,10 @@ class EFS {
   /// Up to five VPC security group IDs, of the form <code>sg-xxxxxxxx</code>.
   /// These must be for the same VPC as subnet specified.
   Future<MountTargetDescription> createMountTarget({
-    @_s.required String fileSystemId,
-    @_s.required String subnetId,
-    String ipAddress,
-    List<String> securityGroups,
+    required String fileSystemId,
+    required String subnetId,
+    String? ipAddress,
+    List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -586,8 +573,8 @@ class EFS {
   /// is a key-value pair.
   @Deprecated('Deprecated')
   Future<void> createTags({
-    @_s.required String fileSystemId,
-    @_s.required List<Tag> tags,
+    required String fileSystemId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -631,7 +618,7 @@ class EFS {
   /// Parameter [accessPointId] :
   /// The ID of the access point that you want to delete.
   Future<void> deleteAccessPoint({
-    @_s.required String accessPointId,
+    required String accessPointId,
   }) async {
     ArgumentError.checkNotNull(accessPointId, 'accessPointId');
     await _protocol.send(
@@ -669,7 +656,7 @@ class EFS {
   /// Parameter [fileSystemId] :
   /// The ID of the file system you want to delete.
   Future<void> deleteFileSystem({
-    @_s.required String fileSystemId,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -712,7 +699,7 @@ class EFS {
   /// Specifies the EFS file system for which to delete the
   /// <code>FileSystemPolicy</code>.
   Future<void> deleteFileSystemPolicy({
-    @_s.required String fileSystemId,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -779,7 +766,7 @@ class EFS {
   /// Parameter [mountTargetId] :
   /// The ID of the mount target to delete (String).
   Future<void> deleteMountTarget({
-    @_s.required String mountTargetId,
+    required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
     _s.validateStringLength(
@@ -825,8 +812,8 @@ class EFS {
   /// A list of tag keys to delete.
   @Deprecated('Deprecated')
   Future<void> deleteTags({
-    @_s.required String fileSystemId,
-    @_s.required List<String> tagKeys,
+    required String fileSystemId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -888,10 +875,10 @@ class EFS {
   /// use <code>NextMarker</code> in the subsequent request to fetch the next
   /// page of access point descriptions.
   Future<DescribeAccessPointsResponse> describeAccessPoints({
-    String accessPointId,
-    String fileSystemId,
-    int maxResults,
-    String nextToken,
+    String? accessPointId,
+    String? fileSystemId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'fileSystemId',
@@ -938,7 +925,7 @@ class EFS {
   /// Specifies which EFS file system to retrieve the <code>BackupPolicy</code>
   /// for.
   Future<BackupPolicyDescription> describeBackupPolicy({
-    @_s.required String fileSystemId,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -978,7 +965,7 @@ class EFS {
   /// Specifies which EFS file system to retrieve the
   /// <code>FileSystemPolicy</code> for.
   Future<FileSystemPolicyDescription> describeFileSystemPolicy({
-    @_s.required String fileSystemId,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1055,10 +1042,10 @@ class EFS {
   /// response (integer). This number is automatically set to 100. The response
   /// is paginated at 100 per page if you have more than 100 file systems.
   Future<DescribeFileSystemsResponse> describeFileSystems({
-    String creationToken,
-    String fileSystemId,
-    String marker,
-    int maxItems,
+    String? creationToken,
+    String? fileSystemId,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'creationToken',
@@ -1133,7 +1120,7 @@ class EFS {
   /// The ID of the file system whose <code>LifecycleConfiguration</code> object
   /// you want to retrieve (String).
   Future<LifecycleConfigurationDescription> describeLifecycleConfiguration({
-    @_s.required String fileSystemId,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1186,7 +1173,7 @@ class EFS {
   /// The ID of the mount target whose security groups you want to retrieve.
   Future<DescribeMountTargetSecurityGroupsResponse>
       describeMountTargetSecurityGroups({
-    @_s.required String mountTargetId,
+    required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
     _s.validateStringLength(
@@ -1258,11 +1245,11 @@ class EFS {
   /// (String). It must be included in your request if <code>FileSystemId</code>
   /// is not included. Accepts either a mount target ID or ARN as input.
   Future<DescribeMountTargetsResponse> describeMountTargets({
-    String accessPointId,
-    String fileSystemId,
-    String marker,
-    int maxItems,
-    String mountTargetId,
+    String? accessPointId,
+    String? fileSystemId,
+    String? marker,
+    int? maxItems,
+    String? mountTargetId,
   }) async {
     _s.validateStringLength(
       'fileSystemId',
@@ -1347,9 +1334,9 @@ class EFS {
   /// more than 100 tags.
   @Deprecated('Deprecated')
   Future<DescribeTagsResponse> describeTags({
-    @_s.required String fileSystemId,
-    String marker,
-    int maxItems,
+    required String fileSystemId,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1420,9 +1407,9 @@ class EFS {
   /// next page of access point descriptions if the response payload was
   /// paginated.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceId,
-    int maxResults,
-    String nextToken,
+    required String resourceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateNumRange(
@@ -1482,8 +1469,8 @@ class EFS {
   /// Parameter [securityGroups] :
   /// An array of up to five VPC security group IDs.
   Future<void> modifyMountTargetSecurityGroups({
-    @_s.required String mountTargetId,
-    List<String> securityGroups,
+    required String mountTargetId,
+    List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
     _s.validateStringLength(
@@ -1526,8 +1513,8 @@ class EFS {
   /// Parameter [fileSystemId] :
   /// Specifies which EFS file system to update the backup policy for.
   Future<BackupPolicyDescription> putBackupPolicy({
-    @_s.required BackupPolicy backupPolicy,
-    @_s.required String fileSystemId,
+    required BackupPolicy backupPolicy,
+    required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(backupPolicy, 'backupPolicy');
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
@@ -1597,9 +1584,9 @@ class EFS {
   /// a subsequent <code>PutFileSystemPolicy</code> request on the file system.
   /// The default value is False.
   Future<FileSystemPolicyDescription> putFileSystemPolicy({
-    @_s.required String fileSystemId,
-    @_s.required String policy,
-    bool bypassPolicyLockoutSafetyCheck,
+    required String fileSystemId,
+    required String policy,
+    bool? bypassPolicyLockoutSafetyCheck,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1684,8 +1671,8 @@ class EFS {
   /// to transition files from the Standard storage class to the Infrequent
   /// Access storage class.
   Future<LifecycleConfigurationDescription> putLifecycleConfiguration({
-    @_s.required String fileSystemId,
-    @_s.required List<LifecyclePolicy> lifecyclePolicies,
+    required String fileSystemId,
+    required List<LifecyclePolicy> lifecyclePolicies,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1732,8 +1719,8 @@ class EFS {
   /// Parameter [tags] :
   /// <p/>
   Future<void> tagResource({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1767,13 +1754,13 @@ class EFS {
   /// The keys of the key:value tag pairs that you want to remove from the
   /// specified EFS resource.
   Future<void> untagResource({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -1813,9 +1800,9 @@ class EFS {
   /// to <code>provisioned</code>, you must also set a value for
   /// <code>ProvisionedThroughputInMibps</code>.
   Future<FileSystemDescription> updateFileSystem({
-    @_s.required String fileSystemId,
-    double provisionedThroughputInMibps,
-    ThroughputMode throughputMode,
+    required String fileSystemId,
+    double? provisionedThroughputInMibps,
+    ThroughputMode? throughputMode,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1854,56 +1841,41 @@ class EFS {
 }
 
 /// Provides a description of an EFS file system access point.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessPointDescription {
   /// The unique Amazon Resource Name (ARN) associated with the access point.
-  @_s.JsonKey(name: 'AccessPointArn')
-  final String accessPointArn;
+  final String? accessPointArn;
 
   /// The ID of the access point, assigned by Amazon EFS.
-  @_s.JsonKey(name: 'AccessPointId')
-  final String accessPointId;
+  final String? accessPointId;
 
   /// The opaque string specified in the request to ensure idempotent creation.
-  @_s.JsonKey(name: 'ClientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// The ID of the EFS file system that the access point applies to.
-  @_s.JsonKey(name: 'FileSystemId')
-  final String fileSystemId;
+  final String? fileSystemId;
 
   /// Identifies the lifecycle phase of the access point.
-  @_s.JsonKey(name: 'LifeCycleState')
-  final LifeCycleState lifeCycleState;
+  final LifeCycleState? lifeCycleState;
 
   /// The name of the access point. This is the value of the <code>Name</code>
   /// tag.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Identified the AWS account that owns the access point resource.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The full POSIX identity, including the user ID, group ID, and secondary
   /// group IDs on the access point that is used for all file operations by NFS
   /// clients using the access point.
-  @_s.JsonKey(name: 'PosixUser')
-  final PosixUser posixUser;
+  final PosixUser? posixUser;
 
   /// The directory on the Amazon EFS file system that the access point exposes as
   /// the root directory to NFS clients using the access point.
-  @_s.JsonKey(name: 'RootDirectory')
-  final RootDirectory rootDirectory;
+  final RootDirectory? rootDirectory;
 
   /// The tags associated with the access point, presented as an array of Tag
   /// objects.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   AccessPointDescription({
     this.accessPointArn,
@@ -1917,17 +1889,32 @@ class AccessPointDescription {
     this.rootDirectory,
     this.tags,
   });
-  factory AccessPointDescription.fromJson(Map<String, dynamic> json) =>
-      _$AccessPointDescriptionFromJson(json);
+  factory AccessPointDescription.fromJson(Map<String, dynamic> json) {
+    return AccessPointDescription(
+      accessPointArn: json['AccessPointArn'] as String?,
+      accessPointId: json['AccessPointId'] as String?,
+      clientToken: json['ClientToken'] as String?,
+      fileSystemId: json['FileSystemId'] as String?,
+      lifeCycleState: (json['LifeCycleState'] as String?)?.toLifeCycleState(),
+      name: json['Name'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      posixUser: json['PosixUser'] != null
+          ? PosixUser.fromJson(json['PosixUser'] as Map<String, dynamic>)
+          : null,
+      rootDirectory: json['RootDirectory'] != null
+          ? RootDirectory.fromJson(
+              json['RootDirectory'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The backup policy for the file system, showing the curent status. If
 /// <code>ENABLED</code>, the file system is being backed up.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackupPolicy {
   /// Describes the status of the file system's backup policy.
   ///
@@ -1949,34 +1936,40 @@ class BackupPolicy {
   /// file system.</i>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
   final Status status;
 
   BackupPolicy({
-    @_s.required this.status,
+    required this.status,
   });
-  factory BackupPolicy.fromJson(Map<String, dynamic> json) =>
-      _$BackupPolicyFromJson(json);
+  factory BackupPolicy.fromJson(Map<String, dynamic> json) {
+    return BackupPolicy(
+      status: (json['Status'] as String).toStatus(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BackupPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupPolicyDescription {
   /// Describes the file system's backup policy, indicating whether automatic
   /// backups are turned on or off..
-  @_s.JsonKey(name: 'BackupPolicy')
-  final BackupPolicy backupPolicy;
+  final BackupPolicy? backupPolicy;
 
   BackupPolicyDescription({
     this.backupPolicy,
   });
-  factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) =>
-      _$BackupPolicyDescriptionFromJson(json);
+  factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return BackupPolicyDescription(
+      backupPolicy: json['BackupPolicy'] != null
+          ? BackupPolicy.fromJson(json['BackupPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Required if the <code>RootDirectory</code> &gt; <code>Path</code> specified
@@ -1990,211 +1983,206 @@ class BackupPolicyDescription {
 /// <code>RootDirectory</code> does not exist, attempts to mount the file system
 /// using the access point will fail.
 /// </important>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreationInfo {
   /// Specifies the POSIX group ID to apply to the <code>RootDirectory</code>.
   /// Accepts values from 0 to 2^32 (4294967295).
-  @_s.JsonKey(name: 'OwnerGid')
   final int ownerGid;
 
   /// Specifies the POSIX user ID to apply to the <code>RootDirectory</code>.
   /// Accepts values from 0 to 2^32 (4294967295).
-  @_s.JsonKey(name: 'OwnerUid')
   final int ownerUid;
 
   /// Specifies the POSIX permissions to apply to the <code>RootDirectory</code>,
   /// in the format of an octal number representing the file's mode bits.
-  @_s.JsonKey(name: 'Permissions')
   final String permissions;
 
   CreationInfo({
-    @_s.required this.ownerGid,
-    @_s.required this.ownerUid,
-    @_s.required this.permissions,
+    required this.ownerGid,
+    required this.ownerUid,
+    required this.permissions,
   });
-  factory CreationInfo.fromJson(Map<String, dynamic> json) =>
-      _$CreationInfoFromJson(json);
+  factory CreationInfo.fromJson(Map<String, dynamic> json) {
+    return CreationInfo(
+      ownerGid: json['OwnerGid'] as int,
+      ownerUid: json['OwnerUid'] as int,
+      permissions: json['Permissions'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CreationInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final ownerGid = this.ownerGid;
+    final ownerUid = this.ownerUid;
+    final permissions = this.permissions;
+    return {
+      'OwnerGid': ownerGid,
+      'OwnerUid': ownerUid,
+      'Permissions': permissions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccessPointsResponse {
   /// An array of access point descriptions.
-  @_s.JsonKey(name: 'AccessPoints')
-  final List<AccessPointDescription> accessPoints;
+  final List<AccessPointDescription>? accessPoints;
 
   /// Present if there are more access points than returned in the response. You
   /// can use the NextMarker in the subsequent request to fetch the additional
   /// descriptions.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAccessPointsResponse({
     this.accessPoints,
     this.nextToken,
   });
-  factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAccessPointsResponseFromJson(json);
+  factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAccessPointsResponse(
+      accessPoints: (json['AccessPoints'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AccessPointDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFileSystemsResponse {
   /// An array of file system descriptions.
-  @_s.JsonKey(name: 'FileSystems')
-  final List<FileSystemDescription> fileSystems;
+  final List<FileSystemDescription>? fileSystems;
 
   /// Present if provided by caller in the request (String).
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// Present if there are more file systems than returned in the response
   /// (String). You can use the <code>NextMarker</code> in the subsequent request
   /// to fetch the descriptions.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeFileSystemsResponse({
     this.fileSystems,
     this.marker,
     this.nextMarker,
   });
-  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFileSystemsResponseFromJson(json);
+  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFileSystemsResponse(
+      fileSystems: (json['FileSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileSystemDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMountTargetSecurityGroupsResponse {
   /// An array of security groups.
-  @_s.JsonKey(name: 'SecurityGroups')
   final List<String> securityGroups;
 
   DescribeMountTargetSecurityGroupsResponse({
-    @_s.required this.securityGroups,
+    required this.securityGroups,
   });
   factory DescribeMountTargetSecurityGroupsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMountTargetSecurityGroupsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMountTargetSecurityGroupsResponse(
+      securityGroups: (json['SecurityGroups'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMountTargetsResponse {
   /// If the request included the <code>Marker</code>, the response returns that
   /// value in this field.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// Returns the file system's mount targets as an array of
   /// <code>MountTargetDescription</code> objects.
-  @_s.JsonKey(name: 'MountTargets')
-  final List<MountTargetDescription> mountTargets;
+  final List<MountTargetDescription>? mountTargets;
 
   /// If a value is present, there are more mount targets to return. In a
   /// subsequent request, you can provide <code>Marker</code> in your request with
   /// this value to retrieve the next set of mount targets.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeMountTargetsResponse({
     this.marker,
     this.mountTargets,
     this.nextMarker,
   });
-  factory DescribeMountTargetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMountTargetsResponseFromJson(json);
+  factory DescribeMountTargetsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMountTargetsResponse(
+      marker: json['Marker'] as String?,
+      mountTargets: (json['MountTargets'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => MountTargetDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagsResponse {
   /// Returns tags associated with the file system as an array of <code>Tag</code>
   /// objects.
-  @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   /// If the request included a <code>Marker</code>, the response returns that
   /// value in this field.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// If a value is present, there are more tags to return. In a subsequent
   /// request, you can provide the value of <code>NextMarker</code> as the value
   /// of the <code>Marker</code> parameter in your next request to retrieve the
   /// next set of tags.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeTagsResponse({
-    @_s.required this.tags,
+    required this.tags,
     this.marker,
     this.nextMarker,
   });
-  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagsResponseFromJson(json);
+  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
 /// A description of the file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSystemDescription {
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The opaque string specified in the request.
-  @_s.JsonKey(name: 'CreationToken')
   final String creationToken;
 
   /// The ID of the file system, assigned by Amazon EFS.
-  @_s.JsonKey(name: 'FileSystemId')
   final String fileSystemId;
 
   /// The lifecycle phase of the file system.
-  @_s.JsonKey(name: 'LifeCycleState')
   final LifeCycleState lifeCycleState;
 
   /// The current number of mount targets that the file system has. For more
   /// information, see <a>CreateMountTarget</a>.
-  @_s.JsonKey(name: 'NumberOfMountTargets')
   final int numberOfMountTargets;
 
   /// The AWS account that created the file system. If the file system was created
   /// by an IAM user, the parent account to which the user belongs is the owner.
-  @_s.JsonKey(name: 'OwnerId')
   final String ownerId;
 
   /// The performance mode of the file system.
-  @_s.JsonKey(name: 'PerformanceMode')
   final PerformanceMode performanceMode;
 
   /// The latest known metered size (in bytes) of data stored in the file system,
@@ -2207,35 +2195,29 @@ class FileSystemDescription {
   /// actual size only if the file system is not modified for a period longer than
   /// a couple of hours. Otherwise, the value is not the exact size that the file
   /// system was at any point in time.
-  @_s.JsonKey(name: 'SizeInBytes')
   final FileSystemSize sizeInBytes;
 
   /// The tags associated with the file system, presented as an array of
   /// <code>Tag</code> objects.
-  @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   /// A Boolean value that, if true, indicates that the file system is encrypted.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The Amazon Resource Name (ARN) for the EFS file system, in the format
   /// <code>arn:aws:elasticfilesystem:<i>region</i>:<i>account-id</i>:file-system/<i>file-system-id</i>
   /// </code>. Example with sample data:
   /// <code>arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567</code>
-  @_s.JsonKey(name: 'FileSystemArn')
-  final String fileSystemArn;
+  final String? fileSystemArn;
 
   /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK)
   /// that was used to protect the encrypted file system.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// You can add tags to a file system, including a <code>Name</code> tag. For
   /// more information, see <a>CreateFileSystem</a>. If the file system has a
   /// <code>Name</code> tag, Amazon EFS returns the value in this field.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The throughput, measured in MiB/s, that you want to provision for a file
   /// system. Valid values are 1-1024. Required if <code>ThroughputMode</code> is
@@ -2244,8 +2226,7 @@ class FileSystemDescription {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits">Amazon
   /// EFS Limits That You Can Increase</a> in the <i>Amazon EFS User Guide.</i>
-  @_s.JsonKey(name: 'ProvisionedThroughputInMibps')
-  final double provisionedThroughputInMibps;
+  final double? provisionedThroughputInMibps;
 
   /// The throughput mode for a file system. There are two throughput modes to
   /// choose from for your file system: <code>bursting</code> and
@@ -2255,19 +2236,18 @@ class FileSystemDescription {
   /// system's throughput in Provisioned Throughput mode or change between the
   /// throughput modes as long as it’s been more than 24 hours since the last
   /// decrease or throughput mode change.
-  @_s.JsonKey(name: 'ThroughputMode')
-  final ThroughputMode throughputMode;
+  final ThroughputMode? throughputMode;
 
   FileSystemDescription({
-    @_s.required this.creationTime,
-    @_s.required this.creationToken,
-    @_s.required this.fileSystemId,
-    @_s.required this.lifeCycleState,
-    @_s.required this.numberOfMountTargets,
-    @_s.required this.ownerId,
-    @_s.required this.performanceMode,
-    @_s.required this.sizeInBytes,
-    @_s.required this.tags,
+    required this.creationTime,
+    required this.creationToken,
+    required this.fileSystemId,
+    required this.lifeCycleState,
+    required this.numberOfMountTargets,
+    required this.ownerId,
+    required this.performanceMode,
+    required this.sizeInBytes,
+    required this.tags,
     this.encrypted,
     this.fileSystemArn,
     this.kmsKeyId,
@@ -2275,31 +2255,51 @@ class FileSystemDescription {
     this.provisionedThroughputInMibps,
     this.throughputMode,
   });
-  factory FileSystemDescription.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemDescriptionFromJson(json);
+  factory FileSystemDescription.fromJson(Map<String, dynamic> json) {
+    return FileSystemDescription(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      creationToken: json['CreationToken'] as String,
+      fileSystemId: json['FileSystemId'] as String,
+      lifeCycleState: (json['LifeCycleState'] as String).toLifeCycleState(),
+      numberOfMountTargets: json['NumberOfMountTargets'] as int,
+      ownerId: json['OwnerId'] as String,
+      performanceMode: (json['PerformanceMode'] as String).toPerformanceMode(),
+      sizeInBytes:
+          FileSystemSize.fromJson(json['SizeInBytes'] as Map<String, dynamic>),
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encrypted: json['Encrypted'] as bool?,
+      fileSystemArn: json['FileSystemArn'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      name: json['Name'] as String?,
+      provisionedThroughputInMibps:
+          json['ProvisionedThroughputInMibps'] as double?,
+      throughputMode: (json['ThroughputMode'] as String?)?.toThroughputMode(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSystemPolicyDescription {
   /// Specifies the EFS file system to which the <code>FileSystemPolicy</code>
   /// applies.
-  @_s.JsonKey(name: 'FileSystemId')
-  final String fileSystemId;
+  final String? fileSystemId;
 
   /// The JSON formatted <code>FileSystemPolicy</code> for the EFS file system.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   FileSystemPolicyDescription({
     this.fileSystemId,
     this.policy,
   });
-  factory FileSystemPolicyDescription.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemPolicyDescriptionFromJson(json);
+  factory FileSystemPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return FileSystemPolicyDescription(
+      fileSystemId: json['FileSystemId'] as String?,
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
 /// The latest known metered size (in bytes) of data stored in the file system,
@@ -2310,180 +2310,194 @@ class FileSystemPolicyDescription {
 /// represents the actual size only if the file system is not modified for a
 /// period longer than a couple of hours. Otherwise, the value is not
 /// necessarily the exact size the file system was at any instant in time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSystemSize {
   /// The latest known metered size (in bytes) of data stored in the file system.
-  @_s.JsonKey(name: 'Value')
   final int value;
 
   /// The time at which the size of data, returned in the <code>Value</code>
   /// field, was determined. The value is the integer number of seconds since
   /// 1970-01-01T00:00:00Z.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// The latest known metered size (in bytes) of data stored in the Infrequent
   /// Access storage class.
-  @_s.JsonKey(name: 'ValueInIA')
-  final int valueInIA;
+  final int? valueInIA;
 
   /// The latest known metered size (in bytes) of data stored in the Standard
   /// storage class.
-  @_s.JsonKey(name: 'ValueInStandard')
-  final int valueInStandard;
+  final int? valueInStandard;
 
   FileSystemSize({
-    @_s.required this.value,
+    required this.value,
     this.timestamp,
     this.valueInIA,
     this.valueInStandard,
   });
-  factory FileSystemSize.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemSizeFromJson(json);
+  factory FileSystemSize.fromJson(Map<String, dynamic> json) {
+    return FileSystemSize(
+      value: json['Value'] as int,
+      timestamp: timeStampFromJson(json['Timestamp']),
+      valueInIA: json['ValueInIA'] as int?,
+      valueInStandard: json['ValueInStandard'] as int?,
+    );
+  }
 }
 
 enum LifeCycleState {
-  @_s.JsonValue('creating')
   creating,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('updating')
   updating,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LifeCycleState {
+  String toValue() {
+    switch (this) {
+      case LifeCycleState.creating:
+        return 'creating';
+      case LifeCycleState.available:
+        return 'available';
+      case LifeCycleState.updating:
+        return 'updating';
+      case LifeCycleState.deleting:
+        return 'deleting';
+      case LifeCycleState.deleted:
+        return 'deleted';
+    }
+  }
+}
+
+extension on String {
+  LifeCycleState toLifeCycleState() {
+    switch (this) {
+      case 'creating':
+        return LifeCycleState.creating;
+      case 'available':
+        return LifeCycleState.available;
+      case 'updating':
+        return LifeCycleState.updating;
+      case 'deleting':
+        return LifeCycleState.deleting;
+      case 'deleted':
+        return LifeCycleState.deleted;
+    }
+    throw Exception('$this is not known in enum LifeCycleState');
+  }
+}
+
 class LifecycleConfigurationDescription {
   /// An array of lifecycle management policies. Currently, EFS supports a maximum
   /// of one policy per file system.
-  @_s.JsonKey(name: 'LifecyclePolicies')
-  final List<LifecyclePolicy> lifecyclePolicies;
+  final List<LifecyclePolicy>? lifecyclePolicies;
 
   LifecycleConfigurationDescription({
     this.lifecyclePolicies,
   });
   factory LifecycleConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$LifecycleConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return LifecycleConfigurationDescription(
+      lifecyclePolicies: (json['LifecyclePolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecyclePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a policy used by EFS lifecycle management to transition files to
 /// the Infrequent Access (IA) storage class.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LifecyclePolicy {
   /// A value that describes the period of time that a file is not accessed, after
   /// which it transitions to the IA storage class. Metadata operations such as
   /// listing the contents of a directory don't count as file access events.
-  @_s.JsonKey(name: 'TransitionToIA')
-  final TransitionToIARules transitionToIA;
+  final TransitionToIARules? transitionToIA;
 
   LifecyclePolicy({
     this.transitionToIA,
   });
-  factory LifecyclePolicy.fromJson(Map<String, dynamic> json) =>
-      _$LifecyclePolicyFromJson(json);
+  factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicy(
+      transitionToIA:
+          (json['TransitionToIA'] as String?)?.toTransitionToIARules(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LifecyclePolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final transitionToIA = this.transitionToIA;
+    return {
+      if (transitionToIA != null) 'TransitionToIA': transitionToIA.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// <code>NextToken</code> is present if the response payload is paginated. You
   /// can use <code>NextToken</code> in a subsequent request to fetch the next
   /// page of access point descriptions.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of the tags for the specified EFS resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides a description of a mount target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MountTargetDescription {
   /// The ID of the file system for which the mount target is intended.
-  @_s.JsonKey(name: 'FileSystemId')
   final String fileSystemId;
 
   /// Lifecycle state of the mount target.
-  @_s.JsonKey(name: 'LifeCycleState')
   final LifeCycleState lifeCycleState;
 
   /// System-assigned mount target ID.
-  @_s.JsonKey(name: 'MountTargetId')
   final String mountTargetId;
 
   /// The ID of the mount target's subnet.
-  @_s.JsonKey(name: 'SubnetId')
   final String subnetId;
 
   /// The unique and consistent identifier of the Availability Zone (AZ) that the
   /// mount target resides in. For example, <code>use1-az1</code> is an AZ ID for
   /// the us-east-1 Region and it has the same location in every AWS account.
-  @_s.JsonKey(name: 'AvailabilityZoneId')
-  final String availabilityZoneId;
+  final String? availabilityZoneId;
 
   /// The name of the Availability Zone (AZ) that the mount target resides in. AZs
   /// are independently mapped to names for each AWS account. For example, the
   /// Availability Zone <code>us-east-1a</code> for your AWS account might not be
   /// the same location as <code>us-east-1a</code> for another AWS account.
-  @_s.JsonKey(name: 'AvailabilityZoneName')
-  final String availabilityZoneName;
+  final String? availabilityZoneName;
 
   /// Address at which the file system can be mounted by using the mount target.
-  @_s.JsonKey(name: 'IpAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The ID of the network interface that Amazon EFS created when it created the
   /// mount target.
-  @_s.JsonKey(name: 'NetworkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// AWS account ID that owns the resource.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The Virtual Private Cloud (VPC) ID that the mount target is configured in.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   MountTargetDescription({
-    @_s.required this.fileSystemId,
-    @_s.required this.lifeCycleState,
-    @_s.required this.mountTargetId,
-    @_s.required this.subnetId,
+    required this.fileSystemId,
+    required this.lifeCycleState,
+    required this.mountTargetId,
+    required this.subnetId,
     this.availabilityZoneId,
     this.availabilityZoneName,
     this.ipAddress,
@@ -2491,14 +2505,24 @@ class MountTargetDescription {
     this.ownerId,
     this.vpcId,
   });
-  factory MountTargetDescription.fromJson(Map<String, dynamic> json) =>
-      _$MountTargetDescriptionFromJson(json);
+  factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
+    return MountTargetDescription(
+      fileSystemId: json['FileSystemId'] as String,
+      lifeCycleState: (json['LifeCycleState'] as String).toLifeCycleState(),
+      mountTargetId: json['MountTargetId'] as String,
+      subnetId: json['SubnetId'] as String,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      availabilityZoneName: json['AvailabilityZoneName'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
 enum PerformanceMode {
-  @_s.JsonValue('generalPurpose')
   generalPurpose,
-  @_s.JsonValue('maxIO')
   maxIO,
 }
 
@@ -2510,43 +2534,63 @@ extension on PerformanceMode {
       case PerformanceMode.maxIO:
         return 'maxIO';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PerformanceMode toPerformanceMode() {
+    switch (this) {
+      case 'generalPurpose':
+        return PerformanceMode.generalPurpose;
+      case 'maxIO':
+        return PerformanceMode.maxIO;
+    }
+    throw Exception('$this is not known in enum PerformanceMode');
   }
 }
 
 /// The full POSIX identity, including the user ID, group ID, and any secondary
 /// group IDs, on the access point that is used for all file system operations
 /// performed by NFS clients using the access point.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PosixUser {
   /// The POSIX group ID used for all file system operations using this access
   /// point.
-  @_s.JsonKey(name: 'Gid')
   final int gid;
 
   /// The POSIX user ID used for all file system operations using this access
   /// point.
-  @_s.JsonKey(name: 'Uid')
   final int uid;
 
   /// Secondary POSIX group IDs used for all file system operations using this
   /// access point.
-  @_s.JsonKey(name: 'SecondaryGids')
-  final List<int> secondaryGids;
+  final List<int>? secondaryGids;
 
   PosixUser({
-    @_s.required this.gid,
-    @_s.required this.uid,
+    required this.gid,
+    required this.uid,
     this.secondaryGids,
   });
-  factory PosixUser.fromJson(Map<String, dynamic> json) =>
-      _$PosixUserFromJson(json);
+  factory PosixUser.fromJson(Map<String, dynamic> json) {
+    return PosixUser(
+      gid: json['Gid'] as int,
+      uid: json['Uid'] as int,
+      secondaryGids: (json['SecondaryGids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PosixUserToJson(this);
+  Map<String, dynamic> toJson() {
+    final gid = this.gid;
+    final uid = this.uid;
+    final secondaryGids = this.secondaryGids;
+    return {
+      'Gid': gid,
+      'Uid': uid,
+      if (secondaryGids != null) 'SecondaryGids': secondaryGids,
+    };
+  }
 }
 
 /// Specifies the directory on the Amazon EFS file system that the access point
@@ -2554,11 +2598,6 @@ class PosixUser {
 /// as the root directory of your file system to applications using the access
 /// point. NFS clients using the access point can only access data in the access
 /// point's <code>RootDirectory</code> and it's subdirectories.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RootDirectory {
   /// (Optional) Specifies the POSIX IDs and permissions to apply to the access
   /// point's <code>RootDirectory</code>. If the <code>RootDirectory</code> &gt;
@@ -2571,67 +2610,108 @@ class RootDirectory {
   /// <code>RootDirectory</code> &gt; <code>Path</code> does not exist, attempts
   /// to mount the file system using the access point will fail.
   /// </important>
-  @_s.JsonKey(name: 'CreationInfo')
-  final CreationInfo creationInfo;
+  final CreationInfo? creationInfo;
 
   /// Specifies the path on the EFS file system to expose as the root directory to
   /// NFS clients using the access point to access the EFS file system. A path can
   /// have up to four subdirectories. If the specified path does not exist, you
   /// are required to provide the <code>CreationInfo</code>.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   RootDirectory({
     this.creationInfo,
     this.path,
   });
-  factory RootDirectory.fromJson(Map<String, dynamic> json) =>
-      _$RootDirectoryFromJson(json);
+  factory RootDirectory.fromJson(Map<String, dynamic> json) {
+    return RootDirectory(
+      creationInfo: json['CreationInfo'] != null
+          ? CreationInfo.fromJson(json['CreationInfo'] as Map<String, dynamic>)
+          : null,
+      path: json['Path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RootDirectoryToJson(this);
+  Map<String, dynamic> toJson() {
+    final creationInfo = this.creationInfo;
+    final path = this.path;
+    return {
+      if (creationInfo != null) 'CreationInfo': creationInfo,
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('DISABLING')
   disabling,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.enabled:
+        return 'ENABLED';
+      case Status.enabling:
+        return 'ENABLING';
+      case Status.disabled:
+        return 'DISABLED';
+      case Status.disabling:
+        return 'DISABLING';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return Status.enabled;
+      case 'ENABLING':
+        return Status.enabling;
+      case 'DISABLED':
+        return Status.disabled;
+      case 'DISABLING':
+        return Status.disabling;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
 }
 
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
 /// numbers that can be represented in UTF-8, and the following
 /// characters:<code> + - = . _ : /</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag key (String). The key can't start with <code>aws:</code>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 enum ThroughputMode {
-  @_s.JsonValue('bursting')
   bursting,
-  @_s.JsonValue('provisioned')
   provisioned,
 }
 
@@ -2643,70 +2723,111 @@ extension on ThroughputMode {
       case ThroughputMode.provisioned:
         return 'provisioned';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ThroughputMode toThroughputMode() {
+    switch (this) {
+      case 'bursting':
+        return ThroughputMode.bursting;
+      case 'provisioned':
+        return ThroughputMode.provisioned;
+    }
+    throw Exception('$this is not known in enum ThroughputMode');
   }
 }
 
 enum TransitionToIARules {
-  @_s.JsonValue('AFTER_7_DAYS')
   after_7Days,
-  @_s.JsonValue('AFTER_14_DAYS')
   after_14Days,
-  @_s.JsonValue('AFTER_30_DAYS')
   after_30Days,
-  @_s.JsonValue('AFTER_60_DAYS')
   after_60Days,
-  @_s.JsonValue('AFTER_90_DAYS')
   after_90Days,
 }
 
+extension on TransitionToIARules {
+  String toValue() {
+    switch (this) {
+      case TransitionToIARules.after_7Days:
+        return 'AFTER_7_DAYS';
+      case TransitionToIARules.after_14Days:
+        return 'AFTER_14_DAYS';
+      case TransitionToIARules.after_30Days:
+        return 'AFTER_30_DAYS';
+      case TransitionToIARules.after_60Days:
+        return 'AFTER_60_DAYS';
+      case TransitionToIARules.after_90Days:
+        return 'AFTER_90_DAYS';
+    }
+  }
+}
+
+extension on String {
+  TransitionToIARules toTransitionToIARules() {
+    switch (this) {
+      case 'AFTER_7_DAYS':
+        return TransitionToIARules.after_7Days;
+      case 'AFTER_14_DAYS':
+        return TransitionToIARules.after_14Days;
+      case 'AFTER_30_DAYS':
+        return TransitionToIARules.after_30Days;
+      case 'AFTER_60_DAYS':
+        return TransitionToIARules.after_60Days;
+      case 'AFTER_90_DAYS':
+        return TransitionToIARules.after_90Days;
+    }
+    throw Exception('$this is not known in enum TransitionToIARules');
+  }
+}
+
 class AccessPointAlreadyExists extends _s.GenericAwsException {
-  AccessPointAlreadyExists({String type, String message})
+  AccessPointAlreadyExists({String? type, String? message})
       : super(type: type, code: 'AccessPointAlreadyExists', message: message);
 }
 
 class AccessPointLimitExceeded extends _s.GenericAwsException {
-  AccessPointLimitExceeded({String type, String message})
+  AccessPointLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AccessPointLimitExceeded', message: message);
 }
 
 class AccessPointNotFound extends _s.GenericAwsException {
-  AccessPointNotFound({String type, String message})
+  AccessPointNotFound({String? type, String? message})
       : super(type: type, code: 'AccessPointNotFound', message: message);
 }
 
 class BadRequest extends _s.GenericAwsException {
-  BadRequest({String type, String message})
+  BadRequest({String? type, String? message})
       : super(type: type, code: 'BadRequest', message: message);
 }
 
 class DependencyTimeout extends _s.GenericAwsException {
-  DependencyTimeout({String type, String message})
+  DependencyTimeout({String? type, String? message})
       : super(type: type, code: 'DependencyTimeout', message: message);
 }
 
 class FileSystemAlreadyExists extends _s.GenericAwsException {
-  FileSystemAlreadyExists({String type, String message})
+  FileSystemAlreadyExists({String? type, String? message})
       : super(type: type, code: 'FileSystemAlreadyExists', message: message);
 }
 
 class FileSystemInUse extends _s.GenericAwsException {
-  FileSystemInUse({String type, String message})
+  FileSystemInUse({String? type, String? message})
       : super(type: type, code: 'FileSystemInUse', message: message);
 }
 
 class FileSystemLimitExceeded extends _s.GenericAwsException {
-  FileSystemLimitExceeded({String type, String message})
+  FileSystemLimitExceeded({String? type, String? message})
       : super(type: type, code: 'FileSystemLimitExceeded', message: message);
 }
 
 class FileSystemNotFound extends _s.GenericAwsException {
-  FileSystemNotFound({String type, String message})
+  FileSystemNotFound({String? type, String? message})
       : super(type: type, code: 'FileSystemNotFound', message: message);
 }
 
 class IncorrectFileSystemLifeCycleState extends _s.GenericAwsException {
-  IncorrectFileSystemLifeCycleState({String type, String message})
+  IncorrectFileSystemLifeCycleState({String? type, String? message})
       : super(
             type: type,
             code: 'IncorrectFileSystemLifeCycleState',
@@ -2714,12 +2835,12 @@ class IncorrectFileSystemLifeCycleState extends _s.GenericAwsException {
 }
 
 class IncorrectMountTargetState extends _s.GenericAwsException {
-  IncorrectMountTargetState({String type, String message})
+  IncorrectMountTargetState({String? type, String? message})
       : super(type: type, code: 'IncorrectMountTargetState', message: message);
 }
 
 class InsufficientThroughputCapacity extends _s.GenericAwsException {
-  InsufficientThroughputCapacity({String type, String message})
+  InsufficientThroughputCapacity({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientThroughputCapacity',
@@ -2727,32 +2848,32 @@ class InsufficientThroughputCapacity extends _s.GenericAwsException {
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidPolicyException extends _s.GenericAwsException {
-  InvalidPolicyException({String type, String message})
+  InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
 class IpAddressInUse extends _s.GenericAwsException {
-  IpAddressInUse({String type, String message})
+  IpAddressInUse({String? type, String? message})
       : super(type: type, code: 'IpAddressInUse', message: message);
 }
 
 class MountTargetConflict extends _s.GenericAwsException {
-  MountTargetConflict({String type, String message})
+  MountTargetConflict({String? type, String? message})
       : super(type: type, code: 'MountTargetConflict', message: message);
 }
 
 class MountTargetNotFound extends _s.GenericAwsException {
-  MountTargetNotFound({String type, String message})
+  MountTargetNotFound({String? type, String? message})
       : super(type: type, code: 'MountTargetNotFound', message: message);
 }
 
 class NetworkInterfaceLimitExceeded extends _s.GenericAwsException {
-  NetworkInterfaceLimitExceeded({String type, String message})
+  NetworkInterfaceLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'NetworkInterfaceLimitExceeded',
@@ -2760,48 +2881,48 @@ class NetworkInterfaceLimitExceeded extends _s.GenericAwsException {
 }
 
 class NoFreeAddressesInSubnet extends _s.GenericAwsException {
-  NoFreeAddressesInSubnet({String type, String message})
+  NoFreeAddressesInSubnet({String? type, String? message})
       : super(type: type, code: 'NoFreeAddressesInSubnet', message: message);
 }
 
 class PolicyNotFound extends _s.GenericAwsException {
-  PolicyNotFound({String type, String message})
+  PolicyNotFound({String? type, String? message})
       : super(type: type, code: 'PolicyNotFound', message: message);
 }
 
 class SecurityGroupLimitExceeded extends _s.GenericAwsException {
-  SecurityGroupLimitExceeded({String type, String message})
+  SecurityGroupLimitExceeded({String? type, String? message})
       : super(type: type, code: 'SecurityGroupLimitExceeded', message: message);
 }
 
 class SecurityGroupNotFound extends _s.GenericAwsException {
-  SecurityGroupNotFound({String type, String message})
+  SecurityGroupNotFound({String? type, String? message})
       : super(type: type, code: 'SecurityGroupNotFound', message: message);
 }
 
 class SubnetNotFound extends _s.GenericAwsException {
-  SubnetNotFound({String type, String message})
+  SubnetNotFound({String? type, String? message})
       : super(type: type, code: 'SubnetNotFound', message: message);
 }
 
 class ThroughputLimitExceeded extends _s.GenericAwsException {
-  ThroughputLimitExceeded({String type, String message})
+  ThroughputLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ThroughputLimitExceeded', message: message);
 }
 
 class TooManyRequests extends _s.GenericAwsException {
-  TooManyRequests({String type, String message})
+  TooManyRequests({String? type, String? message})
       : super(type: type, code: 'TooManyRequests', message: message);
 }
 
 class UnsupportedAvailabilityZone extends _s.GenericAwsException {
-  UnsupportedAvailabilityZone({String type, String message})
+  UnsupportedAvailabilityZone({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedAvailabilityZone', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

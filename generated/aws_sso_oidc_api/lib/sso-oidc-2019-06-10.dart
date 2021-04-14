@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sso-oidc-2019-06-10.g.dart';
 
 /// AWS Single Sign-On (SSO) OpenID Connect (OIDC) is a web service that enables
 /// a client (such as AWS CLI or a native application) to register with AWS SSO.
@@ -52,10 +44,10 @@ part 'sso-oidc-2019-06-10.g.dart';
 class SSOOIDC {
   final _s.RestJsonProtocol _protocol;
   SSOOIDC({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -118,14 +110,14 @@ class SSOOIDC {
   /// The list of scopes that is defined by the client. Upon authorization, this
   /// list is used to restrict permissions when granting an access token.
   Future<CreateTokenResponse> createToken({
-    @_s.required String clientId,
-    @_s.required String clientSecret,
-    @_s.required String deviceCode,
-    @_s.required String grantType,
-    String code,
-    String redirectUri,
-    String refreshToken,
-    List<String> scope,
+    required String clientId,
+    required String clientSecret,
+    required String deviceCode,
+    required String grantType,
+    String? code,
+    String? redirectUri,
+    String? refreshToken,
+    List<String>? scope,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
@@ -170,9 +162,9 @@ class SSOOIDC {
   /// The list of scopes that are defined by the client. Upon authorization,
   /// this list is used to restrict permissions when granting an access token.
   Future<RegisterClientResponse> registerClient({
-    @_s.required String clientName,
-    @_s.required String clientType,
-    List<String> scopes,
+    required String clientName,
+    required String clientType,
+    List<String>? scopes,
   }) async {
     ArgumentError.checkNotNull(clientName, 'clientName');
     ArgumentError.checkNotNull(clientType, 'clientType');
@@ -213,9 +205,9 @@ class SSOOIDC {
   /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html">Using
   /// the User Portal</a> in the <i>AWS Single Sign-On User Guide</i>.
   Future<StartDeviceAuthorizationResponse> startDeviceAuthorization({
-    @_s.required String clientId,
-    @_s.required String clientSecret,
-    @_s.required String startUrl,
+    required String clientId,
+    required String clientSecret,
+    required String startUrl,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
@@ -235,34 +227,24 @@ class SSOOIDC {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTokenResponse {
   /// An opaque token to access AWS SSO resources assigned to a user.
-  @_s.JsonKey(name: 'accessToken')
-  final String accessToken;
+  final String? accessToken;
 
   /// Indicates the time in seconds when an access token will expire.
-  @_s.JsonKey(name: 'expiresIn')
-  final int expiresIn;
+  final int? expiresIn;
 
   /// The identifier of the user that associated with the access token, if
   /// present.
-  @_s.JsonKey(name: 'idToken')
-  final String idToken;
+  final String? idToken;
 
   /// A token that, if present, can be used to refresh a previously issued access
   /// token that might have expired.
-  @_s.JsonKey(name: 'refreshToken')
-  final String refreshToken;
+  final String? refreshToken;
 
   /// Used to notify the client that the returned token is an access token. The
   /// supported type is <code>BearerToken</code>.
-  @_s.JsonKey(name: 'tokenType')
-  final String tokenType;
+  final String? tokenType;
 
   CreateTokenResponse({
     this.accessToken,
@@ -271,43 +253,39 @@ class CreateTokenResponse {
     this.refreshToken,
     this.tokenType,
   });
-  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTokenResponseFromJson(json);
+  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTokenResponse(
+      accessToken: json['accessToken'] as String?,
+      expiresIn: json['expiresIn'] as int?,
+      idToken: json['idToken'] as String?,
+      refreshToken: json['refreshToken'] as String?,
+      tokenType: json['tokenType'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterClientResponse {
   /// The endpoint where the client can request authorization.
-  @_s.JsonKey(name: 'authorizationEndpoint')
-  final String authorizationEndpoint;
+  final String? authorizationEndpoint;
 
   /// The unique identifier string for each client. This client uses this
   /// identifier to get authenticated by the service in subsequent calls.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// Indicates the time at which the <code>clientId</code> and
   /// <code>clientSecret</code> were issued.
-  @_s.JsonKey(name: 'clientIdIssuedAt')
-  final int clientIdIssuedAt;
+  final int? clientIdIssuedAt;
 
   /// A secret string generated for the client. The client will use this string to
   /// get authenticated by the service in subsequent calls.
-  @_s.JsonKey(name: 'clientSecret')
-  final String clientSecret;
+  final String? clientSecret;
 
   /// Indicates the time at which the <code>clientId</code> and
   /// <code>clientSecret</code> will become invalid.
-  @_s.JsonKey(name: 'clientSecretExpiresAt')
-  final int clientSecretExpiresAt;
+  final int? clientSecretExpiresAt;
 
   /// The endpoint where the client can get an access token.
-  @_s.JsonKey(name: 'tokenEndpoint')
-  final String tokenEndpoint;
+  final String? tokenEndpoint;
 
   RegisterClientResponse({
     this.authorizationEndpoint,
@@ -317,46 +295,43 @@ class RegisterClientResponse {
     this.clientSecretExpiresAt,
     this.tokenEndpoint,
   });
-  factory RegisterClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterClientResponseFromJson(json);
+  factory RegisterClientResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterClientResponse(
+      authorizationEndpoint: json['authorizationEndpoint'] as String?,
+      clientId: json['clientId'] as String?,
+      clientIdIssuedAt: json['clientIdIssuedAt'] as int?,
+      clientSecret: json['clientSecret'] as String?,
+      clientSecretExpiresAt: json['clientSecretExpiresAt'] as int?,
+      tokenEndpoint: json['tokenEndpoint'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDeviceAuthorizationResponse {
   /// The short-lived code that is used by the device when polling for a session
   /// token.
-  @_s.JsonKey(name: 'deviceCode')
-  final String deviceCode;
+  final String? deviceCode;
 
   /// Indicates the number of seconds in which the verification code will become
   /// invalid.
-  @_s.JsonKey(name: 'expiresIn')
-  final int expiresIn;
+  final int? expiresIn;
 
   /// Indicates the number of seconds the client must wait between attempts when
   /// polling for a session.
-  @_s.JsonKey(name: 'interval')
-  final int interval;
+  final int? interval;
 
   /// A one-time user verification code. This is needed to authorize an in-use
   /// device.
-  @_s.JsonKey(name: 'userCode')
-  final String userCode;
+  final String? userCode;
 
   /// The URI of the verification page that takes the <code>userCode</code> to
   /// authorize the device.
-  @_s.JsonKey(name: 'verificationUri')
-  final String verificationUri;
+  final String? verificationUri;
 
   /// An alternate URL that the client can use to automatically launch a browser.
   /// This process skips the manual step in which the user visits the verification
   /// page and enters their code.
-  @_s.JsonKey(name: 'verificationUriComplete')
-  final String verificationUriComplete;
+  final String? verificationUriComplete;
 
   StartDeviceAuthorizationResponse({
     this.deviceCode,
@@ -366,18 +341,25 @@ class StartDeviceAuthorizationResponse {
     this.verificationUri,
     this.verificationUriComplete,
   });
-  factory StartDeviceAuthorizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDeviceAuthorizationResponseFromJson(json);
+  factory StartDeviceAuthorizationResponse.fromJson(Map<String, dynamic> json) {
+    return StartDeviceAuthorizationResponse(
+      deviceCode: json['deviceCode'] as String?,
+      expiresIn: json['expiresIn'] as int?,
+      interval: json['interval'] as int?,
+      userCode: json['userCode'] as String?,
+      verificationUri: json['verificationUri'] as String?,
+      verificationUriComplete: json['verificationUriComplete'] as String?,
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AuthorizationPendingException extends _s.GenericAwsException {
-  AuthorizationPendingException({String type, String message})
+  AuthorizationPendingException({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationPendingException',
@@ -385,22 +367,22 @@ class AuthorizationPendingException extends _s.GenericAwsException {
 }
 
 class ExpiredTokenException extends _s.GenericAwsException {
-  ExpiredTokenException({String type, String message})
+  ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidClientException extends _s.GenericAwsException {
-  InvalidClientException({String type, String message})
+  InvalidClientException({String? type, String? message})
       : super(type: type, code: 'InvalidClientException', message: message);
 }
 
 class InvalidClientMetadataException extends _s.GenericAwsException {
-  InvalidClientMetadataException({String type, String message})
+  InvalidClientMetadataException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClientMetadataException',
@@ -408,33 +390,33 @@ class InvalidClientMetadataException extends _s.GenericAwsException {
 }
 
 class InvalidGrantException extends _s.GenericAwsException {
-  InvalidGrantException({String type, String message})
+  InvalidGrantException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class InvalidScopeException extends _s.GenericAwsException {
-  InvalidScopeException({String type, String message})
+  InvalidScopeException({String? type, String? message})
       : super(type: type, code: 'InvalidScopeException', message: message);
 }
 
 class SlowDownException extends _s.GenericAwsException {
-  SlowDownException({String type, String message})
+  SlowDownException({String? type, String? message})
       : super(type: type, code: 'SlowDownException', message: message);
 }
 
 class UnauthorizedClientException extends _s.GenericAwsException {
-  UnauthorizedClientException({String type, String message})
+  UnauthorizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnauthorizedClientException', message: message);
 }
 
 class UnsupportedGrantTypeException extends _s.GenericAwsException {
-  UnsupportedGrantTypeException({String type, String message})
+  UnsupportedGrantTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedGrantTypeException',

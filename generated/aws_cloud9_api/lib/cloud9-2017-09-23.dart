@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cloud9-2017-09-23.g.dart';
 
 /// AWS Cloud9 is a collection of tools that you can use to code, build, run,
 /// test, debug, and release software in the cloud.
 class Cloud9 {
   final _s.JsonProtocol _protocol;
   Cloud9({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -97,15 +89,15 @@ class Cloud9 {
   /// An array of key-value pairs that will be associated with the new AWS
   /// Cloud9 development environment.
   Future<CreateEnvironmentEC2Result> createEnvironmentEC2({
-    @_s.required String instanceType,
-    @_s.required String name,
-    int automaticStopTimeMinutes,
-    String clientRequestToken,
-    ConnectionType connectionType,
-    String description,
-    String ownerArn,
-    String subnetId,
-    List<Tag> tags,
+    required String instanceType,
+    required String name,
+    int? automaticStopTimeMinutes,
+    String? clientRequestToken,
+    ConnectionType? connectionType,
+    String? description,
+    String? ownerArn,
+    String? subnetId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceType, 'instanceType');
     _s.validateStringLength(
@@ -215,9 +207,9 @@ class Cloud9 {
   /// Parameter [userArn] :
   /// The Amazon Resource Name (ARN) of the environment member you want to add.
   Future<CreateEnvironmentMembershipResult> createEnvironmentMembership({
-    @_s.required String environmentId,
-    @_s.required MemberPermissions permissions,
-    @_s.required String userArn,
+    required String environmentId,
+    required MemberPermissions permissions,
+    required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -247,7 +239,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions?.toValue() ?? '',
+        'permissions': permissions.toValue(),
         'userArn': userArn,
       },
     );
@@ -269,7 +261,7 @@ class Cloud9 {
   /// Parameter [environmentId] :
   /// The ID of the environment to delete.
   Future<void> deleteEnvironment({
-    @_s.required String environmentId,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -282,7 +274,7 @@ class Cloud9 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DeleteEnvironment'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -292,8 +284,6 @@ class Cloud9 {
         'environmentId': environmentId,
       },
     );
-
-    return DeleteEnvironmentResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an environment member from an AWS Cloud9 development environment.
@@ -313,8 +303,8 @@ class Cloud9 {
   /// The Amazon Resource Name (ARN) of the environment member to delete from
   /// the environment.
   Future<void> deleteEnvironmentMembership({
-    @_s.required String environmentId,
-    @_s.required String userArn,
+    required String environmentId,
+    required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -335,7 +325,7 @@ class Cloud9 {
       'X-Amz-Target':
           'AWSCloud9WorkspaceManagementService.DeleteEnvironmentMembership'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -346,8 +336,6 @@ class Cloud9 {
         'userArn': userArn,
       },
     );
-
-    return DeleteEnvironmentMembershipResult.fromJson(jsonResponse.body);
   }
 
   /// Gets information about environment members for an AWS Cloud9 development
@@ -398,11 +386,11 @@ class Cloud9 {
   /// information about. If no value is specified, information about all
   /// environment members are returned.
   Future<DescribeEnvironmentMembershipsResult> describeEnvironmentMemberships({
-    String environmentId,
-    int maxResults,
-    String nextToken,
-    List<Permissions> permissions,
-    String userArn,
+    String? environmentId,
+    int? maxResults,
+    String? nextToken,
+    List<Permissions>? permissions,
+    String? userArn,
   }) async {
     _s.validateStringPattern(
       'environmentId',
@@ -436,7 +424,7 @@ class Cloud9 {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (permissions != null)
-          'permissions': permissions.map((e) => e?.toValue() ?? '').toList(),
+          'permissions': permissions.map((e) => e.toValue()).toList(),
         if (userArn != null) 'userArn': userArn,
       },
     );
@@ -457,7 +445,7 @@ class Cloud9 {
   /// Parameter [environmentId] :
   /// The ID of the environment to get status information about.
   Future<DescribeEnvironmentStatusResult> describeEnvironmentStatus({
-    @_s.required String environmentId,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -498,7 +486,7 @@ class Cloud9 {
   /// Parameter [environmentIds] :
   /// The IDs of individual environments to get information about.
   Future<DescribeEnvironmentsResult> describeEnvironments({
-    @_s.required List<String> environmentIds,
+    required List<String> environmentIds,
   }) async {
     ArgumentError.checkNotNull(environmentIds, 'environmentIds');
     final headers = <String, String>{
@@ -540,8 +528,8 @@ class Cloud9 {
   /// items in the list, keep calling this operation with each subsequent next
   /// token that is returned, until no more next tokens are returned.
   Future<ListEnvironmentsResult> listEnvironments({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -579,7 +567,7 @@ class Cloud9 {
   /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment
   /// to get the tags for.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringPattern(
@@ -624,8 +612,8 @@ class Cloud9 {
   /// Parameter [tags] :
   /// The list of tags to add to the given AWS Cloud9 development environment.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringPattern(
@@ -639,7 +627,7 @@ class Cloud9 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -650,8 +638,6 @@ class Cloud9 {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from an AWS Cloud9 development environment.
@@ -669,8 +655,8 @@ class Cloud9 {
   /// The tag names of the tags to remove from the given AWS Cloud9 development
   /// environment.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringPattern(
@@ -684,7 +670,7 @@ class Cloud9 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -695,8 +681,6 @@ class Cloud9 {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Changes the settings of an existing AWS Cloud9 development environment.
@@ -718,9 +702,9 @@ class Cloud9 {
   /// Parameter [name] :
   /// A replacement name for the environment.
   Future<void> updateEnvironment({
-    @_s.required String environmentId,
-    String description,
-    String name,
+    required String environmentId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -745,7 +729,7 @@ class Cloud9 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UpdateEnvironment'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -757,8 +741,6 @@ class Cloud9 {
         if (name != null) 'name': name,
       },
     );
-
-    return UpdateEnvironmentResult.fromJson(jsonResponse.body);
   }
 
   /// Changes the settings of an existing environment member for an AWS Cloud9
@@ -793,9 +775,9 @@ class Cloud9 {
   /// The Amazon Resource Name (ARN) of the environment member whose settings
   /// you want to change.
   Future<UpdateEnvironmentMembershipResult> updateEnvironmentMembership({
-    @_s.required String environmentId,
-    @_s.required MemberPermissions permissions,
-    @_s.required String userArn,
+    required String environmentId,
+    required MemberPermissions permissions,
+    required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateStringPattern(
@@ -825,7 +807,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions?.toValue() ?? '',
+        'permissions': permissions.toValue(),
         'userArn': userArn,
       },
     );
@@ -835,9 +817,7 @@ class Cloud9 {
 }
 
 enum ConnectionType {
-  @_s.JsonValue('CONNECT_SSH')
   connectSsh,
-  @_s.JsonValue('CONNECT_SSM')
   connectSsm,
 }
 
@@ -849,103 +829,96 @@ extension on ConnectionType {
       case ConnectionType.connectSsm:
         return 'CONNECT_SSM';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ConnectionType toConnectionType() {
+    switch (this) {
+      case 'CONNECT_SSH':
+        return ConnectionType.connectSsh;
+      case 'CONNECT_SSM':
+        return ConnectionType.connectSsm;
+    }
+    throw Exception('$this is not known in enum ConnectionType');
+  }
+}
+
 class CreateEnvironmentEC2Result {
   /// The ID of the environment that was created.
-  @_s.JsonKey(name: 'environmentId')
-  final String environmentId;
+  final String? environmentId;
 
   CreateEnvironmentEC2Result({
     this.environmentId,
   });
-  factory CreateEnvironmentEC2Result.fromJson(Map<String, dynamic> json) =>
-      _$CreateEnvironmentEC2ResultFromJson(json);
+  factory CreateEnvironmentEC2Result.fromJson(Map<String, dynamic> json) {
+    return CreateEnvironmentEC2Result(
+      environmentId: json['environmentId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEnvironmentMembershipResult {
   /// Information about the environment member that was added.
-  @_s.JsonKey(name: 'membership')
-  final EnvironmentMember membership;
+  final EnvironmentMember? membership;
 
   CreateEnvironmentMembershipResult({
     this.membership,
   });
   factory CreateEnvironmentMembershipResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateEnvironmentMembershipResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateEnvironmentMembershipResult(
+      membership: json['membership'] != null
+          ? EnvironmentMember.fromJson(
+              json['membership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEnvironmentMembershipResult {
   DeleteEnvironmentMembershipResult();
-  factory DeleteEnvironmentMembershipResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteEnvironmentMembershipResultFromJson(json);
+  factory DeleteEnvironmentMembershipResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEnvironmentMembershipResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEnvironmentResult {
   DeleteEnvironmentResult();
-  factory DeleteEnvironmentResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEnvironmentResultFromJson(json);
+  factory DeleteEnvironmentResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEnvironmentResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEnvironmentMembershipsResult {
   /// Information about the environment members for the environment.
-  @_s.JsonKey(name: 'memberships')
-  final List<EnvironmentMember> memberships;
+  final List<EnvironmentMember>? memberships;
 
   /// If there are more than 25 items in the list, only the first 25 items are
   /// returned, along with a unique string called a <i>next token</i>. To get the
   /// next batch of items in the list, call this operation again, adding the next
   /// token to the call.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEnvironmentMembershipsResult({
     this.memberships,
     this.nextToken,
   });
   factory DescribeEnvironmentMembershipsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEnvironmentMembershipsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEnvironmentMembershipsResult(
+      memberships: (json['memberships'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEnvironmentStatusResult {
   /// Any informational message about the status of the environment.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The status of the environment. Available values include:
   ///
@@ -972,68 +945,59 @@ class DescribeEnvironmentStatusResult {
   /// <code>stopping</code>: The environment is stopping.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final EnvironmentStatus status;
+  final EnvironmentStatus? status;
 
   DescribeEnvironmentStatusResult({
     this.message,
     this.status,
   });
-  factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEnvironmentStatusResultFromJson(json);
+  factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEnvironmentStatusResult(
+      message: json['message'] as String?,
+      status: (json['status'] as String?)?.toEnvironmentStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEnvironmentsResult {
   /// Information about the environments that are returned.
-  @_s.JsonKey(name: 'environments')
-  final List<Environment> environments;
+  final List<Environment>? environments;
 
   DescribeEnvironmentsResult({
     this.environments,
   });
-  factory DescribeEnvironmentsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEnvironmentsResultFromJson(json);
+  factory DescribeEnvironmentsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEnvironmentsResult(
+      environments: (json['environments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about an AWS Cloud9 development environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Environment {
   /// The Amazon Resource Name (ARN) of the environment.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The connection type used for connecting to an Amazon EC2 environment.
-  @_s.JsonKey(name: 'connectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// The description for the environment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ID of the environment.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The state of the environment in its creation or deletion lifecycle.
-  @_s.JsonKey(name: 'lifecycle')
-  final EnvironmentLifecycle lifecycle;
+  final EnvironmentLifecycle? lifecycle;
 
   /// The name of the environment.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the environment owner.
-  @_s.JsonKey(name: 'ownerArn')
-  final String ownerArn;
+  final String? ownerArn;
 
   /// The type of environment. Valid values include the following:
   ///
@@ -1046,8 +1010,7 @@ class Environment {
   /// <code>ssh</code>: Your own server connects to the environment.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final EnvironmentType type;
+  final EnvironmentType? type;
 
   Environment({
     this.arn,
@@ -1059,26 +1022,32 @@ class Environment {
     this.ownerArn,
     this.type,
   });
-  factory Environment.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentFromJson(json);
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
+      arn: json['arn'] as String?,
+      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lifecycle: json['lifecycle'] != null
+          ? EnvironmentLifecycle.fromJson(
+              json['lifecycle'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      ownerArn: json['ownerArn'] as String?,
+      type: (json['type'] as String?)?.toEnvironmentType(),
+    );
+  }
 }
 
 /// Information about the current creation or deletion lifecycle state of an AWS
 /// Cloud9 development environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentLifecycle {
   /// If the environment failed to delete, the Amazon Resource Name (ARN) of the
   /// related AWS resource.
-  @_s.JsonKey(name: 'failureResource')
-  final String failureResource;
+  final String? failureResource;
 
   /// Any informational message about the lifecycle state of the environment.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The current creation or deletion lifecycle state of the environment.
   ///
@@ -1099,48 +1068,74 @@ class EnvironmentLifecycle {
   /// <code>DELETE_FAILED</code>: The environment failed to delete.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final EnvironmentLifecycleStatus status;
+  final EnvironmentLifecycleStatus? status;
 
   EnvironmentLifecycle({
     this.failureResource,
     this.reason,
     this.status,
   });
-  factory EnvironmentLifecycle.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentLifecycleFromJson(json);
+  factory EnvironmentLifecycle.fromJson(Map<String, dynamic> json) {
+    return EnvironmentLifecycle(
+      failureResource: json['failureResource'] as String?,
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.toEnvironmentLifecycleStatus(),
+    );
+  }
 }
 
 enum EnvironmentLifecycleStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
+}
+
+extension on EnvironmentLifecycleStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentLifecycleStatus.creating:
+        return 'CREATING';
+      case EnvironmentLifecycleStatus.created:
+        return 'CREATED';
+      case EnvironmentLifecycleStatus.createFailed:
+        return 'CREATE_FAILED';
+      case EnvironmentLifecycleStatus.deleting:
+        return 'DELETING';
+      case EnvironmentLifecycleStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentLifecycleStatus toEnvironmentLifecycleStatus() {
+    switch (this) {
+      case 'CREATING':
+        return EnvironmentLifecycleStatus.creating;
+      case 'CREATED':
+        return EnvironmentLifecycleStatus.created;
+      case 'CREATE_FAILED':
+        return EnvironmentLifecycleStatus.createFailed;
+      case 'DELETING':
+        return EnvironmentLifecycleStatus.deleting;
+      case 'DELETE_FAILED':
+        return EnvironmentLifecycleStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum EnvironmentLifecycleStatus');
+  }
 }
 
 /// Information about an environment member for an AWS Cloud9 development
 /// environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentMember {
   /// The ID of the environment for the environment member.
-  @_s.JsonKey(name: 'environmentId')
-  final String environmentId;
+  final String? environmentId;
 
   /// The time, expressed in epoch time format, when the environment member last
   /// opened the environment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastAccess')
-  final DateTime lastAccess;
+  final DateTime? lastAccess;
 
   /// The type of environment member permissions associated with this environment
   /// member. Available values include:
@@ -1156,17 +1151,14 @@ class EnvironmentMember {
   /// <code>read-write</code>: Has read-write access to the environment.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'permissions')
-  final Permissions permissions;
+  final Permissions? permissions;
 
   /// The Amazon Resource Name (ARN) of the environment member.
-  @_s.JsonKey(name: 'userArn')
-  final String userArn;
+  final String? userArn;
 
   /// The user ID in AWS Identity and Access Management (AWS IAM) of the
   /// environment member.
-  @_s.JsonKey(name: 'userId')
-  final String userId;
+  final String? userId;
 
   EnvironmentMember({
     this.environmentId,
@@ -1175,80 +1167,142 @@ class EnvironmentMember {
     this.userArn,
     this.userId,
   });
-  factory EnvironmentMember.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentMemberFromJson(json);
+  factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
+    return EnvironmentMember(
+      environmentId: json['environmentId'] as String?,
+      lastAccess: timeStampFromJson(json['lastAccess']),
+      permissions: (json['permissions'] as String?)?.toPermissions(),
+      userArn: json['userArn'] as String?,
+      userId: json['userId'] as String?,
+    );
+  }
 }
 
 enum EnvironmentStatus {
-  @_s.JsonValue('error')
   error,
-  @_s.JsonValue('creating')
   creating,
-  @_s.JsonValue('connecting')
   connecting,
-  @_s.JsonValue('ready')
   ready,
-  @_s.JsonValue('stopping')
   stopping,
-  @_s.JsonValue('stopped')
   stopped,
-  @_s.JsonValue('deleting')
   deleting,
 }
 
+extension on EnvironmentStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentStatus.error:
+        return 'error';
+      case EnvironmentStatus.creating:
+        return 'creating';
+      case EnvironmentStatus.connecting:
+        return 'connecting';
+      case EnvironmentStatus.ready:
+        return 'ready';
+      case EnvironmentStatus.stopping:
+        return 'stopping';
+      case EnvironmentStatus.stopped:
+        return 'stopped';
+      case EnvironmentStatus.deleting:
+        return 'deleting';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentStatus toEnvironmentStatus() {
+    switch (this) {
+      case 'error':
+        return EnvironmentStatus.error;
+      case 'creating':
+        return EnvironmentStatus.creating;
+      case 'connecting':
+        return EnvironmentStatus.connecting;
+      case 'ready':
+        return EnvironmentStatus.ready;
+      case 'stopping':
+        return EnvironmentStatus.stopping;
+      case 'stopped':
+        return EnvironmentStatus.stopped;
+      case 'deleting':
+        return EnvironmentStatus.deleting;
+    }
+    throw Exception('$this is not known in enum EnvironmentStatus');
+  }
+}
+
 enum EnvironmentType {
-  @_s.JsonValue('ssh')
   ssh,
-  @_s.JsonValue('ec2')
   ec2,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EnvironmentType {
+  String toValue() {
+    switch (this) {
+      case EnvironmentType.ssh:
+        return 'ssh';
+      case EnvironmentType.ec2:
+        return 'ec2';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentType toEnvironmentType() {
+    switch (this) {
+      case 'ssh':
+        return EnvironmentType.ssh;
+      case 'ec2':
+        return EnvironmentType.ec2;
+    }
+    throw Exception('$this is not known in enum EnvironmentType');
+  }
+}
+
 class ListEnvironmentsResult {
   /// The list of environment identifiers.
-  @_s.JsonKey(name: 'environmentIds')
-  final List<String> environmentIds;
+  final List<String>? environmentIds;
 
   /// If there are more than 25 items in the list, only the first 25 items are
   /// returned, along with a unique string called a <i>next token</i>. To get the
   /// next batch of items in the list, call this operation again, adding the next
   /// token to the call.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEnvironmentsResult({
     this.environmentIds,
     this.nextToken,
   });
-  factory ListEnvironmentsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListEnvironmentsResultFromJson(json);
+  factory ListEnvironmentsResult.fromJson(Map<String, dynamic> json) {
+    return ListEnvironmentsResult(
+      environmentIds: (json['environmentIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The list of tags associated with the AWS Cloud9 development environment.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum MemberPermissions {
-  @_s.JsonValue('read-write')
   readWrite,
-  @_s.JsonValue('read-only')
   readOnly,
 }
 
@@ -1260,16 +1314,24 @@ extension on MemberPermissions {
       case MemberPermissions.readOnly:
         return 'read-only';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MemberPermissions toMemberPermissions() {
+    switch (this) {
+      case 'read-write':
+        return MemberPermissions.readWrite;
+      case 'read-only':
+        return MemberPermissions.readOnly;
+    }
+    throw Exception('$this is not known in enum MemberPermissions');
   }
 }
 
 enum Permissions {
-  @_s.JsonValue('owner')
   owner,
-  @_s.JsonValue('read-write')
   readWrite,
-  @_s.JsonValue('read-only')
   readOnly,
 }
 
@@ -1283,7 +1345,20 @@ extension on Permissions {
       case Permissions.readOnly:
         return 'read-only';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Permissions toPermissions() {
+    switch (this) {
+      case 'owner':
+        return Permissions.owner;
+      case 'read-write':
+        return Permissions.readWrite;
+      case 'read-only':
+        return Permissions.readOnly;
+    }
+    throw Exception('$this is not known in enum Permissions');
   }
 }
 
@@ -1293,118 +1368,111 @@ extension on Permissions {
 /// tag is created by the user. A system tag is automatically created by AWS
 /// services. A system tag is prefixed with "aws:" and cannot be modified by the
 /// user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The <b>name</b> part of a tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The <b>value</b> part of a tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEnvironmentMembershipResult {
   /// Information about the environment member whose settings were changed.
-  @_s.JsonKey(name: 'membership')
-  final EnvironmentMember membership;
+  final EnvironmentMember? membership;
 
   UpdateEnvironmentMembershipResult({
     this.membership,
   });
   factory UpdateEnvironmentMembershipResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateEnvironmentMembershipResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateEnvironmentMembershipResult(
+      membership: json['membership'] != null
+          ? EnvironmentMember.fromJson(
+              json['membership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEnvironmentResult {
   UpdateEnvironmentResult();
-  factory UpdateEnvironmentResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEnvironmentResultFromJson(json);
+  factory UpdateEnvironmentResult.fromJson(Map<String, dynamic> _) {
+    return UpdateEnvironmentResult();
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConcurrentAccessException extends _s.GenericAwsException {
-  ConcurrentAccessException({String type, String message})
+  ConcurrentAccessException({String? type, String? message})
       : super(type: type, code: 'ConcurrentAccessException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

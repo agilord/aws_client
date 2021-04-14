@@ -28,8 +28,8 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.listMember[0].millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.listMember[1].millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.listMember![0].millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.listMember![1].millisecondsSinceEpoch ~/ 1000, 1398796238);
 /*
 {
   "ListMember": [

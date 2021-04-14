@@ -7,7 +7,9 @@ part of 'elasticloadbalancingv2-2015-12-01.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$ActionToJson(Action instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$ActionTypeEnumEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -15,7 +17,6 @@ Map<String, dynamic> _$ActionToJson(Action instance) {
     }
   }
 
-  writeNotNull('Type', _$ActionTypeEnumEnumMap[instance.type]);
   writeNotNull('AuthenticateCognitoConfig',
       instance.authenticateCognitoConfig?.toJson());
   writeNotNull(
@@ -38,7 +39,11 @@ const _$ActionTypeEnumEnumMap = {
 
 Map<String, dynamic> _$AuthenticateCognitoActionConfigToJson(
     AuthenticateCognitoActionConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'UserPoolArn': instance.userPoolArn,
+    'UserPoolClientId': instance.userPoolClientId,
+    'UserPoolDomain': instance.userPoolDomain,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -46,9 +51,6 @@ Map<String, dynamic> _$AuthenticateCognitoActionConfigToJson(
     }
   }
 
-  writeNotNull('UserPoolArn', instance.userPoolArn);
-  writeNotNull('UserPoolClientId', instance.userPoolClientId);
-  writeNotNull('UserPoolDomain', instance.userPoolDomain);
   writeNotNull('AuthenticationRequestExtraParams',
       instance.authenticationRequestExtraParams);
   writeNotNull(
@@ -69,7 +71,13 @@ const _$AuthenticateCognitoActionConditionalBehaviorEnumEnumMap = {
 
 Map<String, dynamic> _$AuthenticateOidcActionConfigToJson(
     AuthenticateOidcActionConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AuthorizationEndpoint': instance.authorizationEndpoint,
+    'ClientId': instance.clientId,
+    'Issuer': instance.issuer,
+    'TokenEndpoint': instance.tokenEndpoint,
+    'UserInfoEndpoint': instance.userInfoEndpoint,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -77,11 +85,6 @@ Map<String, dynamic> _$AuthenticateOidcActionConfigToJson(
     }
   }
 
-  writeNotNull('AuthorizationEndpoint', instance.authorizationEndpoint);
-  writeNotNull('ClientId', instance.clientId);
-  writeNotNull('Issuer', instance.issuer);
-  writeNotNull('TokenEndpoint', instance.tokenEndpoint);
-  writeNotNull('UserInfoEndpoint', instance.userInfoEndpoint);
   writeNotNull('AuthenticationRequestExtraParams',
       instance.authenticationRequestExtraParams);
   writeNotNull('ClientSecret', instance.clientSecret);
@@ -118,7 +121,9 @@ Map<String, dynamic> _$CertificateToJson(Certificate instance) {
 
 Map<String, dynamic> _$FixedResponseActionConfigToJson(
     FixedResponseActionConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StatusCode': instance.statusCode,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -126,7 +131,6 @@ Map<String, dynamic> _$FixedResponseActionConfigToJson(
     }
   }
 
-  writeNotNull('StatusCode', instance.statusCode);
   writeNotNull('ContentType', instance.contentType);
   writeNotNull('MessageBody', instance.messageBody);
   return val;
@@ -144,7 +148,7 @@ Map<String, dynamic> _$ForwardActionConfigToJson(ForwardActionConfig instance) {
   writeNotNull('TargetGroupStickinessConfig',
       instance.targetGroupStickinessConfig?.toJson());
   writeNotNull(
-      'TargetGroups', instance.targetGroups?.map((e) => e?.toJson())?.toList());
+      'TargetGroups', instance.targetGroups?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -244,7 +248,7 @@ Map<String, dynamic> _$QueryStringConditionConfigToJson(
     }
   }
 
-  writeNotNull('Values', instance.values?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Values', instance.values?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -265,7 +269,9 @@ Map<String, dynamic> _$QueryStringKeyValuePairToJson(
 
 Map<String, dynamic> _$RedirectActionConfigToJson(
     RedirectActionConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StatusCode': _$RedirectActionStatusCodeEnumEnumMap[instance.statusCode],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -273,8 +279,6 @@ Map<String, dynamic> _$RedirectActionConfigToJson(
     }
   }
 
-  writeNotNull(
-      'StatusCode', _$RedirectActionStatusCodeEnumEnumMap[instance.statusCode]);
   writeNotNull('Host', instance.host);
   writeNotNull('Path', instance.path);
   writeNotNull('Port', instance.port);
@@ -354,7 +358,9 @@ Map<String, dynamic> _$SubnetMappingToJson(SubnetMapping instance) {
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -362,13 +368,14 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }
 
 Map<String, dynamic> _$TargetDescriptionToJson(TargetDescription instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Id': instance.id,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -376,7 +383,6 @@ Map<String, dynamic> _$TargetDescriptionToJson(TargetDescription instance) {
     }
   }
 
-  writeNotNull('Id', instance.id);
   writeNotNull('AvailabilityZone', instance.availabilityZone);
   writeNotNull('Port', instance.port);
   return val;

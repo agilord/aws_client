@@ -9,21 +9,21 @@ part of 'glacier-2012-06-01.dart';
 ArchiveCreationOutput _$ArchiveCreationOutputFromJson(
     Map<String, dynamic> json) {
   return ArchiveCreationOutput(
-    archiveId: json['x-amz-archive-id'] as String,
-    checksum: json['x-amz-sha256-tree-hash'] as String,
-    location: json['Location'] as String,
+    archiveId: json['x-amz-archive-id'] as String?,
+    checksum: json['x-amz-sha256-tree-hash'] as String?,
+    location: json['Location'] as String?,
   );
 }
 
 CSVInput _$CSVInputFromJson(Map<String, dynamic> json) {
   return CSVInput(
-    comments: json['Comments'] as String,
-    fieldDelimiter: json['FieldDelimiter'] as String,
+    comments: json['Comments'] as String?,
+    fieldDelimiter: json['FieldDelimiter'] as String?,
     fileHeaderInfo:
         _$enumDecodeNullable(_$FileHeaderInfoEnumMap, json['FileHeaderInfo']),
-    quoteCharacter: json['QuoteCharacter'] as String,
-    quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String,
-    recordDelimiter: json['RecordDelimiter'] as String,
+    quoteCharacter: json['QuoteCharacter'] as String?,
+    quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
+    recordDelimiter: json['RecordDelimiter'] as String?,
   );
 }
 
@@ -46,36 +46,41 @@ Map<String, dynamic> _$CSVInputToJson(CSVInput instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$FileHeaderInfoEnumMap = {
@@ -86,12 +91,12 @@ const _$FileHeaderInfoEnumMap = {
 
 CSVOutput _$CSVOutputFromJson(Map<String, dynamic> json) {
   return CSVOutput(
-    fieldDelimiter: json['FieldDelimiter'] as String,
-    quoteCharacter: json['QuoteCharacter'] as String,
-    quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String,
+    fieldDelimiter: json['FieldDelimiter'] as String?,
+    quoteCharacter: json['QuoteCharacter'] as String?,
+    quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
     quoteFields:
         _$enumDecodeNullable(_$QuoteFieldsEnumMap, json['QuoteFields']),
-    recordDelimiter: json['RecordDelimiter'] as String,
+    recordDelimiter: json['RecordDelimiter'] as String?,
   );
 }
 
@@ -119,17 +124,15 @@ const _$QuoteFieldsEnumMap = {
 
 CreateVaultOutput _$CreateVaultOutputFromJson(Map<String, dynamic> json) {
   return CreateVaultOutput(
-    location: json['Location'] as String,
+    location: json['Location'] as String?,
   );
 }
 
 DataRetrievalPolicy _$DataRetrievalPolicyFromJson(Map<String, dynamic> json) {
   return DataRetrievalPolicy(
-    rules: (json['Rules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataRetrievalRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => DataRetrievalRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -142,14 +145,14 @@ Map<String, dynamic> _$DataRetrievalPolicyToJson(DataRetrievalPolicy instance) {
     }
   }
 
-  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Rules', instance.rules?.map((e) => e.toJson()).toList());
   return val;
 }
 
 DataRetrievalRule _$DataRetrievalRuleFromJson(Map<String, dynamic> json) {
   return DataRetrievalRule(
-    bytesPerHour: json['BytesPerHour'] as int,
-    strategy: json['Strategy'] as String,
+    bytesPerHour: json['BytesPerHour'] as int?,
+    strategy: json['Strategy'] as String?,
   );
 }
 
@@ -169,12 +172,12 @@ Map<String, dynamic> _$DataRetrievalRuleToJson(DataRetrievalRule instance) {
 
 DescribeVaultOutput _$DescribeVaultOutputFromJson(Map<String, dynamic> json) {
   return DescribeVaultOutput(
-    creationDate: json['CreationDate'] as String,
-    lastInventoryDate: json['LastInventoryDate'] as String,
-    numberOfArchives: json['NumberOfArchives'] as int,
-    sizeInBytes: json['SizeInBytes'] as int,
-    vaultARN: json['VaultARN'] as String,
-    vaultName: json['VaultName'] as String,
+    creationDate: json['CreationDate'] as String?,
+    lastInventoryDate: json['LastInventoryDate'] as String?,
+    numberOfArchives: json['NumberOfArchives'] as int?,
+    sizeInBytes: json['SizeInBytes'] as int?,
+    vaultARN: json['VaultARN'] as String?,
+    vaultName: json['VaultName'] as String?,
   );
 }
 
@@ -182,8 +185,8 @@ Encryption _$EncryptionFromJson(Map<String, dynamic> json) {
   return Encryption(
     encryptionType:
         _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['EncryptionType']),
-    kMSContext: json['KMSContext'] as String,
-    kMSKeyId: json['KMSKeyId'] as String,
+    kMSContext: json['KMSContext'] as String?,
+    kMSKeyId: json['KMSKeyId'] as String?,
   );
 }
 
@@ -219,13 +222,13 @@ GetDataRetrievalPolicyOutput _$GetDataRetrievalPolicyOutputFromJson(
 
 GetJobOutputOutput _$GetJobOutputOutputFromJson(Map<String, dynamic> json) {
   return GetJobOutputOutput(
-    acceptRanges: json['Accept-Ranges'] as String,
-    archiveDescription: json['x-amz-archive-description'] as String,
-    body: const Uint8ListConverter().fromJson(json['body'] as String),
-    checksum: json['x-amz-sha256-tree-hash'] as String,
-    contentRange: json['Content-Range'] as String,
-    contentType: json['Content-Type'] as String,
-    status: json['status'] as int,
+    acceptRanges: json['Accept-Ranges'] as String?,
+    archiveDescription: json['x-amz-archive-description'] as String?,
+    body: const Uint8ListNullableConverter().fromJson(json['body'] as String?),
+    checksum: json['x-amz-sha256-tree-hash'] as String?,
+    contentRange: json['Content-Range'] as String?,
+    contentType: json['Content-Type'] as String?,
+    status: json['status'] as int?,
   );
 }
 
@@ -240,10 +243,10 @@ GetVaultAccessPolicyOutput _$GetVaultAccessPolicyOutputFromJson(
 
 GetVaultLockOutput _$GetVaultLockOutputFromJson(Map<String, dynamic> json) {
   return GetVaultLockOutput(
-    creationDate: json['CreationDate'] as String,
-    expirationDate: json['ExpirationDate'] as String,
-    policy: json['Policy'] as String,
-    state: json['State'] as String,
+    creationDate: json['CreationDate'] as String?,
+    expirationDate: json['ExpirationDate'] as String?,
+    policy: json['Policy'] as String?,
+    state: json['State'] as String?,
   );
 }
 
@@ -261,35 +264,35 @@ GlacierJobDescription _$GlacierJobDescriptionFromJson(
     Map<String, dynamic> json) {
   return GlacierJobDescription(
     action: _$enumDecodeNullable(_$ActionCodeEnumMap, json['Action']),
-    archiveId: json['ArchiveId'] as String,
-    archiveSHA256TreeHash: json['ArchiveSHA256TreeHash'] as String,
-    archiveSizeInBytes: json['ArchiveSizeInBytes'] as int,
-    completed: json['Completed'] as bool,
-    completionDate: json['CompletionDate'] as String,
-    creationDate: json['CreationDate'] as String,
+    archiveId: json['ArchiveId'] as String?,
+    archiveSHA256TreeHash: json['ArchiveSHA256TreeHash'] as String?,
+    archiveSizeInBytes: json['ArchiveSizeInBytes'] as int?,
+    completed: json['Completed'] as bool?,
+    completionDate: json['CompletionDate'] as String?,
+    creationDate: json['CreationDate'] as String?,
     inventoryRetrievalParameters: json['InventoryRetrievalParameters'] == null
         ? null
         : InventoryRetrievalJobDescription.fromJson(
             json['InventoryRetrievalParameters'] as Map<String, dynamic>),
-    inventorySizeInBytes: json['InventorySizeInBytes'] as int,
-    jobDescription: json['JobDescription'] as String,
-    jobId: json['JobId'] as String,
-    jobOutputPath: json['JobOutputPath'] as String,
+    inventorySizeInBytes: json['InventorySizeInBytes'] as int?,
+    jobDescription: json['JobDescription'] as String?,
+    jobId: json['JobId'] as String?,
+    jobOutputPath: json['JobOutputPath'] as String?,
     outputLocation: json['OutputLocation'] == null
         ? null
         : OutputLocation.fromJson(
             json['OutputLocation'] as Map<String, dynamic>),
-    retrievalByteRange: json['RetrievalByteRange'] as String,
-    sHA256TreeHash: json['SHA256TreeHash'] as String,
-    sNSTopic: json['SNSTopic'] as String,
+    retrievalByteRange: json['RetrievalByteRange'] as String?,
+    sHA256TreeHash: json['SHA256TreeHash'] as String?,
+    sNSTopic: json['SNSTopic'] as String?,
     selectParameters: json['SelectParameters'] == null
         ? null
         : SelectParameters.fromJson(
             json['SelectParameters'] as Map<String, dynamic>),
     statusCode: _$enumDecodeNullable(_$StatusCodeEnumMap, json['StatusCode']),
-    statusMessage: json['StatusMessage'] as String,
-    tier: json['Tier'] as String,
-    vaultARN: json['VaultARN'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    tier: json['Tier'] as String?,
+    vaultARN: json['VaultARN'] as String?,
   );
 }
 
@@ -338,16 +341,18 @@ const _$PermissionEnumMap = {
 
 Grantee _$GranteeFromJson(Map<String, dynamic> json) {
   return Grantee(
-    type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
-    displayName: json['DisplayName'] as String,
-    emailAddress: json['EmailAddress'] as String,
-    id: json['ID'] as String,
-    uri: json['URI'] as String,
+    type: _$enumDecode(_$TypeEnumMap, json['Type']),
+    displayName: json['DisplayName'] as String?,
+    emailAddress: json['EmailAddress'] as String?,
+    id: json['ID'] as String?,
+    uri: json['URI'] as String?,
   );
 }
 
 Map<String, dynamic> _$GranteeToJson(Grantee instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$TypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -355,7 +360,6 @@ Map<String, dynamic> _$GranteeToJson(Grantee instance) {
     }
   }
 
-  writeNotNull('Type', _$TypeEnumMap[instance.type]);
   writeNotNull('DisplayName', instance.displayName);
   writeNotNull('EmailAddress', instance.emailAddress);
   writeNotNull('ID', instance.id);
@@ -371,24 +375,24 @@ const _$TypeEnumMap = {
 
 InitiateJobOutput _$InitiateJobOutputFromJson(Map<String, dynamic> json) {
   return InitiateJobOutput(
-    jobId: json['x-amz-job-id'] as String,
-    jobOutputPath: json['x-amz-job-output-path'] as String,
-    location: json['Location'] as String,
+    jobId: json['x-amz-job-id'] as String?,
+    jobOutputPath: json['x-amz-job-output-path'] as String?,
+    location: json['Location'] as String?,
   );
 }
 
 InitiateMultipartUploadOutput _$InitiateMultipartUploadOutputFromJson(
     Map<String, dynamic> json) {
   return InitiateMultipartUploadOutput(
-    location: json['Location'] as String,
-    uploadId: json['x-amz-multipart-upload-id'] as String,
+    location: json['Location'] as String?,
+    uploadId: json['x-amz-multipart-upload-id'] as String?,
   );
 }
 
 InitiateVaultLockOutput _$InitiateVaultLockOutputFromJson(
     Map<String, dynamic> json) {
   return InitiateVaultLockOutput(
-    lockId: json['x-amz-lock-id'] as String,
+    lockId: json['x-amz-lock-id'] as String?,
   );
 }
 
@@ -416,11 +420,11 @@ Map<String, dynamic> _$InputSerializationToJson(InputSerialization instance) {
 InventoryRetrievalJobDescription _$InventoryRetrievalJobDescriptionFromJson(
     Map<String, dynamic> json) {
   return InventoryRetrievalJobDescription(
-    endDate: json['EndDate'] as String,
-    format: json['Format'] as String,
-    limit: json['Limit'] as String,
-    marker: json['Marker'] as String,
-    startDate: json['StartDate'] as String,
+    endDate: json['EndDate'] as String?,
+    format: json['Format'] as String?,
+    limit: json['Limit'] as String?,
+    marker: json['Marker'] as String?,
+    startDate: json['StartDate'] as String?,
   );
 }
 
@@ -466,59 +470,51 @@ Map<String, dynamic> _$JobParametersToJson(JobParameters instance) {
 
 ListJobsOutput _$ListJobsOutputFromJson(Map<String, dynamic> json) {
   return ListJobsOutput(
-    jobList: (json['JobList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GlacierJobDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    marker: json['Marker'] as String,
+    jobList: (json['JobList'] as List<dynamic>?)
+        ?.map((e) => GlacierJobDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    marker: json['Marker'] as String?,
   );
 }
 
 ListMultipartUploadsOutput _$ListMultipartUploadsOutputFromJson(
     Map<String, dynamic> json) {
   return ListMultipartUploadsOutput(
-    marker: json['Marker'] as String,
-    uploadsList: (json['UploadsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UploadListElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    uploadsList: (json['UploadsList'] as List<dynamic>?)
+        ?.map((e) => UploadListElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPartsOutput _$ListPartsOutputFromJson(Map<String, dynamic> json) {
   return ListPartsOutput(
-    archiveDescription: json['ArchiveDescription'] as String,
-    creationDate: json['CreationDate'] as String,
-    marker: json['Marker'] as String,
-    multipartUploadId: json['MultipartUploadId'] as String,
-    partSizeInBytes: json['PartSizeInBytes'] as int,
-    parts: (json['Parts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PartListElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    vaultARN: json['VaultARN'] as String,
+    archiveDescription: json['ArchiveDescription'] as String?,
+    creationDate: json['CreationDate'] as String?,
+    marker: json['Marker'] as String?,
+    multipartUploadId: json['MultipartUploadId'] as String?,
+    partSizeInBytes: json['PartSizeInBytes'] as int?,
+    parts: (json['Parts'] as List<dynamic>?)
+        ?.map((e) => PartListElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    vaultARN: json['VaultARN'] as String?,
   );
 }
 
 ListProvisionedCapacityOutput _$ListProvisionedCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return ListProvisionedCapacityOutput(
-    provisionedCapacityList: (json['ProvisionedCapacityList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProvisionedCapacityDescription.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    provisionedCapacityList: (json['ProvisionedCapacityList'] as List<dynamic>?)
+        ?.map((e) =>
+            ProvisionedCapacityDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForVaultOutput _$ListTagsForVaultOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForVaultOutput(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -526,12 +522,10 @@ ListTagsForVaultOutput _$ListTagsForVaultOutputFromJson(
 
 ListVaultsOutput _$ListVaultsOutputFromJson(Map<String, dynamic> json) {
   return ListVaultsOutput(
-    marker: json['Marker'] as String,
-    vaultList: (json['VaultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DescribeVaultOutput.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    marker: json['Marker'] as String?,
+    vaultList: (json['VaultList'] as List<dynamic>?)
+        ?.map((e) => DescribeVaultOutput.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -579,45 +573,44 @@ Map<String, dynamic> _$OutputSerializationToJson(OutputSerialization instance) {
 
 PartListElement _$PartListElementFromJson(Map<String, dynamic> json) {
   return PartListElement(
-    rangeInBytes: json['RangeInBytes'] as String,
-    sHA256TreeHash: json['SHA256TreeHash'] as String,
+    rangeInBytes: json['RangeInBytes'] as String?,
+    sHA256TreeHash: json['SHA256TreeHash'] as String?,
   );
 }
 
 ProvisionedCapacityDescription _$ProvisionedCapacityDescriptionFromJson(
     Map<String, dynamic> json) {
   return ProvisionedCapacityDescription(
-    capacityId: json['CapacityId'] as String,
-    expirationDate: json['ExpirationDate'] as String,
-    startDate: json['StartDate'] as String,
+    capacityId: json['CapacityId'] as String?,
+    expirationDate: json['ExpirationDate'] as String?,
+    startDate: json['StartDate'] as String?,
   );
 }
 
 PurchaseProvisionedCapacityOutput _$PurchaseProvisionedCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return PurchaseProvisionedCapacityOutput(
-    capacityId: json['x-amz-capacity-id'] as String,
+    capacityId: json['x-amz-capacity-id'] as String?,
   );
 }
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
   return S3Location(
-    accessControlList: (json['AccessControlList'] as List)
-        ?.map(
-            (e) => e == null ? null : Grant.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    bucketName: json['BucketName'] as String,
+    accessControlList: (json['AccessControlList'] as List<dynamic>?)
+        ?.map((e) => Grant.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    bucketName: json['BucketName'] as String?,
     cannedACL: _$enumDecodeNullable(_$CannedACLEnumMap, json['CannedACL']),
     encryption: json['Encryption'] == null
         ? null
         : Encryption.fromJson(json['Encryption'] as Map<String, dynamic>),
-    prefix: json['Prefix'] as String,
+    prefix: json['Prefix'] as String?,
     storageClass:
         _$enumDecodeNullable(_$StorageClassEnumMap, json['StorageClass']),
-    tagging: (json['Tagging'] as Map<String, dynamic>)?.map(
+    tagging: (json['Tagging'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    userMetadata: (json['UserMetadata'] as Map<String, dynamic>)?.map(
+    userMetadata: (json['UserMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -633,7 +626,7 @@ Map<String, dynamic> _$S3LocationToJson(S3Location instance) {
   }
 
   writeNotNull('AccessControlList',
-      instance.accessControlList?.map((e) => e?.toJson())?.toList());
+      instance.accessControlList?.map((e) => e.toJson()).toList());
   writeNotNull('BucketName', instance.bucketName);
   writeNotNull('CannedACL', _$CannedACLEnumMap[instance.cannedACL]);
   writeNotNull('Encryption', instance.encryption?.toJson());
@@ -662,7 +655,7 @@ const _$StorageClassEnumMap = {
 
 SelectParameters _$SelectParametersFromJson(Map<String, dynamic> json) {
   return SelectParameters(
-    expression: json['Expression'] as String,
+    expression: json['Expression'] as String?,
     expressionType:
         _$enumDecodeNullable(_$ExpressionTypeEnumMap, json['ExpressionType']),
     inputSerialization: json['InputSerialization'] == null
@@ -699,24 +692,24 @@ const _$ExpressionTypeEnumMap = {
 
 UploadListElement _$UploadListElementFromJson(Map<String, dynamic> json) {
   return UploadListElement(
-    archiveDescription: json['ArchiveDescription'] as String,
-    creationDate: json['CreationDate'] as String,
-    multipartUploadId: json['MultipartUploadId'] as String,
-    partSizeInBytes: json['PartSizeInBytes'] as int,
-    vaultARN: json['VaultARN'] as String,
+    archiveDescription: json['ArchiveDescription'] as String?,
+    creationDate: json['CreationDate'] as String?,
+    multipartUploadId: json['MultipartUploadId'] as String?,
+    partSizeInBytes: json['PartSizeInBytes'] as int?,
+    vaultARN: json['VaultARN'] as String?,
   );
 }
 
 UploadMultipartPartOutput _$UploadMultipartPartOutputFromJson(
     Map<String, dynamic> json) {
   return UploadMultipartPartOutput(
-    checksum: json['x-amz-sha256-tree-hash'] as String,
+    checksum: json['x-amz-sha256-tree-hash'] as String?,
   );
 }
 
 VaultAccessPolicy _$VaultAccessPolicyFromJson(Map<String, dynamic> json) {
   return VaultAccessPolicy(
-    policy: json['Policy'] as String,
+    policy: json['Policy'] as String?,
   );
 }
 
@@ -749,8 +742,9 @@ Map<String, dynamic> _$VaultLockPolicyToJson(VaultLockPolicy instance) {
 VaultNotificationConfig _$VaultNotificationConfigFromJson(
     Map<String, dynamic> json) {
   return VaultNotificationConfig(
-    events: (json['Events'] as List)?.map((e) => e as String)?.toList(),
-    sNSTopic: json['SNSTopic'] as String,
+    events:
+        (json['Events'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    sNSTopic: json['SNSTopic'] as String?,
   );
 }
 

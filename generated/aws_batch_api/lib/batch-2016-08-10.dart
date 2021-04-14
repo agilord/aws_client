@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'batch-2016-08-10.g.dart';
 
 /// Using AWS Batch, you can run batch computing workloads on the AWS Cloud.
 /// Batch computing is a common means for developers, scientists, and engineers
@@ -45,10 +37,10 @@ part 'batch-2016-08-10.g.dart';
 class Batch {
   final _s.RestJsonProtocol _protocol;
   Batch({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,8 +69,8 @@ class Batch {
   /// This message is returned by future <a>DescribeJobs</a> operations on the
   /// job. This message is also recorded in the AWS Batch activity logs.
   Future<void> cancelJob({
-    @_s.required String jobId,
-    @_s.required String reason,
+    required String jobId,
+    required String reason,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
@@ -92,7 +84,6 @@ class Batch {
       requestUri: '/v1/canceljob',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelJobResponse.fromJson(response);
   }
 
   /// Creates an AWS Batch compute environment. You can create
@@ -222,12 +213,12 @@ class Batch {
   /// API operations. These tags don't propagate to the underlying compute
   /// resources.
   Future<CreateComputeEnvironmentResponse> createComputeEnvironment({
-    @_s.required String computeEnvironmentName,
-    @_s.required String serviceRole,
-    @_s.required CEType type,
-    ComputeResource computeResources,
-    CEState state,
-    Map<String, String> tags,
+    required String computeEnvironmentName,
+    required String serviceRole,
+    required CEType type,
+    ComputeResource? computeResources,
+    CEState? state,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(
         computeEnvironmentName, 'computeEnvironmentName');
@@ -236,7 +227,7 @@ class Batch {
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
       'serviceRole': serviceRole,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (computeResources != null) 'computeResources': computeResources,
       if (state != null) 'state': state.toValue(),
       if (tags != null) 'tags': tags,
@@ -307,11 +298,11 @@ class Batch {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html">Tagging
   /// your AWS Batch resources</a> in <i>AWS Batch User Guide</i>.
   Future<CreateJobQueueResponse> createJobQueue({
-    @_s.required List<ComputeEnvironmentOrder> computeEnvironmentOrder,
-    @_s.required String jobQueueName,
-    @_s.required int priority,
-    JQState state,
-    Map<String, String> tags,
+    required List<ComputeEnvironmentOrder> computeEnvironmentOrder,
+    required String jobQueueName,
+    required int priority,
+    JQState? state,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(
         computeEnvironmentOrder, 'computeEnvironmentOrder');
@@ -350,7 +341,7 @@ class Batch {
   /// The name or Amazon Resource Name (ARN) of the compute environment to
   /// delete.
   Future<void> deleteComputeEnvironment({
-    @_s.required String computeEnvironment,
+    required String computeEnvironment,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
@@ -362,7 +353,6 @@ class Batch {
       requestUri: '/v1/deletecomputeenvironment',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteComputeEnvironmentResponse.fromJson(response);
   }
 
   /// Deletes the specified job queue. You must first disable submissions for a
@@ -379,7 +369,7 @@ class Batch {
   /// Parameter [jobQueue] :
   /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
   Future<void> deleteJobQueue({
-    @_s.required String jobQueue,
+    required String jobQueue,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
@@ -391,7 +381,6 @@ class Batch {
       requestUri: '/v1/deletejobqueue',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteJobQueueResponse.fromJson(response);
   }
 
   /// Deregisters an AWS Batch job definition. Job definitions are permanently
@@ -404,7 +393,7 @@ class Batch {
   /// The name and revision (<code>name:revision</code>) or full Amazon Resource
   /// Name (ARN) of the job definition to deregister.
   Future<void> deregisterJobDefinition({
-    @_s.required String jobDefinition,
+    required String jobDefinition,
   }) async {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
     final $payload = <String, dynamic>{
@@ -416,7 +405,6 @@ class Batch {
       requestUri: '/v1/deregisterjobdefinition',
       exceptionFnMap: _exceptionFns,
     );
-    return DeregisterJobDefinitionResponse.fromJson(response);
   }
 
   /// Describes one or more of your compute environments.
@@ -458,9 +446,9 @@ class Batch {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeComputeEnvironmentsResponse> describeComputeEnvironments({
-    List<String> computeEnvironments,
-    int maxResults,
-    String nextToken,
+    List<String>? computeEnvironments,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final $payload = <String, dynamic>{
       if (computeEnvironments != null)
@@ -518,11 +506,11 @@ class Batch {
   /// Parameter [status] :
   /// The status used to filter job definitions.
   Future<DescribeJobDefinitionsResponse> describeJobDefinitions({
-    String jobDefinitionName,
-    List<String> jobDefinitions,
-    int maxResults,
-    String nextToken,
-    String status,
+    String? jobDefinitionName,
+    List<String>? jobDefinitions,
+    int? maxResults,
+    String? nextToken,
+    String? status,
   }) async {
     final $payload = <String, dynamic>{
       if (jobDefinitionName != null) 'jobDefinitionName': jobDefinitionName,
@@ -572,9 +560,9 @@ class Batch {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeJobQueuesResponse> describeJobQueues({
-    List<String> jobQueues,
-    int maxResults,
-    String nextToken,
+    List<String>? jobQueues,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final $payload = <String, dynamic>{
       if (jobQueues != null) 'jobQueues': jobQueues,
@@ -598,7 +586,7 @@ class Batch {
   /// Parameter [jobs] :
   /// A list of up to 100 job IDs.
   Future<DescribeJobsResponse> describeJobs({
-    @_s.required List<String> jobs,
+    required List<String> jobs,
   }) async {
     ArgumentError.checkNotNull(jobs, 'jobs');
     final $payload = <String, dynamic>{
@@ -675,12 +663,12 @@ class Batch {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListJobsResponse> listJobs({
-    String arrayJobId,
-    String jobQueue,
-    JobStatus jobStatus,
-    int maxResults,
-    String multiNodeJobId,
-    String nextToken,
+    String? arrayJobId,
+    String? jobQueue,
+    JobStatus? jobStatus,
+    int? maxResults,
+    String? multiNodeJobId,
+    String? nextToken,
   }) async {
     final $payload = <String, dynamic>{
       if (arrayJobId != null) 'arrayJobId': arrayJobId,
@@ -713,7 +701,7 @@ class Batch {
   /// environments, jobs, job definitions, and job queues. ARNs for child jobs
   /// of array and multi-node parallel (MNP) jobs are not supported.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -812,29 +800,29 @@ class Batch {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_timeouts.html">Job
   /// Timeouts</a> in the <i>AWS Batch User Guide</i>.
   Future<RegisterJobDefinitionResponse> registerJobDefinition({
-    @_s.required String jobDefinitionName,
-    @_s.required JobDefinitionType type,
-    ContainerProperties containerProperties,
-    NodeProperties nodeProperties,
-    Map<String, String> parameters,
-    List<PlatformCapability> platformCapabilities,
-    bool propagateTags,
-    RetryStrategy retryStrategy,
-    Map<String, String> tags,
-    JobTimeout timeout,
+    required String jobDefinitionName,
+    required JobDefinitionType type,
+    ContainerProperties? containerProperties,
+    NodeProperties? nodeProperties,
+    Map<String, String>? parameters,
+    List<PlatformCapability>? platformCapabilities,
+    bool? propagateTags,
+    RetryStrategy? retryStrategy,
+    Map<String, String>? tags,
+    JobTimeout? timeout,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (containerProperties != null)
         'containerProperties': containerProperties,
       if (nodeProperties != null) 'nodeProperties': nodeProperties,
       if (parameters != null) 'parameters': parameters,
       if (platformCapabilities != null)
         'platformCapabilities':
-            platformCapabilities.map((e) => e?.toValue() ?? '').toList(),
+            platformCapabilities.map((e) => e.toValue()).toList(),
       if (propagateTags != null) 'propagateTags': propagateTags,
       if (retryStrategy != null) 'retryStrategy': retryStrategy,
       if (tags != null) 'tags': tags,
@@ -951,18 +939,18 @@ class Batch {
   /// Timeouts</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   Future<SubmitJobResponse> submitJob({
-    @_s.required String jobDefinition,
-    @_s.required String jobName,
-    @_s.required String jobQueue,
-    ArrayProperties arrayProperties,
-    ContainerOverrides containerOverrides,
-    List<JobDependency> dependsOn,
-    NodeOverrides nodeOverrides,
-    Map<String, String> parameters,
-    bool propagateTags,
-    RetryStrategy retryStrategy,
-    Map<String, String> tags,
-    JobTimeout timeout,
+    required String jobDefinition,
+    required String jobName,
+    required String jobQueue,
+    ArrayProperties? arrayProperties,
+    ContainerOverrides? containerOverrides,
+    List<JobDependency>? dependsOn,
+    NodeOverrides? nodeOverrides,
+    Map<String, String>? parameters,
+    bool? propagateTags,
+    RetryStrategy? retryStrategy,
+    Map<String, String>? tags,
+    JobTimeout? timeout,
   }) async {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
     ArgumentError.checkNotNull(jobName, 'jobName');
@@ -1014,8 +1002,8 @@ class Batch {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
   /// AWS Resources</a> in <i>AWS General Reference</i>.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1028,7 +1016,6 @@ class Batch {
       requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Terminates a job in a job queue. Jobs that are in the
@@ -1047,8 +1034,8 @@ class Batch {
   /// This message is returned by future <a>DescribeJobs</a> operations on the
   /// job. This message is also recorded in the AWS Batch activity logs.
   Future<void> terminateJob({
-    @_s.required String jobId,
-    @_s.required String reason,
+    required String jobId,
+    required String reason,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
@@ -1062,7 +1049,6 @@ class Batch {
       requestUri: '/v1/terminatejob',
       exceptionFnMap: _exceptionFns,
     );
-    return TerminateJobResponse.fromJson(response);
   }
 
   /// Deletes specified tags from an AWS Batch resource.
@@ -1079,13 +1065,13 @@ class Batch {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1094,7 +1080,6 @@ class Batch {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates an AWS Batch compute environment.
@@ -1149,10 +1134,10 @@ class Batch {
   /// don't scale out. However, they scale in to <code>minvCpus</code> value
   /// after instances become idle.
   Future<UpdateComputeEnvironmentResponse> updateComputeEnvironment({
-    @_s.required String computeEnvironment,
-    ComputeResourceUpdate computeResources,
-    String serviceRole,
-    CEState state,
+    required String computeEnvironment,
+    ComputeResourceUpdate? computeResources,
+    String? serviceRole,
+    CEState? state,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
@@ -1210,10 +1195,10 @@ class Batch {
   /// is <code>DISABLED</code>, new jobs cannot be added to the queue, but jobs
   /// already in the queue can finish.
   Future<UpdateJobQueueResponse> updateJobQueue({
-    @_s.required String jobQueue,
-    List<ComputeEnvironmentOrder> computeEnvironmentOrder,
-    int priority,
-    JQState state,
+    required String jobQueue,
+    List<ComputeEnvironmentOrder>? computeEnvironmentOrder,
+    int? priority,
+    JQState? state,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
@@ -1234,129 +1219,154 @@ class Batch {
 }
 
 enum ArrayJobDependency {
-  @_s.JsonValue('N_TO_N')
   nToN,
-  @_s.JsonValue('SEQUENTIAL')
   sequential,
 }
 
+extension on ArrayJobDependency {
+  String toValue() {
+    switch (this) {
+      case ArrayJobDependency.nToN:
+        return 'N_TO_N';
+      case ArrayJobDependency.sequential:
+        return 'SEQUENTIAL';
+    }
+  }
+}
+
+extension on String {
+  ArrayJobDependency toArrayJobDependency() {
+    switch (this) {
+      case 'N_TO_N':
+        return ArrayJobDependency.nToN;
+      case 'SEQUENTIAL':
+        return ArrayJobDependency.sequential;
+    }
+    throw Exception('$this is not known in enum ArrayJobDependency');
+  }
+}
+
 /// An object representing an AWS Batch array job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ArrayProperties {
   /// The size of the array job.
-  @_s.JsonKey(name: 'size')
-  final int size;
+  final int? size;
 
   ArrayProperties({
     this.size,
   });
-  Map<String, dynamic> toJson() => _$ArrayPropertiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    return {
+      if (size != null) 'size': size,
+    };
+  }
 }
 
 /// An object representing the array properties of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArrayPropertiesDetail {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for array job children.
-  @_s.JsonKey(name: 'index')
-  final int index;
+  final int? index;
 
   /// The size of the array job. This parameter is returned for parent array jobs.
-  @_s.JsonKey(name: 'size')
-  final int size;
+  final int? size;
 
   /// A summary of the number of array job children in each available job status.
   /// This parameter is returned for parent array jobs.
-  @_s.JsonKey(name: 'statusSummary')
-  final Map<String, int> statusSummary;
+  final Map<String, int>? statusSummary;
 
   ArrayPropertiesDetail({
     this.index,
     this.size,
     this.statusSummary,
   });
-  factory ArrayPropertiesDetail.fromJson(Map<String, dynamic> json) =>
-      _$ArrayPropertiesDetailFromJson(json);
+  factory ArrayPropertiesDetail.fromJson(Map<String, dynamic> json) {
+    return ArrayPropertiesDetail(
+      index: json['index'] as int?,
+      size: json['size'] as int?,
+      statusSummary: (json['statusSummary'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
 }
 
 /// An object representing the array properties of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArrayPropertiesSummary {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for children of array jobs.
-  @_s.JsonKey(name: 'index')
-  final int index;
+  final int? index;
 
   /// The size of the array job. This parameter is returned for parent array jobs.
-  @_s.JsonKey(name: 'size')
-  final int size;
+  final int? size;
 
   ArrayPropertiesSummary({
     this.index,
     this.size,
   });
-  factory ArrayPropertiesSummary.fromJson(Map<String, dynamic> json) =>
-      _$ArrayPropertiesSummaryFromJson(json);
+  factory ArrayPropertiesSummary.fromJson(Map<String, dynamic> json) {
+    return ArrayPropertiesSummary(
+      index: json['index'] as int?,
+      size: json['size'] as int?,
+    );
+  }
 }
 
 enum AssignPublicIp {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on AssignPublicIp {
+  String toValue() {
+    switch (this) {
+      case AssignPublicIp.enabled:
+        return 'ENABLED';
+      case AssignPublicIp.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  AssignPublicIp toAssignPublicIp() {
+    switch (this) {
+      case 'ENABLED':
+        return AssignPublicIp.enabled;
+      case 'DISABLED':
+        return AssignPublicIp.disabled;
+    }
+    throw Exception('$this is not known in enum AssignPublicIp');
+  }
 }
 
 /// An object representing the details of a container that's part of a job
 /// attempt.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttemptContainerDetail {
   /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that
   /// hosts the job attempt.
-  @_s.JsonKey(name: 'containerInstanceArn')
-  final String containerInstanceArn;
+  final String? containerInstanceArn;
 
   /// The exit code for the job attempt. A non-zero exit code is considered a
   /// failure.
-  @_s.JsonKey(name: 'exitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// The name of the CloudWatch Logs log stream associated with the container.
   /// The log group for AWS Batch jobs is <code>/aws/batch/job</code>. Each
   /// container attempt receives a log stream name when they reach the
   /// <code>RUNNING</code> status.
-  @_s.JsonKey(name: 'logStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   /// The network interfaces associated with the job attempt.
-  @_s.JsonKey(name: 'networkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// A short (255 max characters) human-readable string to provide additional
   /// details about a running or stopped container.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with
   /// the job attempt. Each container attempt receives a task ARN when they reach
   /// the <code>STARTING</code> status.
-  @_s.JsonKey(name: 'taskArn')
-  final String taskArn;
+  final String? taskArn;
 
   AttemptContainerDetail({
     this.containerInstanceArn,
@@ -1366,37 +1376,39 @@ class AttemptContainerDetail {
     this.reason,
     this.taskArn,
   });
-  factory AttemptContainerDetail.fromJson(Map<String, dynamic> json) =>
-      _$AttemptContainerDetailFromJson(json);
+  factory AttemptContainerDetail.fromJson(Map<String, dynamic> json) {
+    return AttemptContainerDetail(
+      containerInstanceArn: json['containerInstanceArn'] as String?,
+      exitCode: json['exitCode'] as int?,
+      logStreamName: json['logStreamName'] as String?,
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reason: json['reason'] as String?,
+      taskArn: json['taskArn'] as String?,
+    );
+  }
 }
 
 /// An object representing a job attempt.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttemptDetail {
   /// Details about the container in this job attempt.
-  @_s.JsonKey(name: 'container')
-  final AttemptContainerDetail container;
+  final AttemptContainerDetail? container;
 
   /// The Unix timestamp (in milliseconds) for when the attempt was started (when
   /// the attempt transitioned from the <code>STARTING</code> state to the
   /// <code>RUNNING</code> state).
-  @_s.JsonKey(name: 'startedAt')
-  final int startedAt;
+  final int? startedAt;
 
   /// A short, human-readable string to provide additional details about the
   /// current status of the job attempt.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when
   /// the attempt transitioned from the <code>RUNNING</code> state to a terminal
   /// state, such as <code>SUCCEEDED</code> or <code>FAILED</code>).
-  @_s.JsonKey(name: 'stoppedAt')
-  final int stoppedAt;
+  final int? stoppedAt;
 
   AttemptDetail({
     this.container,
@@ -1404,14 +1416,21 @@ class AttemptDetail {
     this.statusReason,
     this.stoppedAt,
   });
-  factory AttemptDetail.fromJson(Map<String, dynamic> json) =>
-      _$AttemptDetailFromJson(json);
+  factory AttemptDetail.fromJson(Map<String, dynamic> json) {
+    return AttemptDetail(
+      container: json['container'] != null
+          ? AttemptContainerDetail.fromJson(
+              json['container'] as Map<String, dynamic>)
+          : null,
+      startedAt: json['startedAt'] as int?,
+      statusReason: json['statusReason'] as String?,
+      stoppedAt: json['stoppedAt'] as int?,
+    );
+  }
 }
 
 enum CEState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -1423,29 +1442,71 @@ extension on CEState {
       case CEState.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CEState toCEState() {
+    switch (this) {
+      case 'ENABLED':
+        return CEState.enabled;
+      case 'DISABLED':
+        return CEState.disabled;
+    }
+    throw Exception('$this is not known in enum CEState');
   }
 }
 
 enum CEStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('VALID')
   valid,
-  @_s.JsonValue('INVALID')
   invalid,
 }
 
+extension on CEStatus {
+  String toValue() {
+    switch (this) {
+      case CEStatus.creating:
+        return 'CREATING';
+      case CEStatus.updating:
+        return 'UPDATING';
+      case CEStatus.deleting:
+        return 'DELETING';
+      case CEStatus.deleted:
+        return 'DELETED';
+      case CEStatus.valid:
+        return 'VALID';
+      case CEStatus.invalid:
+        return 'INVALID';
+    }
+  }
+}
+
+extension on String {
+  CEStatus toCEStatus() {
+    switch (this) {
+      case 'CREATING':
+        return CEStatus.creating;
+      case 'UPDATING':
+        return CEStatus.updating;
+      case 'DELETING':
+        return CEStatus.deleting;
+      case 'DELETED':
+        return CEStatus.deleted;
+      case 'VALID':
+        return CEStatus.valid;
+      case 'INVALID':
+        return CEStatus.invalid;
+    }
+    throw Exception('$this is not known in enum CEStatus');
+  }
+}
+
 enum CEType {
-  @_s.JsonValue('MANAGED')
   managed,
-  @_s.JsonValue('UNMANAGED')
   unmanaged,
 }
 
@@ -1457,76 +1518,124 @@ extension on CEType {
       case CEType.unmanaged:
         return 'UNMANAGED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CEType toCEType() {
+    switch (this) {
+      case 'MANAGED':
+        return CEType.managed;
+      case 'UNMANAGED':
+        return CEType.unmanaged;
+    }
+    throw Exception('$this is not known in enum CEType');
   }
 }
 
 enum CRAllocationStrategy {
-  @_s.JsonValue('BEST_FIT')
   bestFit,
-  @_s.JsonValue('BEST_FIT_PROGRESSIVE')
   bestFitProgressive,
-  @_s.JsonValue('SPOT_CAPACITY_OPTIMIZED')
   spotCapacityOptimized,
 }
 
+extension on CRAllocationStrategy {
+  String toValue() {
+    switch (this) {
+      case CRAllocationStrategy.bestFit:
+        return 'BEST_FIT';
+      case CRAllocationStrategy.bestFitProgressive:
+        return 'BEST_FIT_PROGRESSIVE';
+      case CRAllocationStrategy.spotCapacityOptimized:
+        return 'SPOT_CAPACITY_OPTIMIZED';
+    }
+  }
+}
+
+extension on String {
+  CRAllocationStrategy toCRAllocationStrategy() {
+    switch (this) {
+      case 'BEST_FIT':
+        return CRAllocationStrategy.bestFit;
+      case 'BEST_FIT_PROGRESSIVE':
+        return CRAllocationStrategy.bestFitProgressive;
+      case 'SPOT_CAPACITY_OPTIMIZED':
+        return CRAllocationStrategy.spotCapacityOptimized;
+    }
+    throw Exception('$this is not known in enum CRAllocationStrategy');
+  }
+}
+
 enum CRType {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('SPOT')
   spot,
-  @_s.JsonValue('FARGATE')
   fargate,
-  @_s.JsonValue('FARGATE_SPOT')
   fargateSpot,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CRType {
+  String toValue() {
+    switch (this) {
+      case CRType.ec2:
+        return 'EC2';
+      case CRType.spot:
+        return 'SPOT';
+      case CRType.fargate:
+        return 'FARGATE';
+      case CRType.fargateSpot:
+        return 'FARGATE_SPOT';
+    }
+  }
+}
+
+extension on String {
+  CRType toCRType() {
+    switch (this) {
+      case 'EC2':
+        return CRType.ec2;
+      case 'SPOT':
+        return CRType.spot;
+      case 'FARGATE':
+        return CRType.fargate;
+      case 'FARGATE_SPOT':
+        return CRType.fargateSpot;
+    }
+    throw Exception('$this is not known in enum CRType');
+  }
+}
+
 class CancelJobResponse {
   CancelJobResponse();
-  factory CancelJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelJobResponseFromJson(json);
+  factory CancelJobResponse.fromJson(Map<String, dynamic> _) {
+    return CancelJobResponse();
+  }
 }
 
 /// An object representing an AWS Batch compute environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComputeEnvironmentDetail {
   /// The Amazon Resource Name (ARN) of the compute environment.
-  @_s.JsonKey(name: 'computeEnvironmentArn')
   final String computeEnvironmentArn;
 
   /// The name of the compute environment. Up to 128 letters (uppercase and
   /// lowercase), numbers, hyphens, and underscores are allowed.
-  @_s.JsonKey(name: 'computeEnvironmentName')
   final String computeEnvironmentName;
 
   /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by
   /// the compute environment.
-  @_s.JsonKey(name: 'ecsClusterArn')
   final String ecsClusterArn;
 
   /// The compute resources defined for the compute environment. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
   /// Environments</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'computeResources')
-  final ComputeResource computeResources;
+  final ComputeResource? computeResources;
 
   /// The service role associated with the compute environment that allows AWS
   /// Batch to make calls to AWS API operations on your behalf. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">AWS
   /// Batch service IAM role</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'serviceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// The state of the compute environment. The valid values are
   /// <code>ENABLED</code> or <code>DISABLED</code>.
@@ -1542,34 +1651,29 @@ class ComputeEnvironmentDetail {
   /// normally. Managed compute environments in the <code>DISABLED</code> state
   /// don't scale out. However, they scale in to <code>minvCpus</code> value after
   /// instances become idle.
-  @_s.JsonKey(name: 'state')
-  final CEState state;
+  final CEState? state;
 
   /// The current status of the compute environment (for example,
   /// <code>CREATING</code> or <code>VALID</code>).
-  @_s.JsonKey(name: 'status')
-  final CEStatus status;
+  final CEStatus? status;
 
   /// A short, human-readable string to provide additional details about the
   /// current status of the compute environment.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The tags applied to the compute environment.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The type of the compute environment: <code>MANAGED</code> or
   /// <code>UNMANAGED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
   /// Environments</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'type')
-  final CEType type;
+  final CEType? type;
 
   ComputeEnvironmentDetail({
-    @_s.required this.computeEnvironmentArn,
-    @_s.required this.computeEnvironmentName,
-    @_s.required this.ecsClusterArn,
+    required this.computeEnvironmentArn,
+    required this.computeEnvironmentName,
+    required this.ecsClusterArn,
     this.computeResources,
     this.serviceRole,
     this.state,
@@ -1578,8 +1682,24 @@ class ComputeEnvironmentDetail {
     this.tags,
     this.type,
   });
-  factory ComputeEnvironmentDetail.fromJson(Map<String, dynamic> json) =>
-      _$ComputeEnvironmentDetailFromJson(json);
+  factory ComputeEnvironmentDetail.fromJson(Map<String, dynamic> json) {
+    return ComputeEnvironmentDetail(
+      computeEnvironmentArn: json['computeEnvironmentArn'] as String,
+      computeEnvironmentName: json['computeEnvironmentName'] as String,
+      ecsClusterArn: json['ecsClusterArn'] as String,
+      computeResources: json['computeResources'] != null
+          ? ComputeResource.fromJson(
+              json['computeResources'] as Map<String, dynamic>)
+          : null,
+      serviceRole: json['serviceRole'] as String?,
+      state: (json['state'] as String?)?.toCEState(),
+      status: (json['status'] as String?)?.toCEStatus(),
+      statusReason: json['statusReason'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['type'] as String?)?.toCEType(),
+    );
+  }
 }
 
 /// The order in which compute environments are tried for job placement within a
@@ -1596,42 +1716,41 @@ class ComputeEnvironmentDetail {
 /// same architecture. AWS Batch doesn't support mixing compute environment
 /// architecture types in a single job queue.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ComputeEnvironmentOrder {
   /// The Amazon Resource Name (ARN) of the compute environment.
-  @_s.JsonKey(name: 'computeEnvironment')
   final String computeEnvironment;
 
   /// The order of the compute environment. Compute environments are tried in
   /// ascending order. For example, if two compute environments are associated
   /// with a job queue, the compute environment with a lower <code>order</code>
   /// integer value is tried for job placement first.
-  @_s.JsonKey(name: 'order')
   final int order;
 
   ComputeEnvironmentOrder({
-    @_s.required this.computeEnvironment,
-    @_s.required this.order,
+    required this.computeEnvironment,
+    required this.order,
   });
-  factory ComputeEnvironmentOrder.fromJson(Map<String, dynamic> json) =>
-      _$ComputeEnvironmentOrderFromJson(json);
+  factory ComputeEnvironmentOrder.fromJson(Map<String, dynamic> json) {
+    return ComputeEnvironmentOrder(
+      computeEnvironment: json['computeEnvironment'] as String,
+      order: json['order'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ComputeEnvironmentOrderToJson(this);
+  Map<String, dynamic> toJson() {
+    final computeEnvironment = this.computeEnvironment;
+    final order = this.order;
+    return {
+      'computeEnvironment': computeEnvironment,
+      'order': order,
+    };
+  }
 }
 
 /// An object representing an AWS Batch compute resource. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
 /// Environments</a> in the <i>AWS Batch User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ComputeResource {
   /// The maximum number of Amazon EC2 vCPUs that a compute environment can reach.
   /// <note>
@@ -1642,7 +1761,6 @@ class ComputeResource {
   /// than a single instance (e.g., no more than a single instance from among
   /// those specified in your compute environment).
   /// </note>
-  @_s.JsonKey(name: 'maxvCpus')
   final int maxvCpus;
 
   /// The VPC subnets into which the compute resources are launched. These subnets
@@ -1651,7 +1769,6 @@ class ComputeResource {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
   /// and Subnets</a> in the <i>Amazon VPC User Guide</i>.
-  @_s.JsonKey(name: 'subnets')
   final List<String> subnets;
 
   /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
@@ -1665,7 +1782,6 @@ class ComputeResource {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
   /// EC2 Spot Fleet role</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'type')
   final CRType type;
 
   /// The allocation strategy to use for the compute resource if not enough
@@ -1706,8 +1822,7 @@ class ComputeResource {
   /// above <code>maxvCpus</code> to meet your capacity requirements. In this
   /// event, AWS Batch never exceeds <code>maxvCpus</code> by more than a single
   /// instance.
-  @_s.JsonKey(name: 'allocationStrategy')
-  final CRAllocationStrategy allocationStrategy;
+  final CRAllocationStrategy? allocationStrategy;
 
   /// The maximum percentage that a Spot Instance price can be when compared with
   /// the On-Demand price for that instance type before instances are launched.
@@ -1720,8 +1835,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'bidPercentage')
-  final int bidPercentage;
+  final int? bidPercentage;
 
   /// The desired number of Amazon EC2 vCPUS in the compute environment. AWS Batch
   /// modifies this value between the minimum and maximum values, based on job
@@ -1730,8 +1844,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'desiredvCpus')
-  final int desiredvCpus;
+  final int? desiredvCpus;
 
   /// Provides information used to select Amazon Machine Images (AMIs) for EC2
   /// instances in the compute environment. If <code>Ec2Configuration</code> isn't
@@ -1740,8 +1853,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'ec2Configuration')
-  final List<Ec2Configuration> ec2Configuration;
+  final List<Ec2Configuration>? ec2Configuration;
 
   /// The Amazon EC2 key pair that's used for instances launched in the compute
   /// environment. You can use this key pair to log in to your instances with SSH.
@@ -1749,8 +1861,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'ec2KeyPair')
-  final String ec2KeyPair;
+  final String? ec2KeyPair;
 
   /// The Amazon Machine Image (AMI) ID used for instances launched in the compute
   /// environment. This parameter is overridden by the
@@ -1770,8 +1881,7 @@ class ComputeResource {
   /// ECS-optimized Amazon Linux 2 AMI</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'imageId')
-  final String imageId;
+  final String? imageId;
 
   /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute
   /// environment. You can specify the short name or full Amazon Resource Name
@@ -1785,8 +1895,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'instanceRole')
-  final String instanceRole;
+  final String? instanceRole;
 
   /// The instances types that can be launched. You can specify instance families
   /// to launch any instance type within those families (for example,
@@ -1807,8 +1916,7 @@ class ComputeResource {
   /// instance families, instance types from the C5, M5. and R5 instance families
   /// are used.
   /// </note>
-  @_s.JsonKey(name: 'instanceTypes')
-  final List<String> instanceTypes;
+  final List<String>? instanceTypes;
 
   /// The launch template to use for your compute resources. Any other compute
   /// resource parameters that you specify in a <a>CreateComputeEnvironment</a>
@@ -1821,8 +1929,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'launchTemplate')
-  final LaunchTemplateSpecification launchTemplate;
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The minimum number of Amazon EC2 vCPUs that an environment should maintain
   /// (even if the compute environment is <code>DISABLED</code>).
@@ -1830,8 +1937,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'minvCpus')
-  final int minvCpus;
+  final int? minvCpus;
 
   /// The Amazon EC2 placement group to associate with your compute resources. If
   /// you intend to submit multi-node parallel jobs to your compute environment,
@@ -1845,8 +1951,7 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'placementGroup')
-  final String placementGroup;
+  final String? placementGroup;
 
   /// The Amazon EC2 security groups associated with instances launched in the
   /// compute environment. One or more security groups must be specified, either
@@ -1856,8 +1961,7 @@ class ComputeResource {
   /// does not support launch templates.) If security groups are specified using
   /// both <code>securityGroupIds</code> and <code>launchTemplate</code>, the
   /// values in <code>securityGroupIds</code> will be used.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied
   /// to a <code>SPOT</code> compute environment. This role is required if the
@@ -1877,8 +1981,7 @@ class ComputeResource {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#spot-instance-no-tag">Spot
   /// Instances not tagged on creation</a> in the <i>AWS Batch User Guide</i>.
   /// </important>
-  @_s.JsonKey(name: 'spotIamFleetRole')
-  final String spotIamFleetRole;
+  final String? spotIamFleetRole;
 
   /// Key-value pair tags to be applied to EC2 resources that are launched in the
   /// compute environment. For AWS Batch, these take the form of "String1":
@@ -1893,13 +1996,12 @@ class ComputeResource {
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ComputeResource({
-    @_s.required this.maxvCpus,
-    @_s.required this.subnets,
-    @_s.required this.type,
+    required this.maxvCpus,
+    required this.subnets,
+    required this.type,
     this.allocationStrategy,
     this.bidPercentage,
     this.desiredvCpus,
@@ -1915,29 +2017,97 @@ class ComputeResource {
     this.spotIamFleetRole,
     this.tags,
   });
-  factory ComputeResource.fromJson(Map<String, dynamic> json) =>
-      _$ComputeResourceFromJson(json);
+  factory ComputeResource.fromJson(Map<String, dynamic> json) {
+    return ComputeResource(
+      maxvCpus: json['maxvCpus'] as int,
+      subnets: (json['subnets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String).toCRType(),
+      allocationStrategy:
+          (json['allocationStrategy'] as String?)?.toCRAllocationStrategy(),
+      bidPercentage: json['bidPercentage'] as int?,
+      desiredvCpus: json['desiredvCpus'] as int?,
+      ec2Configuration: (json['ec2Configuration'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ec2Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ec2KeyPair: json['ec2KeyPair'] as String?,
+      imageId: json['imageId'] as String?,
+      instanceRole: json['instanceRole'] as String?,
+      instanceTypes: (json['instanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      launchTemplate: json['launchTemplate'] != null
+          ? LaunchTemplateSpecification.fromJson(
+              json['launchTemplate'] as Map<String, dynamic>)
+          : null,
+      minvCpus: json['minvCpus'] as int?,
+      placementGroup: json['placementGroup'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      spotIamFleetRole: json['spotIamFleetRole'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ComputeResourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxvCpus = this.maxvCpus;
+    final subnets = this.subnets;
+    final type = this.type;
+    final allocationStrategy = this.allocationStrategy;
+    final bidPercentage = this.bidPercentage;
+    final desiredvCpus = this.desiredvCpus;
+    final ec2Configuration = this.ec2Configuration;
+    final ec2KeyPair = this.ec2KeyPair;
+    final imageId = this.imageId;
+    final instanceRole = this.instanceRole;
+    final instanceTypes = this.instanceTypes;
+    final launchTemplate = this.launchTemplate;
+    final minvCpus = this.minvCpus;
+    final placementGroup = this.placementGroup;
+    final securityGroupIds = this.securityGroupIds;
+    final spotIamFleetRole = this.spotIamFleetRole;
+    final tags = this.tags;
+    return {
+      'maxvCpus': maxvCpus,
+      'subnets': subnets,
+      'type': type.toValue(),
+      if (allocationStrategy != null)
+        'allocationStrategy': allocationStrategy.toValue(),
+      if (bidPercentage != null) 'bidPercentage': bidPercentage,
+      if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
+      if (ec2KeyPair != null) 'ec2KeyPair': ec2KeyPair,
+      if (imageId != null) 'imageId': imageId,
+      if (instanceRole != null) 'instanceRole': instanceRole,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
+      if (minvCpus != null) 'minvCpus': minvCpus,
+      if (placementGroup != null) 'placementGroup': placementGroup,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (spotIamFleetRole != null) 'spotIamFleetRole': spotIamFleetRole,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// An object representing the attributes of a compute environment that can be
 /// updated. For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
 /// Environments</a> in the <i>AWS Batch User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ComputeResourceUpdate {
   /// The desired number of Amazon EC2 vCPUS in the compute environment.
   /// <note>
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'desiredvCpus')
-  final int desiredvCpus;
+  final int? desiredvCpus;
 
   /// The maximum number of Amazon EC2 vCPUs that an environment can reach.
   /// <note>
@@ -1948,24 +2118,21 @@ class ComputeResourceUpdate {
   /// than a single instance (e.g., no more than a single instance from among
   /// those specified in your compute environment).
   /// </note>
-  @_s.JsonKey(name: 'maxvCpus')
-  final int maxvCpus;
+  final int? maxvCpus;
 
   /// The minimum number of Amazon EC2 vCPUs that an environment should maintain.
   /// <note>
   /// This parameter isn't applicable to jobs running on Fargate resources, and
   /// shouldn't be specified.
   /// </note>
-  @_s.JsonKey(name: 'minvCpus')
-  final int minvCpus;
+  final int? minvCpus;
 
   /// The Amazon EC2 security groups associated with instances launched in the
   /// compute environment. This parameter is required for Fargate compute
   /// resources, where it can contain up to 5 security groups. This can't be
   /// specified for EC2 compute resources. Providing an empty list is handled as
   /// if this parameter wasn't specified and no change is made.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The VPC subnets that the compute resources are launched into. This parameter
   /// is required for jobs running on Fargate compute resources, where it can
@@ -1974,8 +2141,7 @@ class ComputeResourceUpdate {
   /// and Subnets</a> in the <i>Amazon VPC User Guide</i>. This can't be specified
   /// for EC2 compute resources. Providing an empty list will be handled as if
   /// this parameter wasn't specified and no change is made.
-  @_s.JsonKey(name: 'subnets')
-  final List<String> subnets;
+  final List<String>? subnets;
 
   ComputeResourceUpdate({
     this.desiredvCpus,
@@ -1984,24 +2150,30 @@ class ComputeResourceUpdate {
     this.securityGroupIds,
     this.subnets,
   });
-  Map<String, dynamic> toJson() => _$ComputeResourceUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final desiredvCpus = this.desiredvCpus;
+    final maxvCpus = this.maxvCpus;
+    final minvCpus = this.minvCpus;
+    final securityGroupIds = this.securityGroupIds;
+    final subnets = this.subnets;
+    return {
+      if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
+      if (maxvCpus != null) 'maxvCpus': maxvCpus,
+      if (minvCpus != null) 'minvCpus': minvCpus,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (subnets != null) 'subnets': subnets,
+    };
+  }
 }
 
 /// An object representing the details of a container that's part of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContainerDetail {
   /// The command that's passed to the container.
-  @_s.JsonKey(name: 'command')
-  final List<String> command;
+  final List<String>? command;
 
   /// The Amazon Resource Name (ARN) of the container instance that the container
   /// is running on.
-  @_s.JsonKey(name: 'containerInstanceArn')
-  final String containerInstanceArn;
+  final String? containerInstanceArn;
 
   /// The environment variables to pass to a container.
   /// <note>
@@ -2009,45 +2181,37 @@ class ContainerDetail {
   /// naming convention is reserved for variables that are set by the AWS Batch
   /// service.
   /// </note>
-  @_s.JsonKey(name: 'environment')
-  final List<KeyValuePair> environment;
+  final List<KeyValuePair>? environment;
 
   /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can
   /// assume. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">AWS
   /// Batch execution IAM role</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The exit code to return upon completion.
-  @_s.JsonKey(name: 'exitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// The platform configuration for jobs running on Fargate resources. Jobs
   /// running on EC2 resources must not specify this parameter.
-  @_s.JsonKey(name: 'fargatePlatformConfiguration')
-  final FargatePlatformConfiguration fargatePlatformConfiguration;
+  final FargatePlatformConfiguration? fargatePlatformConfiguration;
 
   /// The image used to start the container.
-  @_s.JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   /// The instance type of the underlying host infrastructure of a multi-node
   /// parallel job.
   /// <note>
   /// This parameter isn't applicable to jobs running on Fargate resources.
   /// </note>
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The Amazon Resource Name (ARN) associated with the job upon execution.
-  @_s.JsonKey(name: 'jobRoleArn')
-  final String jobRoleArn;
+  final String? jobRoleArn;
 
   /// Linux-specific modifications that are applied to the container, such as
   /// details for device mappings.
-  @_s.JsonKey(name: 'linuxParameters')
-  final LinuxParameters linuxParameters;
+  final LinuxParameters? linuxParameters;
 
   /// The log configuration specification for the container.
   ///
@@ -2087,35 +2251,29 @@ class ContainerDetail {
   /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'logConfiguration')
-  final LogConfiguration logConfiguration;
+  final LogConfiguration? logConfiguration;
 
   /// The name of the CloudWatch Logs log stream associated with the container.
   /// The log group for AWS Batch jobs is <code>/aws/batch/job</code>. Each
   /// container attempt receives a log stream name when they reach the
   /// <code>RUNNING</code> status.
-  @_s.JsonKey(name: 'logStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   /// For jobs run on EC2 resources that didn't specify memory requirements using
   /// <code>ResourceRequirement</code>, the number of MiB of memory reserved for
   /// the job. For other jobs, including all run on Fargate resources, see
   /// <code>resourceRequirements</code>.
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The mount points for data volumes in your container.
-  @_s.JsonKey(name: 'mountPoints')
-  final List<MountPoint> mountPoints;
+  final List<MountPoint>? mountPoints;
 
   /// The network configuration for jobs running on Fargate resources. Jobs
   /// running on EC2 resources must not specify this parameter.
-  @_s.JsonKey(name: 'networkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// The network interfaces associated with the job.
-  @_s.JsonKey(name: 'networkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// When this parameter is true, the container is given elevated permissions on
   /// the host container instance (similar to the <code>root</code> user). The
@@ -2124,8 +2282,7 @@ class ContainerDetail {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided, or specified as false.
   /// </note>
-  @_s.JsonKey(name: 'privileged')
-  final bool privileged;
+  final bool? privileged;
 
   /// When this parameter is true, the container is given read-only access to its
   /// root file system. This parameter maps to <code>ReadonlyRootfs</code> in the
@@ -2136,31 +2293,26 @@ class ContainerDetail {
   /// the <code>--read-only</code> option to <a
   /// href="https://docs.docker.com/engine/reference/commandline/run/">
   /// <code>docker run</code> </a>.
-  @_s.JsonKey(name: 'readonlyRootFilesystem')
-  final bool readonlyRootFilesystem;
+  final bool? readonlyRootFilesystem;
 
   /// A short (255 max characters) human-readable string to provide additional
   /// details about a running or stopped container.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The type and amount of resources to assign to a container. The supported
   /// resources include <code>GPU</code>, <code>MEMORY</code>, and
   /// <code>VCPU</code>.
-  @_s.JsonKey(name: 'resourceRequirements')
-  final List<ResourceRequirement> resourceRequirements;
+  final List<ResourceRequirement>? resourceRequirements;
 
   /// The secrets to pass to the container. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
   /// sensitive data</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'secrets')
-  final List<Secret> secrets;
+  final List<Secret>? secrets;
 
   /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with
   /// the container job. Each container attempt receives a task ARN when they
   /// reach the <code>STARTING</code> status.
-  @_s.JsonKey(name: 'taskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// A list of <code>ulimit</code> values to set in the container. This parameter
   /// maps to <code>Ulimits</code> in the <a
@@ -2172,8 +2324,7 @@ class ContainerDetail {
   /// <note>
   /// This parameter isn't applicable to jobs running on Fargate resources.
   /// </note>
-  @_s.JsonKey(name: 'ulimits')
-  final List<Ulimit> ulimits;
+  final List<Ulimit>? ulimits;
 
   /// The user name to use inside the container. This parameter maps to
   /// <code>User</code> in the <a
@@ -2182,8 +2333,7 @@ class ContainerDetail {
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
   /// the <code>--user</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
-  @_s.JsonKey(name: 'user')
-  final String user;
+  final String? user;
 
   /// The number of vCPUs reserved for the container. Jobs running on EC2
   /// resources can specify the vCPU requirement for the job using
@@ -2203,12 +2353,10 @@ class ContainerDetail {
   /// running on Fargate resources must specify the vCPU requirement for the job
   /// using <code>resourceRequirements</code>.
   /// </note>
-  @_s.JsonKey(name: 'vcpus')
-  final int vcpus;
+  final int? vcpus;
 
   /// A list of volumes associated with the job.
-  @_s.JsonKey(name: 'volumes')
-  final List<Volume> volumes;
+  final List<Volume>? volumes;
 
   ContainerDetail({
     this.command,
@@ -2238,21 +2386,79 @@ class ContainerDetail {
     this.vcpus,
     this.volumes,
   });
-  factory ContainerDetail.fromJson(Map<String, dynamic> json) =>
-      _$ContainerDetailFromJson(json);
+  factory ContainerDetail.fromJson(Map<String, dynamic> json) {
+    return ContainerDetail(
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      containerInstanceArn: json['containerInstanceArn'] as String?,
+      environment: (json['environment'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      executionRoleArn: json['executionRoleArn'] as String?,
+      exitCode: json['exitCode'] as int?,
+      fargatePlatformConfiguration: json['fargatePlatformConfiguration'] != null
+          ? FargatePlatformConfiguration.fromJson(
+              json['fargatePlatformConfiguration'] as Map<String, dynamic>)
+          : null,
+      image: json['image'] as String?,
+      instanceType: json['instanceType'] as String?,
+      jobRoleArn: json['jobRoleArn'] as String?,
+      linuxParameters: json['linuxParameters'] != null
+          ? LinuxParameters.fromJson(
+              json['linuxParameters'] as Map<String, dynamic>)
+          : null,
+      logConfiguration: json['logConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['logConfiguration'] as Map<String, dynamic>)
+          : null,
+      logStreamName: json['logStreamName'] as String?,
+      memory: json['memory'] as int?,
+      mountPoints: (json['mountPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => MountPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkConfiguration: json['networkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      privileged: json['privileged'] as bool?,
+      readonlyRootFilesystem: json['readonlyRootFilesystem'] as bool?,
+      reason: json['reason'] as String?,
+      resourceRequirements: (json['resourceRequirements'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secrets: (json['secrets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Secret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskArn: json['taskArn'] as String?,
+      ulimits: (json['ulimits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ulimit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      user: json['user'] as String?,
+      vcpus: json['vcpus'] as int?,
+      volumes: (json['volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The overrides that should be sent to a container.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContainerOverrides {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the job definition.
-  @_s.JsonKey(name: 'command')
-  final List<String> command;
+  final List<String>? command;
 
   /// The environment variables to send to the container. You can add new
   /// environment variables, which are added to the container at launch, or you
@@ -2263,29 +2469,25 @@ class ContainerOverrides {
   /// naming convention is reserved for variables that are set by the AWS Batch
   /// service.
   /// </note>
-  @_s.JsonKey(name: 'environment')
-  final List<KeyValuePair> environment;
+  final List<KeyValuePair>? environment;
 
   /// The instance type to use for a multi-node parallel job.
   /// <note>
   /// This parameter isn't applicable to single-node container jobs or for jobs
   /// running on Fargate resources and shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// This parameter is deprecated and not supported for jobs run on Fargate
   /// resources, use <code>ResourceRequirement</code>. For jobs run on EC2
   /// resource, the number of MiB of memory reserved for the job. This value
   /// overrides the value set in the job definition.
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The type and amount of resources to assign to a container. This overrides
   /// the settings in the job definition. The supported resources include
   /// <code>GPU</code>, <code>MEMORY</code>, and <code>VCPU</code>.
-  @_s.JsonKey(name: 'resourceRequirements')
-  final List<ResourceRequirement> resourceRequirements;
+  final List<ResourceRequirement>? resourceRequirements;
 
   /// This parameter is deprecated and not supported for jobs run on Fargate
   /// resources, see <code>resourceRequirement</code>. For jobs run on EC2
@@ -2306,8 +2508,7 @@ class ContainerOverrides {
   /// shouldn't be provided. Jobs running on Fargate resources must specify the
   /// vCPU requirement for the job using <code>resourceRequirements</code>.
   /// </note>
-  @_s.JsonKey(name: 'vcpus')
-  final int vcpus;
+  final int? vcpus;
 
   ContainerOverrides({
     this.command,
@@ -2317,16 +2518,27 @@ class ContainerOverrides {
     this.resourceRequirements,
     this.vcpus,
   });
-  Map<String, dynamic> toJson() => _$ContainerOverridesToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final environment = this.environment;
+    final instanceType = this.instanceType;
+    final memory = this.memory;
+    final resourceRequirements = this.resourceRequirements;
+    final vcpus = this.vcpus;
+    return {
+      if (command != null) 'command': command,
+      if (environment != null) 'environment': environment,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (memory != null) 'memory': memory,
+      if (resourceRequirements != null)
+        'resourceRequirements': resourceRequirements,
+      if (vcpus != null) 'vcpus': vcpus,
+    };
+  }
 }
 
 /// Container properties are used in job definitions to describe the container
 /// that's launched as part of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerProperties {
   /// The command that's passed to the container. This parameter maps to
   /// <code>Cmd</code> in the <a
@@ -2337,8 +2549,7 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. For
   /// more information, see <a
   /// href="https://docs.docker.com/engine/reference/builder/#cmd">https://docs.docker.com/engine/reference/builder/#cmd</a>.
-  @_s.JsonKey(name: 'command')
-  final List<String> command;
+  final List<String>? command;
 
   /// The environment variables to pass to a container. This parameter maps to
   /// <code>Env</code> in the <a
@@ -2355,21 +2566,18 @@ class ContainerProperties {
   /// naming convention is reserved for variables that are set by the AWS Batch
   /// service.
   /// </note>
-  @_s.JsonKey(name: 'environment')
-  final List<KeyValuePair> environment;
+  final List<KeyValuePair>? environment;
 
   /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can
   /// assume. Jobs running on Fargate resources must provide an execution role.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">AWS
   /// Batch execution IAM role</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The platform configuration for jobs running on Fargate resources. Jobs
   /// running on EC2 resources must not specify this parameter.
-  @_s.JsonKey(name: 'fargatePlatformConfiguration')
-  final FargatePlatformConfiguration fargatePlatformConfiguration;
+  final FargatePlatformConfiguration? fargatePlatformConfiguration;
 
   /// The image used to start a container. This string is passed directly to the
   /// Docker daemon. Images in the Docker Hub registry are available by default.
@@ -2407,8 +2615,7 @@ class ContainerProperties {
   /// (for example, <code>quay.io/assemblyline/ubuntu</code>).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   /// The instance type to use for a multi-node parallel job. All node groups in a
   /// multi-node parallel job must use the same instance type.
@@ -2416,21 +2623,18 @@ class ContainerProperties {
   /// This parameter isn't applicable to single-node container jobs or for jobs
   /// running on Fargate resources and shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The Amazon Resource Name (ARN) of the IAM role that the container can assume
   /// for AWS permissions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">IAM
   /// Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'jobRoleArn')
-  final String jobRoleArn;
+  final String? jobRoleArn;
 
   /// Linux-specific modifications that are applied to the container, such as
   /// details for device mappings.
-  @_s.JsonKey(name: 'linuxParameters')
-  final LinuxParameters linuxParameters;
+  final LinuxParameters? linuxParameters;
 
   /// The log configuration specification for the container.
   ///
@@ -2467,8 +2671,7 @@ class ContainerProperties {
   /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'logConfiguration')
-  final LogConfiguration logConfiguration;
+  final LogConfiguration? logConfiguration;
 
   /// This parameter is deprecated and not supported for jobs run on Fargate
   /// resources, use <code>ResourceRequirement</code>. For jobs run on EC2
@@ -2491,8 +2694,7 @@ class ContainerProperties {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
   /// Management</a> in the <i>AWS Batch User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The mount points for data volumes in your container. This parameter maps to
   /// <code>Volumes</code> in the <a
@@ -2501,13 +2703,11 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
   /// the <code>--volume</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
-  @_s.JsonKey(name: 'mountPoints')
-  final List<MountPoint> mountPoints;
+  final List<MountPoint>? mountPoints;
 
   /// The network configuration for jobs running on Fargate resources. Jobs
   /// running on EC2 resources must not specify this parameter.
-  @_s.JsonKey(name: 'networkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// When this parameter is true, the container is given elevated permissions on
   /// the host container instance (similar to the <code>root</code> user). This
@@ -2522,8 +2722,7 @@ class ContainerProperties {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided, or specified as false.
   /// </note>
-  @_s.JsonKey(name: 'privileged')
-  final bool privileged;
+  final bool? privileged;
 
   /// When this parameter is true, the container is given read-only access to its
   /// root file system. This parameter maps to <code>ReadonlyRootfs</code> in the
@@ -2532,20 +2731,17 @@ class ContainerProperties {
   /// container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
   /// the <code>--read-only</code> option to <code>docker run</code>.
-  @_s.JsonKey(name: 'readonlyRootFilesystem')
-  final bool readonlyRootFilesystem;
+  final bool? readonlyRootFilesystem;
 
   /// The type and amount of resources to assign to a container. The supported
   /// resources include <code>GPU</code>, <code>MEMORY</code>, and
   /// <code>VCPU</code>.
-  @_s.JsonKey(name: 'resourceRequirements')
-  final List<ResourceRequirement> resourceRequirements;
+  final List<ResourceRequirement>? resourceRequirements;
 
   /// The secrets for the container. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
   /// sensitive data</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'secrets')
-  final List<Secret> secrets;
+  final List<Secret>? secrets;
 
   /// A list of <code>ulimits</code> to set in the container. This parameter maps
   /// to <code>Ulimits</code> in the <a
@@ -2558,8 +2754,7 @@ class ContainerProperties {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'ulimits')
-  final List<Ulimit> ulimits;
+  final List<Ulimit>? ulimits;
 
   /// The user name to use inside the container. This parameter maps to
   /// <code>User</code> in the <a
@@ -2568,8 +2763,7 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
   /// the <code>--user</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
-  @_s.JsonKey(name: 'user')
-  final String user;
+  final String? user;
 
   /// This parameter is deprecated and not supported for jobs run on Fargate
   /// resources, see <code>resourceRequirement</code>. The number of vCPUs
@@ -2591,12 +2785,10 @@ class ContainerProperties {
   /// shouldn't be provided. Jobs running on Fargate resources must specify the
   /// vCPU requirement for the job using <code>resourceRequirements</code>.
   /// </note>
-  @_s.JsonKey(name: 'vcpus')
-  final int vcpus;
+  final int? vcpus;
 
   /// A list of data volumes used in a job.
-  @_s.JsonKey(name: 'volumes')
-  final List<Volume> volumes;
+  final List<Volume>? volumes;
 
   ContainerProperties({
     this.command,
@@ -2620,210 +2812,290 @@ class ContainerProperties {
     this.vcpus,
     this.volumes,
   });
-  factory ContainerProperties.fromJson(Map<String, dynamic> json) =>
-      _$ContainerPropertiesFromJson(json);
+  factory ContainerProperties.fromJson(Map<String, dynamic> json) {
+    return ContainerProperties(
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      environment: (json['environment'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      executionRoleArn: json['executionRoleArn'] as String?,
+      fargatePlatformConfiguration: json['fargatePlatformConfiguration'] != null
+          ? FargatePlatformConfiguration.fromJson(
+              json['fargatePlatformConfiguration'] as Map<String, dynamic>)
+          : null,
+      image: json['image'] as String?,
+      instanceType: json['instanceType'] as String?,
+      jobRoleArn: json['jobRoleArn'] as String?,
+      linuxParameters: json['linuxParameters'] != null
+          ? LinuxParameters.fromJson(
+              json['linuxParameters'] as Map<String, dynamic>)
+          : null,
+      logConfiguration: json['logConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['logConfiguration'] as Map<String, dynamic>)
+          : null,
+      memory: json['memory'] as int?,
+      mountPoints: (json['mountPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => MountPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkConfiguration: json['networkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      privileged: json['privileged'] as bool?,
+      readonlyRootFilesystem: json['readonlyRootFilesystem'] as bool?,
+      resourceRequirements: (json['resourceRequirements'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secrets: (json['secrets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Secret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ulimits: (json['ulimits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ulimit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      user: json['user'] as String?,
+      vcpus: json['vcpus'] as int?,
+      volumes: (json['volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContainerPropertiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final environment = this.environment;
+    final executionRoleArn = this.executionRoleArn;
+    final fargatePlatformConfiguration = this.fargatePlatformConfiguration;
+    final image = this.image;
+    final instanceType = this.instanceType;
+    final jobRoleArn = this.jobRoleArn;
+    final linuxParameters = this.linuxParameters;
+    final logConfiguration = this.logConfiguration;
+    final memory = this.memory;
+    final mountPoints = this.mountPoints;
+    final networkConfiguration = this.networkConfiguration;
+    final privileged = this.privileged;
+    final readonlyRootFilesystem = this.readonlyRootFilesystem;
+    final resourceRequirements = this.resourceRequirements;
+    final secrets = this.secrets;
+    final ulimits = this.ulimits;
+    final user = this.user;
+    final vcpus = this.vcpus;
+    final volumes = this.volumes;
+    return {
+      if (command != null) 'command': command,
+      if (environment != null) 'environment': environment,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (fargatePlatformConfiguration != null)
+        'fargatePlatformConfiguration': fargatePlatformConfiguration,
+      if (image != null) 'image': image,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (jobRoleArn != null) 'jobRoleArn': jobRoleArn,
+      if (linuxParameters != null) 'linuxParameters': linuxParameters,
+      if (logConfiguration != null) 'logConfiguration': logConfiguration,
+      if (memory != null) 'memory': memory,
+      if (mountPoints != null) 'mountPoints': mountPoints,
+      if (networkConfiguration != null)
+        'networkConfiguration': networkConfiguration,
+      if (privileged != null) 'privileged': privileged,
+      if (readonlyRootFilesystem != null)
+        'readonlyRootFilesystem': readonlyRootFilesystem,
+      if (resourceRequirements != null)
+        'resourceRequirements': resourceRequirements,
+      if (secrets != null) 'secrets': secrets,
+      if (ulimits != null) 'ulimits': ulimits,
+      if (user != null) 'user': user,
+      if (vcpus != null) 'vcpus': vcpus,
+      if (volumes != null) 'volumes': volumes,
+    };
+  }
 }
 
 /// An object representing summary details of a container within a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContainerSummary {
   /// The exit code to return upon completion.
-  @_s.JsonKey(name: 'exitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// A short (255 max characters) human-readable string to provide additional
   /// details about a running or stopped container.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   ContainerSummary({
     this.exitCode,
     this.reason,
   });
-  factory ContainerSummary.fromJson(Map<String, dynamic> json) =>
-      _$ContainerSummaryFromJson(json);
+  factory ContainerSummary.fromJson(Map<String, dynamic> json) {
+    return ContainerSummary(
+      exitCode: json['exitCode'] as int?,
+      reason: json['reason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
-  @_s.JsonKey(name: 'computeEnvironmentArn')
-  final String computeEnvironmentArn;
+  final String? computeEnvironmentArn;
 
   /// The name of the compute environment. Up to 128 letters (uppercase and
   /// lowercase), numbers, hyphens, and underscores are allowed.
-  @_s.JsonKey(name: 'computeEnvironmentName')
-  final String computeEnvironmentName;
+  final String? computeEnvironmentName;
 
   CreateComputeEnvironmentResponse({
     this.computeEnvironmentArn,
     this.computeEnvironmentName,
   });
-  factory CreateComputeEnvironmentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateComputeEnvironmentResponseFromJson(json);
+  factory CreateComputeEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateComputeEnvironmentResponse(
+      computeEnvironmentArn: json['computeEnvironmentArn'] as String?,
+      computeEnvironmentName: json['computeEnvironmentName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobQueueResponse {
   /// The Amazon Resource Name (ARN) of the job queue.
-  @_s.JsonKey(name: 'jobQueueArn')
   final String jobQueueArn;
 
   /// The name of the job queue.
-  @_s.JsonKey(name: 'jobQueueName')
   final String jobQueueName;
 
   CreateJobQueueResponse({
-    @_s.required this.jobQueueArn,
-    @_s.required this.jobQueueName,
+    required this.jobQueueArn,
+    required this.jobQueueName,
   });
-  factory CreateJobQueueResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobQueueResponseFromJson(json);
+  factory CreateJobQueueResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobQueueResponse(
+      jobQueueArn: json['jobQueueArn'] as String,
+      jobQueueName: json['jobQueueName'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteComputeEnvironmentResponse {
   DeleteComputeEnvironmentResponse();
-  factory DeleteComputeEnvironmentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteComputeEnvironmentResponseFromJson(json);
+  factory DeleteComputeEnvironmentResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteComputeEnvironmentResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteJobQueueResponse {
   DeleteJobQueueResponse();
-  factory DeleteJobQueueResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteJobQueueResponseFromJson(json);
+  factory DeleteJobQueueResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteJobQueueResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterJobDefinitionResponse {
   DeregisterJobDefinitionResponse();
-  factory DeregisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeregisterJobDefinitionResponseFromJson(json);
+  factory DeregisterJobDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeregisterJobDefinitionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeComputeEnvironmentsResponse {
   /// The list of compute environments.
-  @_s.JsonKey(name: 'computeEnvironments')
-  final List<ComputeEnvironmentDetail> computeEnvironments;
+  final List<ComputeEnvironmentDetail>? computeEnvironments;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeComputeEnvironments</code> request. When the results of a
   /// <code>DescribeJobDefinitions</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeComputeEnvironmentsResponse({
     this.computeEnvironments,
     this.nextToken,
   });
   factory DescribeComputeEnvironmentsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeComputeEnvironmentsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeComputeEnvironmentsResponse(
+      computeEnvironments: (json['computeEnvironments'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ComputeEnvironmentDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobDefinitionsResponse {
   /// The list of job definitions.
-  @_s.JsonKey(name: 'jobDefinitions')
-  final List<JobDefinition> jobDefinitions;
+  final List<JobDefinition>? jobDefinitions;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeJobDefinitions</code> request. When the results of a
   /// <code>DescribeJobDefinitions</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeJobDefinitionsResponse({
     this.jobDefinitions,
     this.nextToken,
   });
-  factory DescribeJobDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobDefinitionsResponseFromJson(json);
+  factory DescribeJobDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobDefinitionsResponse(
+      jobDefinitions: (json['jobDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobQueuesResponse {
   /// The list of job queues.
-  @_s.JsonKey(name: 'jobQueues')
-  final List<JobQueueDetail> jobQueues;
+  final List<JobQueueDetail>? jobQueues;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeJobQueues</code> request. When the results of a
   /// <code>DescribeJobQueues</code> request exceed <code>maxResults</code>, this
   /// value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeJobQueuesResponse({
     this.jobQueues,
     this.nextToken,
   });
-  factory DescribeJobQueuesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobQueuesResponseFromJson(json);
+  factory DescribeJobQueuesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobQueuesResponse(
+      jobQueues: (json['jobQueues'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobQueueDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobsResponse {
   /// The list of jobs.
-  @_s.JsonKey(name: 'jobs')
-  final List<JobDetail> jobs;
+  final List<JobDetail>? jobs;
 
   DescribeJobsResponse({
     this.jobs,
   });
-  factory DescribeJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobsResponseFromJson(json);
+  factory DescribeJobsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobsResponse(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// An object representing a container instance host device.
@@ -2831,44 +3103,79 @@ class DescribeJobsResponse {
 /// This object isn't applicable to jobs running on Fargate resources and
 /// shouldn't be provided.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Device {
   /// The path for the device on the host container instance.
-  @_s.JsonKey(name: 'hostPath')
   final String hostPath;
 
   /// The path inside the container used to expose the host device. By default the
   /// <code>hostPath</code> value is used.
-  @_s.JsonKey(name: 'containerPath')
-  final String containerPath;
+  final String? containerPath;
 
   /// The explicit permissions to provide to the container for the device. By
   /// default, the container has permissions for <code>read</code>,
   /// <code>write</code>, and <code>mknod</code> for the device.
-  @_s.JsonKey(name: 'permissions')
-  final List<DeviceCgroupPermission> permissions;
+  final List<DeviceCgroupPermission>? permissions;
 
   Device({
-    @_s.required this.hostPath,
+    required this.hostPath,
     this.containerPath,
     this.permissions,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      hostPath: json['hostPath'] as String,
+      containerPath: json['containerPath'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDeviceCgroupPermission())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeviceToJson(this);
+  Map<String, dynamic> toJson() {
+    final hostPath = this.hostPath;
+    final containerPath = this.containerPath;
+    final permissions = this.permissions;
+    return {
+      'hostPath': hostPath,
+      if (containerPath != null) 'containerPath': containerPath,
+      if (permissions != null)
+        'permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum DeviceCgroupPermission {
-  @_s.JsonValue('READ')
   read,
-  @_s.JsonValue('WRITE')
   write,
-  @_s.JsonValue('MKNOD')
   mknod,
+}
+
+extension on DeviceCgroupPermission {
+  String toValue() {
+    switch (this) {
+      case DeviceCgroupPermission.read:
+        return 'READ';
+      case DeviceCgroupPermission.write:
+        return 'WRITE';
+      case DeviceCgroupPermission.mknod:
+        return 'MKNOD';
+    }
+  }
+}
+
+extension on String {
+  DeviceCgroupPermission toDeviceCgroupPermission() {
+    switch (this) {
+      case 'READ':
+        return DeviceCgroupPermission.read;
+      case 'WRITE':
+        return DeviceCgroupPermission.write;
+      case 'MKNOD':
+        return DeviceCgroupPermission.mknod;
+    }
+    throw Exception('$this is not known in enum DeviceCgroupPermission');
+  }
 }
 
 /// Provides information used to select Amazon Machine Images (AMIs) for
@@ -2877,11 +3184,6 @@ enum DeviceCgroupPermission {
 /// <note>
 /// This object isn't applicable to jobs running on Fargate resources.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Ec2Configuration {
   /// The image type to match with the instance type to select an AMI. If the
   /// <code>imageIdOverride</code> parameter isn't specified, then a recent <a
@@ -2907,37 +3209,40 @@ class Ec2Configuration {
   /// information, see <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon
   /// Linux AMI</a>.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'imageType')
   final String imageType;
 
   /// The AMI ID used for instances launched in the compute environment that match
   /// the image type. This setting overrides the <code>imageId</code> set in the
   /// <code>computeResource</code> object.
-  @_s.JsonKey(name: 'imageIdOverride')
-  final String imageIdOverride;
+  final String? imageIdOverride;
 
   Ec2Configuration({
-    @_s.required this.imageType,
+    required this.imageType,
     this.imageIdOverride,
   });
-  factory Ec2Configuration.fromJson(Map<String, dynamic> json) =>
-      _$Ec2ConfigurationFromJson(json);
+  factory Ec2Configuration.fromJson(Map<String, dynamic> json) {
+    return Ec2Configuration(
+      imageType: json['imageType'] as String,
+      imageIdOverride: json['imageIdOverride'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$Ec2ConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final imageType = this.imageType;
+    final imageIdOverride = this.imageIdOverride;
+    return {
+      'imageType': imageType,
+      if (imageIdOverride != null) 'imageIdOverride': imageIdOverride,
+    };
+  }
 }
 
 /// Specifies a set of conditions to be met, and an action to take
 /// (<code>RETRY</code> or <code>EXIT</code>) if all conditions are met.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EvaluateOnExit {
   /// Specifies the action to take if all of the specified conditions
   /// (<code>onStatusReason</code>, <code>onReason</code>, and
   /// <code>onExitCode</code>) are met. The values are not case sensitive.
-  @_s.JsonKey(name: 'action')
   final RetryAction action;
 
   /// Contains a glob pattern to match against the decimal representation of the
@@ -2945,44 +3250,53 @@ class EvaluateOnExit {
   /// characters long, can contain only numbers, and can optionally end with an
   /// asterisk (*) so that only the start of the string needs to be an exact
   /// match.
-  @_s.JsonKey(name: 'onExitCode')
-  final String onExitCode;
+  final String? onExitCode;
 
   /// Contains a glob pattern to match against the <code>Reason</code> returned
   /// for a job. The patten can be up to 512 characters long, can contain letters,
   /// numbers, periods (.), colons (:), and white space (spaces, tabs), and can
   /// optionally end with an asterisk (*) so that only the start of the string
   /// needs to be an exact match.
-  @_s.JsonKey(name: 'onReason')
-  final String onReason;
+  final String? onReason;
 
   /// Contains a glob pattern to match against the <code>StatusReason</code>
   /// returned for a job. The patten can be up to 512 characters long, can contain
   /// letters, numbers, periods (.), colons (:), and white space (spaces, tabs).
   /// and can optionally end with an asterisk (*) so that only the start of the
   /// string needs to be an exact match.
-  @_s.JsonKey(name: 'onStatusReason')
-  final String onStatusReason;
+  final String? onStatusReason;
 
   EvaluateOnExit({
-    @_s.required this.action,
+    required this.action,
     this.onExitCode,
     this.onReason,
     this.onStatusReason,
   });
-  factory EvaluateOnExit.fromJson(Map<String, dynamic> json) =>
-      _$EvaluateOnExitFromJson(json);
+  factory EvaluateOnExit.fromJson(Map<String, dynamic> json) {
+    return EvaluateOnExit(
+      action: (json['action'] as String).toRetryAction(),
+      onExitCode: json['onExitCode'] as String?,
+      onReason: json['onReason'] as String?,
+      onStatusReason: json['onStatusReason'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EvaluateOnExitToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final onExitCode = this.onExitCode;
+    final onReason = this.onReason;
+    final onStatusReason = this.onStatusReason;
+    return {
+      'action': action.toValue(),
+      if (onExitCode != null) 'onExitCode': onExitCode,
+      if (onReason != null) 'onReason': onReason,
+      if (onStatusReason != null) 'onStatusReason': onStatusReason,
+    };
+  }
 }
 
 /// The platform configuration for jobs running on Fargate resources. Jobs
 /// running on EC2 resources must not specify this parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FargatePlatformConfiguration {
   /// The AWS Fargate platform version on which the jobs are running. A platform
   /// version is specified only for jobs running on Fargate resources. If one
@@ -2992,27 +3306,29 @@ class FargatePlatformConfiguration {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate platform versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   FargatePlatformConfiguration({
     this.platformVersion,
   });
-  factory FargatePlatformConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FargatePlatformConfigurationFromJson(json);
+  factory FargatePlatformConfiguration.fromJson(Map<String, dynamic> json) {
+    return FargatePlatformConfiguration(
+      platformVersion: json['platformVersion'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FargatePlatformConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final platformVersion = this.platformVersion;
+    return {
+      if (platformVersion != null) 'platformVersion': platformVersion,
+    };
+  }
 }
 
 /// Determine whether your data volume persists on the host container instance
 /// and where it is stored. If this parameter is empty, then the Docker daemon
 /// assigns a host path for your data volume, but the data isn't guaranteed to
 /// persist after the containers associated with it stop running.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Host {
   /// The path on the host container instance that's presented to the container.
   /// If this parameter is empty, then the Docker daemon has assigned a host path
@@ -3025,21 +3341,27 @@ class Host {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'sourcePath')
-  final String sourcePath;
+  final String? sourcePath;
 
   Host({
     this.sourcePath,
   });
-  factory Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
+  factory Host.fromJson(Map<String, dynamic> json) {
+    return Host(
+      sourcePath: json['sourcePath'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HostToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourcePath = this.sourcePath;
+    return {
+      if (sourcePath != null) 'sourcePath': sourcePath,
+    };
+  }
 }
 
 enum JQState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -3051,42 +3373,78 @@ extension on JQState {
       case JQState.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JQState toJQState() {
+    switch (this) {
+      case 'ENABLED':
+        return JQState.enabled;
+      case 'DISABLED':
+        return JQState.disabled;
+    }
+    throw Exception('$this is not known in enum JQState');
   }
 }
 
 enum JQStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('VALID')
   valid,
-  @_s.JsonValue('INVALID')
   invalid,
 }
 
+extension on JQStatus {
+  String toValue() {
+    switch (this) {
+      case JQStatus.creating:
+        return 'CREATING';
+      case JQStatus.updating:
+        return 'UPDATING';
+      case JQStatus.deleting:
+        return 'DELETING';
+      case JQStatus.deleted:
+        return 'DELETED';
+      case JQStatus.valid:
+        return 'VALID';
+      case JQStatus.invalid:
+        return 'INVALID';
+    }
+  }
+}
+
+extension on String {
+  JQStatus toJQStatus() {
+    switch (this) {
+      case 'CREATING':
+        return JQStatus.creating;
+      case 'UPDATING':
+        return JQStatus.updating;
+      case 'DELETING':
+        return JQStatus.deleting;
+      case 'DELETED':
+        return JQStatus.deleted;
+      case 'VALID':
+        return JQStatus.valid;
+      case 'INVALID':
+        return JQStatus.invalid;
+    }
+    throw Exception('$this is not known in enum JQStatus');
+  }
+}
+
 /// An object representing an AWS Batch job definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobDefinition {
   /// The Amazon Resource Name (ARN) for the job definition.
-  @_s.JsonKey(name: 'jobDefinitionArn')
   final String jobDefinitionArn;
 
   /// The name of the job definition.
-  @_s.JsonKey(name: 'jobDefinitionName')
   final String jobDefinitionName;
 
   /// The revision of the job definition.
-  @_s.JsonKey(name: 'revision')
   final int revision;
 
   /// The type of job definition. If the job is run on Fargate resources, then
@@ -3094,20 +3452,17 @@ class JobDefinition {
   /// multi-node parallel jobs, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-job-def.html">Creating
   /// a multi-node parallel job definition</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'type')
   final String type;
 
   /// An object with various properties specific to container-based jobs.
-  @_s.JsonKey(name: 'containerProperties')
-  final ContainerProperties containerProperties;
+  final ContainerProperties? containerProperties;
 
   /// An object with various properties specific to multi-node parallel jobs.
   /// <note>
   /// If the job runs on Fargate resources, then you must not specify
   /// <code>nodeProperties</code>; use <code>containerProperties</code> instead.
   /// </note>
-  @_s.JsonKey(name: 'nodeProperties')
-  final NodeProperties nodeProperties;
+  final NodeProperties? nodeProperties;
 
   /// Default parameters or parameter substitution placeholders that are set in
   /// the job definition. Parameters are specified as a key-value pair mapping.
@@ -3116,14 +3471,12 @@ class JobDefinition {
   /// specifying parameters, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html">Job
   /// Definition Parameters</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The platform capabilities required by the job definition. If no value is
   /// specified, it defaults to <code>EC2</code>. Jobs run on Fargate resources
   /// specify <code>FARGATE</code>.
-  @_s.JsonKey(name: 'platformCapabilities')
-  final List<PlatformCapability> platformCapabilities;
+  final List<PlatformCapability>? platformCapabilities;
 
   /// Specifies whether to propagate the tags from the job or job definition to
   /// the corresponding Amazon ECS task. If no value is specified, the tags aren't
@@ -3131,33 +3484,28 @@ class JobDefinition {
   /// For tags with the same name, job tags are given priority over job
   /// definitions tags. If the total number of combined tags from the job and job
   /// definition is over 50, the job is moved to the <code>FAILED</code> state.
-  @_s.JsonKey(name: 'propagateTags')
-  final bool propagateTags;
+  final bool? propagateTags;
 
   /// The retry strategy to use for failed jobs that are submitted with this job
   /// definition.
-  @_s.JsonKey(name: 'retryStrategy')
-  final RetryStrategy retryStrategy;
+  final RetryStrategy? retryStrategy;
 
   /// The status of the job definition.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The tags applied to the job definition.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The timeout configuration for jobs that are submitted with this job
   /// definition. You can specify a timeout duration after which AWS Batch
   /// terminates your jobs if they haven't finished.
-  @_s.JsonKey(name: 'timeout')
-  final JobTimeout timeout;
+  final JobTimeout? timeout;
 
   JobDefinition({
-    @_s.required this.jobDefinitionArn,
-    @_s.required this.jobDefinitionName,
-    @_s.required this.revision,
-    @_s.required this.type,
+    required this.jobDefinitionArn,
+    required this.jobDefinitionName,
+    required this.revision,
+    required this.type,
     this.containerProperties,
     this.nodeProperties,
     this.parameters,
@@ -3168,14 +3516,43 @@ class JobDefinition {
     this.tags,
     this.timeout,
   });
-  factory JobDefinition.fromJson(Map<String, dynamic> json) =>
-      _$JobDefinitionFromJson(json);
+  factory JobDefinition.fromJson(Map<String, dynamic> json) {
+    return JobDefinition(
+      jobDefinitionArn: json['jobDefinitionArn'] as String,
+      jobDefinitionName: json['jobDefinitionName'] as String,
+      revision: json['revision'] as int,
+      type: json['type'] as String,
+      containerProperties: json['containerProperties'] != null
+          ? ContainerProperties.fromJson(
+              json['containerProperties'] as Map<String, dynamic>)
+          : null,
+      nodeProperties: json['nodeProperties'] != null
+          ? NodeProperties.fromJson(
+              json['nodeProperties'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      platformCapabilities: (json['platformCapabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformCapability())
+          .toList(),
+      propagateTags: json['propagateTags'] as bool?,
+      retryStrategy: json['retryStrategy'] != null
+          ? RetryStrategy.fromJson(
+              json['retryStrategy'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      timeout: json['timeout'] != null
+          ? JobTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum JobDefinitionType {
-  @_s.JsonValue('container')
   container,
-  @_s.JsonValue('multinode')
   multinode,
 }
 
@@ -3187,64 +3564,69 @@ extension on JobDefinitionType {
       case JobDefinitionType.multinode:
         return 'multinode';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobDefinitionType toJobDefinitionType() {
+    switch (this) {
+      case 'container':
+        return JobDefinitionType.container;
+      case 'multinode':
+        return JobDefinitionType.multinode;
+    }
+    throw Exception('$this is not known in enum JobDefinitionType');
   }
 }
 
 /// An object representing an AWS Batch job dependency.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobDependency {
   /// The job ID of the AWS Batch job associated with this dependency.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The type of the job dependency.
-  @_s.JsonKey(name: 'type')
-  final ArrayJobDependency type;
+  final ArrayJobDependency? type;
 
   JobDependency({
     this.jobId,
     this.type,
   });
-  factory JobDependency.fromJson(Map<String, dynamic> json) =>
-      _$JobDependencyFromJson(json);
+  factory JobDependency.fromJson(Map<String, dynamic> json) {
+    return JobDependency(
+      jobId: json['jobId'] as String?,
+      type: (json['type'] as String?)?.toArrayJobDependency(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JobDependencyToJson(this);
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final type = this.type;
+    return {
+      if (jobId != null) 'jobId': jobId,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 /// An object representing an AWS Batch job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobDetail {
   /// The job definition that's used by this job.
-  @_s.JsonKey(name: 'jobDefinition')
   final String jobDefinition;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
   final String jobId;
 
   /// The name of the job.
-  @_s.JsonKey(name: 'jobName')
   final String jobName;
 
   /// The Amazon Resource Name (ARN) of the job queue that the job is associated
   /// with.
-  @_s.JsonKey(name: 'jobQueue')
   final String jobQueue;
 
   /// The Unix timestamp (in milliseconds) for when the job was started (when the
   /// job transitioned from the <code>STARTING</code> state to the
   /// <code>RUNNING</code> state). This parameter isn't provided for child jobs of
   /// array jobs or multi-node parallel jobs.
-  @_s.JsonKey(name: 'startedAt')
   final int startedAt;
 
   /// The current status for the job.
@@ -3254,61 +3636,50 @@ class JobDetail {
   /// Stuck in RUNNABLE Status</a> in the troubleshooting section of the <i>AWS
   /// Batch User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'status')
   final JobStatus status;
 
   /// The array properties of the job, if it is an array job.
-  @_s.JsonKey(name: 'arrayProperties')
-  final ArrayPropertiesDetail arrayProperties;
+  final ArrayPropertiesDetail? arrayProperties;
 
   /// A list of job attempts associated with this job.
-  @_s.JsonKey(name: 'attempts')
-  final List<AttemptDetail> attempts;
+  final List<AttemptDetail>? attempts;
 
   /// An object representing the details of the container that's associated with
   /// the job.
-  @_s.JsonKey(name: 'container')
-  final ContainerDetail container;
+  final ContainerDetail? container;
 
   /// The Unix timestamp (in milliseconds) for when the job was created. For
   /// non-array jobs and parent array jobs, this is when the job entered the
   /// <code>SUBMITTED</code> state (at the time <a>SubmitJob</a> was called). For
   /// array child jobs, this is when the child job was spawned by its parent and
   /// entered the <code>PENDING</code> state.
-  @_s.JsonKey(name: 'createdAt')
-  final int createdAt;
+  final int? createdAt;
 
   /// A list of job IDs that this job depends on.
-  @_s.JsonKey(name: 'dependsOn')
-  final List<JobDependency> dependsOn;
+  final List<JobDependency>? dependsOn;
 
   /// The Amazon Resource Name (ARN) of the job.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// An object representing the details of a node that's associated with a
   /// multi-node parallel job.
-  @_s.JsonKey(name: 'nodeDetails')
-  final NodeDetails nodeDetails;
+  final NodeDetails? nodeDetails;
 
   /// An object representing the node properties of a multi-node parallel job.
   /// <note>
   /// This isn't applicable to jobs running on Fargate resources.
   /// </note>
-  @_s.JsonKey(name: 'nodeProperties')
-  final NodeProperties nodeProperties;
+  final NodeProperties? nodeProperties;
 
   /// Additional parameters passed to the job that replace parameter substitution
   /// placeholders or override any corresponding parameter defaults from the job
   /// definition.
-  @_s.JsonKey(name: 'parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The platform capabilities required by the job definition. If no value is
   /// specified, it defaults to <code>EC2</code>. Jobs run on Fargate resources
   /// specify <code>FARGATE</code>.
-  @_s.JsonKey(name: 'platformCapabilities')
-  final List<PlatformCapability> platformCapabilities;
+  final List<PlatformCapability>? platformCapabilities;
 
   /// Specifies whether to propagate the tags from the job or job definition to
   /// the corresponding Amazon ECS task. If no value is specified, the tags are
@@ -3316,39 +3687,33 @@ class JobDetail {
   /// creation. For tags with the same name, job tags are given priority over job
   /// definitions tags. If the total number of combined tags from the job and job
   /// definition is over 50, the job is moved to the <code>FAILED</code> state.
-  @_s.JsonKey(name: 'propagateTags')
-  final bool propagateTags;
+  final bool? propagateTags;
 
   /// The retry strategy to use for this job if an attempt fails.
-  @_s.JsonKey(name: 'retryStrategy')
-  final RetryStrategy retryStrategy;
+  final RetryStrategy? retryStrategy;
 
   /// A short, human-readable string to provide additional details about the
   /// current status of the job.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The Unix timestamp (in milliseconds) for when the job was stopped (when the
   /// job transitioned from the <code>RUNNING</code> state to a terminal state,
   /// such as <code>SUCCEEDED</code> or <code>FAILED</code>).
-  @_s.JsonKey(name: 'stoppedAt')
-  final int stoppedAt;
+  final int? stoppedAt;
 
   /// The tags applied to the job.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The timeout configuration for the job.
-  @_s.JsonKey(name: 'timeout')
-  final JobTimeout timeout;
+  final JobTimeout? timeout;
 
   JobDetail({
-    @_s.required this.jobDefinition,
-    @_s.required this.jobId,
-    @_s.required this.jobName,
-    @_s.required this.jobQueue,
-    @_s.required this.startedAt,
-    @_s.required this.status,
+    required this.jobDefinition,
+    required this.jobId,
+    required this.jobName,
+    required this.jobQueue,
+    required this.startedAt,
+    required this.status,
     this.arrayProperties,
     this.attempts,
     this.container,
@@ -3366,29 +3731,71 @@ class JobDetail {
     this.tags,
     this.timeout,
   });
-  factory JobDetail.fromJson(Map<String, dynamic> json) =>
-      _$JobDetailFromJson(json);
+  factory JobDetail.fromJson(Map<String, dynamic> json) {
+    return JobDetail(
+      jobDefinition: json['jobDefinition'] as String,
+      jobId: json['jobId'] as String,
+      jobName: json['jobName'] as String,
+      jobQueue: json['jobQueue'] as String,
+      startedAt: json['startedAt'] as int,
+      status: (json['status'] as String).toJobStatus(),
+      arrayProperties: json['arrayProperties'] != null
+          ? ArrayPropertiesDetail.fromJson(
+              json['arrayProperties'] as Map<String, dynamic>)
+          : null,
+      attempts: (json['attempts'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttemptDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      container: json['container'] != null
+          ? ContainerDetail.fromJson(json['container'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['createdAt'] as int?,
+      dependsOn: (json['dependsOn'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobArn: json['jobArn'] as String?,
+      nodeDetails: json['nodeDetails'] != null
+          ? NodeDetails.fromJson(json['nodeDetails'] as Map<String, dynamic>)
+          : null,
+      nodeProperties: json['nodeProperties'] != null
+          ? NodeProperties.fromJson(
+              json['nodeProperties'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      platformCapabilities: (json['platformCapabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformCapability())
+          .toList(),
+      propagateTags: json['propagateTags'] as bool?,
+      retryStrategy: json['retryStrategy'] != null
+          ? RetryStrategy.fromJson(
+              json['retryStrategy'] as Map<String, dynamic>)
+          : null,
+      statusReason: json['statusReason'] as String?,
+      stoppedAt: json['stoppedAt'] as int?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      timeout: json['timeout'] != null
+          ? JobTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object representing the details of an AWS Batch job queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobQueueDetail {
   /// The compute environments that are attached to the job queue and the order
   /// that job placement is preferred. Compute environments are selected for job
   /// placement in ascending order.
-  @_s.JsonKey(name: 'computeEnvironmentOrder')
   final List<ComputeEnvironmentOrder> computeEnvironmentOrder;
 
   /// The Amazon Resource Name (ARN) of the job queue.
-  @_s.JsonKey(name: 'jobQueueArn')
   final String jobQueueArn;
 
   /// The name of the job queue.
-  @_s.JsonKey(name: 'jobQueueName')
   final String jobQueueName;
 
   /// The priority of the job queue. Job queues with a higher priority (or a
@@ -3400,60 +3807,63 @@ class JobQueueDetail {
   /// must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
   /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>); EC2 and Fargate compute
   /// environments cannot be mixed.
-  @_s.JsonKey(name: 'priority')
   final int priority;
 
   /// Describes the ability of the queue to accept new jobs. If the job queue
   /// state is <code>ENABLED</code>, it's able to accept jobs. If the job queue
   /// state is <code>DISABLED</code>, new jobs can't be added to the queue, but
   /// jobs already in the queue can finish.
-  @_s.JsonKey(name: 'state')
   final JQState state;
 
   /// The status of the job queue (for example, <code>CREATING</code> or
   /// <code>VALID</code>).
-  @_s.JsonKey(name: 'status')
-  final JQStatus status;
+  final JQStatus? status;
 
   /// A short, human-readable string to provide additional details about the
   /// current status of the job queue.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The tags applied to the job queue. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html">Tagging
   /// your AWS Batch resources</a> in <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   JobQueueDetail({
-    @_s.required this.computeEnvironmentOrder,
-    @_s.required this.jobQueueArn,
-    @_s.required this.jobQueueName,
-    @_s.required this.priority,
-    @_s.required this.state,
+    required this.computeEnvironmentOrder,
+    required this.jobQueueArn,
+    required this.jobQueueName,
+    required this.priority,
+    required this.state,
     this.status,
     this.statusReason,
     this.tags,
   });
-  factory JobQueueDetail.fromJson(Map<String, dynamic> json) =>
-      _$JobQueueDetailFromJson(json);
+  factory JobQueueDetail.fromJson(Map<String, dynamic> json) {
+    return JobQueueDetail(
+      computeEnvironmentOrder: (json['computeEnvironmentOrder'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ComputeEnvironmentOrder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobQueueArn: json['jobQueueArn'] as String,
+      jobQueueName: json['jobQueueName'] as String,
+      priority: json['priority'] as int,
+      state: (json['state'] as String).toJQState(),
+      status: (json['status'] as String?)?.toJQStatus(),
+      statusReason: json['statusReason'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNABLE')
   runnable,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -3475,76 +3885,81 @@ extension on JobStatus {
       case JobStatus.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return JobStatus.submitted;
+      case 'PENDING':
+        return JobStatus.pending;
+      case 'RUNNABLE':
+        return JobStatus.runnable;
+      case 'STARTING':
+        return JobStatus.starting;
+      case 'RUNNING':
+        return JobStatus.running;
+      case 'SUCCEEDED':
+        return JobStatus.succeeded;
+      case 'FAILED':
+        return JobStatus.failed;
+    }
+    throw Exception('$this is not known in enum JobStatus');
   }
 }
 
 /// An object representing summary details of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobSummary {
   /// The ID of the job.
-  @_s.JsonKey(name: 'jobId')
   final String jobId;
 
   /// The name of the job.
-  @_s.JsonKey(name: 'jobName')
   final String jobName;
 
   /// The array properties of the job, if it is an array job.
-  @_s.JsonKey(name: 'arrayProperties')
-  final ArrayPropertiesSummary arrayProperties;
+  final ArrayPropertiesSummary? arrayProperties;
 
   /// An object representing the details of the container that's associated with
   /// the job.
-  @_s.JsonKey(name: 'container')
-  final ContainerSummary container;
+  final ContainerSummary? container;
 
   /// The Unix timestamp for when the job was created. For non-array jobs and
   /// parent array jobs, this is when the job entered the <code>SUBMITTED</code>
   /// state (at the time <a>SubmitJob</a> was called). For array child jobs, this
   /// is when the child job was spawned by its parent and entered the
   /// <code>PENDING</code> state.
-  @_s.JsonKey(name: 'createdAt')
-  final int createdAt;
+  final int? createdAt;
 
   /// The Amazon Resource Name (ARN) of the job.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// The node properties for a single node in a job summary list.
   /// <note>
   /// This isn't applicable to jobs running on Fargate resources.
   /// </note>
-  @_s.JsonKey(name: 'nodeProperties')
-  final NodePropertiesSummary nodeProperties;
+  final NodePropertiesSummary? nodeProperties;
 
   /// The Unix timestamp for when the job was started (when the job transitioned
   /// from the <code>STARTING</code> state to the <code>RUNNING</code> state).
-  @_s.JsonKey(name: 'startedAt')
-  final int startedAt;
+  final int? startedAt;
 
   /// The current status for the job.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   /// A short, human-readable string to provide additional details about the
   /// current status of the job.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The Unix timestamp for when the job was stopped (when the job transitioned
   /// from the <code>RUNNING</code> state to a terminal state, such as
   /// <code>SUCCEEDED</code> or <code>FAILED</code>).
-  @_s.JsonKey(name: 'stoppedAt')
-  final int stoppedAt;
+  final int? stoppedAt;
 
   JobSummary({
-    @_s.required this.jobId,
-    @_s.required this.jobName,
+    required this.jobId,
+    required this.jobName,
     this.arrayProperties,
     this.container,
     this.createdAt,
@@ -3555,57 +3970,85 @@ class JobSummary {
     this.statusReason,
     this.stoppedAt,
   });
-  factory JobSummary.fromJson(Map<String, dynamic> json) =>
-      _$JobSummaryFromJson(json);
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      jobId: json['jobId'] as String,
+      jobName: json['jobName'] as String,
+      arrayProperties: json['arrayProperties'] != null
+          ? ArrayPropertiesSummary.fromJson(
+              json['arrayProperties'] as Map<String, dynamic>)
+          : null,
+      container: json['container'] != null
+          ? ContainerSummary.fromJson(json['container'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['createdAt'] as int?,
+      jobArn: json['jobArn'] as String?,
+      nodeProperties: json['nodeProperties'] != null
+          ? NodePropertiesSummary.fromJson(
+              json['nodeProperties'] as Map<String, dynamic>)
+          : null,
+      startedAt: json['startedAt'] as int?,
+      status: (json['status'] as String?)?.toJobStatus(),
+      statusReason: json['statusReason'] as String?,
+      stoppedAt: json['stoppedAt'] as int?,
+    );
+  }
 }
 
 /// An object representing a job timeout configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobTimeout {
   /// The time duration in seconds (measured from the job attempt's
   /// <code>startedAt</code> timestamp) after which AWS Batch terminates your jobs
   /// if they have not finished. The minimum value for the timeout is 60 seconds.
-  @_s.JsonKey(name: 'attemptDurationSeconds')
-  final int attemptDurationSeconds;
+  final int? attemptDurationSeconds;
 
   JobTimeout({
     this.attemptDurationSeconds,
   });
-  factory JobTimeout.fromJson(Map<String, dynamic> json) =>
-      _$JobTimeoutFromJson(json);
+  factory JobTimeout.fromJson(Map<String, dynamic> json) {
+    return JobTimeout(
+      attemptDurationSeconds: json['attemptDurationSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JobTimeoutToJson(this);
+  Map<String, dynamic> toJson() {
+    final attemptDurationSeconds = this.attemptDurationSeconds;
+    return {
+      if (attemptDurationSeconds != null)
+        'attemptDurationSeconds': attemptDurationSeconds,
+    };
+  }
 }
 
 /// A key-value pair object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeyValuePair {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The value of the key-value pair. For environment variables, this is the
   /// value of the environment variable.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   KeyValuePair({
     this.name,
     this.value,
   });
-  factory KeyValuePair.fromJson(Map<String, dynamic> json) =>
-      _$KeyValuePairFromJson(json);
+  factory KeyValuePair.fromJson(Map<String, dynamic> json) {
+    return KeyValuePair(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KeyValuePairToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// An object representing a launch template associated with a compute resource.
@@ -3620,19 +4063,12 @@ class KeyValuePair {
 /// <note>
 /// This object isn't applicable to jobs running on Fargate resources.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LaunchTemplateSpecification {
   /// The ID of the launch template.
-  @_s.JsonKey(name: 'launchTemplateId')
-  final String launchTemplateId;
+  final String? launchTemplateId;
 
   /// The name of the launch template.
-  @_s.JsonKey(name: 'launchTemplateName')
-  final String launchTemplateName;
+  final String? launchTemplateName;
 
   /// The version number of the launch template, <code>$Latest</code>, or
   /// <code>$Default</code>.
@@ -3642,27 +4078,35 @@ class LaunchTemplateSpecification {
   /// of the launch template is used.
   ///
   /// Default: <code>$Default</code>.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   LaunchTemplateSpecification({
     this.launchTemplateId,
     this.launchTemplateName,
     this.version,
   });
-  factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) =>
-      _$LaunchTemplateSpecificationFromJson(json);
+  factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) {
+    return LaunchTemplateSpecification(
+      launchTemplateId: json['launchTemplateId'] as String?,
+      launchTemplateName: json['launchTemplateName'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'launchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'launchTemplateName': launchTemplateName,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Linux-specific modifications that are applied to the container, such as
 /// details for device mappings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LinuxParameters {
   /// Any host devices to expose to the container. This parameter maps to
   /// <code>Devices</code> in the <a
@@ -3675,8 +4119,7 @@ class LinuxParameters {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'devices')
-  final List<Device> devices;
+  final List<Device>? devices;
 
   /// If true, run an <code>init</code> process inside the container that forwards
   /// signals and reaps processes. This parameter maps to the <code>--init</code>
@@ -3686,8 +4129,7 @@ class LinuxParameters {
   /// on your container instance, log into your container instance and run the
   /// following command: <code>sudo docker version | grep "Server API
   /// version"</code>
-  @_s.JsonKey(name: 'initProcessEnabled')
-  final bool initProcessEnabled;
+  final bool? initProcessEnabled;
 
   /// The total amount of swap memory (in MiB) a container can use. This parameter
   /// is translated to the <code>--memory-swap</code> option to <a
@@ -3707,8 +4149,7 @@ class LinuxParameters {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'maxSwap')
-  final int maxSwap;
+  final int? maxSwap;
 
   /// The value for the size (in MiB) of the <code>/dev/shm</code> volume. This
   /// parameter maps to the <code>--shm-size</code> option to <a
@@ -3717,8 +4158,7 @@ class LinuxParameters {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'sharedMemorySize')
-  final int sharedMemorySize;
+  final int? sharedMemorySize;
 
   /// This allows you to tune a container's memory swappiness behavior. A
   /// <code>swappiness</code> value of <code>0</code> causes swapping not to
@@ -3763,8 +4203,7 @@ class LinuxParameters {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'swappiness')
-  final int swappiness;
+  final int? swappiness;
 
   /// The container path, mount options, and size (in MiB) of the tmpfs mount.
   /// This parameter maps to the <code>--tmpfs</code> option to <a
@@ -3773,8 +4212,7 @@ class LinuxParameters {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'tmpfs')
-  final List<Tmpfs> tmpfs;
+  final List<Tmpfs>? tmpfs;
 
   LinuxParameters({
     this.devices,
@@ -3784,20 +4222,43 @@ class LinuxParameters {
     this.swappiness,
     this.tmpfs,
   });
-  factory LinuxParameters.fromJson(Map<String, dynamic> json) =>
-      _$LinuxParametersFromJson(json);
+  factory LinuxParameters.fromJson(Map<String, dynamic> json) {
+    return LinuxParameters(
+      devices: (json['devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      initProcessEnabled: json['initProcessEnabled'] as bool?,
+      maxSwap: json['maxSwap'] as int?,
+      sharedMemorySize: json['sharedMemorySize'] as int?,
+      swappiness: json['swappiness'] as int?,
+      tmpfs: (json['tmpfs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tmpfs.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LinuxParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    final initProcessEnabled = this.initProcessEnabled;
+    final maxSwap = this.maxSwap;
+    final sharedMemorySize = this.sharedMemorySize;
+    final swappiness = this.swappiness;
+    final tmpfs = this.tmpfs;
+    return {
+      if (devices != null) 'devices': devices,
+      if (initProcessEnabled != null) 'initProcessEnabled': initProcessEnabled,
+      if (maxSwap != null) 'maxSwap': maxSwap,
+      if (sharedMemorySize != null) 'sharedMemorySize': sharedMemorySize,
+      if (swappiness != null) 'swappiness': swappiness,
+      if (tmpfs != null) 'tmpfs': tmpfs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResponse {
   /// A list of job summaries that match the request.
-  @_s.JsonKey(name: 'jobSummaryList')
   final List<JobSummary> jobSummaryList;
 
   /// The <code>nextToken</code> value to include in a future
@@ -3805,40 +4266,39 @@ class ListJobsResponse {
   /// request exceed <code>maxResults</code>, this value can be used to retrieve
   /// the next page of results. This value is <code>null</code> when there are no
   /// more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResponse({
-    @_s.required this.jobSummaryList,
+    required this.jobSummaryList,
     this.nextToken,
   });
-  factory ListJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResponseFromJson(json);
+  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsResponse(
+      jobSummaryList: (json['jobSummaryList'] as List)
+          .whereNotNull()
+          .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Log configuration options to send to a custom log driver for the container.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogConfiguration {
   /// The log driver to use for the container. The valid values listed for this
   /// parameter are log drivers that the Amazon ECS container agent can
@@ -3900,7 +4360,6 @@ class LogConfiguration {
   /// your container instance. To check the Docker Remote API version on your
   /// container instance, log into your container instance and run the following
   /// command: <code>sudo docker version | grep "Server API version"</code>
-  @_s.JsonKey(name: 'logDriver')
   final LogDriver logDriver;
 
   /// The configuration options to send to the log driver. This parameter requires
@@ -3908,41 +4367,93 @@ class LogConfiguration {
   /// To check the Docker Remote API version on your container instance, log into
   /// your container instance and run the following command: <code>sudo docker
   /// version | grep "Server API version"</code>
-  @_s.JsonKey(name: 'options')
-  final Map<String, String> options;
+  final Map<String, String>? options;
 
   /// The secrets to pass to the log configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
   /// Sensitive Data</a> in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'secretOptions')
-  final List<Secret> secretOptions;
+  final List<Secret>? secretOptions;
 
   LogConfiguration({
-    @_s.required this.logDriver,
+    required this.logDriver,
     this.options,
     this.secretOptions,
   });
-  factory LogConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigurationFromJson(json);
+  factory LogConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogConfiguration(
+      logDriver: (json['logDriver'] as String).toLogDriver(),
+      options: (json['options'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      secretOptions: (json['secretOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Secret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final logDriver = this.logDriver;
+    final options = this.options;
+    final secretOptions = this.secretOptions;
+    return {
+      'logDriver': logDriver.toValue(),
+      if (options != null) 'options': options,
+      if (secretOptions != null) 'secretOptions': secretOptions,
+    };
+  }
 }
 
 enum LogDriver {
-  @_s.JsonValue('json-file')
   jsonFile,
-  @_s.JsonValue('syslog')
   syslog,
-  @_s.JsonValue('journald')
   journald,
-  @_s.JsonValue('gelf')
   gelf,
-  @_s.JsonValue('fluentd')
   fluentd,
-  @_s.JsonValue('awslogs')
   awslogs,
-  @_s.JsonValue('splunk')
   splunk,
+}
+
+extension on LogDriver {
+  String toValue() {
+    switch (this) {
+      case LogDriver.jsonFile:
+        return 'json-file';
+      case LogDriver.syslog:
+        return 'syslog';
+      case LogDriver.journald:
+        return 'journald';
+      case LogDriver.gelf:
+        return 'gelf';
+      case LogDriver.fluentd:
+        return 'fluentd';
+      case LogDriver.awslogs:
+        return 'awslogs';
+      case LogDriver.splunk:
+        return 'splunk';
+    }
+  }
+}
+
+extension on String {
+  LogDriver toLogDriver() {
+    switch (this) {
+      case 'json-file':
+        return LogDriver.jsonFile;
+      case 'syslog':
+        return LogDriver.syslog;
+      case 'journald':
+        return LogDriver.journald;
+      case 'gelf':
+        return LogDriver.gelf;
+      case 'fluentd':
+        return LogDriver.fluentd;
+      case 'awslogs':
+        return LogDriver.awslogs;
+      case 'splunk':
+        return LogDriver.splunk;
+    }
+    throw Exception('$this is not known in enum LogDriver');
+  }
 }
 
 /// Details on a Docker volume mount point that's used in a job's container
@@ -3950,44 +4461,45 @@ enum LogDriver {
 /// href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.19/#create-a-container">Create
 /// a container</a> section of the Docker Remote API and the
 /// <code>--volume</code> option to docker run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MountPoint {
   /// The path on the container where the host volume is mounted.
-  @_s.JsonKey(name: 'containerPath')
-  final String containerPath;
+  final String? containerPath;
 
   /// If this value is <code>true</code>, the container has read-only access to
   /// the volume. Otherwise, the container can write to the volume. The default
   /// value is <code>false</code>.
-  @_s.JsonKey(name: 'readOnly')
-  final bool readOnly;
+  final bool? readOnly;
 
   /// The name of the volume to mount.
-  @_s.JsonKey(name: 'sourceVolume')
-  final String sourceVolume;
+  final String? sourceVolume;
 
   MountPoint({
     this.containerPath,
     this.readOnly,
     this.sourceVolume,
   });
-  factory MountPoint.fromJson(Map<String, dynamic> json) =>
-      _$MountPointFromJson(json);
+  factory MountPoint.fromJson(Map<String, dynamic> json) {
+    return MountPoint(
+      containerPath: json['containerPath'] as String?,
+      readOnly: json['readOnly'] as bool?,
+      sourceVolume: json['sourceVolume'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MountPointToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerPath = this.containerPath;
+    final readOnly = this.readOnly;
+    final sourceVolume = this.sourceVolume;
+    return {
+      if (containerPath != null) 'containerPath': containerPath,
+      if (readOnly != null) 'readOnly': readOnly,
+      if (sourceVolume != null) 'sourceVolume': sourceVolume,
+    };
+  }
 }
 
 /// The network configuration for jobs running on Fargate resources. Jobs
 /// running on EC2 resources must not specify this parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NetworkConfiguration {
   /// Indicates whether the job should have a public IP address. For a job running
   /// on Fargate resources in a private subnet to send outbound traffic to the
@@ -3996,71 +4508,72 @@ class NetworkConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Amazon
   /// ECS task networking</a>. The default value is "DISABLED".
-  @_s.JsonKey(name: 'assignPublicIp')
-  final AssignPublicIp assignPublicIp;
+  final AssignPublicIp? assignPublicIp;
 
   NetworkConfiguration({
     this.assignPublicIp,
   });
-  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NetworkConfigurationFromJson(json);
+  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkConfiguration(
+      assignPublicIp: (json['assignPublicIp'] as String?)?.toAssignPublicIp(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NetworkConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final assignPublicIp = this.assignPublicIp;
+    return {
+      if (assignPublicIp != null) 'assignPublicIp': assignPublicIp.toValue(),
+    };
+  }
 }
 
 /// An object representing the elastic network interface for a multi-node
 /// parallel job node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The attachment ID for the network interface.
-  @_s.JsonKey(name: 'attachmentId')
-  final String attachmentId;
+  final String? attachmentId;
 
   /// The private IPv6 address for the network interface.
-  @_s.JsonKey(name: 'ipv6Address')
-  final String ipv6Address;
+  final String? ipv6Address;
 
   /// The private IPv4 address for the network interface.
-  @_s.JsonKey(name: 'privateIpv4Address')
-  final String privateIpv4Address;
+  final String? privateIpv4Address;
 
   NetworkInterface({
     this.attachmentId,
     this.ipv6Address,
     this.privateIpv4Address,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      attachmentId: json['attachmentId'] as String?,
+      ipv6Address: json['ipv6Address'] as String?,
+      privateIpv4Address: json['privateIpv4Address'] as String?,
+    );
+  }
 }
 
 /// An object representing the details of a multi-node parallel job node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeDetails {
   /// Specifies whether the current node is the main node for a multi-node
   /// parallel job.
-  @_s.JsonKey(name: 'isMainNode')
-  final bool isMainNode;
+  final bool? isMainNode;
 
   /// The node index for the node. Node index numbering begins at zero. This index
   /// is also available on the node with the <code>AWS_BATCH_JOB_NODE_INDEX</code>
   /// environment variable.
-  @_s.JsonKey(name: 'nodeIndex')
-  final int nodeIndex;
+  final int? nodeIndex;
 
   NodeDetails({
     this.isMainNode,
     this.nodeIndex,
   });
-  factory NodeDetails.fromJson(Map<String, dynamic> json) =>
-      _$NodeDetailsFromJson(json);
+  factory NodeDetails.fromJson(Map<String, dynamic> json) {
+    return NodeDetails(
+      isMainNode: json['isMainNode'] as bool?,
+      nodeIndex: json['nodeIndex'] as int?,
+    );
+  }
 }
 
 /// Object representing any node overrides to a job definition that's used in a
@@ -4069,15 +4582,9 @@ class NodeDetails {
 /// This isn't applicable to jobs running on Fargate resources and shouldn't be
 /// provided; use <code>containerOverrides</code> instead.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NodeOverrides {
   /// The node property overrides for the job.
-  @_s.JsonKey(name: 'nodePropertyOverrides')
-  final List<NodePropertyOverride> nodePropertyOverrides;
+  final List<NodePropertyOverride>? nodePropertyOverrides;
 
   /// The number of nodes to use with a multi-node parallel job. This value
   /// overrides the number of nodes that are specified in the job definition. To
@@ -4097,87 +4604,95 @@ class NodeOverrides {
   /// number of nodes specified in the override.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'numNodes')
-  final int numNodes;
+  final int? numNodes;
 
   NodeOverrides({
     this.nodePropertyOverrides,
     this.numNodes,
   });
-  Map<String, dynamic> toJson() => _$NodeOverridesToJson(this);
+  Map<String, dynamic> toJson() {
+    final nodePropertyOverrides = this.nodePropertyOverrides;
+    final numNodes = this.numNodes;
+    return {
+      if (nodePropertyOverrides != null)
+        'nodePropertyOverrides': nodePropertyOverrides,
+      if (numNodes != null) 'numNodes': numNodes,
+    };
+  }
 }
 
 /// An object representing the node properties of a multi-node parallel job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodeProperties {
   /// Specifies the node index for the main node of a multi-node parallel job.
   /// This node index value must be fewer than the number of nodes.
-  @_s.JsonKey(name: 'mainNode')
   final int mainNode;
 
   /// A list of node ranges and their properties associated with a multi-node
   /// parallel job.
-  @_s.JsonKey(name: 'nodeRangeProperties')
   final List<NodeRangeProperty> nodeRangeProperties;
 
   /// The number of nodes associated with a multi-node parallel job.
-  @_s.JsonKey(name: 'numNodes')
   final int numNodes;
 
   NodeProperties({
-    @_s.required this.mainNode,
-    @_s.required this.nodeRangeProperties,
-    @_s.required this.numNodes,
+    required this.mainNode,
+    required this.nodeRangeProperties,
+    required this.numNodes,
   });
-  factory NodeProperties.fromJson(Map<String, dynamic> json) =>
-      _$NodePropertiesFromJson(json);
+  factory NodeProperties.fromJson(Map<String, dynamic> json) {
+    return NodeProperties(
+      mainNode: json['mainNode'] as int,
+      nodeRangeProperties: (json['nodeRangeProperties'] as List)
+          .whereNotNull()
+          .map((e) => NodeRangeProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numNodes: json['numNodes'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NodePropertiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final mainNode = this.mainNode;
+    final nodeRangeProperties = this.nodeRangeProperties;
+    final numNodes = this.numNodes;
+    return {
+      'mainNode': mainNode,
+      'nodeRangeProperties': nodeRangeProperties,
+      'numNodes': numNodes,
+    };
+  }
 }
 
 /// An object representing the properties of a node that's associated with a
 /// multi-node parallel job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodePropertiesSummary {
   /// Specifies whether the current node is the main node for a multi-node
   /// parallel job.
-  @_s.JsonKey(name: 'isMainNode')
-  final bool isMainNode;
+  final bool? isMainNode;
 
   /// The node index for the node. Node index numbering begins at zero. This index
   /// is also available on the node with the <code>AWS_BATCH_JOB_NODE_INDEX</code>
   /// environment variable.
-  @_s.JsonKey(name: 'nodeIndex')
-  final int nodeIndex;
+  final int? nodeIndex;
 
   /// The number of nodes associated with a multi-node parallel job.
-  @_s.JsonKey(name: 'numNodes')
-  final int numNodes;
+  final int? numNodes;
 
   NodePropertiesSummary({
     this.isMainNode,
     this.nodeIndex,
     this.numNodes,
   });
-  factory NodePropertiesSummary.fromJson(Map<String, dynamic> json) =>
-      _$NodePropertiesSummaryFromJson(json);
+  factory NodePropertiesSummary.fromJson(Map<String, dynamic> json) {
+    return NodePropertiesSummary(
+      isMainNode: json['isMainNode'] as bool?,
+      nodeIndex: json['nodeIndex'] as int?,
+      numNodes: json['numNodes'] as int?,
+    );
+  }
 }
 
 /// Object representing any node overrides to a job definition that's used in a
 /// <a>SubmitJob</a> API operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NodePropertyOverride {
   /// The range of nodes, using node index values, that's used to override. A
   /// range of <code>0:3</code> indicates nodes with index values of
@@ -4185,27 +4700,27 @@ class NodePropertyOverride {
   /// omitted (<code>:n</code>), then <code>0</code> is used to start the range.
   /// If the ending range value is omitted (<code>n:</code>), then the highest
   /// possible node index is used to end the range.
-  @_s.JsonKey(name: 'targetNodes')
   final String targetNodes;
 
   /// The overrides that should be sent to a node range.
-  @_s.JsonKey(name: 'containerOverrides')
-  final ContainerOverrides containerOverrides;
+  final ContainerOverrides? containerOverrides;
 
   NodePropertyOverride({
-    @_s.required this.targetNodes,
+    required this.targetNodes,
     this.containerOverrides,
   });
-  Map<String, dynamic> toJson() => _$NodePropertyOverrideToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetNodes = this.targetNodes;
+    final containerOverrides = this.containerOverrides;
+    return {
+      'targetNodes': targetNodes,
+      if (containerOverrides != null) 'containerOverrides': containerOverrides,
+    };
+  }
 }
 
 /// An object representing the properties of the node range for a multi-node
 /// parallel job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodeRangeProperty {
   /// The range of nodes, using node index values. A range of <code>0:3</code>
   /// indicates nodes with index values of <code>0</code> through <code>3</code>.
@@ -4216,27 +4731,37 @@ class NodeRangeProperty {
   /// (<code>0:n</code>). You can nest node ranges, for example <code>0:10</code>
   /// and <code>4:5</code>, in which case the <code>4:5</code> range properties
   /// override the <code>0:10</code> properties.
-  @_s.JsonKey(name: 'targetNodes')
   final String targetNodes;
 
   /// The container details for the node range.
-  @_s.JsonKey(name: 'container')
-  final ContainerProperties container;
+  final ContainerProperties? container;
 
   NodeRangeProperty({
-    @_s.required this.targetNodes,
+    required this.targetNodes,
     this.container,
   });
-  factory NodeRangeProperty.fromJson(Map<String, dynamic> json) =>
-      _$NodeRangePropertyFromJson(json);
+  factory NodeRangeProperty.fromJson(Map<String, dynamic> json) {
+    return NodeRangeProperty(
+      targetNodes: json['targetNodes'] as String,
+      container: json['container'] != null
+          ? ContainerProperties.fromJson(
+              json['container'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NodeRangePropertyToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetNodes = this.targetNodes;
+    final container = this.container;
+    return {
+      'targetNodes': targetNodes,
+      if (container != null) 'container': container,
+    };
+  }
 }
 
 enum PlatformCapability {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('FARGATE')
   fargate,
 }
 
@@ -4248,49 +4773,51 @@ extension on PlatformCapability {
       case PlatformCapability.fargate:
         return 'FARGATE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  PlatformCapability toPlatformCapability() {
+    switch (this) {
+      case 'EC2':
+        return PlatformCapability.ec2;
+      case 'FARGATE':
+        return PlatformCapability.fargate;
+    }
+    throw Exception('$this is not known in enum PlatformCapability');
+  }
+}
+
 class RegisterJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the job definition.
-  @_s.JsonKey(name: 'jobDefinitionArn')
   final String jobDefinitionArn;
 
   /// The name of the job definition.
-  @_s.JsonKey(name: 'jobDefinitionName')
   final String jobDefinitionName;
 
   /// The revision of the job definition.
-  @_s.JsonKey(name: 'revision')
   final int revision;
 
   RegisterJobDefinitionResponse({
-    @_s.required this.jobDefinitionArn,
-    @_s.required this.jobDefinitionName,
-    @_s.required this.revision,
+    required this.jobDefinitionArn,
+    required this.jobDefinitionName,
+    required this.revision,
   });
-  factory RegisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterJobDefinitionResponseFromJson(json);
+  factory RegisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterJobDefinitionResponse(
+      jobDefinitionArn: json['jobDefinitionArn'] as String,
+      jobDefinitionName: json['jobDefinitionName'] as String,
+      revision: json['revision'] as int,
+    );
+  }
 }
 
 /// The type and amount of a resource to assign to a container. The supported
 /// resources include <code>GPU</code>, <code>MEMORY</code>, and
 /// <code>VCPU</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceRequirement {
   /// The type of resource to assign to a container. The supported resources
   /// include <code>GPU</code>, <code>MEMORY</code>, and <code>VCPU</code>.
-  @_s.JsonKey(name: 'type')
   final ResourceType type;
 
   /// The quantity of the specified resource to reserve for the container. The
@@ -4380,65 +4907,127 @@ class ResourceRequirement {
   /// 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624,
   /// 27648, 28672, 29696, or 30720
   /// </dd> </dl> </dd> </dl>
-  @_s.JsonKey(name: 'value')
   final String value;
 
   ResourceRequirement({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory ResourceRequirement.fromJson(Map<String, dynamic> json) =>
-      _$ResourceRequirementFromJson(json);
+  factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
+    return ResourceRequirement(
+      type: (json['type'] as String).toResourceType(),
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceRequirementToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'type': type.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('GPU')
   gpu,
-  @_s.JsonValue('VCPU')
   vcpu,
-  @_s.JsonValue('MEMORY')
   memory,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.gpu:
+        return 'GPU';
+      case ResourceType.vcpu:
+        return 'VCPU';
+      case ResourceType.memory:
+        return 'MEMORY';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'GPU':
+        return ResourceType.gpu;
+      case 'VCPU':
+        return ResourceType.vcpu;
+      case 'MEMORY':
+        return ResourceType.memory;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 enum RetryAction {
-  @_s.JsonValue('RETRY')
   retry,
-  @_s.JsonValue('EXIT')
   exit,
+}
+
+extension on RetryAction {
+  String toValue() {
+    switch (this) {
+      case RetryAction.retry:
+        return 'RETRY';
+      case RetryAction.exit:
+        return 'EXIT';
+    }
+  }
+}
+
+extension on String {
+  RetryAction toRetryAction() {
+    switch (this) {
+      case 'RETRY':
+        return RetryAction.retry;
+      case 'EXIT':
+        return RetryAction.exit;
+    }
+    throw Exception('$this is not known in enum RetryAction');
+  }
 }
 
 /// The retry strategy associated with a job. For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html">Automated
 /// job retries</a> in the <i>AWS Batch User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RetryStrategy {
   /// The number of times to move a job to the <code>RUNNABLE</code> status. You
   /// can specify between 1 and 10 attempts. If the value of <code>attempts</code>
   /// is greater than one, the job is retried on failure the same number of
   /// attempts as the value.
-  @_s.JsonKey(name: 'attempts')
-  final int attempts;
+  final int? attempts;
 
   /// Array of up to 5 objects that specify conditions under which the job should
   /// be retried or failed. If this parameter is specified, then the
   /// <code>attempts</code> parameter must also be specified.
-  @_s.JsonKey(name: 'evaluateOnExit')
-  final List<EvaluateOnExit> evaluateOnExit;
+  final List<EvaluateOnExit>? evaluateOnExit;
 
   RetryStrategy({
     this.attempts,
     this.evaluateOnExit,
   });
-  factory RetryStrategy.fromJson(Map<String, dynamic> json) =>
-      _$RetryStrategyFromJson(json);
+  factory RetryStrategy.fromJson(Map<String, dynamic> json) {
+    return RetryStrategy(
+      attempts: json['attempts'] as int?,
+      evaluateOnExit: (json['evaluateOnExit'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluateOnExit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RetryStrategyToJson(this);
+  Map<String, dynamic> toJson() {
+    final attempts = this.attempts;
+    final evaluateOnExit = this.evaluateOnExit;
+    return {
+      if (attempts != null) 'attempts': attempts,
+      if (evaluateOnExit != null) 'evaluateOnExit': evaluateOnExit,
+    };
+  }
 }
 
 /// An object representing the secret to expose to your container. Secrets can
@@ -4457,14 +5046,8 @@ class RetryStrategy {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
 /// sensitive data</a> in the <i>AWS Batch User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Secret {
   /// The name of the secret.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The secret to expose to the container. The supported values are either the
@@ -4476,83 +5059,76 @@ class Secret {
   /// name of the parameter. If the parameter exists in a different Region, then
   /// the full ARN must be specified.
   /// </note>
-  @_s.JsonKey(name: 'valueFrom')
   final String valueFrom;
 
   Secret({
-    @_s.required this.name,
-    @_s.required this.valueFrom,
+    required this.name,
+    required this.valueFrom,
   });
-  factory Secret.fromJson(Map<String, dynamic> json) => _$SecretFromJson(json);
+  factory Secret.fromJson(Map<String, dynamic> json) {
+    return Secret(
+      name: json['name'] as String,
+      valueFrom: json['valueFrom'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SecretToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final valueFrom = this.valueFrom;
+    return {
+      'name': name,
+      'valueFrom': valueFrom,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubmitJobResponse {
   /// The unique identifier for the job.
-  @_s.JsonKey(name: 'jobId')
   final String jobId;
 
   /// The name of the job.
-  @_s.JsonKey(name: 'jobName')
   final String jobName;
 
   /// The Amazon Resource Name (ARN) for the job.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   SubmitJobResponse({
-    @_s.required this.jobId,
-    @_s.required this.jobName,
+    required this.jobId,
+    required this.jobName,
     this.jobArn,
   });
-  factory SubmitJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$SubmitJobResponseFromJson(json);
+  factory SubmitJobResponse.fromJson(Map<String, dynamic> json) {
+    return SubmitJobResponse(
+      jobId: json['jobId'] as String,
+      jobName: json['jobName'] as String,
+      jobArn: json['jobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateJobResponse {
   TerminateJobResponse();
-  factory TerminateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$TerminateJobResponseFromJson(json);
+  factory TerminateJobResponse.fromJson(Map<String, dynamic> _) {
+    return TerminateJobResponse();
+  }
 }
 
 /// The container path, mount options, and size of the tmpfs mount.
 /// <note>
 /// This object isn't applicable to jobs running on Fargate resources.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tmpfs {
   /// The absolute file path in the container where the tmpfs volume is mounted.
-  @_s.JsonKey(name: 'containerPath')
   final String containerPath;
 
   /// The size (in MiB) of the tmpfs volume.
-  @_s.JsonKey(name: 'size')
   final int size;
 
   /// The list of tmpfs volume mount options.
@@ -4570,114 +5146,122 @@ class Tmpfs {
   /// "<code>nostrictatime</code>" | "<code>mode</code>" | "<code>uid</code>" |
   /// "<code>gid</code>" | "<code>nr_inodes</code>" | "<code>nr_blocks</code>" |
   /// "<code>mpol</code>"
-  @_s.JsonKey(name: 'mountOptions')
-  final List<String> mountOptions;
+  final List<String>? mountOptions;
 
   Tmpfs({
-    @_s.required this.containerPath,
-    @_s.required this.size,
+    required this.containerPath,
+    required this.size,
     this.mountOptions,
   });
-  factory Tmpfs.fromJson(Map<String, dynamic> json) => _$TmpfsFromJson(json);
+  factory Tmpfs.fromJson(Map<String, dynamic> json) {
+    return Tmpfs(
+      containerPath: json['containerPath'] as String,
+      size: json['size'] as int,
+      mountOptions: (json['mountOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TmpfsToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerPath = this.containerPath;
+    final size = this.size;
+    final mountOptions = this.mountOptions;
+    return {
+      'containerPath': containerPath,
+      'size': size,
+      if (mountOptions != null) 'mountOptions': mountOptions,
+    };
+  }
 }
 
 /// The <code>ulimit</code> settings to pass to the container.
 /// <note>
 /// This object isn't applicable to jobs running on Fargate resources.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Ulimit {
   /// The hard limit for the <code>ulimit</code> type.
-  @_s.JsonKey(name: 'hardLimit')
   final int hardLimit;
 
   /// The <code>type</code> of the <code>ulimit</code>.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The soft limit for the <code>ulimit</code> type.
-  @_s.JsonKey(name: 'softLimit')
   final int softLimit;
 
   Ulimit({
-    @_s.required this.hardLimit,
-    @_s.required this.name,
-    @_s.required this.softLimit,
+    required this.hardLimit,
+    required this.name,
+    required this.softLimit,
   });
-  factory Ulimit.fromJson(Map<String, dynamic> json) => _$UlimitFromJson(json);
+  factory Ulimit.fromJson(Map<String, dynamic> json) {
+    return Ulimit(
+      hardLimit: json['hardLimit'] as int,
+      name: json['name'] as String,
+      softLimit: json['softLimit'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UlimitToJson(this);
+  Map<String, dynamic> toJson() {
+    final hardLimit = this.hardLimit;
+    final name = this.name;
+    final softLimit = this.softLimit;
+    return {
+      'hardLimit': hardLimit,
+      'name': name,
+      'softLimit': softLimit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
-  @_s.JsonKey(name: 'computeEnvironmentArn')
-  final String computeEnvironmentArn;
+  final String? computeEnvironmentArn;
 
   /// The name of the compute environment. Up to 128 letters (uppercase and
   /// lowercase), numbers, hyphens, and underscores are allowed.
-  @_s.JsonKey(name: 'computeEnvironmentName')
-  final String computeEnvironmentName;
+  final String? computeEnvironmentName;
 
   UpdateComputeEnvironmentResponse({
     this.computeEnvironmentArn,
     this.computeEnvironmentName,
   });
-  factory UpdateComputeEnvironmentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateComputeEnvironmentResponseFromJson(json);
+  factory UpdateComputeEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateComputeEnvironmentResponse(
+      computeEnvironmentArn: json['computeEnvironmentArn'] as String?,
+      computeEnvironmentName: json['computeEnvironmentName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateJobQueueResponse {
   /// The Amazon Resource Name (ARN) of the job queue.
-  @_s.JsonKey(name: 'jobQueueArn')
-  final String jobQueueArn;
+  final String? jobQueueArn;
 
   /// The name of the job queue.
-  @_s.JsonKey(name: 'jobQueueName')
-  final String jobQueueName;
+  final String? jobQueueName;
 
   UpdateJobQueueResponse({
     this.jobQueueArn,
     this.jobQueueName,
   });
-  factory UpdateJobQueueResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateJobQueueResponseFromJson(json);
+  factory UpdateJobQueueResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateJobQueueResponse(
+      jobQueueArn: json['jobQueueArn'] as String?,
+      jobQueueName: json['jobQueueName'] as String?,
+    );
+  }
 }
 
 /// A data volume used in a job's container properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Volume {
   /// The contents of the <code>host</code> parameter determine whether your data
   /// volume persists on the host container instance and where it is stored. If
@@ -4688,32 +5272,44 @@ class Volume {
   /// This parameter isn't applicable to jobs running on Fargate resources and
   /// shouldn't be provided.
   /// </note>
-  @_s.JsonKey(name: 'host')
-  final Host host;
+  final Host? host;
 
   /// The name of the volume. Up to 255 letters (uppercase and lowercase),
   /// numbers, hyphens, and underscores are allowed. This name is referenced in
   /// the <code>sourceVolume</code> parameter of container definition
   /// <code>mountPoints</code>.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Volume({
     this.host,
     this.name,
   });
-  factory Volume.fromJson(Map<String, dynamic> json) => _$VolumeFromJson(json);
+  factory Volume.fromJson(Map<String, dynamic> json) {
+    return Volume(
+      host: json['host'] != null
+          ? Host.fromJson(json['host'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VolumeToJson(this);
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final name = this.name;
+    return {
+      if (host != null) 'host': host,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 class ClientException extends _s.GenericAwsException {
-  ClientException({String type, String message})
+  ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
 class ServerException extends _s.GenericAwsException {
-  ServerException({String type, String message})
+  ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 

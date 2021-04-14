@@ -9,19 +9,19 @@ part of 'compute-optimizer-2019-11-01.dart';
 AutoScalingGroupConfiguration _$AutoScalingGroupConfigurationFromJson(
     Map<String, dynamic> json) {
   return AutoScalingGroupConfiguration(
-    desiredCapacity: json['desiredCapacity'] as int,
-    instanceType: json['instanceType'] as String,
-    maxSize: json['maxSize'] as int,
-    minSize: json['minSize'] as int,
+    desiredCapacity: json['desiredCapacity'] as int?,
+    instanceType: json['instanceType'] as String?,
+    maxSize: json['maxSize'] as int?,
+    minSize: json['minSize'] as int?,
   );
 }
 
 AutoScalingGroupRecommendation _$AutoScalingGroupRecommendationFromJson(
     Map<String, dynamic> json) {
   return AutoScalingGroupRecommendation(
-    accountId: json['accountId'] as String,
-    autoScalingGroupArn: json['autoScalingGroupArn'] as String,
-    autoScalingGroupName: json['autoScalingGroupName'] as String,
+    accountId: json['accountId'] as String?,
+    autoScalingGroupArn: json['autoScalingGroupArn'] as String?,
+    autoScalingGroupName: json['autoScalingGroupName'] as String?,
     currentConfiguration: json['currentConfiguration'] == null
         ? null
         : AutoScalingGroupConfiguration.fromJson(
@@ -29,51 +29,52 @@ AutoScalingGroupRecommendation _$AutoScalingGroupRecommendationFromJson(
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
     lastRefreshTimestamp:
         const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
-    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
-    recommendationOptions: (json['recommendationOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AutoScalingGroupRecommendationOption.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    utilizationMetrics: (json['utilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UtilizationMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num?)?.toDouble(),
+    recommendationOptions: (json['recommendationOptions'] as List<dynamic>?)
+        ?.map((e) => AutoScalingGroupRecommendationOption.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    utilizationMetrics: (json['utilizationMetrics'] as List<dynamic>?)
+        ?.map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$FindingEnumMap = {
@@ -90,13 +91,12 @@ AutoScalingGroupRecommendationOption
         ? null
         : AutoScalingGroupConfiguration.fromJson(
             json['configuration'] as Map<String, dynamic>),
-    performanceRisk: (json['performanceRisk'] as num)?.toDouble(),
-    projectedUtilizationMetrics: (json['projectedUtilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UtilizationMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    rank: json['rank'] as int,
+    performanceRisk: (json['performanceRisk'] as num?)?.toDouble(),
+    projectedUtilizationMetrics:
+        (json['projectedUtilizationMetrics'] as List<dynamic>?)
+            ?.map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    rank: json['rank'] as int?,
   );
 }
 
@@ -104,12 +104,12 @@ DescribeRecommendationExportJobsResponse
     _$DescribeRecommendationExportJobsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeRecommendationExportJobsResponse(
-    nextToken: json['nextToken'] as String,
-    recommendationExportJobs: (json['recommendationExportJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecommendationExportJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    recommendationExportJobs: (json['recommendationExportJobs']
+            as List<dynamic>?)
+        ?.map(
+            (e) => RecommendationExportJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -136,7 +136,7 @@ EBSUtilizationMetric _$EBSUtilizationMetricFromJson(Map<String, dynamic> json) {
     name: _$enumDecodeNullable(_$EBSMetricNameEnumMap, json['name']),
     statistic:
         _$enumDecodeNullable(_$MetricStatisticEnumMap, json['statistic']),
-    value: (json['value'] as num)?.toDouble(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -156,7 +156,7 @@ ExportAutoScalingGroupRecommendationsResponse
     _$ExportAutoScalingGroupRecommendationsResponseFromJson(
         Map<String, dynamic> json) {
   return ExportAutoScalingGroupRecommendationsResponse(
-    jobId: json['jobId'] as String,
+    jobId: json['jobId'] as String?,
     s3Destination: json['s3Destination'] == null
         ? null
         : S3Destination.fromJson(json['s3Destination'] as Map<String, dynamic>),
@@ -175,7 +175,7 @@ ExportEC2InstanceRecommendationsResponse
     _$ExportEC2InstanceRecommendationsResponseFromJson(
         Map<String, dynamic> json) {
   return ExportEC2InstanceRecommendationsResponse(
-    jobId: json['jobId'] as String,
+    jobId: json['jobId'] as String?,
     s3Destination: json['s3Destination'] == null
         ? null
         : S3Destination.fromJson(json['s3Destination'] as Map<String, dynamic>),
@@ -205,53 +205,41 @@ GetAutoScalingGroupRecommendationsResponse
     _$GetAutoScalingGroupRecommendationsResponseFromJson(
         Map<String, dynamic> json) {
   return GetAutoScalingGroupRecommendationsResponse(
-    autoScalingGroupRecommendations:
-        (json['autoScalingGroupRecommendations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AutoScalingGroupRecommendation.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GetRecommendationError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    autoScalingGroupRecommendations: (json['autoScalingGroupRecommendations']
+            as List<dynamic>?)
+        ?.map((e) =>
+            AutoScalingGroupRecommendation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetEBSVolumeRecommendationsResponse
     _$GetEBSVolumeRecommendationsResponseFromJson(Map<String, dynamic> json) {
   return GetEBSVolumeRecommendationsResponse(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GetRecommendationError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
-    volumeRecommendations: (json['volumeRecommendations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VolumeRecommendation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
+    volumeRecommendations: (json['volumeRecommendations'] as List<dynamic>?)
+        ?.map((e) => VolumeRecommendation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetEC2InstanceRecommendationsResponse
     _$GetEC2InstanceRecommendationsResponseFromJson(Map<String, dynamic> json) {
   return GetEC2InstanceRecommendationsResponse(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GetRecommendationError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    instanceRecommendations: (json['instanceRecommendations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceRecommendation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    instanceRecommendations: (json['instanceRecommendations'] as List<dynamic>?)
+        ?.map((e) => InstanceRecommendation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -260,21 +248,19 @@ GetEC2RecommendationProjectedMetricsResponse
         Map<String, dynamic> json) {
   return GetEC2RecommendationProjectedMetricsResponse(
     recommendedOptionProjectedMetrics:
-        (json['recommendedOptionProjectedMetrics'] as List)
-            ?.map((e) => e == null
-                ? null
-                : RecommendedOptionProjectedMetric.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['recommendedOptionProjectedMetrics'] as List<dynamic>?)
+            ?.map((e) => RecommendedOptionProjectedMetric.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 GetEnrollmentStatusResponse _$GetEnrollmentStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetEnrollmentStatusResponse(
-    memberAccountsEnrolled: json['memberAccountsEnrolled'] as bool,
+    memberAccountsEnrolled: json['memberAccountsEnrolled'] as bool?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
-    statusReason: json['statusReason'] as String,
+    statusReason: json['statusReason'] as String?,
   );
 }
 
@@ -290,76 +276,67 @@ GetLambdaFunctionRecommendationsResponse
         Map<String, dynamic> json) {
   return GetLambdaFunctionRecommendationsResponse(
     lambdaFunctionRecommendations: (json['lambdaFunctionRecommendations']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : LambdaFunctionRecommendation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            LambdaFunctionRecommendation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetRecommendationError _$GetRecommendationErrorFromJson(
     Map<String, dynamic> json) {
   return GetRecommendationError(
-    code: json['code'] as String,
-    identifier: json['identifier'] as String,
-    message: json['message'] as String,
+    code: json['code'] as String?,
+    identifier: json['identifier'] as String?,
+    message: json['message'] as String?,
   );
 }
 
 GetRecommendationSummariesResponse _$GetRecommendationSummariesResponseFromJson(
     Map<String, dynamic> json) {
   return GetRecommendationSummariesResponse(
-    nextToken: json['nextToken'] as String,
-    recommendationSummaries: (json['recommendationSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecommendationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    recommendationSummaries: (json['recommendationSummaries'] as List<dynamic>?)
+        ?.map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 InstanceRecommendation _$InstanceRecommendationFromJson(
     Map<String, dynamic> json) {
   return InstanceRecommendation(
-    accountId: json['accountId'] as String,
-    currentInstanceType: json['currentInstanceType'] as String,
+    accountId: json['accountId'] as String?,
+    currentInstanceType: json['currentInstanceType'] as String?,
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
-    instanceArn: json['instanceArn'] as String,
-    instanceName: json['instanceName'] as String,
+    instanceArn: json['instanceArn'] as String?,
+    instanceName: json['instanceName'] as String?,
     lastRefreshTimestamp:
         const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
-    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
-    recommendationOptions: (json['recommendationOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceRecommendationOption.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recommendationSources: (json['recommendationSources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecommendationSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    utilizationMetrics: (json['utilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UtilizationMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num?)?.toDouble(),
+    recommendationOptions: (json['recommendationOptions'] as List<dynamic>?)
+        ?.map((e) =>
+            InstanceRecommendationOption.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recommendationSources: (json['recommendationSources'] as List<dynamic>?)
+        ?.map((e) => RecommendationSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    utilizationMetrics: (json['utilizationMetrics'] as List<dynamic>?)
+        ?.map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 InstanceRecommendationOption _$InstanceRecommendationOptionFromJson(
     Map<String, dynamic> json) {
   return InstanceRecommendationOption(
-    instanceType: json['instanceType'] as String,
-    performanceRisk: (json['performanceRisk'] as num)?.toDouble(),
-    projectedUtilizationMetrics: (json['projectedUtilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UtilizationMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    rank: json['rank'] as int,
+    instanceType: json['instanceType'] as String?,
+    performanceRisk: (json['performanceRisk'] as num?)?.toDouble(),
+    projectedUtilizationMetrics:
+        (json['projectedUtilizationMetrics'] as List<dynamic>?)
+            ?.map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    rank: json['rank'] as int?,
   );
 }
 
@@ -389,7 +366,7 @@ LambdaFunctionMemoryProjectedMetric
         _$LambdaFunctionMemoryMetricNameEnumMap, json['name']),
     statistic: _$enumDecodeNullable(
         _$LambdaFunctionMemoryMetricStatisticEnumMap, json['statistic']),
-    value: (json['value'] as num)?.toDouble(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -407,47 +384,42 @@ LambdaFunctionMemoryRecommendationOption
     _$LambdaFunctionMemoryRecommendationOptionFromJson(
         Map<String, dynamic> json) {
   return LambdaFunctionMemoryRecommendationOption(
-    memorySize: json['memorySize'] as int,
-    projectedUtilizationMetrics: (json['projectedUtilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LambdaFunctionMemoryProjectedMetric.fromJson(
+    memorySize: json['memorySize'] as int?,
+    projectedUtilizationMetrics:
+        (json['projectedUtilizationMetrics'] as List<dynamic>?)
+            ?.map((e) => LambdaFunctionMemoryProjectedMetric.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList(),
-    rank: json['rank'] as int,
+            .toList(),
+    rank: json['rank'] as int?,
   );
 }
 
 LambdaFunctionRecommendation _$LambdaFunctionRecommendationFromJson(
     Map<String, dynamic> json) {
   return LambdaFunctionRecommendation(
-    accountId: json['accountId'] as String,
-    currentMemorySize: json['currentMemorySize'] as int,
+    accountId: json['accountId'] as String?,
+    currentMemorySize: json['currentMemorySize'] as int?,
     finding: _$enumDecodeNullable(
         _$LambdaFunctionRecommendationFindingEnumMap, json['finding']),
-    findingReasonCodes: (json['findingReasonCodes'] as List)
-        ?.map((e) => _$enumDecodeNullable(
+    findingReasonCodes: (json['findingReasonCodes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(
             _$LambdaFunctionRecommendationFindingReasonCodeEnumMap, e))
-        ?.toList(),
-    functionArn: json['functionArn'] as String,
-    functionVersion: json['functionVersion'] as String,
+        .toList(),
+    functionArn: json['functionArn'] as String?,
+    functionVersion: json['functionVersion'] as String?,
     lastRefreshTimestamp:
         const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
-    lookbackPeriodInDays: (json['lookbackPeriodInDays'] as num)?.toDouble(),
+    lookbackPeriodInDays: (json['lookbackPeriodInDays'] as num?)?.toDouble(),
     memorySizeRecommendationOptions:
-        (json['memorySizeRecommendationOptions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : LambdaFunctionMemoryRecommendationOption.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    numberOfInvocations: json['numberOfInvocations'] as int,
-    utilizationMetrics: (json['utilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LambdaFunctionUtilizationMetric.fromJson(
+        (json['memorySizeRecommendationOptions'] as List<dynamic>?)
+            ?.map((e) => LambdaFunctionMemoryRecommendationOption.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList(),
+            .toList(),
+    numberOfInvocations: json['numberOfInvocations'] as int?,
+    utilizationMetrics: (json['utilizationMetrics'] as List<dynamic>?)
+        ?.map((e) =>
+            LambdaFunctionUtilizationMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -494,7 +466,7 @@ LambdaFunctionUtilizationMetric _$LambdaFunctionUtilizationMetricFromJson(
     name: _$enumDecodeNullable(_$LambdaFunctionMetricNameEnumMap, json['name']),
     statistic: _$enumDecodeNullable(
         _$LambdaFunctionMetricStatisticEnumMap, json['statistic']),
-    value: (json['value'] as num)?.toDouble(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -511,11 +483,12 @@ const _$LambdaFunctionMetricStatisticEnumMap = {
 ProjectedMetric _$ProjectedMetricFromJson(Map<String, dynamic> json) {
   return ProjectedMetric(
     name: _$enumDecodeNullable(_$MetricNameEnumMap, json['name']),
-    timestamps: (json['timestamps'] as List)
-        ?.map(const UnixDateTimeConverter().fromJson)
-        ?.toList(),
-    values:
-        (json['values'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),
+    timestamps: (json['timestamps'] as List<dynamic>?)
+        ?.map((e) => DateTime.parse(e as String))
+        .toList(),
+    values: (json['values'] as List<dynamic>?)
+        ?.map((e) => (e as num).toDouble())
+        .toList(),
   );
 }
 
@@ -531,7 +504,7 @@ const _$MetricNameEnumMap = {
 ReasonCodeSummary _$ReasonCodeSummaryFromJson(Map<String, dynamic> json) {
   return ReasonCodeSummary(
     name: _$enumDecodeNullable(_$FindingReasonCodeEnumMap, json['name']),
-    value: (json['value'] as num)?.toDouble(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -549,8 +522,8 @@ RecommendationExportJob _$RecommendationExportJobFromJson(
         ? null
         : ExportDestination.fromJson(
             json['destination'] as Map<String, dynamic>),
-    failureReason: json['failureReason'] as String,
-    jobId: json['jobId'] as String,
+    failureReason: json['failureReason'] as String?,
+    jobId: json['jobId'] as String?,
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTimestamp']),
     resourceType:
@@ -573,7 +546,7 @@ const _$JobStatusEnumMap = {
 
 RecommendationSource _$RecommendationSourceFromJson(Map<String, dynamic> json) {
   return RecommendationSource(
-    recommendationSourceArn: json['recommendationSourceArn'] as String,
+    recommendationSourceArn: json['recommendationSourceArn'] as String?,
     recommendationSourceType: _$enumDecodeNullable(
         _$RecommendationSourceTypeEnumMap, json['recommendationSourceType']),
   );
@@ -589,34 +562,31 @@ const _$RecommendationSourceTypeEnumMap = {
 RecommendationSummary _$RecommendationSummaryFromJson(
     Map<String, dynamic> json) {
   return RecommendationSummary(
-    accountId: json['accountId'] as String,
+    accountId: json['accountId'] as String?,
     recommendationResourceType: _$enumDecodeNullable(
         _$RecommendationSourceTypeEnumMap, json['recommendationResourceType']),
-    summaries: (json['summaries'] as List)
-        ?.map((e) =>
-            e == null ? null : Summary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => Summary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 RecommendedOptionProjectedMetric _$RecommendedOptionProjectedMetricFromJson(
     Map<String, dynamic> json) {
   return RecommendedOptionProjectedMetric(
-    projectedMetrics: (json['projectedMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProjectedMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    rank: json['rank'] as int,
-    recommendedInstanceType: json['recommendedInstanceType'] as String,
+    projectedMetrics: (json['projectedMetrics'] as List<dynamic>?)
+        ?.map((e) => ProjectedMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    rank: json['rank'] as int?,
+    recommendedInstanceType: json['recommendedInstanceType'] as String?,
   );
 }
 
 S3Destination _$S3DestinationFromJson(Map<String, dynamic> json) {
   return S3Destination(
-    bucket: json['bucket'] as String,
-    key: json['key'] as String,
-    metadataKey: json['metadataKey'] as String,
+    bucket: json['bucket'] as String?,
+    key: json['key'] as String?,
+    metadataKey: json['metadataKey'] as String?,
   );
 }
 
@@ -637,12 +607,10 @@ Map<String, dynamic> _$S3DestinationConfigToJson(S3DestinationConfig instance) {
 Summary _$SummaryFromJson(Map<String, dynamic> json) {
   return Summary(
     name: _$enumDecodeNullable(_$FindingEnumMap, json['name']),
-    reasonCodeSummaries: (json['reasonCodeSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReasonCodeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    value: (json['value'] as num)?.toDouble(),
+    reasonCodeSummaries: (json['reasonCodeSummaries'] as List<dynamic>?)
+        ?.map((e) => ReasonCodeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -650,7 +618,7 @@ UpdateEnrollmentStatusResponse _$UpdateEnrollmentStatusResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateEnrollmentStatusResponse(
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
-    statusReason: json['statusReason'] as String,
+    statusReason: json['statusReason'] as String?,
   );
 }
 
@@ -659,24 +627,24 @@ UtilizationMetric _$UtilizationMetricFromJson(Map<String, dynamic> json) {
     name: _$enumDecodeNullable(_$MetricNameEnumMap, json['name']),
     statistic:
         _$enumDecodeNullable(_$MetricStatisticEnumMap, json['statistic']),
-    value: (json['value'] as num)?.toDouble(),
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
 VolumeConfiguration _$VolumeConfigurationFromJson(Map<String, dynamic> json) {
   return VolumeConfiguration(
-    volumeBaselineIOPS: json['volumeBaselineIOPS'] as int,
-    volumeBaselineThroughput: json['volumeBaselineThroughput'] as int,
-    volumeBurstIOPS: json['volumeBurstIOPS'] as int,
-    volumeBurstThroughput: json['volumeBurstThroughput'] as int,
-    volumeSize: json['volumeSize'] as int,
-    volumeType: json['volumeType'] as String,
+    volumeBaselineIOPS: json['volumeBaselineIOPS'] as int?,
+    volumeBaselineThroughput: json['volumeBaselineThroughput'] as int?,
+    volumeBurstIOPS: json['volumeBurstIOPS'] as int?,
+    volumeBurstThroughput: json['volumeBurstThroughput'] as int?,
+    volumeSize: json['volumeSize'] as int?,
+    volumeType: json['volumeType'] as String?,
   );
 }
 
 VolumeRecommendation _$VolumeRecommendationFromJson(Map<String, dynamic> json) {
   return VolumeRecommendation(
-    accountId: json['accountId'] as String,
+    accountId: json['accountId'] as String?,
     currentConfiguration: json['currentConfiguration'] == null
         ? null
         : VolumeConfiguration.fromJson(
@@ -684,18 +652,16 @@ VolumeRecommendation _$VolumeRecommendationFromJson(Map<String, dynamic> json) {
     finding: _$enumDecodeNullable(_$EBSFindingEnumMap, json['finding']),
     lastRefreshTimestamp:
         const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
-    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
-    utilizationMetrics: (json['utilizationMetrics'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EBSUtilizationMetric.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    volumeArn: json['volumeArn'] as String,
-    volumeRecommendationOptions: (json['volumeRecommendationOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VolumeRecommendationOption.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num?)?.toDouble(),
+    utilizationMetrics: (json['utilizationMetrics'] as List<dynamic>?)
+        ?.map((e) => EBSUtilizationMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    volumeArn: json['volumeArn'] as String?,
+    volumeRecommendationOptions:
+        (json['volumeRecommendationOptions'] as List<dynamic>?)
+            ?.map((e) =>
+                VolumeRecommendationOption.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -711,7 +677,7 @@ VolumeRecommendationOption _$VolumeRecommendationOptionFromJson(
         ? null
         : VolumeConfiguration.fromJson(
             json['configuration'] as Map<String, dynamic>),
-    performanceRisk: (json['performanceRisk'] as num)?.toDouble(),
-    rank: json['rank'] as int,
+    performanceRisk: (json['performanceRisk'] as num?)?.toDouble(),
+    rank: json['rank'] as int?,
   );
 }

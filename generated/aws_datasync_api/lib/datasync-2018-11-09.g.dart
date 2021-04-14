@@ -8,42 +8,47 @@ part of 'datasync-2018-11-09.dart';
 
 AgentListEntry _$AgentListEntryFromJson(Map<String, dynamic> json) {
   return AgentListEntry(
-    agentArn: json['AgentArn'] as String,
-    name: json['Name'] as String,
+    agentArn: json['AgentArn'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$AgentStatusEnumMap, json['Status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AgentStatusEnumMap = {
@@ -58,55 +63,55 @@ CancelTaskExecutionResponse _$CancelTaskExecutionResponseFromJson(
 
 CreateAgentResponse _$CreateAgentResponseFromJson(Map<String, dynamic> json) {
   return CreateAgentResponse(
-    agentArn: json['AgentArn'] as String,
+    agentArn: json['AgentArn'] as String?,
   );
 }
 
 CreateLocationEfsResponse _$CreateLocationEfsResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationEfsResponse(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateLocationFsxWindowsResponse _$CreateLocationFsxWindowsResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationFsxWindowsResponse(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateLocationNfsResponse _$CreateLocationNfsResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationNfsResponse(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateLocationObjectStorageResponse
     _$CreateLocationObjectStorageResponseFromJson(Map<String, dynamic> json) {
   return CreateLocationObjectStorageResponse(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateLocationS3Response _$CreateLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationS3Response(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateLocationSmbResponse _$CreateLocationSmbResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationSmbResponse(
-    locationArn: json['LocationArn'] as String,
+    locationArn: json['LocationArn'] as String?,
   );
 }
 
 CreateTaskResponse _$CreateTaskResponseFromJson(Map<String, dynamic> json) {
   return CreateTaskResponse(
-    taskArn: json['TaskArn'] as String,
+    taskArn: json['TaskArn'] as String?,
   );
 }
 
@@ -126,13 +131,13 @@ DeleteTaskResponse _$DeleteTaskResponseFromJson(Map<String, dynamic> json) {
 DescribeAgentResponse _$DescribeAgentResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAgentResponse(
-    agentArn: json['AgentArn'] as String,
+    agentArn: json['AgentArn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     endpointType:
         _$enumDecodeNullable(_$EndpointTypeEnumMap, json['EndpointType']),
     lastConnectionTime:
         const UnixDateTimeConverter().fromJson(json['LastConnectionTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     privateLinkConfig: json['PrivateLinkConfig'] == null
         ? null
         : PrivateLinkConfig.fromJson(
@@ -154,8 +159,8 @@ DescribeLocationEfsResponse _$DescribeLocationEfsResponseFromJson(
     ec2Config: json['Ec2Config'] == null
         ? null
         : Ec2Config.fromJson(json['Ec2Config'] as Map<String, dynamic>),
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
   );
 }
 
@@ -163,12 +168,13 @@ DescribeLocationFsxWindowsResponse _$DescribeLocationFsxWindowsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationFsxWindowsResponse(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    domain: json['Domain'] as String,
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
-    securityGroupArns:
-        (json['SecurityGroupArns'] as List)?.map((e) => e as String)?.toList(),
-    user: json['User'] as String,
+    domain: json['Domain'] as String?,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
+    securityGroupArns: (json['SecurityGroupArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    user: json['User'] as String?,
   );
 }
 
@@ -176,8 +182,8 @@ DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationNfsResponse(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
     mountOptions: json['MountOptions'] == null
         ? null
         : NfsMountOptions.fromJson(
@@ -191,12 +197,13 @@ DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
 DescribeLocationObjectStorageResponse
     _$DescribeLocationObjectStorageResponseFromJson(Map<String, dynamic> json) {
   return DescribeLocationObjectStorageResponse(
-    accessKey: json['AccessKey'] as String,
-    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
+    accessKey: json['AccessKey'] as String?,
+    agentArns:
+        (json['AgentArns'] as List<dynamic>?)?.map((e) => e as String).toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
-    serverPort: json['ServerPort'] as int,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
+    serverPort: json['ServerPort'] as int?,
     serverProtocol: _$enumDecodeNullable(
         _$ObjectStorageServerProtocolEnumMap, json['ServerProtocol']),
   );
@@ -210,10 +217,11 @@ const _$ObjectStorageServerProtocolEnumMap = {
 DescribeLocationS3Response _$DescribeLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationS3Response(
-    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
+    agentArns:
+        (json['AgentArns'] as List<dynamic>?)?.map((e) => e as String).toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
     s3Config: json['S3Config'] == null
         ? null
         : S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
@@ -235,35 +243,34 @@ const _$S3StorageClassEnumMap = {
 DescribeLocationSmbResponse _$DescribeLocationSmbResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationSmbResponse(
-    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
+    agentArns:
+        (json['AgentArns'] as List<dynamic>?)?.map((e) => e as String).toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    domain: json['Domain'] as String,
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
+    domain: json['Domain'] as String?,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
     mountOptions: json['MountOptions'] == null
         ? null
         : SmbMountOptions.fromJson(
             json['MountOptions'] as Map<String, dynamic>),
-    user: json['User'] as String,
+    user: json['User'] as String?,
   );
 }
 
 DescribeTaskExecutionResponse _$DescribeTaskExecutionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTaskExecutionResponse(
-    bytesTransferred: json['BytesTransferred'] as int,
-    bytesWritten: json['BytesWritten'] as int,
-    estimatedBytesToTransfer: json['EstimatedBytesToTransfer'] as int,
-    estimatedFilesToTransfer: json['EstimatedFilesToTransfer'] as int,
-    excludes: (json['Excludes'] as List)
-        ?.map((e) =>
-            e == null ? null : FilterRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    filesTransferred: json['FilesTransferred'] as int,
-    includes: (json['Includes'] as List)
-        ?.map((e) =>
-            e == null ? null : FilterRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    bytesTransferred: json['BytesTransferred'] as int?,
+    bytesWritten: json['BytesWritten'] as int?,
+    estimatedBytesToTransfer: json['EstimatedBytesToTransfer'] as int?,
+    estimatedFilesToTransfer: json['EstimatedFilesToTransfer'] as int?,
+    excludes: (json['Excludes'] as List<dynamic>?)
+        ?.map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    filesTransferred: json['FilesTransferred'] as int?,
+    includes: (json['Includes'] as List<dynamic>?)
+        ?.map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     options: json['Options'] == null
         ? null
         : Options.fromJson(json['Options'] as Map<String, dynamic>),
@@ -273,7 +280,7 @@ DescribeTaskExecutionResponse _$DescribeTaskExecutionResponseFromJson(
             json['Result'] as Map<String, dynamic>),
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(_$TaskExecutionStatusEnumMap, json['Status']),
-    taskExecutionArn: json['TaskExecutionArn'] as String,
+    taskExecutionArn: json['TaskExecutionArn'] as String?,
   );
 }
 
@@ -289,33 +296,33 @@ const _$TaskExecutionStatusEnumMap = {
 
 DescribeTaskResponse _$DescribeTaskResponseFromJson(Map<String, dynamic> json) {
   return DescribeTaskResponse(
-    cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String,
+    cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    currentTaskExecutionArn: json['CurrentTaskExecutionArn'] as String,
-    destinationLocationArn: json['DestinationLocationArn'] as String,
+    currentTaskExecutionArn: json['CurrentTaskExecutionArn'] as String?,
+    destinationLocationArn: json['DestinationLocationArn'] as String?,
     destinationNetworkInterfaceArns:
-        (json['DestinationNetworkInterfaceArns'] as List)
+        (json['DestinationNetworkInterfaceArns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    errorCode: json['ErrorCode'] as String,
-    errorDetail: json['ErrorDetail'] as String,
-    excludes: (json['Excludes'] as List)
-        ?.map((e) =>
-            e == null ? null : FilterRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+            .toList(),
+    errorCode: json['ErrorCode'] as String?,
+    errorDetail: json['ErrorDetail'] as String?,
+    excludes: (json['Excludes'] as List<dynamic>?)
+        ?.map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
     options: json['Options'] == null
         ? null
         : Options.fromJson(json['Options'] as Map<String, dynamic>),
     schedule: json['Schedule'] == null
         ? null
         : TaskSchedule.fromJson(json['Schedule'] as Map<String, dynamic>),
-    sourceLocationArn: json['SourceLocationArn'] as String,
-    sourceNetworkInterfaceArns: (json['SourceNetworkInterfaceArns'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    sourceLocationArn: json['SourceLocationArn'] as String?,
+    sourceNetworkInterfaceArns:
+        (json['SourceNetworkInterfaceArns'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
     status: _$enumDecodeNullable(_$TaskStatusEnumMap, json['Status']),
-    taskArn: json['TaskArn'] as String,
+    taskArn: json['TaskArn'] as String?,
   );
 }
 
@@ -329,30 +336,22 @@ const _$TaskStatusEnumMap = {
 
 Ec2Config _$Ec2ConfigFromJson(Map<String, dynamic> json) {
   return Ec2Config(
-    securityGroupArns:
-        (json['SecurityGroupArns'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupArns: (json['SecurityGroupArns'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     subnetArn: json['SubnetArn'] as String,
   );
 }
 
-Map<String, dynamic> _$Ec2ConfigToJson(Ec2Config instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SecurityGroupArns', instance.securityGroupArns);
-  writeNotNull('SubnetArn', instance.subnetArn);
-  return val;
-}
+Map<String, dynamic> _$Ec2ConfigToJson(Ec2Config instance) => <String, dynamic>{
+      'SecurityGroupArns': instance.securityGroupArns,
+      'SubnetArn': instance.subnetArn,
+    };
 
 FilterRule _$FilterRuleFromJson(Map<String, dynamic> json) {
   return FilterRule(
     filterType: _$enumDecodeNullable(_$FilterTypeEnumMap, json['FilterType']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -376,75 +375,58 @@ const _$FilterTypeEnumMap = {
 
 ListAgentsResponse _$ListAgentsResponseFromJson(Map<String, dynamic> json) {
   return ListAgentsResponse(
-    agents: (json['Agents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AgentListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    agents: (json['Agents'] as List<dynamic>?)
+        ?.map((e) => AgentListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListLocationsResponse _$ListLocationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLocationsResponse(
-    locations: (json['Locations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LocationListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    locations: (json['Locations'] as List<dynamic>?)
+        ?.map((e) => LocationListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) =>
-            e == null ? null : TagListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => TagListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTaskExecutionsResponse _$ListTaskExecutionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTaskExecutionsResponse(
-    nextToken: json['NextToken'] as String,
-    taskExecutions: (json['TaskExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TaskExecutionListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    taskExecutions: (json['TaskExecutions'] as List<dynamic>?)
+        ?.map((e) => TaskExecutionListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTasksResponse _$ListTasksResponseFromJson(Map<String, dynamic> json) {
   return ListTasksResponse(
-    nextToken: json['NextToken'] as String,
-    tasks: (json['Tasks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TaskListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tasks: (json['Tasks'] as List<dynamic>?)
+        ?.map((e) => TaskListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$LocationFilterToJson(LocationFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$LocationFilterNameEnumMap[instance.name]);
-  writeNotNull('Operator', _$OperatorEnumMap[instance.operator]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$LocationFilterToJson(LocationFilter instance) =>
+    <String, dynamic>{
+      'Name': _$LocationFilterNameEnumMap[instance.name],
+      'Operator': _$OperatorEnumMap[instance.operator],
+      'Values': instance.values,
+    };
 
 const _$LocationFilterNameEnumMap = {
   LocationFilterName.locationUri: 'LocationUri',
@@ -467,8 +449,8 @@ const _$OperatorEnumMap = {
 
 LocationListEntry _$LocationListEntryFromJson(Map<String, dynamic> json) {
   return LocationListEntry(
-    locationArn: json['LocationArn'] as String,
-    locationUri: json['LocationUri'] as String,
+    locationArn: json['LocationArn'] as String?,
+    locationUri: json['LocationUri'] as String?,
   );
 }
 
@@ -500,27 +482,20 @@ const _$NfsVersionEnumMap = {
 
 OnPremConfig _$OnPremConfigFromJson(Map<String, dynamic> json) {
   return OnPremConfig(
-    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
+    agentArns:
+        (json['AgentArns'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$OnPremConfigToJson(OnPremConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AgentArns', instance.agentArns);
-  return val;
-}
+Map<String, dynamic> _$OnPremConfigToJson(OnPremConfig instance) =>
+    <String, dynamic>{
+      'AgentArns': instance.agentArns,
+    };
 
 Options _$OptionsFromJson(Map<String, dynamic> json) {
   return Options(
     atime: _$enumDecodeNullable(_$AtimeEnumMap, json['Atime']),
-    bytesPerSecond: json['BytesPerSecond'] as int,
+    bytesPerSecond: json['BytesPerSecond'] as int?,
     gid: _$enumDecodeNullable(_$GidEnumMap, json['Gid']),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['LogLevel']),
     mtime: _$enumDecodeNullable(_$MtimeEnumMap, json['Mtime']),
@@ -637,11 +612,14 @@ const _$VerifyModeEnumMap = {
 
 PrivateLinkConfig _$PrivateLinkConfigFromJson(Map<String, dynamic> json) {
   return PrivateLinkConfig(
-    privateLinkEndpoint: json['PrivateLinkEndpoint'] as String,
-    securityGroupArns:
-        (json['SecurityGroupArns'] as List)?.map((e) => e as String)?.toList(),
-    subnetArns: (json['SubnetArns'] as List)?.map((e) => e as String)?.toList(),
-    vpcEndpointId: json['VpcEndpointId'] as String,
+    privateLinkEndpoint: json['PrivateLinkEndpoint'] as String?,
+    securityGroupArns: (json['SecurityGroupArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    subnetArns: (json['SubnetArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    vpcEndpointId: json['VpcEndpointId'] as String?,
   );
 }
 
@@ -651,18 +629,9 @@ S3Config _$S3ConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$S3ConfigToJson(S3Config instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BucketAccessRoleArn', instance.bucketAccessRoleArn);
-  return val;
-}
+Map<String, dynamic> _$S3ConfigToJson(S3Config instance) => <String, dynamic>{
+      'BucketAccessRoleArn': instance.bucketAccessRoleArn,
+    };
 
 SmbMountOptions _$SmbMountOptionsFromJson(Map<String, dynamic> json) {
   return SmbMountOptions(
@@ -692,19 +661,21 @@ const _$SmbVersionEnumMap = {
 StartTaskExecutionResponse _$StartTaskExecutionResponseFromJson(
     Map<String, dynamic> json) {
   return StartTaskExecutionResponse(
-    taskExecutionArn: json['TaskExecutionArn'] as String,
+    taskExecutionArn: json['TaskExecutionArn'] as String?,
   );
 }
 
 TagListEntry _$TagListEntryFromJson(Map<String, dynamic> json) {
   return TagListEntry(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagListEntryToJson(TagListEntry instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -712,7 +683,6 @@ Map<String, dynamic> _$TagListEntryToJson(TagListEntry instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }
@@ -725,23 +695,23 @@ TaskExecutionListEntry _$TaskExecutionListEntryFromJson(
     Map<String, dynamic> json) {
   return TaskExecutionListEntry(
     status: _$enumDecodeNullable(_$TaskExecutionStatusEnumMap, json['Status']),
-    taskExecutionArn: json['TaskExecutionArn'] as String,
+    taskExecutionArn: json['TaskExecutionArn'] as String?,
   );
 }
 
 TaskExecutionResultDetail _$TaskExecutionResultDetailFromJson(
     Map<String, dynamic> json) {
   return TaskExecutionResultDetail(
-    errorCode: json['ErrorCode'] as String,
-    errorDetail: json['ErrorDetail'] as String,
-    prepareDuration: json['PrepareDuration'] as int,
+    errorCode: json['ErrorCode'] as String?,
+    errorDetail: json['ErrorDetail'] as String?,
+    prepareDuration: json['PrepareDuration'] as int?,
     prepareStatus:
         _$enumDecodeNullable(_$PhaseStatusEnumMap, json['PrepareStatus']),
-    totalDuration: json['TotalDuration'] as int,
-    transferDuration: json['TransferDuration'] as int,
+    totalDuration: json['TotalDuration'] as int?,
+    transferDuration: json['TransferDuration'] as int?,
     transferStatus:
         _$enumDecodeNullable(_$PhaseStatusEnumMap, json['TransferStatus']),
-    verifyDuration: json['VerifyDuration'] as int,
+    verifyDuration: json['VerifyDuration'] as int?,
     verifyStatus:
         _$enumDecodeNullable(_$PhaseStatusEnumMap, json['VerifyStatus']),
   );
@@ -753,20 +723,12 @@ const _$PhaseStatusEnumMap = {
   PhaseStatus.error: 'ERROR',
 };
 
-Map<String, dynamic> _$TaskFilterToJson(TaskFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$TaskFilterNameEnumMap[instance.name]);
-  writeNotNull('Operator', _$OperatorEnumMap[instance.operator]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$TaskFilterToJson(TaskFilter instance) =>
+    <String, dynamic>{
+      'Name': _$TaskFilterNameEnumMap[instance.name],
+      'Operator': _$OperatorEnumMap[instance.operator],
+      'Values': instance.values,
+    };
 
 const _$TaskFilterNameEnumMap = {
   TaskFilterName.locationId: 'LocationId',
@@ -775,9 +737,9 @@ const _$TaskFilterNameEnumMap = {
 
 TaskListEntry _$TaskListEntryFromJson(Map<String, dynamic> json) {
   return TaskListEntry(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$TaskStatusEnumMap, json['Status']),
-    taskArn: json['TaskArn'] as String,
+    taskArn: json['TaskArn'] as String?,
   );
 }
 
@@ -787,18 +749,10 @@ TaskSchedule _$TaskScheduleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TaskScheduleToJson(TaskSchedule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ScheduleExpression', instance.scheduleExpression);
-  return val;
-}
+Map<String, dynamic> _$TaskScheduleToJson(TaskSchedule instance) =>
+    <String, dynamic>{
+      'ScheduleExpression': instance.scheduleExpression,
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
