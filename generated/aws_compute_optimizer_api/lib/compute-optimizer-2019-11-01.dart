@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'compute-optimizer-2019-11-01.g.dart';
 
 /// AWS Compute Optimizer is a service that analyzes the configuration and
 /// utilization metrics of your AWS compute resources, such as EC2 instances,
@@ -44,10 +36,10 @@ part 'compute-optimizer-2019-11-01.g.dart';
 class ComputeOptimizer {
   final _s.JsonProtocol _protocol;
   ComputeOptimizer({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -100,10 +92,10 @@ class ComputeOptimizer {
   /// The token to advance to the next page of export jobs.
   Future<DescribeRecommendationExportJobsResponse>
       describeRecommendationExportJobs({
-    List<JobFilter> filters,
-    List<String> jobIds,
-    int maxResults,
-    String nextToken,
+    List<JobFilter>? filters,
+    List<String>? jobIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -210,12 +202,12 @@ class ComputeOptimizer {
   /// parameter, or the account IDs parameter, is omitted.
   Future<ExportAutoScalingGroupRecommendationsResponse>
       exportAutoScalingGroupRecommendations({
-    @_s.required S3DestinationConfig s3DestinationConfig,
-    List<String> accountIds,
-    List<ExportableAutoScalingGroupField> fieldsToExport,
-    FileFormat fileFormat,
-    List<Filter> filters,
-    bool includeMemberAccounts,
+    required S3DestinationConfig s3DestinationConfig,
+    List<String>? accountIds,
+    List<ExportableAutoScalingGroupField>? fieldsToExport,
+    FileFormat? fileFormat,
+    List<Filter>? filters,
+    bool? includeMemberAccounts,
   }) async {
     ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
@@ -233,8 +225,7 @@ class ComputeOptimizer {
         's3DestinationConfig': s3DestinationConfig,
         if (accountIds != null) 'accountIds': accountIds,
         if (fieldsToExport != null)
-          'fieldsToExport':
-              fieldsToExport.map((e) => e?.toValue() ?? '').toList(),
+          'fieldsToExport': fieldsToExport.map((e) => e.toValue()).toList(),
         if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
         if (filters != null) 'filters': filters,
         if (includeMemberAccounts != null)
@@ -326,12 +317,12 @@ class ComputeOptimizer {
   /// parameter, or the account IDs parameter, is omitted.
   Future<ExportEC2InstanceRecommendationsResponse>
       exportEC2InstanceRecommendations({
-    @_s.required S3DestinationConfig s3DestinationConfig,
-    List<String> accountIds,
-    List<ExportableInstanceField> fieldsToExport,
-    FileFormat fileFormat,
-    List<Filter> filters,
-    bool includeMemberAccounts,
+    required S3DestinationConfig s3DestinationConfig,
+    List<String>? accountIds,
+    List<ExportableInstanceField>? fieldsToExport,
+    FileFormat? fileFormat,
+    List<Filter>? filters,
+    bool? includeMemberAccounts,
   }) async {
     ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
@@ -348,8 +339,7 @@ class ComputeOptimizer {
         's3DestinationConfig': s3DestinationConfig,
         if (accountIds != null) 'accountIds': accountIds,
         if (fieldsToExport != null)
-          'fieldsToExport':
-              fieldsToExport.map((e) => e?.toValue() ?? '').toList(),
+          'fieldsToExport': fieldsToExport.map((e) => e.toValue()).toList(),
         if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
         if (filters != null) 'filters': filters,
         if (includeMemberAccounts != null)
@@ -408,11 +398,11 @@ class ComputeOptimizer {
   /// recommendations.
   Future<GetAutoScalingGroupRecommendationsResponse>
       getAutoScalingGroupRecommendations({
-    List<String> accountIds,
-    List<String> autoScalingGroupArns,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<String>? accountIds,
+    List<String>? autoScalingGroupArns,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -483,11 +473,11 @@ class ComputeOptimizer {
   /// The Amazon Resource Name (ARN) of the volumes for which to return
   /// recommendations.
   Future<GetEBSVolumeRecommendationsResponse> getEBSVolumeRecommendations({
-    List<String> accountIds,
-    List<EBSFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<String> volumeArns,
+    List<String>? accountIds,
+    List<EBSFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? volumeArns,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -556,11 +546,11 @@ class ComputeOptimizer {
   /// Parameter [nextToken] :
   /// The token to advance to the next page of instance recommendations.
   Future<GetEC2InstanceRecommendationsResponse> getEC2InstanceRecommendations({
-    List<String> accountIds,
-    List<Filter> filters,
-    List<String> instanceArns,
-    int maxResults,
-    String nextToken,
+    List<String>? accountIds,
+    List<Filter>? filters,
+    List<String>? instanceArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -622,11 +612,11 @@ class ComputeOptimizer {
   /// The statistic of the projected metrics.
   Future<GetEC2RecommendationProjectedMetricsResponse>
       getEC2RecommendationProjectedMetrics({
-    @_s.required DateTime endTime,
-    @_s.required String instanceArn,
-    @_s.required int period,
-    @_s.required DateTime startTime,
-    @_s.required MetricStatistic stat,
+    required DateTime endTime,
+    required String instanceArn,
+    required int period,
+    required DateTime startTime,
+    required MetricStatistic stat,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
@@ -649,7 +639,7 @@ class ComputeOptimizer {
         'instanceArn': instanceArn,
         'period': period,
         'startTime': unixTimestampToJson(startTime),
-        'stat': stat?.toValue() ?? '',
+        'stat': stat.toValue(),
       },
     );
 
@@ -740,11 +730,11 @@ class ComputeOptimizer {
   /// The token to advance to the next page of function recommendations.
   Future<GetLambdaFunctionRecommendationsResponse>
       getLambdaFunctionRecommendations({
-    List<String> accountIds,
-    List<LambdaFunctionRecommendationFilter> filters,
-    List<String> functionArns,
-    int maxResults,
-    String nextToken,
+    List<String>? accountIds,
+    List<LambdaFunctionRecommendationFilter>? filters,
+    List<String>? functionArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -802,9 +792,9 @@ class ComputeOptimizer {
   /// Parameter [nextToken] :
   /// The token to advance to the next page of recommendation summaries.
   Future<GetRecommendationSummariesResponse> getRecommendationSummaries({
-    List<String> accountIds,
-    int maxResults,
-    String nextToken,
+    List<String>? accountIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -850,8 +840,8 @@ class ComputeOptimizer {
   /// Indicates whether to enroll member accounts of the organization if the
   /// your account is the management account of an organization.
   Future<UpdateEnrollmentStatusResponse> updateEnrollmentStatus({
-    @_s.required Status status,
-    bool includeMemberAccounts,
+    required Status status,
+    bool? includeMemberAccounts,
   }) async {
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
@@ -865,7 +855,7 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'status': status?.toValue() ?? '',
+        'status': status.toValue(),
         if (includeMemberAccounts != null)
           'includeMemberAccounts': includeMemberAccounts,
       },
@@ -876,29 +866,20 @@ class ComputeOptimizer {
 }
 
 /// Describes the configuration of an Auto Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingGroupConfiguration {
   /// The desired capacity, or number of instances, for the Auto Scaling group.
-  @_s.JsonKey(name: 'desiredCapacity')
-  final int desiredCapacity;
+  final int? desiredCapacity;
 
   /// The instance type for the Auto Scaling group.
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The maximum size, or maximum number of instances, for the Auto Scaling
   /// group.
-  @_s.JsonKey(name: 'maxSize')
-  final int maxSize;
+  final int? maxSize;
 
   /// The minimum size, or minimum number of instances, for the Auto Scaling
   /// group.
-  @_s.JsonKey(name: 'minSize')
-  final int minSize;
+  final int? minSize;
 
   AutoScalingGroupConfiguration({
     this.desiredCapacity,
@@ -906,33 +887,30 @@ class AutoScalingGroupConfiguration {
     this.maxSize,
     this.minSize,
   });
-  factory AutoScalingGroupConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingGroupConfigurationFromJson(json);
+  factory AutoScalingGroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroupConfiguration(
+      desiredCapacity: json['desiredCapacity'] as int?,
+      instanceType: json['instanceType'] as String?,
+      maxSize: json['maxSize'] as int?,
+      minSize: json['minSize'] as int?,
+    );
+  }
 }
 
 /// Describes an Auto Scaling group recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingGroupRecommendation {
   /// The AWS account ID of the Auto Scaling group.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The Amazon Resource Name (ARN) of the Auto Scaling group.
-  @_s.JsonKey(name: 'autoScalingGroupArn')
-  final String autoScalingGroupArn;
+  final String? autoScalingGroupArn;
 
   /// The name of the Auto Scaling group.
-  @_s.JsonKey(name: 'autoScalingGroupName')
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// An array of objects that describe the current configuration of the Auto
   /// Scaling group.
-  @_s.JsonKey(name: 'currentConfiguration')
-  final AutoScalingGroupConfiguration currentConfiguration;
+  final AutoScalingGroupConfiguration? currentConfiguration;
 
   /// The finding classification for the Auto Scaling group.
   ///
@@ -952,29 +930,23 @@ class AutoScalingGroupRecommendation {
   /// instance type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'finding')
-  final Finding finding;
+  final Finding? finding;
 
   /// The time stamp of when the Auto Scaling group recommendation was last
   /// refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastRefreshTimestamp')
-  final DateTime lastRefreshTimestamp;
+  final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the Auto
   /// Scaling group.
-  @_s.JsonKey(name: 'lookBackPeriodInDays')
-  final double lookBackPeriodInDays;
+  final double? lookBackPeriodInDays;
 
   /// An array of objects that describe the recommendation options for the Auto
   /// Scaling group.
-  @_s.JsonKey(name: 'recommendationOptions')
-  final List<AutoScalingGroupRecommendationOption> recommendationOptions;
+  final List<AutoScalingGroupRecommendationOption>? recommendationOptions;
 
   /// An array of objects that describe the utilization metrics of the Auto
   /// Scaling group.
-  @_s.JsonKey(name: 'utilizationMetrics')
-  final List<UtilizationMetric> utilizationMetrics;
+  final List<UtilizationMetric>? utilizationMetrics;
 
   AutoScalingGroupRecommendation({
     this.accountId,
@@ -987,20 +959,35 @@ class AutoScalingGroupRecommendation {
     this.recommendationOptions,
     this.utilizationMetrics,
   });
-  factory AutoScalingGroupRecommendation.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingGroupRecommendationFromJson(json);
+  factory AutoScalingGroupRecommendation.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroupRecommendation(
+      accountId: json['accountId'] as String?,
+      autoScalingGroupArn: json['autoScalingGroupArn'] as String?,
+      autoScalingGroupName: json['autoScalingGroupName'] as String?,
+      currentConfiguration: json['currentConfiguration'] != null
+          ? AutoScalingGroupConfiguration.fromJson(
+              json['currentConfiguration'] as Map<String, dynamic>)
+          : null,
+      finding: (json['finding'] as String?)?.toFinding(),
+      lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      recommendationOptions: (json['recommendationOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroupRecommendationOption.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      utilizationMetrics: (json['utilizationMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a recommendation option for an Auto Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingGroupRecommendationOption {
   /// An array of objects that describe an Auto Scaling group configuration.
-  @_s.JsonKey(name: 'configuration')
-  final AutoScalingGroupConfiguration configuration;
+  final AutoScalingGroupConfiguration? configuration;
 
   /// The performance risk of the Auto Scaling group configuration recommendation.
   ///
@@ -1009,8 +996,7 @@ class AutoScalingGroupRecommendationOption {
   ///
   /// The lowest performance risk is categorized as <code>0</code>, and the
   /// highest as <code>5</code>.
-  @_s.JsonKey(name: 'performanceRisk')
-  final double performanceRisk;
+  final double? performanceRisk;
 
   /// An array of objects that describe the projected utilization metrics of the
   /// Auto Scaling group recommendation option.
@@ -1022,14 +1008,12 @@ class AutoScalingGroupRecommendationOption {
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
   /// Memory Utilization with the CloudWatch Agent</a>.
   /// </note>
-  @_s.JsonKey(name: 'projectedUtilizationMetrics')
-  final List<UtilizationMetric> projectedUtilizationMetrics;
+  final List<UtilizationMetric>? projectedUtilizationMetrics;
 
   /// The rank of the Auto Scaling group recommendation option.
   ///
   /// The top recommendation option is ranked as <code>1</code>.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   AutoScalingGroupRecommendationOption({
     this.configuration,
@@ -1038,33 +1022,47 @@ class AutoScalingGroupRecommendationOption {
     this.rank,
   });
   factory AutoScalingGroupRecommendationOption.fromJson(
-          Map<String, dynamic> json) =>
-      _$AutoScalingGroupRecommendationOptionFromJson(json);
+      Map<String, dynamic> json) {
+    return AutoScalingGroupRecommendationOption(
+      configuration: json['configuration'] != null
+          ? AutoScalingGroupConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      performanceRisk: json['performanceRisk'] as double?,
+      projectedUtilizationMetrics:
+          (json['projectedUtilizationMetrics'] as List?)
+              ?.whereNotNull()
+              .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      rank: json['rank'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRecommendationExportJobsResponse {
   /// The token to use to advance to the next page of export jobs.
   ///
   /// This value is null when there are no more pages of export jobs to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that describe recommendation export jobs.
-  @_s.JsonKey(name: 'recommendationExportJobs')
-  final List<RecommendationExportJob> recommendationExportJobs;
+  final List<RecommendationExportJob>? recommendationExportJobs;
 
   DescribeRecommendationExportJobsResponse({
     this.nextToken,
     this.recommendationExportJobs,
   });
   factory DescribeRecommendationExportJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRecommendationExportJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRecommendationExportJobsResponse(
+      nextToken: json['nextToken'] as String?,
+      recommendationExportJobs: (json['recommendationExportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RecommendationExportJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a filter that returns a more specific list of Amazon Elastic Block
@@ -1072,53 +1070,119 @@ class DescribeRecommendationExportJobsResponse {
 ///
 /// This filter is used with the <code>GetEBSVolumeRecommendations</code>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EBSFilter {
   /// The name of the filter.
   ///
   /// Specify <code>Finding</code> to return recommendations with a specific
   /// finding classification (e.g., <code>Optimized</code>).
-  @_s.JsonKey(name: 'name')
-  final EBSFilterName name;
+  final EBSFilterName? name;
 
   /// The value of the filter.
   ///
   /// The valid values are <code>Optimized</code>, or <code>NotOptimized</code>.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   EBSFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$EBSFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum EBSFilterName {
-  @_s.JsonValue('Finding')
   finding,
 }
 
+extension on EBSFilterName {
+  String toValue() {
+    switch (this) {
+      case EBSFilterName.finding:
+        return 'Finding';
+    }
+  }
+}
+
+extension on String {
+  EBSFilterName toEBSFilterName() {
+    switch (this) {
+      case 'Finding':
+        return EBSFilterName.finding;
+    }
+    throw Exception('$this is not known in enum EBSFilterName');
+  }
+}
+
 enum EBSFinding {
-  @_s.JsonValue('Optimized')
   optimized,
-  @_s.JsonValue('NotOptimized')
   notOptimized,
 }
 
+extension on EBSFinding {
+  String toValue() {
+    switch (this) {
+      case EBSFinding.optimized:
+        return 'Optimized';
+      case EBSFinding.notOptimized:
+        return 'NotOptimized';
+    }
+  }
+}
+
+extension on String {
+  EBSFinding toEBSFinding() {
+    switch (this) {
+      case 'Optimized':
+        return EBSFinding.optimized;
+      case 'NotOptimized':
+        return EBSFinding.notOptimized;
+    }
+    throw Exception('$this is not known in enum EBSFinding');
+  }
+}
+
 enum EBSMetricName {
-  @_s.JsonValue('VolumeReadOpsPerSecond')
   volumeReadOpsPerSecond,
-  @_s.JsonValue('VolumeWriteOpsPerSecond')
   volumeWriteOpsPerSecond,
-  @_s.JsonValue('VolumeReadBytesPerSecond')
   volumeReadBytesPerSecond,
-  @_s.JsonValue('VolumeWriteBytesPerSecond')
   volumeWriteBytesPerSecond,
+}
+
+extension on EBSMetricName {
+  String toValue() {
+    switch (this) {
+      case EBSMetricName.volumeReadOpsPerSecond:
+        return 'VolumeReadOpsPerSecond';
+      case EBSMetricName.volumeWriteOpsPerSecond:
+        return 'VolumeWriteOpsPerSecond';
+      case EBSMetricName.volumeReadBytesPerSecond:
+        return 'VolumeReadBytesPerSecond';
+      case EBSMetricName.volumeWriteBytesPerSecond:
+        return 'VolumeWriteBytesPerSecond';
+    }
+  }
+}
+
+extension on String {
+  EBSMetricName toEBSMetricName() {
+    switch (this) {
+      case 'VolumeReadOpsPerSecond':
+        return EBSMetricName.volumeReadOpsPerSecond;
+      case 'VolumeWriteOpsPerSecond':
+        return EBSMetricName.volumeWriteOpsPerSecond;
+      case 'VolumeReadBytesPerSecond':
+        return EBSMetricName.volumeReadBytesPerSecond;
+      case 'VolumeWriteBytesPerSecond':
+        return EBSMetricName.volumeWriteBytesPerSecond;
+    }
+    throw Exception('$this is not known in enum EBSMetricName');
+  }
 }
 
 /// Describes a utilization metric of an Amazon Elastic Block Store (Amazon EBS)
@@ -1127,11 +1191,6 @@ enum EBSMetricName {
 /// Compare the utilization metric data of your resource against its projected
 /// utilization metric data to determine the performance difference between your
 /// current resource and the recommended option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EBSUtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -1163,8 +1222,7 @@ class EBSUtilizationMetric {
   /// Unit: Bytes
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'name')
-  final EBSMetricName name;
+  final EBSMetricName? name;
 
   /// The statistic of the utilization metric.
   ///
@@ -1181,170 +1239,135 @@ class EBSUtilizationMetric {
   /// application.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'statistic')
-  final MetricStatistic statistic;
+  final MetricStatistic? statistic;
 
   /// The value of the utilization metric.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   EBSUtilizationMetric({
     this.name,
     this.statistic,
     this.value,
   });
-  factory EBSUtilizationMetric.fromJson(Map<String, dynamic> json) =>
-      _$EBSUtilizationMetricFromJson(json);
+  factory EBSUtilizationMetric.fromJson(Map<String, dynamic> json) {
+    return EBSUtilizationMetric(
+      name: (json['name'] as String?)?.toEBSMetricName(),
+      statistic: (json['statistic'] as String?)?.toMetricStatistic(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportAutoScalingGroupRecommendationsResponse {
   /// The identification number of the export job.
   ///
   /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
   /// the job ID to view the status of an export job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// An object that describes the destination Amazon S3 bucket of a
   /// recommendations export file.
-  @_s.JsonKey(name: 's3Destination')
-  final S3Destination s3Destination;
+  final S3Destination? s3Destination;
 
   ExportAutoScalingGroupRecommendationsResponse({
     this.jobId,
     this.s3Destination,
   });
   factory ExportAutoScalingGroupRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExportAutoScalingGroupRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ExportAutoScalingGroupRecommendationsResponse(
+      jobId: json['jobId'] as String?,
+      s3Destination: json['s3Destination'] != null
+          ? S3Destination.fromJson(
+              json['s3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes the destination of the recommendations export and metadata files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportDestination {
   /// An object that describes the destination Amazon Simple Storage Service
   /// (Amazon S3) bucket name and object keys of a recommendations export file,
   /// and its associated metadata file.
-  @_s.JsonKey(name: 's3')
-  final S3Destination s3;
+  final S3Destination? s3;
 
   ExportDestination({
     this.s3,
   });
-  factory ExportDestination.fromJson(Map<String, dynamic> json) =>
-      _$ExportDestinationFromJson(json);
+  factory ExportDestination.fromJson(Map<String, dynamic> json) {
+    return ExportDestination(
+      s3: json['s3'] != null
+          ? S3Destination.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportEC2InstanceRecommendationsResponse {
   /// The identification number of the export job.
   ///
   /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
   /// the job ID to view the status of an export job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// An object that describes the destination Amazon S3 bucket of a
   /// recommendations export file.
-  @_s.JsonKey(name: 's3Destination')
-  final S3Destination s3Destination;
+  final S3Destination? s3Destination;
 
   ExportEC2InstanceRecommendationsResponse({
     this.jobId,
     this.s3Destination,
   });
   factory ExportEC2InstanceRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExportEC2InstanceRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ExportEC2InstanceRecommendationsResponse(
+      jobId: json['jobId'] as String?,
+      s3Destination: json['s3Destination'] != null
+          ? S3Destination.fromJson(
+              json['s3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ExportableAutoScalingGroupField {
-  @_s.JsonValue('AccountId')
   accountId,
-  @_s.JsonValue('AutoScalingGroupArn')
   autoScalingGroupArn,
-  @_s.JsonValue('AutoScalingGroupName')
   autoScalingGroupName,
-  @_s.JsonValue('Finding')
   finding,
-  @_s.JsonValue('UtilizationMetricsCpuMaximum')
   utilizationMetricsCpuMaximum,
-  @_s.JsonValue('UtilizationMetricsMemoryMaximum')
   utilizationMetricsMemoryMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsReadOpsPerSecondMaximum')
   utilizationMetricsEbsReadOpsPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsWriteOpsPerSecondMaximum')
   utilizationMetricsEbsWriteOpsPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsReadBytesPerSecondMaximum')
   utilizationMetricsEbsReadBytesPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsWriteBytesPerSecondMaximum')
   utilizationMetricsEbsWriteBytesPerSecondMaximum,
-  @_s.JsonValue('LookbackPeriodInDays')
   lookbackPeriodInDays,
-  @_s.JsonValue('CurrentConfigurationInstanceType')
   currentConfigurationInstanceType,
-  @_s.JsonValue('CurrentConfigurationDesiredCapacity')
   currentConfigurationDesiredCapacity,
-  @_s.JsonValue('CurrentConfigurationMinSize')
   currentConfigurationMinSize,
-  @_s.JsonValue('CurrentConfigurationMaxSize')
   currentConfigurationMaxSize,
-  @_s.JsonValue('CurrentOnDemandPrice')
   currentOnDemandPrice,
-  @_s.JsonValue('CurrentStandardOneYearNoUpfrontReservedPrice')
   currentStandardOneYearNoUpfrontReservedPrice,
-  @_s.JsonValue('CurrentStandardThreeYearNoUpfrontReservedPrice')
   currentStandardThreeYearNoUpfrontReservedPrice,
-  @_s.JsonValue('CurrentVCpus')
   currentVCpus,
-  @_s.JsonValue('CurrentMemory')
   currentMemory,
-  @_s.JsonValue('CurrentStorage')
   currentStorage,
-  @_s.JsonValue('CurrentNetwork')
   currentNetwork,
-  @_s.JsonValue('RecommendationOptionsConfigurationInstanceType')
   recommendationOptionsConfigurationInstanceType,
-  @_s.JsonValue('RecommendationOptionsConfigurationDesiredCapacity')
   recommendationOptionsConfigurationDesiredCapacity,
-  @_s.JsonValue('RecommendationOptionsConfigurationMinSize')
   recommendationOptionsConfigurationMinSize,
-  @_s.JsonValue('RecommendationOptionsConfigurationMaxSize')
   recommendationOptionsConfigurationMaxSize,
-  @_s.JsonValue('RecommendationOptionsProjectedUtilizationMetricsCpuMaximum')
   recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
-  @_s.JsonValue('RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum')
   recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
-  @_s.JsonValue('RecommendationOptionsPerformanceRisk')
   recommendationOptionsPerformanceRisk,
-  @_s.JsonValue('RecommendationOptionsOnDemandPrice')
   recommendationOptionsOnDemandPrice,
-  @_s.JsonValue('RecommendationOptionsStandardOneYearNoUpfrontReservedPrice')
   recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
-  @_s.JsonValue('RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice')
   recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
-  @_s.JsonValue('RecommendationOptionsVcpus')
   recommendationOptionsVcpus,
-  @_s.JsonValue('RecommendationOptionsMemory')
   recommendationOptionsMemory,
-  @_s.JsonValue('RecommendationOptionsStorage')
   recommendationOptionsStorage,
-  @_s.JsonValue('RecommendationOptionsNetwork')
   recommendationOptionsNetwork,
-  @_s.JsonValue('LastRefreshTimestamp')
   lastRefreshTimestamp,
 }
 
@@ -1440,76 +1463,142 @@ extension on ExportableAutoScalingGroupField {
       case ExportableAutoScalingGroupField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExportableAutoScalingGroupField toExportableAutoScalingGroupField() {
+    switch (this) {
+      case 'AccountId':
+        return ExportableAutoScalingGroupField.accountId;
+      case 'AutoScalingGroupArn':
+        return ExportableAutoScalingGroupField.autoScalingGroupArn;
+      case 'AutoScalingGroupName':
+        return ExportableAutoScalingGroupField.autoScalingGroupName;
+      case 'Finding':
+        return ExportableAutoScalingGroupField.finding;
+      case 'UtilizationMetricsCpuMaximum':
+        return ExportableAutoScalingGroupField.utilizationMetricsCpuMaximum;
+      case 'UtilizationMetricsMemoryMaximum':
+        return ExportableAutoScalingGroupField.utilizationMetricsMemoryMaximum;
+      case 'UtilizationMetricsEbsReadOpsPerSecondMaximum':
+        return ExportableAutoScalingGroupField
+            .utilizationMetricsEbsReadOpsPerSecondMaximum;
+      case 'UtilizationMetricsEbsWriteOpsPerSecondMaximum':
+        return ExportableAutoScalingGroupField
+            .utilizationMetricsEbsWriteOpsPerSecondMaximum;
+      case 'UtilizationMetricsEbsReadBytesPerSecondMaximum':
+        return ExportableAutoScalingGroupField
+            .utilizationMetricsEbsReadBytesPerSecondMaximum;
+      case 'UtilizationMetricsEbsWriteBytesPerSecondMaximum':
+        return ExportableAutoScalingGroupField
+            .utilizationMetricsEbsWriteBytesPerSecondMaximum;
+      case 'LookbackPeriodInDays':
+        return ExportableAutoScalingGroupField.lookbackPeriodInDays;
+      case 'CurrentConfigurationInstanceType':
+        return ExportableAutoScalingGroupField.currentConfigurationInstanceType;
+      case 'CurrentConfigurationDesiredCapacity':
+        return ExportableAutoScalingGroupField
+            .currentConfigurationDesiredCapacity;
+      case 'CurrentConfigurationMinSize':
+        return ExportableAutoScalingGroupField.currentConfigurationMinSize;
+      case 'CurrentConfigurationMaxSize':
+        return ExportableAutoScalingGroupField.currentConfigurationMaxSize;
+      case 'CurrentOnDemandPrice':
+        return ExportableAutoScalingGroupField.currentOnDemandPrice;
+      case 'CurrentStandardOneYearNoUpfrontReservedPrice':
+        return ExportableAutoScalingGroupField
+            .currentStandardOneYearNoUpfrontReservedPrice;
+      case 'CurrentStandardThreeYearNoUpfrontReservedPrice':
+        return ExportableAutoScalingGroupField
+            .currentStandardThreeYearNoUpfrontReservedPrice;
+      case 'CurrentVCpus':
+        return ExportableAutoScalingGroupField.currentVCpus;
+      case 'CurrentMemory':
+        return ExportableAutoScalingGroupField.currentMemory;
+      case 'CurrentStorage':
+        return ExportableAutoScalingGroupField.currentStorage;
+      case 'CurrentNetwork':
+        return ExportableAutoScalingGroupField.currentNetwork;
+      case 'RecommendationOptionsConfigurationInstanceType':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsConfigurationInstanceType;
+      case 'RecommendationOptionsConfigurationDesiredCapacity':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsConfigurationDesiredCapacity;
+      case 'RecommendationOptionsConfigurationMinSize':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsConfigurationMinSize;
+      case 'RecommendationOptionsConfigurationMaxSize':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsConfigurationMaxSize;
+      case 'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsProjectedUtilizationMetricsCpuMaximum;
+      case 'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum;
+      case 'RecommendationOptionsPerformanceRisk':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsPerformanceRisk;
+      case 'RecommendationOptionsOnDemandPrice':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsOnDemandPrice;
+      case 'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsStandardOneYearNoUpfrontReservedPrice;
+      case 'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice;
+      case 'RecommendationOptionsVcpus':
+        return ExportableAutoScalingGroupField.recommendationOptionsVcpus;
+      case 'RecommendationOptionsMemory':
+        return ExportableAutoScalingGroupField.recommendationOptionsMemory;
+      case 'RecommendationOptionsStorage':
+        return ExportableAutoScalingGroupField.recommendationOptionsStorage;
+      case 'RecommendationOptionsNetwork':
+        return ExportableAutoScalingGroupField.recommendationOptionsNetwork;
+      case 'LastRefreshTimestamp':
+        return ExportableAutoScalingGroupField.lastRefreshTimestamp;
+    }
+    throw Exception(
+        '$this is not known in enum ExportableAutoScalingGroupField');
   }
 }
 
 enum ExportableInstanceField {
-  @_s.JsonValue('AccountId')
   accountId,
-  @_s.JsonValue('InstanceArn')
   instanceArn,
-  @_s.JsonValue('InstanceName')
   instanceName,
-  @_s.JsonValue('Finding')
   finding,
-  @_s.JsonValue('LookbackPeriodInDays')
   lookbackPeriodInDays,
-  @_s.JsonValue('CurrentInstanceType')
   currentInstanceType,
-  @_s.JsonValue('UtilizationMetricsCpuMaximum')
   utilizationMetricsCpuMaximum,
-  @_s.JsonValue('UtilizationMetricsMemoryMaximum')
   utilizationMetricsMemoryMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsReadOpsPerSecondMaximum')
   utilizationMetricsEbsReadOpsPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsWriteOpsPerSecondMaximum')
   utilizationMetricsEbsWriteOpsPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsReadBytesPerSecondMaximum')
   utilizationMetricsEbsReadBytesPerSecondMaximum,
-  @_s.JsonValue('UtilizationMetricsEbsWriteBytesPerSecondMaximum')
   utilizationMetricsEbsWriteBytesPerSecondMaximum,
-  @_s.JsonValue('CurrentOnDemandPrice')
   currentOnDemandPrice,
-  @_s.JsonValue('CurrentStandardOneYearNoUpfrontReservedPrice')
   currentStandardOneYearNoUpfrontReservedPrice,
-  @_s.JsonValue('CurrentStandardThreeYearNoUpfrontReservedPrice')
   currentStandardThreeYearNoUpfrontReservedPrice,
-  @_s.JsonValue('CurrentVCpus')
   currentVCpus,
-  @_s.JsonValue('CurrentMemory')
   currentMemory,
-  @_s.JsonValue('CurrentStorage')
   currentStorage,
-  @_s.JsonValue('CurrentNetwork')
   currentNetwork,
-  @_s.JsonValue('RecommendationOptionsInstanceType')
   recommendationOptionsInstanceType,
-  @_s.JsonValue('RecommendationOptionsProjectedUtilizationMetricsCpuMaximum')
   recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
-  @_s.JsonValue('RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum')
   recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
-  @_s.JsonValue('RecommendationOptionsPerformanceRisk')
   recommendationOptionsPerformanceRisk,
-  @_s.JsonValue('RecommendationOptionsVcpus')
   recommendationOptionsVcpus,
-  @_s.JsonValue('RecommendationOptionsMemory')
   recommendationOptionsMemory,
-  @_s.JsonValue('RecommendationOptionsStorage')
   recommendationOptionsStorage,
-  @_s.JsonValue('RecommendationOptionsNetwork')
   recommendationOptionsNetwork,
-  @_s.JsonValue('RecommendationOptionsOnDemandPrice')
   recommendationOptionsOnDemandPrice,
-  @_s.JsonValue('RecommendationOptionsStandardOneYearNoUpfrontReservedPrice')
   recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
-  @_s.JsonValue('RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice')
   recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
-  @_s.JsonValue('RecommendationsSourcesRecommendationSourceArn')
   recommendationsSourcesRecommendationSourceArn,
-  @_s.JsonValue('RecommendationsSourcesRecommendationSourceType')
   recommendationsSourcesRecommendationSourceType,
-  @_s.JsonValue('LastRefreshTimestamp')
   lastRefreshTimestamp,
 }
 
@@ -1593,12 +1682,96 @@ extension on ExportableInstanceField {
       case ExportableInstanceField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExportableInstanceField toExportableInstanceField() {
+    switch (this) {
+      case 'AccountId':
+        return ExportableInstanceField.accountId;
+      case 'InstanceArn':
+        return ExportableInstanceField.instanceArn;
+      case 'InstanceName':
+        return ExportableInstanceField.instanceName;
+      case 'Finding':
+        return ExportableInstanceField.finding;
+      case 'LookbackPeriodInDays':
+        return ExportableInstanceField.lookbackPeriodInDays;
+      case 'CurrentInstanceType':
+        return ExportableInstanceField.currentInstanceType;
+      case 'UtilizationMetricsCpuMaximum':
+        return ExportableInstanceField.utilizationMetricsCpuMaximum;
+      case 'UtilizationMetricsMemoryMaximum':
+        return ExportableInstanceField.utilizationMetricsMemoryMaximum;
+      case 'UtilizationMetricsEbsReadOpsPerSecondMaximum':
+        return ExportableInstanceField
+            .utilizationMetricsEbsReadOpsPerSecondMaximum;
+      case 'UtilizationMetricsEbsWriteOpsPerSecondMaximum':
+        return ExportableInstanceField
+            .utilizationMetricsEbsWriteOpsPerSecondMaximum;
+      case 'UtilizationMetricsEbsReadBytesPerSecondMaximum':
+        return ExportableInstanceField
+            .utilizationMetricsEbsReadBytesPerSecondMaximum;
+      case 'UtilizationMetricsEbsWriteBytesPerSecondMaximum':
+        return ExportableInstanceField
+            .utilizationMetricsEbsWriteBytesPerSecondMaximum;
+      case 'CurrentOnDemandPrice':
+        return ExportableInstanceField.currentOnDemandPrice;
+      case 'CurrentStandardOneYearNoUpfrontReservedPrice':
+        return ExportableInstanceField
+            .currentStandardOneYearNoUpfrontReservedPrice;
+      case 'CurrentStandardThreeYearNoUpfrontReservedPrice':
+        return ExportableInstanceField
+            .currentStandardThreeYearNoUpfrontReservedPrice;
+      case 'CurrentVCpus':
+        return ExportableInstanceField.currentVCpus;
+      case 'CurrentMemory':
+        return ExportableInstanceField.currentMemory;
+      case 'CurrentStorage':
+        return ExportableInstanceField.currentStorage;
+      case 'CurrentNetwork':
+        return ExportableInstanceField.currentNetwork;
+      case 'RecommendationOptionsInstanceType':
+        return ExportableInstanceField.recommendationOptionsInstanceType;
+      case 'RecommendationOptionsProjectedUtilizationMetricsCpuMaximum':
+        return ExportableInstanceField
+            .recommendationOptionsProjectedUtilizationMetricsCpuMaximum;
+      case 'RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum':
+        return ExportableInstanceField
+            .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum;
+      case 'RecommendationOptionsPerformanceRisk':
+        return ExportableInstanceField.recommendationOptionsPerformanceRisk;
+      case 'RecommendationOptionsVcpus':
+        return ExportableInstanceField.recommendationOptionsVcpus;
+      case 'RecommendationOptionsMemory':
+        return ExportableInstanceField.recommendationOptionsMemory;
+      case 'RecommendationOptionsStorage':
+        return ExportableInstanceField.recommendationOptionsStorage;
+      case 'RecommendationOptionsNetwork':
+        return ExportableInstanceField.recommendationOptionsNetwork;
+      case 'RecommendationOptionsOnDemandPrice':
+        return ExportableInstanceField.recommendationOptionsOnDemandPrice;
+      case 'RecommendationOptionsStandardOneYearNoUpfrontReservedPrice':
+        return ExportableInstanceField
+            .recommendationOptionsStandardOneYearNoUpfrontReservedPrice;
+      case 'RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice':
+        return ExportableInstanceField
+            .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice;
+      case 'RecommendationsSourcesRecommendationSourceArn':
+        return ExportableInstanceField
+            .recommendationsSourcesRecommendationSourceArn;
+      case 'RecommendationsSourcesRecommendationSourceType':
+        return ExportableInstanceField
+            .recommendationsSourcesRecommendationSourceType;
+      case 'LastRefreshTimestamp':
+        return ExportableInstanceField.lastRefreshTimestamp;
+    }
+    throw Exception('$this is not known in enum ExportableInstanceField');
   }
 }
 
 enum FileFormat {
-  @_s.JsonValue('Csv')
   csv,
 }
 
@@ -1608,7 +1781,16 @@ extension on FileFormat {
       case FileFormat.csv:
         return 'Csv';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FileFormat toFileFormat() {
+    switch (this) {
+      case 'Csv':
+        return FileFormat.csv;
+    }
+    throw Exception('$this is not known in enum FileFormat');
   }
 }
 
@@ -1616,11 +1798,6 @@ extension on FileFormat {
 ///
 /// This filter is used with the <code>GetAutoScalingGroupRecommendations</code>
 /// and <code>GetEC2InstanceRecommendations</code> actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name of the filter.
   ///
@@ -1629,8 +1806,7 @@ class Filter {
   ///
   /// Specify <code>RecommendationSourceType</code> to return recommendations of a
   /// specific resource type (e.g., <code>AutoScalingGroup</code>).
-  @_s.JsonKey(name: 'name')
-  final FilterName name;
+  final FilterName? name;
 
   /// The value of the filter.
   ///
@@ -1655,65 +1831,132 @@ class Filter {
   /// <code>RecommendationSourceType</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum FilterName {
-  @_s.JsonValue('Finding')
   finding,
-  @_s.JsonValue('RecommendationSourceType')
   recommendationSourceType,
 }
 
+extension on FilterName {
+  String toValue() {
+    switch (this) {
+      case FilterName.finding:
+        return 'Finding';
+      case FilterName.recommendationSourceType:
+        return 'RecommendationSourceType';
+    }
+  }
+}
+
+extension on String {
+  FilterName toFilterName() {
+    switch (this) {
+      case 'Finding':
+        return FilterName.finding;
+      case 'RecommendationSourceType':
+        return FilterName.recommendationSourceType;
+    }
+    throw Exception('$this is not known in enum FilterName');
+  }
+}
+
 enum Finding {
-  @_s.JsonValue('Underprovisioned')
   underprovisioned,
-  @_s.JsonValue('Overprovisioned')
   overprovisioned,
-  @_s.JsonValue('Optimized')
   optimized,
-  @_s.JsonValue('NotOptimized')
   notOptimized,
 }
 
+extension on Finding {
+  String toValue() {
+    switch (this) {
+      case Finding.underprovisioned:
+        return 'Underprovisioned';
+      case Finding.overprovisioned:
+        return 'Overprovisioned';
+      case Finding.optimized:
+        return 'Optimized';
+      case Finding.notOptimized:
+        return 'NotOptimized';
+    }
+  }
+}
+
+extension on String {
+  Finding toFinding() {
+    switch (this) {
+      case 'Underprovisioned':
+        return Finding.underprovisioned;
+      case 'Overprovisioned':
+        return Finding.overprovisioned;
+      case 'Optimized':
+        return Finding.optimized;
+      case 'NotOptimized':
+        return Finding.notOptimized;
+    }
+    throw Exception('$this is not known in enum Finding');
+  }
+}
+
 enum FindingReasonCode {
-  @_s.JsonValue('MemoryOverprovisioned')
   memoryOverprovisioned,
-  @_s.JsonValue('MemoryUnderprovisioned')
   memoryUnderprovisioned,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FindingReasonCode {
+  String toValue() {
+    switch (this) {
+      case FindingReasonCode.memoryOverprovisioned:
+        return 'MemoryOverprovisioned';
+      case FindingReasonCode.memoryUnderprovisioned:
+        return 'MemoryUnderprovisioned';
+    }
+  }
+}
+
+extension on String {
+  FindingReasonCode toFindingReasonCode() {
+    switch (this) {
+      case 'MemoryOverprovisioned':
+        return FindingReasonCode.memoryOverprovisioned;
+      case 'MemoryUnderprovisioned':
+        return FindingReasonCode.memoryUnderprovisioned;
+    }
+    throw Exception('$this is not known in enum FindingReasonCode');
+  }
+}
+
 class GetAutoScalingGroupRecommendationsResponse {
   /// An array of objects that describe Auto Scaling group recommendations.
-  @_s.JsonKey(name: 'autoScalingGroupRecommendations')
-  final List<AutoScalingGroupRecommendation> autoScalingGroupRecommendations;
+  final List<AutoScalingGroupRecommendation>? autoScalingGroupRecommendations;
 
   /// An array of objects that describe errors of the request.
   ///
   /// For example, an error is returned if you request recommendations for an
   /// unsupported Auto Scaling group.
-  @_s.JsonKey(name: 'errors')
-  final List<GetRecommendationError> errors;
+  final List<GetRecommendationError>? errors;
 
   /// The token to use to advance to the next page of Auto Scaling group
   /// recommendations.
   ///
   /// This value is null when there are no more pages of Auto Scaling group
   /// recommendations to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetAutoScalingGroupRecommendationsResponse({
     this.autoScalingGroupRecommendations,
@@ -1721,33 +1964,39 @@ class GetAutoScalingGroupRecommendationsResponse {
     this.nextToken,
   });
   factory GetAutoScalingGroupRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAutoScalingGroupRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAutoScalingGroupRecommendationsResponse(
+      autoScalingGroupRecommendations:
+          (json['autoScalingGroupRecommendations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AutoScalingGroupRecommendation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEBSVolumeRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   ///
   /// For example, an error is returned if you request recommendations for an
   /// unsupported volume.
-  @_s.JsonKey(name: 'errors')
-  final List<GetRecommendationError> errors;
+  final List<GetRecommendationError>? errors;
 
   /// The token to use to advance to the next page of volume recommendations.
   ///
   /// This value is null when there are no more pages of volume recommendations to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that describe volume recommendations.
-  @_s.JsonKey(name: 'volumeRecommendations')
-  final List<VolumeRecommendation> volumeRecommendations;
+  final List<VolumeRecommendation>? volumeRecommendations;
 
   GetEBSVolumeRecommendationsResponse({
     this.errors,
@@ -1755,33 +2004,37 @@ class GetEBSVolumeRecommendationsResponse {
     this.volumeRecommendations,
   });
   factory GetEBSVolumeRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetEBSVolumeRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetEBSVolumeRecommendationsResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      volumeRecommendations: (json['volumeRecommendations'] as List?)
+          ?.whereNotNull()
+          .map((e) => VolumeRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEC2InstanceRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   ///
   /// For example, an error is returned if you request recommendations for an
   /// instance of an unsupported instance family.
-  @_s.JsonKey(name: 'errors')
-  final List<GetRecommendationError> errors;
+  final List<GetRecommendationError>? errors;
 
   /// An array of objects that describe instance recommendations.
-  @_s.JsonKey(name: 'instanceRecommendations')
-  final List<InstanceRecommendation> instanceRecommendations;
+  final List<InstanceRecommendation>? instanceRecommendations;
 
   /// The token to use to advance to the next page of instance recommendations.
   ///
   /// This value is null when there are no more pages of instance recommendations
   /// to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetEC2InstanceRecommendationsResponse({
     this.errors,
@@ -1789,85 +2042,99 @@ class GetEC2InstanceRecommendationsResponse {
     this.nextToken,
   });
   factory GetEC2InstanceRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetEC2InstanceRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetEC2InstanceRecommendationsResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceRecommendations: (json['instanceRecommendations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => InstanceRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEC2RecommendationProjectedMetricsResponse {
   /// An array of objects that describe a projected metrics.
-  @_s.JsonKey(name: 'recommendedOptionProjectedMetrics')
-  final List<RecommendedOptionProjectedMetric>
+  final List<RecommendedOptionProjectedMetric>?
       recommendedOptionProjectedMetrics;
 
   GetEC2RecommendationProjectedMetricsResponse({
     this.recommendedOptionProjectedMetrics,
   });
   factory GetEC2RecommendationProjectedMetricsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetEC2RecommendationProjectedMetricsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetEC2RecommendationProjectedMetricsResponse(
+      recommendedOptionProjectedMetrics:
+          (json['recommendedOptionProjectedMetrics'] as List?)
+              ?.whereNotNull()
+              .map((e) => RecommendedOptionProjectedMetric.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEnrollmentStatusResponse {
   /// Confirms the enrollment status of member accounts within the organization,
   /// if the account is a management account of an organization.
-  @_s.JsonKey(name: 'memberAccountsEnrolled')
-  final bool memberAccountsEnrolled;
+  final bool? memberAccountsEnrolled;
 
   /// The enrollment status of the account.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   /// The reason for the enrollment status of the account.
   ///
   /// For example, an account might show a status of <code>Pending</code> because
   /// member accounts of an organization require more time to be enrolled in the
   /// service.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   GetEnrollmentStatusResponse({
     this.memberAccountsEnrolled,
     this.status,
     this.statusReason,
   });
-  factory GetEnrollmentStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEnrollmentStatusResponseFromJson(json);
+  factory GetEnrollmentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetEnrollmentStatusResponse(
+      memberAccountsEnrolled: json['memberAccountsEnrolled'] as bool?,
+      status: (json['status'] as String?)?.toStatus(),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLambdaFunctionRecommendationsResponse {
   /// An array of objects that describe function recommendations.
-  @_s.JsonKey(name: 'lambdaFunctionRecommendations')
-  final List<LambdaFunctionRecommendation> lambdaFunctionRecommendations;
+  final List<LambdaFunctionRecommendation>? lambdaFunctionRecommendations;
 
   /// The token to use to advance to the next page of function recommendations.
   ///
   /// This value is null when there are no more pages of function recommendations
   /// to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetLambdaFunctionRecommendationsResponse({
     this.lambdaFunctionRecommendations,
     this.nextToken,
   });
   factory GetLambdaFunctionRecommendationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetLambdaFunctionRecommendationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetLambdaFunctionRecommendationsResponse(
+      lambdaFunctionRecommendations: (json['lambdaFunctionRecommendations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LambdaFunctionRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Describes an error experienced when getting recommendations.
@@ -1875,73 +2142,63 @@ class GetLambdaFunctionRecommendationsResponse {
 /// For example, an error is returned if you request recommendations for an
 /// unsupported Auto Scaling group, or if you request recommendations for an
 /// instance of an unsupported instance family.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecommendationError {
   /// The error code.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The ID of the error.
-  @_s.JsonKey(name: 'identifier')
-  final String identifier;
+  final String? identifier;
 
   /// The message, or reason, for the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   GetRecommendationError({
     this.code,
     this.identifier,
     this.message,
   });
-  factory GetRecommendationError.fromJson(Map<String, dynamic> json) =>
-      _$GetRecommendationErrorFromJson(json);
+  factory GetRecommendationError.fromJson(Map<String, dynamic> json) {
+    return GetRecommendationError(
+      code: json['code'] as String?,
+      identifier: json['identifier'] as String?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecommendationSummariesResponse {
   /// The token to use to advance to the next page of recommendation summaries.
   ///
   /// This value is null when there are no more pages of recommendation summaries
   /// to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that summarize a recommendation.
-  @_s.JsonKey(name: 'recommendationSummaries')
-  final List<RecommendationSummary> recommendationSummaries;
+  final List<RecommendationSummary>? recommendationSummaries;
 
   GetRecommendationSummariesResponse({
     this.nextToken,
     this.recommendationSummaries,
   });
   factory GetRecommendationSummariesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRecommendationSummariesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRecommendationSummariesResponse(
+      nextToken: json['nextToken'] as String?,
+      recommendationSummaries: (json['recommendationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes an Amazon EC2 instance recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceRecommendation {
   /// The AWS account ID of the instance.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The instance type of the current instance.
-  @_s.JsonKey(name: 'currentInstanceType')
-  final String currentInstanceType;
+  final String? currentInstanceType;
 
   /// The finding classification for the instance.
   ///
@@ -1972,39 +2229,30 @@ class InstanceRecommendation {
   /// recommend a new generation instance type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'finding')
-  final Finding finding;
+  final Finding? finding;
 
   /// The Amazon Resource Name (ARN) of the current instance.
-  @_s.JsonKey(name: 'instanceArn')
-  final String instanceArn;
+  final String? instanceArn;
 
   /// The name of the current instance.
-  @_s.JsonKey(name: 'instanceName')
-  final String instanceName;
+  final String? instanceName;
 
   /// The time stamp of when the instance recommendation was last refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastRefreshTimestamp')
-  final DateTime lastRefreshTimestamp;
+  final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
   /// instance.
-  @_s.JsonKey(name: 'lookBackPeriodInDays')
-  final double lookBackPeriodInDays;
+  final double? lookBackPeriodInDays;
 
   /// An array of objects that describe the recommendation options for the
   /// instance.
-  @_s.JsonKey(name: 'recommendationOptions')
-  final List<InstanceRecommendationOption> recommendationOptions;
+  final List<InstanceRecommendationOption>? recommendationOptions;
 
   /// An array of objects that describe the source resource of the recommendation.
-  @_s.JsonKey(name: 'recommendationSources')
-  final List<RecommendationSource> recommendationSources;
+  final List<RecommendationSource>? recommendationSources;
 
   /// An array of objects that describe the utilization metrics of the instance.
-  @_s.JsonKey(name: 'utilizationMetrics')
-  final List<UtilizationMetric> utilizationMetrics;
+  final List<UtilizationMetric>? utilizationMetrics;
 
   InstanceRecommendation({
     this.accountId,
@@ -2018,20 +2266,36 @@ class InstanceRecommendation {
     this.recommendationSources,
     this.utilizationMetrics,
   });
-  factory InstanceRecommendation.fromJson(Map<String, dynamic> json) =>
-      _$InstanceRecommendationFromJson(json);
+  factory InstanceRecommendation.fromJson(Map<String, dynamic> json) {
+    return InstanceRecommendation(
+      accountId: json['accountId'] as String?,
+      currentInstanceType: json['currentInstanceType'] as String?,
+      finding: (json['finding'] as String?)?.toFinding(),
+      instanceArn: json['instanceArn'] as String?,
+      instanceName: json['instanceName'] as String?,
+      lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      recommendationOptions: (json['recommendationOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InstanceRecommendationOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recommendationSources: (json['recommendationSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecommendationSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      utilizationMetrics: (json['utilizationMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a recommendation option for an Amazon EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceRecommendationOption {
   /// The instance type of the instance recommendation.
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The performance risk of the instance recommendation option.
   ///
@@ -2040,8 +2304,7 @@ class InstanceRecommendationOption {
   ///
   /// The lowest performance risk is categorized as <code>0</code>, and the
   /// highest as <code>5</code>.
-  @_s.JsonKey(name: 'performanceRisk')
-  final double performanceRisk;
+  final double? performanceRisk;
 
   /// An array of objects that describe the projected utilization metrics of the
   /// instance recommendation option.
@@ -2053,14 +2316,12 @@ class InstanceRecommendationOption {
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
   /// Memory Utilization with the CloudWatch Agent</a>.
   /// </note>
-  @_s.JsonKey(name: 'projectedUtilizationMetrics')
-  final List<UtilizationMetric> projectedUtilizationMetrics;
+  final List<UtilizationMetric>? projectedUtilizationMetrics;
 
   /// The rank of the instance recommendation option.
   ///
   /// The top recommendation option is ranked as <code>1</code>.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   InstanceRecommendationOption({
     this.instanceType,
@@ -2068,8 +2329,18 @@ class InstanceRecommendationOption {
     this.projectedUtilizationMetrics,
     this.rank,
   });
-  factory InstanceRecommendationOption.fromJson(Map<String, dynamic> json) =>
-      _$InstanceRecommendationOptionFromJson(json);
+  factory InstanceRecommendationOption.fromJson(Map<String, dynamic> json) {
+    return InstanceRecommendationOption(
+      instanceType: json['instanceType'] as String?,
+      performanceRisk: json['performanceRisk'] as double?,
+      projectedUtilizationMetrics:
+          (json['projectedUtilizationMetrics'] as List?)
+              ?.whereNotNull()
+              .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      rank: json['rank'] as int?,
+    );
+  }
 }
 
 /// Describes a filter that returns a more specific list of recommendation
@@ -2077,11 +2348,6 @@ class InstanceRecommendationOption {
 ///
 /// This filter is used with the <code>DescribeRecommendationExportJobs</code>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class JobFilter {
   /// The name of the filter.
   ///
@@ -2090,8 +2356,7 @@ class JobFilter {
   ///
   /// Specify <code>JobStatus</code> to return export jobs with a specific status
   /// (e.g, <code>Complete</code>).
-  @_s.JsonKey(name: 'name')
-  final JobFilterName name;
+  final JobFilterName? name;
 
   /// The value of the filter.
   ///
@@ -2111,67 +2376,157 @@ class JobFilter {
   /// <code>JobStatus</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   JobFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$JobFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum JobFilterName {
-  @_s.JsonValue('ResourceType')
   resourceType,
-  @_s.JsonValue('JobStatus')
   jobStatus,
 }
 
+extension on JobFilterName {
+  String toValue() {
+    switch (this) {
+      case JobFilterName.resourceType:
+        return 'ResourceType';
+      case JobFilterName.jobStatus:
+        return 'JobStatus';
+    }
+  }
+}
+
+extension on String {
+  JobFilterName toJobFilterName() {
+    switch (this) {
+      case 'ResourceType':
+        return JobFilterName.resourceType;
+      case 'JobStatus':
+        return JobFilterName.jobStatus;
+    }
+    throw Exception('$this is not known in enum JobFilterName');
+  }
+}
+
 enum JobStatus {
-  @_s.JsonValue('Queued')
   queued,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.queued:
+        return 'Queued';
+      case JobStatus.inProgress:
+        return 'InProgress';
+      case JobStatus.complete:
+        return 'Complete';
+      case JobStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'Queued':
+        return JobStatus.queued;
+      case 'InProgress':
+        return JobStatus.inProgress;
+      case 'Complete':
+        return JobStatus.complete;
+      case 'Failed':
+        return JobStatus.failed;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
 enum LambdaFunctionMemoryMetricName {
-  @_s.JsonValue('Duration')
   duration,
 }
 
+extension on LambdaFunctionMemoryMetricName {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionMemoryMetricName.duration:
+        return 'Duration';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionMemoryMetricName toLambdaFunctionMemoryMetricName() {
+    switch (this) {
+      case 'Duration':
+        return LambdaFunctionMemoryMetricName.duration;
+    }
+    throw Exception(
+        '$this is not known in enum LambdaFunctionMemoryMetricName');
+  }
+}
+
 enum LambdaFunctionMemoryMetricStatistic {
-  @_s.JsonValue('LowerBound')
   lowerBound,
-  @_s.JsonValue('UpperBound')
   upperBound,
-  @_s.JsonValue('Expected')
   expected,
+}
+
+extension on LambdaFunctionMemoryMetricStatistic {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionMemoryMetricStatistic.lowerBound:
+        return 'LowerBound';
+      case LambdaFunctionMemoryMetricStatistic.upperBound:
+        return 'UpperBound';
+      case LambdaFunctionMemoryMetricStatistic.expected:
+        return 'Expected';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionMemoryMetricStatistic toLambdaFunctionMemoryMetricStatistic() {
+    switch (this) {
+      case 'LowerBound':
+        return LambdaFunctionMemoryMetricStatistic.lowerBound;
+      case 'UpperBound':
+        return LambdaFunctionMemoryMetricStatistic.upperBound;
+      case 'Expected':
+        return LambdaFunctionMemoryMetricStatistic.expected;
+    }
+    throw Exception(
+        '$this is not known in enum LambdaFunctionMemoryMetricStatistic');
+  }
 }
 
 /// Describes a projected utilization metric of an AWS Lambda function
 /// recommendation option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionMemoryProjectedMetric {
   /// The name of the projected utilization metric.
-  @_s.JsonKey(name: 'name')
-  final LambdaFunctionMemoryMetricName name;
+  final LambdaFunctionMemoryMetricName? name;
 
   /// The statistic of the projected utilization metric.
-  @_s.JsonKey(name: 'statistic')
-  final LambdaFunctionMemoryMetricStatistic statistic;
+  final LambdaFunctionMemoryMetricStatistic? statistic;
 
   /// The values of the projected utilization metrics.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   LambdaFunctionMemoryProjectedMetric({
     this.name,
@@ -2179,31 +2534,29 @@ class LambdaFunctionMemoryProjectedMetric {
     this.value,
   });
   factory LambdaFunctionMemoryProjectedMetric.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionMemoryProjectedMetricFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionMemoryProjectedMetric(
+      name: (json['name'] as String?)?.toLambdaFunctionMemoryMetricName(),
+      statistic: (json['statistic'] as String?)
+          ?.toLambdaFunctionMemoryMetricStatistic(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
 /// Describes a recommendation option for an AWS Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionMemoryRecommendationOption {
   /// The memory size, in MB, of the function recommendation option.
-  @_s.JsonKey(name: 'memorySize')
-  final int memorySize;
+  final int? memorySize;
 
   /// An array of objects that describe the projected utilization metrics of the
   /// function recommendation option.
-  @_s.JsonKey(name: 'projectedUtilizationMetrics')
-  final List<LambdaFunctionMemoryProjectedMetric> projectedUtilizationMetrics;
+  final List<LambdaFunctionMemoryProjectedMetric>? projectedUtilizationMetrics;
 
   /// The rank of the function recommendation option.
   ///
   /// The top recommendation option is ranked as <code>1</code>.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   LambdaFunctionMemoryRecommendationOption({
     this.memorySize,
@@ -2211,38 +2564,83 @@ class LambdaFunctionMemoryRecommendationOption {
     this.rank,
   });
   factory LambdaFunctionMemoryRecommendationOption.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionMemoryRecommendationOptionFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionMemoryRecommendationOption(
+      memorySize: json['memorySize'] as int?,
+      projectedUtilizationMetrics:
+          (json['projectedUtilizationMetrics'] as List?)
+              ?.whereNotNull()
+              .map((e) => LambdaFunctionMemoryProjectedMetric.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      rank: json['rank'] as int?,
+    );
+  }
 }
 
 enum LambdaFunctionMetricName {
-  @_s.JsonValue('Duration')
   duration,
-  @_s.JsonValue('Memory')
   memory,
 }
 
+extension on LambdaFunctionMetricName {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionMetricName.duration:
+        return 'Duration';
+      case LambdaFunctionMetricName.memory:
+        return 'Memory';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionMetricName toLambdaFunctionMetricName() {
+    switch (this) {
+      case 'Duration':
+        return LambdaFunctionMetricName.duration;
+      case 'Memory':
+        return LambdaFunctionMetricName.memory;
+    }
+    throw Exception('$this is not known in enum LambdaFunctionMetricName');
+  }
+}
+
 enum LambdaFunctionMetricStatistic {
-  @_s.JsonValue('Maximum')
   maximum,
-  @_s.JsonValue('Average')
   average,
 }
 
+extension on LambdaFunctionMetricStatistic {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionMetricStatistic.maximum:
+        return 'Maximum';
+      case LambdaFunctionMetricStatistic.average:
+        return 'Average';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionMetricStatistic toLambdaFunctionMetricStatistic() {
+    switch (this) {
+      case 'Maximum':
+        return LambdaFunctionMetricStatistic.maximum;
+      case 'Average':
+        return LambdaFunctionMetricStatistic.average;
+    }
+    throw Exception('$this is not known in enum LambdaFunctionMetricStatistic');
+  }
+}
+
 /// Describes an AWS Lambda function recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionRecommendation {
   /// The AWS account ID of the function.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The amount of memory, in MB, that's allocated to the current function.
-  @_s.JsonKey(name: 'currentMemorySize')
-  final int currentMemorySize;
+  final int? currentMemorySize;
 
   /// The finding classification for the function.
   ///
@@ -2277,8 +2675,7 @@ class LambdaFunctionRecommendation {
   /// in your <code>GetLambdaFunctionRecommendations</code> request.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'finding')
-  final LambdaFunctionRecommendationFinding finding;
+  final LambdaFunctionRecommendationFinding? finding;
 
   /// The reason for the finding classification of the function.
   /// <note>
@@ -2317,41 +2714,32 @@ class LambdaFunctionRecommendation {
   /// part of the <code>Unavailable</code> finding classification.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'findingReasonCodes')
-  final List<LambdaFunctionRecommendationFindingReasonCode> findingReasonCodes;
+  final List<LambdaFunctionRecommendationFindingReasonCode>? findingReasonCodes;
 
   /// The Amazon Resource Name (ARN) of the current function.
-  @_s.JsonKey(name: 'functionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// The version number of the current function.
-  @_s.JsonKey(name: 'functionVersion')
-  final String functionVersion;
+  final String? functionVersion;
 
   /// The time stamp of when the function recommendation was last refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastRefreshTimestamp')
-  final DateTime lastRefreshTimestamp;
+  final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
   /// function.
-  @_s.JsonKey(name: 'lookbackPeriodInDays')
-  final double lookbackPeriodInDays;
+  final double? lookbackPeriodInDays;
 
   /// An array of objects that describe the memory configuration recommendation
   /// options for the function.
-  @_s.JsonKey(name: 'memorySizeRecommendationOptions')
-  final List<LambdaFunctionMemoryRecommendationOption>
+  final List<LambdaFunctionMemoryRecommendationOption>?
       memorySizeRecommendationOptions;
 
   /// The number of times your function code was executed during the look-back
   /// period.
-  @_s.JsonKey(name: 'numberOfInvocations')
-  final int numberOfInvocations;
+  final int? numberOfInvocations;
 
   /// An array of objects that describe the utilization metrics of the function.
-  @_s.JsonKey(name: 'utilizationMetrics')
-  final List<LambdaFunctionUtilizationMetric> utilizationMetrics;
+  final List<LambdaFunctionUtilizationMetric>? utilizationMetrics;
 
   LambdaFunctionRecommendation({
     this.accountId,
@@ -2366,17 +2754,39 @@ class LambdaFunctionRecommendation {
     this.numberOfInvocations,
     this.utilizationMetrics,
   });
-  factory LambdaFunctionRecommendation.fromJson(Map<String, dynamic> json) =>
-      _$LambdaFunctionRecommendationFromJson(json);
+  factory LambdaFunctionRecommendation.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionRecommendation(
+      accountId: json['accountId'] as String?,
+      currentMemorySize: json['currentMemorySize'] as int?,
+      finding:
+          (json['finding'] as String?)?.toLambdaFunctionRecommendationFinding(),
+      findingReasonCodes: (json['findingReasonCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as String).toLambdaFunctionRecommendationFindingReasonCode())
+          .toList(),
+      functionArn: json['functionArn'] as String?,
+      functionVersion: json['functionVersion'] as String?,
+      lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      memorySizeRecommendationOptions:
+          (json['memorySizeRecommendationOptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => LambdaFunctionMemoryRecommendationOption.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      numberOfInvocations: json['numberOfInvocations'] as int?,
+      utilizationMetrics: (json['utilizationMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => LambdaFunctionUtilizationMetric.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a filter that returns a more specific list of AWS Lambda function
 /// recommendations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LambdaFunctionRecommendationFilter {
   /// The name of the filter.
   ///
@@ -2385,8 +2795,7 @@ class LambdaFunctionRecommendationFilter {
   ///
   /// Specify <code>FindingReasonCode</code> to return recommendations with a
   /// specific finding reason code (e.g., <code>MemoryUnderprovisioned</code>).
-  @_s.JsonKey(name: 'name')
-  final LambdaFunctionRecommendationFilterName name;
+  final LambdaFunctionRecommendationFilterName? name;
 
   /// The value of the filter.
   ///
@@ -2406,91 +2815,204 @@ class LambdaFunctionRecommendationFilter {
   /// as <code>FindingReasonCode</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   LambdaFunctionRecommendationFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() =>
-      _$LambdaFunctionRecommendationFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum LambdaFunctionRecommendationFilterName {
-  @_s.JsonValue('Finding')
   finding,
-  @_s.JsonValue('FindingReasonCode')
   findingReasonCode,
 }
 
+extension on LambdaFunctionRecommendationFilterName {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionRecommendationFilterName.finding:
+        return 'Finding';
+      case LambdaFunctionRecommendationFilterName.findingReasonCode:
+        return 'FindingReasonCode';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionRecommendationFilterName
+      toLambdaFunctionRecommendationFilterName() {
+    switch (this) {
+      case 'Finding':
+        return LambdaFunctionRecommendationFilterName.finding;
+      case 'FindingReasonCode':
+        return LambdaFunctionRecommendationFilterName.findingReasonCode;
+    }
+    throw Exception(
+        '$this is not known in enum LambdaFunctionRecommendationFilterName');
+  }
+}
+
 enum LambdaFunctionRecommendationFinding {
-  @_s.JsonValue('Optimized')
   optimized,
-  @_s.JsonValue('NotOptimized')
   notOptimized,
-  @_s.JsonValue('Unavailable')
   unavailable,
 }
 
+extension on LambdaFunctionRecommendationFinding {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionRecommendationFinding.optimized:
+        return 'Optimized';
+      case LambdaFunctionRecommendationFinding.notOptimized:
+        return 'NotOptimized';
+      case LambdaFunctionRecommendationFinding.unavailable:
+        return 'Unavailable';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionRecommendationFinding toLambdaFunctionRecommendationFinding() {
+    switch (this) {
+      case 'Optimized':
+        return LambdaFunctionRecommendationFinding.optimized;
+      case 'NotOptimized':
+        return LambdaFunctionRecommendationFinding.notOptimized;
+      case 'Unavailable':
+        return LambdaFunctionRecommendationFinding.unavailable;
+    }
+    throw Exception(
+        '$this is not known in enum LambdaFunctionRecommendationFinding');
+  }
+}
+
 enum LambdaFunctionRecommendationFindingReasonCode {
-  @_s.JsonValue('MemoryOverprovisioned')
   memoryOverprovisioned,
-  @_s.JsonValue('MemoryUnderprovisioned')
   memoryUnderprovisioned,
-  @_s.JsonValue('InsufficientData')
   insufficientData,
-  @_s.JsonValue('Inconclusive')
   inconclusive,
 }
 
+extension on LambdaFunctionRecommendationFindingReasonCode {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionRecommendationFindingReasonCode.memoryOverprovisioned:
+        return 'MemoryOverprovisioned';
+      case LambdaFunctionRecommendationFindingReasonCode.memoryUnderprovisioned:
+        return 'MemoryUnderprovisioned';
+      case LambdaFunctionRecommendationFindingReasonCode.insufficientData:
+        return 'InsufficientData';
+      case LambdaFunctionRecommendationFindingReasonCode.inconclusive:
+        return 'Inconclusive';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionRecommendationFindingReasonCode
+      toLambdaFunctionRecommendationFindingReasonCode() {
+    switch (this) {
+      case 'MemoryOverprovisioned':
+        return LambdaFunctionRecommendationFindingReasonCode
+            .memoryOverprovisioned;
+      case 'MemoryUnderprovisioned':
+        return LambdaFunctionRecommendationFindingReasonCode
+            .memoryUnderprovisioned;
+      case 'InsufficientData':
+        return LambdaFunctionRecommendationFindingReasonCode.insufficientData;
+      case 'Inconclusive':
+        return LambdaFunctionRecommendationFindingReasonCode.inconclusive;
+    }
+    throw Exception(
+        '$this is not known in enum LambdaFunctionRecommendationFindingReasonCode');
+  }
+}
+
 /// Describes a utilization metric of an AWS Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionUtilizationMetric {
   /// The name of the utilization metric.
-  @_s.JsonKey(name: 'name')
-  final LambdaFunctionMetricName name;
+  final LambdaFunctionMetricName? name;
 
   /// The statistic of the utilization metric.
-  @_s.JsonKey(name: 'statistic')
-  final LambdaFunctionMetricStatistic statistic;
+  final LambdaFunctionMetricStatistic? statistic;
 
   /// The value of the utilization metric.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   LambdaFunctionUtilizationMetric({
     this.name,
     this.statistic,
     this.value,
   });
-  factory LambdaFunctionUtilizationMetric.fromJson(Map<String, dynamic> json) =>
-      _$LambdaFunctionUtilizationMetricFromJson(json);
+  factory LambdaFunctionUtilizationMetric.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionUtilizationMetric(
+      name: (json['name'] as String?)?.toLambdaFunctionMetricName(),
+      statistic:
+          (json['statistic'] as String?)?.toLambdaFunctionMetricStatistic(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
 enum MetricName {
-  @_s.JsonValue('Cpu')
   cpu,
-  @_s.JsonValue('Memory')
   memory,
-  @_s.JsonValue('EBS_READ_OPS_PER_SECOND')
   ebsReadOpsPerSecond,
-  @_s.JsonValue('EBS_WRITE_OPS_PER_SECOND')
   ebsWriteOpsPerSecond,
-  @_s.JsonValue('EBS_READ_BYTES_PER_SECOND')
   ebsReadBytesPerSecond,
-  @_s.JsonValue('EBS_WRITE_BYTES_PER_SECOND')
   ebsWriteBytesPerSecond,
 }
 
+extension on MetricName {
+  String toValue() {
+    switch (this) {
+      case MetricName.cpu:
+        return 'Cpu';
+      case MetricName.memory:
+        return 'Memory';
+      case MetricName.ebsReadOpsPerSecond:
+        return 'EBS_READ_OPS_PER_SECOND';
+      case MetricName.ebsWriteOpsPerSecond:
+        return 'EBS_WRITE_OPS_PER_SECOND';
+      case MetricName.ebsReadBytesPerSecond:
+        return 'EBS_READ_BYTES_PER_SECOND';
+      case MetricName.ebsWriteBytesPerSecond:
+        return 'EBS_WRITE_BYTES_PER_SECOND';
+    }
+  }
+}
+
+extension on String {
+  MetricName toMetricName() {
+    switch (this) {
+      case 'Cpu':
+        return MetricName.cpu;
+      case 'Memory':
+        return MetricName.memory;
+      case 'EBS_READ_OPS_PER_SECOND':
+        return MetricName.ebsReadOpsPerSecond;
+      case 'EBS_WRITE_OPS_PER_SECOND':
+        return MetricName.ebsWriteOpsPerSecond;
+      case 'EBS_READ_BYTES_PER_SECOND':
+        return MetricName.ebsReadBytesPerSecond;
+      case 'EBS_WRITE_BYTES_PER_SECOND':
+        return MetricName.ebsWriteBytesPerSecond;
+    }
+    throw Exception('$this is not known in enum MetricName');
+  }
+}
+
 enum MetricStatistic {
-  @_s.JsonValue('Maximum')
   maximum,
-  @_s.JsonValue('Average')
   average,
 }
 
@@ -2502,7 +3024,18 @@ extension on MetricStatistic {
       case MetricStatistic.average:
         return 'Average';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MetricStatistic toMetricStatistic() {
+    switch (this) {
+      case 'Maximum':
+        return MetricStatistic.maximum;
+      case 'Average':
+        return MetricStatistic.average;
+    }
+    throw Exception('$this is not known in enum MetricStatistic');
   }
 }
 
@@ -2522,11 +3055,6 @@ extension on MetricStatistic {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
 /// Memory Utilization with the CloudWatch Agent</a>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectedMetric {
   /// The name of the projected utilization metric.
   ///
@@ -2559,48 +3087,52 @@ class ProjectedMetric {
   /// Memory Utilization with the CloudWatch Agent</a>.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'name')
-  final MetricName name;
+  final MetricName? name;
 
   /// The time stamps of the projected utilization metric.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'timestamps')
-  final List<DateTime> timestamps;
+  final List<DateTime>? timestamps;
 
   /// The values of the projected utilization metrics.
-  @_s.JsonKey(name: 'values')
-  final List<double> values;
+  final List<double>? values;
 
   ProjectedMetric({
     this.name,
     this.timestamps,
     this.values,
   });
-  factory ProjectedMetric.fromJson(Map<String, dynamic> json) =>
-      _$ProjectedMetricFromJson(json);
+  factory ProjectedMetric.fromJson(Map<String, dynamic> json) {
+    return ProjectedMetric(
+      name: (json['name'] as String?)?.toMetricName(),
+      timestamps: (json['timestamps'] as List?)
+          ?.whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
 }
 
 /// A summary of a finding reason code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReasonCodeSummary {
   /// The name of the finding reason code.
-  @_s.JsonKey(name: 'name')
-  final FindingReasonCode name;
+  final FindingReasonCode? name;
 
   /// The value of the finding reason code summary.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   ReasonCodeSummary({
     this.name,
     this.value,
   });
-  factory ReasonCodeSummary.fromJson(Map<String, dynamic> json) =>
-      _$ReasonCodeSummaryFromJson(json);
+  factory ReasonCodeSummary.fromJson(Map<String, dynamic> json) {
+    return ReasonCodeSummary(
+      name: (json['name'] as String?)?.toFindingReasonCode(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
 /// Describes a recommendation export job.
@@ -2611,41 +3143,27 @@ class ReasonCodeSummary {
 /// Use the <code>ExportAutoScalingGroupRecommendations</code> or
 /// <code>ExportEC2InstanceRecommendations</code> actions to request an export
 /// of your recommendations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationExportJob {
   /// The timestamp of when the export job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// An object that describes the destination of the export file.
-  @_s.JsonKey(name: 'destination')
-  final ExportDestination destination;
+  final ExportDestination? destination;
 
   /// The reason for an export job failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The identification number of the export job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The timestamp of when the export job was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
   /// The resource type of the exported recommendations.
-  @_s.JsonKey(name: 'resourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   /// The status of the export job.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   RecommendationExportJob({
     this.creationTimestamp,
@@ -2656,71 +3174,110 @@ class RecommendationExportJob {
     this.resourceType,
     this.status,
   });
-  factory RecommendationExportJob.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationExportJobFromJson(json);
+  factory RecommendationExportJob.fromJson(Map<String, dynamic> json) {
+    return RecommendationExportJob(
+      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
+      destination: json['destination'] != null
+          ? ExportDestination.fromJson(
+              json['destination'] as Map<String, dynamic>)
+          : null,
+      failureReason: json['failureReason'] as String?,
+      jobId: json['jobId'] as String?,
+      lastUpdatedTimestamp: timeStampFromJson(json['lastUpdatedTimestamp']),
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      status: (json['status'] as String?)?.toJobStatus(),
+    );
+  }
 }
 
 /// Describes the source of a recommendation, such as an Amazon EC2 instance or
 /// Auto Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationSource {
   /// The Amazon Resource Name (ARN) of the recommendation source.
-  @_s.JsonKey(name: 'recommendationSourceArn')
-  final String recommendationSourceArn;
+  final String? recommendationSourceArn;
 
   /// The resource type of the recommendation source.
-  @_s.JsonKey(name: 'recommendationSourceType')
-  final RecommendationSourceType recommendationSourceType;
+  final RecommendationSourceType? recommendationSourceType;
 
   RecommendationSource({
     this.recommendationSourceArn,
     this.recommendationSourceType,
   });
-  factory RecommendationSource.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationSourceFromJson(json);
+  factory RecommendationSource.fromJson(Map<String, dynamic> json) {
+    return RecommendationSource(
+      recommendationSourceArn: json['recommendationSourceArn'] as String?,
+      recommendationSourceType: (json['recommendationSourceType'] as String?)
+          ?.toRecommendationSourceType(),
+    );
+  }
 }
 
 enum RecommendationSourceType {
-  @_s.JsonValue('Ec2Instance')
   ec2Instance,
-  @_s.JsonValue('AutoScalingGroup')
   autoScalingGroup,
-  @_s.JsonValue('EbsVolume')
   ebsVolume,
-  @_s.JsonValue('LambdaFunction')
   lambdaFunction,
 }
 
+extension on RecommendationSourceType {
+  String toValue() {
+    switch (this) {
+      case RecommendationSourceType.ec2Instance:
+        return 'Ec2Instance';
+      case RecommendationSourceType.autoScalingGroup:
+        return 'AutoScalingGroup';
+      case RecommendationSourceType.ebsVolume:
+        return 'EbsVolume';
+      case RecommendationSourceType.lambdaFunction:
+        return 'LambdaFunction';
+    }
+  }
+}
+
+extension on String {
+  RecommendationSourceType toRecommendationSourceType() {
+    switch (this) {
+      case 'Ec2Instance':
+        return RecommendationSourceType.ec2Instance;
+      case 'AutoScalingGroup':
+        return RecommendationSourceType.autoScalingGroup;
+      case 'EbsVolume':
+        return RecommendationSourceType.ebsVolume;
+      case 'LambdaFunction':
+        return RecommendationSourceType.lambdaFunction;
+    }
+    throw Exception('$this is not known in enum RecommendationSourceType');
+  }
+}
+
 /// A summary of a recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationSummary {
   /// The AWS account ID of the recommendation summary.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The resource type of the recommendation.
-  @_s.JsonKey(name: 'recommendationResourceType')
-  final RecommendationSourceType recommendationResourceType;
+  final RecommendationSourceType? recommendationResourceType;
 
   /// An array of objects that describe a recommendation summary.
-  @_s.JsonKey(name: 'summaries')
-  final List<Summary> summaries;
+  final List<Summary>? summaries;
 
   RecommendationSummary({
     this.accountId,
     this.recommendationResourceType,
     this.summaries,
   });
-  factory RecommendationSummary.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationSummaryFromJson(json);
+  factory RecommendationSummary.fromJson(Map<String, dynamic> json) {
+    return RecommendationSummary(
+      accountId: json['accountId'] as String?,
+      recommendationResourceType:
+          (json['recommendationResourceType'] as String?)
+              ?.toRecommendationSourceType(),
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => Summary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a projected utilization metric of a recommendation option.
@@ -2733,15 +3290,9 @@ class RecommendationSummary {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
 /// Memory Utilization with the CloudWatch Agent</a>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendedOptionProjectedMetric {
   /// An array of objects that describe a projected utilization metric.
-  @_s.JsonKey(name: 'projectedMetrics')
-  final List<ProjectedMetric> projectedMetrics;
+  final List<ProjectedMetric>? projectedMetrics;
 
   /// The rank of the recommendation option projected metric.
   ///
@@ -2751,62 +3302,85 @@ class RecommendedOptionProjectedMetric {
   /// example, the projected metric ranked as <code>1</code> is related to the
   /// recommendation option that is also ranked as <code>1</code> in the same
   /// response.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   /// The recommended instance type.
-  @_s.JsonKey(name: 'recommendedInstanceType')
-  final String recommendedInstanceType;
+  final String? recommendedInstanceType;
 
   RecommendedOptionProjectedMetric({
     this.projectedMetrics,
     this.rank,
     this.recommendedInstanceType,
   });
-  factory RecommendedOptionProjectedMetric.fromJson(
-          Map<String, dynamic> json) =>
-      _$RecommendedOptionProjectedMetricFromJson(json);
+  factory RecommendedOptionProjectedMetric.fromJson(Map<String, dynamic> json) {
+    return RecommendedOptionProjectedMetric(
+      projectedMetrics: (json['projectedMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectedMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rank: json['rank'] as int?,
+      recommendedInstanceType: json['recommendedInstanceType'] as String?,
+    );
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('Ec2Instance')
   ec2Instance,
-  @_s.JsonValue('AutoScalingGroup')
   autoScalingGroup,
+}
+
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.ec2Instance:
+        return 'Ec2Instance';
+      case ResourceType.autoScalingGroup:
+        return 'AutoScalingGroup';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'Ec2Instance':
+        return ResourceType.ec2Instance;
+      case 'AutoScalingGroup':
+        return ResourceType.autoScalingGroup;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
 }
 
 /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket
 /// name and object keys of a recommendations export file, and its associated
 /// metadata file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3Destination {
   /// The name of the Amazon S3 bucket used as the destination of an export file.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The Amazon S3 bucket key of an export file.
   ///
   /// The key uniquely identifies the object, or export file, in the S3 bucket.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The Amazon S3 bucket key of a metadata file.
   ///
   /// The key uniquely identifies the object, or metadata file, in the S3 bucket.
-  @_s.JsonKey(name: 'metadataKey')
-  final String metadataKey;
+  final String? metadataKey;
 
   S3Destination({
     this.bucket,
     this.key,
     this.metadataKey,
   });
-  factory S3Destination.fromJson(Map<String, dynamic> json) =>
-      _$S3DestinationFromJson(json);
+  factory S3Destination.fromJson(Map<String, dynamic> json) {
+    return S3Destination(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+      metadataKey: json['metadataKey'] as String?,
+    );
+  }
 }
 
 /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket
@@ -2822,36 +3396,32 @@ class S3Destination {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html">Amazon
 /// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer user
 /// guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3DestinationConfig {
   /// The name of the Amazon S3 bucket to use as the destination for an export
   /// job.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The Amazon S3 bucket prefix for an export job.
-  @_s.JsonKey(name: 'keyPrefix')
-  final String keyPrefix;
+  final String? keyPrefix;
 
   S3DestinationConfig({
     this.bucket,
     this.keyPrefix,
   });
-  Map<String, dynamic> toJson() => _$S3DestinationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inactive')
   inactive,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Failed')
   failed,
 }
 
@@ -2867,60 +3437,72 @@ extension on Status {
       case Status.failed:
         return 'Failed';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'Active':
+        return Status.active;
+      case 'Inactive':
+        return Status.inactive;
+      case 'Pending':
+        return Status.pending;
+      case 'Failed':
+        return Status.failed;
+    }
+    throw Exception('$this is not known in enum Status');
   }
 }
 
 /// The summary of a recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Summary {
   /// The finding classification of the recommendation.
-  @_s.JsonKey(name: 'name')
-  final Finding name;
+  final Finding? name;
 
   /// An array of objects that summarize a finding reason code.
-  @_s.JsonKey(name: 'reasonCodeSummaries')
-  final List<ReasonCodeSummary> reasonCodeSummaries;
+  final List<ReasonCodeSummary>? reasonCodeSummaries;
 
   /// The value of the recommendation summary.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   Summary({
     this.name,
     this.reasonCodeSummaries,
     this.value,
   });
-  factory Summary.fromJson(Map<String, dynamic> json) =>
-      _$SummaryFromJson(json);
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      name: (json['name'] as String?)?.toFinding(),
+      reasonCodeSummaries: (json['reasonCodeSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReasonCodeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEnrollmentStatusResponse {
   /// The enrollment status of the account.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   /// The reason for the enrollment status of the account. For example, an account
   /// might show a status of <code>Pending</code> because member accounts of an
   /// organization require more time to be enrolled in the service.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   UpdateEnrollmentStatusResponse({
     this.status,
     this.statusReason,
   });
-  factory UpdateEnrollmentStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEnrollmentStatusResponseFromJson(json);
+  factory UpdateEnrollmentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateEnrollmentStatusResponse(
+      status: (json['status'] as String?)?.toStatus(),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
 }
 
 /// Describes a utilization metric of a resource, such as an Amazon EC2
@@ -2929,11 +3511,6 @@ class UpdateEnrollmentStatusResponse {
 /// Compare the utilization metric data of your resource against its projected
 /// utilization metric data to determine the performance difference between your
 /// current resource and the recommended option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -2988,8 +3565,7 @@ class UtilizationMetric {
   /// Unit: Bytes
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'name')
-  final MetricName name;
+  final MetricName? name;
 
   /// The statistic of the utilization metric.
   ///
@@ -3006,49 +3582,42 @@ class UtilizationMetric {
   /// application.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'statistic')
-  final MetricStatistic statistic;
+  final MetricStatistic? statistic;
 
   /// The value of the utilization metric.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   UtilizationMetric({
     this.name,
     this.statistic,
     this.value,
   });
-  factory UtilizationMetric.fromJson(Map<String, dynamic> json) =>
-      _$UtilizationMetricFromJson(json);
+  factory UtilizationMetric.fromJson(Map<String, dynamic> json) {
+    return UtilizationMetric(
+      name: (json['name'] as String?)?.toMetricName(),
+      statistic: (json['statistic'] as String?)?.toMetricStatistic(),
+      value: json['value'] as double?,
+    );
+  }
 }
 
 /// Describes the configuration of an Amazon Elastic Block Store (Amazon EBS)
 /// volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeConfiguration {
   /// The baseline IOPS of the volume.
-  @_s.JsonKey(name: 'volumeBaselineIOPS')
-  final int volumeBaselineIOPS;
+  final int? volumeBaselineIOPS;
 
   /// The baseline throughput of the volume.
-  @_s.JsonKey(name: 'volumeBaselineThroughput')
-  final int volumeBaselineThroughput;
+  final int? volumeBaselineThroughput;
 
   /// The burst IOPS of the volume.
-  @_s.JsonKey(name: 'volumeBurstIOPS')
-  final int volumeBurstIOPS;
+  final int? volumeBurstIOPS;
 
   /// The burst throughput of the volume.
-  @_s.JsonKey(name: 'volumeBurstThroughput')
-  final int volumeBurstThroughput;
+  final int? volumeBurstThroughput;
 
   /// The size of the volume, in GiB.
-  @_s.JsonKey(name: 'volumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   /// The volume type.
   ///
@@ -3056,8 +3625,7 @@ class VolumeConfiguration {
   /// <code>io2</code> for Provisioned IOPS SSD, <code>st1</code> for Throughput
   /// Optimized HDD, <code>sc1</code> for Cold HDD, or <code>standard</code> for
   /// Magnetic volumes.
-  @_s.JsonKey(name: 'volumeType')
-  final String volumeType;
+  final String? volumeType;
 
   VolumeConfiguration({
     this.volumeBaselineIOPS,
@@ -3067,24 +3635,25 @@ class VolumeConfiguration {
     this.volumeSize,
     this.volumeType,
   });
-  factory VolumeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$VolumeConfigurationFromJson(json);
+  factory VolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return VolumeConfiguration(
+      volumeBaselineIOPS: json['volumeBaselineIOPS'] as int?,
+      volumeBaselineThroughput: json['volumeBaselineThroughput'] as int?,
+      volumeBurstIOPS: json['volumeBurstIOPS'] as int?,
+      volumeBurstThroughput: json['volumeBurstThroughput'] as int?,
+      volumeSize: json['volumeSize'] as int?,
+      volumeType: json['volumeType'] as String?,
+    );
+  }
 }
 
 /// Describes an Amazon Elastic Block Store (Amazon EBS) volume recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeRecommendation {
   /// The AWS account ID of the volume.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// An array of objects that describe the current configuration of the volume.
-  @_s.JsonKey(name: 'currentConfiguration')
-  final VolumeConfiguration currentConfiguration;
+  final VolumeConfiguration? currentConfiguration;
 
   /// The finding classification for the volume.
   ///
@@ -3103,30 +3672,23 @@ class VolumeRecommendation {
   /// Compute Optimizer might recommend a new generation volume type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'finding')
-  final EBSFinding finding;
+  final EBSFinding? finding;
 
   /// The time stamp of when the volume recommendation was last refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastRefreshTimestamp')
-  final DateTime lastRefreshTimestamp;
+  final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
   /// volume.
-  @_s.JsonKey(name: 'lookBackPeriodInDays')
-  final double lookBackPeriodInDays;
+  final double? lookBackPeriodInDays;
 
   /// An array of objects that describe the utilization metrics of the volume.
-  @_s.JsonKey(name: 'utilizationMetrics')
-  final List<EBSUtilizationMetric> utilizationMetrics;
+  final List<EBSUtilizationMetric>? utilizationMetrics;
 
   /// The Amazon Resource Name (ARN) of the current volume.
-  @_s.JsonKey(name: 'volumeArn')
-  final String volumeArn;
+  final String? volumeArn;
 
   /// An array of objects that describe the recommendation options for the volume.
-  @_s.JsonKey(name: 'volumeRecommendationOptions')
-  final List<VolumeRecommendationOption> volumeRecommendationOptions;
+  final List<VolumeRecommendationOption>? volumeRecommendationOptions;
 
   VolumeRecommendation({
     this.accountId,
@@ -3138,21 +3700,36 @@ class VolumeRecommendation {
     this.volumeArn,
     this.volumeRecommendationOptions,
   });
-  factory VolumeRecommendation.fromJson(Map<String, dynamic> json) =>
-      _$VolumeRecommendationFromJson(json);
+  factory VolumeRecommendation.fromJson(Map<String, dynamic> json) {
+    return VolumeRecommendation(
+      accountId: json['accountId'] as String?,
+      currentConfiguration: json['currentConfiguration'] != null
+          ? VolumeConfiguration.fromJson(
+              json['currentConfiguration'] as Map<String, dynamic>)
+          : null,
+      finding: (json['finding'] as String?)?.toEBSFinding(),
+      lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      utilizationMetrics: (json['utilizationMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => EBSUtilizationMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      volumeArn: json['volumeArn'] as String?,
+      volumeRecommendationOptions: (json['volumeRecommendationOptions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VolumeRecommendationOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a recommendation option for an Amazon Elastic Block Store (Amazon
 /// EBS) instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeRecommendationOption {
   /// An array of objects that describe a volume configuration.
-  @_s.JsonKey(name: 'configuration')
-  final VolumeConfiguration configuration;
+  final VolumeConfiguration? configuration;
 
   /// The performance risk of the volume recommendation option.
   ///
@@ -3161,36 +3738,42 @@ class VolumeRecommendationOption {
   ///
   /// The lowest performance risk is categorized as <code>0</code>, and the
   /// highest as <code>5</code>.
-  @_s.JsonKey(name: 'performanceRisk')
-  final double performanceRisk;
+  final double? performanceRisk;
 
   /// The rank of the volume recommendation option.
   ///
   /// The top recommendation option is ranked as <code>1</code>.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   VolumeRecommendationOption({
     this.configuration,
     this.performanceRisk,
     this.rank,
   });
-  factory VolumeRecommendationOption.fromJson(Map<String, dynamic> json) =>
-      _$VolumeRecommendationOptionFromJson(json);
+  factory VolumeRecommendationOption.fromJson(Map<String, dynamic> json) {
+    return VolumeRecommendationOption(
+      configuration: json['configuration'] != null
+          ? VolumeConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      performanceRisk: json['performanceRisk'] as double?,
+      rank: json['rank'] as int?,
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -3198,33 +3781,33 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MissingAuthenticationToken extends _s.GenericAwsException {
-  MissingAuthenticationToken({String type, String message})
+  MissingAuthenticationToken({String? type, String? message})
       : super(type: type, code: 'MissingAuthenticationToken', message: message);
 }
 
 class OptInRequiredException extends _s.GenericAwsException {
-  OptInRequiredException({String type, String message})
+  OptInRequiredException({String? type, String? message})
       : super(type: type, code: 'OptInRequiredException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

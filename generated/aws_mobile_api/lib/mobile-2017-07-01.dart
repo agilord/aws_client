@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mobile-2017-07-01.g.dart';
 
 /// AWS Mobile Service provides mobile app and website developers with
 /// capabilities required to configure AWS resources and bootstrap their
@@ -33,10 +25,10 @@ part 'mobile-2017-07-01.g.dart';
 class Mobile {
   final _s.RestJsonProtocol _protocol;
   Mobile({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,10 +66,10 @@ class Mobile {
   /// snapshot identifier is included in the share URL when a project is
   /// exported.
   Future<CreateProjectResult> createProject({
-    Uint8List contents,
-    String name,
-    String region,
-    String snapshotId,
+    Uint8List? contents,
+    String? name,
+    String? region,
+    String? snapshotId,
   }) async {
     final $query = <String, List<String>>{
       if (name != null) 'name': [name],
@@ -105,7 +97,7 @@ class Mobile {
   /// Parameter [projectId] :
   /// Unique project identifier.
   Future<DeleteProjectResult> deleteProject({
-    @_s.required String projectId,
+    required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
     final response = await _protocol.send(
@@ -129,7 +121,7 @@ class Mobile {
   /// Parameter [bundleId] :
   /// Unique bundle identifier.
   Future<DescribeBundleResult> describeBundle({
-    @_s.required String bundleId,
+    required String bundleId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
     final response = await _protocol.send(
@@ -158,12 +150,12 @@ class Mobile {
   /// other services, e.g., update state of AWS CloudFormation stacks in the AWS
   /// Mobile Hub project.
   Future<DescribeProjectResult> describeProject({
-    @_s.required String projectId,
-    bool syncFromResources,
+    required String projectId,
+    bool? syncFromResources,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
     final $query = <String, List<String>>{
-      if (projectId != null) 'projectId': [projectId],
+      'projectId': [projectId],
       if (syncFromResources != null)
         'syncFromResources': [syncFromResources.toString()],
     };
@@ -197,9 +189,9 @@ class Mobile {
   /// Parameter [projectId] :
   /// Unique project identifier.
   Future<ExportBundleResult> exportBundle({
-    @_s.required String bundleId,
-    Platform platform,
-    String projectId,
+    required String bundleId,
+    Platform? platform,
+    String? projectId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
     final $query = <String, List<String>>{
@@ -231,7 +223,7 @@ class Mobile {
   /// Parameter [projectId] :
   /// Unique project identifier.
   Future<ExportProjectResult> exportProject({
-    @_s.required String projectId,
+    required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
     final response = await _protocol.send(
@@ -259,8 +251,8 @@ class Mobile {
   /// non-null pagination token is returned in a result, then pass its value in
   /// here in another request to list more bundles.
   Future<ListBundlesResult> listBundles({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -292,8 +284,8 @@ class Mobile {
   /// non-null pagination token is returned in a result, then pass its value in
   /// here in another request to list more projects.
   Future<ListProjectsResult> listProjects({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -328,12 +320,12 @@ class Mobile {
   /// should be the contents of the file downloaded from the URL provided in an
   /// export project operation.
   Future<UpdateProjectResult> updateProject({
-    @_s.required String projectId,
-    Uint8List contents,
+    required String projectId,
+    Uint8List? contents,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
     final $query = <String, List<String>>{
-      if (projectId != null) 'projectId': [projectId],
+      'projectId': [projectId],
     };
     final response = await _protocol.send(
       payload: contents,
@@ -347,59 +339,42 @@ class Mobile {
 }
 
 /// Account Action is required in order to continue the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountActionRequiredException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   AccountActionRequiredException({
     this.message,
   });
-  factory AccountActionRequiredException.fromJson(Map<String, dynamic> json) =>
-      _$AccountActionRequiredExceptionFromJson(json);
+  factory AccountActionRequiredException.fromJson(Map<String, dynamic> json) {
+    return AccountActionRequiredException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// The request cannot be processed because some parameter is not valid or the
 /// project state prevents the operation from being performed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BadRequestException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   BadRequestException({
     this.message,
   });
-  factory BadRequestException.fromJson(Map<String, dynamic> json) =>
-      _$BadRequestExceptionFromJson(json);
+  factory BadRequestException.fromJson(Map<String, dynamic> json) {
+    return BadRequestException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// The details of the bundle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BundleDetails {
-  @_s.JsonKey(name: 'availablePlatforms')
-  final List<Platform> availablePlatforms;
-  @_s.JsonKey(name: 'bundleId')
-  final String bundleId;
-  @_s.JsonKey(name: 'description')
-  final String description;
-  @_s.JsonKey(name: 'iconUrl')
-  final String iconUrl;
-  @_s.JsonKey(name: 'title')
-  final String title;
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final List<Platform>? availablePlatforms;
+  final String? bundleId;
+  final String? description;
+  final String? iconUrl;
+  final String? title;
+  final String? version;
 
   BundleDetails({
     this.availablePlatforms,
@@ -409,119 +384,121 @@ class BundleDetails {
     this.title,
     this.version,
   });
-  factory BundleDetails.fromJson(Map<String, dynamic> json) =>
-      _$BundleDetailsFromJson(json);
+  factory BundleDetails.fromJson(Map<String, dynamic> json) {
+    return BundleDetails(
+      availablePlatforms: (json['availablePlatforms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatform())
+          .toList(),
+      bundleId: json['bundleId'] as String?,
+      description: json['description'] as String?,
+      iconUrl: json['iconUrl'] as String?,
+      title: json['title'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 }
 
 /// Result structure used in response to a request to create a project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectResult {
   /// Detailed information about the created AWS Mobile Hub project.
-  @_s.JsonKey(name: 'details')
-  final ProjectDetails details;
+  final ProjectDetails? details;
 
   CreateProjectResult({
     this.details,
   });
-  factory CreateProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectResultFromJson(json);
+  factory CreateProjectResult.fromJson(Map<String, dynamic> json) {
+    return CreateProjectResult(
+      details: json['details'] != null
+          ? ProjectDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Result structure used in response to request to delete a project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectResult {
   /// Resources which were deleted.
-  @_s.JsonKey(name: 'deletedResources')
-  final List<Resource> deletedResources;
+  final List<Resource>? deletedResources;
 
   /// Resources which were not deleted, due to a risk of losing potentially
   /// important data or files.
-  @_s.JsonKey(name: 'orphanedResources')
-  final List<Resource> orphanedResources;
+  final List<Resource>? orphanedResources;
 
   DeleteProjectResult({
     this.deletedResources,
     this.orphanedResources,
   });
-  factory DeleteProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectResultFromJson(json);
+  factory DeleteProjectResult.fromJson(Map<String, dynamic> json) {
+    return DeleteProjectResult(
+      deletedResources: (json['deletedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orphanedResources: (json['orphanedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Result structure contains the details of the bundle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBundleResult {
   /// The details of the bundle.
-  @_s.JsonKey(name: 'details')
-  final BundleDetails details;
+  final BundleDetails? details;
 
   DescribeBundleResult({
     this.details,
   });
-  factory DescribeBundleResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBundleResultFromJson(json);
+  factory DescribeBundleResult.fromJson(Map<String, dynamic> json) {
+    return DescribeBundleResult(
+      details: json['details'] != null
+          ? BundleDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Result structure used for requests of project details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProjectResult {
-  @_s.JsonKey(name: 'details')
-  final ProjectDetails details;
+  final ProjectDetails? details;
 
   DescribeProjectResult({
     this.details,
   });
-  factory DescribeProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProjectResultFromJson(json);
+  factory DescribeProjectResult.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectResult(
+      details: json['details'] != null
+          ? ProjectDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Result structure which contains link to download custom-generated SDK and
 /// tool packages used to integrate mobile web or app clients with backed AWS
 /// resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportBundleResult {
   /// URL which contains the custom-generated SDK and tool packages used to
   /// integrate the client mobile app or web app with the AWS resources created by
   /// the AWS Mobile Hub project.
-  @_s.JsonKey(name: 'downloadUrl')
-  final String downloadUrl;
+  final String? downloadUrl;
 
   ExportBundleResult({
     this.downloadUrl,
   });
-  factory ExportBundleResult.fromJson(Map<String, dynamic> json) =>
-      _$ExportBundleResultFromJson(json);
+  factory ExportBundleResult.fromJson(Map<String, dynamic> json) {
+    return ExportBundleResult(
+      downloadUrl: json['downloadUrl'] as String?,
+    );
+  }
 }
 
 /// Result structure used for requests to export project configuration details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportProjectResult {
   /// URL which can be used to download the exported project configuation file(s).
-  @_s.JsonKey(name: 'downloadUrl')
-  final String downloadUrl;
+  final String? downloadUrl;
 
   /// URL which can be shared to allow other AWS users to create their own project
   /// in AWS Mobile Hub with the same configuration as the specified project. This
@@ -529,140 +506,126 @@ class ExportProjectResult {
   /// created when this API is called. If you want to share additional changes to
   /// your project configuration, then you will need to create and share a new
   /// snapshot by calling this method again.
-  @_s.JsonKey(name: 'shareUrl')
-  final String shareUrl;
+  final String? shareUrl;
 
   /// Unique identifier for the exported snapshot of the project configuration.
   /// This snapshot identifier is included in the share URL.
-  @_s.JsonKey(name: 'snapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   ExportProjectResult({
     this.downloadUrl,
     this.shareUrl,
     this.snapshotId,
   });
-  factory ExportProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$ExportProjectResultFromJson(json);
+  factory ExportProjectResult.fromJson(Map<String, dynamic> json) {
+    return ExportProjectResult(
+      downloadUrl: json['downloadUrl'] as String?,
+      shareUrl: json['shareUrl'] as String?,
+      snapshotId: json['snapshotId'] as String?,
+    );
+  }
 }
 
 /// The service has encountered an unexpected error condition which prevents it
 /// from servicing the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InternalFailureException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   InternalFailureException({
     this.message,
   });
-  factory InternalFailureException.fromJson(Map<String, dynamic> json) =>
-      _$InternalFailureExceptionFromJson(json);
+  factory InternalFailureException.fromJson(Map<String, dynamic> json) {
+    return InternalFailureException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// There are too many AWS Mobile Hub projects in the account or the account has
 /// exceeded the maximum number of resources in some AWS service. You should
 /// create another sub-account using AWS Organizations or remove some resources
 /// and retry your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LimitExceededException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-  @_s.JsonKey(name: 'Retry-After')
-  final String retryAfterSeconds;
+  final String? message;
+  final String? retryAfterSeconds;
 
   LimitExceededException({
     this.message,
     this.retryAfterSeconds,
   });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
+  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
+    return LimitExceededException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Result structure contains a list of all available bundles with details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBundlesResult {
   /// A list of bundles.
-  @_s.JsonKey(name: 'bundleList')
-  final List<BundleDetails> bundleList;
+  final List<BundleDetails>? bundleList;
 
   /// Pagination token. If non-null pagination token is returned in a result, then
   /// pass its value in another request to fetch more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBundlesResult({
     this.bundleList,
     this.nextToken,
   });
-  factory ListBundlesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListBundlesResultFromJson(json);
+  factory ListBundlesResult.fromJson(Map<String, dynamic> json) {
+    return ListBundlesResult(
+      bundleList: (json['bundleList'] as List?)
+          ?.whereNotNull()
+          .map((e) => BundleDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Result structure used for requests to list projects in AWS Mobile Hub.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProjectsResult {
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'projects')
-  final List<ProjectSummary> projects;
+  final String? nextToken;
+  final List<ProjectSummary>? projects;
 
   ListProjectsResult({
     this.nextToken,
     this.projects,
   });
-  factory ListProjectsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListProjectsResultFromJson(json);
+  factory ListProjectsResult.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResult(
+      nextToken: json['nextToken'] as String?,
+      projects: (json['projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// No entity can be found with the specified identifier.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   NotFoundException({
     this.message,
   });
-  factory NotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$NotFoundExceptionFromJson(json);
+  factory NotFoundException.fromJson(Map<String, dynamic> json) {
+    return NotFoundException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Developer desktop or target mobile app or website platform.
 enum Platform {
-  @_s.JsonValue('OSX')
   osx,
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('LINUX')
   linux,
-  @_s.JsonValue('OBJC')
   objc,
-  @_s.JsonValue('SWIFT')
   swift,
-  @_s.JsonValue('ANDROID')
   android,
-  @_s.JsonValue('JAVASCRIPT')
   javascript,
 }
 
@@ -684,40 +647,46 @@ extension on Platform {
       case Platform.javascript:
         return 'JAVASCRIPT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Platform toPlatform() {
+    switch (this) {
+      case 'OSX':
+        return Platform.osx;
+      case 'WINDOWS':
+        return Platform.windows;
+      case 'LINUX':
+        return Platform.linux;
+      case 'OBJC':
+        return Platform.objc;
+      case 'SWIFT':
+        return Platform.swift;
+      case 'ANDROID':
+        return Platform.android;
+      case 'JAVASCRIPT':
+        return Platform.javascript;
+    }
+    throw Exception('$this is not known in enum Platform');
   }
 }
 
 /// Detailed information about an AWS Mobile Hub project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectDetails {
   /// Website URL for this project in the AWS Mobile Hub console.
-  @_s.JsonKey(name: 'consoleUrl')
-  final String consoleUrl;
+  final String? consoleUrl;
 
   /// Date the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Date of the last modification of the project.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDate')
-  final DateTime lastUpdatedDate;
-  @_s.JsonKey(name: 'name')
-  final String name;
-  @_s.JsonKey(name: 'projectId')
-  final String projectId;
-  @_s.JsonKey(name: 'region')
-  final String region;
-  @_s.JsonKey(name: 'resources')
-  final List<Resource> resources;
-  @_s.JsonKey(name: 'state')
-  final ProjectState state;
+  final DateTime? lastUpdatedDate;
+  final String? name;
+  final String? projectId;
+  final String? region;
+  final List<Resource>? resources;
+  final ProjectState? state;
 
   ProjectDetails({
     this.consoleUrl,
@@ -729,60 +698,84 @@ class ProjectDetails {
     this.resources,
     this.state,
   });
-  factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
-      _$ProjectDetailsFromJson(json);
+  factory ProjectDetails.fromJson(Map<String, dynamic> json) {
+    return ProjectDetails(
+      consoleUrl: json['consoleUrl'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+      projectId: json['projectId'] as String?,
+      region: json['region'] as String?,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['state'] as String?)?.toProjectState(),
+    );
+  }
 }
 
 /// Synchronization state for a project.
 enum ProjectState {
-  @_s.JsonValue('NORMAL')
   normal,
-  @_s.JsonValue('SYNCING')
   syncing,
-  @_s.JsonValue('IMPORTING')
   importing,
 }
 
+extension on ProjectState {
+  String toValue() {
+    switch (this) {
+      case ProjectState.normal:
+        return 'NORMAL';
+      case ProjectState.syncing:
+        return 'SYNCING';
+      case ProjectState.importing:
+        return 'IMPORTING';
+    }
+  }
+}
+
+extension on String {
+  ProjectState toProjectState() {
+    switch (this) {
+      case 'NORMAL':
+        return ProjectState.normal;
+      case 'SYNCING':
+        return ProjectState.syncing;
+      case 'IMPORTING':
+        return ProjectState.importing;
+    }
+    throw Exception('$this is not known in enum ProjectState');
+  }
+}
+
 /// Summary information about an AWS Mobile Hub project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectSummary {
   /// Name of the project.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Unique project identifier.
-  @_s.JsonKey(name: 'projectId')
-  final String projectId;
+  final String? projectId;
 
   ProjectSummary({
     this.name,
     this.projectId,
   });
-  factory ProjectSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProjectSummaryFromJson(json);
+  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
+    return ProjectSummary(
+      name: json['name'] as String?,
+      projectId: json['projectId'] as String?,
+    );
+  }
 }
 
 /// Information about an instance of an AWS resource associated with a project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resource {
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
-  @_s.JsonKey(name: 'feature')
-  final String feature;
-  @_s.JsonKey(name: 'name')
-  final String name;
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? arn;
+  final Map<String, String>? attributes;
+  final String? feature;
+  final String? name;
+  final String? type;
 
   Resource({
     this.arn,
@@ -791,85 +784,81 @@ class Resource {
     this.name,
     this.type,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      arn: json['arn'] as String?,
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      feature: json['feature'] as String?,
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+    );
+  }
 }
 
 /// The service is temporarily unavailable. The request should be retried after
 /// some time delay.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceUnavailableException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-  @_s.JsonKey(name: 'Retry-After')
-  final String retryAfterSeconds;
+  final String? message;
+  final String? retryAfterSeconds;
 
   ServiceUnavailableException({
     this.message,
     this.retryAfterSeconds,
   });
-  factory ServiceUnavailableException.fromJson(Map<String, dynamic> json) =>
-      _$ServiceUnavailableExceptionFromJson(json);
+  factory ServiceUnavailableException.fromJson(Map<String, dynamic> json) {
+    return ServiceUnavailableException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Too many requests have been received for this AWS account in too short a
 /// time. The request should be retried after some time delay.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TooManyRequestsException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-  @_s.JsonKey(name: 'Retry-After')
-  final String retryAfterSeconds;
+  final String? message;
+  final String? retryAfterSeconds;
 
   TooManyRequestsException({
     this.message,
     this.retryAfterSeconds,
   });
-  factory TooManyRequestsException.fromJson(Map<String, dynamic> json) =>
-      _$TooManyRequestsExceptionFromJson(json);
+  factory TooManyRequestsException.fromJson(Map<String, dynamic> json) {
+    return TooManyRequestsException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Credentials of the caller are insufficient to authorize the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnauthorizedException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   UnauthorizedException({
     this.message,
   });
-  factory UnauthorizedException.fromJson(Map<String, dynamic> json) =>
-      _$UnauthorizedExceptionFromJson(json);
+  factory UnauthorizedException.fromJson(Map<String, dynamic> json) {
+    return UnauthorizedException(
+      message: json['message'] as String?,
+    );
+  }
 }
 
 /// Result structure used for requests to updated project configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProjectResult {
   /// Detailed information about the updated AWS Mobile Hub project.
-  @_s.JsonKey(name: 'details')
-  final ProjectDetails details;
+  final ProjectDetails? details;
 
   UpdateProjectResult({
     this.details,
   });
-  factory UpdateProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProjectResultFromJson(json);
+  factory UpdateProjectResult.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectResult(
+      details: json['details'] != null
+          ? ProjectDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

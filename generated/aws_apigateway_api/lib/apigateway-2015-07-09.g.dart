@@ -8,16 +8,17 @@ part of 'apigateway-2015-07-09.dart';
 
 AccessLogSettings _$AccessLogSettingsFromJson(Map<String, dynamic> json) {
   return AccessLogSettings(
-    destinationArn: json['destinationArn'] as String,
-    format: json['format'] as String,
+    destinationArn: json['destinationArn'] as String?,
+    format: json['format'] as String?,
   );
 }
 
 Account _$AccountFromJson(Map<String, dynamic> json) {
   return Account(
-    apiKeyVersion: json['apiKeyVersion'] as String,
-    cloudwatchRoleArn: json['cloudwatchRoleArn'] as String,
-    features: (json['features'] as List)?.map((e) => e as String)?.toList(),
+    apiKeyVersion: json['apiKeyVersion'] as String?,
+    cloudwatchRoleArn: json['cloudwatchRoleArn'] as String?,
+    features:
+        (json['features'] as List<dynamic>?)?.map((e) => e as String).toList(),
     throttleSettings: json['throttleSettings'] == null
         ? null
         : ThrottleSettings.fromJson(
@@ -28,49 +29,48 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) {
   return ApiKey(
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    customerId: json['customerId'] as String,
-    description: json['description'] as String,
-    enabled: json['enabled'] as bool,
-    id: json['id'] as String,
+    customerId: json['customerId'] as String?,
+    description: json['description'] as String?,
+    enabled: json['enabled'] as bool?,
+    id: json['id'] as String?,
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
-    name: json['name'] as String,
-    stageKeys: (json['stageKeys'] as List)?.map((e) => e as String)?.toList(),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    name: json['name'] as String?,
+    stageKeys:
+        (json['stageKeys'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    value: json['value'] as String,
+    value: json['value'] as String?,
   );
 }
 
 ApiKeyIds _$ApiKeyIdsFromJson(Map<String, dynamic> json) {
   return ApiKeyIds(
-    ids: (json['ids'] as List)?.map((e) => e as String)?.toList(),
-    warnings: (json['warnings'] as List)?.map((e) => e as String)?.toList(),
+    ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    warnings:
+        (json['warnings'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ApiKeys _$ApiKeysFromJson(Map<String, dynamic> json) {
   return ApiKeys(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : ApiKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
-    warnings: (json['warnings'] as List)?.map((e) => e as String)?.toList(),
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
+    warnings:
+        (json['warnings'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ApiStage _$ApiStageFromJson(Map<String, dynamic> json) {
   return ApiStage(
-    apiId: json['apiId'] as String,
-    stage: json['stage'] as String,
-    throttle: (json['throttle'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : ThrottleSettings.fromJson(e as Map<String, dynamic>)),
+    apiId: json['apiId'] as String?,
+    stage: json['stage'] as String?,
+    throttle: (json['throttle'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, ThrottleSettings.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -87,57 +87,63 @@ Map<String, dynamic> _$ApiStageToJson(ApiStage instance) {
   writeNotNull('apiId', instance.apiId);
   writeNotNull('stage', instance.stage);
   writeNotNull(
-      'throttle', instance.throttle?.map((k, e) => MapEntry(k, e?.toJson())));
+      'throttle', instance.throttle?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }
 
 Authorizer _$AuthorizerFromJson(Map<String, dynamic> json) {
   return Authorizer(
-    authType: json['authType'] as String,
-    authorizerCredentials: json['authorizerCredentials'] as String,
-    authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int,
-    authorizerUri: json['authorizerUri'] as String,
-    id: json['id'] as String,
-    identitySource: json['identitySource'] as String,
+    authType: json['authType'] as String?,
+    authorizerCredentials: json['authorizerCredentials'] as String?,
+    authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int?,
+    authorizerUri: json['authorizerUri'] as String?,
+    id: json['id'] as String?,
+    identitySource: json['identitySource'] as String?,
     identityValidationExpression:
-        json['identityValidationExpression'] as String,
-    name: json['name'] as String,
-    providerARNs:
-        (json['providerARNs'] as List)?.map((e) => e as String)?.toList(),
+        json['identityValidationExpression'] as String?,
+    name: json['name'] as String?,
+    providerARNs: (json['providerARNs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     type: _$enumDecodeNullable(_$AuthorizerTypeEnumMap, json['type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AuthorizerTypeEnumMap = {
@@ -148,42 +154,39 @@ const _$AuthorizerTypeEnumMap = {
 
 Authorizers _$AuthorizersFromJson(Map<String, dynamic> json) {
   return Authorizers(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : Authorizer.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 BasePathMapping _$BasePathMappingFromJson(Map<String, dynamic> json) {
   return BasePathMapping(
-    basePath: json['basePath'] as String,
-    restApiId: json['restApiId'] as String,
-    stage: json['stage'] as String,
+    basePath: json['basePath'] as String?,
+    restApiId: json['restApiId'] as String?,
+    stage: json['stage'] as String?,
   );
 }
 
 BasePathMappings _$BasePathMappingsFromJson(Map<String, dynamic> json) {
   return BasePathMappings(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BasePathMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => BasePathMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 CanarySettings _$CanarySettingsFromJson(Map<String, dynamic> json) {
   return CanarySettings(
-    deploymentId: json['deploymentId'] as String,
-    percentTraffic: (json['percentTraffic'] as num)?.toDouble(),
+    deploymentId: json['deploymentId'] as String?,
+    percentTraffic: (json['percentTraffic'] as num?)?.toDouble(),
     stageVariableOverrides:
-        (json['stageVariableOverrides'] as Map<String, dynamic>)?.map(
+        (json['stageVariableOverrides'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    useStageCache: json['useStageCache'] as bool,
+    useStageCache: json['useStageCache'] as bool?,
   );
 }
 
@@ -205,13 +208,13 @@ Map<String, dynamic> _$CanarySettingsToJson(CanarySettings instance) {
 
 ClientCertificate _$ClientCertificateFromJson(Map<String, dynamic> json) {
   return ClientCertificate(
-    clientCertificateId: json['clientCertificateId'] as String,
+    clientCertificateId: json['clientCertificateId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    description: json['description'] as String,
+    description: json['description'] as String?,
     expirationDate:
         const UnixDateTimeConverter().fromJson(json['expirationDate']),
-    pemEncodedCertificate: json['pemEncodedCertificate'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    pemEncodedCertificate: json['pemEncodedCertificate'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -219,31 +222,26 @@ ClientCertificate _$ClientCertificateFromJson(Map<String, dynamic> json) {
 
 ClientCertificates _$ClientCertificatesFromJson(Map<String, dynamic> json) {
   return ClientCertificates(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClientCertificate.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => ClientCertificate.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
   return Deployment(
-    apiSummary: (json['apiSummary'] as Map<String, dynamic>)?.map(
+    apiSummary: (json['apiSummary'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as Map<String, dynamic>)?.map(
-            (k, e) => MapEntry(
-                k,
-                e == null
-                    ? null
-                    : MethodSnapshot.fromJson(e as Map<String, dynamic>)),
+          (e as Map<String, dynamic>).map(
+            (k, e) =>
+                MapEntry(k, MethodSnapshot.fromJson(e as Map<String, dynamic>)),
           )),
     ),
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    description: json['description'] as String,
-    id: json['id'] as String,
+    description: json['description'] as String?,
+    id: json['id'] as String?,
   );
 }
 
@@ -265,46 +263,48 @@ Map<String, dynamic> _$DeploymentCanarySettingsToJson(
 
 Deployments _$DeploymentsFromJson(Map<String, dynamic> json) {
   return Deployments(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : Deployment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 DocumentationPart _$DocumentationPartFromJson(Map<String, dynamic> json) {
   return DocumentationPart(
-    id: json['id'] as String,
+    id: json['id'] as String?,
     location: json['location'] == null
         ? null
         : DocumentationPartLocation.fromJson(
             json['location'] as Map<String, dynamic>),
-    properties: json['properties'] as String,
+    properties: json['properties'] as String?,
   );
 }
 
 DocumentationPartIds _$DocumentationPartIdsFromJson(Map<String, dynamic> json) {
   return DocumentationPartIds(
-    ids: (json['ids'] as List)?.map((e) => e as String)?.toList(),
-    warnings: (json['warnings'] as List)?.map((e) => e as String)?.toList(),
+    ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    warnings:
+        (json['warnings'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 DocumentationPartLocation _$DocumentationPartLocationFromJson(
     Map<String, dynamic> json) {
   return DocumentationPartLocation(
-    type: _$enumDecodeNullable(_$DocumentationPartTypeEnumMap, json['type']),
-    method: json['method'] as String,
-    name: json['name'] as String,
-    path: json['path'] as String,
-    statusCode: json['statusCode'] as String,
+    type: _$enumDecode(_$DocumentationPartTypeEnumMap, json['type']),
+    method: json['method'] as String?,
+    name: json['name'] as String?,
+    path: json['path'] as String?,
+    statusCode: json['statusCode'] as String?,
   );
 }
 
 Map<String, dynamic> _$DocumentationPartLocationToJson(
     DocumentationPartLocation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'type': _$DocumentationPartTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -312,7 +312,6 @@ Map<String, dynamic> _$DocumentationPartLocationToJson(
     }
   }
 
-  writeNotNull('type', _$DocumentationPartTypeEnumMap[instance.type]);
   writeNotNull('method', instance.method);
   writeNotNull('name', instance.name);
   writeNotNull('path', instance.path);
@@ -337,47 +336,43 @@ const _$DocumentationPartTypeEnumMap = {
 
 DocumentationParts _$DocumentationPartsFromJson(Map<String, dynamic> json) {
   return DocumentationParts(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentationPart.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => DocumentationPart.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 DocumentationVersion _$DocumentationVersionFromJson(Map<String, dynamic> json) {
   return DocumentationVersion(
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    description: json['description'] as String,
-    version: json['version'] as String,
+    description: json['description'] as String?,
+    version: json['version'] as String?,
   );
 }
 
 DocumentationVersions _$DocumentationVersionsFromJson(
     Map<String, dynamic> json) {
   return DocumentationVersions(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentationVersion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => DocumentationVersion.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
   return DomainName(
-    certificateArn: json['certificateArn'] as String,
-    certificateName: json['certificateName'] as String,
+    certificateArn: json['certificateArn'] as String?,
+    certificateName: json['certificateName'] as String?,
     certificateUploadDate:
         const UnixDateTimeConverter().fromJson(json['certificateUploadDate']),
-    distributionDomainName: json['distributionDomainName'] as String,
-    distributionHostedZoneId: json['distributionHostedZoneId'] as String,
-    domainName: json['domainName'] as String,
+    distributionDomainName: json['distributionDomainName'] as String?,
+    distributionHostedZoneId: json['distributionHostedZoneId'] as String?,
+    domainName: json['domainName'] as String?,
     domainNameStatus: _$enumDecodeNullable(
         _$DomainNameStatusEnumMap, json['domainNameStatus']),
-    domainNameStatusMessage: json['domainNameStatusMessage'] as String,
+    domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
     endpointConfiguration: json['endpointConfiguration'] == null
         ? null
         : EndpointConfiguration.fromJson(
@@ -386,13 +381,13 @@ DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
         ? null
         : MutualTlsAuthentication.fromJson(
             json['mutualTlsAuthentication'] as Map<String, dynamic>),
-    regionalCertificateArn: json['regionalCertificateArn'] as String,
-    regionalCertificateName: json['regionalCertificateName'] as String,
-    regionalDomainName: json['regionalDomainName'] as String,
-    regionalHostedZoneId: json['regionalHostedZoneId'] as String,
+    regionalCertificateArn: json['regionalCertificateArn'] as String?,
+    regionalCertificateName: json['regionalCertificateName'] as String?,
+    regionalDomainName: json['regionalDomainName'] as String?,
+    regionalHostedZoneId: json['regionalHostedZoneId'] as String?,
     securityPolicy:
         _$enumDecodeNullable(_$SecurityPolicyEnumMap, json['securityPolicy']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -411,22 +406,22 @@ const _$SecurityPolicyEnumMap = {
 
 DomainNames _$DomainNamesFromJson(Map<String, dynamic> json) {
   return DomainNames(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : DomainName.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => DomainName.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 EndpointConfiguration _$EndpointConfigurationFromJson(
     Map<String, dynamic> json) {
   return EndpointConfiguration(
-    types: (json['types'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EndpointTypeEnumMap, e))
-        ?.toList(),
-    vpcEndpointIds:
-        (json['vpcEndpointIds'] as List)?.map((e) => e as String)?.toList(),
+    types: (json['types'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EndpointTypeEnumMap, e))
+        .toList(),
+    vpcEndpointIds: (json['vpcEndpointIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -441,7 +436,7 @@ Map<String, dynamic> _$EndpointConfigurationToJson(
   }
 
   writeNotNull(
-      'types', instance.types?.map((e) => _$EndpointTypeEnumMap[e])?.toList());
+      'types', instance.types?.map((e) => _$EndpointTypeEnumMap[e]).toList());
   writeNotNull('vpcEndpointIds', instance.vpcEndpointIds);
   return val;
 }
@@ -454,25 +449,26 @@ const _$EndpointTypeEnumMap = {
 
 ExportResponse _$ExportResponseFromJson(Map<String, dynamic> json) {
   return ExportResponse(
-    body: const Uint8ListConverter().fromJson(json['body'] as String),
-    contentDisposition: json['Content-Disposition'] as String,
-    contentType: json['Content-Type'] as String,
+    body: const Uint8ListNullableConverter().fromJson(json['body'] as String?),
+    contentDisposition: json['Content-Disposition'] as String?,
+    contentType: json['Content-Type'] as String?,
   );
 }
 
 GatewayResponse _$GatewayResponseFromJson(Map<String, dynamic> json) {
   return GatewayResponse(
-    defaultResponse: json['defaultResponse'] as bool,
+    defaultResponse: json['defaultResponse'] as bool?,
     responseParameters:
-        (json['responseParameters'] as Map<String, dynamic>)?.map(
+        (json['responseParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    responseTemplates: (json['responseTemplates'] as Map<String, dynamic>)?.map(
+    responseTemplates:
+        (json['responseTemplates'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     responseType: _$enumDecodeNullable(
         _$GatewayResponseTypeEnumMap, json['responseType']),
-    statusCode: json['statusCode'] as String,
+    statusCode: json['statusCode'] as String?,
   );
 }
 
@@ -503,48 +499,45 @@ const _$GatewayResponseTypeEnumMap = {
 
 GatewayResponses _$GatewayResponsesFromJson(Map<String, dynamic> json) {
   return GatewayResponses(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GatewayResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => GatewayResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 Integration _$IntegrationFromJson(Map<String, dynamic> json) {
   return Integration(
-    cacheKeyParameters:
-        (json['cacheKeyParameters'] as List)?.map((e) => e as String)?.toList(),
-    cacheNamespace: json['cacheNamespace'] as String,
-    connectionId: json['connectionId'] as String,
+    cacheKeyParameters: (json['cacheKeyParameters'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    cacheNamespace: json['cacheNamespace'] as String?,
+    connectionId: json['connectionId'] as String?,
     connectionType:
         _$enumDecodeNullable(_$ConnectionTypeEnumMap, json['connectionType']),
     contentHandling: _$enumDecodeNullable(
         _$ContentHandlingStrategyEnumMap, json['contentHandling']),
-    credentials: json['credentials'] as String,
-    httpMethod: json['httpMethod'] as String,
+    credentials: json['credentials'] as String?,
+    httpMethod: json['httpMethod'] as String?,
     integrationResponses:
-        (json['integrationResponses'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : IntegrationResponse.fromJson(e as Map<String, dynamic>)),
+        (json['integrationResponses'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, IntegrationResponse.fromJson(e as Map<String, dynamic>)),
     ),
-    passthroughBehavior: json['passthroughBehavior'] as String,
-    requestParameters: (json['requestParameters'] as Map<String, dynamic>)?.map(
+    passthroughBehavior: json['passthroughBehavior'] as String?,
+    requestParameters:
+        (json['requestParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    requestTemplates: (json['requestTemplates'] as Map<String, dynamic>)?.map(
+    requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    timeoutInMillis: json['timeoutInMillis'] as int,
+    timeoutInMillis: json['timeoutInMillis'] as int?,
     tlsConfig: json['tlsConfig'] == null
         ? null
         : TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>),
     type: _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['type']),
-    uri: json['uri'] as String,
+    uri: json['uri'] as String?,
   );
 }
 
@@ -571,73 +564,71 @@ IntegrationResponse _$IntegrationResponseFromJson(Map<String, dynamic> json) {
     contentHandling: _$enumDecodeNullable(
         _$ContentHandlingStrategyEnumMap, json['contentHandling']),
     responseParameters:
-        (json['responseParameters'] as Map<String, dynamic>)?.map(
+        (json['responseParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    responseTemplates: (json['responseTemplates'] as Map<String, dynamic>)?.map(
+    responseTemplates:
+        (json['responseTemplates'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    selectionPattern: json['selectionPattern'] as String,
-    statusCode: json['statusCode'] as String,
+    selectionPattern: json['selectionPattern'] as String?,
+    statusCode: json['statusCode'] as String?,
   );
 }
 
 Method _$MethodFromJson(Map<String, dynamic> json) {
   return Method(
-    apiKeyRequired: json['apiKeyRequired'] as bool,
-    authorizationScopes: (json['authorizationScopes'] as List)
+    apiKeyRequired: json['apiKeyRequired'] as bool?,
+    authorizationScopes: (json['authorizationScopes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    authorizationType: json['authorizationType'] as String,
-    authorizerId: json['authorizerId'] as String,
-    httpMethod: json['httpMethod'] as String,
+        .toList(),
+    authorizationType: json['authorizationType'] as String?,
+    authorizerId: json['authorizerId'] as String?,
+    httpMethod: json['httpMethod'] as String?,
     methodIntegration: json['methodIntegration'] == null
         ? null
         : Integration.fromJson(
             json['methodIntegration'] as Map<String, dynamic>),
-    methodResponses: (json['methodResponses'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : MethodResponse.fromJson(e as Map<String, dynamic>)),
+    methodResponses: (json['methodResponses'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, MethodResponse.fromJson(e as Map<String, dynamic>)),
     ),
-    operationName: json['operationName'] as String,
-    requestModels: (json['requestModels'] as Map<String, dynamic>)?.map(
+    operationName: json['operationName'] as String?,
+    requestModels: (json['requestModels'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    requestParameters: (json['requestParameters'] as Map<String, dynamic>)?.map(
+    requestParameters:
+        (json['requestParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as bool),
     ),
-    requestValidatorId: json['requestValidatorId'] as String,
+    requestValidatorId: json['requestValidatorId'] as String?,
   );
 }
 
 MethodResponse _$MethodResponseFromJson(Map<String, dynamic> json) {
   return MethodResponse(
-    responseModels: (json['responseModels'] as Map<String, dynamic>)?.map(
+    responseModels: (json['responseModels'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     responseParameters:
-        (json['responseParameters'] as Map<String, dynamic>)?.map(
+        (json['responseParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as bool),
     ),
-    statusCode: json['statusCode'] as String,
+    statusCode: json['statusCode'] as String?,
   );
 }
 
 MethodSetting _$MethodSettingFromJson(Map<String, dynamic> json) {
   return MethodSetting(
-    cacheDataEncrypted: json['cacheDataEncrypted'] as bool,
-    cacheTtlInSeconds: json['cacheTtlInSeconds'] as int,
-    cachingEnabled: json['cachingEnabled'] as bool,
-    dataTraceEnabled: json['dataTraceEnabled'] as bool,
-    loggingLevel: json['loggingLevel'] as String,
-    metricsEnabled: json['metricsEnabled'] as bool,
+    cacheDataEncrypted: json['cacheDataEncrypted'] as bool?,
+    cacheTtlInSeconds: json['cacheTtlInSeconds'] as int?,
+    cachingEnabled: json['cachingEnabled'] as bool?,
+    dataTraceEnabled: json['dataTraceEnabled'] as bool?,
+    loggingLevel: json['loggingLevel'] as String?,
+    metricsEnabled: json['metricsEnabled'] as bool?,
     requireAuthorizationForCacheControl:
-        json['requireAuthorizationForCacheControl'] as bool,
-    throttlingBurstLimit: json['throttlingBurstLimit'] as int,
-    throttlingRateLimit: (json['throttlingRateLimit'] as num)?.toDouble(),
+        json['requireAuthorizationForCacheControl'] as bool?,
+    throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
+    throttlingRateLimit: (json['throttlingRateLimit'] as num?)?.toDouble(),
     unauthorizedCacheControlHeaderStrategy: _$enumDecodeNullable(
         _$UnauthorizedCacheControlHeaderStrategyEnumMap,
         json['unauthorizedCacheControlHeaderStrategy']),
@@ -654,38 +645,38 @@ const _$UnauthorizedCacheControlHeaderStrategyEnumMap = {
 
 MethodSnapshot _$MethodSnapshotFromJson(Map<String, dynamic> json) {
   return MethodSnapshot(
-    apiKeyRequired: json['apiKeyRequired'] as bool,
-    authorizationType: json['authorizationType'] as String,
+    apiKeyRequired: json['apiKeyRequired'] as bool?,
+    authorizationType: json['authorizationType'] as String?,
   );
 }
 
 Model _$ModelFromJson(Map<String, dynamic> json) {
   return Model(
-    contentType: json['contentType'] as String,
-    description: json['description'] as String,
-    id: json['id'] as String,
-    name: json['name'] as String,
-    schema: json['schema'] as String,
+    contentType: json['contentType'] as String?,
+    description: json['description'] as String?,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
+    schema: json['schema'] as String?,
   );
 }
 
 Models _$ModelsFromJson(Map<String, dynamic> json) {
   return Models(
-    items: (json['item'] as List)
-        ?.map(
-            (e) => e == null ? null : Model.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 MutualTlsAuthentication _$MutualTlsAuthenticationFromJson(
     Map<String, dynamic> json) {
   return MutualTlsAuthentication(
-    truststoreUri: json['truststoreUri'] as String,
-    truststoreVersion: json['truststoreVersion'] as String,
-    truststoreWarnings:
-        (json['truststoreWarnings'] as List)?.map((e) => e as String)?.toList(),
+    truststoreUri: json['truststoreUri'] as String?,
+    truststoreVersion: json['truststoreVersion'] as String?,
+    truststoreWarnings: (json['truststoreWarnings'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -731,8 +722,8 @@ const _$OpEnumMap = {
 
 QuotaSettings _$QuotaSettingsFromJson(Map<String, dynamic> json) {
   return QuotaSettings(
-    limit: json['limit'] as int,
-    offset: json['offset'] as int,
+    limit: json['limit'] as int?,
+    offset: json['offset'] as int?,
     period: _$enumDecodeNullable(_$QuotaPeriodTypeEnumMap, json['period']),
   );
 }
@@ -760,44 +751,40 @@ const _$QuotaPeriodTypeEnumMap = {
 
 RequestValidator _$RequestValidatorFromJson(Map<String, dynamic> json) {
   return RequestValidator(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    validateRequestBody: json['validateRequestBody'] as bool,
-    validateRequestParameters: json['validateRequestParameters'] as bool,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
+    validateRequestBody: json['validateRequestBody'] as bool?,
+    validateRequestParameters: json['validateRequestParameters'] as bool?,
   );
 }
 
 RequestValidators _$RequestValidatorsFromJson(Map<String, dynamic> json) {
   return RequestValidators(
-    items: (json['item'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RequestValidator.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => RequestValidator.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 Resource _$ResourceFromJson(Map<String, dynamic> json) {
   return Resource(
-    id: json['id'] as String,
-    parentId: json['parentId'] as String,
-    path: json['path'] as String,
-    pathPart: json['pathPart'] as String,
-    resourceMethods: (json['resourceMethods'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Method.fromJson(e as Map<String, dynamic>)),
+    id: json['id'] as String?,
+    parentId: json['parentId'] as String?,
+    path: json['path'] as String?,
+    pathPart: json['pathPart'] as String?,
+    resourceMethods: (json['resourceMethods'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Method.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
 Resources _$ResourcesFromJson(Map<String, dynamic> json) {
   return Resources(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => Resource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
@@ -805,24 +792,26 @@ RestApi _$RestApiFromJson(Map<String, dynamic> json) {
   return RestApi(
     apiKeySource:
         _$enumDecodeNullable(_$ApiKeySourceTypeEnumMap, json['apiKeySource']),
-    binaryMediaTypes:
-        (json['binaryMediaTypes'] as List)?.map((e) => e as String)?.toList(),
+    binaryMediaTypes: (json['binaryMediaTypes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    description: json['description'] as String,
-    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
+    description: json['description'] as String?,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
     endpointConfiguration: json['endpointConfiguration'] == null
         ? null
         : EndpointConfiguration.fromJson(
             json['endpointConfiguration'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    minimumCompressionSize: json['minimumCompressionSize'] as int,
-    name: json['name'] as String,
-    policy: json['policy'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    id: json['id'] as String?,
+    minimumCompressionSize: json['minimumCompressionSize'] as int?,
+    name: json['name'] as String?,
+    policy: json['policy'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    version: json['version'] as String,
-    warnings: (json['warnings'] as List)?.map((e) => e as String)?.toList(),
+    version: json['version'] as String?,
+    warnings:
+        (json['warnings'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -833,53 +822,50 @@ const _$ApiKeySourceTypeEnumMap = {
 
 RestApis _$RestApisFromJson(Map<String, dynamic> json) {
   return RestApis(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : RestApi.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => RestApi.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 SdkConfigurationProperty _$SdkConfigurationPropertyFromJson(
     Map<String, dynamic> json) {
   return SdkConfigurationProperty(
-    defaultValue: json['defaultValue'] as String,
-    description: json['description'] as String,
-    friendlyName: json['friendlyName'] as String,
-    name: json['name'] as String,
-    required: json['required'] as bool,
+    defaultValue: json['defaultValue'] as String?,
+    description: json['description'] as String?,
+    friendlyName: json['friendlyName'] as String?,
+    name: json['name'] as String?,
+    required: json['required'] as bool?,
   );
 }
 
 SdkResponse _$SdkResponseFromJson(Map<String, dynamic> json) {
   return SdkResponse(
-    body: const Uint8ListConverter().fromJson(json['body'] as String),
-    contentDisposition: json['Content-Disposition'] as String,
-    contentType: json['Content-Type'] as String,
+    body: const Uint8ListNullableConverter().fromJson(json['body'] as String?),
+    contentDisposition: json['Content-Disposition'] as String?,
+    contentType: json['Content-Type'] as String?,
   );
 }
 
 SdkType _$SdkTypeFromJson(Map<String, dynamic> json) {
   return SdkType(
-    configurationProperties: (json['configurationProperties'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SdkConfigurationProperty.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    description: json['description'] as String,
-    friendlyName: json['friendlyName'] as String,
-    id: json['id'] as String,
+    configurationProperties: (json['configurationProperties'] as List<dynamic>?)
+        ?.map(
+            (e) => SdkConfigurationProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    description: json['description'] as String?,
+    friendlyName: json['friendlyName'] as String?,
+    id: json['id'] as String?,
   );
 }
 
 SdkTypes _$SdkTypesFromJson(Map<String, dynamic> json) {
   return SdkTypes(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : SdkType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => SdkType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
@@ -889,7 +875,7 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
         ? null
         : AccessLogSettings.fromJson(
             json['accessLogSettings'] as Map<String, dynamic>),
-    cacheClusterEnabled: json['cacheClusterEnabled'] as bool,
+    cacheClusterEnabled: json['cacheClusterEnabled'] as bool?,
     cacheClusterSize: _$enumDecodeNullable(
         _$CacheClusterSizeEnumMap, json['cacheClusterSize']),
     cacheClusterStatus: _$enumDecodeNullable(
@@ -898,26 +884,25 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
         ? null
         : CanarySettings.fromJson(
             json['canarySettings'] as Map<String, dynamic>),
-    clientCertificateId: json['clientCertificateId'] as String,
+    clientCertificateId: json['clientCertificateId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
-    deploymentId: json['deploymentId'] as String,
-    description: json['description'] as String,
-    documentationVersion: json['documentationVersion'] as String,
+    deploymentId: json['deploymentId'] as String?,
+    description: json['description'] as String?,
+    documentationVersion: json['documentationVersion'] as String?,
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
-    methodSettings: (json['methodSettings'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : MethodSetting.fromJson(e as Map<String, dynamic>)),
+    methodSettings: (json['methodSettings'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, MethodSetting.fromJson(e as Map<String, dynamic>)),
     ),
-    stageName: json['stageName'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    stageName: json['stageName'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    tracingEnabled: json['tracingEnabled'] as bool,
-    variables: (json['variables'] as Map<String, dynamic>)?.map(
+    tracingEnabled: json['tracingEnabled'] as bool?,
+    variables: (json['variables'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    webAclArn: json['webAclArn'] as String,
+    webAclArn: json['webAclArn'] as String?,
   );
 }
 
@@ -956,16 +941,15 @@ Map<String, dynamic> _$StageKeyToJson(StageKey instance) {
 
 Stages _$StagesFromJson(Map<String, dynamic> json) {
   return Stages(
-    item: (json['item'] as List)
-        ?.map(
-            (e) => e == null ? null : Stage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    item: (json['item'] as List<dynamic>?)
+        ?.map((e) => Stage.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Tags _$TagsFromJson(Map<String, dynamic> json) {
   return Tags(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -973,47 +957,50 @@ Tags _$TagsFromJson(Map<String, dynamic> json) {
 
 Template _$TemplateFromJson(Map<String, dynamic> json) {
   return Template(
-    value: json['value'] as String,
+    value: json['value'] as String?,
   );
 }
 
 TestInvokeAuthorizerResponse _$TestInvokeAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return TestInvokeAuthorizerResponse(
-    authorization: (json['authorization'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    authorization: (json['authorization'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    claims: (json['claims'] as Map<String, dynamic>)?.map(
+    claims: (json['claims'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    clientStatus: json['clientStatus'] as int,
-    latency: json['latency'] as int,
-    log: json['log'] as String,
-    policy: json['policy'] as String,
-    principalId: json['principalId'] as String,
+    clientStatus: json['clientStatus'] as int?,
+    latency: json['latency'] as int?,
+    log: json['log'] as String?,
+    policy: json['policy'] as String?,
+    principalId: json['principalId'] as String?,
   );
 }
 
 TestInvokeMethodResponse _$TestInvokeMethodResponseFromJson(
     Map<String, dynamic> json) {
   return TestInvokeMethodResponse(
-    body: json['body'] as String,
-    headers: (json['headers'] as Map<String, dynamic>)?.map(
+    body: json['body'] as String?,
+    headers: (json['headers'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    latency: json['latency'] as int,
-    log: json['log'] as String,
-    multiValueHeaders: (json['multiValueHeaders'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    latency: json['latency'] as int?,
+    log: json['log'] as String?,
+    multiValueHeaders:
+        (json['multiValueHeaders'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    status: json['status'] as int,
+    status: json['status'] as int?,
   );
 }
 
 ThrottleSettings _$ThrottleSettingsFromJson(Map<String, dynamic> json) {
   return ThrottleSettings(
-    burstLimit: json['burstLimit'] as int,
-    rateLimit: (json['rateLimit'] as num)?.toDouble(),
+    burstLimit: json['burstLimit'] as int?,
+    rateLimit: (json['rateLimit'] as num?)?.toDouble(),
   );
 }
 
@@ -1033,7 +1020,7 @@ Map<String, dynamic> _$ThrottleSettingsToJson(ThrottleSettings instance) {
 
 TlsConfig _$TlsConfigFromJson(Map<String, dynamic> json) {
   return TlsConfig(
-    insecureSkipVerification: json['insecureSkipVerification'] as bool,
+    insecureSkipVerification: json['insecureSkipVerification'] as bool?,
   );
 }
 
@@ -1052,34 +1039,33 @@ Map<String, dynamic> _$TlsConfigToJson(TlsConfig instance) {
 
 Usage _$UsageFromJson(Map<String, dynamic> json) {
   return Usage(
-    endDate: json['endDate'] as String,
-    items: (json['values'] as Map<String, dynamic>)?.map(
+    endDate: json['endDate'] as String?,
+    items: (json['values'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => (e as List)?.map((e) => e as int)?.toList())
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+              .toList()),
     ),
-    position: json['position'] as String,
-    startDate: json['startDate'] as String,
-    usagePlanId: json['usagePlanId'] as String,
+    position: json['position'] as String?,
+    startDate: json['startDate'] as String?,
+    usagePlanId: json['usagePlanId'] as String?,
   );
 }
 
 UsagePlan _$UsagePlanFromJson(Map<String, dynamic> json) {
   return UsagePlan(
-    apiStages: (json['apiStages'] as List)
-        ?.map((e) =>
-            e == null ? null : ApiStage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    description: json['description'] as String,
-    id: json['id'] as String,
-    name: json['name'] as String,
-    productCode: json['productCode'] as String,
+    apiStages: (json['apiStages'] as List<dynamic>?)
+        ?.map((e) => ApiStage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    description: json['description'] as String?,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
+    productCode: json['productCode'] as String?,
     quota: json['quota'] == null
         ? null
         : QuotaSettings.fromJson(json['quota'] as Map<String, dynamic>),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     throttle: json['throttle'] == null
@@ -1090,44 +1076,44 @@ UsagePlan _$UsagePlanFromJson(Map<String, dynamic> json) {
 
 UsagePlanKey _$UsagePlanKeyFromJson(Map<String, dynamic> json) {
   return UsagePlanKey(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    type: json['type'] as String,
-    value: json['value'] as String,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
+    type: json['type'] as String?,
+    value: json['value'] as String?,
   );
 }
 
 UsagePlanKeys _$UsagePlanKeysFromJson(Map<String, dynamic> json) {
   return UsagePlanKeys(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : UsagePlanKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => UsagePlanKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 UsagePlans _$UsagePlansFromJson(Map<String, dynamic> json) {
   return UsagePlans(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : UsagePlan.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => UsagePlan.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }
 
 VpcLink _$VpcLinkFromJson(Map<String, dynamic> json) {
   return VpcLink(
-    description: json['description'] as String,
-    id: json['id'] as String,
-    name: json['name'] as String,
+    description: json['description'] as String?,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
     status: _$enumDecodeNullable(_$VpcLinkStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    statusMessage: json['statusMessage'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    targetArns: (json['targetArns'] as List)?.map((e) => e as String)?.toList(),
+    targetArns: (json['targetArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1140,10 +1126,9 @@ const _$VpcLinkStatusEnumMap = {
 
 VpcLinks _$VpcLinksFromJson(Map<String, dynamic> json) {
   return VpcLinks(
-    items: (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : VpcLink.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    position: json['position'] as String,
+    items: (json['item'] as List<dynamic>?)
+        ?.map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    position: json['position'] as String?,
   );
 }

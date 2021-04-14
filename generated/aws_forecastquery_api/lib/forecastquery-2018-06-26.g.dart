@@ -8,21 +8,19 @@ part of 'forecastquery-2018-06-26.dart';
 
 DataPoint _$DataPointFromJson(Map<String, dynamic> json) {
   return DataPoint(
-    timestamp: json['Timestamp'] as String,
-    value: (json['Value'] as num)?.toDouble(),
+    timestamp: json['Timestamp'] as String?,
+    value: (json['Value'] as num?)?.toDouble(),
   );
 }
 
 Forecast _$ForecastFromJson(Map<String, dynamic> json) {
   return Forecast(
-    predictions: (json['Predictions'] as Map<String, dynamic>)?.map(
+    predictions: (json['Predictions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : DataPoint.fromJson(e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
+              .toList()),
     ),
   );
 }

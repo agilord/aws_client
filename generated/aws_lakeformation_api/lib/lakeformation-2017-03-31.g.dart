@@ -9,11 +9,10 @@ part of 'lakeformation-2017-03-31.dart';
 BatchGrantPermissionsResponse _$BatchGrantPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGrantPermissionsResponse(
-    failures: (json['Failures'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failures: (json['Failures'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -34,12 +33,13 @@ BatchPermissionsRequestEntry _$BatchPermissionsRequestEntryFromJson(
     Map<String, dynamic> json) {
   return BatchPermissionsRequestEntry(
     id: json['Id'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
-        ?.toList(),
-    permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
-        ?.toList(),
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+        .toList(),
+    permissionsWithGrantOption:
+        (json['PermissionsWithGrantOption'] as List<dynamic>?)
+            ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+            .toList(),
     principal: json['Principal'] == null
         ? null
         : DataLakePrincipal.fromJson(json['Principal'] as Map<String, dynamic>),
@@ -51,7 +51,9 @@ BatchPermissionsRequestEntry _$BatchPermissionsRequestEntryFromJson(
 
 Map<String, dynamic> _$BatchPermissionsRequestEntryToJson(
     BatchPermissionsRequestEntry instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Id': instance.id,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -59,49 +61,42 @@ Map<String, dynamic> _$BatchPermissionsRequestEntryToJson(
     }
   }
 
-  writeNotNull('Id', instance.id);
   writeNotNull('Permissions',
-      instance.permissions?.map((e) => _$PermissionEnumMap[e])?.toList());
+      instance.permissions?.map((e) => _$PermissionEnumMap[e]).toList());
   writeNotNull(
       'PermissionsWithGrantOption',
       instance.permissionsWithGrantOption
           ?.map((e) => _$PermissionEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('Principal', instance.principal?.toJson());
   writeNotNull('Resource', instance.resource?.toJson());
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$PermissionEnumMap = {
@@ -120,11 +115,10 @@ const _$PermissionEnumMap = {
 BatchRevokePermissionsResponse _$BatchRevokePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchRevokePermissionsResponse(
-    failures: (json['Failures'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failures: (json['Failures'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -137,9 +131,9 @@ Map<String, dynamic> _$CatalogResourceToJson(CatalogResource instance) =>
 
 ColumnWildcard _$ColumnWildcardFromJson(Map<String, dynamic> json) {
   return ColumnWildcard(
-    excludedColumnNames: (json['ExcludedColumnNames'] as List)
+    excludedColumnNames: (json['ExcludedColumnNames'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
   );
 }
 
@@ -158,7 +152,7 @@ Map<String, dynamic> _$ColumnWildcardToJson(ColumnWildcard instance) {
 
 DataLakePrincipal _$DataLakePrincipalFromJson(Map<String, dynamic> json) {
   return DataLakePrincipal(
-    dataLakePrincipalIdentifier: json['DataLakePrincipalIdentifier'] as String,
+    dataLakePrincipalIdentifier: json['DataLakePrincipalIdentifier'] as String?,
   );
 }
 
@@ -178,26 +172,20 @@ Map<String, dynamic> _$DataLakePrincipalToJson(DataLakePrincipal instance) {
 
 DataLakeSettings _$DataLakeSettingsFromJson(Map<String, dynamic> json) {
   return DataLakeSettings(
-    createDatabaseDefaultPermissions:
-        (json['CreateDatabaseDefaultPermissions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : PrincipalPermissions.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-    createTableDefaultPermissions:
-        (json['CreateTableDefaultPermissions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : PrincipalPermissions.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-    dataLakeAdmins: (json['DataLakeAdmins'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataLakePrincipal.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    trustedResourceOwners: (json['TrustedResourceOwners'] as List)
+    createDatabaseDefaultPermissions: (json['CreateDatabaseDefaultPermissions']
+            as List<dynamic>?)
+        ?.map((e) => PrincipalPermissions.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    createTableDefaultPermissions: (json['CreateTableDefaultPermissions']
+            as List<dynamic>?)
+        ?.map((e) => PrincipalPermissions.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    dataLakeAdmins: (json['DataLakeAdmins'] as List<dynamic>?)
+        ?.map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    trustedResourceOwners: (json['TrustedResourceOwners'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
   );
 }
 
@@ -213,15 +201,12 @@ Map<String, dynamic> _$DataLakeSettingsToJson(DataLakeSettings instance) {
   writeNotNull(
       'CreateDatabaseDefaultPermissions',
       instance.createDatabaseDefaultPermissions
-          ?.map((e) => e?.toJson())
-          ?.toList());
-  writeNotNull(
-      'CreateTableDefaultPermissions',
-      instance.createTableDefaultPermissions
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
+  writeNotNull('CreateTableDefaultPermissions',
+      instance.createTableDefaultPermissions?.map((e) => e.toJson()).toList());
   writeNotNull('DataLakeAdmins',
-      instance.dataLakeAdmins?.map((e) => e?.toJson())?.toList());
+      instance.dataLakeAdmins?.map((e) => e.toJson()).toList());
   writeNotNull('TrustedResourceOwners', instance.trustedResourceOwners);
   return val;
 }
@@ -229,13 +214,15 @@ Map<String, dynamic> _$DataLakeSettingsToJson(DataLakeSettings instance) {
 DataLocationResource _$DataLocationResourceFromJson(Map<String, dynamic> json) {
   return DataLocationResource(
     resourceArn: json['ResourceArn'] as String,
-    catalogId: json['CatalogId'] as String,
+    catalogId: json['CatalogId'] as String?,
   );
 }
 
 Map<String, dynamic> _$DataLocationResourceToJson(
     DataLocationResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ResourceArn': instance.resourceArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -243,7 +230,6 @@ Map<String, dynamic> _$DataLocationResourceToJson(
     }
   }
 
-  writeNotNull('ResourceArn', instance.resourceArn);
   writeNotNull('CatalogId', instance.catalogId);
   return val;
 }
@@ -251,12 +237,14 @@ Map<String, dynamic> _$DataLocationResourceToJson(
 DatabaseResource _$DatabaseResourceFromJson(Map<String, dynamic> json) {
   return DatabaseResource(
     name: json['Name'] as String,
-    catalogId: json['CatalogId'] as String,
+    catalogId: json['CatalogId'] as String?,
   );
 }
 
 Map<String, dynamic> _$DatabaseResourceToJson(DatabaseResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -264,7 +252,6 @@ Map<String, dynamic> _$DatabaseResourceToJson(DatabaseResource instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('CatalogId', instance.catalogId);
   return val;
 }
@@ -285,15 +272,16 @@ DescribeResourceResponse _$DescribeResourceResponseFromJson(
 
 DetailsMap _$DetailsMapFromJson(Map<String, dynamic> json) {
   return DetailsMap(
-    resourceShare:
-        (json['ResourceShare'] as List)?.map((e) => e as String)?.toList(),
+    resourceShare: (json['ResourceShare'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ErrorDetail _$ErrorDetailFromJson(Map<String, dynamic> json) {
   return ErrorDetail(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
   );
 }
 
@@ -347,12 +335,11 @@ GetEffectivePermissionsForPathResponse
     _$GetEffectivePermissionsForPathResponseFromJson(
         Map<String, dynamic> json) {
   return GetEffectivePermissionsForPathResponse(
-    nextToken: json['NextToken'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) =>
+            PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -364,31 +351,30 @@ GrantPermissionsResponse _$GrantPermissionsResponseFromJson(
 ListPermissionsResponse _$ListPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPermissionsResponse(
-    nextToken: json['NextToken'] as String,
-    principalResourcePermissions: (json['PrincipalResourcePermissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    principalResourcePermissions: (json['PrincipalResourcePermissions']
+            as List<dynamic>?)
+        ?.map((e) =>
+            PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesResponse(
-    nextToken: json['NextToken'] as String,
-    resourceInfoList: (json['ResourceInfoList'] as List)
-        ?.map((e) =>
-            e == null ? null : ResourceInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    resourceInfoList: (json['ResourceInfoList'] as List<dynamic>?)
+        ?.map((e) => ResourceInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 PrincipalPermissions _$PrincipalPermissionsFromJson(Map<String, dynamic> json) {
   return PrincipalPermissions(
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
-        ?.toList(),
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+        .toList(),
     principal: json['Principal'] == null
         ? null
         : DataLakePrincipal.fromJson(json['Principal'] as Map<String, dynamic>),
@@ -406,7 +392,7 @@ Map<String, dynamic> _$PrincipalPermissionsToJson(
   }
 
   writeNotNull('Permissions',
-      instance.permissions?.map((e) => _$PermissionEnumMap[e])?.toList());
+      instance.permissions?.map((e) => _$PermissionEnumMap[e]).toList());
   writeNotNull('Principal', instance.principal?.toJson());
   return val;
 }
@@ -418,12 +404,13 @@ PrincipalResourcePermissions _$PrincipalResourcePermissionsFromJson(
         ? null
         : DetailsMap.fromJson(
             json['AdditionalDetails'] as Map<String, dynamic>),
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
-        ?.toList(),
-    permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
-        ?.toList(),
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+        .toList(),
+    permissionsWithGrantOption:
+        (json['PermissionsWithGrantOption'] as List<dynamic>?)
+            ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+            .toList(),
     principal: json['Principal'] == null
         ? null
         : DataLakePrincipal.fromJson(json['Principal'] as Map<String, dynamic>),
@@ -485,8 +472,8 @@ Map<String, dynamic> _$ResourceToJson(Resource instance) {
 ResourceInfo _$ResourceInfoFromJson(Map<String, dynamic> json) {
   return ResourceInfo(
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    resourceArn: json['ResourceArn'] as String,
-    roleArn: json['RoleArn'] as String,
+    resourceArn: json['ResourceArn'] as String?,
+    roleArn: json['RoleArn'] as String?,
   );
 }
 
@@ -498,8 +485,8 @@ RevokePermissionsResponse _$RevokePermissionsResponseFromJson(
 TableResource _$TableResourceFromJson(Map<String, dynamic> json) {
   return TableResource(
     databaseName: json['DatabaseName'] as String,
-    catalogId: json['CatalogId'] as String,
-    name: json['Name'] as String,
+    catalogId: json['CatalogId'] as String?,
+    name: json['Name'] as String?,
     tableWildcard: json['TableWildcard'] == null
         ? null
         : TableWildcard.fromJson(json['TableWildcard'] as Map<String, dynamic>),
@@ -507,7 +494,9 @@ TableResource _$TableResourceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TableResourceToJson(TableResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DatabaseName': instance.databaseName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -515,7 +504,6 @@ Map<String, dynamic> _$TableResourceToJson(TableResource instance) {
     }
   }
 
-  writeNotNull('DatabaseName', instance.databaseName);
   writeNotNull('CatalogId', instance.catalogId);
   writeNotNull('Name', instance.name);
   writeNotNull('TableWildcard', instance.tableWildcard?.toJson());
@@ -534,9 +522,10 @@ TableWithColumnsResource _$TableWithColumnsResourceFromJson(
   return TableWithColumnsResource(
     databaseName: json['DatabaseName'] as String,
     name: json['Name'] as String,
-    catalogId: json['CatalogId'] as String,
-    columnNames:
-        (json['ColumnNames'] as List)?.map((e) => e as String)?.toList(),
+    catalogId: json['CatalogId'] as String?,
+    columnNames: (json['ColumnNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     columnWildcard: json['ColumnWildcard'] == null
         ? null
         : ColumnWildcard.fromJson(
@@ -546,7 +535,10 @@ TableWithColumnsResource _$TableWithColumnsResourceFromJson(
 
 Map<String, dynamic> _$TableWithColumnsResourceToJson(
     TableWithColumnsResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DatabaseName': instance.databaseName,
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -554,8 +546,6 @@ Map<String, dynamic> _$TableWithColumnsResourceToJson(
     }
   }
 
-  writeNotNull('DatabaseName', instance.databaseName);
-  writeNotNull('Name', instance.name);
   writeNotNull('CatalogId', instance.catalogId);
   writeNotNull('ColumnNames', instance.columnNames);
   writeNotNull('ColumnWildcard', instance.columnWildcard?.toJson());

@@ -12,10 +12,10 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = api.isGlobalService ? '' : '@_s.required';
+    final isRegionRequired = !api.isGlobalService;
     return '''
   final _s.RestJsonProtocol _protocol;
-  ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+  ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client, String? endpointUrl,})
   : _protocol = _s.RestJsonProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
   }
@@ -45,7 +45,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
             }
             final encodeCode = encodeJsonCode(
                 member.shapeClass, member.fieldName,
-                member: member, maybeNull: member.isRequired);
+                member: member, nullability: Nullability.none);
             final location = member.locationName ??
                 member.shapeClass.locationName ??
                 member.name;
@@ -71,9 +71,9 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     }
     final isInlineExtraction =
         payloadMember != null || outputShape?.hasHeaderMembers == true;
-
+    final hasOutputShape = outputShape != null;
     buf.writeln(
-        '${outputShape != null ? 'final response = ' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}($payloadCode');
+        '${hasOutputShape ? 'final response = ' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}($payloadCode');
 
     buf.writeln([
       'method: \'${operation.http.method}\',',
@@ -84,7 +84,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     ].join('\n'));
     buf.writeln(');');
 
-    if (outputShape != null) {
+    if (operation.hasReturnType) {
       final outputShape = operation.output.shapeClass;
       if (!isBlobResponse && isInlineExtraction) {
         buf.writeln('final \$json = await _s.jsonFromResponse(response);');
@@ -92,6 +92,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
       buf.writeln('return ${outputShape.className}');
       if (isInlineExtraction) {
+        outputShape.excludeFactoryMethod = true;
         buf.writeln('(');
         if (isBlobResponse) {
           buf.writeln(
@@ -101,13 +102,17 @@ class RestJsonServiceBuilder extends ServiceBuilder {
               '${payloadMember.fieldName}: ${payloadMember.shapeClass.className}.fromJson(\$json),');
         } else {
           for (var member in outputShape.members.where((m) => m.isBody)) {
-            buf.writeln(
-                "${member.fieldName}: ${extractJsonCode(member.shapeClass, "\$json['${member.locationName ?? member.name}']", member: member)},");
+            final nullability =
+                member.isRequired ? Nullability.input : Nullability.inputOutput;
+            final extractCode = extractJsonCode(member.shapeClass,
+                "\$json['${member.locationName ?? member.name}']",
+                member: member, nullability: nullability);
+            buf.writeln('${member.fieldName}: $extractCode,');
           }
         }
         for (var member in outputShape.members.where((m) => m.isHeader)) {
           buf.writeln(
-              "${member.fieldName}: ${extractHeaderCode(member, 'response.headers')},");
+              "${member.fieldName}: ${extractHeaderCode(member, 'response.headers')}${member.isRequired ? '!' : ''},");
         }
         for (var member in outputShape.members.where((m) => m.isStatusCode)) {
           buf.writeln('${member.fieldName}: response.statusCode,');

@@ -9,68 +9,61 @@ part of 'ecr-2015-09-21.dart';
 Attribute _$AttributeFromJson(Map<String, dynamic> json) {
   return Attribute(
     key: json['key'] as String,
-    value: json['value'] as String,
+    value: json['value'] as String?,
   );
 }
 
 AuthorizationData _$AuthorizationDataFromJson(Map<String, dynamic> json) {
   return AuthorizationData(
-    authorizationToken: json['authorizationToken'] as String,
+    authorizationToken: json['authorizationToken'] as String?,
     expiresAt: const UnixDateTimeConverter().fromJson(json['expiresAt']),
-    proxyEndpoint: json['proxyEndpoint'] as String,
+    proxyEndpoint: json['proxyEndpoint'] as String?,
   );
 }
 
 BatchCheckLayerAvailabilityResponse
     _$BatchCheckLayerAvailabilityResponseFromJson(Map<String, dynamic> json) {
   return BatchCheckLayerAvailabilityResponse(
-    failures: (json['failures'] as List)
-        ?.map((e) =>
-            e == null ? null : LayerFailure.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    layers: (json['layers'] as List)
-        ?.map(
-            (e) => e == null ? null : Layer.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failures: (json['failures'] as List<dynamic>?)
+        ?.map((e) => LayerFailure.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    layers: (json['layers'] as List<dynamic>?)
+        ?.map((e) => Layer.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDeleteImageResponse _$BatchDeleteImageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDeleteImageResponse(
-    failures: (json['failures'] as List)
-        ?.map((e) =>
-            e == null ? null : ImageFailure.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    imageIds: (json['imageIds'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ImageIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failures: (json['failures'] as List<dynamic>?)
+        ?.map((e) => ImageFailure.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    imageIds: (json['imageIds'] as List<dynamic>?)
+        ?.map((e) => ImageIdentifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetImageResponse _$BatchGetImageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetImageResponse(
-    failures: (json['failures'] as List)
-        ?.map((e) =>
-            e == null ? null : ImageFailure.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    images: (json['images'] as List)
-        ?.map(
-            (e) => e == null ? null : Image.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failures: (json['failures'] as List<dynamic>?)
+        ?.map((e) => ImageFailure.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    images: (json['images'] as List<dynamic>?)
+        ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CompleteLayerUploadResponse _$CompleteLayerUploadResponseFromJson(
     Map<String, dynamic> json) {
   return CompleteLayerUploadResponse(
-    layerDigest: json['layerDigest'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
-    uploadId: json['uploadId'] as String,
+    layerDigest: json['layerDigest'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
+    uploadId: json['uploadId'] as String?,
   );
 }
 
@@ -88,26 +81,26 @@ DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
   return DeleteLifecyclePolicyResponse(
     lastEvaluatedAt:
         const UnixDateTimeConverter().fromJson(json['lastEvaluatedAt']),
-    lifecyclePolicyText: json['lifecyclePolicyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
 DeleteRegistryPolicyResponse _$DeleteRegistryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRegistryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
   );
 }
 
 DeleteRepositoryPolicyResponse _$DeleteRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRepositoryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -134,9 +127,9 @@ DescribeImageScanFindingsResponse _$DescribeImageScanFindingsResponseFromJson(
         ? null
         : ImageScanStatus.fromJson(
             json['imageScanStatus'] as Map<String, dynamic>),
-    nextToken: json['nextToken'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    nextToken: json['nextToken'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -163,18 +156,17 @@ const _$TagStatusEnumMap = {
 DescribeImagesResponse _$DescribeImagesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeImagesResponse(
-    imageDetails: (json['imageDetails'] as List)
-        ?.map((e) =>
-            e == null ? null : ImageDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    imageDetails: (json['imageDetails'] as List<dynamic>?)
+        ?.map((e) => ImageDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 DescribeRegistryResponse _$DescribeRegistryResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRegistryResponse(
-    registryId: json['registryId'] as String,
+    registryId: json['registryId'] as String?,
     replicationConfiguration: json['replicationConfiguration'] == null
         ? null
         : ReplicationConfiguration.fromJson(
@@ -185,11 +177,10 @@ DescribeRegistryResponse _$DescribeRegistryResponseFromJson(
 DescribeRepositoriesResponse _$DescribeRepositoriesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRepositoriesResponse(
-    nextToken: json['nextToken'] as String,
-    repositories: (json['repositories'] as List)
-        ?.map((e) =>
-            e == null ? null : Repository.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    repositories: (json['repositories'] as List<dynamic>?)
+        ?.map((e) => Repository.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -197,14 +188,16 @@ EncryptionConfiguration _$EncryptionConfigurationFromJson(
     Map<String, dynamic> json) {
   return EncryptionConfiguration(
     encryptionType:
-        _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['encryptionType']),
-    kmsKey: json['kmsKey'] as String,
+        _$enumDecode(_$EncryptionTypeEnumMap, json['encryptionType']),
+    kmsKey: json['kmsKey'] as String?,
   );
 }
 
 Map<String, dynamic> _$EncryptionConfigurationToJson(
     EncryptionConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'encryptionType': _$EncryptionTypeEnumMap[instance.encryptionType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -212,42 +205,34 @@ Map<String, dynamic> _$EncryptionConfigurationToJson(
     }
   }
 
-  writeNotNull(
-      'encryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
   writeNotNull('kmsKey', instance.kmsKey);
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$EncryptionTypeEnumMap = {
@@ -258,34 +243,31 @@ const _$EncryptionTypeEnumMap = {
 GetAuthorizationTokenResponse _$GetAuthorizationTokenResponseFromJson(
     Map<String, dynamic> json) {
   return GetAuthorizationTokenResponse(
-    authorizationData: (json['authorizationData'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AuthorizationData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    authorizationData: (json['authorizationData'] as List<dynamic>?)
+        ?.map((e) => AuthorizationData.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetDownloadUrlForLayerResponse _$GetDownloadUrlForLayerResponseFromJson(
     Map<String, dynamic> json) {
   return GetDownloadUrlForLayerResponse(
-    downloadUrl: json['downloadUrl'] as String,
-    layerDigest: json['layerDigest'] as String,
+    downloadUrl: json['downloadUrl'] as String?,
+    layerDigest: json['layerDigest'] as String?,
   );
 }
 
 GetLifecyclePolicyPreviewResponse _$GetLifecyclePolicyPreviewResponseFromJson(
     Map<String, dynamic> json) {
   return GetLifecyclePolicyPreviewResponse(
-    lifecyclePolicyText: json['lifecyclePolicyText'] as String,
-    nextToken: json['nextToken'] as String,
-    previewResults: (json['previewResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LifecyclePolicyPreviewResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+    nextToken: json['nextToken'] as String?,
+    previewResults: (json['previewResults'] as List<dynamic>?)
+        ?.map((e) =>
+            LifecyclePolicyPreviewResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
     status: _$enumDecodeNullable(
         _$LifecyclePolicyPreviewStatusEnumMap, json['status']),
     summary: json['summary'] == null
@@ -293,6 +275,17 @@ GetLifecyclePolicyPreviewResponse _$GetLifecyclePolicyPreviewResponseFromJson(
         : LifecyclePolicyPreviewSummary.fromJson(
             json['summary'] as Map<String, dynamic>),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$LifecyclePolicyPreviewStatusEnumMap = {
@@ -307,26 +300,26 @@ GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
   return GetLifecyclePolicyResponse(
     lastEvaluatedAt:
         const UnixDateTimeConverter().fromJson(json['lastEvaluatedAt']),
-    lifecyclePolicyText: json['lifecyclePolicyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
 GetRegistryPolicyResponse _$GetRegistryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetRegistryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
   );
 }
 
 GetRepositoryPolicyResponse _$GetRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetRepositoryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -335,18 +328,18 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
     imageId: json['imageId'] == null
         ? null
         : ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>),
-    imageManifest: json['imageManifest'] as String,
-    imageManifestMediaType: json['imageManifestMediaType'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    imageManifest: json['imageManifest'] as String?,
+    imageManifestMediaType: json['imageManifestMediaType'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
 ImageDetail _$ImageDetailFromJson(Map<String, dynamic> json) {
   return ImageDetail(
-    artifactMediaType: json['artifactMediaType'] as String,
-    imageDigest: json['imageDigest'] as String,
-    imageManifestMediaType: json['imageManifestMediaType'] as String,
+    artifactMediaType: json['artifactMediaType'] as String?,
+    imageDigest: json['imageDigest'] as String?,
+    imageManifestMediaType: json['imageManifestMediaType'] as String?,
     imagePushedAt:
         const UnixDateTimeConverter().fromJson(json['imagePushedAt']),
     imageScanFindingsSummary: json['imageScanFindingsSummary'] == null
@@ -357,10 +350,11 @@ ImageDetail _$ImageDetailFromJson(Map<String, dynamic> json) {
         ? null
         : ImageScanStatus.fromJson(
             json['imageScanStatus'] as Map<String, dynamic>),
-    imageSizeInBytes: json['imageSizeInBytes'] as int,
-    imageTags: (json['imageTags'] as List)?.map((e) => e as String)?.toList(),
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    imageSizeInBytes: json['imageSizeInBytes'] as int?,
+    imageTags:
+        (json['imageTags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -368,7 +362,7 @@ ImageFailure _$ImageFailureFromJson(Map<String, dynamic> json) {
   return ImageFailure(
     failureCode:
         _$enumDecodeNullable(_$ImageFailureCodeEnumMap, json['failureCode']),
-    failureReason: json['failureReason'] as String,
+    failureReason: json['failureReason'] as String?,
     imageId: json['imageId'] == null
         ? null
         : ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>),
@@ -388,8 +382,8 @@ const _$ImageFailureCodeEnumMap = {
 
 ImageIdentifier _$ImageIdentifierFromJson(Map<String, dynamic> json) {
   return ImageIdentifier(
-    imageDigest: json['imageDigest'] as String,
-    imageTag: json['imageTag'] as String,
+    imageDigest: json['imageDigest'] as String?,
+    imageTag: json['imageTag'] as String?,
   );
 }
 
@@ -409,14 +403,13 @@ Map<String, dynamic> _$ImageIdentifierToJson(ImageIdentifier instance) {
 
 ImageScanFinding _$ImageScanFindingFromJson(Map<String, dynamic> json) {
   return ImageScanFinding(
-    attributes: (json['attributes'] as List)
-        ?.map((e) =>
-            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    description: json['description'] as String,
-    name: json['name'] as String,
+    attributes: (json['attributes'] as List<dynamic>?)
+        ?.map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    description: json['description'] as String?,
+    name: json['name'] as String?,
     severity: _$enumDecodeNullable(_$FindingSeverityEnumMap, json['severity']),
-    uri: json['uri'] as String,
+    uri: json['uri'] as String?,
   );
 }
 
@@ -432,15 +425,12 @@ const _$FindingSeverityEnumMap = {
 ImageScanFindings _$ImageScanFindingsFromJson(Map<String, dynamic> json) {
   return ImageScanFindings(
     findingSeverityCounts:
-        (json['findingSeverityCounts'] as Map<String, dynamic>)?.map(
-      (k, e) =>
-          MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
+        (json['findingSeverityCounts'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$FindingSeverityEnumMap, k), e as int),
     ),
-    findings: (json['findings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ImageScanFinding.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    findings: (json['findings'] as List<dynamic>?)
+        ?.map((e) => ImageScanFinding.fromJson(e as Map<String, dynamic>))
+        .toList(),
     imageScanCompletedAt:
         const UnixDateTimeConverter().fromJson(json['imageScanCompletedAt']),
     vulnerabilitySourceUpdatedAt: const UnixDateTimeConverter()
@@ -452,9 +442,8 @@ ImageScanFindingsSummary _$ImageScanFindingsSummaryFromJson(
     Map<String, dynamic> json) {
   return ImageScanFindingsSummary(
     findingSeverityCounts:
-        (json['findingSeverityCounts'] as Map<String, dynamic>)?.map(
-      (k, e) =>
-          MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
+        (json['findingSeverityCounts'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$FindingSeverityEnumMap, k), e as int),
     ),
     imageScanCompletedAt:
         const UnixDateTimeConverter().fromJson(json['imageScanCompletedAt']),
@@ -465,7 +454,7 @@ ImageScanFindingsSummary _$ImageScanFindingsSummaryFromJson(
 
 ImageScanStatus _$ImageScanStatusFromJson(Map<String, dynamic> json) {
   return ImageScanStatus(
-    description: json['description'] as String,
+    description: json['description'] as String?,
     status: _$enumDecodeNullable(_$ScanStatusEnumMap, json['status']),
   );
 }
@@ -479,7 +468,7 @@ const _$ScanStatusEnumMap = {
 ImageScanningConfiguration _$ImageScanningConfigurationFromJson(
     Map<String, dynamic> json) {
   return ImageScanningConfiguration(
-    scanOnPush: json['scanOnPush'] as bool,
+    scanOnPush: json['scanOnPush'] as bool?,
   );
 }
 
@@ -500,8 +489,8 @@ Map<String, dynamic> _$ImageScanningConfigurationToJson(
 InitiateLayerUploadResponse _$InitiateLayerUploadResponseFromJson(
     Map<String, dynamic> json) {
   return InitiateLayerUploadResponse(
-    partSize: json['partSize'] as int,
-    uploadId: json['uploadId'] as String,
+    partSize: json['partSize'] as int?,
+    uploadId: json['uploadId'] as String?,
   );
 }
 
@@ -509,9 +498,9 @@ Layer _$LayerFromJson(Map<String, dynamic> json) {
   return Layer(
     layerAvailability: _$enumDecodeNullable(
         _$LayerAvailabilityEnumMap, json['layerAvailability']),
-    layerDigest: json['layerDigest'] as String,
-    layerSize: json['layerSize'] as int,
-    mediaType: json['mediaType'] as String,
+    layerDigest: json['layerDigest'] as String?,
+    layerSize: json['layerSize'] as int?,
+    mediaType: json['mediaType'] as String?,
   );
 }
 
@@ -524,8 +513,8 @@ LayerFailure _$LayerFailureFromJson(Map<String, dynamic> json) {
   return LayerFailure(
     failureCode:
         _$enumDecodeNullable(_$LayerFailureCodeEnumMap, json['failureCode']),
-    failureReason: json['failureReason'] as String,
-    layerDigest: json['layerDigest'] as String,
+    failureReason: json['failureReason'] as String?,
+    layerDigest: json['layerDigest'] as String?,
   );
 }
 
@@ -555,18 +544,19 @@ LifecyclePolicyPreviewResult _$LifecyclePolicyPreviewResultFromJson(
         ? null
         : LifecyclePolicyRuleAction.fromJson(
             json['action'] as Map<String, dynamic>),
-    appliedRulePriority: json['appliedRulePriority'] as int,
-    imageDigest: json['imageDigest'] as String,
+    appliedRulePriority: json['appliedRulePriority'] as int?,
+    imageDigest: json['imageDigest'] as String?,
     imagePushedAt:
         const UnixDateTimeConverter().fromJson(json['imagePushedAt']),
-    imageTags: (json['imageTags'] as List)?.map((e) => e as String)?.toList(),
+    imageTags:
+        (json['imageTags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 LifecyclePolicyPreviewSummary _$LifecyclePolicyPreviewSummaryFromJson(
     Map<String, dynamic> json) {
   return LifecyclePolicyPreviewSummary(
-    expiringImageTotalCount: json['expiringImageTotalCount'] as int,
+    expiringImageTotalCount: json['expiringImageTotalCount'] as int?,
   );
 }
 
@@ -596,21 +586,19 @@ Map<String, dynamic> _$ListImagesFilterToJson(ListImagesFilter instance) {
 
 ListImagesResponse _$ListImagesResponseFromJson(Map<String, dynamic> json) {
   return ListImagesResponse(
-    imageIds: (json['imageIds'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ImageIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    imageIds: (json['imageIds'] as List<dynamic>?)
+        ?.map((e) => ImageIdentifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -629,8 +617,8 @@ PutImageScanningConfigurationResponse
         ? null
         : ImageScanningConfiguration.fromJson(
             json['imageScanningConfiguration'] as Map<String, dynamic>),
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -639,8 +627,8 @@ PutImageTagMutabilityResponse _$PutImageTagMutabilityResponseFromJson(
   return PutImageTagMutabilityResponse(
     imageTagMutability: _$enumDecodeNullable(
         _$ImageTagMutabilityEnumMap, json['imageTagMutability']),
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -652,17 +640,17 @@ const _$ImageTagMutabilityEnumMap = {
 PutLifecyclePolicyResponse _$PutLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutLifecyclePolicyResponse(
-    lifecyclePolicyText: json['lifecyclePolicyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
 PutRegistryPolicyResponse _$PutRegistryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutRegistryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
   );
 }
 
@@ -679,27 +667,17 @@ PutReplicationConfigurationResponse
 ReplicationConfiguration _$ReplicationConfigurationFromJson(
     Map<String, dynamic> json) {
   return ReplicationConfiguration(
-    rules: (json['rules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicationRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['rules'] as List<dynamic>)
+        .map((e) => ReplicationRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ReplicationConfigurationToJson(
-    ReplicationConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        ReplicationConfiguration instance) =>
+    <String, dynamic>{
+      'rules': instance.rules.map((e) => e.toJson()).toList(),
+    };
 
 ReplicationDestination _$ReplicationDestinationFromJson(
     Map<String, dynamic> json) {
@@ -710,43 +688,24 @@ ReplicationDestination _$ReplicationDestinationFromJson(
 }
 
 Map<String, dynamic> _$ReplicationDestinationToJson(
-    ReplicationDestination instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('region', instance.region);
-  writeNotNull('registryId', instance.registryId);
-  return val;
-}
+        ReplicationDestination instance) =>
+    <String, dynamic>{
+      'region': instance.region,
+      'registryId': instance.registryId,
+    };
 
 ReplicationRule _$ReplicationRuleFromJson(Map<String, dynamic> json) {
   return ReplicationRule(
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicationDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>)
+        .map((e) => ReplicationDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$ReplicationRuleToJson(ReplicationRule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$ReplicationRuleToJson(ReplicationRule instance) =>
+    <String, dynamic>{
+      'destinations': instance.destinations.map((e) => e.toJson()).toList(),
+    };
 
 Repository _$RepositoryFromJson(Map<String, dynamic> json) {
   return Repository(
@@ -761,19 +720,19 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
             json['imageScanningConfiguration'] as Map<String, dynamic>),
     imageTagMutability: _$enumDecodeNullable(
         _$ImageTagMutabilityEnumMap, json['imageTagMutability']),
-    registryId: json['registryId'] as String,
-    repositoryArn: json['repositoryArn'] as String,
-    repositoryName: json['repositoryName'] as String,
-    repositoryUri: json['repositoryUri'] as String,
+    registryId: json['registryId'] as String?,
+    repositoryArn: json['repositoryArn'] as String?,
+    repositoryName: json['repositoryName'] as String?,
+    repositoryUri: json['repositoryUri'] as String?,
   );
 }
 
 SetRepositoryPolicyResponse _$SetRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return SetRepositoryPolicyResponse(
-    policyText: json['policyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    policyText: json['policyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
@@ -787,17 +746,17 @@ StartImageScanResponse _$StartImageScanResponseFromJson(
         ? null
         : ImageScanStatus.fromJson(
             json['imageScanStatus'] as Map<String, dynamic>),
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
   );
 }
 
 StartLifecyclePolicyPreviewResponse
     _$StartLifecyclePolicyPreviewResponseFromJson(Map<String, dynamic> json) {
   return StartLifecyclePolicyPreviewResponse(
-    lifecyclePolicyText: json['lifecyclePolicyText'] as String,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
+    lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
     status: _$enumDecodeNullable(
         _$LifecyclePolicyPreviewStatusEnumMap, json['status']),
   );
@@ -805,8 +764,8 @@ StartLifecyclePolicyPreviewResponse
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -836,9 +795,9 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 UploadLayerPartResponse _$UploadLayerPartResponseFromJson(
     Map<String, dynamic> json) {
   return UploadLayerPartResponse(
-    lastByteReceived: json['lastByteReceived'] as int,
-    registryId: json['registryId'] as String,
-    repositoryName: json['repositoryName'] as String,
-    uploadId: json['uploadId'] as String,
+    lastByteReceived: json['lastByteReceived'] as int?,
+    registryId: json['registryId'] as String?,
+    repositoryName: json['repositoryName'] as String?,
+    uploadId: json['uploadId'] as String?,
   );
 }

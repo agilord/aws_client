@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'scalar_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class ScalarMembers {
   final Map<String, _s.Shape> shapes;
 
   ScalarMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,9 +40,9 @@ class ScalarMembers {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    String bar,
-    bool baz,
-    String foo,
+    String? bar,
+    bool? baz,
+    String? foo,
   }) async {
     final $request = <String, dynamic>{};
     bar?.also((arg) => $request['Bar'] = arg);
@@ -67,9 +61,9 @@ class ScalarMembers {
   }
 
   Future<void> operationName1({
-    String bar,
-    bool baz,
-    String foo,
+    String? bar,
+    bool? baz,
+    String? foo,
   }) async {
     final $request = <String, dynamic>{};
     bar?.also((arg) => $request['Bar'] = arg);
@@ -88,9 +82,9 @@ class ScalarMembers {
   }
 
   Future<void> operationName2({
-    String bar,
-    bool baz,
-    String foo,
+    String? bar,
+    bool? baz,
+    String? foo,
   }) async {
     final $request = <String, dynamic>{};
     bar?.also((arg) => $request['Bar'] = arg);

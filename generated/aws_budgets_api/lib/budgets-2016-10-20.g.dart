@@ -9,58 +9,46 @@ part of 'budgets-2016-10-20.dart';
 Action _$ActionFromJson(Map<String, dynamic> json) {
   return Action(
     actionId: json['ActionId'] as String,
-    actionThreshold: json['ActionThreshold'] == null
-        ? null
-        : ActionThreshold.fromJson(
-            json['ActionThreshold'] as Map<String, dynamic>),
-    actionType: _$enumDecodeNullable(_$ActionTypeEnumMap, json['ActionType']),
-    approvalModel:
-        _$enumDecodeNullable(_$ApprovalModelEnumMap, json['ApprovalModel']),
+    actionThreshold: ActionThreshold.fromJson(
+        json['ActionThreshold'] as Map<String, dynamic>),
+    actionType: _$enumDecode(_$ActionTypeEnumMap, json['ActionType']),
+    approvalModel: _$enumDecode(_$ApprovalModelEnumMap, json['ApprovalModel']),
     budgetName: json['BudgetName'] as String,
-    definition: json['Definition'] == null
-        ? null
-        : Definition.fromJson(json['Definition'] as Map<String, dynamic>),
+    definition: Definition.fromJson(json['Definition'] as Map<String, dynamic>),
     executionRoleArn: json['ExecutionRoleArn'] as String,
-    notificationType: _$enumDecodeNullable(
-        _$NotificationTypeEnumMap, json['NotificationType']),
-    status: _$enumDecodeNullable(_$ActionStatusEnumMap, json['Status']),
-    subscribers: (json['Subscribers'] as List)
-        ?.map((e) =>
-            e == null ? null : Subscriber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    notificationType:
+        _$enumDecode(_$NotificationTypeEnumMap, json['NotificationType']),
+    status: _$enumDecode(_$ActionStatusEnumMap, json['Status']),
+    subscribers: (json['Subscribers'] as List<dynamic>)
+        .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$ActionTypeEnumMap = {
@@ -94,13 +82,11 @@ const _$ActionStatusEnumMap = {
 
 ActionHistory _$ActionHistoryFromJson(Map<String, dynamic> json) {
   return ActionHistory(
-    actionHistoryDetails: json['ActionHistoryDetails'] == null
-        ? null
-        : ActionHistoryDetails.fromJson(
-            json['ActionHistoryDetails'] as Map<String, dynamic>),
-    eventType: _$enumDecodeNullable(_$EventTypeEnumMap, json['EventType']),
-    status: _$enumDecodeNullable(_$ActionStatusEnumMap, json['Status']),
-    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
+    actionHistoryDetails: ActionHistoryDetails.fromJson(
+        json['ActionHistoryDetails'] as Map<String, dynamic>),
+    eventType: _$enumDecode(_$EventTypeEnumMap, json['EventType']),
+    status: _$enumDecode(_$ActionStatusEnumMap, json['Status']),
+    timestamp: DateTime.parse(json['Timestamp'] as String),
   );
 }
 
@@ -114,35 +100,25 @@ const _$EventTypeEnumMap = {
 
 ActionHistoryDetails _$ActionHistoryDetailsFromJson(Map<String, dynamic> json) {
   return ActionHistoryDetails(
-    action: json['Action'] == null
-        ? null
-        : Action.fromJson(json['Action'] as Map<String, dynamic>),
+    action: Action.fromJson(json['Action'] as Map<String, dynamic>),
     message: json['Message'] as String,
   );
 }
 
 ActionThreshold _$ActionThresholdFromJson(Map<String, dynamic> json) {
   return ActionThreshold(
-    actionThresholdType: _$enumDecodeNullable(
-        _$ThresholdTypeEnumMap, json['ActionThresholdType']),
-    actionThresholdValue: (json['ActionThresholdValue'] as num)?.toDouble(),
+    actionThresholdType:
+        _$enumDecode(_$ThresholdTypeEnumMap, json['ActionThresholdType']),
+    actionThresholdValue: (json['ActionThresholdValue'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$ActionThresholdToJson(ActionThreshold instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ActionThresholdType',
-      _$ThresholdTypeEnumMap[instance.actionThresholdType]);
-  writeNotNull('ActionThresholdValue', instance.actionThresholdValue);
-  return val;
-}
+Map<String, dynamic> _$ActionThresholdToJson(ActionThreshold instance) =>
+    <String, dynamic>{
+      'ActionThresholdType':
+          _$ThresholdTypeEnumMap[instance.actionThresholdType],
+      'ActionThresholdValue': instance.actionThresholdValue,
+    };
 
 const _$ThresholdTypeEnumMap = {
   ThresholdType.percentage: 'PERCENTAGE',
@@ -152,8 +128,8 @@ const _$ThresholdTypeEnumMap = {
 Budget _$BudgetFromJson(Map<String, dynamic> json) {
   return Budget(
     budgetName: json['BudgetName'] as String,
-    budgetType: _$enumDecodeNullable(_$BudgetTypeEnumMap, json['BudgetType']),
-    timeUnit: _$enumDecodeNullable(_$TimeUnitEnumMap, json['TimeUnit']),
+    budgetType: _$enumDecode(_$BudgetTypeEnumMap, json['BudgetType']),
+    timeUnit: _$enumDecode(_$TimeUnitEnumMap, json['TimeUnit']),
     budgetLimit: json['BudgetLimit'] == null
         ? null
         : Spend.fromJson(json['BudgetLimit'] as Map<String, dynamic>),
@@ -161,8 +137,9 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
         ? null
         : CalculatedSpend.fromJson(
             json['CalculatedSpend'] as Map<String, dynamic>),
-    costFilters: (json['CostFilters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
     costTypes: json['CostTypes'] == null
         ? null
@@ -170,9 +147,8 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     plannedBudgetLimits:
-        (json['PlannedBudgetLimits'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Spend.fromJson(e as Map<String, dynamic>)),
+        (json['PlannedBudgetLimits'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Spend.fromJson(e as Map<String, dynamic>)),
     ),
     timePeriod: json['TimePeriod'] == null
         ? null
@@ -181,7 +157,11 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$BudgetToJson(Budget instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BudgetName': instance.budgetName,
+    'BudgetType': _$BudgetTypeEnumMap[instance.budgetType],
+    'TimeUnit': _$TimeUnitEnumMap[instance.timeUnit],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -189,9 +169,6 @@ Map<String, dynamic> _$BudgetToJson(Budget instance) {
     }
   }
 
-  writeNotNull('BudgetName', instance.budgetName);
-  writeNotNull('BudgetType', _$BudgetTypeEnumMap[instance.budgetType]);
-  writeNotNull('TimeUnit', _$TimeUnitEnumMap[instance.timeUnit]);
   writeNotNull('BudgetLimit', instance.budgetLimit?.toJson());
   writeNotNull('CalculatedSpend', instance.calculatedSpend?.toJson());
   writeNotNull('CostFilters', instance.costFilters);
@@ -199,7 +176,7 @@ Map<String, dynamic> _$BudgetToJson(Budget instance) {
   writeNotNull('LastUpdatedTime',
       const UnixDateTimeConverter().toJson(instance.lastUpdatedTime));
   writeNotNull('PlannedBudgetLimits',
-      instance.plannedBudgetLimits?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.plannedBudgetLimits?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull('TimePeriod', instance.timePeriod?.toJson());
   return val;
 }
@@ -223,21 +200,33 @@ const _$TimeUnitEnumMap = {
 BudgetPerformanceHistory _$BudgetPerformanceHistoryFromJson(
     Map<String, dynamic> json) {
   return BudgetPerformanceHistory(
-    budgetName: json['BudgetName'] as String,
+    budgetName: json['BudgetName'] as String?,
     budgetType: _$enumDecodeNullable(_$BudgetTypeEnumMap, json['BudgetType']),
-    budgetedAndActualAmountsList: (json['BudgetedAndActualAmountsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BudgetedAndActualAmounts.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    costFilters: (json['CostFilters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    budgetedAndActualAmountsList: (json['BudgetedAndActualAmountsList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => BudgetedAndActualAmounts.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
     costTypes: json['CostTypes'] == null
         ? null
         : CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>),
     timeUnit: _$enumDecodeNullable(_$TimeUnitEnumMap, json['TimeUnit']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 BudgetedAndActualAmounts _$BudgetedAndActualAmountsFromJson(
@@ -257,9 +246,7 @@ BudgetedAndActualAmounts _$BudgetedAndActualAmountsFromJson(
 
 CalculatedSpend _$CalculatedSpendFromJson(Map<String, dynamic> json) {
   return CalculatedSpend(
-    actualSpend: json['ActualSpend'] == null
-        ? null
-        : Spend.fromJson(json['ActualSpend'] as Map<String, dynamic>),
+    actualSpend: Spend.fromJson(json['ActualSpend'] as Map<String, dynamic>),
     forecastedSpend: json['ForecastedSpend'] == null
         ? null
         : Spend.fromJson(json['ForecastedSpend'] as Map<String, dynamic>),
@@ -267,7 +254,9 @@ CalculatedSpend _$CalculatedSpendFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CalculatedSpendToJson(CalculatedSpend instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ActualSpend': instance.actualSpend.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -275,24 +264,23 @@ Map<String, dynamic> _$CalculatedSpendToJson(CalculatedSpend instance) {
     }
   }
 
-  writeNotNull('ActualSpend', instance.actualSpend?.toJson());
   writeNotNull('ForecastedSpend', instance.forecastedSpend?.toJson());
   return val;
 }
 
 CostTypes _$CostTypesFromJson(Map<String, dynamic> json) {
   return CostTypes(
-    includeCredit: json['IncludeCredit'] as bool,
-    includeDiscount: json['IncludeDiscount'] as bool,
-    includeOtherSubscription: json['IncludeOtherSubscription'] as bool,
-    includeRecurring: json['IncludeRecurring'] as bool,
-    includeRefund: json['IncludeRefund'] as bool,
-    includeSubscription: json['IncludeSubscription'] as bool,
-    includeSupport: json['IncludeSupport'] as bool,
-    includeTax: json['IncludeTax'] as bool,
-    includeUpfront: json['IncludeUpfront'] as bool,
-    useAmortized: json['UseAmortized'] as bool,
-    useBlended: json['UseBlended'] as bool,
+    includeCredit: json['IncludeCredit'] as bool?,
+    includeDiscount: json['IncludeDiscount'] as bool?,
+    includeOtherSubscription: json['IncludeOtherSubscription'] as bool?,
+    includeRecurring: json['IncludeRecurring'] as bool?,
+    includeRefund: json['IncludeRefund'] as bool?,
+    includeSubscription: json['IncludeSubscription'] as bool?,
+    includeSupport: json['IncludeSupport'] as bool?,
+    includeTax: json['IncludeTax'] as bool?,
+    includeUpfront: json['IncludeUpfront'] as bool?,
+    useAmortized: json['UseAmortized'] as bool?,
+    useBlended: json['UseBlended'] as bool?,
   );
 }
 
@@ -378,9 +366,7 @@ DeleteBudgetActionResponse _$DeleteBudgetActionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteBudgetActionResponse(
     accountId: json['AccountId'] as String,
-    action: json['Action'] == null
-        ? null
-        : Action.fromJson(json['Action'] as Map<String, dynamic>),
+    action: Action.fromJson(json['Action'] as Map<String, dynamic>),
     budgetName: json['BudgetName'] as String,
   );
 }
@@ -402,12 +388,10 @@ DeleteSubscriberResponse _$DeleteSubscriberResponseFromJson(
 DescribeBudgetActionHistoriesResponse
     _$DescribeBudgetActionHistoriesResponseFromJson(Map<String, dynamic> json) {
   return DescribeBudgetActionHistoriesResponse(
-    actionHistories: (json['ActionHistories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActionHistory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    actionHistories: (json['ActionHistories'] as List<dynamic>)
+        .map((e) => ActionHistory.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -415,9 +399,7 @@ DescribeBudgetActionResponse _$DescribeBudgetActionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBudgetActionResponse(
     accountId: json['AccountId'] as String,
-    action: json['Action'] == null
-        ? null
-        : Action.fromJson(json['Action'] as Map<String, dynamic>),
+    action: Action.fromJson(json['Action'] as Map<String, dynamic>),
     budgetName: json['BudgetName'] as String,
   );
 }
@@ -426,11 +408,10 @@ DescribeBudgetActionsForAccountResponse
     _$DescribeBudgetActionsForAccountResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeBudgetActionsForAccountResponse(
-    actions: (json['Actions'] as List)
-        ?.map((e) =>
-            e == null ? null : Action.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    actions: (json['Actions'] as List<dynamic>)
+        .map((e) => Action.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -438,11 +419,10 @@ DescribeBudgetActionsForBudgetResponse
     _$DescribeBudgetActionsForBudgetResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeBudgetActionsForBudgetResponse(
-    actions: (json['Actions'] as List)
-        ?.map((e) =>
-            e == null ? null : Action.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    actions: (json['Actions'] as List<dynamic>)
+        .map((e) => Action.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -454,7 +434,7 @@ DescribeBudgetPerformanceHistoryResponse
         ? null
         : BudgetPerformanceHistory.fromJson(
             json['BudgetPerformanceHistory'] as Map<String, dynamic>),
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -470,11 +450,10 @@ DescribeBudgetResponse _$DescribeBudgetResponseFromJson(
 DescribeBudgetsResponse _$DescribeBudgetsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBudgetsResponse(
-    budgets: (json['Budgets'] as List)
-        ?.map((e) =>
-            e == null ? null : Budget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    budgets: (json['Budgets'] as List<dynamic>?)
+        ?.map((e) => Budget.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -482,11 +461,10 @@ DescribeNotificationsForBudgetResponse
     _$DescribeNotificationsForBudgetResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeNotificationsForBudgetResponse(
-    nextToken: json['NextToken'] as String,
-    notifications: (json['Notifications'] as List)
-        ?.map((e) =>
-            e == null ? null : Notification.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    notifications: (json['Notifications'] as List<dynamic>?)
+        ?.map((e) => Notification.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -494,11 +472,10 @@ DescribeSubscribersForNotificationResponse
     _$DescribeSubscribersForNotificationResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeSubscribersForNotificationResponse(
-    nextToken: json['NextToken'] as String,
-    subscribers: (json['Subscribers'] as List)
-        ?.map((e) =>
-            e == null ? null : Subscriber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    subscribers: (json['Subscribers'] as List<dynamic>?)
+        ?.map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -508,8 +485,7 @@ ExecuteBudgetActionResponse _$ExecuteBudgetActionResponseFromJson(
     accountId: json['AccountId'] as String,
     actionId: json['ActionId'] as String,
     budgetName: json['BudgetName'] as String,
-    executionType:
-        _$enumDecodeNullable(_$ExecutionTypeEnumMap, json['ExecutionType']),
+    executionType: _$enumDecode(_$ExecutionTypeEnumMap, json['ExecutionType']),
   );
 }
 
@@ -523,14 +499,17 @@ const _$ExecutionTypeEnumMap = {
 IamActionDefinition _$IamActionDefinitionFromJson(Map<String, dynamic> json) {
   return IamActionDefinition(
     policyArn: json['PolicyArn'] as String,
-    groups: (json['Groups'] as List)?.map((e) => e as String)?.toList(),
-    roles: (json['Roles'] as List)?.map((e) => e as String)?.toList(),
-    users: (json['Users'] as List)?.map((e) => e as String)?.toList(),
+    groups:
+        (json['Groups'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    roles: (json['Roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    users: (json['Users'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$IamActionDefinitionToJson(IamActionDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PolicyArn': instance.policyArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -538,7 +517,6 @@ Map<String, dynamic> _$IamActionDefinitionToJson(IamActionDefinition instance) {
     }
   }
 
-  writeNotNull('PolicyArn', instance.policyArn);
   writeNotNull('Groups', instance.groups);
   writeNotNull('Roles', instance.roles);
   writeNotNull('Users', instance.users);
@@ -547,11 +525,11 @@ Map<String, dynamic> _$IamActionDefinitionToJson(IamActionDefinition instance) {
 
 Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(
-    comparisonOperator: _$enumDecodeNullable(
-        _$ComparisonOperatorEnumMap, json['ComparisonOperator']),
-    notificationType: _$enumDecodeNullable(
-        _$NotificationTypeEnumMap, json['NotificationType']),
-    threshold: (json['Threshold'] as num)?.toDouble(),
+    comparisonOperator:
+        _$enumDecode(_$ComparisonOperatorEnumMap, json['ComparisonOperator']),
+    notificationType:
+        _$enumDecode(_$NotificationTypeEnumMap, json['NotificationType']),
+    threshold: (json['Threshold'] as num).toDouble(),
     notificationState: _$enumDecodeNullable(
         _$NotificationStateEnumMap, json['NotificationState']),
     thresholdType:
@@ -560,7 +538,12 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$NotificationToJson(Notification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ComparisonOperator':
+        _$ComparisonOperatorEnumMap[instance.comparisonOperator],
+    'NotificationType': _$NotificationTypeEnumMap[instance.notificationType],
+    'Threshold': instance.threshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -568,11 +551,6 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) {
     }
   }
 
-  writeNotNull('ComparisonOperator',
-      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
-  writeNotNull(
-      'NotificationType', _$NotificationTypeEnumMap[instance.notificationType]);
-  writeNotNull('Threshold', instance.threshold);
   writeNotNull('NotificationState',
       _$NotificationStateEnumMap[instance.notificationState]);
   writeNotNull('ThresholdType', _$ThresholdTypeEnumMap[instance.thresholdType]);
@@ -591,41 +569,26 @@ const _$NotificationStateEnumMap = {
 };
 
 Map<String, dynamic> _$NotificationWithSubscribersToJson(
-    NotificationWithSubscribers instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Notification', instance.notification?.toJson());
-  writeNotNull(
-      'Subscribers', instance.subscribers?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        NotificationWithSubscribers instance) =>
+    <String, dynamic>{
+      'Notification': instance.notification.toJson(),
+      'Subscribers': instance.subscribers.map((e) => e.toJson()).toList(),
+    };
 
 ScpActionDefinition _$ScpActionDefinitionFromJson(Map<String, dynamic> json) {
   return ScpActionDefinition(
     policyId: json['PolicyId'] as String,
-    targetIds: (json['TargetIds'] as List)?.map((e) => e as String)?.toList(),
+    targetIds:
+        (json['TargetIds'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$ScpActionDefinitionToJson(ScpActionDefinition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PolicyId', instance.policyId);
-  writeNotNull('TargetIds', instance.targetIds);
-  return val;
-}
+Map<String, dynamic> _$ScpActionDefinitionToJson(
+        ScpActionDefinition instance) =>
+    <String, dynamic>{
+      'PolicyId': instance.policyId,
+      'TargetIds': instance.targetIds,
+    };
 
 Spend _$SpendFromJson(Map<String, dynamic> json) {
   return Spend(
@@ -634,44 +597,27 @@ Spend _$SpendFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SpendToJson(Spend instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Amount', instance.amount);
-  writeNotNull('Unit', instance.unit);
-  return val;
-}
+Map<String, dynamic> _$SpendToJson(Spend instance) => <String, dynamic>{
+      'Amount': instance.amount,
+      'Unit': instance.unit,
+    };
 
 SsmActionDefinition _$SsmActionDefinitionFromJson(Map<String, dynamic> json) {
   return SsmActionDefinition(
-    actionSubType:
-        _$enumDecodeNullable(_$ActionSubTypeEnumMap, json['ActionSubType']),
+    actionSubType: _$enumDecode(_$ActionSubTypeEnumMap, json['ActionSubType']),
     instanceIds:
-        (json['InstanceIds'] as List)?.map((e) => e as String)?.toList(),
+        (json['InstanceIds'] as List<dynamic>).map((e) => e as String).toList(),
     region: json['Region'] as String,
   );
 }
 
-Map<String, dynamic> _$SsmActionDefinitionToJson(SsmActionDefinition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ActionSubType', _$ActionSubTypeEnumMap[instance.actionSubType]);
-  writeNotNull('InstanceIds', instance.instanceIds);
-  writeNotNull('Region', instance.region);
-  return val;
-}
+Map<String, dynamic> _$SsmActionDefinitionToJson(
+        SsmActionDefinition instance) =>
+    <String, dynamic>{
+      'ActionSubType': _$ActionSubTypeEnumMap[instance.actionSubType],
+      'InstanceIds': instance.instanceIds,
+      'Region': instance.region,
+    };
 
 const _$ActionSubTypeEnumMap = {
   ActionSubType.stopEc2Instances: 'STOP_EC2_INSTANCES',
@@ -681,25 +627,16 @@ const _$ActionSubTypeEnumMap = {
 Subscriber _$SubscriberFromJson(Map<String, dynamic> json) {
   return Subscriber(
     address: json['Address'] as String,
-    subscriptionType: _$enumDecodeNullable(
-        _$SubscriptionTypeEnumMap, json['SubscriptionType']),
+    subscriptionType:
+        _$enumDecode(_$SubscriptionTypeEnumMap, json['SubscriptionType']),
   );
 }
 
-Map<String, dynamic> _$SubscriberToJson(Subscriber instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Address', instance.address);
-  writeNotNull(
-      'SubscriptionType', _$SubscriptionTypeEnumMap[instance.subscriptionType]);
-  return val;
-}
+Map<String, dynamic> _$SubscriberToJson(Subscriber instance) =>
+    <String, dynamic>{
+      'Address': instance.address,
+      'SubscriptionType': _$SubscriptionTypeEnumMap[instance.subscriptionType],
+    };
 
 const _$SubscriptionTypeEnumMap = {
   SubscriptionType.sns: 'SNS',
@@ -732,12 +669,8 @@ UpdateBudgetActionResponse _$UpdateBudgetActionResponseFromJson(
   return UpdateBudgetActionResponse(
     accountId: json['AccountId'] as String,
     budgetName: json['BudgetName'] as String,
-    newAction: json['NewAction'] == null
-        ? null
-        : Action.fromJson(json['NewAction'] as Map<String, dynamic>),
-    oldAction: json['OldAction'] == null
-        ? null
-        : Action.fromJson(json['OldAction'] as Map<String, dynamic>),
+    newAction: Action.fromJson(json['NewAction'] as Map<String, dynamic>),
+    oldAction: Action.fromJson(json['OldAction'] as Map<String, dynamic>),
   );
 }
 

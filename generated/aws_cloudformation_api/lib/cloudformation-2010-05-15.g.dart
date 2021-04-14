@@ -35,19 +35,11 @@ Map<String, dynamic> _$DeploymentTargetsToJson(DeploymentTargets instance) {
   return val;
 }
 
-Map<String, dynamic> _$LoggingConfigToJson(LoggingConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LogGroupName', instance.logGroupName);
-  writeNotNull('LogRoleArn', instance.logRoleArn);
-  return val;
-}
+Map<String, dynamic> _$LoggingConfigToJson(LoggingConfig instance) =>
+    <String, dynamic>{
+      'LogGroupName': instance.logGroupName,
+      'LogRoleArn': instance.logRoleArn,
+    };
 
 Map<String, dynamic> _$ParameterToJson(Parameter instance) {
   final val = <String, dynamic>{};
@@ -65,20 +57,12 @@ Map<String, dynamic> _$ParameterToJson(Parameter instance) {
   return val;
 }
 
-Map<String, dynamic> _$ResourceToImportToJson(ResourceToImport instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LogicalResourceId', instance.logicalResourceId);
-  writeNotNull('ResourceIdentifier', instance.resourceIdentifier);
-  writeNotNull('ResourceType', instance.resourceType);
-  return val;
-}
+Map<String, dynamic> _$ResourceToImportToJson(ResourceToImport instance) =>
+    <String, dynamic>{
+      'LogicalResourceId': instance.logicalResourceId,
+      'ResourceIdentifier': instance.resourceIdentifier,
+      'ResourceType': instance.resourceType,
+    };
 
 Map<String, dynamic> _$RollbackConfigurationToJson(
     RollbackConfiguration instance) {
@@ -92,23 +76,15 @@ Map<String, dynamic> _$RollbackConfigurationToJson(
 
   writeNotNull('MonitoringTimeInMinutes', instance.monitoringTimeInMinutes);
   writeNotNull('RollbackTriggers',
-      instance.rollbackTriggers?.map((e) => e?.toJson())?.toList());
+      instance.rollbackTriggers?.map((e) => e.toJson()).toList());
   return val;
 }
 
-Map<String, dynamic> _$RollbackTriggerToJson(RollbackTrigger instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('Type', instance.type);
-  return val;
-}
+Map<String, dynamic> _$RollbackTriggerToJson(RollbackTrigger instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+      'Type': instance.type,
+    };
 
 Map<String, dynamic> _$StackInstanceFilterToJson(StackInstanceFilter instance) {
   final val = <String, dynamic>{};
@@ -147,16 +123,7 @@ Map<String, dynamic> _$StackSetOperationPreferencesToJson(
   return val;
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };

@@ -9,8 +9,8 @@ part of 'fsx-2018-03-01.dart';
 ActiveDirectoryBackupAttributes _$ActiveDirectoryBackupAttributesFromJson(
     Map<String, dynamic> json) {
   return ActiveDirectoryBackupAttributes(
-    activeDirectoryId: json['ActiveDirectoryId'] as String,
-    domainName: json['DomainName'] as String,
+    activeDirectoryId: json['ActiveDirectoryId'] as String?,
+    domainName: json['DomainName'] as String?,
   );
 }
 
@@ -22,7 +22,7 @@ AdministrativeAction _$AdministrativeActionFromJson(Map<String, dynamic> json) {
         ? null
         : AdministrativeActionFailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    progressPercent: json['ProgressPercent'] as int,
+    progressPercent: json['ProgressPercent'] as int?,
     requestTime: const UnixDateTimeConverter().fromJson(json['RequestTime']),
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
     targetFileSystemValues: json['TargetFileSystemValues'] == null
@@ -32,36 +32,41 @@ AdministrativeAction _$AdministrativeActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AdministrativeActionTypeEnumMap = {
@@ -84,14 +89,14 @@ const _$StatusEnumMap = {
 AdministrativeActionFailureDetails _$AdministrativeActionFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return AdministrativeActionFailureDetails(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 Alias _$AliasFromJson(Map<String, dynamic> json) {
   return Alias(
     lifecycle: _$enumDecodeNullable(_$AliasLifecycleEnumMap, json['Lifecycle']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
@@ -106,23 +111,19 @@ const _$AliasLifecycleEnumMap = {
 AssociateFileSystemAliasesResponse _$AssociateFileSystemAliasesResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateFileSystemAliasesResponse(
-    aliases: (json['Aliases'] as List)
-        ?.map(
-            (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => Alias.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Backup _$BackupFromJson(Map<String, dynamic> json) {
   return Backup(
     backupId: json['BackupId'] as String,
-    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    fileSystem: json['FileSystem'] == null
-        ? null
-        : FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
-    lifecycle:
-        _$enumDecodeNullable(_$BackupLifecycleEnumMap, json['Lifecycle']),
-    type: _$enumDecodeNullable(_$BackupTypeEnumMap, json['Type']),
+    creationTime: DateTime.parse(json['CreationTime'] as String),
+    fileSystem: FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
+    lifecycle: _$enumDecode(_$BackupLifecycleEnumMap, json['Lifecycle']),
+    type: _$enumDecode(_$BackupTypeEnumMap, json['Type']),
     directoryInformation: json['DirectoryInformation'] == null
         ? null
         : ActiveDirectoryBackupAttributes.fromJson(
@@ -131,12 +132,12 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
         ? null
         : BackupFailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    kmsKeyId: json['KmsKeyId'] as String,
-    progressPercent: json['ProgressPercent'] as int,
-    resourceARN: json['ResourceARN'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    kmsKeyId: json['KmsKeyId'] as String?,
+    progressPercent: json['ProgressPercent'] as int?,
+    resourceARN: json['ResourceARN'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -157,7 +158,7 @@ const _$BackupTypeEnumMap = {
 
 BackupFailureDetails _$BackupFailureDetailsFromJson(Map<String, dynamic> json) {
   return BackupFailureDetails(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -166,7 +167,7 @@ CancelDataRepositoryTaskResponse _$CancelDataRepositoryTaskResponseFromJson(
   return CancelDataRepositoryTaskResponse(
     lifecycle: _$enumDecodeNullable(
         _$DataRepositoryTaskLifecycleEnumMap, json['Lifecycle']),
-    taskId: json['TaskId'] as String,
+    taskId: json['TaskId'] as String?,
   );
 }
 
@@ -183,13 +184,15 @@ CompletionReport _$CompletionReportFromJson(Map<String, dynamic> json) {
   return CompletionReport(
     enabled: json['Enabled'] as bool,
     format: _$enumDecodeNullable(_$ReportFormatEnumMap, json['Format']),
-    path: json['Path'] as String,
+    path: json['Path'] as String?,
     scope: _$enumDecodeNullable(_$ReportScopeEnumMap, json['Scope']),
   );
 }
 
 Map<String, dynamic> _$CompletionReportToJson(CompletionReport instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -197,7 +200,6 @@ Map<String, dynamic> _$CompletionReportToJson(CompletionReport instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('Format', _$ReportFormatEnumMap[instance.format]);
   writeNotNull('Path', instance.path);
   writeNotNull('Scope', _$ReportScopeEnumMap[instance.scope]);
@@ -297,7 +299,9 @@ CreateFileSystemResponse _$CreateFileSystemResponseFromJson(
 
 Map<String, dynamic> _$CreateFileSystemWindowsConfigurationToJson(
     CreateFileSystemWindowsConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ThroughputCapacity': instance.throughputCapacity,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -305,7 +309,6 @@ Map<String, dynamic> _$CreateFileSystemWindowsConfigurationToJson(
     }
   }
 
-  writeNotNull('ThroughputCapacity', instance.throughputCapacity);
   writeNotNull('ActiveDirectoryId', instance.activeDirectoryId);
   writeNotNull('Aliases', instance.aliases);
   writeNotNull(
@@ -334,13 +337,13 @@ DataRepositoryConfiguration _$DataRepositoryConfigurationFromJson(
   return DataRepositoryConfiguration(
     autoImportPolicy: _$enumDecodeNullable(
         _$AutoImportPolicyTypeEnumMap, json['AutoImportPolicy']),
-    exportPath: json['ExportPath'] as String,
+    exportPath: json['ExportPath'] as String?,
     failureDetails: json['FailureDetails'] == null
         ? null
         : DataRepositoryFailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    importPath: json['ImportPath'] as String,
-    importedFileChunkSize: json['ImportedFileChunkSize'] as int,
+    importPath: json['ImportPath'] as String?,
+    importedFileChunkSize: json['ImportedFileChunkSize'] as int?,
     lifecycle: _$enumDecodeNullable(
         _$DataRepositoryLifecycleEnumMap, json['Lifecycle']),
   );
@@ -357,36 +360,36 @@ const _$DataRepositoryLifecycleEnumMap = {
 DataRepositoryFailureDetails _$DataRepositoryFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryFailureDetails(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
   return DataRepositoryTask(
-    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    creationTime: DateTime.parse(json['CreationTime'] as String),
     fileSystemId: json['FileSystemId'] as String,
-    lifecycle: _$enumDecodeNullable(
-        _$DataRepositoryTaskLifecycleEnumMap, json['Lifecycle']),
+    lifecycle:
+        _$enumDecode(_$DataRepositoryTaskLifecycleEnumMap, json['Lifecycle']),
     taskId: json['TaskId'] as String,
-    type: _$enumDecodeNullable(_$DataRepositoryTaskTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$DataRepositoryTaskTypeEnumMap, json['Type']),
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     failureDetails: json['FailureDetails'] == null
         ? null
         : DataRepositoryTaskFailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    paths: (json['Paths'] as List)?.map((e) => e as String)?.toList(),
+    paths: (json['Paths'] as List<dynamic>?)?.map((e) => e as String).toList(),
     report: json['Report'] == null
         ? null
         : CompletionReport.fromJson(json['Report'] as Map<String, dynamic>),
-    resourceARN: json['ResourceARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: json['Status'] == null
         ? null
         : DataRepositoryTaskStatus.fromJson(
             json['Status'] as Map<String, dynamic>),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -397,7 +400,7 @@ const _$DataRepositoryTaskTypeEnumMap = {
 DataRepositoryTaskFailureDetails _$DataRepositoryTaskFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryTaskFailureDetails(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -424,17 +427,17 @@ const _$DataRepositoryTaskFilterNameEnumMap = {
 DataRepositoryTaskStatus _$DataRepositoryTaskStatusFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryTaskStatus(
-    failedCount: json['FailedCount'] as int,
+    failedCount: json['FailedCount'] as int?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    succeededCount: json['SucceededCount'] as int,
-    totalCount: json['TotalCount'] as int,
+    succeededCount: json['SucceededCount'] as int?,
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 DeleteBackupResponse _$DeleteBackupResponseFromJson(Map<String, dynamic> json) {
   return DeleteBackupResponse(
-    backupId: json['BackupId'] as String,
+    backupId: json['BackupId'] as String?,
     lifecycle:
         _$enumDecodeNullable(_$BackupLifecycleEnumMap, json['Lifecycle']),
   );
@@ -451,7 +454,7 @@ Map<String, dynamic> _$DeleteFileSystemLustreConfigurationToJson(
   }
 
   writeNotNull('FinalBackupTags',
-      instance.finalBackupTags?.map((e) => e?.toJson())?.toList());
+      instance.finalBackupTags?.map((e) => e.toJson()).toList());
   writeNotNull('SkipFinalBackup', instance.skipFinalBackup);
   return val;
 }
@@ -459,17 +462,17 @@ Map<String, dynamic> _$DeleteFileSystemLustreConfigurationToJson(
 DeleteFileSystemLustreResponse _$DeleteFileSystemLustreResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFileSystemLustreResponse(
-    finalBackupId: json['FinalBackupId'] as String,
-    finalBackupTags: (json['FinalBackupTags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    finalBackupId: json['FinalBackupId'] as String?,
+    finalBackupTags: (json['FinalBackupTags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DeleteFileSystemResponse _$DeleteFileSystemResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFileSystemResponse(
-    fileSystemId: json['FileSystemId'] as String,
+    fileSystemId: json['FileSystemId'] as String?,
     lifecycle:
         _$enumDecodeNullable(_$FileSystemLifecycleEnumMap, json['Lifecycle']),
     lustreResponse: json['LustreResponse'] == null
@@ -503,7 +506,7 @@ Map<String, dynamic> _$DeleteFileSystemWindowsConfigurationToJson(
   }
 
   writeNotNull('FinalBackupTags',
-      instance.finalBackupTags?.map((e) => e?.toJson())?.toList());
+      instance.finalBackupTags?.map((e) => e.toJson()).toList());
   writeNotNull('SkipFinalBackup', instance.skipFinalBackup);
   return val;
 }
@@ -511,104 +514,97 @@ Map<String, dynamic> _$DeleteFileSystemWindowsConfigurationToJson(
 DeleteFileSystemWindowsResponse _$DeleteFileSystemWindowsResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFileSystemWindowsResponse(
-    finalBackupId: json['FinalBackupId'] as String,
-    finalBackupTags: (json['FinalBackupTags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    finalBackupId: json['FinalBackupId'] as String?,
+    finalBackupTags: (json['FinalBackupTags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupsResponse(
-    backups: (json['Backups'] as List)
-        ?.map((e) =>
-            e == null ? null : Backup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backups: (json['Backups'] as List<dynamic>?)
+        ?.map((e) => Backup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeDataRepositoryTasksResponse
     _$DescribeDataRepositoryTasksResponseFromJson(Map<String, dynamic> json) {
   return DescribeDataRepositoryTasksResponse(
-    dataRepositoryTasks: (json['DataRepositoryTasks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataRepositoryTask.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    dataRepositoryTasks: (json['DataRepositoryTasks'] as List<dynamic>?)
+        ?.map((e) => DataRepositoryTask.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFileSystemAliasesResponse _$DescribeFileSystemAliasesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFileSystemAliasesResponse(
-    aliases: (json['Aliases'] as List)
-        ?.map(
-            (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => Alias.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFileSystemsResponse _$DescribeFileSystemsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFileSystemsResponse(
-    fileSystems: (json['FileSystems'] as List)
-        ?.map((e) =>
-            e == null ? null : FileSystem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    fileSystems: (json['FileSystems'] as List<dynamic>?)
+        ?.map((e) => FileSystem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DisassociateFileSystemAliasesResponse
     _$DisassociateFileSystemAliasesResponseFromJson(Map<String, dynamic> json) {
   return DisassociateFileSystemAliasesResponse(
-    aliases: (json['Aliases'] as List)
-        ?.map(
-            (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => Alias.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 FileSystem _$FileSystemFromJson(Map<String, dynamic> json) {
   return FileSystem(
-    administrativeActions: (json['AdministrativeActions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdministrativeAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    administrativeActions: (json['AdministrativeActions'] as List<dynamic>?)
+        ?.map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    dNSName: json['DNSName'] as String,
+    dNSName: json['DNSName'] as String?,
     failureDetails: json['FailureDetails'] == null
         ? null
         : FileSystemFailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    fileSystemId: json['FileSystemId'] as String,
+    fileSystemId: json['FileSystemId'] as String?,
     fileSystemType:
         _$enumDecodeNullable(_$FileSystemTypeEnumMap, json['FileSystemType']),
-    kmsKeyId: json['KmsKeyId'] as String,
+    kmsKeyId: json['KmsKeyId'] as String?,
     lifecycle:
         _$enumDecodeNullable(_$FileSystemLifecycleEnumMap, json['Lifecycle']),
     lustreConfiguration: json['LustreConfiguration'] == null
         ? null
         : LustreFileSystemConfiguration.fromJson(
             json['LustreConfiguration'] as Map<String, dynamic>),
-    networkInterfaceIds: (json['NetworkInterfaceIds'] as List)
+    networkInterfaceIds: (json['NetworkInterfaceIds'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    ownerId: json['OwnerId'] as String,
-    resourceARN: json['ResourceARN'] as String,
-    storageCapacity: json['StorageCapacity'] as int,
+        .toList(),
+    ownerId: json['OwnerId'] as String?,
+    resourceARN: json['ResourceARN'] as String?,
+    storageCapacity: json['StorageCapacity'] as int?,
     storageType:
         _$enumDecodeNullable(_$StorageTypeEnumMap, json['StorageType']),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    vpcId: json['VpcId'] as String,
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    vpcId: json['VpcId'] as String?,
     windowsConfiguration: json['WindowsConfiguration'] == null
         ? null
         : WindowsFileSystemConfiguration.fromJson(
@@ -629,7 +625,7 @@ const _$StorageTypeEnumMap = {
 FileSystemFailureDetails _$FileSystemFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return FileSystemFailureDetails(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -656,20 +652,20 @@ const _$FilterNameEnumMap = {
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LustreFileSystemConfiguration _$LustreFileSystemConfigurationFromJson(
     Map<String, dynamic> json) {
   return LustreFileSystemConfiguration(
-    automaticBackupRetentionDays: json['AutomaticBackupRetentionDays'] as int,
-    copyTagsToBackups: json['CopyTagsToBackups'] as bool,
+    automaticBackupRetentionDays: json['AutomaticBackupRetentionDays'] as int?,
+    copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
     dailyAutomaticBackupStartTime:
-        json['DailyAutomaticBackupStartTime'] as String,
+        json['DailyAutomaticBackupStartTime'] as String?,
     dataRepositoryConfiguration: json['DataRepositoryConfiguration'] == null
         ? null
         : DataRepositoryConfiguration.fromJson(
@@ -678,28 +674,34 @@ LustreFileSystemConfiguration _$LustreFileSystemConfigurationFromJson(
         _$LustreDeploymentTypeEnumMap, json['DeploymentType']),
     driveCacheType:
         _$enumDecodeNullable(_$DriveCacheTypeEnumMap, json['DriveCacheType']),
-    mountName: json['MountName'] as String,
-    perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int,
-    weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String,
+    mountName: json['MountName'] as String?,
+    perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int?,
+    weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
   );
 }
 
 SelfManagedActiveDirectoryAttributes
     _$SelfManagedActiveDirectoryAttributesFromJson(Map<String, dynamic> json) {
   return SelfManagedActiveDirectoryAttributes(
-    dnsIps: (json['DnsIps'] as List)?.map((e) => e as String)?.toList(),
-    domainName: json['DomainName'] as String,
+    dnsIps:
+        (json['DnsIps'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    domainName: json['DomainName'] as String?,
     fileSystemAdministratorsGroup:
-        json['FileSystemAdministratorsGroup'] as String,
+        json['FileSystemAdministratorsGroup'] as String?,
     organizationalUnitDistinguishedName:
-        json['OrganizationalUnitDistinguishedName'] as String,
-    userName: json['UserName'] as String,
+        json['OrganizationalUnitDistinguishedName'] as String?,
+    userName: json['UserName'] as String?,
   );
 }
 
 Map<String, dynamic> _$SelfManagedActiveDirectoryConfigurationToJson(
     SelfManagedActiveDirectoryConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DnsIps': instance.dnsIps,
+    'DomainName': instance.domainName,
+    'Password': instance.password,
+    'UserName': instance.userName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -707,10 +709,6 @@ Map<String, dynamic> _$SelfManagedActiveDirectoryConfigurationToJson(
     }
   }
 
-  writeNotNull('DnsIps', instance.dnsIps);
-  writeNotNull('DomainName', instance.domainName);
-  writeNotNull('Password', instance.password);
-  writeNotNull('UserName', instance.userName);
   writeNotNull(
       'FileSystemAdministratorsGroup', instance.fileSystemAdministratorsGroup);
   writeNotNull('OrganizationalUnitDistinguishedName',
@@ -741,19 +739,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -819,34 +808,32 @@ Map<String, dynamic> _$UpdateFileSystemWindowsConfigurationToJson(
 WindowsFileSystemConfiguration _$WindowsFileSystemConfigurationFromJson(
     Map<String, dynamic> json) {
   return WindowsFileSystemConfiguration(
-    activeDirectoryId: json['ActiveDirectoryId'] as String,
-    aliases: (json['Aliases'] as List)
-        ?.map(
-            (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    automaticBackupRetentionDays: json['AutomaticBackupRetentionDays'] as int,
-    copyTagsToBackups: json['CopyTagsToBackups'] as bool,
+    activeDirectoryId: json['ActiveDirectoryId'] as String?,
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => Alias.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    automaticBackupRetentionDays: json['AutomaticBackupRetentionDays'] as int?,
+    copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
     dailyAutomaticBackupStartTime:
-        json['DailyAutomaticBackupStartTime'] as String,
+        json['DailyAutomaticBackupStartTime'] as String?,
     deploymentType: _$enumDecodeNullable(
         _$WindowsDeploymentTypeEnumMap, json['DeploymentType']),
     maintenanceOperationsInProgress: (json['MaintenanceOperationsInProgress']
-            as List)
-        ?.map((e) =>
-            _$enumDecodeNullable(_$FileSystemMaintenanceOperationEnumMap, e))
-        ?.toList(),
-    preferredFileServerIp: json['PreferredFileServerIp'] as String,
-    preferredSubnetId: json['PreferredSubnetId'] as String,
+            as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$FileSystemMaintenanceOperationEnumMap, e))
+        .toList(),
+    preferredFileServerIp: json['PreferredFileServerIp'] as String?,
+    preferredSubnetId: json['PreferredSubnetId'] as String?,
     remoteAdministrationEndpoint:
-        json['RemoteAdministrationEndpoint'] as String,
+        json['RemoteAdministrationEndpoint'] as String?,
     selfManagedActiveDirectoryConfiguration:
         json['SelfManagedActiveDirectoryConfiguration'] == null
             ? null
             : SelfManagedActiveDirectoryAttributes.fromJson(
                 json['SelfManagedActiveDirectoryConfiguration']
                     as Map<String, dynamic>),
-    throughputCapacity: json['ThroughputCapacity'] as int,
-    weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String,
+    throughputCapacity: json['ThroughputCapacity'] as int?,
+    weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
   );
 }
 

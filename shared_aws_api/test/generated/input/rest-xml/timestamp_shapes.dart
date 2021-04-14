@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class TimestampShapes {
   final _s.RestXmlProtocol _protocol;
   TimestampShapes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,22 +37,26 @@ class TimestampShapes {
         );
 
   Future<void> operationName0({
-    DateTime timeArg,
-    DateTime timeArgInHeader,
-    DateTime timeArgInQuery,
-    DateTime timeCustom,
-    DateTime timeCustomInHeader,
-    DateTime timeCustomInQuery,
-    DateTime timeFormat,
-    DateTime timeFormatInHeader,
-    DateTime timeFormatInQuery,
+    DateTime? timeArg,
+    DateTime? timeArgInHeader,
+    DateTime? timeArgInQuery,
+    DateTime? timeCustom,
+    DateTime? timeCustomInHeader,
+    DateTime? timeCustomInQuery,
+    DateTime? timeFormat,
+    DateTime? timeFormatInHeader,
+    DateTime? timeFormatInQuery,
   }) async {
-    final headers = <String, String>{};
-    timeArgInHeader?.let((v) => headers['x-amz-timearg'] = _s.rfc822ToJson(v));
-    timeCustomInHeader?.let((v) => headers['x-amz-timecustom-header'] =
-        _s.unixTimestampToJson(v).toString());
-    timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
-        _s.unixTimestampToJson(v).toString());
+    final headers = <String, String>{
+      if (timeArgInHeader != null)
+        'x-amz-timearg': _s.rfc822ToJson(timeArgInHeader),
+      if (timeCustomInHeader != null)
+        'x-amz-timecustom-header':
+            _s.unixTimestampToJson(timeCustomInHeader).toString(),
+      if (timeFormatInHeader != null)
+        'x-amz-timeformat-header':
+            _s.unixTimestampToJson(timeFormatInHeader).toString(),
+    };
     final $query = <String, List<String>>{
       if (timeArgInQuery != null)
         'TimeQuery': [_s.iso8601ToJson(timeArgInQuery).toString()],
@@ -87,15 +96,15 @@ class TimestampShapes {
 }
 
 class InputShape {
-  final DateTime timeArg;
-  final DateTime timeArgInHeader;
-  final DateTime timeArgInQuery;
-  final DateTime timeCustom;
-  final DateTime timeCustomInHeader;
-  final DateTime timeCustomInQuery;
-  final DateTime timeFormat;
-  final DateTime timeFormatInHeader;
-  final DateTime timeFormatInQuery;
+  final DateTime? timeArg;
+  final DateTime? timeArgInHeader;
+  final DateTime? timeArgInQuery;
+  final DateTime? timeCustom;
+  final DateTime? timeCustomInHeader;
+  final DateTime? timeCustomInQuery;
+  final DateTime? timeFormat;
+  final DateTime? timeFormatInHeader;
+  final DateTime? timeFormatInQuery;
 
   InputShape({
     this.timeArg,
@@ -108,7 +117,16 @@ class InputShape {
     this.timeFormatInHeader,
     this.timeFormatInQuery,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final timeArg = this.timeArg;
+    final timeArgInHeader = this.timeArgInHeader;
+    final timeArgInQuery = this.timeArgInQuery;
+    final timeCustom = this.timeCustom;
+    final timeCustomInHeader = this.timeCustomInHeader;
+    final timeCustomInQuery = this.timeCustomInQuery;
+    final timeFormat = this.timeFormat;
+    final timeFormatInHeader = this.timeFormatInHeader;
+    final timeFormatInQuery = this.timeFormatInQuery;
     final $children = <_s.XmlNode>[
       if (timeArg != null) _s.encodeXmlDateTimeValue('TimeArg', timeArg),
       if (timeCustom != null)
@@ -124,7 +142,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

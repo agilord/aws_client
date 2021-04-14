@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'iam-2010-05-08.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'iam-2010-05-08.g.dart';
 
 /// AWS Identity and Access Management (IAM) is a web service for securely
 /// controlling access to AWS services. With IAM, you can centrally manage
@@ -40,9 +32,9 @@ class IAM {
   final Map<String, _s.Shape> shapes;
 
   IAM({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,8 +67,8 @@ class IAM {
   /// resource to add the client ID to. You can get a list of OIDC provider ARNs
   /// by using the <a>ListOpenIDConnectProviders</a> operation.
   Future<void> addClientIDToOpenIDConnectProvider({
-    @_s.required String clientID,
-    @_s.required String openIDConnectProviderArn,
+    required String clientID,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
     _s.validateStringLength(
@@ -156,8 +148,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> addRoleToInstanceProfile({
-    @_s.required String instanceProfileName,
-    @_s.required String roleName,
+    required String instanceProfileName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -224,8 +216,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> addUserToGroup({
-    @_s.required String groupName,
-    @_s.required String userName,
+    required String groupName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -301,8 +293,8 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<void> attachGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyArn,
+    required String groupName,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -379,8 +371,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> attachRolePolicy({
-    @_s.required String policyArn,
-    @_s.required String roleName,
+    required String policyArn,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -450,8 +442,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> attachUserPolicy({
-    @_s.required String policyArn,
-    @_s.required String userName,
+    required String policyArn,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -524,8 +516,8 @@ class IAM {
   /// Parameter [oldPassword] :
   /// The IAM user's current password.
   Future<void> changePassword({
-    @_s.required String newPassword,
-    @_s.required String oldPassword,
+    required String newPassword,
+    required String oldPassword,
   }) async {
     ArgumentError.checkNotNull(newPassword, 'newPassword');
     _s.validateStringLength(
@@ -604,7 +596,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<CreateAccessKeyResponse> createAccessKey({
-    String userName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
@@ -650,7 +642,7 @@ class IAM {
   /// characters consisting of lowercase letters, digits, and dashes. You cannot
   /// start or finish with a dash, nor can you have two dashes in a row.
   Future<void> createAccountAlias({
-    @_s.required String accountAlias,
+    required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
     _s.validateStringLength(
@@ -715,8 +707,8 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<CreateGroupResponse> createGroup({
-    @_s.required String groupName,
-    String path,
+    required String groupName,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -798,8 +790,8 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<CreateInstanceProfileResponse> createInstanceProfile({
-    @_s.required String instanceProfileName,
-    String path,
+    required String instanceProfileName,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -882,9 +874,9 @@ class IAM {
   /// Specifies whether the user is required to set a new password on next
   /// sign-in.
   Future<CreateLoginProfileResponse> createLoginProfile({
-    @_s.required String password,
-    @_s.required String userName,
-    bool passwordResetRequired,
+    required String password,
+    required String userName,
+    bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -1018,9 +1010,9 @@ class IAM {
   /// <code>CreateOpenIDConnectProviderRequest</code> operation accepts client
   /// IDs up to 255 characters long.
   Future<CreateOpenIDConnectProviderResponse> createOpenIDConnectProvider({
-    @_s.required List<String> thumbprintList,
-    @_s.required String url,
-    List<String> clientIDList,
+    required List<String> thumbprintList,
+    required String url,
+    List<String>? clientIDList,
   }) async {
     ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     ArgumentError.checkNotNull(url, 'url');
@@ -1129,10 +1121,10 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<CreatePolicyResponse> createPolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    String description,
-    String path,
+    required String policyDocument,
+    required String policyName,
+    String? description,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -1266,9 +1258,9 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for Managed Policies</a> in the <i>IAM User Guide</i>.
   Future<CreatePolicyVersionResponse> createPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String policyDocument,
-    bool setAsDefault,
+    required String policyArn,
+    required String policyDocument,
+    bool? setAsDefault,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -1415,13 +1407,13 @@ class IAM {
   /// tags per role, then the entire request fails and the role is not created.
   /// </note>
   Future<CreateRoleResponse> createRole({
-    @_s.required String assumeRolePolicyDocument,
-    @_s.required String roleName,
-    String description,
-    int maxSessionDuration,
-    String path,
-    String permissionsBoundary,
-    List<Tag> tags,
+    required String assumeRolePolicyDocument,
+    required String roleName,
+    String? description,
+    int? maxSessionDuration,
+    String? path,
+    String? permissionsBoundary,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         assumeRolePolicyDocument, 'assumeRolePolicyDocument');
@@ -1559,8 +1551,8 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
   /// SAML 2.0-based Federation</a> in the <i>IAM User Guide</i>
   Future<CreateSAMLProviderResponse> createSAMLProvider({
-    @_s.required String name,
-    @_s.required String sAMLMetadataDocument,
+    required String name,
+    required String sAMLMetadataDocument,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1648,9 +1640,9 @@ class IAM {
   /// Parameter [description] :
   /// The description of the role.
   Future<CreateServiceLinkedRoleResponse> createServiceLinkedRole({
-    @_s.required String awsServiceName,
-    String customSuffix,
-    String description,
+    required String awsServiceName,
+    String? customSuffix,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(awsServiceName, 'awsServiceName');
     _s.validateStringLength(
@@ -1745,8 +1737,8 @@ class IAM {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<CreateServiceSpecificCredentialResponse>
       createServiceSpecificCredential({
-    @_s.required String serviceName,
-    @_s.required String userName,
+    required String serviceName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(serviceName, 'serviceName');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -1832,10 +1824,10 @@ class IAM {
   /// tags per user, then the entire request fails and the user is not created.
   /// </note>
   Future<CreateUserResponse> createUser({
-    @_s.required String userName,
-    String path,
-    String permissionsBoundary,
-    List<Tag> tags,
+    required String userName,
+    String? path,
+    String? permissionsBoundary,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -1936,8 +1928,8 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<CreateVirtualMFADeviceResponse> createVirtualMFADevice({
-    @_s.required String virtualMFADeviceName,
-    String path,
+    required String virtualMFADeviceName,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(virtualMFADeviceName, 'virtualMFADeviceName');
     _s.validateStringLength(
@@ -2012,8 +2004,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deactivateMFADevice({
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -2086,8 +2078,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteAccessKey({
-    @_s.required String accessKeyId,
-    String userName,
+    required String accessKeyId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -2146,7 +2138,7 @@ class IAM {
   /// characters consisting of lowercase letters, digits, and dashes. You cannot
   /// start or finish with a dash, nor can you have two dashes in a row.
   Future<void> deleteAccountAlias({
-    @_s.required String accountAlias,
+    required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
     _s.validateStringLength(
@@ -2210,7 +2202,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteGroup({
-    @_s.required String groupName,
+    required String groupName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -2270,8 +2262,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -2341,7 +2333,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteInstanceProfile({
-    @_s.required String instanceProfileName,
+    required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -2394,7 +2386,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteLoginProfile({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -2442,7 +2434,7 @@ class IAM {
   /// object to delete. You can get a list of OpenID Connect provider resource
   /// ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
   Future<void> deleteOpenIDConnectProvider({
-    @_s.required String openIDConnectProviderArn,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -2511,7 +2503,7 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<void> deletePolicy({
-    @_s.required String policyArn,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -2574,8 +2566,8 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for Managed Policies</a> in the <i>IAM User Guide</i>.
   Future<void> deletePolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -2633,7 +2625,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2678,7 +2670,7 @@ class IAM {
   /// The name (friendly name, not ARN) of the IAM role from which you want to
   /// remove the permissions boundary.
   Future<void> deleteRolePermissionsBoundary({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2739,8 +2731,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteRolePolicy({
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -2805,7 +2797,7 @@ class IAM {
   /// Parameter [sAMLProviderArn] :
   /// The Amazon Resource Name (ARN) of the SAML provider to delete.
   Future<void> deleteSAMLProvider({
-    @_s.required String sAMLProviderArn,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
     _s.validateStringLength(
@@ -2856,8 +2848,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteSSHPublicKey({
-    @_s.required String sSHPublicKeyId,
-    @_s.required String userName,
+    required String sSHPublicKeyId,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
     _s.validateStringLength(
@@ -2934,7 +2926,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteServerCertificate({
-    @_s.required String serverCertificateName,
+    required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -2994,7 +2986,7 @@ class IAM {
   /// Parameter [roleName] :
   /// The name of the service-linked role to be deleted.
   Future<DeleteServiceLinkedRoleResponse> deleteServiceLinkedRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -3048,8 +3040,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    String userName,
+    required String serviceSpecificCredentialId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -3119,8 +3111,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteSigningCertificate({
-    @_s.required String certificateId,
-    String userName,
+    required String certificateId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -3214,7 +3206,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteUser({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3258,7 +3250,7 @@ class IAM {
   /// The name (friendly name, not ARN) of the IAM user from which you want to
   /// remove the permissions boundary.
   Future<void> deleteUserPermissionsBoundary({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3318,8 +3310,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteUserPolicy({
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3385,7 +3377,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: =,.@:/-
   Future<void> deleteVirtualMFADevice({
-    @_s.required String serialNumber,
+    required String serialNumber,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -3445,8 +3437,8 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<void> detachGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyArn,
+    required String groupName,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -3516,8 +3508,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> detachRolePolicy({
-    @_s.required String policyArn,
-    @_s.required String roleName,
+    required String policyArn,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3586,8 +3578,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> detachUserPolicy({
-    @_s.required String policyArn,
-    @_s.required String userName,
+    required String policyArn,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3682,10 +3674,10 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> enableMFADevice({
-    @_s.required String authenticationCode1,
-    @_s.required String authenticationCode2,
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String authenticationCode1,
+    required String authenticationCode2,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
     _s.validateStringLength(
@@ -3939,8 +3931,8 @@ class IAM {
   /// that is limited by the SCP attempted to access an AWS service.
   Future<GenerateOrganizationsAccessReportResponse>
       generateOrganizationsAccessReport({
-    @_s.required String entityPath,
-    String organizationsPolicyId,
+    required String entityPath,
+    String? organizationsPolicyId,
   }) async {
     ArgumentError.checkNotNull(entityPath, 'entityPath');
     _s.validateStringLength(
@@ -4060,8 +4052,8 @@ class IAM {
   /// parameter, the operation generates service data.
   Future<GenerateServiceLastAccessedDetailsResponse>
       generateServiceLastAccessedDetails({
-    @_s.required String arn,
-    AccessAdvisorUsageGranularityType granularity,
+    required String arn,
+    AccessAdvisorUsageGranularityType? granularity,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4100,7 +4092,7 @@ class IAM {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters that can consist of any upper or lowercased letter or digit.
   Future<GetAccessKeyLastUsedResponse> getAccessKeyLastUsed({
-    @_s.required String accessKeyId,
+    required String accessKeyId,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -4179,9 +4171,9 @@ class IAM {
   /// from.
   Future<GetAccountAuthorizationDetailsResponse>
       getAccountAuthorizationDetails({
-    List<EntityType> filter,
-    String marker,
-    int maxItems,
+    List<EntityType>? filter,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -4201,8 +4193,8 @@ class IAM {
       1000,
     );
     final $request = <String, dynamic>{};
-    filter?.also((arg) =>
-        $request['Filter'] = arg.map((e) => e?.toValue() ?? '').toList());
+    filter?.also(
+        (arg) => $request['Filter'] = arg.map((e) => e.toValue()).toList());
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     final $result = await _protocol.send(
@@ -4304,7 +4296,7 @@ class IAM {
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForCustomPolicy({
-    @_s.required List<String> policyInputList,
+    required List<String> policyInputList,
   }) async {
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
     final $request = <String, dynamic>{};
@@ -4385,8 +4377,8 @@ class IAM {
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForPrincipalPolicy({
-    @_s.required String policySourceArn,
-    List<String> policyInputList,
+    required String policySourceArn,
+    List<String>? policyInputList,
   }) async {
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
     _s.validateStringLength(
@@ -4471,9 +4463,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<GetGroupResponse> getGroup({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
+    required String groupName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -4562,8 +4554,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetGroupPolicyResponse> getGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -4627,7 +4619,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetInstanceProfileResponse> getInstanceProfile({
-    @_s.required String instanceProfileName,
+    required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -4674,7 +4666,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetLoginProfileResponse> getLoginProfile({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -4723,7 +4715,7 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<GetOpenIDConnectProviderResponse> getOpenIDConnectProvider({
-    @_s.required String openIDConnectProviderArn,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -4805,10 +4797,10 @@ class IAM {
   /// the results are returned in alphabetical order. If you choose the time
   /// key, the results are sorted numerically by the date and time.
   Future<GetOrganizationsAccessReportResponse> getOrganizationsAccessReport({
-    @_s.required String jobId,
-    String marker,
-    int maxItems,
-    SortKeyType sortKey,
+    required String jobId,
+    String? marker,
+    int? maxItems,
+    SortKeyType? sortKey,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -4884,7 +4876,7 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String policyArn,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -4958,8 +4950,8 @@ class IAM {
   /// two digits, and optionally followed by a period '.' and a string of
   /// letters and digits.
   Future<GetPolicyVersionResponse> getPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -5018,7 +5010,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetRoleResponse> getRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -5092,8 +5084,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetRolePolicyResponse> getRolePolicy({
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5161,7 +5153,7 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<GetSAMLProviderResponse> getSAMLProvider({
-    @_s.required String sAMLProviderArn,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
     _s.validateStringLength(
@@ -5220,9 +5212,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetSSHPublicKeyResponse> getSSHPublicKey({
-    @_s.required EncodingType encoding,
-    @_s.required String sSHPublicKeyId,
-    @_s.required String userName,
+    required EncodingType encoding,
+    required String sSHPublicKeyId,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(encoding, 'encoding');
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
@@ -5291,7 +5283,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetServerCertificateResponse> getServerCertificate({
-    @_s.required String serverCertificateName,
+    required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -5411,9 +5403,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<GetServiceLastAccessedDetailsResponse> getServiceLastAccessedDetails({
-    @_s.required String jobId,
-    String marker,
-    int maxItems,
+    required String jobId,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5528,10 +5520,10 @@ class IAM {
   /// from.
   Future<GetServiceLastAccessedDetailsWithEntitiesResponse>
       getServiceLastAccessedDetailsWithEntities({
-    @_s.required String jobId,
-    @_s.required String serviceNamespace,
-    String marker,
-    int maxItems,
+    required String jobId,
+    required String serviceNamespace,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5609,7 +5601,7 @@ class IAM {
   /// <code>task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;</code>.
   Future<GetServiceLinkedRoleDeletionStatusResponse>
       getServiceLinkedRoleDeletionStatus({
-    @_s.required String deletionTaskId,
+    required String deletionTaskId,
   }) async {
     ArgumentError.checkNotNull(deletionTaskId, 'deletionTaskId');
     _s.validateStringLength(
@@ -5653,7 +5645,7 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetUserResponse> getUser({
-    String userName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
@@ -5720,8 +5712,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetUserPolicyResponse> getUserPolicy({
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5815,9 +5807,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListAccessKeysResponse> listAccessKeys({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -5891,8 +5883,8 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListAccountAliasesResponse> listAccountAliases({
-    String marker,
-    int maxItems,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -5987,10 +5979,10 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedGroupPoliciesResponse> listAttachedGroupPolicies({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String groupName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -6112,10 +6104,10 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedRolePoliciesResponse> listAttachedRolePolicies({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String roleName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -6237,10 +6229,10 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedUserPoliciesResponse> listAttachedUserPolicies({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String userName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -6378,12 +6370,12 @@ class IAM {
   /// This parameter is optional. If it is not included, all policies are
   /// returned.
   Future<ListEntitiesForPolicyResponse> listEntitiesForPolicy({
-    @_s.required String policyArn,
-    EntityType entityFilter,
-    String marker,
-    int maxItems,
-    String pathPrefix,
-    PolicyUsageType policyUsageFilter,
+    required String policyArn,
+    EntityType? entityFilter,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
+    PolicyUsageType? policyUsageFilter,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -6487,9 +6479,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListGroupPoliciesResponse> listGroupPolicies({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
+    required String groupName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -6580,9 +6572,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListGroupsResponse> listGroups({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -6665,9 +6657,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListGroupsForUserResponse> listGroupsForUser({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -6762,9 +6754,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListInstanceProfilesResponse> listInstanceProfiles({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -6851,9 +6843,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListInstanceProfilesForRoleResponse> listInstanceProfilesForRole({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -6943,9 +6935,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListMFADevicesResponse> listMFADevices({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -7092,12 +7084,12 @@ class IAM {
   /// This parameter is optional. If it is not included, or if it is set to
   /// <code>All</code>, all policies are returned.
   Future<ListPoliciesResponse> listPolicies({
-    String marker,
-    int maxItems,
-    bool onlyAttached,
-    String pathPrefix,
-    PolicyUsageType policyUsageFilter,
-    PolicyScopeType scope,
+    String? marker,
+    int? maxItems,
+    bool? onlyAttached,
+    String? pathPrefix,
+    PolicyUsageType? policyUsageFilter,
+    PolicyScopeType? scope,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -7221,9 +7213,9 @@ class IAM {
   /// indicate where the next call should start.
   Future<ListPoliciesGrantingServiceAccessResponse>
       listPoliciesGrantingServiceAccess({
-    @_s.required String arn,
-    @_s.required List<String> serviceNamespaces,
-    String marker,
+    required String arn,
+    required List<String> serviceNamespaces,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -7303,9 +7295,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListPolicyVersionsResponse> listPolicyVersions({
-    @_s.required String policyArn,
-    String marker,
-    int maxItems,
+    required String policyArn,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -7394,9 +7386,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListRolePoliciesResponse> listRolePolicies({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -7482,9 +7474,9 @@ class IAM {
   /// <code>true</code>, and <code>Marker</code> contains a value to include in
   /// the subsequent call that tells the service where to continue from.
   Future<ListRoleTagsResponse> listRoleTags({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -7579,9 +7571,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListRolesResponse> listRoles({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -7699,9 +7691,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListSSHPublicKeysResponse> listSSHPublicKeys({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -7796,9 +7788,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListServerCertificatesResponse> listServerCertificates({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -7874,8 +7866,8 @@ class IAM {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListServiceSpecificCredentialsResponse>
       listServiceSpecificCredentials({
-    String serviceName,
-    String userName,
+    String? serviceName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
@@ -7948,9 +7940,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListSigningCertificatesResponse> listSigningCertificates({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -8041,9 +8033,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListUserPoliciesResponse> listUserPolicies({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8129,9 +8121,9 @@ class IAM {
   /// <code>true</code>, and <code>Marker</code> contains a value to include in
   /// the subsequent call that tells the service where to continue from.
   Future<ListUserTagsResponse> listUserTags({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8224,9 +8216,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListUsersResponse> listUsers({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -8307,9 +8299,9 @@ class IAM {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListVirtualMFADevicesResponse> listVirtualMFADevices({
-    AssignmentStatusType assignmentStatus,
-    String marker,
-    int maxItems,
+    AssignmentStatusType? assignmentStatus,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -8416,9 +8408,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyDocument,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyDocument,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -8507,8 +8499,8 @@ class IAM {
   /// The name (friendly name, not ARN) of the IAM role for which you want to
   /// set the permissions boundary.
   Future<void> putRolePermissionsBoundary({
-    @_s.required String permissionsBoundary,
-    @_s.required String roleName,
+    required String permissionsBoundary,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
     _s.validateStringLength(
@@ -8625,9 +8617,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putRolePolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyDocument,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8713,8 +8705,8 @@ class IAM {
   /// The name (friendly name, not ARN) of the IAM user for which you want to
   /// set the permissions boundary.
   Future<void> putUserPermissionsBoundary({
-    @_s.required String permissionsBoundary,
-    @_s.required String userName,
+    required String permissionsBoundary,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
     _s.validateStringLength(
@@ -8823,9 +8815,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putUserPolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyDocument,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8911,8 +8903,8 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<void> removeClientIDFromOpenIDConnectProvider({
-    @_s.required String clientID,
-    @_s.required String openIDConnectProviderArn,
+    required String clientID,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
     _s.validateStringLength(
@@ -8980,8 +8972,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> removeRoleFromInstanceProfile({
-    @_s.required String instanceProfileName,
-    @_s.required String roleName,
+    required String instanceProfileName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -9048,8 +9040,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> removeUserFromGroup({
-    @_s.required String groupName,
-    @_s.required String userName,
+    required String groupName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -9119,8 +9111,8 @@ class IAM {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ResetServiceSpecificCredentialResponse>
       resetServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    String userName,
+    required String serviceSpecificCredentialId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -9204,10 +9196,10 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> resyncMFADevice({
-    @_s.required String authenticationCode1,
-    @_s.required String authenticationCode2,
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String authenticationCode1,
+    required String authenticationCode2,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
     _s.validateStringLength(
@@ -9314,8 +9306,8 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for Managed Policies</a> in the <i>IAM User Guide</i>.
   Future<void> setDefaultPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -9387,7 +9379,7 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
   /// and Deactivating STS in an AWS Region</a> in the <i>IAM User Guide</i>.
   Future<void> setSecurityTokenServicePreferences({
-    @_s.required GlobalEndpointTokenVersion globalEndpointTokenVersion,
+    required GlobalEndpointTokenVersion globalEndpointTokenVersion,
   }) async {
     ArgumentError.checkNotNull(
         globalEndpointTokenVersion, 'globalEndpointTokenVersion');
@@ -9645,17 +9637,17 @@ class IAM {
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulateCustomPolicy({
-    @_s.required List<String> actionNames,
-    @_s.required List<String> policyInputList,
-    String callerArn,
-    List<ContextEntry> contextEntries,
-    String marker,
-    int maxItems,
-    List<String> permissionsBoundaryPolicyInputList,
-    List<String> resourceArns,
-    String resourceHandlingOption,
-    String resourceOwner,
-    String resourcePolicy,
+    required List<String> actionNames,
+    required List<String> policyInputList,
+    String? callerArn,
+    List<ContextEntry>? contextEntries,
+    String? marker,
+    int? maxItems,
+    List<String>? permissionsBoundaryPolicyInputList,
+    List<String>? resourceArns,
+    String? resourceHandlingOption,
+    String? resourceOwner,
+    String? resourcePolicy,
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
@@ -9999,18 +9991,18 @@ class IAM {
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulatePrincipalPolicy({
-    @_s.required List<String> actionNames,
-    @_s.required String policySourceArn,
-    String callerArn,
-    List<ContextEntry> contextEntries,
-    String marker,
-    int maxItems,
-    List<String> permissionsBoundaryPolicyInputList,
-    List<String> policyInputList,
-    List<String> resourceArns,
-    String resourceHandlingOption,
-    String resourceOwner,
-    String resourcePolicy,
+    required List<String> actionNames,
+    required String policySourceArn,
+    String? callerArn,
+    List<ContextEntry>? contextEntries,
+    String? marker,
+    int? maxItems,
+    List<String>? permissionsBoundaryPolicyInputList,
+    List<String>? policyInputList,
+    List<String>? resourceArns,
+    String? resourceHandlingOption,
+    String? resourceOwner,
+    String? resourcePolicy,
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
@@ -10161,8 +10153,8 @@ class IAM {
   /// a key name and an associated value. You can specify this with a JSON
   /// string.
   Future<void> tagRole({
-    @_s.required String roleName,
-    @_s.required List<Tag> tags,
+    required String roleName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10258,8 +10250,8 @@ class IAM {
   /// with no spaces. You can also include any of the following characters:
   /// =,.@-
   Future<void> tagUser({
-    @_s.required List<Tag> tags,
-    @_s.required String userName,
+    required List<Tag> tags,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10313,8 +10305,8 @@ class IAM {
   /// A list of key names as a simple array of strings. The tags with matching
   /// keys are removed from the specified role.
   Future<void> untagRole({
-    @_s.required String roleName,
-    @_s.required List<String> tagKeys,
+    required String roleName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10368,8 +10360,8 @@ class IAM {
   /// with no spaces. You can also include any of the following characters:
   /// =,.@-
   Future<void> untagUser({
-    @_s.required List<String> tagKeys,
-    @_s.required String userName,
+    required List<String> tagKeys,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10439,9 +10431,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateAccessKey({
-    @_s.required String accessKeyId,
-    @_s.required StatusType status,
-    String userName,
+    required String accessKeyId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -10583,15 +10575,15 @@ class IAM {
   /// the default value of <code>false</code>. The result is that passwords do
   /// not require at least one uppercase character.
   Future<void> updateAccountPasswordPolicy({
-    bool allowUsersToChangePassword,
-    bool hardExpiry,
-    int maxPasswordAge,
-    int minimumPasswordLength,
-    int passwordReusePrevention,
-    bool requireLowercaseCharacters,
-    bool requireNumbers,
-    bool requireSymbols,
-    bool requireUppercaseCharacters,
+    bool? allowUsersToChangePassword,
+    bool? hardExpiry,
+    int? maxPasswordAge,
+    int? minimumPasswordLength,
+    int? passwordReusePrevention,
+    bool? requireLowercaseCharacters,
+    bool? requireNumbers,
+    bool? requireSymbols,
+    bool? requireUppercaseCharacters,
   }) async {
     _s.validateNumRange(
       'maxPasswordAge',
@@ -10685,8 +10677,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateAssumeRolePolicy({
-    @_s.required String policyDocument,
-    @_s.required String roleName,
+    required String policyDocument,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -10783,9 +10775,9 @@ class IAM {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<void> updateGroup({
-    @_s.required String groupName,
-    String newGroupName,
-    String newPath,
+    required String groupName,
+    String? newGroupName,
+    String? newPath,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -10889,9 +10881,9 @@ class IAM {
   /// Allows this new password to be used only once by requiring the specified
   /// IAM user to set a new password on next sign-in.
   Future<void> updateLoginProfile({
-    @_s.required String userName,
-    String password,
-    bool passwordResetRequired,
+    required String userName,
+    String? password,
+    bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -10973,8 +10965,8 @@ class IAM {
   /// IAM OpenID Connect provider. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
   Future<void> updateOpenIDConnectProviderThumbprint({
-    @_s.required String openIDConnectProviderArn,
-    @_s.required List<String> thumbprintList,
+    required String openIDConnectProviderArn,
+    required List<String> thumbprintList,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -11033,9 +11025,9 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using
   /// IAM Roles</a> in the <i>IAM User Guide</i>.
   Future<void> updateRole({
-    @_s.required String roleName,
-    String description,
-    int maxSessionDuration,
+    required String roleName,
+    String? description,
+    int? maxSessionDuration,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -11101,8 +11093,8 @@ class IAM {
   /// Parameter [roleName] :
   /// The name of the role that you want to modify.
   Future<UpdateRoleDescriptionResponse> updateRoleDescription({
-    @_s.required String description,
-    @_s.required String roleName,
+    required String description,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -11178,8 +11170,8 @@ class IAM {
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
   Future<UpdateSAMLProviderResponse> updateSAMLProvider({
-    @_s.required String sAMLMetadataDocument,
-    @_s.required String sAMLProviderArn,
+    required String sAMLMetadataDocument,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
     _s.validateStringLength(
@@ -11249,9 +11241,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateSSHPublicKey({
-    @_s.required String sSHPublicKeyId,
-    @_s.required StatusType status,
-    @_s.required String userName,
+    required String sSHPublicKeyId,
+    required StatusType status,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
     _s.validateStringLength(
@@ -11359,9 +11351,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateServerCertificate({
-    @_s.required String serverCertificateName,
-    String newPath,
-    String newServerCertificateName,
+    required String serverCertificateName,
+    String? newPath,
+    String? newServerCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -11444,9 +11436,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    @_s.required StatusType status,
-    String userName,
+    required String serviceSpecificCredentialId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -11525,9 +11517,9 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateSigningCertificate({
-    @_s.required String certificateId,
-    @_s.required StatusType status,
-    String userName,
+    required String certificateId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -11625,9 +11617,9 @@ class IAM {
   /// Names are not distinguished by case. For example, you cannot create
   /// resources named both "MyResource" and "myresource".
   Future<void> updateUser({
-    @_s.required String userName,
-    String newPath,
-    String newUserName,
+    required String userName,
+    String? newPath,
+    String? newUserName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11730,8 +11722,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<UploadSSHPublicKeyResponse> uploadSSHPublicKey({
-    @_s.required String sSHPublicKeyBody,
-    @_s.required String userName,
+    required String sSHPublicKeyBody,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyBody, 'sSHPublicKeyBody');
     _s.validateStringLength(
@@ -11916,11 +11908,11 @@ class IAM {
   /// <code>/cloudfront/test/</code>).
   /// </note>
   Future<UploadServerCertificateResponse> uploadServerCertificate({
-    @_s.required String certificateBody,
-    @_s.required String privateKey,
-    @_s.required String serverCertificateName,
-    String certificateChain,
-    String path,
+    required String certificateBody,
+    required String privateKey,
+    required String serverCertificateName,
+    String? certificateChain,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
     _s.validateStringLength(
@@ -12066,8 +12058,8 @@ class IAM {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<UploadSigningCertificateResponse> uploadSigningCertificate({
-    @_s.required String certificateBody,
-    String userName,
+    required String certificateBody,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
     _s.validateStringLength(
@@ -12113,9 +12105,7 @@ class IAM {
 }
 
 enum AccessAdvisorUsageGranularityType {
-  @_s.JsonValue('SERVICE_LEVEL')
   serviceLevel,
-  @_s.JsonValue('ACTION_LEVEL')
   actionLevel,
 }
 
@@ -12127,7 +12117,6 @@ extension on AccessAdvisorUsageGranularityType {
       case AccessAdvisorUsageGranularityType.actionLevel:
         return 'ACTION_LEVEL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12139,7 +12128,8 @@ extension on String {
       case 'ACTION_LEVEL':
         return AccessAdvisorUsageGranularityType.actionLevel;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum AccessAdvisorUsageGranularityType');
   }
 }
 
@@ -12175,7 +12165,7 @@ class AccessDetail {
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String entityPath;
+  final String? entityPath;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when an authenticated principal most recently
@@ -12186,7 +12176,7 @@ class AccessDetail {
   /// attempted to access the service within the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticatedTime;
+  final DateTime? lastAuthenticatedTime;
 
   /// The Region where the last service access attempt occurred.
   ///
@@ -12194,15 +12184,15 @@ class AccessDetail {
   /// attempted to access the service within the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String region;
+  final String? region;
 
   /// The number of accounts with authenticated principals (root users, IAM users,
   /// and IAM roles) that attempted to access the service in the reporting period.
-  final int totalAuthenticatedEntities;
+  final int? totalAuthenticatedEntities;
 
   AccessDetail({
-    @_s.required this.serviceName,
-    @_s.required this.serviceNamespace,
+    required this.serviceName,
+    required this.serviceNamespace,
     this.entityPath,
     this.lastAuthenticatedTime,
     this.region,
@@ -12210,8 +12200,8 @@ class AccessDetail {
   });
   factory AccessDetail.fromXml(_s.XmlElement elem) {
     return AccessDetail(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
       entityPath: _s.extractXmlStringValue(elem, 'EntityPath'),
       lastAuthenticatedTime:
           _s.extractXmlDateTimeValue(elem, 'LastAuthenticatedTime'),
@@ -12247,21 +12237,21 @@ class AccessKey {
   final String userName;
 
   /// The date when the access key was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   AccessKey({
-    @_s.required this.accessKeyId,
-    @_s.required this.secretAccessKey,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.accessKeyId,
+    required this.secretAccessKey,
+    required this.status,
+    required this.userName,
     this.createDate,
   });
   factory AccessKey.fromXml(_s.XmlElement elem) {
     return AccessKey(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
     );
   }
@@ -12329,15 +12319,15 @@ class AccessKeyLastUsed {
   final String serviceName;
 
   AccessKeyLastUsed({
-    @_s.required this.lastUsedDate,
-    @_s.required this.region,
-    @_s.required this.serviceName,
+    required this.lastUsedDate,
+    required this.region,
+    required this.serviceName,
   });
   factory AccessKeyLastUsed.fromXml(_s.XmlElement elem) {
     return AccessKeyLastUsed(
-      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
+      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate')!,
+      region: _s.extractXmlStringValue(elem, 'Region')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
     );
   }
 }
@@ -12348,17 +12338,17 @@ class AccessKeyLastUsed {
 /// operation.
 class AccessKeyMetadata {
   /// The ID for this access key.
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// The date when the access key was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The status of the access key. <code>Active</code> means that the key is
   /// valid for API calls; <code>Inactive</code> means it is not.
-  final StatusType status;
+  final StatusType? status;
 
   /// The name of the IAM user that the key is associated with.
-  final String userName;
+  final String? userName;
 
   AccessKeyMetadata({
     this.accessKeyId,
@@ -12387,12 +12377,12 @@ class AccessKeyMetadata {
 class AttachedPermissionsBoundary {
   /// The ARN of the policy used to set the permissions boundary for the user or
   /// role.
-  final String permissionsBoundaryArn;
+  final String? permissionsBoundaryArn;
 
   /// The permissions boundary usage type that indicates what type of IAM resource
   /// is used as the permissions boundary for an entity. This data type can only
   /// have a value of <code>Policy</code>.
-  final PermissionsBoundaryAttachmentType permissionsBoundaryType;
+  final PermissionsBoundaryAttachmentType? permissionsBoundaryType;
 
   AttachedPermissionsBoundary({
     this.permissionsBoundaryArn,
@@ -12421,10 +12411,10 @@ class AttachedPermissionsBoundary {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
 class AttachedPolicy {
-  final String policyArn;
+  final String? policyArn;
 
   /// The friendly name of the attached policy.
-  final String policyName;
+  final String? policyName;
 
   AttachedPolicy({
     this.policyArn,
@@ -12445,61 +12435,81 @@ class AttachedPolicy {
 ///
 /// This data type is used as an input parameter to <a>SimulateCustomPolicy</a>
 /// and <a>SimulatePrincipalPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContextEntry {
   /// The full name of a condition context key, including the service prefix. For
   /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
-  @_s.JsonKey(name: 'ContextKeyName')
-  final String contextKeyName;
+  final String? contextKeyName;
 
   /// The data type of the value (or values) specified in the
   /// <code>ContextKeyValues</code> parameter.
-  @_s.JsonKey(name: 'ContextKeyType')
-  final ContextKeyTypeEnum contextKeyType;
+  final ContextKeyTypeEnum? contextKeyType;
 
   /// The value (or values, if the condition context key supports multiple values)
   /// to provide to the simulation when the key is referenced by a
   /// <code>Condition</code> element in an input policy.
-  @_s.JsonKey(name: 'ContextKeyValues')
-  final List<String> contextKeyValues;
+  final List<String>? contextKeyValues;
 
   ContextEntry({
     this.contextKeyName,
     this.contextKeyType,
     this.contextKeyValues,
   });
-  Map<String, dynamic> toJson() => _$ContextEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final contextKeyName = this.contextKeyName;
+    final contextKeyType = this.contextKeyType;
+    final contextKeyValues = this.contextKeyValues;
+    return {
+      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.toValue(),
+      if (contextKeyValues != null) 'ContextKeyValues': contextKeyValues,
+    };
+  }
 }
 
 enum ContextKeyTypeEnum {
-  @_s.JsonValue('string')
   string,
-  @_s.JsonValue('stringList')
   stringList,
-  @_s.JsonValue('numeric')
   numeric,
-  @_s.JsonValue('numericList')
   numericList,
-  @_s.JsonValue('boolean')
   boolean,
-  @_s.JsonValue('booleanList')
   booleanList,
-  @_s.JsonValue('ip')
   ip,
-  @_s.JsonValue('ipList')
   ipList,
-  @_s.JsonValue('binary')
   binary,
-  @_s.JsonValue('binaryList')
   binaryList,
-  @_s.JsonValue('date')
   date,
-  @_s.JsonValue('dateList')
   dateList,
+}
+
+extension on ContextKeyTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ContextKeyTypeEnum.string:
+        return 'string';
+      case ContextKeyTypeEnum.stringList:
+        return 'stringList';
+      case ContextKeyTypeEnum.numeric:
+        return 'numeric';
+      case ContextKeyTypeEnum.numericList:
+        return 'numericList';
+      case ContextKeyTypeEnum.boolean:
+        return 'boolean';
+      case ContextKeyTypeEnum.booleanList:
+        return 'booleanList';
+      case ContextKeyTypeEnum.ip:
+        return 'ip';
+      case ContextKeyTypeEnum.ipList:
+        return 'ipList';
+      case ContextKeyTypeEnum.binary:
+        return 'binary';
+      case ContextKeyTypeEnum.binaryList:
+        return 'binaryList';
+      case ContextKeyTypeEnum.date:
+        return 'date';
+      case ContextKeyTypeEnum.dateList:
+        return 'dateList';
+    }
+  }
 }
 
 extension on String {
@@ -12530,7 +12540,7 @@ extension on String {
       case 'dateList':
         return ContextKeyTypeEnum.dateList;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ContextKeyTypeEnum');
   }
 }
 
@@ -12540,13 +12550,11 @@ class CreateAccessKeyResponse {
   final AccessKey accessKey;
 
   CreateAccessKeyResponse({
-    @_s.required this.accessKey,
+    required this.accessKey,
   });
   factory CreateAccessKeyResponse.fromXml(_s.XmlElement elem) {
     return CreateAccessKeyResponse(
-      accessKey: _s
-          .extractXmlChild(elem, 'AccessKey')
-          ?.let((e) => AccessKey.fromXml(e)),
+      accessKey: AccessKey.fromXml(_s.extractXmlChild(elem, 'AccessKey')!),
     );
   }
 }
@@ -12557,11 +12565,11 @@ class CreateGroupResponse {
   final Group group;
 
   CreateGroupResponse({
-    @_s.required this.group,
+    required this.group,
   });
   factory CreateGroupResponse.fromXml(_s.XmlElement elem) {
     return CreateGroupResponse(
-      group: _s.extractXmlChild(elem, 'Group')?.let((e) => Group.fromXml(e)),
+      group: Group.fromXml(_s.extractXmlChild(elem, 'Group')!),
     );
   }
 }
@@ -12572,13 +12580,12 @@ class CreateInstanceProfileResponse {
   final InstanceProfile instanceProfile;
 
   CreateInstanceProfileResponse({
-    @_s.required this.instanceProfile,
+    required this.instanceProfile,
   });
   factory CreateInstanceProfileResponse.fromXml(_s.XmlElement elem) {
     return CreateInstanceProfileResponse(
-      instanceProfile: _s
-          .extractXmlChild(elem, 'InstanceProfile')
-          ?.let((e) => InstanceProfile.fromXml(e)),
+      instanceProfile:
+          InstanceProfile.fromXml(_s.extractXmlChild(elem, 'InstanceProfile')!),
     );
   }
 }
@@ -12589,13 +12596,12 @@ class CreateLoginProfileResponse {
   final LoginProfile loginProfile;
 
   CreateLoginProfileResponse({
-    @_s.required this.loginProfile,
+    required this.loginProfile,
   });
   factory CreateLoginProfileResponse.fromXml(_s.XmlElement elem) {
     return CreateLoginProfileResponse(
-      loginProfile: _s
-          .extractXmlChild(elem, 'LoginProfile')
-          ?.let((e) => LoginProfile.fromXml(e)),
+      loginProfile:
+          LoginProfile.fromXml(_s.extractXmlChild(elem, 'LoginProfile')!),
     );
   }
 }
@@ -12605,7 +12611,7 @@ class CreateLoginProfileResponse {
 class CreateOpenIDConnectProviderResponse {
   /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that
   /// is created. For more information, see <a>OpenIDConnectProviderListEntry</a>.
-  final String openIDConnectProviderArn;
+  final String? openIDConnectProviderArn;
 
   CreateOpenIDConnectProviderResponse({
     this.openIDConnectProviderArn,
@@ -12621,7 +12627,7 @@ class CreateOpenIDConnectProviderResponse {
 /// Contains the response to a successful <a>CreatePolicy</a> request.
 class CreatePolicyResponse {
   /// A structure containing details about the new policy.
-  final Policy policy;
+  final Policy? policy;
 
   CreatePolicyResponse({
     this.policy,
@@ -12636,7 +12642,7 @@ class CreatePolicyResponse {
 /// Contains the response to a successful <a>CreatePolicyVersion</a> request.
 class CreatePolicyVersionResponse {
   /// A structure containing details about the new policy version.
-  final PolicyVersion policyVersion;
+  final PolicyVersion? policyVersion;
 
   CreatePolicyVersionResponse({
     this.policyVersion,
@@ -12656,11 +12662,11 @@ class CreateRoleResponse {
   final Role role;
 
   CreateRoleResponse({
-    @_s.required this.role,
+    required this.role,
   });
   factory CreateRoleResponse.fromXml(_s.XmlElement elem) {
     return CreateRoleResponse(
-      role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
+      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
     );
   }
 }
@@ -12668,7 +12674,7 @@ class CreateRoleResponse {
 /// Contains the response to a successful <a>CreateSAMLProvider</a> request.
 class CreateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
-  final String sAMLProviderArn;
+  final String? sAMLProviderArn;
 
   CreateSAMLProviderResponse({
     this.sAMLProviderArn,
@@ -12682,7 +12688,7 @@ class CreateSAMLProviderResponse {
 
 class CreateServiceLinkedRoleResponse {
   /// A <a>Role</a> object that contains details about the newly created role.
-  final Role role;
+  final Role? role;
 
   CreateServiceLinkedRoleResponse({
     this.role,
@@ -12702,7 +12708,7 @@ class CreateServiceSpecificCredentialResponse {
   /// available. It cannot be recovered later. Instead, you must reset the
   /// password with <a>ResetServiceSpecificCredential</a>.
   /// </important>
-  final ServiceSpecificCredential serviceSpecificCredential;
+  final ServiceSpecificCredential? serviceSpecificCredential;
 
   CreateServiceSpecificCredentialResponse({
     this.serviceSpecificCredential,
@@ -12719,7 +12725,7 @@ class CreateServiceSpecificCredentialResponse {
 /// Contains the response to a successful <a>CreateUser</a> request.
 class CreateUserResponse {
   /// A structure with details about the new IAM user.
-  final User user;
+  final User? user;
 
   CreateUserResponse({
     this.user,
@@ -12737,13 +12743,12 @@ class CreateVirtualMFADeviceResponse {
   final VirtualMFADevice virtualMFADevice;
 
   CreateVirtualMFADeviceResponse({
-    @_s.required this.virtualMFADevice,
+    required this.virtualMFADevice,
   });
   factory CreateVirtualMFADeviceResponse.fromXml(_s.XmlElement elem) {
     return CreateVirtualMFADeviceResponse(
-      virtualMFADevice: _s
-          .extractXmlChild(elem, 'VirtualMFADevice')
-          ?.let((e) => VirtualMFADevice.fromXml(e)),
+      virtualMFADevice: VirtualMFADevice.fromXml(
+          _s.extractXmlChild(elem, 'VirtualMFADevice')!),
     );
   }
 }
@@ -12755,11 +12760,11 @@ class DeleteServiceLinkedRoleResponse {
   final String deletionTaskId;
 
   DeleteServiceLinkedRoleResponse({
-    @_s.required this.deletionTaskId,
+    required this.deletionTaskId,
   });
   factory DeleteServiceLinkedRoleResponse.fromXml(_s.XmlElement elem) {
     return DeleteServiceLinkedRoleResponse(
-      deletionTaskId: _s.extractXmlStringValue(elem, 'DeletionTaskId'),
+      deletionTaskId: _s.extractXmlStringValue(elem, 'DeletionTaskId')!,
     );
   }
 }
@@ -12771,7 +12776,7 @@ class DeleteServiceLinkedRoleResponse {
 class DeletionTaskFailureReasonType {
   /// A short description of the reason that the service-linked role deletion
   /// failed.
-  final String reason;
+  final String? reason;
 
   /// A list of objects that contains details about the service-linked role
   /// deletion failure, if that information is returned by the service. If the
@@ -12779,7 +12784,7 @@ class DeletionTaskFailureReasonType {
   /// by the role have not been deleted from the linked service, the role can't be
   /// deleted. This parameter includes a list of the resources that are associated
   /// with the role and the Region in which the resources are being used.
-  final List<RoleUsageType> roleUsageList;
+  final List<RoleUsageType>? roleUsageList;
 
   DeletionTaskFailureReasonType({
     this.reason,
@@ -12798,14 +12803,25 @@ class DeletionTaskFailureReasonType {
 }
 
 enum DeletionTaskStatusType {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
+}
+
+extension on DeletionTaskStatusType {
+  String toValue() {
+    switch (this) {
+      case DeletionTaskStatusType.succeeded:
+        return 'SUCCEEDED';
+      case DeletionTaskStatusType.inProgress:
+        return 'IN_PROGRESS';
+      case DeletionTaskStatusType.failed:
+        return 'FAILED';
+      case DeletionTaskStatusType.notStarted:
+        return 'NOT_STARTED';
+    }
+  }
 }
 
 extension on String {
@@ -12820,7 +12836,7 @@ extension on String {
       case 'NOT_STARTED':
         return DeletionTaskStatusType.notStarted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DeletionTaskStatusType');
   }
 }
 
@@ -12842,17 +12858,15 @@ class EntityDetails {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticated;
+  final DateTime? lastAuthenticated;
 
   EntityDetails({
-    @_s.required this.entityInfo,
+    required this.entityInfo,
     this.lastAuthenticated,
   });
   factory EntityDetails.fromXml(_s.XmlElement elem) {
     return EntityDetails(
-      entityInfo: _s
-          .extractXmlChild(elem, 'EntityInfo')
-          ?.let((e) => EntityInfo.fromXml(e)),
+      entityInfo: EntityInfo.fromXml(_s.extractXmlChild(elem, 'EntityInfo')!),
       lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
     );
   }
@@ -12877,36 +12891,31 @@ class EntityInfo {
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   EntityInfo({
-    @_s.required this.arn,
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.arn,
+    required this.id,
+    required this.name,
+    required this.type,
     this.path,
   });
   factory EntityInfo.fromXml(_s.XmlElement elem) {
     return EntityInfo(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toPolicyOwnerEntityType(),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.toPolicyOwnerEntityType(),
       path: _s.extractXmlStringValue(elem, 'Path'),
     );
   }
 }
 
 enum EntityType {
-  @_s.JsonValue('User')
   user,
-  @_s.JsonValue('Role')
   role,
-  @_s.JsonValue('Group')
   group,
-  @_s.JsonValue('LocalManagedPolicy')
   localManagedPolicy,
-  @_s.JsonValue('AWSManagedPolicy')
   awsManagedPolicy,
 }
 
@@ -12924,7 +12933,6 @@ extension on EntityType {
       case EntityType.awsManagedPolicy:
         return 'AWSManagedPolicy';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12942,7 +12950,7 @@ extension on String {
       case 'AWSManagedPolicy':
         return EntityType.awsManagedPolicy;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EntityType');
   }
 }
 
@@ -12959,13 +12967,13 @@ class ErrorDetails {
   final String message;
 
   ErrorDetails({
-    @_s.required this.code,
-    @_s.required this.message,
+    required this.code,
+    required this.message,
   });
   factory ErrorDetails.fromXml(_s.XmlElement elem) {
     return ErrorDetails(
-      code: _s.extractXmlStringValue(elem, 'Code'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
+      code: _s.extractXmlStringValue(elem, 'Code')!,
+      message: _s.extractXmlStringValue(elem, 'Message')!,
     );
   }
 }
@@ -13002,17 +13010,17 @@ class EvaluationResult {
   /// If an AWS Organizations SCP included in the evaluation denies access, the
   /// simulation ends. In this case, policy evaluation does not proceed any
   /// further and this parameter is not returned.
-  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
 
   /// The ARN of the resource that the indicated API operation was tested on.
-  final String evalResourceName;
+  final String? evalResourceName;
 
   /// A list of the statements in the input policies that determine the result for
   /// this scenario. Remember that even if multiple statements allow the operation
   /// on the resource, if only one statement denies that operation, then the
   /// explicit deny overrides any allow. In addition, the deny statement is the
   /// only entry included in the result.
-  final List<Statement> matchedStatements;
+  final List<Statement>? matchedStatements;
 
   /// A list of context keys that are required by the included input policies but
   /// that were not provided by one of the input parameters. This list is used
@@ -13022,24 +13030,24 @@ class EvaluationResult {
   /// <code>ResourceSpecificResults</code> section. To discover the context keys
   /// used by a set of policies, you can call <a>GetContextKeysForCustomPolicy</a>
   /// or <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String> missingContextValues;
+  final List<String>? missingContextValues;
 
   /// A structure that details how Organizations and its service control policies
   /// affect the results of the simulation. Only applies if the simulated user's
   /// account is part of an organization.
-  final OrganizationsDecisionDetail organizationsDecisionDetail;
+  final OrganizationsDecisionDetail? organizationsDecisionDetail;
 
   /// Contains information about the effect that a permissions boundary has on a
   /// policy simulation when the boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
 
   /// The individual results of the simulation of the API operation specified in
   /// EvalActionName on each resource.
-  final List<ResourceSpecificResult> resourceSpecificResults;
+  final List<ResourceSpecificResult>? resourceSpecificResults;
 
   EvaluationResult({
-    @_s.required this.evalActionName,
-    @_s.required this.evalDecision,
+    required this.evalActionName,
+    required this.evalDecision,
     this.evalDecisionDetails,
     this.evalResourceName,
     this.matchedStatements,
@@ -13050,19 +13058,20 @@ class EvaluationResult {
   });
   factory EvaluationResult.fromXml(_s.XmlElement elem) {
     return EvaluationResult(
-      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName'),
+      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
       evalDecision: _s
-          .extractXmlStringValue(elem, 'EvalDecision')
-          ?.toPolicyEvaluationDecisionType(),
+          .extractXmlStringValue(elem, 'EvalDecision')!
+          .toPolicyEvaluationDecisionType(),
       evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlStringValue(c, 'value')
-                    ?.toPolicyEvaluationDecisionType(),
-              ),
-            ),
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .toPolicyEvaluationDecisionType(),
+                  ),
+                ) ??
+            {},
       ),
       evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
@@ -13093,10 +13102,10 @@ class EvaluationResult {
 /// request.
 class GenerateCredentialReportResponse {
   /// Information about the credential report.
-  final String description;
+  final String? description;
 
   /// Information about the state of the credential report.
-  final ReportStateType state;
+  final ReportStateType? state;
 
   GenerateCredentialReportResponse({
     this.description,
@@ -13113,7 +13122,7 @@ class GenerateCredentialReportResponse {
 class GenerateOrganizationsAccessReportResponse {
   /// The job identifier that you can use in the
   /// <a>GetOrganizationsAccessReport</a> operation.
-  final String jobId;
+  final String? jobId;
 
   GenerateOrganizationsAccessReportResponse({
     this.jobId,
@@ -13134,7 +13143,7 @@ class GenerateServiceLastAccessedDetailsResponse {
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same role
   /// within a session, or by the same user when used to call
   /// <code>GetServiceLastAccessedDetail</code>.
-  final String jobId;
+  final String? jobId;
 
   GenerateServiceLastAccessedDetailsResponse({
     this.jobId,
@@ -13152,11 +13161,11 @@ class GenerateServiceLastAccessedDetailsResponse {
 /// returned by the <a>ListAccessKeys</a> action.
 class GetAccessKeyLastUsedResponse {
   /// Contains information about the last time the access key was used.
-  final AccessKeyLastUsed accessKeyLastUsed;
+  final AccessKeyLastUsed? accessKeyLastUsed;
 
   /// The name of the AWS IAM user that owns this access key.
   /// <p/>
-  final String userName;
+  final String? userName;
 
   GetAccessKeyLastUsedResponse({
     this.accessKeyLastUsed,
@@ -13176,7 +13185,7 @@ class GetAccessKeyLastUsedResponse {
 /// request.
 class GetAccountAuthorizationDetailsResponse {
   /// A list containing information about IAM groups.
-  final List<GroupDetail> groupDetailList;
+  final List<GroupDetail>? groupDetailList;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13185,21 +13194,21 @@ class GetAccountAuthorizationDetailsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list containing information about managed policies.
-  final List<ManagedPolicyDetail> policies;
+  final List<ManagedPolicyDetail>? policies;
 
   /// A list containing information about IAM roles.
-  final List<RoleDetail> roleDetailList;
+  final List<RoleDetail>? roleDetailList;
 
   /// A list containing information about IAM users.
-  final List<UserDetail> userDetailList;
+  final List<UserDetail>? userDetailList;
 
   GetAccountAuthorizationDetailsResponse({
     this.groupDetailList,
@@ -13243,13 +13252,12 @@ class GetAccountPasswordPolicyResponse {
   final PasswordPolicy passwordPolicy;
 
   GetAccountPasswordPolicyResponse({
-    @_s.required this.passwordPolicy,
+    required this.passwordPolicy,
   });
   factory GetAccountPasswordPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetAccountPasswordPolicyResponse(
-      passwordPolicy: _s
-          .extractXmlChild(elem, 'PasswordPolicy')
-          ?.let((e) => PasswordPolicy.fromXml(e)),
+      passwordPolicy:
+          PasswordPolicy.fromXml(_s.extractXmlChild(elem, 'PasswordPolicy')!),
     );
   }
 }
@@ -13258,7 +13266,7 @@ class GetAccountPasswordPolicyResponse {
 class GetAccountSummaryResponse {
   /// A set of key–value pairs containing information about IAM entity usage and
   /// IAM quotas.
-  final Map<SummaryKeyType, int> summaryMap;
+  final Map<SummaryKeyType, int>? summaryMap;
 
   GetAccountSummaryResponse({
     this.summaryMap,
@@ -13266,12 +13274,13 @@ class GetAccountSummaryResponse {
   factory GetAccountSummaryResponse.fromXml(_s.XmlElement elem) {
     return GetAccountSummaryResponse(
       summaryMap: Map.fromEntries(
-        elem.getElement('SummaryMap').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key')?.toSummaryKeyType(),
-                _s.extractXmlIntValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('SummaryMap')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!.toSummaryKeyType(),
+                    _s.extractXmlIntValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -13282,7 +13291,7 @@ class GetAccountSummaryResponse {
 /// <a>GetContextKeysForCustomPolicy</a> request.
 class GetContextKeysForPolicyResponse {
   /// The list of context keys that are referenced in the input policies.
-  final List<String> contextKeyNames;
+  final List<String>? contextKeyNames;
 
   GetContextKeysForPolicyResponse({
     this.contextKeyNames,
@@ -13299,14 +13308,14 @@ class GetContextKeysForPolicyResponse {
 /// Contains the response to a successful <a>GetCredentialReport</a> request.
 class GetCredentialReportResponse {
   /// Contains the credential report. The report is Base64-encoded.
-  final Uint8List content;
+  final Uint8List? content;
 
   /// The date and time when the credential report was created, in <a
   /// href="http://www.iso.org/iso/iso8601">ISO 8601 date-time format</a>.
-  final DateTime generatedTime;
+  final DateTime? generatedTime;
 
   /// The format (MIME type) of the credential report.
-  final ReportFormatType reportFormat;
+  final ReportFormatType? reportFormat;
 
   GetCredentialReportResponse({
     this.content,
@@ -13340,15 +13349,15 @@ class GetGroupPolicyResponse {
   final String policyName;
 
   GetGroupPolicyResponse({
-    @_s.required this.groupName,
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
+    required this.groupName,
+    required this.policyDocument,
+    required this.policyName,
   });
   factory GetGroupPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetGroupPolicyResponse(
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
     );
   }
 }
@@ -13368,24 +13377,27 @@ class GetGroupResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetGroupResponse({
-    @_s.required this.group,
-    @_s.required this.users,
+    required this.group,
+    required this.users,
     this.isTruncated,
     this.marker,
   });
   factory GetGroupResponse.fromXml(_s.XmlElement elem) {
     return GetGroupResponse(
-      group: _s.extractXmlChild(elem, 'Group')?.let((e) => Group.fromXml(e)),
-      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+      group: Group.fromXml(_s.extractXmlChild(elem, 'Group')!),
+      users: _s
+          .extractXmlChild(elem, 'Users')!
+          .findElements('member')
+          .map((c) => User.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -13398,13 +13410,12 @@ class GetInstanceProfileResponse {
   final InstanceProfile instanceProfile;
 
   GetInstanceProfileResponse({
-    @_s.required this.instanceProfile,
+    required this.instanceProfile,
   });
   factory GetInstanceProfileResponse.fromXml(_s.XmlElement elem) {
     return GetInstanceProfileResponse(
-      instanceProfile: _s
-          .extractXmlChild(elem, 'InstanceProfile')
-          ?.let((e) => InstanceProfile.fromXml(e)),
+      instanceProfile:
+          InstanceProfile.fromXml(_s.extractXmlChild(elem, 'InstanceProfile')!),
     );
   }
 }
@@ -13415,13 +13426,12 @@ class GetLoginProfileResponse {
   final LoginProfile loginProfile;
 
   GetLoginProfileResponse({
-    @_s.required this.loginProfile,
+    required this.loginProfile,
   });
   factory GetLoginProfileResponse.fromXml(_s.XmlElement elem) {
     return GetLoginProfileResponse(
-      loginProfile: _s
-          .extractXmlChild(elem, 'LoginProfile')
-          ?.let((e) => LoginProfile.fromXml(e)),
+      loginProfile:
+          LoginProfile.fromXml(_s.extractXmlChild(elem, 'LoginProfile')!),
     );
   }
 }
@@ -13432,20 +13442,20 @@ class GetOpenIDConnectProviderResponse {
   /// A list of client IDs (also known as audiences) that are associated with the
   /// specified IAM OIDC provider resource object. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
-  final List<String> clientIDList;
+  final List<String>? clientIDList;
 
   /// The date and time when the IAM OIDC provider resource object was created in
   /// the AWS account.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// A list of certificate thumbprints that are associated with the specified IAM
   /// OIDC provider resource object. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
-  final List<String> thumbprintList;
+  final List<String>? thumbprintList;
 
   /// The URL that the IAM OIDC provider resource object is associated with. For
   /// more information, see <a>CreateOpenIDConnectProvider</a>.
-  final String url;
+  final String? url;
 
   GetOpenIDConnectProviderResponse({
     this.clientIDList,
@@ -13477,8 +13487,8 @@ class GetOrganizationsAccessReportResponse {
 
   /// An object that contains details about the most recent attempt to access the
   /// service.
-  final List<AccessDetail> accessDetails;
-  final ErrorDetails errorDetails;
+  final List<AccessDetail>? accessDetails;
+  final ErrorDetails? errorDetails;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13487,31 +13497,31 @@ class GetOrganizationsAccessReportResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
   ///
   /// This field is null if the job is still in progress, as indicated by a job
   /// status value of <code>IN_PROGRESS</code>.
-  final DateTime jobCompletionDate;
+  final DateTime? jobCompletionDate;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// The number of services that the applicable SCPs allow account principals to
   /// access.
-  final int numberOfServicesAccessible;
+  final int? numberOfServicesAccessible;
 
   /// The number of services that account principals are allowed but did not
   /// attempt to access.
-  final int numberOfServicesNotAccessed;
+  final int? numberOfServicesNotAccessed;
 
   GetOrganizationsAccessReportResponse({
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
+    required this.jobCreationDate,
+    required this.jobStatus,
     this.accessDetails,
     this.errorDetails,
     this.isTruncated,
@@ -13522,8 +13532,8 @@ class GetOrganizationsAccessReportResponse {
   });
   factory GetOrganizationsAccessReportResponse.fromXml(_s.XmlElement elem) {
     return GetOrganizationsAccessReportResponse(
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       accessDetails: _s.extractXmlChild(elem, 'AccessDetails')?.let((elem) =>
           elem
               .findElements('member')
@@ -13546,7 +13556,7 @@ class GetOrganizationsAccessReportResponse {
 /// Contains the response to a successful <a>GetPolicy</a> request.
 class GetPolicyResponse {
   /// A structure containing details about the policy.
-  final Policy policy;
+  final Policy? policy;
 
   GetPolicyResponse({
     this.policy,
@@ -13561,7 +13571,7 @@ class GetPolicyResponse {
 /// Contains the response to a successful <a>GetPolicyVersion</a> request.
 class GetPolicyVersionResponse {
   /// A structure containing details about the policy version.
-  final PolicyVersion policyVersion;
+  final PolicyVersion? policyVersion;
 
   GetPolicyVersionResponse({
     this.policyVersion,
@@ -13592,15 +13602,15 @@ class GetRolePolicyResponse {
   final String roleName;
 
   GetRolePolicyResponse({
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
-    @_s.required this.roleName,
+    required this.policyDocument,
+    required this.policyName,
+    required this.roleName,
   });
   factory GetRolePolicyResponse.fromXml(_s.XmlElement elem) {
     return GetRolePolicyResponse(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
     );
   }
 }
@@ -13611,11 +13621,11 @@ class GetRoleResponse {
   final Role role;
 
   GetRoleResponse({
-    @_s.required this.role,
+    required this.role,
   });
   factory GetRoleResponse.fromXml(_s.XmlElement elem) {
     return GetRoleResponse(
-      role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
+      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
     );
   }
 }
@@ -13623,14 +13633,14 @@ class GetRoleResponse {
 /// Contains the response to a successful <a>GetSAMLProvider</a> request.
 class GetSAMLProviderResponse {
   /// The date and time when the SAML provider was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The XML metadata document that includes information about an identity
   /// provider.
-  final String sAMLMetadataDocument;
+  final String? sAMLMetadataDocument;
 
   /// The expiration date and time for the SAML provider.
-  final DateTime validUntil;
+  final DateTime? validUntil;
 
   GetSAMLProviderResponse({
     this.createDate,
@@ -13650,7 +13660,7 @@ class GetSAMLProviderResponse {
 /// Contains the response to a successful <a>GetSSHPublicKey</a> request.
 class GetSSHPublicKeyResponse {
   /// A structure containing details about the SSH public key.
-  final SSHPublicKey sSHPublicKey;
+  final SSHPublicKey? sSHPublicKey;
 
   GetSSHPublicKeyResponse({
     this.sSHPublicKey,
@@ -13670,13 +13680,12 @@ class GetServerCertificateResponse {
   final ServerCertificate serverCertificate;
 
   GetServerCertificateResponse({
-    @_s.required this.serverCertificate,
+    required this.serverCertificate,
   });
   factory GetServerCertificateResponse.fromXml(_s.XmlElement elem) {
     return GetServerCertificateResponse(
-      serverCertificate: _s
-          .extractXmlChild(elem, 'ServerCertificate')
-          ?.let((e) => ServerCertificate.fromXml(e)),
+      serverCertificate: ServerCertificate.fromXml(
+          _s.extractXmlChild(elem, 'ServerCertificate')!),
     );
   }
 }
@@ -13701,7 +13710,7 @@ class GetServiceLastAccessedDetailsResponse {
   final List<ServiceLastAccessed> servicesLastAccessed;
 
   /// An object that contains details about the reason the operation failed.
-  final ErrorDetails error;
+  final ErrorDetails? error;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13710,23 +13719,23 @@ class GetServiceLastAccessedDetailsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The type of job. Service jobs return information about when each service was
   /// last accessed. Action jobs also include information about when tracked
   /// actions within the service were last accessed.
-  final AccessAdvisorUsageGranularityType jobType;
+  final AccessAdvisorUsageGranularityType? jobType;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetServiceLastAccessedDetailsResponse({
-    @_s.required this.jobCompletionDate,
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
-    @_s.required this.servicesLastAccessed,
+    required this.jobCompletionDate,
+    required this.jobCreationDate,
+    required this.jobStatus,
+    required this.servicesLastAccessed,
     this.error,
     this.isTruncated,
     this.jobType,
@@ -13734,15 +13743,14 @@ class GetServiceLastAccessedDetailsResponse {
   });
   factory GetServiceLastAccessedDetailsResponse.fromXml(_s.XmlElement elem) {
     return GetServiceLastAccessedDetailsResponse(
-      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate'),
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       servicesLastAccessed: _s
-          .extractXmlChild(elem, 'ServicesLastAccessed')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ServiceLastAccessed.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'ServicesLastAccessed')!
+          .findElements('member')
+          .map((c) => ServiceLastAccessed.fromXml(c))
+          .toList(),
       error: _s
           .extractXmlChild(elem, 'Error')
           ?.let((e) => ErrorDetails.fromXml(e)),
@@ -13776,7 +13784,7 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   final JobStatusType jobStatus;
 
   /// An object that contains details about the reason the operation failed.
-  final ErrorDetails error;
+  final ErrorDetails? error;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13785,18 +13793,18 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetServiceLastAccessedDetailsWithEntitiesResponse({
-    @_s.required this.entityDetailsList,
-    @_s.required this.jobCompletionDate,
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
+    required this.entityDetailsList,
+    required this.jobCompletionDate,
+    required this.jobCreationDate,
+    required this.jobStatus,
     this.error,
     this.isTruncated,
     this.marker,
@@ -13804,14 +13812,14 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   factory GetServiceLastAccessedDetailsWithEntitiesResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLastAccessedDetailsWithEntitiesResponse(
-      entityDetailsList: _s.extractXmlChild(elem, 'EntityDetailsList')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => EntityDetails.fromXml(c))
-              .toList()),
-      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate'),
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      entityDetailsList: _s
+          .extractXmlChild(elem, 'EntityDetailsList')!
+          .findElements('member')
+          .map((c) => EntityDetails.fromXml(c))
+          .toList(),
+      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       error: _s
           .extractXmlChild(elem, 'Error')
           ?.let((e) => ErrorDetails.fromXml(e)),
@@ -13826,17 +13834,17 @@ class GetServiceLinkedRoleDeletionStatusResponse {
   final DeletionTaskStatusType status;
 
   /// An object that contains details about the reason the deletion failed.
-  final DeletionTaskFailureReasonType reason;
+  final DeletionTaskFailureReasonType? reason;
 
   GetServiceLinkedRoleDeletionStatusResponse({
-    @_s.required this.status,
+    required this.status,
     this.reason,
   });
   factory GetServiceLinkedRoleDeletionStatusResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLinkedRoleDeletionStatusResponse(
       status:
-          _s.extractXmlStringValue(elem, 'Status')?.toDeletionTaskStatusType(),
+          _s.extractXmlStringValue(elem, 'Status')!.toDeletionTaskStatusType(),
       reason: _s
           .extractXmlChild(elem, 'Reason')
           ?.let((e) => DeletionTaskFailureReasonType.fromXml(e)),
@@ -13861,15 +13869,15 @@ class GetUserPolicyResponse {
   final String userName;
 
   GetUserPolicyResponse({
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
-    @_s.required this.userName,
+    required this.policyDocument,
+    required this.policyName,
+    required this.userName,
   });
   factory GetUserPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetUserPolicyResponse(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
 }
@@ -13900,11 +13908,11 @@ class GetUserResponse {
   final User user;
 
   GetUserResponse({
-    @_s.required this.user,
+    required this.user,
   });
   factory GetUserResponse.fromXml(_s.XmlElement elem) {
     return GetUserResponse(
-      user: _s.extractXmlChild(elem, 'User')?.let((e) => User.fromXml(e)),
+      user: User.fromXml(_s.extractXmlChild(elem, 'User')!),
     );
   }
 }
@@ -13950,19 +13958,19 @@ class Group {
   final String path;
 
   Group({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.groupId,
-    @_s.required this.groupName,
-    @_s.required this.path,
+    required this.arn,
+    required this.createDate,
+    required this.groupId,
+    required this.groupName,
+    required this.path,
   });
   factory Group.fromXml(_s.XmlElement elem) {
     return Group(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      groupId: _s.extractXmlStringValue(elem, 'GroupId')!,
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
     );
   }
 }
@@ -13973,31 +13981,31 @@ class Group {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class GroupDetail {
-  final String arn;
+  final String? arn;
 
   /// A list of the managed policies attached to the group.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the group was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String groupId;
+  final String? groupId;
 
   /// The friendly name that identifies the group.
-  final String groupName;
+  final String? groupName;
 
   /// A list of the inline policies embedded in the group.
-  final List<PolicyDetail> groupPolicyList;
+  final List<PolicyDetail>? groupPolicyList;
 
   /// The path to the group. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   GroupDetail({
     this.arn,
@@ -14076,23 +14084,26 @@ class InstanceProfile {
   final List<Role> roles;
 
   InstanceProfile({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.instanceProfileId,
-    @_s.required this.instanceProfileName,
-    @_s.required this.path,
-    @_s.required this.roles,
+    required this.arn,
+    required this.createDate,
+    required this.instanceProfileId,
+    required this.instanceProfileName,
+    required this.path,
+    required this.roles,
   });
   factory InstanceProfile.fromXml(_s.XmlElement elem) {
     return InstanceProfile(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      instanceProfileId: _s.extractXmlStringValue(elem, 'InstanceProfileId'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      instanceProfileId: _s.extractXmlStringValue(elem, 'InstanceProfileId')!,
       instanceProfileName:
-          _s.extractXmlStringValue(elem, 'InstanceProfileName'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
+          _s.extractXmlStringValue(elem, 'InstanceProfileName')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      roles: _s
+          .extractXmlChild(elem, 'Roles')!
+          .findElements('member')
+          .map((c) => Role.fromXml(c))
+          .toList(),
     );
   }
 }
@@ -14109,25 +14120,25 @@ class ListAccessKeysResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAccessKeysResponse({
-    @_s.required this.accessKeyMetadata,
+    required this.accessKeyMetadata,
     this.isTruncated,
     this.marker,
   });
   factory ListAccessKeysResponse.fromXml(_s.XmlElement elem) {
     return ListAccessKeysResponse(
-      accessKeyMetadata: _s.extractXmlChild(elem, 'AccessKeyMetadata')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => AccessKeyMetadata.fromXml(c))
-              .toList()),
+      accessKeyMetadata: _s
+          .extractXmlChild(elem, 'AccessKeyMetadata')!
+          .findElements('member')
+          .map((c) => AccessKeyMetadata.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14147,23 +14158,22 @@ class ListAccountAliasesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAccountAliasesResponse({
-    @_s.required this.accountAliases,
+    required this.accountAliases,
     this.isTruncated,
     this.marker,
   });
   factory ListAccountAliasesResponse.fromXml(_s.XmlElement elem) {
     return ListAccountAliasesResponse(
-      accountAliases: _s
-          .extractXmlChild(elem, 'AccountAliases')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      accountAliases: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AccountAliases')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14174,7 +14184,7 @@ class ListAccountAliasesResponse {
 /// request.
 class ListAttachedGroupPoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14183,12 +14193,12 @@ class ListAttachedGroupPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedGroupPoliciesResponse({
     this.attachedPolicies,
@@ -14212,7 +14222,7 @@ class ListAttachedGroupPoliciesResponse {
 /// request.
 class ListAttachedRolePoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14221,12 +14231,12 @@ class ListAttachedRolePoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedRolePoliciesResponse({
     this.attachedPolicies,
@@ -14250,7 +14260,7 @@ class ListAttachedRolePoliciesResponse {
 /// request.
 class ListAttachedUserPoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14259,12 +14269,12 @@ class ListAttachedUserPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedUserPoliciesResponse({
     this.attachedPolicies,
@@ -14293,21 +14303,21 @@ class ListEntitiesForPolicyResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of IAM groups that the policy is attached to.
-  final List<PolicyGroup> policyGroups;
+  final List<PolicyGroup>? policyGroups;
 
   /// A list of IAM roles that the policy is attached to.
-  final List<PolicyRole> policyRoles;
+  final List<PolicyRole>? policyRoles;
 
   /// A list of IAM users that the policy is attached to.
-  final List<PolicyUser> policyUsers;
+  final List<PolicyUser>? policyUsers;
 
   ListEntitiesForPolicyResponse({
     this.isTruncated,
@@ -14353,23 +14363,22 @@ class ListGroupPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupPoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
   factory ListGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListGroupPoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14388,22 +14397,25 @@ class ListGroupsForUserResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupsForUserResponse({
-    @_s.required this.groups,
+    required this.groups,
     this.isTruncated,
     this.marker,
   });
   factory ListGroupsForUserResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsForUserResponse(
-      groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map((c) => Group.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14422,22 +14434,25 @@ class ListGroupsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupsResponse({
-    @_s.required this.groups,
+    required this.groups,
     this.isTruncated,
     this.marker,
   });
   factory ListGroupsResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsResponse(
-      groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map((c) => Group.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14457,25 +14472,25 @@ class ListInstanceProfilesForRoleResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListInstanceProfilesForRoleResponse({
-    @_s.required this.instanceProfiles,
+    required this.instanceProfiles,
     this.isTruncated,
     this.marker,
   });
   factory ListInstanceProfilesForRoleResponse.fromXml(_s.XmlElement elem) {
     return ListInstanceProfilesForRoleResponse(
-      instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => InstanceProfile.fromXml(c))
-              .toList()),
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map((c) => InstanceProfile.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14494,25 +14509,25 @@ class ListInstanceProfilesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListInstanceProfilesResponse({
-    @_s.required this.instanceProfiles,
+    required this.instanceProfiles,
     this.isTruncated,
     this.marker,
   });
   factory ListInstanceProfilesResponse.fromXml(_s.XmlElement elem) {
     return ListInstanceProfilesResponse(
-      instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => InstanceProfile.fromXml(c))
-              .toList()),
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map((c) => InstanceProfile.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14531,24 +14546,25 @@ class ListMFADevicesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListMFADevicesResponse({
-    @_s.required this.mFADevices,
+    required this.mFADevices,
     this.isTruncated,
     this.marker,
   });
   factory ListMFADevicesResponse.fromXml(_s.XmlElement elem) {
     return ListMFADevicesResponse(
-      mFADevices: _s.extractXmlChild(elem, 'MFADevices')?.let((elem) => elem
+      mFADevices: _s
+          .extractXmlChild(elem, 'MFADevices')!
           .findElements('member')
           .map((c) => MFADevice.fromXml(c))
-          .toList()),
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14559,7 +14575,7 @@ class ListMFADevicesResponse {
 /// request.
 class ListOpenIDConnectProvidersResponse {
   /// The list of IAM OIDC provider resource objects defined in the AWS account.
-  final List<OpenIDConnectProviderListEntry> openIDConnectProviderList;
+  final List<OpenIDConnectProviderListEntry>? openIDConnectProviderList;
 
   ListOpenIDConnectProvidersResponse({
     this.openIDConnectProviderList,
@@ -14584,7 +14600,7 @@ class ListOpenIDConnectProvidersResponse {
 class ListPoliciesGrantingServiceAccessEntry {
   /// The <code>PoliciesGrantingServiceAccess</code> object that contains details
   /// about the policy.
-  final List<PolicyGrantingServiceAccess> policies;
+  final List<PolicyGrantingServiceAccess>? policies;
 
   /// The namespace of the service that was accessed.
   ///
@@ -14596,7 +14612,7 @@ class ListPoliciesGrantingServiceAccessEntry {
   /// prefix: a4b)</code>. For more information about service namespaces, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
   /// Service Namespaces</a> in the <i>AWS General Reference</i>.
-  final String serviceNamespace;
+  final String? serviceNamespace;
 
   ListPoliciesGrantingServiceAccessEntry({
     this.policies,
@@ -14625,15 +14641,15 @@ class ListPoliciesGrantingServiceAccessResponse {
   /// the <code>Marker</code> request parameter to retrieve more items. We
   /// recommend that you check <code>IsTruncated</code> after every call to ensure
   /// that you receive all your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListPoliciesGrantingServiceAccessResponse({
-    @_s.required this.policiesGrantingServiceAccess,
+    required this.policiesGrantingServiceAccess,
     this.isTruncated,
     this.marker,
   });
@@ -14641,11 +14657,10 @@ class ListPoliciesGrantingServiceAccessResponse {
       _s.XmlElement elem) {
     return ListPoliciesGrantingServiceAccessResponse(
       policiesGrantingServiceAccess: _s
-          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ListPoliciesGrantingServiceAccessEntry.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')!
+          .findElements('member')
+          .map((c) => ListPoliciesGrantingServiceAccessEntry.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14661,15 +14676,15 @@ class ListPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of policies.
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ListPoliciesResponse({
     this.isTruncated,
@@ -14695,19 +14710,19 @@ class ListPolicyVersionsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of policy versions.
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for Managed Policies</a> in the <i>IAM User Guide</i>.
-  final List<PolicyVersion> versions;
+  final List<PolicyVersion>? versions;
 
   ListPolicyVersionsResponse({
     this.isTruncated,
@@ -14738,23 +14753,22 @@ class ListRolePoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRolePoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
   factory ListRolePoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListRolePoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14773,22 +14787,25 @@ class ListRoleTagsResponse {
   /// Note that IAM might return fewer than the <code>MaxItems</code> number of
   /// results even when more results are available. Check <code>IsTruncated</code>
   /// after every call to ensure that you receive all of your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRoleTagsResponse({
-    @_s.required this.tags,
+    required this.tags,
     this.isTruncated,
     this.marker,
   });
   factory ListRoleTagsResponse.fromXml(_s.XmlElement elem) {
     return ListRoleTagsResponse(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14807,22 +14824,25 @@ class ListRolesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRolesResponse({
-    @_s.required this.roles,
+    required this.roles,
     this.isTruncated,
     this.marker,
   });
   factory ListRolesResponse.fromXml(_s.XmlElement elem) {
     return ListRolesResponse(
-      roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
+      roles: _s
+          .extractXmlChild(elem, 'Roles')!
+          .findElements('member')
+          .map((c) => Role.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14833,7 +14853,7 @@ class ListRolesResponse {
 class ListSAMLProvidersResponse {
   /// The list of SAML provider resource objects defined in IAM for this AWS
   /// account.
-  final List<SAMLProviderListEntry> sAMLProviderList;
+  final List<SAMLProviderListEntry>? sAMLProviderList;
 
   ListSAMLProvidersResponse({
     this.sAMLProviderList,
@@ -14858,15 +14878,15 @@ class ListSSHPublicKeysResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of the SSH public keys assigned to IAM user.
-  final List<SSHPublicKeyMetadata> sSHPublicKeys;
+  final List<SSHPublicKeyMetadata>? sSHPublicKeys;
 
   ListSSHPublicKeysResponse({
     this.isTruncated,
@@ -14898,26 +14918,25 @@ class ListServerCertificatesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListServerCertificatesResponse({
-    @_s.required this.serverCertificateMetadataList,
+    required this.serverCertificateMetadataList,
     this.isTruncated,
     this.marker,
   });
   factory ListServerCertificatesResponse.fromXml(_s.XmlElement elem) {
     return ListServerCertificatesResponse(
       serverCertificateMetadataList: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadataList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ServerCertificateMetadata.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'ServerCertificateMetadataList')!
+          .findElements('member')
+          .map((c) => ServerCertificateMetadata.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14927,7 +14946,7 @@ class ListServerCertificatesResponse {
 class ListServiceSpecificCredentialsResponse {
   /// A list of structures that each contain details about a service-specific
   /// credential.
-  final List<ServiceSpecificCredentialMetadata> serviceSpecificCredentials;
+  final List<ServiceSpecificCredentialMetadata>? serviceSpecificCredentials;
 
   ListServiceSpecificCredentialsResponse({
     this.serviceSpecificCredentials,
@@ -14957,24 +14976,25 @@ class ListSigningCertificatesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListSigningCertificatesResponse({
-    @_s.required this.certificates,
+    required this.certificates,
     this.isTruncated,
     this.marker,
   });
   factory ListSigningCertificatesResponse.fromXml(_s.XmlElement elem) {
     return ListSigningCertificatesResponse(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
+      certificates: _s
+          .extractXmlChild(elem, 'Certificates')!
           .findElements('member')
           .map((c) => SigningCertificate.fromXml(c))
-          .toList()),
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -14993,23 +15013,22 @@ class ListUserPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUserPoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
   factory ListUserPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListUserPoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15028,22 +15047,25 @@ class ListUserTagsResponse {
   /// Note that IAM might return fewer than the <code>MaxItems</code> number of
   /// results even when more results are available. Check <code>IsTruncated</code>
   /// after every call to ensure that you receive all of your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUserTagsResponse({
-    @_s.required this.tags,
+    required this.tags,
     this.isTruncated,
     this.marker,
   });
   factory ListUserTagsResponse.fromXml(_s.XmlElement elem) {
     return ListUserTagsResponse(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15062,22 +15084,25 @@ class ListUsersResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUsersResponse({
-    @_s.required this.users,
+    required this.users,
     this.isTruncated,
     this.marker,
   });
   factory ListUsersResponse.fromXml(_s.XmlElement elem) {
     return ListUsersResponse(
-      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+      users: _s
+          .extractXmlChild(elem, 'Users')!
+          .findElements('member')
+          .map((c) => User.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15097,25 +15122,25 @@ class ListVirtualMFADevicesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListVirtualMFADevicesResponse({
-    @_s.required this.virtualMFADevices,
+    required this.virtualMFADevices,
     this.isTruncated,
     this.marker,
   });
   factory ListVirtualMFADevicesResponse.fromXml(_s.XmlElement elem) {
     return ListVirtualMFADevicesResponse(
-      virtualMFADevices: _s.extractXmlChild(elem, 'VirtualMFADevices')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => VirtualMFADevice.fromXml(c))
-              .toList()),
+      virtualMFADevices: _s
+          .extractXmlChild(elem, 'VirtualMFADevices')!
+          .findElements('member')
+          .map((c) => VirtualMFADevice.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -15136,17 +15161,17 @@ class LoginProfile {
 
   /// Specifies whether the user is required to set a new password on next
   /// sign-in.
-  final bool passwordResetRequired;
+  final bool? passwordResetRequired;
 
   LoginProfile({
-    @_s.required this.createDate,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.userName,
     this.passwordResetRequired,
   });
   factory LoginProfile.fromXml(_s.XmlElement elem) {
     return LoginProfile(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       passwordResetRequired:
           _s.extractXmlBoolValue(elem, 'PasswordResetRequired'),
     );
@@ -15169,15 +15194,15 @@ class MFADevice {
   final String userName;
 
   MFADevice({
-    @_s.required this.enableDate,
-    @_s.required this.serialNumber,
-    @_s.required this.userName,
+    required this.enableDate,
+    required this.serialNumber,
+    required this.userName,
   });
   factory MFADevice.fromXml(_s.XmlElement elem) {
     return MFADevice(
-      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate')!,
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
 }
@@ -15193,15 +15218,15 @@ class MFADevice {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
 class ManagedPolicyDetail {
-  final String arn;
+  final String? arn;
 
   /// The number of principal entities (users, groups, and roles) that the policy
   /// is attached to.
-  final int attachmentCount;
+  final int? attachmentCount;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The identifier for the version of the policy that is set as the default
   /// (operative) version.
@@ -15209,20 +15234,20 @@ class ManagedPolicyDetail {
   /// For more information about policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for Managed Policies</a> in the <i>IAM User Guide</i>.
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// A friendly description of the policy.
-  final String description;
+  final String? description;
 
   /// Specifies whether the policy can be attached to an IAM user, group, or role.
-  final bool isAttachable;
+  final bool? isAttachable;
 
   /// The path to the policy.
   ///
   /// For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   /// The number of entities (users and roles) for which the policy is used as the
   /// permissions boundary.
@@ -15230,20 +15255,20 @@ class ManagedPolicyDetail {
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final int permissionsBoundaryUsageCount;
+  final int? permissionsBoundaryUsageCount;
 
   /// The stable and unique string identifying the policy.
   ///
   /// For more information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String policyId;
+  final String? policyId;
 
   /// The friendly name (not ARN) identifying the policy.
-  final String policyName;
+  final String? policyName;
 
   /// A list containing information about the versions of the policy.
-  final List<PolicyVersion> policyVersionList;
+  final List<PolicyVersion>? policyVersionList;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was last updated.
@@ -15252,7 +15277,7 @@ class ManagedPolicyDetail {
   /// when the policy was created. When a policy has more than one version, this
   /// field contains the date and time when the most recent policy version was
   /// created.
-  final DateTime updateDate;
+  final DateTime? updateDate;
 
   ManagedPolicyDetail({
     this.arn,
@@ -15293,7 +15318,7 @@ class ManagedPolicyDetail {
 
 /// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
 class OpenIDConnectProviderListEntry {
-  final String arn;
+  final String? arn;
 
   OpenIDConnectProviderListEntry({
     this.arn,
@@ -15310,7 +15335,7 @@ class OpenIDConnectProviderListEntry {
 class OrganizationsDecisionDetail {
   /// Specifies whether the simulated operation is allowed by the Organizations
   /// service control policies that impact the simulated user's account.
-  final bool allowedByOrganizations;
+  final bool? allowedByOrganizations;
 
   OrganizationsDecisionDetail({
     this.allowedByOrganizations,
@@ -15329,38 +15354,38 @@ class OrganizationsDecisionDetail {
 /// <a>GetAccountPasswordPolicy</a> operation.
 class PasswordPolicy {
   /// Specifies whether IAM users are allowed to change their own password.
-  final bool allowUsersToChangePassword;
+  final bool? allowUsersToChangePassword;
 
   /// Indicates whether passwords in the account expire. Returns true if
   /// <code>MaxPasswordAge</code> contains a value greater than 0. Returns false
   /// if MaxPasswordAge is 0 or not present.
-  final bool expirePasswords;
+  final bool? expirePasswords;
 
   /// Specifies whether IAM users are prevented from setting a new password after
   /// their password has expired.
-  final bool hardExpiry;
+  final bool? hardExpiry;
 
   /// The number of days that an IAM user password is valid.
-  final int maxPasswordAge;
+  final int? maxPasswordAge;
 
   /// Minimum length to require for IAM user passwords.
-  final int minimumPasswordLength;
+  final int? minimumPasswordLength;
 
   /// Specifies the number of previous passwords that IAM users are prevented from
   /// reusing.
-  final int passwordReusePrevention;
+  final int? passwordReusePrevention;
 
   /// Specifies whether to require lowercase characters for IAM user passwords.
-  final bool requireLowercaseCharacters;
+  final bool? requireLowercaseCharacters;
 
   /// Specifies whether to require numbers for IAM user passwords.
-  final bool requireNumbers;
+  final bool? requireNumbers;
 
   /// Specifies whether to require symbols for IAM user passwords.
-  final bool requireSymbols;
+  final bool? requireSymbols;
 
   /// Specifies whether to require uppercase characters for IAM user passwords.
-  final bool requireUppercaseCharacters;
+  final bool? requireUppercaseCharacters;
 
   PasswordPolicy({
     this.allowUsersToChangePassword,
@@ -15396,8 +15421,16 @@ class PasswordPolicy {
 }
 
 enum PermissionsBoundaryAttachmentType {
-  @_s.JsonValue('PermissionsBoundaryPolicy')
   permissionsBoundaryPolicy,
+}
+
+extension on PermissionsBoundaryAttachmentType {
+  String toValue() {
+    switch (this) {
+      case PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy:
+        return 'PermissionsBoundaryPolicy';
+    }
+  }
 }
 
 extension on String {
@@ -15406,7 +15439,8 @@ extension on String {
       case 'PermissionsBoundaryPolicy':
         return PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum PermissionsBoundaryAttachmentType');
   }
 }
 
@@ -15422,7 +15456,7 @@ class PermissionsBoundaryDecisionDetail {
   /// action is not allowed (implicitly denied) or that the action is explicitly
   /// denied by the permissions boundary. In both of these cases, the action is
   /// not allowed, regardless of the identity-based policy.
-  final bool allowedByPermissionsBoundary;
+  final bool? allowedByPermissionsBoundary;
 
   PermissionsBoundaryDecisionDetail({
     this.allowedByPermissionsBoundary,
@@ -15444,35 +15478,35 @@ class PermissionsBoundaryDecisionDetail {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
 class Policy {
-  final String arn;
+  final String? arn;
 
   /// The number of entities (users, groups, and roles) that the policy is
   /// attached to.
-  final int attachmentCount;
+  final int? attachmentCount;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The identifier for the version of the policy that is set as the default
   /// version.
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// A friendly description of the policy.
   ///
   /// This element is included in the response to the <a>GetPolicy</a> operation.
   /// It is not included in the response to the <a>ListPolicies</a> operation.
-  final String description;
+  final String? description;
 
   /// Specifies whether the policy can be attached to an IAM user, group, or role.
-  final bool isAttachable;
+  final bool? isAttachable;
 
   /// The path to the policy.
   ///
   /// For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   /// The number of entities (users and roles) for which the policy is used to set
   /// the permissions boundary.
@@ -15480,17 +15514,17 @@ class Policy {
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final int permissionsBoundaryUsageCount;
+  final int? permissionsBoundaryUsageCount;
 
   /// The stable and unique string identifying the policy.
   ///
   /// For more information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String policyId;
+  final String? policyId;
 
   /// The friendly name (not ARN) identifying the policy.
-  final String policyName;
+  final String? policyName;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was last updated.
@@ -15499,7 +15533,7 @@ class Policy {
   /// when the policy was created. When a policy has more than one version, this
   /// field contains the date and time when the most recent policy version was
   /// created.
-  final DateTime updateDate;
+  final DateTime? updateDate;
 
   Policy({
     this.arn,
@@ -15538,10 +15572,10 @@ class Policy {
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class PolicyDetail {
   /// The policy document.
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The name of the policy.
-  final String policyName;
+  final String? policyName;
 
   PolicyDetail({
     this.policyDocument,
@@ -15556,12 +15590,22 @@ class PolicyDetail {
 }
 
 enum PolicyEvaluationDecisionType {
-  @_s.JsonValue('allowed')
   allowed,
-  @_s.JsonValue('explicitDeny')
   explicitDeny,
-  @_s.JsonValue('implicitDeny')
   implicitDeny,
+}
+
+extension on PolicyEvaluationDecisionType {
+  String toValue() {
+    switch (this) {
+      case PolicyEvaluationDecisionType.allowed:
+        return 'allowed';
+      case PolicyEvaluationDecisionType.explicitDeny:
+        return 'explicitDeny';
+      case PolicyEvaluationDecisionType.implicitDeny:
+        return 'implicitDeny';
+    }
+  }
 }
 
 extension on String {
@@ -15574,7 +15618,7 @@ extension on String {
       case 'implicitDeny':
         return PolicyEvaluationDecisionType.implicitDeny;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyEvaluationDecisionType');
   }
 }
 
@@ -15599,7 +15643,7 @@ class PolicyGrantingServiceAccess {
   /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
   /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
-  final String entityName;
+  final String? entityName;
 
   /// The type of entity (user or role) that used the policy to access the service
   /// to which the inline policy is attached.
@@ -15608,20 +15652,20 @@ class PolicyGrantingServiceAccess {
   /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
   /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
-  final PolicyOwnerEntityType entityType;
-  final String policyArn;
+  final PolicyOwnerEntityType? entityType;
+  final String? policyArn;
 
   PolicyGrantingServiceAccess({
-    @_s.required this.policyName,
-    @_s.required this.policyType,
+    required this.policyName,
+    required this.policyType,
     this.entityName,
     this.entityType,
     this.policyArn,
   });
   factory PolicyGrantingServiceAccess.fromXml(_s.XmlElement elem) {
     return PolicyGrantingServiceAccess(
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      policyType: _s.extractXmlStringValue(elem, 'PolicyType')?.toPolicyType(),
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      policyType: _s.extractXmlStringValue(elem, 'PolicyType')!.toPolicyType(),
       entityName: _s.extractXmlStringValue(elem, 'EntityName'),
       entityType: _s
           .extractXmlStringValue(elem, 'EntityType')
@@ -15644,10 +15688,10 @@ class PolicyGroup {
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String groupId;
+  final String? groupId;
 
   /// The name (friendly name, not ARN) identifying the group.
-  final String groupName;
+  final String? groupName;
 
   PolicyGroup({
     this.groupId,
@@ -15674,10 +15718,10 @@ class PolicyRole {
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String roleId;
+  final String? roleId;
 
   /// The name (friendly name, not ARN) identifying the role.
-  final String roleName;
+  final String? roleName;
 
   PolicyRole({
     this.roleId,
@@ -15692,20 +15736,34 @@ class PolicyRole {
 }
 
 enum PolicySourceType {
-  @_s.JsonValue('user')
   user,
-  @_s.JsonValue('group')
   group,
-  @_s.JsonValue('role')
   role,
-  @_s.JsonValue('aws-managed')
   awsManaged,
-  @_s.JsonValue('user-managed')
   userManaged,
-  @_s.JsonValue('resource')
   resource,
-  @_s.JsonValue('none')
   none,
+}
+
+extension on PolicySourceType {
+  String toValue() {
+    switch (this) {
+      case PolicySourceType.user:
+        return 'user';
+      case PolicySourceType.group:
+        return 'group';
+      case PolicySourceType.role:
+        return 'role';
+      case PolicySourceType.awsManaged:
+        return 'aws-managed';
+      case PolicySourceType.userManaged:
+        return 'user-managed';
+      case PolicySourceType.resource:
+        return 'resource';
+      case PolicySourceType.none:
+        return 'none';
+    }
+  }
 }
 
 extension on String {
@@ -15726,7 +15784,7 @@ extension on String {
       case 'none':
         return PolicySourceType.none;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicySourceType');
   }
 }
 
@@ -15737,9 +15795,7 @@ extension on String {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
 /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
 enum PolicyUsageType {
-  @_s.JsonValue('PermissionsPolicy')
   permissionsPolicy,
-  @_s.JsonValue('PermissionsBoundary')
   permissionsBoundary,
 }
 
@@ -15751,7 +15807,6 @@ extension on PolicyUsageType {
       case PolicyUsageType.permissionsBoundary:
         return 'PermissionsBoundary';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -15763,7 +15818,7 @@ extension on String {
       case 'PermissionsBoundary':
         return PolicyUsageType.permissionsBoundary;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyUsageType');
   }
 }
 
@@ -15780,10 +15835,10 @@ class PolicyUser {
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String userId;
+  final String? userId;
 
   /// The name (friendly name, not ARN) identifying the user.
-  final String userName;
+  final String? userName;
 
   PolicyUser({
     this.userId,
@@ -15810,7 +15865,7 @@ class PolicyUser {
 class PolicyVersion {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy version was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The policy document.
   ///
@@ -15825,17 +15880,17 @@ class PolicyVersion {
   /// example, if you use Java, you can use the <code>decode</code> method of the
   /// <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
   /// languages and SDKs provide similar functionality.
-  final String document;
+  final String? document;
 
   /// Specifies whether the policy version is set as the policy's default version.
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The identifier for the policy version.
   ///
   /// Policy version identifiers always begin with <code>v</code> (always
   /// lowercase). When a policy is created, the first policy version is
   /// <code>v1</code>.
-  final String versionId;
+  final String? versionId;
 
   PolicyVersion({
     this.createDate,
@@ -15860,10 +15915,10 @@ class PolicyVersion {
 /// type.
 class Position {
   /// The column in the line containing the specified position in the document.
-  final int column;
+  final int? column;
 
   /// The line containing the specified position in the document.
-  final int line;
+  final int? line;
 
   Position({
     this.column,
@@ -15878,8 +15933,16 @@ class Position {
 }
 
 enum ReportFormatType {
-  @_s.JsonValue('text/csv')
   textCsv,
+}
+
+extension on ReportFormatType {
+  String toValue() {
+    switch (this) {
+      case ReportFormatType.textCsv:
+        return 'text/csv';
+    }
+  }
 }
 
 extension on String {
@@ -15888,17 +15951,27 @@ extension on String {
       case 'text/csv':
         return ReportFormatType.textCsv;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReportFormatType');
   }
 }
 
 enum ReportStateType {
-  @_s.JsonValue('STARTED')
   started,
-  @_s.JsonValue('INPROGRESS')
   inprogress,
-  @_s.JsonValue('COMPLETE')
   complete,
+}
+
+extension on ReportStateType {
+  String toValue() {
+    switch (this) {
+      case ReportStateType.started:
+        return 'STARTED';
+      case ReportStateType.inprogress:
+        return 'INPROGRESS';
+      case ReportStateType.complete:
+        return 'COMPLETE';
+    }
+  }
 }
 
 extension on String {
@@ -15911,7 +15984,7 @@ extension on String {
       case 'COMPLETE':
         return ReportStateType.complete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReportStateType');
   }
 }
 
@@ -15922,7 +15995,7 @@ class ResetServiceSpecificCredentialResponse {
   /// This is the <b>only</b> time that you can access the password. You cannot
   /// recover the password later, but you can reset it again.
   /// </important>
-  final ServiceSpecificCredential serviceSpecificCredential;
+  final ServiceSpecificCredential? serviceSpecificCredential;
 
   ResetServiceSpecificCredentialResponse({
     this.serviceSpecificCredential,
@@ -15952,14 +16025,14 @@ class ResourceSpecificResult {
   /// resource. This parameter is returned only for cross-account simulations.
   /// This parameter explains how each policy type contributes to the
   /// resource-specific evaluation decision.
-  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
 
   /// A list of the statements in the input policies that determine the result for
   /// this part of the simulation. Remember that even if multiple statements allow
   /// the operation on the resource, if <i>any</i> statement denies that
   /// operation, then the explicit deny overrides any allow. In addition, the deny
   /// statement is the only entry included in the result.
-  final List<Statement> matchedStatements;
+  final List<Statement>? matchedStatements;
 
   /// A list of context keys that are required by the included input policies but
   /// that were not provided by one of the input parameters. This list is used
@@ -15971,15 +16044,15 @@ class ResourceSpecificResult {
   /// discover the context keys used by a set of policies, you can call
   /// <a>GetContextKeysForCustomPolicy</a> or
   /// <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String> missingContextValues;
+  final List<String>? missingContextValues;
 
   /// Contains information about the effect that a permissions boundary has on a
   /// policy simulation when that boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
 
   ResourceSpecificResult({
-    @_s.required this.evalResourceDecision,
-    @_s.required this.evalResourceName,
+    required this.evalResourceDecision,
+    required this.evalResourceName,
     this.evalDecisionDetails,
     this.matchedStatements,
     this.missingContextValues,
@@ -15988,18 +16061,19 @@ class ResourceSpecificResult {
   factory ResourceSpecificResult.fromXml(_s.XmlElement elem) {
     return ResourceSpecificResult(
       evalResourceDecision: _s
-          .extractXmlStringValue(elem, 'EvalResourceDecision')
-          ?.toPolicyEvaluationDecisionType(),
-      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
+          .extractXmlStringValue(elem, 'EvalResourceDecision')!
+          .toPolicyEvaluationDecisionType(),
+      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
       evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlStringValue(c, 'value')
-                    ?.toPolicyEvaluationDecisionType(),
-              ),
-            ),
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .toPolicyEvaluationDecisionType(),
+                  ),
+                ) ??
+            {},
       ),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
           (elem) => elem
@@ -16044,23 +16118,23 @@ class Role {
   final String roleName;
 
   /// The policy that grants an entity permission to assume the role.
-  final String assumeRolePolicyDocument;
+  final String? assumeRolePolicyDocument;
 
   /// A description of the role that you provide.
-  final String description;
+  final String? description;
 
   /// The maximum session duration (in seconds) for the specified role. Anyone who
   /// uses the AWS CLI, or API to assume the role can specify the duration using
   /// the optional <code>DurationSeconds</code> API parameter or
   /// <code>duration-seconds</code> CLI parameter.
-  final int maxSessionDuration;
+  final int? maxSessionDuration;
 
   /// The ARN of the policy used to set the permissions boundary for the role.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// Contains information about the last time that an IAM role was used. This
   /// includes the date and time and the Region in which the role was last used.
@@ -16070,20 +16144,20 @@ class Role {
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
   /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final RoleLastUsed roleLastUsed;
+  final RoleLastUsed? roleLastUsed;
 
   /// A list of tags that are attached to the specified role. For more information
   /// about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Role({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.path,
-    @_s.required this.roleId,
-    @_s.required this.roleName,
+    required this.arn,
+    required this.createDate,
+    required this.path,
+    required this.roleId,
+    required this.roleName,
     this.assumeRolePolicyDocument,
     this.description,
     this.maxSessionDuration,
@@ -16093,11 +16167,11 @@ class Role {
   });
   factory Role.fromXml(_s.XmlElement elem) {
     return Role(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      roleId: _s.extractXmlStringValue(elem, 'RoleId'),
-      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      roleId: _s.extractXmlStringValue(elem, 'RoleId')!,
+      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
       assumeRolePolicyDocument:
           _s.extractXmlStringValue(elem, 'AssumeRolePolicyDocument'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -16120,39 +16194,39 @@ class Role {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class RoleDetail {
-  final String arn;
+  final String? arn;
 
   /// The trust policy that grants permission to assume the role.
-  final String assumeRolePolicyDocument;
+  final String? assumeRolePolicyDocument;
 
   /// A list of managed policies attached to the role. These policies are the
   /// role's access (permissions) policies.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the role was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// A list of instance profiles that contain this role.
-  final List<InstanceProfile> instanceProfileList;
+  final List<InstanceProfile>? instanceProfileList;
 
   /// The path to the role. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   /// The ARN of the policy used to set the permissions boundary for the role.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// The stable and unique string identifying the role. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String roleId;
+  final String? roleId;
 
   /// Contains information about the last time that an IAM role was used. This
   /// includes the date and time and the Region in which the role was last used.
@@ -16162,20 +16236,20 @@ class RoleDetail {
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
   /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final RoleLastUsed roleLastUsed;
+  final RoleLastUsed? roleLastUsed;
 
   /// The friendly name that identifies the role.
-  final String roleName;
+  final String? roleName;
 
   /// A list of inline policies embedded in the role. These policies are the
   /// role's access (permissions) policies.
-  final List<PolicyDetail> rolePolicyList;
+  final List<PolicyDetail>? rolePolicyList;
 
   /// A list of tags that are attached to the specified role. For more information
   /// about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   RoleDetail({
     this.arn,
@@ -16247,10 +16321,10 @@ class RoleLastUsed {
   /// period. For more information about the tracking period, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
   /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final DateTime lastUsedDate;
+  final DateTime? lastUsedDate;
 
   /// The name of the AWS Region in which the role was last used.
-  final String region;
+  final String? region;
 
   RoleLastUsed({
     this.lastUsedDate,
@@ -16271,10 +16345,10 @@ class RoleLastUsed {
 /// <a>GetServiceLinkedRoleDeletionStatus</a> operation.
 class RoleUsageType {
   /// The name of the Region where the service-linked role is being used.
-  final String region;
+  final String? region;
 
   /// The name of the resource that is using the service-linked role.
-  final List<String> resources;
+  final List<String>? resources;
 
   RoleUsageType({
     this.region,
@@ -16293,13 +16367,13 @@ class RoleUsageType {
 /// Contains the list of SAML providers for this account.
 class SAMLProviderListEntry {
   /// The Amazon Resource Name (ARN) of the SAML provider.
-  final String arn;
+  final String? arn;
 
   /// The date and time when the SAML provider was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The expiration date and time for the SAML provider.
-  final DateTime validUntil;
+  final DateTime? validUntil;
 
   SAMLProviderListEntry({
     this.arn,
@@ -16339,23 +16413,23 @@ class SSHPublicKey {
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the SSH public key was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   SSHPublicKey({
-    @_s.required this.fingerprint,
-    @_s.required this.sSHPublicKeyBody,
-    @_s.required this.sSHPublicKeyId,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.fingerprint,
+    required this.sSHPublicKeyBody,
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.userName,
     this.uploadDate,
   });
   factory SSHPublicKey.fromXml(_s.XmlElement elem) {
     return SSHPublicKey(
-      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint'),
-      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody'),
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
+      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
   }
@@ -16383,17 +16457,17 @@ class SSHPublicKeyMetadata {
   final String userName;
 
   SSHPublicKeyMetadata({
-    @_s.required this.sSHPublicKeyId,
-    @_s.required this.status,
-    @_s.required this.uploadDate,
-    @_s.required this.userName,
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.uploadDate,
+    required this.userName,
   });
   factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
     return SSHPublicKeyMetadata(
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
 }
@@ -16411,19 +16485,18 @@ class ServerCertificate {
   final ServerCertificateMetadata serverCertificateMetadata;
 
   /// The contents of the public key certificate chain.
-  final String certificateChain;
+  final String? certificateChain;
 
   ServerCertificate({
-    @_s.required this.certificateBody,
-    @_s.required this.serverCertificateMetadata,
+    required this.certificateBody,
+    required this.serverCertificateMetadata,
     this.certificateChain,
   });
   factory ServerCertificate.fromXml(_s.XmlElement elem) {
     return ServerCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody'),
-      serverCertificateMetadata: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadata')
-          ?.let((e) => ServerCertificateMetadata.fromXml(e)),
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      serverCertificateMetadata: ServerCertificateMetadata.fromXml(
+          _s.extractXmlChild(elem, 'ServerCertificateMetadata')!),
       certificateChain: _s.extractXmlStringValue(elem, 'CertificateChain'),
     );
   }
@@ -16456,27 +16529,27 @@ class ServerCertificateMetadata {
   final String serverCertificateName;
 
   /// The date on which the certificate is set to expire.
-  final DateTime expiration;
+  final DateTime? expiration;
 
   /// The date when the server certificate was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   ServerCertificateMetadata({
-    @_s.required this.arn,
-    @_s.required this.path,
-    @_s.required this.serverCertificateId,
-    @_s.required this.serverCertificateName,
+    required this.arn,
+    required this.path,
+    required this.serverCertificateId,
+    required this.serverCertificateName,
     this.expiration,
     this.uploadDate,
   });
   factory ServerCertificateMetadata.fromXml(_s.XmlElement elem) {
     return ServerCertificateMetadata(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
       serverCertificateId:
-          _s.extractXmlStringValue(elem, 'ServerCertificateId'),
+          _s.extractXmlStringValue(elem, 'ServerCertificateId')!,
       serverCertificateName:
-          _s.extractXmlStringValue(elem, 'ServerCertificateName'),
+          _s.extractXmlStringValue(elem, 'ServerCertificateName')!,
       expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
@@ -16511,7 +16584,7 @@ class ServiceLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticated;
+  final DateTime? lastAuthenticated;
 
   /// The ARN of the authenticated entity (user or role) that last attempted to
   /// access the service. AWS does not report unauthenticated requests.
@@ -16520,7 +16593,7 @@ class ServiceLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAuthenticatedEntity;
+  final String? lastAuthenticatedEntity;
 
   /// The Region from which the authenticated entity (user or role) last attempted
   /// to access the service. AWS does not report unauthenticated requests.
@@ -16529,7 +16602,7 @@ class ServiceLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAuthenticatedRegion;
+  final String? lastAuthenticatedRegion;
 
   /// The total number of authenticated principals (root user, IAM users, or IAM
   /// roles) that have attempted to access the service.
@@ -16538,7 +16611,7 @@ class ServiceLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final int totalAuthenticatedEntities;
+  final int? totalAuthenticatedEntities;
 
   /// An object that contains details about the most recent attempt to access a
   /// tracked action within the service.
@@ -16549,11 +16622,11 @@ class ServiceLastAccessed {
   /// period</a>. This field is also null if the report was generated at the
   /// service level and not the action level. For more information, see the
   /// <code>Granularity</code> field in <a>GenerateServiceLastAccessedDetails</a>.
-  final List<TrackedActionLastAccessed> trackedActionsLastAccessed;
+  final List<TrackedActionLastAccessed>? trackedActionsLastAccessed;
 
   ServiceLastAccessed({
-    @_s.required this.serviceName,
-    @_s.required this.serviceNamespace,
+    required this.serviceName,
+    required this.serviceNamespace,
     this.lastAuthenticated,
     this.lastAuthenticatedEntity,
     this.lastAuthenticatedRegion,
@@ -16562,8 +16635,8 @@ class ServiceLastAccessed {
   });
   factory ServiceLastAccessed.fromXml(_s.XmlElement elem) {
     return ServiceLastAccessed(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
       lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
       lastAuthenticatedEntity:
           _s.extractXmlStringValue(elem, 'LastAuthenticatedEntity'),
@@ -16611,24 +16684,24 @@ class ServiceSpecificCredential {
   final String userName;
 
   ServiceSpecificCredential({
-    @_s.required this.createDate,
-    @_s.required this.serviceName,
-    @_s.required this.servicePassword,
-    @_s.required this.serviceSpecificCredentialId,
-    @_s.required this.serviceUserName,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.serviceName,
+    required this.servicePassword,
+    required this.serviceSpecificCredentialId,
+    required this.serviceUserName,
+    required this.status,
+    required this.userName,
   });
   factory ServiceSpecificCredential.fromXml(_s.XmlElement elem) {
     return ServiceSpecificCredential(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword')!,
       serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId'),
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
 }
@@ -16657,22 +16730,22 @@ class ServiceSpecificCredentialMetadata {
   final String userName;
 
   ServiceSpecificCredentialMetadata({
-    @_s.required this.createDate,
-    @_s.required this.serviceName,
-    @_s.required this.serviceSpecificCredentialId,
-    @_s.required this.serviceUserName,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.serviceName,
+    required this.serviceSpecificCredentialId,
+    required this.serviceUserName,
+    required this.status,
+    required this.userName,
   });
   factory ServiceSpecificCredentialMetadata.fromXml(_s.XmlElement elem) {
     return ServiceSpecificCredentialMetadata(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
       serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId'),
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
 }
@@ -16697,21 +16770,21 @@ class SigningCertificate {
   final String userName;
 
   /// The date when the signing certificate was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   SigningCertificate({
-    @_s.required this.certificateBody,
-    @_s.required this.certificateId,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.certificateBody,
+    required this.certificateId,
+    required this.status,
+    required this.userName,
     this.uploadDate,
   });
   factory SigningCertificate.fromXml(_s.XmlElement elem) {
     return SigningCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody'),
-      certificateId: _s.extractXmlStringValue(elem, 'CertificateId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
   }
@@ -16721,7 +16794,7 @@ class SigningCertificate {
 /// <a>SimulateCustomPolicy</a> request.
 class SimulatePolicyResponse {
   /// The results of the simulation.
-  final List<EvaluationResult> evaluationResults;
+  final List<EvaluationResult>? evaluationResults;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -16730,12 +16803,12 @@ class SimulatePolicyResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   SimulatePolicyResponse({
     this.evaluationResults,
@@ -16762,17 +16835,17 @@ class SimulatePolicyResponse {
 /// <code> <a>EvaluationResult</a> </code> type.
 class Statement {
   /// The row and column of the end of a <code>Statement</code> in an IAM policy.
-  final Position endPosition;
+  final Position? endPosition;
 
   /// The identifier of the policy that was provided as an input.
-  final String sourcePolicyId;
+  final String? sourcePolicyId;
 
   /// The type of the policy.
-  final PolicySourceType sourcePolicyType;
+  final PolicySourceType? sourcePolicyType;
 
   /// The row and column of the beginning of the <code>Statement</code> in an IAM
   /// policy.
-  final Position startPosition;
+  final Position? startPosition;
 
   Statement({
     this.endPosition,
@@ -16801,16 +16874,10 @@ class Statement {
 /// tagging, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
 /// IAM Identities</a> in the <i>IAM User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key name that can be used to look up or retrieve the associated value.
   /// For example, <code>Department</code> or <code>Cost Center</code> are common
   /// choices.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value associated with this tag. For example, tags with a key name of
@@ -16825,21 +16892,27 @@ class Tag {
   /// need to store an array, you can store comma-separated values in the string.
   /// However, you must interpret the value in your code.
   /// </note>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Contains details about the most recent attempt to access an action within
@@ -16850,8 +16923,8 @@ class Tag {
 class TrackedActionLastAccessed {
   /// The name of the tracked action to which access was attempted. Tracked
   /// actions are actions that report activity to IAM.
-  final String actionName;
-  final String lastAccessedEntity;
+  final String? actionName;
+  final String? lastAccessedEntity;
 
   /// The Region from which the authenticated entity (user or role) last attempted
   /// to access the tracked action. AWS does not report unauthenticated requests.
@@ -16860,7 +16933,7 @@ class TrackedActionLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAccessedRegion;
+  final String? lastAccessedRegion;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when an authenticated entity most recently attempted
@@ -16870,7 +16943,7 @@ class TrackedActionLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAccessedTime;
+  final DateTime? lastAccessedTime;
 
   TrackedActionLastAccessed({
     this.actionName,
@@ -16890,7 +16963,7 @@ class TrackedActionLastAccessed {
 
 class UpdateRoleDescriptionResponse {
   /// A structure that contains details about the modified role.
-  final Role role;
+  final Role? role;
 
   UpdateRoleDescriptionResponse({
     this.role,
@@ -16914,7 +16987,7 @@ class UpdateRoleResponse {
 /// Contains the response to a successful <a>UpdateSAMLProvider</a> request.
 class UpdateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
-  final String sAMLProviderArn;
+  final String? sAMLProviderArn;
 
   UpdateSAMLProviderResponse({
     this.sAMLProviderArn,
@@ -16929,7 +17002,7 @@ class UpdateSAMLProviderResponse {
 /// Contains the response to a successful <a>UploadSSHPublicKey</a> request.
 class UploadSSHPublicKeyResponse {
   /// Contains information about the SSH public key.
-  final SSHPublicKey sSHPublicKey;
+  final SSHPublicKey? sSHPublicKey;
 
   UploadSSHPublicKeyResponse({
     this.sSHPublicKey,
@@ -16948,7 +17021,7 @@ class UploadSSHPublicKeyResponse {
 class UploadServerCertificateResponse {
   /// The meta information of the uploaded server certificate without its
   /// certificate body, certificate chain, and private key.
-  final ServerCertificateMetadata serverCertificateMetadata;
+  final ServerCertificateMetadata? serverCertificateMetadata;
 
   UploadServerCertificateResponse({
     this.serverCertificateMetadata,
@@ -16969,13 +17042,12 @@ class UploadSigningCertificateResponse {
   final SigningCertificate certificate;
 
   UploadSigningCertificateResponse({
-    @_s.required this.certificate,
+    required this.certificate,
   });
   factory UploadSigningCertificateResponse.fromXml(_s.XmlElement elem) {
     return UploadSigningCertificateResponse(
-      certificate: _s
-          .extractXmlChild(elem, 'Certificate')
-          ?.let((e) => SigningCertificate.fromXml(e)),
+      certificate:
+          SigningCertificate.fromXml(_s.extractXmlChild(elem, 'Certificate')!),
     );
   }
 }
@@ -17045,38 +17117,38 @@ class User {
   ///
   /// This value is returned only in the <a>GetUser</a> and <a>ListUsers</a>
   /// operations.
-  final DateTime passwordLastUsed;
+  final DateTime? passwordLastUsed;
 
   /// The ARN of the policy used to set the permissions boundary for the user.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// A list of tags that are associated with the specified user. For more
   /// information about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   User({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.path,
-    @_s.required this.userId,
-    @_s.required this.userName,
+    required this.arn,
+    required this.createDate,
+    required this.path,
+    required this.userId,
+    required this.userName,
     this.passwordLastUsed,
     this.permissionsBoundary,
     this.tags,
   });
   factory User.fromXml(_s.XmlElement elem) {
     return User(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      userId: _s.extractXmlStringValue(elem, 'UserId'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      userId: _s.extractXmlStringValue(elem, 'UserId')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       passwordLastUsed: _s.extractXmlDateTimeValue(elem, 'PasswordLastUsed'),
       permissionsBoundary: _s
           .extractXmlChild(elem, 'PermissionsBoundary')
@@ -17093,47 +17165,47 @@ class User {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class UserDetail {
-  final String arn;
+  final String? arn;
 
   /// A list of the managed policies attached to the user.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the user was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// A list of IAM groups that the user is in.
-  final List<String> groupList;
+  final List<String>? groupList;
 
   /// The path to the user. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  final String? path;
 
   /// The ARN of the policy used to set the permissions boundary for the user.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// A list of tags that are associated with the specified user. For more
   /// information about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String userId;
+  final String? userId;
 
   /// The friendly name identifying the user.
-  final String userName;
+  final String? userName;
 
   /// A list of the inline policies embedded in the user.
-  final List<PolicyDetail> userPolicyList;
+  final List<PolicyDetail>? userPolicyList;
 
   UserDetail({
     this.arn,
@@ -17185,10 +17257,10 @@ class VirtualMFADevice {
   /// The base32 seed defined as specified in <a
   /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
   /// <code>Base32StringSeed</code> is base64-encoded.
-  final Uint8List base32StringSeed;
+  final Uint8List? base32StringSeed;
 
   /// The date and time on which the virtual MFA device was enabled.
-  final DateTime enableDate;
+  final DateTime? enableDate;
 
   /// A QR code PNG image that encodes
   /// <code>otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String</code>
@@ -17196,13 +17268,13 @@ class VirtualMFADevice {
   /// arguments. <code>AccountName</code> is the user name if set (otherwise, the
   /// account ID otherwise), and <code>Base32String</code> is the seed in base32
   /// format. The <code>Base32String</code> value is base64-encoded.
-  final Uint8List qRCodePNG;
+  final Uint8List? qRCodePNG;
 
   /// The IAM user associated with this virtual MFA device.
-  final User user;
+  final User? user;
 
   VirtualMFADevice({
-    @_s.required this.serialNumber,
+    required this.serialNumber,
     this.base32StringSeed,
     this.enableDate,
     this.qRCodePNG,
@@ -17210,7 +17282,7 @@ class VirtualMFADevice {
   });
   factory VirtualMFADevice.fromXml(_s.XmlElement elem) {
     return VirtualMFADevice(
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber'),
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
       base32StringSeed: _s.extractXmlUint8ListValue(elem, 'Base32StringSeed'),
       enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
       qRCodePNG: _s.extractXmlUint8ListValue(elem, 'QRCodePNG'),
@@ -17220,11 +17292,8 @@ class VirtualMFADevice {
 }
 
 enum AssignmentStatusType {
-  @_s.JsonValue('Assigned')
   assigned,
-  @_s.JsonValue('Unassigned')
   unassigned,
-  @_s.JsonValue('Any')
   any,
 }
 
@@ -17238,7 +17307,6 @@ extension on AssignmentStatusType {
       case AssignmentStatusType.any:
         return 'Any';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17252,14 +17320,12 @@ extension on String {
       case 'Any':
         return AssignmentStatusType.any;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AssignmentStatusType');
   }
 }
 
 enum EncodingType {
-  @_s.JsonValue('SSH')
   ssh,
-  @_s.JsonValue('PEM')
   pem,
 }
 
@@ -17271,7 +17337,6 @@ extension on EncodingType {
       case EncodingType.pem:
         return 'PEM';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17283,14 +17348,12 @@ extension on String {
       case 'PEM':
         return EncodingType.pem;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EncodingType');
   }
 }
 
 enum GlobalEndpointTokenVersion {
-  @_s.JsonValue('v1Token')
   v1Token,
-  @_s.JsonValue('v2Token')
   v2Token,
 }
 
@@ -17302,7 +17365,6 @@ extension on GlobalEndpointTokenVersion {
       case GlobalEndpointTokenVersion.v2Token:
         return 'v2Token';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17314,17 +17376,27 @@ extension on String {
       case 'v2Token':
         return GlobalEndpointTokenVersion.v2Token;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum GlobalEndpointTokenVersion');
   }
 }
 
 enum JobStatusType {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on JobStatusType {
+  String toValue() {
+    switch (this) {
+      case JobStatusType.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatusType.completed:
+        return 'COMPLETED';
+      case JobStatusType.failed:
+        return 'FAILED';
+    }
+  }
 }
 
 extension on String {
@@ -17337,17 +17409,27 @@ extension on String {
       case 'FAILED':
         return JobStatusType.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobStatusType');
   }
 }
 
 enum PolicyOwnerEntityType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('ROLE')
   role,
-  @_s.JsonValue('GROUP')
   group,
+}
+
+extension on PolicyOwnerEntityType {
+  String toValue() {
+    switch (this) {
+      case PolicyOwnerEntityType.user:
+        return 'USER';
+      case PolicyOwnerEntityType.role:
+        return 'ROLE';
+      case PolicyOwnerEntityType.group:
+        return 'GROUP';
+    }
+  }
 }
 
 extension on String {
@@ -17360,16 +17442,13 @@ extension on String {
       case 'GROUP':
         return PolicyOwnerEntityType.group;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyOwnerEntityType');
   }
 }
 
 enum PolicyScopeType {
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('Local')
   local,
 }
 
@@ -17383,7 +17462,6 @@ extension on PolicyScopeType {
       case PolicyScopeType.local:
         return 'Local';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17397,15 +17475,24 @@ extension on String {
       case 'Local':
         return PolicyScopeType.local;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyScopeType');
   }
 }
 
 enum PolicyType {
-  @_s.JsonValue('INLINE')
   inline,
-  @_s.JsonValue('MANAGED')
   managed,
+}
+
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.inline:
+        return 'INLINE';
+      case PolicyType.managed:
+        return 'MANAGED';
+    }
+  }
 }
 
 extension on String {
@@ -17416,18 +17503,14 @@ extension on String {
       case 'MANAGED':
         return PolicyType.managed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyType');
   }
 }
 
 enum SortKeyType {
-  @_s.JsonValue('SERVICE_NAMESPACE_ASCENDING')
   serviceNamespaceAscending,
-  @_s.JsonValue('SERVICE_NAMESPACE_DESCENDING')
   serviceNamespaceDescending,
-  @_s.JsonValue('LAST_AUTHENTICATED_TIME_ASCENDING')
   lastAuthenticatedTimeAscending,
-  @_s.JsonValue('LAST_AUTHENTICATED_TIME_DESCENDING')
   lastAuthenticatedTimeDescending,
 }
 
@@ -17443,7 +17526,6 @@ extension on SortKeyType {
       case SortKeyType.lastAuthenticatedTimeDescending:
         return 'LAST_AUTHENTICATED_TIME_DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17459,14 +17541,12 @@ extension on String {
       case 'LAST_AUTHENTICATED_TIME_DESCENDING':
         return SortKeyType.lastAuthenticatedTimeDescending;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SortKeyType');
   }
 }
 
 enum StatusType {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inactive')
   inactive,
 }
 
@@ -17478,7 +17558,6 @@ extension on StatusType {
       case StatusType.inactive:
         return 'Inactive';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17490,63 +17569,96 @@ extension on String {
       case 'Inactive':
         return StatusType.inactive;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StatusType');
   }
 }
 
 enum SummaryKeyType {
-  @_s.JsonValue('Users')
   users,
-  @_s.JsonValue('UsersQuota')
   usersQuota,
-  @_s.JsonValue('Groups')
   groups,
-  @_s.JsonValue('GroupsQuota')
   groupsQuota,
-  @_s.JsonValue('ServerCertificates')
   serverCertificates,
-  @_s.JsonValue('ServerCertificatesQuota')
   serverCertificatesQuota,
-  @_s.JsonValue('UserPolicySizeQuota')
   userPolicySizeQuota,
-  @_s.JsonValue('GroupPolicySizeQuota')
   groupPolicySizeQuota,
-  @_s.JsonValue('GroupsPerUserQuota')
   groupsPerUserQuota,
-  @_s.JsonValue('SigningCertificatesPerUserQuota')
   signingCertificatesPerUserQuota,
-  @_s.JsonValue('AccessKeysPerUserQuota')
   accessKeysPerUserQuota,
-  @_s.JsonValue('MFADevices')
   mFADevices,
-  @_s.JsonValue('MFADevicesInUse')
   mFADevicesInUse,
-  @_s.JsonValue('AccountMFAEnabled')
   accountMFAEnabled,
-  @_s.JsonValue('AccountAccessKeysPresent')
   accountAccessKeysPresent,
-  @_s.JsonValue('AccountSigningCertificatesPresent')
   accountSigningCertificatesPresent,
-  @_s.JsonValue('AttachedPoliciesPerGroupQuota')
   attachedPoliciesPerGroupQuota,
-  @_s.JsonValue('AttachedPoliciesPerRoleQuota')
   attachedPoliciesPerRoleQuota,
-  @_s.JsonValue('AttachedPoliciesPerUserQuota')
   attachedPoliciesPerUserQuota,
-  @_s.JsonValue('Policies')
   policies,
-  @_s.JsonValue('PoliciesQuota')
   policiesQuota,
-  @_s.JsonValue('PolicySizeQuota')
   policySizeQuota,
-  @_s.JsonValue('PolicyVersionsInUse')
   policyVersionsInUse,
-  @_s.JsonValue('PolicyVersionsInUseQuota')
   policyVersionsInUseQuota,
-  @_s.JsonValue('VersionsPerPolicyQuota')
   versionsPerPolicyQuota,
-  @_s.JsonValue('GlobalEndpointTokenVersion')
   globalEndpointTokenVersion,
+}
+
+extension on SummaryKeyType {
+  String toValue() {
+    switch (this) {
+      case SummaryKeyType.users:
+        return 'Users';
+      case SummaryKeyType.usersQuota:
+        return 'UsersQuota';
+      case SummaryKeyType.groups:
+        return 'Groups';
+      case SummaryKeyType.groupsQuota:
+        return 'GroupsQuota';
+      case SummaryKeyType.serverCertificates:
+        return 'ServerCertificates';
+      case SummaryKeyType.serverCertificatesQuota:
+        return 'ServerCertificatesQuota';
+      case SummaryKeyType.userPolicySizeQuota:
+        return 'UserPolicySizeQuota';
+      case SummaryKeyType.groupPolicySizeQuota:
+        return 'GroupPolicySizeQuota';
+      case SummaryKeyType.groupsPerUserQuota:
+        return 'GroupsPerUserQuota';
+      case SummaryKeyType.signingCertificatesPerUserQuota:
+        return 'SigningCertificatesPerUserQuota';
+      case SummaryKeyType.accessKeysPerUserQuota:
+        return 'AccessKeysPerUserQuota';
+      case SummaryKeyType.mFADevices:
+        return 'MFADevices';
+      case SummaryKeyType.mFADevicesInUse:
+        return 'MFADevicesInUse';
+      case SummaryKeyType.accountMFAEnabled:
+        return 'AccountMFAEnabled';
+      case SummaryKeyType.accountAccessKeysPresent:
+        return 'AccountAccessKeysPresent';
+      case SummaryKeyType.accountSigningCertificatesPresent:
+        return 'AccountSigningCertificatesPresent';
+      case SummaryKeyType.attachedPoliciesPerGroupQuota:
+        return 'AttachedPoliciesPerGroupQuota';
+      case SummaryKeyType.attachedPoliciesPerRoleQuota:
+        return 'AttachedPoliciesPerRoleQuota';
+      case SummaryKeyType.attachedPoliciesPerUserQuota:
+        return 'AttachedPoliciesPerUserQuota';
+      case SummaryKeyType.policies:
+        return 'Policies';
+      case SummaryKeyType.policiesQuota:
+        return 'PoliciesQuota';
+      case SummaryKeyType.policySizeQuota:
+        return 'PolicySizeQuota';
+      case SummaryKeyType.policyVersionsInUse:
+        return 'PolicyVersionsInUse';
+      case SummaryKeyType.policyVersionsInUseQuota:
+        return 'PolicyVersionsInUseQuota';
+      case SummaryKeyType.versionsPerPolicyQuota:
+        return 'VersionsPerPolicyQuota';
+      case SummaryKeyType.globalEndpointTokenVersion:
+        return 'GlobalEndpointTokenVersion';
+    }
+  }
 }
 
 extension on String {
@@ -17605,12 +17717,12 @@ extension on String {
       case 'GlobalEndpointTokenVersion':
         return SummaryKeyType.globalEndpointTokenVersion;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SummaryKeyType');
   }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -17618,7 +17730,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class CredentialReportExpiredException extends _s.GenericAwsException {
-  CredentialReportExpiredException({String type, String message})
+  CredentialReportExpiredException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportExpiredException',
@@ -17626,7 +17738,7 @@ class CredentialReportExpiredException extends _s.GenericAwsException {
 }
 
 class CredentialReportNotPresentException extends _s.GenericAwsException {
-  CredentialReportNotPresentException({String type, String message})
+  CredentialReportNotPresentException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportNotPresentException',
@@ -17634,7 +17746,7 @@ class CredentialReportNotPresentException extends _s.GenericAwsException {
 }
 
 class CredentialReportNotReadyException extends _s.GenericAwsException {
-  CredentialReportNotReadyException({String type, String message})
+  CredentialReportNotReadyException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportNotReadyException',
@@ -17642,12 +17754,12 @@ class CredentialReportNotReadyException extends _s.GenericAwsException {
 }
 
 class DeleteConflictException extends _s.GenericAwsException {
-  DeleteConflictException({String type, String message})
+  DeleteConflictException({String? type, String? message})
       : super(type: type, code: 'DeleteConflictException', message: message);
 }
 
 class DuplicateCertificateException extends _s.GenericAwsException {
-  DuplicateCertificateException({String type, String message})
+  DuplicateCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateCertificateException',
@@ -17655,7 +17767,7 @@ class DuplicateCertificateException extends _s.GenericAwsException {
 }
 
 class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
-  DuplicateSSHPublicKeyException({String type, String message})
+  DuplicateSSHPublicKeyException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateSSHPublicKeyException',
@@ -17663,13 +17775,13 @@ class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
 }
 
 class EntityAlreadyExistsException extends _s.GenericAwsException {
-  EntityAlreadyExistsException({String type, String message})
+  EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
 class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
-  EntityTemporarilyUnmodifiableException({String type, String message})
+  EntityTemporarilyUnmodifiableException({String? type, String? message})
       : super(
             type: type,
             code: 'EntityTemporarilyUnmodifiableException',
@@ -17677,7 +17789,7 @@ class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
 }
 
 class InvalidAuthenticationCodeException extends _s.GenericAwsException {
-  InvalidAuthenticationCodeException({String type, String message})
+  InvalidAuthenticationCodeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAuthenticationCodeException',
@@ -17685,38 +17797,38 @@ class InvalidAuthenticationCodeException extends _s.GenericAwsException {
 }
 
 class InvalidCertificateException extends _s.GenericAwsException {
-  InvalidCertificateException({String type, String message})
+  InvalidCertificateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidPublicKeyException extends _s.GenericAwsException {
-  InvalidPublicKeyException({String type, String message})
+  InvalidPublicKeyException({String? type, String? message})
       : super(type: type, code: 'InvalidPublicKeyException', message: message);
 }
 
 class InvalidUserTypeException extends _s.GenericAwsException {
-  InvalidUserTypeException({String type, String message})
+  InvalidUserTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidUserTypeException', message: message);
 }
 
 class KeyPairMismatchException extends _s.GenericAwsException {
-  KeyPairMismatchException({String type, String message})
+  KeyPairMismatchException({String? type, String? message})
       : super(type: type, code: 'KeyPairMismatchException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedCertificateException extends _s.GenericAwsException {
-  MalformedCertificateException({String type, String message})
+  MalformedCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedCertificateException',
@@ -17724,7 +17836,7 @@ class MalformedCertificateException extends _s.GenericAwsException {
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -17732,12 +17844,12 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class NoSuchEntityException extends _s.GenericAwsException {
-  NoSuchEntityException({String type, String message})
+  NoSuchEntityException({String? type, String? message})
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
 class PasswordPolicyViolationException extends _s.GenericAwsException {
-  PasswordPolicyViolationException({String type, String message})
+  PasswordPolicyViolationException({String? type, String? message})
       : super(
             type: type,
             code: 'PasswordPolicyViolationException',
@@ -17745,18 +17857,18 @@ class PasswordPolicyViolationException extends _s.GenericAwsException {
 }
 
 class PolicyEvaluationException extends _s.GenericAwsException {
-  PolicyEvaluationException({String type, String message})
+  PolicyEvaluationException({String? type, String? message})
       : super(type: type, code: 'PolicyEvaluationException', message: message);
 }
 
 class PolicyNotAttachableException extends _s.GenericAwsException {
-  PolicyNotAttachableException({String type, String message})
+  PolicyNotAttachableException({String? type, String? message})
       : super(
             type: type, code: 'PolicyNotAttachableException', message: message);
 }
 
 class ReportGenerationLimitExceededException extends _s.GenericAwsException {
-  ReportGenerationLimitExceededException({String type, String message})
+  ReportGenerationLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ReportGenerationLimitExceededException',
@@ -17764,24 +17876,24 @@ class ReportGenerationLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServiceFailureException extends _s.GenericAwsException {
-  ServiceFailureException({String type, String message})
+  ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
 class ServiceNotSupportedException extends _s.GenericAwsException {
-  ServiceNotSupportedException({String type, String message})
+  ServiceNotSupportedException({String? type, String? message})
       : super(
             type: type, code: 'ServiceNotSupportedException', message: message);
 }
 
 class UnmodifiableEntityException extends _s.GenericAwsException {
-  UnmodifiableEntityException({String type, String message})
+  UnmodifiableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnmodifiableEntityException', message: message);
 }
 
 class UnrecognizedPublicKeyEncodingException extends _s.GenericAwsException {
-  UnrecognizedPublicKeyEncodingException({String type, String message})
+  UnrecognizedPublicKeyEncodingException({String? type, String? message})
       : super(
             type: type,
             code: 'UnrecognizedPublicKeyEncodingException',

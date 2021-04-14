@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'ds-2015-04-16.g.dart';
 
 /// AWS Directory Service is a web service that makes it easy for you to setup
 /// and run directories in the AWS cloud, or connect your AWS resources with an
@@ -46,10 +38,10 @@ part 'ds-2015-04-16.g.dart';
 class DirectoryService {
   final _s.JsonProtocol _protocol;
   DirectoryService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -73,7 +65,7 @@ class DirectoryService {
   /// Identifier of the shared directory in the directory consumer account. This
   /// identifier is different for each directory owner account.
   Future<AcceptSharedDirectoryResult> acceptSharedDirectory({
-    @_s.required String sharedDirectoryId,
+    required String sharedDirectoryId,
   }) async {
     ArgumentError.checkNotNull(sharedDirectoryId, 'sharedDirectoryId');
     _s.validateStringPattern(
@@ -201,9 +193,9 @@ class DirectoryService {
   /// These security rules impact an internal network interface that is not
   /// exposed publicly.
   Future<void> addIpRoutes({
-    @_s.required String directoryId,
-    @_s.required List<IpRoute> ipRoutes,
-    bool updateSecurityGroupForDirectoryControllers,
+    required String directoryId,
+    required List<IpRoute> ipRoutes,
+    bool? updateSecurityGroupForDirectoryControllers,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -217,7 +209,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddIpRoutes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -231,8 +223,6 @@ class DirectoryService {
               updateSecurityGroupForDirectoryControllers,
       },
     );
-
-    return AddIpRoutesResult.fromJson(jsonResponse.body);
   }
 
   /// Adds two domain controllers in the specified Region for the specified
@@ -257,9 +247,9 @@ class DirectoryService {
   /// The name of the Region where you want to add domain controllers for
   /// replication. For example, <code>us-east-1</code>.
   Future<void> addRegion({
-    @_s.required String directoryId,
-    @_s.required String regionName,
-    @_s.required DirectoryVpcSettings vPCSettings,
+    required String directoryId,
+    required String regionName,
+    required DirectoryVpcSettings vPCSettings,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -281,7 +271,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddRegion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -293,8 +283,6 @@ class DirectoryService {
         'VPCSettings': vPCSettings,
       },
     );
-
-    return AddRegionResult.fromJson(jsonResponse.body);
   }
 
   /// Adds or overwrites one or more tags for the specified directory. Each
@@ -313,8 +301,8 @@ class DirectoryService {
   /// Parameter [tags] :
   /// The tags to be assigned to the directory.
   Future<void> addTagsToResource({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringPattern(
@@ -328,7 +316,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddTagsToResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -339,8 +327,6 @@ class DirectoryService {
         'Tags': tags,
       },
     );
-
-    return AddTagsToResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Cancels an in-progress schema extension to a Microsoft AD directory. Once
@@ -359,8 +345,8 @@ class DirectoryService {
   /// Parameter [schemaExtensionId] :
   /// The identifier of the schema extension that will be canceled.
   Future<void> cancelSchemaExtension({
-    @_s.required String directoryId,
-    @_s.required String schemaExtensionId,
+    required String directoryId,
+    required String schemaExtensionId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -380,7 +366,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CancelSchemaExtension'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -391,8 +377,6 @@ class DirectoryService {
         'SchemaExtensionId': schemaExtensionId,
       },
     );
-
-    return CancelSchemaExtensionResult.fromJson(jsonResponse.body);
   }
 
   /// Creates an AD Connector to connect to an on-premises directory.
@@ -433,13 +417,13 @@ class DirectoryService {
   /// Parameter [tags] :
   /// The tags to be assigned to AD Connector.
   Future<ConnectDirectoryResult> connectDirectory({
-    @_s.required DirectoryConnectSettings connectSettings,
-    @_s.required String name,
-    @_s.required String password,
-    @_s.required DirectorySize size,
-    String description,
-    String shortName,
-    List<Tag> tags,
+    required DirectoryConnectSettings connectSettings,
+    required String name,
+    required String password,
+    required DirectorySize size,
+    String? description,
+    String? shortName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectSettings, 'connectSettings');
     ArgumentError.checkNotNull(name, 'name');
@@ -488,7 +472,7 @@ class DirectoryService {
         'ConnectSettings': connectSettings,
         'Name': name,
         'Password': password,
-        'Size': size?.toValue() ?? '',
+        'Size': size.toValue(),
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -522,8 +506,8 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// The identifier of the directory for which to create the alias.
   Future<CreateAliasResult> createAlias({
-    @_s.required String alias,
-    @_s.required String directoryId,
+    required String alias,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
     _s.validateStringLength(
@@ -594,11 +578,11 @@ class DirectoryService {
   /// The fully-qualified distinguished name of the organizational unit to place
   /// the computer account in.
   Future<CreateComputerResult> createComputer({
-    @_s.required String computerName,
-    @_s.required String directoryId,
-    @_s.required String password,
-    List<Attribute> computerAttributes,
-    String organizationalUnitDistinguishedName,
+    required String computerName,
+    required String directoryId,
+    required String password,
+    List<Attribute>? computerAttributes,
+    String? organizationalUnitDistinguishedName,
   }) async {
     ArgumentError.checkNotNull(computerName, 'computerName');
     _s.validateStringLength(
@@ -685,9 +669,9 @@ class DirectoryService {
   /// The fully qualified domain name (FQDN) of the remote domain with which you
   /// will set up a trust relationship.
   Future<void> createConditionalForwarder({
-    @_s.required String directoryId,
-    @_s.required List<String> dnsIpAddrs,
-    @_s.required String remoteDomainName,
+    required String directoryId,
+    required List<String> dnsIpAddrs,
+    required String remoteDomainName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -708,7 +692,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateConditionalForwarder'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -720,8 +704,6 @@ class DirectoryService {
         'RemoteDomainName': remoteDomainName,
       },
     );
-
-    return CreateConditionalForwarderResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a Simple AD directory. For more information, see <a
@@ -801,13 +783,13 @@ class DirectoryService {
   /// A <a>DirectoryVpcSettings</a> object that contains additional information
   /// for the operation.
   Future<CreateDirectoryResult> createDirectory({
-    @_s.required String name,
-    @_s.required String password,
-    @_s.required DirectorySize size,
-    String description,
-    String shortName,
-    List<Tag> tags,
-    DirectoryVpcSettings vpcSettings,
+    required String name,
+    required String password,
+    required DirectorySize size,
+    String? description,
+    String? shortName,
+    List<Tag>? tags,
+    DirectoryVpcSettings? vpcSettings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -853,7 +835,7 @@ class DirectoryService {
       payload: {
         'Name': name,
         'Password': password,
-        'Size': size?.toValue() ?? '',
+        'Size': size.toValue(),
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -883,8 +865,8 @@ class DirectoryService {
   /// The name of the CloudWatch log group where the real-time domain controller
   /// logs are forwarded.
   Future<void> createLogSubscription({
-    @_s.required String directoryId,
-    @_s.required String logGroupName,
+    required String directoryId,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -911,7 +893,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateLogSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -922,8 +904,6 @@ class DirectoryService {
         'LogGroupName': logGroupName,
       },
     );
-
-    return CreateLogSubscriptionResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a Microsoft AD directory in the AWS Cloud. For more information,
@@ -978,13 +958,13 @@ class DirectoryService {
   /// Parameter [tags] :
   /// The tags to be assigned to the AWS Managed Microsoft AD directory.
   Future<CreateMicrosoftADResult> createMicrosoftAD({
-    @_s.required String name,
-    @_s.required String password,
-    @_s.required DirectoryVpcSettings vpcSettings,
-    String description,
-    DirectoryEdition edition,
-    String shortName,
-    List<Tag> tags,
+    required String name,
+    required String password,
+    required DirectoryVpcSettings vpcSettings,
+    String? description,
+    DirectoryEdition? edition,
+    String? shortName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1059,8 +1039,8 @@ class DirectoryService {
   /// Parameter [name] :
   /// The descriptive name to apply to the snapshot.
   Future<CreateSnapshotResult> createSnapshot({
-    @_s.required String directoryId,
-    String name,
+    required String directoryId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1142,13 +1122,13 @@ class DirectoryService {
   /// Parameter [trustType] :
   /// The trust relationship type. <code>Forest</code> is the default.
   Future<CreateTrustResult> createTrust({
-    @_s.required String directoryId,
-    @_s.required String remoteDomainName,
-    @_s.required TrustDirection trustDirection,
-    @_s.required String trustPassword,
-    List<String> conditionalForwarderIpAddrs,
-    SelectiveAuth selectiveAuth,
-    TrustType trustType,
+    required String directoryId,
+    required String remoteDomainName,
+    required TrustDirection trustDirection,
+    required String trustPassword,
+    List<String>? conditionalForwarderIpAddrs,
+    SelectiveAuth? selectiveAuth,
+    TrustType? trustType,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1192,7 +1172,7 @@ class DirectoryService {
       payload: {
         'DirectoryId': directoryId,
         'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection?.toValue() ?? '',
+        'TrustDirection': trustDirection.toValue(),
         'TrustPassword': trustPassword,
         if (conditionalForwarderIpAddrs != null)
           'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
@@ -1221,8 +1201,8 @@ class DirectoryService {
   /// The fully qualified domain name (FQDN) of the remote domain with which you
   /// are deleting the conditional forwarder.
   Future<void> deleteConditionalForwarder({
-    @_s.required String directoryId,
-    @_s.required String remoteDomainName,
+    required String directoryId,
+    required String remoteDomainName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1242,7 +1222,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteConditionalForwarder'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1253,8 +1233,6 @@ class DirectoryService {
         'RemoteDomainName': remoteDomainName,
       },
     );
-
-    return DeleteConditionalForwarderResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an AWS Directory Service directory.
@@ -1274,7 +1252,7 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// The identifier of the directory to delete.
   Future<DeleteDirectoryResult> deleteDirectory({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1311,7 +1289,7 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// Identifier of the directory whose log subscription you want to delete.
   Future<void> deleteLogSubscription({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1324,7 +1302,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteLogSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1334,8 +1312,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return DeleteLogSubscriptionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a directory snapshot.
@@ -1348,7 +1324,7 @@ class DirectoryService {
   /// Parameter [snapshotId] :
   /// The identifier of the directory snapshot to be deleted.
   Future<DeleteSnapshotResult> deleteSnapshot({
-    @_s.required String snapshotId,
+    required String snapshotId,
   }) async {
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringPattern(
@@ -1390,8 +1366,8 @@ class DirectoryService {
   /// Parameter [deleteAssociatedConditionalForwarder] :
   /// Delete a conditional forwarder as part of a DeleteTrustRequest.
   Future<DeleteTrustResult> deleteTrust({
-    @_s.required String trustId,
-    bool deleteAssociatedConditionalForwarder,
+    required String trustId,
+    bool? deleteAssociatedConditionalForwarder,
   }) async {
     ArgumentError.checkNotNull(trustId, 'trustId');
     _s.validateStringPattern(
@@ -1439,8 +1415,8 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// The identifier of the directory.
   Future<void> deregisterCertificate({
-    @_s.required String certificateId,
-    @_s.required String directoryId,
+    required String certificateId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringPattern(
@@ -1460,7 +1436,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeregisterCertificate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1471,8 +1447,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return DeregisterCertificateResult.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified directory as a publisher to the specified SNS topic.
@@ -1490,8 +1464,8 @@ class DirectoryService {
   /// The name of the SNS topic from which to remove the directory as a
   /// publisher.
   Future<void> deregisterEventTopic({
-    @_s.required String directoryId,
-    @_s.required String topicName,
+    required String directoryId,
+    required String topicName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1518,7 +1492,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeregisterEventTopic'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1529,8 +1503,6 @@ class DirectoryService {
         'TopicName': topicName,
       },
     );
-
-    return DeregisterEventTopicResult.fromJson(jsonResponse.body);
   }
 
   /// Displays information about the certificate registered for secure LDAP or
@@ -1549,8 +1521,8 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// The identifier of the directory.
   Future<DescribeCertificateResult> describeCertificate({
-    @_s.required String certificateId,
-    @_s.required String directoryId,
+    required String certificateId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringPattern(
@@ -1606,8 +1578,8 @@ class DirectoryService {
   /// get the list of associated conditional forwarders. If this member is null,
   /// all conditional forwarders are returned.
   Future<DescribeConditionalForwardersResult> describeConditionalForwarders({
-    @_s.required String directoryId,
-    List<String> remoteDomainNames,
+    required String directoryId,
+    List<String>? remoteDomainNames,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1673,9 +1645,9 @@ class DirectoryService {
   /// The <code>DescribeDirectoriesResult.NextToken</code> value from a previous
   /// call to <a>DescribeDirectories</a>. Pass null if this is the first call.
   Future<DescribeDirectoriesResult> describeDirectories({
-    List<String> directoryIds,
-    int limit,
-    String nextToken,
+    List<String>? directoryIds,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1727,10 +1699,10 @@ class DirectoryService {
   /// The <i>DescribeDomainControllers.NextToken</i> value from a previous call
   /// to <a>DescribeDomainControllers</a>. Pass null if this is the first call.
   Future<DescribeDomainControllersResult> describeDomainControllers({
-    @_s.required String directoryId,
-    List<String> domainControllerIds,
-    int limit,
-    String nextToken,
+    required String directoryId,
+    List<String>? domainControllerIds,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1790,8 +1762,8 @@ class DirectoryService {
   /// An empty list results in an <code>InvalidParameterException</code> being
   /// thrown.
   Future<DescribeEventTopicsResult> describeEventTopics({
-    String directoryId,
-    List<String> topicNames,
+    String? directoryId,
+    List<String>? topicNames,
   }) async {
     _s.validateStringPattern(
       'directoryId',
@@ -1839,10 +1811,10 @@ class DirectoryService {
   /// The type of LDAP security to enable. Currently only the value
   /// <code>Client</code> is supported.
   Future<DescribeLDAPSSettingsResult> describeLDAPSSettings({
-    @_s.required String directoryId,
-    int limit,
-    String nextToken,
-    LDAPSType type,
+    required String directoryId,
+    int? limit,
+    String? nextToken,
+    LDAPSType? type,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1899,9 +1871,9 @@ class DirectoryService {
   /// Parameter [regionName] :
   /// The name of the Region. For example, <code>us-east-1</code>.
   Future<DescribeRegionsResult> describeRegions({
-    @_s.required String directoryId,
-    String nextToken,
-    String regionName,
+    required String directoryId,
+    String? nextToken,
+    String? regionName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -1959,10 +1931,10 @@ class DirectoryService {
   /// Parameter [sharedDirectoryIds] :
   /// A list of identifiers of all shared directories in your account.
   Future<DescribeSharedDirectoriesResult> describeSharedDirectories({
-    @_s.required String ownerDirectoryId,
-    int limit,
-    String nextToken,
-    List<String> sharedDirectoryIds,
+    required String ownerDirectoryId,
+    int? limit,
+    String? nextToken,
+    List<String>? sharedDirectoryIds,
   }) async {
     ArgumentError.checkNotNull(ownerDirectoryId, 'ownerDirectoryId');
     _s.validateStringPattern(
@@ -2033,10 +2005,10 @@ class DirectoryService {
   /// this member is null or empty, all snapshots are returned using the
   /// <i>Limit</i> and <i>NextToken</i> members.
   Future<DescribeSnapshotsResult> describeSnapshots({
-    String directoryId,
-    int limit,
-    String nextToken,
-    List<String> snapshotIds,
+    String? directoryId,
+    int? limit,
+    String? nextToken,
+    List<String>? snapshotIds,
   }) async {
     _s.validateStringPattern(
       'directoryId',
@@ -2101,10 +2073,10 @@ class DirectoryService {
   /// An empty list results in an <code>InvalidParameterException</code> being
   /// thrown.
   Future<DescribeTrustsResult> describeTrusts({
-    String directoryId,
-    int limit,
-    String nextToken,
-    List<String> trustIds,
+    String? directoryId,
+    int? limit,
+    String? nextToken,
+    List<String>? trustIds,
   }) async {
     _s.validateStringPattern(
       'directoryId',
@@ -2155,8 +2127,8 @@ class DirectoryService {
   /// The type of client authentication to disable. Currently, only the
   /// parameter, <code>SmartCard</code> is supported.
   Future<void> disableClientAuthentication({
-    @_s.required String directoryId,
-    @_s.required ClientAuthenticationType type,
+    required String directoryId,
+    required ClientAuthenticationType type,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2170,7 +2142,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableClientAuthentication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2178,11 +2150,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
       },
     );
-
-    return DisableClientAuthenticationResult.fromJson(jsonResponse.body);
   }
 
   /// Deactivates LDAP secure calls for the specified directory.
@@ -2202,8 +2172,8 @@ class DirectoryService {
   /// The type of LDAP security to enable. Currently only the value
   /// <code>Client</code> is supported.
   Future<void> disableLDAPS({
-    @_s.required String directoryId,
-    @_s.required LDAPSType type,
+    required String directoryId,
+    required LDAPSType type,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2217,7 +2187,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableLDAPS'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2225,11 +2195,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
       },
     );
-
-    return DisableLDAPSResult.fromJson(jsonResponse.body);
   }
 
   /// Disables multi-factor authentication (MFA) with the Remote Authentication
@@ -2243,7 +2211,7 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// The identifier of the directory for which to disable MFA.
   Future<void> disableRadius({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2256,7 +2224,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableRadius'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2266,8 +2234,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return DisableRadiusResult.fromJson(jsonResponse.body);
   }
 
   /// Disables single-sign on for a directory.
@@ -2297,9 +2263,9 @@ class DirectoryService {
   /// used to disable single sign-on and are not stored by the service. The AD
   /// Connector service account is not changed.
   Future<void> disableSso({
-    @_s.required String directoryId,
-    String password,
-    String userName,
+    required String directoryId,
+    String? password,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2329,7 +2295,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableSso'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2341,8 +2307,6 @@ class DirectoryService {
         if (userName != null) 'UserName': userName,
       },
     );
-
-    return DisableSsoResult.fromJson(jsonResponse.body);
   }
 
   /// Enables alternative client authentication methods for the specified
@@ -2365,8 +2329,8 @@ class DirectoryService {
   /// Connector requires that you enable Kerberos Constrained Delegation for the
   /// Service User to the LDAP service in the on-premises AD.
   Future<void> enableClientAuthentication({
-    @_s.required String directoryId,
-    @_s.required ClientAuthenticationType type,
+    required String directoryId,
+    required ClientAuthenticationType type,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2380,7 +2344,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableClientAuthentication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2388,11 +2352,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
       },
     );
-
-    return EnableClientAuthenticationResult.fromJson(jsonResponse.body);
   }
 
   /// Activates the switch for the specific directory to always use LDAP secure
@@ -2414,8 +2376,8 @@ class DirectoryService {
   /// The type of LDAP security to enable. Currently only the value
   /// <code>Client</code> is supported.
   Future<void> enableLDAPS({
-    @_s.required String directoryId,
-    @_s.required LDAPSType type,
+    required String directoryId,
+    required LDAPSType type,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2429,7 +2391,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableLDAPS'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2437,11 +2399,9 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
       },
     );
-
-    return EnableLDAPSResult.fromJson(jsonResponse.body);
   }
 
   /// Enables multi-factor authentication (MFA) with the Remote Authentication
@@ -2461,8 +2421,8 @@ class DirectoryService {
   /// A <a>RadiusSettings</a> object that contains information about the RADIUS
   /// server.
   Future<void> enableRadius({
-    @_s.required String directoryId,
-    @_s.required RadiusSettings radiusSettings,
+    required String directoryId,
+    required RadiusSettings radiusSettings,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2476,7 +2436,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableRadius'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2487,8 +2447,6 @@ class DirectoryService {
         'RadiusSettings': radiusSettings,
       },
     );
-
-    return EnableRadiusResult.fromJson(jsonResponse.body);
   }
 
   /// Enables single sign-on for a directory. Single sign-on allows users in
@@ -2520,9 +2478,9 @@ class DirectoryService {
   /// used to enable single sign-on and are not stored by the service. The AD
   /// Connector service account is not changed.
   Future<void> enableSso({
-    @_s.required String directoryId,
-    String password,
-    String userName,
+    required String directoryId,
+    String? password,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2552,7 +2510,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableSso'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2564,8 +2522,6 @@ class DirectoryService {
         if (userName != null) 'UserName': userName,
       },
     );
-
-    return EnableSsoResult.fromJson(jsonResponse.body);
   }
 
   /// Obtains directory limit information for the current Region.
@@ -2598,7 +2554,7 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// Contains the identifier of the directory to obtain the limits for.
   Future<GetSnapshotLimitsResult> getSnapshotLimits({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2648,9 +2604,9 @@ class DirectoryService {
   /// element in your request until the token comes back as <code>null</code>.
   /// Pass <code>null</code> if this is the first call.
   Future<ListCertificatesResult> listCertificates({
-    @_s.required String directoryId,
-    int limit,
-    String nextToken,
+    required String directoryId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2705,9 +2661,9 @@ class DirectoryService {
   /// The <i>ListIpRoutes.NextToken</i> value from a previous call to
   /// <a>ListIpRoutes</a>. Pass null if this is the first call.
   Future<ListIpRoutesResult> listIpRoutes({
-    @_s.required String directoryId,
-    int limit,
-    String nextToken,
+    required String directoryId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2762,9 +2718,9 @@ class DirectoryService {
   /// Parameter [nextToken] :
   /// The token for the next set of items to return.
   Future<ListLogSubscriptionsResult> listLogSubscriptions({
-    String directoryId,
-    int limit,
-    String nextToken,
+    String? directoryId,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'directoryId',
@@ -2815,9 +2771,9 @@ class DirectoryService {
   /// The <code>ListSchemaExtensions.NextToken</code> value from a previous call
   /// to <code>ListSchemaExtensions</code>. Pass null if this is the first call.
   Future<ListSchemaExtensionsResult> listSchemaExtensions({
-    @_s.required String directoryId,
-    int limit,
-    String nextToken,
+    required String directoryId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -2869,9 +2825,9 @@ class DirectoryService {
   /// Parameter [nextToken] :
   /// Reserved for future use.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String resourceId,
-    int limit,
-    String nextToken,
+    required String resourceId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringPattern(
@@ -2934,10 +2890,10 @@ class DirectoryService {
   /// include <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The
   /// default value is <code>ClientLDAPS</code>.
   Future<RegisterCertificateResult> registerCertificate({
-    @_s.required String certificateData,
-    @_s.required String directoryId,
-    ClientCertAuthSettings clientCertAuthSettings,
-    CertificateType type,
+    required String certificateData,
+    required String directoryId,
+    ClientCertAuthSettings? clientCertAuthSettings,
+    CertificateType? type,
   }) async {
     ArgumentError.checkNotNull(certificateData, 'certificateData');
     _s.validateStringLength(
@@ -2995,8 +2951,8 @@ class DirectoryService {
   /// The SNS topic name to which the directory will publish status messages.
   /// This SNS topic must be in the same region as the specified Directory ID.
   Future<void> registerEventTopic({
-    @_s.required String directoryId,
-    @_s.required String topicName,
+    required String directoryId,
+    required String topicName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3023,7 +2979,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RegisterEventTopic'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3034,8 +2990,6 @@ class DirectoryService {
         'TopicName': topicName,
       },
     );
-
-    return RegisterEventTopicResult.fromJson(jsonResponse.body);
   }
 
   /// Rejects a directory sharing request that was sent from the directory owner
@@ -3051,7 +3005,7 @@ class DirectoryService {
   /// Identifier of the shared directory in the directory consumer account. This
   /// identifier is different for each directory owner account.
   Future<RejectSharedDirectoryResult> rejectSharedDirectory({
-    @_s.required String sharedDirectoryId,
+    required String sharedDirectoryId,
   }) async {
     ArgumentError.checkNotNull(sharedDirectoryId, 'sharedDirectoryId');
     _s.validateStringPattern(
@@ -3093,8 +3047,8 @@ class DirectoryService {
   /// Identifier (ID) of the directory from which you want to remove the IP
   /// addresses.
   Future<void> removeIpRoutes({
-    @_s.required List<String> cidrIps,
-    @_s.required String directoryId,
+    required List<String> cidrIps,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(cidrIps, 'cidrIps');
     ArgumentError.checkNotNull(directoryId, 'directoryId');
@@ -3108,7 +3062,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveIpRoutes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3119,8 +3073,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return RemoveIpRoutesResult.fromJson(jsonResponse.body);
   }
 
   /// Stops all replication and removes the domain controllers from the
@@ -3138,7 +3090,7 @@ class DirectoryService {
   /// The identifier of the directory for which you want to remove Region
   /// replication.
   Future<void> removeRegion({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3151,7 +3103,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveRegion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3161,8 +3113,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return RemoveRegionResult.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from a directory.
@@ -3178,8 +3128,8 @@ class DirectoryService {
   /// Parameter [tagKeys] :
   /// The tag key (name) of the tag to be removed.
   Future<void> removeTagsFromResource({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringPattern(
@@ -3193,7 +3143,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveTagsFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3204,8 +3154,6 @@ class DirectoryService {
         'TagKeys': tagKeys,
       },
     );
-
-    return RemoveTagsFromResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Resets the password for any user in your AWS Managed Microsoft AD or
@@ -3249,9 +3197,9 @@ class DirectoryService {
   /// Parameter [userName] :
   /// The user name of the user whose password will be reset.
   Future<void> resetUserPassword({
-    @_s.required String directoryId,
-    @_s.required String newPassword,
-    @_s.required String userName,
+    required String directoryId,
+    required String newPassword,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3286,7 +3234,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ResetUserPassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3298,8 +3246,6 @@ class DirectoryService {
         'UserName': userName,
       },
     );
-
-    return ResetUserPasswordResult.fromJson(jsonResponse.body);
   }
 
   /// Restores a directory using an existing directory snapshot.
@@ -3321,7 +3267,7 @@ class DirectoryService {
   /// Parameter [snapshotId] :
   /// The identifier of the snapshot to restore from.
   Future<void> restoreFromSnapshot({
-    @_s.required String snapshotId,
+    required String snapshotId,
   }) async {
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringPattern(
@@ -3334,7 +3280,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RestoreFromSnapshot'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3344,8 +3290,6 @@ class DirectoryService {
         'SnapshotId': snapshotId,
       },
     );
-
-    return RestoreFromSnapshotResult.fromJson(jsonResponse.body);
   }
 
   /// Shares a specified directory (<code>DirectoryId</code>) in your AWS
@@ -3400,10 +3344,10 @@ class DirectoryService {
   /// directory consumer administrator determine whether to approve or reject
   /// the share invitation.
   Future<ShareDirectoryResult> shareDirectory({
-    @_s.required String directoryId,
-    @_s.required ShareMethod shareMethod,
-    @_s.required ShareTarget shareTarget,
-    String shareNotes,
+    required String directoryId,
+    required ShareMethod shareMethod,
+    required ShareTarget shareTarget,
+    String? shareNotes,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3432,7 +3376,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'ShareMethod': shareMethod?.toValue() ?? '',
+        'ShareMethod': shareMethod.toValue(),
         'ShareTarget': shareTarget,
         if (shareNotes != null) 'ShareNotes': shareNotes,
       },
@@ -3467,10 +3411,10 @@ class DirectoryService {
   /// \n. See the example request below for more details. The file size can be
   /// no larger than 1MB.
   Future<StartSchemaExtensionResult> startSchemaExtension({
-    @_s.required bool createSnapshotBeforeSchemaExtension,
-    @_s.required String description,
-    @_s.required String directoryId,
-    @_s.required String ldifContent,
+    required bool createSnapshotBeforeSchemaExtension,
+    required String description,
+    required String directoryId,
+    required String ldifContent,
   }) async {
     ArgumentError.checkNotNull(createSnapshotBeforeSchemaExtension,
         'createSnapshotBeforeSchemaExtension');
@@ -3542,8 +3486,8 @@ class DirectoryService {
   /// Identifier for the directory consumer account with whom the directory has
   /// to be unshared.
   Future<UnshareDirectoryResult> unshareDirectory({
-    @_s.required String directoryId,
-    @_s.required UnshareTarget unshareTarget,
+    required String directoryId,
+    required UnshareTarget unshareTarget,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3594,9 +3538,9 @@ class DirectoryService {
   /// The fully qualified domain name (FQDN) of the remote domain with which you
   /// will set up a trust relationship.
   Future<void> updateConditionalForwarder({
-    @_s.required String directoryId,
-    @_s.required List<String> dnsIpAddrs,
-    @_s.required String remoteDomainName,
+    required String directoryId,
+    required List<String> dnsIpAddrs,
+    required String remoteDomainName,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3617,7 +3561,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UpdateConditionalForwarder'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3629,8 +3573,6 @@ class DirectoryService {
         'RemoteDomainName': remoteDomainName,
       },
     );
-
-    return UpdateConditionalForwarderResult.fromJson(jsonResponse.body);
   }
 
   /// Adds or removes domain controllers to or from the directory. Based on the
@@ -3655,8 +3597,8 @@ class DirectoryService {
   /// Identifier of the directory to which the domain controllers will be added
   /// or removed.
   Future<void> updateNumberOfDomainControllers({
-    @_s.required int desiredNumber,
-    @_s.required String directoryId,
+    required int desiredNumber,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(desiredNumber, 'desiredNumber');
     _s.validateNumRange(
@@ -3678,7 +3620,7 @@ class DirectoryService {
       'X-Amz-Target':
           'DirectoryService_20150416.UpdateNumberOfDomainControllers'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3689,8 +3631,6 @@ class DirectoryService {
         'DirectoryId': directoryId,
       },
     );
-
-    return UpdateNumberOfDomainControllersResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the Remote Authentication Dial In User Service (RADIUS) server
@@ -3709,8 +3649,8 @@ class DirectoryService {
   /// A <a>RadiusSettings</a> object that contains information about the RADIUS
   /// server.
   Future<void> updateRadius({
-    @_s.required String directoryId,
-    @_s.required RadiusSettings radiusSettings,
+    required String directoryId,
+    required RadiusSettings radiusSettings,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringPattern(
@@ -3724,7 +3664,7 @@ class DirectoryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UpdateRadius'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3735,8 +3675,6 @@ class DirectoryService {
         'RadiusSettings': radiusSettings,
       },
     );
-
-    return UpdateRadiusResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the trust that has been set up between your AWS Managed Microsoft
@@ -3753,8 +3691,8 @@ class DirectoryService {
   /// Parameter [selectiveAuth] :
   /// Updates selective authentication for the trust.
   Future<UpdateTrustResult> updateTrust({
-    @_s.required String trustId,
-    SelectiveAuth selectiveAuth,
+    required String trustId,
+    SelectiveAuth? selectiveAuth,
   }) async {
     ArgumentError.checkNotNull(trustId, 'trustId');
     _s.validateStringPattern(
@@ -3797,7 +3735,7 @@ class DirectoryService {
   /// Parameter [trustId] :
   /// The unique Trust ID of the trust relationship to verify.
   Future<VerifyTrustResult> verifyTrust({
-    @_s.required String trustId,
+    required String trustId,
   }) async {
     ArgumentError.checkNotNull(trustId, 'trustId');
     _s.validateStringPattern(
@@ -3825,135 +3763,108 @@ class DirectoryService {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptSharedDirectoryResult {
   /// The shared directory in the directory consumer account.
-  @_s.JsonKey(name: 'SharedDirectory')
-  final SharedDirectory sharedDirectory;
+  final SharedDirectory? sharedDirectory;
 
   AcceptSharedDirectoryResult({
     this.sharedDirectory,
   });
-  factory AcceptSharedDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$AcceptSharedDirectoryResultFromJson(json);
+  factory AcceptSharedDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return AcceptSharedDirectoryResult(
+      sharedDirectory: json['SharedDirectory'] != null
+          ? SharedDirectory.fromJson(
+              json['SharedDirectory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddIpRoutesResult {
   AddIpRoutesResult();
-  factory AddIpRoutesResult.fromJson(Map<String, dynamic> json) =>
-      _$AddIpRoutesResultFromJson(json);
+  factory AddIpRoutesResult.fromJson(Map<String, dynamic> _) {
+    return AddIpRoutesResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddRegionResult {
   AddRegionResult();
-  factory AddRegionResult.fromJson(Map<String, dynamic> json) =>
-      _$AddRegionResultFromJson(json);
+  factory AddRegionResult.fromJson(Map<String, dynamic> _) {
+    return AddRegionResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
-  factory AddTagsToResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsToResourceResultFromJson(json);
+  factory AddTagsToResourceResult.fromJson(Map<String, dynamic> _) {
+    return AddTagsToResourceResult();
+  }
 }
 
 /// Represents a named directory attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Attribute {
   /// The name of the attribute.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Attribute({
     this.name,
     this.value,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelSchemaExtensionResult {
   CancelSchemaExtensionResult();
-  factory CancelSchemaExtensionResult.fromJson(Map<String, dynamic> json) =>
-      _$CancelSchemaExtensionResultFromJson(json);
+  factory CancelSchemaExtensionResult.fromJson(Map<String, dynamic> _) {
+    return CancelSchemaExtensionResult();
+  }
 }
 
 /// Information about the certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Certificate {
   /// The identifier of the certificate.
-  @_s.JsonKey(name: 'CertificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// A <code>ClientCertAuthSettings</code> object that contains client
   /// certificate authentication settings.
-  @_s.JsonKey(name: 'ClientCertAuthSettings')
-  final ClientCertAuthSettings clientCertAuthSettings;
+  final ClientCertAuthSettings? clientCertAuthSettings;
 
   /// The common name for the certificate.
-  @_s.JsonKey(name: 'CommonName')
-  final String commonName;
+  final String? commonName;
 
   /// The date and time when the certificate will expire.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiryDateTime')
-  final DateTime expiryDateTime;
+  final DateTime? expiryDateTime;
 
   /// The date and time that the certificate was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RegisteredDateTime')
-  final DateTime registeredDateTime;
+  final DateTime? registeredDateTime;
 
   /// The state of the certificate.
-  @_s.JsonKey(name: 'State')
-  final CertificateState state;
+  final CertificateState? state;
 
   /// Describes a state change for the certificate.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   /// The function that the registered certificate performs. Valid values include
   /// <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The default value
   /// is <code>ClientLDAPS</code>.
-  @_s.JsonKey(name: 'Type')
-  final CertificateType type;
+  final CertificateType? type;
 
   Certificate({
     this.certificateId,
@@ -3965,39 +3876,41 @@ class Certificate {
     this.stateReason,
     this.type,
   });
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateId: json['CertificateId'] as String?,
+      clientCertAuthSettings: json['ClientCertAuthSettings'] != null
+          ? ClientCertAuthSettings.fromJson(
+              json['ClientCertAuthSettings'] as Map<String, dynamic>)
+          : null,
+      commonName: json['CommonName'] as String?,
+      expiryDateTime: timeStampFromJson(json['ExpiryDateTime']),
+      registeredDateTime: timeStampFromJson(json['RegisteredDateTime']),
+      state: (json['State'] as String?)?.toCertificateState(),
+      stateReason: json['StateReason'] as String?,
+      type: (json['Type'] as String?)?.toCertificateType(),
+    );
+  }
 }
 
 /// Contains general information about a certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CertificateInfo {
   /// The identifier of the certificate.
-  @_s.JsonKey(name: 'CertificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The common name for the certificate.
-  @_s.JsonKey(name: 'CommonName')
-  final String commonName;
+  final String? commonName;
 
   /// The date and time when the certificate will expire.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiryDateTime')
-  final DateTime expiryDateTime;
+  final DateTime? expiryDateTime;
 
   /// The state of the certificate.
-  @_s.JsonKey(name: 'State')
-  final CertificateState state;
+  final CertificateState? state;
 
   /// The function that the registered certificate performs. Valid values include
   /// <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The default value
   /// is <code>ClientLDAPS</code>.
-  @_s.JsonKey(name: 'Type')
-  final CertificateType type;
+  final CertificateType? type;
 
   CertificateInfo({
     this.certificateId,
@@ -4006,29 +3919,67 @@ class CertificateInfo {
     this.state,
     this.type,
   });
-  factory CertificateInfo.fromJson(Map<String, dynamic> json) =>
-      _$CertificateInfoFromJson(json);
+  factory CertificateInfo.fromJson(Map<String, dynamic> json) {
+    return CertificateInfo(
+      certificateId: json['CertificateId'] as String?,
+      commonName: json['CommonName'] as String?,
+      expiryDateTime: timeStampFromJson(json['ExpiryDateTime']),
+      state: (json['State'] as String?)?.toCertificateState(),
+      type: (json['Type'] as String?)?.toCertificateType(),
+    );
+  }
 }
 
 enum CertificateState {
-  @_s.JsonValue('Registering')
   registering,
-  @_s.JsonValue('Registered')
   registered,
-  @_s.JsonValue('RegisterFailed')
   registerFailed,
-  @_s.JsonValue('Deregistering')
   deregistering,
-  @_s.JsonValue('Deregistered')
   deregistered,
-  @_s.JsonValue('DeregisterFailed')
   deregisterFailed,
 }
 
+extension on CertificateState {
+  String toValue() {
+    switch (this) {
+      case CertificateState.registering:
+        return 'Registering';
+      case CertificateState.registered:
+        return 'Registered';
+      case CertificateState.registerFailed:
+        return 'RegisterFailed';
+      case CertificateState.deregistering:
+        return 'Deregistering';
+      case CertificateState.deregistered:
+        return 'Deregistered';
+      case CertificateState.deregisterFailed:
+        return 'DeregisterFailed';
+    }
+  }
+}
+
+extension on String {
+  CertificateState toCertificateState() {
+    switch (this) {
+      case 'Registering':
+        return CertificateState.registering;
+      case 'Registered':
+        return CertificateState.registered;
+      case 'RegisterFailed':
+        return CertificateState.registerFailed;
+      case 'Deregistering':
+        return CertificateState.deregistering;
+      case 'Deregistered':
+        return CertificateState.deregistered;
+      case 'DeregisterFailed':
+        return CertificateState.deregisterFailed;
+    }
+    throw Exception('$this is not known in enum CertificateState');
+  }
+}
+
 enum CertificateType {
-  @_s.JsonValue('ClientCertAuth')
   clientCertAuth,
-  @_s.JsonValue('ClientLDAPS')
   clientLDAPS,
 }
 
@@ -4040,12 +3991,22 @@ extension on CertificateType {
       case CertificateType.clientLDAPS:
         return 'ClientLDAPS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CertificateType toCertificateType() {
+    switch (this) {
+      case 'ClientCertAuth':
+        return CertificateType.clientCertAuth;
+      case 'ClientLDAPS':
+        return CertificateType.clientLDAPS;
+    }
+    throw Exception('$this is not known in enum CertificateType');
   }
 }
 
 enum ClientAuthenticationType {
-  @_s.JsonValue('SmartCard')
   smartCard,
 }
 
@@ -4055,398 +4016,350 @@ extension on ClientAuthenticationType {
       case ClientAuthenticationType.smartCard:
         return 'SmartCard';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ClientAuthenticationType toClientAuthenticationType() {
+    switch (this) {
+      case 'SmartCard':
+        return ClientAuthenticationType.smartCard;
+    }
+    throw Exception('$this is not known in enum ClientAuthenticationType');
   }
 }
 
 /// Contains information about the client certificate authentication settings
 /// for the <code>RegisterCertificate</code> and
 /// <code>DescribeCertificate</code> operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClientCertAuthSettings {
   /// Specifies the URL of the default OCSP server used to check for revocation
   /// status. A secondary value to any OCSP address found in the AIA extension of
   /// the user certificate.
-  @_s.JsonKey(name: 'OCSPUrl')
-  final String oCSPUrl;
+  final String? oCSPUrl;
 
   ClientCertAuthSettings({
     this.oCSPUrl,
   });
-  factory ClientCertAuthSettings.fromJson(Map<String, dynamic> json) =>
-      _$ClientCertAuthSettingsFromJson(json);
+  factory ClientCertAuthSettings.fromJson(Map<String, dynamic> json) {
+    return ClientCertAuthSettings(
+      oCSPUrl: json['OCSPUrl'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClientCertAuthSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final oCSPUrl = this.oCSPUrl;
+    return {
+      if (oCSPUrl != null) 'OCSPUrl': oCSPUrl,
+    };
+  }
 }
 
 /// Contains information about a computer account in a directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Computer {
   /// An array of <a>Attribute</a> objects containing the LDAP attributes that
   /// belong to the computer account.
-  @_s.JsonKey(name: 'ComputerAttributes')
-  final List<Attribute> computerAttributes;
+  final List<Attribute>? computerAttributes;
 
   /// The identifier of the computer.
-  @_s.JsonKey(name: 'ComputerId')
-  final String computerId;
+  final String? computerId;
 
   /// The computer name.
-  @_s.JsonKey(name: 'ComputerName')
-  final String computerName;
+  final String? computerName;
 
   Computer({
     this.computerAttributes,
     this.computerId,
     this.computerName,
   });
-  factory Computer.fromJson(Map<String, dynamic> json) =>
-      _$ComputerFromJson(json);
+  factory Computer.fromJson(Map<String, dynamic> json) {
+    return Computer(
+      computerAttributes: (json['ComputerAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      computerId: json['ComputerId'] as String?,
+      computerName: json['ComputerName'] as String?,
+    );
+  }
 }
 
 /// Points to a remote domain with which you are setting up a trust
 /// relationship. Conditional forwarders are required in order to set up a trust
 /// relationship with another domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConditionalForwarder {
   /// The IP addresses of the remote DNS server associated with RemoteDomainName.
   /// This is the IP address of the DNS server that your conditional forwarder
   /// points to.
-  @_s.JsonKey(name: 'DnsIpAddrs')
-  final List<String> dnsIpAddrs;
+  final List<String>? dnsIpAddrs;
 
   /// The fully qualified domain name (FQDN) of the remote domains pointed to by
   /// the conditional forwarder.
-  @_s.JsonKey(name: 'RemoteDomainName')
-  final String remoteDomainName;
+  final String? remoteDomainName;
 
   /// The replication scope of the conditional forwarder. The only allowed value
   /// is <code>Domain</code>, which will replicate the conditional forwarder to
   /// all of the domain controllers for your AWS directory.
-  @_s.JsonKey(name: 'ReplicationScope')
-  final ReplicationScope replicationScope;
+  final ReplicationScope? replicationScope;
 
   ConditionalForwarder({
     this.dnsIpAddrs,
     this.remoteDomainName,
     this.replicationScope,
   });
-  factory ConditionalForwarder.fromJson(Map<String, dynamic> json) =>
-      _$ConditionalForwarderFromJson(json);
+  factory ConditionalForwarder.fromJson(Map<String, dynamic> json) {
+    return ConditionalForwarder(
+      dnsIpAddrs: (json['DnsIpAddrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      remoteDomainName: json['RemoteDomainName'] as String?,
+      replicationScope:
+          (json['ReplicationScope'] as String?)?.toReplicationScope(),
+    );
+  }
 }
 
 /// Contains the results of the <a>ConnectDirectory</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectDirectoryResult {
   /// The identifier of the new directory.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   ConnectDirectoryResult({
     this.directoryId,
   });
-  factory ConnectDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$ConnectDirectoryResultFromJson(json);
+  factory ConnectDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return ConnectDirectoryResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
 }
 
 /// Contains the results of the <a>CreateAlias</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAliasResult {
   /// The alias for the directory.
-  @_s.JsonKey(name: 'Alias')
-  final String alias;
+  final String? alias;
 
   /// The identifier of the directory.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   CreateAliasResult({
     this.alias,
     this.directoryId,
   });
-  factory CreateAliasResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAliasResultFromJson(json);
+  factory CreateAliasResult.fromJson(Map<String, dynamic> json) {
+    return CreateAliasResult(
+      alias: json['Alias'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
 }
 
 /// Contains the results for the <a>CreateComputer</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateComputerResult {
   /// A <a>Computer</a> object that represents the computer account.
-  @_s.JsonKey(name: 'Computer')
-  final Computer computer;
+  final Computer? computer;
 
   CreateComputerResult({
     this.computer,
   });
-  factory CreateComputerResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateComputerResultFromJson(json);
+  factory CreateComputerResult.fromJson(Map<String, dynamic> json) {
+    return CreateComputerResult(
+      computer: json['Computer'] != null
+          ? Computer.fromJson(json['Computer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a CreateConditinalForwarder request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConditionalForwarderResult {
   CreateConditionalForwarderResult();
-  factory CreateConditionalForwarderResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateConditionalForwarderResultFromJson(json);
+  factory CreateConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
+    return CreateConditionalForwarderResult();
+  }
 }
 
 /// Contains the results of the <a>CreateDirectory</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDirectoryResult {
   /// The identifier of the directory that was created.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   CreateDirectoryResult({
     this.directoryId,
   });
-  factory CreateDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDirectoryResultFromJson(json);
+  factory CreateDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return CreateDirectoryResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLogSubscriptionResult {
   CreateLogSubscriptionResult();
-  factory CreateLogSubscriptionResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateLogSubscriptionResultFromJson(json);
+  factory CreateLogSubscriptionResult.fromJson(Map<String, dynamic> _) {
+    return CreateLogSubscriptionResult();
+  }
 }
 
 /// Result of a CreateMicrosoftAD request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMicrosoftADResult {
   /// The identifier of the directory that was created.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   CreateMicrosoftADResult({
     this.directoryId,
   });
-  factory CreateMicrosoftADResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateMicrosoftADResultFromJson(json);
+  factory CreateMicrosoftADResult.fromJson(Map<String, dynamic> json) {
+    return CreateMicrosoftADResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
 }
 
 /// Contains the results of the <a>CreateSnapshot</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSnapshotResult {
   /// The identifier of the snapshot that was created.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   CreateSnapshotResult({
     this.snapshotId,
   });
-  factory CreateSnapshotResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateSnapshotResultFromJson(json);
+  factory CreateSnapshotResult.fromJson(Map<String, dynamic> json) {
+    return CreateSnapshotResult(
+      snapshotId: json['SnapshotId'] as String?,
+    );
+  }
 }
 
 /// The result of a CreateTrust request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTrustResult {
   /// A unique identifier for the trust relationship that was created.
-  @_s.JsonKey(name: 'TrustId')
-  final String trustId;
+  final String? trustId;
 
   CreateTrustResult({
     this.trustId,
   });
-  factory CreateTrustResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateTrustResultFromJson(json);
+  factory CreateTrustResult.fromJson(Map<String, dynamic> json) {
+    return CreateTrustResult(
+      trustId: json['TrustId'] as String?,
+    );
+  }
 }
 
 /// The result of a DeleteConditionalForwarder request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConditionalForwarderResult {
   DeleteConditionalForwarderResult();
-  factory DeleteConditionalForwarderResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteConditionalForwarderResultFromJson(json);
+  factory DeleteConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
+    return DeleteConditionalForwarderResult();
+  }
 }
 
 /// Contains the results of the <a>DeleteDirectory</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectoryResult {
   /// The directory identifier.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   DeleteDirectoryResult({
     this.directoryId,
   });
-  factory DeleteDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDirectoryResultFromJson(json);
+  factory DeleteDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return DeleteDirectoryResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLogSubscriptionResult {
   DeleteLogSubscriptionResult();
-  factory DeleteLogSubscriptionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLogSubscriptionResultFromJson(json);
+  factory DeleteLogSubscriptionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteLogSubscriptionResult();
+  }
 }
 
 /// Contains the results of the <a>DeleteSnapshot</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSnapshotResult {
   /// The identifier of the directory snapshot that was deleted.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   DeleteSnapshotResult({
     this.snapshotId,
   });
-  factory DeleteSnapshotResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSnapshotResultFromJson(json);
+  factory DeleteSnapshotResult.fromJson(Map<String, dynamic> json) {
+    return DeleteSnapshotResult(
+      snapshotId: json['SnapshotId'] as String?,
+    );
+  }
 }
 
 /// The result of a DeleteTrust request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTrustResult {
   /// The Trust ID of the trust relationship that was deleted.
-  @_s.JsonKey(name: 'TrustId')
-  final String trustId;
+  final String? trustId;
 
   DeleteTrustResult({
     this.trustId,
   });
-  factory DeleteTrustResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTrustResultFromJson(json);
+  factory DeleteTrustResult.fromJson(Map<String, dynamic> json) {
+    return DeleteTrustResult(
+      trustId: json['TrustId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterCertificateResult {
   DeregisterCertificateResult();
-  factory DeregisterCertificateResult.fromJson(Map<String, dynamic> json) =>
-      _$DeregisterCertificateResultFromJson(json);
+  factory DeregisterCertificateResult.fromJson(Map<String, dynamic> _) {
+    return DeregisterCertificateResult();
+  }
 }
 
 /// The result of a DeregisterEventTopic request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterEventTopicResult {
   DeregisterEventTopicResult();
-  factory DeregisterEventTopicResult.fromJson(Map<String, dynamic> json) =>
-      _$DeregisterEventTopicResultFromJson(json);
+  factory DeregisterEventTopicResult.fromJson(Map<String, dynamic> _) {
+    return DeregisterEventTopicResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCertificateResult {
   /// Information about the certificate, including registered date time,
   /// certificate state, the reason for the state, expiration date time, and
   /// certificate common name.
-  @_s.JsonKey(name: 'Certificate')
-  final Certificate certificate;
+  final Certificate? certificate;
 
   DescribeCertificateResult({
     this.certificate,
   });
-  factory DescribeCertificateResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCertificateResultFromJson(json);
+  factory DescribeCertificateResult.fromJson(Map<String, dynamic> json) {
+    return DescribeCertificateResult(
+      certificate: json['Certificate'] != null
+          ? Certificate.fromJson(json['Certificate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The result of a DescribeConditionalForwarder request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConditionalForwardersResult {
   /// The list of conditional forwarders that have been created.
-  @_s.JsonKey(name: 'ConditionalForwarders')
-  final List<ConditionalForwarder> conditionalForwarders;
+  final List<ConditionalForwarder>? conditionalForwarders;
 
   DescribeConditionalForwardersResult({
     this.conditionalForwarders,
   });
   factory DescribeConditionalForwardersResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeConditionalForwardersResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeConditionalForwardersResult(
+      conditionalForwarders: (json['ConditionalForwarders'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConditionalForwarder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the results of the <a>DescribeDirectories</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectoriesResult {
   /// The list of <a>DirectoryDescription</a> objects that were retrieved.
   ///
@@ -4454,151 +4367,150 @@ class DescribeDirectoriesResult {
   /// specified in the <code>Limit</code> member of the request. This occurs if
   /// there are less than the requested number of items left to retrieve, or if
   /// the limitations of the operation have been exceeded.
-  @_s.JsonKey(name: 'DirectoryDescriptions')
-  final List<DirectoryDescription> directoryDescriptions;
+  final List<DirectoryDescription>? directoryDescriptions;
 
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
   /// <a>DescribeDirectories</a> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectoriesResult({
     this.directoryDescriptions,
     this.nextToken,
   });
-  factory DescribeDirectoriesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDirectoriesResultFromJson(json);
+  factory DescribeDirectoriesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDirectoriesResult(
+      directoryDescriptions: (json['DirectoryDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DirectoryDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDomainControllersResult {
   /// List of the <a>DomainController</a> objects that were retrieved.
-  @_s.JsonKey(name: 'DomainControllers')
-  final List<DomainController> domainControllers;
+  final List<DomainController>? domainControllers;
 
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
   /// <a>DescribeDomainControllers</a> retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDomainControllersResult({
     this.domainControllers,
     this.nextToken,
   });
-  factory DescribeDomainControllersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDomainControllersResultFromJson(json);
+  factory DescribeDomainControllersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainControllersResult(
+      domainControllers: (json['DomainControllers'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainController.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The result of a DescribeEventTopic request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventTopicsResult {
   /// A list of SNS topic names that receive status messages from the specified
   /// Directory ID.
-  @_s.JsonKey(name: 'EventTopics')
-  final List<EventTopic> eventTopics;
+  final List<EventTopic>? eventTopics;
 
   DescribeEventTopicsResult({
     this.eventTopics,
   });
-  factory DescribeEventTopicsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventTopicsResultFromJson(json);
+  factory DescribeEventTopicsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEventTopicsResult(
+      eventTopics: (json['EventTopics'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventTopic.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLDAPSSettingsResult {
   /// Information about LDAP security for the specified directory, including
   /// status of enablement, state last updated date time, and the reason for the
   /// state.
-  @_s.JsonKey(name: 'LDAPSSettingsInfo')
-  final List<LDAPSSettingInfo> lDAPSSettingsInfo;
+  final List<LDAPSSettingInfo>? lDAPSSettingsInfo;
 
   /// The next token used to retrieve the LDAPS settings if the number of setting
   /// types exceeds page limit and there is another page.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeLDAPSSettingsResult({
     this.lDAPSSettingsInfo,
     this.nextToken,
   });
-  factory DescribeLDAPSSettingsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLDAPSSettingsResultFromJson(json);
+  factory DescribeLDAPSSettingsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeLDAPSSettingsResult(
+      lDAPSSettingsInfo: (json['LDAPSSettingsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => LDAPSSettingInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRegionsResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
   /// <a>DescribeRegions</a> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of Region information related to the directory for each replicated
   /// Region.
-  @_s.JsonKey(name: 'RegionsDescription')
-  final List<RegionDescription> regionsDescription;
+  final List<RegionDescription>? regionsDescription;
 
   DescribeRegionsResult({
     this.nextToken,
     this.regionsDescription,
   });
-  factory DescribeRegionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRegionsResultFromJson(json);
+  factory DescribeRegionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeRegionsResult(
+      nextToken: json['NextToken'] as String?,
+      regionsDescription: (json['RegionsDescription'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegionDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSharedDirectoriesResult {
   /// If not null, token that indicates that more results are available. Pass this
   /// value for the <code>NextToken</code> parameter in a subsequent call to
   /// <a>DescribeSharedDirectories</a> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all shared directories in your account.
-  @_s.JsonKey(name: 'SharedDirectories')
-  final List<SharedDirectory> sharedDirectories;
+  final List<SharedDirectory>? sharedDirectories;
 
   DescribeSharedDirectoriesResult({
     this.nextToken,
     this.sharedDirectories,
   });
-  factory DescribeSharedDirectoriesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSharedDirectoriesResultFromJson(json);
+  factory DescribeSharedDirectoriesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSharedDirectoriesResult(
+      nextToken: json['NextToken'] as String?,
+      sharedDirectories: (json['SharedDirectories'] as List?)
+          ?.whereNotNull()
+          .map((e) => SharedDirectory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the results of the <a>DescribeSnapshots</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSnapshotsResult {
   /// If not null, more results are available. Pass this value in the
   /// <i>NextToken</i> member of a subsequent call to <a>DescribeSnapshots</a>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of <a>Snapshot</a> objects that were retrieved.
   ///
@@ -4606,29 +4518,29 @@ class DescribeSnapshotsResult {
   /// specified in the <i>Limit</i> member of the request. This occurs if there
   /// are less than the requested number of items left to retrieve, or if the
   /// limitations of the operation have been exceeded.
-  @_s.JsonKey(name: 'Snapshots')
-  final List<Snapshot> snapshots;
+  final List<Snapshot>? snapshots;
 
   DescribeSnapshotsResult({
     this.nextToken,
     this.snapshots,
   });
-  factory DescribeSnapshotsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSnapshotsResultFromJson(json);
+  factory DescribeSnapshotsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSnapshotsResult(
+      nextToken: json['NextToken'] as String?,
+      snapshots: (json['Snapshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The result of a DescribeTrust request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrustsResult {
   /// If not null, more results are available. Pass this value for the
   /// <i>NextToken</i> parameter in a subsequent call to <a>DescribeTrusts</a> to
   /// retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of Trust objects that were retrieved.
   ///
@@ -4636,28 +4548,28 @@ class DescribeTrustsResult {
   /// specified in the <i>Limit</i> member of the request. This occurs if there
   /// are less than the requested number of items left to retrieve, or if the
   /// limitations of the operation have been exceeded.
-  @_s.JsonKey(name: 'Trusts')
-  final List<Trust> trusts;
+  final List<Trust>? trusts;
 
   DescribeTrustsResult({
     this.nextToken,
     this.trusts,
   });
-  factory DescribeTrustsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTrustsResultFromJson(json);
+  factory DescribeTrustsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeTrustsResult(
+      nextToken: json['NextToken'] as String?,
+      trusts: (json['Trusts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trust.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information for the <a>ConnectDirectory</a> operation when an AD
 /// Connector directory is being created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DirectoryConnectSettings {
   /// A list of one or more IP addresses of DNS servers or domain controllers in
   /// the on-premises directory.
-  @_s.JsonKey(name: 'CustomerDnsIps')
   final List<String> customerDnsIps;
 
   /// The user name of an account in the on-premises directory that is used to
@@ -4674,57 +4586,54 @@ class DirectoryConnectSettings {
   /// Join computers to the domain
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'CustomerUserName')
   final String customerUserName;
 
   /// A list of subnet identifiers in the VPC in which the AD Connector is
   /// created.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The identifier of the VPC in which the AD Connector is created.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   DirectoryConnectSettings({
-    @_s.required this.customerDnsIps,
-    @_s.required this.customerUserName,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcId,
+    required this.customerDnsIps,
+    required this.customerUserName,
+    required this.subnetIds,
+    required this.vpcId,
   });
-  Map<String, dynamic> toJson() => _$DirectoryConnectSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final customerDnsIps = this.customerDnsIps;
+    final customerUserName = this.customerUserName;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      'CustomerDnsIps': customerDnsIps,
+      'CustomerUserName': customerUserName,
+      'SubnetIds': subnetIds,
+      'VpcId': vpcId,
+    };
+  }
 }
 
 /// Contains information about an AD Connector directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryConnectSettingsDescription {
   /// A list of the Availability Zones that the directory is in.
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// The IP addresses of the AD Connector servers.
-  @_s.JsonKey(name: 'ConnectIps')
-  final List<String> connectIps;
+  final List<String>? connectIps;
 
   /// The user name of the service account in the on-premises directory.
-  @_s.JsonKey(name: 'CustomerUserName')
-  final String customerUserName;
+  final String? customerUserName;
 
   /// The security group identifier for the AD Connector directory.
-  @_s.JsonKey(name: 'SecurityGroupId')
-  final String securityGroupId;
+  final String? securityGroupId;
 
   /// A list of subnet identifiers in the VPC that the AD Connector is in.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The identifier of the VPC that the AD Connector is in.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   DirectoryConnectSettingsDescription({
     this.availabilityZones,
@@ -4735,140 +4644,125 @@ class DirectoryConnectSettingsDescription {
     this.vpcId,
   });
   factory DirectoryConnectSettingsDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$DirectoryConnectSettingsDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return DirectoryConnectSettingsDescription(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      connectIps: (json['ConnectIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      customerUserName: json['CustomerUserName'] as String?,
+      securityGroupId: json['SecurityGroupId'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
 /// Contains information about an AWS Directory Service directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryDescription {
   /// The access URL for the directory, such as
   /// <code>http://&lt;alias&gt;.awsapps.com</code>. If no alias has been created
   /// for the directory, <code>&lt;alias&gt;</code> is the directory identifier,
   /// such as <code>d-XXXXXXXXXX</code>.
-  @_s.JsonKey(name: 'AccessUrl')
-  final String accessUrl;
+  final String? accessUrl;
 
   /// The alias for the directory. If no alias has been created for the directory,
   /// the alias is the directory identifier, such as <code>d-XXXXXXXXXX</code>.
-  @_s.JsonKey(name: 'Alias')
-  final String alias;
+  final String? alias;
 
   /// A <a>DirectoryConnectSettingsDescription</a> object that contains additional
   /// information about an AD Connector directory. This member is only present if
   /// the directory is an AD Connector directory.
-  @_s.JsonKey(name: 'ConnectSettings')
-  final DirectoryConnectSettingsDescription connectSettings;
+  final DirectoryConnectSettingsDescription? connectSettings;
 
   /// The description for the directory.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The desired number of domain controllers in the directory if the directory
   /// is Microsoft AD.
-  @_s.JsonKey(name: 'DesiredNumberOfDomainControllers')
-  final int desiredNumberOfDomainControllers;
+  final int? desiredNumberOfDomainControllers;
 
   /// The directory identifier.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The IP addresses of the DNS servers for the directory. For a Simple AD or
   /// Microsoft AD directory, these are the IP addresses of the Simple AD or
   /// Microsoft AD directory servers. For an AD Connector directory, these are the
   /// IP addresses of the DNS servers or domain controllers in the on-premises
   /// directory to which the AD Connector is connected.
-  @_s.JsonKey(name: 'DnsIpAddrs')
-  final List<String> dnsIpAddrs;
+  final List<String>? dnsIpAddrs;
 
   /// The edition associated with this directory.
-  @_s.JsonKey(name: 'Edition')
-  final DirectoryEdition edition;
+  final DirectoryEdition? edition;
 
   /// Specifies when the directory was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LaunchTime')
-  final DateTime launchTime;
+  final DateTime? launchTime;
 
   /// The fully qualified name of the directory.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Describes the AWS Managed Microsoft AD directory in the directory owner
   /// account.
-  @_s.JsonKey(name: 'OwnerDirectoryDescription')
-  final OwnerDirectoryDescription ownerDirectoryDescription;
+  final OwnerDirectoryDescription? ownerDirectoryDescription;
 
   /// A <a>RadiusSettings</a> object that contains information about the RADIUS
   /// server configured for this directory.
-  @_s.JsonKey(name: 'RadiusSettings')
-  final RadiusSettings radiusSettings;
+  final RadiusSettings? radiusSettings;
 
   /// The status of the RADIUS MFA server connection.
-  @_s.JsonKey(name: 'RadiusStatus')
-  final RadiusStatus radiusStatus;
+  final RadiusStatus? radiusStatus;
 
   /// Lists the Regions where the directory has replicated.
-  @_s.JsonKey(name: 'RegionsInfo')
-  final RegionsInfo regionsInfo;
+  final RegionsInfo? regionsInfo;
 
   /// The method used when sharing a directory to determine whether the directory
   /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
   /// or with any AWS account by sending a shared directory request
   /// (<code>HANDSHAKE</code>).
-  @_s.JsonKey(name: 'ShareMethod')
-  final ShareMethod shareMethod;
+  final ShareMethod? shareMethod;
 
   /// A directory share request that is sent by the directory owner to the
   /// directory consumer. The request includes a typed message to help the
   /// directory consumer administrator determine whether to approve or reject the
   /// share invitation.
-  @_s.JsonKey(name: 'ShareNotes')
-  final String shareNotes;
+  final String? shareNotes;
 
   /// Current directory status of the shared AWS Managed Microsoft AD directory.
-  @_s.JsonKey(name: 'ShareStatus')
-  final ShareStatus shareStatus;
+  final ShareStatus? shareStatus;
 
   /// The short name of the directory.
-  @_s.JsonKey(name: 'ShortName')
-  final String shortName;
+  final String? shortName;
 
   /// The directory size.
-  @_s.JsonKey(name: 'Size')
-  final DirectorySize size;
+  final DirectorySize? size;
 
   /// Indicates if single sign-on is enabled for the directory. For more
   /// information, see <a>EnableSso</a> and <a>DisableSso</a>.
-  @_s.JsonKey(name: 'SsoEnabled')
-  final bool ssoEnabled;
+  final bool? ssoEnabled;
 
   /// The current stage of the directory.
-  @_s.JsonKey(name: 'Stage')
-  final DirectoryStage stage;
+  final DirectoryStage? stage;
 
   /// The date and time that the stage was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StageLastUpdatedDateTime')
-  final DateTime stageLastUpdatedDateTime;
+  final DateTime? stageLastUpdatedDateTime;
 
   /// Additional information about the directory stage.
-  @_s.JsonKey(name: 'StageReason')
-  final String stageReason;
+  final String? stageReason;
 
   /// The directory size.
-  @_s.JsonKey(name: 'Type')
-  final DirectoryType type;
+  final DirectoryType? type;
 
   /// A <a>DirectoryVpcSettingsDescription</a> object that contains additional
   /// information about a directory. This member is only present if the directory
   /// is a Simple AD or Managed AD directory.
-  @_s.JsonKey(name: 'VpcSettings')
-  final DirectoryVpcSettingsDescription vpcSettings;
+  final DirectoryVpcSettingsDescription? vpcSettings;
 
   DirectoryDescription({
     this.accessUrl,
@@ -4897,14 +4791,58 @@ class DirectoryDescription {
     this.type,
     this.vpcSettings,
   });
-  factory DirectoryDescription.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryDescriptionFromJson(json);
+  factory DirectoryDescription.fromJson(Map<String, dynamic> json) {
+    return DirectoryDescription(
+      accessUrl: json['AccessUrl'] as String?,
+      alias: json['Alias'] as String?,
+      connectSettings: json['ConnectSettings'] != null
+          ? DirectoryConnectSettingsDescription.fromJson(
+              json['ConnectSettings'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      desiredNumberOfDomainControllers:
+          json['DesiredNumberOfDomainControllers'] as int?,
+      directoryId: json['DirectoryId'] as String?,
+      dnsIpAddrs: (json['DnsIpAddrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      edition: (json['Edition'] as String?)?.toDirectoryEdition(),
+      launchTime: timeStampFromJson(json['LaunchTime']),
+      name: json['Name'] as String?,
+      ownerDirectoryDescription: json['OwnerDirectoryDescription'] != null
+          ? OwnerDirectoryDescription.fromJson(
+              json['OwnerDirectoryDescription'] as Map<String, dynamic>)
+          : null,
+      radiusSettings: json['RadiusSettings'] != null
+          ? RadiusSettings.fromJson(
+              json['RadiusSettings'] as Map<String, dynamic>)
+          : null,
+      radiusStatus: (json['RadiusStatus'] as String?)?.toRadiusStatus(),
+      regionsInfo: json['RegionsInfo'] != null
+          ? RegionsInfo.fromJson(json['RegionsInfo'] as Map<String, dynamic>)
+          : null,
+      shareMethod: (json['ShareMethod'] as String?)?.toShareMethod(),
+      shareNotes: json['ShareNotes'] as String?,
+      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      shortName: json['ShortName'] as String?,
+      size: (json['Size'] as String?)?.toDirectorySize(),
+      ssoEnabled: json['SsoEnabled'] as bool?,
+      stage: (json['Stage'] as String?)?.toDirectoryStage(),
+      stageLastUpdatedDateTime:
+          timeStampFromJson(json['StageLastUpdatedDateTime']),
+      stageReason: json['StageReason'] as String?,
+      type: (json['Type'] as String?)?.toDirectoryType(),
+      vpcSettings: json['VpcSettings'] != null
+          ? DirectoryVpcSettingsDescription.fromJson(
+              json['VpcSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DirectoryEdition {
-  @_s.JsonValue('Enterprise')
   enterprise,
-  @_s.JsonValue('Standard')
   standard,
 }
 
@@ -4916,53 +4854,50 @@ extension on DirectoryEdition {
       case DirectoryEdition.standard:
         return 'Standard';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DirectoryEdition toDirectoryEdition() {
+    switch (this) {
+      case 'Enterprise':
+        return DirectoryEdition.enterprise;
+      case 'Standard':
+        return DirectoryEdition.standard;
+    }
+    throw Exception('$this is not known in enum DirectoryEdition');
   }
 }
 
 /// Contains directory limit information for a Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryLimits {
   /// The current number of cloud directories in the Region.
-  @_s.JsonKey(name: 'CloudOnlyDirectoriesCurrentCount')
-  final int cloudOnlyDirectoriesCurrentCount;
+  final int? cloudOnlyDirectoriesCurrentCount;
 
   /// The maximum number of cloud directories allowed in the Region.
-  @_s.JsonKey(name: 'CloudOnlyDirectoriesLimit')
-  final int cloudOnlyDirectoriesLimit;
+  final int? cloudOnlyDirectoriesLimit;
 
   /// Indicates if the cloud directory limit has been reached.
-  @_s.JsonKey(name: 'CloudOnlyDirectoriesLimitReached')
-  final bool cloudOnlyDirectoriesLimitReached;
+  final bool? cloudOnlyDirectoriesLimitReached;
 
   /// The current number of AWS Managed Microsoft AD directories in the region.
-  @_s.JsonKey(name: 'CloudOnlyMicrosoftADCurrentCount')
-  final int cloudOnlyMicrosoftADCurrentCount;
+  final int? cloudOnlyMicrosoftADCurrentCount;
 
   /// The maximum number of AWS Managed Microsoft AD directories allowed in the
   /// region.
-  @_s.JsonKey(name: 'CloudOnlyMicrosoftADLimit')
-  final int cloudOnlyMicrosoftADLimit;
+  final int? cloudOnlyMicrosoftADLimit;
 
   /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
-  @_s.JsonKey(name: 'CloudOnlyMicrosoftADLimitReached')
-  final bool cloudOnlyMicrosoftADLimitReached;
+  final bool? cloudOnlyMicrosoftADLimitReached;
 
   /// The current number of connected directories in the Region.
-  @_s.JsonKey(name: 'ConnectedDirectoriesCurrentCount')
-  final int connectedDirectoriesCurrentCount;
+  final int? connectedDirectoriesCurrentCount;
 
   /// The maximum number of connected directories allowed in the Region.
-  @_s.JsonKey(name: 'ConnectedDirectoriesLimit')
-  final int connectedDirectoriesLimit;
+  final int? connectedDirectoriesLimit;
 
   /// Indicates if the connected directory limit has been reached.
-  @_s.JsonKey(name: 'ConnectedDirectoriesLimitReached')
-  final bool connectedDirectoriesLimitReached;
+  final bool? connectedDirectoriesLimitReached;
 
   DirectoryLimits({
     this.cloudOnlyDirectoriesCurrentCount,
@@ -4975,14 +4910,29 @@ class DirectoryLimits {
     this.connectedDirectoriesLimit,
     this.connectedDirectoriesLimitReached,
   });
-  factory DirectoryLimits.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryLimitsFromJson(json);
+  factory DirectoryLimits.fromJson(Map<String, dynamic> json) {
+    return DirectoryLimits(
+      cloudOnlyDirectoriesCurrentCount:
+          json['CloudOnlyDirectoriesCurrentCount'] as int?,
+      cloudOnlyDirectoriesLimit: json['CloudOnlyDirectoriesLimit'] as int?,
+      cloudOnlyDirectoriesLimitReached:
+          json['CloudOnlyDirectoriesLimitReached'] as bool?,
+      cloudOnlyMicrosoftADCurrentCount:
+          json['CloudOnlyMicrosoftADCurrentCount'] as int?,
+      cloudOnlyMicrosoftADLimit: json['CloudOnlyMicrosoftADLimit'] as int?,
+      cloudOnlyMicrosoftADLimitReached:
+          json['CloudOnlyMicrosoftADLimitReached'] as bool?,
+      connectedDirectoriesCurrentCount:
+          json['ConnectedDirectoriesCurrentCount'] as int?,
+      connectedDirectoriesLimit: json['ConnectedDirectoriesLimit'] as int?,
+      connectedDirectoriesLimitReached:
+          json['ConnectedDirectoriesLimitReached'] as bool?,
+    );
+  }
 }
 
 enum DirectorySize {
-  @_s.JsonValue('Small')
   small,
-  @_s.JsonValue('Large')
   large,
 }
 
@@ -4994,96 +4944,180 @@ extension on DirectorySize {
       case DirectorySize.large:
         return 'Large';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DirectorySize toDirectorySize() {
+    switch (this) {
+      case 'Small':
+        return DirectorySize.small;
+      case 'Large':
+        return DirectorySize.large;
+    }
+    throw Exception('$this is not known in enum DirectorySize');
   }
 }
 
 enum DirectoryStage {
-  @_s.JsonValue('Requested')
   requested,
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Created')
   created,
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inoperable')
   inoperable,
-  @_s.JsonValue('Impaired')
   impaired,
-  @_s.JsonValue('Restoring')
   restoring,
-  @_s.JsonValue('RestoreFailed')
   restoreFailed,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Deleted')
   deleted,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on DirectoryStage {
+  String toValue() {
+    switch (this) {
+      case DirectoryStage.requested:
+        return 'Requested';
+      case DirectoryStage.creating:
+        return 'Creating';
+      case DirectoryStage.created:
+        return 'Created';
+      case DirectoryStage.active:
+        return 'Active';
+      case DirectoryStage.inoperable:
+        return 'Inoperable';
+      case DirectoryStage.impaired:
+        return 'Impaired';
+      case DirectoryStage.restoring:
+        return 'Restoring';
+      case DirectoryStage.restoreFailed:
+        return 'RestoreFailed';
+      case DirectoryStage.deleting:
+        return 'Deleting';
+      case DirectoryStage.deleted:
+        return 'Deleted';
+      case DirectoryStage.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  DirectoryStage toDirectoryStage() {
+    switch (this) {
+      case 'Requested':
+        return DirectoryStage.requested;
+      case 'Creating':
+        return DirectoryStage.creating;
+      case 'Created':
+        return DirectoryStage.created;
+      case 'Active':
+        return DirectoryStage.active;
+      case 'Inoperable':
+        return DirectoryStage.inoperable;
+      case 'Impaired':
+        return DirectoryStage.impaired;
+      case 'Restoring':
+        return DirectoryStage.restoring;
+      case 'RestoreFailed':
+        return DirectoryStage.restoreFailed;
+      case 'Deleting':
+        return DirectoryStage.deleting;
+      case 'Deleted':
+        return DirectoryStage.deleted;
+      case 'Failed':
+        return DirectoryStage.failed;
+    }
+    throw Exception('$this is not known in enum DirectoryStage');
+  }
+}
+
 enum DirectoryType {
-  @_s.JsonValue('SimpleAD')
   simpleAD,
-  @_s.JsonValue('ADConnector')
   aDConnector,
-  @_s.JsonValue('MicrosoftAD')
   microsoftAD,
-  @_s.JsonValue('SharedMicrosoftAD')
   sharedMicrosoftAD,
+}
+
+extension on DirectoryType {
+  String toValue() {
+    switch (this) {
+      case DirectoryType.simpleAD:
+        return 'SimpleAD';
+      case DirectoryType.aDConnector:
+        return 'ADConnector';
+      case DirectoryType.microsoftAD:
+        return 'MicrosoftAD';
+      case DirectoryType.sharedMicrosoftAD:
+        return 'SharedMicrosoftAD';
+    }
+  }
+}
+
+extension on String {
+  DirectoryType toDirectoryType() {
+    switch (this) {
+      case 'SimpleAD':
+        return DirectoryType.simpleAD;
+      case 'ADConnector':
+        return DirectoryType.aDConnector;
+      case 'MicrosoftAD':
+        return DirectoryType.microsoftAD;
+      case 'SharedMicrosoftAD':
+        return DirectoryType.sharedMicrosoftAD;
+    }
+    throw Exception('$this is not known in enum DirectoryType');
+  }
 }
 
 /// Contains VPC information for the <a>CreateDirectory</a> or
 /// <a>CreateMicrosoftAD</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DirectoryVpcSettings {
   /// The identifiers of the subnets for the directory servers. The two subnets
   /// must be in different Availability Zones. AWS Directory Service creates a
   /// directory server and a DNS server in each of these subnets.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The identifier of the VPC in which to create the directory.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   DirectoryVpcSettings({
-    @_s.required this.subnetIds,
-    @_s.required this.vpcId,
+    required this.subnetIds,
+    required this.vpcId,
   });
-  factory DirectoryVpcSettings.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryVpcSettingsFromJson(json);
+  factory DirectoryVpcSettings.fromJson(Map<String, dynamic> json) {
+    return DirectoryVpcSettings(
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DirectoryVpcSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      'SubnetIds': subnetIds,
+      'VpcId': vpcId,
+    };
+  }
 }
 
 /// Contains information about the directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryVpcSettingsDescription {
   /// The list of Availability Zones that the directory is in.
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// The domain controller security group identifier for the directory.
-  @_s.JsonKey(name: 'SecurityGroupId')
-  final String securityGroupId;
+  final String? securityGroupId;
 
   /// The identifiers of the subnets for the directory servers.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The identifier of the VPC that the directory is in.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   DirectoryVpcSettingsDescription({
     this.availabilityZones,
@@ -5091,105 +5125,83 @@ class DirectoryVpcSettingsDescription {
     this.subnetIds,
     this.vpcId,
   });
-  factory DirectoryVpcSettingsDescription.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryVpcSettingsDescriptionFromJson(json);
+  factory DirectoryVpcSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return DirectoryVpcSettingsDescription(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      securityGroupId: json['SecurityGroupId'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableClientAuthenticationResult {
   DisableClientAuthenticationResult();
-  factory DisableClientAuthenticationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisableClientAuthenticationResultFromJson(json);
+  factory DisableClientAuthenticationResult.fromJson(Map<String, dynamic> _) {
+    return DisableClientAuthenticationResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableLDAPSResult {
   DisableLDAPSResult();
-  factory DisableLDAPSResult.fromJson(Map<String, dynamic> json) =>
-      _$DisableLDAPSResultFromJson(json);
+  factory DisableLDAPSResult.fromJson(Map<String, dynamic> _) {
+    return DisableLDAPSResult();
+  }
 }
 
 /// Contains the results of the <a>DisableRadius</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableRadiusResult {
   DisableRadiusResult();
-  factory DisableRadiusResult.fromJson(Map<String, dynamic> json) =>
-      _$DisableRadiusResultFromJson(json);
+  factory DisableRadiusResult.fromJson(Map<String, dynamic> _) {
+    return DisableRadiusResult();
+  }
 }
 
 /// Contains the results of the <a>DisableSso</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableSsoResult {
   DisableSsoResult();
-  factory DisableSsoResult.fromJson(Map<String, dynamic> json) =>
-      _$DisableSsoResultFromJson(json);
+  factory DisableSsoResult.fromJson(Map<String, dynamic> _) {
+    return DisableSsoResult();
+  }
 }
 
 /// Contains information about the domain controllers for a specified directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainController {
   /// The Availability Zone where the domain controller is located.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Identifier of the directory where the domain controller resides.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The IP address of the domain controller.
-  @_s.JsonKey(name: 'DnsIpAddr')
-  final String dnsIpAddr;
+  final String? dnsIpAddr;
 
   /// Identifies a specific domain controller in the directory.
-  @_s.JsonKey(name: 'DomainControllerId')
-  final String domainControllerId;
+  final String? domainControllerId;
 
   /// Specifies when the domain controller was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LaunchTime')
-  final DateTime launchTime;
+  final DateTime? launchTime;
 
   /// The status of the domain controller.
-  @_s.JsonKey(name: 'Status')
-  final DomainControllerStatus status;
+  final DomainControllerStatus? status;
 
   /// The date and time that the status was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StatusLastUpdatedDateTime')
-  final DateTime statusLastUpdatedDateTime;
+  final DateTime? statusLastUpdatedDateTime;
 
   /// A description of the domain controller state.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// Identifier of the subnet in the VPC that contains the domain controller.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The identifier of the VPC that contains the domain controller.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   DomainController({
     this.availabilityZone,
@@ -5203,104 +5215,125 @@ class DomainController {
     this.subnetId,
     this.vpcId,
   });
-  factory DomainController.fromJson(Map<String, dynamic> json) =>
-      _$DomainControllerFromJson(json);
+  factory DomainController.fromJson(Map<String, dynamic> json) {
+    return DomainController(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      dnsIpAddr: json['DnsIpAddr'] as String?,
+      domainControllerId: json['DomainControllerId'] as String?,
+      launchTime: timeStampFromJson(json['LaunchTime']),
+      status: (json['Status'] as String?)?.toDomainControllerStatus(),
+      statusLastUpdatedDateTime:
+          timeStampFromJson(json['StatusLastUpdatedDateTime']),
+      statusReason: json['StatusReason'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
 enum DomainControllerStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Impaired')
   impaired,
-  @_s.JsonValue('Restoring')
   restoring,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Deleted')
   deleted,
-  @_s.JsonValue('Failed')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class EnableClientAuthenticationResult {
-  EnableClientAuthenticationResult();
-  factory EnableClientAuthenticationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableClientAuthenticationResultFromJson(json);
+extension on DomainControllerStatus {
+  String toValue() {
+    switch (this) {
+      case DomainControllerStatus.creating:
+        return 'Creating';
+      case DomainControllerStatus.active:
+        return 'Active';
+      case DomainControllerStatus.impaired:
+        return 'Impaired';
+      case DomainControllerStatus.restoring:
+        return 'Restoring';
+      case DomainControllerStatus.deleting:
+        return 'Deleting';
+      case DomainControllerStatus.deleted:
+        return 'Deleted';
+      case DomainControllerStatus.failed:
+        return 'Failed';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DomainControllerStatus toDomainControllerStatus() {
+    switch (this) {
+      case 'Creating':
+        return DomainControllerStatus.creating;
+      case 'Active':
+        return DomainControllerStatus.active;
+      case 'Impaired':
+        return DomainControllerStatus.impaired;
+      case 'Restoring':
+        return DomainControllerStatus.restoring;
+      case 'Deleting':
+        return DomainControllerStatus.deleting;
+      case 'Deleted':
+        return DomainControllerStatus.deleted;
+      case 'Failed':
+        return DomainControllerStatus.failed;
+    }
+    throw Exception('$this is not known in enum DomainControllerStatus');
+  }
+}
+
+class EnableClientAuthenticationResult {
+  EnableClientAuthenticationResult();
+  factory EnableClientAuthenticationResult.fromJson(Map<String, dynamic> _) {
+    return EnableClientAuthenticationResult();
+  }
+}
+
 class EnableLDAPSResult {
   EnableLDAPSResult();
-  factory EnableLDAPSResult.fromJson(Map<String, dynamic> json) =>
-      _$EnableLDAPSResultFromJson(json);
+  factory EnableLDAPSResult.fromJson(Map<String, dynamic> _) {
+    return EnableLDAPSResult();
+  }
 }
 
 /// Contains the results of the <a>EnableRadius</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableRadiusResult {
   EnableRadiusResult();
-  factory EnableRadiusResult.fromJson(Map<String, dynamic> json) =>
-      _$EnableRadiusResultFromJson(json);
+  factory EnableRadiusResult.fromJson(Map<String, dynamic> _) {
+    return EnableRadiusResult();
+  }
 }
 
 /// Contains the results of the <a>EnableSso</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableSsoResult {
   EnableSsoResult();
-  factory EnableSsoResult.fromJson(Map<String, dynamic> json) =>
-      _$EnableSsoResultFromJson(json);
+  factory EnableSsoResult.fromJson(Map<String, dynamic> _) {
+    return EnableSsoResult();
+  }
 }
 
 /// Information about SNS topic and AWS Directory Service directory
 /// associations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventTopic {
   /// The date and time of when you associated your directory with the SNS topic.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDateTime')
-  final DateTime createdDateTime;
+  final DateTime? createdDateTime;
 
   /// The Directory ID of an AWS Directory Service directory that will publish
   /// status messages to an SNS topic.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The topic registration status.
-  @_s.JsonKey(name: 'Status')
-  final TopicStatus status;
+  final TopicStatus? status;
 
   /// The SNS topic ARN (Amazon Resource Name).
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   /// The name of an AWS SNS topic the receives status messages from the
   /// directory.
-  @_s.JsonKey(name: 'TopicName')
-  final String topicName;
+  final String? topicName;
 
   EventTopic({
     this.createdDateTime,
@@ -5309,105 +5342,100 @@ class EventTopic {
     this.topicArn,
     this.topicName,
   });
-  factory EventTopic.fromJson(Map<String, dynamic> json) =>
-      _$EventTopicFromJson(json);
+  factory EventTopic.fromJson(Map<String, dynamic> json) {
+    return EventTopic(
+      createdDateTime: timeStampFromJson(json['CreatedDateTime']),
+      directoryId: json['DirectoryId'] as String?,
+      status: (json['Status'] as String?)?.toTopicStatus(),
+      topicArn: json['TopicArn'] as String?,
+      topicName: json['TopicName'] as String?,
+    );
+  }
 }
 
 /// Contains the results of the <a>GetDirectoryLimits</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDirectoryLimitsResult {
   /// A <a>DirectoryLimits</a> object that contains the directory limits for the
   /// current rRegion.
-  @_s.JsonKey(name: 'DirectoryLimits')
-  final DirectoryLimits directoryLimits;
+  final DirectoryLimits? directoryLimits;
 
   GetDirectoryLimitsResult({
     this.directoryLimits,
   });
-  factory GetDirectoryLimitsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDirectoryLimitsResultFromJson(json);
+  factory GetDirectoryLimitsResult.fromJson(Map<String, dynamic> json) {
+    return GetDirectoryLimitsResult(
+      directoryLimits: json['DirectoryLimits'] != null
+          ? DirectoryLimits.fromJson(
+              json['DirectoryLimits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains the results of the <a>GetSnapshotLimits</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSnapshotLimitsResult {
   /// A <a>SnapshotLimits</a> object that contains the manual snapshot limits for
   /// the specified directory.
-  @_s.JsonKey(name: 'SnapshotLimits')
-  final SnapshotLimits snapshotLimits;
+  final SnapshotLimits? snapshotLimits;
 
   GetSnapshotLimitsResult({
     this.snapshotLimits,
   });
-  factory GetSnapshotLimitsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetSnapshotLimitsResultFromJson(json);
+  factory GetSnapshotLimitsResult.fromJson(Map<String, dynamic> json) {
+    return GetSnapshotLimitsResult(
+      snapshotLimits: json['SnapshotLimits'] != null
+          ? SnapshotLimits.fromJson(
+              json['SnapshotLimits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// IP address block. This is often the address block of the DNS server used for
 /// your on-premises domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IpRoute {
   /// IP address block using CIDR format, for example 10.0.0.0/24. This is often
   /// the address block of the DNS server used for your on-premises domain. For a
   /// single IP address use a CIDR address block with /32. For example
   /// 10.0.0.0/32.
-  @_s.JsonKey(name: 'CidrIp')
-  final String cidrIp;
+  final String? cidrIp;
 
   /// Description of the address block.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   IpRoute({
     this.cidrIp,
     this.description,
   });
-  Map<String, dynamic> toJson() => _$IpRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final cidrIp = this.cidrIp;
+    final description = this.description;
+    return {
+      if (cidrIp != null) 'CidrIp': cidrIp,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
 /// Information about one or more IP address blocks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IpRouteInfo {
   /// The date and time the address block was added to the directory.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AddedDateTime')
-  final DateTime addedDateTime;
+  final DateTime? addedDateTime;
 
   /// IP address block in the <a>IpRoute</a>.
-  @_s.JsonKey(name: 'CidrIp')
-  final String cidrIp;
+  final String? cidrIp;
 
   /// Description of the <a>IpRouteInfo</a>.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Identifier (ID) of the directory associated with the IP addresses.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The status of the IP address block.
-  @_s.JsonKey(name: 'IpRouteStatusMsg')
-  final IpRouteStatusMsg ipRouteStatusMsg;
+  final IpRouteStatusMsg? ipRouteStatusMsg;
 
   /// The reason for the IpRouteStatusMsg.
-  @_s.JsonKey(name: 'IpRouteStatusReason')
-  final String ipRouteStatusReason;
+  final String? ipRouteStatusReason;
 
   IpRouteInfo({
     this.addedDateTime,
@@ -5417,67 +5445,131 @@ class IpRouteInfo {
     this.ipRouteStatusMsg,
     this.ipRouteStatusReason,
   });
-  factory IpRouteInfo.fromJson(Map<String, dynamic> json) =>
-      _$IpRouteInfoFromJson(json);
+  factory IpRouteInfo.fromJson(Map<String, dynamic> json) {
+    return IpRouteInfo(
+      addedDateTime: timeStampFromJson(json['AddedDateTime']),
+      cidrIp: json['CidrIp'] as String?,
+      description: json['Description'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      ipRouteStatusMsg:
+          (json['IpRouteStatusMsg'] as String?)?.toIpRouteStatusMsg(),
+      ipRouteStatusReason: json['IpRouteStatusReason'] as String?,
+    );
+  }
 }
 
 enum IpRouteStatusMsg {
-  @_s.JsonValue('Adding')
   adding,
-  @_s.JsonValue('Added')
   added,
-  @_s.JsonValue('Removing')
   removing,
-  @_s.JsonValue('Removed')
   removed,
-  @_s.JsonValue('AddFailed')
   addFailed,
-  @_s.JsonValue('RemoveFailed')
   removeFailed,
 }
 
+extension on IpRouteStatusMsg {
+  String toValue() {
+    switch (this) {
+      case IpRouteStatusMsg.adding:
+        return 'Adding';
+      case IpRouteStatusMsg.added:
+        return 'Added';
+      case IpRouteStatusMsg.removing:
+        return 'Removing';
+      case IpRouteStatusMsg.removed:
+        return 'Removed';
+      case IpRouteStatusMsg.addFailed:
+        return 'AddFailed';
+      case IpRouteStatusMsg.removeFailed:
+        return 'RemoveFailed';
+    }
+  }
+}
+
+extension on String {
+  IpRouteStatusMsg toIpRouteStatusMsg() {
+    switch (this) {
+      case 'Adding':
+        return IpRouteStatusMsg.adding;
+      case 'Added':
+        return IpRouteStatusMsg.added;
+      case 'Removing':
+        return IpRouteStatusMsg.removing;
+      case 'Removed':
+        return IpRouteStatusMsg.removed;
+      case 'AddFailed':
+        return IpRouteStatusMsg.addFailed;
+      case 'RemoveFailed':
+        return IpRouteStatusMsg.removeFailed;
+    }
+    throw Exception('$this is not known in enum IpRouteStatusMsg');
+  }
+}
+
 /// Contains general information about the LDAPS settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LDAPSSettingInfo {
   /// The state of the LDAPS settings.
-  @_s.JsonKey(name: 'LDAPSStatus')
-  final LDAPSStatus lDAPSStatus;
+  final LDAPSStatus? lDAPSStatus;
 
   /// Describes a state change for LDAPS.
-  @_s.JsonKey(name: 'LDAPSStatusReason')
-  final String lDAPSStatusReason;
+  final String? lDAPSStatusReason;
 
   /// The date and time when the LDAPS settings were last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   LDAPSSettingInfo({
     this.lDAPSStatus,
     this.lDAPSStatusReason,
     this.lastUpdatedDateTime,
   });
-  factory LDAPSSettingInfo.fromJson(Map<String, dynamic> json) =>
-      _$LDAPSSettingInfoFromJson(json);
+  factory LDAPSSettingInfo.fromJson(Map<String, dynamic> json) {
+    return LDAPSSettingInfo(
+      lDAPSStatus: (json['LDAPSStatus'] as String?)?.toLDAPSStatus(),
+      lDAPSStatusReason: json['LDAPSStatusReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+    );
+  }
 }
 
 enum LDAPSStatus {
-  @_s.JsonValue('Enabling')
   enabling,
-  @_s.JsonValue('Enabled')
   enabled,
-  @_s.JsonValue('EnableFailed')
   enableFailed,
-  @_s.JsonValue('Disabled')
   disabled,
 }
 
+extension on LDAPSStatus {
+  String toValue() {
+    switch (this) {
+      case LDAPSStatus.enabling:
+        return 'Enabling';
+      case LDAPSStatus.enabled:
+        return 'Enabled';
+      case LDAPSStatus.enableFailed:
+        return 'EnableFailed';
+      case LDAPSStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension on String {
+  LDAPSStatus toLDAPSStatus() {
+    switch (this) {
+      case 'Enabling':
+        return LDAPSStatus.enabling;
+      case 'Enabled':
+        return LDAPSStatus.enabled;
+      case 'EnableFailed':
+        return LDAPSStatus.enableFailed;
+      case 'Disabled':
+        return LDAPSStatus.disabled;
+    }
+    throw Exception('$this is not known in enum LDAPSStatus');
+  }
+}
+
 enum LDAPSType {
-  @_s.JsonValue('Client')
   client,
 }
 
@@ -5487,190 +5579,185 @@ extension on LDAPSType {
       case LDAPSType.client:
         return 'Client';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  LDAPSType toLDAPSType() {
+    switch (this) {
+      case 'Client':
+        return LDAPSType.client;
+    }
+    throw Exception('$this is not known in enum LDAPSType');
+  }
+}
+
 class ListCertificatesResult {
   /// A list of certificates with basic details including certificate ID,
   /// certificate common name, certificate state.
-  @_s.JsonKey(name: 'CertificatesInfo')
-  final List<CertificateInfo> certificatesInfo;
+  final List<CertificateInfo>? certificatesInfo;
 
   /// Indicates whether another page of certificates is available when the number
   /// of available certificates exceeds the page limit.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCertificatesResult({
     this.certificatesInfo,
     this.nextToken,
   });
-  factory ListCertificatesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListCertificatesResultFromJson(json);
+  factory ListCertificatesResult.fromJson(Map<String, dynamic> json) {
+    return ListCertificatesResult(
+      certificatesInfo: (json['CertificatesInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => CertificateInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIpRoutesResult {
   /// A list of <a>IpRoute</a>s.
-  @_s.JsonKey(name: 'IpRoutesInfo')
-  final List<IpRouteInfo> ipRoutesInfo;
+  final List<IpRouteInfo>? ipRoutesInfo;
 
   /// If not null, more results are available. Pass this value for the
   /// <i>NextToken</i> parameter in a subsequent call to <a>ListIpRoutes</a> to
   /// retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIpRoutesResult({
     this.ipRoutesInfo,
     this.nextToken,
   });
-  factory ListIpRoutesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListIpRoutesResultFromJson(json);
+  factory ListIpRoutesResult.fromJson(Map<String, dynamic> json) {
+    return ListIpRoutesResult(
+      ipRoutesInfo: (json['IpRoutesInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpRouteInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLogSubscriptionsResult {
   /// A list of active <a>LogSubscription</a> objects for calling the AWS account.
-  @_s.JsonKey(name: 'LogSubscriptions')
-  final List<LogSubscription> logSubscriptions;
+  final List<LogSubscription>? logSubscriptions;
 
   /// The token for the next set of items to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLogSubscriptionsResult({
     this.logSubscriptions,
     this.nextToken,
   });
-  factory ListLogSubscriptionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListLogSubscriptionsResultFromJson(json);
+  factory ListLogSubscriptionsResult.fromJson(Map<String, dynamic> json) {
+    return ListLogSubscriptionsResult(
+      logSubscriptions: (json['LogSubscriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemaExtensionsResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
   /// <code>ListSchemaExtensions</code> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the schema extensions applied to the directory.
-  @_s.JsonKey(name: 'SchemaExtensionsInfo')
-  final List<SchemaExtensionInfo> schemaExtensionsInfo;
+  final List<SchemaExtensionInfo>? schemaExtensionsInfo;
 
   ListSchemaExtensionsResult({
     this.nextToken,
     this.schemaExtensionsInfo,
   });
-  factory ListSchemaExtensionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemaExtensionsResultFromJson(json);
+  factory ListSchemaExtensionsResult.fromJson(Map<String, dynamic> json) {
+    return ListSchemaExtensionsResult(
+      nextToken: json['NextToken'] as String?,
+      schemaExtensionsInfo: (json['SchemaExtensionsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaExtensionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResult {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of tags returned by the ListTagsForResource operation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResult({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents a log subscription, which tracks real-time data from a chosen log
 /// group to a specified destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogSubscription {
   /// Identifier (ID) of the directory that you want to associate with the log
   /// subscription.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The name of the log group.
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The date and time that the log subscription was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubscriptionCreatedDateTime')
-  final DateTime subscriptionCreatedDateTime;
+  final DateTime? subscriptionCreatedDateTime;
 
   LogSubscription({
     this.directoryId,
     this.logGroupName,
     this.subscriptionCreatedDateTime,
   });
-  factory LogSubscription.fromJson(Map<String, dynamic> json) =>
-      _$LogSubscriptionFromJson(json);
+  factory LogSubscription.fromJson(Map<String, dynamic> json) {
+    return LogSubscription(
+      directoryId: json['DirectoryId'] as String?,
+      logGroupName: json['LogGroupName'] as String?,
+      subscriptionCreatedDateTime:
+          timeStampFromJson(json['SubscriptionCreatedDateTime']),
+    );
+  }
 }
 
 /// Describes the directory owner account details that have been shared to the
 /// directory consumer account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OwnerDirectoryDescription {
   /// Identifier of the directory owner account.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// Identifier of the AWS Managed Microsoft AD directory in the directory owner
   /// account.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// IP address of the directory’s domain controllers.
-  @_s.JsonKey(name: 'DnsIpAddrs')
-  final List<String> dnsIpAddrs;
+  final List<String>? dnsIpAddrs;
 
   /// A <a>RadiusSettings</a> object that contains information about the RADIUS
   /// server.
-  @_s.JsonKey(name: 'RadiusSettings')
-  final RadiusSettings radiusSettings;
+  final RadiusSettings? radiusSettings;
 
   /// Information about the status of the RADIUS server.
-  @_s.JsonKey(name: 'RadiusStatus')
-  final RadiusStatus radiusStatus;
+  final RadiusStatus? radiusStatus;
 
   /// Information about the VPC settings for the directory.
-  @_s.JsonKey(name: 'VpcSettings')
-  final DirectoryVpcSettingsDescription vpcSettings;
+  final DirectoryVpcSettingsDescription? vpcSettings;
 
   OwnerDirectoryDescription({
     this.accountId,
@@ -5680,65 +5767,96 @@ class OwnerDirectoryDescription {
     this.radiusStatus,
     this.vpcSettings,
   });
-  factory OwnerDirectoryDescription.fromJson(Map<String, dynamic> json) =>
-      _$OwnerDirectoryDescriptionFromJson(json);
+  factory OwnerDirectoryDescription.fromJson(Map<String, dynamic> json) {
+    return OwnerDirectoryDescription(
+      accountId: json['AccountId'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      dnsIpAddrs: (json['DnsIpAddrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      radiusSettings: json['RadiusSettings'] != null
+          ? RadiusSettings.fromJson(
+              json['RadiusSettings'] as Map<String, dynamic>)
+          : null,
+      radiusStatus: (json['RadiusStatus'] as String?)?.toRadiusStatus(),
+      vpcSettings: json['VpcSettings'] != null
+          ? DirectoryVpcSettingsDescription.fromJson(
+              json['VpcSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum RadiusAuthenticationProtocol {
-  @_s.JsonValue('PAP')
   pap,
-  @_s.JsonValue('CHAP')
   chap,
-  @_s.JsonValue('MS-CHAPv1')
   msCHAPv1,
-  @_s.JsonValue('MS-CHAPv2')
   msCHAPv2,
+}
+
+extension on RadiusAuthenticationProtocol {
+  String toValue() {
+    switch (this) {
+      case RadiusAuthenticationProtocol.pap:
+        return 'PAP';
+      case RadiusAuthenticationProtocol.chap:
+        return 'CHAP';
+      case RadiusAuthenticationProtocol.msCHAPv1:
+        return 'MS-CHAPv1';
+      case RadiusAuthenticationProtocol.msCHAPv2:
+        return 'MS-CHAPv2';
+    }
+  }
+}
+
+extension on String {
+  RadiusAuthenticationProtocol toRadiusAuthenticationProtocol() {
+    switch (this) {
+      case 'PAP':
+        return RadiusAuthenticationProtocol.pap;
+      case 'CHAP':
+        return RadiusAuthenticationProtocol.chap;
+      case 'MS-CHAPv1':
+        return RadiusAuthenticationProtocol.msCHAPv1;
+      case 'MS-CHAPv2':
+        return RadiusAuthenticationProtocol.msCHAPv2;
+    }
+    throw Exception('$this is not known in enum RadiusAuthenticationProtocol');
+  }
 }
 
 /// Contains information about a Remote Authentication Dial In User Service
 /// (RADIUS) server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RadiusSettings {
   /// The protocol specified for your RADIUS endpoints.
-  @_s.JsonKey(name: 'AuthenticationProtocol')
-  final RadiusAuthenticationProtocol authenticationProtocol;
+  final RadiusAuthenticationProtocol? authenticationProtocol;
 
   /// Not currently used.
-  @_s.JsonKey(name: 'DisplayLabel')
-  final String displayLabel;
+  final String? displayLabel;
 
   /// The port that your RADIUS server is using for communications. Your
   /// on-premises network must allow inbound traffic over this port from the AWS
   /// Directory Service servers.
-  @_s.JsonKey(name: 'RadiusPort')
-  final int radiusPort;
+  final int? radiusPort;
 
   /// The maximum number of times that communication with the RADIUS server is
   /// attempted.
-  @_s.JsonKey(name: 'RadiusRetries')
-  final int radiusRetries;
+  final int? radiusRetries;
 
   /// An array of strings that contains the fully qualified domain name (FQDN) or
   /// IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of
   /// your RADIUS server load balancer.
-  @_s.JsonKey(name: 'RadiusServers')
-  final List<String> radiusServers;
+  final List<String>? radiusServers;
 
   /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-  @_s.JsonKey(name: 'RadiusTimeout')
-  final int radiusTimeout;
+  final int? radiusTimeout;
 
   /// Required for enabling RADIUS on the directory.
-  @_s.JsonKey(name: 'SharedSecret')
-  final String sharedSecret;
+  final String? sharedSecret;
 
   /// Not currently used.
-  @_s.JsonKey(name: 'UseSameUsername')
-  final bool useSameUsername;
+  final bool? useSameUsername;
 
   RadiusSettings({
     this.authenticationProtocol,
@@ -5750,65 +5868,106 @@ class RadiusSettings {
     this.sharedSecret,
     this.useSameUsername,
   });
-  factory RadiusSettings.fromJson(Map<String, dynamic> json) =>
-      _$RadiusSettingsFromJson(json);
+  factory RadiusSettings.fromJson(Map<String, dynamic> json) {
+    return RadiusSettings(
+      authenticationProtocol: (json['AuthenticationProtocol'] as String?)
+          ?.toRadiusAuthenticationProtocol(),
+      displayLabel: json['DisplayLabel'] as String?,
+      radiusPort: json['RadiusPort'] as int?,
+      radiusRetries: json['RadiusRetries'] as int?,
+      radiusServers: (json['RadiusServers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      radiusTimeout: json['RadiusTimeout'] as int?,
+      sharedSecret: json['SharedSecret'] as String?,
+      useSameUsername: json['UseSameUsername'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RadiusSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final authenticationProtocol = this.authenticationProtocol;
+    final displayLabel = this.displayLabel;
+    final radiusPort = this.radiusPort;
+    final radiusRetries = this.radiusRetries;
+    final radiusServers = this.radiusServers;
+    final radiusTimeout = this.radiusTimeout;
+    final sharedSecret = this.sharedSecret;
+    final useSameUsername = this.useSameUsername;
+    return {
+      if (authenticationProtocol != null)
+        'AuthenticationProtocol': authenticationProtocol.toValue(),
+      if (displayLabel != null) 'DisplayLabel': displayLabel,
+      if (radiusPort != null) 'RadiusPort': radiusPort,
+      if (radiusRetries != null) 'RadiusRetries': radiusRetries,
+      if (radiusServers != null) 'RadiusServers': radiusServers,
+      if (radiusTimeout != null) 'RadiusTimeout': radiusTimeout,
+      if (sharedSecret != null) 'SharedSecret': sharedSecret,
+      if (useSameUsername != null) 'UseSameUsername': useSameUsername,
+    };
+  }
 }
 
 enum RadiusStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on RadiusStatus {
+  String toValue() {
+    switch (this) {
+      case RadiusStatus.creating:
+        return 'Creating';
+      case RadiusStatus.completed:
+        return 'Completed';
+      case RadiusStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  RadiusStatus toRadiusStatus() {
+    switch (this) {
+      case 'Creating':
+        return RadiusStatus.creating;
+      case 'Completed':
+        return RadiusStatus.completed;
+      case 'Failed':
+        return RadiusStatus.failed;
+    }
+    throw Exception('$this is not known in enum RadiusStatus');
+  }
+}
+
 /// The replicated Region information for a directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegionDescription {
   /// The desired number of domain controllers in the specified Region for the
   /// specified directory.
-  @_s.JsonKey(name: 'DesiredNumberOfDomainControllers')
-  final int desiredNumberOfDomainControllers;
+  final int? desiredNumberOfDomainControllers;
 
   /// The identifier of the directory.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The date and time that the Region description was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// Specifies when the Region replication began.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LaunchTime')
-  final DateTime launchTime;
+  final DateTime? launchTime;
 
   /// The name of the Region. For example, <code>us-east-1</code>.
-  @_s.JsonKey(name: 'RegionName')
-  final String regionName;
+  final String? regionName;
 
   /// Specifies whether the Region is the primary Region or an additional Region.
-  @_s.JsonKey(name: 'RegionType')
-  final RegionType regionType;
+  final RegionType? regionType;
 
   /// The status of the replication process for the specified Region.
-  @_s.JsonKey(name: 'Status')
-  final DirectoryStage status;
+  final DirectoryStage? status;
 
   /// The date and time that the Region status was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StatusLastUpdatedDateTime')
-  final DateTime statusLastUpdatedDateTime;
-  @_s.JsonKey(name: 'VpcSettings')
-  final DirectoryVpcSettings vpcSettings;
+  final DateTime? statusLastUpdatedDateTime;
+  final DirectoryVpcSettings? vpcSettings;
 
   RegionDescription({
     this.desiredNumberOfDomainControllers,
@@ -5821,187 +5980,198 @@ class RegionDescription {
     this.statusLastUpdatedDateTime,
     this.vpcSettings,
   });
-  factory RegionDescription.fromJson(Map<String, dynamic> json) =>
-      _$RegionDescriptionFromJson(json);
+  factory RegionDescription.fromJson(Map<String, dynamic> json) {
+    return RegionDescription(
+      desiredNumberOfDomainControllers:
+          json['DesiredNumberOfDomainControllers'] as int?,
+      directoryId: json['DirectoryId'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      launchTime: timeStampFromJson(json['LaunchTime']),
+      regionName: json['RegionName'] as String?,
+      regionType: (json['RegionType'] as String?)?.toRegionType(),
+      status: (json['Status'] as String?)?.toDirectoryStage(),
+      statusLastUpdatedDateTime:
+          timeStampFromJson(json['StatusLastUpdatedDateTime']),
+      vpcSettings: json['VpcSettings'] != null
+          ? DirectoryVpcSettings.fromJson(
+              json['VpcSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum RegionType {
-  @_s.JsonValue('Primary')
   primary,
-  @_s.JsonValue('Additional')
   additional,
+}
+
+extension on RegionType {
+  String toValue() {
+    switch (this) {
+      case RegionType.primary:
+        return 'Primary';
+      case RegionType.additional:
+        return 'Additional';
+    }
+  }
+}
+
+extension on String {
+  RegionType toRegionType() {
+    switch (this) {
+      case 'Primary':
+        return RegionType.primary;
+      case 'Additional':
+        return RegionType.additional;
+    }
+    throw Exception('$this is not known in enum RegionType');
+  }
 }
 
 /// Provides information about the Regions that are configured for multi-Region
 /// replication.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegionsInfo {
   /// Lists the Regions where the directory has been replicated, excluding the
   /// primary Region.
-  @_s.JsonKey(name: 'AdditionalRegions')
-  final List<String> additionalRegions;
+  final List<String>? additionalRegions;
 
   /// The Region where the AWS Managed Microsoft AD directory was originally
   /// created.
-  @_s.JsonKey(name: 'PrimaryRegion')
-  final String primaryRegion;
+  final String? primaryRegion;
 
   RegionsInfo({
     this.additionalRegions,
     this.primaryRegion,
   });
-  factory RegionsInfo.fromJson(Map<String, dynamic> json) =>
-      _$RegionsInfoFromJson(json);
+  factory RegionsInfo.fromJson(Map<String, dynamic> json) {
+    return RegionsInfo(
+      additionalRegions: (json['AdditionalRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      primaryRegion: json['PrimaryRegion'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterCertificateResult {
   /// The identifier of the certificate.
-  @_s.JsonKey(name: 'CertificateId')
-  final String certificateId;
+  final String? certificateId;
 
   RegisterCertificateResult({
     this.certificateId,
   });
-  factory RegisterCertificateResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterCertificateResultFromJson(json);
+  factory RegisterCertificateResult.fromJson(Map<String, dynamic> json) {
+    return RegisterCertificateResult(
+      certificateId: json['CertificateId'] as String?,
+    );
+  }
 }
 
 /// The result of a RegisterEventTopic request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterEventTopicResult {
   RegisterEventTopicResult();
-  factory RegisterEventTopicResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterEventTopicResultFromJson(json);
+  factory RegisterEventTopicResult.fromJson(Map<String, dynamic> _) {
+    return RegisterEventTopicResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectSharedDirectoryResult {
   /// Identifier of the shared directory in the directory consumer account.
-  @_s.JsonKey(name: 'SharedDirectoryId')
-  final String sharedDirectoryId;
+  final String? sharedDirectoryId;
 
   RejectSharedDirectoryResult({
     this.sharedDirectoryId,
   });
-  factory RejectSharedDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$RejectSharedDirectoryResultFromJson(json);
+  factory RejectSharedDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return RejectSharedDirectoryResult(
+      sharedDirectoryId: json['SharedDirectoryId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveIpRoutesResult {
   RemoveIpRoutesResult();
-  factory RemoveIpRoutesResult.fromJson(Map<String, dynamic> json) =>
-      _$RemoveIpRoutesResultFromJson(json);
+  factory RemoveIpRoutesResult.fromJson(Map<String, dynamic> _) {
+    return RemoveIpRoutesResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveRegionResult {
   RemoveRegionResult();
-  factory RemoveRegionResult.fromJson(Map<String, dynamic> json) =>
-      _$RemoveRegionResultFromJson(json);
+  factory RemoveRegionResult.fromJson(Map<String, dynamic> _) {
+    return RemoveRegionResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
-  factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsFromResourceResultFromJson(json);
+  factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsFromResourceResult();
+  }
 }
 
 enum ReplicationScope {
-  @_s.JsonValue('Domain')
   domain,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ReplicationScope {
+  String toValue() {
+    switch (this) {
+      case ReplicationScope.domain:
+        return 'Domain';
+    }
+  }
+}
+
+extension on String {
+  ReplicationScope toReplicationScope() {
+    switch (this) {
+      case 'Domain':
+        return ReplicationScope.domain;
+    }
+    throw Exception('$this is not known in enum ReplicationScope');
+  }
+}
+
 class ResetUserPasswordResult {
   ResetUserPasswordResult();
-  factory ResetUserPasswordResult.fromJson(Map<String, dynamic> json) =>
-      _$ResetUserPasswordResultFromJson(json);
+  factory ResetUserPasswordResult.fromJson(Map<String, dynamic> _) {
+    return ResetUserPasswordResult();
+  }
 }
 
 /// Contains the results of the <a>RestoreFromSnapshot</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreFromSnapshotResult {
   RestoreFromSnapshotResult();
-  factory RestoreFromSnapshotResult.fromJson(Map<String, dynamic> json) =>
-      _$RestoreFromSnapshotResultFromJson(json);
+  factory RestoreFromSnapshotResult.fromJson(Map<String, dynamic> _) {
+    return RestoreFromSnapshotResult();
+  }
 }
 
 /// Information about a schema extension.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaExtensionInfo {
   /// A description of the schema extension.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The identifier of the directory to which the schema extension is applied.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The date and time that the schema extension was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The identifier of the schema extension.
-  @_s.JsonKey(name: 'SchemaExtensionId')
-  final String schemaExtensionId;
+  final String? schemaExtensionId;
 
   /// The current status of the schema extension.
-  @_s.JsonKey(name: 'SchemaExtensionStatus')
-  final SchemaExtensionStatus schemaExtensionStatus;
+  final SchemaExtensionStatus? schemaExtensionStatus;
 
   /// The reason for the <code>SchemaExtensionStatus</code>.
-  @_s.JsonKey(name: 'SchemaExtensionStatusReason')
-  final String schemaExtensionStatusReason;
+  final String? schemaExtensionStatusReason;
 
   /// The date and time that the schema extension started being applied to the
   /// directory.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDateTime')
-  final DateTime startDateTime;
+  final DateTime? startDateTime;
 
   SchemaExtensionInfo({
     this.description,
@@ -6012,35 +6182,86 @@ class SchemaExtensionInfo {
     this.schemaExtensionStatusReason,
     this.startDateTime,
   });
-  factory SchemaExtensionInfo.fromJson(Map<String, dynamic> json) =>
-      _$SchemaExtensionInfoFromJson(json);
+  factory SchemaExtensionInfo.fromJson(Map<String, dynamic> json) {
+    return SchemaExtensionInfo(
+      description: json['Description'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      schemaExtensionId: json['SchemaExtensionId'] as String?,
+      schemaExtensionStatus:
+          (json['SchemaExtensionStatus'] as String?)?.toSchemaExtensionStatus(),
+      schemaExtensionStatusReason:
+          json['SchemaExtensionStatusReason'] as String?,
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+    );
+  }
 }
 
 enum SchemaExtensionStatus {
-  @_s.JsonValue('Initializing')
   initializing,
-  @_s.JsonValue('CreatingSnapshot')
   creatingSnapshot,
-  @_s.JsonValue('UpdatingSchema')
   updatingSchema,
-  @_s.JsonValue('Replicating')
   replicating,
-  @_s.JsonValue('CancelInProgress')
   cancelInProgress,
-  @_s.JsonValue('RollbackInProgress')
   rollbackInProgress,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Completed')
   completed,
 }
 
+extension on SchemaExtensionStatus {
+  String toValue() {
+    switch (this) {
+      case SchemaExtensionStatus.initializing:
+        return 'Initializing';
+      case SchemaExtensionStatus.creatingSnapshot:
+        return 'CreatingSnapshot';
+      case SchemaExtensionStatus.updatingSchema:
+        return 'UpdatingSchema';
+      case SchemaExtensionStatus.replicating:
+        return 'Replicating';
+      case SchemaExtensionStatus.cancelInProgress:
+        return 'CancelInProgress';
+      case SchemaExtensionStatus.rollbackInProgress:
+        return 'RollbackInProgress';
+      case SchemaExtensionStatus.cancelled:
+        return 'Cancelled';
+      case SchemaExtensionStatus.failed:
+        return 'Failed';
+      case SchemaExtensionStatus.completed:
+        return 'Completed';
+    }
+  }
+}
+
+extension on String {
+  SchemaExtensionStatus toSchemaExtensionStatus() {
+    switch (this) {
+      case 'Initializing':
+        return SchemaExtensionStatus.initializing;
+      case 'CreatingSnapshot':
+        return SchemaExtensionStatus.creatingSnapshot;
+      case 'UpdatingSchema':
+        return SchemaExtensionStatus.updatingSchema;
+      case 'Replicating':
+        return SchemaExtensionStatus.replicating;
+      case 'CancelInProgress':
+        return SchemaExtensionStatus.cancelInProgress;
+      case 'RollbackInProgress':
+        return SchemaExtensionStatus.rollbackInProgress;
+      case 'Cancelled':
+        return SchemaExtensionStatus.cancelled;
+      case 'Failed':
+        return SchemaExtensionStatus.failed;
+      case 'Completed':
+        return SchemaExtensionStatus.completed;
+    }
+    throw Exception('$this is not known in enum SchemaExtensionStatus');
+  }
+}
+
 enum SelectiveAuth {
-  @_s.JsonValue('Enabled')
   enabled,
-  @_s.JsonValue('Disabled')
   disabled,
 }
 
@@ -6052,32 +6273,38 @@ extension on SelectiveAuth {
       case SelectiveAuth.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SelectiveAuth toSelectiveAuth() {
+    switch (this) {
+      case 'Enabled':
+        return SelectiveAuth.enabled;
+      case 'Disabled':
+        return SelectiveAuth.disabled;
+    }
+    throw Exception('$this is not known in enum SelectiveAuth');
+  }
+}
+
 class ShareDirectoryResult {
   /// Identifier of the directory that is stored in the directory consumer account
   /// that is shared from the specified directory (<code>DirectoryId</code>).
-  @_s.JsonKey(name: 'SharedDirectoryId')
-  final String sharedDirectoryId;
+  final String? sharedDirectoryId;
 
   ShareDirectoryResult({
     this.sharedDirectoryId,
   });
-  factory ShareDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$ShareDirectoryResultFromJson(json);
+  factory ShareDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return ShareDirectoryResult(
+      sharedDirectoryId: json['SharedDirectoryId'] as String?,
+    );
+  }
 }
 
 enum ShareMethod {
-  @_s.JsonValue('ORGANIZATIONS')
   organizations,
-  @_s.JsonValue('HANDSHAKE')
   handshake,
 }
 
@@ -6089,107 +6316,144 @@ extension on ShareMethod {
       case ShareMethod.handshake:
         return 'HANDSHAKE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ShareMethod toShareMethod() {
+    switch (this) {
+      case 'ORGANIZATIONS':
+        return ShareMethod.organizations;
+      case 'HANDSHAKE':
+        return ShareMethod.handshake;
+    }
+    throw Exception('$this is not known in enum ShareMethod');
   }
 }
 
 enum ShareStatus {
-  @_s.JsonValue('Shared')
   shared,
-  @_s.JsonValue('PendingAcceptance')
   pendingAcceptance,
-  @_s.JsonValue('Rejected')
   rejected,
-  @_s.JsonValue('Rejecting')
   rejecting,
-  @_s.JsonValue('RejectFailed')
   rejectFailed,
-  @_s.JsonValue('Sharing')
   sharing,
-  @_s.JsonValue('ShareFailed')
   shareFailed,
-  @_s.JsonValue('Deleted')
   deleted,
-  @_s.JsonValue('Deleting')
   deleting,
 }
 
+extension on ShareStatus {
+  String toValue() {
+    switch (this) {
+      case ShareStatus.shared:
+        return 'Shared';
+      case ShareStatus.pendingAcceptance:
+        return 'PendingAcceptance';
+      case ShareStatus.rejected:
+        return 'Rejected';
+      case ShareStatus.rejecting:
+        return 'Rejecting';
+      case ShareStatus.rejectFailed:
+        return 'RejectFailed';
+      case ShareStatus.sharing:
+        return 'Sharing';
+      case ShareStatus.shareFailed:
+        return 'ShareFailed';
+      case ShareStatus.deleted:
+        return 'Deleted';
+      case ShareStatus.deleting:
+        return 'Deleting';
+    }
+  }
+}
+
+extension on String {
+  ShareStatus toShareStatus() {
+    switch (this) {
+      case 'Shared':
+        return ShareStatus.shared;
+      case 'PendingAcceptance':
+        return ShareStatus.pendingAcceptance;
+      case 'Rejected':
+        return ShareStatus.rejected;
+      case 'Rejecting':
+        return ShareStatus.rejecting;
+      case 'RejectFailed':
+        return ShareStatus.rejectFailed;
+      case 'Sharing':
+        return ShareStatus.sharing;
+      case 'ShareFailed':
+        return ShareStatus.shareFailed;
+      case 'Deleted':
+        return ShareStatus.deleted;
+      case 'Deleting':
+        return ShareStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ShareStatus');
+  }
+}
+
 /// Identifier that contains details about the directory consumer account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ShareTarget {
   /// Identifier of the directory consumer account.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// Type of identifier to be used in the <code>Id</code> field.
-  @_s.JsonKey(name: 'Type')
   final TargetType type;
 
   ShareTarget({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$ShareTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 /// Details about the shared directory in the directory owner account for which
 /// the share request in the directory consumer account has been accepted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SharedDirectory {
   /// The date and time that the shared directory was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDateTime')
-  final DateTime createdDateTime;
+  final DateTime? createdDateTime;
 
   /// The date and time that the shared directory was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// Identifier of the directory owner account, which contains the directory that
   /// has been shared to the consumer account.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// Identifier of the directory in the directory owner account.
-  @_s.JsonKey(name: 'OwnerDirectoryId')
-  final String ownerDirectoryId;
+  final String? ownerDirectoryId;
 
   /// The method used when sharing a directory to determine whether the directory
   /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
   /// or with any AWS account by sending a shared directory request
   /// (<code>HANDSHAKE</code>).
-  @_s.JsonKey(name: 'ShareMethod')
-  final ShareMethod shareMethod;
+  final ShareMethod? shareMethod;
 
   /// A directory share request that is sent by the directory owner to the
   /// directory consumer. The request includes a typed message to help the
   /// directory consumer administrator determine whether to approve or reject the
   /// share invitation.
-  @_s.JsonKey(name: 'ShareNotes')
-  final String shareNotes;
+  final String? shareNotes;
 
   /// Current directory status of the shared AWS Managed Microsoft AD directory.
-  @_s.JsonKey(name: 'ShareStatus')
-  final ShareStatus shareStatus;
+  final ShareStatus? shareStatus;
 
   /// Identifier of the directory consumer account that has access to the shared
   /// directory (<code>OwnerDirectoryId</code>) in the directory owner account.
-  @_s.JsonKey(name: 'SharedAccountId')
-  final String sharedAccountId;
+  final String? sharedAccountId;
 
   /// Identifier of the shared directory in the directory consumer account. This
   /// identifier is different for each directory owner account.
-  @_s.JsonKey(name: 'SharedDirectoryId')
-  final String sharedDirectoryId;
+  final String? sharedDirectoryId;
 
   SharedDirectory({
     this.createdDateTime,
@@ -6202,41 +6466,40 @@ class SharedDirectory {
     this.sharedAccountId,
     this.sharedDirectoryId,
   });
-  factory SharedDirectory.fromJson(Map<String, dynamic> json) =>
-      _$SharedDirectoryFromJson(json);
+  factory SharedDirectory.fromJson(Map<String, dynamic> json) {
+    return SharedDirectory(
+      createdDateTime: timeStampFromJson(json['CreatedDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      ownerDirectoryId: json['OwnerDirectoryId'] as String?,
+      shareMethod: (json['ShareMethod'] as String?)?.toShareMethod(),
+      shareNotes: json['ShareNotes'] as String?,
+      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      sharedAccountId: json['SharedAccountId'] as String?,
+      sharedDirectoryId: json['SharedDirectoryId'] as String?,
+    );
+  }
 }
 
 /// Describes a directory snapshot.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Snapshot {
   /// The directory identifier.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The descriptive name of the snapshot.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The snapshot identifier.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The date and time that the snapshot was taken.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The snapshot status.
-  @_s.JsonKey(name: 'Status')
-  final SnapshotStatus status;
+  final SnapshotStatus? status;
 
   /// The snapshot type.
-  @_s.JsonKey(name: 'Type')
-  final SnapshotType type;
+  final SnapshotType? type;
 
   Snapshot({
     this.directoryId,
@@ -6246,172 +6509,250 @@ class Snapshot {
     this.status,
     this.type,
   });
-  factory Snapshot.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotFromJson(json);
+  factory Snapshot.fromJson(Map<String, dynamic> json) {
+    return Snapshot(
+      directoryId: json['DirectoryId'] as String?,
+      name: json['Name'] as String?,
+      snapshotId: json['SnapshotId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toSnapshotStatus(),
+      type: (json['Type'] as String?)?.toSnapshotType(),
+    );
+  }
 }
 
 /// Contains manual snapshot limit information for a directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SnapshotLimits {
   /// The current number of manual snapshots of the directory.
-  @_s.JsonKey(name: 'ManualSnapshotsCurrentCount')
-  final int manualSnapshotsCurrentCount;
+  final int? manualSnapshotsCurrentCount;
 
   /// The maximum number of manual snapshots allowed.
-  @_s.JsonKey(name: 'ManualSnapshotsLimit')
-  final int manualSnapshotsLimit;
+  final int? manualSnapshotsLimit;
 
   /// Indicates if the manual snapshot limit has been reached.
-  @_s.JsonKey(name: 'ManualSnapshotsLimitReached')
-  final bool manualSnapshotsLimitReached;
+  final bool? manualSnapshotsLimitReached;
 
   SnapshotLimits({
     this.manualSnapshotsCurrentCount,
     this.manualSnapshotsLimit,
     this.manualSnapshotsLimitReached,
   });
-  factory SnapshotLimits.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotLimitsFromJson(json);
+  factory SnapshotLimits.fromJson(Map<String, dynamic> json) {
+    return SnapshotLimits(
+      manualSnapshotsCurrentCount: json['ManualSnapshotsCurrentCount'] as int?,
+      manualSnapshotsLimit: json['ManualSnapshotsLimit'] as int?,
+      manualSnapshotsLimitReached: json['ManualSnapshotsLimitReached'] as bool?,
+    );
+  }
 }
 
 enum SnapshotStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on SnapshotStatus {
+  String toValue() {
+    switch (this) {
+      case SnapshotStatus.creating:
+        return 'Creating';
+      case SnapshotStatus.completed:
+        return 'Completed';
+      case SnapshotStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  SnapshotStatus toSnapshotStatus() {
+    switch (this) {
+      case 'Creating':
+        return SnapshotStatus.creating;
+      case 'Completed':
+        return SnapshotStatus.completed;
+      case 'Failed':
+        return SnapshotStatus.failed;
+    }
+    throw Exception('$this is not known in enum SnapshotStatus');
+  }
+}
+
 enum SnapshotType {
-  @_s.JsonValue('Auto')
   auto,
-  @_s.JsonValue('Manual')
   manual,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SnapshotType {
+  String toValue() {
+    switch (this) {
+      case SnapshotType.auto:
+        return 'Auto';
+      case SnapshotType.manual:
+        return 'Manual';
+    }
+  }
+}
+
+extension on String {
+  SnapshotType toSnapshotType() {
+    switch (this) {
+      case 'Auto':
+        return SnapshotType.auto;
+      case 'Manual':
+        return SnapshotType.manual;
+    }
+    throw Exception('$this is not known in enum SnapshotType');
+  }
+}
+
 class StartSchemaExtensionResult {
   /// The identifier of the schema extension that will be applied.
-  @_s.JsonKey(name: 'SchemaExtensionId')
-  final String schemaExtensionId;
+  final String? schemaExtensionId;
 
   StartSchemaExtensionResult({
     this.schemaExtensionId,
   });
-  factory StartSchemaExtensionResult.fromJson(Map<String, dynamic> json) =>
-      _$StartSchemaExtensionResultFromJson(json);
+  factory StartSchemaExtensionResult.fromJson(Map<String, dynamic> json) {
+    return StartSchemaExtensionResult(
+      schemaExtensionId: json['SchemaExtensionId'] as String?,
+    );
+  }
 }
 
 /// Metadata assigned to a directory consisting of a key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Required name of the tag. The string value can be Unicode characters and
   /// cannot be prefixed with "aws:". The string can contain only the set of
   /// Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java
   /// regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional value of the tag. The string value can be Unicode characters.
   /// The string can contain only the set of Unicode letters, digits, white-space,
   /// '_', '.', '/', '=', '+', '-' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 enum TargetType {
-  @_s.JsonValue('ACCOUNT')
   account,
 }
 
+extension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.account:
+        return 'ACCOUNT';
+    }
+  }
+}
+
+extension on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return TargetType.account;
+    }
+    throw Exception('$this is not known in enum TargetType');
+  }
+}
+
 enum TopicStatus {
-  @_s.JsonValue('Registered')
   registered,
-  @_s.JsonValue('Topic not found')
   topicNotFound,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Deleted')
   deleted,
+}
+
+extension on TopicStatus {
+  String toValue() {
+    switch (this) {
+      case TopicStatus.registered:
+        return 'Registered';
+      case TopicStatus.topicNotFound:
+        return 'Topic not found';
+      case TopicStatus.failed:
+        return 'Failed';
+      case TopicStatus.deleted:
+        return 'Deleted';
+    }
+  }
+}
+
+extension on String {
+  TopicStatus toTopicStatus() {
+    switch (this) {
+      case 'Registered':
+        return TopicStatus.registered;
+      case 'Topic not found':
+        return TopicStatus.topicNotFound;
+      case 'Failed':
+        return TopicStatus.failed;
+      case 'Deleted':
+        return TopicStatus.deleted;
+    }
+    throw Exception('$this is not known in enum TopicStatus');
+  }
 }
 
 /// Describes a trust relationship between an AWS Managed Microsoft AD directory
 /// and an external domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Trust {
   /// The date and time that the trust relationship was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDateTime')
-  final DateTime createdDateTime;
+  final DateTime? createdDateTime;
 
   /// The Directory ID of the AWS directory involved in the trust relationship.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The date and time that the trust relationship was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The Fully Qualified Domain Name (FQDN) of the external domain involved in
   /// the trust relationship.
-  @_s.JsonKey(name: 'RemoteDomainName')
-  final String remoteDomainName;
+  final String? remoteDomainName;
 
   /// Current state of selective authentication for the trust.
-  @_s.JsonKey(name: 'SelectiveAuth')
-  final SelectiveAuth selectiveAuth;
+  final SelectiveAuth? selectiveAuth;
 
   /// The date and time that the TrustState was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StateLastUpdatedDateTime')
-  final DateTime stateLastUpdatedDateTime;
+  final DateTime? stateLastUpdatedDateTime;
 
   /// The trust relationship direction.
-  @_s.JsonKey(name: 'TrustDirection')
-  final TrustDirection trustDirection;
+  final TrustDirection? trustDirection;
 
   /// The unique ID of the trust relationship.
-  @_s.JsonKey(name: 'TrustId')
-  final String trustId;
+  final String? trustId;
 
   /// The trust relationship state.
-  @_s.JsonKey(name: 'TrustState')
-  final TrustState trustState;
+  final TrustState? trustState;
 
   /// The reason for the TrustState.
-  @_s.JsonKey(name: 'TrustStateReason')
-  final String trustStateReason;
+  final String? trustStateReason;
 
   /// The trust relationship type. <code>Forest</code> is the default.
-  @_s.JsonKey(name: 'TrustType')
-  final TrustType trustType;
+  final TrustType? trustType;
 
   Trust({
     this.createdDateTime,
@@ -6426,15 +6767,27 @@ class Trust {
     this.trustStateReason,
     this.trustType,
   });
-  factory Trust.fromJson(Map<String, dynamic> json) => _$TrustFromJson(json);
+  factory Trust.fromJson(Map<String, dynamic> json) {
+    return Trust(
+      createdDateTime: timeStampFromJson(json['CreatedDateTime']),
+      directoryId: json['DirectoryId'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      remoteDomainName: json['RemoteDomainName'] as String?,
+      selectiveAuth: (json['SelectiveAuth'] as String?)?.toSelectiveAuth(),
+      stateLastUpdatedDateTime:
+          timeStampFromJson(json['StateLastUpdatedDateTime']),
+      trustDirection: (json['TrustDirection'] as String?)?.toTrustDirection(),
+      trustId: json['TrustId'] as String?,
+      trustState: (json['TrustState'] as String?)?.toTrustState(),
+      trustStateReason: json['TrustStateReason'] as String?,
+      trustType: (json['TrustType'] as String?)?.toTrustType(),
+    );
+  }
 }
 
 enum TrustDirection {
-  @_s.JsonValue('One-Way: Outgoing')
   oneWayOutgoing,
-  @_s.JsonValue('One-Way: Incoming')
   oneWayIncoming,
-  @_s.JsonValue('Two-Way')
   twoWay,
 }
 
@@ -6448,39 +6801,98 @@ extension on TrustDirection {
       case TrustDirection.twoWay:
         return 'Two-Way';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TrustDirection toTrustDirection() {
+    switch (this) {
+      case 'One-Way: Outgoing':
+        return TrustDirection.oneWayOutgoing;
+      case 'One-Way: Incoming':
+        return TrustDirection.oneWayIncoming;
+      case 'Two-Way':
+        return TrustDirection.twoWay;
+    }
+    throw Exception('$this is not known in enum TrustDirection');
   }
 }
 
 enum TrustState {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Created')
   created,
-  @_s.JsonValue('Verifying')
   verifying,
-  @_s.JsonValue('VerifyFailed')
   verifyFailed,
-  @_s.JsonValue('Verified')
   verified,
-  @_s.JsonValue('Updating')
   updating,
-  @_s.JsonValue('UpdateFailed')
   updateFailed,
-  @_s.JsonValue('Updated')
   updated,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Deleted')
   deleted,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on TrustState {
+  String toValue() {
+    switch (this) {
+      case TrustState.creating:
+        return 'Creating';
+      case TrustState.created:
+        return 'Created';
+      case TrustState.verifying:
+        return 'Verifying';
+      case TrustState.verifyFailed:
+        return 'VerifyFailed';
+      case TrustState.verified:
+        return 'Verified';
+      case TrustState.updating:
+        return 'Updating';
+      case TrustState.updateFailed:
+        return 'UpdateFailed';
+      case TrustState.updated:
+        return 'Updated';
+      case TrustState.deleting:
+        return 'Deleting';
+      case TrustState.deleted:
+        return 'Deleted';
+      case TrustState.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  TrustState toTrustState() {
+    switch (this) {
+      case 'Creating':
+        return TrustState.creating;
+      case 'Created':
+        return TrustState.created;
+      case 'Verifying':
+        return TrustState.verifying;
+      case 'VerifyFailed':
+        return TrustState.verifyFailed;
+      case 'Verified':
+        return TrustState.verified;
+      case 'Updating':
+        return TrustState.updating;
+      case 'UpdateFailed':
+        return TrustState.updateFailed;
+      case 'Updated':
+        return TrustState.updated;
+      case 'Deleting':
+        return TrustState.deleting;
+      case 'Deleted':
+        return TrustState.deleted;
+      case 'Failed':
+        return TrustState.failed;
+    }
+    throw Exception('$this is not known in enum TrustState');
+  }
+}
+
 enum TrustType {
-  @_s.JsonValue('Forest')
   forest,
-  @_s.JsonValue('External')
   external,
 }
 
@@ -6492,134 +6904,123 @@ extension on TrustType {
       case TrustType.external:
         return 'External';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TrustType toTrustType() {
+    switch (this) {
+      case 'Forest':
+        return TrustType.forest;
+      case 'External':
+        return TrustType.external;
+    }
+    throw Exception('$this is not known in enum TrustType');
+  }
+}
+
 class UnshareDirectoryResult {
   /// Identifier of the directory stored in the directory consumer account that is
   /// to be unshared from the specified directory (<code>DirectoryId</code>).
-  @_s.JsonKey(name: 'SharedDirectoryId')
-  final String sharedDirectoryId;
+  final String? sharedDirectoryId;
 
   UnshareDirectoryResult({
     this.sharedDirectoryId,
   });
-  factory UnshareDirectoryResult.fromJson(Map<String, dynamic> json) =>
-      _$UnshareDirectoryResultFromJson(json);
+  factory UnshareDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return UnshareDirectoryResult(
+      sharedDirectoryId: json['SharedDirectoryId'] as String?,
+    );
+  }
 }
 
 /// Identifier that contains details about the directory consumer account with
 /// whom the directory is being unshared.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UnshareTarget {
   /// Identifier of the directory consumer account.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// Type of identifier to be used in the <i>Id</i> field.
-  @_s.JsonKey(name: 'Type')
   final TargetType type;
 
   UnshareTarget({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$UnshareTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 /// The result of an UpdateConditionalForwarder request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConditionalForwarderResult {
   UpdateConditionalForwarderResult();
-  factory UpdateConditionalForwarderResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateConditionalForwarderResultFromJson(json);
+  factory UpdateConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
+    return UpdateConditionalForwarderResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNumberOfDomainControllersResult {
   UpdateNumberOfDomainControllersResult();
   factory UpdateNumberOfDomainControllersResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateNumberOfDomainControllersResultFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateNumberOfDomainControllersResult();
+  }
 }
 
 /// Contains the results of the <a>UpdateRadius</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRadiusResult {
   UpdateRadiusResult();
-  factory UpdateRadiusResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRadiusResultFromJson(json);
+  factory UpdateRadiusResult.fromJson(Map<String, dynamic> _) {
+    return UpdateRadiusResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTrustResult {
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  final String? requestId;
 
   /// Identifier of the trust relationship.
-  @_s.JsonKey(name: 'TrustId')
-  final String trustId;
+  final String? trustId;
 
   UpdateTrustResult({
     this.requestId,
     this.trustId,
   });
-  factory UpdateTrustResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTrustResultFromJson(json);
+  factory UpdateTrustResult.fromJson(Map<String, dynamic> json) {
+    return UpdateTrustResult(
+      requestId: json['RequestId'] as String?,
+      trustId: json['TrustId'] as String?,
+    );
+  }
 }
 
 /// Result of a VerifyTrust request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VerifyTrustResult {
   /// The unique Trust ID of the trust relationship that was verified.
-  @_s.JsonKey(name: 'TrustId')
-  final String trustId;
+  final String? trustId;
 
   VerifyTrustResult({
     this.trustId,
   });
-  factory VerifyTrustResult.fromJson(Map<String, dynamic> json) =>
-      _$VerifyTrustResultFromJson(json);
+  factory VerifyTrustResult.fromJson(Map<String, dynamic> json) {
+    return VerifyTrustResult(
+      trustId: json['TrustId'] as String?,
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AuthenticationFailedException extends _s.GenericAwsException {
-  AuthenticationFailedException({String type, String message})
+  AuthenticationFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'AuthenticationFailedException',
@@ -6627,7 +7028,7 @@ class AuthenticationFailedException extends _s.GenericAwsException {
 }
 
 class CertificateAlreadyExistsException extends _s.GenericAwsException {
-  CertificateAlreadyExistsException({String type, String message})
+  CertificateAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'CertificateAlreadyExistsException',
@@ -6635,7 +7036,7 @@ class CertificateAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class CertificateDoesNotExistException extends _s.GenericAwsException {
-  CertificateDoesNotExistException({String type, String message})
+  CertificateDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'CertificateDoesNotExistException',
@@ -6643,12 +7044,12 @@ class CertificateDoesNotExistException extends _s.GenericAwsException {
 }
 
 class CertificateInUseException extends _s.GenericAwsException {
-  CertificateInUseException({String type, String message})
+  CertificateInUseException({String? type, String? message})
       : super(type: type, code: 'CertificateInUseException', message: message);
 }
 
 class CertificateLimitExceededException extends _s.GenericAwsException {
-  CertificateLimitExceededException({String type, String message})
+  CertificateLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CertificateLimitExceededException',
@@ -6656,12 +7057,12 @@ class CertificateLimitExceededException extends _s.GenericAwsException {
 }
 
 class ClientException extends _s.GenericAwsException {
-  ClientException({String type, String message})
+  ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
 class DirectoryAlreadyInRegionException extends _s.GenericAwsException {
-  DirectoryAlreadyInRegionException({String type, String message})
+  DirectoryAlreadyInRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryAlreadyInRegionException',
@@ -6669,7 +7070,7 @@ class DirectoryAlreadyInRegionException extends _s.GenericAwsException {
 }
 
 class DirectoryAlreadySharedException extends _s.GenericAwsException {
-  DirectoryAlreadySharedException({String type, String message})
+  DirectoryAlreadySharedException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryAlreadySharedException',
@@ -6677,7 +7078,7 @@ class DirectoryAlreadySharedException extends _s.GenericAwsException {
 }
 
 class DirectoryDoesNotExistException extends _s.GenericAwsException {
-  DirectoryDoesNotExistException({String type, String message})
+  DirectoryDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryDoesNotExistException',
@@ -6685,7 +7086,7 @@ class DirectoryDoesNotExistException extends _s.GenericAwsException {
 }
 
 class DirectoryLimitExceededException extends _s.GenericAwsException {
-  DirectoryLimitExceededException({String type, String message})
+  DirectoryLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryLimitExceededException',
@@ -6693,13 +7094,13 @@ class DirectoryLimitExceededException extends _s.GenericAwsException {
 }
 
 class DirectoryNotSharedException extends _s.GenericAwsException {
-  DirectoryNotSharedException({String type, String message})
+  DirectoryNotSharedException({String? type, String? message})
       : super(
             type: type, code: 'DirectoryNotSharedException', message: message);
 }
 
 class DirectoryUnavailableException extends _s.GenericAwsException {
-  DirectoryUnavailableException({String type, String message})
+  DirectoryUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryUnavailableException',
@@ -6707,7 +7108,7 @@ class DirectoryUnavailableException extends _s.GenericAwsException {
 }
 
 class DomainControllerLimitExceededException extends _s.GenericAwsException {
-  DomainControllerLimitExceededException({String type, String message})
+  DomainControllerLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DomainControllerLimitExceededException',
@@ -6715,19 +7116,19 @@ class DomainControllerLimitExceededException extends _s.GenericAwsException {
 }
 
 class EntityAlreadyExistsException extends _s.GenericAwsException {
-  EntityAlreadyExistsException({String type, String message})
+  EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
 class EntityDoesNotExistException extends _s.GenericAwsException {
-  EntityDoesNotExistException({String type, String message})
+  EntityDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'EntityDoesNotExistException', message: message);
 }
 
 class InsufficientPermissionsException extends _s.GenericAwsException {
-  InsufficientPermissionsException({String type, String message})
+  InsufficientPermissionsException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientPermissionsException',
@@ -6735,13 +7136,13 @@ class InsufficientPermissionsException extends _s.GenericAwsException {
 }
 
 class InvalidCertificateException extends _s.GenericAwsException {
-  InvalidCertificateException({String type, String message})
+  InvalidCertificateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
 class InvalidClientAuthStatusException extends _s.GenericAwsException {
-  InvalidClientAuthStatusException({String type, String message})
+  InvalidClientAuthStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClientAuthStatusException',
@@ -6749,33 +7150,33 @@ class InvalidClientAuthStatusException extends _s.GenericAwsException {
 }
 
 class InvalidLDAPSStatusException extends _s.GenericAwsException {
-  InvalidLDAPSStatusException({String type, String message})
+  InvalidLDAPSStatusException({String? type, String? message})
       : super(
             type: type, code: 'InvalidLDAPSStatusException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidPasswordException extends _s.GenericAwsException {
-  InvalidPasswordException({String type, String message})
+  InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
 class InvalidTargetException extends _s.GenericAwsException {
-  InvalidTargetException({String type, String message})
+  InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
 class IpRouteLimitExceededException extends _s.GenericAwsException {
-  IpRouteLimitExceededException({String type, String message})
+  IpRouteLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'IpRouteLimitExceededException',
@@ -6783,7 +7184,7 @@ class IpRouteLimitExceededException extends _s.GenericAwsException {
 }
 
 class NoAvailableCertificateException extends _s.GenericAwsException {
-  NoAvailableCertificateException({String type, String message})
+  NoAvailableCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'NoAvailableCertificateException',
@@ -6791,29 +7192,29 @@ class NoAvailableCertificateException extends _s.GenericAwsException {
 }
 
 class OrganizationsException extends _s.GenericAwsException {
-  OrganizationsException({String type, String message})
+  OrganizationsException({String? type, String? message})
       : super(type: type, code: 'OrganizationsException', message: message);
 }
 
 class RegionLimitExceededException extends _s.GenericAwsException {
-  RegionLimitExceededException({String type, String message})
+  RegionLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'RegionLimitExceededException', message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class ShareLimitExceededException extends _s.GenericAwsException {
-  ShareLimitExceededException({String type, String message})
+  ShareLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ShareLimitExceededException', message: message);
 }
 
 class SnapshotLimitExceededException extends _s.GenericAwsException {
-  SnapshotLimitExceededException({String type, String message})
+  SnapshotLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'SnapshotLimitExceededException',
@@ -6821,12 +7222,12 @@ class SnapshotLimitExceededException extends _s.GenericAwsException {
 }
 
 class TagLimitExceededException extends _s.GenericAwsException {
-  TagLimitExceededException({String type, String message})
+  TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',
@@ -6834,7 +7235,7 @@ class UnsupportedOperationException extends _s.GenericAwsException {
 }
 
 class UserDoesNotExistException extends _s.GenericAwsException {
-  UserDoesNotExistException({String type, String message})
+  UserDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'UserDoesNotExistException', message: message);
 }
 

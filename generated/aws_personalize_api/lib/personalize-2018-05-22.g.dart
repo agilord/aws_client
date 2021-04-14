@@ -8,7 +8,7 @@ part of 'personalize-2018-05-22.dart';
 
 Algorithm _$AlgorithmFromJson(Map<String, dynamic> json) {
   return Algorithm(
-    algorithmArn: json['algorithmArn'] as String,
+    algorithmArn: json['algorithmArn'] as String?,
     algorithmImage: json['algorithmImage'] == null
         ? null
         : AlgorithmImage.fromJson(
@@ -20,32 +20,34 @@ Algorithm _$AlgorithmFromJson(Map<String, dynamic> json) {
         : DefaultHyperParameterRanges.fromJson(
             json['defaultHyperParameterRanges'] as Map<String, dynamic>),
     defaultHyperParameters:
-        (json['defaultHyperParameters'] as Map<String, dynamic>)?.map(
+        (json['defaultHyperParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     defaultResourceConfig:
-        (json['defaultResourceConfig'] as Map<String, dynamic>)?.map(
+        (json['defaultResourceConfig'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    roleArn: json['roleArn'] as String,
-    trainingInputMode: json['trainingInputMode'] as String,
+    name: json['name'] as String?,
+    roleArn: json['roleArn'] as String?,
+    trainingInputMode: json['trainingInputMode'] as String?,
   );
 }
 
 AlgorithmImage _$AlgorithmImageFromJson(Map<String, dynamic> json) {
   return AlgorithmImage(
     dockerURI: json['dockerURI'] as String,
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
 AutoMLConfig _$AutoMLConfigFromJson(Map<String, dynamic> json) {
   return AutoMLConfig(
-    metricName: json['metricName'] as String,
-    recipeList: (json['recipeList'] as List)?.map((e) => e as String)?.toList(),
+    metricName: json['metricName'] as String?,
+    recipeList: (json['recipeList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -65,36 +67,36 @@ Map<String, dynamic> _$AutoMLConfigToJson(AutoMLConfig instance) {
 
 AutoMLResult _$AutoMLResultFromJson(Map<String, dynamic> json) {
   return AutoMLResult(
-    bestRecipeArn: json['bestRecipeArn'] as String,
+    bestRecipeArn: json['bestRecipeArn'] as String?,
   );
 }
 
 BatchInferenceJob _$BatchInferenceJobFromJson(Map<String, dynamic> json) {
   return BatchInferenceJob(
-    batchInferenceJobArn: json['batchInferenceJobArn'] as String,
+    batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
     batchInferenceJobConfig: json['batchInferenceJobConfig'] == null
         ? null
         : BatchInferenceJobConfig.fromJson(
             json['batchInferenceJobConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
-    filterArn: json['filterArn'] as String,
+    failureReason: json['failureReason'] as String?,
+    filterArn: json['filterArn'] as String?,
     jobInput: json['jobInput'] == null
         ? null
         : BatchInferenceJobInput.fromJson(
             json['jobInput'] as Map<String, dynamic>),
-    jobName: json['jobName'] as String,
+    jobName: json['jobName'] as String?,
     jobOutput: json['jobOutput'] == null
         ? null
         : BatchInferenceJobOutput.fromJson(
             json['jobOutput'] as Map<String, dynamic>),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    numResults: json['numResults'] as int,
-    roleArn: json['roleArn'] as String,
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
+    numResults: json['numResults'] as int?,
+    roleArn: json['roleArn'] as String?,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -102,7 +104,7 @@ BatchInferenceJobConfig _$BatchInferenceJobConfigFromJson(
     Map<String, dynamic> json) {
   return BatchInferenceJobConfig(
     itemExplorationConfig:
-        (json['itemExplorationConfig'] as Map<String, dynamic>)?.map(
+        (json['itemExplorationConfig'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -125,92 +127,73 @@ Map<String, dynamic> _$BatchInferenceJobConfigToJson(
 BatchInferenceJobInput _$BatchInferenceJobInputFromJson(
     Map<String, dynamic> json) {
   return BatchInferenceJobInput(
-    s3DataSource: json['s3DataSource'] == null
-        ? null
-        : S3DataConfig.fromJson(json['s3DataSource'] as Map<String, dynamic>),
+    s3DataSource:
+        S3DataConfig.fromJson(json['s3DataSource'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$BatchInferenceJobInputToJson(
-    BatchInferenceJobInput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('s3DataSource', instance.s3DataSource?.toJson());
-  return val;
-}
+        BatchInferenceJobInput instance) =>
+    <String, dynamic>{
+      's3DataSource': instance.s3DataSource.toJson(),
+    };
 
 BatchInferenceJobOutput _$BatchInferenceJobOutputFromJson(
     Map<String, dynamic> json) {
   return BatchInferenceJobOutput(
-    s3DataDestination: json['s3DataDestination'] == null
-        ? null
-        : S3DataConfig.fromJson(
-            json['s3DataDestination'] as Map<String, dynamic>),
+    s3DataDestination: S3DataConfig.fromJson(
+        json['s3DataDestination'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$BatchInferenceJobOutputToJson(
-    BatchInferenceJobOutput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('s3DataDestination', instance.s3DataDestination?.toJson());
-  return val;
-}
+        BatchInferenceJobOutput instance) =>
+    <String, dynamic>{
+      's3DataDestination': instance.s3DataDestination.toJson(),
+    };
 
 BatchInferenceJobSummary _$BatchInferenceJobSummaryFromJson(
     Map<String, dynamic> json) {
   return BatchInferenceJobSummary(
-    batchInferenceJobArn: json['batchInferenceJobArn'] as String,
+    batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
-    jobName: json['jobName'] as String,
+    failureReason: json['failureReason'] as String?,
+    jobName: json['jobName'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 Campaign _$CampaignFromJson(Map<String, dynamic> json) {
   return Campaign(
-    campaignArn: json['campaignArn'] as String,
+    campaignArn: json['campaignArn'] as String?,
     campaignConfig: json['campaignConfig'] == null
         ? null
         : CampaignConfig.fromJson(
             json['campaignConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     latestCampaignUpdate: json['latestCampaignUpdate'] == null
         ? null
         : CampaignUpdateSummary.fromJson(
             json['latestCampaignUpdate'] as Map<String, dynamic>),
-    minProvisionedTPS: json['minProvisionedTPS'] as int,
-    name: json['name'] as String,
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
+    minProvisionedTPS: json['minProvisionedTPS'] as int?,
+    name: json['name'] as String?,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 CampaignConfig _$CampaignConfigFromJson(Map<String, dynamic> json) {
   return CampaignConfig(
     itemExplorationConfig:
-        (json['itemExplorationConfig'] as Map<String, dynamic>)?.map(
+        (json['itemExplorationConfig'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -231,14 +214,14 @@ Map<String, dynamic> _$CampaignConfigToJson(CampaignConfig instance) {
 
 CampaignSummary _$CampaignSummaryFromJson(Map<String, dynamic> json) {
   return CampaignSummary(
-    campaignArn: json['campaignArn'] as String,
+    campaignArn: json['campaignArn'] as String?,
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -251,20 +234,21 @@ CampaignUpdateSummary _$CampaignUpdateSummaryFromJson(
             json['campaignConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    minProvisionedTPS: json['minProvisionedTPS'] as int,
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
+    minProvisionedTPS: json['minProvisionedTPS'] as int?,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 CategoricalHyperParameterRange _$CategoricalHyperParameterRangeFromJson(
     Map<String, dynamic> json) {
   return CategoricalHyperParameterRange(
-    name: json['name'] as String,
-    values: (json['values'] as List)?.map((e) => e as String)?.toList(),
+    name: json['name'] as String?,
+    values:
+        (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -286,9 +270,9 @@ Map<String, dynamic> _$CategoricalHyperParameterRangeToJson(
 ContinuousHyperParameterRange _$ContinuousHyperParameterRangeFromJson(
     Map<String, dynamic> json) {
   return ContinuousHyperParameterRange(
-    maxValue: (json['maxValue'] as num)?.toDouble(),
-    minValue: (json['minValue'] as num)?.toDouble(),
-    name: json['name'] as String,
+    maxValue: (json['maxValue'] as num?)?.toDouble(),
+    minValue: (json['minValue'] as num?)?.toDouble(),
+    name: json['name'] as String?,
   );
 }
 
@@ -311,75 +295,75 @@ Map<String, dynamic> _$ContinuousHyperParameterRangeToJson(
 CreateBatchInferenceJobResponse _$CreateBatchInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateBatchInferenceJobResponse(
-    batchInferenceJobArn: json['batchInferenceJobArn'] as String,
+    batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
   );
 }
 
 CreateCampaignResponse _$CreateCampaignResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCampaignResponse(
-    campaignArn: json['campaignArn'] as String,
+    campaignArn: json['campaignArn'] as String?,
   );
 }
 
 CreateDatasetGroupResponse _$CreateDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetGroupResponse(
-    datasetGroupArn: json['datasetGroupArn'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
   );
 }
 
 CreateDatasetImportJobResponse _$CreateDatasetImportJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetImportJobResponse(
-    datasetImportJobArn: json['datasetImportJobArn'] as String,
+    datasetImportJobArn: json['datasetImportJobArn'] as String?,
   );
 }
 
 CreateDatasetResponse _$CreateDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetResponse(
-    datasetArn: json['datasetArn'] as String,
+    datasetArn: json['datasetArn'] as String?,
   );
 }
 
 CreateEventTrackerResponse _$CreateEventTrackerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEventTrackerResponse(
-    eventTrackerArn: json['eventTrackerArn'] as String,
-    trackingId: json['trackingId'] as String,
+    eventTrackerArn: json['eventTrackerArn'] as String?,
+    trackingId: json['trackingId'] as String?,
   );
 }
 
 CreateFilterResponse _$CreateFilterResponseFromJson(Map<String, dynamic> json) {
   return CreateFilterResponse(
-    filterArn: json['filterArn'] as String,
+    filterArn: json['filterArn'] as String?,
   );
 }
 
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
-    schemaArn: json['schemaArn'] as String,
+    schemaArn: json['schemaArn'] as String?,
   );
 }
 
 CreateSolutionResponse _$CreateSolutionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSolutionResponse(
-    solutionArn: json['solutionArn'] as String,
+    solutionArn: json['solutionArn'] as String?,
   );
 }
 
 CreateSolutionVersionResponse _$CreateSolutionVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSolutionVersionResponse(
-    solutionVersionArn: json['solutionVersionArn'] as String,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
   );
 }
 
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
-    dataLocation: json['dataLocation'] as String,
+    dataLocation: json['dataLocation'] as String?,
   );
 }
 
@@ -400,14 +384,14 @@ Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   return Dataset(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetArn: json['datasetArn'] as String,
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    datasetType: json['datasetType'] as String,
+    datasetArn: json['datasetArn'] as String?,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    datasetType: json['datasetType'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    schemaArn: json['schemaArn'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    schemaArn: json['schemaArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -415,14 +399,14 @@ DatasetGroup _$DatasetGroupFromJson(Map<String, dynamic> json) {
   return DatasetGroup(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    failureReason: json['failureReason'] as String,
-    kmsKeyArn: json['kmsKeyArn'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    failureReason: json['failureReason'] as String?,
+    kmsKeyArn: json['kmsKeyArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    roleArn: json['roleArn'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    roleArn: json['roleArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -430,12 +414,12 @@ DatasetGroupSummary _$DatasetGroupSummaryFromJson(Map<String, dynamic> json) {
   return DatasetGroupSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    failureReason: json['failureReason'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -446,14 +430,14 @@ DatasetImportJob _$DatasetImportJobFromJson(Map<String, dynamic> json) {
     dataSource: json['dataSource'] == null
         ? null
         : DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
-    datasetArn: json['datasetArn'] as String,
-    datasetImportJobArn: json['datasetImportJobArn'] as String,
-    failureReason: json['failureReason'] as String,
-    jobName: json['jobName'] as String,
+    datasetArn: json['datasetArn'] as String?,
+    datasetImportJobArn: json['datasetImportJobArn'] as String?,
+    failureReason: json['failureReason'] as String?,
+    jobName: json['jobName'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    roleArn: json['roleArn'] as String,
-    status: json['status'] as String,
+    roleArn: json['roleArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -462,12 +446,12 @@ DatasetImportJobSummary _$DatasetImportJobSummaryFromJson(
   return DatasetImportJobSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetImportJobArn: json['datasetImportJobArn'] as String,
-    failureReason: json['failureReason'] as String,
-    jobName: json['jobName'] as String,
+    datasetImportJobArn: json['datasetImportJobArn'] as String?,
+    failureReason: json['failureReason'] as String?,
+    jobName: json['jobName'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    status: json['status'] as String,
+    status: json['status'] as String?,
   );
 }
 
@@ -477,9 +461,9 @@ DatasetSchema _$DatasetSchemaFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    schema: json['schema'] as String,
-    schemaArn: json['schemaArn'] as String,
+    name: json['name'] as String?,
+    schema: json['schema'] as String?,
+    schemaArn: json['schemaArn'] as String?,
   );
 }
 
@@ -489,8 +473,8 @@ DatasetSchemaSummary _$DatasetSchemaSummaryFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    schemaArn: json['schemaArn'] as String,
+    name: json['name'] as String?,
+    schemaArn: json['schemaArn'] as String?,
   );
 }
 
@@ -498,31 +482,32 @@ DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
   return DatasetSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetArn: json['datasetArn'] as String,
-    datasetType: json['datasetType'] as String,
+    datasetArn: json['datasetArn'] as String?,
+    datasetType: json['datasetType'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 DefaultCategoricalHyperParameterRange
     _$DefaultCategoricalHyperParameterRangeFromJson(Map<String, dynamic> json) {
   return DefaultCategoricalHyperParameterRange(
-    isTunable: json['isTunable'] as bool,
-    name: json['name'] as String,
-    values: (json['values'] as List)?.map((e) => e as String)?.toList(),
+    isTunable: json['isTunable'] as bool?,
+    name: json['name'] as String?,
+    values:
+        (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 DefaultContinuousHyperParameterRange
     _$DefaultContinuousHyperParameterRangeFromJson(Map<String, dynamic> json) {
   return DefaultContinuousHyperParameterRange(
-    isTunable: json['isTunable'] as bool,
-    maxValue: (json['maxValue'] as num)?.toDouble(),
-    minValue: (json['minValue'] as num)?.toDouble(),
-    name: json['name'] as String,
+    isTunable: json['isTunable'] as bool?,
+    maxValue: (json['maxValue'] as num?)?.toDouble(),
+    minValue: (json['minValue'] as num?)?.toDouble(),
+    name: json['name'] as String?,
   );
 }
 
@@ -530,35 +515,30 @@ DefaultHyperParameterRanges _$DefaultHyperParameterRangesFromJson(
     Map<String, dynamic> json) {
   return DefaultHyperParameterRanges(
     categoricalHyperParameterRanges:
-        (json['categoricalHyperParameterRanges'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DefaultCategoricalHyperParameterRange.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    continuousHyperParameterRanges:
-        (json['continuousHyperParameterRanges'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DefaultContinuousHyperParameterRange.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    integerHyperParameterRanges: (json['integerHyperParameterRanges'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DefaultIntegerHyperParameterRange.fromJson(
+        (json['categoricalHyperParameterRanges'] as List<dynamic>?)
+            ?.map((e) => DefaultCategoricalHyperParameterRange.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList(),
+            .toList(),
+    continuousHyperParameterRanges:
+        (json['continuousHyperParameterRanges'] as List<dynamic>?)
+            ?.map((e) => DefaultContinuousHyperParameterRange.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    integerHyperParameterRanges:
+        (json['integerHyperParameterRanges'] as List<dynamic>?)
+            ?.map((e) => DefaultIntegerHyperParameterRange.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 DefaultIntegerHyperParameterRange _$DefaultIntegerHyperParameterRangeFromJson(
     Map<String, dynamic> json) {
   return DefaultIntegerHyperParameterRange(
-    isTunable: json['isTunable'] as bool,
-    maxValue: json['maxValue'] as int,
-    minValue: json['minValue'] as int,
-    name: json['name'] as String,
+    isTunable: json['isTunable'] as bool?,
+    maxValue: json['maxValue'] as int?,
+    minValue: json['minValue'] as int?,
+    name: json['name'] as String?,
   );
 }
 
@@ -685,16 +665,16 @@ DescribeSolutionVersionResponse _$DescribeSolutionVersionResponseFromJson(
 
 EventTracker _$EventTrackerFromJson(Map<String, dynamic> json) {
   return EventTracker(
-    accountId: json['accountId'] as String,
+    accountId: json['accountId'] as String?,
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    eventTrackerArn: json['eventTrackerArn'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    eventTrackerArn: json['eventTrackerArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
-    trackingId: json['trackingId'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
+    trackingId: json['trackingId'] as String?,
   );
 }
 
@@ -702,11 +682,11 @@ EventTrackerSummary _$EventTrackerSummaryFromJson(Map<String, dynamic> json) {
   return EventTrackerSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    eventTrackerArn: json['eventTrackerArn'] as String,
+    eventTrackerArn: json['eventTrackerArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -715,14 +695,15 @@ FeatureTransformation _$FeatureTransformationFromJson(
   return FeatureTransformation(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    defaultParameters: (json['defaultParameters'] as Map<String, dynamic>)?.map(
+    defaultParameters:
+        (json['defaultParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    featureTransformationArn: json['featureTransformationArn'] as String,
+    featureTransformationArn: json['featureTransformationArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -730,14 +711,14 @@ Filter _$FilterFromJson(Map<String, dynamic> json) {
   return Filter(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    failureReason: json['failureReason'] as String,
-    filterArn: json['filterArn'] as String,
-    filterExpression: json['filterExpression'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    failureReason: json['failureReason'] as String?,
+    filterArn: json['filterArn'] as String?,
+    filterExpression: json['filterExpression'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -745,23 +726,23 @@ FilterSummary _$FilterSummaryFromJson(Map<String, dynamic> json) {
   return FilterSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    failureReason: json['failureReason'] as String,
-    filterArn: json['filterArn'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    failureReason: json['failureReason'] as String?,
+    filterArn: json['filterArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 GetSolutionMetricsResponse _$GetSolutionMetricsResponseFromJson(
     Map<String, dynamic> json) {
   return GetSolutionMetricsResponse(
-    metrics: (json['metrics'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as num)?.toDouble()),
+    metrics: (json['metrics'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, (e as num).toDouble()),
     ),
-    solutionVersionArn: json['solutionVersionArn'] as String,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
   );
 }
 
@@ -799,9 +780,9 @@ Map<String, dynamic> _$HPOConfigToJson(HPOConfig instance) {
 
 HPOObjective _$HPOObjectiveFromJson(Map<String, dynamic> json) {
   return HPOObjective(
-    metricName: json['metricName'] as String,
-    metricRegex: json['metricRegex'] as String,
-    type: json['type'] as String,
+    metricName: json['metricName'] as String?,
+    metricRegex: json['metricRegex'] as String?,
+    type: json['type'] as String?,
   );
 }
 
@@ -822,8 +803,8 @@ Map<String, dynamic> _$HPOObjectiveToJson(HPOObjective instance) {
 
 HPOResourceConfig _$HPOResourceConfigFromJson(Map<String, dynamic> json) {
   return HPOResourceConfig(
-    maxNumberOfTrainingJobs: json['maxNumberOfTrainingJobs'] as String,
-    maxParallelTrainingJobs: json['maxParallelTrainingJobs'] as String,
+    maxNumberOfTrainingJobs: json['maxNumberOfTrainingJobs'] as String?,
+    maxParallelTrainingJobs: json['maxParallelTrainingJobs'] as String?,
   );
 }
 
@@ -843,24 +824,21 @@ Map<String, dynamic> _$HPOResourceConfigToJson(HPOResourceConfig instance) {
 
 HyperParameterRanges _$HyperParameterRangesFromJson(Map<String, dynamic> json) {
   return HyperParameterRanges(
-    categoricalHyperParameterRanges:
-        (json['categoricalHyperParameterRanges'] as List)
-            ?.map((e) => e == null
-                ? null
-                : CategoricalHyperParameterRange.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    categoricalHyperParameterRanges: (json['categoricalHyperParameterRanges']
+            as List<dynamic>?)
+        ?.map((e) =>
+            CategoricalHyperParameterRange.fromJson(e as Map<String, dynamic>))
+        .toList(),
     continuousHyperParameterRanges: (json['continuousHyperParameterRanges']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    integerHyperParameterRanges: (json['integerHyperParameterRanges'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    integerHyperParameterRanges:
+        (json['integerHyperParameterRanges'] as List<dynamic>?)
+            ?.map((e) =>
+                IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -877,24 +855,21 @@ Map<String, dynamic> _$HyperParameterRangesToJson(
   writeNotNull(
       'categoricalHyperParameterRanges',
       instance.categoricalHyperParameterRanges
-          ?.map((e) => e?.toJson())
-          ?.toList());
-  writeNotNull(
-      'continuousHyperParameterRanges',
-      instance.continuousHyperParameterRanges
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
+  writeNotNull('continuousHyperParameterRanges',
+      instance.continuousHyperParameterRanges?.map((e) => e.toJson()).toList());
   writeNotNull('integerHyperParameterRanges',
-      instance.integerHyperParameterRanges?.map((e) => e?.toJson())?.toList());
+      instance.integerHyperParameterRanges?.map((e) => e.toJson()).toList());
   return val;
 }
 
 IntegerHyperParameterRange _$IntegerHyperParameterRangeFromJson(
     Map<String, dynamic> json) {
   return IntegerHyperParameterRange(
-    maxValue: json['maxValue'] as int,
-    minValue: json['minValue'] as int,
-    name: json['name'] as String,
+    maxValue: json['maxValue'] as int?,
+    minValue: json['minValue'] as int?,
+    name: json['name'] as String?,
   );
 }
 
@@ -917,144 +892,124 @@ Map<String, dynamic> _$IntegerHyperParameterRangeToJson(
 ListBatchInferenceJobsResponse _$ListBatchInferenceJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListBatchInferenceJobsResponse(
-    batchInferenceJobs: (json['batchInferenceJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchInferenceJobSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    batchInferenceJobs: (json['batchInferenceJobs'] as List<dynamic>?)
+        ?.map(
+            (e) => BatchInferenceJobSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListCampaignsResponse _$ListCampaignsResponseFromJson(
     Map<String, dynamic> json) {
   return ListCampaignsResponse(
-    campaigns: (json['campaigns'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CampaignSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    campaigns: (json['campaigns'] as List<dynamic>?)
+        ?.map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatasetGroupsResponse _$ListDatasetGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatasetGroupsResponse(
-    datasetGroups: (json['datasetGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datasetGroups: (json['datasetGroups'] as List<dynamic>?)
+        ?.map((e) => DatasetGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatasetImportJobsResponse _$ListDatasetImportJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatasetImportJobsResponse(
-    datasetImportJobs: (json['datasetImportJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetImportJobSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datasetImportJobs: (json['datasetImportJobs'] as List<dynamic>?)
+        ?.map(
+            (e) => DatasetImportJobSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
   return ListDatasetsResponse(
-    datasets: (json['datasets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    datasets: (json['datasets'] as List<dynamic>?)
+        ?.map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListEventTrackersResponse _$ListEventTrackersResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventTrackersResponse(
-    eventTrackers: (json['eventTrackers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventTrackerSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    eventTrackers: (json['eventTrackers'] as List<dynamic>?)
+        ?.map((e) => EventTrackerSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListFiltersResponse _$ListFiltersResponseFromJson(Map<String, dynamic> json) {
   return ListFiltersResponse(
-    filters: (json['Filters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FilterSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    filters: (json['Filters'] as List<dynamic>?)
+        ?.map((e) => FilterSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListRecipesResponse _$ListRecipesResponseFromJson(Map<String, dynamic> json) {
   return ListRecipesResponse(
-    nextToken: json['nextToken'] as String,
-    recipes: (json['recipes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecipeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    recipes: (json['recipes'] as List<dynamic>?)
+        ?.map((e) => RecipeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSchemasResponse _$ListSchemasResponseFromJson(Map<String, dynamic> json) {
   return ListSchemasResponse(
-    nextToken: json['nextToken'] as String,
-    schemas: (json['schemas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DatasetSchemaSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    schemas: (json['schemas'] as List<dynamic>?)
+        ?.map((e) => DatasetSchemaSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSolutionVersionsResponse _$ListSolutionVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSolutionVersionsResponse(
-    nextToken: json['nextToken'] as String,
-    solutionVersions: (json['solutionVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SolutionVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    solutionVersions: (json['solutionVersions'] as List<dynamic>?)
+        ?.map((e) => SolutionVersionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSolutionsResponse _$ListSolutionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSolutionsResponse(
-    nextToken: json['nextToken'] as String,
-    solutions: (json['solutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SolutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    solutions: (json['solutions'] as List<dynamic>?)
+        ?.map((e) => SolutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Recipe _$RecipeFromJson(Map<String, dynamic> json) {
   return Recipe(
-    algorithmArn: json['algorithmArn'] as String,
+    algorithmArn: json['algorithmArn'] as String?,
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    description: json['description'] as String,
-    featureTransformationArn: json['featureTransformationArn'] as String,
+    description: json['description'] as String?,
+    featureTransformationArn: json['featureTransformationArn'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    recipeArn: json['recipeArn'] as String,
-    recipeType: json['recipeType'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    recipeArn: json['recipeArn'] as String?,
+    recipeType: json['recipeType'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -1064,21 +1019,23 @@ RecipeSummary _$RecipeSummaryFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    recipeArn: json['recipeArn'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    recipeArn: json['recipeArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 S3DataConfig _$S3DataConfigFromJson(Map<String, dynamic> json) {
   return S3DataConfig(
     path: json['path'] as String,
-    kmsKeyArn: json['kmsKeyArn'] as String,
+    kmsKeyArn: json['kmsKeyArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$S3DataConfigToJson(S3DataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'path': instance.path,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1086,7 +1043,6 @@ Map<String, dynamic> _$S3DataConfigToJson(S3DataConfig instance) {
     }
   }
 
-  writeNotNull('path', instance.path);
   writeNotNull('kmsKeyArn', instance.kmsKeyArn);
   return val;
 }
@@ -1098,39 +1054,39 @@ Solution _$SolutionFromJson(Map<String, dynamic> json) {
         : AutoMLResult.fromJson(json['autoMLResult'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    eventType: json['eventType'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    eventType: json['eventType'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     latestSolutionVersion: json['latestSolutionVersion'] == null
         ? null
         : SolutionVersionSummary.fromJson(
             json['latestSolutionVersion'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    performAutoML: json['performAutoML'] as bool,
-    performHPO: json['performHPO'] as bool,
-    recipeArn: json['recipeArn'] as String,
-    solutionArn: json['solutionArn'] as String,
+    name: json['name'] as String?,
+    performAutoML: json['performAutoML'] as bool?,
+    performHPO: json['performHPO'] as bool?,
+    recipeArn: json['recipeArn'] as String?,
+    solutionArn: json['solutionArn'] as String?,
     solutionConfig: json['solutionConfig'] == null
         ? null
         : SolutionConfig.fromJson(
             json['solutionConfig'] as Map<String, dynamic>),
-    status: json['status'] as String,
+    status: json['status'] as String?,
   );
 }
 
 SolutionConfig _$SolutionConfigFromJson(Map<String, dynamic> json) {
   return SolutionConfig(
     algorithmHyperParameters:
-        (json['algorithmHyperParameters'] as Map<String, dynamic>)?.map(
+        (json['algorithmHyperParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     autoMLConfig: json['autoMLConfig'] == null
         ? null
         : AutoMLConfig.fromJson(json['autoMLConfig'] as Map<String, dynamic>),
-    eventValueThreshold: json['eventValueThreshold'] as String,
+    eventValueThreshold: json['eventValueThreshold'] as String?,
     featureTransformationParameters:
-        (json['featureTransformationParameters'] as Map<String, dynamic>)?.map(
+        (json['featureTransformationParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     hpoConfig: json['hpoConfig'] == null
@@ -1163,9 +1119,9 @@ SolutionSummary _$SolutionSummaryFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    name: json['name'] as String,
-    solutionArn: json['solutionArn'] as String,
-    status: json['status'] as String,
+    name: json['name'] as String?,
+    solutionArn: json['solutionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
@@ -1173,22 +1129,22 @@ SolutionVersion _$SolutionVersionFromJson(Map<String, dynamic> json) {
   return SolutionVersion(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    datasetGroupArn: json['datasetGroupArn'] as String,
-    eventType: json['eventType'] as String,
-    failureReason: json['failureReason'] as String,
+    datasetGroupArn: json['datasetGroupArn'] as String?,
+    eventType: json['eventType'] as String?,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    performAutoML: json['performAutoML'] as bool,
-    performHPO: json['performHPO'] as bool,
-    recipeArn: json['recipeArn'] as String,
-    solutionArn: json['solutionArn'] as String,
+    performAutoML: json['performAutoML'] as bool?,
+    performHPO: json['performHPO'] as bool?,
+    recipeArn: json['recipeArn'] as String?,
+    solutionArn: json['solutionArn'] as String?,
     solutionConfig: json['solutionConfig'] == null
         ? null
         : SolutionConfig.fromJson(
             json['solutionConfig'] as Map<String, dynamic>),
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
-    trainingHours: (json['trainingHours'] as num)?.toDouble(),
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
+    trainingHours: (json['trainingHours'] as num?)?.toDouble(),
     trainingMode:
         _$enumDecodeNullable(_$TrainingModeEnumMap, json['trainingMode']),
     tunedHPOParams: json['tunedHPOParams'] == null
@@ -1198,36 +1154,41 @@ SolutionVersion _$SolutionVersionFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$TrainingModeEnumMap = {
@@ -1240,18 +1201,18 @@ SolutionVersionSummary _$SolutionVersionSummaryFromJson(
   return SolutionVersionSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
-    failureReason: json['failureReason'] as String,
+    failureReason: json['failureReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
-    solutionVersionArn: json['solutionVersionArn'] as String,
-    status: json['status'] as String,
+    solutionVersionArn: json['solutionVersionArn'] as String?,
+    status: json['status'] as String?,
   );
 }
 
 TunedHPOParams _$TunedHPOParamsFromJson(Map<String, dynamic> json) {
   return TunedHPOParams(
     algorithmHyperParameters:
-        (json['algorithmHyperParameters'] as Map<String, dynamic>)?.map(
+        (json['algorithmHyperParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1260,6 +1221,6 @@ TunedHPOParams _$TunedHPOParamsFromJson(Map<String, dynamic> json) {
 UpdateCampaignResponse _$UpdateCampaignResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateCampaignResponse(
-    campaignArn: json['campaignArn'] as String,
+    campaignArn: json['campaignArn'] as String?,
   );
 }

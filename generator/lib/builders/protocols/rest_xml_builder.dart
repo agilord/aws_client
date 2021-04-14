@@ -1,3 +1,4 @@
+import 'package:aws_client.generator/builders/builder_utils.dart';
 import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/dart_type.dart';
@@ -13,10 +14,10 @@ class RestXmlServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = api.isGlobalService ? '' : '@_s.required';
+    final isRegionRequired = !api.isGlobalService;
     return '''
     final _s.RestXmlProtocol _protocol;
-    ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+    ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client, String? endpointUrl,})
         : _protocol = _s.RestXmlProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials, endpointUrl: endpointUrl,);
     ''';
   }
@@ -112,6 +113,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       buf.writeln('return ${operation.returnType}');
 
       if (isInlineExtraction) {
+        outputShape.excludeFactoryMethod = true;
         buf.writeln('(');
         if (isBlobPayload) {
           buf.writeln(
@@ -133,13 +135,16 @@ class RestXmlServiceBuilder extends ServiceBuilder {
               flattened: member.flattened,
               container: operation.output.shapeClass,
               member: member,
+              nullability: member.isRequired
+                  ? Nullability.input
+                  : Nullability.inputOutput,
             );
             buf.writeln('${member.fieldName}: $extractor,');
           }
         }
         for (var member in outputShape.members.where((m) => m.isHeader)) {
           buf.writeln(
-              "${member.fieldName}: ${extractHeaderCode(member, '\$result.headers')},");
+              "${member.fieldName}: ${extractHeaderCode(member, '\$result.headers')}${member.isRequired ? '!' : ''},");
         }
         for (var member in outputShape.members.where((m) => m.isStatusCode)) {
           buf.writeln('${member.fieldName}: \$result.statusCode,');

@@ -33,7 +33,11 @@ const _$AlgorithmicStemmingEnumMap = {
 };
 
 Map<String, dynamic> _$AnalysisSchemeToJson(AnalysisScheme instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AnalysisSchemeLanguage':
+        _$AnalysisSchemeLanguageEnumMap[instance.analysisSchemeLanguage],
+    'AnalysisSchemeName': instance.analysisSchemeName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -41,9 +45,6 @@ Map<String, dynamic> _$AnalysisSchemeToJson(AnalysisScheme instance) {
     }
   }
 
-  writeNotNull('AnalysisSchemeLanguage',
-      _$AnalysisSchemeLanguageEnumMap[instance.analysisSchemeLanguage]);
-  writeNotNull('AnalysisSchemeName', instance.analysisSchemeName);
   writeNotNull('AnalysisOptions', instance.analysisOptions?.toJson());
   return val;
 }
@@ -123,7 +124,9 @@ Map<String, dynamic> _$DateOptionsToJson(DateOptions instance) {
 
 Map<String, dynamic> _$DocumentSuggesterOptionsToJson(
     DocumentSuggesterOptions instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SourceField': instance.sourceField,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -131,7 +134,6 @@ Map<String, dynamic> _$DocumentSuggesterOptionsToJson(
     }
   }
 
-  writeNotNull('SourceField', instance.sourceField);
   writeNotNull(
       'FuzzyMatching', _$SuggesterFuzzyMatchingEnumMap[instance.fuzzyMatching]);
   writeNotNull('SortExpression', instance.sortExpression);
@@ -200,22 +202,17 @@ Map<String, dynamic> _$DoubleOptionsToJson(DoubleOptions instance) {
   return val;
 }
 
-Map<String, dynamic> _$ExpressionToJson(Expression instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ExpressionName', instance.expressionName);
-  writeNotNull('ExpressionValue', instance.expressionValue);
-  return val;
-}
+Map<String, dynamic> _$ExpressionToJson(Expression instance) =>
+    <String, dynamic>{
+      'ExpressionName': instance.expressionName,
+      'ExpressionValue': instance.expressionValue,
+    };
 
 Map<String, dynamic> _$IndexFieldToJson(IndexField instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexFieldName': instance.indexFieldName,
+    'IndexFieldType': _$IndexFieldTypeEnumMap[instance.indexFieldType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -223,9 +220,6 @@ Map<String, dynamic> _$IndexFieldToJson(IndexField instance) {
     }
   }
 
-  writeNotNull('IndexFieldName', instance.indexFieldName);
-  writeNotNull(
-      'IndexFieldType', _$IndexFieldTypeEnumMap[instance.indexFieldType]);
   writeNotNull('DateArrayOptions', instance.dateArrayOptions?.toJson());
   writeNotNull('DateOptions', instance.dateOptions?.toJson());
   writeNotNull('DoubleArrayOptions', instance.doubleArrayOptions?.toJson());
@@ -374,20 +368,10 @@ const _$PartitionInstanceTypeEnumMap = {
   PartitionInstanceType.search_2xlarge: 'search.2xlarge',
 };
 
-Map<String, dynamic> _$SuggesterToJson(Suggester instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'DocumentSuggesterOptions', instance.documentSuggesterOptions?.toJson());
-  writeNotNull('SuggesterName', instance.suggesterName);
-  return val;
-}
+Map<String, dynamic> _$SuggesterToJson(Suggester instance) => <String, dynamic>{
+      'DocumentSuggesterOptions': instance.documentSuggesterOptions.toJson(),
+      'SuggesterName': instance.suggesterName,
+    };
 
 Map<String, dynamic> _$TextArrayOptionsToJson(TextArrayOptions instance) {
   final val = <String, dynamic>{};

@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -28,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class TimestampValues {
   final _s.RestJsonProtocol _protocol;
   TimestampValues({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -43,22 +37,26 @@ class TimestampValues {
         );
 
   Future<void> operationName0({
-    DateTime timeArg,
-    DateTime timeArgInHeader,
-    DateTime timeArgInQuery,
-    DateTime timeCustom,
-    DateTime timeCustomInHeader,
-    DateTime timeCustomInQuery,
-    DateTime timeFormat,
-    DateTime timeFormatInHeader,
-    DateTime timeFormatInQuery,
+    DateTime? timeArg,
+    DateTime? timeArgInHeader,
+    DateTime? timeArgInQuery,
+    DateTime? timeCustom,
+    DateTime? timeCustomInHeader,
+    DateTime? timeCustomInQuery,
+    DateTime? timeFormat,
+    DateTime? timeFormatInHeader,
+    DateTime? timeFormatInQuery,
   }) async {
-    final headers = <String, String>{};
-    timeArgInHeader?.let((v) => headers['x-amz-timearg'] = _s.rfc822ToJson(v));
-    timeCustomInHeader?.let((v) => headers['x-amz-timecustom-header'] =
-        _s.unixTimestampToJson(v).toString());
-    timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
-        _s.unixTimestampToJson(v).toString());
+    final headers = <String, String>{
+      if (timeArgInHeader != null)
+        'x-amz-timearg': _s.rfc822ToJson(timeArgInHeader),
+      if (timeCustomInHeader != null)
+        'x-amz-timecustom-header':
+            _s.unixTimestampToJson(timeCustomInHeader).toString(),
+      if (timeFormatInHeader != null)
+        'x-amz-timeformat-header':
+            _s.unixTimestampToJson(timeFormatInHeader).toString(),
+    };
     final $query = <String, List<String>>{
       if (timeArgInQuery != null)
         'TimeQuery': [_s.iso8601ToJson(timeArgInQuery).toString()],

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'iot-data-2015-05-28.g.dart';
 
 /// AWS IoT-Data enables secure, bi-directional communication between
 /// Internet-connected things (such as sensors, actuators, embedded devices, or
@@ -35,10 +27,10 @@ part 'iot-data-2015-05-28.g.dart';
 class IoTDataPlane {
   final _s.RestJsonProtocol _protocol;
   IoTDataPlane({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -71,8 +63,8 @@ class IoTDataPlane {
   /// Parameter [shadowName] :
   /// The name of the shadow.
   Future<DeleteThingShadowResponse> deleteThingShadow({
-    @_s.required String thingName,
-    String shadowName,
+    required String thingName,
+    String? shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -135,8 +127,8 @@ class IoTDataPlane {
   /// Parameter [shadowName] :
   /// The name of the shadow.
   Future<GetThingShadowResponse> getThingShadow({
-    @_s.required String thingName,
-    String shadowName,
+    required String thingName,
+    String? shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -197,9 +189,9 @@ class IoTDataPlane {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListNamedShadowsForThingResponse> listNamedShadowsForThing({
-    @_s.required String thingName,
-    String nextToken,
-    int pageSize,
+    required String thingName,
+    String? nextToken,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -256,9 +248,9 @@ class IoTDataPlane {
   /// Parameter [qos] :
   /// The Quality of Service (QoS) level.
   Future<void> publish({
-    @_s.required String topic,
-    Uint8List payload,
-    int qos,
+    required String topic,
+    Uint8List? payload,
+    int? qos,
   }) async {
     ArgumentError.checkNotNull(topic, 'topic');
     _s.validateNumRange(
@@ -304,9 +296,9 @@ class IoTDataPlane {
   /// Parameter [shadowName] :
   /// The name of the shadow.
   Future<UpdateThingShadowResponse> updateThingShadow({
-    @_s.required Uint8List payload,
-    @_s.required String thingName,
-    String shadowName,
+    required Uint8List payload,
+    required String thingName,
+    String? shadowName,
   }) async {
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -351,113 +343,85 @@ class IoTDataPlane {
 }
 
 /// The output from the DeleteThingShadow operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteThingShadowResponse {
   /// The state information, in JSON format.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'payload')
   final Uint8List payload;
 
   DeleteThingShadowResponse({
-    @_s.required this.payload,
+    required this.payload,
   });
-  factory DeleteThingShadowResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteThingShadowResponseFromJson(json);
 }
 
 /// The output from the GetThingShadow operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetThingShadowResponse {
   /// The state information, in JSON format.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   GetThingShadowResponse({
     this.payload,
   });
-  factory GetThingShadowResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetThingShadowResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNamedShadowsForThingResponse {
   /// The token for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of shadows for the specified thing.
-  @_s.JsonKey(name: 'results')
-  final List<String> results;
+  final List<String>? results;
 
   /// The Epoch date and time the response was generated by AWS IoT.
-  @_s.JsonKey(name: 'timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   ListNamedShadowsForThingResponse({
     this.nextToken,
     this.results,
     this.timestamp,
   });
-  factory ListNamedShadowsForThingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListNamedShadowsForThingResponseFromJson(json);
+  factory ListNamedShadowsForThingResponse.fromJson(Map<String, dynamic> json) {
+    return ListNamedShadowsForThingResponse(
+      nextToken: json['nextToken'] as String?,
+      results: (json['results'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      timestamp: json['timestamp'] as int?,
+    );
+  }
 }
 
 /// The output from the UpdateThingShadow operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateThingShadowResponse {
   /// The state information, in JSON format.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   UpdateThingShadowResponse({
     this.payload,
   });
-  factory UpdateThingShadowResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateThingShadowResponseFromJson(json);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class MethodNotAllowedException extends _s.GenericAwsException {
-  MethodNotAllowedException({String type, String message})
+  MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
 class RequestEntityTooLargeException extends _s.GenericAwsException {
-  RequestEntityTooLargeException({String type, String message})
+  RequestEntityTooLargeException({String? type, String? message})
       : super(
             type: type,
             code: 'RequestEntityTooLargeException',
@@ -465,28 +429,28 @@ class RequestEntityTooLargeException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
 class UnsupportedDocumentEncodingException extends _s.GenericAwsException {
-  UnsupportedDocumentEncodingException({String type, String message})
+  UnsupportedDocumentEncodingException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedDocumentEncodingException',

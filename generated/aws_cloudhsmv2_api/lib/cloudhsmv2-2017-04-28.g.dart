@@ -11,53 +11,58 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
     backupId: json['BackupId'] as String,
     backupState:
         _$enumDecodeNullable(_$BackupStateEnumMap, json['BackupState']),
-    clusterId: json['ClusterId'] as String,
+    clusterId: json['ClusterId'] as String?,
     copyTimestamp:
         const UnixDateTimeConverter().fromJson(json['CopyTimestamp']),
     createTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
     deleteTimestamp:
         const UnixDateTimeConverter().fromJson(json['DeleteTimestamp']),
-    neverExpires: json['NeverExpires'] as bool,
-    sourceBackup: json['SourceBackup'] as String,
-    sourceCluster: json['SourceCluster'] as String,
-    sourceRegion: json['SourceRegion'] as String,
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    neverExpires: json['NeverExpires'] as bool?,
+    sourceBackup: json['SourceBackup'] as String?,
+    sourceCluster: json['SourceCluster'] as String?,
+    sourceRegion: json['SourceRegion'] as String?,
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BackupStateEnumMap = {
@@ -71,7 +76,7 @@ BackupRetentionPolicy _$BackupRetentionPolicyFromJson(
     Map<String, dynamic> json) {
   return BackupRetentionPolicy(
     type: _$enumDecodeNullable(_$BackupRetentionTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -96,12 +101,12 @@ const _$BackupRetentionTypeEnumMap = {
 
 Certificates _$CertificatesFromJson(Map<String, dynamic> json) {
   return Certificates(
-    awsHardwareCertificate: json['AwsHardwareCertificate'] as String,
-    clusterCertificate: json['ClusterCertificate'] as String,
-    clusterCsr: json['ClusterCsr'] as String,
-    hsmCertificate: json['HsmCertificate'] as String,
+    awsHardwareCertificate: json['AwsHardwareCertificate'] as String?,
+    clusterCertificate: json['ClusterCertificate'] as String?,
+    clusterCsr: json['ClusterCsr'] as String?,
+    hsmCertificate: json['HsmCertificate'] as String?,
     manufacturerHardwareCertificate:
-        json['ManufacturerHardwareCertificate'] as String,
+        json['ManufacturerHardwareCertificate'] as String?,
   );
 }
 
@@ -116,25 +121,25 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
     certificates: json['Certificates'] == null
         ? null
         : Certificates.fromJson(json['Certificates'] as Map<String, dynamic>),
-    clusterId: json['ClusterId'] as String,
+    clusterId: json['ClusterId'] as String?,
     createTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
-    hsmType: json['HsmType'] as String,
-    hsms: (json['Hsms'] as List)
-        ?.map((e) => e == null ? null : Hsm.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    preCoPassword: json['PreCoPassword'] as String,
-    securityGroup: json['SecurityGroup'] as String,
-    sourceBackupId: json['SourceBackupId'] as String,
+    hsmType: json['HsmType'] as String?,
+    hsms: (json['Hsms'] as List<dynamic>?)
+        ?.map((e) => Hsm.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    preCoPassword: json['PreCoPassword'] as String?,
+    securityGroup: json['SecurityGroup'] as String?,
+    sourceBackupId: json['SourceBackupId'] as String?,
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['State']),
-    stateMessage: json['StateMessage'] as String,
-    subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>)?.map(
+    stateMessage: json['StateMessage'] as String?,
+    subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    vpcId: json['VpcId'] as String,
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    vpcId: json['VpcId'] as String?,
   );
 }
 
@@ -200,29 +205,27 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
 
 DeleteHsmResponse _$DeleteHsmResponseFromJson(Map<String, dynamic> json) {
   return DeleteHsmResponse(
-    hsmId: json['HsmId'] as String,
+    hsmId: json['HsmId'] as String?,
   );
 }
 
 DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupsResponse(
-    backups: (json['Backups'] as List)
-        ?.map((e) =>
-            e == null ? null : Backup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backups: (json['Backups'] as List<dynamic>?)
+        ?.map((e) => Backup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeClustersResponse _$DescribeClustersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeClustersResponse(
-    clusters: (json['Clusters'] as List)
-        ?.map((e) =>
-            e == null ? null : Cluster.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    clusters: (json['Clusters'] as List<dynamic>?)
+        ?.map((e) => Cluster.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -230,22 +233,22 @@ DestinationBackup _$DestinationBackupFromJson(Map<String, dynamic> json) {
   return DestinationBackup(
     createTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
-    sourceBackup: json['SourceBackup'] as String,
-    sourceCluster: json['SourceCluster'] as String,
-    sourceRegion: json['SourceRegion'] as String,
+    sourceBackup: json['SourceBackup'] as String?,
+    sourceCluster: json['SourceCluster'] as String?,
+    sourceRegion: json['SourceRegion'] as String?,
   );
 }
 
 Hsm _$HsmFromJson(Map<String, dynamic> json) {
   return Hsm(
     hsmId: json['HsmId'] as String,
-    availabilityZone: json['AvailabilityZone'] as String,
-    clusterId: json['ClusterId'] as String,
-    eniId: json['EniId'] as String,
-    eniIp: json['EniIp'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
+    clusterId: json['ClusterId'] as String?,
+    eniId: json['EniId'] as String?,
+    eniIp: json['EniIp'] as String?,
     state: _$enumDecodeNullable(_$HsmStateEnumMap, json['State']),
-    stateMessage: json['StateMessage'] as String,
-    subnetId: json['SubnetId'] as String,
+    stateMessage: json['StateMessage'] as String?,
+    subnetId: json['SubnetId'] as String?,
   );
 }
 
@@ -261,16 +264,16 @@ InitializeClusterResponse _$InitializeClusterResponseFromJson(
     Map<String, dynamic> json) {
   return InitializeClusterResponse(
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['State']),
-    stateMessage: json['StateMessage'] as String,
+    stateMessage: json['StateMessage'] as String?,
   );
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    tagList: (json['TagList'] as List<dynamic>)
+        .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -308,19 +311,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();

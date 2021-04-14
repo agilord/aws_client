@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'complex_list_values.g.dart';
 
 /// Complex List Values
 class ComplexListValues {
   final _s.RestJsonProtocol _protocol;
   ComplexListValues({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -55,21 +47,20 @@ class ComplexListValues {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ListMember')
-  final List<DateTime> listMember;
+  final List<DateTime>? listMember;
 
   OutputShape({
     this.listMember,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      listMember: (json['ListMember'] as List?)
+          ?.whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

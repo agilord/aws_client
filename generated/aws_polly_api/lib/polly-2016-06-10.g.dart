@@ -12,11 +12,10 @@ DeleteLexiconOutput _$DeleteLexiconOutputFromJson(Map<String, dynamic> json) {
 
 DescribeVoicesOutput _$DescribeVoicesOutputFromJson(Map<String, dynamic> json) {
   return DescribeVoicesOutput(
-    nextToken: json['NextToken'] as String,
-    voices: (json['Voices'] as List)
-        ?.map(
-            (e) => e == null ? null : Voice.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    voices: (json['Voices'] as List<dynamic>?)
+        ?.map((e) => Voice.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -43,53 +42,58 @@ GetSpeechSynthesisTaskOutput _$GetSpeechSynthesisTaskOutputFromJson(
 
 Lexicon _$LexiconFromJson(Map<String, dynamic> json) {
   return Lexicon(
-    content: json['Content'] as String,
-    name: json['Name'] as String,
+    content: json['Content'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 LexiconAttributes _$LexiconAttributesFromJson(Map<String, dynamic> json) {
   return LexiconAttributes(
-    alphabet: json['Alphabet'] as String,
+    alphabet: json['Alphabet'] as String?,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    lexemesCount: json['LexemesCount'] as int,
-    lexiconArn: json['LexiconArn'] as String,
-    size: json['Size'] as int,
+    lexemesCount: json['LexemesCount'] as int?,
+    lexiconArn: json['LexiconArn'] as String?,
+    size: json['Size'] as int?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$LanguageCodeEnumMap = {
@@ -130,30 +134,26 @@ LexiconDescription _$LexiconDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : LexiconAttributes.fromJson(
             json['Attributes'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 ListLexiconsOutput _$ListLexiconsOutputFromJson(Map<String, dynamic> json) {
   return ListLexiconsOutput(
-    lexicons: (json['Lexicons'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LexiconDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    lexicons: (json['Lexicons'] as List<dynamic>?)
+        ?.map((e) => LexiconDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListSpeechSynthesisTasksOutput _$ListSpeechSynthesisTasksOutputFromJson(
     Map<String, dynamic> json) {
   return ListSpeechSynthesisTasksOutput(
-    nextToken: json['NextToken'] as String,
-    synthesisTasks: (json['SynthesisTasks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SynthesisTask.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    synthesisTasks: (json['SynthesisTasks'] as List<dynamic>?)
+        ?.map((e) => SynthesisTask.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -176,20 +176,21 @@ SynthesisTask _$SynthesisTaskFromJson(Map<String, dynamic> json) {
     engine: _$enumDecodeNullable(_$EngineEnumMap, json['Engine']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lexiconNames:
-        (json['LexiconNames'] as List)?.map((e) => e as String)?.toList(),
+    lexiconNames: (json['LexiconNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     outputFormat:
         _$enumDecodeNullable(_$OutputFormatEnumMap, json['OutputFormat']),
-    outputUri: json['OutputUri'] as String,
-    requestCharacters: json['RequestCharacters'] as int,
-    sampleRate: json['SampleRate'] as String,
-    snsTopicArn: json['SnsTopicArn'] as String,
-    speechMarkTypes: (json['SpeechMarkTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$SpeechMarkTypeEnumMap, e))
-        ?.toList(),
-    taskId: json['TaskId'] as String,
+    outputUri: json['OutputUri'] as String?,
+    requestCharacters: json['RequestCharacters'] as int?,
+    sampleRate: json['SampleRate'] as String?,
+    snsTopicArn: json['SnsTopicArn'] as String?,
+    speechMarkTypes: (json['SpeechMarkTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$SpeechMarkTypeEnumMap, e))
+        .toList(),
+    taskId: json['TaskId'] as String?,
     taskStatus: _$enumDecodeNullable(_$TaskStatusEnumMap, json['TaskStatus']),
-    taskStatusReason: json['TaskStatusReason'] as String,
+    taskStatusReason: json['TaskStatusReason'] as String?,
     textType: _$enumDecodeNullable(_$TextTypeEnumMap, json['TextType']),
     voiceId: _$enumDecodeNullable(_$VoiceIdEnumMap, json['VoiceId']),
   );
@@ -294,27 +295,27 @@ const _$VoiceIdEnumMap = {
 SynthesizeSpeechOutput _$SynthesizeSpeechOutputFromJson(
     Map<String, dynamic> json) {
   return SynthesizeSpeechOutput(
-    audioStream:
-        const Uint8ListConverter().fromJson(json['AudioStream'] as String),
-    contentType: json['Content-Type'] as String,
-    requestCharacters: json['x-amzn-RequestCharacters'] as int,
+    audioStream: const Uint8ListNullableConverter()
+        .fromJson(json['AudioStream'] as String?),
+    contentType: json['Content-Type'] as String?,
+    requestCharacters: json['x-amzn-RequestCharacters'] as int?,
   );
 }
 
 Voice _$VoiceFromJson(Map<String, dynamic> json) {
   return Voice(
-    additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$LanguageCodeEnumMap, e))
-        ?.toList(),
+    additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$LanguageCodeEnumMap, e))
+        .toList(),
     gender: _$enumDecodeNullable(_$GenderEnumMap, json['Gender']),
     id: _$enumDecodeNullable(_$VoiceIdEnumMap, json['Id']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    languageName: json['LanguageName'] as String,
-    name: json['Name'] as String,
-    supportedEngines: (json['SupportedEngines'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EngineEnumMap, e))
-        ?.toList(),
+    languageName: json['LanguageName'] as String?,
+    name: json['Name'] as String?,
+    supportedEngines: (json['SupportedEngines'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EngineEnumMap, e))
+        .toList(),
   );
 }
 

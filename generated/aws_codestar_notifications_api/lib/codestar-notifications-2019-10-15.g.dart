@@ -9,14 +9,14 @@ part of 'codestar-notifications-2019-10-15.dart';
 CreateNotificationRuleResult _$CreateNotificationRuleResultFromJson(
     Map<String, dynamic> json) {
   return CreateNotificationRuleResult(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
 DeleteNotificationRuleResult _$DeleteNotificationRuleResultFromJson(
     Map<String, dynamic> json) {
   return DeleteNotificationRuleResult(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
@@ -28,62 +28,63 @@ DescribeNotificationRuleResult _$DescribeNotificationRuleResultFromJson(
     Map<String, dynamic> json) {
   return DescribeNotificationRuleResult(
     arn: json['Arn'] as String,
-    createdBy: json['CreatedBy'] as String,
+    createdBy: json['CreatedBy'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     detailType: _$enumDecodeNullable(_$DetailTypeEnumMap, json['DetailType']),
-    eventTypes: (json['EventTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventTypeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    eventTypes: (json['EventTypes'] as List<dynamic>?)
+        ?.map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastModifiedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastModifiedTimestamp']),
-    name: json['Name'] as String,
-    resource: json['Resource'] as String,
+    name: json['Name'] as String?,
+    resource: json['Resource'] as String?,
     status:
         _$enumDecodeNullable(_$NotificationRuleStatusEnumMap, json['Status']),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    targets: (json['Targets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DetailTypeEnumMap = {
@@ -98,27 +99,19 @@ const _$NotificationRuleStatusEnumMap = {
 
 EventTypeSummary _$EventTypeSummaryFromJson(Map<String, dynamic> json) {
   return EventTypeSummary(
-    eventTypeId: json['EventTypeId'] as String,
-    eventTypeName: json['EventTypeName'] as String,
-    resourceType: json['ResourceType'] as String,
-    serviceName: json['ServiceName'] as String,
+    eventTypeId: json['EventTypeId'] as String?,
+    eventTypeName: json['EventTypeName'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    serviceName: json['ServiceName'] as String?,
   );
 }
 
 Map<String, dynamic> _$ListEventTypesFilterToJson(
-    ListEventTypesFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$ListEventTypesFilterNameEnumMap[instance.name]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+        ListEventTypesFilter instance) =>
+    <String, dynamic>{
+      'Name': _$ListEventTypesFilterNameEnumMap[instance.name],
+      'Value': instance.value,
+    };
 
 const _$ListEventTypesFilterNameEnumMap = {
   ListEventTypesFilterName.resourceType: 'RESOURCE_TYPE',
@@ -127,29 +120,19 @@ const _$ListEventTypesFilterNameEnumMap = {
 
 ListEventTypesResult _$ListEventTypesResultFromJson(Map<String, dynamic> json) {
   return ListEventTypesResult(
-    eventTypes: (json['EventTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventTypeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    eventTypes: (json['EventTypes'] as List<dynamic>?)
+        ?.map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$ListNotificationRulesFilterToJson(
-    ListNotificationRulesFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$ListNotificationRulesFilterNameEnumMap[instance.name]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+        ListNotificationRulesFilter instance) =>
+    <String, dynamic>{
+      'Name': _$ListNotificationRulesFilterNameEnumMap[instance.name],
+      'Value': instance.value,
+    };
 
 const _$ListNotificationRulesFilterNameEnumMap = {
   ListNotificationRulesFilterName.eventTypeId: 'EVENT_TYPE_ID',
@@ -161,37 +144,28 @@ const _$ListNotificationRulesFilterNameEnumMap = {
 ListNotificationRulesResult _$ListNotificationRulesResultFromJson(
     Map<String, dynamic> json) {
   return ListNotificationRulesResult(
-    nextToken: json['NextToken'] as String,
-    notificationRules: (json['NotificationRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    notificationRules: (json['NotificationRules'] as List<dynamic>?)
+        ?.map(
+            (e) => NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResult(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
 }
 
-Map<String, dynamic> _$ListTargetsFilterToJson(ListTargetsFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$ListTargetsFilterNameEnumMap[instance.name]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$ListTargetsFilterToJson(ListTargetsFilter instance) =>
+    <String, dynamic>{
+      'Name': _$ListTargetsFilterNameEnumMap[instance.name],
+      'Value': instance.value,
+    };
 
 const _$ListTargetsFilterNameEnumMap = {
   ListTargetsFilterName.targetType: 'TARGET_TYPE',
@@ -201,32 +175,30 @@ const _$ListTargetsFilterNameEnumMap = {
 
 ListTargetsResult _$ListTargetsResultFromJson(Map<String, dynamic> json) {
   return ListTargetsResult(
-    nextToken: json['NextToken'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 NotificationRuleSummary _$NotificationRuleSummaryFromJson(
     Map<String, dynamic> json) {
   return NotificationRuleSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
   );
 }
 
 SubscribeResult _$SubscribeResultFromJson(Map<String, dynamic> json) {
   return SubscribeResult(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
 TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
   return TagResourceResult(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -248,10 +220,10 @@ Map<String, dynamic> _$TargetToJson(Target instance) {
 
 TargetSummary _$TargetSummaryFromJson(Map<String, dynamic> json) {
   return TargetSummary(
-    targetAddress: json['TargetAddress'] as String,
+    targetAddress: json['TargetAddress'] as String?,
     targetStatus:
         _$enumDecodeNullable(_$TargetStatusEnumMap, json['TargetStatus']),
-    targetType: json['TargetType'] as String,
+    targetType: json['TargetType'] as String?,
   );
 }
 

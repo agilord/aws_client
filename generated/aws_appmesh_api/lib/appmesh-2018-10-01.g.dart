@@ -26,8 +26,8 @@ UpdateVirtualRouterOutput _$UpdateVirtualRouterOutputFromJson(
 
 WeightedTarget _$WeightedTargetFromJson(Map<String, dynamic> json) {
   return WeightedTarget(
-    virtualNode: json['virtualNode'] as String,
-    weight: json['weight'] as int,
+    virtualNode: json['virtualNode'] as String?,
+    weight: json['weight'] as int?,
   );
 }
 
@@ -55,7 +55,7 @@ CreateRouteOutput _$CreateRouteOutputFromJson(Map<String, dynamic> json) {
 
 DnsServiceDiscovery _$DnsServiceDiscoveryFromJson(Map<String, dynamic> json) {
   return DnsServiceDiscovery(
-    serviceName: json['serviceName'] as String,
+    serviceName: json['serviceName'] as String?,
   );
 }
 
@@ -74,9 +74,9 @@ Map<String, dynamic> _$DnsServiceDiscoveryToJson(DnsServiceDiscovery instance) {
 
 VirtualNodeRef _$VirtualNodeRefFromJson(Map<String, dynamic> json) {
   return VirtualNodeRef(
-    arn: json['arn'] as String,
-    meshName: json['meshName'] as String,
-    virtualNodeName: json['virtualNodeName'] as String,
+    arn: json['arn'] as String?,
+    meshName: json['meshName'] as String?,
+    virtualNodeName: json['virtualNodeName'] as String?,
   );
 }
 
@@ -115,36 +115,41 @@ MeshStatus _$MeshStatusFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$MeshStatusCodeEnumMap = {
@@ -171,11 +176,11 @@ VirtualNodeData _$VirtualNodeDataFromJson(Map<String, dynamic> json) {
 
 VirtualNodeSpec _$VirtualNodeSpecFromJson(Map<String, dynamic> json) {
   return VirtualNodeSpec(
-    backends: (json['backends'] as List)?.map((e) => e as String)?.toList(),
-    listeners: (json['listeners'] as List)
-        ?.map((e) =>
-            e == null ? null : Listener.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    backends:
+        (json['backends'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    listeners: (json['listeners'] as List<dynamic>?)
+        ?.map((e) => Listener.fromJson(e as Map<String, dynamic>))
+        .toList(),
     serviceDiscovery: json['serviceDiscovery'] == null
         ? null
         : ServiceDiscovery.fromJson(
@@ -194,15 +199,15 @@ Map<String, dynamic> _$VirtualNodeSpecToJson(VirtualNodeSpec instance) {
 
   writeNotNull('backends', instance.backends);
   writeNotNull(
-      'listeners', instance.listeners?.map((e) => e?.toJson())?.toList());
+      'listeners', instance.listeners?.map((e) => e.toJson()).toList());
   writeNotNull('serviceDiscovery', instance.serviceDiscovery?.toJson());
   return val;
 }
 
 MeshRef _$MeshRefFromJson(Map<String, dynamic> json) {
   return MeshRef(
-    arn: json['arn'] as String,
-    meshName: json['meshName'] as String,
+    arn: json['arn'] as String?,
+    meshName: json['meshName'] as String?,
   );
 }
 
@@ -226,11 +231,9 @@ UpdateRouteOutput _$UpdateRouteOutputFromJson(Map<String, dynamic> json) {
 
 HttpRouteAction _$HttpRouteActionFromJson(Map<String, dynamic> json) {
   return HttpRouteAction(
-    weightedTargets: (json['weightedTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WeightedTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    weightedTargets: (json['weightedTargets'] as List<dynamic>?)
+        ?.map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -244,7 +247,7 @@ Map<String, dynamic> _$HttpRouteActionToJson(HttpRouteAction instance) {
   }
 
   writeNotNull('weightedTargets',
-      instance.weightedTargets?.map((e) => e?.toJson())?.toList());
+      instance.weightedTargets?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -285,11 +288,10 @@ const _$VirtualRouterStatusCodeEnumMap = {
 
 ListMeshesOutput _$ListMeshesOutputFromJson(Map<String, dynamic> json) {
   return ListMeshesOutput(
-    meshes: (json['meshes'] as List)
-        ?.map((e) =>
-            e == null ? null : MeshRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    meshes: (json['meshes'] as List<dynamic>)
+        .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -354,11 +356,10 @@ Map<String, dynamic> _$HttpRouteToJson(HttpRoute instance) {
 
 ListRoutesOutput _$ListRoutesOutputFromJson(Map<String, dynamic> json) {
   return ListRoutesOutput(
-    routes: (json['routes'] as List)
-        ?.map((e) =>
-            e == null ? null : RouteRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    routes: (json['routes'] as List<dynamic>)
+        .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -385,21 +386,19 @@ Map<String, dynamic> _$RouteSpecToJson(RouteSpec instance) {
 
 VirtualRouterRef _$VirtualRouterRefFromJson(Map<String, dynamic> json) {
   return VirtualRouterRef(
-    arn: json['arn'] as String,
-    meshName: json['meshName'] as String,
-    virtualRouterName: json['virtualRouterName'] as String,
+    arn: json['arn'] as String?,
+    meshName: json['meshName'] as String?,
+    virtualRouterName: json['virtualRouterName'] as String?,
   );
 }
 
 ListVirtualNodesOutput _$ListVirtualNodesOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualNodesOutput(
-    virtualNodes: (json['virtualNodes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualNodeRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualNodes: (json['virtualNodes'] as List<dynamic>)
+        .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -415,12 +414,10 @@ DeleteVirtualNodeOutput _$DeleteVirtualNodeOutputFromJson(
 ListVirtualRoutersOutput _$ListVirtualRoutersOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualRoutersOutput(
-    virtualRouters: (json['virtualRouters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualRouterRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualRouters: (json['virtualRouters'] as List<dynamic>)
+        .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -445,18 +442,18 @@ DeleteVirtualRouterOutput _$DeleteVirtualRouterOutputFromJson(
 
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
-    uid: json['uid'] as String,
-    version: json['version'] as int,
+    uid: json['uid'] as String?,
+    version: json['version'] as int?,
   );
 }
 
 PortMapping _$PortMappingFromJson(Map<String, dynamic> json) {
   return PortMapping(
-    port: json['port'] as int,
+    port: json['port'] as int?,
     protocol: _$enumDecodeNullable(_$PortProtocolEnumMap, json['protocol']),
   );
 }
@@ -482,8 +479,9 @@ const _$PortProtocolEnumMap = {
 
 VirtualRouterSpec _$VirtualRouterSpecFromJson(Map<String, dynamic> json) {
   return VirtualRouterSpec(
-    serviceNames:
-        (json['serviceNames'] as List)?.map((e) => e as String)?.toList(),
+    serviceNames: (json['serviceNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -554,16 +552,22 @@ HealthCheckPolicy _$HealthCheckPolicyFromJson(Map<String, dynamic> json) {
   return HealthCheckPolicy(
     healthyThreshold: json['healthyThreshold'] as int,
     intervalMillis: json['intervalMillis'] as int,
-    protocol: _$enumDecodeNullable(_$PortProtocolEnumMap, json['protocol']),
+    protocol: _$enumDecode(_$PortProtocolEnumMap, json['protocol']),
     timeoutMillis: json['timeoutMillis'] as int,
     unhealthyThreshold: json['unhealthyThreshold'] as int,
-    path: json['path'] as String,
-    port: json['port'] as int,
+    path: json['path'] as String?,
+    port: json['port'] as int?,
   );
 }
 
 Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'healthyThreshold': instance.healthyThreshold,
+    'intervalMillis': instance.intervalMillis,
+    'protocol': _$PortProtocolEnumMap[instance.protocol],
+    'timeoutMillis': instance.timeoutMillis,
+    'unhealthyThreshold': instance.unhealthyThreshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -571,11 +575,6 @@ Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
     }
   }
 
-  writeNotNull('healthyThreshold', instance.healthyThreshold);
-  writeNotNull('intervalMillis', instance.intervalMillis);
-  writeNotNull('protocol', _$PortProtocolEnumMap[instance.protocol]);
-  writeNotNull('timeoutMillis', instance.timeoutMillis);
-  writeNotNull('unhealthyThreshold', instance.unhealthyThreshold);
   writeNotNull('path', instance.path);
   writeNotNull('port', instance.port);
   return val;
@@ -584,9 +583,8 @@ Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
 MeshData _$MeshDataFromJson(Map<String, dynamic> json) {
   return MeshData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
     status: json['status'] == null
         ? null
         : MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
@@ -595,7 +593,7 @@ MeshData _$MeshDataFromJson(Map<String, dynamic> json) {
 
 HttpRouteMatch _$HttpRouteMatchFromJson(Map<String, dynamic> json) {
   return HttpRouteMatch(
-    prefix: json['prefix'] as String,
+    prefix: json['prefix'] as String?,
   );
 }
 
@@ -635,10 +633,10 @@ const _$VirtualNodeStatusCodeEnumMap = {
 
 RouteRef _$RouteRefFromJson(Map<String, dynamic> json) {
   return RouteRef(
-    arn: json['arn'] as String,
-    meshName: json['meshName'] as String,
-    routeName: json['routeName'] as String,
-    virtualRouterName: json['virtualRouterName'] as String,
+    arn: json['arn'] as String?,
+    meshName: json['meshName'] as String?,
+    routeName: json['routeName'] as String?,
+    virtualRouterName: json['virtualRouterName'] as String?,
   );
 }
 

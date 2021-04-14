@@ -8,32 +8,28 @@ part of 'acm-2015-12-08.dart';
 
 CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
   return CertificateDetail(
-    certificateArn: json['CertificateArn'] as String,
-    certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
+    certificateArn: json['CertificateArn'] as String?,
+    certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    domainName: json['DomainName'] as String,
-    domainValidationOptions: (json['DomainValidationOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainValidation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    extendedKeyUsages: (json['ExtendedKeyUsages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ExtendedKeyUsage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    domainName: json['DomainName'] as String?,
+    domainValidationOptions: (json['DomainValidationOptions'] as List<dynamic>?)
+        ?.map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    extendedKeyUsages: (json['ExtendedKeyUsages'] as List<dynamic>?)
+        ?.map((e) => ExtendedKeyUsage.fromJson(e as Map<String, dynamic>))
+        .toList(),
     failureReason:
         _$enumDecodeNullable(_$FailureReasonEnumMap, json['FailureReason']),
     importedAt: const UnixDateTimeConverter().fromJson(json['ImportedAt']),
-    inUseBy: (json['InUseBy'] as List)?.map((e) => e as String)?.toList(),
+    inUseBy:
+        (json['InUseBy'] as List<dynamic>?)?.map((e) => e as String).toList(),
     issuedAt: const UnixDateTimeConverter().fromJson(json['IssuedAt']),
-    issuer: json['Issuer'] as String,
+    issuer: json['Issuer'] as String?,
     keyAlgorithm:
         _$enumDecodeNullable(_$KeyAlgorithmEnumMap, json['KeyAlgorithm']),
-    keyUsages: (json['KeyUsages'] as List)
-        ?.map((e) =>
-            e == null ? null : KeyUsage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    keyUsages: (json['KeyUsages'] as List<dynamic>?)
+        ?.map((e) => KeyUsage.fromJson(e as Map<String, dynamic>))
+        .toList(),
     notAfter: const UnixDateTimeConverter().fromJson(json['NotAfter']),
     notBefore: const UnixDateTimeConverter().fromJson(json['NotBefore']),
     options: json['Options'] == null
@@ -48,47 +44,52 @@ CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
     revocationReason: _$enumDecodeNullable(
         _$RevocationReasonEnumMap, json['RevocationReason']),
     revokedAt: const UnixDateTimeConverter().fromJson(json['RevokedAt']),
-    serial: json['Serial'] as String,
-    signatureAlgorithm: json['SignatureAlgorithm'] as String,
+    serial: json['Serial'] as String?,
+    signatureAlgorithm: json['SignatureAlgorithm'] as String?,
     status: _$enumDecodeNullable(_$CertificateStatusEnumMap, json['Status']),
-    subject: json['Subject'] as String,
-    subjectAlternativeNames: (json['SubjectAlternativeNames'] as List)
+    subject: json['Subject'] as String?,
+    subjectAlternativeNames: (json['SubjectAlternativeNames'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
     type: _$enumDecodeNullable(_$CertificateTypeEnumMap, json['Type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$FailureReasonEnumMap = {
@@ -186,8 +187,8 @@ const _$CertificateTransparencyLoggingPreferenceEnumMap = {
 
 CertificateSummary _$CertificateSummaryFromJson(Map<String, dynamic> json) {
   return CertificateSummary(
-    certificateArn: json['CertificateArn'] as String,
-    domainName: json['DomainName'] as String,
+    certificateArn: json['CertificateArn'] as String?,
+    domainName: json['DomainName'] as String?,
   );
 }
 
@@ -208,9 +209,10 @@ DomainValidation _$DomainValidationFromJson(Map<String, dynamic> json) {
         ? null
         : ResourceRecord.fromJson(
             json['ResourceRecord'] as Map<String, dynamic>),
-    validationDomain: json['ValidationDomain'] as String,
-    validationEmails:
-        (json['ValidationEmails'] as List)?.map((e) => e as String)?.toList(),
+    validationDomain: json['ValidationDomain'] as String?,
+    validationEmails: (json['ValidationEmails'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     validationMethod: _$enumDecodeNullable(
         _$ValidationMethodEnumMap, json['ValidationMethod']),
     validationStatus:
@@ -230,33 +232,25 @@ const _$DomainStatusEnumMap = {
 };
 
 Map<String, dynamic> _$DomainValidationOptionToJson(
-    DomainValidationOption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DomainName', instance.domainName);
-  writeNotNull('ValidationDomain', instance.validationDomain);
-  return val;
-}
+        DomainValidationOption instance) =>
+    <String, dynamic>{
+      'DomainName': instance.domainName,
+      'ValidationDomain': instance.validationDomain,
+    };
 
 ExportCertificateResponse _$ExportCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ExportCertificateResponse(
-    certificate: json['Certificate'] as String,
-    certificateChain: json['CertificateChain'] as String,
-    privateKey: json['PrivateKey'] as String,
+    certificate: json['Certificate'] as String?,
+    certificateChain: json['CertificateChain'] as String?,
+    privateKey: json['PrivateKey'] as String?,
   );
 }
 
 ExtendedKeyUsage _$ExtendedKeyUsageFromJson(Map<String, dynamic> json) {
   return ExtendedKeyUsage(
     name: _$enumDecodeNullable(_$ExtendedKeyUsageNameEnumMap, json['Name']),
-    oid: json['OID'] as String,
+    oid: json['OID'] as String?,
   );
 }
 
@@ -290,11 +284,11 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
       'extendedKeyUsage',
       instance.extendedKeyUsage
           ?.map((e) => _$ExtendedKeyUsageNameEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('keyTypes',
-      instance.keyTypes?.map((e) => _$KeyAlgorithmEnumMap[e])?.toList());
+      instance.keyTypes?.map((e) => _$KeyAlgorithmEnumMap[e]).toList());
   writeNotNull('keyUsage',
-      instance.keyUsage?.map((e) => _$KeyUsageNameEnumMap[e])?.toList());
+      instance.keyUsage?.map((e) => _$KeyUsageNameEnumMap[e]).toList());
   return val;
 }
 
@@ -315,15 +309,15 @@ const _$KeyUsageNameEnumMap = {
 GetCertificateResponse _$GetCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return GetCertificateResponse(
-    certificate: json['Certificate'] as String,
-    certificateChain: json['CertificateChain'] as String,
+    certificate: json['Certificate'] as String?,
+    certificateChain: json['CertificateChain'] as String?,
   );
 }
 
 ImportCertificateResponse _$ImportCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ImportCertificateResponse(
-    certificateArn: json['CertificateArn'] as String,
+    certificateArn: json['CertificateArn'] as String?,
   );
 }
 
@@ -336,34 +330,29 @@ KeyUsage _$KeyUsageFromJson(Map<String, dynamic> json) {
 ListCertificatesResponse _$ListCertificatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListCertificatesResponse(
-    certificateSummaryList: (json['CertificateSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CertificateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    certificateSummaryList: (json['CertificateSummaryList'] as List<dynamic>?)
+        ?.map((e) => CertificateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForCertificateResponse _$ListTagsForCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForCertificateResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 RenewalSummary _$RenewalSummaryFromJson(Map<String, dynamic> json) {
   return RenewalSummary(
-    domainValidationOptions: (json['DomainValidationOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainValidation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    renewalStatus:
-        _$enumDecodeNullable(_$RenewalStatusEnumMap, json['RenewalStatus']),
-    updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
+    domainValidationOptions: (json['DomainValidationOptions'] as List<dynamic>)
+        .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    renewalStatus: _$enumDecode(_$RenewalStatusEnumMap, json['RenewalStatus']),
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
     renewalStatusReason: _$enumDecodeNullable(
         _$FailureReasonEnumMap, json['RenewalStatusReason']),
   );
@@ -379,14 +368,14 @@ const _$RenewalStatusEnumMap = {
 RequestCertificateResponse _$RequestCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return RequestCertificateResponse(
-    certificateArn: json['CertificateArn'] as String,
+    certificateArn: json['CertificateArn'] as String?,
   );
 }
 
 ResourceRecord _$ResourceRecordFromJson(Map<String, dynamic> json) {
   return ResourceRecord(
     name: json['Name'] as String,
-    type: _$enumDecodeNullable(_$RecordTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$RecordTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
 }
@@ -398,12 +387,14 @@ const _$RecordTypeEnumMap = {
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -411,7 +402,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }

@@ -27,8 +27,8 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.listMember[0], "a");
-    expect(output.listMember[1], "b");
+    expect(output.listMember?[0], "a");
+    expect(output.listMember?[1], "b");
 /*
 {
   "ListMember": [

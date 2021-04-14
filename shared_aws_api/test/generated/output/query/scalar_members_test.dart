@@ -37,7 +37,7 @@ void main() {
     expect(output.long, 200);
     expect(output.num, 123);
     expect(output.str, "myname");
-    expect(output.timestamp.millisecondsSinceEpoch ~/ 1000, 1422172800);
+    expect(output.timestamp!.millisecondsSinceEpoch ~/ 1000, 1422172800);
     expect(output.trueBool, true);
 /*
 {

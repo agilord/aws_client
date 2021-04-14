@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mediatailor-2018-04-23.g.dart';
 
 /// Use the AWS Elemental MediaTailor SDK to configure scalable ad insertion for
 /// your live and VOD content. With AWS Elemental MediaTailor, you can serve
@@ -39,10 +31,10 @@ part 'mediatailor-2018-04-23.g.dart';
 class MediaTailor {
   final _s.RestJsonProtocol _protocol;
   MediaTailor({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -59,7 +51,7 @@ class MediaTailor {
   /// Parameter [name] :
   /// The identifier for the playback configuration.
   Future<void> deletePlaybackConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
@@ -68,7 +60,6 @@ class MediaTailor {
       requestUri: '/playbackConfiguration/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePlaybackConfigurationResponse.fromJson(response);
   }
 
   /// Returns the playback configuration for the specified name.
@@ -76,7 +67,7 @@ class MediaTailor {
   /// Parameter [name] :
   /// The identifier for the playback configuration.
   Future<GetPlaybackConfigurationResponse> getPlaybackConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
@@ -102,8 +93,8 @@ class MediaTailor {
   /// Pagination token returned by the GET list request when results exceed the
   /// maximum allowed. Use the token to fetch the next page of results.
   Future<ListPlaybackConfigurationsResponse> listPlaybackConfigurations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -134,7 +125,7 @@ class MediaTailor {
   /// The Amazon Resource Name (ARN) for the playback configuration. You can get
   /// this from the response to any playback configuration request.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -207,19 +198,19 @@ class MediaTailor {
   /// The URL prefix for the master playlist for the stream, minus the asset ID.
   /// The maximum length is 512 characters.
   Future<PutPlaybackConfigurationResponse> putPlaybackConfiguration({
-    String adDecisionServerUrl,
-    AvailSuppression availSuppression,
-    Bumper bumper,
-    CdnConfiguration cdnConfiguration,
-    DashConfigurationForPut dashConfiguration,
-    LivePreRollConfiguration livePreRollConfiguration,
-    ManifestProcessingRules manifestProcessingRules,
-    String name,
-    int personalizationThresholdSeconds,
-    String slateAdUrl,
-    Map<String, String> tags,
-    String transcodeProfileName,
-    String videoContentSourceUrl,
+    String? adDecisionServerUrl,
+    AvailSuppression? availSuppression,
+    Bumper? bumper,
+    CdnConfiguration? cdnConfiguration,
+    DashConfigurationForPut? dashConfiguration,
+    LivePreRollConfiguration? livePreRollConfiguration,
+    ManifestProcessingRules? manifestProcessingRules,
+    String? name,
+    int? personalizationThresholdSeconds,
+    String? slateAdUrl,
+    Map<String, String>? tags,
+    String? transcodeProfileName,
+    String? videoContentSourceUrl,
   }) async {
     _s.validateNumRange(
       'personalizationThresholdSeconds',
@@ -274,8 +265,8 @@ class MediaTailor {
   /// }
   ///
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -303,13 +294,13 @@ class MediaTailor {
   /// A comma-separated list of the tag keys to remove from the playback
   /// configuration.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -323,11 +314,6 @@ class MediaTailor {
 
 /// The configuration for Ad Marker Passthrough. Ad marker passthrough can be
 /// used to pass ad markers from the origin to the customized manifest.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdMarkerPassthrough {
   /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN,
   /// EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin
@@ -336,80 +322,91 @@ class AdMarkerPassthrough {
   /// No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a
   /// value of 60, but no ads are filled for that ad break, MediaTailor will not
   /// set the value to 0.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   AdMarkerPassthrough({
     this.enabled,
   });
-  factory AdMarkerPassthrough.fromJson(Map<String, dynamic> json) =>
-      _$AdMarkerPassthroughFromJson(json);
+  factory AdMarkerPassthrough.fromJson(Map<String, dynamic> json) {
+    return AdMarkerPassthrough(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AdMarkerPassthroughToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// The configuration for Avail Suppression. Ad suppression can be used to turn
 /// off ad personalization in a long manifest, or if a viewer joins mid-break.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AvailSuppression {
   /// Sets the mode for avail suppression, also known as ad suppression. By
   /// default, ad suppression is off and all ad breaks are filled by MediaTailor
   /// with ads or slate.
-  @_s.JsonKey(name: 'Mode')
-  final Mode mode;
+  final Mode? mode;
 
   /// The avail suppression value is a live edge offset time in HH:MM:SS.
   /// MediaTailor won't fill ad breaks on or behind this time in the manifest
   /// lookback window.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   AvailSuppression({
     this.mode,
     this.value,
   });
-  factory AvailSuppression.fromJson(Map<String, dynamic> json) =>
-      _$AvailSuppressionFromJson(json);
+  factory AvailSuppression.fromJson(Map<String, dynamic> json) {
+    return AvailSuppression(
+      mode: (json['Mode'] as String?)?.toMode(),
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AvailSuppressionToJson(this);
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final value = this.value;
+    return {
+      if (mode != null) 'Mode': mode.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The configuration for bumpers. Bumpers are short audio or video clips that
 /// play at the start or before the end of an ad break.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Bumper {
   /// The URL for the end bumper asset.
-  @_s.JsonKey(name: 'EndUrl')
-  final String endUrl;
+  final String? endUrl;
 
   /// The URL for the start bumper asset.
-  @_s.JsonKey(name: 'StartUrl')
-  final String startUrl;
+  final String? startUrl;
 
   Bumper({
     this.endUrl,
     this.startUrl,
   });
-  factory Bumper.fromJson(Map<String, dynamic> json) => _$BumperFromJson(json);
+  factory Bumper.fromJson(Map<String, dynamic> json) {
+    return Bumper(
+      endUrl: json['EndUrl'] as String?,
+      startUrl: json['StartUrl'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BumperToJson(this);
+  Map<String, dynamic> toJson() {
+    final endUrl = this.endUrl;
+    final startUrl = this.startUrl;
+    return {
+      if (endUrl != null) 'EndUrl': endUrl,
+      if (startUrl != null) 'StartUrl': startUrl,
+    };
+  }
 }
 
 /// The configuration for using a content delivery network (CDN), like Amazon
 /// CloudFront, for content and ad segment management.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CdnConfiguration {
   /// A non-default content delivery network (CDN) to serve ad segments. By
   /// default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache
@@ -418,38 +415,42 @@ class CdnConfiguration {
   /// ads.mediatailor.&lt;region>.amazonaws.com. Then specify the rule's name in
   /// this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest,
   /// it reports your CDN as the source for ad segments.
-  @_s.JsonKey(name: 'AdSegmentUrlPrefix')
-  final String adSegmentUrlPrefix;
+  final String? adSegmentUrlPrefix;
 
   /// A content delivery network (CDN) to cache content segments, so that content
   /// requests don’t always have to go to the origin server. First, create a rule
   /// in your CDN for the content segment origin server. Then specify the rule's
   /// name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves
   /// a manifest, it reports your CDN as the source for content segments.
-  @_s.JsonKey(name: 'ContentSegmentUrlPrefix')
-  final String contentSegmentUrlPrefix;
+  final String? contentSegmentUrlPrefix;
 
   CdnConfiguration({
     this.adSegmentUrlPrefix,
     this.contentSegmentUrlPrefix,
   });
-  factory CdnConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$CdnConfigurationFromJson(json);
+  factory CdnConfiguration.fromJson(Map<String, dynamic> json) {
+    return CdnConfiguration(
+      adSegmentUrlPrefix: json['AdSegmentUrlPrefix'] as String?,
+      contentSegmentUrlPrefix: json['ContentSegmentUrlPrefix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CdnConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final adSegmentUrlPrefix = this.adSegmentUrlPrefix;
+    final contentSegmentUrlPrefix = this.contentSegmentUrlPrefix;
+    return {
+      if (adSegmentUrlPrefix != null) 'AdSegmentUrlPrefix': adSegmentUrlPrefix,
+      if (contentSegmentUrlPrefix != null)
+        'ContentSegmentUrlPrefix': contentSegmentUrlPrefix,
+    };
+  }
 }
 
 /// The configuration for DASH content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DashConfiguration {
   /// The URL generated by MediaTailor to initiate a playback session. The session
   /// uses server-side reporting. This setting is ignored in PUT operations.
-  @_s.JsonKey(name: 'ManifestEndpointPrefix')
-  final String manifestEndpointPrefix;
+  final String? manifestEndpointPrefix;
 
   /// The setting that controls whether MediaTailor includes the Location tag in
   /// DASH manifests. MediaTailor populates the Location tag with the URL for
@@ -459,32 +460,31 @@ class DashConfiguration {
   /// your players support sticky HTTP redirects. Valid values are DISABLED and
   /// EMT_DEFAULT. The EMT_DEFAULT setting enables the inclusion of the tag and is
   /// the default value.
-  @_s.JsonKey(name: 'MpdLocation')
-  final String mpdLocation;
+  final String? mpdLocation;
 
   /// The setting that controls whether MediaTailor handles manifests from the
   /// origin server as multi-period manifests or single-period manifests. If your
   /// origin server produces single-period manifests, set this to SINGLE_PERIOD.
   /// The default setting is MULTI_PERIOD. For multi-period manifests, omit this
   /// setting or set it to MULTI_PERIOD.
-  @_s.JsonKey(name: 'OriginManifestType')
-  final OriginManifestType originManifestType;
+  final OriginManifestType? originManifestType;
 
   DashConfiguration({
     this.manifestEndpointPrefix,
     this.mpdLocation,
     this.originManifestType,
   });
-  factory DashConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DashConfigurationFromJson(json);
+  factory DashConfiguration.fromJson(Map<String, dynamic> json) {
+    return DashConfiguration(
+      manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
+      mpdLocation: json['MpdLocation'] as String?,
+      originManifestType:
+          (json['OriginManifestType'] as String?)?.toOriginManifestType(),
+    );
+  }
 }
 
 /// The configuration for DASH PUT operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DashConfigurationForPut {
   /// The setting that controls whether MediaTailor includes the Location tag in
   /// DASH manifests. MediaTailor populates the Location tag with the URL for
@@ -494,104 +494,87 @@ class DashConfigurationForPut {
   /// your players support sticky HTTP redirects. Valid values are DISABLED and
   /// EMT_DEFAULT. The EMT_DEFAULT setting enables the inclusion of the tag and is
   /// the default value.
-  @_s.JsonKey(name: 'MpdLocation')
-  final String mpdLocation;
+  final String? mpdLocation;
 
   /// The setting that controls whether MediaTailor handles manifests from the
   /// origin server as multi-period manifests or single-period manifests. If your
   /// origin server produces single-period manifests, set this to SINGLE_PERIOD.
   /// The default setting is MULTI_PERIOD. For multi-period manifests, omit this
   /// setting or set it to MULTI_PERIOD.
-  @_s.JsonKey(name: 'OriginManifestType')
-  final OriginManifestType originManifestType;
+  final OriginManifestType? originManifestType;
 
   DashConfigurationForPut({
     this.mpdLocation,
     this.originManifestType,
   });
-  Map<String, dynamic> toJson() => _$DashConfigurationForPutToJson(this);
+  Map<String, dynamic> toJson() {
+    final mpdLocation = this.mpdLocation;
+    final originManifestType = this.originManifestType;
+    return {
+      if (mpdLocation != null) 'MpdLocation': mpdLocation,
+      if (originManifestType != null)
+        'OriginManifestType': originManifestType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePlaybackConfigurationResponse {
   DeletePlaybackConfigurationResponse();
-  factory DeletePlaybackConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeletePlaybackConfigurationResponseFromJson(json);
+  factory DeletePlaybackConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePlaybackConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPlaybackConfigurationResponse {
   /// The URL for the ad decision server (ADS). This includes the specification of
   /// static parameters and placeholders for dynamic parameters. AWS Elemental
   /// MediaTailor substitutes player-specific and session-specific parameters as
   /// needed when calling the ADS. Alternately, for testing, you can provide a
   /// static VAST URL. The maximum length is 25,000 characters.
-  @_s.JsonKey(name: 'AdDecisionServerUrl')
-  final String adDecisionServerUrl;
+  final String? adDecisionServerUrl;
 
   /// The configuration for Avail Suppression. Ad suppression can be used to turn
   /// off ad personalization in a long manifest, or if a viewer joins mid-break.
-  @_s.JsonKey(name: 'AvailSuppression')
-  final AvailSuppression availSuppression;
+  final AvailSuppression? availSuppression;
 
   /// The configuration for bumpers. Bumpers are short audio or video clips that
   /// play at the start or before the end of an ad break.
-  @_s.JsonKey(name: 'Bumper')
-  final Bumper bumper;
+  final Bumper? bumper;
 
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
-  @_s.JsonKey(name: 'CdnConfiguration')
-  final CdnConfiguration cdnConfiguration;
+  final CdnConfiguration? cdnConfiguration;
 
   /// The configuration for DASH content.
-  @_s.JsonKey(name: 'DashConfiguration')
-  final DashConfiguration dashConfiguration;
+  final DashConfiguration? dashConfiguration;
 
   /// The configuration for HLS content.
-  @_s.JsonKey(name: 'HlsConfiguration')
-  final HlsConfiguration hlsConfiguration;
+  final HlsConfiguration? hlsConfiguration;
 
   /// The configuration for pre-roll ad insertion.
-  @_s.JsonKey(name: 'LivePreRollConfiguration')
-  final LivePreRollConfiguration livePreRollConfiguration;
+  final LivePreRollConfiguration? livePreRollConfiguration;
 
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
-  @_s.JsonKey(name: 'ManifestProcessingRules')
-  final ManifestProcessingRules manifestProcessingRules;
+  final ManifestProcessingRules? manifestProcessingRules;
 
   /// The identifier for the playback configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The maximum duration of underfilled ad time (in seconds) allowed in an ad
   /// break.
-  @_s.JsonKey(name: 'PersonalizationThresholdSeconds')
-  final int personalizationThresholdSeconds;
+  final int? personalizationThresholdSeconds;
 
   /// The Amazon Resource Name (ARN) for the playback configuration.
-  @_s.JsonKey(name: 'PlaybackConfigurationArn')
-  final String playbackConfigurationArn;
+  final String? playbackConfigurationArn;
 
   /// The URL that the player accesses to get a manifest from AWS Elemental
   /// MediaTailor. This session will use server-side reporting.
-  @_s.JsonKey(name: 'PlaybackEndpointPrefix')
-  final String playbackEndpointPrefix;
+  final String? playbackEndpointPrefix;
 
   /// The URL that the player uses to initialize a session that uses client-side
   /// reporting.
-  @_s.JsonKey(name: 'SessionInitializationEndpointPrefix')
-  final String sessionInitializationEndpointPrefix;
+  final String? sessionInitializationEndpointPrefix;
 
   /// The URL for a high-quality video asset to transcode and use to fill in time
   /// that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in
@@ -599,24 +582,20 @@ class GetPlaybackConfigurationResponse {
   /// playback configurations. For VPAID, the slate is required because
   /// MediaTailor provides it in the slots designated for dynamic ad content. The
   /// slate must be a high-quality asset that contains both audio and video.
-  @_s.JsonKey(name: 'SlateAdUrl')
-  final String slateAdUrl;
+  final String? slateAdUrl;
 
   /// The tags assigned to the playback configuration.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The name that is used to associate this playback configuration with a custom
   /// transcode profile. This overrides the dynamic transcoding defaults of
   /// MediaTailor. Use this only if you have already set up custom profiles with
   /// the help of AWS Support.
-  @_s.JsonKey(name: 'TranscodeProfileName')
-  final String transcodeProfileName;
+  final String? transcodeProfileName;
 
   /// The URL prefix for the master playlist for the stream, minus the asset ID.
   /// The maximum length is 512 characters.
-  @_s.JsonKey(name: 'VideoContentSourceUrl')
-  final String videoContentSourceUrl;
+  final String? videoContentSourceUrl;
 
   GetPlaybackConfigurationResponse({
     this.adDecisionServerUrl,
@@ -637,61 +616,94 @@ class GetPlaybackConfigurationResponse {
     this.transcodeProfileName,
     this.videoContentSourceUrl,
   });
-  factory GetPlaybackConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPlaybackConfigurationResponseFromJson(json);
+  factory GetPlaybackConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetPlaybackConfigurationResponse(
+      adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      availSuppression: json['AvailSuppression'] != null
+          ? AvailSuppression.fromJson(
+              json['AvailSuppression'] as Map<String, dynamic>)
+          : null,
+      bumper: json['Bumper'] != null
+          ? Bumper.fromJson(json['Bumper'] as Map<String, dynamic>)
+          : null,
+      cdnConfiguration: json['CdnConfiguration'] != null
+          ? CdnConfiguration.fromJson(
+              json['CdnConfiguration'] as Map<String, dynamic>)
+          : null,
+      dashConfiguration: json['DashConfiguration'] != null
+          ? DashConfiguration.fromJson(
+              json['DashConfiguration'] as Map<String, dynamic>)
+          : null,
+      hlsConfiguration: json['HlsConfiguration'] != null
+          ? HlsConfiguration.fromJson(
+              json['HlsConfiguration'] as Map<String, dynamic>)
+          : null,
+      livePreRollConfiguration: json['LivePreRollConfiguration'] != null
+          ? LivePreRollConfiguration.fromJson(
+              json['LivePreRollConfiguration'] as Map<String, dynamic>)
+          : null,
+      manifestProcessingRules: json['ManifestProcessingRules'] != null
+          ? ManifestProcessingRules.fromJson(
+              json['ManifestProcessingRules'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      personalizationThresholdSeconds:
+          json['PersonalizationThresholdSeconds'] as int?,
+      playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+      playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
+      sessionInitializationEndpointPrefix:
+          json['SessionInitializationEndpointPrefix'] as String?,
+      slateAdUrl: json['SlateAdUrl'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      transcodeProfileName: json['TranscodeProfileName'] as String?,
+      videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
+    );
+  }
 }
 
 /// The configuration for HLS content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HlsConfiguration {
   /// The URL that is used to initiate a playback session for devices that support
   /// Apple HLS. The session uses server-side reporting.
-  @_s.JsonKey(name: 'ManifestEndpointPrefix')
-  final String manifestEndpointPrefix;
+  final String? manifestEndpointPrefix;
 
   HlsConfiguration({
     this.manifestEndpointPrefix,
   });
-  factory HlsConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$HlsConfigurationFromJson(json);
+  factory HlsConfiguration.fromJson(Map<String, dynamic> json) {
+    return HlsConfiguration(
+      manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPlaybackConfigurationsResponse {
   /// Array of playback configurations. This might be all the available
   /// configurations or a subset, depending on the settings that you provide and
   /// the total number of configurations stored.
-  @_s.JsonKey(name: 'Items')
-  final List<PlaybackConfiguration> items;
+  final List<PlaybackConfiguration>? items;
 
   /// Pagination token returned by the GET list request when results exceed the
   /// maximum allowed. Use the token to fetch the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPlaybackConfigurationsResponse({
     this.items,
     this.nextToken,
   });
   factory ListPlaybackConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPlaybackConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPlaybackConfigurationsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlaybackConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A comma-separated list of tag key:value pairs. For example:
   /// {
@@ -699,115 +711,149 @@ class ListTagsForResourceResponse {
   /// "Key2": "Value2"
   /// }
   ///
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum OriginManifestType {
-  @_s.JsonValue('SINGLE_PERIOD')
   singlePeriod,
-  @_s.JsonValue('MULTI_PERIOD')
   multiPeriod,
+}
+
+extension on OriginManifestType {
+  String toValue() {
+    switch (this) {
+      case OriginManifestType.singlePeriod:
+        return 'SINGLE_PERIOD';
+      case OriginManifestType.multiPeriod:
+        return 'MULTI_PERIOD';
+    }
+  }
+}
+
+extension on String {
+  OriginManifestType toOriginManifestType() {
+    switch (this) {
+      case 'SINGLE_PERIOD':
+        return OriginManifestType.singlePeriod;
+      case 'MULTI_PERIOD':
+        return OriginManifestType.multiPeriod;
+    }
+    throw Exception('$this is not known in enum OriginManifestType');
+  }
 }
 
 /// The configuration for manifest processing rules. Manifest processing rules
 /// enable customization of the personalized manifests created by MediaTailor.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ManifestProcessingRules {
-  @_s.JsonKey(name: 'AdMarkerPassthrough')
-  final AdMarkerPassthrough adMarkerPassthrough;
+  final AdMarkerPassthrough? adMarkerPassthrough;
 
   ManifestProcessingRules({
     this.adMarkerPassthrough,
   });
-  factory ManifestProcessingRules.fromJson(Map<String, dynamic> json) =>
-      _$ManifestProcessingRulesFromJson(json);
+  factory ManifestProcessingRules.fromJson(Map<String, dynamic> json) {
+    return ManifestProcessingRules(
+      adMarkerPassthrough: json['AdMarkerPassthrough'] != null
+          ? AdMarkerPassthrough.fromJson(
+              json['AdMarkerPassthrough'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ManifestProcessingRulesToJson(this);
+  Map<String, dynamic> toJson() {
+    final adMarkerPassthrough = this.adMarkerPassthrough;
+    return {
+      if (adMarkerPassthrough != null)
+        'AdMarkerPassthrough': adMarkerPassthrough,
+    };
+  }
 }
 
 enum Mode {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('BEHIND_LIVE_EDGE')
   behindLiveEdge,
 }
 
+extension on Mode {
+  String toValue() {
+    switch (this) {
+      case Mode.off:
+        return 'OFF';
+      case Mode.behindLiveEdge:
+        return 'BEHIND_LIVE_EDGE';
+    }
+  }
+}
+
+extension on String {
+  Mode toMode() {
+    switch (this) {
+      case 'OFF':
+        return Mode.off;
+      case 'BEHIND_LIVE_EDGE':
+        return Mode.behindLiveEdge;
+    }
+    throw Exception('$this is not known in enum Mode');
+  }
+}
+
 /// The AWSMediaTailor configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PlaybackConfiguration {
   /// The URL for the ad decision server (ADS). This includes the specification of
   /// static parameters and placeholders for dynamic parameters. AWS Elemental
   /// MediaTailor substitutes player-specific and session-specific parameters as
   /// needed when calling the ADS. Alternately, for testing, you can provide a
   /// static VAST URL. The maximum length is 25,000 characters.
-  @_s.JsonKey(name: 'AdDecisionServerUrl')
-  final String adDecisionServerUrl;
+  final String? adDecisionServerUrl;
 
   /// The configuration for Avail Suppression. Ad suppression can be used to turn
   /// off ad personalization in a long manifest, or if a viewer joins mid-break.
-  @_s.JsonKey(name: 'AvailSuppression')
-  final AvailSuppression availSuppression;
+  final AvailSuppression? availSuppression;
 
   /// The configuration for bumpers. Bumpers are short audio or video clips that
   /// play at the start or before the end of an ad break.
-  @_s.JsonKey(name: 'Bumper')
-  final Bumper bumper;
+  final Bumper? bumper;
 
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
-  @_s.JsonKey(name: 'CdnConfiguration')
-  final CdnConfiguration cdnConfiguration;
+  final CdnConfiguration? cdnConfiguration;
 
   /// The configuration for DASH content.
-  @_s.JsonKey(name: 'DashConfiguration')
-  final DashConfiguration dashConfiguration;
+  final DashConfiguration? dashConfiguration;
 
   /// The configuration for HLS content.
-  @_s.JsonKey(name: 'HlsConfiguration')
-  final HlsConfiguration hlsConfiguration;
+  final HlsConfiguration? hlsConfiguration;
 
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
-  @_s.JsonKey(name: 'ManifestProcessingRules')
-  final ManifestProcessingRules manifestProcessingRules;
+  final ManifestProcessingRules? manifestProcessingRules;
 
   /// The identifier for the playback configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The maximum duration of underfilled ad time (in seconds) allowed in an ad
   /// break.
-  @_s.JsonKey(name: 'PersonalizationThresholdSeconds')
-  final int personalizationThresholdSeconds;
+  final int? personalizationThresholdSeconds;
 
   /// The Amazon Resource Name (ARN) for the playback configuration.
-  @_s.JsonKey(name: 'PlaybackConfigurationArn')
-  final String playbackConfigurationArn;
+  final String? playbackConfigurationArn;
 
   /// The URL that the player accesses to get a manifest from AWS Elemental
   /// MediaTailor. This session will use server-side reporting.
-  @_s.JsonKey(name: 'PlaybackEndpointPrefix')
-  final String playbackEndpointPrefix;
+  final String? playbackEndpointPrefix;
 
   /// The URL that the player uses to initialize a session that uses client-side
   /// reporting.
-  @_s.JsonKey(name: 'SessionInitializationEndpointPrefix')
-  final String sessionInitializationEndpointPrefix;
+  final String? sessionInitializationEndpointPrefix;
 
   /// The URL for a high-quality video asset to transcode and use to fill in time
   /// that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in
@@ -815,24 +861,20 @@ class PlaybackConfiguration {
   /// playback configurations. For VPAID, the slate is required because
   /// MediaTailor provides it in the slots designated for dynamic ad content. The
   /// slate must be a high-quality asset that contains both audio and video.
-  @_s.JsonKey(name: 'SlateAdUrl')
-  final String slateAdUrl;
+  final String? slateAdUrl;
 
   /// The tags assigned to the playback configuration.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The name that is used to associate this playback configuration with a custom
   /// transcode profile. This overrides the dynamic transcoding defaults of
   /// MediaTailor. Use this only if you have already set up custom profiles with
   /// the help of AWS Support.
-  @_s.JsonKey(name: 'TranscodeProfileName')
-  final String transcodeProfileName;
+  final String? transcodeProfileName;
 
   /// The URL prefix for the master playlist for the stream, minus the asset ID.
   /// The maximum length is 512 characters.
-  @_s.JsonKey(name: 'VideoContentSourceUrl')
-  final String videoContentSourceUrl;
+  final String? videoContentSourceUrl;
 
   PlaybackConfiguration({
     this.adDecisionServerUrl,
@@ -852,109 +894,134 @@ class PlaybackConfiguration {
     this.transcodeProfileName,
     this.videoContentSourceUrl,
   });
-  factory PlaybackConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$PlaybackConfigurationFromJson(json);
+  factory PlaybackConfiguration.fromJson(Map<String, dynamic> json) {
+    return PlaybackConfiguration(
+      adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      availSuppression: json['AvailSuppression'] != null
+          ? AvailSuppression.fromJson(
+              json['AvailSuppression'] as Map<String, dynamic>)
+          : null,
+      bumper: json['Bumper'] != null
+          ? Bumper.fromJson(json['Bumper'] as Map<String, dynamic>)
+          : null,
+      cdnConfiguration: json['CdnConfiguration'] != null
+          ? CdnConfiguration.fromJson(
+              json['CdnConfiguration'] as Map<String, dynamic>)
+          : null,
+      dashConfiguration: json['DashConfiguration'] != null
+          ? DashConfiguration.fromJson(
+              json['DashConfiguration'] as Map<String, dynamic>)
+          : null,
+      hlsConfiguration: json['HlsConfiguration'] != null
+          ? HlsConfiguration.fromJson(
+              json['HlsConfiguration'] as Map<String, dynamic>)
+          : null,
+      manifestProcessingRules: json['ManifestProcessingRules'] != null
+          ? ManifestProcessingRules.fromJson(
+              json['ManifestProcessingRules'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      personalizationThresholdSeconds:
+          json['PersonalizationThresholdSeconds'] as int?,
+      playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+      playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
+      sessionInitializationEndpointPrefix:
+          json['SessionInitializationEndpointPrefix'] as String?,
+      slateAdUrl: json['SlateAdUrl'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      transcodeProfileName: json['TranscodeProfileName'] as String?,
+      videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
+    );
+  }
 }
 
 /// The configuration for pre-roll ad insertion.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LivePreRollConfiguration {
   /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the
   /// specification of static parameters and placeholders for dynamic parameters.
   /// AWS Elemental MediaTailor substitutes player-specific and session-specific
   /// parameters as needed when calling the ADS. Alternately, for testing, you can
   /// provide a static VAST URL. The maximum length is 25,000 characters.
-  @_s.JsonKey(name: 'AdDecisionServerUrl')
-  final String adDecisionServerUrl;
+  final String? adDecisionServerUrl;
 
   /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental
   /// MediaTailor won't play pre-roll ads to exceed this duration, regardless of
   /// the total duration of ads that the ADS returns.
-  @_s.JsonKey(name: 'MaxDurationSeconds')
-  final int maxDurationSeconds;
+  final int? maxDurationSeconds;
 
   LivePreRollConfiguration({
     this.adDecisionServerUrl,
     this.maxDurationSeconds,
   });
-  factory LivePreRollConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LivePreRollConfigurationFromJson(json);
+  factory LivePreRollConfiguration.fromJson(Map<String, dynamic> json) {
+    return LivePreRollConfiguration(
+      adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      maxDurationSeconds: json['MaxDurationSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LivePreRollConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final adDecisionServerUrl = this.adDecisionServerUrl;
+    final maxDurationSeconds = this.maxDurationSeconds;
+    return {
+      if (adDecisionServerUrl != null)
+        'AdDecisionServerUrl': adDecisionServerUrl,
+      if (maxDurationSeconds != null) 'MaxDurationSeconds': maxDurationSeconds,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPlaybackConfigurationResponse {
   /// The URL for the ad decision server (ADS). This includes the specification of
   /// static parameters and placeholders for dynamic parameters. AWS Elemental
   /// MediaTailor substitutes player-specific and session-specific parameters as
   /// needed when calling the ADS. Alternately, for testing, you can provide a
   /// static VAST URL. The maximum length is 25,000 characters.
-  @_s.JsonKey(name: 'AdDecisionServerUrl')
-  final String adDecisionServerUrl;
+  final String? adDecisionServerUrl;
 
   /// The configuration for Avail Suppression. Ad suppression can be used to turn
   /// off ad personalization in a long manifest, or if a viewer joins mid-break.
-  @_s.JsonKey(name: 'AvailSuppression')
-  final AvailSuppression availSuppression;
+  final AvailSuppression? availSuppression;
 
   /// The configuration for bumpers. Bumpers are short audio or video clips that
   /// play at the start or before the end of an ad break.
-  @_s.JsonKey(name: 'Bumper')
-  final Bumper bumper;
+  final Bumper? bumper;
 
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
-  @_s.JsonKey(name: 'CdnConfiguration')
-  final CdnConfiguration cdnConfiguration;
+  final CdnConfiguration? cdnConfiguration;
 
   /// The configuration for DASH content.
-  @_s.JsonKey(name: 'DashConfiguration')
-  final DashConfiguration dashConfiguration;
+  final DashConfiguration? dashConfiguration;
 
   /// The configuration for HLS content.
-  @_s.JsonKey(name: 'HlsConfiguration')
-  final HlsConfiguration hlsConfiguration;
+  final HlsConfiguration? hlsConfiguration;
 
   /// The configuration for pre-roll ad insertion.
-  @_s.JsonKey(name: 'LivePreRollConfiguration')
-  final LivePreRollConfiguration livePreRollConfiguration;
+  final LivePreRollConfiguration? livePreRollConfiguration;
 
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
-  @_s.JsonKey(name: 'ManifestProcessingRules')
-  final ManifestProcessingRules manifestProcessingRules;
+  final ManifestProcessingRules? manifestProcessingRules;
 
   /// The identifier for the playback configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The maximum duration of underfilled ad time (in seconds) allowed in an ad
   /// break.
-  @_s.JsonKey(name: 'PersonalizationThresholdSeconds')
-  final int personalizationThresholdSeconds;
+  final int? personalizationThresholdSeconds;
 
   /// The Amazon Resource Name (ARN) for the playback configuration.
-  @_s.JsonKey(name: 'PlaybackConfigurationArn')
-  final String playbackConfigurationArn;
+  final String? playbackConfigurationArn;
 
   /// The URL that the player accesses to get a manifest from AWS Elemental
   /// MediaTailor. This session will use server-side reporting.
-  @_s.JsonKey(name: 'PlaybackEndpointPrefix')
-  final String playbackEndpointPrefix;
+  final String? playbackEndpointPrefix;
 
   /// The URL that the player uses to initialize a session that uses client-side
   /// reporting.
-  @_s.JsonKey(name: 'SessionInitializationEndpointPrefix')
-  final String sessionInitializationEndpointPrefix;
+  final String? sessionInitializationEndpointPrefix;
 
   /// The URL for a high-quality video asset to transcode and use to fill in time
   /// that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in
@@ -962,24 +1029,20 @@ class PutPlaybackConfigurationResponse {
   /// playback configurations. For VPAID, the slate is required because
   /// MediaTailor provides it in the slots designated for dynamic ad content. The
   /// slate must be a high-quality asset that contains both audio and video.
-  @_s.JsonKey(name: 'SlateAdUrl')
-  final String slateAdUrl;
+  final String? slateAdUrl;
 
   /// The tags assigned to the playback configuration.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The name that is used to associate this playback configuration with a custom
   /// transcode profile. This overrides the dynamic transcoding defaults of
   /// MediaTailor. Use this only if you have already set up custom profiles with
   /// the help of AWS Support.
-  @_s.JsonKey(name: 'TranscodeProfileName')
-  final String transcodeProfileName;
+  final String? transcodeProfileName;
 
   /// The URL prefix for the master playlist for the stream, minus the asset ID.
   /// The maximum length is 512 characters.
-  @_s.JsonKey(name: 'VideoContentSourceUrl')
-  final String videoContentSourceUrl;
+  final String? videoContentSourceUrl;
 
   PutPlaybackConfigurationResponse({
     this.adDecisionServerUrl,
@@ -1000,13 +1063,54 @@ class PutPlaybackConfigurationResponse {
     this.transcodeProfileName,
     this.videoContentSourceUrl,
   });
-  factory PutPlaybackConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutPlaybackConfigurationResponseFromJson(json);
+  factory PutPlaybackConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return PutPlaybackConfigurationResponse(
+      adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      availSuppression: json['AvailSuppression'] != null
+          ? AvailSuppression.fromJson(
+              json['AvailSuppression'] as Map<String, dynamic>)
+          : null,
+      bumper: json['Bumper'] != null
+          ? Bumper.fromJson(json['Bumper'] as Map<String, dynamic>)
+          : null,
+      cdnConfiguration: json['CdnConfiguration'] != null
+          ? CdnConfiguration.fromJson(
+              json['CdnConfiguration'] as Map<String, dynamic>)
+          : null,
+      dashConfiguration: json['DashConfiguration'] != null
+          ? DashConfiguration.fromJson(
+              json['DashConfiguration'] as Map<String, dynamic>)
+          : null,
+      hlsConfiguration: json['HlsConfiguration'] != null
+          ? HlsConfiguration.fromJson(
+              json['HlsConfiguration'] as Map<String, dynamic>)
+          : null,
+      livePreRollConfiguration: json['LivePreRollConfiguration'] != null
+          ? LivePreRollConfiguration.fromJson(
+              json['LivePreRollConfiguration'] as Map<String, dynamic>)
+          : null,
+      manifestProcessingRules: json['ManifestProcessingRules'] != null
+          ? ManifestProcessingRules.fromJson(
+              json['ManifestProcessingRules'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      personalizationThresholdSeconds:
+          json['PersonalizationThresholdSeconds'] as int?,
+      playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+      playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
+      sessionInitializationEndpointPrefix:
+          json['SessionInitializationEndpointPrefix'] as String?,
+      slateAdUrl: json['SlateAdUrl'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      transcodeProfileName: json['TranscodeProfileName'] as String?,
+      videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
+    );
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 

@@ -11,13 +11,16 @@ AssetDestinationEntry _$AssetDestinationEntryFromJson(
   return AssetDestinationEntry(
     assetId: json['AssetId'] as String,
     bucket: json['Bucket'] as String,
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
   );
 }
 
 Map<String, dynamic> _$AssetDestinationEntryToJson(
     AssetDestinationEntry instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AssetId': instance.assetId,
+    'Bucket': instance.bucket,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -25,8 +28,6 @@ Map<String, dynamic> _$AssetDestinationEntryToJson(
     }
   }
 
-  writeNotNull('AssetId', instance.assetId);
-  writeNotNull('Bucket', instance.bucket);
   writeNotNull('Key', instance.key);
   return val;
 }
@@ -43,50 +44,43 @@ AssetDetails _$AssetDetailsFromJson(Map<String, dynamic> json) {
 AssetEntry _$AssetEntryFromJson(Map<String, dynamic> json) {
   return AssetEntry(
     arn: json['Arn'] as String,
-    assetDetails: json['AssetDetails'] == null
-        ? null
-        : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
-    assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
+    assetDetails:
+        AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
+    assetType: _$enumDecode(_$AssetTypeEnumMap, json['AssetType']),
+    createdAt: DateTime.parse(json['CreatedAt'] as String),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
     revisionId: json['RevisionId'] as String,
-    updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
-    sourceId: json['SourceId'] as String,
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
+    sourceId: json['SourceId'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AssetTypeEnumMap = {
@@ -100,39 +94,42 @@ AssetSourceEntry _$AssetSourceEntryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AssetSourceEntryToJson(AssetSourceEntry instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Bucket', instance.bucket);
-  writeNotNull('Key', instance.key);
-  return val;
-}
+Map<String, dynamic> _$AssetSourceEntryToJson(AssetSourceEntry instance) =>
+    <String, dynamic>{
+      'Bucket': instance.bucket,
+      'Key': instance.key,
+    };
 
 CreateDataSetResponse _$CreateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSetResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     origin: _$enumDecodeNullable(_$OriginEnumMap, json['Origin']),
     originDetails: json['OriginDetails'] == null
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
-    sourceId: json['SourceId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    sourceId: json['SourceId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$OriginEnumMap = {
@@ -142,16 +139,15 @@ const _$OriginEnumMap = {
 
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
   return CreateJobResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
     details: json['Details'] == null
         ? null
         : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
-    errors: (json['Errors'] as List)
-        ?.map((e) =>
-            e == null ? null : JobError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['Id'] as String,
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => JobError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['Id'] as String?,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -177,14 +173,14 @@ const _$TypeEnumMap = {
 CreateRevisionResponse _$CreateRevisionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRevisionResponse(
-    arn: json['Arn'] as String,
-    comment: json['Comment'] as String,
+    arn: json['Arn'] as String?,
+    comment: json['Comment'] as String?,
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    dataSetId: json['DataSetId'] as String,
-    finalized: json['Finalized'] as bool,
-    id: json['Id'] as String,
-    sourceId: json['SourceId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    dataSetId: json['DataSetId'] as String?,
+    finalized: json['Finalized'] as bool?,
+    id: json['Id'] as String?,
+    sourceId: json['SourceId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -194,17 +190,17 @@ CreateRevisionResponse _$CreateRevisionResponseFromJson(
 DataSetEntry _$DataSetEntryFromJson(Map<String, dynamic> json) {
   return DataSetEntry(
     arn: json['Arn'] as String,
-    assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
+    assetType: _$enumDecode(_$AssetTypeEnumMap, json['AssetType']),
+    createdAt: DateTime.parse(json['CreatedAt'] as String),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
-    origin: _$enumDecodeNullable(_$OriginEnumMap, json['Origin']),
-    updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
+    origin: _$enumDecode(_$OriginEnumMap, json['Origin']),
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
     originDetails: json['OriginDetails'] == null
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
-    sourceId: json['SourceId'] as String,
+    sourceId: json['SourceId'] as String?,
   );
 }
 
@@ -217,29 +213,19 @@ Details _$DetailsFromJson(Map<String, dynamic> json) {
                 json['ImportAssetFromSignedUrlJobErrorDetails']
                     as Map<String, dynamic>),
     importAssetsFromS3JobErrorDetails:
-        (json['ImportAssetsFromS3JobErrorDetails'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AssetSourceEntry.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+        (json['ImportAssetsFromS3JobErrorDetails'] as List<dynamic>?)
+            ?.map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$ExportAssetToSignedUrlRequestDetailsToJson(
-    ExportAssetToSignedUrlRequestDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AssetId', instance.assetId);
-  writeNotNull('DataSetId', instance.dataSetId);
-  writeNotNull('RevisionId', instance.revisionId);
-  return val;
-}
+        ExportAssetToSignedUrlRequestDetails instance) =>
+    <String, dynamic>{
+      'AssetId': instance.assetId,
+      'DataSetId': instance.dataSetId,
+      'RevisionId': instance.revisionId,
+    };
 
 ExportAssetToSignedUrlResponseDetails
     _$ExportAssetToSignedUrlResponseDetailsFromJson(Map<String, dynamic> json) {
@@ -247,7 +233,7 @@ ExportAssetToSignedUrlResponseDetails
     assetId: json['AssetId'] as String,
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
-    signedUrl: json['SignedUrl'] as String,
+    signedUrl: json['SignedUrl'] as String?,
     signedUrlExpiresAt:
         const IsoDateTimeConverter().fromJson(json['SignedUrlExpiresAt']),
   );
@@ -255,7 +241,12 @@ ExportAssetToSignedUrlResponseDetails
 
 Map<String, dynamic> _$ExportAssetsToS3RequestDetailsToJson(
     ExportAssetsToS3RequestDetails instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AssetDestinations':
+        instance.assetDestinations.map((e) => e.toJson()).toList(),
+    'DataSetId': instance.dataSetId,
+    'RevisionId': instance.revisionId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -263,10 +254,6 @@ Map<String, dynamic> _$ExportAssetsToS3RequestDetailsToJson(
     }
   }
 
-  writeNotNull('AssetDestinations',
-      instance.assetDestinations?.map((e) => e?.toJson())?.toList());
-  writeNotNull('DataSetId', instance.dataSetId);
-  writeNotNull('RevisionId', instance.revisionId);
   writeNotNull('Encryption', instance.encryption?.toJson());
   return val;
 }
@@ -274,11 +261,9 @@ Map<String, dynamic> _$ExportAssetsToS3RequestDetailsToJson(
 ExportAssetsToS3ResponseDetails _$ExportAssetsToS3ResponseDetailsFromJson(
     Map<String, dynamic> json) {
   return ExportAssetsToS3ResponseDetails(
-    assetDestinations: (json['AssetDestinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssetDestinationEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    assetDestinations: (json['AssetDestinations'] as List<dynamic>)
+        .map((e) => AssetDestinationEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
     encryption: json['Encryption'] == null
@@ -291,15 +276,16 @@ ExportAssetsToS3ResponseDetails _$ExportAssetsToS3ResponseDetailsFromJson(
 ExportServerSideEncryption _$ExportServerSideEncryptionFromJson(
     Map<String, dynamic> json) {
   return ExportServerSideEncryption(
-    type:
-        _$enumDecodeNullable(_$ServerSideEncryptionTypesEnumMap, json['Type']),
-    kmsKeyArn: json['KmsKeyArn'] as String,
+    type: _$enumDecode(_$ServerSideEncryptionTypesEnumMap, json['Type']),
+    kmsKeyArn: json['KmsKeyArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$ExportServerSideEncryptionToJson(
     ExportServerSideEncryption instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$ServerSideEncryptionTypesEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -307,7 +293,6 @@ Map<String, dynamic> _$ExportServerSideEncryptionToJson(
     }
   }
 
-  writeNotNull('Type', _$ServerSideEncryptionTypesEnumMap[instance.type]);
   writeNotNull('KmsKeyArn', instance.kmsKeyArn);
   return val;
 }
@@ -319,35 +304,35 @@ const _$ServerSideEncryptionTypesEnumMap = {
 
 GetAssetResponse _$GetAssetResponseFromJson(Map<String, dynamic> json) {
   return GetAssetResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     assetDetails: json['AssetDetails'] == null
         ? null
         : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    dataSetId: json['DataSetId'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    revisionId: json['RevisionId'] as String,
-    sourceId: json['SourceId'] as String,
+    dataSetId: json['DataSetId'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    revisionId: json['RevisionId'] as String?,
+    sourceId: json['SourceId'] as String?,
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
   );
 }
 
 GetDataSetResponse _$GetDataSetResponseFromJson(Map<String, dynamic> json) {
   return GetDataSetResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     origin: _$enumDecodeNullable(_$OriginEnumMap, json['Origin']),
     originDetails: json['OriginDetails'] == null
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
-    sourceId: json['SourceId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    sourceId: json['SourceId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -356,16 +341,15 @@ GetDataSetResponse _$GetDataSetResponseFromJson(Map<String, dynamic> json) {
 
 GetJobResponse _$GetJobResponseFromJson(Map<String, dynamic> json) {
   return GetJobResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
     details: json['Details'] == null
         ? null
         : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
-    errors: (json['Errors'] as List)
-        ?.map((e) =>
-            e == null ? null : JobError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['Id'] as String,
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => JobError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['Id'] as String?,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -374,14 +358,14 @@ GetJobResponse _$GetJobResponseFromJson(Map<String, dynamic> json) {
 
 GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
   return GetRevisionResponse(
-    arn: json['Arn'] as String,
-    comment: json['Comment'] as String,
+    arn: json['Arn'] as String?,
+    comment: json['Comment'] as String?,
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    dataSetId: json['DataSetId'] as String,
-    finalized: json['Finalized'] as bool,
-    id: json['Id'] as String,
-    sourceId: json['SourceId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    dataSetId: json['DataSetId'] as String?,
+    finalized: json['Finalized'] as bool?,
+    id: json['Id'] as String?,
+    sourceId: json['SourceId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -397,21 +381,13 @@ ImportAssetFromSignedUrlJobErrorDetails
 }
 
 Map<String, dynamic> _$ImportAssetFromSignedUrlRequestDetailsToJson(
-    ImportAssetFromSignedUrlRequestDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AssetName', instance.assetName);
-  writeNotNull('DataSetId', instance.dataSetId);
-  writeNotNull('Md5Hash', instance.md5Hash);
-  writeNotNull('RevisionId', instance.revisionId);
-  return val;
-}
+        ImportAssetFromSignedUrlRequestDetails instance) =>
+    <String, dynamic>{
+      'AssetName': instance.assetName,
+      'DataSetId': instance.dataSetId,
+      'Md5Hash': instance.md5Hash,
+      'RevisionId': instance.revisionId,
+    };
 
 ImportAssetFromSignedUrlResponseDetails
     _$ImportAssetFromSignedUrlResponseDetailsFromJson(
@@ -420,38 +396,27 @@ ImportAssetFromSignedUrlResponseDetails
     assetName: json['AssetName'] as String,
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
-    md5Hash: json['Md5Hash'] as String,
-    signedUrl: json['SignedUrl'] as String,
+    md5Hash: json['Md5Hash'] as String?,
+    signedUrl: json['SignedUrl'] as String?,
     signedUrlExpiresAt:
         const IsoDateTimeConverter().fromJson(json['SignedUrlExpiresAt']),
   );
 }
 
 Map<String, dynamic> _$ImportAssetsFromS3RequestDetailsToJson(
-    ImportAssetsFromS3RequestDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'AssetSources', instance.assetSources?.map((e) => e?.toJson())?.toList());
-  writeNotNull('DataSetId', instance.dataSetId);
-  writeNotNull('RevisionId', instance.revisionId);
-  return val;
-}
+        ImportAssetsFromS3RequestDetails instance) =>
+    <String, dynamic>{
+      'AssetSources': instance.assetSources.map((e) => e.toJson()).toList(),
+      'DataSetId': instance.dataSetId,
+      'RevisionId': instance.revisionId,
+    };
 
 ImportAssetsFromS3ResponseDetails _$ImportAssetsFromS3ResponseDetailsFromJson(
     Map<String, dynamic> json) {
   return ImportAssetsFromS3ResponseDetails(
-    assetSources: (json['AssetSources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssetSourceEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    assetSources: (json['AssetSources'] as List<dynamic>)
+        .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
   );
@@ -460,32 +425,29 @@ ImportAssetsFromS3ResponseDetails _$ImportAssetsFromS3ResponseDetailsFromJson(
 JobEntry _$JobEntryFromJson(Map<String, dynamic> json) {
   return JobEntry(
     arn: json['Arn'] as String,
-    createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    details: json['Details'] == null
-        ? null
-        : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
+    createdAt: DateTime.parse(json['CreatedAt'] as String),
+    details: ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
     id: json['Id'] as String,
-    state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
-    type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
-    updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
-    errors: (json['Errors'] as List)
-        ?.map((e) =>
-            e == null ? null : JobError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    state: _$enumDecode(_$StateEnumMap, json['State']),
+    type: _$enumDecode(_$TypeEnumMap, json['Type']),
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => JobError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 JobError _$JobErrorFromJson(Map<String, dynamic> json) {
   return JobError(
-    code: _$enumDecodeNullable(_$CodeEnumMap, json['Code']),
+    code: _$enumDecode(_$CodeEnumMap, json['Code']),
     message: json['Message'] as String,
     details: json['Details'] == null
         ? null
         : Details.fromJson(json['Details'] as Map<String, dynamic>),
     limitName:
         _$enumDecodeNullable(_$JobErrorLimitNameEnumMap, json['LimitName']),
-    limitValue: (json['LimitValue'] as num)?.toDouble(),
-    resourceId: json['ResourceId'] as String,
+    limitValue: (json['LimitValue'] as num?)?.toDouble(),
+    resourceId: json['ResourceId'] as String?,
     resourceType: _$enumDecodeNullable(
         _$JobErrorResourceTypesEnumMap, json['ResourceType']),
   );
@@ -514,50 +476,45 @@ const _$JobErrorResourceTypesEnumMap = {
 ListDataSetRevisionsResponse _$ListDataSetRevisionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSetRevisionsResponse(
-    nextToken: json['NextToken'] as String,
-    revisions: (json['Revisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RevisionEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    revisions: (json['Revisions'] as List<dynamic>?)
+        ?.map((e) => RevisionEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListDataSetsResponse _$ListDataSetsResponseFromJson(Map<String, dynamic> json) {
   return ListDataSetsResponse(
-    dataSets: (json['DataSets'] as List)
-        ?.map((e) =>
-            e == null ? null : DataSetEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    dataSets: (json['DataSets'] as List<dynamic>?)
+        ?.map((e) => DataSetEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListJobsResponse _$ListJobsResponseFromJson(Map<String, dynamic> json) {
   return ListJobsResponse(
-    jobs: (json['Jobs'] as List)
-        ?.map((e) =>
-            e == null ? null : JobEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    jobs: (json['Jobs'] as List<dynamic>?)
+        ?.map((e) => JobEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListRevisionAssetsResponse _$ListRevisionAssetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRevisionAssetsResponse(
-    assets: (json['Assets'] as List)
-        ?.map((e) =>
-            e == null ? null : AssetEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    assets: (json['Assets'] as List<dynamic>?)
+        ?.map((e) => AssetEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -611,19 +568,19 @@ ResponseDetails _$ResponseDetailsFromJson(Map<String, dynamic> json) {
 RevisionEntry _$RevisionEntryFromJson(Map<String, dynamic> json) {
   return RevisionEntry(
     arn: json['Arn'] as String,
-    createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
+    createdAt: DateTime.parse(json['CreatedAt'] as String),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
-    updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
-    comment: json['Comment'] as String,
-    finalized: json['Finalized'] as bool,
-    sourceId: json['SourceId'] as String,
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
+    comment: json['Comment'] as String?,
+    finalized: json['Finalized'] as bool?,
+    sourceId: json['SourceId'] as String?,
   );
 }
 
 S3SnapshotAsset _$S3SnapshotAssetFromJson(Map<String, dynamic> json) {
   return S3SnapshotAsset(
-    size: (json['Size'] as num)?.toDouble(),
+    size: (json['Size'] as num).toDouble(),
   );
 }
 
@@ -633,17 +590,17 @@ StartJobResponse _$StartJobResponseFromJson(Map<String, dynamic> json) {
 
 UpdateAssetResponse _$UpdateAssetResponseFromJson(Map<String, dynamic> json) {
   return UpdateAssetResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     assetDetails: json['AssetDetails'] == null
         ? null
         : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    dataSetId: json['DataSetId'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    revisionId: json['RevisionId'] as String,
-    sourceId: json['SourceId'] as String,
+    dataSetId: json['DataSetId'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    revisionId: json['RevisionId'] as String?,
+    sourceId: json['SourceId'] as String?,
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
   );
 }
@@ -651,17 +608,17 @@ UpdateAssetResponse _$UpdateAssetResponseFromJson(Map<String, dynamic> json) {
 UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSetResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     origin: _$enumDecodeNullable(_$OriginEnumMap, json['Origin']),
     originDetails: json['OriginDetails'] == null
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
-    sourceId: json['SourceId'] as String,
+    sourceId: json['SourceId'] as String?,
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
   );
 }
@@ -669,13 +626,13 @@ UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
 UpdateRevisionResponse _$UpdateRevisionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRevisionResponse(
-    arn: json['Arn'] as String,
-    comment: json['Comment'] as String,
+    arn: json['Arn'] as String?,
+    comment: json['Comment'] as String?,
     createdAt: const IsoDateTimeConverter().fromJson(json['CreatedAt']),
-    dataSetId: json['DataSetId'] as String,
-    finalized: json['Finalized'] as bool,
-    id: json['Id'] as String,
-    sourceId: json['SourceId'] as String,
+    dataSetId: json['DataSetId'] as String?,
+    finalized: json['Finalized'] as bool?,
+    id: json['Id'] as String?,
+    sourceId: json['SourceId'] as String?,
     updatedAt: const IsoDateTimeConverter().fromJson(json['UpdatedAt']),
   );
 }

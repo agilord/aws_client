@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'personalize-2018-05-22.g.dart';
 
 /// Amazon Personalize is a machine learning service that makes it easy to add
 /// individualized recommendations to customers.
 class Personalize {
   final _s.JsonProtocol _protocol;
   Personalize({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -85,14 +77,14 @@ class Personalize {
   /// Parameter [numResults] :
   /// The number of recommendations to retreive.
   Future<CreateBatchInferenceJobResponse> createBatchInferenceJob({
-    @_s.required BatchInferenceJobInput jobInput,
-    @_s.required String jobName,
-    @_s.required BatchInferenceJobOutput jobOutput,
-    @_s.required String roleArn,
-    @_s.required String solutionVersionArn,
-    BatchInferenceJobConfig batchInferenceJobConfig,
-    String filterArn,
-    int numResults,
+    required BatchInferenceJobInput jobInput,
+    required String jobName,
+    required BatchInferenceJobOutput jobOutput,
+    required String roleArn,
+    required String solutionVersionArn,
+    BatchInferenceJobConfig? batchInferenceJobConfig,
+    String? filterArn,
+    int? numResults,
   }) async {
     ArgumentError.checkNotNull(jobInput, 'jobInput');
     ArgumentError.checkNotNull(jobName, 'jobName');
@@ -252,10 +244,10 @@ class Personalize {
   /// Parameter [campaignConfig] :
   /// The configuration details of a campaign.
   Future<CreateCampaignResponse> createCampaign({
-    @_s.required int minProvisionedTPS,
-    @_s.required String name,
-    @_s.required String solutionVersionArn,
-    CampaignConfig campaignConfig,
+    required int minProvisionedTPS,
+    required String name,
+    required String solutionVersionArn,
+    CampaignConfig? campaignConfig,
   }) async {
     ArgumentError.checkNotNull(minProvisionedTPS, 'minProvisionedTPS');
     _s.validateNumRange(
@@ -395,10 +387,10 @@ class Personalize {
   /// The ARN of the schema to associate with the dataset. The schema defines
   /// the dataset fields.
   Future<CreateDatasetResponse> createDataset({
-    @_s.required String datasetGroupArn,
-    @_s.required String datasetType,
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String datasetGroupArn,
+    required String datasetType,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -552,9 +544,9 @@ class Personalize {
   /// The ARN of the IAM role that has permissions to access the KMS key.
   /// Supplying an IAM role is only valid when also specifying a KMS key.
   Future<CreateDatasetGroupResponse> createDatasetGroup({
-    @_s.required String name,
-    String kmsKeyArn,
-    String roleArn,
+    required String name,
+    String? kmsKeyArn,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -657,10 +649,10 @@ class Personalize {
   /// The ARN of the IAM role that has permissions to read from the Amazon S3
   /// data source.
   Future<CreateDatasetImportJobResponse> createDatasetImportJob({
-    @_s.required DataSource dataSource,
-    @_s.required String datasetArn,
-    @_s.required String jobName,
-    @_s.required String roleArn,
+    required DataSource dataSource,
+    required String datasetArn,
+    required String jobName,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
@@ -785,8 +777,8 @@ class Personalize {
   /// Parameter [name] :
   /// The name for the event tracker.
   Future<CreateEventTrackerResponse> createEventTracker({
-    @_s.required String datasetGroupArn,
-    @_s.required String name,
+    required String datasetGroupArn,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -864,9 +856,9 @@ class Personalize {
   /// Parameter [name] :
   /// The name of the filter to create.
   Future<CreateFilterResponse> createFilter({
-    @_s.required String datasetGroupArn,
-    @_s.required String filterExpression,
-    @_s.required String name,
+    required String datasetGroupArn,
+    required String filterExpression,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -954,8 +946,8 @@ class Personalize {
   /// Parameter [schema] :
   /// A schema in Avro JSON format.
   Future<CreateSchemaResponse> createSchema({
-    @_s.required String name,
-    @_s.required String schema,
+    required String name,
+    required String schema,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1106,13 +1098,13 @@ class Personalize {
   /// evaluates the <code>autoMLConfig</code> section of the solution
   /// configuration.
   Future<CreateSolutionResponse> createSolution({
-    @_s.required String datasetGroupArn,
-    @_s.required String name,
-    String eventType,
-    bool performAutoML,
-    bool performHPO,
-    String recipeArn,
-    SolutionConfig solutionConfig,
+    required String datasetGroupArn,
+    required String name,
+    String? eventType,
+    bool? performAutoML,
+    bool? performHPO,
+    String? recipeArn,
+    SolutionConfig? solutionConfig,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -1252,8 +1244,8 @@ class Personalize {
   /// <a>native-recipe-hrnn-coldstart</a> recipe.
   /// </important>
   Future<CreateSolutionVersionResponse> createSolutionVersion({
-    @_s.required String solutionArn,
-    TrainingMode trainingMode,
+    required String solutionArn,
+    TrainingMode? trainingMode,
   }) async {
     ArgumentError.checkNotNull(solutionArn, 'solutionArn');
     _s.validateStringLength(
@@ -1301,7 +1293,7 @@ class Personalize {
   /// Parameter [campaignArn] :
   /// The Amazon Resource Name (ARN) of the campaign to delete.
   Future<void> deleteCampaign({
-    @_s.required String campaignArn,
+    required String campaignArn,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -1321,7 +1313,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteCampaign'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1345,7 +1337,7 @@ class Personalize {
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to delete.
   Future<void> deleteDataset({
-    @_s.required String datasetArn,
+    required String datasetArn,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
     _s.validateStringLength(
@@ -1365,7 +1357,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteDataset'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1399,7 +1391,7 @@ class Personalize {
   /// Parameter [datasetGroupArn] :
   /// The ARN of the dataset group to delete.
   Future<void> deleteDatasetGroup({
-    @_s.required String datasetGroupArn,
+    required String datasetGroupArn,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -1419,7 +1411,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteDatasetGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1442,7 +1434,7 @@ class Personalize {
   /// Parameter [eventTrackerArn] :
   /// The Amazon Resource Name (ARN) of the event tracker to delete.
   Future<void> deleteEventTracker({
-    @_s.required String eventTrackerArn,
+    required String eventTrackerArn,
   }) async {
     ArgumentError.checkNotNull(eventTrackerArn, 'eventTrackerArn');
     _s.validateStringLength(
@@ -1462,7 +1454,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteEventTracker'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1483,7 +1475,7 @@ class Personalize {
   /// Parameter [filterArn] :
   /// The ARN of the filter to delete.
   Future<void> deleteFilter({
-    @_s.required String filterArn,
+    required String filterArn,
   }) async {
     ArgumentError.checkNotNull(filterArn, 'filterArn');
     _s.validateStringLength(
@@ -1503,7 +1495,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1526,7 +1518,7 @@ class Personalize {
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) of the schema to delete.
   Future<void> deleteSchema({
-    @_s.required String schemaArn,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateStringLength(
@@ -1546,7 +1538,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteSchema'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1573,7 +1565,7 @@ class Personalize {
   /// Parameter [solutionArn] :
   /// The ARN of the solution to delete.
   Future<void> deleteSolution({
-    @_s.required String solutionArn,
+    required String solutionArn,
   }) async {
     ArgumentError.checkNotNull(solutionArn, 'solutionArn');
     _s.validateStringLength(
@@ -1593,7 +1585,7 @@ class Personalize {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteSolution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1613,7 +1605,7 @@ class Personalize {
   /// Parameter [algorithmArn] :
   /// The Amazon Resource Name (ARN) of the algorithm to describe.
   Future<DescribeAlgorithmResponse> describeAlgorithm({
-    @_s.required String algorithmArn,
+    required String algorithmArn,
   }) async {
     ArgumentError.checkNotNull(algorithmArn, 'algorithmArn');
     _s.validateStringLength(
@@ -1657,7 +1649,7 @@ class Personalize {
   /// Parameter [batchInferenceJobArn] :
   /// The ARN of the batch inference job to describe.
   Future<DescribeBatchInferenceJobResponse> describeBatchInferenceJob({
-    @_s.required String batchInferenceJobArn,
+    required String batchInferenceJobArn,
   }) async {
     ArgumentError.checkNotNull(batchInferenceJobArn, 'batchInferenceJobArn');
     _s.validateStringLength(
@@ -1714,7 +1706,7 @@ class Personalize {
   /// Parameter [campaignArn] :
   /// The Amazon Resource Name (ARN) of the campaign.
   Future<DescribeCampaignResponse> describeCampaign({
-    @_s.required String campaignArn,
+    required String campaignArn,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -1757,7 +1749,7 @@ class Personalize {
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to describe.
   Future<DescribeDatasetResponse> describeDataset({
-    @_s.required String datasetArn,
+    required String datasetArn,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
     _s.validateStringLength(
@@ -1800,7 +1792,7 @@ class Personalize {
   /// Parameter [datasetGroupArn] :
   /// The Amazon Resource Name (ARN) of the dataset group to describe.
   Future<DescribeDatasetGroupResponse> describeDatasetGroup({
-    @_s.required String datasetGroupArn,
+    required String datasetGroupArn,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -1843,7 +1835,7 @@ class Personalize {
   /// Parameter [datasetImportJobArn] :
   /// The Amazon Resource Name (ARN) of the dataset import job to describe.
   Future<DescribeDatasetImportJobResponse> describeDatasetImportJob({
-    @_s.required String datasetImportJobArn,
+    required String datasetImportJobArn,
   }) async {
     ArgumentError.checkNotNull(datasetImportJobArn, 'datasetImportJobArn');
     _s.validateStringLength(
@@ -1887,7 +1879,7 @@ class Personalize {
   /// Parameter [eventTrackerArn] :
   /// The Amazon Resource Name (ARN) of the event tracker to describe.
   Future<DescribeEventTrackerResponse> describeEventTracker({
-    @_s.required String eventTrackerArn,
+    required String eventTrackerArn,
   }) async {
     ArgumentError.checkNotNull(eventTrackerArn, 'eventTrackerArn');
     _s.validateStringLength(
@@ -1929,7 +1921,7 @@ class Personalize {
   /// Parameter [featureTransformationArn] :
   /// The Amazon Resource Name (ARN) of the feature transformation to describe.
   Future<DescribeFeatureTransformationResponse> describeFeatureTransformation({
-    @_s.required String featureTransformationArn,
+    required String featureTransformationArn,
   }) async {
     ArgumentError.checkNotNull(
         featureTransformationArn, 'featureTransformationArn');
@@ -1972,7 +1964,7 @@ class Personalize {
   /// Parameter [filterArn] :
   /// The ARN of the filter to describe.
   Future<DescribeFilterResponse> describeFilter({
-    @_s.required String filterArn,
+    required String filterArn,
   }) async {
     ArgumentError.checkNotNull(filterArn, 'filterArn');
     _s.validateStringLength(
@@ -2036,7 +2028,7 @@ class Personalize {
   /// Parameter [recipeArn] :
   /// The Amazon Resource Name (ARN) of the recipe to describe.
   Future<DescribeRecipeResponse> describeRecipe({
-    @_s.required String recipeArn,
+    required String recipeArn,
   }) async {
     ArgumentError.checkNotNull(recipeArn, 'recipeArn');
     _s.validateStringLength(
@@ -2079,7 +2071,7 @@ class Personalize {
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) of the schema to retrieve.
   Future<DescribeSchemaResponse> describeSchema({
-    @_s.required String schemaArn,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateStringLength(
@@ -2122,7 +2114,7 @@ class Personalize {
   /// Parameter [solutionArn] :
   /// The Amazon Resource Name (ARN) of the solution to describe.
   Future<DescribeSolutionResponse> describeSolution({
-    @_s.required String solutionArn,
+    required String solutionArn,
   }) async {
     ArgumentError.checkNotNull(solutionArn, 'solutionArn');
     _s.validateStringLength(
@@ -2165,7 +2157,7 @@ class Personalize {
   /// Parameter [solutionVersionArn] :
   /// The Amazon Resource Name (ARN) of the solution version.
   Future<DescribeSolutionVersionResponse> describeSolutionVersion({
-    @_s.required String solutionVersionArn,
+    required String solutionVersionArn,
   }) async {
     ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
     _s.validateStringLength(
@@ -2209,7 +2201,7 @@ class Personalize {
   /// The Amazon Resource Name (ARN) of the solution version for which to get
   /// metrics.
   Future<GetSolutionMetricsResponse> getSolutionMetrics({
-    @_s.required String solutionVersionArn,
+    required String solutionVersionArn,
   }) async {
     ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
     _s.validateStringLength(
@@ -2260,9 +2252,9 @@ class Personalize {
   /// The Amazon Resource Name (ARN) of the solution version from which the
   /// batch inference jobs were created.
   Future<ListBatchInferenceJobsResponse> listBatchInferenceJobs({
-    int maxResults,
-    String nextToken,
-    String solutionVersionArn,
+    int? maxResults,
+    String? nextToken,
+    String? solutionVersionArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2329,9 +2321,9 @@ class Personalize {
   /// When a solution is not specified, all the campaigns associated with the
   /// account are listed.
   Future<ListCampaignsResponse> listCampaigns({
-    int maxResults,
-    String nextToken,
-    String solutionArn,
+    int? maxResults,
+    String? nextToken,
+    String? solutionArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2389,8 +2381,8 @@ class Personalize {
   /// A token returned from the previous call to <code>ListDatasetGroups</code>
   /// for getting the next set of dataset groups (if they exist).
   Future<ListDatasetGroupsResponse> listDatasetGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2445,9 +2437,9 @@ class Personalize {
   /// <code>ListDatasetImportJobs</code> for getting the next set of dataset
   /// import jobs (if they exist).
   Future<ListDatasetImportJobsResponse> listDatasetImportJobs({
-    String datasetArn,
-    int maxResults,
-    String nextToken,
+    String? datasetArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'datasetArn',
@@ -2512,9 +2504,9 @@ class Personalize {
   /// <code>ListDatasetImportJobs</code> for getting the next set of dataset
   /// import jobs (if they exist).
   Future<ListDatasetsResponse> listDatasets({
-    String datasetGroupArn,
-    int maxResults,
-    String nextToken,
+    String? datasetGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'datasetGroupArn',
@@ -2577,9 +2569,9 @@ class Personalize {
   /// A token returned from the previous call to <code>ListEventTrackers</code>
   /// for getting the next set of event trackers (if they exist).
   Future<ListEventTrackersResponse> listEventTrackers({
-    String datasetGroupArn,
-    int maxResults,
-    String nextToken,
+    String? datasetGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'datasetGroupArn',
@@ -2639,9 +2631,9 @@ class Personalize {
   /// A token returned from the previous call to <code>ListFilters</code> for
   /// getting the next set of filters (if they exist).
   Future<ListFiltersResponse> listFilters({
-    String datasetGroupArn,
-    int maxResults,
-    String nextToken,
+    String? datasetGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'datasetGroupArn',
@@ -2701,9 +2693,9 @@ class Personalize {
   /// Parameter [recipeProvider] :
   /// The default is <code>SERVICE</code>.
   Future<ListRecipesResponse> listRecipes({
-    int maxResults,
-    String nextToken,
-    RecipeProvider recipeProvider,
+    int? maxResults,
+    String? nextToken,
+    RecipeProvider? recipeProvider,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2750,8 +2742,8 @@ class Personalize {
   /// A token returned from the previous call to <code>ListSchemas</code> for
   /// getting the next set of schemas (if they exist).
   Future<ListSchemasResponse> listSchemas({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2805,9 +2797,9 @@ class Personalize {
   /// Parameter [solutionArn] :
   /// The Amazon Resource Name (ARN) of the solution.
   Future<ListSolutionVersionsResponse> listSolutionVersions({
-    int maxResults,
-    String nextToken,
-    String solutionArn,
+    int? maxResults,
+    String? nextToken,
+    String? solutionArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2871,9 +2863,9 @@ class Personalize {
   /// A token returned from the previous call to <code>ListSolutions</code> for
   /// getting the next set of solutions (if they exist).
   Future<ListSolutionsResponse> listSolutions({
-    String datasetGroupArn,
-    int maxResults,
-    String nextToken,
+    String? datasetGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'datasetGroupArn',
@@ -2946,10 +2938,10 @@ class Personalize {
   /// Parameter [solutionVersionArn] :
   /// The ARN of a new solution version to deploy.
   Future<UpdateCampaignResponse> updateCampaign({
-    @_s.required String campaignArn,
-    CampaignConfig campaignConfig,
-    int minProvisionedTPS,
-    String solutionVersionArn,
+    required String campaignArn,
+    CampaignConfig? campaignConfig,
+    int? minProvisionedTPS,
+    String? solutionVersionArn,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -3006,56 +2998,39 @@ class Personalize {
 }
 
 /// Describes a custom algorithm.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Algorithm {
   /// The Amazon Resource Name (ARN) of the algorithm.
-  @_s.JsonKey(name: 'algorithmArn')
-  final String algorithmArn;
+  final String? algorithmArn;
 
   /// The URI of the Docker container for the algorithm image.
-  @_s.JsonKey(name: 'algorithmImage')
-  final AlgorithmImage algorithmImage;
+  final AlgorithmImage? algorithmImage;
 
   /// The date and time (in Unix time) that the algorithm was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// Specifies the default hyperparameters, their ranges, and whether they are
   /// tunable. A tunable hyperparameter can have its value determined during
   /// hyperparameter optimization (HPO).
-  @_s.JsonKey(name: 'defaultHyperParameterRanges')
-  final DefaultHyperParameterRanges defaultHyperParameterRanges;
+  final DefaultHyperParameterRanges? defaultHyperParameterRanges;
 
   /// Specifies the default hyperparameters.
-  @_s.JsonKey(name: 'defaultHyperParameters')
-  final Map<String, String> defaultHyperParameters;
+  final Map<String, String>? defaultHyperParameters;
 
   /// Specifies the default maximum number of training jobs and parallel training
   /// jobs.
-  @_s.JsonKey(name: 'defaultResourceConfig')
-  final Map<String, String> defaultResourceConfig;
+  final Map<String, String>? defaultResourceConfig;
 
   /// The date and time (in Unix time) that the algorithm was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the algorithm.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the role.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The training input mode.
-  @_s.JsonKey(name: 'trainingInputMode')
-  final String trainingInputMode;
+  final String? trainingInputMode;
 
   Algorithm({
     this.algorithmArn,
@@ -3069,143 +3044,147 @@ class Algorithm {
     this.roleArn,
     this.trainingInputMode,
   });
-  factory Algorithm.fromJson(Map<String, dynamic> json) =>
-      _$AlgorithmFromJson(json);
+  factory Algorithm.fromJson(Map<String, dynamic> json) {
+    return Algorithm(
+      algorithmArn: json['algorithmArn'] as String?,
+      algorithmImage: json['algorithmImage'] != null
+          ? AlgorithmImage.fromJson(
+              json['algorithmImage'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      defaultHyperParameterRanges: json['defaultHyperParameterRanges'] != null
+          ? DefaultHyperParameterRanges.fromJson(
+              json['defaultHyperParameterRanges'] as Map<String, dynamic>)
+          : null,
+      defaultHyperParameters:
+          (json['defaultHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      defaultResourceConfig:
+          (json['defaultResourceConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      roleArn: json['roleArn'] as String?,
+      trainingInputMode: json['trainingInputMode'] as String?,
+    );
+  }
 }
 
 /// Describes an algorithm image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AlgorithmImage {
   /// The URI of the Docker container for the algorithm image.
-  @_s.JsonKey(name: 'dockerURI')
   final String dockerURI;
 
   /// The name of the algorithm image.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   AlgorithmImage({
-    @_s.required this.dockerURI,
+    required this.dockerURI,
     this.name,
   });
-  factory AlgorithmImage.fromJson(Map<String, dynamic> json) =>
-      _$AlgorithmImageFromJson(json);
+  factory AlgorithmImage.fromJson(Map<String, dynamic> json) {
+    return AlgorithmImage(
+      dockerURI: json['dockerURI'] as String,
+      name: json['name'] as String?,
+    );
+  }
 }
 
 /// When the solution performs AutoML (<code>performAutoML</code> is true in
 /// <a>CreateSolution</a>), Amazon Personalize determines which recipe, from the
 /// specified list, optimizes the given metric. Amazon Personalize then uses
 /// that recipe for the solution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutoMLConfig {
   /// The metric to optimize.
-  @_s.JsonKey(name: 'metricName')
-  final String metricName;
+  final String? metricName;
 
   /// The list of candidate recipes.
-  @_s.JsonKey(name: 'recipeList')
-  final List<String> recipeList;
+  final List<String>? recipeList;
 
   AutoMLConfig({
     this.metricName,
     this.recipeList,
   });
-  factory AutoMLConfig.fromJson(Map<String, dynamic> json) =>
-      _$AutoMLConfigFromJson(json);
+  factory AutoMLConfig.fromJson(Map<String, dynamic> json) {
+    return AutoMLConfig(
+      metricName: json['metricName'] as String?,
+      recipeList: (json['recipeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AutoMLConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final recipeList = this.recipeList;
+    return {
+      if (metricName != null) 'metricName': metricName,
+      if (recipeList != null) 'recipeList': recipeList,
+    };
+  }
 }
 
 /// When the solution performs AutoML (<code>performAutoML</code> is true in
 /// <a>CreateSolution</a>), specifies the recipe that best optimized the
 /// specified metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoMLResult {
   /// The Amazon Resource Name (ARN) of the best recipe.
-  @_s.JsonKey(name: 'bestRecipeArn')
-  final String bestRecipeArn;
+  final String? bestRecipeArn;
 
   AutoMLResult({
     this.bestRecipeArn,
   });
-  factory AutoMLResult.fromJson(Map<String, dynamic> json) =>
-      _$AutoMLResultFromJson(json);
+  factory AutoMLResult.fromJson(Map<String, dynamic> json) {
+    return AutoMLResult(
+      bestRecipeArn: json['bestRecipeArn'] as String?,
+    );
+  }
 }
 
 /// Contains information on a batch inference job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchInferenceJob {
   /// The Amazon Resource Name (ARN) of the batch inference job.
-  @_s.JsonKey(name: 'batchInferenceJobArn')
-  final String batchInferenceJobArn;
+  final String? batchInferenceJobArn;
 
   /// A string to string map of the configuration details of a batch inference
   /// job.
-  @_s.JsonKey(name: 'batchInferenceJobConfig')
-  final BatchInferenceJobConfig batchInferenceJobConfig;
+  final BatchInferenceJobConfig? batchInferenceJobConfig;
 
   /// The time at which the batch inference job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If the batch inference job failed, the reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The ARN of the filter used on the batch inference job.
-  @_s.JsonKey(name: 'filterArn')
-  final String filterArn;
+  final String? filterArn;
 
   /// The Amazon S3 path that leads to the input data used to generate the batch
   /// inference job.
-  @_s.JsonKey(name: 'jobInput')
-  final BatchInferenceJobInput jobInput;
+  final BatchInferenceJobInput? jobInput;
 
   /// The name of the batch inference job.
-  @_s.JsonKey(name: 'jobName')
-  final String jobName;
+  final String? jobName;
 
   /// The Amazon S3 bucket that contains the output data generated by the batch
   /// inference job.
-  @_s.JsonKey(name: 'jobOutput')
-  final BatchInferenceJobOutput jobOutput;
+  final BatchInferenceJobOutput? jobOutput;
 
   /// The time at which the batch inference job was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The number of recommendations generated by the batch inference job. This
   /// number includes the error messages generated for failed input records.
-  @_s.JsonKey(name: 'numResults')
-  final int numResults;
+  final int? numResults;
 
   /// The ARN of the Amazon Identity and Access Management (IAM) role that
   /// requested the batch inference job.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The Amazon Resource Name (ARN) of the solution version from which the batch
   /// inference job was created.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the batch inference job. The status is one of the following
   /// values:
@@ -3224,8 +3203,7 @@ class BatchInferenceJob {
   /// CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   BatchInferenceJob({
     this.batchInferenceJobArn,
@@ -3242,108 +3220,130 @@ class BatchInferenceJob {
     this.solutionVersionArn,
     this.status,
   });
-  factory BatchInferenceJob.fromJson(Map<String, dynamic> json) =>
-      _$BatchInferenceJobFromJson(json);
+  factory BatchInferenceJob.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJob(
+      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
+      batchInferenceJobConfig: json['batchInferenceJobConfig'] != null
+          ? BatchInferenceJobConfig.fromJson(
+              json['batchInferenceJobConfig'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      jobInput: json['jobInput'] != null
+          ? BatchInferenceJobInput.fromJson(
+              json['jobInput'] as Map<String, dynamic>)
+          : null,
+      jobName: json['jobName'] as String?,
+      jobOutput: json['jobOutput'] != null
+          ? BatchInferenceJobOutput.fromJson(
+              json['jobOutput'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      numResults: json['numResults'] as int?,
+      roleArn: json['roleArn'] as String?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// The configuration details of a batch inference job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchInferenceJobConfig {
   /// A string to string map specifying the inference hyperparameters you wish to
   /// use for hyperparameter optimization. See
   /// <a>customizing-solution-config-hpo</a>.
-  @_s.JsonKey(name: 'itemExplorationConfig')
-  final Map<String, String> itemExplorationConfig;
+  final Map<String, String>? itemExplorationConfig;
 
   BatchInferenceJobConfig({
     this.itemExplorationConfig,
   });
-  factory BatchInferenceJobConfig.fromJson(Map<String, dynamic> json) =>
-      _$BatchInferenceJobConfigFromJson(json);
+  factory BatchInferenceJobConfig.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobConfig(
+      itemExplorationConfig:
+          (json['itemExplorationConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchInferenceJobConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final itemExplorationConfig = this.itemExplorationConfig;
+    return {
+      if (itemExplorationConfig != null)
+        'itemExplorationConfig': itemExplorationConfig,
+    };
+  }
 }
 
 /// The input configuration of a batch inference job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchInferenceJobInput {
   /// The URI of the Amazon S3 location that contains your input data. The Amazon
   /// S3 bucket must be in the same region as the API endpoint you are calling.
-  @_s.JsonKey(name: 's3DataSource')
   final S3DataConfig s3DataSource;
 
   BatchInferenceJobInput({
-    @_s.required this.s3DataSource,
+    required this.s3DataSource,
   });
-  factory BatchInferenceJobInput.fromJson(Map<String, dynamic> json) =>
-      _$BatchInferenceJobInputFromJson(json);
+  factory BatchInferenceJobInput.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobInput(
+      s3DataSource:
+          S3DataConfig.fromJson(json['s3DataSource'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchInferenceJobInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3DataSource = this.s3DataSource;
+    return {
+      's3DataSource': s3DataSource,
+    };
+  }
 }
 
 /// The output configuration parameters of a batch inference job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchInferenceJobOutput {
   /// Information on the Amazon S3 bucket in which the batch inference job's
   /// output is stored.
-  @_s.JsonKey(name: 's3DataDestination')
   final S3DataConfig s3DataDestination;
 
   BatchInferenceJobOutput({
-    @_s.required this.s3DataDestination,
+    required this.s3DataDestination,
   });
-  factory BatchInferenceJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchInferenceJobOutputFromJson(json);
+  factory BatchInferenceJobOutput.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobOutput(
+      s3DataDestination: S3DataConfig.fromJson(
+          json['s3DataDestination'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchInferenceJobOutputToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3DataDestination = this.s3DataDestination;
+    return {
+      's3DataDestination': s3DataDestination,
+    };
+  }
 }
 
 /// A truncated version of the <a>BatchInferenceJob</a> datatype. The
 /// <a>ListBatchInferenceJobs</a> operation returns a list of batch inference
 /// job summaries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchInferenceJobSummary {
   /// The Amazon Resource Name (ARN) of the batch inference job.
-  @_s.JsonKey(name: 'batchInferenceJobArn')
-  final String batchInferenceJobArn;
+  final String? batchInferenceJobArn;
 
   /// The time at which the batch inference job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If the batch inference job failed, the reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The name of the batch inference job.
-  @_s.JsonKey(name: 'jobName')
-  final String jobName;
+  final String? jobName;
 
   /// The time at which the batch inference job was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The ARN of the solution version used by the batch inference job.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the batch inference job. The status is one of the following
   /// values:
@@ -3362,8 +3362,7 @@ class BatchInferenceJobSummary {
   /// CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   BatchInferenceJobSummary({
     this.batchInferenceJobArn,
@@ -3374,54 +3373,47 @@ class BatchInferenceJobSummary {
     this.solutionVersionArn,
     this.status,
   });
-  factory BatchInferenceJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$BatchInferenceJobSummaryFromJson(json);
+  factory BatchInferenceJobSummary.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobSummary(
+      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Describes a deployed solution version, otherwise known as a campaign. For
 /// more information on campaigns, see <a>CreateCampaign</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Campaign {
   /// The Amazon Resource Name (ARN) of the campaign.
-  @_s.JsonKey(name: 'campaignArn')
-  final String campaignArn;
+  final String? campaignArn;
 
   /// The configuration details of a campaign.
-  @_s.JsonKey(name: 'campaignConfig')
-  final CampaignConfig campaignConfig;
+  final CampaignConfig? campaignConfig;
 
   /// The date and time (in Unix format) that the campaign was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If a campaign fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix format) that the campaign was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
-  @_s.JsonKey(name: 'latestCampaignUpdate')
-  final CampaignUpdateSummary latestCampaignUpdate;
+  final DateTime? lastUpdatedDateTime;
+  final CampaignUpdateSummary? latestCampaignUpdate;
 
   /// Specifies the requested minimum provisioned transactions (recommendations)
   /// per second.
-  @_s.JsonKey(name: 'minProvisionedTPS')
-  final int minProvisionedTPS;
+  final int? minProvisionedTPS;
 
   /// The name of the campaign.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of a specific version of the solution.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the campaign.
   ///
@@ -3435,8 +3427,7 @@ class Campaign {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   Campaign({
     this.campaignArn,
@@ -3450,61 +3441,72 @@ class Campaign {
     this.solutionVersionArn,
     this.status,
   });
-  factory Campaign.fromJson(Map<String, dynamic> json) =>
-      _$CampaignFromJson(json);
+  factory Campaign.fromJson(Map<String, dynamic> json) {
+    return Campaign(
+      campaignArn: json['campaignArn'] as String?,
+      campaignConfig: json['campaignConfig'] != null
+          ? CampaignConfig.fromJson(
+              json['campaignConfig'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestCampaignUpdate: json['latestCampaignUpdate'] != null
+          ? CampaignUpdateSummary.fromJson(
+              json['latestCampaignUpdate'] as Map<String, dynamic>)
+          : null,
+      minProvisionedTPS: json['minProvisionedTPS'] as int?,
+      name: json['name'] as String?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// The configuration details of a campaign.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CampaignConfig {
   /// A string to string map specifying the inference hyperparameters you wish to
   /// use for hyperparameter optimization. See
   /// <a>customizing-solution-config-hpo</a>.
-  @_s.JsonKey(name: 'itemExplorationConfig')
-  final Map<String, String> itemExplorationConfig;
+  final Map<String, String>? itemExplorationConfig;
 
   CampaignConfig({
     this.itemExplorationConfig,
   });
-  factory CampaignConfig.fromJson(Map<String, dynamic> json) =>
-      _$CampaignConfigFromJson(json);
+  factory CampaignConfig.fromJson(Map<String, dynamic> json) {
+    return CampaignConfig(
+      itemExplorationConfig:
+          (json['itemExplorationConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CampaignConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final itemExplorationConfig = this.itemExplorationConfig;
+    return {
+      if (itemExplorationConfig != null)
+        'itemExplorationConfig': itemExplorationConfig,
+    };
+  }
 }
 
 /// Provides a summary of the properties of a campaign. For a complete listing,
 /// call the <a>DescribeCampaign</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CampaignSummary {
   /// The Amazon Resource Name (ARN) of the campaign.
-  @_s.JsonKey(name: 'campaignArn')
-  final String campaignArn;
+  final String? campaignArn;
 
   /// The date and time (in Unix time) that the campaign was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If a campaign fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix time) that the campaign was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the campaign.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the campaign.
   ///
@@ -3518,8 +3520,7 @@ class CampaignSummary {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CampaignSummary({
     this.campaignArn,
@@ -3529,43 +3530,38 @@ class CampaignSummary {
     this.name,
     this.status,
   });
-  factory CampaignSummary.fromJson(Map<String, dynamic> json) =>
-      _$CampaignSummaryFromJson(json);
+  factory CampaignSummary.fromJson(Map<String, dynamic> json) {
+    return CampaignSummary(
+      campaignArn: json['campaignArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a campaign update. For a complete
 /// listing, call the <a>DescribeCampaign</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CampaignUpdateSummary {
-  @_s.JsonKey(name: 'campaignConfig')
-  final CampaignConfig campaignConfig;
+  final CampaignConfig? campaignConfig;
 
   /// The date and time (in Unix time) that the campaign update was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If a campaign update fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix time) that the campaign update was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// Specifies the requested minimum provisioned transactions (recommendations)
   /// per second that Amazon Personalize will support.
-  @_s.JsonKey(name: 'minProvisionedTPS')
-  final int minProvisionedTPS;
+  final int? minProvisionedTPS;
 
   /// The Amazon Resource Name (ARN) of the deployed solution version.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the campaign update.
   ///
@@ -3579,8 +3575,7 @@ class CampaignUpdateSummary {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CampaignUpdateSummary({
     this.campaignConfig,
@@ -3591,284 +3586,272 @@ class CampaignUpdateSummary {
     this.solutionVersionArn,
     this.status,
   });
-  factory CampaignUpdateSummary.fromJson(Map<String, dynamic> json) =>
-      _$CampaignUpdateSummaryFromJson(json);
+  factory CampaignUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return CampaignUpdateSummary(
+      campaignConfig: json['campaignConfig'] != null
+          ? CampaignConfig.fromJson(
+              json['campaignConfig'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      minProvisionedTPS: json['minProvisionedTPS'] as int?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides the name and range of a categorical hyperparameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CategoricalHyperParameterRange {
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of the categories for the hyperparameter.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   CategoricalHyperParameterRange({
     this.name,
     this.values,
   });
-  factory CategoricalHyperParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$CategoricalHyperParameterRangeFromJson(json);
+  factory CategoricalHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return CategoricalHyperParameterRange(
+      name: json['name'] as String?,
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CategoricalHyperParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name,
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// Provides the name and range of a continuous hyperparameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContinuousHyperParameterRange {
   /// The maximum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'maxValue')
-  final double maxValue;
+  final double? maxValue;
 
   /// The minimum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'minValue')
-  final double minValue;
+  final double? minValue;
 
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ContinuousHyperParameterRange({
     this.maxValue,
     this.minValue,
     this.name,
   });
-  factory ContinuousHyperParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$ContinuousHyperParameterRangeFromJson(json);
+  factory ContinuousHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return ContinuousHyperParameterRange(
+      maxValue: json['maxValue'] as double?,
+      minValue: json['minValue'] as double?,
+      name: json['name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContinuousHyperParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBatchInferenceJobResponse {
   /// The ARN of the batch inference job.
-  @_s.JsonKey(name: 'batchInferenceJobArn')
-  final String batchInferenceJobArn;
+  final String? batchInferenceJobArn;
 
   CreateBatchInferenceJobResponse({
     this.batchInferenceJobArn,
   });
-  factory CreateBatchInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBatchInferenceJobResponseFromJson(json);
+  factory CreateBatchInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBatchInferenceJobResponse(
+      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCampaignResponse {
   /// The Amazon Resource Name (ARN) of the campaign.
-  @_s.JsonKey(name: 'campaignArn')
-  final String campaignArn;
+  final String? campaignArn;
 
   CreateCampaignResponse({
     this.campaignArn,
   });
-  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCampaignResponseFromJson(json);
+  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCampaignResponse(
+      campaignArn: json['campaignArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetGroupResponse {
   /// The Amazon Resource Name (ARN) of the new dataset group.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   CreateDatasetGroupResponse({
     this.datasetGroupArn,
   });
-  factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetGroupResponseFromJson(json);
+  factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetGroupResponse(
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetImportJobResponse {
   /// The ARN of the dataset import job.
-  @_s.JsonKey(name: 'datasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   CreateDatasetImportJobResponse({
     this.datasetImportJobArn,
   });
-  factory CreateDatasetImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetImportJobResponseFromJson(json);
+  factory CreateDatasetImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetImportJobResponse(
+      datasetImportJobArn: json['datasetImportJobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetResponse {
   /// The ARN of the dataset.
-  @_s.JsonKey(name: 'datasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   CreateDatasetResponse({
     this.datasetArn,
   });
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetResponseFromJson(json);
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: json['datasetArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEventTrackerResponse {
   /// The ARN of the event tracker.
-  @_s.JsonKey(name: 'eventTrackerArn')
-  final String eventTrackerArn;
+  final String? eventTrackerArn;
 
   /// The ID of the event tracker. Include this ID in requests to the <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html">PutEvents</a>
   /// API.
-  @_s.JsonKey(name: 'trackingId')
-  final String trackingId;
+  final String? trackingId;
 
   CreateEventTrackerResponse({
     this.eventTrackerArn,
     this.trackingId,
   });
-  factory CreateEventTrackerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEventTrackerResponseFromJson(json);
+  factory CreateEventTrackerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEventTrackerResponse(
+      eventTrackerArn: json['eventTrackerArn'] as String?,
+      trackingId: json['trackingId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFilterResponse {
   /// The ARN of the new filter.
-  @_s.JsonKey(name: 'filterArn')
-  final String filterArn;
+  final String? filterArn;
 
   CreateFilterResponse({
     this.filterArn,
   });
-  factory CreateFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFilterResponseFromJson(json);
+  factory CreateFilterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFilterResponse(
+      filterArn: json['filterArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSchemaResponse {
   /// The Amazon Resource Name (ARN) of the created schema.
-  @_s.JsonKey(name: 'schemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   CreateSchemaResponse({
     this.schemaArn,
   });
-  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSchemaResponseFromJson(json);
+  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSchemaResponse(
+      schemaArn: json['schemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSolutionResponse {
   /// The ARN of the solution.
-  @_s.JsonKey(name: 'solutionArn')
-  final String solutionArn;
+  final String? solutionArn;
 
   CreateSolutionResponse({
     this.solutionArn,
   });
-  factory CreateSolutionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSolutionResponseFromJson(json);
+  factory CreateSolutionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSolutionResponse(
+      solutionArn: json['solutionArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSolutionVersionResponse {
   /// The ARN of the new solution version.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   CreateSolutionVersionResponse({
     this.solutionVersionArn,
   });
-  factory CreateSolutionVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSolutionVersionResponseFromJson(json);
+  factory CreateSolutionVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSolutionVersionResponse(
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+    );
+  }
 }
 
 /// Describes the data source that contains the data to upload to a dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSource {
   /// The path to the Amazon S3 bucket where the data that you want to upload to
   /// your dataset is stored. For example:
   ///
   /// <code>s3://bucket-name/training-data.csv</code>
-  @_s.JsonKey(name: 'dataLocation')
-  final String dataLocation;
+  final String? dataLocation;
 
   DataSource({
     this.dataLocation,
   });
-  factory DataSource.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceFromJson(json);
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      dataLocation: json['dataLocation'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataLocation = this.dataLocation;
+    return {
+      if (dataLocation != null) 'dataLocation': dataLocation,
+    };
+  }
 }
 
 /// Provides metadata for a dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Dataset {
   /// The creation date and time (in Unix time) of the dataset.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
-  @_s.JsonKey(name: 'datasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// One of the following values:
   ///
@@ -3883,21 +3866,16 @@ class Dataset {
   /// Users
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'datasetType')
-  final String datasetType;
+  final String? datasetType;
 
   /// A time stamp that shows when the dataset was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the dataset.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The ARN of the associated schema.
-  @_s.JsonKey(name: 'schemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The status of the dataset.
   ///
@@ -3911,8 +3889,7 @@ class Dataset {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   Dataset({
     this.creationDateTime,
@@ -3924,8 +3901,18 @@ class Dataset {
     this.schemaArn,
     this.status,
   });
-  factory Dataset.fromJson(Map<String, dynamic> json) =>
-      _$DatasetFromJson(json);
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetArn: json['datasetArn'] as String?,
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      datasetType: json['datasetType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// A dataset group is a collection of related datasets (Interactions, User, and
@@ -3937,41 +3924,27 @@ class Dataset {
 ///
 /// You can specify an AWS Key Management Service (KMS) key to encrypt the
 /// datasets in the group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetGroup {
   /// The creation date and time (in Unix time) of the dataset group.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// If creating a dataset group fails, provides the reason why.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the datasets.
-  @_s.JsonKey(name: 'kmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   /// The last update date and time (in Unix time) of the dataset group.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the dataset group.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The ARN of the IAM role that has permissions to create the dataset group.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The current status of the dataset group.
   ///
@@ -3985,8 +3958,7 @@ class DatasetGroup {
   /// DELETE PENDING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DatasetGroup({
     this.creationDateTime,
@@ -3998,39 +3970,37 @@ class DatasetGroup {
     this.roleArn,
     this.status,
   });
-  factory DatasetGroup.fromJson(Map<String, dynamic> json) =>
-      _$DatasetGroupFromJson(json);
+  factory DatasetGroup.fromJson(Map<String, dynamic> json) {
+    return DatasetGroup(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a dataset group. For a complete
 /// listing, call the <a>DescribeDatasetGroup</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetGroupSummary {
   /// The date and time (in Unix time) that the dataset group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// If creating a dataset group fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix time) that the dataset group was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the dataset group.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the dataset group.
   ///
@@ -4044,8 +4014,7 @@ class DatasetGroupSummary {
   /// DELETE PENDING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DatasetGroupSummary({
     this.creationDateTime,
@@ -4055,8 +4024,16 @@ class DatasetGroupSummary {
     this.name,
     this.status,
   });
-  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetGroupSummaryFromJson(json);
+  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetGroupSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Describes a job that imports training data from a data source (Amazon S3
@@ -4070,47 +4047,32 @@ class DatasetGroupSummary {
 /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetImportJob {
   /// The creation date and time (in Unix time) of the dataset import job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon S3 bucket that contains the training data to import.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The Amazon Resource Name (ARN) of the dataset that receives the imported
   /// data.
-  @_s.JsonKey(name: 'datasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The ARN of the dataset import job.
-  @_s.JsonKey(name: 'datasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   /// If a dataset import job fails, provides the reason why.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The name of the import job.
-  @_s.JsonKey(name: 'jobName')
-  final String jobName;
+  final String? jobName;
 
   /// The date and time (in Unix time) the dataset was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The ARN of the AWS Identity and Access Management (IAM) role that has
   /// permissions to read from the Amazon S3 data source.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The status of the dataset import job.
   ///
@@ -4121,8 +4083,7 @@ class DatasetImportJob {
   /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DatasetImportJob({
     this.creationDateTime,
@@ -4135,39 +4096,40 @@ class DatasetImportJob {
     this.roleArn,
     this.status,
   });
-  factory DatasetImportJob.fromJson(Map<String, dynamic> json) =>
-      _$DatasetImportJobFromJson(json);
+  factory DatasetImportJob.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJob(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+      datasetArn: json['datasetArn'] as String?,
+      datasetImportJobArn: json['datasetImportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a dataset import job. For a complete
 /// listing, call the <a>DescribeDatasetImportJob</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetImportJobSummary {
   /// The date and time (in Unix time) that the dataset import job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset import job.
-  @_s.JsonKey(name: 'datasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   /// If a dataset import job fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The name of the dataset import job.
-  @_s.JsonKey(name: 'jobName')
-  final String jobName;
+  final String? jobName;
 
   /// The date and time (in Unix time) that the dataset was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The status of the dataset import job.
   ///
@@ -4178,8 +4140,7 @@ class DatasetImportJobSummary {
   /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DatasetImportJobSummary({
     this.creationDateTime,
@@ -4189,39 +4150,35 @@ class DatasetImportJobSummary {
     this.lastUpdatedDateTime,
     this.status,
   });
-  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetImportJobSummaryFromJson(json);
+  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJobSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetImportJobArn: json['datasetImportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Describes the schema for a dataset. For more information on schemas, see
 /// <a>CreateSchema</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetSchema {
   /// The date and time (in Unix time) that the schema was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time (in Unix time) that the schema was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The schema.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'schemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   DatasetSchema({
     this.creationDateTime,
@@ -4230,35 +4187,31 @@ class DatasetSchema {
     this.schema,
     this.schemaArn,
   });
-  factory DatasetSchema.fromJson(Map<String, dynamic> json) =>
-      _$DatasetSchemaFromJson(json);
+  factory DatasetSchema.fromJson(Map<String, dynamic> json) {
+    return DatasetSchema(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a dataset schema. For a complete
 /// listing, call the <a>DescribeSchema</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetSchemaSummary {
   /// The date and time (in Unix time) that the schema was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time (in Unix time) that the schema was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the schema.
-  @_s.JsonKey(name: 'schemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   DatasetSchemaSummary({
     this.creationDateTime,
@@ -4266,26 +4219,24 @@ class DatasetSchemaSummary {
     this.name,
     this.schemaArn,
   });
-  factory DatasetSchemaSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetSchemaSummaryFromJson(json);
+  factory DatasetSchemaSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSchemaSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a dataset. For a complete listing,
 /// call the <a>DescribeDataset</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetSummary {
   /// The date and time (in Unix time) that the dataset was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset.
-  @_s.JsonKey(name: 'datasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The dataset type. One of the following values:
   ///
@@ -4303,17 +4254,13 @@ class DatasetSummary {
   /// Event-Interactions
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'datasetType')
-  final String datasetType;
+  final String? datasetType;
 
   /// The date and time (in Unix time) that the dataset was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the dataset.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the dataset.
   ///
@@ -4327,8 +4274,7 @@ class DatasetSummary {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DatasetSummary({
     this.creationDateTime,
@@ -4338,30 +4284,30 @@ class DatasetSummary {
     this.name,
     this.status,
   });
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetSummaryFromJson(json);
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetArn: json['datasetArn'] as String?,
+      datasetType: json['datasetType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides the name and default range of a categorical hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultCategoricalHyperParameterRange {
   /// Whether the hyperparameter is tunable.
-  @_s.JsonKey(name: 'isTunable')
-  final bool isTunable;
+  final bool? isTunable;
 
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of the categories for the hyperparameter.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   DefaultCategoricalHyperParameterRange({
     this.isTunable,
@@ -4369,34 +4315,33 @@ class DefaultCategoricalHyperParameterRange {
     this.values,
   });
   factory DefaultCategoricalHyperParameterRange.fromJson(
-          Map<String, dynamic> json) =>
-      _$DefaultCategoricalHyperParameterRangeFromJson(json);
+      Map<String, dynamic> json) {
+    return DefaultCategoricalHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      name: json['name'] as String?,
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Provides the name and default range of a continuous hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultContinuousHyperParameterRange {
   /// Whether the hyperparameter is tunable.
-  @_s.JsonKey(name: 'isTunable')
-  final bool isTunable;
+  final bool? isTunable;
 
   /// The maximum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'maxValue')
-  final double maxValue;
+  final double? maxValue;
 
   /// The minimum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'minValue')
-  final double minValue;
+  final double? minValue;
 
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   DefaultContinuousHyperParameterRange({
     this.isTunable,
@@ -4405,65 +4350,74 @@ class DefaultContinuousHyperParameterRange {
     this.name,
   });
   factory DefaultContinuousHyperParameterRange.fromJson(
-          Map<String, dynamic> json) =>
-      _$DefaultContinuousHyperParameterRangeFromJson(json);
+      Map<String, dynamic> json) {
+    return DefaultContinuousHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      maxValue: json['maxValue'] as double?,
+      minValue: json['minValue'] as double?,
+      name: json['name'] as String?,
+    );
+  }
 }
 
 /// Specifies the hyperparameters and their default ranges. Hyperparameters can
 /// be categorical, continuous, or integer-valued.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultHyperParameterRanges {
   /// The categorical hyperparameters and their default ranges.
-  @_s.JsonKey(name: 'categoricalHyperParameterRanges')
-  final List<DefaultCategoricalHyperParameterRange>
+  final List<DefaultCategoricalHyperParameterRange>?
       categoricalHyperParameterRanges;
 
   /// The continuous hyperparameters and their default ranges.
-  @_s.JsonKey(name: 'continuousHyperParameterRanges')
-  final List<DefaultContinuousHyperParameterRange>
+  final List<DefaultContinuousHyperParameterRange>?
       continuousHyperParameterRanges;
 
   /// The integer-valued hyperparameters and their default ranges.
-  @_s.JsonKey(name: 'integerHyperParameterRanges')
-  final List<DefaultIntegerHyperParameterRange> integerHyperParameterRanges;
+  final List<DefaultIntegerHyperParameterRange>? integerHyperParameterRanges;
 
   DefaultHyperParameterRanges({
     this.categoricalHyperParameterRanges,
     this.continuousHyperParameterRanges,
     this.integerHyperParameterRanges,
   });
-  factory DefaultHyperParameterRanges.fromJson(Map<String, dynamic> json) =>
-      _$DefaultHyperParameterRangesFromJson(json);
+  factory DefaultHyperParameterRanges.fromJson(Map<String, dynamic> json) {
+    return DefaultHyperParameterRanges(
+      categoricalHyperParameterRanges:
+          (json['categoricalHyperParameterRanges'] as List?)
+              ?.whereNotNull()
+              .map((e) => DefaultCategoricalHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      continuousHyperParameterRanges:
+          (json['continuousHyperParameterRanges'] as List?)
+              ?.whereNotNull()
+              .map((e) => DefaultContinuousHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      integerHyperParameterRanges:
+          (json['integerHyperParameterRanges'] as List?)
+              ?.whereNotNull()
+              .map((e) => DefaultIntegerHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Provides the name and default range of a integer-valued hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultIntegerHyperParameterRange {
   /// Indicates whether the hyperparameter is tunable.
-  @_s.JsonKey(name: 'isTunable')
-  final bool isTunable;
+  final bool? isTunable;
 
   /// The maximum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'maxValue')
-  final int maxValue;
+  final int? maxValue;
 
   /// The minimum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'minValue')
-  final int minValue;
+  final int? minValue;
 
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   DefaultIntegerHyperParameterRange({
     this.isTunable,
@@ -4472,84 +4426,82 @@ class DefaultIntegerHyperParameterRange {
     this.name,
   });
   factory DefaultIntegerHyperParameterRange.fromJson(
-          Map<String, dynamic> json) =>
-      _$DefaultIntegerHyperParameterRangeFromJson(json);
+      Map<String, dynamic> json) {
+    return DefaultIntegerHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      maxValue: json['maxValue'] as int?,
+      minValue: json['minValue'] as int?,
+      name: json['name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAlgorithmResponse {
   /// A listing of the properties of the algorithm.
-  @_s.JsonKey(name: 'algorithm')
-  final Algorithm algorithm;
+  final Algorithm? algorithm;
 
   DescribeAlgorithmResponse({
     this.algorithm,
   });
-  factory DescribeAlgorithmResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAlgorithmResponseFromJson(json);
+  factory DescribeAlgorithmResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAlgorithmResponse(
+      algorithm: json['algorithm'] != null
+          ? Algorithm.fromJson(json['algorithm'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBatchInferenceJobResponse {
   /// Information on the specified batch inference job.
-  @_s.JsonKey(name: 'batchInferenceJob')
-  final BatchInferenceJob batchInferenceJob;
+  final BatchInferenceJob? batchInferenceJob;
 
   DescribeBatchInferenceJobResponse({
     this.batchInferenceJob,
   });
   factory DescribeBatchInferenceJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBatchInferenceJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBatchInferenceJobResponse(
+      batchInferenceJob: json['batchInferenceJob'] != null
+          ? BatchInferenceJob.fromJson(
+              json['batchInferenceJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCampaignResponse {
   /// The properties of the campaign.
-  @_s.JsonKey(name: 'campaign')
-  final Campaign campaign;
+  final Campaign? campaign;
 
   DescribeCampaignResponse({
     this.campaign,
   });
-  factory DescribeCampaignResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCampaignResponseFromJson(json);
+  factory DescribeCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCampaignResponse(
+      campaign: json['campaign'] != null
+          ? Campaign.fromJson(json['campaign'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetGroupResponse {
   /// A listing of the dataset group's properties.
-  @_s.JsonKey(name: 'datasetGroup')
-  final DatasetGroup datasetGroup;
+  final DatasetGroup? datasetGroup;
 
   DescribeDatasetGroupResponse({
     this.datasetGroup,
   });
-  factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetGroupResponseFromJson(json);
+  factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetGroupResponse(
+      datasetGroup: json['datasetGroup'] != null
+          ? DatasetGroup.fromJson(json['datasetGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetImportJobResponse {
   /// Information about the dataset import job, including the status.
   ///
@@ -4569,187 +4521,172 @@ class DescribeDatasetImportJobResponse {
   /// CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'datasetImportJob')
-  final DatasetImportJob datasetImportJob;
+  final DatasetImportJob? datasetImportJob;
 
   DescribeDatasetImportJobResponse({
     this.datasetImportJob,
   });
-  factory DescribeDatasetImportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDatasetImportJobResponseFromJson(json);
+  factory DescribeDatasetImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetImportJobResponse(
+      datasetImportJob: json['datasetImportJob'] != null
+          ? DatasetImportJob.fromJson(
+              json['datasetImportJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetResponse {
   /// A listing of the dataset's properties.
-  @_s.JsonKey(name: 'dataset')
-  final Dataset dataset;
+  final Dataset? dataset;
 
   DescribeDatasetResponse({
     this.dataset,
   });
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetResponseFromJson(json);
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      dataset: json['dataset'] != null
+          ? Dataset.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventTrackerResponse {
   /// An object that describes the event tracker.
-  @_s.JsonKey(name: 'eventTracker')
-  final EventTracker eventTracker;
+  final EventTracker? eventTracker;
 
   DescribeEventTrackerResponse({
     this.eventTracker,
   });
-  factory DescribeEventTrackerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventTrackerResponseFromJson(json);
+  factory DescribeEventTrackerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventTrackerResponse(
+      eventTracker: json['eventTracker'] != null
+          ? EventTracker.fromJson(json['eventTracker'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFeatureTransformationResponse {
   /// A listing of the FeatureTransformation properties.
-  @_s.JsonKey(name: 'featureTransformation')
-  final FeatureTransformation featureTransformation;
+  final FeatureTransformation? featureTransformation;
 
   DescribeFeatureTransformationResponse({
     this.featureTransformation,
   });
   factory DescribeFeatureTransformationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeFeatureTransformationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeFeatureTransformationResponse(
+      featureTransformation: json['featureTransformation'] != null
+          ? FeatureTransformation.fromJson(
+              json['featureTransformation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFilterResponse {
   /// The filter's details.
-  @_s.JsonKey(name: 'filter')
-  final Filter filter;
+  final Filter? filter;
 
   DescribeFilterResponse({
     this.filter,
   });
-  factory DescribeFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFilterResponseFromJson(json);
+  factory DescribeFilterResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFilterResponse(
+      filter: json['filter'] != null
+          ? Filter.fromJson(json['filter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRecipeResponse {
   /// An object that describes the recipe.
-  @_s.JsonKey(name: 'recipe')
-  final Recipe recipe;
+  final Recipe? recipe;
 
   DescribeRecipeResponse({
     this.recipe,
   });
-  factory DescribeRecipeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRecipeResponseFromJson(json);
+  factory DescribeRecipeResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRecipeResponse(
+      recipe: json['recipe'] != null
+          ? Recipe.fromJson(json['recipe'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSchemaResponse {
   /// The requested schema.
-  @_s.JsonKey(name: 'schema')
-  final DatasetSchema schema;
+  final DatasetSchema? schema;
 
   DescribeSchemaResponse({
     this.schema,
   });
-  factory DescribeSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSchemaResponseFromJson(json);
+  factory DescribeSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSchemaResponse(
+      schema: json['schema'] != null
+          ? DatasetSchema.fromJson(json['schema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSolutionResponse {
   /// An object that describes the solution.
-  @_s.JsonKey(name: 'solution')
-  final Solution solution;
+  final Solution? solution;
 
   DescribeSolutionResponse({
     this.solution,
   });
-  factory DescribeSolutionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSolutionResponseFromJson(json);
+  factory DescribeSolutionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSolutionResponse(
+      solution: json['solution'] != null
+          ? Solution.fromJson(json['solution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSolutionVersionResponse {
   /// The solution version.
-  @_s.JsonKey(name: 'solutionVersion')
-  final SolutionVersion solutionVersion;
+  final SolutionVersion? solutionVersion;
 
   DescribeSolutionVersionResponse({
     this.solutionVersion,
   });
-  factory DescribeSolutionVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSolutionVersionResponseFromJson(json);
+  factory DescribeSolutionVersionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSolutionVersionResponse(
+      solutionVersion: json['solutionVersion'] != null
+          ? SolutionVersion.fromJson(
+              json['solutionVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Provides information about an event tracker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventTracker {
   /// The Amazon AWS account that owns the event tracker.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The date and time (in Unix format) that the event tracker was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that receives the event
   /// data.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The ARN of the event tracker.
-  @_s.JsonKey(name: 'eventTrackerArn')
-  final String eventTrackerArn;
+  final String? eventTrackerArn;
 
   /// The date and time (in Unix time) that the event tracker was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the event tracker.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the event tracker.
   ///
@@ -4763,14 +4700,12 @@ class EventTracker {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The ID of the event tracker. Include this ID in requests to the <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html">PutEvents</a>
   /// API.
-  @_s.JsonKey(name: 'trackingId')
-  final String trackingId;
+  final String? trackingId;
 
   EventTracker({
     this.accountId,
@@ -4782,35 +4717,34 @@ class EventTracker {
     this.status,
     this.trackingId,
   });
-  factory EventTracker.fromJson(Map<String, dynamic> json) =>
-      _$EventTrackerFromJson(json);
+  factory EventTracker.fromJson(Map<String, dynamic> json) {
+    return EventTracker(
+      accountId: json['accountId'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventTrackerArn: json['eventTrackerArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+      trackingId: json['trackingId'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the properties of an event tracker. For a complete
 /// listing, call the <a>DescribeEventTracker</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventTrackerSummary {
   /// The date and time (in Unix time) that the event tracker was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the event tracker.
-  @_s.JsonKey(name: 'eventTrackerArn')
-  final String eventTrackerArn;
+  final String? eventTrackerArn;
 
   /// The date and time (in Unix time) that the event tracker was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the event tracker.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the event tracker.
   ///
@@ -4824,8 +4758,7 @@ class EventTrackerSummary {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   EventTrackerSummary({
     this.creationDateTime,
@@ -4834,40 +4767,35 @@ class EventTrackerSummary {
     this.name,
     this.status,
   });
-  factory EventTrackerSummary.fromJson(Map<String, dynamic> json) =>
-      _$EventTrackerSummaryFromJson(json);
+  factory EventTrackerSummary.fromJson(Map<String, dynamic> json) {
+    return EventTrackerSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      eventTrackerArn: json['eventTrackerArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Provides feature transformation information. Feature transformation is the
 /// process of modifying raw input data into a form more suitable for model
 /// training.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FeatureTransformation {
   /// The creation date and time (in Unix time) of the feature transformation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// Provides the default parameters for feature transformation.
-  @_s.JsonKey(name: 'defaultParameters')
-  final Map<String, String> defaultParameters;
+  final Map<String, String>? defaultParameters;
 
   /// The Amazon Resource Name (ARN) of the FeatureTransformation object.
-  @_s.JsonKey(name: 'featureTransformationArn')
-  final String featureTransformationArn;
+  final String? featureTransformationArn;
 
   /// The last update date and time (in Unix time) of the feature transformation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the feature transformation.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the feature transformation.
   ///
@@ -4878,8 +4806,7 @@ class FeatureTransformation {
   /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   FeatureTransformation({
     this.creationDateTime,
@@ -4889,34 +4816,33 @@ class FeatureTransformation {
     this.name,
     this.status,
   });
-  factory FeatureTransformation.fromJson(Map<String, dynamic> json) =>
-      _$FeatureTransformationFromJson(json);
+  factory FeatureTransformation.fromJson(Map<String, dynamic> json) {
+    return FeatureTransformation(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      defaultParameters: (json['defaultParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      featureTransformationArn: json['featureTransformationArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Contains information on a recommendation filter, including its ARN, status,
 /// and filter expression.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Filter {
   /// The time at which the filter was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The ARN of the dataset group to which the filter belongs.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// If the filter failed, the reason for its failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The ARN of the filter.
-  @_s.JsonKey(name: 'filterArn')
-  final String filterArn;
+  final String? filterArn;
 
   /// Specifies the type of item interactions to filter out of recommendation
   /// results. The filter expression must follow the following format:
@@ -4927,21 +4853,16 @@ class Filter {
   /// see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/filters.html">Using
   /// Filters with Amazon Personalize</a>.
-  @_s.JsonKey(name: 'filterExpression')
-  final String filterExpression;
+  final String? filterExpression;
 
   /// The time at which the filter was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the filter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the filter.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   Filter({
     this.creationDateTime,
@@ -4953,45 +4874,42 @@ class Filter {
     this.name,
     this.status,
   });
-  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      filterExpression: json['filterExpression'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// A short summary of a filter's attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FilterSummary {
   /// The time at which the filter was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The ARN of the dataset group to which the filter belongs.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// If the filter failed, the reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The ARN of the filter.
-  @_s.JsonKey(name: 'filterArn')
-  final String filterArn;
+  final String? filterArn;
 
   /// The time at which the filter was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the filter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The status of the filter.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   FilterSummary({
     this.creationDateTime,
@@ -5002,467 +4920,522 @@ class FilterSummary {
     this.name,
     this.status,
   });
-  factory FilterSummary.fromJson(Map<String, dynamic> json) =>
-      _$FilterSummaryFromJson(json);
+  factory FilterSummary.fromJson(Map<String, dynamic> json) {
+    return FilterSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSolutionMetricsResponse {
   /// The metrics for the solution version.
-  @_s.JsonKey(name: 'metrics')
-  final Map<String, double> metrics;
+  final Map<String, double>? metrics;
 
   /// The same solution version ARN as specified in the request.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   GetSolutionMetricsResponse({
     this.metrics,
     this.solutionVersionArn,
   });
-  factory GetSolutionMetricsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSolutionMetricsResponseFromJson(json);
+  factory GetSolutionMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSolutionMetricsResponse(
+      metrics: (json['metrics'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+    );
+  }
 }
 
 /// Describes the properties for hyperparameter optimization (HPO). For use with
 /// the bring-your-own-recipe feature. Do not use for Amazon Personalize native
 /// recipes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HPOConfig {
   /// The hyperparameters and their allowable ranges.
-  @_s.JsonKey(name: 'algorithmHyperParameterRanges')
-  final HyperParameterRanges algorithmHyperParameterRanges;
+  final HyperParameterRanges? algorithmHyperParameterRanges;
 
   /// The metric to optimize during HPO.
-  @_s.JsonKey(name: 'hpoObjective')
-  final HPOObjective hpoObjective;
+  final HPOObjective? hpoObjective;
 
   /// Describes the resource configuration for HPO.
-  @_s.JsonKey(name: 'hpoResourceConfig')
-  final HPOResourceConfig hpoResourceConfig;
+  final HPOResourceConfig? hpoResourceConfig;
 
   HPOConfig({
     this.algorithmHyperParameterRanges,
     this.hpoObjective,
     this.hpoResourceConfig,
   });
-  factory HPOConfig.fromJson(Map<String, dynamic> json) =>
-      _$HPOConfigFromJson(json);
+  factory HPOConfig.fromJson(Map<String, dynamic> json) {
+    return HPOConfig(
+      algorithmHyperParameterRanges:
+          json['algorithmHyperParameterRanges'] != null
+              ? HyperParameterRanges.fromJson(
+                  json['algorithmHyperParameterRanges'] as Map<String, dynamic>)
+              : null,
+      hpoObjective: json['hpoObjective'] != null
+          ? HPOObjective.fromJson(json['hpoObjective'] as Map<String, dynamic>)
+          : null,
+      hpoResourceConfig: json['hpoResourceConfig'] != null
+          ? HPOResourceConfig.fromJson(
+              json['hpoResourceConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HPOConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final algorithmHyperParameterRanges = this.algorithmHyperParameterRanges;
+    final hpoObjective = this.hpoObjective;
+    final hpoResourceConfig = this.hpoResourceConfig;
+    return {
+      if (algorithmHyperParameterRanges != null)
+        'algorithmHyperParameterRanges': algorithmHyperParameterRanges,
+      if (hpoObjective != null) 'hpoObjective': hpoObjective,
+      if (hpoResourceConfig != null) 'hpoResourceConfig': hpoResourceConfig,
+    };
+  }
 }
 
 /// The metric to optimize during hyperparameter optimization (HPO).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HPOObjective {
   /// The name of the metric.
-  @_s.JsonKey(name: 'metricName')
-  final String metricName;
+  final String? metricName;
 
   /// A regular expression for finding the metric in the training job logs.
-  @_s.JsonKey(name: 'metricRegex')
-  final String metricRegex;
+  final String? metricRegex;
 
   /// The type of the metric. Valid values are <code>Maximize</code> and
   /// <code>Minimize</code>.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   HPOObjective({
     this.metricName,
     this.metricRegex,
     this.type,
   });
-  factory HPOObjective.fromJson(Map<String, dynamic> json) =>
-      _$HPOObjectiveFromJson(json);
+  factory HPOObjective.fromJson(Map<String, dynamic> json) {
+    return HPOObjective(
+      metricName: json['metricName'] as String?,
+      metricRegex: json['metricRegex'] as String?,
+      type: json['type'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HPOObjectiveToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricRegex = this.metricRegex;
+    final type = this.type;
+    return {
+      if (metricName != null) 'metricName': metricName,
+      if (metricRegex != null) 'metricRegex': metricRegex,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
 /// Describes the resource configuration for hyperparameter optimization (HPO).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HPOResourceConfig {
   /// The maximum number of training jobs when you create a solution version. The
   /// maximum value for <code>maxNumberOfTrainingJobs</code> is <code>40</code>.
-  @_s.JsonKey(name: 'maxNumberOfTrainingJobs')
-  final String maxNumberOfTrainingJobs;
+  final String? maxNumberOfTrainingJobs;
 
   /// The maximum number of parallel training jobs when you create a solution
   /// version. The maximum value for <code>maxParallelTrainingJobs</code> is
   /// <code>10</code>.
-  @_s.JsonKey(name: 'maxParallelTrainingJobs')
-  final String maxParallelTrainingJobs;
+  final String? maxParallelTrainingJobs;
 
   HPOResourceConfig({
     this.maxNumberOfTrainingJobs,
     this.maxParallelTrainingJobs,
   });
-  factory HPOResourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$HPOResourceConfigFromJson(json);
+  factory HPOResourceConfig.fromJson(Map<String, dynamic> json) {
+    return HPOResourceConfig(
+      maxNumberOfTrainingJobs: json['maxNumberOfTrainingJobs'] as String?,
+      maxParallelTrainingJobs: json['maxParallelTrainingJobs'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HPOResourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxNumberOfTrainingJobs = this.maxNumberOfTrainingJobs;
+    final maxParallelTrainingJobs = this.maxParallelTrainingJobs;
+    return {
+      if (maxNumberOfTrainingJobs != null)
+        'maxNumberOfTrainingJobs': maxNumberOfTrainingJobs,
+      if (maxParallelTrainingJobs != null)
+        'maxParallelTrainingJobs': maxParallelTrainingJobs,
+    };
+  }
 }
 
 /// Specifies the hyperparameters and their ranges. Hyperparameters can be
 /// categorical, continuous, or integer-valued.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HyperParameterRanges {
   /// The categorical hyperparameters and their ranges.
-  @_s.JsonKey(name: 'categoricalHyperParameterRanges')
-  final List<CategoricalHyperParameterRange> categoricalHyperParameterRanges;
+  final List<CategoricalHyperParameterRange>? categoricalHyperParameterRanges;
 
   /// The continuous hyperparameters and their ranges.
-  @_s.JsonKey(name: 'continuousHyperParameterRanges')
-  final List<ContinuousHyperParameterRange> continuousHyperParameterRanges;
+  final List<ContinuousHyperParameterRange>? continuousHyperParameterRanges;
 
   /// The integer-valued hyperparameters and their ranges.
-  @_s.JsonKey(name: 'integerHyperParameterRanges')
-  final List<IntegerHyperParameterRange> integerHyperParameterRanges;
+  final List<IntegerHyperParameterRange>? integerHyperParameterRanges;
 
   HyperParameterRanges({
     this.categoricalHyperParameterRanges,
     this.continuousHyperParameterRanges,
     this.integerHyperParameterRanges,
   });
-  factory HyperParameterRanges.fromJson(Map<String, dynamic> json) =>
-      _$HyperParameterRangesFromJson(json);
+  factory HyperParameterRanges.fromJson(Map<String, dynamic> json) {
+    return HyperParameterRanges(
+      categoricalHyperParameterRanges:
+          (json['categoricalHyperParameterRanges'] as List?)
+              ?.whereNotNull()
+              .map((e) => CategoricalHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      continuousHyperParameterRanges: (json['continuousHyperParameterRanges']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      integerHyperParameterRanges: (json['integerHyperParameterRanges']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HyperParameterRangesToJson(this);
+  Map<String, dynamic> toJson() {
+    final categoricalHyperParameterRanges =
+        this.categoricalHyperParameterRanges;
+    final continuousHyperParameterRanges = this.continuousHyperParameterRanges;
+    final integerHyperParameterRanges = this.integerHyperParameterRanges;
+    return {
+      if (categoricalHyperParameterRanges != null)
+        'categoricalHyperParameterRanges': categoricalHyperParameterRanges,
+      if (continuousHyperParameterRanges != null)
+        'continuousHyperParameterRanges': continuousHyperParameterRanges,
+      if (integerHyperParameterRanges != null)
+        'integerHyperParameterRanges': integerHyperParameterRanges,
+    };
+  }
 }
 
 /// Provides the name and range of an integer-valued hyperparameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IntegerHyperParameterRange {
   /// The maximum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'maxValue')
-  final int maxValue;
+  final int? maxValue;
 
   /// The minimum allowable value for the hyperparameter.
-  @_s.JsonKey(name: 'minValue')
-  final int minValue;
+  final int? minValue;
 
   /// The name of the hyperparameter.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   IntegerHyperParameterRange({
     this.maxValue,
     this.minValue,
     this.name,
   });
-  factory IntegerHyperParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$IntegerHyperParameterRangeFromJson(json);
+  factory IntegerHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return IntegerHyperParameterRange(
+      maxValue: json['maxValue'] as int?,
+      minValue: json['minValue'] as int?,
+      name: json['name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IntegerHyperParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBatchInferenceJobsResponse {
   /// A list containing information on each job that is returned.
-  @_s.JsonKey(name: 'batchInferenceJobs')
-  final List<BatchInferenceJobSummary> batchInferenceJobs;
+  final List<BatchInferenceJobSummary>? batchInferenceJobs;
 
   /// The token to use to retreive the next page of results. The value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBatchInferenceJobsResponse({
     this.batchInferenceJobs,
     this.nextToken,
   });
-  factory ListBatchInferenceJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBatchInferenceJobsResponseFromJson(json);
+  factory ListBatchInferenceJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBatchInferenceJobsResponse(
+      batchInferenceJobs: (json['batchInferenceJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchInferenceJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCampaignsResponse {
   /// A list of the campaigns.
-  @_s.JsonKey(name: 'campaigns')
-  final List<CampaignSummary> campaigns;
+  final List<CampaignSummary>? campaigns;
 
   /// A token for getting the next set of campaigns (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCampaignsResponse({
     this.campaigns,
     this.nextToken,
   });
-  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCampaignsResponseFromJson(json);
+  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCampaignsResponse(
+      campaigns: (json['campaigns'] as List?)
+          ?.whereNotNull()
+          .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetGroupsResponse {
   /// The list of your dataset groups.
-  @_s.JsonKey(name: 'datasetGroups')
-  final List<DatasetGroupSummary> datasetGroups;
+  final List<DatasetGroupSummary>? datasetGroups;
 
   /// A token for getting the next set of dataset groups (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetGroupsResponse({
     this.datasetGroups,
     this.nextToken,
   });
-  factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetGroupsResponseFromJson(json);
+  factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetGroupsResponse(
+      datasetGroups: (json['datasetGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetImportJobsResponse {
   /// The list of dataset import jobs.
-  @_s.JsonKey(name: 'datasetImportJobs')
-  final List<DatasetImportJobSummary> datasetImportJobs;
+  final List<DatasetImportJobSummary>? datasetImportJobs;
 
   /// A token for getting the next set of dataset import jobs (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetImportJobsResponse({
     this.datasetImportJobs,
     this.nextToken,
   });
-  factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetImportJobsResponseFromJson(json);
+  factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetImportJobsResponse(
+      datasetImportJobs: (json['datasetImportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DatasetImportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetsResponse {
   /// An array of <code>Dataset</code> objects. Each object provides metadata
   /// information.
-  @_s.JsonKey(name: 'datasets')
-  final List<DatasetSummary> datasets;
+  final List<DatasetSummary>? datasets;
 
   /// A token for getting the next set of datasets (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetsResponse({
     this.datasets,
     this.nextToken,
   });
-  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetsResponseFromJson(json);
+  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetsResponse(
+      datasets: (json['datasets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventTrackersResponse {
   /// A list of event trackers.
-  @_s.JsonKey(name: 'eventTrackers')
-  final List<EventTrackerSummary> eventTrackers;
+  final List<EventTrackerSummary>? eventTrackers;
 
   /// A token for getting the next set of event trackers (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventTrackersResponse({
     this.eventTrackers,
     this.nextToken,
   });
-  factory ListEventTrackersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventTrackersResponseFromJson(json);
+  factory ListEventTrackersResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventTrackersResponse(
+      eventTrackers: (json['eventTrackers'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventTrackerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFiltersResponse {
   /// A list of returned filters.
-  @_s.JsonKey(name: 'Filters')
-  final List<FilterSummary> filters;
+  final List<FilterSummary>? filters;
 
   /// A token for getting the next set of filters (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFiltersResponse({
     this.filters,
     this.nextToken,
   });
-  factory ListFiltersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFiltersResponseFromJson(json);
+  factory ListFiltersResponse.fromJson(Map<String, dynamic> json) {
+    return ListFiltersResponse(
+      filters: (json['Filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => FilterSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecipesResponse {
   /// A token for getting the next set of recipes.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of available recipes.
-  @_s.JsonKey(name: 'recipes')
-  final List<RecipeSummary> recipes;
+  final List<RecipeSummary>? recipes;
 
   ListRecipesResponse({
     this.nextToken,
     this.recipes,
   });
-  factory ListRecipesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRecipesResponseFromJson(json);
+  factory ListRecipesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecipesResponse(
+      nextToken: json['nextToken'] as String?,
+      recipes: (json['recipes'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecipeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemasResponse {
   /// A token used to get the next set of schemas (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of schemas.
-  @_s.JsonKey(name: 'schemas')
-  final List<DatasetSchemaSummary> schemas;
+  final List<DatasetSchemaSummary>? schemas;
 
   ListSchemasResponse({
     this.nextToken,
     this.schemas,
   });
-  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemasResponseFromJson(json);
+  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemasResponse(
+      nextToken: json['nextToken'] as String?,
+      schemas: (json['schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetSchemaSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSolutionVersionsResponse {
   /// A token for getting the next set of solution versions (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of solution versions describing the version properties.
-  @_s.JsonKey(name: 'solutionVersions')
-  final List<SolutionVersionSummary> solutionVersions;
+  final List<SolutionVersionSummary>? solutionVersions;
 
   ListSolutionVersionsResponse({
     this.nextToken,
     this.solutionVersions,
   });
-  factory ListSolutionVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSolutionVersionsResponseFromJson(json);
+  factory ListSolutionVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSolutionVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      solutionVersions: (json['solutionVersions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SolutionVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSolutionsResponse {
   /// A token for getting the next set of solutions (if they exist).
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the current solutions.
-  @_s.JsonKey(name: 'solutions')
-  final List<SolutionSummary> solutions;
+  final List<SolutionSummary>? solutions;
 
   ListSolutionsResponse({
     this.nextToken,
     this.solutions,
   });
-  factory ListSolutionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSolutionsResponseFromJson(json);
+  factory ListSolutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSolutionsResponse(
+      nextToken: json['nextToken'] as String?,
+      solutions: (json['solutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => SolutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides information about a recipe. Each recipe provides an algorithm that
 /// Amazon Personalize uses in model training when you use the
 /// <a>CreateSolution</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Recipe {
   /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses
   /// to train the model.
-  @_s.JsonKey(name: 'algorithmArn')
-  final String algorithmArn;
+  final String? algorithmArn;
 
   /// The date and time (in Unix format) that the recipe was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The description of the recipe.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ARN of the FeatureTransformation object.
-  @_s.JsonKey(name: 'featureTransformationArn')
-  final String featureTransformationArn;
+  final String? featureTransformationArn;
 
   /// The date and time (in Unix format) that the recipe was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the recipe.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the recipe.
-  @_s.JsonKey(name: 'recipeArn')
-  final String recipeArn;
+  final String? recipeArn;
 
   /// One of the following values:
   ///
@@ -5477,12 +5450,10 @@ class Recipe {
   /// USER_PERSONALIZATION
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'recipeType')
-  final String recipeType;
+  final String? recipeType;
 
   /// The status of the recipe.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   Recipe({
     this.algorithmArn,
@@ -5495,11 +5466,22 @@ class Recipe {
     this.recipeType,
     this.status,
   });
-  factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      algorithmArn: json['algorithmArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      description: json['description'] as String?,
+      featureTransformationArn: json['featureTransformationArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      recipeType: json['recipeType'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 enum RecipeProvider {
-  @_s.JsonValue('SERVICE')
   service,
 }
 
@@ -5509,39 +5491,36 @@ extension on RecipeProvider {
       case RecipeProvider.service:
         return 'SERVICE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RecipeProvider toRecipeProvider() {
+    switch (this) {
+      case 'SERVICE':
+        return RecipeProvider.service;
+    }
+    throw Exception('$this is not known in enum RecipeProvider');
   }
 }
 
 /// Provides a summary of the properties of a recipe. For a complete listing,
 /// call the <a>DescribeRecipe</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecipeSummary {
   /// The date and time (in Unix time) that the recipe was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time (in Unix time) that the recipe was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the recipe.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the recipe.
-  @_s.JsonKey(name: 'recipeArn')
-  final String recipeArn;
+  final String? recipeArn;
 
   /// The status of the recipe.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   RecipeSummary({
     this.creationDateTime,
@@ -5550,101 +5529,93 @@ class RecipeSummary {
     this.recipeArn,
     this.status,
   });
-  factory RecipeSummary.fromJson(Map<String, dynamic> json) =>
-      _$RecipeSummaryFromJson(json);
+  factory RecipeSummary.fromJson(Map<String, dynamic> json) {
+    return RecipeSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// The configuration details of an Amazon S3 input or output bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3DataConfig {
   /// The file path of the Amazon S3 bucket.
-  @_s.JsonKey(name: 'path')
   final String path;
 
   /// The Amazon Resource Name (ARN) of the Amazon Key Management Service (KMS)
   /// key that Amazon Personalize uses to encrypt or decrypt the input and output
   /// files of a batch inference job.
-  @_s.JsonKey(name: 'kmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   S3DataConfig({
-    @_s.required this.path,
+    required this.path,
     this.kmsKeyArn,
   });
-  factory S3DataConfig.fromJson(Map<String, dynamic> json) =>
-      _$S3DataConfigFromJson(json);
+  factory S3DataConfig.fromJson(Map<String, dynamic> json) {
+    return S3DataConfig(
+      path: json['path'] as String,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3DataConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'path': path,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
 /// An object that provides information about a solution. A solution is a
 /// trained model that can be deployed as a campaign.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Solution {
   /// When <code>performAutoML</code> is true, specifies the best recipe found.
-  @_s.JsonKey(name: 'autoMLResult')
-  final AutoMLResult autoMLResult;
+  final AutoMLResult? autoMLResult;
 
   /// The creation date and time (in Unix time) of the solution.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that provides the
   /// training data.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The event type (for example, 'click' or 'like') that is used for training
   /// the model.
-  @_s.JsonKey(name: 'eventType')
-  final String eventType;
+  final String? eventType;
 
   /// The date and time (in Unix time) that the solution was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// Describes the latest version of the solution, including the status and the
   /// ARN.
-  @_s.JsonKey(name: 'latestSolutionVersion')
-  final SolutionVersionSummary latestSolutionVersion;
+  final SolutionVersionSummary? latestSolutionVersion;
 
   /// The name of the solution.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// When true, Amazon Personalize performs a search for the best
   /// USER_PERSONALIZATION recipe from the list specified in the solution
   /// configuration (<code>recipeArn</code> must not be specified). When false
   /// (the default), Amazon Personalize uses <code>recipeArn</code> for training.
-  @_s.JsonKey(name: 'performAutoML')
-  final bool performAutoML;
+  final bool? performAutoML;
 
   /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'performHPO')
-  final bool performHPO;
+  final bool? performHPO;
 
   /// The ARN of the recipe used to create the solution.
-  @_s.JsonKey(name: 'recipeArn')
-  final String recipeArn;
+  final String? recipeArn;
 
   /// The ARN of the solution.
-  @_s.JsonKey(name: 'solutionArn')
-  final String solutionArn;
+  final String? solutionArn;
 
   /// Describes the configuration properties for the solution.
-  @_s.JsonKey(name: 'solutionConfig')
-  final SolutionConfig solutionConfig;
+  final SolutionConfig? solutionConfig;
 
   /// The status of the solution.
   ///
@@ -5658,8 +5629,7 @@ class Solution {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   Solution({
     this.autoMLResult,
@@ -5676,38 +5646,51 @@ class Solution {
     this.solutionConfig,
     this.status,
   });
-  factory Solution.fromJson(Map<String, dynamic> json) =>
-      _$SolutionFromJson(json);
+  factory Solution.fromJson(Map<String, dynamic> json) {
+    return Solution(
+      autoMLResult: json['autoMLResult'] != null
+          ? AutoMLResult.fromJson(json['autoMLResult'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventType: json['eventType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestSolutionVersion: json['latestSolutionVersion'] != null
+          ? SolutionVersionSummary.fromJson(
+              json['latestSolutionVersion'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      performAutoML: json['performAutoML'] as bool?,
+      performHPO: json['performHPO'] as bool?,
+      recipeArn: json['recipeArn'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      solutionConfig: json['solutionConfig'] != null
+          ? SolutionConfig.fromJson(
+              json['solutionConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// Describes the configuration properties for the solution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SolutionConfig {
   /// Lists the hyperparameter names and ranges.
-  @_s.JsonKey(name: 'algorithmHyperParameters')
-  final Map<String, String> algorithmHyperParameters;
+  final Map<String, String>? algorithmHyperParameters;
 
   /// The <a>AutoMLConfig</a> object containing a list of recipes to search when
   /// AutoML is performed.
-  @_s.JsonKey(name: 'autoMLConfig')
-  final AutoMLConfig autoMLConfig;
+  final AutoMLConfig? autoMLConfig;
 
   /// Only events with a value greater than or equal to this threshold are used
   /// for training a model.
-  @_s.JsonKey(name: 'eventValueThreshold')
-  final String eventValueThreshold;
+  final String? eventValueThreshold;
 
   /// Lists the feature transformation parameters.
-  @_s.JsonKey(name: 'featureTransformationParameters')
-  final Map<String, String> featureTransformationParameters;
+  final Map<String, String>? featureTransformationParameters;
 
   /// Describes the properties for hyperparameter optimization (HPO).
-  @_s.JsonKey(name: 'hpoConfig')
-  final HPOConfig hpoConfig;
+  final HPOConfig? hpoConfig;
 
   SolutionConfig({
     this.algorithmHyperParameters,
@@ -5716,37 +5699,58 @@ class SolutionConfig {
     this.featureTransformationParameters,
     this.hpoConfig,
   });
-  factory SolutionConfig.fromJson(Map<String, dynamic> json) =>
-      _$SolutionConfigFromJson(json);
+  factory SolutionConfig.fromJson(Map<String, dynamic> json) {
+    return SolutionConfig(
+      algorithmHyperParameters:
+          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      autoMLConfig: json['autoMLConfig'] != null
+          ? AutoMLConfig.fromJson(json['autoMLConfig'] as Map<String, dynamic>)
+          : null,
+      eventValueThreshold: json['eventValueThreshold'] as String?,
+      featureTransformationParameters:
+          (json['featureTransformationParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      hpoConfig: json['hpoConfig'] != null
+          ? HPOConfig.fromJson(json['hpoConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SolutionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final algorithmHyperParameters = this.algorithmHyperParameters;
+    final autoMLConfig = this.autoMLConfig;
+    final eventValueThreshold = this.eventValueThreshold;
+    final featureTransformationParameters =
+        this.featureTransformationParameters;
+    final hpoConfig = this.hpoConfig;
+    return {
+      if (algorithmHyperParameters != null)
+        'algorithmHyperParameters': algorithmHyperParameters,
+      if (autoMLConfig != null) 'autoMLConfig': autoMLConfig,
+      if (eventValueThreshold != null)
+        'eventValueThreshold': eventValueThreshold,
+      if (featureTransformationParameters != null)
+        'featureTransformationParameters': featureTransformationParameters,
+      if (hpoConfig != null) 'hpoConfig': hpoConfig,
+    };
+  }
 }
 
 /// Provides a summary of the properties of a solution. For a complete listing,
 /// call the <a>DescribeSolution</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SolutionSummary {
   /// The date and time (in Unix time) that the solution was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time (in Unix time) that the solution was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The name of the solution.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the solution.
-  @_s.JsonKey(name: 'solutionArn')
-  final String solutionArn;
+  final String? solutionArn;
 
   /// The status of the solution.
   ///
@@ -5760,8 +5764,7 @@ class SolutionSummary {
   /// DELETE PENDING &gt; DELETE IN_PROGRESS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   SolutionSummary({
     this.creationDateTime,
@@ -5770,69 +5773,58 @@ class SolutionSummary {
     this.solutionArn,
     this.status,
   });
-  factory SolutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$SolutionSummaryFromJson(json);
+  factory SolutionSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 /// An object that provides information about a specific version of a
 /// <a>Solution</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SolutionVersion {
   /// The date and time (in Unix time) that this version of the solution was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group providing the training
   /// data.
-  @_s.JsonKey(name: 'datasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The event type (for example, 'click' or 'like') that is used for training
   /// the model.
-  @_s.JsonKey(name: 'eventType')
-  final String eventType;
+  final String? eventType;
 
   /// If training a solution version fails, the reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix time) that the solution was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// When true, Amazon Personalize searches for the most optimal recipe according
   /// to the solution configuration. When false (the default), Amazon Personalize
   /// uses <code>recipeArn</code>.
-  @_s.JsonKey(name: 'performAutoML')
-  final bool performAutoML;
+  final bool? performAutoML;
 
   /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'performHPO')
-  final bool performHPO;
+  final bool? performHPO;
 
   /// The ARN of the recipe used in the solution.
-  @_s.JsonKey(name: 'recipeArn')
-  final String recipeArn;
+  final String? recipeArn;
 
   /// The ARN of the solution.
-  @_s.JsonKey(name: 'solutionArn')
-  final String solutionArn;
+  final String? solutionArn;
 
   /// Describes the configuration properties for the solution.
-  @_s.JsonKey(name: 'solutionConfig')
-  final SolutionConfig solutionConfig;
+  final SolutionConfig? solutionConfig;
 
   /// The ARN of the solution version.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the solution version.
   ///
@@ -5852,14 +5844,12 @@ class SolutionVersion {
   /// CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The time used to train the model. You are billed for the time it takes to
   /// train a model. This field is visible only after Amazon Personalize
   /// successfully trains a model.
-  @_s.JsonKey(name: 'trainingHours')
-  final double trainingHours;
+  final double? trainingHours;
 
   /// The scope of training used to create the solution version. The
   /// <code>FULL</code> option trains the solution version based on the entirety
@@ -5872,13 +5862,11 @@ class SolutionVersion {
   /// solution version with the <code>FULL</code> option and the training solution
   /// uses the <a>native-recipe-hrnn-coldstart</a>.
   /// </important>
-  @_s.JsonKey(name: 'trainingMode')
-  final TrainingMode trainingMode;
+  final TrainingMode? trainingMode;
 
   /// If hyperparameter optimization was performed, contains the hyperparameter
   /// values of the best performing model.
-  @_s.JsonKey(name: 'tunedHPOParams')
-  final TunedHPOParams tunedHPOParams;
+  final TunedHPOParams? tunedHPOParams;
 
   SolutionVersion({
     this.creationDateTime,
@@ -5897,36 +5885,48 @@ class SolutionVersion {
     this.trainingMode,
     this.tunedHPOParams,
   });
-  factory SolutionVersion.fromJson(Map<String, dynamic> json) =>
-      _$SolutionVersionFromJson(json);
+  factory SolutionVersion.fromJson(Map<String, dynamic> json) {
+    return SolutionVersion(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventType: json['eventType'] as String?,
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      performAutoML: json['performAutoML'] as bool?,
+      performHPO: json['performHPO'] as bool?,
+      recipeArn: json['recipeArn'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      solutionConfig: json['solutionConfig'] != null
+          ? SolutionConfig.fromJson(
+              json['solutionConfig'] as Map<String, dynamic>)
+          : null,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+      trainingHours: json['trainingHours'] as double?,
+      trainingMode: (json['trainingMode'] as String?)?.toTrainingMode(),
+      tunedHPOParams: json['tunedHPOParams'] != null
+          ? TunedHPOParams.fromJson(
+              json['tunedHPOParams'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Provides a summary of the properties of a solution version. For a complete
 /// listing, call the <a>DescribeSolutionVersion</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SolutionVersionSummary {
   /// The date and time (in Unix time) that this version of a solution was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// If a solution version fails, the reason behind the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The date and time (in Unix time) that the solution version was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDateTime')
-  final DateTime lastUpdatedDateTime;
+  final DateTime? lastUpdatedDateTime;
 
   /// The Amazon Resource Name (ARN) of the solution version.
-  @_s.JsonKey(name: 'solutionVersionArn')
-  final String solutionVersionArn;
+  final String? solutionVersionArn;
 
   /// The status of the solution version.
   ///
@@ -5937,8 +5937,7 @@ class SolutionVersionSummary {
   /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   SolutionVersionSummary({
     this.creationDateTime,
@@ -5947,14 +5946,19 @@ class SolutionVersionSummary {
     this.solutionVersionArn,
     this.status,
   });
-  factory SolutionVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$SolutionVersionSummaryFromJson(json);
+  factory SolutionVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionVersionSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
 }
 
 enum TrainingMode {
-  @_s.JsonValue('FULL')
   full,
-  @_s.JsonValue('UPDATE')
   update,
 }
 
@@ -5966,63 +5970,70 @@ extension on TrainingMode {
       case TrainingMode.update:
         return 'UPDATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TrainingMode toTrainingMode() {
+    switch (this) {
+      case 'FULL':
+        return TrainingMode.full;
+      case 'UPDATE':
+        return TrainingMode.update;
+    }
+    throw Exception('$this is not known in enum TrainingMode');
   }
 }
 
 /// If hyperparameter optimization (HPO) was performed, contains the
 /// hyperparameter values of the best performing model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TunedHPOParams {
   /// A list of the hyperparameter values of the best performing model.
-  @_s.JsonKey(name: 'algorithmHyperParameters')
-  final Map<String, String> algorithmHyperParameters;
+  final Map<String, String>? algorithmHyperParameters;
 
   TunedHPOParams({
     this.algorithmHyperParameters,
   });
-  factory TunedHPOParams.fromJson(Map<String, dynamic> json) =>
-      _$TunedHPOParamsFromJson(json);
+  factory TunedHPOParams.fromJson(Map<String, dynamic> json) {
+    return TunedHPOParams(
+      algorithmHyperParameters:
+          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCampaignResponse {
   /// The same campaign ARN as given in the request.
-  @_s.JsonKey(name: 'campaignArn')
-  final String campaignArn;
+  final String? campaignArn;
 
   UpdateCampaignResponse({
     this.campaignArn,
   });
-  factory UpdateCampaignResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCampaignResponseFromJson(json);
+  factory UpdateCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCampaignResponse(
+      campaignArn: json['campaignArn'] as String?,
+    );
+  }
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -6030,12 +6041,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

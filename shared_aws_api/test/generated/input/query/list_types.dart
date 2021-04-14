@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'list_types.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class ListTypes {
   final Map<String, _s.Shape> shapes;
 
   ListTypes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,7 +40,7 @@ class ListTypes {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    List<String> listArg,
+    List<String>? listArg,
   }) async {
     final $request = <String, dynamic>{};
     listArg?.also((arg) => $request['ListArg'] = arg);
@@ -63,7 +57,7 @@ class ListTypes {
   }
 
   Future<void> operationName1({
-    List<String> listArg,
+    List<String>? listArg,
   }) async {
     final $request = <String, dynamic>{};
     listArg?.also((arg) => $request['ListArg'] = arg);

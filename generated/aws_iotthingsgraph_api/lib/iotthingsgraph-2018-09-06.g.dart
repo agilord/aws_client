@@ -42,56 +42,41 @@ CreateSystemTemplateResponse _$CreateSystemTemplateResponseFromJson(
 
 DefinitionDocument _$DefinitionDocumentFromJson(Map<String, dynamic> json) {
   return DefinitionDocument(
-    language:
-        _$enumDecodeNullable(_$DefinitionLanguageEnumMap, json['language']),
+    language: _$enumDecode(_$DefinitionLanguageEnumMap, json['language']),
     text: json['text'] as String,
   );
 }
 
-Map<String, dynamic> _$DefinitionDocumentToJson(DefinitionDocument instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$DefinitionDocumentToJson(DefinitionDocument instance) =>
+    <String, dynamic>{
+      'language': _$DefinitionLanguageEnumMap[instance.language],
+      'text': instance.text,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('language', _$DefinitionLanguageEnumMap[instance.language]);
-  writeNotNull('text', instance.text);
-  return val;
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$DefinitionLanguageEnumMap = {
@@ -106,8 +91,8 @@ DeleteFlowTemplateResponse _$DeleteFlowTemplateResponseFromJson(
 DeleteNamespaceResponse _$DeleteNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteNamespaceResponse(
-    namespaceArn: json['namespaceArn'] as String,
-    namespaceName: json['namespaceName'] as String,
+    namespaceArn: json['namespaceArn'] as String?,
+    namespaceName: json['namespaceName'] as String?,
   );
 }
 
@@ -123,19 +108,17 @@ DeleteSystemTemplateResponse _$DeleteSystemTemplateResponseFromJson(
 
 DependencyRevision _$DependencyRevisionFromJson(Map<String, dynamic> json) {
   return DependencyRevision(
-    id: json['id'] as String,
-    revisionNumber: json['revisionNumber'] as int,
+    id: json['id'] as String?,
+    revisionNumber: json['revisionNumber'] as int?,
   );
 }
 
 DeploySystemInstanceResponse _$DeploySystemInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return DeploySystemInstanceResponse(
-    summary: json['summary'] == null
-        ? null
-        : SystemInstanceSummary.fromJson(
-            json['summary'] as Map<String, dynamic>),
-    greengrassDeploymentId: json['greengrassDeploymentId'] as String,
+    summary:
+        SystemInstanceSummary.fromJson(json['summary'] as Map<String, dynamic>),
+    greengrassDeploymentId: json['greengrassDeploymentId'] as String?,
   );
 }
 
@@ -152,11 +135,11 @@ DeprecateSystemTemplateResponse _$DeprecateSystemTemplateResponseFromJson(
 DescribeNamespaceResponse _$DescribeNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeNamespaceResponse(
-    namespaceArn: json['namespaceArn'] as String,
-    namespaceName: json['namespaceName'] as String,
-    namespaceVersion: json['namespaceVersion'] as int,
-    trackingNamespaceName: json['trackingNamespaceName'] as String,
-    trackingNamespaceVersion: json['trackingNamespaceVersion'] as int,
+    namespaceArn: json['namespaceArn'] as String?,
+    namespaceName: json['namespaceName'] as String?,
+    namespaceVersion: json['namespaceVersion'] as int?,
+    trackingNamespaceName: json['trackingNamespaceName'] as String?,
+    trackingNamespaceVersion: json['trackingNamespaceVersion'] as int?,
   );
 }
 
@@ -167,15 +150,26 @@ DissociateEntityFromThingResponse _$DissociateEntityFromThingResponseFromJson(
 
 EntityDescription _$EntityDescriptionFromJson(Map<String, dynamic> json) {
   return EntityDescription(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     definition: json['definition'] == null
         ? null
         : DefinitionDocument.fromJson(
             json['definition'] as Map<String, dynamic>),
-    id: json['id'] as String,
+    id: json['id'] as String?,
     type: _$enumDecodeNullable(_$EntityTypeEnumMap, json['type']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$EntityTypeEnumMap = {
@@ -216,8 +210,8 @@ FlowExecutionMessage _$FlowExecutionMessageFromJson(Map<String, dynamic> json) {
   return FlowExecutionMessage(
     eventType: _$enumDecodeNullable(
         _$FlowExecutionEventTypeEnumMap, json['eventType']),
-    messageId: json['messageId'] as String,
-    payload: json['payload'] as String,
+    messageId: json['messageId'] as String?,
+    payload: json['payload'] as String?,
     timestamp: const UnixDateTimeConverter().fromJson(json['timestamp']),
   );
 }
@@ -247,10 +241,10 @@ const _$FlowExecutionEventTypeEnumMap = {
 FlowExecutionSummary _$FlowExecutionSummaryFromJson(Map<String, dynamic> json) {
   return FlowExecutionSummary(
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    flowExecutionId: json['flowExecutionId'] as String,
-    flowTemplateId: json['flowTemplateId'] as String,
+    flowExecutionId: json['flowExecutionId'] as String?,
+    flowTemplateId: json['flowTemplateId'] as String?,
     status: _$enumDecodeNullable(_$FlowExecutionStatusEnumMap, json['status']),
-    systemInstanceId: json['systemInstanceId'] as String,
+    systemInstanceId: json['systemInstanceId'] as String?,
     updatedAt: const UnixDateTimeConverter().fromJson(json['updatedAt']),
   );
 }
@@ -272,23 +266,15 @@ FlowTemplateDescription _$FlowTemplateDescriptionFromJson(
     summary: json['summary'] == null
         ? null
         : FlowTemplateSummary.fromJson(json['summary'] as Map<String, dynamic>),
-    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int,
+    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
   );
 }
 
-Map<String, dynamic> _$FlowTemplateFilterToJson(FlowTemplateFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', _$FlowTemplateFilterNameEnumMap[instance.name]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$FlowTemplateFilterToJson(FlowTemplateFilter instance) =>
+    <String, dynamic>{
+      'name': _$FlowTemplateFilterNameEnumMap[instance.name],
+      'value': instance.value,
+    };
 
 const _$FlowTemplateFilterNameEnumMap = {
   FlowTemplateFilterName.deviceModelId: 'DEVICE_MODEL_ID',
@@ -296,20 +282,18 @@ const _$FlowTemplateFilterNameEnumMap = {
 
 FlowTemplateSummary _$FlowTemplateSummaryFromJson(Map<String, dynamic> json) {
   return FlowTemplateSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    id: json['id'] as String,
-    revisionNumber: json['revisionNumber'] as int,
+    id: json['id'] as String?,
+    revisionNumber: json['revisionNumber'] as int?,
   );
 }
 
 GetEntitiesResponse _$GetEntitiesResponseFromJson(Map<String, dynamic> json) {
   return GetEntitiesResponse(
-    descriptions: (json['descriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EntityDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    descriptions: (json['descriptions'] as List<dynamic>?)
+        ?.map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -326,12 +310,10 @@ GetFlowTemplateResponse _$GetFlowTemplateResponseFromJson(
 GetFlowTemplateRevisionsResponse _$GetFlowTemplateRevisionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetFlowTemplateRevisionsResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -340,9 +322,9 @@ GetNamespaceDeletionStatusResponse _$GetNamespaceDeletionStatusResponseFromJson(
   return GetNamespaceDeletionStatusResponse(
     errorCode: _$enumDecodeNullable(
         _$NamespaceDeletionStatusErrorCodesEnumMap, json['errorCode']),
-    errorMessage: json['errorMessage'] as String,
-    namespaceArn: json['namespaceArn'] as String,
-    namespaceName: json['namespaceName'] as String,
+    errorMessage: json['errorMessage'] as String?,
+    namespaceArn: json['namespaceArn'] as String?,
+    namespaceName: json['namespaceName'] as String?,
     status:
         _$enumDecodeNullable(_$NamespaceDeletionStatusEnumMap, json['status']),
   );
@@ -381,27 +363,25 @@ GetSystemTemplateResponse _$GetSystemTemplateResponseFromJson(
 GetSystemTemplateRevisionsResponse _$GetSystemTemplateRevisionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetSystemTemplateRevisionsResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetUploadStatusResponse _$GetUploadStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetUploadStatusResponse(
-    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    createdDate: DateTime.parse(json['createdDate'] as String),
     uploadId: json['uploadId'] as String,
-    uploadStatus:
-        _$enumDecodeNullable(_$UploadStatusEnumMap, json['uploadStatus']),
-    failureReason:
-        (json['failureReason'] as List)?.map((e) => e as String)?.toList(),
-    namespaceArn: json['namespaceArn'] as String,
-    namespaceName: json['namespaceName'] as String,
-    namespaceVersion: json['namespaceVersion'] as int,
+    uploadStatus: _$enumDecode(_$UploadStatusEnumMap, json['uploadStatus']),
+    failureReason: (json['failureReason'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    namespaceArn: json['namespaceArn'] as String?,
+    namespaceName: json['namespaceName'] as String?,
+    namespaceVersion: json['namespaceVersion'] as int?,
   );
 }
 
@@ -414,29 +394,27 @@ const _$UploadStatusEnumMap = {
 ListFlowExecutionMessagesResponse _$ListFlowExecutionMessagesResponseFromJson(
     Map<String, dynamic> json) {
   return ListFlowExecutionMessagesResponse(
-    messages: (json['messages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FlowExecutionMessage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    messages: (json['messages'] as List<dynamic>?)
+        ?.map((e) => FlowExecutionMessage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['nextToken'] as String,
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MetricsConfiguration _$MetricsConfigurationFromJson(Map<String, dynamic> json) {
   return MetricsConfiguration(
-    cloudMetricEnabled: json['cloudMetricEnabled'] as bool,
-    metricRuleRoleArn: json['metricRuleRoleArn'] as String,
+    cloudMetricEnabled: json['cloudMetricEnabled'] as bool?,
+    metricRuleRoleArn: json['metricRuleRoleArn'] as String?,
   );
 }
 
@@ -458,70 +436,59 @@ Map<String, dynamic> _$MetricsConfigurationToJson(
 SearchEntitiesResponse _$SearchEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchEntitiesResponse(
-    descriptions: (json['descriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EntityDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    descriptions: (json['descriptions'] as List<dynamic>?)
+        ?.map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 SearchFlowExecutionsResponse _$SearchFlowExecutionsResponseFromJson(
     Map<String, dynamic> json) {
   return SearchFlowExecutionsResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FlowExecutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => FlowExecutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchFlowTemplatesResponse _$SearchFlowTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchFlowTemplatesResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchSystemInstancesResponse _$SearchSystemInstancesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchSystemInstancesResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SystemInstanceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => SystemInstanceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchSystemTemplatesResponse _$SearchSystemTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchSystemTemplatesResponse(
-    nextToken: json['nextToken'] as String,
-    summaries: (json['summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    summaries: (json['summaries'] as List<dynamic>?)
+        ?.map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 SearchThingsResponse _$SearchThingsResponseFromJson(Map<String, dynamic> json) {
   return SearchThingsResponse(
-    nextToken: json['nextToken'] as String,
-    things: (json['things'] as List)
-        ?.map(
-            (e) => e == null ? null : Thing.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    things: (json['things'] as List<dynamic>?)
+        ?.map((e) => Thing.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -532,22 +499,21 @@ SystemInstanceDescription _$SystemInstanceDescriptionFromJson(
         ? null
         : DefinitionDocument.fromJson(
             json['definition'] as Map<String, dynamic>),
-    flowActionsRoleArn: json['flowActionsRoleArn'] as String,
+    flowActionsRoleArn: json['flowActionsRoleArn'] as String?,
     metricsConfiguration: json['metricsConfiguration'] == null
         ? null
         : MetricsConfiguration.fromJson(
             json['metricsConfiguration'] as Map<String, dynamic>),
-    s3BucketName: json['s3BucketName'] as String,
+    s3BucketName: json['s3BucketName'] as String?,
     summary: json['summary'] == null
         ? null
         : SystemInstanceSummary.fromJson(
             json['summary'] as Map<String, dynamic>),
-    validatedDependencyRevisions: (json['validatedDependencyRevisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DependencyRevision.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int,
+    validatedDependencyRevisions:
+        (json['validatedDependencyRevisions'] as List<dynamic>?)
+            ?.map((e) => DependencyRevision.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
   );
 }
 
@@ -575,12 +541,12 @@ const _$SystemInstanceFilterNameEnumMap = {
 SystemInstanceSummary _$SystemInstanceSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemInstanceSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    greengrassGroupId: json['greengrassGroupId'] as String,
-    greengrassGroupName: json['greengrassGroupName'] as String,
-    greengrassGroupVersionId: json['greengrassGroupVersionId'] as String,
-    id: json['id'] as String,
+    greengrassGroupId: json['greengrassGroupId'] as String?,
+    greengrassGroupName: json['greengrassGroupName'] as String?,
+    greengrassGroupVersionId: json['greengrassGroupVersionId'] as String?,
+    id: json['id'] as String?,
     status: _$enumDecodeNullable(
         _$SystemInstanceDeploymentStatusEnumMap, json['status']),
     target: _$enumDecodeNullable(_$DeploymentTargetEnumMap, json['target']),
@@ -615,24 +581,16 @@ SystemTemplateDescription _$SystemTemplateDescriptionFromJson(
         ? null
         : SystemTemplateSummary.fromJson(
             json['summary'] as Map<String, dynamic>),
-    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int,
+    validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
   );
 }
 
 Map<String, dynamic> _$SystemTemplateFilterToJson(
-    SystemTemplateFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', _$SystemTemplateFilterNameEnumMap[instance.name]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+        SystemTemplateFilter instance) =>
+    <String, dynamic>{
+      'name': _$SystemTemplateFilterNameEnumMap[instance.name],
+      'value': instance.value,
+    };
 
 const _$SystemTemplateFilterNameEnumMap = {
   SystemTemplateFilterName.flowTemplateId: 'FLOW_TEMPLATE_ID',
@@ -641,10 +599,10 @@ const _$SystemTemplateFilterNameEnumMap = {
 SystemTemplateSummary _$SystemTemplateSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemTemplateSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    id: json['id'] as String,
-    revisionNumber: json['revisionNumber'] as int,
+    id: json['id'] as String?,
+    revisionNumber: json['revisionNumber'] as int?,
   );
 }
 
@@ -655,19 +613,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -675,8 +624,8 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 Thing _$ThingFromJson(Map<String, dynamic> json) {
   return Thing(
-    thingArn: json['thingArn'] as String,
-    thingName: json['thingName'] as String,
+    thingArn: json['thingArn'] as String?,
+    thingName: json['thingName'] as String?,
   );
 }
 

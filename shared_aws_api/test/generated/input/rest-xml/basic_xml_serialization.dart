@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class BasicXMLSerialization {
   final _s.RestXmlProtocol _protocol;
   BasicXMLSerialization({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,8 +37,8 @@ class BasicXMLSerialization {
         );
 
   Future<void> operationName0({
-    String description,
-    String name,
+    String? description,
+    String? name,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -49,8 +54,8 @@ class BasicXMLSerialization {
   }
 
   Future<void> operationName1({
-    String description,
-    String name,
+    String? description,
+    String? name,
   }) async {
     await _protocol.send(
       method: 'PUT',
@@ -75,14 +80,16 @@ class BasicXMLSerialization {
 }
 
 class InputShape {
-  final String description;
-  final String name;
+  final String? description;
+  final String? name;
 
   InputShape({
     this.description,
     this.name,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final description = this.description;
+    final name = this.name;
     final $children = <_s.XmlNode>[
       if (name != null) _s.encodeXmlStringValue('Name', name),
       if (description != null)
@@ -94,7 +101,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

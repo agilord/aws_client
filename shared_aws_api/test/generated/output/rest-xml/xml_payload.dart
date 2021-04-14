@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class XMLPayload {
   final _s.RestXmlProtocol _protocol;
   XMLPayload({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,8 +51,8 @@ class XMLPayload {
 }
 
 class OutputShape {
-  final SingleStructure data;
-  final String header;
+  final SingleStructure? data;
+  final String? header;
 
   OutputShape({
     this.data,
@@ -56,7 +61,7 @@ class OutputShape {
 }
 
 class SingleStructure {
-  final String foo;
+  final String? foo;
 
   SingleStructure({
     this.foo,

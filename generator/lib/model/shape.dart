@@ -22,6 +22,8 @@ class Shape {
   bool isTopLevelOutputEnum = false;
   @JsonKey(ignore: true)
   bool isUsedInOutput = false;
+  @JsonKey(ignore: true)
+  bool excludeFactoryMethod = false;
   final String type;
   @JsonKey(name: 'enum')
   final List<String> enumeration;
@@ -106,7 +108,7 @@ class Shape {
     });
     _members = membersMap?.values?.toList() ?? <Member>[];
     required?.forEach((name) {
-      _members.firstWhere((m) => m.name == name).isRequired = true;
+      _members.firstWhere((m) => m.name == name)._isRequired = true;
     });
     _members.sort((a, b) {
       if (a.isRequired && !b.isRequired) return -1;
@@ -157,11 +159,13 @@ class Shape {
     return generateFromJson || generateToJson;
   }
 
-  bool get generateFromJson => isUsedInOutput && api.generateFromJson;
+  bool get generateFromJson =>
+      isUsedInOutput && api.generateFromJson && !excludeFactoryMethod;
 
   bool get generateToJson => isUsedInInput && api.generateJson;
 
-  bool get generateFromXml => api.generateFromXml && isUsedInOutput;
+  bool get generateFromXml =>
+      api.generateFromXml && isUsedInOutput && !excludeFactoryMethod;
 
   bool get generateToXml => api.generateToXml && isUsedInInput;
 
@@ -196,7 +200,7 @@ class Member {
   @JsonKey(ignore: true)
   String name;
   @JsonKey(ignore: true)
-  bool isRequired = false;
+  bool _isRequired = false;
   final String shape;
   final String documentation;
   @JsonKey(name: 'enum')
@@ -248,9 +252,13 @@ class Member {
     this.eventpayload,
     this.tags,
     this.timestampFormat,
-  );
+  ) {
+    _isRequired = location == 'uri';
+  }
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  bool get isRequired => _isRequired && !idempotencyToken;
 
   Shape get shapeClass => api.shapes[shape];
 
@@ -266,14 +274,23 @@ class Member {
   String get dartType {
     final dartType = shape;
     final type = shapeClass.type;
+
+    if (jsonvalue || shapeClass.member?.jsonvalue == true) {
+      if (shapeClass.type == 'list') {
+        return 'List<Object>';
+      } else {
+        return 'Object';
+      }
+    }
     // There should be an enum for enumerated parameters
-    if (shapeClass.enumeration != null) {
+    else if (shapeClass.enumeration != null) {
       return shapeClass.className;
     } else if (type.isBasicType()) {
       return type.getDartType(api);
     } else if (type.isMapOrList()) {
       return getListOrMapDartType(shapeClass);
     }
+
     return dartType;
   }
 

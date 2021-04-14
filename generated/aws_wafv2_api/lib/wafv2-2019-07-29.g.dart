@@ -22,26 +22,16 @@ Map<String, dynamic> _$AllowActionToJson(AllowAction instance) =>
 
 AndStatement _$AndStatementFromJson(Map<String, dynamic> json) {
   return AndStatement(
-    statements: (json['Statements'] as List)
-        ?.map((e) =>
-            e == null ? null : Statement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    statements: (json['Statements'] as List<dynamic>)
+        .map((e) => Statement.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$AndStatementToJson(AndStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Statements', instance.statements?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$AndStatementToJson(AndStatement instance) =>
+    <String, dynamic>{
+      'Statements': instance.statements.map((e) => e.toJson()).toList(),
+    };
 
 AssociateWebACLResponse _$AssociateWebACLResponseFromJson(
     Map<String, dynamic> json) {
@@ -63,23 +53,24 @@ Map<String, dynamic> _$BodyToJson(Body instance) => <String, dynamic>{};
 
 ByteMatchStatement _$ByteMatchStatementFromJson(Map<String, dynamic> json) {
   return ByteMatchStatement(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    positionalConstraint: _$enumDecodeNullable(
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    positionalConstraint: _$enumDecode(
         _$PositionalConstraintEnumMap, json['PositionalConstraint']),
     searchString:
         const Uint8ListConverter().fromJson(json['SearchString'] as String),
-    textTransformations: (json['TextTransformations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTransformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    textTransformations: (json['TextTransformations'] as List<dynamic>)
+        .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ByteMatchStatementToJson(ByteMatchStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'FieldToMatch': instance.fieldToMatch.toJson(),
+    'PositionalConstraint':
+        _$PositionalConstraintEnumMap[instance.positionalConstraint],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -87,46 +78,37 @@ Map<String, dynamic> _$ByteMatchStatementToJson(ByteMatchStatement instance) {
     }
   }
 
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('PositionalConstraint',
-      _$PositionalConstraintEnumMap[instance.positionalConstraint]);
   writeNotNull(
       'SearchString', const Uint8ListConverter().toJson(instance.searchString));
-  writeNotNull('TextTransformations',
-      instance.textTransformations?.map((e) => e?.toJson())?.toList());
+  val['TextTransformations'] =
+      instance.textTransformations.map((e) => e.toJson()).toList();
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$PositionalConstraintEnumMap = {
@@ -140,7 +122,7 @@ const _$PositionalConstraintEnumMap = {
 CheckCapacityResponse _$CheckCapacityResponseFromJson(
     Map<String, dynamic> json) {
   return CheckCapacityResponse(
-    capacity: json['Capacity'] as int,
+    capacity: json['Capacity'] as int?,
   );
 }
 
@@ -215,7 +197,7 @@ DeleteFirewallManagerRuleGroupsResponse
     _$DeleteFirewallManagerRuleGroupsResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteFirewallManagerRuleGroupsResponse(
-    nextWebACLLockToken: json['NextWebACLLockToken'] as String,
+    nextWebACLLockToken: json['NextWebACLLockToken'] as String?,
   );
 }
 
@@ -250,11 +232,10 @@ DeleteWebACLResponse _$DeleteWebACLResponseFromJson(Map<String, dynamic> json) {
 DescribeManagedRuleGroupResponse _$DescribeManagedRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeManagedRuleGroupResponse(
-    capacity: json['Capacity'] as int,
-    rules: (json['Rules'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    capacity: json['Capacity'] as int?,
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -269,18 +250,10 @@ ExcludedRule _$ExcludedRuleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ExcludedRuleToJson(ExcludedRule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$ExcludedRuleToJson(ExcludedRule instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 FieldToMatch _$FieldToMatchFromJson(Map<String, dynamic> json) {
   return FieldToMatch(
@@ -332,20 +305,14 @@ Map<String, dynamic> _$FieldToMatchToJson(FieldToMatch instance) {
 FirewallManagerRuleGroup _$FirewallManagerRuleGroupFromJson(
     Map<String, dynamic> json) {
   return FirewallManagerRuleGroup(
-    firewallManagerStatement: json['FirewallManagerStatement'] == null
-        ? null
-        : FirewallManagerStatement.fromJson(
-            json['FirewallManagerStatement'] as Map<String, dynamic>),
+    firewallManagerStatement: FirewallManagerStatement.fromJson(
+        json['FirewallManagerStatement'] as Map<String, dynamic>),
     name: json['Name'] as String,
-    overrideAction: json['OverrideAction'] == null
-        ? null
-        : OverrideAction.fromJson(
-            json['OverrideAction'] as Map<String, dynamic>),
+    overrideAction:
+        OverrideAction.fromJson(json['OverrideAction'] as Map<String, dynamic>),
     priority: json['Priority'] as int,
-    visibilityConfig: json['VisibilityConfig'] == null
-        ? null
-        : VisibilityConfig.fromJson(
-            json['VisibilityConfig'] as Map<String, dynamic>),
+    visibilityConfig: VisibilityConfig.fromJson(
+        json['VisibilityConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -365,26 +332,17 @@ FirewallManagerStatement _$FirewallManagerStatementFromJson(
 
 ForwardedIPConfig _$ForwardedIPConfigFromJson(Map<String, dynamic> json) {
   return ForwardedIPConfig(
-    fallbackBehavior: _$enumDecodeNullable(
-        _$FallbackBehaviorEnumMap, json['FallbackBehavior']),
+    fallbackBehavior:
+        _$enumDecode(_$FallbackBehaviorEnumMap, json['FallbackBehavior']),
     headerName: json['HeaderName'] as String,
   );
 }
 
-Map<String, dynamic> _$ForwardedIPConfigToJson(ForwardedIPConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'FallbackBehavior', _$FallbackBehaviorEnumMap[instance.fallbackBehavior]);
-  writeNotNull('HeaderName', instance.headerName);
-  return val;
-}
+Map<String, dynamic> _$ForwardedIPConfigToJson(ForwardedIPConfig instance) =>
+    <String, dynamic>{
+      'FallbackBehavior': _$FallbackBehaviorEnumMap[instance.fallbackBehavior],
+      'HeaderName': instance.headerName,
+    };
 
 const _$FallbackBehaviorEnumMap = {
   FallbackBehavior.match: 'MATCH',
@@ -393,9 +351,9 @@ const _$FallbackBehaviorEnumMap = {
 
 GeoMatchStatement _$GeoMatchStatementFromJson(Map<String, dynamic> json) {
   return GeoMatchStatement(
-    countryCodes: (json['CountryCodes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$CountryCodeEnumMap, e))
-        ?.toList(),
+    countryCodes: (json['CountryCodes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$CountryCodeEnumMap, e))
+        .toList(),
     forwardedIPConfig: json['ForwardedIPConfig'] == null
         ? null
         : ForwardedIPConfig.fromJson(
@@ -413,7 +371,7 @@ Map<String, dynamic> _$GeoMatchStatementToJson(GeoMatchStatement instance) {
   }
 
   writeNotNull('CountryCodes',
-      instance.countryCodes?.map((e) => _$CountryCodeEnumMap[e])?.toList());
+      instance.countryCodes?.map((e) => _$CountryCodeEnumMap[e]).toList());
   writeNotNull('ForwardedIPConfig', instance.forwardedIPConfig?.toJson());
   return val;
 }
@@ -675,7 +633,7 @@ GetIPSetResponse _$GetIPSetResponseFromJson(Map<String, dynamic> json) {
     iPSet: json['IPSet'] == null
         ? null
         : IPSet.fromJson(json['IPSet'] as Map<String, dynamic>),
-    lockToken: json['LockToken'] as String,
+    lockToken: json['LockToken'] as String?,
   );
 }
 
@@ -692,7 +650,7 @@ GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
 GetPermissionPolicyResponse _$GetPermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetPermissionPolicyResponse(
-    policy: json['Policy'] as String,
+    policy: json['Policy'] as String?,
   );
 }
 
@@ -714,7 +672,7 @@ GetRateBasedStatementManagedKeysResponse
 GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetRegexPatternSetResponse(
-    lockToken: json['LockToken'] as String,
+    lockToken: json['LockToken'] as String?,
     regexPatternSet: json['RegexPatternSet'] == null
         ? null
         : RegexPatternSet.fromJson(
@@ -724,7 +682,7 @@ GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
 
 GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
   return GetRuleGroupResponse(
-    lockToken: json['LockToken'] as String,
+    lockToken: json['LockToken'] as String?,
     ruleGroup: json['RuleGroup'] == null
         ? null
         : RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>),
@@ -734,12 +692,10 @@ GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
 GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
     Map<String, dynamic> json) {
   return GetSampledRequestsResponse(
-    populationSize: json['PopulationSize'] as int,
-    sampledRequests: (json['SampledRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    populationSize: json['PopulationSize'] as int?,
+    sampledRequests: (json['SampledRequests'] as List<dynamic>?)
+        ?.map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timeWindow: json['TimeWindow'] == null
         ? null
         : TimeWindow.fromJson(json['TimeWindow'] as Map<String, dynamic>),
@@ -757,7 +713,7 @@ GetWebACLForResourceResponse _$GetWebACLForResourceResponseFromJson(
 
 GetWebACLResponse _$GetWebACLResponseFromJson(Map<String, dynamic> json) {
   return GetWebACLResponse(
-    lockToken: json['LockToken'] as String,
+    lockToken: json['LockToken'] as String?,
     webACL: json['WebACL'] == null
         ? null
         : WebACL.fromJson(json['WebACL'] as Map<String, dynamic>),
@@ -766,34 +722,34 @@ GetWebACLResponse _$GetWebACLResponseFromJson(Map<String, dynamic> json) {
 
 HTTPHeader _$HTTPHeaderFromJson(Map<String, dynamic> json) {
   return HTTPHeader(
-    name: json['Name'] as String,
-    value: json['Value'] as String,
+    name: json['Name'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
 HTTPRequest _$HTTPRequestFromJson(Map<String, dynamic> json) {
   return HTTPRequest(
-    clientIP: json['ClientIP'] as String,
-    country: json['Country'] as String,
-    hTTPVersion: json['HTTPVersion'] as String,
-    headers: (json['Headers'] as List)
-        ?.map((e) =>
-            e == null ? null : HTTPHeader.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    method: json['Method'] as String,
-    uri: json['URI'] as String,
+    clientIP: json['ClientIP'] as String?,
+    country: json['Country'] as String?,
+    hTTPVersion: json['HTTPVersion'] as String?,
+    headers: (json['Headers'] as List<dynamic>?)
+        ?.map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    method: json['Method'] as String?,
+    uri: json['URI'] as String?,
   );
 }
 
 IPSet _$IPSetFromJson(Map<String, dynamic> json) {
   return IPSet(
     arn: json['ARN'] as String,
-    addresses: (json['Addresses'] as List)?.map((e) => e as String)?.toList(),
-    iPAddressVersion: _$enumDecodeNullable(
-        _$IPAddressVersionEnumMap, json['IPAddressVersion']),
+    addresses:
+        (json['Addresses'] as List<dynamic>).map((e) => e as String).toList(),
+    iPAddressVersion:
+        _$enumDecode(_$IPAddressVersionEnumMap, json['IPAddressVersion']),
     id: json['Id'] as String,
     name: json['Name'] as String,
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
@@ -805,30 +761,20 @@ const _$IPAddressVersionEnumMap = {
 IPSetForwardedIPConfig _$IPSetForwardedIPConfigFromJson(
     Map<String, dynamic> json) {
   return IPSetForwardedIPConfig(
-    fallbackBehavior: _$enumDecodeNullable(
-        _$FallbackBehaviorEnumMap, json['FallbackBehavior']),
+    fallbackBehavior:
+        _$enumDecode(_$FallbackBehaviorEnumMap, json['FallbackBehavior']),
     headerName: json['HeaderName'] as String,
-    position:
-        _$enumDecodeNullable(_$ForwardedIPPositionEnumMap, json['Position']),
+    position: _$enumDecode(_$ForwardedIPPositionEnumMap, json['Position']),
   );
 }
 
 Map<String, dynamic> _$IPSetForwardedIPConfigToJson(
-    IPSetForwardedIPConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'FallbackBehavior', _$FallbackBehaviorEnumMap[instance.fallbackBehavior]);
-  writeNotNull('HeaderName', instance.headerName);
-  writeNotNull('Position', _$ForwardedIPPositionEnumMap[instance.position]);
-  return val;
-}
+        IPSetForwardedIPConfig instance) =>
+    <String, dynamic>{
+      'FallbackBehavior': _$FallbackBehaviorEnumMap[instance.fallbackBehavior],
+      'HeaderName': instance.headerName,
+      'Position': _$ForwardedIPPositionEnumMap[instance.position],
+    };
 
 const _$ForwardedIPPositionEnumMap = {
   ForwardedIPPosition.first: 'FIRST',
@@ -849,7 +795,9 @@ IPSetReferenceStatement _$IPSetReferenceStatementFromJson(
 
 Map<String, dynamic> _$IPSetReferenceStatementToJson(
     IPSetReferenceStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ARN': instance.arn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -857,7 +805,6 @@ Map<String, dynamic> _$IPSetReferenceStatementToJson(
     }
   }
 
-  writeNotNull('ARN', instance.arn);
   writeNotNull(
       'IPSetForwardedIPConfig', instance.iPSetForwardedIPConfig?.toJson());
   return val;
@@ -865,11 +812,11 @@ Map<String, dynamic> _$IPSetReferenceStatementToJson(
 
 IPSetSummary _$IPSetSummaryFromJson(Map<String, dynamic> json) {
   return IPSetSummary(
-    arn: json['ARN'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    lockToken: json['LockToken'] as String,
-    name: json['Name'] as String,
+    arn: json['ARN'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    lockToken: json['LockToken'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -877,73 +824,66 @@ ListAvailableManagedRuleGroupsResponse
     _$ListAvailableManagedRuleGroupsResponseFromJson(
         Map<String, dynamic> json) {
   return ListAvailableManagedRuleGroupsResponse(
-    managedRuleGroups: (json['ManagedRuleGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ManagedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    managedRuleGroups: (json['ManagedRuleGroups'] as List<dynamic>?)
+        ?.map(
+            (e) => ManagedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
   return ListIPSetsResponse(
-    iPSets: (json['IPSets'] as List)
-        ?.map((e) =>
-            e == null ? null : IPSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    iPSets: (json['IPSets'] as List<dynamic>?)
+        ?.map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLoggingConfigurationsResponse(
-    loggingConfigurations: (json['LoggingConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LoggingConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    loggingConfigurations: (json['LoggingConfigurations'] as List<dynamic>?)
+        ?.map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRegexPatternSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    regexPatternSets: (json['RegexPatternSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    regexPatternSets: (json['RegexPatternSets'] as List<dynamic>?)
+        ?.map((e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourcesForWebACLResponse _$ListResourcesForWebACLResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesForWebACLResponse(
-    resourceArns:
-        (json['ResourceArns'] as List)?.map((e) => e as String)?.toList(),
+    resourceArns: (json['ResourceArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRuleGroupsResponse(
-    nextMarker: json['NextMarker'] as String,
-    ruleGroups: (json['RuleGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RuleGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    ruleGroups: (json['RuleGroups'] as List<dynamic>?)
+        ?.map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextMarker: json['NextMarker'] as String,
+    nextMarker: json['NextMarker'] as String?,
     tagInfoForResource: json['TagInfoForResource'] == null
         ? null
         : TagInfoForResource.fromJson(
@@ -953,32 +893,32 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 ListWebACLsResponse _$ListWebACLsResponseFromJson(Map<String, dynamic> json) {
   return ListWebACLsResponse(
-    nextMarker: json['NextMarker'] as String,
-    webACLs: (json['WebACLs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WebACLSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    webACLs: (json['WebACLs'] as List<dynamic>?)
+        ?.map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoggingConfiguration _$LoggingConfigurationFromJson(Map<String, dynamic> json) {
   return LoggingConfiguration(
-    logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    logDestinationConfigs: (json['LogDestinationConfigs'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     resourceArn: json['ResourceArn'] as String,
-    managedByFirewallManager: json['ManagedByFirewallManager'] as bool,
-    redactedFields: (json['RedactedFields'] as List)
-        ?.map((e) =>
-            e == null ? null : FieldToMatch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
+    redactedFields: (json['RedactedFields'] as List<dynamic>?)
+        ?.map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$LoggingConfigurationToJson(
     LoggingConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LogDestinationConfigs': instance.logDestinationConfigs,
+    'ResourceArn': instance.resourceArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -986,11 +926,9 @@ Map<String, dynamic> _$LoggingConfigurationToJson(
     }
   }
 
-  writeNotNull('LogDestinationConfigs', instance.logDestinationConfigs);
-  writeNotNull('ResourceArn', instance.resourceArn);
   writeNotNull('ManagedByFirewallManager', instance.managedByFirewallManager);
   writeNotNull('RedactedFields',
-      instance.redactedFields?.map((e) => e?.toJson())?.toList());
+      instance.redactedFields?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -999,16 +937,18 @@ ManagedRuleGroupStatement _$ManagedRuleGroupStatementFromJson(
   return ManagedRuleGroupStatement(
     name: json['Name'] as String,
     vendorName: json['VendorName'] as String,
-    excludedRules: (json['ExcludedRules'] as List)
-        ?.map((e) =>
-            e == null ? null : ExcludedRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    excludedRules: (json['ExcludedRules'] as List<dynamic>?)
+        ?.map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ManagedRuleGroupStatementToJson(
     ManagedRuleGroupStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'VendorName': instance.vendorName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1016,19 +956,17 @@ Map<String, dynamic> _$ManagedRuleGroupStatementToJson(
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('VendorName', instance.vendorName);
-  writeNotNull('ExcludedRules',
-      instance.excludedRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ExcludedRules', instance.excludedRules?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ManagedRuleGroupSummary _$ManagedRuleGroupSummaryFromJson(
     Map<String, dynamic> json) {
   return ManagedRuleGroupSummary(
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    vendorName: json['VendorName'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    vendorName: json['VendorName'] as String?,
   );
 }
 
@@ -1047,47 +985,27 @@ Map<String, dynamic> _$NoneActionToJson(NoneAction instance) =>
 
 NotStatement _$NotStatementFromJson(Map<String, dynamic> json) {
   return NotStatement(
-    statement: json['Statement'] == null
-        ? null
-        : Statement.fromJson(json['Statement'] as Map<String, dynamic>),
+    statement: Statement.fromJson(json['Statement'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$NotStatementToJson(NotStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Statement', instance.statement?.toJson());
-  return val;
-}
+Map<String, dynamic> _$NotStatementToJson(NotStatement instance) =>
+    <String, dynamic>{
+      'Statement': instance.statement.toJson(),
+    };
 
 OrStatement _$OrStatementFromJson(Map<String, dynamic> json) {
   return OrStatement(
-    statements: (json['Statements'] as List)
-        ?.map((e) =>
-            e == null ? null : Statement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    statements: (json['Statements'] as List<dynamic>)
+        .map((e) => Statement.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$OrStatementToJson(OrStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Statements', instance.statements?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$OrStatementToJson(OrStatement instance) =>
+    <String, dynamic>{
+      'Statements': instance.statements.map((e) => e.toJson()).toList(),
+    };
 
 OverrideAction _$OverrideActionFromJson(Map<String, dynamic> json) {
   return OverrideAction(
@@ -1138,7 +1056,7 @@ Map<String, dynamic> _$QueryStringToJson(QueryString instance) =>
 
 RateBasedStatement _$RateBasedStatementFromJson(Map<String, dynamic> json) {
   return RateBasedStatement(
-    aggregateKeyType: _$enumDecodeNullable(
+    aggregateKeyType: _$enumDecode(
         _$RateBasedStatementAggregateKeyTypeEnumMap, json['AggregateKeyType']),
     limit: json['Limit'] as int,
     forwardedIPConfig: json['ForwardedIPConfig'] == null
@@ -1153,7 +1071,11 @@ RateBasedStatement _$RateBasedStatementFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$RateBasedStatementToJson(RateBasedStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AggregateKeyType':
+        _$RateBasedStatementAggregateKeyTypeEnumMap[instance.aggregateKeyType],
+    'Limit': instance.limit,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1161,9 +1083,6 @@ Map<String, dynamic> _$RateBasedStatementToJson(RateBasedStatement instance) {
     }
   }
 
-  writeNotNull('AggregateKeyType',
-      _$RateBasedStatementAggregateKeyTypeEnumMap[instance.aggregateKeyType]);
-  writeNotNull('Limit', instance.limit);
   writeNotNull('ForwardedIPConfig', instance.forwardedIPConfig?.toJson());
   writeNotNull('ScopeDownStatement', instance.scopeDownStatement?.toJson());
   return val;
@@ -1177,15 +1096,27 @@ const _$RateBasedStatementAggregateKeyTypeEnumMap = {
 RateBasedStatementManagedKeysIPSet _$RateBasedStatementManagedKeysIPSetFromJson(
     Map<String, dynamic> json) {
   return RateBasedStatementManagedKeysIPSet(
-    addresses: (json['Addresses'] as List)?.map((e) => e as String)?.toList(),
+    addresses:
+        (json['Addresses'] as List<dynamic>?)?.map((e) => e as String).toList(),
     iPAddressVersion: _$enumDecodeNullable(
         _$IPAddressVersionEnumMap, json['IPAddressVersion']),
   );
 }
 
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
 Regex _$RegexFromJson(Map<String, dynamic> json) {
   return Regex(
-    regexString: json['RegexString'] as String,
+    regexString: json['RegexString'] as String?,
   );
 }
 
@@ -1204,14 +1135,13 @@ Map<String, dynamic> _$RegexToJson(Regex instance) {
 
 RegexPatternSet _$RegexPatternSetFromJson(Map<String, dynamic> json) {
   return RegexPatternSet(
-    arn: json['ARN'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    regularExpressionList: (json['RegularExpressionList'] as List)
-        ?.map(
-            (e) => e == null ? null : Regex.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    arn: json['ARN'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    regularExpressionList: (json['RegularExpressionList'] as List<dynamic>?)
+        ?.map((e) => Regex.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1219,42 +1149,31 @@ RegexPatternSetReferenceStatement _$RegexPatternSetReferenceStatementFromJson(
     Map<String, dynamic> json) {
   return RegexPatternSetReferenceStatement(
     arn: json['ARN'] as String,
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    textTransformations: (json['TextTransformations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTransformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    textTransformations: (json['TextTransformations'] as List<dynamic>)
+        .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$RegexPatternSetReferenceStatementToJson(
-    RegexPatternSetReferenceStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ARN', instance.arn);
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('TextTransformations',
-      instance.textTransformations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        RegexPatternSetReferenceStatement instance) =>
+    <String, dynamic>{
+      'ARN': instance.arn,
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'TextTransformations':
+          instance.textTransformations.map((e) => e.toJson()).toList(),
+    };
 
 RegexPatternSetSummary _$RegexPatternSetSummaryFromJson(
     Map<String, dynamic> json) {
   return RegexPatternSetSummary(
-    arn: json['ARN'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    lockToken: json['LockToken'] as String,
-    name: json['Name'] as String,
+    arn: json['ARN'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    lockToken: json['LockToken'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1262,13 +1181,9 @@ Rule _$RuleFromJson(Map<String, dynamic> json) {
   return Rule(
     name: json['Name'] as String,
     priority: json['Priority'] as int,
-    statement: json['Statement'] == null
-        ? null
-        : Statement.fromJson(json['Statement'] as Map<String, dynamic>),
-    visibilityConfig: json['VisibilityConfig'] == null
-        ? null
-        : VisibilityConfig.fromJson(
-            json['VisibilityConfig'] as Map<String, dynamic>),
+    statement: Statement.fromJson(json['Statement'] as Map<String, dynamic>),
+    visibilityConfig: VisibilityConfig.fromJson(
+        json['VisibilityConfig'] as Map<String, dynamic>),
     action: json['Action'] == null
         ? null
         : RuleAction.fromJson(json['Action'] as Map<String, dynamic>),
@@ -1280,7 +1195,12 @@ Rule _$RuleFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$RuleToJson(Rule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'Priority': instance.priority,
+    'Statement': instance.statement.toJson(),
+    'VisibilityConfig': instance.visibilityConfig.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1288,10 +1208,6 @@ Map<String, dynamic> _$RuleToJson(Rule instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('Statement', instance.statement?.toJson());
-  writeNotNull('VisibilityConfig', instance.visibilityConfig?.toJson());
   writeNotNull('Action', instance.action?.toJson());
   writeNotNull('OverrideAction', instance.overrideAction?.toJson());
   return val;
@@ -1332,15 +1248,12 @@ RuleGroup _$RuleGroupFromJson(Map<String, dynamic> json) {
     capacity: json['Capacity'] as int,
     id: json['Id'] as String,
     name: json['Name'] as String,
-    visibilityConfig: json['VisibilityConfig'] == null
-        ? null
-        : VisibilityConfig.fromJson(
-            json['VisibilityConfig'] as Map<String, dynamic>),
-    description: json['Description'] as String,
-    rules: (json['Rules'] as List)
-        ?.map(
-            (e) => e == null ? null : Rule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    visibilityConfig: VisibilityConfig.fromJson(
+        json['VisibilityConfig'] as Map<String, dynamic>),
+    description: json['Description'] as String?,
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => Rule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1348,16 +1261,17 @@ RuleGroupReferenceStatement _$RuleGroupReferenceStatementFromJson(
     Map<String, dynamic> json) {
   return RuleGroupReferenceStatement(
     arn: json['ARN'] as String,
-    excludedRules: (json['ExcludedRules'] as List)
-        ?.map((e) =>
-            e == null ? null : ExcludedRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    excludedRules: (json['ExcludedRules'] as List<dynamic>?)
+        ?.map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$RuleGroupReferenceStatementToJson(
     RuleGroupReferenceStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ARN': instance.arn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1365,19 +1279,18 @@ Map<String, dynamic> _$RuleGroupReferenceStatementToJson(
     }
   }
 
-  writeNotNull('ARN', instance.arn);
-  writeNotNull('ExcludedRules',
-      instance.excludedRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ExcludedRules', instance.excludedRules?.map((e) => e.toJson()).toList());
   return val;
 }
 
 RuleGroupSummary _$RuleGroupSummaryFromJson(Map<String, dynamic> json) {
   return RuleGroupSummary(
-    arn: json['ARN'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    lockToken: json['LockToken'] as String,
-    name: json['Name'] as String,
+    arn: json['ARN'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    lockToken: json['LockToken'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1386,18 +1299,16 @@ RuleSummary _$RuleSummaryFromJson(Map<String, dynamic> json) {
     action: json['Action'] == null
         ? null
         : RuleAction.fromJson(json['Action'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
   return SampledHTTPRequest(
-    request: json['Request'] == null
-        ? null
-        : HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
+    request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
     weight: json['Weight'] as int,
-    action: json['Action'] as String,
-    ruleNameWithinRuleGroup: json['RuleNameWithinRuleGroup'] as String,
+    action: json['Action'] as String?,
+    ruleNameWithinRuleGroup: json['RuleNameWithinRuleGroup'] as String?,
     timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
@@ -1408,18 +1319,10 @@ SingleHeader _$SingleHeaderFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SingleHeaderToJson(SingleHeader instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$SingleHeaderToJson(SingleHeader instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 SingleQueryArgument _$SingleQueryArgumentFromJson(Map<String, dynamic> json) {
   return SingleQueryArgument(
@@ -1427,54 +1330,36 @@ SingleQueryArgument _$SingleQueryArgumentFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SingleQueryArgumentToJson(SingleQueryArgument instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$SingleQueryArgumentToJson(
+        SingleQueryArgument instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 SizeConstraintStatement _$SizeConstraintStatementFromJson(
     Map<String, dynamic> json) {
   return SizeConstraintStatement(
-    comparisonOperator: _$enumDecodeNullable(
-        _$ComparisonOperatorEnumMap, json['ComparisonOperator']),
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    comparisonOperator:
+        _$enumDecode(_$ComparisonOperatorEnumMap, json['ComparisonOperator']),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
     size: json['Size'] as int,
-    textTransformations: (json['TextTransformations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTransformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    textTransformations: (json['TextTransformations'] as List<dynamic>)
+        .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SizeConstraintStatementToJson(
-    SizeConstraintStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ComparisonOperator',
-      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('Size', instance.size);
-  writeNotNull('TextTransformations',
-      instance.textTransformations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        SizeConstraintStatement instance) =>
+    <String, dynamic>{
+      'ComparisonOperator':
+          _$ComparisonOperatorEnumMap[instance.comparisonOperator],
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'Size': instance.size,
+      'TextTransformations':
+          instance.textTransformations.map((e) => e.toJson()).toList(),
+    };
 
 const _$ComparisonOperatorEnumMap = {
   ComparisonOperator.eq: 'EQ',
@@ -1487,31 +1372,20 @@ const _$ComparisonOperatorEnumMap = {
 
 SqliMatchStatement _$SqliMatchStatementFromJson(Map<String, dynamic> json) {
   return SqliMatchStatement(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    textTransformations: (json['TextTransformations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTransformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    textTransformations: (json['TextTransformations'] as List<dynamic>)
+        .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$SqliMatchStatementToJson(SqliMatchStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('TextTransformations',
-      instance.textTransformations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$SqliMatchStatementToJson(SqliMatchStatement instance) =>
+    <String, dynamic>{
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'TextTransformations':
+          instance.textTransformations.map((e) => e.toJson()).toList(),
+    };
 
 Statement _$StatementFromJson(Map<String, dynamic> json) {
   return Statement(
@@ -1606,26 +1480,17 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagInfoForResource _$TagInfoForResourceFromJson(Map<String, dynamic> json) {
   return TagInfoForResource(
-    resourceARN: json['ResourceARN'] as String,
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resourceARN: json['ResourceARN'] as String?,
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1636,23 +1501,15 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 TextTransformation _$TextTransformationFromJson(Map<String, dynamic> json) {
   return TextTransformation(
     priority: json['Priority'] as int,
-    type: _$enumDecodeNullable(_$TextTransformationTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$TextTransformationTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$TextTransformationToJson(TextTransformation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('Type', _$TextTransformationTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$TextTransformationToJson(TextTransformation instance) =>
+    <String, dynamic>{
+      'Priority': instance.priority,
+      'Type': _$TextTransformationTypeEnumMap[instance.type],
+    };
 
 const _$TextTransformationTypeEnumMap = {
   TextTransformationType.none: 'NONE',
@@ -1665,26 +1522,16 @@ const _$TextTransformationTypeEnumMap = {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    endTime: DateTime.parse(json['EndTime'] as String),
+    startTime: DateTime.parse(json['StartTime'] as String),
   );
 }
 
-Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'EndTime', const UnixDateTimeConverter().toJson(instance.endTime));
-  writeNotNull(
-      'StartTime', const UnixDateTimeConverter().toJson(instance.startTime));
-  return val;
-}
+Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) =>
+    <String, dynamic>{
+      'EndTime': instance.endTime.toIso8601String(),
+      'StartTime': instance.startTime.toIso8601String(),
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -1693,27 +1540,27 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 
 UpdateIPSetResponse _$UpdateIPSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateIPSetResponse(
-    nextLockToken: json['NextLockToken'] as String,
+    nextLockToken: json['NextLockToken'] as String?,
   );
 }
 
 UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRegexPatternSetResponse(
-    nextLockToken: json['NextLockToken'] as String,
+    nextLockToken: json['NextLockToken'] as String?,
   );
 }
 
 UpdateRuleGroupResponse _$UpdateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRuleGroupResponse(
-    nextLockToken: json['NextLockToken'] as String,
+    nextLockToken: json['NextLockToken'] as String?,
   );
 }
 
 UpdateWebACLResponse _$UpdateWebACLResponseFromJson(Map<String, dynamic> json) {
   return UpdateWebACLResponse(
-    nextLockToken: json['NextLockToken'] as String,
+    nextLockToken: json['NextLockToken'] as String?,
   );
 }
 
@@ -1731,89 +1578,64 @@ VisibilityConfig _$VisibilityConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$VisibilityConfigToJson(VisibilityConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CloudWatchMetricsEnabled', instance.cloudWatchMetricsEnabled);
-  writeNotNull('MetricName', instance.metricName);
-  writeNotNull('SampledRequestsEnabled', instance.sampledRequestsEnabled);
-  return val;
-}
+Map<String, dynamic> _$VisibilityConfigToJson(VisibilityConfig instance) =>
+    <String, dynamic>{
+      'CloudWatchMetricsEnabled': instance.cloudWatchMetricsEnabled,
+      'MetricName': instance.metricName,
+      'SampledRequestsEnabled': instance.sampledRequestsEnabled,
+    };
 
 WebACL _$WebACLFromJson(Map<String, dynamic> json) {
   return WebACL(
     arn: json['ARN'] as String,
-    defaultAction: json['DefaultAction'] == null
-        ? null
-        : DefaultAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
+    defaultAction:
+        DefaultAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
     id: json['Id'] as String,
     name: json['Name'] as String,
-    visibilityConfig: json['VisibilityConfig'] == null
-        ? null
-        : VisibilityConfig.fromJson(
-            json['VisibilityConfig'] as Map<String, dynamic>),
-    capacity: json['Capacity'] as int,
-    description: json['Description'] as String,
-    managedByFirewallManager: json['ManagedByFirewallManager'] as bool,
+    visibilityConfig: VisibilityConfig.fromJson(
+        json['VisibilityConfig'] as Map<String, dynamic>),
+    capacity: json['Capacity'] as int?,
+    description: json['Description'] as String?,
+    managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
     postProcessFirewallManagerRuleGroups:
-        (json['PostProcessFirewallManagerRuleGroups'] as List)
-            ?.map((e) => e == null
-                ? null
-                : FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+        (json['PostProcessFirewallManagerRuleGroups'] as List<dynamic>?)
+            ?.map((e) =>
+                FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
+            .toList(),
     preProcessFirewallManagerRuleGroups:
-        (json['PreProcessFirewallManagerRuleGroups'] as List)
-            ?.map((e) => e == null
-                ? null
-                : FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-    rules: (json['Rules'] as List)
-        ?.map(
-            (e) => e == null ? null : Rule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        (json['PreProcessFirewallManagerRuleGroups'] as List<dynamic>?)
+            ?.map((e) =>
+                FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => Rule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 WebACLSummary _$WebACLSummaryFromJson(Map<String, dynamic> json) {
   return WebACLSummary(
-    arn: json['ARN'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    lockToken: json['LockToken'] as String,
-    name: json['Name'] as String,
+    arn: json['ARN'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    lockToken: json['LockToken'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 XssMatchStatement _$XssMatchStatementFromJson(Map<String, dynamic> json) {
   return XssMatchStatement(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    textTransformations: (json['TextTransformations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTransformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    textTransformations: (json['TextTransformations'] as List<dynamic>)
+        .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$XssMatchStatementToJson(XssMatchStatement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('TextTransformations',
-      instance.textTransformations?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$XssMatchStatementToJson(XssMatchStatement instance) =>
+    <String, dynamic>{
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'TextTransformations':
+          instance.textTransformations.map((e) => e.toJson()).toList(),
+    };

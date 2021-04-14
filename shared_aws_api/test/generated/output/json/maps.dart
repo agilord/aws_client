@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'maps.g.dart';
 
 /// Maps
 class Maps {
   final _s.JsonProtocol _protocol;
   Maps({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,20 +53,19 @@ class Maps {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'MapMember')
-  final Map<String, List<int>> mapMember;
+  final Map<String, List<int>>? mapMember;
 
   OutputShape({
     this.mapMember,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      mapMember: (json['MapMember'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as int).toList())),
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

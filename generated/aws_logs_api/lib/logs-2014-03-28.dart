@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'logs-2014-03-28.g.dart';
 
 /// You can use Amazon CloudWatch Logs to monitor, store, and access your log
 /// files from EC2 instances, AWS CloudTrail, or other sources. You can then
@@ -65,10 +57,10 @@ part 'logs-2014-03-28.g.dart';
 class CloudWatchLogs {
   final _s.JsonProtocol _protocol;
   CloudWatchLogs({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -116,8 +108,8 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> associateKmsKey({
-    @_s.required String kmsKeyId,
-    @_s.required String logGroupName,
+    required String kmsKeyId,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
     _s.validateStringLength(
@@ -145,7 +137,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.AssociateKmsKey'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -171,7 +163,7 @@ class CloudWatchLogs {
   /// Parameter [taskId] :
   /// The ID of the export task.
   Future<void> cancelExportTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -185,7 +177,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CancelExportTask'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -255,13 +247,13 @@ class CloudWatchLogs {
   /// Parameter [taskName] :
   /// The name of the export task.
   Future<CreateExportTaskResponse> createExportTask({
-    @_s.required String destination,
-    @_s.required int from,
-    @_s.required String logGroupName,
-    @_s.required int to,
-    String destinationPrefix,
-    String logStreamNamePrefix,
-    String taskName,
+    required String destination,
+    required int from,
+    required String logGroupName,
+    required int to,
+    String? destinationPrefix,
+    String? logStreamNamePrefix,
+    String? taskName,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     _s.validateStringLength(
@@ -400,9 +392,9 @@ class CloudWatchLogs {
   /// Parameter [tags] :
   /// The key-value pairs to use for the tags.
   Future<void> createLogGroup({
-    @_s.required String logGroupName,
-    String kmsKeyId,
-    Map<String, String> tags,
+    required String logGroupName,
+    String? kmsKeyId,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -428,7 +420,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateLogGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -475,8 +467,8 @@ class CloudWatchLogs {
   /// Parameter [logStreamName] :
   /// The name of the log stream.
   Future<void> createLogStream({
-    @_s.required String logGroupName,
-    @_s.required String logStreamName,
+    required String logGroupName,
+    required String logStreamName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -510,7 +502,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateLogStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -535,7 +527,7 @@ class CloudWatchLogs {
   /// Parameter [destinationName] :
   /// The name of the destination.
   Future<void> deleteDestination({
-    @_s.required String destinationName,
+    required String destinationName,
   }) async {
     ArgumentError.checkNotNull(destinationName, 'destinationName');
     _s.validateStringLength(
@@ -555,7 +547,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteDestination'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -578,7 +570,7 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> deleteLogGroup({
-    @_s.required String logGroupName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -598,7 +590,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteLogGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -624,8 +616,8 @@ class CloudWatchLogs {
   /// Parameter [logStreamName] :
   /// The name of the log stream.
   Future<void> deleteLogStream({
-    @_s.required String logGroupName,
-    @_s.required String logStreamName,
+    required String logGroupName,
+    required String logStreamName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -659,7 +651,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteLogStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -685,8 +677,8 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> deleteMetricFilter({
-    @_s.required String filterName,
-    @_s.required String logGroupName,
+    required String filterName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(filterName, 'filterName');
     _s.validateStringLength(
@@ -720,7 +712,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteMetricFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -751,7 +743,7 @@ class CloudWatchLogs {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html">DescribeQueryDefinitions</a>
   /// to retrieve the IDs of your saved query definitions.
   Future<DeleteQueryDefinitionResponse> deleteQueryDefinition({
-    @_s.required String queryDefinitionId,
+    required String queryDefinitionId,
   }) async {
     ArgumentError.checkNotNull(queryDefinitionId, 'queryDefinitionId');
     _s.validateStringLength(
@@ -789,13 +781,13 @@ class CloudWatchLogs {
   /// Parameter [policyName] :
   /// The name of the policy to be revoked. This parameter is required.
   Future<void> deleteResourcePolicy({
-    String policyName,
+    String? policyName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteResourcePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -820,7 +812,7 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> deleteRetentionPolicy({
-    @_s.required String logGroupName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -840,7 +832,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteRetentionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -865,8 +857,8 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> deleteSubscriptionFilter({
-    @_s.required String filterName,
-    @_s.required String logGroupName,
+    required String filterName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(filterName, 'filterName');
     _s.validateStringLength(
@@ -900,7 +892,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteSubscriptionFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -931,9 +923,9 @@ class CloudWatchLogs {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeDestinationsResponse> describeDestinations({
-    String destinationNamePrefix,
-    int limit,
-    String nextToken,
+    String? destinationNamePrefix,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'destinationNamePrefix',
@@ -1001,10 +993,10 @@ class CloudWatchLogs {
   /// The ID of the export task. Specifying a task ID filters the results to
   /// zero or one export tasks.
   Future<DescribeExportTasksResponse> describeExportTasks({
-    int limit,
-    String nextToken,
-    ExportTaskStatusCode statusCode,
-    String taskId,
+    int? limit,
+    String? nextToken,
+    ExportTaskStatusCode? statusCode,
+    String? taskId,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1062,9 +1054,9 @@ class CloudWatchLogs {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeLogGroupsResponse> describeLogGroups({
-    int limit,
-    String logGroupNamePrefix,
-    String nextToken,
+    int? limit,
+    String? logGroupNamePrefix,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1159,12 +1151,12 @@ class CloudWatchLogs {
   /// It typically updates in less than an hour from ingestion, but in rare
   /// situations might take longer.
   Future<DescribeLogStreamsResponse> describeLogStreams({
-    @_s.required String logGroupName,
-    bool descending,
-    int limit,
-    String logStreamNamePrefix,
-    String nextToken,
-    OrderBy orderBy,
+    required String logGroupName,
+    bool? descending,
+    int? limit,
+    String? logStreamNamePrefix,
+    String? nextToken,
+    OrderBy? orderBy,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -1260,12 +1252,12 @@ class CloudWatchLogs {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeMetricFiltersResponse> describeMetricFilters({
-    String filterNamePrefix,
-    int limit,
-    String logGroupName,
-    String metricName,
-    String metricNamespace,
-    String nextToken,
+    String? filterNamePrefix,
+    int? limit,
+    String? logGroupName,
+    String? metricName,
+    String? metricNamespace,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'filterNamePrefix',
@@ -1366,10 +1358,10 @@ class CloudWatchLogs {
   /// Valid values are <code>Cancelled</code>, <code>Complete</code>,
   /// <code>Failed</code>, <code>Running</code>, and <code>Scheduled</code>.
   Future<DescribeQueriesResponse> describeQueries({
-    String logGroupName,
-    int maxResults,
-    String nextToken,
-    QueryStatus status,
+    String? logGroupName,
+    int? maxResults,
+    String? nextToken,
+    QueryStatus? status,
   }) async {
     _s.validateStringLength(
       'logGroupName',
@@ -1432,9 +1424,9 @@ class CloudWatchLogs {
   /// Use this parameter to filter your results to only the query definitions
   /// that have names that start with the prefix you specify.
   Future<DescribeQueryDefinitionsResponse> describeQueryDefinitions({
-    int maxResults,
-    String nextToken,
-    String queryDefinitionNamePrefix,
+    int? maxResults,
+    String? nextToken,
+    String? queryDefinitionNamePrefix,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1489,8 +1481,8 @@ class CloudWatchLogs {
   /// The maximum number of resource policies to be displayed with one call of
   /// this API.
   Future<DescribeResourcePoliciesResponse> describeResourcePolicies({
-    int limit,
-    String nextToken,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1546,10 +1538,10 @@ class CloudWatchLogs {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeSubscriptionFiltersResponse> describeSubscriptionFilters({
-    @_s.required String logGroupName,
-    String filterNamePrefix,
-    int limit,
-    String nextToken,
+    required String logGroupName,
+    String? filterNamePrefix,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -1627,7 +1619,7 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> disassociateKmsKey({
-    @_s.required String logGroupName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -1647,7 +1639,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DisassociateKmsKey'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1736,15 +1728,15 @@ class CloudWatchLogs {
   /// If you omit <code>startTime</code> and <code>endTime</code> the most
   /// recent log events are retrieved, to up 1 MB or 10,000 log events.
   Future<FilterLogEventsResponse> filterLogEvents({
-    @_s.required String logGroupName,
-    int endTime,
-    String filterPattern,
-    bool interleaved,
-    int limit,
-    String logStreamNamePrefix,
-    List<String> logStreamNames,
-    String nextToken,
-    int startTime,
+    required String logGroupName,
+    int? endTime,
+    String? filterPattern,
+    bool? interleaved,
+    int? limit,
+    String? logStreamNamePrefix,
+    List<String>? logStreamNames,
+    String? nextToken,
+    int? startTime,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -1878,13 +1870,13 @@ class CloudWatchLogs {
   /// later than this time are included. Events with a timestamp earlier than
   /// this time are not included.
   Future<GetLogEventsResponse> getLogEvents({
-    @_s.required String logGroupName,
-    @_s.required String logStreamName,
-    int endTime,
-    int limit,
-    String nextToken,
-    bool startFromHead,
-    int startTime,
+    required String logGroupName,
+    required String logStreamName,
+    int? endTime,
+    int? limit,
+    String? nextToken,
+    bool? startFromHead,
+    int? startTime,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -1992,8 +1984,8 @@ class CloudWatchLogs {
   /// The <code>time</code> value is specified as epoch time, the number of
   /// seconds since January 1, 1970, 00:00:00 UTC.
   Future<GetLogGroupFieldsResponse> getLogGroupFields({
-    @_s.required String logGroupName,
-    int time,
+    required String logGroupName,
+    int? time,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -2053,7 +2045,7 @@ class CloudWatchLogs {
   /// a log event is the value to use as <code>logRecordPointer</code> to
   /// retrieve that complete log event record.
   Future<GetLogRecordResponse> getLogRecord({
-    @_s.required String logRecordPointer,
+    required String logRecordPointer,
   }) async {
     ArgumentError.checkNotNull(logRecordPointer, 'logRecordPointer');
     final headers = <String, String>{
@@ -2098,7 +2090,7 @@ class CloudWatchLogs {
   /// Parameter [queryId] :
   /// The ID number of the query.
   Future<GetQueryResultsResponse> getQueryResults({
-    @_s.required String queryId,
+    required String queryId,
   }) async {
     ArgumentError.checkNotNull(queryId, 'queryId');
     _s.validateStringLength(
@@ -2134,7 +2126,7 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<ListTagsLogGroupResponse> listTagsLogGroup({
-    @_s.required String logGroupName,
+    required String logGroupName,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -2203,9 +2195,9 @@ class CloudWatchLogs {
   /// The ARN of an Amazon Kinesis stream to which to deliver matching log
   /// events.
   Future<PutDestinationResponse> putDestination({
-    @_s.required String destinationName,
-    @_s.required String roleArn,
-    @_s.required String targetArn,
+    required String destinationName,
+    required String roleArn,
+    required String targetArn,
   }) async {
     ArgumentError.checkNotNull(destinationName, 'destinationName');
     _s.validateStringLength(
@@ -2275,8 +2267,8 @@ class CloudWatchLogs {
   /// Parameter [destinationName] :
   /// A name for an existing destination.
   Future<void> putDestinationPolicy({
-    @_s.required String accessPolicy,
-    @_s.required String destinationName,
+    required String accessPolicy,
+    required String destinationName,
   }) async {
     ArgumentError.checkNotNull(accessPolicy, 'accessPolicy');
     _s.validateStringLength(
@@ -2304,7 +2296,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutDestinationPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2392,10 +2384,10 @@ class CloudWatchLogs {
   /// using the same value for <code>sequenceToken</code>, both calls might be
   /// successful or one might be rejected.
   Future<PutLogEventsResponse> putLogEvents({
-    @_s.required List<InputLogEvent> logEvents,
-    @_s.required String logGroupName,
-    @_s.required String logStreamName,
-    String sequenceToken,
+    required List<InputLogEvent> logEvents,
+    required String logGroupName,
+    required String logStreamName,
+    String? sequenceToken,
   }) async {
     ArgumentError.checkNotNull(logEvents, 'logEvents');
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
@@ -2479,10 +2471,10 @@ class CloudWatchLogs {
   /// Parameter [metricTransformations] :
   /// A collection of information that defines how metric data gets emitted.
   Future<void> putMetricFilter({
-    @_s.required String filterName,
-    @_s.required String filterPattern,
-    @_s.required String logGroupName,
-    @_s.required List<MetricTransformation> metricTransformations,
+    required String filterName,
+    required String filterPattern,
+    required String logGroupName,
+    required List<MetricTransformation> metricTransformations,
   }) async {
     ArgumentError.checkNotNull(filterName, 'filterName');
     _s.validateStringLength(
@@ -2525,7 +2517,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutMetricFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2590,10 +2582,10 @@ class CloudWatchLogs {
   /// CloudWatch generates a unique ID for the new query definition and include
   /// it in the response to this operation.
   Future<PutQueryDefinitionResponse> putQueryDefinition({
-    @_s.required String name,
-    @_s.required String queryString,
-    List<String> logGroupNames,
-    String queryDefinitionId,
+    required String name,
+    required String queryString,
+    List<String>? logGroupNames,
+    String? queryDefinitionId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2670,8 +2662,8 @@ class CloudWatchLogs {
   /// Parameter [policyName] :
   /// Name of the new policy. This parameter is required.
   Future<PutResourcePolicyResponse> putResourcePolicy({
-    String policyDocument,
-    String policyName,
+    String? policyDocument,
+    String? policyName,
   }) async {
     _s.validateStringLength(
       'policyDocument',
@@ -2710,8 +2702,8 @@ class CloudWatchLogs {
   /// Parameter [logGroupName] :
   /// The name of the log group.
   Future<void> putRetentionPolicy({
-    @_s.required String logGroupName,
-    @_s.required int retentionInDays,
+    required String logGroupName,
+    required int retentionInDays,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -2732,7 +2724,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutRetentionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2836,12 +2828,12 @@ class CloudWatchLogs {
   /// the ARN when you are working with a logical destination for cross-account
   /// delivery.
   Future<void> putSubscriptionFilter({
-    @_s.required String destinationArn,
-    @_s.required String filterName,
-    @_s.required String filterPattern,
-    @_s.required String logGroupName,
-    Distribution distribution,
-    String roleArn,
+    required String destinationArn,
+    required String filterName,
+    required String filterPattern,
+    required String logGroupName,
+    Distribution? distribution,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(destinationArn, 'destinationArn');
     _s.validateStringLength(
@@ -2897,7 +2889,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutSubscriptionFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2965,12 +2957,12 @@ class CloudWatchLogs {
   /// <code>logGroupNames</code> or a <code>logGroupName</code> parameter, but
   /// not both.
   Future<StartQueryResponse> startQuery({
-    @_s.required int endTime,
-    @_s.required String queryString,
-    @_s.required int startTime,
-    int limit,
-    String logGroupName,
-    List<String> logGroupNames,
+    required int endTime,
+    required String queryString,
+    required int startTime,
+    int? limit,
+    String? logGroupName,
+    List<String>? logGroupNames,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     _s.validateNumRange(
@@ -3048,7 +3040,7 @@ class CloudWatchLogs {
   /// The ID number of the query to stop. To find this ID number, use
   /// <code>DescribeQueries</code>.
   Future<StopQueryResponse> stopQuery({
-    @_s.required String queryId,
+    required String queryId,
   }) async {
     ArgumentError.checkNotNull(queryId, 'queryId');
     _s.validateStringLength(
@@ -3097,8 +3089,8 @@ class CloudWatchLogs {
   /// Parameter [tags] :
   /// The key-value pairs to use for the tags.
   Future<void> tagLogGroup({
-    @_s.required String logGroupName,
-    @_s.required Map<String, String> tags,
+    required String logGroupName,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -3119,7 +3111,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.TagLogGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3142,8 +3134,8 @@ class CloudWatchLogs {
   /// Parameter [logEventMessages] :
   /// The log event messages to test.
   Future<TestMetricFilterResponse> testMetricFilter({
-    @_s.required String filterPattern,
-    @_s.required List<String> logEventMessages,
+    required String filterPattern,
+    required List<String> logEventMessages,
   }) async {
     ArgumentError.checkNotNull(filterPattern, 'filterPattern');
     _s.validateStringLength(
@@ -3188,8 +3180,8 @@ class CloudWatchLogs {
   /// Parameter [tags] :
   /// The tag keys. The corresponding tags are removed from the log group.
   Future<void> untagLogGroup({
-    @_s.required String logGroupName,
-    @_s.required List<String> tags,
+    required String logGroupName,
+    required List<String> tags,
   }) async {
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
@@ -3210,7 +3202,7 @@ class CloudWatchLogs {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.UntagLogGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3224,265 +3216,246 @@ class CloudWatchLogs {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateExportTaskResponse {
   /// The ID of the export task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   CreateExportTaskResponse({
     this.taskId,
   });
-  factory CreateExportTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateExportTaskResponseFromJson(json);
+  factory CreateExportTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateExportTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteQueryDefinitionResponse {
   /// A value of TRUE indicates that the operation succeeded. FALSE indicates that
   /// the operation failed.
-  @_s.JsonKey(name: 'success')
-  final bool success;
+  final bool? success;
 
   DeleteQueryDefinitionResponse({
     this.success,
   });
-  factory DeleteQueryDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteQueryDefinitionResponseFromJson(json);
+  factory DeleteQueryDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteQueryDefinitionResponse(
+      success: json['success'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDestinationsResponse {
   /// The destinations.
-  @_s.JsonKey(name: 'destinations')
-  final List<Destination> destinations;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<Destination>? destinations;
+  final String? nextToken;
 
   DescribeDestinationsResponse({
     this.destinations,
     this.nextToken,
   });
-  factory DescribeDestinationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDestinationsResponseFromJson(json);
+  factory DescribeDestinationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDestinationsResponse(
+      destinations: (json['destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Destination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeExportTasksResponse {
   /// The export tasks.
-  @_s.JsonKey(name: 'exportTasks')
-  final List<ExportTask> exportTasks;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<ExportTask>? exportTasks;
+  final String? nextToken;
 
   DescribeExportTasksResponse({
     this.exportTasks,
     this.nextToken,
   });
-  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeExportTasksResponseFromJson(json);
+  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExportTasksResponse(
+      exportTasks: (json['exportTasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExportTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLogGroupsResponse {
   /// The log groups.
   ///
   /// If the <code>retentionInDays</code> value if not included for a log group,
   /// then that log group is set to have its events never expire.
-  @_s.JsonKey(name: 'logGroups')
-  final List<LogGroup> logGroups;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<LogGroup>? logGroups;
+  final String? nextToken;
 
   DescribeLogGroupsResponse({
     this.logGroups,
     this.nextToken,
   });
-  factory DescribeLogGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLogGroupsResponseFromJson(json);
+  factory DescribeLogGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLogGroupsResponse(
+      logGroups: (json['logGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLogStreamsResponse {
   /// The log streams.
-  @_s.JsonKey(name: 'logStreams')
-  final List<LogStream> logStreams;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<LogStream>? logStreams;
+  final String? nextToken;
 
   DescribeLogStreamsResponse({
     this.logStreams,
     this.nextToken,
   });
-  factory DescribeLogStreamsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLogStreamsResponseFromJson(json);
+  factory DescribeLogStreamsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLogStreamsResponse(
+      logStreams: (json['logStreams'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMetricFiltersResponse {
   /// The metric filters.
-  @_s.JsonKey(name: 'metricFilters')
-  final List<MetricFilter> metricFilters;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<MetricFilter>? metricFilters;
+  final String? nextToken;
 
   DescribeMetricFiltersResponse({
     this.metricFilters,
     this.nextToken,
   });
-  factory DescribeMetricFiltersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMetricFiltersResponseFromJson(json);
+  factory DescribeMetricFiltersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMetricFiltersResponse(
+      metricFilters: (json['metricFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeQueriesResponse {
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of queries that match the request.
-  @_s.JsonKey(name: 'queries')
-  final List<QueryInfo> queries;
+  final List<QueryInfo>? queries;
 
   DescribeQueriesResponse({
     this.nextToken,
     this.queries,
   });
-  factory DescribeQueriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeQueriesResponseFromJson(json);
+  factory DescribeQueriesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeQueriesResponse(
+      nextToken: json['nextToken'] as String?,
+      queries: (json['queries'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeQueryDefinitionsResponse {
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of query definitions that match your request.
-  @_s.JsonKey(name: 'queryDefinitions')
-  final List<QueryDefinition> queryDefinitions;
+  final List<QueryDefinition>? queryDefinitions;
 
   DescribeQueryDefinitionsResponse({
     this.nextToken,
     this.queryDefinitions,
   });
-  factory DescribeQueryDefinitionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeQueryDefinitionsResponseFromJson(json);
+  factory DescribeQueryDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeQueryDefinitionsResponse(
+      nextToken: json['nextToken'] as String?,
+      queryDefinitions: (json['queryDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourcePoliciesResponse {
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The resource policies that exist in this account.
-  @_s.JsonKey(name: 'resourcePolicies')
-  final List<ResourcePolicy> resourcePolicies;
+  final List<ResourcePolicy>? resourcePolicies;
 
   DescribeResourcePoliciesResponse({
     this.nextToken,
     this.resourcePolicies,
   });
-  factory DescribeResourcePoliciesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeResourcePoliciesResponseFromJson(json);
+  factory DescribeResourcePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourcePoliciesResponse(
+      nextToken: json['nextToken'] as String?,
+      resourcePolicies: (json['resourcePolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourcePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSubscriptionFiltersResponse {
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The subscription filters.
-  @_s.JsonKey(name: 'subscriptionFilters')
-  final List<SubscriptionFilter> subscriptionFilters;
+  final List<SubscriptionFilter>? subscriptionFilters;
 
   DescribeSubscriptionFiltersResponse({
     this.nextToken,
     this.subscriptionFilters,
   });
   factory DescribeSubscriptionFiltersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSubscriptionFiltersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSubscriptionFiltersResponse(
+      nextToken: json['nextToken'] as String?,
+      subscriptionFilters: (json['subscriptionFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubscriptionFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents a cross-account destination that receives subscription log
 /// events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Destination {
   /// An IAM policy document that governs which AWS accounts can create
   /// subscription filters against this destination.
-  @_s.JsonKey(name: 'accessPolicy')
-  final String accessPolicy;
+  final String? accessPolicy;
 
   /// The ARN of this destination.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The creation time of the destination, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   /// The name of the destination.
-  @_s.JsonKey(name: 'destinationName')
-  final String destinationName;
+  final String? destinationName;
 
   /// A role for impersonation, used when delivering log events to the target.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The Amazon Resource Name (ARN) of the physical target where the log events
   /// are delivered (for example, a Kinesis stream).
-  @_s.JsonKey(name: 'targetArn')
-  final String targetArn;
+  final String? targetArn;
 
   Destination({
     this.accessPolicy,
@@ -3492,16 +3465,22 @@ class Destination {
     this.roleArn,
     this.targetArn,
   });
-  factory Destination.fromJson(Map<String, dynamic> json) =>
-      _$DestinationFromJson(json);
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      accessPolicy: json['accessPolicy'] as String?,
+      arn: json['arn'] as String?,
+      creationTime: json['creationTime'] as int?,
+      destinationName: json['destinationName'] as String?,
+      roleArn: json['roleArn'] as String?,
+      targetArn: json['targetArn'] as String?,
+    );
+  }
 }
 
 /// The method used to distribute log data to the destination, which can be
 /// either random or grouped by log stream.
 enum Distribution {
-  @_s.JsonValue('Random')
   random,
-  @_s.JsonValue('ByLogStream')
   byLogStream,
 }
 
@@ -3513,55 +3492,52 @@ extension on Distribution {
       case Distribution.byLogStream:
         return 'ByLogStream';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Distribution toDistribution() {
+    switch (this) {
+      case 'Random':
+        return Distribution.random;
+      case 'ByLogStream':
+        return Distribution.byLogStream;
+    }
+    throw Exception('$this is not known in enum Distribution');
   }
 }
 
 /// Represents an export task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportTask {
   /// The name of the S3 bucket to which the log data was exported.
-  @_s.JsonKey(name: 'destination')
-  final String destination;
+  final String? destination;
 
   /// The prefix that was used as the start of Amazon S3 key for every object
   /// exported.
-  @_s.JsonKey(name: 'destinationPrefix')
-  final String destinationPrefix;
+  final String? destinationPrefix;
 
   /// Execution information about the export task.
-  @_s.JsonKey(name: 'executionInfo')
-  final ExportTaskExecutionInfo executionInfo;
+  final ExportTaskExecutionInfo? executionInfo;
 
   /// The start time, expressed as the number of milliseconds after Jan 1, 1970
   /// 00:00:00 UTC. Events with a timestamp before this time are not exported.
-  @_s.JsonKey(name: 'from')
-  final int from;
+  final int? from;
 
   /// The name of the log group from which logs data was exported.
-  @_s.JsonKey(name: 'logGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The status of the export task.
-  @_s.JsonKey(name: 'status')
-  final ExportTaskStatus status;
+  final ExportTaskStatus? status;
 
   /// The ID of the export task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The name of the export task.
-  @_s.JsonKey(name: 'taskName')
-  final String taskName;
+  final String? taskName;
 
   /// The end time, expressed as the number of milliseconds after Jan 1, 1970
   /// 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-  @_s.JsonKey(name: 'to')
-  final int to;
+  final int? to;
 
   ExportTask({
     this.destination,
@@ -3574,70 +3550,74 @@ class ExportTask {
     this.taskName,
     this.to,
   });
-  factory ExportTask.fromJson(Map<String, dynamic> json) =>
-      _$ExportTaskFromJson(json);
+  factory ExportTask.fromJson(Map<String, dynamic> json) {
+    return ExportTask(
+      destination: json['destination'] as String?,
+      destinationPrefix: json['destinationPrefix'] as String?,
+      executionInfo: json['executionInfo'] != null
+          ? ExportTaskExecutionInfo.fromJson(
+              json['executionInfo'] as Map<String, dynamic>)
+          : null,
+      from: json['from'] as int?,
+      logGroupName: json['logGroupName'] as String?,
+      status: json['status'] != null
+          ? ExportTaskStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      taskId: json['taskId'] as String?,
+      taskName: json['taskName'] as String?,
+      to: json['to'] as int?,
+    );
+  }
 }
 
 /// Represents the status of an export task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportTaskExecutionInfo {
   /// The completion time of the export task, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'completionTime')
-  final int completionTime;
+  final int? completionTime;
 
   /// The creation time of the export task, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   ExportTaskExecutionInfo({
     this.completionTime,
     this.creationTime,
   });
-  factory ExportTaskExecutionInfo.fromJson(Map<String, dynamic> json) =>
-      _$ExportTaskExecutionInfoFromJson(json);
+  factory ExportTaskExecutionInfo.fromJson(Map<String, dynamic> json) {
+    return ExportTaskExecutionInfo(
+      completionTime: json['completionTime'] as int?,
+      creationTime: json['creationTime'] as int?,
+    );
+  }
 }
 
 /// Represents the status of an export task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportTaskStatus {
   /// The status code of the export task.
-  @_s.JsonKey(name: 'code')
-  final ExportTaskStatusCode code;
+  final ExportTaskStatusCode? code;
 
   /// The status message related to the status code.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   ExportTaskStatus({
     this.code,
     this.message,
   });
-  factory ExportTaskStatus.fromJson(Map<String, dynamic> json) =>
-      _$ExportTaskStatusFromJson(json);
+  factory ExportTaskStatus.fromJson(Map<String, dynamic> json) {
+    return ExportTaskStatus(
+      code: (json['code'] as String?)?.toExportTaskStatusCode(),
+      message: json['message'] as String?,
+    );
+  }
 }
 
 enum ExportTaskStatusCode {
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('PENDING_CANCEL')
   pendingCancel,
-  @_s.JsonValue('RUNNING')
   running,
 }
 
@@ -3657,24 +3637,36 @@ extension on ExportTaskStatusCode {
       case ExportTaskStatusCode.running:
         return 'RUNNING';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ExportTaskStatusCode toExportTaskStatusCode() {
+    switch (this) {
+      case 'CANCELLED':
+        return ExportTaskStatusCode.cancelled;
+      case 'COMPLETED':
+        return ExportTaskStatusCode.completed;
+      case 'FAILED':
+        return ExportTaskStatusCode.failed;
+      case 'PENDING':
+        return ExportTaskStatusCode.pending;
+      case 'PENDING_CANCEL':
+        return ExportTaskStatusCode.pendingCancel;
+      case 'RUNNING':
+        return ExportTaskStatusCode.running;
+    }
+    throw Exception('$this is not known in enum ExportTaskStatusCode');
+  }
+}
+
 class FilterLogEventsResponse {
   /// The matched events.
-  @_s.JsonKey(name: 'events')
-  final List<FilteredLogEvent> events;
+  final List<FilteredLogEvent>? events;
 
   /// The token to use when requesting the next set of items. The token expires
   /// after 24 hours.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// <b>IMPORTANT</b> Starting on May 15, 2020, this parameter will be
   /// deprecated. This parameter will be an empty list after the deprecation
@@ -3682,46 +3674,46 @@ class FilterLogEventsResponse {
   ///
   /// Indicates which log streams have been searched and whether each has been
   /// searched completely.
-  @_s.JsonKey(name: 'searchedLogStreams')
-  final List<SearchedLogStream> searchedLogStreams;
+  final List<SearchedLogStream>? searchedLogStreams;
 
   FilterLogEventsResponse({
     this.events,
     this.nextToken,
     this.searchedLogStreams,
   });
-  factory FilterLogEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$FilterLogEventsResponseFromJson(json);
+  factory FilterLogEventsResponse.fromJson(Map<String, dynamic> json) {
+    return FilterLogEventsResponse(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => FilteredLogEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      searchedLogStreams: (json['searchedLogStreams'] as List?)
+          ?.whereNotNull()
+          .map((e) => SearchedLogStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents a matched event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FilteredLogEvent {
   /// The ID of the event.
-  @_s.JsonKey(name: 'eventId')
-  final String eventId;
+  final String? eventId;
 
   /// The time the event was ingested, expressed as the number of milliseconds
   /// after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'ingestionTime')
-  final int ingestionTime;
+  final int? ingestionTime;
 
   /// The name of the log stream to which this event belongs.
-  @_s.JsonKey(name: 'logStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   /// The data contained in the log event.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The time the event occurred, expressed as the number of milliseconds after
   /// Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   FilteredLogEvent({
     this.eventId,
@@ -3730,82 +3722,82 @@ class FilteredLogEvent {
     this.message,
     this.timestamp,
   });
-  factory FilteredLogEvent.fromJson(Map<String, dynamic> json) =>
-      _$FilteredLogEventFromJson(json);
+  factory FilteredLogEvent.fromJson(Map<String, dynamic> json) {
+    return FilteredLogEvent(
+      eventId: json['eventId'] as String?,
+      ingestionTime: json['ingestionTime'] as int?,
+      logStreamName: json['logStreamName'] as String?,
+      message: json['message'] as String?,
+      timestamp: json['timestamp'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLogEventsResponse {
   /// The events.
-  @_s.JsonKey(name: 'events')
-  final List<OutputLogEvent> events;
+  final List<OutputLogEvent>? events;
 
   /// The token for the next set of items in the backward direction. The token
   /// expires after 24 hours. This token is never null. If you have reached the
   /// end of the stream, it returns the same token you passed in.
-  @_s.JsonKey(name: 'nextBackwardToken')
-  final String nextBackwardToken;
+  final String? nextBackwardToken;
 
   /// The token for the next set of items in the forward direction. The token
   /// expires after 24 hours. If you have reached the end of the stream, it
   /// returns the same token you passed in.
-  @_s.JsonKey(name: 'nextForwardToken')
-  final String nextForwardToken;
+  final String? nextForwardToken;
 
   GetLogEventsResponse({
     this.events,
     this.nextBackwardToken,
     this.nextForwardToken,
   });
-  factory GetLogEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLogEventsResponseFromJson(json);
+  factory GetLogEventsResponse.fromJson(Map<String, dynamic> json) {
+    return GetLogEventsResponse(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputLogEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextBackwardToken: json['nextBackwardToken'] as String?,
+      nextForwardToken: json['nextForwardToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLogGroupFieldsResponse {
   /// The array of fields found in the query. Each object in the array contains
   /// the name of the field, along with the percentage of time it appeared in the
   /// log events that were queried.
-  @_s.JsonKey(name: 'logGroupFields')
-  final List<LogGroupField> logGroupFields;
+  final List<LogGroupField>? logGroupFields;
 
   GetLogGroupFieldsResponse({
     this.logGroupFields,
   });
-  factory GetLogGroupFieldsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLogGroupFieldsResponseFromJson(json);
+  factory GetLogGroupFieldsResponse.fromJson(Map<String, dynamic> json) {
+    return GetLogGroupFieldsResponse(
+      logGroupFields: (json['logGroupFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogGroupField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLogRecordResponse {
   /// The requested log event, as a JSON string.
-  @_s.JsonKey(name: 'logRecord')
-  final Map<String, String> logRecord;
+  final Map<String, String>? logRecord;
 
   GetLogRecordResponse({
     this.logRecord,
   });
-  factory GetLogRecordResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLogRecordResponseFromJson(json);
+  factory GetLogRecordResponse.fromJson(Map<String, dynamic> json) {
+    return GetLogRecordResponse(
+      logRecord: (json['logRecord'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQueryResultsResponse {
   /// The log events that matched the query criteria during the most recent time
   /// it ran.
@@ -3813,15 +3805,13 @@ class GetQueryResultsResponse {
   /// The <code>results</code> value is an array of arrays. Each log event is one
   /// object in the top-level array. Each of these log event objects is an array
   /// of <code>field</code>/<code>value</code> pairs.
-  @_s.JsonKey(name: 'results')
-  final List<List<ResultField>> results;
+  final List<List<ResultField>>? results;
 
   /// Includes the number of log events scanned by the query, the number of log
   /// events that matched the query criteria, and the total number of bytes in the
   /// log events that were scanned. These values reflect the full raw results of
   /// the query.
-  @_s.JsonKey(name: 'statistics')
-  final QueryStatistics statistics;
+  final QueryStatistics? statistics;
 
   /// The status of the most recent running of the query. Possible values are
   /// <code>Cancelled</code>, <code>Complete</code>, <code>Failed</code>,
@@ -3831,92 +3821,90 @@ class GetQueryResultsResponse {
   /// Queries time out after 15 minutes of execution. To avoid having your queries
   /// time out, reduce the time range being searched or partition your query into
   /// a number of queries.
-  @_s.JsonKey(name: 'status')
-  final QueryStatus status;
+  final QueryStatus? status;
 
   GetQueryResultsResponse({
     this.results,
     this.statistics,
     this.status,
   });
-  factory GetQueryResultsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetQueryResultsResponseFromJson(json);
+  factory GetQueryResultsResponse.fromJson(Map<String, dynamic> json) {
+    return GetQueryResultsResponse(
+      results: (json['results'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => ResultField.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+      statistics: json['statistics'] != null
+          ? QueryStatistics.fromJson(json['statistics'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toQueryStatus(),
+    );
+  }
 }
 
 /// Represents a log event, which is a record of activity that was recorded by
 /// the application or resource being monitored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputLogEvent {
   /// The raw event message.
-  @_s.JsonKey(name: 'message')
   final String message;
 
   /// The time the event occurred, expressed as the number of milliseconds after
   /// Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'timestamp')
   final int timestamp;
 
   InputLogEvent({
-    @_s.required this.message,
-    @_s.required this.timestamp,
+    required this.message,
+    required this.timestamp,
   });
-  Map<String, dynamic> toJson() => _$InputLogEventToJson(this);
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final timestamp = this.timestamp;
+    return {
+      'message': message,
+      'timestamp': timestamp,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsLogGroupResponse {
   /// The tags for the log group.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsLogGroupResponse({
     this.tags,
   });
-  factory ListTagsLogGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsLogGroupResponseFromJson(json);
+  factory ListTagsLogGroupResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsLogGroupResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Represents a log group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogGroup {
   /// The Amazon Resource Name (ARN) of the log group.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The creation time of the log group, expressed as the number of milliseconds
   /// after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
-  @_s.JsonKey(name: 'kmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The name of the log group.
-  @_s.JsonKey(name: 'logGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The number of metric filters.
-  @_s.JsonKey(name: 'metricFilterCount')
-  final int metricFilterCount;
-  @_s.JsonKey(name: 'retentionInDays')
-  final int retentionInDays;
+  final int? metricFilterCount;
+  final int? retentionInDays;
 
   /// The number of bytes stored.
-  @_s.JsonKey(name: 'storedBytes')
-  final int storedBytes;
+  final int? storedBytes;
 
   LogGroup({
     this.arn,
@@ -3927,73 +3915,68 @@ class LogGroup {
     this.retentionInDays,
     this.storedBytes,
   });
-  factory LogGroup.fromJson(Map<String, dynamic> json) =>
-      _$LogGroupFromJson(json);
+  factory LogGroup.fromJson(Map<String, dynamic> json) {
+    return LogGroup(
+      arn: json['arn'] as String?,
+      creationTime: json['creationTime'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      logGroupName: json['logGroupName'] as String?,
+      metricFilterCount: json['metricFilterCount'] as int?,
+      retentionInDays: json['retentionInDays'] as int?,
+      storedBytes: json['storedBytes'] as int?,
+    );
+  }
 }
 
 /// The fields contained in log events found by a <code>GetLogGroupFields</code>
 /// operation, along with the percentage of queried log events in which each
 /// field appears.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogGroupField {
   /// The name of a log field.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The percentage of log events queried that contained the field.
-  @_s.JsonKey(name: 'percent')
-  final int percent;
+  final int? percent;
 
   LogGroupField({
     this.name,
     this.percent,
   });
-  factory LogGroupField.fromJson(Map<String, dynamic> json) =>
-      _$LogGroupFieldFromJson(json);
+  factory LogGroupField.fromJson(Map<String, dynamic> json) {
+    return LogGroupField(
+      name: json['name'] as String?,
+      percent: json['percent'] as int?,
+    );
+  }
 }
 
 /// Represents a log stream, which is a sequence of log events from a single
 /// emitter of logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogStream {
   /// The Amazon Resource Name (ARN) of the log stream.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The creation time of the stream, expressed as the number of milliseconds
   /// after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   /// The time of the first event, expressed as the number of milliseconds after
   /// Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'firstEventTimestamp')
-  final int firstEventTimestamp;
+  final int? firstEventTimestamp;
 
   /// The time of the most recent log event in the log stream in CloudWatch Logs.
   /// This number is expressed as the number of milliseconds after Jan 1, 1970
   /// 00:00:00 UTC. The <code>lastEventTime</code> value updates on an eventual
   /// consistency basis. It typically updates in less than an hour from ingestion,
   /// but in rare situations might take longer.
-  @_s.JsonKey(name: 'lastEventTimestamp')
-  final int lastEventTimestamp;
+  final int? lastEventTimestamp;
 
   /// The ingestion time, expressed as the number of milliseconds after Jan 1,
   /// 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'lastIngestionTime')
-  final int lastIngestionTime;
+  final int? lastIngestionTime;
 
   /// The name of the log stream.
-  @_s.JsonKey(name: 'logStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   /// The number of bytes stored.
   ///
@@ -4001,12 +3984,10 @@ class LogStream {
   /// streams, and is always reported as zero. This change applies only to log
   /// streams. The <code>storedBytes</code> parameter for log groups is not
   /// affected.
-  @_s.JsonKey(name: 'storedBytes')
-  final int storedBytes;
+  final int? storedBytes;
 
   /// The sequence token.
-  @_s.JsonKey(name: 'uploadSequenceToken')
-  final String uploadSequenceToken;
+  final String? uploadSequenceToken;
 
   LogStream({
     this.arn,
@@ -4018,37 +3999,37 @@ class LogStream {
     this.storedBytes,
     this.uploadSequenceToken,
   });
-  factory LogStream.fromJson(Map<String, dynamic> json) =>
-      _$LogStreamFromJson(json);
+  factory LogStream.fromJson(Map<String, dynamic> json) {
+    return LogStream(
+      arn: json['arn'] as String?,
+      creationTime: json['creationTime'] as int?,
+      firstEventTimestamp: json['firstEventTimestamp'] as int?,
+      lastEventTimestamp: json['lastEventTimestamp'] as int?,
+      lastIngestionTime: json['lastIngestionTime'] as int?,
+      logStreamName: json['logStreamName'] as String?,
+      storedBytes: json['storedBytes'] as int?,
+      uploadSequenceToken: json['uploadSequenceToken'] as String?,
+    );
+  }
 }
 
 /// Metric filters express how CloudWatch Logs would extract metric observations
 /// from ingested log events and transform them into metric data in a CloudWatch
 /// metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricFilter {
   /// The creation time of the metric filter, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   /// The name of the metric filter.
-  @_s.JsonKey(name: 'filterName')
-  final String filterName;
-  @_s.JsonKey(name: 'filterPattern')
-  final String filterPattern;
+  final String? filterName;
+  final String? filterPattern;
 
   /// The name of the log group.
-  @_s.JsonKey(name: 'logGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The metric transformations.
-  @_s.JsonKey(name: 'metricTransformations')
-  final List<MetricTransformation> metricTransformations;
+  final List<MetricTransformation>? metricTransformations;
 
   MetricFilter({
     this.creationTime,
@@ -4057,82 +4038,96 @@ class MetricFilter {
     this.logGroupName,
     this.metricTransformations,
   });
-  factory MetricFilter.fromJson(Map<String, dynamic> json) =>
-      _$MetricFilterFromJson(json);
+  factory MetricFilter.fromJson(Map<String, dynamic> json) {
+    return MetricFilter(
+      creationTime: json['creationTime'] as int?,
+      filterName: json['filterName'] as String?,
+      filterPattern: json['filterPattern'] as String?,
+      logGroupName: json['logGroupName'] as String?,
+      metricTransformations: (json['metricTransformations'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents a matched event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricFilterMatchRecord {
   /// The raw event data.
-  @_s.JsonKey(name: 'eventMessage')
-  final String eventMessage;
+  final String? eventMessage;
 
   /// The event number.
-  @_s.JsonKey(name: 'eventNumber')
-  final int eventNumber;
+  final int? eventNumber;
 
   /// The values extracted from the event data by the filter.
-  @_s.JsonKey(name: 'extractedValues')
-  final Map<String, String> extractedValues;
+  final Map<String, String>? extractedValues;
 
   MetricFilterMatchRecord({
     this.eventMessage,
     this.eventNumber,
     this.extractedValues,
   });
-  factory MetricFilterMatchRecord.fromJson(Map<String, dynamic> json) =>
-      _$MetricFilterMatchRecordFromJson(json);
+  factory MetricFilterMatchRecord.fromJson(Map<String, dynamic> json) {
+    return MetricFilterMatchRecord(
+      eventMessage: json['eventMessage'] as String?,
+      eventNumber: json['eventNumber'] as int?,
+      extractedValues: (json['extractedValues'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Indicates how to transform ingested log events to metric data in a
 /// CloudWatch metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricTransformation {
   /// The name of the CloudWatch metric.
-  @_s.JsonKey(name: 'metricName')
   final String metricName;
 
   /// A custom namespace to contain your metric in CloudWatch. Use namespaces to
   /// group together metrics that are similar. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Namespace">Namespaces</a>.
-  @_s.JsonKey(name: 'metricNamespace')
   final String metricNamespace;
 
   /// The value to publish to the CloudWatch metric when a filter pattern matches
   /// a log event.
-  @_s.JsonKey(name: 'metricValue')
   final String metricValue;
 
   /// (Optional) The value to emit when a filter pattern does not match a log
   /// event. This value can be null.
-  @_s.JsonKey(name: 'defaultValue')
-  final double defaultValue;
+  final double? defaultValue;
 
   MetricTransformation({
-    @_s.required this.metricName,
-    @_s.required this.metricNamespace,
-    @_s.required this.metricValue,
+    required this.metricName,
+    required this.metricNamespace,
+    required this.metricValue,
     this.defaultValue,
   });
-  factory MetricTransformation.fromJson(Map<String, dynamic> json) =>
-      _$MetricTransformationFromJson(json);
+  factory MetricTransformation.fromJson(Map<String, dynamic> json) {
+    return MetricTransformation(
+      metricName: json['metricName'] as String,
+      metricNamespace: json['metricNamespace'] as String,
+      metricValue: json['metricValue'] as String,
+      defaultValue: json['defaultValue'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MetricTransformationToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricNamespace = this.metricNamespace;
+    final metricValue = this.metricValue;
+    final defaultValue = this.defaultValue;
+    return {
+      'metricName': metricName,
+      'metricNamespace': metricNamespace,
+      'metricValue': metricValue,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+    };
+  }
 }
 
 enum OrderBy {
-  @_s.JsonValue('LogStreamName')
   logStreamName,
-  @_s.JsonValue('LastEventTime')
   lastEventTime,
 }
 
@@ -4144,143 +4139,137 @@ extension on OrderBy {
       case OrderBy.lastEventTime:
         return 'LastEventTime';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OrderBy toOrderBy() {
+    switch (this) {
+      case 'LogStreamName':
+        return OrderBy.logStreamName;
+      case 'LastEventTime':
+        return OrderBy.lastEventTime;
+    }
+    throw Exception('$this is not known in enum OrderBy');
   }
 }
 
 /// Represents a log event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputLogEvent {
   /// The time the event was ingested, expressed as the number of milliseconds
   /// after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'ingestionTime')
-  final int ingestionTime;
+  final int? ingestionTime;
 
   /// The data contained in the log event.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The time the event occurred, expressed as the number of milliseconds after
   /// Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   OutputLogEvent({
     this.ingestionTime,
     this.message,
     this.timestamp,
   });
-  factory OutputLogEvent.fromJson(Map<String, dynamic> json) =>
-      _$OutputLogEventFromJson(json);
+  factory OutputLogEvent.fromJson(Map<String, dynamic> json) {
+    return OutputLogEvent(
+      ingestionTime: json['ingestionTime'] as int?,
+      message: json['message'] as String?,
+      timestamp: json['timestamp'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDestinationResponse {
   /// The destination.
-  @_s.JsonKey(name: 'destination')
-  final Destination destination;
+  final Destination? destination;
 
   PutDestinationResponse({
     this.destination,
   });
-  factory PutDestinationResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutDestinationResponseFromJson(json);
+  factory PutDestinationResponse.fromJson(Map<String, dynamic> json) {
+    return PutDestinationResponse(
+      destination: json['destination'] != null
+          ? Destination.fromJson(json['destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutLogEventsResponse {
   /// The next sequence token.
-  @_s.JsonKey(name: 'nextSequenceToken')
-  final String nextSequenceToken;
+  final String? nextSequenceToken;
 
   /// The rejected events.
-  @_s.JsonKey(name: 'rejectedLogEventsInfo')
-  final RejectedLogEventsInfo rejectedLogEventsInfo;
+  final RejectedLogEventsInfo? rejectedLogEventsInfo;
 
   PutLogEventsResponse({
     this.nextSequenceToken,
     this.rejectedLogEventsInfo,
   });
-  factory PutLogEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutLogEventsResponseFromJson(json);
+  factory PutLogEventsResponse.fromJson(Map<String, dynamic> json) {
+    return PutLogEventsResponse(
+      nextSequenceToken: json['nextSequenceToken'] as String?,
+      rejectedLogEventsInfo: json['rejectedLogEventsInfo'] != null
+          ? RejectedLogEventsInfo.fromJson(
+              json['rejectedLogEventsInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutQueryDefinitionResponse {
   /// The ID of the query definition.
-  @_s.JsonKey(name: 'queryDefinitionId')
-  final String queryDefinitionId;
+  final String? queryDefinitionId;
 
   PutQueryDefinitionResponse({
     this.queryDefinitionId,
   });
-  factory PutQueryDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutQueryDefinitionResponseFromJson(json);
+  factory PutQueryDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return PutQueryDefinitionResponse(
+      queryDefinitionId: json['queryDefinitionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyResponse {
   /// The new policy.
-  @_s.JsonKey(name: 'resourcePolicy')
-  final ResourcePolicy resourcePolicy;
+  final ResourcePolicy? resourcePolicy;
 
   PutResourcePolicyResponse({
     this.resourcePolicy,
   });
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyResponseFromJson(json);
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      resourcePolicy: json['resourcePolicy'] != null
+          ? ResourcePolicy.fromJson(
+              json['resourcePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// This structure contains details about a saved CloudWatch Logs Insights query
 /// definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryDefinition {
   /// The date that the query definition was most recently modified.
-  @_s.JsonKey(name: 'lastModified')
-  final int lastModified;
+  final int? lastModified;
 
   /// If this query definition contains a list of log groups that it is limited
   /// to, that list appears here.
-  @_s.JsonKey(name: 'logGroupNames')
-  final List<String> logGroupNames;
+  final List<String>? logGroupNames;
 
   /// The name of the query definition.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The unique ID of the query definition.
-  @_s.JsonKey(name: 'queryDefinitionId')
-  final String queryDefinitionId;
+  final String? queryDefinitionId;
 
   /// The query string to use for this definition. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
   /// Logs Insights Query Syntax</a>.
-  @_s.JsonKey(name: 'queryString')
-  final String queryString;
+  final String? queryString;
 
   QueryDefinition({
     this.lastModified,
@@ -4289,39 +4278,39 @@ class QueryDefinition {
     this.queryDefinitionId,
     this.queryString,
   });
-  factory QueryDefinition.fromJson(Map<String, dynamic> json) =>
-      _$QueryDefinitionFromJson(json);
+  factory QueryDefinition.fromJson(Map<String, dynamic> json) {
+    return QueryDefinition(
+      lastModified: json['lastModified'] as int?,
+      logGroupNames: (json['logGroupNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      queryDefinitionId: json['queryDefinitionId'] as String?,
+      queryString: json['queryString'] as String?,
+    );
+  }
 }
 
 /// Information about one CloudWatch Logs Insights query that matches the
 /// request in a <code>DescribeQueries</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryInfo {
   /// The date and time that this query was created.
-  @_s.JsonKey(name: 'createTime')
-  final int createTime;
+  final int? createTime;
 
   /// The name of the log group scanned by this query.
-  @_s.JsonKey(name: 'logGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// The unique ID number of this query.
-  @_s.JsonKey(name: 'queryId')
-  final String queryId;
+  final String? queryId;
 
   /// The query string used in this query.
-  @_s.JsonKey(name: 'queryString')
-  final String queryString;
+  final String? queryString;
 
   /// The status of this query. Possible values are <code>Cancelled</code>,
   /// <code>Complete</code>, <code>Failed</code>, <code>Running</code>,
   /// <code>Scheduled</code>, and <code>Unknown</code>.
-  @_s.JsonKey(name: 'status')
-  final QueryStatus status;
+  final QueryStatus? status;
 
   QueryInfo({
     this.createTime,
@@ -4330,50 +4319,49 @@ class QueryInfo {
     this.queryString,
     this.status,
   });
-  factory QueryInfo.fromJson(Map<String, dynamic> json) =>
-      _$QueryInfoFromJson(json);
+  factory QueryInfo.fromJson(Map<String, dynamic> json) {
+    return QueryInfo(
+      createTime: json['createTime'] as int?,
+      logGroupName: json['logGroupName'] as String?,
+      queryId: json['queryId'] as String?,
+      queryString: json['queryString'] as String?,
+      status: (json['status'] as String?)?.toQueryStatus(),
+    );
+  }
 }
 
 /// Contains the number of log events scanned by the query, the number of log
 /// events that matched the query criteria, and the total number of bytes in the
 /// log events that were scanned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryStatistics {
   /// The total number of bytes in the log events scanned during the query.
-  @_s.JsonKey(name: 'bytesScanned')
-  final double bytesScanned;
+  final double? bytesScanned;
 
   /// The number of log events that matched the query string.
-  @_s.JsonKey(name: 'recordsMatched')
-  final double recordsMatched;
+  final double? recordsMatched;
 
   /// The total number of log events scanned during the query.
-  @_s.JsonKey(name: 'recordsScanned')
-  final double recordsScanned;
+  final double? recordsScanned;
 
   QueryStatistics({
     this.bytesScanned,
     this.recordsMatched,
     this.recordsScanned,
   });
-  factory QueryStatistics.fromJson(Map<String, dynamic> json) =>
-      _$QueryStatisticsFromJson(json);
+  factory QueryStatistics.fromJson(Map<String, dynamic> json) {
+    return QueryStatistics(
+      bytesScanned: json['bytesScanned'] as double?,
+      recordsMatched: json['recordsMatched'] as double?,
+      recordsScanned: json['recordsScanned'] as double?,
+    );
+  }
 }
 
 enum QueryStatus {
-  @_s.JsonValue('Scheduled')
   scheduled,
-  @_s.JsonValue('Running')
   running,
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelled')
   cancelled,
 }
 
@@ -4391,66 +4379,77 @@ extension on QueryStatus {
       case QueryStatus.cancelled:
         return 'Cancelled';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QueryStatus toQueryStatus() {
+    switch (this) {
+      case 'Scheduled':
+        return QueryStatus.scheduled;
+      case 'Running':
+        return QueryStatus.running;
+      case 'Complete':
+        return QueryStatus.complete;
+      case 'Failed':
+        return QueryStatus.failed;
+      case 'Cancelled':
+        return QueryStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum QueryStatus');
   }
 }
 
 /// Represents the rejected events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectedLogEventsInfo {
   /// The expired log events.
-  @_s.JsonKey(name: 'expiredLogEventEndIndex')
-  final int expiredLogEventEndIndex;
+  final int? expiredLogEventEndIndex;
 
   /// The log events that are too new.
-  @_s.JsonKey(name: 'tooNewLogEventStartIndex')
-  final int tooNewLogEventStartIndex;
+  final int? tooNewLogEventStartIndex;
 
   /// The log events that are too old.
-  @_s.JsonKey(name: 'tooOldLogEventEndIndex')
-  final int tooOldLogEventEndIndex;
+  final int? tooOldLogEventEndIndex;
 
   RejectedLogEventsInfo({
     this.expiredLogEventEndIndex,
     this.tooNewLogEventStartIndex,
     this.tooOldLogEventEndIndex,
   });
-  factory RejectedLogEventsInfo.fromJson(Map<String, dynamic> json) =>
-      _$RejectedLogEventsInfoFromJson(json);
+  factory RejectedLogEventsInfo.fromJson(Map<String, dynamic> json) {
+    return RejectedLogEventsInfo(
+      expiredLogEventEndIndex: json['expiredLogEventEndIndex'] as int?,
+      tooNewLogEventStartIndex: json['tooNewLogEventStartIndex'] as int?,
+      tooOldLogEventEndIndex: json['tooOldLogEventEndIndex'] as int?,
+    );
+  }
 }
 
 /// A policy enabling one or more entities to put logs to a log group in this
 /// account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourcePolicy {
   /// Timestamp showing when this policy was last updated, expressed as the number
   /// of milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final int lastUpdatedTime;
+  final int? lastUpdatedTime;
 
   /// The details of the policy.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The name of the resource policy.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   ResourcePolicy({
     this.lastUpdatedTime,
     this.policyDocument,
     this.policyName,
   });
-  factory ResourcePolicy.fromJson(Map<String, dynamic> json) =>
-      _$ResourcePolicyFromJson(json);
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      lastUpdatedTime: json['lastUpdatedTime'] as int?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+    );
+  }
 }
 
 /// Contains one field from one log event returned by a CloudWatch Logs Insights
@@ -4460,117 +4459,93 @@ class ResourcePolicy {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html">Supported
 /// Logs and Discovered Fields</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultField {
   /// The log event field.
-  @_s.JsonKey(name: 'field')
-  final String field;
+  final String? field;
 
   /// The value of this field.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ResultField({
     this.field,
     this.value,
   });
-  factory ResultField.fromJson(Map<String, dynamic> json) =>
-      _$ResultFieldFromJson(json);
+  factory ResultField.fromJson(Map<String, dynamic> json) {
+    return ResultField(
+      field: json['field'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 }
 
 /// Represents the search status of a log stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchedLogStream {
   /// The name of the log stream.
-  @_s.JsonKey(name: 'logStreamName')
-  final String logStreamName;
+  final String? logStreamName;
 
   /// Indicates whether all the events in this log stream were searched.
-  @_s.JsonKey(name: 'searchedCompletely')
-  final bool searchedCompletely;
+  final bool? searchedCompletely;
 
   SearchedLogStream({
     this.logStreamName,
     this.searchedCompletely,
   });
-  factory SearchedLogStream.fromJson(Map<String, dynamic> json) =>
-      _$SearchedLogStreamFromJson(json);
+  factory SearchedLogStream.fromJson(Map<String, dynamic> json) {
+    return SearchedLogStream(
+      logStreamName: json['logStreamName'] as String?,
+      searchedCompletely: json['searchedCompletely'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartQueryResponse {
   /// The unique ID of the query.
-  @_s.JsonKey(name: 'queryId')
-  final String queryId;
+  final String? queryId;
 
   StartQueryResponse({
     this.queryId,
   });
-  factory StartQueryResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartQueryResponseFromJson(json);
+  factory StartQueryResponse.fromJson(Map<String, dynamic> json) {
+    return StartQueryResponse(
+      queryId: json['queryId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopQueryResponse {
   /// This is true if the query was stopped by the <code>StopQuery</code>
   /// operation.
-  @_s.JsonKey(name: 'success')
-  final bool success;
+  final bool? success;
 
   StopQueryResponse({
     this.success,
   });
-  factory StopQueryResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopQueryResponseFromJson(json);
+  factory StopQueryResponse.fromJson(Map<String, dynamic> json) {
+    return StopQueryResponse(
+      success: json['success'] as bool?,
+    );
+  }
 }
 
 /// Represents a subscription filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubscriptionFilter {
   /// The creation time of the subscription filter, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(name: 'creationTime')
-  final int creationTime;
+  final int? creationTime;
 
   /// The Amazon Resource Name (ARN) of the destination.
-  @_s.JsonKey(name: 'destinationArn')
-  final String destinationArn;
-  @_s.JsonKey(name: 'distribution')
-  final Distribution distribution;
+  final String? destinationArn;
+  final Distribution? distribution;
 
   /// The name of the subscription filter.
-  @_s.JsonKey(name: 'filterName')
-  final String filterName;
-  @_s.JsonKey(name: 'filterPattern')
-  final String filterPattern;
+  final String? filterName;
+  final String? filterPattern;
 
   /// The name of the log group.
-  @_s.JsonKey(name: 'logGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// <p/>
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   SubscriptionFilter({
     this.creationTime,
@@ -4581,45 +4556,55 @@ class SubscriptionFilter {
     this.logGroupName,
     this.roleArn,
   });
-  factory SubscriptionFilter.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionFilterFromJson(json);
+  factory SubscriptionFilter.fromJson(Map<String, dynamic> json) {
+    return SubscriptionFilter(
+      creationTime: json['creationTime'] as int?,
+      destinationArn: json['destinationArn'] as String?,
+      distribution: (json['distribution'] as String?)?.toDistribution(),
+      filterName: json['filterName'] as String?,
+      filterPattern: json['filterPattern'] as String?,
+      logGroupName: json['logGroupName'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestMetricFilterResponse {
   /// The matched events.
-  @_s.JsonKey(name: 'matches')
-  final List<MetricFilterMatchRecord> matches;
+  final List<MetricFilterMatchRecord>? matches;
 
   TestMetricFilterResponse({
     this.matches,
   });
-  factory TestMetricFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestMetricFilterResponseFromJson(json);
+  factory TestMetricFilterResponse.fromJson(Map<String, dynamic> json) {
+    return TestMetricFilterResponse(
+      matches: (json['matches'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MetricFilterMatchRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 class DataAlreadyAcceptedException extends _s.GenericAwsException {
-  DataAlreadyAcceptedException({String type, String message})
+  DataAlreadyAcceptedException({String? type, String? message})
       : super(
             type: type, code: 'DataAlreadyAcceptedException', message: message);
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidSequenceTokenException extends _s.GenericAwsException {
-  InvalidSequenceTokenException({String type, String message})
+  InvalidSequenceTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSequenceTokenException',
@@ -4627,22 +4612,22 @@ class InvalidSequenceTokenException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedQueryException extends _s.GenericAwsException {
-  MalformedQueryException({String type, String message})
+  MalformedQueryException({String? type, String? message})
       : super(type: type, code: 'MalformedQueryException', message: message);
 }
 
 class OperationAbortedException extends _s.GenericAwsException {
-  OperationAbortedException({String type, String message})
+  OperationAbortedException({String? type, String? message})
       : super(type: type, code: 'OperationAbortedException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -4650,18 +4635,18 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class UnrecognizedClientException extends _s.GenericAwsException {
-  UnrecognizedClientException({String type, String message})
+  UnrecognizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnrecognizedClientException', message: message);
 }

@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class XMLAttributes {
   final _s.RestXmlProtocol _protocol;
   XMLAttributes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -42,7 +47,7 @@ class XMLAttributes {
 }
 
 class OutputShape {
-  final List<ItemShape> listItems;
+  final List<ItemShape>? listItems;
 
   OutputShape({
     this.listItems,
@@ -56,7 +61,7 @@ class OutputShape {
 }
 
 class ItemShape {
-  final ItemDetailShape itemDetail;
+  final ItemDetailShape? itemDetail;
 
   ItemShape({
     this.itemDetail,
@@ -72,15 +77,15 @@ class ItemShape {
 
 class ItemDetailShape {
   final ItemType type;
-  final String id;
+  final String? id;
 
   ItemDetailShape({
-    @_s.required this.type,
+    required this.type,
     this.id,
   });
   factory ItemDetailShape.fromXml(_s.XmlElement elem) {
     return ItemDetailShape(
-      type: _s.extractXmlStringAttribute(elem, 'xsi:type')?.toItemType(),
+      type: _s.extractXmlStringAttribute(elem, 'xsi:type')!.toItemType(),
       id: _s.extractXmlStringValue(elem, 'ID'),
     );
   }
@@ -102,7 +107,6 @@ extension on ItemType {
       case ItemType.type3:
         return 'Type3';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -116,7 +120,7 @@ extension on String {
       case 'Type3':
         return ItemType.type3;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ItemType');
   }
 }
 

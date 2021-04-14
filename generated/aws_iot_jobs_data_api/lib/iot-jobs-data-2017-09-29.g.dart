@@ -18,68 +18,69 @@ DescribeJobExecutionResponse _$DescribeJobExecutionResponseFromJson(
 GetPendingJobExecutionsResponse _$GetPendingJobExecutionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetPendingJobExecutionsResponse(
-    inProgressJobs: (json['inProgressJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : JobExecutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    queuedJobs: (json['queuedJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : JobExecutionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inProgressJobs: (json['inProgressJobs'] as List<dynamic>?)
+        ?.map((e) => JobExecutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    queuedJobs: (json['queuedJobs'] as List<dynamic>?)
+        ?.map((e) => JobExecutionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 JobExecution _$JobExecutionFromJson(Map<String, dynamic> json) {
   return JobExecution(
     approximateSecondsBeforeTimedOut:
-        json['approximateSecondsBeforeTimedOut'] as int,
-    executionNumber: json['executionNumber'] as int,
-    jobDocument: json['jobDocument'] as String,
-    jobId: json['jobId'] as String,
-    lastUpdatedAt: json['lastUpdatedAt'] as int,
-    queuedAt: json['queuedAt'] as int,
-    startedAt: json['startedAt'] as int,
+        json['approximateSecondsBeforeTimedOut'] as int?,
+    executionNumber: json['executionNumber'] as int?,
+    jobDocument: json['jobDocument'] as String?,
+    jobId: json['jobId'] as String?,
+    lastUpdatedAt: json['lastUpdatedAt'] as int?,
+    queuedAt: json['queuedAt'] as int?,
+    startedAt: json['startedAt'] as int?,
     status: _$enumDecodeNullable(_$JobExecutionStatusEnumMap, json['status']),
-    statusDetails: (json['statusDetails'] as Map<String, dynamic>)?.map(
+    statusDetails: (json['statusDetails'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    thingName: json['thingName'] as String,
-    versionNumber: json['versionNumber'] as int,
+    thingName: json['thingName'] as String?,
+    versionNumber: json['versionNumber'] as int?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$JobExecutionStatusEnumMap = {
@@ -96,21 +97,21 @@ const _$JobExecutionStatusEnumMap = {
 JobExecutionState _$JobExecutionStateFromJson(Map<String, dynamic> json) {
   return JobExecutionState(
     status: _$enumDecodeNullable(_$JobExecutionStatusEnumMap, json['status']),
-    statusDetails: (json['statusDetails'] as Map<String, dynamic>)?.map(
+    statusDetails: (json['statusDetails'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    versionNumber: json['versionNumber'] as int,
+    versionNumber: json['versionNumber'] as int?,
   );
 }
 
 JobExecutionSummary _$JobExecutionSummaryFromJson(Map<String, dynamic> json) {
   return JobExecutionSummary(
-    executionNumber: json['executionNumber'] as int,
-    jobId: json['jobId'] as String,
-    lastUpdatedAt: json['lastUpdatedAt'] as int,
-    queuedAt: json['queuedAt'] as int,
-    startedAt: json['startedAt'] as int,
-    versionNumber: json['versionNumber'] as int,
+    executionNumber: json['executionNumber'] as int?,
+    jobId: json['jobId'] as String?,
+    lastUpdatedAt: json['lastUpdatedAt'] as int?,
+    queuedAt: json['queuedAt'] as int?,
+    startedAt: json['startedAt'] as int?,
+    versionNumber: json['versionNumber'] as int?,
   );
 }
 
@@ -130,6 +131,6 @@ UpdateJobExecutionResponse _$UpdateJobExecutionResponseFromJson(
         ? null
         : JobExecutionState.fromJson(
             json['executionState'] as Map<String, dynamic>),
-    jobDocument: json['jobDocument'] as String,
+    jobDocument: json['jobDocument'] as String?,
   );
 }

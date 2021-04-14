@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'opsworks-2013-02-18.g.dart';
 
 /// Welcome to the <i>AWS OpsWorks Stacks API Reference</i>. This guide provides
 /// descriptions, syntax, and usage examples for AWS OpsWorks Stacks actions and
@@ -32,10 +24,10 @@ part 'opsworks-2013-02-18.g.dart';
 class OpsWorks {
   final _s.JsonProtocol _protocol;
   OpsWorks({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,8 +69,8 @@ class OpsWorks {
   /// The layer ID, which must correspond to a custom layer. You cannot assign a
   /// registered instance to a built-in layer.
   Future<void> assignInstance({
-    @_s.required String instanceId,
-    @_s.required List<String> layerIds,
+    required String instanceId,
+    required List<String> layerIds,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     ArgumentError.checkNotNull(layerIds, 'layerIds');
@@ -86,7 +78,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssignInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -123,15 +115,15 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> assignVolume({
-    @_s.required String volumeId,
-    String instanceId,
+    required String volumeId,
+    String? instanceId,
   }) async {
     ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssignVolume'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -166,15 +158,15 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> associateElasticIp({
-    @_s.required String elasticIp,
-    String instanceId,
+    required String elasticIp,
+    String? instanceId,
   }) async {
     ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssociateElasticIp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -217,8 +209,8 @@ class OpsWorks {
   /// The ID of the layer to which the Elastic Load Balancing instance is to be
   /// attached.
   Future<void> attachElasticLoadBalancer({
-    @_s.required String elasticLoadBalancerName,
-    @_s.required String layerId,
+    required String elasticLoadBalancerName,
+    required String layerId,
   }) async {
     ArgumentError.checkNotNull(
         elasticLoadBalancerName, 'elasticLoadBalancerName');
@@ -227,7 +219,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AttachElasticLoadBalancer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -557,28 +549,28 @@ class OpsWorks {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
   /// Platforms</a>.
   Future<CloneStackResult> cloneStack({
-    @_s.required String serviceRoleArn,
-    @_s.required String sourceStackId,
-    String agentVersion,
-    Map<StackAttributesKeys, String> attributes,
-    ChefConfiguration chefConfiguration,
-    List<String> cloneAppIds,
-    bool clonePermissions,
-    StackConfigurationManager configurationManager,
-    Source customCookbooksSource,
-    String customJson,
-    String defaultAvailabilityZone,
-    String defaultInstanceProfileArn,
-    String defaultOs,
-    RootDeviceType defaultRootDeviceType,
-    String defaultSshKeyName,
-    String defaultSubnetId,
-    String hostnameTheme,
-    String name,
-    String region,
-    bool useCustomCookbooks,
-    bool useOpsworksSecurityGroups,
-    String vpcId,
+    required String serviceRoleArn,
+    required String sourceStackId,
+    String? agentVersion,
+    Map<StackAttributesKeys, String>? attributes,
+    ChefConfiguration? chefConfiguration,
+    List<String>? cloneAppIds,
+    bool? clonePermissions,
+    StackConfigurationManager? configurationManager,
+    Source? customCookbooksSource,
+    String? customJson,
+    String? defaultAvailabilityZone,
+    String? defaultInstanceProfileArn,
+    String? defaultOs,
+    RootDeviceType? defaultRootDeviceType,
+    String? defaultSshKeyName,
+    String? defaultSubnetId,
+    String? hostnameTheme,
+    String? name,
+    String? region,
+    bool? useCustomCookbooks,
+    bool? useOpsworksSecurityGroups,
+    String? vpcId,
   }) async {
     ArgumentError.checkNotNull(serviceRoleArn, 'serviceRoleArn');
     ArgumentError.checkNotNull(sourceStackId, 'sourceStackId');
@@ -702,18 +694,18 @@ class OpsWorks {
   /// Parameter [sslConfiguration] :
   /// An <code>SslConfiguration</code> object with the SSL configuration.
   Future<CreateAppResult> createApp({
-    @_s.required String name,
-    @_s.required String stackId,
-    @_s.required AppType type,
-    Source appSource,
-    Map<AppAttributesKeys, String> attributes,
-    List<DataSource> dataSources,
-    String description,
-    List<String> domains,
-    bool enableSsl,
-    List<EnvironmentVariable> environment,
-    String shortname,
-    SslConfiguration sslConfiguration,
+    required String name,
+    required String stackId,
+    required AppType type,
+    Source? appSource,
+    Map<AppAttributesKeys, String>? attributes,
+    List<DataSource>? dataSources,
+    String? description,
+    List<String>? domains,
+    bool? enableSsl,
+    List<EnvironmentVariable>? environment,
+    String? shortname,
+    SslConfiguration? sslConfiguration,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(stackId, 'stackId');
@@ -731,7 +723,7 @@ class OpsWorks {
       payload: {
         'Name': name,
         'StackId': stackId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (appSource != null) 'AppSource': appSource,
         if (attributes != null)
           'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
@@ -797,13 +789,13 @@ class OpsWorks {
   /// Parameter [layerIds] :
   /// The layer IDs for the deployment targets.
   Future<CreateDeploymentResult> createDeployment({
-    @_s.required DeploymentCommand command,
-    @_s.required String stackId,
-    String appId,
-    String comment,
-    String customJson,
-    List<String> instanceIds,
-    List<String> layerIds,
+    required DeploymentCommand command,
+    required String stackId,
+    String? appId,
+    String? comment,
+    String? customJson,
+    List<String>? instanceIds,
+    List<String>? layerIds,
   }) async {
     ArgumentError.checkNotNull(command, 'command');
     ArgumentError.checkNotNull(stackId, 'stackId');
@@ -1018,24 +1010,24 @@ class OpsWorks {
   /// The instance's virtualization type, <code>paravirtual</code> or
   /// <code>hvm</code>.
   Future<CreateInstanceResult> createInstance({
-    @_s.required String instanceType,
-    @_s.required List<String> layerIds,
-    @_s.required String stackId,
-    String agentVersion,
-    String amiId,
-    Architecture architecture,
-    AutoScalingType autoScalingType,
-    String availabilityZone,
-    List<BlockDeviceMapping> blockDeviceMappings,
-    bool ebsOptimized,
-    String hostname,
-    bool installUpdatesOnBoot,
-    String os,
-    RootDeviceType rootDeviceType,
-    String sshKeyName,
-    String subnetId,
-    String tenancy,
-    String virtualizationType,
+    required String instanceType,
+    required List<String> layerIds,
+    required String stackId,
+    String? agentVersion,
+    String? amiId,
+    Architecture? architecture,
+    AutoScalingType? autoScalingType,
+    String? availabilityZone,
+    List<BlockDeviceMapping>? blockDeviceMappings,
+    bool? ebsOptimized,
+    String? hostname,
+    bool? installUpdatesOnBoot,
+    String? os,
+    RootDeviceType? rootDeviceType,
+    String? sshKeyName,
+    String? subnetId,
+    String? tenancy,
+    String? virtualizationType,
   }) async {
     ArgumentError.checkNotNull(instanceType, 'instanceType');
     ArgumentError.checkNotNull(layerIds, 'layerIds');
@@ -1200,24 +1192,24 @@ class OpsWorks {
   /// A <code>VolumeConfigurations</code> object that describes the layer's
   /// Amazon EBS volumes.
   Future<CreateLayerResult> createLayer({
-    @_s.required String name,
-    @_s.required String shortname,
-    @_s.required String stackId,
-    @_s.required LayerType type,
-    Map<LayerAttributesKeys, String> attributes,
-    bool autoAssignElasticIps,
-    bool autoAssignPublicIps,
-    CloudWatchLogsConfiguration cloudWatchLogsConfiguration,
-    String customInstanceProfileArn,
-    String customJson,
-    Recipes customRecipes,
-    List<String> customSecurityGroupIds,
-    bool enableAutoHealing,
-    bool installUpdatesOnBoot,
-    LifecycleEventConfiguration lifecycleEventConfiguration,
-    List<String> packages,
-    bool useEbsOptimizedInstances,
-    List<VolumeConfiguration> volumeConfigurations,
+    required String name,
+    required String shortname,
+    required String stackId,
+    required LayerType type,
+    Map<LayerAttributesKeys, String>? attributes,
+    bool? autoAssignElasticIps,
+    bool? autoAssignPublicIps,
+    CloudWatchLogsConfiguration? cloudWatchLogsConfiguration,
+    String? customInstanceProfileArn,
+    String? customJson,
+    Recipes? customRecipes,
+    List<String>? customSecurityGroupIds,
+    bool? enableAutoHealing,
+    bool? installUpdatesOnBoot,
+    LifecycleEventConfiguration? lifecycleEventConfiguration,
+    List<String>? packages,
+    bool? useEbsOptimizedInstances,
+    List<VolumeConfiguration>? volumeConfigurations,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(shortname, 'shortname');
@@ -1237,7 +1229,7 @@ class OpsWorks {
         'Name': name,
         'Shortname': shortname,
         'StackId': stackId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (attributes != null)
           'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (autoAssignElasticIps != null)
@@ -1587,25 +1579,25 @@ class OpsWorks {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
   /// Platforms</a>.
   Future<CreateStackResult> createStack({
-    @_s.required String defaultInstanceProfileArn,
-    @_s.required String name,
-    @_s.required String region,
-    @_s.required String serviceRoleArn,
-    String agentVersion,
-    Map<StackAttributesKeys, String> attributes,
-    ChefConfiguration chefConfiguration,
-    StackConfigurationManager configurationManager,
-    Source customCookbooksSource,
-    String customJson,
-    String defaultAvailabilityZone,
-    String defaultOs,
-    RootDeviceType defaultRootDeviceType,
-    String defaultSshKeyName,
-    String defaultSubnetId,
-    String hostnameTheme,
-    bool useCustomCookbooks,
-    bool useOpsworksSecurityGroups,
-    String vpcId,
+    required String defaultInstanceProfileArn,
+    required String name,
+    required String region,
+    required String serviceRoleArn,
+    String? agentVersion,
+    Map<StackAttributesKeys, String>? attributes,
+    ChefConfiguration? chefConfiguration,
+    StackConfigurationManager? configurationManager,
+    Source? customCookbooksSource,
+    String? customJson,
+    String? defaultAvailabilityZone,
+    String? defaultOs,
+    RootDeviceType? defaultRootDeviceType,
+    String? defaultSshKeyName,
+    String? defaultSubnetId,
+    String? hostnameTheme,
+    bool? useCustomCookbooks,
+    bool? useOpsworksSecurityGroups,
+    String? vpcId,
   }) async {
     ArgumentError.checkNotNull(
         defaultInstanceProfileArn, 'defaultInstanceProfileArn');
@@ -1684,10 +1676,10 @@ class OpsWorks {
   /// will be changed to <code>myname</code>. If you do not specify an SSH user
   /// name, AWS OpsWorks Stacks generates one from the IAM user name.
   Future<CreateUserProfileResult> createUserProfile({
-    @_s.required String iamUserArn,
-    bool allowSelfManagement,
-    String sshPublicKey,
-    String sshUsername,
+    required String iamUserArn,
+    bool? allowSelfManagement,
+    String? sshPublicKey,
+    String? sshUsername,
   }) async {
     ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
@@ -1727,14 +1719,14 @@ class OpsWorks {
   /// Parameter [appId] :
   /// The app ID.
   Future<void> deleteApp({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteApp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1772,16 +1764,16 @@ class OpsWorks {
   /// Parameter [deleteVolumes] :
   /// Whether to delete the instance's Amazon EBS volumes.
   Future<void> deleteInstance({
-    @_s.required String instanceId,
-    bool deleteElasticIp,
-    bool deleteVolumes,
+    required String instanceId,
+    bool? deleteElasticIp,
+    bool? deleteVolumes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1814,14 +1806,14 @@ class OpsWorks {
   /// Parameter [layerId] :
   /// The layer ID.
   Future<void> deleteLayer({
-    @_s.required String layerId,
+    required String layerId,
   }) async {
     ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteLayer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1851,14 +1843,14 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<void> deleteStack({
-    @_s.required String stackId,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteStack'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1884,14 +1876,14 @@ class OpsWorks {
   /// Parameter [iamUserArn] :
   /// The user's IAM ARN. This can also be a federated user's ARN.
   Future<void> deleteUserProfile({
-    @_s.required String iamUserArn,
+    required String iamUserArn,
   }) async {
     ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteUserProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1920,14 +1912,14 @@ class OpsWorks {
   /// Parameter [ecsClusterArn] :
   /// The cluster's Amazon Resource Number (ARN).
   Future<void> deregisterEcsCluster({
-    @_s.required String ecsClusterArn,
+    required String ecsClusterArn,
   }) async {
     ArgumentError.checkNotNull(ecsClusterArn, 'ecsClusterArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterEcsCluster'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1957,14 +1949,14 @@ class OpsWorks {
   /// Parameter [elasticIp] :
   /// The Elastic IP address.
   Future<void> deregisterElasticIp({
-    @_s.required String elasticIp,
+    required String elasticIp,
   }) async {
     ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterElasticIp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1994,14 +1986,14 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> deregisterInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2028,14 +2020,14 @@ class OpsWorks {
   /// Parameter [rdsDbInstanceArn] :
   /// The Amazon RDS instance's ARN.
   Future<void> deregisterRdsDbInstance({
-    @_s.required String rdsDbInstanceArn,
+    required String rdsDbInstanceArn,
   }) async {
     ArgumentError.checkNotNull(rdsDbInstanceArn, 'rdsDbInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterRdsDbInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2067,14 +2059,14 @@ class OpsWorks {
   /// Stacks assigned to the instance when you registered the volume with the
   /// stack, not the Amazon EC2 volume ID.
   Future<void> deregisterVolume({
-    @_s.required String volumeId,
+    required String volumeId,
   }) async {
     ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterVolume'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2100,8 +2092,8 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<DescribeAgentVersionsResult> describeAgentVersions({
-    StackConfigurationManager configurationManager,
-    String stackId,
+    StackConfigurationManager? configurationManager,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2146,8 +2138,8 @@ class OpsWorks {
   /// The app stack ID. If you use this parameter, <code>DescribeApps</code>
   /// returns a description of the apps in the specified stack.
   Future<DescribeAppsResult> describeApps({
-    List<String> appIds,
-    String stackId,
+    List<String>? appIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2197,9 +2189,9 @@ class OpsWorks {
   /// <code>DescribeCommands</code> returns a description of the commands
   /// associated with the specified instance.
   Future<DescribeCommandsResult> describeCommands({
-    List<String> commandIds,
-    String deploymentId,
-    String instanceId,
+    List<String>? commandIds,
+    String? deploymentId,
+    String? instanceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2248,9 +2240,9 @@ class OpsWorks {
   /// The stack ID. If you include this parameter, the command returns a
   /// description of the commands associated with the specified stack.
   Future<DescribeDeploymentsResult> describeDeployments({
-    String appId,
-    List<String> deploymentIds,
-    String stackId,
+    String? appId,
+    List<String>? deploymentIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2313,10 +2305,10 @@ class OpsWorks {
   /// A stack ID. <code>DescribeEcsClusters</code> returns a description of the
   /// cluster that is registered with the stack.
   Future<DescribeEcsClustersResult> describeEcsClusters({
-    List<String> ecsClusterArns,
-    int maxResults,
-    String nextToken,
-    String stackId,
+    List<String>? ecsClusterArns,
+    int? maxResults,
+    String? nextToken,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2371,9 +2363,9 @@ class OpsWorks {
   /// returns a description of the Elastic IP addresses that are registered with
   /// the specified stack.
   Future<DescribeElasticIpsResult> describeElasticIps({
-    String instanceId,
-    List<String> ips,
-    String stackId,
+    String? instanceId,
+    List<String>? ips,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2417,8 +2409,8 @@ class OpsWorks {
   /// A stack ID. The action describes the stack's Elastic Load Balancing
   /// instances.
   Future<DescribeElasticLoadBalancersResult> describeElasticLoadBalancers({
-    List<String> layerIds,
-    String stackId,
+    List<String>? layerIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2466,9 +2458,9 @@ class OpsWorks {
   /// A stack ID. If you use this parameter, <code>DescribeInstances</code>
   /// returns descriptions of the instances associated with the specified stack.
   Future<DescribeInstancesResult> describeInstances({
-    List<String> instanceIds,
-    String layerId,
-    String stackId,
+    List<String>? instanceIds,
+    String? layerId,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2512,8 +2504,8 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<DescribeLayersResult> describeLayers({
-    List<String> layerIds,
-    String stackId,
+    List<String>? layerIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2551,7 +2543,7 @@ class OpsWorks {
   /// Parameter [layerIds] :
   /// An array of layer IDs.
   Future<DescribeLoadBasedAutoScalingResult> describeLoadBasedAutoScaling({
-    @_s.required List<String> layerIds,
+    required List<String> layerIds,
   }) async {
     ArgumentError.checkNotNull(layerIds, 'layerIds');
     final headers = <String, String>{
@@ -2633,8 +2625,8 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<DescribePermissionsResult> describePermissions({
-    String iamUserArn,
-    String stackId,
+    String? iamUserArn,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2682,9 +2674,9 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<DescribeRaidArraysResult> describeRaidArrays({
-    String instanceId,
-    List<String> raidArrayIds,
-    String stackId,
+    String? instanceId,
+    List<String>? raidArrayIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2727,8 +2719,8 @@ class OpsWorks {
   /// Parameter [rdsDbInstanceArns] :
   /// An array containing the ARNs of the instances to be described.
   Future<DescribeRdsDbInstancesResult> describeRdsDbInstances({
-    @_s.required String stackId,
-    List<String> rdsDbInstanceArns,
+    required String stackId,
+    List<String>? rdsDbInstanceArns,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
@@ -2779,9 +2771,9 @@ class OpsWorks {
   /// <code>DescribeServiceErrors</code> returns descriptions of the errors
   /// associated with the specified stack.
   Future<DescribeServiceErrorsResult> describeServiceErrors({
-    String instanceId,
-    List<String> serviceErrorIds,
-    String stackId,
+    String? instanceId,
+    List<String>? serviceErrorIds,
+    String? stackId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2819,7 +2811,7 @@ class OpsWorks {
   /// The stack ID.
   Future<DescribeStackProvisioningParametersResult>
       describeStackProvisioningParameters({
-    @_s.required String stackId,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
@@ -2858,7 +2850,7 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<DescribeStackSummaryResult> describeStackSummary({
-    @_s.required String stackId,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
@@ -2896,7 +2888,7 @@ class OpsWorks {
   /// this parameter, <code>DescribeStacks</code> returns a description of every
   /// stack.
   Future<DescribeStacksResult> describeStacks({
-    List<String> stackIds,
+    List<String>? stackIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2933,7 +2925,7 @@ class OpsWorks {
   /// Parameter [instanceIds] :
   /// An array of instance IDs.
   Future<DescribeTimeBasedAutoScalingResult> describeTimeBasedAutoScaling({
-    @_s.required List<String> instanceIds,
+    required List<String> instanceIds,
   }) async {
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     final headers = <String, String>{
@@ -2969,7 +2961,7 @@ class OpsWorks {
   /// An array of IAM or federated user ARNs that identify the users to be
   /// described.
   Future<DescribeUserProfilesResult> describeUserProfiles({
-    List<String> iamUserArns,
+    List<String>? iamUserArns,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3022,10 +3014,10 @@ class OpsWorks {
   /// <code>DescribeVolumes</code> returns descriptions of the specified
   /// volumes. Otherwise, it returns a description of every volume.
   Future<DescribeVolumesResult> describeVolumes({
-    String instanceId,
-    String raidArrayId,
-    String stackId,
-    List<String> volumeIds,
+    String? instanceId,
+    String? raidArrayId,
+    String? stackId,
+    List<String>? volumeIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3066,8 +3058,8 @@ class OpsWorks {
   /// The ID of the layer that the Elastic Load Balancing instance is attached
   /// to.
   Future<void> detachElasticLoadBalancer({
-    @_s.required String elasticLoadBalancerName,
-    @_s.required String layerId,
+    required String elasticLoadBalancerName,
+    required String layerId,
   }) async {
     ArgumentError.checkNotNull(
         elasticLoadBalancerName, 'elasticLoadBalancerName');
@@ -3076,7 +3068,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DetachElasticLoadBalancer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3107,14 +3099,14 @@ class OpsWorks {
   /// Parameter [elasticIp] :
   /// The Elastic IP address.
   Future<void> disassociateElasticIp({
-    @_s.required String elasticIp,
+    required String elasticIp,
   }) async {
     ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DisassociateElasticIp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3142,7 +3134,7 @@ class OpsWorks {
   /// Parameter [layerId] :
   /// The layer ID.
   Future<GetHostnameSuggestionResult> getHostnameSuggestion({
-    @_s.required String layerId,
+    required String layerId,
   }) async {
     ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
@@ -3180,8 +3172,8 @@ class OpsWorks {
   /// the credentials to log in. If the user is logged in at the time, he or she
   /// automatically will be logged out.
   Future<GrantAccessResult> grantAccess({
-    @_s.required String instanceId,
-    int validForInMinutes,
+    required String instanceId,
+    int? validForInMinutes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateNumRange(
@@ -3225,9 +3217,9 @@ class OpsWorks {
   /// Do not use. A validation exception occurs if you add a
   /// <code>NextToken</code> parameter to a <code>ListTagsRequest</code> call.
   Future<ListTagsResult> listTags({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -3267,14 +3259,14 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> rebootInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RebootInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3308,8 +3300,8 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<RegisterEcsClusterResult> registerEcsCluster({
-    @_s.required String ecsClusterArn,
-    @_s.required String stackId,
+    required String ecsClusterArn,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(ecsClusterArn, 'ecsClusterArn');
     ArgumentError.checkNotNull(stackId, 'stackId');
@@ -3355,8 +3347,8 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<RegisterElasticIpResult> registerElasticIp({
-    @_s.required String elasticIp,
-    @_s.required String stackId,
+    required String elasticIp,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     ArgumentError.checkNotNull(stackId, 'stackId');
@@ -3431,13 +3423,13 @@ class OpsWorks {
   /// Parameter [rsaPublicKeyFingerprint] :
   /// The instances public RSA key fingerprint.
   Future<RegisterInstanceResult> registerInstance({
-    @_s.required String stackId,
-    String hostname,
-    InstanceIdentity instanceIdentity,
-    String privateIp,
-    String publicIp,
-    String rsaPublicKey,
-    String rsaPublicKeyFingerprint,
+    required String stackId,
+    String? hostname,
+    InstanceIdentity? instanceIdentity,
+    String? privateIp,
+    String? publicIp,
+    String? rsaPublicKey,
+    String? rsaPublicKeyFingerprint,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
@@ -3489,10 +3481,10 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<void> registerRdsDbInstance({
-    @_s.required String dbPassword,
-    @_s.required String dbUser,
-    @_s.required String rdsDbInstanceArn,
-    @_s.required String stackId,
+    required String dbPassword,
+    required String dbUser,
+    required String rdsDbInstanceArn,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(dbPassword, 'dbPassword');
     ArgumentError.checkNotNull(dbUser, 'dbUser');
@@ -3502,7 +3494,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterRdsDbInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3540,8 +3532,8 @@ class OpsWorks {
   /// Parameter [ec2VolumeId] :
   /// The Amazon EBS volume ID.
   Future<RegisterVolumeResult> registerVolume({
-    @_s.required String stackId,
-    String ec2VolumeId,
+    required String stackId,
+    String? ec2VolumeId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
@@ -3600,17 +3592,17 @@ class OpsWorks {
   /// configuration. If the load exceeds these thresholds for a specified amount
   /// of time, AWS OpsWorks Stacks starts a specified number of instances.
   Future<void> setLoadBasedAutoScaling({
-    @_s.required String layerId,
-    AutoScalingThresholds downScaling,
-    bool enable,
-    AutoScalingThresholds upScaling,
+    required String layerId,
+    AutoScalingThresholds? downScaling,
+    bool? enable,
+    AutoScalingThresholds? upScaling,
   }) async {
     ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetLoadBasedAutoScaling'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3677,11 +3669,11 @@ class OpsWorks {
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
   /// User Permissions</a>.
   Future<void> setPermission({
-    @_s.required String iamUserArn,
-    @_s.required String stackId,
-    bool allowSsh,
-    bool allowSudo,
-    String level,
+    required String iamUserArn,
+    required String stackId,
+    bool? allowSsh,
+    bool? allowSudo,
+    String? level,
   }) async {
     ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     ArgumentError.checkNotNull(stackId, 'stackId');
@@ -3689,7 +3681,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetPermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3726,15 +3718,15 @@ class OpsWorks {
   /// Parameter [autoScalingSchedule] :
   /// An <code>AutoScalingSchedule</code> with the instance schedule.
   Future<void> setTimeBasedAutoScaling({
-    @_s.required String instanceId,
-    WeeklyAutoScalingSchedule autoScalingSchedule,
+    required String instanceId,
+    WeeklyAutoScalingSchedule? autoScalingSchedule,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetTimeBasedAutoScaling'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3765,14 +3757,14 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> startInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StartInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3799,14 +3791,14 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<void> startStack({
-    @_s.required String stackId,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StartStack'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3847,15 +3839,15 @@ class OpsWorks {
   /// the formerly-associated instance in EC2 after troubleshooting and
   /// replacing the AWS OpsWorks Stacks instance with a new one.
   Future<void> stopInstance({
-    @_s.required String instanceId,
-    bool force,
+    required String instanceId,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StopInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3883,14 +3875,14 @@ class OpsWorks {
   /// Parameter [stackId] :
   /// The stack ID.
   Future<void> stopStack({
-    @_s.required String stackId,
+    required String stackId,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StopStack'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3939,8 +3931,8 @@ class OpsWorks {
   /// </li>
   /// </ul>
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -3948,7 +3940,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3979,14 +3971,14 @@ class OpsWorks {
   /// Parameter [instanceId] :
   /// The instance ID.
   Future<void> unassignInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UnassignInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4016,14 +4008,14 @@ class OpsWorks {
   /// Parameter [volumeId] :
   /// The volume ID.
   Future<void> unassignVolume({
-    @_s.required String volumeId,
+    required String volumeId,
   }) async {
     ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UnassignVolume'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4046,8 +4038,8 @@ class OpsWorks {
   /// Parameter [tagKeys] :
   /// A list of the keys of tags to be removed from a stack or layer.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -4055,7 +4047,7 @@ class OpsWorks {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4131,24 +4123,24 @@ class OpsWorks {
   /// Parameter [type] :
   /// The app type.
   Future<void> updateApp({
-    @_s.required String appId,
-    Source appSource,
-    Map<AppAttributesKeys, String> attributes,
-    List<DataSource> dataSources,
-    String description,
-    List<String> domains,
-    bool enableSsl,
-    List<EnvironmentVariable> environment,
-    String name,
-    SslConfiguration sslConfiguration,
-    AppType type,
+    required String appId,
+    Source? appSource,
+    Map<AppAttributesKeys, String>? attributes,
+    List<DataSource>? dataSources,
+    String? description,
+    List<String>? domains,
+    bool? enableSsl,
+    List<EnvironmentVariable>? environment,
+    String? name,
+    SslConfiguration? sslConfiguration,
+    AppType? type,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateApp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4192,15 +4184,15 @@ class OpsWorks {
   /// Parameter [name] :
   /// The new name.
   Future<void> updateElasticIp({
-    @_s.required String elasticIp,
-    String name,
+    required String elasticIp,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateElasticIp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4351,25 +4343,25 @@ class OpsWorks {
   /// Parameter [sshKeyName] :
   /// The instance's Amazon EC2 key name.
   Future<void> updateInstance({
-    @_s.required String instanceId,
-    String agentVersion,
-    String amiId,
-    Architecture architecture,
-    AutoScalingType autoScalingType,
-    bool ebsOptimized,
-    String hostname,
-    bool installUpdatesOnBoot,
-    String instanceType,
-    List<String> layerIds,
-    String os,
-    String sshKeyName,
+    required String instanceId,
+    String? agentVersion,
+    String? amiId,
+    Architecture? architecture,
+    AutoScalingType? autoScalingType,
+    bool? ebsOptimized,
+    String? hostname,
+    bool? installUpdatesOnBoot,
+    String? instanceType,
+    List<String>? layerIds,
+    String? os,
+    String? sshKeyName,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4495,30 +4487,30 @@ class OpsWorks {
   /// A <code>VolumeConfigurations</code> object that describes the layer's
   /// Amazon EBS volumes.
   Future<void> updateLayer({
-    @_s.required String layerId,
-    Map<LayerAttributesKeys, String> attributes,
-    bool autoAssignElasticIps,
-    bool autoAssignPublicIps,
-    CloudWatchLogsConfiguration cloudWatchLogsConfiguration,
-    String customInstanceProfileArn,
-    String customJson,
-    Recipes customRecipes,
-    List<String> customSecurityGroupIds,
-    bool enableAutoHealing,
-    bool installUpdatesOnBoot,
-    LifecycleEventConfiguration lifecycleEventConfiguration,
-    String name,
-    List<String> packages,
-    String shortname,
-    bool useEbsOptimizedInstances,
-    List<VolumeConfiguration> volumeConfigurations,
+    required String layerId,
+    Map<LayerAttributesKeys, String>? attributes,
+    bool? autoAssignElasticIps,
+    bool? autoAssignPublicIps,
+    CloudWatchLogsConfiguration? cloudWatchLogsConfiguration,
+    String? customInstanceProfileArn,
+    String? customJson,
+    Recipes? customRecipes,
+    List<String>? customSecurityGroupIds,
+    bool? enableAutoHealing,
+    bool? installUpdatesOnBoot,
+    LifecycleEventConfiguration? lifecycleEventConfiguration,
+    String? name,
+    List<String>? packages,
+    String? shortname,
+    bool? useEbsOptimizedInstances,
+    List<VolumeConfiguration>? volumeConfigurations,
   }) async {
     ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateLayer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4569,13 +4561,13 @@ class OpsWorks {
   /// Parameter [sshPublicKey] :
   /// The user's SSH public key.
   Future<void> updateMyUserProfile({
-    String sshPublicKey,
+    String? sshPublicKey,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateMyUserProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4608,16 +4600,16 @@ class OpsWorks {
   /// Parameter [dbUser] :
   /// The master user name.
   Future<void> updateRdsDbInstance({
-    @_s.required String rdsDbInstanceArn,
-    String dbPassword,
-    String dbUser,
+    required String rdsDbInstanceArn,
+    String? dbPassword,
+    String? dbUser,
   }) async {
     ArgumentError.checkNotNull(rdsDbInstanceArn, 'rdsDbInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateRdsDbInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4877,31 +4869,31 @@ class OpsWorks {
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
   /// a New Stack</a>.
   Future<void> updateStack({
-    @_s.required String stackId,
-    String agentVersion,
-    Map<StackAttributesKeys, String> attributes,
-    ChefConfiguration chefConfiguration,
-    StackConfigurationManager configurationManager,
-    Source customCookbooksSource,
-    String customJson,
-    String defaultAvailabilityZone,
-    String defaultInstanceProfileArn,
-    String defaultOs,
-    RootDeviceType defaultRootDeviceType,
-    String defaultSshKeyName,
-    String defaultSubnetId,
-    String hostnameTheme,
-    String name,
-    String serviceRoleArn,
-    bool useCustomCookbooks,
-    bool useOpsworksSecurityGroups,
+    required String stackId,
+    String? agentVersion,
+    Map<StackAttributesKeys, String>? attributes,
+    ChefConfiguration? chefConfiguration,
+    StackConfigurationManager? configurationManager,
+    Source? customCookbooksSource,
+    String? customJson,
+    String? defaultAvailabilityZone,
+    String? defaultInstanceProfileArn,
+    String? defaultOs,
+    RootDeviceType? defaultRootDeviceType,
+    String? defaultSshKeyName,
+    String? defaultSubnetId,
+    String? hostnameTheme,
+    String? name,
+    String? serviceRoleArn,
+    bool? useCustomCookbooks,
+    bool? useOpsworksSecurityGroups,
   }) async {
     ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateStack'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4968,17 +4960,17 @@ class OpsWorks {
   /// will be changed to <code>myname</code>. If you do not specify an SSH user
   /// name, AWS OpsWorks Stacks generates one from the IAM user name.
   Future<void> updateUserProfile({
-    @_s.required String iamUserArn,
-    bool allowSelfManagement,
-    String sshPublicKey,
-    String sshUsername,
+    required String iamUserArn,
+    bool? allowSelfManagement,
+    String? sshPublicKey,
+    String? sshUsername,
   }) async {
     ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateUserProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5018,16 +5010,16 @@ class OpsWorks {
   /// Parameter [name] :
   /// The new name.
   Future<void> updateVolume({
-    @_s.required String volumeId,
-    String mountPoint,
-    String name,
+    required String volumeId,
+    String? mountPoint,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateVolume'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5043,67 +5035,54 @@ class OpsWorks {
 }
 
 /// Describes an agent version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgentVersion {
   /// The configuration manager.
-  @_s.JsonKey(name: 'ConfigurationManager')
-  final StackConfigurationManager configurationManager;
+  final StackConfigurationManager? configurationManager;
 
   /// The agent version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   AgentVersion({
     this.configurationManager,
     this.version,
   });
-  factory AgentVersion.fromJson(Map<String, dynamic> json) =>
-      _$AgentVersionFromJson(json);
+  factory AgentVersion.fromJson(Map<String, dynamic> json) {
+    return AgentVersion(
+      configurationManager: json['ConfigurationManager'] != null
+          ? StackConfigurationManager.fromJson(
+              json['ConfigurationManager'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 /// A description of the app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class App {
   /// The app ID.
-  @_s.JsonKey(name: 'AppId')
-  final String appId;
+  final String? appId;
 
   /// A <code>Source</code> object that describes the app repository.
-  @_s.JsonKey(name: 'AppSource')
-  final Source appSource;
+  final Source? appSource;
 
   /// The stack attributes.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<AppAttributesKeys, String> attributes;
+  final Map<AppAttributesKeys, String>? attributes;
 
   /// When the app was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The app's data sources.
-  @_s.JsonKey(name: 'DataSources')
-  final List<DataSource> dataSources;
+  final List<DataSource>? dataSources;
 
   /// A description of the app.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The app vhost settings with multiple domains separated by commas. For
   /// example: <code>'www.example.com, example.com'</code>
-  @_s.JsonKey(name: 'Domains')
-  final List<String> domains;
+  final List<String>? domains;
 
   /// Whether to enable SSL for the app.
-  @_s.JsonKey(name: 'EnableSsl')
-  final bool enableSsl;
+  final bool? enableSsl;
 
   /// An array of <code>EnvironmentVariable</code> objects that specify
   /// environment variables to be associated with the app. After you deploy the
@@ -5119,28 +5098,22 @@ class App {
   /// will cause an exception (API) with an "Environment: is too large (maximum is
   /// 20 KB)" message.
   /// </note>
-  @_s.JsonKey(name: 'Environment')
-  final List<EnvironmentVariable> environment;
+  final List<EnvironmentVariable>? environment;
 
   /// The app name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The app's short name.
-  @_s.JsonKey(name: 'Shortname')
-  final String shortname;
+  final String? shortname;
 
   /// An <code>SslConfiguration</code> object with the SSL configuration.
-  @_s.JsonKey(name: 'SslConfiguration')
-  final SslConfiguration sslConfiguration;
+  final SslConfiguration? sslConfiguration;
 
   /// The app stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The app type.
-  @_s.JsonKey(name: 'Type')
-  final AppType type;
+  final AppType? type;
 
   App({
     this.appId,
@@ -5158,17 +5131,45 @@ class App {
     this.stackId,
     this.type,
   });
-  factory App.fromJson(Map<String, dynamic> json) => _$AppFromJson(json);
+  factory App.fromJson(Map<String, dynamic> json) {
+    return App(
+      appId: json['AppId'] as String?,
+      appSource: json['AppSource'] != null
+          ? Source.fromJson(json['AppSource'] as Map<String, dynamic>)
+          : null,
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toAppAttributesKeys(), e as String)),
+      createdAt: json['CreatedAt'] as String?,
+      dataSources: (json['DataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+      domains: (json['Domains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      enableSsl: json['EnableSsl'] as bool?,
+      environment: (json['Environment'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      shortname: json['Shortname'] as String?,
+      sslConfiguration: json['SslConfiguration'] != null
+          ? SslConfiguration.fromJson(
+              json['SslConfiguration'] as Map<String, dynamic>)
+          : null,
+      stackId: json['StackId'] as String?,
+      type: (json['Type'] as String?)?.toAppType(),
+    );
+  }
 }
 
 enum AppAttributesKeys {
-  @_s.JsonValue('DocumentRoot')
   documentRoot,
-  @_s.JsonValue('RailsEnv')
   railsEnv,
-  @_s.JsonValue('AutoBundleOnDeploy')
   autoBundleOnDeploy,
-  @_s.JsonValue('AwsFlowRubySettings')
   awsFlowRubySettings,
 }
 
@@ -5184,24 +5185,32 @@ extension on AppAttributesKeys {
       case AppAttributesKeys.awsFlowRubySettings:
         return 'AwsFlowRubySettings';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AppAttributesKeys toAppAttributesKeys() {
+    switch (this) {
+      case 'DocumentRoot':
+        return AppAttributesKeys.documentRoot;
+      case 'RailsEnv':
+        return AppAttributesKeys.railsEnv;
+      case 'AutoBundleOnDeploy':
+        return AppAttributesKeys.autoBundleOnDeploy;
+      case 'AwsFlowRubySettings':
+        return AppAttributesKeys.awsFlowRubySettings;
+    }
+    throw Exception('$this is not known in enum AppAttributesKeys');
   }
 }
 
 enum AppType {
-  @_s.JsonValue('aws-flow-ruby')
   awsFlowRuby,
-  @_s.JsonValue('java')
   java,
-  @_s.JsonValue('rails')
   rails,
-  @_s.JsonValue('php')
   php,
-  @_s.JsonValue('nodejs')
   nodejs,
-  @_s.JsonValue('static')
   static,
-  @_s.JsonValue('other')
   other,
 }
 
@@ -5223,14 +5232,33 @@ extension on AppType {
       case AppType.other:
         return 'other';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AppType toAppType() {
+    switch (this) {
+      case 'aws-flow-ruby':
+        return AppType.awsFlowRuby;
+      case 'java':
+        return AppType.java;
+      case 'rails':
+        return AppType.rails;
+      case 'php':
+        return AppType.php;
+      case 'nodejs':
+        return AppType.nodejs;
+      case 'static':
+        return AppType.static;
+      case 'other':
+        return AppType.other;
+    }
+    throw Exception('$this is not known in enum AppType');
   }
 }
 
 enum Architecture {
-  @_s.JsonValue('x86_64')
   x86_64,
-  @_s.JsonValue('i386')
   i386,
 }
 
@@ -5242,18 +5270,24 @@ extension on Architecture {
       case Architecture.i386:
         return 'i386';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Architecture toArchitecture() {
+    switch (this) {
+      case 'x86_64':
+        return Architecture.x86_64;
+      case 'i386':
+        return Architecture.i386;
+    }
+    throw Exception('$this is not known in enum Architecture');
   }
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
 /// configuration, which specifies when AWS OpsWorks Stacks starts or stops
 /// load-based instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutoScalingThresholds {
   /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This
   /// parameter takes a list of up to five alarm names, which are case sensitive
@@ -5266,13 +5300,11 @@ class AutoScalingThresholds {
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html">Allowing
   /// AWS OpsWorks Stacks to Act on Your Behalf</a>.
   /// </note>
-  @_s.JsonKey(name: 'Alarms')
-  final List<String> alarms;
+  final List<String>? alarms;
 
   /// The CPU utilization threshold, as a percent of the available CPU. A value of
   /// -1 disables the threshold.
-  @_s.JsonKey(name: 'CpuThreshold')
-  final double cpuThreshold;
+  final double? cpuThreshold;
 
   /// The amount of time (in minutes) after a scaling event occurs that AWS
   /// OpsWorks Stacks should ignore metrics and suppress additional scaling
@@ -5282,29 +5314,24 @@ class AutoScalingThresholds {
   /// scaling events during that operation, which typically takes several minutes.
   /// <code>IgnoreMetricsTime</code> allows you to direct AWS OpsWorks Stacks to
   /// suppress scaling events long enough to get the new instances online.
-  @_s.JsonKey(name: 'IgnoreMetricsTime')
-  final int ignoreMetricsTime;
+  final int? ignoreMetricsTime;
 
   /// The number of instances to add or remove when the load exceeds a threshold.
-  @_s.JsonKey(name: 'InstanceCount')
-  final int instanceCount;
+  final int? instanceCount;
 
   /// The load threshold. A value of -1 disables the threshold. For more
   /// information about how load is computed, see <a
   /// href="http://en.wikipedia.org/wiki/Load_%28computing%29">Load
   /// (computing)</a>.
-  @_s.JsonKey(name: 'LoadThreshold')
-  final double loadThreshold;
+  final double? loadThreshold;
 
   /// The memory utilization threshold, as a percent of the available memory. A
   /// value of -1 disables the threshold.
-  @_s.JsonKey(name: 'MemoryThreshold')
-  final double memoryThreshold;
+  final double? memoryThreshold;
 
   /// The amount of time, in minutes, that the load must exceed a threshold before
   /// more instances are added or removed.
-  @_s.JsonKey(name: 'ThresholdsWaitTime')
-  final int thresholdsWaitTime;
+  final int? thresholdsWaitTime;
 
   AutoScalingThresholds({
     this.alarms,
@@ -5315,16 +5342,43 @@ class AutoScalingThresholds {
     this.memoryThreshold,
     this.thresholdsWaitTime,
   });
-  factory AutoScalingThresholds.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingThresholdsFromJson(json);
+  factory AutoScalingThresholds.fromJson(Map<String, dynamic> json) {
+    return AutoScalingThresholds(
+      alarms: (json['Alarms'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cpuThreshold: json['CpuThreshold'] as double?,
+      ignoreMetricsTime: json['IgnoreMetricsTime'] as int?,
+      instanceCount: json['InstanceCount'] as int?,
+      loadThreshold: json['LoadThreshold'] as double?,
+      memoryThreshold: json['MemoryThreshold'] as double?,
+      thresholdsWaitTime: json['ThresholdsWaitTime'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AutoScalingThresholdsToJson(this);
+  Map<String, dynamic> toJson() {
+    final alarms = this.alarms;
+    final cpuThreshold = this.cpuThreshold;
+    final ignoreMetricsTime = this.ignoreMetricsTime;
+    final instanceCount = this.instanceCount;
+    final loadThreshold = this.loadThreshold;
+    final memoryThreshold = this.memoryThreshold;
+    final thresholdsWaitTime = this.thresholdsWaitTime;
+    return {
+      if (alarms != null) 'Alarms': alarms,
+      if (cpuThreshold != null) 'CpuThreshold': cpuThreshold,
+      if (ignoreMetricsTime != null) 'IgnoreMetricsTime': ignoreMetricsTime,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (loadThreshold != null) 'LoadThreshold': loadThreshold,
+      if (memoryThreshold != null) 'MemoryThreshold': memoryThreshold,
+      if (thresholdsWaitTime != null) 'ThresholdsWaitTime': thresholdsWaitTime,
+    };
+  }
 }
 
 enum AutoScalingType {
-  @_s.JsonValue('load')
   load,
-  @_s.JsonValue('timer')
   timer,
 }
 
@@ -5336,7 +5390,18 @@ extension on AutoScalingType {
       case AutoScalingType.timer:
         return 'timer';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AutoScalingType toAutoScalingType() {
+    switch (this) {
+      case 'load':
+        return AutoScalingType.load;
+      case 'timer':
+        return AutoScalingType.timer;
+    }
+    throw Exception('$this is not known in enum AutoScalingType');
   }
 }
 
@@ -5344,32 +5409,23 @@ extension on AutoScalingType {
 /// EC2 <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_BlockDeviceMapping.html">BlockDeviceMapping</a>
 /// data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BlockDeviceMapping {
   /// The device name that is exposed to the instance, such as
   /// <code>/dev/sdh</code>. For the root device, you can use the explicit device
   /// name or you can set this parameter to <code>ROOT_DEVICE</code> and AWS
   /// OpsWorks Stacks will provide the correct device name.
-  @_s.JsonKey(name: 'DeviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// An <code>EBSBlockDevice</code> that defines how to configure an Amazon EBS
   /// volume when the instance is launched.
-  @_s.JsonKey(name: 'Ebs')
-  final EbsBlockDevice ebs;
+  final EbsBlockDevice? ebs;
 
   /// Suppresses the specified device included in the AMI's block device mapping.
-  @_s.JsonKey(name: 'NoDevice')
-  final String noDevice;
+  final String? noDevice;
 
   /// The virtual device name. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_BlockDeviceMapping.html">BlockDeviceMapping</a>.
-  @_s.JsonKey(name: 'VirtualName')
-  final String virtualName;
+  final String? virtualName;
 
   BlockDeviceMapping({
     this.deviceName,
@@ -5377,318 +5433,648 @@ class BlockDeviceMapping {
     this.noDevice,
     this.virtualName,
   });
-  factory BlockDeviceMapping.fromJson(Map<String, dynamic> json) =>
-      _$BlockDeviceMappingFromJson(json);
+  factory BlockDeviceMapping.fromJson(Map<String, dynamic> json) {
+    return BlockDeviceMapping(
+      deviceName: json['DeviceName'] as String?,
+      ebs: json['Ebs'] != null
+          ? EbsBlockDevice.fromJson(json['Ebs'] as Map<String, dynamic>)
+          : null,
+      noDevice: json['NoDevice'] as String?,
+      virtualName: json['VirtualName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BlockDeviceMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final noDevice = this.noDevice;
+    final virtualName = this.virtualName;
+    return {
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (ebs != null) 'Ebs': ebs,
+      if (noDevice != null) 'NoDevice': noDevice,
+      if (virtualName != null) 'VirtualName': virtualName,
+    };
+  }
 }
 
 /// Describes the Chef configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ChefConfiguration {
   /// The Berkshelf version.
-  @_s.JsonKey(name: 'BerkshelfVersion')
-  final String berkshelfVersion;
+  final String? berkshelfVersion;
 
   /// Whether to enable Berkshelf.
-  @_s.JsonKey(name: 'ManageBerkshelf')
-  final bool manageBerkshelf;
+  final bool? manageBerkshelf;
 
   ChefConfiguration({
     this.berkshelfVersion,
     this.manageBerkshelf,
   });
-  factory ChefConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ChefConfigurationFromJson(json);
+  factory ChefConfiguration.fromJson(Map<String, dynamic> json) {
+    return ChefConfiguration(
+      berkshelfVersion: json['BerkshelfVersion'] as String?,
+      manageBerkshelf: json['ManageBerkshelf'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ChefConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final berkshelfVersion = this.berkshelfVersion;
+    final manageBerkshelf = this.manageBerkshelf;
+    return {
+      if (berkshelfVersion != null) 'BerkshelfVersion': berkshelfVersion,
+      if (manageBerkshelf != null) 'ManageBerkshelf': manageBerkshelf,
+    };
+  }
 }
 
 /// Contains the response to a <code>CloneStack</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloneStackResult {
   /// The cloned stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   CloneStackResult({
     this.stackId,
   });
-  factory CloneStackResult.fromJson(Map<String, dynamic> json) =>
-      _$CloneStackResultFromJson(json);
+  factory CloneStackResult.fromJson(Map<String, dynamic> json) {
+    return CloneStackResult(
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// Describes the Amazon CloudWatch logs configuration for a layer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchLogsConfiguration {
   /// Whether CloudWatch Logs is enabled for a layer.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// A list of configuration options for CloudWatch Logs.
-  @_s.JsonKey(name: 'LogStreams')
-  final List<CloudWatchLogsLogStream> logStreams;
+  final List<CloudWatchLogsLogStream>? logStreams;
 
   CloudWatchLogsConfiguration({
     this.enabled,
     this.logStreams,
   });
-  factory CloudWatchLogsConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchLogsConfigurationFromJson(json);
+  factory CloudWatchLogsConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogsConfiguration(
+      enabled: json['Enabled'] as bool?,
+      logStreams: (json['LogStreams'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CloudWatchLogsLogStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchLogsConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logStreams = this.logStreams;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (logStreams != null) 'LogStreams': logStreams,
+    };
+  }
 }
 
 /// Specifies the encoding of the log file so that the file can be read
 /// correctly. The default is <code>utf_8</code>. Encodings supported by Python
 /// <code>codecs.decode()</code> can be used here.
 enum CloudWatchLogsEncoding {
-  @_s.JsonValue('ascii')
   ascii,
-  @_s.JsonValue('big5')
   big5,
-  @_s.JsonValue('big5hkscs')
   big5hkscs,
-  @_s.JsonValue('cp037')
   cp037,
-  @_s.JsonValue('cp424')
   cp424,
-  @_s.JsonValue('cp437')
   cp437,
-  @_s.JsonValue('cp500')
   cp500,
-  @_s.JsonValue('cp720')
   cp720,
-  @_s.JsonValue('cp737')
   cp737,
-  @_s.JsonValue('cp775')
   cp775,
-  @_s.JsonValue('cp850')
   cp850,
-  @_s.JsonValue('cp852')
   cp852,
-  @_s.JsonValue('cp855')
   cp855,
-  @_s.JsonValue('cp856')
   cp856,
-  @_s.JsonValue('cp857')
   cp857,
-  @_s.JsonValue('cp858')
   cp858,
-  @_s.JsonValue('cp860')
   cp860,
-  @_s.JsonValue('cp861')
   cp861,
-  @_s.JsonValue('cp862')
   cp862,
-  @_s.JsonValue('cp863')
   cp863,
-  @_s.JsonValue('cp864')
   cp864,
-  @_s.JsonValue('cp865')
   cp865,
-  @_s.JsonValue('cp866')
   cp866,
-  @_s.JsonValue('cp869')
   cp869,
-  @_s.JsonValue('cp874')
   cp874,
-  @_s.JsonValue('cp875')
   cp875,
-  @_s.JsonValue('cp932')
   cp932,
-  @_s.JsonValue('cp949')
   cp949,
-  @_s.JsonValue('cp950')
   cp950,
-  @_s.JsonValue('cp1006')
   cp1006,
-  @_s.JsonValue('cp1026')
   cp1026,
-  @_s.JsonValue('cp1140')
   cp1140,
-  @_s.JsonValue('cp1250')
   cp1250,
-  @_s.JsonValue('cp1251')
   cp1251,
-  @_s.JsonValue('cp1252')
   cp1252,
-  @_s.JsonValue('cp1253')
   cp1253,
-  @_s.JsonValue('cp1254')
   cp1254,
-  @_s.JsonValue('cp1255')
   cp1255,
-  @_s.JsonValue('cp1256')
   cp1256,
-  @_s.JsonValue('cp1257')
   cp1257,
-  @_s.JsonValue('cp1258')
   cp1258,
-  @_s.JsonValue('euc_jp')
   eucJp,
-  @_s.JsonValue('euc_jis_2004')
   eucJis_2004,
-  @_s.JsonValue('euc_jisx0213')
   eucJisx0213,
-  @_s.JsonValue('euc_kr')
   eucKr,
-  @_s.JsonValue('gb2312')
   gb2312,
-  @_s.JsonValue('gbk')
   gbk,
-  @_s.JsonValue('gb18030')
   gb18030,
-  @_s.JsonValue('hz')
   hz,
-  @_s.JsonValue('iso2022_jp')
   iso2022Jp,
-  @_s.JsonValue('iso2022_jp_1')
   iso2022Jp_1,
-  @_s.JsonValue('iso2022_jp_2')
   iso2022Jp_2,
-  @_s.JsonValue('iso2022_jp_2004')
   iso2022Jp_2004,
-  @_s.JsonValue('iso2022_jp_3')
   iso2022Jp_3,
-  @_s.JsonValue('iso2022_jp_ext')
   iso2022JpExt,
-  @_s.JsonValue('iso2022_kr')
   iso2022Kr,
-  @_s.JsonValue('latin_1')
   latin_1,
-  @_s.JsonValue('iso8859_2')
   iso8859_2,
-  @_s.JsonValue('iso8859_3')
   iso8859_3,
-  @_s.JsonValue('iso8859_4')
   iso8859_4,
-  @_s.JsonValue('iso8859_5')
   iso8859_5,
-  @_s.JsonValue('iso8859_6')
   iso8859_6,
-  @_s.JsonValue('iso8859_7')
   iso8859_7,
-  @_s.JsonValue('iso8859_8')
   iso8859_8,
-  @_s.JsonValue('iso8859_9')
   iso8859_9,
-  @_s.JsonValue('iso8859_10')
   iso8859_10,
-  @_s.JsonValue('iso8859_13')
   iso8859_13,
-  @_s.JsonValue('iso8859_14')
   iso8859_14,
-  @_s.JsonValue('iso8859_15')
   iso8859_15,
-  @_s.JsonValue('iso8859_16')
   iso8859_16,
-  @_s.JsonValue('johab')
   johab,
-  @_s.JsonValue('koi8_r')
   koi8R,
-  @_s.JsonValue('koi8_u')
   koi8U,
-  @_s.JsonValue('mac_cyrillic')
   macCyrillic,
-  @_s.JsonValue('mac_greek')
   macGreek,
-  @_s.JsonValue('mac_iceland')
   macIceland,
-  @_s.JsonValue('mac_latin2')
   macLatin2,
-  @_s.JsonValue('mac_roman')
   macRoman,
-  @_s.JsonValue('mac_turkish')
   macTurkish,
-  @_s.JsonValue('ptcp154')
   ptcp154,
-  @_s.JsonValue('shift_jis')
   shiftJis,
-  @_s.JsonValue('shift_jis_2004')
   shiftJis_2004,
-  @_s.JsonValue('shift_jisx0213')
   shiftJisx0213,
-  @_s.JsonValue('utf_32')
   utf_32,
-  @_s.JsonValue('utf_32_be')
   utf_32Be,
-  @_s.JsonValue('utf_32_le')
   utf_32Le,
-  @_s.JsonValue('utf_16')
   utf_16,
-  @_s.JsonValue('utf_16_be')
   utf_16Be,
-  @_s.JsonValue('utf_16_le')
   utf_16Le,
-  @_s.JsonValue('utf_7')
   utf_7,
-  @_s.JsonValue('utf_8')
   utf_8,
-  @_s.JsonValue('utf_8_sig')
   utf_8Sig,
+}
+
+extension on CloudWatchLogsEncoding {
+  String toValue() {
+    switch (this) {
+      case CloudWatchLogsEncoding.ascii:
+        return 'ascii';
+      case CloudWatchLogsEncoding.big5:
+        return 'big5';
+      case CloudWatchLogsEncoding.big5hkscs:
+        return 'big5hkscs';
+      case CloudWatchLogsEncoding.cp037:
+        return 'cp037';
+      case CloudWatchLogsEncoding.cp424:
+        return 'cp424';
+      case CloudWatchLogsEncoding.cp437:
+        return 'cp437';
+      case CloudWatchLogsEncoding.cp500:
+        return 'cp500';
+      case CloudWatchLogsEncoding.cp720:
+        return 'cp720';
+      case CloudWatchLogsEncoding.cp737:
+        return 'cp737';
+      case CloudWatchLogsEncoding.cp775:
+        return 'cp775';
+      case CloudWatchLogsEncoding.cp850:
+        return 'cp850';
+      case CloudWatchLogsEncoding.cp852:
+        return 'cp852';
+      case CloudWatchLogsEncoding.cp855:
+        return 'cp855';
+      case CloudWatchLogsEncoding.cp856:
+        return 'cp856';
+      case CloudWatchLogsEncoding.cp857:
+        return 'cp857';
+      case CloudWatchLogsEncoding.cp858:
+        return 'cp858';
+      case CloudWatchLogsEncoding.cp860:
+        return 'cp860';
+      case CloudWatchLogsEncoding.cp861:
+        return 'cp861';
+      case CloudWatchLogsEncoding.cp862:
+        return 'cp862';
+      case CloudWatchLogsEncoding.cp863:
+        return 'cp863';
+      case CloudWatchLogsEncoding.cp864:
+        return 'cp864';
+      case CloudWatchLogsEncoding.cp865:
+        return 'cp865';
+      case CloudWatchLogsEncoding.cp866:
+        return 'cp866';
+      case CloudWatchLogsEncoding.cp869:
+        return 'cp869';
+      case CloudWatchLogsEncoding.cp874:
+        return 'cp874';
+      case CloudWatchLogsEncoding.cp875:
+        return 'cp875';
+      case CloudWatchLogsEncoding.cp932:
+        return 'cp932';
+      case CloudWatchLogsEncoding.cp949:
+        return 'cp949';
+      case CloudWatchLogsEncoding.cp950:
+        return 'cp950';
+      case CloudWatchLogsEncoding.cp1006:
+        return 'cp1006';
+      case CloudWatchLogsEncoding.cp1026:
+        return 'cp1026';
+      case CloudWatchLogsEncoding.cp1140:
+        return 'cp1140';
+      case CloudWatchLogsEncoding.cp1250:
+        return 'cp1250';
+      case CloudWatchLogsEncoding.cp1251:
+        return 'cp1251';
+      case CloudWatchLogsEncoding.cp1252:
+        return 'cp1252';
+      case CloudWatchLogsEncoding.cp1253:
+        return 'cp1253';
+      case CloudWatchLogsEncoding.cp1254:
+        return 'cp1254';
+      case CloudWatchLogsEncoding.cp1255:
+        return 'cp1255';
+      case CloudWatchLogsEncoding.cp1256:
+        return 'cp1256';
+      case CloudWatchLogsEncoding.cp1257:
+        return 'cp1257';
+      case CloudWatchLogsEncoding.cp1258:
+        return 'cp1258';
+      case CloudWatchLogsEncoding.eucJp:
+        return 'euc_jp';
+      case CloudWatchLogsEncoding.eucJis_2004:
+        return 'euc_jis_2004';
+      case CloudWatchLogsEncoding.eucJisx0213:
+        return 'euc_jisx0213';
+      case CloudWatchLogsEncoding.eucKr:
+        return 'euc_kr';
+      case CloudWatchLogsEncoding.gb2312:
+        return 'gb2312';
+      case CloudWatchLogsEncoding.gbk:
+        return 'gbk';
+      case CloudWatchLogsEncoding.gb18030:
+        return 'gb18030';
+      case CloudWatchLogsEncoding.hz:
+        return 'hz';
+      case CloudWatchLogsEncoding.iso2022Jp:
+        return 'iso2022_jp';
+      case CloudWatchLogsEncoding.iso2022Jp_1:
+        return 'iso2022_jp_1';
+      case CloudWatchLogsEncoding.iso2022Jp_2:
+        return 'iso2022_jp_2';
+      case CloudWatchLogsEncoding.iso2022Jp_2004:
+        return 'iso2022_jp_2004';
+      case CloudWatchLogsEncoding.iso2022Jp_3:
+        return 'iso2022_jp_3';
+      case CloudWatchLogsEncoding.iso2022JpExt:
+        return 'iso2022_jp_ext';
+      case CloudWatchLogsEncoding.iso2022Kr:
+        return 'iso2022_kr';
+      case CloudWatchLogsEncoding.latin_1:
+        return 'latin_1';
+      case CloudWatchLogsEncoding.iso8859_2:
+        return 'iso8859_2';
+      case CloudWatchLogsEncoding.iso8859_3:
+        return 'iso8859_3';
+      case CloudWatchLogsEncoding.iso8859_4:
+        return 'iso8859_4';
+      case CloudWatchLogsEncoding.iso8859_5:
+        return 'iso8859_5';
+      case CloudWatchLogsEncoding.iso8859_6:
+        return 'iso8859_6';
+      case CloudWatchLogsEncoding.iso8859_7:
+        return 'iso8859_7';
+      case CloudWatchLogsEncoding.iso8859_8:
+        return 'iso8859_8';
+      case CloudWatchLogsEncoding.iso8859_9:
+        return 'iso8859_9';
+      case CloudWatchLogsEncoding.iso8859_10:
+        return 'iso8859_10';
+      case CloudWatchLogsEncoding.iso8859_13:
+        return 'iso8859_13';
+      case CloudWatchLogsEncoding.iso8859_14:
+        return 'iso8859_14';
+      case CloudWatchLogsEncoding.iso8859_15:
+        return 'iso8859_15';
+      case CloudWatchLogsEncoding.iso8859_16:
+        return 'iso8859_16';
+      case CloudWatchLogsEncoding.johab:
+        return 'johab';
+      case CloudWatchLogsEncoding.koi8R:
+        return 'koi8_r';
+      case CloudWatchLogsEncoding.koi8U:
+        return 'koi8_u';
+      case CloudWatchLogsEncoding.macCyrillic:
+        return 'mac_cyrillic';
+      case CloudWatchLogsEncoding.macGreek:
+        return 'mac_greek';
+      case CloudWatchLogsEncoding.macIceland:
+        return 'mac_iceland';
+      case CloudWatchLogsEncoding.macLatin2:
+        return 'mac_latin2';
+      case CloudWatchLogsEncoding.macRoman:
+        return 'mac_roman';
+      case CloudWatchLogsEncoding.macTurkish:
+        return 'mac_turkish';
+      case CloudWatchLogsEncoding.ptcp154:
+        return 'ptcp154';
+      case CloudWatchLogsEncoding.shiftJis:
+        return 'shift_jis';
+      case CloudWatchLogsEncoding.shiftJis_2004:
+        return 'shift_jis_2004';
+      case CloudWatchLogsEncoding.shiftJisx0213:
+        return 'shift_jisx0213';
+      case CloudWatchLogsEncoding.utf_32:
+        return 'utf_32';
+      case CloudWatchLogsEncoding.utf_32Be:
+        return 'utf_32_be';
+      case CloudWatchLogsEncoding.utf_32Le:
+        return 'utf_32_le';
+      case CloudWatchLogsEncoding.utf_16:
+        return 'utf_16';
+      case CloudWatchLogsEncoding.utf_16Be:
+        return 'utf_16_be';
+      case CloudWatchLogsEncoding.utf_16Le:
+        return 'utf_16_le';
+      case CloudWatchLogsEncoding.utf_7:
+        return 'utf_7';
+      case CloudWatchLogsEncoding.utf_8:
+        return 'utf_8';
+      case CloudWatchLogsEncoding.utf_8Sig:
+        return 'utf_8_sig';
+    }
+  }
+}
+
+extension on String {
+  CloudWatchLogsEncoding toCloudWatchLogsEncoding() {
+    switch (this) {
+      case 'ascii':
+        return CloudWatchLogsEncoding.ascii;
+      case 'big5':
+        return CloudWatchLogsEncoding.big5;
+      case 'big5hkscs':
+        return CloudWatchLogsEncoding.big5hkscs;
+      case 'cp037':
+        return CloudWatchLogsEncoding.cp037;
+      case 'cp424':
+        return CloudWatchLogsEncoding.cp424;
+      case 'cp437':
+        return CloudWatchLogsEncoding.cp437;
+      case 'cp500':
+        return CloudWatchLogsEncoding.cp500;
+      case 'cp720':
+        return CloudWatchLogsEncoding.cp720;
+      case 'cp737':
+        return CloudWatchLogsEncoding.cp737;
+      case 'cp775':
+        return CloudWatchLogsEncoding.cp775;
+      case 'cp850':
+        return CloudWatchLogsEncoding.cp850;
+      case 'cp852':
+        return CloudWatchLogsEncoding.cp852;
+      case 'cp855':
+        return CloudWatchLogsEncoding.cp855;
+      case 'cp856':
+        return CloudWatchLogsEncoding.cp856;
+      case 'cp857':
+        return CloudWatchLogsEncoding.cp857;
+      case 'cp858':
+        return CloudWatchLogsEncoding.cp858;
+      case 'cp860':
+        return CloudWatchLogsEncoding.cp860;
+      case 'cp861':
+        return CloudWatchLogsEncoding.cp861;
+      case 'cp862':
+        return CloudWatchLogsEncoding.cp862;
+      case 'cp863':
+        return CloudWatchLogsEncoding.cp863;
+      case 'cp864':
+        return CloudWatchLogsEncoding.cp864;
+      case 'cp865':
+        return CloudWatchLogsEncoding.cp865;
+      case 'cp866':
+        return CloudWatchLogsEncoding.cp866;
+      case 'cp869':
+        return CloudWatchLogsEncoding.cp869;
+      case 'cp874':
+        return CloudWatchLogsEncoding.cp874;
+      case 'cp875':
+        return CloudWatchLogsEncoding.cp875;
+      case 'cp932':
+        return CloudWatchLogsEncoding.cp932;
+      case 'cp949':
+        return CloudWatchLogsEncoding.cp949;
+      case 'cp950':
+        return CloudWatchLogsEncoding.cp950;
+      case 'cp1006':
+        return CloudWatchLogsEncoding.cp1006;
+      case 'cp1026':
+        return CloudWatchLogsEncoding.cp1026;
+      case 'cp1140':
+        return CloudWatchLogsEncoding.cp1140;
+      case 'cp1250':
+        return CloudWatchLogsEncoding.cp1250;
+      case 'cp1251':
+        return CloudWatchLogsEncoding.cp1251;
+      case 'cp1252':
+        return CloudWatchLogsEncoding.cp1252;
+      case 'cp1253':
+        return CloudWatchLogsEncoding.cp1253;
+      case 'cp1254':
+        return CloudWatchLogsEncoding.cp1254;
+      case 'cp1255':
+        return CloudWatchLogsEncoding.cp1255;
+      case 'cp1256':
+        return CloudWatchLogsEncoding.cp1256;
+      case 'cp1257':
+        return CloudWatchLogsEncoding.cp1257;
+      case 'cp1258':
+        return CloudWatchLogsEncoding.cp1258;
+      case 'euc_jp':
+        return CloudWatchLogsEncoding.eucJp;
+      case 'euc_jis_2004':
+        return CloudWatchLogsEncoding.eucJis_2004;
+      case 'euc_jisx0213':
+        return CloudWatchLogsEncoding.eucJisx0213;
+      case 'euc_kr':
+        return CloudWatchLogsEncoding.eucKr;
+      case 'gb2312':
+        return CloudWatchLogsEncoding.gb2312;
+      case 'gbk':
+        return CloudWatchLogsEncoding.gbk;
+      case 'gb18030':
+        return CloudWatchLogsEncoding.gb18030;
+      case 'hz':
+        return CloudWatchLogsEncoding.hz;
+      case 'iso2022_jp':
+        return CloudWatchLogsEncoding.iso2022Jp;
+      case 'iso2022_jp_1':
+        return CloudWatchLogsEncoding.iso2022Jp_1;
+      case 'iso2022_jp_2':
+        return CloudWatchLogsEncoding.iso2022Jp_2;
+      case 'iso2022_jp_2004':
+        return CloudWatchLogsEncoding.iso2022Jp_2004;
+      case 'iso2022_jp_3':
+        return CloudWatchLogsEncoding.iso2022Jp_3;
+      case 'iso2022_jp_ext':
+        return CloudWatchLogsEncoding.iso2022JpExt;
+      case 'iso2022_kr':
+        return CloudWatchLogsEncoding.iso2022Kr;
+      case 'latin_1':
+        return CloudWatchLogsEncoding.latin_1;
+      case 'iso8859_2':
+        return CloudWatchLogsEncoding.iso8859_2;
+      case 'iso8859_3':
+        return CloudWatchLogsEncoding.iso8859_3;
+      case 'iso8859_4':
+        return CloudWatchLogsEncoding.iso8859_4;
+      case 'iso8859_5':
+        return CloudWatchLogsEncoding.iso8859_5;
+      case 'iso8859_6':
+        return CloudWatchLogsEncoding.iso8859_6;
+      case 'iso8859_7':
+        return CloudWatchLogsEncoding.iso8859_7;
+      case 'iso8859_8':
+        return CloudWatchLogsEncoding.iso8859_8;
+      case 'iso8859_9':
+        return CloudWatchLogsEncoding.iso8859_9;
+      case 'iso8859_10':
+        return CloudWatchLogsEncoding.iso8859_10;
+      case 'iso8859_13':
+        return CloudWatchLogsEncoding.iso8859_13;
+      case 'iso8859_14':
+        return CloudWatchLogsEncoding.iso8859_14;
+      case 'iso8859_15':
+        return CloudWatchLogsEncoding.iso8859_15;
+      case 'iso8859_16':
+        return CloudWatchLogsEncoding.iso8859_16;
+      case 'johab':
+        return CloudWatchLogsEncoding.johab;
+      case 'koi8_r':
+        return CloudWatchLogsEncoding.koi8R;
+      case 'koi8_u':
+        return CloudWatchLogsEncoding.koi8U;
+      case 'mac_cyrillic':
+        return CloudWatchLogsEncoding.macCyrillic;
+      case 'mac_greek':
+        return CloudWatchLogsEncoding.macGreek;
+      case 'mac_iceland':
+        return CloudWatchLogsEncoding.macIceland;
+      case 'mac_latin2':
+        return CloudWatchLogsEncoding.macLatin2;
+      case 'mac_roman':
+        return CloudWatchLogsEncoding.macRoman;
+      case 'mac_turkish':
+        return CloudWatchLogsEncoding.macTurkish;
+      case 'ptcp154':
+        return CloudWatchLogsEncoding.ptcp154;
+      case 'shift_jis':
+        return CloudWatchLogsEncoding.shiftJis;
+      case 'shift_jis_2004':
+        return CloudWatchLogsEncoding.shiftJis_2004;
+      case 'shift_jisx0213':
+        return CloudWatchLogsEncoding.shiftJisx0213;
+      case 'utf_32':
+        return CloudWatchLogsEncoding.utf_32;
+      case 'utf_32_be':
+        return CloudWatchLogsEncoding.utf_32Be;
+      case 'utf_32_le':
+        return CloudWatchLogsEncoding.utf_32Le;
+      case 'utf_16':
+        return CloudWatchLogsEncoding.utf_16;
+      case 'utf_16_be':
+        return CloudWatchLogsEncoding.utf_16Be;
+      case 'utf_16_le':
+        return CloudWatchLogsEncoding.utf_16Le;
+      case 'utf_7':
+        return CloudWatchLogsEncoding.utf_7;
+      case 'utf_8':
+        return CloudWatchLogsEncoding.utf_8;
+      case 'utf_8_sig':
+        return CloudWatchLogsEncoding.utf_8Sig;
+    }
+    throw Exception('$this is not known in enum CloudWatchLogsEncoding');
+  }
 }
 
 /// Specifies where to start to read data (start_of_file or end_of_file). The
 /// default is start_of_file. It's only used if there is no state persisted for
 /// that log stream.
 enum CloudWatchLogsInitialPosition {
-  @_s.JsonValue('start_of_file')
   startOfFile,
-  @_s.JsonValue('end_of_file')
   endOfFile,
+}
+
+extension on CloudWatchLogsInitialPosition {
+  String toValue() {
+    switch (this) {
+      case CloudWatchLogsInitialPosition.startOfFile:
+        return 'start_of_file';
+      case CloudWatchLogsInitialPosition.endOfFile:
+        return 'end_of_file';
+    }
+  }
+}
+
+extension on String {
+  CloudWatchLogsInitialPosition toCloudWatchLogsInitialPosition() {
+    switch (this) {
+      case 'start_of_file':
+        return CloudWatchLogsInitialPosition.startOfFile;
+      case 'end_of_file':
+        return CloudWatchLogsInitialPosition.endOfFile;
+    }
+    throw Exception('$this is not known in enum CloudWatchLogsInitialPosition');
+  }
 }
 
 /// Describes the Amazon CloudWatch logs configuration for a layer. For detailed
 /// information about members of this data type, see the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AgentReference.html">CloudWatch
 /// Logs Agent Reference</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchLogsLogStream {
   /// Specifies the max number of log events in a batch, up to 10000. The default
   /// value is 1000.
-  @_s.JsonKey(name: 'BatchCount')
-  final int batchCount;
+  final int? batchCount;
 
   /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576
   /// bytes. The default value is 32768 bytes. This size is calculated as the sum
   /// of all event messages in UTF-8, plus 26 bytes for each log event.
-  @_s.JsonKey(name: 'BatchSize')
-  final int batchSize;
+  final int? batchSize;
 
   /// Specifies the time duration for the batching of log events. The minimum
   /// value is 5000ms and default value is 5000ms.
-  @_s.JsonKey(name: 'BufferDuration')
-  final int bufferDuration;
+  final int? bufferDuration;
 
   /// Specifies how the time stamp is extracted from logs. For more information,
   /// see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AgentReference.html">CloudWatch
   /// Logs Agent Reference</a>.
-  @_s.JsonKey(name: 'DatetimeFormat')
-  final String datetimeFormat;
+  final String? datetimeFormat;
 
   /// Specifies the encoding of the log file so that the file can be read
   /// correctly. The default is <code>utf_8</code>. Encodings supported by Python
   /// <code>codecs.decode()</code> can be used here.
-  @_s.JsonKey(name: 'Encoding')
-  final CloudWatchLogsEncoding encoding;
+  final CloudWatchLogsEncoding? encoding;
 
   /// Specifies log files that you want to push to CloudWatch Logs.
   ///
@@ -5705,37 +6091,31 @@ class CloudWatchLogsLogStream {
   /// log group.
   ///
   /// Zipped files are not supported.
-  @_s.JsonKey(name: 'File')
-  final String file;
+  final String? file;
 
   /// Specifies the range of lines for identifying a file. The valid values are
   /// one number, or two dash-delimited numbers, such as '1', '2-5'. The default
   /// value is '1', meaning the first line is used to calculate the fingerprint.
   /// Fingerprint lines are not sent to CloudWatch Logs unless all specified lines
   /// are available.
-  @_s.JsonKey(name: 'FileFingerprintLines')
-  final String fileFingerprintLines;
+  final String? fileFingerprintLines;
 
   /// Specifies where to start to read data (start_of_file or end_of_file). The
   /// default is start_of_file. This setting is only used if there is no state
   /// persisted for that log stream.
-  @_s.JsonKey(name: 'InitialPosition')
-  final CloudWatchLogsInitialPosition initialPosition;
+  final CloudWatchLogsInitialPosition? initialPosition;
 
   /// Specifies the destination log group. A log group is created automatically if
   /// it doesn't already exist. Log group names can be between 1 and 512
   /// characters long. Allowed characters include a-z, A-Z, 0-9, '_' (underscore),
   /// '-' (hyphen), '/' (forward slash), and '.' (period).
-  @_s.JsonKey(name: 'LogGroupName')
-  final String logGroupName;
+  final String? logGroupName;
 
   /// Specifies the pattern for identifying the start of a log message.
-  @_s.JsonKey(name: 'MultiLineStartPattern')
-  final String multiLineStartPattern;
+  final String? multiLineStartPattern;
 
   /// Specifies the time zone of log event time stamps.
-  @_s.JsonKey(name: 'TimeZone')
-  final CloudWatchLogsTimeZone timeZone;
+  final CloudWatchLogsTimeZone? timeZone;
 
   CloudWatchLogsLogStream({
     this.batchCount,
@@ -5750,59 +6130,108 @@ class CloudWatchLogsLogStream {
     this.multiLineStartPattern,
     this.timeZone,
   });
-  factory CloudWatchLogsLogStream.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchLogsLogStreamFromJson(json);
+  factory CloudWatchLogsLogStream.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogsLogStream(
+      batchCount: json['BatchCount'] as int?,
+      batchSize: json['BatchSize'] as int?,
+      bufferDuration: json['BufferDuration'] as int?,
+      datetimeFormat: json['DatetimeFormat'] as String?,
+      encoding: (json['Encoding'] as String?)?.toCloudWatchLogsEncoding(),
+      file: json['File'] as String?,
+      fileFingerprintLines: json['FileFingerprintLines'] as String?,
+      initialPosition: (json['InitialPosition'] as String?)
+          ?.toCloudWatchLogsInitialPosition(),
+      logGroupName: json['LogGroupName'] as String?,
+      multiLineStartPattern: json['MultiLineStartPattern'] as String?,
+      timeZone: (json['TimeZone'] as String?)?.toCloudWatchLogsTimeZone(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchLogsLogStreamToJson(this);
+  Map<String, dynamic> toJson() {
+    final batchCount = this.batchCount;
+    final batchSize = this.batchSize;
+    final bufferDuration = this.bufferDuration;
+    final datetimeFormat = this.datetimeFormat;
+    final encoding = this.encoding;
+    final file = this.file;
+    final fileFingerprintLines = this.fileFingerprintLines;
+    final initialPosition = this.initialPosition;
+    final logGroupName = this.logGroupName;
+    final multiLineStartPattern = this.multiLineStartPattern;
+    final timeZone = this.timeZone;
+    return {
+      if (batchCount != null) 'BatchCount': batchCount,
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (bufferDuration != null) 'BufferDuration': bufferDuration,
+      if (datetimeFormat != null) 'DatetimeFormat': datetimeFormat,
+      if (encoding != null) 'Encoding': encoding.toValue(),
+      if (file != null) 'File': file,
+      if (fileFingerprintLines != null)
+        'FileFingerprintLines': fileFingerprintLines,
+      if (initialPosition != null) 'InitialPosition': initialPosition.toValue(),
+      if (logGroupName != null) 'LogGroupName': logGroupName,
+      if (multiLineStartPattern != null)
+        'MultiLineStartPattern': multiLineStartPattern,
+      if (timeZone != null) 'TimeZone': timeZone.toValue(),
+    };
+  }
 }
 
 /// The preferred time zone for logs streamed to CloudWatch Logs. Valid values
 /// are <code>LOCAL</code> and <code>UTC</code>, for Coordinated Universal Time.
 enum CloudWatchLogsTimeZone {
-  @_s.JsonValue('LOCAL')
   local,
-  @_s.JsonValue('UTC')
   utc,
 }
 
+extension on CloudWatchLogsTimeZone {
+  String toValue() {
+    switch (this) {
+      case CloudWatchLogsTimeZone.local:
+        return 'LOCAL';
+      case CloudWatchLogsTimeZone.utc:
+        return 'UTC';
+    }
+  }
+}
+
+extension on String {
+  CloudWatchLogsTimeZone toCloudWatchLogsTimeZone() {
+    switch (this) {
+      case 'LOCAL':
+        return CloudWatchLogsTimeZone.local;
+      case 'UTC':
+        return CloudWatchLogsTimeZone.utc;
+    }
+    throw Exception('$this is not known in enum CloudWatchLogsTimeZone');
+  }
+}
+
 /// Describes a command.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Command {
   /// Date and time when the command was acknowledged.
-  @_s.JsonKey(name: 'AcknowledgedAt')
-  final String acknowledgedAt;
+  final String? acknowledgedAt;
 
   /// The command ID.
-  @_s.JsonKey(name: 'CommandId')
-  final String commandId;
+  final String? commandId;
 
   /// Date when the command completed.
-  @_s.JsonKey(name: 'CompletedAt')
-  final String completedAt;
+  final String? completedAt;
 
   /// Date and time when the command was run.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The command deployment ID.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The command exit code.
-  @_s.JsonKey(name: 'ExitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// The ID of the instance where the command was executed.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The URL of the command log.
-  @_s.JsonKey(name: 'LogUrl')
-  final String logUrl;
+  final String? logUrl;
 
   /// The command status:
   ///
@@ -5820,8 +6249,7 @@ class Command {
   /// pending
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The command type:
   ///
@@ -5863,8 +6291,7 @@ class Command {
   /// <code>update_dependencies</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Command({
     this.acknowledgedAt,
@@ -5878,178 +6305,168 @@ class Command {
     this.status,
     this.type,
   });
-  factory Command.fromJson(Map<String, dynamic> json) =>
-      _$CommandFromJson(json);
+  factory Command.fromJson(Map<String, dynamic> json) {
+    return Command(
+      acknowledgedAt: json['AcknowledgedAt'] as String?,
+      commandId: json['CommandId'] as String?,
+      completedAt: json['CompletedAt'] as String?,
+      createdAt: json['CreatedAt'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+      exitCode: json['ExitCode'] as int?,
+      instanceId: json['InstanceId'] as String?,
+      logUrl: json['LogUrl'] as String?,
+      status: json['Status'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateApp</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAppResult {
   /// The app ID.
-  @_s.JsonKey(name: 'AppId')
-  final String appId;
+  final String? appId;
 
   CreateAppResult({
     this.appId,
   });
-  factory CreateAppResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppResultFromJson(json);
+  factory CreateAppResult.fromJson(Map<String, dynamic> json) {
+    return CreateAppResult(
+      appId: json['AppId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateDeployment</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentResult {
   /// The deployment ID, which can be used with other requests to identify the
   /// deployment.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   CreateDeploymentResult({
     this.deploymentId,
   });
-  factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentResultFromJson(json);
+  factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentResult(
+      deploymentId: json['DeploymentId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateInstance</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateInstanceResult {
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   CreateInstanceResult({
     this.instanceId,
   });
-  factory CreateInstanceResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateInstanceResultFromJson(json);
+  factory CreateInstanceResult.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceResult(
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateLayer</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLayerResult {
   /// The layer ID.
-  @_s.JsonKey(name: 'LayerId')
-  final String layerId;
+  final String? layerId;
 
   CreateLayerResult({
     this.layerId,
   });
-  factory CreateLayerResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateLayerResultFromJson(json);
+  factory CreateLayerResult.fromJson(Map<String, dynamic> json) {
+    return CreateLayerResult(
+      layerId: json['LayerId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateStack</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStackResult {
   /// The stack ID, which is an opaque string that you use to identify the stack
   /// when performing actions such as <code>DescribeStacks</code>.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   CreateStackResult({
     this.stackId,
   });
-  factory CreateStackResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateStackResultFromJson(json);
+  factory CreateStackResult.fromJson(Map<String, dynamic> json) {
+    return CreateStackResult(
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>CreateUserProfile</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserProfileResult {
   /// The user's IAM ARN.
-  @_s.JsonKey(name: 'IamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   CreateUserProfileResult({
     this.iamUserArn,
   });
-  factory CreateUserProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserProfileResultFromJson(json);
+  factory CreateUserProfileResult.fromJson(Map<String, dynamic> json) {
+    return CreateUserProfileResult(
+      iamUserArn: json['IamUserArn'] as String?,
+    );
+  }
 }
 
 /// Describes an app's data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSource {
   /// The data source's ARN.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The database name.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The data source's type, <code>AutoSelectOpsworksMysqlInstance</code>,
   /// <code>OpsworksMysqlInstance</code>, <code>RdsDbInstance</code>, or
   /// <code>None</code>.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   DataSource({
     this.arn,
     this.databaseName,
     this.type,
   });
-  factory DataSource.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceFromJson(json);
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      arn: json['Arn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final databaseName = this.databaseName;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Describes a deployment of a stack or app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployment {
   /// The app ID.
-  @_s.JsonKey(name: 'AppId')
-  final String appId;
+  final String? appId;
 
   /// Used to specify a stack or deployment command.
-  @_s.JsonKey(name: 'Command')
-  final DeploymentCommand command;
+  final DeploymentCommand? command;
 
   /// A user-defined comment.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// Date when the deployment completed.
-  @_s.JsonKey(name: 'CompletedAt')
-  final String completedAt;
+  final String? completedAt;
 
   /// Date when the deployment was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// A string that contains user-defined custom JSON. It can be used to override
   /// the corresponding default stack configuration attribute values for stack or
@@ -6060,28 +6477,22 @@ class Deployment {
   /// For more information on custom JSON, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
   /// Custom JSON to Modify the Stack Configuration Attributes</a>.
-  @_s.JsonKey(name: 'CustomJson')
-  final String customJson;
+  final String? customJson;
 
   /// The deployment ID.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The deployment duration.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// The user's IAM ARN.
-  @_s.JsonKey(name: 'IamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   /// The IDs of the target instances.
-  @_s.JsonKey(name: 'InstanceIds')
-  final List<String> instanceIds;
+  final List<String>? instanceIds;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The deployment status:
   ///
@@ -6096,8 +6507,7 @@ class Deployment {
   /// failed
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   Deployment({
     this.appId,
@@ -6113,16 +6523,30 @@ class Deployment {
     this.stackId,
     this.status,
   });
-  factory Deployment.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentFromJson(json);
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      appId: json['AppId'] as String?,
+      command: json['Command'] != null
+          ? DeploymentCommand.fromJson(json['Command'] as Map<String, dynamic>)
+          : null,
+      comment: json['Comment'] as String?,
+      completedAt: json['CompletedAt'] as String?,
+      createdAt: json['CreatedAt'] as String?,
+      customJson: json['CustomJson'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+      duration: json['Duration'] as int?,
+      iamUserArn: json['IamUserArn'] as String?,
+      instanceIds: (json['InstanceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stackId: json['StackId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// Used to specify a stack or deployment command.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentCommand {
   /// Specifies the operation. You can specify only one command.
   ///
@@ -6178,7 +6602,6 @@ class DeploymentCommand {
   /// <code>undeploy</code>: Undeploy the app.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final DeploymentCommandName name;
 
   /// The arguments of those commands that take arguments. It should be set to a
@@ -6208,291 +6631,349 @@ class DeploymentCommand {
   ///
   /// <code> { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }
   /// </code>
-  @_s.JsonKey(name: 'Args')
-  final Map<String, List<String>> args;
+  final Map<String, List<String>>? args;
 
   DeploymentCommand({
-    @_s.required this.name,
+    required this.name,
     this.args,
   });
-  factory DeploymentCommand.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentCommandFromJson(json);
+  factory DeploymentCommand.fromJson(Map<String, dynamic> json) {
+    return DeploymentCommand(
+      name: (json['Name'] as String).toDeploymentCommandName(),
+      args: (json['Args'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeploymentCommandToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final args = this.args;
+    return {
+      'Name': name.toValue(),
+      if (args != null) 'Args': args,
+    };
+  }
 }
 
 enum DeploymentCommandName {
-  @_s.JsonValue('install_dependencies')
   installDependencies,
-  @_s.JsonValue('update_dependencies')
   updateDependencies,
-  @_s.JsonValue('update_custom_cookbooks')
   updateCustomCookbooks,
-  @_s.JsonValue('execute_recipes')
   executeRecipes,
-  @_s.JsonValue('configure')
   configure,
-  @_s.JsonValue('setup')
   setup,
-  @_s.JsonValue('deploy')
   deploy,
-  @_s.JsonValue('rollback')
   rollback,
-  @_s.JsonValue('start')
   start,
-  @_s.JsonValue('stop')
   stop,
-  @_s.JsonValue('restart')
   restart,
-  @_s.JsonValue('undeploy')
   undeploy,
 }
 
+extension on DeploymentCommandName {
+  String toValue() {
+    switch (this) {
+      case DeploymentCommandName.installDependencies:
+        return 'install_dependencies';
+      case DeploymentCommandName.updateDependencies:
+        return 'update_dependencies';
+      case DeploymentCommandName.updateCustomCookbooks:
+        return 'update_custom_cookbooks';
+      case DeploymentCommandName.executeRecipes:
+        return 'execute_recipes';
+      case DeploymentCommandName.configure:
+        return 'configure';
+      case DeploymentCommandName.setup:
+        return 'setup';
+      case DeploymentCommandName.deploy:
+        return 'deploy';
+      case DeploymentCommandName.rollback:
+        return 'rollback';
+      case DeploymentCommandName.start:
+        return 'start';
+      case DeploymentCommandName.stop:
+        return 'stop';
+      case DeploymentCommandName.restart:
+        return 'restart';
+      case DeploymentCommandName.undeploy:
+        return 'undeploy';
+    }
+  }
+}
+
+extension on String {
+  DeploymentCommandName toDeploymentCommandName() {
+    switch (this) {
+      case 'install_dependencies':
+        return DeploymentCommandName.installDependencies;
+      case 'update_dependencies':
+        return DeploymentCommandName.updateDependencies;
+      case 'update_custom_cookbooks':
+        return DeploymentCommandName.updateCustomCookbooks;
+      case 'execute_recipes':
+        return DeploymentCommandName.executeRecipes;
+      case 'configure':
+        return DeploymentCommandName.configure;
+      case 'setup':
+        return DeploymentCommandName.setup;
+      case 'deploy':
+        return DeploymentCommandName.deploy;
+      case 'rollback':
+        return DeploymentCommandName.rollback;
+      case 'start':
+        return DeploymentCommandName.start;
+      case 'stop':
+        return DeploymentCommandName.stop;
+      case 'restart':
+        return DeploymentCommandName.restart;
+      case 'undeploy':
+        return DeploymentCommandName.undeploy;
+    }
+    throw Exception('$this is not known in enum DeploymentCommandName');
+  }
+}
+
 /// Contains the response to a <code>DescribeAgentVersions</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAgentVersionsResult {
   /// The agent versions for the specified stack or configuration manager. Note
   /// that this value is the complete version number, not the abbreviated number
   /// used by the console.
-  @_s.JsonKey(name: 'AgentVersions')
-  final List<AgentVersion> agentVersions;
+  final List<AgentVersion>? agentVersions;
 
   DescribeAgentVersionsResult({
     this.agentVersions,
   });
-  factory DescribeAgentVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAgentVersionsResultFromJson(json);
+  factory DescribeAgentVersionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAgentVersionsResult(
+      agentVersions: (json['AgentVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AgentVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeApps</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAppsResult {
   /// An array of <code>App</code> objects that describe the specified apps.
-  @_s.JsonKey(name: 'Apps')
-  final List<App> apps;
+  final List<App>? apps;
 
   DescribeAppsResult({
     this.apps,
   });
-  factory DescribeAppsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAppsResultFromJson(json);
+  factory DescribeAppsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAppsResult(
+      apps: (json['Apps'] as List?)
+          ?.whereNotNull()
+          .map((e) => App.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeCommands</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCommandsResult {
   /// An array of <code>Command</code> objects that describe each of the specified
   /// commands.
-  @_s.JsonKey(name: 'Commands')
-  final List<Command> commands;
+  final List<Command>? commands;
 
   DescribeCommandsResult({
     this.commands,
   });
-  factory DescribeCommandsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCommandsResultFromJson(json);
+  factory DescribeCommandsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeCommandsResult(
+      commands: (json['Commands'] as List?)
+          ?.whereNotNull()
+          .map((e) => Command.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeDeployments</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDeploymentsResult {
   /// An array of <code>Deployment</code> objects that describe the deployments.
-  @_s.JsonKey(name: 'Deployments')
-  final List<Deployment> deployments;
+  final List<Deployment>? deployments;
 
   DescribeDeploymentsResult({
     this.deployments,
   });
-  factory DescribeDeploymentsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDeploymentsResultFromJson(json);
+  factory DescribeDeploymentsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDeploymentsResult(
+      deployments: (json['Deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeEcsClusters</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEcsClustersResult {
   /// A list of <code>EcsCluster</code> objects containing the cluster
   /// descriptions.
-  @_s.JsonKey(name: 'EcsClusters')
-  final List<EcsCluster> ecsClusters;
+  final List<EcsCluster>? ecsClusters;
 
   /// If a paginated request does not return all of the remaining results, this
   /// parameter is set to a token that you can assign to the request object's
   /// <code>NextToken</code> parameter to retrieve the next set of results. If the
   /// previous paginated request returned all of the remaining results, this
   /// parameter is set to <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEcsClustersResult({
     this.ecsClusters,
     this.nextToken,
   });
-  factory DescribeEcsClustersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEcsClustersResultFromJson(json);
+  factory DescribeEcsClustersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEcsClustersResult(
+      ecsClusters: (json['EcsClusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => EcsCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeElasticIps</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticIpsResult {
   /// An <code>ElasticIps</code> object that describes the specified Elastic IP
   /// addresses.
-  @_s.JsonKey(name: 'ElasticIps')
-  final List<ElasticIp> elasticIps;
+  final List<ElasticIp>? elasticIps;
 
   DescribeElasticIpsResult({
     this.elasticIps,
   });
-  factory DescribeElasticIpsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeElasticIpsResultFromJson(json);
+  factory DescribeElasticIpsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeElasticIpsResult(
+      elasticIps: (json['ElasticIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => ElasticIp.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeElasticLoadBalancers</code>
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeElasticLoadBalancersResult {
   /// A list of <code>ElasticLoadBalancer</code> objects that describe the
   /// specified Elastic Load Balancing instances.
-  @_s.JsonKey(name: 'ElasticLoadBalancers')
-  final List<ElasticLoadBalancer> elasticLoadBalancers;
+  final List<ElasticLoadBalancer>? elasticLoadBalancers;
 
   DescribeElasticLoadBalancersResult({
     this.elasticLoadBalancers,
   });
   factory DescribeElasticLoadBalancersResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeElasticLoadBalancersResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeElasticLoadBalancersResult(
+      elasticLoadBalancers: (json['ElasticLoadBalancers'] as List?)
+          ?.whereNotNull()
+          .map((e) => ElasticLoadBalancer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeInstances</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstancesResult {
   /// An array of <code>Instance</code> objects that describe the instances.
-  @_s.JsonKey(name: 'Instances')
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   DescribeInstancesResult({
     this.instances,
   });
-  factory DescribeInstancesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeInstancesResultFromJson(json);
+  factory DescribeInstancesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeInstancesResult(
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeLayers</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLayersResult {
   /// An array of <code>Layer</code> objects that describe the layers.
-  @_s.JsonKey(name: 'Layers')
-  final List<Layer> layers;
+  final List<Layer>? layers;
 
   DescribeLayersResult({
     this.layers,
   });
-  factory DescribeLayersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLayersResultFromJson(json);
+  factory DescribeLayersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeLayersResult(
+      layers: (json['Layers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Layer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeLoadBasedAutoScaling</code>
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLoadBasedAutoScalingResult {
   /// An array of <code>LoadBasedAutoScalingConfiguration</code> objects that
   /// describe each layer's configuration.
-  @_s.JsonKey(name: 'LoadBasedAutoScalingConfigurations')
-  final List<LoadBasedAutoScalingConfiguration>
+  final List<LoadBasedAutoScalingConfiguration>?
       loadBasedAutoScalingConfigurations;
 
   DescribeLoadBasedAutoScalingResult({
     this.loadBasedAutoScalingConfigurations,
   });
   factory DescribeLoadBasedAutoScalingResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeLoadBasedAutoScalingResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeLoadBasedAutoScalingResult(
+      loadBasedAutoScalingConfigurations:
+          (json['LoadBasedAutoScalingConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => LoadBasedAutoScalingConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeMyUserProfile</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMyUserProfileResult {
   /// A <code>UserProfile</code> object that describes the user's SSH information.
-  @_s.JsonKey(name: 'UserProfile')
-  final SelfUserProfile userProfile;
+  final SelfUserProfile? userProfile;
 
   DescribeMyUserProfileResult({
     this.userProfile,
   });
-  factory DescribeMyUserProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMyUserProfileResultFromJson(json);
+  factory DescribeMyUserProfileResult.fromJson(Map<String, dynamic> json) {
+    return DescribeMyUserProfileResult(
+      userProfile: json['UserProfile'] != null
+          ? SelfUserProfile.fromJson(
+              json['UserProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to a <code>DescribeOperatingSystems</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOperatingSystemsResponse {
   /// Contains information in response to a <code>DescribeOperatingSystems</code>
   /// request.
-  @_s.JsonKey(name: 'OperatingSystems')
-  final List<OperatingSystem> operatingSystems;
+  final List<OperatingSystem>? operatingSystems;
 
   DescribeOperatingSystemsResponse({
     this.operatingSystems,
   });
-  factory DescribeOperatingSystemsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeOperatingSystemsResponseFromJson(json);
+  factory DescribeOperatingSystemsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOperatingSystemsResponse(
+      operatingSystems: (json['OperatingSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => OperatingSystem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribePermissions</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePermissionsResult {
   /// An array of <code>Permission</code> objects that describe the stack
   /// permissions.
@@ -6514,219 +6995,214 @@ class DescribePermissionsResult {
   /// stack and IAM ARN.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   DescribePermissionsResult({
     this.permissions,
   });
-  factory DescribePermissionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePermissionsResultFromJson(json);
+  factory DescribePermissionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribePermissionsResult(
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeRaidArrays</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRaidArraysResult {
   /// A <code>RaidArrays</code> object that describes the specified RAID arrays.
-  @_s.JsonKey(name: 'RaidArrays')
-  final List<RaidArray> raidArrays;
+  final List<RaidArray>? raidArrays;
 
   DescribeRaidArraysResult({
     this.raidArrays,
   });
-  factory DescribeRaidArraysResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRaidArraysResultFromJson(json);
+  factory DescribeRaidArraysResult.fromJson(Map<String, dynamic> json) {
+    return DescribeRaidArraysResult(
+      raidArrays: (json['RaidArrays'] as List?)
+          ?.whereNotNull()
+          .map((e) => RaidArray.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeRdsDbInstances</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRdsDbInstancesResult {
   /// An a array of <code>RdsDbInstance</code> objects that describe the
   /// instances.
-  @_s.JsonKey(name: 'RdsDbInstances')
-  final List<RdsDbInstance> rdsDbInstances;
+  final List<RdsDbInstance>? rdsDbInstances;
 
   DescribeRdsDbInstancesResult({
     this.rdsDbInstances,
   });
-  factory DescribeRdsDbInstancesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRdsDbInstancesResultFromJson(json);
+  factory DescribeRdsDbInstancesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeRdsDbInstancesResult(
+      rdsDbInstances: (json['RdsDbInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => RdsDbInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeServiceErrors</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServiceErrorsResult {
   /// An array of <code>ServiceError</code> objects that describe the specified
   /// service errors.
-  @_s.JsonKey(name: 'ServiceErrors')
-  final List<ServiceError> serviceErrors;
+  final List<ServiceError>? serviceErrors;
 
   DescribeServiceErrorsResult({
     this.serviceErrors,
   });
-  factory DescribeServiceErrorsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServiceErrorsResultFromJson(json);
+  factory DescribeServiceErrorsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeServiceErrorsResult(
+      serviceErrors: (json['ServiceErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeStackProvisioningParameters</code>
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStackProvisioningParametersResult {
   /// The AWS OpsWorks Stacks agent installer's URL.
-  @_s.JsonKey(name: 'AgentInstallerUrl')
-  final String agentInstallerUrl;
+  final String? agentInstallerUrl;
 
   /// An embedded object that contains the provisioning parameters.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   DescribeStackProvisioningParametersResult({
     this.agentInstallerUrl,
     this.parameters,
   });
   factory DescribeStackProvisioningParametersResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeStackProvisioningParametersResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeStackProvisioningParametersResult(
+      agentInstallerUrl: json['AgentInstallerUrl'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeStackSummary</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStackSummaryResult {
   /// A <code>StackSummary</code> object that contains the results.
-  @_s.JsonKey(name: 'StackSummary')
-  final StackSummary stackSummary;
+  final StackSummary? stackSummary;
 
   DescribeStackSummaryResult({
     this.stackSummary,
   });
-  factory DescribeStackSummaryResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStackSummaryResultFromJson(json);
+  factory DescribeStackSummaryResult.fromJson(Map<String, dynamic> json) {
+    return DescribeStackSummaryResult(
+      stackSummary: json['StackSummary'] != null
+          ? StackSummary.fromJson(json['StackSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeStacks</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStacksResult {
   /// An array of <code>Stack</code> objects that describe the stacks.
-  @_s.JsonKey(name: 'Stacks')
-  final List<Stack> stacks;
+  final List<Stack>? stacks;
 
   DescribeStacksResult({
     this.stacks,
   });
-  factory DescribeStacksResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStacksResultFromJson(json);
+  factory DescribeStacksResult.fromJson(Map<String, dynamic> json) {
+    return DescribeStacksResult(
+      stacks: (json['Stacks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Stack.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeTimeBasedAutoScaling</code>
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTimeBasedAutoScalingResult {
   /// An array of <code>TimeBasedAutoScalingConfiguration</code> objects that
   /// describe the configuration for the specified instances.
-  @_s.JsonKey(name: 'TimeBasedAutoScalingConfigurations')
-  final List<TimeBasedAutoScalingConfiguration>
+  final List<TimeBasedAutoScalingConfiguration>?
       timeBasedAutoScalingConfigurations;
 
   DescribeTimeBasedAutoScalingResult({
     this.timeBasedAutoScalingConfigurations,
   });
   factory DescribeTimeBasedAutoScalingResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTimeBasedAutoScalingResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTimeBasedAutoScalingResult(
+      timeBasedAutoScalingConfigurations:
+          (json['TimeBasedAutoScalingConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => TimeBasedAutoScalingConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeUserProfiles</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserProfilesResult {
   /// A <code>Users</code> object that describes the specified users.
-  @_s.JsonKey(name: 'UserProfiles')
-  final List<UserProfile> userProfiles;
+  final List<UserProfile>? userProfiles;
 
   DescribeUserProfilesResult({
     this.userProfiles,
   });
-  factory DescribeUserProfilesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserProfilesResultFromJson(json);
+  factory DescribeUserProfilesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeUserProfilesResult(
+      userProfiles: (json['UserProfiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the response to a <code>DescribeVolumes</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVolumesResult {
   /// An array of volume IDs.
-  @_s.JsonKey(name: 'Volumes')
-  final List<Volume> volumes;
+  final List<Volume>? volumes;
 
   DescribeVolumesResult({
     this.volumes,
   });
-  factory DescribeVolumesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVolumesResultFromJson(json);
+  factory DescribeVolumesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeVolumesResult(
+      volumes: (json['Volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes an Amazon EBS volume. This data type maps directly to the Amazon
 /// EC2 <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EbsBlockDevice.html">EbsBlockDevice</a>
 /// data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EbsBlockDevice {
   /// Whether the volume is deleted on instance termination.
-  @_s.JsonKey(name: 'DeleteOnTermination')
-  final bool deleteOnTermination;
+  final bool? deleteOnTermination;
 
   /// The number of I/O operations per second (IOPS) that the volume supports. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EbsBlockDevice.html">EbsBlockDevice</a>.
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// The snapshot ID.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The volume size, in GiB. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EbsBlockDevice.html">EbsBlockDevice</a>.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   /// The volume type. <code>gp2</code> for General Purpose (SSD) volumes,
   /// <code>io1</code> for Provisioned IOPS (SSD) volumes, <code>st1</code> for
@@ -6738,8 +7214,7 @@ class EbsBlockDevice {
   /// IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume
   /// size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume
   /// size).
-  @_s.JsonKey(name: 'VolumeType')
-  final VolumeType volumeType;
+  final VolumeType? volumeType;
 
   EbsBlockDevice({
     this.deleteOnTermination,
@@ -6748,34 +7223,46 @@ class EbsBlockDevice {
     this.volumeSize,
     this.volumeType,
   });
-  factory EbsBlockDevice.fromJson(Map<String, dynamic> json) =>
-      _$EbsBlockDeviceFromJson(json);
+  factory EbsBlockDevice.fromJson(Map<String, dynamic> json) {
+    return EbsBlockDevice(
+      deleteOnTermination: json['DeleteOnTermination'] as bool?,
+      iops: json['Iops'] as int?,
+      snapshotId: json['SnapshotId'] as String?,
+      volumeSize: json['VolumeSize'] as int?,
+      volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EbsBlockDeviceToJson(this);
+  Map<String, dynamic> toJson() {
+    final deleteOnTermination = this.deleteOnTermination;
+    final iops = this.iops;
+    final snapshotId = this.snapshotId;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (deleteOnTermination != null)
+        'DeleteOnTermination': deleteOnTermination,
+      if (iops != null) 'Iops': iops,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (volumeSize != null) 'VolumeSize': volumeSize,
+      if (volumeType != null) 'VolumeType': volumeType.toValue(),
+    };
+  }
 }
 
 /// Describes a registered Amazon ECS cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EcsCluster {
   /// The cluster's ARN.
-  @_s.JsonKey(name: 'EcsClusterArn')
-  final String ecsClusterArn;
+  final String? ecsClusterArn;
 
   /// The cluster name.
-  @_s.JsonKey(name: 'EcsClusterName')
-  final String ecsClusterName;
+  final String? ecsClusterName;
 
   /// The time and date that the cluster was registered with the stack.
-  @_s.JsonKey(name: 'RegisteredAt')
-  final String registeredAt;
+  final String? registeredAt;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   EcsCluster({
     this.ecsClusterArn,
@@ -6783,38 +7270,34 @@ class EcsCluster {
     this.registeredAt,
     this.stackId,
   });
-  factory EcsCluster.fromJson(Map<String, dynamic> json) =>
-      _$EcsClusterFromJson(json);
+  factory EcsCluster.fromJson(Map<String, dynamic> json) {
+    return EcsCluster(
+      ecsClusterArn: json['EcsClusterArn'] as String?,
+      ecsClusterName: json['EcsClusterName'] as String?,
+      registeredAt: json['RegisteredAt'] as String?,
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// Describes an Elastic IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticIp {
   /// The domain.
-  @_s.JsonKey(name: 'Domain')
-  final String domain;
+  final String? domain;
 
   /// The ID of the instance that the address is attached to.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The IP address.
-  @_s.JsonKey(name: 'Ip')
-  final String ip;
+  final String? ip;
 
   /// The name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The AWS region. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   ElasticIp({
     this.domain,
@@ -6823,53 +7306,46 @@ class ElasticIp {
     this.name,
     this.region,
   });
-  factory ElasticIp.fromJson(Map<String, dynamic> json) =>
-      _$ElasticIpFromJson(json);
+  factory ElasticIp.fromJson(Map<String, dynamic> json) {
+    return ElasticIp(
+      domain: json['Domain'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      ip: json['Ip'] as String?,
+      name: json['Name'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
 }
 
 /// Describes an Elastic Load Balancing instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElasticLoadBalancer {
   /// A list of Availability Zones.
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// The instance's public DNS name.
-  @_s.JsonKey(name: 'DnsName')
-  final String dnsName;
+  final String? dnsName;
 
   /// A list of the EC2 instances that the Elastic Load Balancing instance is
   /// managing traffic for.
-  @_s.JsonKey(name: 'Ec2InstanceIds')
-  final List<String> ec2InstanceIds;
+  final List<String>? ec2InstanceIds;
 
   /// The Elastic Load Balancing instance's name.
-  @_s.JsonKey(name: 'ElasticLoadBalancerName')
-  final String elasticLoadBalancerName;
+  final String? elasticLoadBalancerName;
 
   /// The ID of the layer that the instance is attached to.
-  @_s.JsonKey(name: 'LayerId')
-  final String layerId;
+  final String? layerId;
 
   /// The instance's AWS region.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The ID of the stack that the instance is associated with.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// A list of subnet IDs, if the stack is running in a VPC.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The VPC ID.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   ElasticLoadBalancer({
     this.availabilityZones,
@@ -6882,28 +7358,41 @@ class ElasticLoadBalancer {
     this.subnetIds,
     this.vpcId,
   });
-  factory ElasticLoadBalancer.fromJson(Map<String, dynamic> json) =>
-      _$ElasticLoadBalancerFromJson(json);
+  factory ElasticLoadBalancer.fromJson(Map<String, dynamic> json) {
+    return ElasticLoadBalancer(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dnsName: json['DnsName'] as String?,
+      ec2InstanceIds: (json['Ec2InstanceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      elasticLoadBalancerName: json['ElasticLoadBalancerName'] as String?,
+      layerId: json['LayerId'] as String?,
+      region: json['Region'] as String?,
+      stackId: json['StackId'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
 /// Represents an app's environment variable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EnvironmentVariable {
   /// (Required) The environment variable's name, which can consist of up to 64
   /// characters and must be specified. The name can contain upper- and lowercase
   /// letters, numbers, and underscores (_), but it must start with a letter or
   /// underscore.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// (Optional) The environment variable's value, which can be left empty. If you
   /// specify a value, it can contain up to 256 characters, which must all be
   /// printable.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   /// (Optional) Whether the variable's value will be returned by the
@@ -6911,139 +7400,129 @@ class EnvironmentVariable {
   /// <code>Secure</code> to <code>true</code>. <code>DescribeApps</code> then
   /// returns <code>*****FILTERED*****</code> instead of the actual value. The
   /// default value for <code>Secure</code> is <code>false</code>.
-  @_s.JsonKey(name: 'Secure')
-  final bool secure;
+  final bool? secure;
 
   EnvironmentVariable({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
     this.secure,
   });
-  factory EnvironmentVariable.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentVariableFromJson(json);
+  factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
+    return EnvironmentVariable(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+      secure: json['Secure'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EnvironmentVariableToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    final secure = this.secure;
+    return {
+      'Key': key,
+      'Value': value,
+      if (secure != null) 'Secure': secure,
+    };
+  }
 }
 
 /// Contains the response to a <code>GetHostnameSuggestion</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetHostnameSuggestionResult {
   /// The generated host name.
-  @_s.JsonKey(name: 'Hostname')
-  final String hostname;
+  final String? hostname;
 
   /// The layer ID.
-  @_s.JsonKey(name: 'LayerId')
-  final String layerId;
+  final String? layerId;
 
   GetHostnameSuggestionResult({
     this.hostname,
     this.layerId,
   });
-  factory GetHostnameSuggestionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetHostnameSuggestionResultFromJson(json);
+  factory GetHostnameSuggestionResult.fromJson(Map<String, dynamic> json) {
+    return GetHostnameSuggestionResult(
+      hostname: json['Hostname'] as String?,
+      layerId: json['LayerId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>GrantAccess</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GrantAccessResult {
   /// A <code>TemporaryCredential</code> object that contains the data needed to
   /// log in to the instance by RDP clients, such as the Microsoft Remote Desktop
   /// Connection.
-  @_s.JsonKey(name: 'TemporaryCredential')
-  final TemporaryCredential temporaryCredential;
+  final TemporaryCredential? temporaryCredential;
 
   GrantAccessResult({
     this.temporaryCredential,
   });
-  factory GrantAccessResult.fromJson(Map<String, dynamic> json) =>
-      _$GrantAccessResultFromJson(json);
+  factory GrantAccessResult.fromJson(Map<String, dynamic> json) {
+    return GrantAccessResult(
+      temporaryCredential: json['TemporaryCredential'] != null
+          ? TemporaryCredential.fromJson(
+              json['TemporaryCredential'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Instance {
   /// The agent version. This parameter is set to <code>INHERIT</code> if the
   /// instance inherits the default stack setting or to a a version number for a
   /// fixed agent version.
-  @_s.JsonKey(name: 'AgentVersion')
-  final String agentVersion;
+  final String? agentVersion;
 
   /// A custom AMI ID to be used to create the instance. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Instances</a>
-  @_s.JsonKey(name: 'AmiId')
-  final String amiId;
+  final String? amiId;
 
   /// The instance architecture: "i386" or "x86_64".
-  @_s.JsonKey(name: 'Architecture')
-  final Architecture architecture;
+  final Architecture? architecture;
 
   /// The instance's Amazon Resource Number (ARN).
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// For load-based or time-based instances, the type.
-  @_s.JsonKey(name: 'AutoScalingType')
-  final AutoScalingType autoScalingType;
+  final AutoScalingType? autoScalingType;
 
   /// The instance Availability Zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// An array of <code>BlockDeviceMapping</code> objects that specify the
   /// instance's block device mappings.
-  @_s.JsonKey(name: 'BlockDeviceMappings')
-  final List<BlockDeviceMapping> blockDeviceMappings;
+  final List<BlockDeviceMapping>? blockDeviceMappings;
 
   /// The time that the instance was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// Whether this is an Amazon EBS-optimized instance.
-  @_s.JsonKey(name: 'EbsOptimized')
-  final bool ebsOptimized;
+  final bool? ebsOptimized;
 
   /// The ID of the associated Amazon EC2 instance.
-  @_s.JsonKey(name: 'Ec2InstanceId')
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// For container instances, the Amazon ECS cluster's ARN.
-  @_s.JsonKey(name: 'EcsClusterArn')
-  final String ecsClusterArn;
+  final String? ecsClusterArn;
 
   /// For container instances, the instance's ARN.
-  @_s.JsonKey(name: 'EcsContainerInstanceArn')
-  final String ecsContainerInstanceArn;
+  final String? ecsContainerInstanceArn;
 
   /// The instance <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
   /// IP address </a>.
-  @_s.JsonKey(name: 'ElasticIp')
-  final String elasticIp;
+  final String? elasticIp;
 
   /// The instance host name.
-  @_s.JsonKey(name: 'Hostname')
-  final String hostname;
+  final String? hostname;
 
   /// For registered instances, the infrastructure class: <code>ec2</code> or
   /// <code>on-premises</code>.
-  @_s.JsonKey(name: 'InfrastructureClass')
-  final String infrastructureClass;
+  final String? infrastructureClass;
 
   /// Whether to install operating system and package updates when the instance
   /// boots. The default value is <code>true</code>. If this value is set to
@@ -7055,98 +7534,76 @@ class Instance {
   /// We strongly recommend using the default value of <code>true</code>, to
   /// ensure that your instances have the latest security updates.
   /// </note>
-  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
-  final bool installUpdatesOnBoot;
+  final bool? installUpdatesOnBoot;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The ARN of the instance's IAM profile. For more information about IAM ARNs,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
-  @_s.JsonKey(name: 'InstanceProfileArn')
-  final String instanceProfileArn;
+  final String? instanceProfileArn;
 
   /// The instance type, such as <code>t2.micro</code>.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The ID of the last service error. For more information, call
   /// <a>DescribeServiceErrors</a>.
-  @_s.JsonKey(name: 'LastServiceErrorId')
-  final String lastServiceErrorId;
+  final String? lastServiceErrorId;
 
   /// An array containing the instance layer IDs.
-  @_s.JsonKey(name: 'LayerIds')
-  final List<String> layerIds;
+  final List<String>? layerIds;
 
   /// The instance's operating system.
-  @_s.JsonKey(name: 'Os')
-  final String os;
+  final String? os;
 
   /// The instance's platform.
-  @_s.JsonKey(name: 'Platform')
-  final String platform;
+  final String? platform;
 
   /// The instance's private DNS name.
-  @_s.JsonKey(name: 'PrivateDns')
-  final String privateDns;
+  final String? privateDns;
 
   /// The instance's private IP address.
-  @_s.JsonKey(name: 'PrivateIp')
-  final String privateIp;
+  final String? privateIp;
 
   /// The instance public DNS name.
-  @_s.JsonKey(name: 'PublicDns')
-  final String publicDns;
+  final String? publicDns;
 
   /// The instance public IP address.
-  @_s.JsonKey(name: 'PublicIp')
-  final String publicIp;
+  final String? publicIp;
 
   /// For registered instances, who performed the registration.
-  @_s.JsonKey(name: 'RegisteredBy')
-  final String registeredBy;
+  final String? registeredBy;
 
   /// The instance's reported AWS OpsWorks Stacks agent version.
-  @_s.JsonKey(name: 'ReportedAgentVersion')
-  final String reportedAgentVersion;
+  final String? reportedAgentVersion;
 
   /// For registered instances, the reported operating system.
-  @_s.JsonKey(name: 'ReportedOs')
-  final ReportedOs reportedOs;
+  final ReportedOs? reportedOs;
 
   /// The instance's root device type. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
   /// for the Root Device</a>.
-  @_s.JsonKey(name: 'RootDeviceType')
-  final RootDeviceType rootDeviceType;
+  final RootDeviceType? rootDeviceType;
 
   /// The root device volume ID.
-  @_s.JsonKey(name: 'RootDeviceVolumeId')
-  final String rootDeviceVolumeId;
+  final String? rootDeviceVolumeId;
 
   /// An array containing the instance security group IDs.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The SSH key's Deep Security Agent (DSA) fingerprint.
-  @_s.JsonKey(name: 'SshHostDsaKeyFingerprint')
-  final String sshHostDsaKeyFingerprint;
+  final String? sshHostDsaKeyFingerprint;
 
   /// The SSH key's RSA fingerprint.
-  @_s.JsonKey(name: 'SshHostRsaKeyFingerprint')
-  final String sshHostRsaKeyFingerprint;
+  final String? sshHostRsaKeyFingerprint;
 
   /// The instance's Amazon EC2 key-pair name.
-  @_s.JsonKey(name: 'SshKeyName')
-  final String sshKeyName;
+  final String? sshKeyName;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The instance status:
   ///
@@ -7197,22 +7654,18 @@ class Instance {
   /// <code>terminating</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The instance's subnet ID; applicable only if the stack is running in a VPC.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The instance's tenancy option, such as <code>dedicated</code> or
   /// <code>host</code>.
-  @_s.JsonKey(name: 'Tenancy')
-  final String tenancy;
+  final String? tenancy;
 
   /// The instance's virtualization type: <code>paravirtual</code> or
   /// <code>hvm</code>.
-  @_s.JsonKey(name: 'VirtualizationType')
-  final VirtualizationType virtualizationType;
+  final VirtualizationType? virtualizationType;
 
   Instance({
     this.agentVersion,
@@ -7257,122 +7710,153 @@ class Instance {
     this.tenancy,
     this.virtualizationType,
   });
-  factory Instance.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFromJson(json);
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      agentVersion: json['AgentVersion'] as String?,
+      amiId: json['AmiId'] as String?,
+      architecture: (json['Architecture'] as String?)?.toArchitecture(),
+      arn: json['Arn'] as String?,
+      autoScalingType:
+          (json['AutoScalingType'] as String?)?.toAutoScalingType(),
+      availabilityZone: json['AvailabilityZone'] as String?,
+      blockDeviceMappings: (json['BlockDeviceMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => BlockDeviceMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: json['CreatedAt'] as String?,
+      ebsOptimized: json['EbsOptimized'] as bool?,
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      ecsClusterArn: json['EcsClusterArn'] as String?,
+      ecsContainerInstanceArn: json['EcsContainerInstanceArn'] as String?,
+      elasticIp: json['ElasticIp'] as String?,
+      hostname: json['Hostname'] as String?,
+      infrastructureClass: json['InfrastructureClass'] as String?,
+      installUpdatesOnBoot: json['InstallUpdatesOnBoot'] as bool?,
+      instanceId: json['InstanceId'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      lastServiceErrorId: json['LastServiceErrorId'] as String?,
+      layerIds: (json['LayerIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      os: json['Os'] as String?,
+      platform: json['Platform'] as String?,
+      privateDns: json['PrivateDns'] as String?,
+      privateIp: json['PrivateIp'] as String?,
+      publicDns: json['PublicDns'] as String?,
+      publicIp: json['PublicIp'] as String?,
+      registeredBy: json['RegisteredBy'] as String?,
+      reportedAgentVersion: json['ReportedAgentVersion'] as String?,
+      reportedOs: json['ReportedOs'] != null
+          ? ReportedOs.fromJson(json['ReportedOs'] as Map<String, dynamic>)
+          : null,
+      rootDeviceType: (json['RootDeviceType'] as String?)?.toRootDeviceType(),
+      rootDeviceVolumeId: json['RootDeviceVolumeId'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sshHostDsaKeyFingerprint: json['SshHostDsaKeyFingerprint'] as String?,
+      sshHostRsaKeyFingerprint: json['SshHostRsaKeyFingerprint'] as String?,
+      sshKeyName: json['SshKeyName'] as String?,
+      stackId: json['StackId'] as String?,
+      status: json['Status'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      tenancy: json['Tenancy'] as String?,
+      virtualizationType:
+          (json['VirtualizationType'] as String?)?.toVirtualizationType(),
+    );
+  }
 }
 
 /// Contains a description of an Amazon EC2 instance from the Amazon EC2
 /// metadata service. For more information, see <a
 /// href="https://docs.aws.amazon.com/sdkfornet/latest/apidocs/Index.html">Instance
 /// Metadata and User Data</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceIdentity {
   /// A JSON document that contains the metadata.
-  @_s.JsonKey(name: 'Document')
-  final String document;
+  final String? document;
 
   /// A signature that can be used to verify the document's accuracy and
   /// authenticity.
-  @_s.JsonKey(name: 'Signature')
-  final String signature;
+  final String? signature;
 
   InstanceIdentity({
     this.document,
     this.signature,
   });
-  Map<String, dynamic> toJson() => _$InstanceIdentityToJson(this);
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final signature = this.signature;
+    return {
+      if (document != null) 'Document': document,
+      if (signature != null) 'Signature': signature,
+    };
+  }
 }
 
 /// Describes how many instances a stack has for each status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstancesCount {
   /// The number of instances in the Assigning state.
-  @_s.JsonKey(name: 'Assigning')
-  final int assigning;
+  final int? assigning;
 
   /// The number of instances with <code>booting</code> status.
-  @_s.JsonKey(name: 'Booting')
-  final int booting;
+  final int? booting;
 
   /// The number of instances with <code>connection_lost</code> status.
-  @_s.JsonKey(name: 'ConnectionLost')
-  final int connectionLost;
+  final int? connectionLost;
 
   /// The number of instances in the Deregistering state.
-  @_s.JsonKey(name: 'Deregistering')
-  final int deregistering;
+  final int? deregistering;
 
   /// The number of instances with <code>online</code> status.
-  @_s.JsonKey(name: 'Online')
-  final int online;
+  final int? online;
 
   /// The number of instances with <code>pending</code> status.
-  @_s.JsonKey(name: 'Pending')
-  final int pending;
+  final int? pending;
 
   /// The number of instances with <code>rebooting</code> status.
-  @_s.JsonKey(name: 'Rebooting')
-  final int rebooting;
+  final int? rebooting;
 
   /// The number of instances in the Registered state.
-  @_s.JsonKey(name: 'Registered')
-  final int registered;
+  final int? registered;
 
   /// The number of instances in the Registering state.
-  @_s.JsonKey(name: 'Registering')
-  final int registering;
+  final int? registering;
 
   /// The number of instances with <code>requested</code> status.
-  @_s.JsonKey(name: 'Requested')
-  final int requested;
+  final int? requested;
 
   /// The number of instances with <code>running_setup</code> status.
-  @_s.JsonKey(name: 'RunningSetup')
-  final int runningSetup;
+  final int? runningSetup;
 
   /// The number of instances with <code>setup_failed</code> status.
-  @_s.JsonKey(name: 'SetupFailed')
-  final int setupFailed;
+  final int? setupFailed;
 
   /// The number of instances with <code>shutting_down</code> status.
-  @_s.JsonKey(name: 'ShuttingDown')
-  final int shuttingDown;
+  final int? shuttingDown;
 
   /// The number of instances with <code>start_failed</code> status.
-  @_s.JsonKey(name: 'StartFailed')
-  final int startFailed;
+  final int? startFailed;
 
   /// The number of instances with <code>stop_failed</code> status.
-  @_s.JsonKey(name: 'StopFailed')
-  final int stopFailed;
+  final int? stopFailed;
 
   /// The number of instances with <code>stopped</code> status.
-  @_s.JsonKey(name: 'Stopped')
-  final int stopped;
+  final int? stopped;
 
   /// The number of instances with <code>stopping</code> status.
-  @_s.JsonKey(name: 'Stopping')
-  final int stopping;
+  final int? stopping;
 
   /// The number of instances with <code>terminated</code> status.
-  @_s.JsonKey(name: 'Terminated')
-  final int terminated;
+  final int? terminated;
 
   /// The number of instances with <code>terminating</code> status.
-  @_s.JsonKey(name: 'Terminating')
-  final int terminating;
+  final int? terminating;
 
   /// The number of instances in the Unassigning state.
-  @_s.JsonKey(name: 'Unassigning')
-  final int unassigning;
+  final int? unassigning;
 
   InstancesCount({
     this.assigning,
@@ -7396,20 +7880,36 @@ class InstancesCount {
     this.terminating,
     this.unassigning,
   });
-  factory InstancesCount.fromJson(Map<String, dynamic> json) =>
-      _$InstancesCountFromJson(json);
+  factory InstancesCount.fromJson(Map<String, dynamic> json) {
+    return InstancesCount(
+      assigning: json['Assigning'] as int?,
+      booting: json['Booting'] as int?,
+      connectionLost: json['ConnectionLost'] as int?,
+      deregistering: json['Deregistering'] as int?,
+      online: json['Online'] as int?,
+      pending: json['Pending'] as int?,
+      rebooting: json['Rebooting'] as int?,
+      registered: json['Registered'] as int?,
+      registering: json['Registering'] as int?,
+      requested: json['Requested'] as int?,
+      runningSetup: json['RunningSetup'] as int?,
+      setupFailed: json['SetupFailed'] as int?,
+      shuttingDown: json['ShuttingDown'] as int?,
+      startFailed: json['StartFailed'] as int?,
+      stopFailed: json['StopFailed'] as int?,
+      stopped: json['Stopped'] as int?,
+      stopping: json['Stopping'] as int?,
+      terminated: json['Terminated'] as int?,
+      terminating: json['Terminating'] as int?,
+      unassigning: json['Unassigning'] as int?,
+    );
+  }
 }
 
 /// Describes a layer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Layer {
   /// The Amazon Resource Number (ARN) of a layer.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The layer attributes.
   ///
@@ -7419,52 +7919,43 @@ class Layer {
   ///
   /// For an ECS Cluster layer, AWS OpsWorks Stacks the <code>EcsClusterArn</code>
   /// attribute is set to the cluster's ARN.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<LayerAttributesKeys, String> attributes;
+  final Map<LayerAttributesKeys, String>? attributes;
 
   /// Whether to automatically assign an <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
   /// IP address</a> to the layer's instances. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
   /// to Edit a Layer</a>.
-  @_s.JsonKey(name: 'AutoAssignElasticIps')
-  final bool autoAssignElasticIps;
+  final bool? autoAssignElasticIps;
 
   /// For stacks that are running in a VPC, whether to automatically assign a
   /// public IP address to the layer's instances. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
   /// to Edit a Layer</a>.
-  @_s.JsonKey(name: 'AutoAssignPublicIps')
-  final bool autoAssignPublicIps;
+  final bool? autoAssignPublicIps;
 
   /// The Amazon CloudWatch Logs configuration settings for the layer.
-  @_s.JsonKey(name: 'CloudWatchLogsConfiguration')
-  final CloudWatchLogsConfiguration cloudWatchLogsConfiguration;
+  final CloudWatchLogsConfiguration? cloudWatchLogsConfiguration;
 
   /// Date when the layer was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The ARN of the default IAM profile to be used for the layer's EC2 instances.
   /// For more information about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
-  @_s.JsonKey(name: 'CustomInstanceProfileArn')
-  final String customInstanceProfileArn;
+  final String? customInstanceProfileArn;
 
   /// A JSON formatted string containing the layer's custom stack configuration
   /// and deployment attributes.
-  @_s.JsonKey(name: 'CustomJson')
-  final String customJson;
+  final String? customJson;
 
   /// A <code>LayerCustomRecipes</code> object that specifies the layer's custom
   /// recipes.
-  @_s.JsonKey(name: 'CustomRecipes')
-  final Recipes customRecipes;
+  final Recipes? customRecipes;
 
   /// An array containing the layer's custom security group IDs.
-  @_s.JsonKey(name: 'CustomSecurityGroupIds')
-  final List<String> customSecurityGroupIds;
+  final List<String>? customSecurityGroupIds;
 
   /// AWS OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
   /// <b>configuration</b>, <b>deploy</b>, <b>undeploy</b>, and <b>shutdown</b>.
@@ -7479,16 +7970,13 @@ class Layer {
   /// without the <code>.rb</code> extension. For example:
   /// <code>phpapp2::dbsetup</code> specifies the <code>dbsetup.rb</code> recipe
   /// in the repository's <code>phpapp2</code> folder.
-  @_s.JsonKey(name: 'DefaultRecipes')
-  final Recipes defaultRecipes;
+  final Recipes? defaultRecipes;
 
   /// An array containing the layer's security group names.
-  @_s.JsonKey(name: 'DefaultSecurityGroupNames')
-  final List<String> defaultSecurityGroupNames;
+  final List<String>? defaultSecurityGroupNames;
 
   /// Whether auto healing is disabled for the layer.
-  @_s.JsonKey(name: 'EnableAutoHealing')
-  final bool enableAutoHealing;
+  final bool? enableAutoHealing;
 
   /// Whether to install operating system and package updates when the instance
   /// boots. The default value is <code>true</code>. If this value is set to
@@ -7500,46 +7988,36 @@ class Layer {
   /// We strongly recommend using the default value of <code>true</code>, to
   /// ensure that your instances have the latest security updates.
   /// </note>
-  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
-  final bool installUpdatesOnBoot;
+  final bool? installUpdatesOnBoot;
 
   /// The layer ID.
-  @_s.JsonKey(name: 'LayerId')
-  final String layerId;
+  final String? layerId;
 
   /// A <code>LifeCycleEventConfiguration</code> object that specifies the
   /// Shutdown event configuration.
-  @_s.JsonKey(name: 'LifecycleEventConfiguration')
-  final LifecycleEventConfiguration lifecycleEventConfiguration;
+  final LifecycleEventConfiguration? lifecycleEventConfiguration;
 
   /// The layer name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An array of <code>Package</code> objects that describe the layer's packages.
-  @_s.JsonKey(name: 'Packages')
-  final List<String> packages;
+  final List<String>? packages;
 
   /// The layer short name.
-  @_s.JsonKey(name: 'Shortname')
-  final String shortname;
+  final String? shortname;
 
   /// The layer stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The layer type.
-  @_s.JsonKey(name: 'Type')
-  final LayerType type;
+  final LayerType? type;
 
   /// Whether the layer uses Amazon EBS-optimized instances.
-  @_s.JsonKey(name: 'UseEbsOptimizedInstances')
-  final bool useEbsOptimizedInstances;
+  final bool? useEbsOptimizedInstances;
 
   /// A <code>VolumeConfigurations</code> object that describes the layer's Amazon
   /// EBS volumes.
-  @_s.JsonKey(name: 'VolumeConfigurations')
-  final List<VolumeConfiguration> volumeConfigurations;
+  final List<VolumeConfiguration>? volumeConfigurations;
 
   Layer({
     this.arn,
@@ -7566,59 +8044,83 @@ class Layer {
     this.useEbsOptimizedInstances,
     this.volumeConfigurations,
   });
-  factory Layer.fromJson(Map<String, dynamic> json) => _$LayerFromJson(json);
+  factory Layer.fromJson(Map<String, dynamic> json) {
+    return Layer(
+      arn: json['Arn'] as String?,
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toLayerAttributesKeys(), e as String)),
+      autoAssignElasticIps: json['AutoAssignElasticIps'] as bool?,
+      autoAssignPublicIps: json['AutoAssignPublicIps'] as bool?,
+      cloudWatchLogsConfiguration: json['CloudWatchLogsConfiguration'] != null
+          ? CloudWatchLogsConfiguration.fromJson(
+              json['CloudWatchLogsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['CreatedAt'] as String?,
+      customInstanceProfileArn: json['CustomInstanceProfileArn'] as String?,
+      customJson: json['CustomJson'] as String?,
+      customRecipes: json['CustomRecipes'] != null
+          ? Recipes.fromJson(json['CustomRecipes'] as Map<String, dynamic>)
+          : null,
+      customSecurityGroupIds: (json['CustomSecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      defaultRecipes: json['DefaultRecipes'] != null
+          ? Recipes.fromJson(json['DefaultRecipes'] as Map<String, dynamic>)
+          : null,
+      defaultSecurityGroupNames: (json['DefaultSecurityGroupNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      enableAutoHealing: json['EnableAutoHealing'] as bool?,
+      installUpdatesOnBoot: json['InstallUpdatesOnBoot'] as bool?,
+      layerId: json['LayerId'] as String?,
+      lifecycleEventConfiguration: json['LifecycleEventConfiguration'] != null
+          ? LifecycleEventConfiguration.fromJson(
+              json['LifecycleEventConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      packages: (json['Packages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      shortname: json['Shortname'] as String?,
+      stackId: json['StackId'] as String?,
+      type: (json['Type'] as String?)?.toLayerType(),
+      useEbsOptimizedInstances: json['UseEbsOptimizedInstances'] as bool?,
+      volumeConfigurations: (json['VolumeConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => VolumeConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum LayerAttributesKeys {
-  @_s.JsonValue('EcsClusterArn')
   ecsClusterArn,
-  @_s.JsonValue('EnableHaproxyStats')
   enableHaproxyStats,
-  @_s.JsonValue('HaproxyStatsUrl')
   haproxyStatsUrl,
-  @_s.JsonValue('HaproxyStatsUser')
   haproxyStatsUser,
-  @_s.JsonValue('HaproxyStatsPassword')
   haproxyStatsPassword,
-  @_s.JsonValue('HaproxyHealthCheckUrl')
   haproxyHealthCheckUrl,
-  @_s.JsonValue('HaproxyHealthCheckMethod')
   haproxyHealthCheckMethod,
-  @_s.JsonValue('MysqlRootPassword')
   mysqlRootPassword,
-  @_s.JsonValue('MysqlRootPasswordUbiquitous')
   mysqlRootPasswordUbiquitous,
-  @_s.JsonValue('GangliaUrl')
   gangliaUrl,
-  @_s.JsonValue('GangliaUser')
   gangliaUser,
-  @_s.JsonValue('GangliaPassword')
   gangliaPassword,
-  @_s.JsonValue('MemcachedMemory')
   memcachedMemory,
-  @_s.JsonValue('NodejsVersion')
   nodejsVersion,
-  @_s.JsonValue('RubyVersion')
   rubyVersion,
-  @_s.JsonValue('RubygemsVersion')
   rubygemsVersion,
-  @_s.JsonValue('ManageBundler')
   manageBundler,
-  @_s.JsonValue('BundlerVersion')
   bundlerVersion,
-  @_s.JsonValue('RailsStack')
   railsStack,
-  @_s.JsonValue('PassengerVersion')
   passengerVersion,
-  @_s.JsonValue('Jvm')
   jvm,
-  @_s.JsonValue('JvmVersion')
   jvmVersion,
-  @_s.JsonValue('JvmOptions')
   jvmOptions,
-  @_s.JsonValue('JavaAppServer')
   javaAppServer,
-  @_s.JsonValue('JavaAppServerVersion')
   javaAppServerVersion,
 }
 
@@ -7676,34 +8178,79 @@ extension on LayerAttributesKeys {
       case LayerAttributesKeys.javaAppServerVersion:
         return 'JavaAppServerVersion';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LayerAttributesKeys toLayerAttributesKeys() {
+    switch (this) {
+      case 'EcsClusterArn':
+        return LayerAttributesKeys.ecsClusterArn;
+      case 'EnableHaproxyStats':
+        return LayerAttributesKeys.enableHaproxyStats;
+      case 'HaproxyStatsUrl':
+        return LayerAttributesKeys.haproxyStatsUrl;
+      case 'HaproxyStatsUser':
+        return LayerAttributesKeys.haproxyStatsUser;
+      case 'HaproxyStatsPassword':
+        return LayerAttributesKeys.haproxyStatsPassword;
+      case 'HaproxyHealthCheckUrl':
+        return LayerAttributesKeys.haproxyHealthCheckUrl;
+      case 'HaproxyHealthCheckMethod':
+        return LayerAttributesKeys.haproxyHealthCheckMethod;
+      case 'MysqlRootPassword':
+        return LayerAttributesKeys.mysqlRootPassword;
+      case 'MysqlRootPasswordUbiquitous':
+        return LayerAttributesKeys.mysqlRootPasswordUbiquitous;
+      case 'GangliaUrl':
+        return LayerAttributesKeys.gangliaUrl;
+      case 'GangliaUser':
+        return LayerAttributesKeys.gangliaUser;
+      case 'GangliaPassword':
+        return LayerAttributesKeys.gangliaPassword;
+      case 'MemcachedMemory':
+        return LayerAttributesKeys.memcachedMemory;
+      case 'NodejsVersion':
+        return LayerAttributesKeys.nodejsVersion;
+      case 'RubyVersion':
+        return LayerAttributesKeys.rubyVersion;
+      case 'RubygemsVersion':
+        return LayerAttributesKeys.rubygemsVersion;
+      case 'ManageBundler':
+        return LayerAttributesKeys.manageBundler;
+      case 'BundlerVersion':
+        return LayerAttributesKeys.bundlerVersion;
+      case 'RailsStack':
+        return LayerAttributesKeys.railsStack;
+      case 'PassengerVersion':
+        return LayerAttributesKeys.passengerVersion;
+      case 'Jvm':
+        return LayerAttributesKeys.jvm;
+      case 'JvmVersion':
+        return LayerAttributesKeys.jvmVersion;
+      case 'JvmOptions':
+        return LayerAttributesKeys.jvmOptions;
+      case 'JavaAppServer':
+        return LayerAttributesKeys.javaAppServer;
+      case 'JavaAppServerVersion':
+        return LayerAttributesKeys.javaAppServerVersion;
+    }
+    throw Exception('$this is not known in enum LayerAttributesKeys');
   }
 }
 
 enum LayerType {
-  @_s.JsonValue('aws-flow-ruby')
   awsFlowRuby,
-  @_s.JsonValue('ecs-cluster')
   ecsCluster,
-  @_s.JsonValue('java-app')
   javaApp,
-  @_s.JsonValue('lb')
   lb,
-  @_s.JsonValue('web')
   web,
-  @_s.JsonValue('php-app')
   phpApp,
-  @_s.JsonValue('rails-app')
   railsApp,
-  @_s.JsonValue('nodejs-app')
   nodejsApp,
-  @_s.JsonValue('memcached')
   memcached,
-  @_s.JsonValue('db-master')
   dbMaster,
-  @_s.JsonValue('monitoring-master')
   monitoringMaster,
-  @_s.JsonValue('custom')
   custom,
 }
 
@@ -7735,85 +8282,110 @@ extension on LayerType {
       case LayerType.custom:
         return 'custom';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LayerType toLayerType() {
+    switch (this) {
+      case 'aws-flow-ruby':
+        return LayerType.awsFlowRuby;
+      case 'ecs-cluster':
+        return LayerType.ecsCluster;
+      case 'java-app':
+        return LayerType.javaApp;
+      case 'lb':
+        return LayerType.lb;
+      case 'web':
+        return LayerType.web;
+      case 'php-app':
+        return LayerType.phpApp;
+      case 'rails-app':
+        return LayerType.railsApp;
+      case 'nodejs-app':
+        return LayerType.nodejsApp;
+      case 'memcached':
+        return LayerType.memcached;
+      case 'db-master':
+        return LayerType.dbMaster;
+      case 'monitoring-master':
+        return LayerType.monitoringMaster;
+      case 'custom':
+        return LayerType.custom;
+    }
+    throw Exception('$this is not known in enum LayerType');
   }
 }
 
 /// Specifies the lifecycle event configuration
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LifecycleEventConfiguration {
   /// A <code>ShutdownEventConfiguration</code> object that specifies the Shutdown
   /// event configuration.
-  @_s.JsonKey(name: 'Shutdown')
-  final ShutdownEventConfiguration shutdown;
+  final ShutdownEventConfiguration? shutdown;
 
   LifecycleEventConfiguration({
     this.shutdown,
   });
-  factory LifecycleEventConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LifecycleEventConfigurationFromJson(json);
+  factory LifecycleEventConfiguration.fromJson(Map<String, dynamic> json) {
+    return LifecycleEventConfiguration(
+      shutdown: json['Shutdown'] != null
+          ? ShutdownEventConfiguration.fromJson(
+              json['Shutdown'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LifecycleEventConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final shutdown = this.shutdown;
+    return {
+      if (shutdown != null) 'Shutdown': shutdown,
+    };
+  }
 }
 
 /// Contains the response to a <code>ListTags</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResult {
   /// If a paginated request does not return all of the remaining results, this
   /// parameter is set to a token that you can assign to the request object's
   /// <code>NextToken</code> parameter to get the next set of results. If the
   /// previous paginated request returned all of the remaining results, this
   /// parameter is set to <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A set of key-value pairs that contain tag keys and tag values that are
   /// attached to a stack or layer.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsResult({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResultFromJson(json);
+  factory ListTagsResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsResult(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Describes a layer's load-based auto scaling configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LoadBasedAutoScalingConfiguration {
   /// An <code>AutoScalingThresholds</code> object that describes the downscaling
   /// configuration, which defines how and when AWS OpsWorks Stacks reduces the
   /// number of instances.
-  @_s.JsonKey(name: 'DownScaling')
-  final AutoScalingThresholds downScaling;
+  final AutoScalingThresholds? downScaling;
 
   /// Whether load-based auto scaling is enabled for the layer.
-  @_s.JsonKey(name: 'Enable')
-  final bool enable;
+  final bool? enable;
 
   /// The layer ID.
-  @_s.JsonKey(name: 'LayerId')
-  final String layerId;
+  final String? layerId;
 
   /// An <code>AutoScalingThresholds</code> object that describes the upscaling
   /// configuration, which defines how and when AWS OpsWorks Stacks increases the
   /// number of instances.
-  @_s.JsonKey(name: 'UpScaling')
-  final AutoScalingThresholds upScaling;
+  final AutoScalingThresholds? upScaling;
 
   LoadBasedAutoScalingConfiguration({
     this.downScaling,
@@ -7822,48 +8394,48 @@ class LoadBasedAutoScalingConfiguration {
     this.upScaling,
   });
   factory LoadBasedAutoScalingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$LoadBasedAutoScalingConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return LoadBasedAutoScalingConfiguration(
+      downScaling: json['DownScaling'] != null
+          ? AutoScalingThresholds.fromJson(
+              json['DownScaling'] as Map<String, dynamic>)
+          : null,
+      enable: json['Enable'] as bool?,
+      layerId: json['LayerId'] as String?,
+      upScaling: json['UpScaling'] != null
+          ? AutoScalingThresholds.fromJson(
+              json['UpScaling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes supported operating systems in AWS OpsWorks Stacks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OperatingSystem {
   /// Supported configuration manager name and versions for an AWS OpsWorks Stacks
   /// operating system.
-  @_s.JsonKey(name: 'ConfigurationManagers')
-  final List<OperatingSystemConfigurationManager> configurationManagers;
+  final List<OperatingSystemConfigurationManager>? configurationManagers;
 
   /// The ID of a supported operating system, such as <code>Amazon Linux
   /// 2018.03</code>.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the operating system, such as <code>Amazon Linux 2018.03</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A short name for the operating system manufacturer.
-  @_s.JsonKey(name: 'ReportedName')
-  final String reportedName;
+  final String? reportedName;
 
   /// The version of the operating system, including the release and edition, if
   /// applicable.
-  @_s.JsonKey(name: 'ReportedVersion')
-  final String reportedVersion;
+  final String? reportedVersion;
 
   /// Indicates that an operating system is not supported for new instances.
-  @_s.JsonKey(name: 'Supported')
-  final bool supported;
+  final bool? supported;
 
   /// The type of a supported operating system, either <code>Linux</code> or
   /// <code>Windows</code>.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   OperatingSystem({
     this.configurationManagers,
@@ -7874,58 +8446,60 @@ class OperatingSystem {
     this.supported,
     this.type,
   });
-  factory OperatingSystem.fromJson(Map<String, dynamic> json) =>
-      _$OperatingSystemFromJson(json);
+  factory OperatingSystem.fromJson(Map<String, dynamic> json) {
+    return OperatingSystem(
+      configurationManagers: (json['ConfigurationManagers'] as List?)
+          ?.whereNotNull()
+          .map((e) => OperatingSystemConfigurationManager.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      reportedName: json['ReportedName'] as String?,
+      reportedVersion: json['ReportedVersion'] as String?,
+      supported: json['Supported'] as bool?,
+      type: json['Type'] as String?,
+    );
+  }
 }
 
 /// A block that contains information about the configuration manager (Chef) and
 /// the versions of the configuration manager that are supported for an
 /// operating system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OperatingSystemConfigurationManager {
   /// The name of the configuration manager, which is Chef.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The versions of the configuration manager that are supported by an operating
   /// system.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   OperatingSystemConfigurationManager({
     this.name,
     this.version,
   });
   factory OperatingSystemConfigurationManager.fromJson(
-          Map<String, dynamic> json) =>
-      _$OperatingSystemConfigurationManagerFromJson(json);
+      Map<String, dynamic> json) {
+    return OperatingSystemConfigurationManager(
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 /// Describes stack or user permissions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Permission {
   /// Whether the user can use SSH.
-  @_s.JsonKey(name: 'AllowSsh')
-  final bool allowSsh;
+  final bool? allowSsh;
 
   /// Whether the user can use <b>sudo</b>.
-  @_s.JsonKey(name: 'AllowSudo')
-  final bool allowSudo;
+  final bool? allowSudo;
 
   /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management
   /// (IAM) role. For more information about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
-  @_s.JsonKey(name: 'IamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   /// The user's permission level, which must be the following:
   ///
@@ -7949,12 +8523,10 @@ class Permission {
   /// For more information on the permissions associated with these levels, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
   /// User Permissions</a>
-  @_s.JsonKey(name: 'Level')
-  final String level;
+  final String? level;
 
   /// A stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   Permission({
     this.allowSsh,
@@ -7963,71 +8535,60 @@ class Permission {
     this.level,
     this.stackId,
   });
-  factory Permission.fromJson(Map<String, dynamic> json) =>
-      _$PermissionFromJson(json);
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      allowSsh: json['AllowSsh'] as bool?,
+      allowSudo: json['AllowSudo'] as bool?,
+      iamUserArn: json['IamUserArn'] as String?,
+      level: json['Level'] as String?,
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// Describes an instance's RAID array.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RaidArray {
   /// The array's Availability Zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// When the RAID array was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The array's Linux device. For example /dev/mdadm0.
-  @_s.JsonKey(name: 'Device')
-  final String device;
+  final String? device;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// For PIOPS volumes, the IOPS per disk.
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// The array's mount point.
-  @_s.JsonKey(name: 'MountPoint')
-  final String mountPoint;
+  final String? mountPoint;
 
   /// The array name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of disks in the array.
-  @_s.JsonKey(name: 'NumberOfDisks')
-  final int numberOfDisks;
+  final int? numberOfDisks;
 
   /// The array ID.
-  @_s.JsonKey(name: 'RaidArrayId')
-  final String raidArrayId;
+  final String? raidArrayId;
 
   /// The <a href="http://en.wikipedia.org/wiki/Standard_RAID_levels">RAID
   /// level</a>.
-  @_s.JsonKey(name: 'RaidLevel')
-  final int raidLevel;
+  final int? raidLevel;
 
   /// The array's size.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The volume type, standard or PIOPS.
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   RaidArray({
     this.availabilityZone,
@@ -8044,56 +8605,57 @@ class RaidArray {
     this.stackId,
     this.volumeType,
   });
-  factory RaidArray.fromJson(Map<String, dynamic> json) =>
-      _$RaidArrayFromJson(json);
+  factory RaidArray.fromJson(Map<String, dynamic> json) {
+    return RaidArray(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      createdAt: json['CreatedAt'] as String?,
+      device: json['Device'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      iops: json['Iops'] as int?,
+      mountPoint: json['MountPoint'] as String?,
+      name: json['Name'] as String?,
+      numberOfDisks: json['NumberOfDisks'] as int?,
+      raidArrayId: json['RaidArrayId'] as String?,
+      raidLevel: json['RaidLevel'] as int?,
+      size: json['Size'] as int?,
+      stackId: json['StackId'] as String?,
+      volumeType: json['VolumeType'] as String?,
+    );
+  }
 }
 
 /// Describes an Amazon RDS instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RdsDbInstance {
   /// The instance's address.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// The DB instance identifier.
-  @_s.JsonKey(name: 'DbInstanceIdentifier')
-  final String dbInstanceIdentifier;
+  final String? dbInstanceIdentifier;
 
   /// AWS OpsWorks Stacks returns <code>*****FILTERED*****</code> instead of the
   /// actual value.
-  @_s.JsonKey(name: 'DbPassword')
-  final String dbPassword;
+  final String? dbPassword;
 
   /// The master user name.
-  @_s.JsonKey(name: 'DbUser')
-  final String dbUser;
+  final String? dbUser;
 
   /// The instance's database engine.
-  @_s.JsonKey(name: 'Engine')
-  final String engine;
+  final String? engine;
 
   /// Set to <code>true</code> if AWS OpsWorks Stacks is unable to discover the
   /// Amazon RDS instance. AWS OpsWorks Stacks attempts to discover the instance
   /// only once. If this value is set to <code>true</code>, you must deregister
   /// the instance, and then register it again.
-  @_s.JsonKey(name: 'MissingOnRds')
-  final bool missingOnRds;
+  final bool? missingOnRds;
 
   /// The instance's ARN.
-  @_s.JsonKey(name: 'RdsDbInstanceArn')
-  final String rdsDbInstanceArn;
+  final String? rdsDbInstanceArn;
 
   /// The instance's AWS region.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The ID of the stack with which the instance is registered.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   RdsDbInstance({
     this.address,
@@ -8106,8 +8668,19 @@ class RdsDbInstance {
     this.region,
     this.stackId,
   });
-  factory RdsDbInstance.fromJson(Map<String, dynamic> json) =>
-      _$RdsDbInstanceFromJson(json);
+  factory RdsDbInstance.fromJson(Map<String, dynamic> json) {
+    return RdsDbInstance(
+      address: json['Address'] as String?,
+      dbInstanceIdentifier: json['DbInstanceIdentifier'] as String?,
+      dbPassword: json['DbPassword'] as String?,
+      dbUser: json['DbUser'] as String?,
+      engine: json['Engine'] as String?,
+      missingOnRds: json['MissingOnRds'] as bool?,
+      rdsDbInstanceArn: json['RdsDbInstanceArn'] as String?,
+      region: json['Region'] as String?,
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// AWS OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
@@ -8122,36 +8695,26 @@ class RdsDbInstance {
 /// followed by two colons and the recipe name, which is the recipe's file name
 /// without the .rb extension. For example: phpapp2::dbsetup specifies the
 /// dbsetup.rb recipe in the repository's phpapp2 folder.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Recipes {
   /// An array of custom recipe names to be run following a <code>configure</code>
   /// event.
-  @_s.JsonKey(name: 'Configure')
-  final List<String> configure;
+  final List<String>? configure;
 
   /// An array of custom recipe names to be run following a <code>deploy</code>
   /// event.
-  @_s.JsonKey(name: 'Deploy')
-  final List<String> deploy;
+  final List<String>? deploy;
 
   /// An array of custom recipe names to be run following a <code>setup</code>
   /// event.
-  @_s.JsonKey(name: 'Setup')
-  final List<String> setup;
+  final List<String>? setup;
 
   /// An array of custom recipe names to be run following a <code>shutdown</code>
   /// event.
-  @_s.JsonKey(name: 'Shutdown')
-  final List<String> shutdown;
+  final List<String>? shutdown;
 
   /// An array of custom recipe names to be run following a <code>undeploy</code>
   /// event.
-  @_s.JsonKey(name: 'Undeploy')
-  final List<String> undeploy;
+  final List<String>? undeploy;
 
   Recipes({
     this.configure,
@@ -8160,116 +8723,134 @@ class Recipes {
     this.shutdown,
     this.undeploy,
   });
-  factory Recipes.fromJson(Map<String, dynamic> json) =>
-      _$RecipesFromJson(json);
+  factory Recipes.fromJson(Map<String, dynamic> json) {
+    return Recipes(
+      configure: (json['Configure'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deploy: (json['Deploy'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      setup: (json['Setup'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      shutdown: (json['Shutdown'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      undeploy: (json['Undeploy'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RecipesToJson(this);
+  Map<String, dynamic> toJson() {
+    final configure = this.configure;
+    final deploy = this.deploy;
+    final setup = this.setup;
+    final shutdown = this.shutdown;
+    final undeploy = this.undeploy;
+    return {
+      if (configure != null) 'Configure': configure,
+      if (deploy != null) 'Deploy': deploy,
+      if (setup != null) 'Setup': setup,
+      if (shutdown != null) 'Shutdown': shutdown,
+      if (undeploy != null) 'Undeploy': undeploy,
+    };
+  }
 }
 
 /// Contains the response to a <code>RegisterEcsCluster</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterEcsClusterResult {
   /// The cluster's ARN.
-  @_s.JsonKey(name: 'EcsClusterArn')
-  final String ecsClusterArn;
+  final String? ecsClusterArn;
 
   RegisterEcsClusterResult({
     this.ecsClusterArn,
   });
-  factory RegisterEcsClusterResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterEcsClusterResultFromJson(json);
+  factory RegisterEcsClusterResult.fromJson(Map<String, dynamic> json) {
+    return RegisterEcsClusterResult(
+      ecsClusterArn: json['EcsClusterArn'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>RegisterElasticIp</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterElasticIpResult {
   /// The Elastic IP address.
-  @_s.JsonKey(name: 'ElasticIp')
-  final String elasticIp;
+  final String? elasticIp;
 
   RegisterElasticIpResult({
     this.elasticIp,
   });
-  factory RegisterElasticIpResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterElasticIpResultFromJson(json);
+  factory RegisterElasticIpResult.fromJson(Map<String, dynamic> json) {
+    return RegisterElasticIpResult(
+      elasticIp: json['ElasticIp'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>RegisterInstanceResult</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterInstanceResult {
   /// The registered instance's AWS OpsWorks Stacks ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   RegisterInstanceResult({
     this.instanceId,
   });
-  factory RegisterInstanceResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterInstanceResultFromJson(json);
+  factory RegisterInstanceResult.fromJson(Map<String, dynamic> json) {
+    return RegisterInstanceResult(
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
 }
 
 /// Contains the response to a <code>RegisterVolume</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterVolumeResult {
   /// The volume ID.
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   RegisterVolumeResult({
     this.volumeId,
   });
-  factory RegisterVolumeResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterVolumeResultFromJson(json);
+  factory RegisterVolumeResult.fromJson(Map<String, dynamic> json) {
+    return RegisterVolumeResult(
+      volumeId: json['VolumeId'] as String?,
+    );
+  }
 }
 
 /// A registered instance's reported operating system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReportedOs {
   /// The operating system family.
-  @_s.JsonKey(name: 'Family')
-  final String family;
+  final String? family;
 
   /// The operating system name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The operating system version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   ReportedOs({
     this.family,
     this.name,
     this.version,
   });
-  factory ReportedOs.fromJson(Map<String, dynamic> json) =>
-      _$ReportedOsFromJson(json);
+  factory ReportedOs.fromJson(Map<String, dynamic> json) {
+    return ReportedOs(
+      family: json['Family'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 enum RootDeviceType {
-  @_s.JsonValue('ebs')
   ebs,
-  @_s.JsonValue('instance-store')
   instanceStore,
 }
 
@@ -8281,32 +8862,34 @@ extension on RootDeviceType {
       case RootDeviceType.instanceStore:
         return 'instance-store';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RootDeviceType toRootDeviceType() {
+    switch (this) {
+      case 'ebs':
+        return RootDeviceType.ebs;
+      case 'instance-store':
+        return RootDeviceType.instanceStore;
+    }
+    throw Exception('$this is not known in enum RootDeviceType');
   }
 }
 
 /// Describes a user's SSH information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SelfUserProfile {
   /// The user's IAM ARN.
-  @_s.JsonKey(name: 'IamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   /// The user's name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The user's SSH public key.
-  @_s.JsonKey(name: 'SshPublicKey')
-  final String sshPublicKey;
+  final String? sshPublicKey;
 
   /// The user's SSH user name.
-  @_s.JsonKey(name: 'SshUsername')
-  final String sshUsername;
+  final String? sshUsername;
 
   SelfUserProfile({
     this.iamUserArn,
@@ -8314,40 +8897,35 @@ class SelfUserProfile {
     this.sshPublicKey,
     this.sshUsername,
   });
-  factory SelfUserProfile.fromJson(Map<String, dynamic> json) =>
-      _$SelfUserProfileFromJson(json);
+  factory SelfUserProfile.fromJson(Map<String, dynamic> json) {
+    return SelfUserProfile(
+      iamUserArn: json['IamUserArn'] as String?,
+      name: json['Name'] as String?,
+      sshPublicKey: json['SshPublicKey'] as String?,
+      sshUsername: json['SshUsername'] as String?,
+    );
+  }
 }
 
 /// Describes an AWS OpsWorks Stacks service error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceError {
   /// When the error occurred.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// A message that describes the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The error ID.
-  @_s.JsonKey(name: 'ServiceErrorId')
-  final String serviceErrorId;
+  final String? serviceErrorId;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// The error type.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ServiceError({
     this.createdAt,
@@ -8357,37 +8935,52 @@ class ServiceError {
     this.stackId,
     this.type,
   });
-  factory ServiceError.fromJson(Map<String, dynamic> json) =>
-      _$ServiceErrorFromJson(json);
+  factory ServiceError.fromJson(Map<String, dynamic> json) {
+    return ServiceError(
+      createdAt: json['CreatedAt'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      message: json['Message'] as String?,
+      serviceErrorId: json['ServiceErrorId'] as String?,
+      stackId: json['StackId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
 }
 
 /// The Shutdown event configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ShutdownEventConfiguration {
   /// Whether to enable Elastic Load Balancing connection draining. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/TerminologyandKeyConcepts.html#conn-drain">Connection
   /// Draining</a>
-  @_s.JsonKey(name: 'DelayUntilElbConnectionsDrained')
-  final bool delayUntilElbConnectionsDrained;
+  final bool? delayUntilElbConnectionsDrained;
 
   /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a
   /// Shutdown event before shutting down an instance.
-  @_s.JsonKey(name: 'ExecutionTimeout')
-  final int executionTimeout;
+  final int? executionTimeout;
 
   ShutdownEventConfiguration({
     this.delayUntilElbConnectionsDrained,
     this.executionTimeout,
   });
-  factory ShutdownEventConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ShutdownEventConfigurationFromJson(json);
+  factory ShutdownEventConfiguration.fromJson(Map<String, dynamic> json) {
+    return ShutdownEventConfiguration(
+      delayUntilElbConnectionsDrained:
+          json['DelayUntilElbConnectionsDrained'] as bool?,
+      executionTimeout: json['ExecutionTimeout'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ShutdownEventConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final delayUntilElbConnectionsDrained =
+        this.delayUntilElbConnectionsDrained;
+    final executionTimeout = this.executionTimeout;
+    return {
+      if (delayUntilElbConnectionsDrained != null)
+        'DelayUntilElbConnectionsDrained': delayUntilElbConnectionsDrained,
+      if (executionTimeout != null) 'ExecutionTimeout': executionTimeout,
+    };
+  }
 }
 
 /// Contains the information required to retrieve an app or cookbook from a
@@ -8396,11 +8989,6 @@ class ShutdownEventConfiguration {
 /// Apps</a> or <a
 /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html">Custom
 /// Recipes and Cookbooks</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Source {
   /// When included in a request, the parameter depends on the repository type.
   ///
@@ -8419,31 +9007,26 @@ class Source {
   ///
   /// In responses, AWS OpsWorks Stacks returns <code>*****FILTERED*****</code>
   /// instead of the actual value.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The application's version. AWS OpsWorks Stacks enables you to easily deploy
   /// new versions of an application. One of the simplest approaches is to have
   /// branches or revisions in your repository that represent different versions
   /// that can potentially be deployed.
-  @_s.JsonKey(name: 'Revision')
-  final String revision;
+  final String? revision;
 
   /// In requests, the repository's SSH key.
   ///
   /// In responses, AWS OpsWorks Stacks returns <code>*****FILTERED*****</code>
   /// instead of the actual value.
-  @_s.JsonKey(name: 'SshKey')
-  final String sshKey;
+  final String? sshKey;
 
   /// The repository type.
-  @_s.JsonKey(name: 'Type')
-  final SourceType type;
+  final SourceType? type;
 
   /// The source URL. The following is an example of an Amazon S3 source URL:
   /// <code>https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz</code>.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   /// This parameter depends on the repository type.
   ///
@@ -8457,8 +9040,7 @@ class Source {
   /// <code>Username</code> to the user name.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   Source({
     this.password,
@@ -8468,87 +9050,133 @@ class Source {
     this.url,
     this.username,
   });
-  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      password: json['Password'] as String?,
+      revision: json['Revision'] as String?,
+      sshKey: json['SshKey'] as String?,
+      type: (json['Type'] as String?)?.toSourceType(),
+      url: json['Url'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final revision = this.revision;
+    final sshKey = this.sshKey;
+    final type = this.type;
+    final url = this.url;
+    final username = this.username;
+    return {
+      if (password != null) 'Password': password,
+      if (revision != null) 'Revision': revision,
+      if (sshKey != null) 'SshKey': sshKey,
+      if (type != null) 'Type': type.toValue(),
+      if (url != null) 'Url': url,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 enum SourceType {
-  @_s.JsonValue('git')
   git,
-  @_s.JsonValue('svn')
   svn,
-  @_s.JsonValue('archive')
   archive,
-  @_s.JsonValue('s3')
   s3,
 }
 
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.git:
+        return 'git';
+      case SourceType.svn:
+        return 'svn';
+      case SourceType.archive:
+        return 'archive';
+      case SourceType.s3:
+        return 's3';
+    }
+  }
+}
+
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'git':
+        return SourceType.git;
+      case 'svn':
+        return SourceType.svn;
+      case 'archive':
+        return SourceType.archive;
+      case 's3':
+        return SourceType.s3;
+    }
+    throw Exception('$this is not known in enum SourceType');
+  }
+}
+
 /// Describes an app's SSL configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SslConfiguration {
   /// The contents of the certificate's domain.crt file.
-  @_s.JsonKey(name: 'Certificate')
   final String certificate;
 
   /// The private key; the contents of the certificate's domain.kex file.
-  @_s.JsonKey(name: 'PrivateKey')
   final String privateKey;
 
   /// Optional. Can be used to specify an intermediate certificate authority key
   /// or client authentication.
-  @_s.JsonKey(name: 'Chain')
-  final String chain;
+  final String? chain;
 
   SslConfiguration({
-    @_s.required this.certificate,
-    @_s.required this.privateKey,
+    required this.certificate,
+    required this.privateKey,
     this.chain,
   });
-  factory SslConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SslConfigurationFromJson(json);
+  factory SslConfiguration.fromJson(Map<String, dynamic> json) {
+    return SslConfiguration(
+      certificate: json['Certificate'] as String,
+      privateKey: json['PrivateKey'] as String,
+      chain: json['Chain'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SslConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final privateKey = this.privateKey;
+    final chain = this.chain;
+    return {
+      'Certificate': certificate,
+      'PrivateKey': privateKey,
+      if (chain != null) 'Chain': chain,
+    };
+  }
 }
 
 /// Describes a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Stack {
   /// The agent version. This parameter is set to <code>LATEST</code> for
   /// auto-update. or a version number for a fixed agent version.
-  @_s.JsonKey(name: 'AgentVersion')
-  final String agentVersion;
+  final String? agentVersion;
 
   /// The stack's ARN.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The stack's attributes.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<StackAttributesKeys, String> attributes;
+  final Map<StackAttributesKeys, String>? attributes;
 
   /// A <code>ChefConfiguration</code> object that specifies whether to enable
   /// Berkshelf and the Berkshelf version. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
   /// a New Stack</a>.
-  @_s.JsonKey(name: 'ChefConfiguration')
-  final ChefConfiguration chefConfiguration;
+  final ChefConfiguration? chefConfiguration;
 
   /// The configuration manager.
-  @_s.JsonKey(name: 'ConfigurationManager')
-  final StackConfigurationManager configurationManager;
+  final StackConfigurationManager? configurationManager;
 
   /// The date when the stack was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// Contains the information required to retrieve an app or cookbook from a
   /// repository. For more information, see <a
@@ -8556,8 +9184,7 @@ class Stack {
   /// Apps</a> or <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html">Cookbooks
   /// and Recipes</a>.
-  @_s.JsonKey(name: 'CustomCookbooksSource')
-  final Source customCookbooksSource;
+  final Source? customCookbooksSource;
 
   /// A JSON object that contains user-defined attributes to be added to the stack
   /// configuration and deployment attributes. You can use custom JSON to override
@@ -8569,78 +9196,63 @@ class Stack {
   /// For more information on custom JSON, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
   /// Custom JSON to Modify the Stack Configuration Attributes</a>.
-  @_s.JsonKey(name: 'CustomJson')
-  final String customJson;
+  final String? customJson;
 
   /// The stack's default Availability Zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'DefaultAvailabilityZone')
-  final String defaultAvailabilityZone;
+  final String? defaultAvailabilityZone;
 
   /// The ARN of an IAM profile that is the default profile for all of the stack's
   /// EC2 instances. For more information about IAM ARNs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
   /// Identifiers</a>.
-  @_s.JsonKey(name: 'DefaultInstanceProfileArn')
-  final String defaultInstanceProfileArn;
+  final String? defaultInstanceProfileArn;
 
   /// The stack's default operating system.
-  @_s.JsonKey(name: 'DefaultOs')
-  final String defaultOs;
+  final String? defaultOs;
 
   /// The default root device type. This value is used by default for all
   /// instances in the stack, but you can override it when you create an instance.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
   /// for the Root Device</a>.
-  @_s.JsonKey(name: 'DefaultRootDeviceType')
-  final RootDeviceType defaultRootDeviceType;
+  final RootDeviceType? defaultRootDeviceType;
 
   /// A default Amazon EC2 key pair for the stack's instances. You can override
   /// this value when you create or update an instance.
-  @_s.JsonKey(name: 'DefaultSshKeyName')
-  final String defaultSshKeyName;
+  final String? defaultSshKeyName;
 
   /// The default subnet ID; applicable only if the stack is running in a VPC.
-  @_s.JsonKey(name: 'DefaultSubnetId')
-  final String defaultSubnetId;
+  final String? defaultSubnetId;
 
   /// The stack host name theme, with spaces replaced by underscores.
-  @_s.JsonKey(name: 'HostnameTheme')
-  final String hostnameTheme;
+  final String? hostnameTheme;
 
   /// The stack name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The stack AWS region, such as "ap-northeast-2". For more information about
   /// AWS regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The stack AWS Identity and Access Management (IAM) role.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   /// Whether the stack uses custom cookbooks.
-  @_s.JsonKey(name: 'UseCustomCookbooks')
-  final bool useCustomCookbooks;
+  final bool? useCustomCookbooks;
 
   /// Whether the stack automatically associates the AWS OpsWorks Stacks built-in
   /// security groups with the stack's layers.
-  @_s.JsonKey(name: 'UseOpsworksSecurityGroups')
-  final bool useOpsworksSecurityGroups;
+  final bool? useOpsworksSecurityGroups;
 
   /// The VPC ID; applicable only if the stack is running in a VPC.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   Stack({
     this.agentVersion,
@@ -8666,11 +9278,46 @@ class Stack {
     this.useOpsworksSecurityGroups,
     this.vpcId,
   });
-  factory Stack.fromJson(Map<String, dynamic> json) => _$StackFromJson(json);
+  factory Stack.fromJson(Map<String, dynamic> json) {
+    return Stack(
+      agentVersion: json['AgentVersion'] as String?,
+      arn: json['Arn'] as String?,
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toStackAttributesKeys(), e as String)),
+      chefConfiguration: json['ChefConfiguration'] != null
+          ? ChefConfiguration.fromJson(
+              json['ChefConfiguration'] as Map<String, dynamic>)
+          : null,
+      configurationManager: json['ConfigurationManager'] != null
+          ? StackConfigurationManager.fromJson(
+              json['ConfigurationManager'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['CreatedAt'] as String?,
+      customCookbooksSource: json['CustomCookbooksSource'] != null
+          ? Source.fromJson(
+              json['CustomCookbooksSource'] as Map<String, dynamic>)
+          : null,
+      customJson: json['CustomJson'] as String?,
+      defaultAvailabilityZone: json['DefaultAvailabilityZone'] as String?,
+      defaultInstanceProfileArn: json['DefaultInstanceProfileArn'] as String?,
+      defaultOs: json['DefaultOs'] as String?,
+      defaultRootDeviceType:
+          (json['DefaultRootDeviceType'] as String?)?.toRootDeviceType(),
+      defaultSshKeyName: json['DefaultSshKeyName'] as String?,
+      defaultSubnetId: json['DefaultSubnetId'] as String?,
+      hostnameTheme: json['HostnameTheme'] as String?,
+      name: json['Name'] as String?,
+      region: json['Region'] as String?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      stackId: json['StackId'] as String?,
+      useCustomCookbooks: json['UseCustomCookbooks'] as bool?,
+      useOpsworksSecurityGroups: json['UseOpsworksSecurityGroups'] as bool?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
 }
 
 enum StackAttributesKeys {
-  @_s.JsonValue('Color')
   color,
 }
 
@@ -8680,68 +9327,70 @@ extension on StackAttributesKeys {
       case StackAttributesKeys.color:
         return 'Color';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StackAttributesKeys toStackAttributesKeys() {
+    switch (this) {
+      case 'Color':
+        return StackAttributesKeys.color;
+    }
+    throw Exception('$this is not known in enum StackAttributesKeys');
   }
 }
 
 /// Describes the configuration manager.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StackConfigurationManager {
   /// The name. This parameter must be set to "Chef".
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux
   /// stacks, and to 12.2 for Windows stacks. The default value for Linux stacks
   /// is 11.4.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   StackConfigurationManager({
     this.name,
     this.version,
   });
-  factory StackConfigurationManager.fromJson(Map<String, dynamic> json) =>
-      _$StackConfigurationManagerFromJson(json);
+  factory StackConfigurationManager.fromJson(Map<String, dynamic> json) {
+    return StackConfigurationManager(
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StackConfigurationManagerToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Summarizes the number of layers, instances, and apps in a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StackSummary {
   /// The number of apps.
-  @_s.JsonKey(name: 'AppsCount')
-  final int appsCount;
+  final int? appsCount;
 
   /// The stack's ARN.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// An <code>InstancesCount</code> object with the number of instances in each
   /// status.
-  @_s.JsonKey(name: 'InstancesCount')
-  final InstancesCount instancesCount;
+  final InstancesCount? instancesCount;
 
   /// The number of layers.
-  @_s.JsonKey(name: 'LayersCount')
-  final int layersCount;
+  final int? layersCount;
 
   /// The stack name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The stack ID.
-  @_s.JsonKey(name: 'StackId')
-  final String stackId;
+  final String? stackId;
 
   StackSummary({
     this.appsCount,
@@ -8751,36 +9400,38 @@ class StackSummary {
     this.name,
     this.stackId,
   });
-  factory StackSummary.fromJson(Map<String, dynamic> json) =>
-      _$StackSummaryFromJson(json);
+  factory StackSummary.fromJson(Map<String, dynamic> json) {
+    return StackSummary(
+      appsCount: json['AppsCount'] as int?,
+      arn: json['Arn'] as String?,
+      instancesCount: json['InstancesCount'] != null
+          ? InstancesCount.fromJson(
+              json['InstancesCount'] as Map<String, dynamic>)
+          : null,
+      layersCount: json['LayersCount'] as int?,
+      name: json['Name'] as String?,
+      stackId: json['StackId'] as String?,
+    );
+  }
 }
 
 /// Contains the data needed by RDP clients such as the Microsoft Remote Desktop
 /// Connection to log in to the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TemporaryCredential {
   /// The instance's AWS OpsWorks Stacks ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   /// The length of time (in minutes) that the grant is valid. When the grant
   /// expires, at the end of this period, the user will no longer be able to use
   /// the credentials to log in. If they are logged in at the time, they will be
   /// automatically logged out.
-  @_s.JsonKey(name: 'ValidForInMinutes')
-  final int validForInMinutes;
+  final int? validForInMinutes;
 
   TemporaryCredential({
     this.instanceId,
@@ -8788,63 +9439,59 @@ class TemporaryCredential {
     this.username,
     this.validForInMinutes,
   });
-  factory TemporaryCredential.fromJson(Map<String, dynamic> json) =>
-      _$TemporaryCredentialFromJson(json);
+  factory TemporaryCredential.fromJson(Map<String, dynamic> json) {
+    return TemporaryCredential(
+      instanceId: json['InstanceId'] as String?,
+      password: json['Password'] as String?,
+      username: json['Username'] as String?,
+      validForInMinutes: json['ValidForInMinutes'] as int?,
+    );
+  }
 }
 
 /// Describes an instance's time-based auto scaling configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimeBasedAutoScalingConfiguration {
   /// A <code>WeeklyAutoScalingSchedule</code> object with the instance schedule.
-  @_s.JsonKey(name: 'AutoScalingSchedule')
-  final WeeklyAutoScalingSchedule autoScalingSchedule;
+  final WeeklyAutoScalingSchedule? autoScalingSchedule;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   TimeBasedAutoScalingConfiguration({
     this.autoScalingSchedule,
     this.instanceId,
   });
   factory TimeBasedAutoScalingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$TimeBasedAutoScalingConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return TimeBasedAutoScalingConfiguration(
+      autoScalingSchedule: json['AutoScalingSchedule'] != null
+          ? WeeklyAutoScalingSchedule.fromJson(
+              json['AutoScalingSchedule'] as Map<String, dynamic>)
+          : null,
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
 }
 
 /// Describes a user's SSH information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserProfile {
   /// Whether users can specify their own SSH public key through the My Settings
   /// page. For more information, see <a
   /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html">Managing
   /// User Permissions</a>.
-  @_s.JsonKey(name: 'AllowSelfManagement')
-  final bool allowSelfManagement;
+  final bool? allowSelfManagement;
 
   /// The user's IAM ARN.
-  @_s.JsonKey(name: 'IamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   /// The user's name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The user's SSH public key.
-  @_s.JsonKey(name: 'SshPublicKey')
-  final String sshPublicKey;
+  final String? sshPublicKey;
 
   /// The user's SSH user name.
-  @_s.JsonKey(name: 'SshUsername')
-  final String sshUsername;
+  final String? sshUsername;
 
   UserProfile({
     this.allowSelfManagement,
@@ -8853,83 +9500,93 @@ class UserProfile {
     this.sshPublicKey,
     this.sshUsername,
   });
-  factory UserProfile.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileFromJson(json);
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      allowSelfManagement: json['AllowSelfManagement'] as bool?,
+      iamUserArn: json['IamUserArn'] as String?,
+      name: json['Name'] as String?,
+      sshPublicKey: json['SshPublicKey'] as String?,
+      sshUsername: json['SshUsername'] as String?,
+    );
+  }
 }
 
 enum VirtualizationType {
-  @_s.JsonValue('paravirtual')
   paravirtual,
-  @_s.JsonValue('hvm')
   hvm,
 }
 
+extension on VirtualizationType {
+  String toValue() {
+    switch (this) {
+      case VirtualizationType.paravirtual:
+        return 'paravirtual';
+      case VirtualizationType.hvm:
+        return 'hvm';
+    }
+  }
+}
+
+extension on String {
+  VirtualizationType toVirtualizationType() {
+    switch (this) {
+      case 'paravirtual':
+        return VirtualizationType.paravirtual;
+      case 'hvm':
+        return VirtualizationType.hvm;
+    }
+    throw Exception('$this is not known in enum VirtualizationType');
+  }
+}
+
 /// Describes an instance's Amazon EBS volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Volume {
   /// The volume Availability Zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The device name.
-  @_s.JsonKey(name: 'Device')
-  final String device;
+  final String? device;
 
   /// The Amazon EC2 volume ID.
-  @_s.JsonKey(name: 'Ec2VolumeId')
-  final String ec2VolumeId;
+  final String? ec2VolumeId;
 
   /// Specifies whether an Amazon EBS volume is encrypted. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS Encryption</a>.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// For PIOPS volumes, the IOPS per disk.
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// The volume mount point. For example, "/mnt/disk1".
-  @_s.JsonKey(name: 'MountPoint')
-  final String mountPoint;
+  final String? mountPoint;
 
   /// The volume name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The RAID array ID.
-  @_s.JsonKey(name: 'RaidArrayId')
-  final String raidArrayId;
+  final String? raidArrayId;
 
   /// The AWS region. For more information about AWS regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// Endpoints</a>.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The volume size.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   /// The value returned by <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html">DescribeVolumes</a>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The volume ID.
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   /// The volume type. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">
@@ -8958,8 +9615,7 @@ class Volume {
   /// 500 GiB and a maximum size of 16384 GiB.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   Volume({
     this.availabilityZone,
@@ -8977,43 +9633,49 @@ class Volume {
     this.volumeId,
     this.volumeType,
   });
-  factory Volume.fromJson(Map<String, dynamic> json) => _$VolumeFromJson(json);
+  factory Volume.fromJson(Map<String, dynamic> json) {
+    return Volume(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      device: json['Device'] as String?,
+      ec2VolumeId: json['Ec2VolumeId'] as String?,
+      encrypted: json['Encrypted'] as bool?,
+      instanceId: json['InstanceId'] as String?,
+      iops: json['Iops'] as int?,
+      mountPoint: json['MountPoint'] as String?,
+      name: json['Name'] as String?,
+      raidArrayId: json['RaidArrayId'] as String?,
+      region: json['Region'] as String?,
+      size: json['Size'] as int?,
+      status: json['Status'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeType: json['VolumeType'] as String?,
+    );
+  }
 }
 
 /// Describes an Amazon EBS volume configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VolumeConfiguration {
   /// The volume mount point. For example "/dev/sdh".
-  @_s.JsonKey(name: 'MountPoint')
   final String mountPoint;
 
   /// The number of disks in the volume.
-  @_s.JsonKey(name: 'NumberOfDisks')
   final int numberOfDisks;
 
   /// The volume size.
-  @_s.JsonKey(name: 'Size')
   final int size;
 
   /// Specifies whether an Amazon EBS volume is encrypted. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS Encryption</a>.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// For PIOPS volumes, the IOPS per disk.
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// The volume <a href="http://en.wikipedia.org/wiki/Standard_RAID_levels">RAID
   /// level</a>.
-  @_s.JsonKey(name: 'RaidLevel')
-  final int raidLevel;
+  final int? raidLevel;
 
   /// The volume type. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">
@@ -9042,31 +9704,80 @@ class VolumeConfiguration {
   /// 500 GiB and a maximum size of 16384 GiB.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   VolumeConfiguration({
-    @_s.required this.mountPoint,
-    @_s.required this.numberOfDisks,
-    @_s.required this.size,
+    required this.mountPoint,
+    required this.numberOfDisks,
+    required this.size,
     this.encrypted,
     this.iops,
     this.raidLevel,
     this.volumeType,
   });
-  factory VolumeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$VolumeConfigurationFromJson(json);
+  factory VolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return VolumeConfiguration(
+      mountPoint: json['MountPoint'] as String,
+      numberOfDisks: json['NumberOfDisks'] as int,
+      size: json['Size'] as int,
+      encrypted: json['Encrypted'] as bool?,
+      iops: json['Iops'] as int?,
+      raidLevel: json['RaidLevel'] as int?,
+      volumeType: json['VolumeType'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VolumeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final mountPoint = this.mountPoint;
+    final numberOfDisks = this.numberOfDisks;
+    final size = this.size;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final raidLevel = this.raidLevel;
+    final volumeType = this.volumeType;
+    return {
+      'MountPoint': mountPoint,
+      'NumberOfDisks': numberOfDisks,
+      'Size': size,
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (iops != null) 'Iops': iops,
+      if (raidLevel != null) 'RaidLevel': raidLevel,
+      if (volumeType != null) 'VolumeType': volumeType,
+    };
+  }
 }
 
 enum VolumeType {
-  @_s.JsonValue('gp2')
   gp2,
-  @_s.JsonValue('io1')
   io1,
-  @_s.JsonValue('standard')
   standard,
+}
+
+extension on VolumeType {
+  String toValue() {
+    switch (this) {
+      case VolumeType.gp2:
+        return 'gp2';
+      case VolumeType.io1:
+        return 'io1';
+      case VolumeType.standard:
+        return 'standard';
+    }
+  }
+}
+
+extension on String {
+  VolumeType toVolumeType() {
+    switch (this) {
+      case 'gp2':
+        return VolumeType.gp2;
+      case 'io1':
+        return VolumeType.io1;
+      case 'standard':
+        return VolumeType.standard;
+    }
+    throw Exception('$this is not known in enum VolumeType');
+  }
 }
 
 /// Describes a time-based instance's auto scaling schedule. The schedule
@@ -9090,39 +9801,27 @@ enum VolumeType {
 /// hours, from UTC 1200 - 1600. It will be off for the remainder of the day.
 ///
 /// <code> { "12":"on", "13":"on", "14":"on", "15":"on" } </code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WeeklyAutoScalingSchedule {
   /// The schedule for Friday.
-  @_s.JsonKey(name: 'Friday')
-  final Map<String, String> friday;
+  final Map<String, String>? friday;
 
   /// The schedule for Monday.
-  @_s.JsonKey(name: 'Monday')
-  final Map<String, String> monday;
+  final Map<String, String>? monday;
 
   /// The schedule for Saturday.
-  @_s.JsonKey(name: 'Saturday')
-  final Map<String, String> saturday;
+  final Map<String, String>? saturday;
 
   /// The schedule for Sunday.
-  @_s.JsonKey(name: 'Sunday')
-  final Map<String, String> sunday;
+  final Map<String, String>? sunday;
 
   /// The schedule for Thursday.
-  @_s.JsonKey(name: 'Thursday')
-  final Map<String, String> thursday;
+  final Map<String, String>? thursday;
 
   /// The schedule for Tuesday.
-  @_s.JsonKey(name: 'Tuesday')
-  final Map<String, String> tuesday;
+  final Map<String, String>? tuesday;
 
   /// The schedule for Wednesday.
-  @_s.JsonKey(name: 'Wednesday')
-  final Map<String, String> wednesday;
+  final Map<String, String>? wednesday;
 
   WeeklyAutoScalingSchedule({
     this.friday,
@@ -9133,19 +9832,52 @@ class WeeklyAutoScalingSchedule {
     this.tuesday,
     this.wednesday,
   });
-  factory WeeklyAutoScalingSchedule.fromJson(Map<String, dynamic> json) =>
-      _$WeeklyAutoScalingScheduleFromJson(json);
+  factory WeeklyAutoScalingSchedule.fromJson(Map<String, dynamic> json) {
+    return WeeklyAutoScalingSchedule(
+      friday: (json['Friday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      monday: (json['Monday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      saturday: (json['Saturday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sunday: (json['Sunday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      thursday: (json['Thursday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tuesday: (json['Tuesday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      wednesday: (json['Wednesday'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WeeklyAutoScalingScheduleToJson(this);
+  Map<String, dynamic> toJson() {
+    final friday = this.friday;
+    final monday = this.monday;
+    final saturday = this.saturday;
+    final sunday = this.sunday;
+    final thursday = this.thursday;
+    final tuesday = this.tuesday;
+    final wednesday = this.wednesday;
+    return {
+      if (friday != null) 'Friday': friday,
+      if (monday != null) 'Monday': monday,
+      if (saturday != null) 'Saturday': saturday,
+      if (sunday != null) 'Sunday': sunday,
+      if (thursday != null) 'Thursday': thursday,
+      if (tuesday != null) 'Tuesday': tuesday,
+      if (wednesday != null) 'Wednesday': wednesday,
+    };
+  }
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

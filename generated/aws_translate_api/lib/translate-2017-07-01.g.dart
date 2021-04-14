@@ -8,52 +8,56 @@ part of 'translate-2017-07-01.dart';
 
 AppliedTerminology _$AppliedTerminologyFromJson(Map<String, dynamic> json) {
   return AppliedTerminology(
-    name: json['Name'] as String,
-    terms: (json['Terms'] as List)
-        ?.map(
-            (e) => e == null ? null : Term.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['Name'] as String?,
+    terms: (json['Terms'] as List<dynamic>?)
+        ?.map((e) => Term.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateParallelDataResponse _$CreateParallelDataResponseFromJson(
     Map<String, dynamic> json) {
   return CreateParallelDataResponse(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ParallelDataStatusEnumMap = {
@@ -67,7 +71,7 @@ const _$ParallelDataStatusEnumMap = {
 DeleteParallelDataResponse _$DeleteParallelDataResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteParallelDataResponse(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
   );
 }
@@ -85,23 +89,15 @@ DescribeTextTranslationJobResponse _$DescribeTextTranslationJobResponseFromJson(
 EncryptionKey _$EncryptionKeyFromJson(Map<String, dynamic> json) {
   return EncryptionKey(
     id: json['Id'] as String,
-    type: _$enumDecodeNullable(_$EncryptionKeyTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$EncryptionKeyTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', _$EncryptionKeyTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'Type': _$EncryptionKeyTypeEnumMap[instance.type],
+    };
 
 const _$EncryptionKeyTypeEnumMap = {
   EncryptionKeyType.kms: 'KMS',
@@ -162,62 +158,51 @@ InputDataConfig _$InputDataConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ContentType', instance.contentType);
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) =>
+    <String, dynamic>{
+      'ContentType': instance.contentType,
+      'S3Uri': instance.s3Uri,
+    };
 
 JobDetails _$JobDetailsFromJson(Map<String, dynamic> json) {
   return JobDetails(
-    documentsWithErrorsCount: json['DocumentsWithErrorsCount'] as int,
-    inputDocumentsCount: json['InputDocumentsCount'] as int,
-    translatedDocumentsCount: json['TranslatedDocumentsCount'] as int,
+    documentsWithErrorsCount: json['DocumentsWithErrorsCount'] as int?,
+    inputDocumentsCount: json['InputDocumentsCount'] as int?,
+    translatedDocumentsCount: json['TranslatedDocumentsCount'] as int?,
   );
 }
 
 ListParallelDataResponse _$ListParallelDataResponseFromJson(
     Map<String, dynamic> json) {
   return ListParallelDataResponse(
-    nextToken: json['NextToken'] as String,
-    parallelDataPropertiesList: (json['ParallelDataPropertiesList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParallelDataProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parallelDataPropertiesList: (json['ParallelDataPropertiesList']
+            as List<dynamic>?)
+        ?.map((e) => ParallelDataProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTerminologiesResponse _$ListTerminologiesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTerminologiesResponse(
-    nextToken: json['NextToken'] as String,
-    terminologyPropertiesList: (json['TerminologyPropertiesList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TerminologyProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    terminologyPropertiesList: (json['TerminologyPropertiesList']
+            as List<dynamic>?)
+        ?.map((e) => TerminologyProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTextTranslationJobsResponse _$ListTextTranslationJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTextTranslationJobsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     textTranslationJobPropertiesList: (json['TextTranslationJobPropertiesList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : TextTranslationJobProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            TextTranslationJobProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -227,39 +212,23 @@ OutputDataConfig _$OutputDataConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) =>
+    <String, dynamic>{
+      'S3Uri': instance.s3Uri,
+    };
 
 ParallelDataConfig _$ParallelDataConfigFromJson(Map<String, dynamic> json) {
   return ParallelDataConfig(
-    format: _$enumDecodeNullable(_$ParallelDataFormatEnumMap, json['Format']),
+    format: _$enumDecode(_$ParallelDataFormatEnumMap, json['Format']),
     s3Uri: json['S3Uri'] as String,
   );
 }
 
-Map<String, dynamic> _$ParallelDataConfigToJson(ParallelDataConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Format', _$ParallelDataFormatEnumMap[instance.format]);
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+Map<String, dynamic> _$ParallelDataConfigToJson(ParallelDataConfig instance) =>
+    <String, dynamic>{
+      'Format': _$ParallelDataFormatEnumMap[instance.format],
+      'S3Uri': instance.s3Uri,
+    };
 
 const _$ParallelDataFormatEnumMap = {
   ParallelDataFormat.tsv: 'TSV',
@@ -278,40 +247,40 @@ ParallelDataDataLocation _$ParallelDataDataLocationFromJson(
 ParallelDataProperties _$ParallelDataPropertiesFromJson(
     Map<String, dynamic> json) {
   return ParallelDataProperties(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     encryptionKey: json['EncryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
-    failedRecordCount: json['FailedRecordCount'] as int,
-    importedDataSize: json['ImportedDataSize'] as int,
-    importedRecordCount: json['ImportedRecordCount'] as int,
+    failedRecordCount: json['FailedRecordCount'] as int?,
+    importedDataSize: json['ImportedDataSize'] as int?,
+    importedRecordCount: json['ImportedRecordCount'] as int?,
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     latestUpdateAttemptAt:
         const UnixDateTimeConverter().fromJson(json['LatestUpdateAttemptAt']),
     latestUpdateAttemptStatus: _$enumDecodeNullable(
         _$ParallelDataStatusEnumMap, json['LatestUpdateAttemptStatus']),
-    message: json['Message'] as String,
-    name: json['Name'] as String,
+    message: json['Message'] as String?,
+    name: json['Name'] as String?,
     parallelDataConfig: json['ParallelDataConfig'] == null
         ? null
         : ParallelDataConfig.fromJson(
             json['ParallelDataConfig'] as Map<String, dynamic>),
-    skippedRecordCount: json['SkippedRecordCount'] as int,
-    sourceLanguageCode: json['SourceLanguageCode'] as String,
+    skippedRecordCount: json['SkippedRecordCount'] as int?,
+    sourceLanguageCode: json['SourceLanguageCode'] as String?,
     status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
-    targetLanguageCodes: (json['TargetLanguageCodes'] as List)
+    targetLanguageCodes: (json['TargetLanguageCodes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
   );
 }
 
 StartTextTranslationJobResponse _$StartTextTranslationJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartTextTranslationJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -329,15 +298,15 @@ const _$JobStatusEnumMap = {
 StopTextTranslationJobResponse _$StopTextTranslationJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopTextTranslationJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
 
 Term _$TermFromJson(Map<String, dynamic> json) {
   return Term(
-    sourceText: json['SourceText'] as String,
-    targetText: json['TargetText'] as String,
+    sourceText: json['SourceText'] as String?,
+    targetText: json['TargetText'] as String?,
   );
 }
 
@@ -351,7 +320,7 @@ Map<String, dynamic> _$TerminologyDataToJson(TerminologyData instance) {
   }
 
   writeNotNull('File', const Uint8ListConverter().toJson(instance.file));
-  writeNotNull('Format', _$TerminologyDataFormatEnumMap[instance.format]);
+  val['Format'] = _$TerminologyDataFormatEnumMap[instance.format];
   return val;
 }
 
@@ -371,21 +340,21 @@ TerminologyDataLocation _$TerminologyDataLocationFromJson(
 TerminologyProperties _$TerminologyPropertiesFromJson(
     Map<String, dynamic> json) {
   return TerminologyProperties(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     encryptionKey: json['EncryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
-    name: json['Name'] as String,
-    sizeBytes: json['SizeBytes'] as int,
-    sourceLanguageCode: json['SourceLanguageCode'] as String,
-    targetLanguageCodes: (json['TargetLanguageCodes'] as List)
+    name: json['Name'] as String?,
+    sizeBytes: json['SizeBytes'] as int?,
+    sourceLanguageCode: json['SourceLanguageCode'] as String?,
+    targetLanguageCodes: (json['TargetLanguageCodes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    termCount: json['TermCount'] as int,
+        .toList(),
+    termCount: json['TermCount'] as int?,
   );
 }
 
@@ -411,7 +380,7 @@ Map<String, dynamic> _$TextTranslationJobFilterToJson(
 TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TextTranslationJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -420,24 +389,26 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     jobDetails: json['JobDetails'] == null
         ? null
         : JobDetails.fromJson(json['JobDetails'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    parallelDataNames:
-        (json['ParallelDataNames'] as List)?.map((e) => e as String)?.toList(),
-    sourceLanguageCode: json['SourceLanguageCode'] as String,
+    parallelDataNames: (json['ParallelDataNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    sourceLanguageCode: json['SourceLanguageCode'] as String?,
     submittedTime:
         const UnixDateTimeConverter().fromJson(json['SubmittedTime']),
-    targetLanguageCodes: (json['TargetLanguageCodes'] as List)
+    targetLanguageCodes: (json['TargetLanguageCodes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    terminologyNames:
-        (json['TerminologyNames'] as List)?.map((e) => e as String)?.toList(),
+        .toList(),
+    terminologyNames: (json['TerminologyNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -447,11 +418,9 @@ TranslateTextResponse _$TranslateTextResponseFromJson(
     sourceLanguageCode: json['SourceLanguageCode'] as String,
     targetLanguageCode: json['TargetLanguageCode'] as String,
     translatedText: json['TranslatedText'] as String,
-    appliedTerminologies: (json['AppliedTerminologies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AppliedTerminology.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    appliedTerminologies: (json['AppliedTerminologies'] as List<dynamic>?)
+        ?.map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -462,7 +431,7 @@ UpdateParallelDataResponse _$UpdateParallelDataResponseFromJson(
         const UnixDateTimeConverter().fromJson(json['LatestUpdateAttemptAt']),
     latestUpdateAttemptStatus: _$enumDecodeNullable(
         _$ParallelDataStatusEnumMap, json['LatestUpdateAttemptStatus']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
   );
 }

@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'appsync-2017-07-25.g.dart';
 
 /// AWS AppSync provides API actions for creating and interacting with data
 /// sources using GraphQL from your application.
 class AppSync {
   final _s.RestJsonProtocol _protocol;
   AppSync({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -143,21 +135,21 @@ class AppSync {
   /// Transit encryption flag when connecting to cache. This setting cannot be
   /// updated after creation.
   Future<CreateApiCacheResponse> createApiCache({
-    @_s.required ApiCachingBehavior apiCachingBehavior,
-    @_s.required String apiId,
-    @_s.required int ttl,
-    @_s.required ApiCacheType type,
-    bool atRestEncryptionEnabled,
-    bool transitEncryptionEnabled,
+    required ApiCachingBehavior apiCachingBehavior,
+    required String apiId,
+    required int ttl,
+    required ApiCacheType type,
+    bool? atRestEncryptionEnabled,
+    bool? transitEncryptionEnabled,
   }) async {
     ArgumentError.checkNotNull(apiCachingBehavior, 'apiCachingBehavior');
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue() ?? '',
+      'apiCachingBehavior': apiCachingBehavior.toValue(),
       'ttl': ttl,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (atRestEncryptionEnabled != null)
         'atRestEncryptionEnabled': atRestEncryptionEnabled,
       if (transitEncryptionEnabled != null)
@@ -196,9 +188,9 @@ class AppSync {
   /// The default value for this parameter is 7 days from creation time. For
   /// more information, see .
   Future<CreateApiKeyResponse> createApiKey({
-    @_s.required String apiId,
-    String description,
-    int expires,
+    required String apiId,
+    String? description,
+    int? expires,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
@@ -253,16 +245,16 @@ class AppSync {
   /// The AWS IAM service role ARN for the data source. The system assumes this
   /// role when accessing the data source.
   Future<CreateDataSourceResponse> createDataSource({
-    @_s.required String apiId,
-    @_s.required String name,
-    @_s.required DataSourceType type,
-    String description,
-    DynamodbDataSourceConfig dynamodbConfig,
-    ElasticsearchDataSourceConfig elasticsearchConfig,
-    HttpDataSourceConfig httpConfig,
-    LambdaDataSourceConfig lambdaConfig,
-    RelationalDatabaseDataSourceConfig relationalDatabaseConfig,
-    String serviceRoleArn,
+    required String apiId,
+    required String name,
+    required DataSourceType type,
+    String? description,
+    DynamodbDataSourceConfig? dynamodbConfig,
+    ElasticsearchDataSourceConfig? elasticsearchConfig,
+    HttpDataSourceConfig? httpConfig,
+    LambdaDataSourceConfig? lambdaConfig,
+    RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
+    String? serviceRoleArn,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -282,7 +274,7 @@ class AppSync {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -336,13 +328,13 @@ class AppSync {
   /// Parameter [responseMappingTemplate] :
   /// The <code>Function</code> response mapping template.
   Future<CreateFunctionResponse> createFunction({
-    @_s.required String apiId,
-    @_s.required String dataSourceName,
-    @_s.required String functionVersion,
-    @_s.required String name,
-    String description,
-    String requestMappingTemplate,
-    String responseMappingTemplate,
+    required String apiId,
+    required String dataSourceName,
+    required String functionVersion,
+    required String name,
+    String? description,
+    String? requestMappingTemplate,
+    String? responseMappingTemplate,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
@@ -441,19 +433,19 @@ class AppSync {
   /// A flag indicating whether to enable X-Ray tracing for the
   /// <code>GraphqlApi</code>.
   Future<CreateGraphqlApiResponse> createGraphqlApi({
-    @_s.required AuthenticationType authenticationType,
-    @_s.required String name,
-    List<AdditionalAuthenticationProvider> additionalAuthenticationProviders,
-    LogConfig logConfig,
-    OpenIDConnectConfig openIDConnectConfig,
-    Map<String, String> tags,
-    UserPoolConfig userPoolConfig,
-    bool xrayEnabled,
+    required AuthenticationType authenticationType,
+    required String name,
+    List<AdditionalAuthenticationProvider>? additionalAuthenticationProviders,
+    LogConfig? logConfig,
+    OpenIDConnectConfig? openIDConnectConfig,
+    Map<String, String>? tags,
+    UserPoolConfig? userPoolConfig,
+    bool? xrayEnabled,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'authenticationType': authenticationType?.toValue() ?? '',
+      'authenticationType': authenticationType.toValue(),
       'name': name,
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
@@ -536,16 +528,16 @@ class AppSync {
   /// The <code>SyncConfig</code> for a resolver attached to a versioned
   /// datasource.
   Future<CreateResolverResponse> createResolver({
-    @_s.required String apiId,
-    @_s.required String fieldName,
-    @_s.required String typeName,
-    CachingConfig cachingConfig,
-    String dataSourceName,
-    ResolverKind kind,
-    PipelineConfig pipelineConfig,
-    String requestMappingTemplate,
-    String responseMappingTemplate,
-    SyncConfig syncConfig,
+    required String apiId,
+    required String fieldName,
+    required String typeName,
+    CachingConfig? cachingConfig,
+    String? dataSourceName,
+    ResolverKind? kind,
+    PipelineConfig? pipelineConfig,
+    String? requestMappingTemplate,
+    String? responseMappingTemplate,
+    SyncConfig? syncConfig,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
@@ -641,16 +633,16 @@ class AppSync {
   /// Parameter [format] :
   /// The type format: SDL or JSON.
   Future<CreateTypeResponse> createType({
-    @_s.required String apiId,
-    @_s.required String definition,
-    @_s.required TypeDefinitionFormat format,
+    required String apiId,
+    required String definition,
+    required TypeDefinitionFormat format,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(format, 'format');
     final $payload = <String, dynamic>{
       'definition': definition,
-      'format': format?.toValue() ?? '',
+      'format': format.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -672,7 +664,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID.
   Future<void> deleteApiCache({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -681,7 +673,6 @@ class AppSync {
       requestUri: '/v1/apis/${Uri.encodeComponent(apiId)}/ApiCaches',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApiCacheResponse.fromJson(response);
   }
 
   /// Deletes an API key.
@@ -697,8 +688,8 @@ class AppSync {
   /// Parameter [id] :
   /// The ID for the API key.
   Future<void> deleteApiKey({
-    @_s.required String apiId,
-    @_s.required String id,
+    required String apiId,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
@@ -709,7 +700,6 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId)}/apikeys/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApiKeyResponse.fromJson(response);
   }
 
   /// Deletes a <code>DataSource</code> object.
@@ -726,8 +716,8 @@ class AppSync {
   /// Parameter [name] :
   /// The name of the data source.
   Future<void> deleteDataSource({
-    @_s.required String apiId,
-    @_s.required String name,
+    required String apiId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -751,7 +741,6 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId)}/datasources/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDataSourceResponse.fromJson(response);
   }
 
   /// Deletes a <code>Function</code>.
@@ -767,8 +756,8 @@ class AppSync {
   /// Parameter [functionId] :
   /// The <code>Function</code> ID.
   Future<void> deleteFunction({
-    @_s.required String apiId,
-    @_s.required String functionId,
+    required String apiId,
+    required String functionId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(functionId, 'functionId');
@@ -792,7 +781,6 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId)}/functions/${Uri.encodeComponent(functionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteFunctionResponse.fromJson(response);
   }
 
   /// Deletes a <code>GraphqlApi</code> object.
@@ -807,7 +795,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID.
   Future<void> deleteGraphqlApi({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -816,7 +804,6 @@ class AppSync {
       requestUri: '/v1/apis/${Uri.encodeComponent(apiId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteGraphqlApiResponse.fromJson(response);
   }
 
   /// Deletes a <code>Resolver</code> object.
@@ -835,9 +822,9 @@ class AppSync {
   /// Parameter [typeName] :
   /// The name of the resolver type.
   Future<void> deleteResolver({
-    @_s.required String apiId,
-    @_s.required String fieldName,
-    @_s.required String typeName,
+    required String apiId,
+    required String fieldName,
+    required String typeName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
@@ -875,7 +862,6 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId)}/types/${Uri.encodeComponent(typeName)}/resolvers/${Uri.encodeComponent(fieldName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteResolverResponse.fromJson(response);
   }
 
   /// Deletes a <code>Type</code> object.
@@ -892,8 +878,8 @@ class AppSync {
   /// Parameter [typeName] :
   /// The type name.
   Future<void> deleteType({
-    @_s.required String apiId,
-    @_s.required String typeName,
+    required String apiId,
+    required String typeName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(typeName, 'typeName');
@@ -917,7 +903,6 @@ class AppSync {
           '/v1/apis/${Uri.encodeComponent(apiId)}/types/${Uri.encodeComponent(typeName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteTypeResponse.fromJson(response);
   }
 
   /// Flushes an <code>ApiCache</code> object.
@@ -931,7 +916,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID.
   Future<void> flushApiCache({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -940,7 +925,6 @@ class AppSync {
       requestUri: '/v1/apis/${Uri.encodeComponent(apiId)}/FlushCache',
       exceptionFnMap: _exceptionFns,
     );
-    return FlushApiCacheResponse.fromJson(response);
   }
 
   /// Retrieves an <code>ApiCache</code> object.
@@ -954,7 +938,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID.
   Future<GetApiCacheResponse> getApiCache({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -980,8 +964,8 @@ class AppSync {
   /// Parameter [name] :
   /// The name of the data source.
   Future<GetDataSourceResponse> getDataSource({
-    @_s.required String apiId,
-    @_s.required String name,
+    required String apiId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -1020,8 +1004,8 @@ class AppSync {
   /// Parameter [functionId] :
   /// The <code>Function</code> ID.
   Future<GetFunctionResponse> getFunction({
-    @_s.required String apiId,
-    @_s.required String functionId,
+    required String apiId,
+    required String functionId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(functionId, 'functionId');
@@ -1059,7 +1043,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID for the GraphQL API.
   Future<GetGraphqlApiResponse> getGraphqlApi({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -1088,14 +1072,14 @@ class AppSync {
   /// A flag that specifies whether the schema introspection should contain
   /// directives.
   Future<GetIntrospectionSchemaResponse> getIntrospectionSchema({
-    @_s.required String apiId,
-    @_s.required OutputType format,
-    bool includeDirectives,
+    required String apiId,
+    required OutputType format,
+    bool? includeDirectives,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
     final $query = <String, List<String>>{
-      if (format != null) 'format': [format.toValue()],
+      'format': [format.toValue()],
       if (includeDirectives != null)
         'includeDirectives': [includeDirectives.toString()],
     };
@@ -1126,9 +1110,9 @@ class AppSync {
   /// Parameter [typeName] :
   /// The resolver type name.
   Future<GetResolverResponse> getResolver({
-    @_s.required String apiId,
-    @_s.required String fieldName,
-    @_s.required String typeName,
+    required String apiId,
+    required String fieldName,
+    required String typeName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
@@ -1179,7 +1163,7 @@ class AppSync {
   /// Parameter [apiId] :
   /// The API ID.
   Future<GetSchemaCreationStatusResponse> getSchemaCreationStatus({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -1208,9 +1192,9 @@ class AppSync {
   /// Parameter [typeName] :
   /// The type name.
   Future<GetTypeResponse> getType({
-    @_s.required String apiId,
-    @_s.required TypeDefinitionFormat format,
-    @_s.required String typeName,
+    required String apiId,
+    required TypeDefinitionFormat format,
+    required String typeName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
@@ -1229,7 +1213,7 @@ class AppSync {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (format != null) 'format': [format.toValue()],
+      'format': [format.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1265,9 +1249,9 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListApiKeysResponse> listApiKeys({
-    @_s.required String apiId,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
@@ -1318,9 +1302,9 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListDataSourcesResponse> listDataSources({
-    @_s.required String apiId,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
@@ -1371,9 +1355,9 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListFunctionsResponse> listFunctions({
-    @_s.required String apiId,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
@@ -1420,8 +1404,8 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListGraphqlApisResponse> listGraphqlApis({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1474,10 +1458,10 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListResolversResponse> listResolvers({
-    @_s.required String apiId,
-    @_s.required String typeName,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    required String typeName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(typeName, 'typeName');
@@ -1533,10 +1517,10 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which you can use to return the next set of items in the list.
   Future<ListResolversByFunctionResponse> listResolversByFunction({
-    @_s.required String apiId,
-    @_s.required String functionId,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    required String functionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(functionId, 'functionId');
@@ -1584,7 +1568,7 @@ class AppSync {
   /// Parameter [resourceArn] :
   /// The <code>GraphqlApi</code> ARN.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1630,10 +1614,10 @@ class AppSync {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListTypesResponse> listTypes({
-    @_s.required String apiId,
-    @_s.required TypeDefinitionFormat format,
-    int maxResults,
-    String nextToken,
+    required String apiId,
+    required TypeDefinitionFormat format,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
@@ -1655,7 +1639,7 @@ class AppSync {
       r'''[\\S]+''',
     );
     final $query = <String, List<String>>{
-      if (format != null) 'format': [format.toValue()],
+      'format': [format.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1685,13 +1669,13 @@ class AppSync {
   /// Parameter [definition] :
   /// The schema definition, in GraphQL schema language format.
   Future<StartSchemaCreationResponse> startSchemaCreation({
-    @_s.required String apiId,
-    @_s.required Uint8List definition,
+    required String apiId,
+    required Uint8List definition,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     final $payload = <String, dynamic>{
-      'definition': definition?.let(base64Encode),
+      'definition': base64Encode(definition),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1717,8 +1701,8 @@ class AppSync {
   /// Parameter [tags] :
   /// A <code>TagMap</code> object.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1744,7 +1728,6 @@ class AppSync {
       requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Untags a resource.
@@ -1762,8 +1745,8 @@ class AppSync {
   /// Parameter [tagKeys] :
   /// A list of <code>TagKey</code> objects.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1781,7 +1764,7 @@ class AppSync {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1790,7 +1773,6 @@ class AppSync {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the cache for the GraphQL API.
@@ -1882,19 +1864,19 @@ class AppSync {
   /// </li>
   /// </ul>
   Future<UpdateApiCacheResponse> updateApiCache({
-    @_s.required ApiCachingBehavior apiCachingBehavior,
-    @_s.required String apiId,
-    @_s.required int ttl,
-    @_s.required ApiCacheType type,
+    required ApiCachingBehavior apiCachingBehavior,
+    required String apiId,
+    required int ttl,
+    required ApiCacheType type,
   }) async {
     ArgumentError.checkNotNull(apiCachingBehavior, 'apiCachingBehavior');
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue() ?? '',
+      'apiCachingBehavior': apiCachingBehavior.toValue(),
       'ttl': ttl,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1927,10 +1909,10 @@ class AppSync {
   /// The time from update time after which the API key expires. The date is
   /// represented as seconds since the epoch. For more information, see .
   Future<UpdateApiKeyResponse> updateApiKey({
-    @_s.required String apiId,
-    @_s.required String id,
-    String description,
-    int expires,
+    required String apiId,
+    required String id,
+    String? description,
+    int? expires,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
@@ -1986,16 +1968,16 @@ class AppSync {
   /// Parameter [serviceRoleArn] :
   /// The new service role ARN for the data source.
   Future<UpdateDataSourceResponse> updateDataSource({
-    @_s.required String apiId,
-    @_s.required String name,
-    @_s.required DataSourceType type,
-    String description,
-    DynamodbDataSourceConfig dynamodbConfig,
-    ElasticsearchDataSourceConfig elasticsearchConfig,
-    HttpDataSourceConfig httpConfig,
-    LambdaDataSourceConfig lambdaConfig,
-    RelationalDatabaseDataSourceConfig relationalDatabaseConfig,
-    String serviceRoleArn,
+    required String apiId,
+    required String name,
+    required DataSourceType type,
+    String? description,
+    DynamodbDataSourceConfig? dynamodbConfig,
+    ElasticsearchDataSourceConfig? elasticsearchConfig,
+    HttpDataSourceConfig? httpConfig,
+    LambdaDataSourceConfig? lambdaConfig,
+    RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
+    String? serviceRoleArn,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -2014,7 +1996,7 @@ class AppSync {
     );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -2068,14 +2050,14 @@ class AppSync {
   /// Parameter [responseMappingTemplate] :
   /// The <code>Function</code> request mapping template.
   Future<UpdateFunctionResponse> updateFunction({
-    @_s.required String apiId,
-    @_s.required String dataSourceName,
-    @_s.required String functionId,
-    @_s.required String functionVersion,
-    @_s.required String name,
-    String description,
-    String requestMappingTemplate,
-    String responseMappingTemplate,
+    required String apiId,
+    required String dataSourceName,
+    required String functionId,
+    required String functionVersion,
+    required String name,
+    String? description,
+    String? requestMappingTemplate,
+    String? responseMappingTemplate,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
@@ -2190,14 +2172,14 @@ class AppSync {
   /// A flag indicating whether to enable X-Ray tracing for the
   /// <code>GraphqlApi</code>.
   Future<UpdateGraphqlApiResponse> updateGraphqlApi({
-    @_s.required String apiId,
-    @_s.required String name,
-    List<AdditionalAuthenticationProvider> additionalAuthenticationProviders,
-    AuthenticationType authenticationType,
-    LogConfig logConfig,
-    OpenIDConnectConfig openIDConnectConfig,
-    UserPoolConfig userPoolConfig,
-    bool xrayEnabled,
+    required String apiId,
+    required String name,
+    List<AdditionalAuthenticationProvider>? additionalAuthenticationProviders,
+    AuthenticationType? authenticationType,
+    LogConfig? logConfig,
+    OpenIDConnectConfig? openIDConnectConfig,
+    UserPoolConfig? userPoolConfig,
+    bool? xrayEnabled,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -2282,16 +2264,16 @@ class AppSync {
   /// The <code>SyncConfig</code> for a resolver attached to a versioned
   /// datasource.
   Future<UpdateResolverResponse> updateResolver({
-    @_s.required String apiId,
-    @_s.required String fieldName,
-    @_s.required String typeName,
-    CachingConfig cachingConfig,
-    String dataSourceName,
-    ResolverKind kind,
-    PipelineConfig pipelineConfig,
-    String requestMappingTemplate,
-    String responseMappingTemplate,
-    SyncConfig syncConfig,
+    required String apiId,
+    required String fieldName,
+    required String typeName,
+    CachingConfig? cachingConfig,
+    String? dataSourceName,
+    ResolverKind? kind,
+    PipelineConfig? pipelineConfig,
+    String? requestMappingTemplate,
+    String? responseMappingTemplate,
+    SyncConfig? syncConfig,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
@@ -2386,10 +2368,10 @@ class AppSync {
   /// Parameter [definition] :
   /// The new definition.
   Future<UpdateTypeResponse> updateType({
-    @_s.required String apiId,
-    @_s.required TypeDefinitionFormat format,
-    @_s.required String typeName,
-    String definition,
+    required String apiId,
+    required TypeDefinitionFormat format,
+    required String typeName,
+    String? definition,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
@@ -2408,7 +2390,7 @@ class AppSync {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'format': format?.toValue() ?? '',
+      'format': format.toValue(),
       if (definition != null) 'definition': definition,
     };
     final response = await _protocol.send(
@@ -2423,44 +2405,52 @@ class AppSync {
 }
 
 /// Describes an additional authentication provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdditionalAuthenticationProvider {
   /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user
   /// pools.
-  @_s.JsonKey(name: 'authenticationType')
-  final AuthenticationType authenticationType;
+  final AuthenticationType? authenticationType;
 
   /// The OpenID Connect configuration.
-  @_s.JsonKey(name: 'openIDConnectConfig')
-  final OpenIDConnectConfig openIDConnectConfig;
+  final OpenIDConnectConfig? openIDConnectConfig;
 
   /// The Amazon Cognito user pool configuration.
-  @_s.JsonKey(name: 'userPoolConfig')
-  final CognitoUserPoolConfig userPoolConfig;
+  final CognitoUserPoolConfig? userPoolConfig;
 
   AdditionalAuthenticationProvider({
     this.authenticationType,
     this.openIDConnectConfig,
     this.userPoolConfig,
   });
-  factory AdditionalAuthenticationProvider.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdditionalAuthenticationProviderFromJson(json);
+  factory AdditionalAuthenticationProvider.fromJson(Map<String, dynamic> json) {
+    return AdditionalAuthenticationProvider(
+      authenticationType:
+          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      openIDConnectConfig: json['openIDConnectConfig'] != null
+          ? OpenIDConnectConfig.fromJson(
+              json['openIDConnectConfig'] as Map<String, dynamic>)
+          : null,
+      userPoolConfig: json['userPoolConfig'] != null
+          ? CognitoUserPoolConfig.fromJson(
+              json['userPoolConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$AdditionalAuthenticationProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final openIDConnectConfig = this.openIDConnectConfig;
+    final userPoolConfig = this.userPoolConfig;
+    return {
+      if (authenticationType != null)
+        'authenticationType': authenticationType.toValue(),
+      if (openIDConnectConfig != null)
+        'openIDConnectConfig': openIDConnectConfig,
+      if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
+    };
+  }
 }
 
 /// The <code>ApiCache</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApiCache {
   /// Caching behavior.
   ///
@@ -2473,13 +2463,11 @@ class ApiCache {
   /// cached.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'apiCachingBehavior')
-  final ApiCachingBehavior apiCachingBehavior;
+  final ApiCachingBehavior? apiCachingBehavior;
 
   /// At rest encryption flag for cache. This setting cannot be updated after
   /// creation.
-  @_s.JsonKey(name: 'atRestEncryptionEnabled')
-  final bool atRestEncryptionEnabled;
+  final bool? atRestEncryptionEnabled;
 
   /// The cache instance status.
   ///
@@ -2500,19 +2488,16 @@ class ApiCache {
   /// <b>FAILED</b>: The instance has failed creation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ApiCacheStatus status;
+  final ApiCacheStatus? status;
 
   /// Transit encryption flag when connecting to cache. This setting cannot be
   /// updated after creation.
-  @_s.JsonKey(name: 'transitEncryptionEnabled')
-  final bool transitEncryptionEnabled;
+  final bool? transitEncryptionEnabled;
 
   /// TTL in seconds for cache entries.
   ///
   /// Valid values are between 1 and 3600 seconds.
-  @_s.JsonKey(name: 'ttl')
-  final int ttl;
+  final int? ttl;
 
   /// The cache instance type. Valid values are
   ///
@@ -2572,8 +2557,7 @@ class ApiCache {
   /// <b>R4_8XLARGE</b>: A r4.8xlarge instance type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final ApiCacheType type;
+  final ApiCacheType? type;
 
   ApiCache({
     this.apiCachingBehavior,
@@ -2583,53 +2567,77 @@ class ApiCache {
     this.ttl,
     this.type,
   });
-  factory ApiCache.fromJson(Map<String, dynamic> json) =>
-      _$ApiCacheFromJson(json);
+  factory ApiCache.fromJson(Map<String, dynamic> json) {
+    return ApiCache(
+      apiCachingBehavior:
+          (json['apiCachingBehavior'] as String?)?.toApiCachingBehavior(),
+      atRestEncryptionEnabled: json['atRestEncryptionEnabled'] as bool?,
+      status: (json['status'] as String?)?.toApiCacheStatus(),
+      transitEncryptionEnabled: json['transitEncryptionEnabled'] as bool?,
+      ttl: json['ttl'] as int?,
+      type: (json['type'] as String?)?.toApiCacheType(),
+    );
+  }
 }
 
 enum ApiCacheStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('MODIFYING')
   modifying,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ApiCacheStatus {
+  String toValue() {
+    switch (this) {
+      case ApiCacheStatus.available:
+        return 'AVAILABLE';
+      case ApiCacheStatus.creating:
+        return 'CREATING';
+      case ApiCacheStatus.deleting:
+        return 'DELETING';
+      case ApiCacheStatus.modifying:
+        return 'MODIFYING';
+      case ApiCacheStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ApiCacheStatus toApiCacheStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return ApiCacheStatus.available;
+      case 'CREATING':
+        return ApiCacheStatus.creating;
+      case 'DELETING':
+        return ApiCacheStatus.deleting;
+      case 'MODIFYING':
+        return ApiCacheStatus.modifying;
+      case 'FAILED':
+        return ApiCacheStatus.failed;
+    }
+    throw Exception('$this is not known in enum ApiCacheStatus');
+  }
+}
+
 enum ApiCacheType {
-  @_s.JsonValue('T2_SMALL')
   t2Small,
-  @_s.JsonValue('T2_MEDIUM')
   t2Medium,
-  @_s.JsonValue('R4_LARGE')
   r4Large,
-  @_s.JsonValue('R4_XLARGE')
   r4Xlarge,
-  @_s.JsonValue('R4_2XLARGE')
   r4_2xlarge,
-  @_s.JsonValue('R4_4XLARGE')
   r4_4xlarge,
-  @_s.JsonValue('R4_8XLARGE')
   r4_8xlarge,
-  @_s.JsonValue('SMALL')
   small,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LARGE')
   large,
-  @_s.JsonValue('XLARGE')
   xlarge,
-  @_s.JsonValue('LARGE_2X')
   large_2x,
-  @_s.JsonValue('LARGE_4X')
   large_4x,
-  @_s.JsonValue('LARGE_8X')
   large_8x,
-  @_s.JsonValue('LARGE_12X')
   large_12x,
 }
 
@@ -2667,14 +2675,49 @@ extension on ApiCacheType {
       case ApiCacheType.large_12x:
         return 'LARGE_12X';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ApiCacheType toApiCacheType() {
+    switch (this) {
+      case 'T2_SMALL':
+        return ApiCacheType.t2Small;
+      case 'T2_MEDIUM':
+        return ApiCacheType.t2Medium;
+      case 'R4_LARGE':
+        return ApiCacheType.r4Large;
+      case 'R4_XLARGE':
+        return ApiCacheType.r4Xlarge;
+      case 'R4_2XLARGE':
+        return ApiCacheType.r4_2xlarge;
+      case 'R4_4XLARGE':
+        return ApiCacheType.r4_4xlarge;
+      case 'R4_8XLARGE':
+        return ApiCacheType.r4_8xlarge;
+      case 'SMALL':
+        return ApiCacheType.small;
+      case 'MEDIUM':
+        return ApiCacheType.medium;
+      case 'LARGE':
+        return ApiCacheType.large;
+      case 'XLARGE':
+        return ApiCacheType.xlarge;
+      case 'LARGE_2X':
+        return ApiCacheType.large_2x;
+      case 'LARGE_4X':
+        return ApiCacheType.large_4x;
+      case 'LARGE_8X':
+        return ApiCacheType.large_8x;
+      case 'LARGE_12X':
+        return ApiCacheType.large_12x;
+    }
+    throw Exception('$this is not known in enum ApiCacheType');
   }
 }
 
 enum ApiCachingBehavior {
-  @_s.JsonValue('FULL_REQUEST_CACHING')
   fullRequestCaching,
-  @_s.JsonValue('PER_RESOLVER_CACHING')
   perResolverCaching,
 }
 
@@ -2686,7 +2729,18 @@ extension on ApiCachingBehavior {
       case ApiCachingBehavior.perResolverCaching:
         return 'PER_RESOLVER_CACHING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ApiCachingBehavior toApiCachingBehavior() {
+    switch (this) {
+      case 'FULL_REQUEST_CACHING':
+        return ApiCachingBehavior.fullRequestCaching;
+      case 'PER_RESOLVER_CACHING':
+        return ApiCachingBehavior.perResolverCaching;
+    }
+    throw Exception('$this is not known in enum ApiCachingBehavior');
   }
 }
 
@@ -2751,29 +2805,20 @@ extension on ApiCachingBehavior {
 /// after deletion time.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApiKey {
   /// The time after which the API key is deleted. The date is represented as
   /// seconds since the epoch, rounded down to the nearest hour.
-  @_s.JsonKey(name: 'deletes')
-  final int deletes;
+  final int? deletes;
 
   /// A description of the purpose of the API key.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The time after which the API key expires. The date is represented as seconds
   /// since the epoch, rounded down to the nearest hour.
-  @_s.JsonKey(name: 'expires')
-  final int expires;
+  final int? expires;
 
   /// The API key ID.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   ApiKey({
     this.deletes,
@@ -2781,17 +2826,20 @@ class ApiKey {
     this.expires,
     this.id,
   });
-  factory ApiKey.fromJson(Map<String, dynamic> json) => _$ApiKeyFromJson(json);
+  factory ApiKey.fromJson(Map<String, dynamic> json) {
+    return ApiKey(
+      deletes: json['deletes'] as int?,
+      description: json['description'] as String?,
+      expires: json['expires'] as int?,
+      id: json['id'] as String?,
+    );
+  }
 }
 
 enum AuthenticationType {
-  @_s.JsonValue('API_KEY')
   apiKey,
-  @_s.JsonValue('AWS_IAM')
   awsIam,
-  @_s.JsonValue('AMAZON_COGNITO_USER_POOLS')
   amazonCognitoUserPools,
-  @_s.JsonValue('OPENID_CONNECT')
   openidConnect,
 }
 
@@ -2807,16 +2855,26 @@ extension on AuthenticationType {
       case AuthenticationType.openidConnect:
         return 'OPENID_CONNECT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthenticationType toAuthenticationType() {
+    switch (this) {
+      case 'API_KEY':
+        return AuthenticationType.apiKey;
+      case 'AWS_IAM':
+        return AuthenticationType.awsIam;
+      case 'AMAZON_COGNITO_USER_POOLS':
+        return AuthenticationType.amazonCognitoUserPools;
+      case 'OPENID_CONNECT':
+        return AuthenticationType.openidConnect;
+    }
+    throw Exception('$this is not known in enum AuthenticationType');
   }
 }
 
 /// The authorization config in case the HTTP endpoint requires authorization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuthorizationConfig {
   /// The authorization type required by the HTTP endpoint.
   ///
@@ -2825,295 +2883,370 @@ class AuthorizationConfig {
   /// <b>AWS_IAM</b>: The authorization type is Sigv4.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'authorizationType')
   final AuthorizationType authorizationType;
 
   /// The AWS IAM settings.
-  @_s.JsonKey(name: 'awsIamConfig')
-  final AwsIamConfig awsIamConfig;
+  final AwsIamConfig? awsIamConfig;
 
   AuthorizationConfig({
-    @_s.required this.authorizationType,
+    required this.authorizationType,
     this.awsIamConfig,
   });
-  factory AuthorizationConfig.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizationConfigFromJson(json);
+  factory AuthorizationConfig.fromJson(Map<String, dynamic> json) {
+    return AuthorizationConfig(
+      authorizationType:
+          (json['authorizationType'] as String).toAuthorizationType(),
+      awsIamConfig: json['awsIamConfig'] != null
+          ? AwsIamConfig.fromJson(json['awsIamConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AuthorizationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final authorizationType = this.authorizationType;
+    final awsIamConfig = this.awsIamConfig;
+    return {
+      'authorizationType': authorizationType.toValue(),
+      if (awsIamConfig != null) 'awsIamConfig': awsIamConfig,
+    };
+  }
 }
 
 enum AuthorizationType {
-  @_s.JsonValue('AWS_IAM')
   awsIam,
 }
 
+extension on AuthorizationType {
+  String toValue() {
+    switch (this) {
+      case AuthorizationType.awsIam:
+        return 'AWS_IAM';
+    }
+  }
+}
+
+extension on String {
+  AuthorizationType toAuthorizationType() {
+    switch (this) {
+      case 'AWS_IAM':
+        return AuthorizationType.awsIam;
+    }
+    throw Exception('$this is not known in enum AuthorizationType');
+  }
+}
+
 /// The AWS IAM configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsIamConfig {
   /// The signing region for AWS IAM authorization.
-  @_s.JsonKey(name: 'signingRegion')
-  final String signingRegion;
+  final String? signingRegion;
 
   /// The signing service name for AWS IAM authorization.
-  @_s.JsonKey(name: 'signingServiceName')
-  final String signingServiceName;
+  final String? signingServiceName;
 
   AwsIamConfig({
     this.signingRegion,
     this.signingServiceName,
   });
-  factory AwsIamConfig.fromJson(Map<String, dynamic> json) =>
-      _$AwsIamConfigFromJson(json);
+  factory AwsIamConfig.fromJson(Map<String, dynamic> json) {
+    return AwsIamConfig(
+      signingRegion: json['signingRegion'] as String?,
+      signingServiceName: json['signingServiceName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AwsIamConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final signingRegion = this.signingRegion;
+    final signingServiceName = this.signingServiceName;
+    return {
+      if (signingRegion != null) 'signingRegion': signingRegion,
+      if (signingServiceName != null) 'signingServiceName': signingServiceName,
+    };
+  }
 }
 
 /// The caching configuration for a resolver that has caching enabled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CachingConfig {
   /// The caching keys for a resolver that has caching enabled.
   ///
   /// Valid values are entries from the <code>$context.arguments</code>,
   /// <code>$context.source</code>, and <code>$context.identity</code> maps.
-  @_s.JsonKey(name: 'cachingKeys')
-  final List<String> cachingKeys;
+  final List<String>? cachingKeys;
 
   /// The TTL in seconds for a resolver that has caching enabled.
   ///
   /// Valid values are between 1 and 3600 seconds.
-  @_s.JsonKey(name: 'ttl')
-  final int ttl;
+  final int? ttl;
 
   CachingConfig({
     this.cachingKeys,
     this.ttl,
   });
-  factory CachingConfig.fromJson(Map<String, dynamic> json) =>
-      _$CachingConfigFromJson(json);
+  factory CachingConfig.fromJson(Map<String, dynamic> json) {
+    return CachingConfig(
+      cachingKeys: (json['cachingKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ttl: json['ttl'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CachingConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final cachingKeys = this.cachingKeys;
+    final ttl = this.ttl;
+    return {
+      if (cachingKeys != null) 'cachingKeys': cachingKeys,
+      if (ttl != null) 'ttl': ttl,
+    };
+  }
 }
 
 /// Describes an Amazon Cognito user pool configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CognitoUserPoolConfig {
   /// The AWS Region in which the user pool was created.
-  @_s.JsonKey(name: 'awsRegion')
   final String awsRegion;
 
   /// The user pool ID.
-  @_s.JsonKey(name: 'userPoolId')
   final String userPoolId;
 
   /// A regular expression for validating the incoming Amazon Cognito user pool
   /// app client ID.
-  @_s.JsonKey(name: 'appIdClientRegex')
-  final String appIdClientRegex;
+  final String? appIdClientRegex;
 
   CognitoUserPoolConfig({
-    @_s.required this.awsRegion,
-    @_s.required this.userPoolId,
+    required this.awsRegion,
+    required this.userPoolId,
     this.appIdClientRegex,
   });
-  factory CognitoUserPoolConfig.fromJson(Map<String, dynamic> json) =>
-      _$CognitoUserPoolConfigFromJson(json);
+  factory CognitoUserPoolConfig.fromJson(Map<String, dynamic> json) {
+    return CognitoUserPoolConfig(
+      awsRegion: json['awsRegion'] as String,
+      userPoolId: json['userPoolId'] as String,
+      appIdClientRegex: json['appIdClientRegex'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CognitoUserPoolConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final userPoolId = this.userPoolId;
+    final appIdClientRegex = this.appIdClientRegex;
+    return {
+      'awsRegion': awsRegion,
+      'userPoolId': userPoolId,
+      if (appIdClientRegex != null) 'appIdClientRegex': appIdClientRegex,
+    };
+  }
 }
 
 enum ConflictDetectionType {
-  @_s.JsonValue('VERSION')
   version,
-  @_s.JsonValue('NONE')
   none,
+}
+
+extension on ConflictDetectionType {
+  String toValue() {
+    switch (this) {
+      case ConflictDetectionType.version:
+        return 'VERSION';
+      case ConflictDetectionType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ConflictDetectionType toConflictDetectionType() {
+    switch (this) {
+      case 'VERSION':
+        return ConflictDetectionType.version;
+      case 'NONE':
+        return ConflictDetectionType.none;
+    }
+    throw Exception('$this is not known in enum ConflictDetectionType');
+  }
 }
 
 enum ConflictHandlerType {
-  @_s.JsonValue('OPTIMISTIC_CONCURRENCY')
   optimisticConcurrency,
-  @_s.JsonValue('LAMBDA')
   lambda,
-  @_s.JsonValue('AUTOMERGE')
   automerge,
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on ConflictHandlerType {
+  String toValue() {
+    switch (this) {
+      case ConflictHandlerType.optimisticConcurrency:
+        return 'OPTIMISTIC_CONCURRENCY';
+      case ConflictHandlerType.lambda:
+        return 'LAMBDA';
+      case ConflictHandlerType.automerge:
+        return 'AUTOMERGE';
+      case ConflictHandlerType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ConflictHandlerType toConflictHandlerType() {
+    switch (this) {
+      case 'OPTIMISTIC_CONCURRENCY':
+        return ConflictHandlerType.optimisticConcurrency;
+      case 'LAMBDA':
+        return ConflictHandlerType.lambda;
+      case 'AUTOMERGE':
+        return ConflictHandlerType.automerge;
+      case 'NONE':
+        return ConflictHandlerType.none;
+    }
+    throw Exception('$this is not known in enum ConflictHandlerType');
+  }
+}
+
 /// Represents the output of a <code>CreateApiCache</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApiCacheResponse {
   /// The <code>ApiCache</code> object.
-  @_s.JsonKey(name: 'apiCache')
-  final ApiCache apiCache;
+  final ApiCache? apiCache;
 
   CreateApiCacheResponse({
     this.apiCache,
   });
-  factory CreateApiCacheResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApiCacheResponseFromJson(json);
+  factory CreateApiCacheResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApiCacheResponse(
+      apiCache: json['apiCache'] != null
+          ? ApiCache.fromJson(json['apiCache'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApiKeyResponse {
   /// The API key.
-  @_s.JsonKey(name: 'apiKey')
-  final ApiKey apiKey;
+  final ApiKey? apiKey;
 
   CreateApiKeyResponse({
     this.apiKey,
   });
-  factory CreateApiKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApiKeyResponseFromJson(json);
+  factory CreateApiKeyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApiKeyResponse(
+      apiKey: json['apiKey'] != null
+          ? ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDataSourceResponse {
   /// The <code>DataSource</code> object.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   CreateDataSourceResponse({
     this.dataSource,
   });
-  factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataSourceResponseFromJson(json);
+  factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataSourceResponse(
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFunctionResponse {
   /// The <code>Function</code> object.
-  @_s.JsonKey(name: 'functionConfiguration')
-  final FunctionConfiguration functionConfiguration;
+  final FunctionConfiguration? functionConfiguration;
 
   CreateFunctionResponse({
     this.functionConfiguration,
   });
-  factory CreateFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFunctionResponseFromJson(json);
+  factory CreateFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFunctionResponse(
+      functionConfiguration: json['functionConfiguration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['functionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGraphqlApiResponse {
   /// The <code>GraphqlApi</code>.
-  @_s.JsonKey(name: 'graphqlApi')
-  final GraphqlApi graphqlApi;
+  final GraphqlApi? graphqlApi;
 
   CreateGraphqlApiResponse({
     this.graphqlApi,
   });
-  factory CreateGraphqlApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGraphqlApiResponseFromJson(json);
+  factory CreateGraphqlApiResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGraphqlApiResponse(
+      graphqlApi: json['graphqlApi'] != null
+          ? GraphqlApi.fromJson(json['graphqlApi'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResolverResponse {
   /// The <code>Resolver</code> object.
-  @_s.JsonKey(name: 'resolver')
-  final Resolver resolver;
+  final Resolver? resolver;
 
   CreateResolverResponse({
     this.resolver,
   });
-  factory CreateResolverResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResolverResponseFromJson(json);
+  factory CreateResolverResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResolverResponse(
+      resolver: json['resolver'] != null
+          ? Resolver.fromJson(json['resolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTypeResponse {
   /// The <code>Type</code> object.
-  @_s.JsonKey(name: 'type')
-  final Type type;
+  final Type? type;
 
   CreateTypeResponse({
     this.type,
   });
-  factory CreateTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTypeResponseFromJson(json);
+  factory CreateTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTypeResponse(
+      type: json['type'] != null
+          ? Type.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSource {
   /// The data source ARN.
-  @_s.JsonKey(name: 'dataSourceArn')
-  final String dataSourceArn;
+  final String? dataSourceArn;
 
   /// The description of the data source.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Amazon DynamoDB settings.
-  @_s.JsonKey(name: 'dynamodbConfig')
-  final DynamodbDataSourceConfig dynamodbConfig;
+  final DynamodbDataSourceConfig? dynamodbConfig;
 
   /// Amazon Elasticsearch Service settings.
-  @_s.JsonKey(name: 'elasticsearchConfig')
-  final ElasticsearchDataSourceConfig elasticsearchConfig;
+  final ElasticsearchDataSourceConfig? elasticsearchConfig;
 
   /// HTTP endpoint settings.
-  @_s.JsonKey(name: 'httpConfig')
-  final HttpDataSourceConfig httpConfig;
+  final HttpDataSourceConfig? httpConfig;
 
   /// AWS Lambda settings.
-  @_s.JsonKey(name: 'lambdaConfig')
-  final LambdaDataSourceConfig lambdaConfig;
+  final LambdaDataSourceConfig? lambdaConfig;
 
   /// The name of the data source.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Relational database settings.
-  @_s.JsonKey(name: 'relationalDatabaseConfig')
-  final RelationalDatabaseDataSourceConfig relationalDatabaseConfig;
+  final RelationalDatabaseDataSourceConfig? relationalDatabaseConfig;
 
   /// The AWS IAM service role ARN for the data source. The system assumes this
   /// role when accessing the data source.
-  @_s.JsonKey(name: 'serviceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The type of the data source.
   ///
@@ -3141,8 +3274,7 @@ class DataSource {
   /// <b>RELATIONAL_DATABASE</b>: The data source is a relational database.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final DataSourceType type;
+  final DataSourceType? type;
 
   DataSource({
     this.dataSourceArn,
@@ -3156,22 +3288,43 @@ class DataSource {
     this.serviceRoleArn,
     this.type,
   });
-  factory DataSource.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceFromJson(json);
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      dataSourceArn: json['dataSourceArn'] as String?,
+      description: json['description'] as String?,
+      dynamodbConfig: json['dynamodbConfig'] != null
+          ? DynamodbDataSourceConfig.fromJson(
+              json['dynamodbConfig'] as Map<String, dynamic>)
+          : null,
+      elasticsearchConfig: json['elasticsearchConfig'] != null
+          ? ElasticsearchDataSourceConfig.fromJson(
+              json['elasticsearchConfig'] as Map<String, dynamic>)
+          : null,
+      httpConfig: json['httpConfig'] != null
+          ? HttpDataSourceConfig.fromJson(
+              json['httpConfig'] as Map<String, dynamic>)
+          : null,
+      lambdaConfig: json['lambdaConfig'] != null
+          ? LambdaDataSourceConfig.fromJson(
+              json['lambdaConfig'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      relationalDatabaseConfig: json['relationalDatabaseConfig'] != null
+          ? RelationalDatabaseDataSourceConfig.fromJson(
+              json['relationalDatabaseConfig'] as Map<String, dynamic>)
+          : null,
+      serviceRoleArn: json['serviceRoleArn'] as String?,
+      type: (json['type'] as String?)?.toDataSourceType(),
+    );
+  }
 }
 
 enum DataSourceType {
-  @_s.JsonValue('AWS_LAMBDA')
   awsLambda,
-  @_s.JsonValue('AMAZON_DYNAMODB')
   amazonDynamodb,
-  @_s.JsonValue('AMAZON_ELASTICSEARCH')
   amazonElasticsearch,
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('HTTP')
   http,
-  @_s.JsonValue('RELATIONAL_DATABASE')
   relationalDatabase,
 }
 
@@ -3191,253 +3344,296 @@ extension on DataSourceType {
       case DataSourceType.relationalDatabase:
         return 'RELATIONAL_DATABASE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSourceType toDataSourceType() {
+    switch (this) {
+      case 'AWS_LAMBDA':
+        return DataSourceType.awsLambda;
+      case 'AMAZON_DYNAMODB':
+        return DataSourceType.amazonDynamodb;
+      case 'AMAZON_ELASTICSEARCH':
+        return DataSourceType.amazonElasticsearch;
+      case 'NONE':
+        return DataSourceType.none;
+      case 'HTTP':
+        return DataSourceType.http;
+      case 'RELATIONAL_DATABASE':
+        return DataSourceType.relationalDatabase;
+    }
+    throw Exception('$this is not known in enum DataSourceType');
   }
 }
 
 enum DefaultAction {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
 }
 
+extension on DefaultAction {
+  String toValue() {
+    switch (this) {
+      case DefaultAction.allow:
+        return 'ALLOW';
+      case DefaultAction.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension on String {
+  DefaultAction toDefaultAction() {
+    switch (this) {
+      case 'ALLOW':
+        return DefaultAction.allow;
+      case 'DENY':
+        return DefaultAction.deny;
+    }
+    throw Exception('$this is not known in enum DefaultAction');
+  }
+}
+
 /// Represents the output of a <code>DeleteApiCache</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApiCacheResponse {
   DeleteApiCacheResponse();
-  factory DeleteApiCacheResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApiCacheResponseFromJson(json);
+  factory DeleteApiCacheResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApiCacheResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApiKeyResponse {
   DeleteApiKeyResponse();
-  factory DeleteApiKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApiKeyResponseFromJson(json);
+  factory DeleteApiKeyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApiKeyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDataSourceResponse {
   DeleteDataSourceResponse();
-  factory DeleteDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDataSourceResponseFromJson(json);
+  factory DeleteDataSourceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDataSourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFunctionResponse {
   DeleteFunctionResponse();
-  factory DeleteFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFunctionResponseFromJson(json);
+  factory DeleteFunctionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFunctionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGraphqlApiResponse {
   DeleteGraphqlApiResponse();
-  factory DeleteGraphqlApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGraphqlApiResponseFromJson(json);
+  factory DeleteGraphqlApiResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGraphqlApiResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResolverResponse {
   DeleteResolverResponse();
-  factory DeleteResolverResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResolverResponseFromJson(json);
+  factory DeleteResolverResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResolverResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTypeResponse {
   DeleteTypeResponse();
-  factory DeleteTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTypeResponseFromJson(json);
+  factory DeleteTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTypeResponse();
+  }
 }
 
 /// Describes a Delta Sync configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeltaSyncConfig {
   /// The number of minutes an Item is stored in the datasource.
-  @_s.JsonKey(name: 'baseTableTTL')
-  final int baseTableTTL;
+  final int? baseTableTTL;
 
   /// The Delta Sync table name.
-  @_s.JsonKey(name: 'deltaSyncTableName')
-  final String deltaSyncTableName;
+  final String? deltaSyncTableName;
 
   /// The number of minutes a Delta Sync log entry is stored in the Delta Sync
   /// table.
-  @_s.JsonKey(name: 'deltaSyncTableTTL')
-  final int deltaSyncTableTTL;
+  final int? deltaSyncTableTTL;
 
   DeltaSyncConfig({
     this.baseTableTTL,
     this.deltaSyncTableName,
     this.deltaSyncTableTTL,
   });
-  factory DeltaSyncConfig.fromJson(Map<String, dynamic> json) =>
-      _$DeltaSyncConfigFromJson(json);
+  factory DeltaSyncConfig.fromJson(Map<String, dynamic> json) {
+    return DeltaSyncConfig(
+      baseTableTTL: json['baseTableTTL'] as int?,
+      deltaSyncTableName: json['deltaSyncTableName'] as String?,
+      deltaSyncTableTTL: json['deltaSyncTableTTL'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeltaSyncConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final baseTableTTL = this.baseTableTTL;
+    final deltaSyncTableName = this.deltaSyncTableName;
+    final deltaSyncTableTTL = this.deltaSyncTableTTL;
+    return {
+      if (baseTableTTL != null) 'baseTableTTL': baseTableTTL,
+      if (deltaSyncTableName != null) 'deltaSyncTableName': deltaSyncTableName,
+      if (deltaSyncTableTTL != null) 'deltaSyncTableTTL': deltaSyncTableTTL,
+    };
+  }
 }
 
 /// Describes an Amazon DynamoDB data source configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamodbDataSourceConfig {
   /// The AWS Region.
-  @_s.JsonKey(name: 'awsRegion')
   final String awsRegion;
 
   /// The table name.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   /// The <code>DeltaSyncConfig</code> for a versioned datasource.
-  @_s.JsonKey(name: 'deltaSyncConfig')
-  final DeltaSyncConfig deltaSyncConfig;
+  final DeltaSyncConfig? deltaSyncConfig;
 
   /// Set to TRUE to use Amazon Cognito credentials with this data source.
-  @_s.JsonKey(name: 'useCallerCredentials')
-  final bool useCallerCredentials;
+  final bool? useCallerCredentials;
 
   /// Set to TRUE to use Conflict Detection and Resolution with this data source.
-  @_s.JsonKey(name: 'versioned')
-  final bool versioned;
+  final bool? versioned;
 
   DynamodbDataSourceConfig({
-    @_s.required this.awsRegion,
-    @_s.required this.tableName,
+    required this.awsRegion,
+    required this.tableName,
     this.deltaSyncConfig,
     this.useCallerCredentials,
     this.versioned,
   });
-  factory DynamodbDataSourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$DynamodbDataSourceConfigFromJson(json);
+  factory DynamodbDataSourceConfig.fromJson(Map<String, dynamic> json) {
+    return DynamodbDataSourceConfig(
+      awsRegion: json['awsRegion'] as String,
+      tableName: json['tableName'] as String,
+      deltaSyncConfig: json['deltaSyncConfig'] != null
+          ? DeltaSyncConfig.fromJson(
+              json['deltaSyncConfig'] as Map<String, dynamic>)
+          : null,
+      useCallerCredentials: json['useCallerCredentials'] as bool?,
+      versioned: json['versioned'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DynamodbDataSourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final tableName = this.tableName;
+    final deltaSyncConfig = this.deltaSyncConfig;
+    final useCallerCredentials = this.useCallerCredentials;
+    final versioned = this.versioned;
+    return {
+      'awsRegion': awsRegion,
+      'tableName': tableName,
+      if (deltaSyncConfig != null) 'deltaSyncConfig': deltaSyncConfig,
+      if (useCallerCredentials != null)
+        'useCallerCredentials': useCallerCredentials,
+      if (versioned != null) 'versioned': versioned,
+    };
+  }
 }
 
 /// Describes an Elasticsearch data source configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchDataSourceConfig {
   /// The AWS Region.
-  @_s.JsonKey(name: 'awsRegion')
   final String awsRegion;
 
   /// The endpoint.
-  @_s.JsonKey(name: 'endpoint')
   final String endpoint;
 
   ElasticsearchDataSourceConfig({
-    @_s.required this.awsRegion,
-    @_s.required this.endpoint,
+    required this.awsRegion,
+    required this.endpoint,
   });
-  factory ElasticsearchDataSourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchDataSourceConfigFromJson(json);
+  factory ElasticsearchDataSourceConfig.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchDataSourceConfig(
+      awsRegion: json['awsRegion'] as String,
+      endpoint: json['endpoint'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ElasticsearchDataSourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final endpoint = this.endpoint;
+    return {
+      'awsRegion': awsRegion,
+      'endpoint': endpoint,
+    };
+  }
 }
 
 enum FieldLogLevel {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('ALL')
   all,
 }
 
+extension on FieldLogLevel {
+  String toValue() {
+    switch (this) {
+      case FieldLogLevel.none:
+        return 'NONE';
+      case FieldLogLevel.error:
+        return 'ERROR';
+      case FieldLogLevel.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  FieldLogLevel toFieldLogLevel() {
+    switch (this) {
+      case 'NONE':
+        return FieldLogLevel.none;
+      case 'ERROR':
+        return FieldLogLevel.error;
+      case 'ALL':
+        return FieldLogLevel.all;
+    }
+    throw Exception('$this is not known in enum FieldLogLevel');
+  }
+}
+
 /// Represents the output of a <code>FlushApiCache</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlushApiCacheResponse {
   FlushApiCacheResponse();
-  factory FlushApiCacheResponse.fromJson(Map<String, dynamic> json) =>
-      _$FlushApiCacheResponseFromJson(json);
+  factory FlushApiCacheResponse.fromJson(Map<String, dynamic> _) {
+    return FlushApiCacheResponse();
+  }
 }
 
 /// A function is a reusable entity. Multiple functions can be used to compose
 /// the resolver logic.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionConfiguration {
   /// The name of the <code>DataSource</code>.
-  @_s.JsonKey(name: 'dataSourceName')
-  final String dataSourceName;
+  final String? dataSourceName;
 
   /// The <code>Function</code> description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ARN of the <code>Function</code> object.
-  @_s.JsonKey(name: 'functionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// A unique ID representing the <code>Function</code> object.
-  @_s.JsonKey(name: 'functionId')
-  final String functionId;
+  final String? functionId;
 
   /// The version of the request mapping template. Currently only the 2018-05-29
   /// version of the template is supported.
-  @_s.JsonKey(name: 'functionVersion')
-  final String functionVersion;
+  final String? functionVersion;
 
   /// The name of the <code>Function</code> object.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The <code>Function</code> request mapping template. Functions support only
   /// the 2018-05-29 version of the request mapping template.
-  @_s.JsonKey(name: 'requestMappingTemplate')
-  final String requestMappingTemplate;
+  final String? requestMappingTemplate;
 
   /// The <code>Function</code> response mapping template.
-  @_s.JsonKey(name: 'responseMappingTemplate')
-  final String responseMappingTemplate;
+  final String? responseMappingTemplate;
 
   FunctionConfiguration({
     this.dataSourceName,
@@ -3449,215 +3645,191 @@ class FunctionConfiguration {
     this.requestMappingTemplate,
     this.responseMappingTemplate,
   });
-  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FunctionConfigurationFromJson(json);
+  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FunctionConfiguration(
+      dataSourceName: json['dataSourceName'] as String?,
+      description: json['description'] as String?,
+      functionArn: json['functionArn'] as String?,
+      functionId: json['functionId'] as String?,
+      functionVersion: json['functionVersion'] as String?,
+      name: json['name'] as String?,
+      requestMappingTemplate: json['requestMappingTemplate'] as String?,
+      responseMappingTemplate: json['responseMappingTemplate'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <code>GetApiCache</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApiCacheResponse {
   /// The <code>ApiCache</code> object.
-  @_s.JsonKey(name: 'apiCache')
-  final ApiCache apiCache;
+  final ApiCache? apiCache;
 
   GetApiCacheResponse({
     this.apiCache,
   });
-  factory GetApiCacheResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApiCacheResponseFromJson(json);
+  factory GetApiCacheResponse.fromJson(Map<String, dynamic> json) {
+    return GetApiCacheResponse(
+      apiCache: json['apiCache'] != null
+          ? ApiCache.fromJson(json['apiCache'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataSourceResponse {
   /// The <code>DataSource</code> object.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   GetDataSourceResponse({
     this.dataSource,
   });
-  factory GetDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDataSourceResponseFromJson(json);
+  factory GetDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataSourceResponse(
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionResponse {
   /// The <code>Function</code> object.
-  @_s.JsonKey(name: 'functionConfiguration')
-  final FunctionConfiguration functionConfiguration;
+  final FunctionConfiguration? functionConfiguration;
 
   GetFunctionResponse({
     this.functionConfiguration,
   });
-  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFunctionResponseFromJson(json);
+  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionResponse(
+      functionConfiguration: json['functionConfiguration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['functionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGraphqlApiResponse {
   /// The <code>GraphqlApi</code> object.
-  @_s.JsonKey(name: 'graphqlApi')
-  final GraphqlApi graphqlApi;
+  final GraphqlApi? graphqlApi;
 
   GetGraphqlApiResponse({
     this.graphqlApi,
   });
-  factory GetGraphqlApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGraphqlApiResponseFromJson(json);
+  factory GetGraphqlApiResponse.fromJson(Map<String, dynamic> json) {
+    return GetGraphqlApiResponse(
+      graphqlApi: json['graphqlApi'] != null
+          ? GraphqlApi.fromJson(json['graphqlApi'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIntrospectionSchemaResponse {
   /// The schema, in GraphQL Schema Definition Language (SDL) format.
   ///
   /// For more information, see the <a
   /// href="http://graphql.org/learn/schema/">GraphQL SDL documentation</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'schema')
-  final Uint8List schema;
+  final Uint8List? schema;
 
   GetIntrospectionSchemaResponse({
     this.schema,
   });
-  factory GetIntrospectionSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIntrospectionSchemaResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverResponse {
   /// The <code>Resolver</code> object.
-  @_s.JsonKey(name: 'resolver')
-  final Resolver resolver;
+  final Resolver? resolver;
 
   GetResolverResponse({
     this.resolver,
   });
-  factory GetResolverResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResolverResponseFromJson(json);
+  factory GetResolverResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverResponse(
+      resolver: json['resolver'] != null
+          ? Resolver.fromJson(json['resolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaCreationStatusResponse {
   /// Detailed information about the status of the schema creation operation.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or
   /// NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
-  @_s.JsonKey(name: 'status')
-  final SchemaStatus status;
+  final SchemaStatus? status;
 
   GetSchemaCreationStatusResponse({
     this.details,
     this.status,
   });
-  factory GetSchemaCreationStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaCreationStatusResponseFromJson(json);
+  factory GetSchemaCreationStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaCreationStatusResponse(
+      details: json['details'] as String?,
+      status: (json['status'] as String?)?.toSchemaStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTypeResponse {
   /// The <code>Type</code> object.
-  @_s.JsonKey(name: 'type')
-  final Type type;
+  final Type? type;
 
   GetTypeResponse({
     this.type,
   });
-  factory GetTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTypeResponseFromJson(json);
+  factory GetTypeResponse.fromJson(Map<String, dynamic> json) {
+    return GetTypeResponse(
+      type: json['type'] != null
+          ? Type.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes a GraphQL API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GraphqlApi {
   /// A list of additional authentication providers for the
   /// <code>GraphqlApi</code> API.
-  @_s.JsonKey(name: 'additionalAuthenticationProviders')
-  final List<AdditionalAuthenticationProvider>
+  final List<AdditionalAuthenticationProvider>?
       additionalAuthenticationProviders;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// The ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The authentication type.
-  @_s.JsonKey(name: 'authenticationType')
-  final AuthenticationType authenticationType;
+  final AuthenticationType? authenticationType;
 
   /// The Amazon CloudWatch Logs configuration.
-  @_s.JsonKey(name: 'logConfig')
-  final LogConfig logConfig;
+  final LogConfig? logConfig;
 
   /// The API name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The OpenID Connect configuration.
-  @_s.JsonKey(name: 'openIDConnectConfig')
-  final OpenIDConnectConfig openIDConnectConfig;
+  final OpenIDConnectConfig? openIDConnectConfig;
 
   /// The tags.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The URIs.
-  @_s.JsonKey(name: 'uris')
-  final Map<String, String> uris;
+  final Map<String, String>? uris;
 
   /// The Amazon Cognito user pool configuration.
-  @_s.JsonKey(name: 'userPoolConfig')
-  final UserPoolConfig userPoolConfig;
+  final UserPoolConfig? userPoolConfig;
 
   /// The ARN of the AWS Web Application Firewall (WAF) ACL associated with this
   /// <code>GraphqlApi</code>, if one exists.
-  @_s.JsonKey(name: 'wafWebAclArn')
-  final String wafWebAclArn;
+  final String? wafWebAclArn;
 
   /// A flag representing whether X-Ray tracing is enabled for this
   /// <code>GraphqlApi</code>.
-  @_s.JsonKey(name: 'xrayEnabled')
-  final bool xrayEnabled;
+  final bool? xrayEnabled;
 
   GraphqlApi({
     this.additionalAuthenticationProviders,
@@ -3673,266 +3845,301 @@ class GraphqlApi {
     this.wafWebAclArn,
     this.xrayEnabled,
   });
-  factory GraphqlApi.fromJson(Map<String, dynamic> json) =>
-      _$GraphqlApiFromJson(json);
+  factory GraphqlApi.fromJson(Map<String, dynamic> json) {
+    return GraphqlApi(
+      additionalAuthenticationProviders:
+          (json['additionalAuthenticationProviders'] as List?)
+              ?.whereNotNull()
+              .map((e) => AdditionalAuthenticationProvider.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      apiId: json['apiId'] as String?,
+      arn: json['arn'] as String?,
+      authenticationType:
+          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      logConfig: json['logConfig'] != null
+          ? LogConfig.fromJson(json['logConfig'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      openIDConnectConfig: json['openIDConnectConfig'] != null
+          ? OpenIDConnectConfig.fromJson(
+              json['openIDConnectConfig'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      uris: (json['uris'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      userPoolConfig: json['userPoolConfig'] != null
+          ? UserPoolConfig.fromJson(
+              json['userPoolConfig'] as Map<String, dynamic>)
+          : null,
+      wafWebAclArn: json['wafWebAclArn'] as String?,
+      xrayEnabled: json['xrayEnabled'] as bool?,
+    );
+  }
 }
 
 /// Describes an HTTP data source configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpDataSourceConfig {
   /// The authorization config in case the HTTP endpoint requires authorization.
-  @_s.JsonKey(name: 'authorizationConfig')
-  final AuthorizationConfig authorizationConfig;
+  final AuthorizationConfig? authorizationConfig;
 
   /// The HTTP URL endpoint. You can either specify the domain name or IP, and
   /// port combination, and the URL scheme must be HTTP or HTTPS. If the port is
   /// not specified, AWS AppSync uses the default port 80 for the HTTP endpoint
   /// and port 443 for HTTPS endpoints.
-  @_s.JsonKey(name: 'endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   HttpDataSourceConfig({
     this.authorizationConfig,
     this.endpoint,
   });
-  factory HttpDataSourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$HttpDataSourceConfigFromJson(json);
+  factory HttpDataSourceConfig.fromJson(Map<String, dynamic> json) {
+    return HttpDataSourceConfig(
+      authorizationConfig: json['authorizationConfig'] != null
+          ? AuthorizationConfig.fromJson(
+              json['authorizationConfig'] as Map<String, dynamic>)
+          : null,
+      endpoint: json['endpoint'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpDataSourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final authorizationConfig = this.authorizationConfig;
+    final endpoint = this.endpoint;
+    return {
+      if (authorizationConfig != null)
+        'authorizationConfig': authorizationConfig,
+      if (endpoint != null) 'endpoint': endpoint,
+    };
+  }
 }
 
 /// The <code>LambdaConflictHandlerConfig</code> object when configuring LAMBDA
 /// as the Conflict Handler.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaConflictHandlerConfig {
   /// The Arn for the Lambda function to use as the Conflict Handler.
-  @_s.JsonKey(name: 'lambdaConflictHandlerArn')
-  final String lambdaConflictHandlerArn;
+  final String? lambdaConflictHandlerArn;
 
   LambdaConflictHandlerConfig({
     this.lambdaConflictHandlerArn,
   });
-  factory LambdaConflictHandlerConfig.fromJson(Map<String, dynamic> json) =>
-      _$LambdaConflictHandlerConfigFromJson(json);
+  factory LambdaConflictHandlerConfig.fromJson(Map<String, dynamic> json) {
+    return LambdaConflictHandlerConfig(
+      lambdaConflictHandlerArn: json['lambdaConflictHandlerArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LambdaConflictHandlerConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final lambdaConflictHandlerArn = this.lambdaConflictHandlerArn;
+    return {
+      if (lambdaConflictHandlerArn != null)
+        'lambdaConflictHandlerArn': lambdaConflictHandlerArn,
+    };
+  }
 }
 
 /// Describes an AWS Lambda data source configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaDataSourceConfig {
   /// The ARN for the Lambda function.
-  @_s.JsonKey(name: 'lambdaFunctionArn')
   final String lambdaFunctionArn;
 
   LambdaDataSourceConfig({
-    @_s.required this.lambdaFunctionArn,
+    required this.lambdaFunctionArn,
   });
-  factory LambdaDataSourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$LambdaDataSourceConfigFromJson(json);
+  factory LambdaDataSourceConfig.fromJson(Map<String, dynamic> json) {
+    return LambdaDataSourceConfig(
+      lambdaFunctionArn: json['lambdaFunctionArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LambdaDataSourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    return {
+      'lambdaFunctionArn': lambdaFunctionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApiKeysResponse {
   /// The <code>ApiKey</code> objects.
-  @_s.JsonKey(name: 'apiKeys')
-  final List<ApiKey> apiKeys;
+  final List<ApiKey>? apiKeys;
 
   /// An identifier to be passed in the next request to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApiKeysResponse({
     this.apiKeys,
     this.nextToken,
   });
-  factory ListApiKeysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApiKeysResponseFromJson(json);
+  factory ListApiKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListApiKeysResponse(
+      apiKeys: (json['apiKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDataSourcesResponse {
   /// The <code>DataSource</code> objects.
-  @_s.JsonKey(name: 'dataSources')
-  final List<DataSource> dataSources;
+  final List<DataSource>? dataSources;
 
   /// An identifier to be passed in the next request to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDataSourcesResponse({
     this.dataSources,
     this.nextToken,
   });
-  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDataSourcesResponseFromJson(json);
+  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourcesResponse(
+      dataSources: (json['dataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionsResponse {
   /// A list of <code>Function</code> objects.
-  @_s.JsonKey(name: 'functions')
-  final List<FunctionConfiguration> functions;
+  final List<FunctionConfiguration>? functions;
 
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFunctionsResponse({
     this.functions,
     this.nextToken,
   });
-  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFunctionsResponseFromJson(json);
+  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionsResponse(
+      functions: (json['functions'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGraphqlApisResponse {
   /// The <code>GraphqlApi</code> objects.
-  @_s.JsonKey(name: 'graphqlApis')
-  final List<GraphqlApi> graphqlApis;
+  final List<GraphqlApi>? graphqlApis;
 
   /// An identifier to be passed in the next request to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGraphqlApisResponse({
     this.graphqlApis,
     this.nextToken,
   });
-  factory ListGraphqlApisResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGraphqlApisResponseFromJson(json);
+  factory ListGraphqlApisResponse.fromJson(Map<String, dynamic> json) {
+    return ListGraphqlApisResponse(
+      graphqlApis: (json['graphqlApis'] as List?)
+          ?.whereNotNull()
+          .map((e) => GraphqlApi.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolversByFunctionResponse {
   /// An identifier that can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of resolvers.
-  @_s.JsonKey(name: 'resolvers')
-  final List<Resolver> resolvers;
+  final List<Resolver>? resolvers;
 
   ListResolversByFunctionResponse({
     this.nextToken,
     this.resolvers,
   });
-  factory ListResolversByFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResolversByFunctionResponseFromJson(json);
+  factory ListResolversByFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return ListResolversByFunctionResponse(
+      nextToken: json['nextToken'] as String?,
+      resolvers: (json['resolvers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resolver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolversResponse {
   /// An identifier to be passed in the next request to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The <code>Resolver</code> objects.
-  @_s.JsonKey(name: 'resolvers')
-  final List<Resolver> resolvers;
+  final List<Resolver>? resolvers;
 
   ListResolversResponse({
     this.nextToken,
     this.resolvers,
   });
-  factory ListResolversResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResolversResponseFromJson(json);
+  factory ListResolversResponse.fromJson(Map<String, dynamic> json) {
+    return ListResolversResponse(
+      nextToken: json['nextToken'] as String?,
+      resolvers: (json['resolvers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resolver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A <code>TagMap</code> object.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTypesResponse {
   /// An identifier to be passed in the next request to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The <code>Type</code> objects.
-  @_s.JsonKey(name: 'types')
-  final List<Type> types;
+  final List<Type>? types;
 
   ListTypesResponse({
     this.nextToken,
     this.types,
   });
-  factory ListTypesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTypesResponseFromJson(json);
+  factory ListTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTypesResponse(
+      nextToken: json['nextToken'] as String?,
+      types: (json['types'] as List?)
+          ?.whereNotNull()
+          .map((e) => Type.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The CloudWatch Logs configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogConfig {
   /// The service role that AWS AppSync will assume to publish to Amazon
   /// CloudWatch logs in your account.
-  @_s.JsonKey(name: 'cloudWatchLogsRoleArn')
   final String cloudWatchLogsRoleArn;
 
   /// The field logging level. Values can be NONE, ERROR, or ALL.
@@ -3968,68 +4175,87 @@ class LogConfig {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'fieldLogLevel')
   final FieldLogLevel fieldLogLevel;
 
   /// Set to TRUE to exclude sections that contain information such as headers,
   /// context, and evaluated mapping templates, regardless of logging level.
-  @_s.JsonKey(name: 'excludeVerboseContent')
-  final bool excludeVerboseContent;
+  final bool? excludeVerboseContent;
 
   LogConfig({
-    @_s.required this.cloudWatchLogsRoleArn,
-    @_s.required this.fieldLogLevel,
+    required this.cloudWatchLogsRoleArn,
+    required this.fieldLogLevel,
     this.excludeVerboseContent,
   });
-  factory LogConfig.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigFromJson(json);
+  factory LogConfig.fromJson(Map<String, dynamic> json) {
+    return LogConfig(
+      cloudWatchLogsRoleArn: json['cloudWatchLogsRoleArn'] as String,
+      fieldLogLevel: (json['fieldLogLevel'] as String).toFieldLogLevel(),
+      excludeVerboseContent: json['excludeVerboseContent'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsRoleArn = this.cloudWatchLogsRoleArn;
+    final fieldLogLevel = this.fieldLogLevel;
+    final excludeVerboseContent = this.excludeVerboseContent;
+    return {
+      'cloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
+      'fieldLogLevel': fieldLogLevel.toValue(),
+      if (excludeVerboseContent != null)
+        'excludeVerboseContent': excludeVerboseContent,
+    };
+  }
 }
 
 /// Describes an OpenID Connect configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OpenIDConnectConfig {
   /// The issuer for the OpenID Connect configuration. The issuer returned by
   /// discovery must exactly match the value of <code>iss</code> in the ID token.
-  @_s.JsonKey(name: 'issuer')
   final String issuer;
 
   /// The number of milliseconds a token is valid after being authenticated.
-  @_s.JsonKey(name: 'authTTL')
-  final int authTTL;
+  final int? authTTL;
 
   /// The client identifier of the Relying party at the OpenID identity provider.
   /// This identifier is typically obtained when the Relying party is registered
   /// with the OpenID identity provider. You can specify a regular expression so
   /// the AWS AppSync can validate against multiple client identifiers at a time.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// The number of milliseconds a token is valid after being issued to a user.
-  @_s.JsonKey(name: 'iatTTL')
-  final int iatTTL;
+  final int? iatTTL;
 
   OpenIDConnectConfig({
-    @_s.required this.issuer,
+    required this.issuer,
     this.authTTL,
     this.clientId,
     this.iatTTL,
   });
-  factory OpenIDConnectConfig.fromJson(Map<String, dynamic> json) =>
-      _$OpenIDConnectConfigFromJson(json);
+  factory OpenIDConnectConfig.fromJson(Map<String, dynamic> json) {
+    return OpenIDConnectConfig(
+      issuer: json['issuer'] as String,
+      authTTL: json['authTTL'] as int?,
+      clientId: json['clientId'] as String?,
+      iatTTL: json['iatTTL'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OpenIDConnectConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final authTTL = this.authTTL;
+    final clientId = this.clientId;
+    final iatTTL = this.iatTTL;
+    return {
+      'issuer': issuer,
+      if (authTTL != null) 'authTTL': authTTL,
+      if (clientId != null) 'clientId': clientId,
+      if (iatTTL != null) 'iatTTL': iatTTL,
+    };
+  }
 }
 
 enum OutputType {
-  @_s.JsonValue('SDL')
   sdl,
-  @_s.JsonValue('JSON')
   json,
 }
 
@@ -4041,56 +4267,62 @@ extension on OutputType {
       case OutputType.json:
         return 'JSON';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OutputType toOutputType() {
+    switch (this) {
+      case 'SDL':
+        return OutputType.sdl;
+      case 'JSON':
+        return OutputType.json;
+    }
+    throw Exception('$this is not known in enum OutputType');
   }
 }
 
 /// The pipeline configuration for a resolver of kind <code>PIPELINE</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PipelineConfig {
   /// A list of <code>Function</code> objects.
-  @_s.JsonKey(name: 'functions')
-  final List<String> functions;
+  final List<String>? functions;
 
   PipelineConfig({
     this.functions,
   });
-  factory PipelineConfig.fromJson(Map<String, dynamic> json) =>
-      _$PipelineConfigFromJson(json);
+  factory PipelineConfig.fromJson(Map<String, dynamic> json) {
+    return PipelineConfig(
+      functions: (json['functions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PipelineConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final functions = this.functions;
+    return {
+      if (functions != null) 'functions': functions,
+    };
+  }
 }
 
 /// The Amazon RDS HTTP endpoint configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RdsHttpEndpointConfig {
   /// AWS Region for RDS HTTP endpoint.
-  @_s.JsonKey(name: 'awsRegion')
-  final String awsRegion;
+  final String? awsRegion;
 
   /// AWS secret store ARN for database credentials.
-  @_s.JsonKey(name: 'awsSecretStoreArn')
-  final String awsSecretStoreArn;
+  final String? awsSecretStoreArn;
 
   /// Logical database name.
-  @_s.JsonKey(name: 'databaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Amazon RDS cluster ARN.
-  @_s.JsonKey(name: 'dbClusterIdentifier')
-  final String dbClusterIdentifier;
+  final String? dbClusterIdentifier;
 
   /// Logical schema name.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   RdsHttpEndpointConfig({
     this.awsRegion,
@@ -4099,22 +4331,37 @@ class RdsHttpEndpointConfig {
     this.dbClusterIdentifier,
     this.schema,
   });
-  factory RdsHttpEndpointConfig.fromJson(Map<String, dynamic> json) =>
-      _$RdsHttpEndpointConfigFromJson(json);
+  factory RdsHttpEndpointConfig.fromJson(Map<String, dynamic> json) {
+    return RdsHttpEndpointConfig(
+      awsRegion: json['awsRegion'] as String?,
+      awsSecretStoreArn: json['awsSecretStoreArn'] as String?,
+      databaseName: json['databaseName'] as String?,
+      dbClusterIdentifier: json['dbClusterIdentifier'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RdsHttpEndpointConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final awsSecretStoreArn = this.awsSecretStoreArn;
+    final databaseName = this.databaseName;
+    final dbClusterIdentifier = this.dbClusterIdentifier;
+    final schema = this.schema;
+    return {
+      if (awsRegion != null) 'awsRegion': awsRegion,
+      if (awsSecretStoreArn != null) 'awsSecretStoreArn': awsSecretStoreArn,
+      if (databaseName != null) 'databaseName': databaseName,
+      if (dbClusterIdentifier != null)
+        'dbClusterIdentifier': dbClusterIdentifier,
+      if (schema != null) 'schema': schema,
+    };
+  }
 }
 
 /// Describes a relational database data source configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RelationalDatabaseDataSourceConfig {
   /// Amazon RDS HTTP endpoint settings.
-  @_s.JsonKey(name: 'rdsHttpEndpointConfig')
-  final RdsHttpEndpointConfig rdsHttpEndpointConfig;
+  final RdsHttpEndpointConfig? rdsHttpEndpointConfig;
 
   /// Source type for the relational database.
   ///
@@ -4124,44 +4371,70 @@ class RelationalDatabaseDataSourceConfig {
   /// RDS HTTP endpoint.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'relationalDatabaseSourceType')
-  final RelationalDatabaseSourceType relationalDatabaseSourceType;
+  final RelationalDatabaseSourceType? relationalDatabaseSourceType;
 
   RelationalDatabaseDataSourceConfig({
     this.rdsHttpEndpointConfig,
     this.relationalDatabaseSourceType,
   });
   factory RelationalDatabaseDataSourceConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$RelationalDatabaseDataSourceConfigFromJson(json);
+      Map<String, dynamic> json) {
+    return RelationalDatabaseDataSourceConfig(
+      rdsHttpEndpointConfig: json['rdsHttpEndpointConfig'] != null
+          ? RdsHttpEndpointConfig.fromJson(
+              json['rdsHttpEndpointConfig'] as Map<String, dynamic>)
+          : null,
+      relationalDatabaseSourceType:
+          (json['relationalDatabaseSourceType'] as String?)
+              ?.toRelationalDatabaseSourceType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$RelationalDatabaseDataSourceConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final rdsHttpEndpointConfig = this.rdsHttpEndpointConfig;
+    final relationalDatabaseSourceType = this.relationalDatabaseSourceType;
+    return {
+      if (rdsHttpEndpointConfig != null)
+        'rdsHttpEndpointConfig': rdsHttpEndpointConfig,
+      if (relationalDatabaseSourceType != null)
+        'relationalDatabaseSourceType': relationalDatabaseSourceType.toValue(),
+    };
+  }
 }
 
 enum RelationalDatabaseSourceType {
-  @_s.JsonValue('RDS_HTTP_ENDPOINT')
   rdsHttpEndpoint,
 }
 
+extension on RelationalDatabaseSourceType {
+  String toValue() {
+    switch (this) {
+      case RelationalDatabaseSourceType.rdsHttpEndpoint:
+        return 'RDS_HTTP_ENDPOINT';
+    }
+  }
+}
+
+extension on String {
+  RelationalDatabaseSourceType toRelationalDatabaseSourceType() {
+    switch (this) {
+      case 'RDS_HTTP_ENDPOINT':
+        return RelationalDatabaseSourceType.rdsHttpEndpoint;
+    }
+    throw Exception('$this is not known in enum RelationalDatabaseSourceType');
+  }
+}
+
 /// Describes a resolver.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resolver {
   /// The caching configuration for the resolver.
-  @_s.JsonKey(name: 'cachingConfig')
-  final CachingConfig cachingConfig;
+  final CachingConfig? cachingConfig;
 
   /// The resolver data source name.
-  @_s.JsonKey(name: 'dataSourceName')
-  final String dataSourceName;
+  final String? dataSourceName;
 
   /// The resolver field name.
-  @_s.JsonKey(name: 'fieldName')
-  final String fieldName;
+  final String? fieldName;
 
   /// The resolver type.
   ///
@@ -4178,33 +4451,26 @@ class Resolver {
   /// sources.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'kind')
-  final ResolverKind kind;
+  final ResolverKind? kind;
 
   /// The <code>PipelineConfig</code>.
-  @_s.JsonKey(name: 'pipelineConfig')
-  final PipelineConfig pipelineConfig;
+  final PipelineConfig? pipelineConfig;
 
   /// The request mapping template.
-  @_s.JsonKey(name: 'requestMappingTemplate')
-  final String requestMappingTemplate;
+  final String? requestMappingTemplate;
 
   /// The resolver ARN.
-  @_s.JsonKey(name: 'resolverArn')
-  final String resolverArn;
+  final String? resolverArn;
 
   /// The response mapping template.
-  @_s.JsonKey(name: 'responseMappingTemplate')
-  final String responseMappingTemplate;
+  final String? responseMappingTemplate;
 
   /// The <code>SyncConfig</code> for a resolver attached to a versioned
   /// datasource.
-  @_s.JsonKey(name: 'syncConfig')
-  final SyncConfig syncConfig;
+  final SyncConfig? syncConfig;
 
   /// The resolver type name.
-  @_s.JsonKey(name: 'typeName')
-  final String typeName;
+  final String? typeName;
 
   Resolver({
     this.cachingConfig,
@@ -4218,14 +4484,32 @@ class Resolver {
     this.syncConfig,
     this.typeName,
   });
-  factory Resolver.fromJson(Map<String, dynamic> json) =>
-      _$ResolverFromJson(json);
+  factory Resolver.fromJson(Map<String, dynamic> json) {
+    return Resolver(
+      cachingConfig: json['cachingConfig'] != null
+          ? CachingConfig.fromJson(
+              json['cachingConfig'] as Map<String, dynamic>)
+          : null,
+      dataSourceName: json['dataSourceName'] as String?,
+      fieldName: json['fieldName'] as String?,
+      kind: (json['kind'] as String?)?.toResolverKind(),
+      pipelineConfig: json['pipelineConfig'] != null
+          ? PipelineConfig.fromJson(
+              json['pipelineConfig'] as Map<String, dynamic>)
+          : null,
+      requestMappingTemplate: json['requestMappingTemplate'] as String?,
+      resolverArn: json['resolverArn'] as String?,
+      responseMappingTemplate: json['responseMappingTemplate'] as String?,
+      syncConfig: json['syncConfig'] != null
+          ? SyncConfig.fromJson(json['syncConfig'] as Map<String, dynamic>)
+          : null,
+      typeName: json['typeName'] as String?,
+    );
+  }
 }
 
 enum ResolverKind {
-  @_s.JsonValue('UNIT')
   unit,
-  @_s.JsonValue('PIPELINE')
   pipeline,
 }
 
@@ -4237,52 +4521,88 @@ extension on ResolverKind {
       case ResolverKind.pipeline:
         return 'PIPELINE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResolverKind toResolverKind() {
+    switch (this) {
+      case 'UNIT':
+        return ResolverKind.unit;
+      case 'PIPELINE':
+        return ResolverKind.pipeline;
+    }
+    throw Exception('$this is not known in enum ResolverKind');
   }
 }
 
 enum SchemaStatus {
-  @_s.JsonValue('PROCESSING')
   processing,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('NOT_APPLICABLE')
   notApplicable,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SchemaStatus {
+  String toValue() {
+    switch (this) {
+      case SchemaStatus.processing:
+        return 'PROCESSING';
+      case SchemaStatus.active:
+        return 'ACTIVE';
+      case SchemaStatus.deleting:
+        return 'DELETING';
+      case SchemaStatus.failed:
+        return 'FAILED';
+      case SchemaStatus.success:
+        return 'SUCCESS';
+      case SchemaStatus.notApplicable:
+        return 'NOT_APPLICABLE';
+    }
+  }
+}
+
+extension on String {
+  SchemaStatus toSchemaStatus() {
+    switch (this) {
+      case 'PROCESSING':
+        return SchemaStatus.processing;
+      case 'ACTIVE':
+        return SchemaStatus.active;
+      case 'DELETING':
+        return SchemaStatus.deleting;
+      case 'FAILED':
+        return SchemaStatus.failed;
+      case 'SUCCESS':
+        return SchemaStatus.success;
+      case 'NOT_APPLICABLE':
+        return SchemaStatus.notApplicable;
+    }
+    throw Exception('$this is not known in enum SchemaStatus');
+  }
+}
+
 class StartSchemaCreationResponse {
   /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or
   /// NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
-  @_s.JsonKey(name: 'status')
-  final SchemaStatus status;
+  final SchemaStatus? status;
 
   StartSchemaCreationResponse({
     this.status,
   });
-  factory StartSchemaCreationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartSchemaCreationResponseFromJson(json);
+  factory StartSchemaCreationResponse.fromJson(Map<String, dynamic> json) {
+    return StartSchemaCreationResponse(
+      status: (json['status'] as String?)?.toSchemaStatus(),
+    );
+  }
 }
 
 /// Describes a Sync configuration for a resolver.
 ///
 /// Contains information on which Conflict Detection as well as Resolution
 /// strategy should be performed when the resolver is invoked.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SyncConfig {
   /// The Conflict Detection strategy to use.
   ///
@@ -4294,8 +4614,7 @@ class SyncConfig {
   /// <b>NONE</b>: Do not detect conflicts when executing this resolver.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'conflictDetection')
-  final ConflictDetectionType conflictDetection;
+  final ConflictDetectionType? conflictDetection;
 
   /// The Conflict Resolution strategy to perform in the event of a conflict.
   ///
@@ -4313,62 +4632,67 @@ class SyncConfig {
   /// LambdaConflictHandlerConfig.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'conflictHandler')
-  final ConflictHandlerType conflictHandler;
+  final ConflictHandlerType? conflictHandler;
 
   /// The <code>LambdaConflictHandlerConfig</code> when configuring LAMBDA as the
   /// Conflict Handler.
-  @_s.JsonKey(name: 'lambdaConflictHandlerConfig')
-  final LambdaConflictHandlerConfig lambdaConflictHandlerConfig;
+  final LambdaConflictHandlerConfig? lambdaConflictHandlerConfig;
 
   SyncConfig({
     this.conflictDetection,
     this.conflictHandler,
     this.lambdaConflictHandlerConfig,
   });
-  factory SyncConfig.fromJson(Map<String, dynamic> json) =>
-      _$SyncConfigFromJson(json);
+  factory SyncConfig.fromJson(Map<String, dynamic> json) {
+    return SyncConfig(
+      conflictDetection:
+          (json['conflictDetection'] as String?)?.toConflictDetectionType(),
+      conflictHandler:
+          (json['conflictHandler'] as String?)?.toConflictHandlerType(),
+      lambdaConflictHandlerConfig: json['lambdaConflictHandlerConfig'] != null
+          ? LambdaConflictHandlerConfig.fromJson(
+              json['lambdaConflictHandlerConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SyncConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final conflictDetection = this.conflictDetection;
+    final conflictHandler = this.conflictHandler;
+    final lambdaConflictHandlerConfig = this.lambdaConflictHandlerConfig;
+    return {
+      if (conflictDetection != null)
+        'conflictDetection': conflictDetection.toValue(),
+      if (conflictHandler != null) 'conflictHandler': conflictHandler.toValue(),
+      if (lambdaConflictHandlerConfig != null)
+        'lambdaConflictHandlerConfig': lambdaConflictHandlerConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Describes a type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Type {
   /// The type ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The type definition.
-  @_s.JsonKey(name: 'definition')
-  final String definition;
+  final String? definition;
 
   /// The type description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The type format: SDL or JSON.
-  @_s.JsonKey(name: 'format')
-  final TypeDefinitionFormat format;
+  final TypeDefinitionFormat? format;
 
   /// The type name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Type({
     this.arn,
@@ -4377,13 +4701,19 @@ class Type {
     this.format,
     this.name,
   });
-  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+  factory Type.fromJson(Map<String, dynamic> json) {
+    return Type(
+      arn: json['arn'] as String?,
+      definition: json['definition'] as String?,
+      description: json['description'] as String?,
+      format: (json['format'] as String?)?.toTypeDefinitionFormat(),
+      name: json['name'] as String?,
+    );
+  }
 }
 
 enum TypeDefinitionFormat {
-  @_s.JsonValue('SDL')
   sdl,
-  @_s.JsonValue('JSON')
   json,
 }
 
@@ -4395,192 +4725,201 @@ extension on TypeDefinitionFormat {
       case TypeDefinitionFormat.json:
         return 'JSON';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TypeDefinitionFormat toTypeDefinitionFormat() {
+    switch (this) {
+      case 'SDL':
+        return TypeDefinitionFormat.sdl;
+      case 'JSON':
+        return TypeDefinitionFormat.json;
+    }
+    throw Exception('$this is not known in enum TypeDefinitionFormat');
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// Represents the output of a <code>UpdateApiCache</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApiCacheResponse {
   /// The <code>ApiCache</code> object.
-  @_s.JsonKey(name: 'apiCache')
-  final ApiCache apiCache;
+  final ApiCache? apiCache;
 
   UpdateApiCacheResponse({
     this.apiCache,
   });
-  factory UpdateApiCacheResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApiCacheResponseFromJson(json);
+  factory UpdateApiCacheResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApiCacheResponse(
+      apiCache: json['apiCache'] != null
+          ? ApiCache.fromJson(json['apiCache'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApiKeyResponse {
   /// The API key.
-  @_s.JsonKey(name: 'apiKey')
-  final ApiKey apiKey;
+  final ApiKey? apiKey;
 
   UpdateApiKeyResponse({
     this.apiKey,
   });
-  factory UpdateApiKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApiKeyResponseFromJson(json);
+  factory UpdateApiKeyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApiKeyResponse(
+      apiKey: json['apiKey'] != null
+          ? ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDataSourceResponse {
   /// The updated <code>DataSource</code> object.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   UpdateDataSourceResponse({
     this.dataSource,
   });
-  factory UpdateDataSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDataSourceResponseFromJson(json);
+  factory UpdateDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDataSourceResponse(
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFunctionResponse {
   /// The <code>Function</code> object.
-  @_s.JsonKey(name: 'functionConfiguration')
-  final FunctionConfiguration functionConfiguration;
+  final FunctionConfiguration? functionConfiguration;
 
   UpdateFunctionResponse({
     this.functionConfiguration,
   });
-  factory UpdateFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFunctionResponseFromJson(json);
+  factory UpdateFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFunctionResponse(
+      functionConfiguration: json['functionConfiguration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['functionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGraphqlApiResponse {
   /// The updated <code>GraphqlApi</code> object.
-  @_s.JsonKey(name: 'graphqlApi')
-  final GraphqlApi graphqlApi;
+  final GraphqlApi? graphqlApi;
 
   UpdateGraphqlApiResponse({
     this.graphqlApi,
   });
-  factory UpdateGraphqlApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGraphqlApiResponseFromJson(json);
+  factory UpdateGraphqlApiResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGraphqlApiResponse(
+      graphqlApi: json['graphqlApi'] != null
+          ? GraphqlApi.fromJson(json['graphqlApi'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResolverResponse {
   /// The updated <code>Resolver</code> object.
-  @_s.JsonKey(name: 'resolver')
-  final Resolver resolver;
+  final Resolver? resolver;
 
   UpdateResolverResponse({
     this.resolver,
   });
-  factory UpdateResolverResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResolverResponseFromJson(json);
+  factory UpdateResolverResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResolverResponse(
+      resolver: json['resolver'] != null
+          ? Resolver.fromJson(json['resolver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTypeResponse {
   /// The updated <code>Type</code> object.
-  @_s.JsonKey(name: 'type')
-  final Type type;
+  final Type? type;
 
   UpdateTypeResponse({
     this.type,
   });
-  factory UpdateTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTypeResponseFromJson(json);
+  factory UpdateTypeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTypeResponse(
+      type: json['type'] != null
+          ? Type.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes an Amazon Cognito user pool configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserPoolConfig {
   /// The AWS Region in which the user pool was created.
-  @_s.JsonKey(name: 'awsRegion')
   final String awsRegion;
 
   /// The action that you want your GraphQL API to take when a request that uses
   /// Amazon Cognito user pool authentication doesn't match the Amazon Cognito
   /// user pool configuration.
-  @_s.JsonKey(name: 'defaultAction')
   final DefaultAction defaultAction;
 
   /// The user pool ID.
-  @_s.JsonKey(name: 'userPoolId')
   final String userPoolId;
 
   /// A regular expression for validating the incoming Amazon Cognito user pool
   /// app client ID.
-  @_s.JsonKey(name: 'appIdClientRegex')
-  final String appIdClientRegex;
+  final String? appIdClientRegex;
 
   UserPoolConfig({
-    @_s.required this.awsRegion,
-    @_s.required this.defaultAction,
-    @_s.required this.userPoolId,
+    required this.awsRegion,
+    required this.defaultAction,
+    required this.userPoolId,
     this.appIdClientRegex,
   });
-  factory UserPoolConfig.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolConfigFromJson(json);
+  factory UserPoolConfig.fromJson(Map<String, dynamic> json) {
+    return UserPoolConfig(
+      awsRegion: json['awsRegion'] as String,
+      defaultAction: (json['defaultAction'] as String).toDefaultAction(),
+      userPoolId: json['userPoolId'] as String,
+      appIdClientRegex: json['appIdClientRegex'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserPoolConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final defaultAction = this.defaultAction;
+    final userPoolId = this.userPoolId;
+    final appIdClientRegex = this.appIdClientRegex;
+    return {
+      'awsRegion': awsRegion,
+      'defaultAction': defaultAction.toValue(),
+      'userPoolId': userPoolId,
+      if (appIdClientRegex != null) 'appIdClientRegex': appIdClientRegex,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ApiKeyLimitExceededException extends _s.GenericAwsException {
-  ApiKeyLimitExceededException({String type, String message})
+  ApiKeyLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ApiKeyLimitExceededException', message: message);
 }
 
 class ApiKeyValidityOutOfBoundsException extends _s.GenericAwsException {
-  ApiKeyValidityOutOfBoundsException({String type, String message})
+  ApiKeyValidityOutOfBoundsException({String? type, String? message})
       : super(
             type: type,
             code: 'ApiKeyValidityOutOfBoundsException',
@@ -4588,17 +4927,17 @@ class ApiKeyValidityOutOfBoundsException extends _s.GenericAwsException {
 }
 
 class ApiLimitExceededException extends _s.GenericAwsException {
-  ApiLimitExceededException({String type, String message})
+  ApiLimitExceededException({String? type, String? message})
       : super(type: type, code: 'ApiLimitExceededException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -4606,27 +4945,27 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class GraphQLSchemaException extends _s.GenericAwsException {
-  GraphQLSchemaException({String type, String message})
+  GraphQLSchemaException({String? type, String? message})
       : super(type: type, code: 'GraphQLSchemaException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

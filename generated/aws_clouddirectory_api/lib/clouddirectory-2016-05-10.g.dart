@@ -9,7 +9,7 @@ part of 'clouddirectory-2016-05-10.dart';
 AccessDeniedException _$AccessDeniedExceptionFromJson(
     Map<String, dynamic> json) {
   return AccessDeniedException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -20,14 +20,14 @@ AddFacetToObjectResponse _$AddFacetToObjectResponseFromJson(
 
 ApplySchemaResponse _$ApplySchemaResponseFromJson(Map<String, dynamic> json) {
   return ApplySchemaResponse(
-    appliedSchemaArn: json['AppliedSchemaArn'] as String,
-    directoryArn: json['DirectoryArn'] as String,
+    appliedSchemaArn: json['AppliedSchemaArn'] as String?,
+    directoryArn: json['DirectoryArn'] as String?,
   );
 }
 
 AttachObjectResponse _$AttachObjectResponseFromJson(Map<String, dynamic> json) {
   return AttachObjectResponse(
-    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String,
+    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
   );
 }
 
@@ -38,7 +38,7 @@ AttachPolicyResponse _$AttachPolicyResponseFromJson(Map<String, dynamic> json) {
 AttachToIndexResponse _$AttachToIndexResponseFromJson(
     Map<String, dynamic> json) {
   return AttachToIndexResponse(
-    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String,
+    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
   );
 }
 
@@ -60,175 +60,102 @@ AttributeKey _$AttributeKeyFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AttributeKeyToJson(AttributeKey instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FacetName', instance.facetName);
-  writeNotNull('Name', instance.name);
-  writeNotNull('SchemaArn', instance.schemaArn);
-  return val;
-}
+Map<String, dynamic> _$AttributeKeyToJson(AttributeKey instance) =>
+    <String, dynamic>{
+      'FacetName': instance.facetName,
+      'Name': instance.name,
+      'SchemaArn': instance.schemaArn,
+    };
 
 AttributeKeyAndValue _$AttributeKeyAndValueFromJson(Map<String, dynamic> json) {
   return AttributeKeyAndValue(
-    key: json['Key'] == null
-        ? null
-        : AttributeKey.fromJson(json['Key'] as Map<String, dynamic>),
-    value: json['Value'] == null
-        ? null
-        : TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+    key: AttributeKey.fromJson(json['Key'] as Map<String, dynamic>),
+    value: TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AttributeKeyAndValueToJson(
-    AttributeKeyAndValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key?.toJson());
-  writeNotNull('Value', instance.value?.toJson());
-  return val;
-}
+        AttributeKeyAndValue instance) =>
+    <String, dynamic>{
+      'Key': instance.key.toJson(),
+      'Value': instance.value.toJson(),
+    };
 
 AttributeNameAndValue _$AttributeNameAndValueFromJson(
     Map<String, dynamic> json) {
   return AttributeNameAndValue(
     attributeName: json['AttributeName'] as String,
-    value: json['Value'] == null
-        ? null
-        : TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+    value: TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AttributeNameAndValueToJson(
-    AttributeNameAndValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull('Value', instance.value?.toJson());
-  return val;
-}
+        AttributeNameAndValue instance) =>
+    <String, dynamic>{
+      'AttributeName': instance.attributeName,
+      'Value': instance.value.toJson(),
+    };
 
 Map<String, dynamic> _$BatchAddFacetToObjectToJson(
-    BatchAddFacetToObject instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectAttributeList',
-      instance.objectAttributeList?.map((e) => e?.toJson())?.toList());
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  writeNotNull('SchemaFacet', instance.schemaFacet?.toJson());
-  return val;
-}
+        BatchAddFacetToObject instance) =>
+    <String, dynamic>{
+      'ObjectAttributeList':
+          instance.objectAttributeList.map((e) => e.toJson()).toList(),
+      'ObjectReference': instance.objectReference.toJson(),
+      'SchemaFacet': instance.schemaFacet.toJson(),
+    };
 
 BatchAddFacetToObjectResponse _$BatchAddFacetToObjectResponseFromJson(
     Map<String, dynamic> json) {
   return BatchAddFacetToObjectResponse();
 }
 
-Map<String, dynamic> _$BatchAttachObjectToJson(BatchAttachObject instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ChildReference', instance.childReference?.toJson());
-  writeNotNull('LinkName', instance.linkName);
-  writeNotNull('ParentReference', instance.parentReference?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BatchAttachObjectToJson(BatchAttachObject instance) =>
+    <String, dynamic>{
+      'ChildReference': instance.childReference.toJson(),
+      'LinkName': instance.linkName,
+      'ParentReference': instance.parentReference.toJson(),
+    };
 
 BatchAttachObjectResponse _$BatchAttachObjectResponseFromJson(
     Map<String, dynamic> json) {
   return BatchAttachObjectResponse(
-    attachedObjectIdentifier: json['attachedObjectIdentifier'] as String,
+    attachedObjectIdentifier: json['attachedObjectIdentifier'] as String?,
   );
 }
 
-Map<String, dynamic> _$BatchAttachPolicyToJson(BatchAttachPolicy instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  writeNotNull('PolicyReference', instance.policyReference?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BatchAttachPolicyToJson(BatchAttachPolicy instance) =>
+    <String, dynamic>{
+      'ObjectReference': instance.objectReference.toJson(),
+      'PolicyReference': instance.policyReference.toJson(),
+    };
 
 BatchAttachPolicyResponse _$BatchAttachPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return BatchAttachPolicyResponse();
 }
 
-Map<String, dynamic> _$BatchAttachToIndexToJson(BatchAttachToIndex instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IndexReference', instance.indexReference?.toJson());
-  writeNotNull('TargetReference', instance.targetReference?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BatchAttachToIndexToJson(BatchAttachToIndex instance) =>
+    <String, dynamic>{
+      'IndexReference': instance.indexReference.toJson(),
+      'TargetReference': instance.targetReference.toJson(),
+    };
 
 BatchAttachToIndexResponse _$BatchAttachToIndexResponseFromJson(
     Map<String, dynamic> json) {
   return BatchAttachToIndexResponse(
-    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String,
+    attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchAttachTypedLinkToJson(
-    BatchAttachTypedLink instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'SourceObjectReference', instance.sourceObjectReference?.toJson());
-  writeNotNull(
-      'TargetObjectReference', instance.targetObjectReference?.toJson());
-  writeNotNull('TypedLinkFacet', instance.typedLinkFacet?.toJson());
-  return val;
-}
+        BatchAttachTypedLink instance) =>
+    <String, dynamic>{
+      'Attributes': instance.attributes.map((e) => e.toJson()).toList(),
+      'SourceObjectReference': instance.sourceObjectReference.toJson(),
+      'TargetObjectReference': instance.targetObjectReference.toJson(),
+      'TypedLinkFacet': instance.typedLinkFacet.toJson(),
+    };
 
 BatchAttachTypedLinkResponse _$BatchAttachTypedLinkResponseFromJson(
     Map<String, dynamic> json) {
@@ -241,7 +168,11 @@ BatchAttachTypedLinkResponse _$BatchAttachTypedLinkResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchCreateIndexToJson(BatchCreateIndex instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IsUnique': instance.isUnique,
+    'OrderedIndexedAttributeList':
+        instance.orderedIndexedAttributeList.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -249,9 +180,6 @@ Map<String, dynamic> _$BatchCreateIndexToJson(BatchCreateIndex instance) {
     }
   }
 
-  writeNotNull('IsUnique', instance.isUnique);
-  writeNotNull('OrderedIndexedAttributeList',
-      instance.orderedIndexedAttributeList?.map((e) => e?.toJson())?.toList());
   writeNotNull('BatchReferenceName', instance.batchReferenceName);
   writeNotNull('LinkName', instance.linkName);
   writeNotNull('ParentReference', instance.parentReference?.toJson());
@@ -261,12 +189,16 @@ Map<String, dynamic> _$BatchCreateIndexToJson(BatchCreateIndex instance) {
 BatchCreateIndexResponse _$BatchCreateIndexResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateIndexResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchCreateObjectToJson(BatchCreateObject instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectAttributeList':
+        instance.objectAttributeList.map((e) => e.toJson()).toList(),
+    'SchemaFacet': instance.schemaFacet.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -274,10 +206,6 @@ Map<String, dynamic> _$BatchCreateObjectToJson(BatchCreateObject instance) {
     }
   }
 
-  writeNotNull('ObjectAttributeList',
-      instance.objectAttributeList?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'SchemaFacet', instance.schemaFacet?.map((e) => e?.toJson())?.toList());
   writeNotNull('BatchReferenceName', instance.batchReferenceName);
   writeNotNull('LinkName', instance.linkName);
   writeNotNull('ParentReference', instance.parentReference?.toJson());
@@ -287,22 +215,14 @@ Map<String, dynamic> _$BatchCreateObjectToJson(BatchCreateObject instance) {
 BatchCreateObjectResponse _$BatchCreateObjectResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateObjectResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
-Map<String, dynamic> _$BatchDeleteObjectToJson(BatchDeleteObject instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BatchDeleteObjectToJson(BatchDeleteObject instance) =>
+    <String, dynamic>{
+      'ObjectReference': instance.objectReference.toJson(),
+    };
 
 BatchDeleteObjectResponse _$BatchDeleteObjectResponseFromJson(
     Map<String, dynamic> json) {
@@ -310,29 +230,24 @@ BatchDeleteObjectResponse _$BatchDeleteObjectResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchDetachFromIndexToJson(
-    BatchDetachFromIndex instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IndexReference', instance.indexReference?.toJson());
-  writeNotNull('TargetReference', instance.targetReference?.toJson());
-  return val;
-}
+        BatchDetachFromIndex instance) =>
+    <String, dynamic>{
+      'IndexReference': instance.indexReference.toJson(),
+      'TargetReference': instance.targetReference.toJson(),
+    };
 
 BatchDetachFromIndexResponse _$BatchDetachFromIndexResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetachFromIndexResponse(
-    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String,
+    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchDetachObjectToJson(BatchDetachObject instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LinkName': instance.linkName,
+    'ParentReference': instance.parentReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -340,8 +255,6 @@ Map<String, dynamic> _$BatchDetachObjectToJson(BatchDetachObject instance) {
     }
   }
 
-  writeNotNull('LinkName', instance.linkName);
-  writeNotNull('ParentReference', instance.parentReference?.toJson());
   writeNotNull('BatchReferenceName', instance.batchReferenceName);
   return val;
 }
@@ -349,23 +262,15 @@ Map<String, dynamic> _$BatchDetachObjectToJson(BatchDetachObject instance) {
 BatchDetachObjectResponse _$BatchDetachObjectResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetachObjectResponse(
-    detachedObjectIdentifier: json['detachedObjectIdentifier'] as String,
+    detachedObjectIdentifier: json['detachedObjectIdentifier'] as String?,
   );
 }
 
-Map<String, dynamic> _$BatchDetachPolicyToJson(BatchDetachPolicy instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  writeNotNull('PolicyReference', instance.policyReference?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BatchDetachPolicyToJson(BatchDetachPolicy instance) =>
+    <String, dynamic>{
+      'ObjectReference': instance.objectReference.toJson(),
+      'PolicyReference': instance.policyReference.toJson(),
+    };
 
 BatchDetachPolicyResponse _$BatchDetachPolicyResponseFromJson(
     Map<String, dynamic> json) {
@@ -373,18 +278,10 @@ BatchDetachPolicyResponse _$BatchDetachPolicyResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchDetachTypedLinkToJson(
-    BatchDetachTypedLink instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TypedLinkSpecifier', instance.typedLinkSpecifier?.toJson());
-  return val;
-}
+        BatchDetachTypedLink instance) =>
+    <String, dynamic>{
+      'TypedLinkSpecifier': instance.typedLinkSpecifier.toJson(),
+    };
 
 BatchDetachTypedLinkResponse _$BatchDetachTypedLinkResponseFromJson(
     Map<String, dynamic> json) {
@@ -392,86 +289,59 @@ BatchDetachTypedLinkResponse _$BatchDetachTypedLinkResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchGetLinkAttributesToJson(
-    BatchGetLinkAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeNames', instance.attributeNames);
-  writeNotNull('TypedLinkSpecifier', instance.typedLinkSpecifier?.toJson());
-  return val;
-}
+        BatchGetLinkAttributes instance) =>
+    <String, dynamic>{
+      'AttributeNames': instance.attributeNames,
+      'TypedLinkSpecifier': instance.typedLinkSpecifier.toJson(),
+    };
 
 BatchGetLinkAttributesResponse _$BatchGetLinkAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetLinkAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchGetObjectAttributesToJson(
-    BatchGetObjectAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeNames', instance.attributeNames);
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  writeNotNull('SchemaFacet', instance.schemaFacet?.toJson());
-  return val;
-}
+        BatchGetObjectAttributes instance) =>
+    <String, dynamic>{
+      'AttributeNames': instance.attributeNames,
+      'ObjectReference': instance.objectReference.toJson(),
+      'SchemaFacet': instance.schemaFacet.toJson(),
+    };
 
 BatchGetObjectAttributesResponse _$BatchGetObjectAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetObjectAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchGetObjectInformationToJson(
-    BatchGetObjectInformation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  return val;
-}
+        BatchGetObjectInformation instance) =>
+    <String, dynamic>{
+      'ObjectReference': instance.objectReference.toJson(),
+    };
 
 BatchGetObjectInformationResponse _$BatchGetObjectInformationResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetObjectInformationResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
-    schemaFacets: (json['SchemaFacets'] as List)
-        ?.map((e) =>
-            e == null ? null : SchemaFacet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    objectIdentifier: json['ObjectIdentifier'] as String?,
+    schemaFacets: (json['SchemaFacets'] as List<dynamic>?)
+        ?.map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchListAttachedIndicesToJson(
     BatchListAttachedIndices instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TargetReference': instance.targetReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -479,7 +349,6 @@ Map<String, dynamic> _$BatchListAttachedIndicesToJson(
     }
   }
 
-  writeNotNull('TargetReference', instance.targetReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -488,18 +357,18 @@ Map<String, dynamic> _$BatchListAttachedIndicesToJson(
 BatchListAttachedIndicesResponse _$BatchListAttachedIndicesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListAttachedIndicesResponse(
-    indexAttachments: (json['IndexAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IndexAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    indexAttachments: (json['IndexAttachments'] as List<dynamic>?)
+        ?.map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListIncomingTypedLinksToJson(
     BatchListIncomingTypedLinks instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -507,9 +376,8 @@ Map<String, dynamic> _$BatchListIncomingTypedLinksToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('FilterAttributeRanges',
-      instance.filterAttributeRanges?.map((e) => e?.toJson())?.toList());
+      instance.filterAttributeRanges?.map((e) => e.toJson()).toList());
   writeNotNull('FilterTypedLink', instance.filterTypedLink?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
@@ -519,17 +387,17 @@ Map<String, dynamic> _$BatchListIncomingTypedLinksToJson(
 BatchListIncomingTypedLinksResponse
     _$BatchListIncomingTypedLinksResponseFromJson(Map<String, dynamic> json) {
   return BatchListIncomingTypedLinksResponse(
-    linkSpecifiers: (json['LinkSpecifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    linkSpecifiers: (json['LinkSpecifiers'] as List<dynamic>?)
+        ?.map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListIndexToJson(BatchListIndex instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexReference': instance.indexReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -537,29 +405,28 @@ Map<String, dynamic> _$BatchListIndexToJson(BatchListIndex instance) {
     }
   }
 
-  writeNotNull('IndexReference', instance.indexReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   writeNotNull('RangesOnIndexedValues',
-      instance.rangesOnIndexedValues?.map((e) => e?.toJson())?.toList());
+      instance.rangesOnIndexedValues?.map((e) => e.toJson()).toList());
   return val;
 }
 
 BatchListIndexResponse _$BatchListIndexResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListIndexResponse(
-    indexAttachments: (json['IndexAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IndexAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    indexAttachments: (json['IndexAttachments'] as List<dynamic>?)
+        ?.map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListObjectAttributesToJson(
     BatchListObjectAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -567,7 +434,6 @@ Map<String, dynamic> _$BatchListObjectAttributesToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('FacetFilter', instance.facetFilter?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
@@ -577,18 +443,18 @@ Map<String, dynamic> _$BatchListObjectAttributesToJson(
 BatchListObjectAttributesResponse _$BatchListObjectAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListObjectAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListObjectChildrenToJson(
     BatchListObjectChildren instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -596,7 +462,6 @@ Map<String, dynamic> _$BatchListObjectChildrenToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -605,16 +470,18 @@ Map<String, dynamic> _$BatchListObjectChildrenToJson(
 BatchListObjectChildrenResponse _$BatchListObjectChildrenResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListObjectChildrenResponse(
-    children: (json['Children'] as Map<String, dynamic>)?.map(
+    children: (json['Children'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListObjectParentPathsToJson(
     BatchListObjectParentPaths instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -622,7 +489,6 @@ Map<String, dynamic> _$BatchListObjectParentPathsToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -631,18 +497,20 @@ Map<String, dynamic> _$BatchListObjectParentPathsToJson(
 BatchListObjectParentPathsResponse _$BatchListObjectParentPathsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListObjectParentPathsResponse(
-    nextToken: json['NextToken'] as String,
-    pathToObjectIdentifiersList: (json['PathToObjectIdentifiersList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    pathToObjectIdentifiersList: (json['PathToObjectIdentifiersList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchListObjectPoliciesToJson(
     BatchListObjectPolicies instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -650,7 +518,6 @@ Map<String, dynamic> _$BatchListObjectPoliciesToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -659,15 +526,18 @@ Map<String, dynamic> _$BatchListObjectPoliciesToJson(
 BatchListObjectPoliciesResponse _$BatchListObjectPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListObjectPoliciesResponse(
-    attachedPolicyIds:
-        (json['AttachedPolicyIds'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    attachedPolicyIds: (json['AttachedPolicyIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchListOutgoingTypedLinksToJson(
     BatchListOutgoingTypedLinks instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -675,9 +545,8 @@ Map<String, dynamic> _$BatchListOutgoingTypedLinksToJson(
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('FilterAttributeRanges',
-      instance.filterAttributeRanges?.map((e) => e?.toJson())?.toList());
+      instance.filterAttributeRanges?.map((e) => e.toJson()).toList());
   writeNotNull('FilterTypedLink', instance.filterTypedLink?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
@@ -687,18 +556,18 @@ Map<String, dynamic> _$BatchListOutgoingTypedLinksToJson(
 BatchListOutgoingTypedLinksResponse
     _$BatchListOutgoingTypedLinksResponseFromJson(Map<String, dynamic> json) {
   return BatchListOutgoingTypedLinksResponse(
-    nextToken: json['NextToken'] as String,
-    typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List<dynamic>?)
+        ?.map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchListPolicyAttachmentsToJson(
     BatchListPolicyAttachments instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PolicyReference': instance.policyReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -706,7 +575,6 @@ Map<String, dynamic> _$BatchListPolicyAttachmentsToJson(
     }
   }
 
-  writeNotNull('PolicyReference', instance.policyReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -715,14 +583,17 @@ Map<String, dynamic> _$BatchListPolicyAttachmentsToJson(
 BatchListPolicyAttachmentsResponse _$BatchListPolicyAttachmentsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchListPolicyAttachmentsResponse(
-    nextToken: json['NextToken'] as String,
-    objectIdentifiers:
-        (json['ObjectIdentifiers'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    objectIdentifiers: (json['ObjectIdentifiers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchLookupPolicyToJson(BatchLookupPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ObjectReference': instance.objectReference.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -730,7 +601,6 @@ Map<String, dynamic> _$BatchLookupPolicyToJson(BatchLookupPolicy instance) {
     }
   }
 
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
   writeNotNull('MaxResults', instance.maxResults);
   writeNotNull('NextToken', instance.nextToken);
   return val;
@@ -739,51 +609,55 @@ Map<String, dynamic> _$BatchLookupPolicyToJson(BatchLookupPolicy instance) {
 BatchLookupPolicyResponse _$BatchLookupPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return BatchLookupPolicyResponse(
-    nextToken: json['NextToken'] as String,
-    policyToPathList: (json['PolicyToPathList'] as List)
-        ?.map((e) =>
-            e == null ? null : PolicyToPath.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    policyToPathList: (json['PolicyToPathList'] as List<dynamic>?)
+        ?.map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchReadException _$BatchReadExceptionFromJson(Map<String, dynamic> json) {
   return BatchReadException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$BatchReadExceptionTypeEnumMap, json['Type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BatchReadExceptionTypeEnumMap = {
@@ -849,11 +723,10 @@ BatchReadOperationResponse _$BatchReadOperationResponseFromJson(
 
 BatchReadResponse _$BatchReadResponseFromJson(Map<String, dynamic> json) {
   return BatchReadResponse(
-    responses: (json['Responses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchReadOperationResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    responses: (json['Responses'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchReadOperationResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -916,19 +789,11 @@ BatchReadSuccessfulResponse _$BatchReadSuccessfulResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchRemoveFacetFromObjectToJson(
-    BatchRemoveFacetFromObject instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  writeNotNull('SchemaFacet', instance.schemaFacet?.toJson());
-  return val;
-}
+        BatchRemoveFacetFromObject instance) =>
+    <String, dynamic>{
+      'ObjectReference': instance.objectReference.toJson(),
+      'SchemaFacet': instance.schemaFacet.toJson(),
+    };
 
 BatchRemoveFacetFromObjectResponse _$BatchRemoveFacetFromObjectResponseFromJson(
     Map<String, dynamic> json) {
@@ -936,20 +801,12 @@ BatchRemoveFacetFromObjectResponse _$BatchRemoveFacetFromObjectResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchUpdateLinkAttributesToJson(
-    BatchUpdateLinkAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeUpdates',
-      instance.attributeUpdates?.map((e) => e?.toJson())?.toList());
-  writeNotNull('TypedLinkSpecifier', instance.typedLinkSpecifier?.toJson());
-  return val;
-}
+        BatchUpdateLinkAttributes instance) =>
+    <String, dynamic>{
+      'AttributeUpdates':
+          instance.attributeUpdates.map((e) => e.toJson()).toList(),
+      'TypedLinkSpecifier': instance.typedLinkSpecifier.toJson(),
+    };
 
 BatchUpdateLinkAttributesResponse _$BatchUpdateLinkAttributesResponseFromJson(
     Map<String, dynamic> json) {
@@ -957,32 +814,24 @@ BatchUpdateLinkAttributesResponse _$BatchUpdateLinkAttributesResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchUpdateObjectAttributesToJson(
-    BatchUpdateObjectAttributes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeUpdates',
-      instance.attributeUpdates?.map((e) => e?.toJson())?.toList());
-  writeNotNull('ObjectReference', instance.objectReference?.toJson());
-  return val;
-}
+        BatchUpdateObjectAttributes instance) =>
+    <String, dynamic>{
+      'AttributeUpdates':
+          instance.attributeUpdates.map((e) => e.toJson()).toList(),
+      'ObjectReference': instance.objectReference.toJson(),
+    };
 
 BatchUpdateObjectAttributesResponse
     _$BatchUpdateObjectAttributesResponseFromJson(Map<String, dynamic> json) {
   return BatchUpdateObjectAttributesResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 BatchWriteException _$BatchWriteExceptionFromJson(Map<String, dynamic> json) {
   return BatchWriteException(
-    index: json['Index'] as int,
-    message: json['Message'] as String,
+    index: json['Index'] as int?,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$BatchWriteExceptionTypeEnumMap, json['Type']),
   );
 }
@@ -1114,18 +963,17 @@ BatchWriteOperationResponse _$BatchWriteOperationResponseFromJson(
 
 BatchWriteResponse _$BatchWriteResponseFromJson(Map<String, dynamic> json) {
   return BatchWriteResponse(
-    responses: (json['Responses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchWriteOperationResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    responses: (json['Responses'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchWriteOperationResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CannotListParentOfRootException _$CannotListParentOfRootExceptionFromJson(
     Map<String, dynamic> json) {
   return CannotListParentOfRootException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1145,19 +993,19 @@ CreateFacetResponse _$CreateFacetResponseFromJson(Map<String, dynamic> json) {
 
 CreateIndexResponse _$CreateIndexResponseFromJson(Map<String, dynamic> json) {
   return CreateIndexResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 CreateObjectResponse _$CreateObjectResponseFromJson(Map<String, dynamic> json) {
   return CreateObjectResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
-    schemaArn: json['SchemaArn'] as String,
+    schemaArn: json['SchemaArn'] as String?,
   );
 }
 
@@ -1183,7 +1031,7 @@ DeleteObjectResponse _$DeleteObjectResponseFromJson(Map<String, dynamic> json) {
 
 DeleteSchemaResponse _$DeleteSchemaResponseFromJson(Map<String, dynamic> json) {
   return DeleteSchemaResponse(
-    schemaArn: json['SchemaArn'] as String,
+    schemaArn: json['SchemaArn'] as String?,
   );
 }
 
@@ -1195,13 +1043,13 @@ DeleteTypedLinkFacetResponse _$DeleteTypedLinkFacetResponseFromJson(
 DetachFromIndexResponse _$DetachFromIndexResponseFromJson(
     Map<String, dynamic> json) {
   return DetachFromIndexResponse(
-    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String,
+    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
   );
 }
 
 DetachObjectResponse _$DetachObjectResponseFromJson(Map<String, dynamic> json) {
   return DetachObjectResponse(
-    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String,
+    detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
   );
 }
 
@@ -1213,8 +1061,8 @@ Directory _$DirectoryFromJson(Map<String, dynamic> json) {
   return Directory(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    directoryArn: json['DirectoryArn'] as String,
-    name: json['Name'] as String,
+    directoryArn: json['DirectoryArn'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$DirectoryStateEnumMap, json['State']),
   );
 }
@@ -1228,28 +1076,28 @@ const _$DirectoryStateEnumMap = {
 DirectoryAlreadyExistsException _$DirectoryAlreadyExistsExceptionFromJson(
     Map<String, dynamic> json) {
   return DirectoryAlreadyExistsException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 DirectoryDeletedException _$DirectoryDeletedExceptionFromJson(
     Map<String, dynamic> json) {
   return DirectoryDeletedException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 DirectoryNotDisabledException _$DirectoryNotDisabledExceptionFromJson(
     Map<String, dynamic> json) {
   return DirectoryNotDisabledException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 DirectoryNotEnabledException _$DirectoryNotEnabledExceptionFromJson(
     Map<String, dynamic> json) {
   return DirectoryNotEnabledException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1269,7 +1117,7 @@ EnableDirectoryResponse _$EnableDirectoryResponseFromJson(
 
 Facet _$FacetFromJson(Map<String, dynamic> json) {
   return Facet(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     objectType: _$enumDecodeNullable(_$ObjectTypeEnumMap, json['ObjectType']),
   );
 }
@@ -1284,7 +1132,7 @@ const _$ObjectTypeEnumMap = {
 FacetAlreadyExistsException _$FacetAlreadyExistsExceptionFromJson(
     Map<String, dynamic> json) {
   return FacetAlreadyExistsException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1305,7 +1153,9 @@ FacetAttribute _$FacetAttributeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$FacetAttributeToJson(FacetAttribute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1313,7 +1163,6 @@ Map<String, dynamic> _$FacetAttributeToJson(FacetAttribute instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('AttributeDefinition', instance.attributeDefinition?.toJson());
   writeNotNull('AttributeReference', instance.attributeReference?.toJson());
   writeNotNull('RequiredBehavior',
@@ -1329,22 +1178,23 @@ const _$RequiredAttributeBehaviorEnumMap = {
 FacetAttributeDefinition _$FacetAttributeDefinitionFromJson(
     Map<String, dynamic> json) {
   return FacetAttributeDefinition(
-    type: _$enumDecodeNullable(_$FacetAttributeTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$FacetAttributeTypeEnumMap, json['Type']),
     defaultValue: json['DefaultValue'] == null
         ? null
         : TypedAttributeValue.fromJson(
             json['DefaultValue'] as Map<String, dynamic>),
-    isImmutable: json['IsImmutable'] as bool,
-    rules: (json['Rules'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Rule.fromJson(e as Map<String, dynamic>)),
+    isImmutable: json['IsImmutable'] as bool?,
+    rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
 Map<String, dynamic> _$FacetAttributeDefinitionToJson(
     FacetAttributeDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$FacetAttributeTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1352,11 +1202,9 @@ Map<String, dynamic> _$FacetAttributeDefinitionToJson(
     }
   }
 
-  writeNotNull('Type', _$FacetAttributeTypeEnumMap[instance.type]);
   writeNotNull('DefaultValue', instance.defaultValue?.toJson());
   writeNotNull('IsImmutable', instance.isImmutable);
-  writeNotNull(
-      'Rules', instance.rules?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Rules', instance.rules?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }
 
@@ -1377,19 +1225,11 @@ FacetAttributeReference _$FacetAttributeReferenceFromJson(
 }
 
 Map<String, dynamic> _$FacetAttributeReferenceToJson(
-    FacetAttributeReference instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TargetAttributeName', instance.targetAttributeName);
-  writeNotNull('TargetFacetName', instance.targetFacetName);
-  return val;
-}
+        FacetAttributeReference instance) =>
+    <String, dynamic>{
+      'TargetAttributeName': instance.targetAttributeName,
+      'TargetFacetName': instance.targetFacetName,
+    };
 
 Map<String, dynamic> _$FacetAttributeUpdateToJson(
     FacetAttributeUpdate instance) {
@@ -1413,36 +1253,34 @@ const _$UpdateActionTypeEnumMap = {
 
 FacetInUseException _$FacetInUseExceptionFromJson(Map<String, dynamic> json) {
   return FacetInUseException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 FacetNotFoundException _$FacetNotFoundExceptionFromJson(
     Map<String, dynamic> json) {
   return FacetNotFoundException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 FacetValidationException _$FacetValidationExceptionFromJson(
     Map<String, dynamic> json) {
   return FacetValidationException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 GetAppliedSchemaVersionResponse _$GetAppliedSchemaVersionResponseFromJson(
     Map<String, dynamic> json) {
   return GetAppliedSchemaVersionResponse(
-    appliedSchemaArn: json['AppliedSchemaArn'] as String,
+    appliedSchemaArn: json['AppliedSchemaArn'] as String?,
   );
 }
 
 GetDirectoryResponse _$GetDirectoryResponseFromJson(Map<String, dynamic> json) {
   return GetDirectoryResponse(
-    directory: json['Directory'] == null
-        ? null
-        : Directory.fromJson(json['Directory'] as Map<String, dynamic>),
+    directory: Directory.fromJson(json['Directory'] as Map<String, dynamic>),
   );
 }
 
@@ -1457,136 +1295,129 @@ GetFacetResponse _$GetFacetResponseFromJson(Map<String, dynamic> json) {
 GetLinkAttributesResponse _$GetLinkAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return GetLinkAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetObjectAttributesResponse _$GetObjectAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return GetObjectAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetObjectInformationResponse _$GetObjectInformationResponseFromJson(
     Map<String, dynamic> json) {
   return GetObjectInformationResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
-    schemaFacets: (json['SchemaFacets'] as List)
-        ?.map((e) =>
-            e == null ? null : SchemaFacet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    objectIdentifier: json['ObjectIdentifier'] as String?,
+    schemaFacets: (json['SchemaFacets'] as List<dynamic>?)
+        ?.map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetSchemaAsJsonResponse _$GetSchemaAsJsonResponseFromJson(
     Map<String, dynamic> json) {
   return GetSchemaAsJsonResponse(
-    document: json['Document'] as String,
-    name: json['Name'] as String,
+    document: json['Document'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 GetTypedLinkFacetInformationResponse
     _$GetTypedLinkFacetInformationResponseFromJson(Map<String, dynamic> json) {
   return GetTypedLinkFacetInformationResponse(
-    identityAttributeOrder: (json['IdentityAttributeOrder'] as List)
+    identityAttributeOrder: (json['IdentityAttributeOrder'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
   );
 }
 
 IncompatibleSchemaException _$IncompatibleSchemaExceptionFromJson(
     Map<String, dynamic> json) {
   return IncompatibleSchemaException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 IndexAttachment _$IndexAttachmentFromJson(Map<String, dynamic> json) {
   return IndexAttachment(
-    indexedAttributes: (json['IndexedAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    indexedAttributes: (json['IndexedAttributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 IndexedAttributeMissingException _$IndexedAttributeMissingExceptionFromJson(
     Map<String, dynamic> json) {
   return IndexedAttributeMissingException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InternalServiceException _$InternalServiceExceptionFromJson(
     Map<String, dynamic> json) {
   return InternalServiceException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidArnException _$InvalidArnExceptionFromJson(Map<String, dynamic> json) {
   return InvalidArnException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidAttachmentException _$InvalidAttachmentExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidAttachmentException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidFacetUpdateException _$InvalidFacetUpdateExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidFacetUpdateException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidNextTokenException _$InvalidNextTokenExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidNextTokenException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidRuleException _$InvalidRuleExceptionFromJson(Map<String, dynamic> json) {
   return InvalidRuleException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidSchemaDocException _$InvalidSchemaDocExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidSchemaDocException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InvalidTaggingRequestException _$InvalidTaggingRequestExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidTaggingRequestException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 LimitExceededException _$LimitExceededExceptionFromJson(
     Map<String, dynamic> json) {
   return LimitExceededException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1622,131 +1453,126 @@ Map<String, dynamic> _$LinkAttributeUpdateToJson(LinkAttributeUpdate instance) {
 LinkNameAlreadyInUseException _$LinkNameAlreadyInUseExceptionFromJson(
     Map<String, dynamic> json) {
   return LinkNameAlreadyInUseException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 ListAppliedSchemaArnsResponse _$ListAppliedSchemaArnsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAppliedSchemaArnsResponse(
-    nextToken: json['NextToken'] as String,
-    schemaArns: (json['SchemaArns'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    schemaArns: (json['SchemaArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListAttachedIndicesResponse _$ListAttachedIndicesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAttachedIndicesResponse(
-    indexAttachments: (json['IndexAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IndexAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    indexAttachments: (json['IndexAttachments'] as List<dynamic>?)
+        ?.map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDevelopmentSchemaArnsResponse _$ListDevelopmentSchemaArnsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDevelopmentSchemaArnsResponse(
-    nextToken: json['NextToken'] as String,
-    schemaArns: (json['SchemaArns'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    schemaArns: (json['SchemaArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListDirectoriesResponse _$ListDirectoriesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDirectoriesResponse(
-    directories: (json['Directories'] as List)
-        ?.map((e) =>
-            e == null ? null : Directory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    directories: (json['Directories'] as List<dynamic>)
+        .map((e) => Directory.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListFacetAttributesResponse _$ListFacetAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return ListFacetAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FacetAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => FacetAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListFacetNamesResponse _$ListFacetNamesResponseFromJson(
     Map<String, dynamic> json) {
   return ListFacetNamesResponse(
-    facetNames: (json['FacetNames'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    facetNames: (json['FacetNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIncomingTypedLinksResponse _$ListIncomingTypedLinksResponseFromJson(
     Map<String, dynamic> json) {
   return ListIncomingTypedLinksResponse(
-    linkSpecifiers: (json['LinkSpecifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    linkSpecifiers: (json['LinkSpecifiers'] as List<dynamic>?)
+        ?.map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIndexResponse _$ListIndexResponseFromJson(Map<String, dynamic> json) {
   return ListIndexResponse(
-    indexAttachments: (json['IndexAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IndexAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    indexAttachments: (json['IndexAttachments'] as List<dynamic>?)
+        ?.map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListObjectAttributesResponse _$ListObjectAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return ListObjectAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListObjectChildrenResponse _$ListObjectChildrenResponseFromJson(
     Map<String, dynamic> json) {
   return ListObjectChildrenResponse(
-    children: (json['Children'] as Map<String, dynamic>)?.map(
+    children: (json['Children'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListObjectParentPathsResponse _$ListObjectParentPathsResponseFromJson(
     Map<String, dynamic> json) {
   return ListObjectParentPathsResponse(
-    nextToken: json['NextToken'] as String,
-    pathToObjectIdentifiersList: (json['PathToObjectIdentifiersList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    pathToObjectIdentifiersList: (json['PathToObjectIdentifiersList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListObjectParentsResponse _$ListObjectParentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListObjectParentsResponse(
-    nextToken: json['NextToken'] as String,
-    parents: (json['Parents'] as Map<String, dynamic>)?.map(
+    nextToken: json['NextToken'] as String?,
+    parents: (json['Parents'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1755,103 +1581,105 @@ ListObjectParentsResponse _$ListObjectParentsResponseFromJson(
 ListObjectPoliciesResponse _$ListObjectPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return ListObjectPoliciesResponse(
-    attachedPolicyIds:
-        (json['AttachedPolicyIds'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    attachedPolicyIds: (json['AttachedPolicyIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListOutgoingTypedLinksResponse _$ListOutgoingTypedLinksResponseFromJson(
     Map<String, dynamic> json) {
   return ListOutgoingTypedLinksResponse(
-    nextToken: json['NextToken'] as String,
-    typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List<dynamic>?)
+        ?.map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPolicyAttachmentsResponse _$ListPolicyAttachmentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPolicyAttachmentsResponse(
-    nextToken: json['NextToken'] as String,
-    objectIdentifiers:
-        (json['ObjectIdentifiers'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    objectIdentifiers: (json['ObjectIdentifiers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListPublishedSchemaArnsResponse _$ListPublishedSchemaArnsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPublishedSchemaArnsResponse(
-    nextToken: json['NextToken'] as String,
-    schemaArns: (json['SchemaArns'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    schemaArns: (json['SchemaArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTypedLinkFacetAttributesResponse
     _$ListTypedLinkFacetAttributesResponseFromJson(Map<String, dynamic> json) {
   return ListTypedLinkFacetAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TypedLinkAttributeDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) =>
+            TypedLinkAttributeDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTypedLinkFacetNamesResponse _$ListTypedLinkFacetNamesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTypedLinkFacetNamesResponse(
-    facetNames: (json['FacetNames'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    facetNames: (json['FacetNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 LookupPolicyResponse _$LookupPolicyResponseFromJson(Map<String, dynamic> json) {
   return LookupPolicyResponse(
-    nextToken: json['NextToken'] as String,
-    policyToPathList: (json['PolicyToPathList'] as List)
-        ?.map((e) =>
-            e == null ? null : PolicyToPath.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    policyToPathList: (json['PolicyToPathList'] as List<dynamic>?)
+        ?.map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 NotIndexException _$NotIndexExceptionFromJson(Map<String, dynamic> json) {
   return NotIndexException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 NotNodeException _$NotNodeExceptionFromJson(Map<String, dynamic> json) {
   return NotNodeException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 NotPolicyException _$NotPolicyExceptionFromJson(Map<String, dynamic> json) {
   return NotPolicyException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 ObjectAlreadyDetachedException _$ObjectAlreadyDetachedExceptionFromJson(
     Map<String, dynamic> json) {
   return ObjectAlreadyDetachedException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1906,13 +1734,13 @@ Map<String, dynamic> _$ObjectAttributeUpdateToJson(
 ObjectNotDetachedException _$ObjectNotDetachedExceptionFromJson(
     Map<String, dynamic> json) {
   return ObjectNotDetachedException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 ObjectReference _$ObjectReferenceFromJson(Map<String, dynamic> json) {
   return ObjectReference(
-    selector: json['Selector'] as String,
+    selector: json['Selector'] as String?,
   );
 }
 
@@ -1932,42 +1760,41 @@ Map<String, dynamic> _$ObjectReferenceToJson(ObjectReference instance) {
 PathToObjectIdentifiers _$PathToObjectIdentifiersFromJson(
     Map<String, dynamic> json) {
   return PathToObjectIdentifiers(
-    objectIdentifiers:
-        (json['ObjectIdentifiers'] as List)?.map((e) => e as String)?.toList(),
-    path: json['Path'] as String,
+    objectIdentifiers: (json['ObjectIdentifiers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    path: json['Path'] as String?,
   );
 }
 
 PolicyAttachment _$PolicyAttachmentFromJson(Map<String, dynamic> json) {
   return PolicyAttachment(
-    objectIdentifier: json['ObjectIdentifier'] as String,
-    policyId: json['PolicyId'] as String,
-    policyType: json['PolicyType'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
+    policyId: json['PolicyId'] as String?,
+    policyType: json['PolicyType'] as String?,
   );
 }
 
 PolicyToPath _$PolicyToPathFromJson(Map<String, dynamic> json) {
   return PolicyToPath(
-    path: json['Path'] as String,
-    policies: (json['Policies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicyAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    path: json['Path'] as String?,
+    policies: (json['Policies'] as List<dynamic>?)
+        ?.map((e) => PolicyAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 PublishSchemaResponse _$PublishSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return PublishSchemaResponse(
-    publishedSchemaArn: json['PublishedSchemaArn'] as String,
+    publishedSchemaArn: json['PublishedSchemaArn'] as String?,
   );
 }
 
 PutSchemaFromJsonResponse _$PutSchemaFromJsonResponseFromJson(
     Map<String, dynamic> json) {
   return PutSchemaFromJsonResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
@@ -1979,20 +1806,20 @@ RemoveFacetFromObjectResponse _$RemoveFacetFromObjectResponseFromJson(
 ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
     Map<String, dynamic> json) {
   return ResourceNotFoundException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 RetryableConflictException _$RetryableConflictExceptionFromJson(
     Map<String, dynamic> json) {
   return RetryableConflictException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 Rule _$RuleFromJson(Map<String, dynamic> json) {
   return Rule(
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     type: _$enumDecodeNullable(_$RuleTypeEnumMap, json['Type']),
@@ -2023,21 +1850,21 @@ const _$RuleTypeEnumMap = {
 SchemaAlreadyExistsException _$SchemaAlreadyExistsExceptionFromJson(
     Map<String, dynamic> json) {
   return SchemaAlreadyExistsException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 SchemaAlreadyPublishedException _$SchemaAlreadyPublishedExceptionFromJson(
     Map<String, dynamic> json) {
   return SchemaAlreadyPublishedException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 SchemaFacet _$SchemaFacetFromJson(Map<String, dynamic> json) {
   return SchemaFacet(
-    facetName: json['FacetName'] as String,
-    schemaArn: json['SchemaArn'] as String,
+    facetName: json['FacetName'] as String?,
+    schemaArn: json['SchemaArn'] as String?,
   );
 }
 
@@ -2058,14 +1885,14 @@ Map<String, dynamic> _$SchemaFacetToJson(SchemaFacet instance) {
 StillContainsLinksException _$StillContainsLinksExceptionFromJson(
     Map<String, dynamic> json) {
   return StillContainsLinksException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -2089,13 +1916,13 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TypedAttributeValue _$TypedAttributeValueFromJson(Map<String, dynamic> json) {
   return TypedAttributeValue(
-    binaryValue:
-        const Uint8ListConverter().fromJson(json['BinaryValue'] as String),
-    booleanValue: json['BooleanValue'] as bool,
+    binaryValue: const Uint8ListNullableConverter()
+        .fromJson(json['BinaryValue'] as String?),
+    booleanValue: json['BooleanValue'] as bool?,
     datetimeValue:
         const UnixDateTimeConverter().fromJson(json['DatetimeValue']),
-    numberValue: json['NumberValue'] as String,
-    stringValue: json['StringValue'] as String,
+    numberValue: json['NumberValue'] as String?,
+    stringValue: json['StringValue'] as String?,
   );
 }
 
@@ -2108,8 +1935,8 @@ Map<String, dynamic> _$TypedAttributeValueToJson(TypedAttributeValue instance) {
     }
   }
 
-  writeNotNull(
-      'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
+  writeNotNull('BinaryValue',
+      const Uint8ListNullableConverter().toJson(instance.binaryValue));
   writeNotNull('BooleanValue', instance.booleanValue);
   writeNotNull('DatetimeValue',
       const UnixDateTimeConverter().toJson(instance.datetimeValue));
@@ -2120,7 +1947,10 @@ Map<String, dynamic> _$TypedAttributeValueToJson(TypedAttributeValue instance) {
 
 Map<String, dynamic> _$TypedAttributeValueRangeToJson(
     TypedAttributeValueRange instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'EndMode': _$RangeModeEnumMap[instance.endMode],
+    'StartMode': _$RangeModeEnumMap[instance.startMode],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2128,8 +1958,6 @@ Map<String, dynamic> _$TypedAttributeValueRangeToJson(
     }
   }
 
-  writeNotNull('EndMode', _$RangeModeEnumMap[instance.endMode]);
-  writeNotNull('StartMode', _$RangeModeEnumMap[instance.startMode]);
   writeNotNull('EndValue', instance.endValue?.toJson());
   writeNotNull('StartValue', instance.startValue?.toJson());
   return val;
@@ -2147,24 +1975,28 @@ TypedLinkAttributeDefinition _$TypedLinkAttributeDefinitionFromJson(
     Map<String, dynamic> json) {
   return TypedLinkAttributeDefinition(
     name: json['Name'] as String,
-    requiredBehavior: _$enumDecodeNullable(
+    requiredBehavior: _$enumDecode(
         _$RequiredAttributeBehaviorEnumMap, json['RequiredBehavior']),
-    type: _$enumDecodeNullable(_$FacetAttributeTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$FacetAttributeTypeEnumMap, json['Type']),
     defaultValue: json['DefaultValue'] == null
         ? null
         : TypedAttributeValue.fromJson(
             json['DefaultValue'] as Map<String, dynamic>),
-    isImmutable: json['IsImmutable'] as bool,
-    rules: (json['Rules'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Rule.fromJson(e as Map<String, dynamic>)),
+    isImmutable: json['IsImmutable'] as bool?,
+    rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
 Map<String, dynamic> _$TypedLinkAttributeDefinitionToJson(
     TypedLinkAttributeDefinition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'RequiredBehavior':
+        _$RequiredAttributeBehaviorEnumMap[instance.requiredBehavior],
+    'Type': _$FacetAttributeTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2172,20 +2004,17 @@ Map<String, dynamic> _$TypedLinkAttributeDefinitionToJson(
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('RequiredBehavior',
-      _$RequiredAttributeBehaviorEnumMap[instance.requiredBehavior]);
-  writeNotNull('Type', _$FacetAttributeTypeEnumMap[instance.type]);
   writeNotNull('DefaultValue', instance.defaultValue?.toJson());
   writeNotNull('IsImmutable', instance.isImmutable);
-  writeNotNull(
-      'Rules', instance.rules?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Rules', instance.rules?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }
 
 Map<String, dynamic> _$TypedLinkAttributeRangeToJson(
     TypedLinkAttributeRange instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Range': instance.range.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2193,41 +2022,23 @@ Map<String, dynamic> _$TypedLinkAttributeRangeToJson(
     }
   }
 
-  writeNotNull('Range', instance.range?.toJson());
   writeNotNull('AttributeName', instance.attributeName);
   return val;
 }
 
-Map<String, dynamic> _$TypedLinkFacetToJson(TypedLinkFacet instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  writeNotNull('IdentityAttributeOrder', instance.identityAttributeOrder);
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$TypedLinkFacetToJson(TypedLinkFacet instance) =>
+    <String, dynamic>{
+      'Attributes': instance.attributes.map((e) => e.toJson()).toList(),
+      'IdentityAttributeOrder': instance.identityAttributeOrder,
+      'Name': instance.name,
+    };
 
 Map<String, dynamic> _$TypedLinkFacetAttributeUpdateToJson(
-    TypedLinkFacetAttributeUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$UpdateActionTypeEnumMap[instance.action]);
-  writeNotNull('Attribute', instance.attribute?.toJson());
-  return val;
-}
+        TypedLinkFacetAttributeUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$UpdateActionTypeEnumMap[instance.action],
+      'Attribute': instance.attribute.toJson(),
+    };
 
 TypedLinkSchemaAndFacetName _$TypedLinkSchemaAndFacetNameFromJson(
     Map<String, dynamic> json) {
@@ -2238,65 +2049,39 @@ TypedLinkSchemaAndFacetName _$TypedLinkSchemaAndFacetNameFromJson(
 }
 
 Map<String, dynamic> _$TypedLinkSchemaAndFacetNameToJson(
-    TypedLinkSchemaAndFacetName instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SchemaArn', instance.schemaArn);
-  writeNotNull('TypedLinkName', instance.typedLinkName);
-  return val;
-}
+        TypedLinkSchemaAndFacetName instance) =>
+    <String, dynamic>{
+      'SchemaArn': instance.schemaArn,
+      'TypedLinkName': instance.typedLinkName,
+    };
 
 TypedLinkSpecifier _$TypedLinkSpecifierFromJson(Map<String, dynamic> json) {
   return TypedLinkSpecifier(
-    identityAttributeValues: (json['IdentityAttributeValues'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sourceObjectReference: json['SourceObjectReference'] == null
-        ? null
-        : ObjectReference.fromJson(
-            json['SourceObjectReference'] as Map<String, dynamic>),
-    targetObjectReference: json['TargetObjectReference'] == null
-        ? null
-        : ObjectReference.fromJson(
-            json['TargetObjectReference'] as Map<String, dynamic>),
-    typedLinkFacet: json['TypedLinkFacet'] == null
-        ? null
-        : TypedLinkSchemaAndFacetName.fromJson(
-            json['TypedLinkFacet'] as Map<String, dynamic>),
+    identityAttributeValues: (json['IdentityAttributeValues'] as List<dynamic>)
+        .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sourceObjectReference: ObjectReference.fromJson(
+        json['SourceObjectReference'] as Map<String, dynamic>),
+    targetObjectReference: ObjectReference.fromJson(
+        json['TargetObjectReference'] as Map<String, dynamic>),
+    typedLinkFacet: TypedLinkSchemaAndFacetName.fromJson(
+        json['TypedLinkFacet'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$TypedLinkSpecifierToJson(TypedLinkSpecifier instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IdentityAttributeValues',
-      instance.identityAttributeValues?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'SourceObjectReference', instance.sourceObjectReference?.toJson());
-  writeNotNull(
-      'TargetObjectReference', instance.targetObjectReference?.toJson());
-  writeNotNull('TypedLinkFacet', instance.typedLinkFacet?.toJson());
-  return val;
-}
+Map<String, dynamic> _$TypedLinkSpecifierToJson(TypedLinkSpecifier instance) =>
+    <String, dynamic>{
+      'IdentityAttributeValues':
+          instance.identityAttributeValues.map((e) => e.toJson()).toList(),
+      'SourceObjectReference': instance.sourceObjectReference.toJson(),
+      'TargetObjectReference': instance.targetObjectReference.toJson(),
+      'TypedLinkFacet': instance.typedLinkFacet.toJson(),
+    };
 
 UnsupportedIndexTypeException _$UnsupportedIndexTypeExceptionFromJson(
     Map<String, dynamic> json) {
   return UnsupportedIndexTypeException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -2317,13 +2102,13 @@ UpdateLinkAttributesResponse _$UpdateLinkAttributesResponseFromJson(
 UpdateObjectAttributesResponse _$UpdateObjectAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateObjectAttributesResponse(
-    objectIdentifier: json['ObjectIdentifier'] as String,
+    objectIdentifier: json['ObjectIdentifier'] as String?,
   );
 }
 
 UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {
   return UpdateSchemaResponse(
-    schemaArn: json['SchemaArn'] as String,
+    schemaArn: json['SchemaArn'] as String?,
   );
 }
 
@@ -2335,20 +2120,20 @@ UpdateTypedLinkFacetResponse _$UpdateTypedLinkFacetResponseFromJson(
 UpgradeAppliedSchemaResponse _$UpgradeAppliedSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return UpgradeAppliedSchemaResponse(
-    directoryArn: json['DirectoryArn'] as String,
-    upgradedSchemaArn: json['UpgradedSchemaArn'] as String,
+    directoryArn: json['DirectoryArn'] as String?,
+    upgradedSchemaArn: json['UpgradedSchemaArn'] as String?,
   );
 }
 
 UpgradePublishedSchemaResponse _$UpgradePublishedSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return UpgradePublishedSchemaResponse(
-    upgradedSchemaArn: json['UpgradedSchemaArn'] as String,
+    upgradedSchemaArn: json['UpgradedSchemaArn'] as String?,
   );
 }
 
 ValidationException _$ValidationExceptionFromJson(Map<String, dynamic> json) {
   return ValidationException(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }

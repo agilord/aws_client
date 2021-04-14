@@ -27,7 +27,7 @@ $publishTo
 protocol: ${api.metadata.protocol}
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   shared_aws_api: ${protocolConfig.shared}

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'ebs-2019-11-02.g.dart';
 
 /// You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to
 /// create EBS snapshots, write data directly to your snapshots, read data on
@@ -57,10 +49,10 @@ part 'ebs-2019-11-02.g.dart';
 class EBS {
   final _s.RestJsonProtocol _protocol;
   EBS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -106,11 +98,11 @@ class EBS {
   /// The algorithm used to generate the checksum. Currently, the only supported
   /// algorithm is <code>SHA256</code>.
   Future<CompleteSnapshotResponse> completeSnapshot({
-    @_s.required int changedBlocksCount,
-    @_s.required String snapshotId,
-    String checksum,
-    ChecksumAggregationMethod checksumAggregationMethod,
-    ChecksumAlgorithm checksumAlgorithm,
+    required int changedBlocksCount,
+    required String snapshotId,
+    String? checksum,
+    ChecksumAggregationMethod? checksumAggregationMethod,
+    ChecksumAlgorithm? checksumAlgorithm,
   }) async {
     ArgumentError.checkNotNull(changedBlocksCount, 'changedBlocksCount');
     _s.validateNumRange(
@@ -155,14 +147,15 @@ class EBS {
       checksumAlgorithm?.toValue(),
       r'''^[A-Za-z0-9]+$''',
     );
-    final headers = <String, String>{};
-    changedBlocksCount
-        ?.let((v) => headers['x-amz-ChangedBlocksCount'] = v.toString());
-    checksum?.let((v) => headers['x-amz-Checksum'] = v.toString());
-    checksumAggregationMethod?.let(
-        (v) => headers['x-amz-Checksum-Aggregation-Method'] = v.toValue());
-    checksumAlgorithm
-        ?.let((v) => headers['x-amz-Checksum-Algorithm'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-ChangedBlocksCount': changedBlocksCount.toString(),
+      if (checksum != null) 'x-amz-Checksum': checksum.toString(),
+      if (checksumAggregationMethod != null)
+        'x-amz-Checksum-Aggregation-Method':
+            checksumAggregationMethod.toValue(),
+      if (checksumAlgorithm != null)
+        'x-amz-Checksum-Algorithm': checksumAlgorithm.toValue(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -199,9 +192,9 @@ class EBS {
   /// Parameter [snapshotId] :
   /// The ID of the snapshot containing the block from which to get data.
   Future<GetSnapshotBlockResponse> getSnapshotBlock({
-    @_s.required int blockIndex,
-    @_s.required String blockToken,
-    @_s.required String snapshotId,
+    required int blockIndex,
+    required String blockToken,
+    required String snapshotId,
   }) async {
     ArgumentError.checkNotNull(blockIndex, 'blockIndex');
     _s.validateNumRange(
@@ -240,7 +233,7 @@ class EBS {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (blockToken != null) 'blockToken': [blockToken],
+      'blockToken': [blockToken],
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -298,11 +291,11 @@ class EBS {
   /// The list in the response will start from this block index or the next
   /// valid block index in the snapshots.
   Future<ListChangedBlocksResponse> listChangedBlocks({
-    @_s.required String secondSnapshotId,
-    String firstSnapshotId,
-    int maxResults,
-    String nextToken,
-    int startingBlockIndex,
+    required String secondSnapshotId,
+    String? firstSnapshotId,
+    int? maxResults,
+    String? nextToken,
+    int? startingBlockIndex,
   }) async {
     ArgumentError.checkNotNull(secondSnapshotId, 'secondSnapshotId');
     _s.validateStringLength(
@@ -394,10 +387,10 @@ class EBS {
   /// will start from this block index or the next valid block index in the
   /// snapshot.
   Future<ListSnapshotBlocksResponse> listSnapshotBlocks({
-    @_s.required String snapshotId,
-    int maxResults,
-    String nextToken,
-    int startingBlockIndex,
+    required String snapshotId,
+    int? maxResults,
+    String? nextToken,
+    int? startingBlockIndex,
   }) async {
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringLength(
@@ -508,13 +501,13 @@ class EBS {
   /// Parameter [progress] :
   /// The progress of the write process, as a percentage.
   Future<PutSnapshotBlockResponse> putSnapshotBlock({
-    @_s.required Uint8List blockData,
-    @_s.required int blockIndex,
-    @_s.required String checksum,
-    @_s.required ChecksumAlgorithm checksumAlgorithm,
-    @_s.required int dataLength,
-    @_s.required String snapshotId,
-    int progress,
+    required Uint8List blockData,
+    required int blockIndex,
+    required String checksum,
+    required ChecksumAlgorithm checksumAlgorithm,
+    required int dataLength,
+    required String snapshotId,
+    int? progress,
   }) async {
     ArgumentError.checkNotNull(blockData, 'blockData');
     ArgumentError.checkNotNull(blockIndex, 'blockIndex');
@@ -567,12 +560,12 @@ class EBS {
       0,
       100,
     );
-    final headers = <String, String>{};
-    checksum?.let((v) => headers['x-amz-Checksum'] = v.toString());
-    checksumAlgorithm
-        ?.let((v) => headers['x-amz-Checksum-Algorithm'] = v.toValue());
-    dataLength?.let((v) => headers['x-amz-Data-Length'] = v.toString());
-    progress?.let((v) => headers['x-amz-Progress'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-Checksum': checksum.toString(),
+      'x-amz-Checksum-Algorithm': checksumAlgorithm.toValue(),
+      'x-amz-Data-Length': dataLength.toString(),
+      if (progress != null) 'x-amz-Progress': progress.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: blockData,
       method: 'PUT',
@@ -693,14 +686,14 @@ class EBS {
   /// </ul>
   /// If no value is specified, the timeout defaults to <code>60</code> minutes.
   Future<StartSnapshotResponse> startSnapshot({
-    @_s.required int volumeSize,
-    String clientToken,
-    String description,
-    bool encrypted,
-    String kmsKeyArn,
-    String parentSnapshotId,
-    List<Tag> tags,
-    int timeout,
+    required int volumeSize,
+    String? clientToken,
+    String? description,
+    bool? encrypted,
+    String? kmsKeyArn,
+    String? parentSnapshotId,
+    List<Tag>? tags,
+    int? timeout,
   }) async {
     ArgumentError.checkNotNull(volumeSize, 'volumeSize');
     _s.validateNumRange(
@@ -781,62 +774,56 @@ class EBS {
 }
 
 /// A block of data in an Amazon Elastic Block Store snapshot.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Block {
   /// The block index.
-  @_s.JsonKey(name: 'BlockIndex')
-  final int blockIndex;
+  final int? blockIndex;
 
   /// The block token for the block index.
-  @_s.JsonKey(name: 'BlockToken')
-  final String blockToken;
+  final String? blockToken;
 
   Block({
     this.blockIndex,
     this.blockToken,
   });
-  factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
+  factory Block.fromJson(Map<String, dynamic> json) {
+    return Block(
+      blockIndex: json['BlockIndex'] as int?,
+      blockToken: json['BlockToken'] as String?,
+    );
+  }
 }
 
 /// A block of data in an Amazon Elastic Block Store snapshot that is different
 /// from another snapshot of the same volume/snapshot lineage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChangedBlock {
   /// The block index.
-  @_s.JsonKey(name: 'BlockIndex')
-  final int blockIndex;
+  final int? blockIndex;
 
   /// The block token for the block index of the <code>FirstSnapshotId</code>
   /// specified in the <code>ListChangedBlocks</code> operation. This value is
   /// absent if the first snapshot does not have the changed block that is on the
   /// second snapshot.
-  @_s.JsonKey(name: 'FirstBlockToken')
-  final String firstBlockToken;
+  final String? firstBlockToken;
 
   /// The block token for the block index of the <code>SecondSnapshotId</code>
   /// specified in the <code>ListChangedBlocks</code> operation.
-  @_s.JsonKey(name: 'SecondBlockToken')
-  final String secondBlockToken;
+  final String? secondBlockToken;
 
   ChangedBlock({
     this.blockIndex,
     this.firstBlockToken,
     this.secondBlockToken,
   });
-  factory ChangedBlock.fromJson(Map<String, dynamic> json) =>
-      _$ChangedBlockFromJson(json);
+  factory ChangedBlock.fromJson(Map<String, dynamic> json) {
+    return ChangedBlock(
+      blockIndex: json['BlockIndex'] as int?,
+      firstBlockToken: json['FirstBlockToken'] as String?,
+      secondBlockToken: json['SecondBlockToken'] as String?,
+    );
+  }
 }
 
 enum ChecksumAggregationMethod {
-  @_s.JsonValue('LINEAR')
   linear,
 }
 
@@ -846,12 +833,20 @@ extension on ChecksumAggregationMethod {
       case ChecksumAggregationMethod.linear:
         return 'LINEAR';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChecksumAggregationMethod toChecksumAggregationMethod() {
+    switch (this) {
+      case 'LINEAR':
+        return ChecksumAggregationMethod.linear;
+    }
+    throw Exception('$this is not known in enum ChecksumAggregationMethod');
   }
 }
 
 enum ChecksumAlgorithm {
-  @_s.JsonValue('SHA256')
   sha256,
 }
 
@@ -861,7 +856,6 @@ extension on ChecksumAlgorithm {
       case ChecksumAlgorithm.sha256:
         return 'SHA256';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -871,49 +865,36 @@ extension on String {
       case 'SHA256':
         return ChecksumAlgorithm.sha256;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChecksumAlgorithm');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompleteSnapshotResponse {
   /// The status of the snapshot.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   CompleteSnapshotResponse({
     this.status,
   });
-  factory CompleteSnapshotResponse.fromJson(Map<String, dynamic> json) =>
-      _$CompleteSnapshotResponseFromJson(json);
+  factory CompleteSnapshotResponse.fromJson(Map<String, dynamic> json) {
+    return CompleteSnapshotResponse(
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSnapshotBlockResponse {
   /// The data content of the block.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'BlockData')
-  final Uint8List blockData;
+  final Uint8List? blockData;
 
   /// The checksum generated for the block, which is Base64 encoded.
-  @_s.JsonKey(name: 'x-amz-Checksum')
-  final String checksum;
+  final String? checksum;
 
   /// The algorithm used to generate the checksum for the block, such as SHA256.
-  @_s.JsonKey(name: 'x-amz-Checksum-Algorithm')
-  final ChecksumAlgorithm checksumAlgorithm;
+  final ChecksumAlgorithm? checksumAlgorithm;
 
   /// The size of the data in the block.
-  @_s.JsonKey(name: 'x-amz-Data-Length')
-  final int dataLength;
+  final int? dataLength;
 
   GetSnapshotBlockResponse({
     this.blockData,
@@ -921,37 +902,24 @@ class GetSnapshotBlockResponse {
     this.checksumAlgorithm,
     this.dataLength,
   });
-  factory GetSnapshotBlockResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSnapshotBlockResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChangedBlocksResponse {
   /// The size of the block.
-  @_s.JsonKey(name: 'BlockSize')
-  final int blockSize;
+  final int? blockSize;
 
   /// An array of objects containing information about the changed blocks.
-  @_s.JsonKey(name: 'ChangedBlocks')
-  final List<ChangedBlock> changedBlocks;
+  final List<ChangedBlock>? changedBlocks;
 
   /// The time when the <code>BlockToken</code> expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiryTime')
-  final DateTime expiryTime;
+  final DateTime? expiryTime;
 
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The size of the volume in GB.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   ListChangedBlocksResponse({
     this.blockSize,
@@ -960,37 +928,36 @@ class ListChangedBlocksResponse {
     this.nextToken,
     this.volumeSize,
   });
-  factory ListChangedBlocksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChangedBlocksResponseFromJson(json);
+  factory ListChangedBlocksResponse.fromJson(Map<String, dynamic> json) {
+    return ListChangedBlocksResponse(
+      blockSize: json['BlockSize'] as int?,
+      changedBlocks: (json['ChangedBlocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChangedBlock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expiryTime: timeStampFromJson(json['ExpiryTime']),
+      nextToken: json['NextToken'] as String?,
+      volumeSize: json['VolumeSize'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSnapshotBlocksResponse {
   /// The size of the block.
-  @_s.JsonKey(name: 'BlockSize')
-  final int blockSize;
+  final int? blockSize;
 
   /// An array of objects containing information about the blocks.
-  @_s.JsonKey(name: 'Blocks')
-  final List<Block> blocks;
+  final List<Block>? blocks;
 
   /// The time when the <code>BlockToken</code> expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiryTime')
-  final DateTime expiryTime;
+  final DateTime? expiryTime;
 
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The size of the volume in GB.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   ListSnapshotBlocksResponse({
     this.blockSize,
@@ -999,83 +966,68 @@ class ListSnapshotBlocksResponse {
     this.nextToken,
     this.volumeSize,
   });
-  factory ListSnapshotBlocksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSnapshotBlocksResponseFromJson(json);
+  factory ListSnapshotBlocksResponse.fromJson(Map<String, dynamic> json) {
+    return ListSnapshotBlocksResponse(
+      blockSize: json['BlockSize'] as int?,
+      blocks: (json['Blocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expiryTime: timeStampFromJson(json['ExpiryTime']),
+      nextToken: json['NextToken'] as String?,
+      volumeSize: json['VolumeSize'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSnapshotBlockResponse {
   /// The SHA256 checksum generated for the block data by Amazon EBS.
-  @_s.JsonKey(name: 'x-amz-Checksum')
-  final String checksum;
+  final String? checksum;
 
   /// The algorithm used by Amazon EBS to generate the checksum.
-  @_s.JsonKey(name: 'x-amz-Checksum-Algorithm')
-  final ChecksumAlgorithm checksumAlgorithm;
+  final ChecksumAlgorithm? checksumAlgorithm;
 
   PutSnapshotBlockResponse({
     this.checksum,
     this.checksumAlgorithm,
   });
-  factory PutSnapshotBlockResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSnapshotBlockResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSnapshotResponse {
   /// The size of the blocks in the snapshot, in bytes.
-  @_s.JsonKey(name: 'BlockSize')
-  final int blockSize;
+  final int? blockSize;
 
   /// The description of the snapshot.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
   /// customer master key (CMK) used to encrypt the snapshot.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   /// The AWS account ID of the snapshot owner.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The ID of the parent snapshot.
-  @_s.JsonKey(name: 'ParentSnapshotId')
-  final String parentSnapshotId;
+  final String? parentSnapshotId;
 
   /// The ID of the snapshot.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The timestamp when the snapshot was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the snapshot.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   /// The tags applied to the snapshot. You can specify up to 50 tags per
   /// snapshot. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">
   /// Tagging your Amazon EC2 resources</a> in the <i>Amazon Elastic Compute Cloud
   /// User Guide</i>.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The size of the volume, in GiB.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   StartSnapshotResponse({
     this.blockSize,
@@ -1089,50 +1041,94 @@ class StartSnapshotResponse {
     this.tags,
     this.volumeSize,
   });
-  factory StartSnapshotResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartSnapshotResponseFromJson(json);
+  factory StartSnapshotResponse.fromJson(Map<String, dynamic> json) {
+    return StartSnapshotResponse(
+      blockSize: json['BlockSize'] as int?,
+      description: json['Description'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      parentSnapshotId: json['ParentSnapshotId'] as String?,
+      snapshotId: json['SnapshotId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toStatus(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      volumeSize: json['VolumeSize'] as int?,
+    );
+  }
 }
 
 enum Status {
-  @_s.JsonValue('completed')
   completed,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('error')
   error,
 }
 
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.completed:
+        return 'completed';
+      case Status.pending:
+        return 'pending';
+      case Status.error:
+        return 'error';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'completed':
+        return Status.completed;
+      case 'pending':
+        return Status.pending;
+      case 'error':
+        return Status.error;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 /// Describes a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConcurrentLimitExceededException extends _s.GenericAwsException {
-  ConcurrentLimitExceededException({String type, String message})
+  ConcurrentLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentLimitExceededException',
@@ -1140,27 +1136,27 @@ class ConcurrentLimitExceededException extends _s.GenericAwsException {
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class RequestThrottledException extends _s.GenericAwsException {
-  RequestThrottledException({String type, String message})
+  RequestThrottledException({String? type, String? message})
       : super(type: type, code: 'RequestThrottledException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1168,7 +1164,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

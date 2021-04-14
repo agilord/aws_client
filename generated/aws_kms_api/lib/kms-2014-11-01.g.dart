@@ -8,19 +8,19 @@ part of 'kms-2014-11-01.dart';
 
 AliasListEntry _$AliasListEntryFromJson(Map<String, dynamic> json) {
   return AliasListEntry(
-    aliasArn: json['AliasArn'] as String,
-    aliasName: json['AliasName'] as String,
+    aliasArn: json['AliasArn'] as String?,
+    aliasName: json['AliasName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedDate']),
-    targetKeyId: json['TargetKeyId'] as String,
+    targetKeyId: json['TargetKeyId'] as String?,
   );
 }
 
 CancelKeyDeletionResponse _$CancelKeyDeletionResponseFromJson(
     Map<String, dynamic> json) {
   return CancelKeyDeletionResponse(
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
   );
 }
 
@@ -32,14 +32,14 @@ ConnectCustomKeyStoreResponse _$ConnectCustomKeyStoreResponseFromJson(
 CreateCustomKeyStoreResponse _$CreateCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCustomKeyStoreResponse(
-    customKeyStoreId: json['CustomKeyStoreId'] as String,
+    customKeyStoreId: json['CustomKeyStoreId'] as String?,
   );
 }
 
 CreateGrantResponse _$CreateGrantResponseFromJson(Map<String, dynamic> json) {
   return CreateGrantResponse(
-    grantId: json['GrantId'] as String,
-    grantToken: json['GrantToken'] as String,
+    grantId: json['GrantId'] as String?,
+    grantToken: json['GrantToken'] as String?,
   );
 }
 
@@ -54,48 +54,53 @@ CreateKeyResponse _$CreateKeyResponseFromJson(Map<String, dynamic> json) {
 CustomKeyStoresListEntry _$CustomKeyStoresListEntryFromJson(
     Map<String, dynamic> json) {
   return CustomKeyStoresListEntry(
-    cloudHsmClusterId: json['CloudHsmClusterId'] as String,
+    cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
     connectionErrorCode: _$enumDecodeNullable(
         _$ConnectionErrorCodeTypeEnumMap, json['ConnectionErrorCode']),
     connectionState: _$enumDecodeNullable(
         _$ConnectionStateTypeEnumMap, json['ConnectionState']),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    customKeyStoreId: json['CustomKeyStoreId'] as String,
-    customKeyStoreName: json['CustomKeyStoreName'] as String,
-    trustAnchorCertificate: json['TrustAnchorCertificate'] as String,
+    customKeyStoreId: json['CustomKeyStoreId'] as String?,
+    customKeyStoreName: json['CustomKeyStoreName'] as String?,
+    trustAnchorCertificate: json['TrustAnchorCertificate'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ConnectionErrorCodeTypeEnumMap = {
@@ -123,8 +128,9 @@ DecryptResponse _$DecryptResponseFromJson(Map<String, dynamic> json) {
   return DecryptResponse(
     encryptionAlgorithm: _$enumDecodeNullable(
         _$EncryptionAlgorithmSpecEnumMap, json['EncryptionAlgorithm']),
-    keyId: json['KeyId'] as String,
-    plaintext: const Uint8ListConverter().fromJson(json['Plaintext'] as String),
+    keyId: json['KeyId'] as String?,
+    plaintext: const Uint8ListNullableConverter()
+        .fromJson(json['Plaintext'] as String?),
   );
 }
 
@@ -142,13 +148,12 @@ DeleteCustomKeyStoreResponse _$DeleteCustomKeyStoreResponseFromJson(
 DescribeCustomKeyStoresResponse _$DescribeCustomKeyStoresResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCustomKeyStoresResponse(
-    customKeyStores: (json['CustomKeyStores'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CustomKeyStoresListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
-    truncated: json['Truncated'] as bool,
+    customKeyStores: (json['CustomKeyStores'] as List<dynamic>?)
+        ?.map(
+            (e) => CustomKeyStoresListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
+    truncated: json['Truncated'] as bool?,
   );
 }
 
@@ -167,25 +172,26 @@ DisconnectCustomKeyStoreResponse _$DisconnectCustomKeyStoreResponseFromJson(
 
 EncryptResponse _$EncryptResponseFromJson(Map<String, dynamic> json) {
   return EncryptResponse(
-    ciphertextBlob:
-        const Uint8ListConverter().fromJson(json['CiphertextBlob'] as String),
+    ciphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['CiphertextBlob'] as String?),
     encryptionAlgorithm: _$enumDecodeNullable(
         _$EncryptionAlgorithmSpecEnumMap, json['EncryptionAlgorithm']),
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
   );
 }
 
 GenerateDataKeyPairResponse _$GenerateDataKeyPairResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateDataKeyPairResponse(
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
     keyPairSpec:
         _$enumDecodeNullable(_$DataKeyPairSpecEnumMap, json['KeyPairSpec']),
-    privateKeyCiphertextBlob: const Uint8ListConverter()
-        .fromJson(json['PrivateKeyCiphertextBlob'] as String),
-    privateKeyPlaintext: const Uint8ListConverter()
-        .fromJson(json['PrivateKeyPlaintext'] as String),
-    publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
+    privateKeyCiphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['PrivateKeyCiphertextBlob'] as String?),
+    privateKeyPlaintext: const Uint8ListNullableConverter()
+        .fromJson(json['PrivateKeyPlaintext'] as String?),
+    publicKey: const Uint8ListNullableConverter()
+        .fromJson(json['PublicKey'] as String?),
   );
 }
 
@@ -203,22 +209,24 @@ GenerateDataKeyPairWithoutPlaintextResponse
     _$GenerateDataKeyPairWithoutPlaintextResponseFromJson(
         Map<String, dynamic> json) {
   return GenerateDataKeyPairWithoutPlaintextResponse(
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
     keyPairSpec:
         _$enumDecodeNullable(_$DataKeyPairSpecEnumMap, json['KeyPairSpec']),
-    privateKeyCiphertextBlob: const Uint8ListConverter()
-        .fromJson(json['PrivateKeyCiphertextBlob'] as String),
-    publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
+    privateKeyCiphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['PrivateKeyCiphertextBlob'] as String?),
+    publicKey: const Uint8ListNullableConverter()
+        .fromJson(json['PublicKey'] as String?),
   );
 }
 
 GenerateDataKeyResponse _$GenerateDataKeyResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateDataKeyResponse(
-    ciphertextBlob:
-        const Uint8ListConverter().fromJson(json['CiphertextBlob'] as String),
-    keyId: json['KeyId'] as String,
-    plaintext: const Uint8ListConverter().fromJson(json['Plaintext'] as String),
+    ciphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['CiphertextBlob'] as String?),
+    keyId: json['KeyId'] as String?,
+    plaintext: const Uint8ListNullableConverter()
+        .fromJson(json['Plaintext'] as String?),
   );
 }
 
@@ -226,41 +234,43 @@ GenerateDataKeyWithoutPlaintextResponse
     _$GenerateDataKeyWithoutPlaintextResponseFromJson(
         Map<String, dynamic> json) {
   return GenerateDataKeyWithoutPlaintextResponse(
-    ciphertextBlob:
-        const Uint8ListConverter().fromJson(json['CiphertextBlob'] as String),
-    keyId: json['KeyId'] as String,
+    ciphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['CiphertextBlob'] as String?),
+    keyId: json['KeyId'] as String?,
   );
 }
 
 GenerateRandomResponse _$GenerateRandomResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateRandomResponse(
-    plaintext: const Uint8ListConverter().fromJson(json['Plaintext'] as String),
+    plaintext: const Uint8ListNullableConverter()
+        .fromJson(json['Plaintext'] as String?),
   );
 }
 
 GetKeyPolicyResponse _$GetKeyPolicyResponseFromJson(Map<String, dynamic> json) {
   return GetKeyPolicyResponse(
-    policy: json['Policy'] as String,
+    policy: json['Policy'] as String?,
   );
 }
 
 GetKeyRotationStatusResponse _$GetKeyRotationStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetKeyRotationStatusResponse(
-    keyRotationEnabled: json['KeyRotationEnabled'] as bool,
+    keyRotationEnabled: json['KeyRotationEnabled'] as bool?,
   );
 }
 
 GetParametersForImportResponse _$GetParametersForImportResponseFromJson(
     Map<String, dynamic> json) {
   return GetParametersForImportResponse(
-    importToken:
-        const Uint8ListConverter().fromJson(json['ImportToken'] as String),
-    keyId: json['KeyId'] as String,
+    importToken: const Uint8ListNullableConverter()
+        .fromJson(json['ImportToken'] as String?),
+    keyId: json['KeyId'] as String?,
     parametersValidTo:
         const UnixDateTimeConverter().fromJson(json['ParametersValidTo']),
-    publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
+    publicKey: const Uint8ListNullableConverter()
+        .fromJson(json['PublicKey'] as String?),
   );
 }
 
@@ -268,15 +278,16 @@ GetPublicKeyResponse _$GetPublicKeyResponseFromJson(Map<String, dynamic> json) {
   return GetPublicKeyResponse(
     customerMasterKeySpec: _$enumDecodeNullable(
         _$CustomerMasterKeySpecEnumMap, json['CustomerMasterKeySpec']),
-    encryptionAlgorithms: (json['EncryptionAlgorithms'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EncryptionAlgorithmSpecEnumMap, e))
-        ?.toList(),
-    keyId: json['KeyId'] as String,
+    encryptionAlgorithms: (json['EncryptionAlgorithms'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EncryptionAlgorithmSpecEnumMap, e))
+        .toList(),
+    keyId: json['KeyId'] as String?,
     keyUsage: _$enumDecodeNullable(_$KeyUsageTypeEnumMap, json['KeyUsage']),
-    publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
-    signingAlgorithms: (json['SigningAlgorithms'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$SigningAlgorithmSpecEnumMap, e))
-        ?.toList(),
+    publicKey: const Uint8ListNullableConverter()
+        .fromJson(json['PublicKey'] as String?),
+    signingAlgorithms: (json['SigningAlgorithms'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$SigningAlgorithmSpecEnumMap, e))
+        .toList(),
   );
 }
 
@@ -311,11 +322,11 @@ const _$SigningAlgorithmSpecEnumMap = {
 GrantConstraints _$GrantConstraintsFromJson(Map<String, dynamic> json) {
   return GrantConstraints(
     encryptionContextEquals:
-        (json['EncryptionContextEquals'] as Map<String, dynamic>)?.map(
+        (json['EncryptionContextEquals'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     encryptionContextSubset:
-        (json['EncryptionContextSubset'] as Map<String, dynamic>)?.map(
+        (json['EncryptionContextSubset'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -342,15 +353,15 @@ GrantListEntry _$GrantListEntryFromJson(Map<String, dynamic> json) {
         : GrantConstraints.fromJson(
             json['Constraints'] as Map<String, dynamic>),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    grantId: json['GrantId'] as String,
-    granteePrincipal: json['GranteePrincipal'] as String,
-    issuingAccount: json['IssuingAccount'] as String,
-    keyId: json['KeyId'] as String,
-    name: json['Name'] as String,
-    operations: (json['Operations'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$GrantOperationEnumMap, e))
-        ?.toList(),
-    retiringPrincipal: json['RetiringPrincipal'] as String,
+    grantId: json['GrantId'] as String?,
+    granteePrincipal: json['GranteePrincipal'] as String?,
+    issuingAccount: json['IssuingAccount'] as String?,
+    keyId: json['KeyId'] as String?,
+    name: json['Name'] as String?,
+    operations: (json['Operations'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$GrantOperationEnumMap, e))
+        .toList(),
+    retiringPrincipal: json['RetiringPrincipal'] as String?,
   );
 }
 
@@ -380,27 +391,27 @@ ImportKeyMaterialResponse _$ImportKeyMaterialResponseFromJson(
 
 KeyListEntry _$KeyListEntryFromJson(Map<String, dynamic> json) {
   return KeyListEntry(
-    keyArn: json['KeyArn'] as String,
-    keyId: json['KeyId'] as String,
+    keyArn: json['KeyArn'] as String?,
+    keyId: json['KeyId'] as String?,
   );
 }
 
 KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
   return KeyMetadata(
     keyId: json['KeyId'] as String,
-    awsAccountId: json['AWSAccountId'] as String,
-    arn: json['Arn'] as String,
-    cloudHsmClusterId: json['CloudHsmClusterId'] as String,
+    awsAccountId: json['AWSAccountId'] as String?,
+    arn: json['Arn'] as String?,
+    cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    customKeyStoreId: json['CustomKeyStoreId'] as String,
+    customKeyStoreId: json['CustomKeyStoreId'] as String?,
     customerMasterKeySpec: _$enumDecodeNullable(
         _$CustomerMasterKeySpecEnumMap, json['CustomerMasterKeySpec']),
     deletionDate: const UnixDateTimeConverter().fromJson(json['DeletionDate']),
-    description: json['Description'] as String,
-    enabled: json['Enabled'] as bool,
-    encryptionAlgorithms: (json['EncryptionAlgorithms'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EncryptionAlgorithmSpecEnumMap, e))
-        ?.toList(),
+    description: json['Description'] as String?,
+    enabled: json['Enabled'] as bool?,
+    encryptionAlgorithms: (json['EncryptionAlgorithms'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EncryptionAlgorithmSpecEnumMap, e))
+        .toList(),
     expirationModel: _$enumDecodeNullable(
         _$ExpirationModelTypeEnumMap, json['ExpirationModel']),
     keyManager:
@@ -408,9 +419,9 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
     keyState: _$enumDecodeNullable(_$KeyStateEnumMap, json['KeyState']),
     keyUsage: _$enumDecodeNullable(_$KeyUsageTypeEnumMap, json['KeyUsage']),
     origin: _$enumDecodeNullable(_$OriginTypeEnumMap, json['Origin']),
-    signingAlgorithms: (json['SigningAlgorithms'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$SigningAlgorithmSpecEnumMap, e))
-        ?.toList(),
+    signingAlgorithms: (json['SigningAlgorithms'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$SigningAlgorithmSpecEnumMap, e))
+        .toList(),
     validTo: const UnixDateTimeConverter().fromJson(json['ValidTo']),
   );
 }
@@ -441,71 +452,67 @@ const _$OriginTypeEnumMap = {
 
 ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
   return ListAliasesResponse(
-    aliases: (json['Aliases'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AliasListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
-    truncated: json['Truncated'] as bool,
+    aliases: (json['Aliases'] as List<dynamic>?)
+        ?.map((e) => AliasListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ListGrantsResponse _$ListGrantsResponseFromJson(Map<String, dynamic> json) {
   return ListGrantsResponse(
-    grants: (json['Grants'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GrantListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
-    truncated: json['Truncated'] as bool,
+    grants: (json['Grants'] as List<dynamic>?)
+        ?.map((e) => GrantListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ListKeyPoliciesResponse _$ListKeyPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return ListKeyPoliciesResponse(
-    nextMarker: json['NextMarker'] as String,
-    policyNames:
-        (json['PolicyNames'] as List)?.map((e) => e as String)?.toList(),
-    truncated: json['Truncated'] as bool,
+    nextMarker: json['NextMarker'] as String?,
+    policyNames: (json['PolicyNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ListKeysResponse _$ListKeysResponseFromJson(Map<String, dynamic> json) {
   return ListKeysResponse(
-    keys: (json['Keys'] as List)
-        ?.map((e) =>
-            e == null ? null : KeyListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
-    truncated: json['Truncated'] as bool,
+    keys: (json['Keys'] as List<dynamic>?)
+        ?.map((e) => KeyListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ListResourceTagsResponse _$ListResourceTagsResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceTagsResponse(
-    nextMarker: json['NextMarker'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    truncated: json['Truncated'] as bool,
+    nextMarker: json['NextMarker'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ReEncryptResponse _$ReEncryptResponseFromJson(Map<String, dynamic> json) {
   return ReEncryptResponse(
-    ciphertextBlob:
-        const Uint8ListConverter().fromJson(json['CiphertextBlob'] as String),
+    ciphertextBlob: const Uint8ListNullableConverter()
+        .fromJson(json['CiphertextBlob'] as String?),
     destinationEncryptionAlgorithm: _$enumDecodeNullable(
         _$EncryptionAlgorithmSpecEnumMap,
         json['DestinationEncryptionAlgorithm']),
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
     sourceEncryptionAlgorithm: _$enumDecodeNullable(
         _$EncryptionAlgorithmSpecEnumMap, json['SourceEncryptionAlgorithm']),
-    sourceKeyId: json['SourceKeyId'] as String,
+    sourceKeyId: json['SourceKeyId'] as String?,
   );
 }
 
@@ -513,14 +520,15 @@ ScheduleKeyDeletionResponse _$ScheduleKeyDeletionResponseFromJson(
     Map<String, dynamic> json) {
   return ScheduleKeyDeletionResponse(
     deletionDate: const UnixDateTimeConverter().fromJson(json['DeletionDate']),
-    keyId: json['KeyId'] as String,
+    keyId: json['KeyId'] as String?,
   );
 }
 
 SignResponse _$SignResponseFromJson(Map<String, dynamic> json) {
   return SignResponse(
-    keyId: json['KeyId'] as String,
-    signature: const Uint8ListConverter().fromJson(json['Signature'] as String),
+    keyId: json['KeyId'] as String?,
+    signature: const Uint8ListNullableConverter()
+        .fromJson(json['Signature'] as String?),
     signingAlgorithm: _$enumDecodeNullable(
         _$SigningAlgorithmSpecEnumMap, json['SigningAlgorithm']),
   );
@@ -533,19 +541,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TagKey', instance.tagKey);
-  writeNotNull('TagValue', instance.tagValue);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'TagKey': instance.tagKey,
+      'TagValue': instance.tagValue,
+    };
 
 UpdateCustomKeyStoreResponse _$UpdateCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
@@ -554,8 +553,8 @@ UpdateCustomKeyStoreResponse _$UpdateCustomKeyStoreResponseFromJson(
 
 VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) {
   return VerifyResponse(
-    keyId: json['KeyId'] as String,
-    signatureValid: json['SignatureValid'] as bool,
+    keyId: json['KeyId'] as String?,
+    signatureValid: json['SignatureValid'] as bool?,
     signingAlgorithm: _$enumDecodeNullable(
         _$SigningAlgorithmSpecEnumMap, json['SigningAlgorithm']),
   );

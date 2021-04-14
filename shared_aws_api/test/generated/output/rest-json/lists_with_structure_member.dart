@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'lists_with_structure_member.g.dart';
 
 /// Lists with structure member
 class ListsWithStructureMember {
   final _s.RestJsonProtocol _protocol;
   ListsWithStructureMember({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -55,36 +47,33 @@ class ListsWithStructureMember {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'ListMember')
-  final List<SingleStruct> listMember;
+  final List<SingleStruct>? listMember;
 
   OutputShape({
     this.listMember,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      listMember: (json['ListMember'] as List?)
+          ?.whereNotNull()
+          .map((e) => SingleStruct.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SingleStruct {
-  @_s.JsonKey(name: 'Foo')
-  final String foo;
+  final String? foo;
 
   SingleStruct({
     this.foo,
   });
-  factory SingleStruct.fromJson(Map<String, dynamic> json) =>
-      _$SingleStructFromJson(json);
+  factory SingleStruct.fromJson(Map<String, dynamic> json) {
+    return SingleStruct(
+      foo: json['Foo'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

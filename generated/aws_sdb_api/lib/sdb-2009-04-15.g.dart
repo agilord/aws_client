@@ -7,7 +7,9 @@ part of 'sdb-2009-04-15.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$DeletableAttributeToJson(DeletableAttribute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -15,13 +17,14 @@ Map<String, dynamic> _$DeletableAttributeToJson(DeletableAttribute instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('Value', instance.value);
   return val;
 }
 
 Map<String, dynamic> _$DeletableItemToJson(DeletableItem instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ItemName': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -29,15 +32,17 @@ Map<String, dynamic> _$DeletableItemToJson(DeletableItem instance) {
     }
   }
 
-  writeNotNull('ItemName', instance.name);
   writeNotNull(
-      'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+      'Attributes', instance.attributes?.map((e) => e.toJson()).toList());
   return val;
 }
 
 Map<String, dynamic> _$ReplaceableAttributeToJson(
     ReplaceableAttribute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'Value': instance.value,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -45,26 +50,15 @@ Map<String, dynamic> _$ReplaceableAttributeToJson(
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.value);
   writeNotNull('Replace', instance.replace);
   return val;
 }
 
-Map<String, dynamic> _$ReplaceableItemToJson(ReplaceableItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  writeNotNull('ItemName', instance.name);
-  return val;
-}
+Map<String, dynamic> _$ReplaceableItemToJson(ReplaceableItem instance) =>
+    <String, dynamic>{
+      'Attributes': instance.attributes.map((e) => e.toJson()).toList(),
+      'ItemName': instance.name,
+    };
 
 Map<String, dynamic> _$UpdateConditionToJson(UpdateCondition instance) {
   final val = <String, dynamic>{};

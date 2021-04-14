@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 import 'package:shared_aws_api/src/protocol/_sign.dart';
 
 import '../credentials.dart';
@@ -20,26 +19,26 @@ class RestJsonProtocol {
   );
 
   factory RestJsonProtocol({
-    Client client,
-    ServiceMetadata service,
-    String region,
-    String endpointUrl,
-    AwsClientCredentials credentials,
+    Client? client,
+    ServiceMetadata? service,
+    String? region,
+    String? endpointUrl,
+    AwsClientCredentials? credentials,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestJsonProtocol._(client, endpoint, credentials);
+    return RestJsonProtocol._(client, endpoint, credentials!);
   }
 
   Future<StreamedResponse> sendRaw({
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, List<String>> queryParams,
-    Map<String, String> headers,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, List<String>>? queryParams,
+    Map<String, String>? headers,
     dynamic payload,
   }) async {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
@@ -82,11 +81,11 @@ class RestJsonProtocol {
   }
 
   Future<Map<String, dynamic>> send({
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, List<String>> queryParams,
-    Map<String, String> headers,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, List<String>>? queryParams,
+    Map<String, String>? headers,
     dynamic payload,
     bool isRawPayload = false,
   }) async {

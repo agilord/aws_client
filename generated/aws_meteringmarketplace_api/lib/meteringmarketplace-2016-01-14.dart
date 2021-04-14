@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'meteringmarketplace-2016-01-14.g.dart';
 
 /// This reference provides descriptions of the low-level AWS Marketplace
 /// Metering Service API.
 class MarketplaceMetering {
   final _s.JsonProtocol _protocol;
   MarketplaceMetering({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -83,8 +75,8 @@ class MarketplaceMetering {
   /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25
   /// UsageRecords at a time.
   Future<BatchMeterUsageResult> batchMeterUsage({
-    @_s.required String productCode,
-    @_s.required List<UsageRecord> usageRecords,
+    required String productCode,
+    required List<UsageRecord> usageRecords,
   }) async {
     ArgumentError.checkNotNull(productCode, 'productCode');
     _s.validateStringLength(
@@ -172,12 +164,12 @@ class MarketplaceMetering {
   /// Consumption value for the hour. Defaults to <code>0</code> if not
   /// specified.
   Future<MeterUsageResult> meterUsage({
-    @_s.required String productCode,
-    @_s.required DateTime timestamp,
-    @_s.required String usageDimension,
-    bool dryRun,
-    List<UsageAllocation> usageAllocations,
-    int usageQuantity,
+    required String productCode,
+    required DateTime timestamp,
+    required String usageDimension,
+    bool? dryRun,
+    List<UsageAllocation>? usageAllocations,
+    int? usageQuantity,
   }) async {
     ArgumentError.checkNotNull(productCode, 'productCode');
     _s.validateStringLength(
@@ -298,9 +290,9 @@ class MarketplaceMetering {
   /// (Optional) To scope down the registration to a specific running software
   /// instance and guard against replay attacks.
   Future<RegisterUsageResult> registerUsage({
-    @_s.required String productCode,
-    @_s.required int publicKeyVersion,
-    String nonce,
+    required String productCode,
+    required int publicKeyVersion,
+    String? nonce,
   }) async {
     ArgumentError.checkNotNull(productCode, 'productCode');
     _s.validateStringLength(
@@ -372,7 +364,7 @@ class MarketplaceMetering {
   /// buyer submits a registration token through the browser. The registration
   /// token is resolved to obtain a CustomerIdentifier and product code.
   Future<ResolveCustomerResult> resolveCustomer({
-    @_s.required String registrationToken,
+    required String registrationToken,
   }) async {
     ArgumentError.checkNotNull(registrationToken, 'registrationToken');
     _s.validateStringPattern(
@@ -402,154 +394,160 @@ class MarketplaceMetering {
 
 /// Contains the UsageRecords processed by BatchMeterUsage and any records that
 /// have failed due to transient error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchMeterUsageResult {
   /// Contains all UsageRecords processed by BatchMeterUsage. These records were
   /// either honored by AWS Marketplace Metering Service or were invalid.
-  @_s.JsonKey(name: 'Results')
-  final List<UsageRecordResult> results;
+  final List<UsageRecordResult>? results;
 
   /// Contains all UsageRecords that were not processed by BatchMeterUsage. This
   /// is a list of UsageRecords. You can retry the failed request by making
   /// another BatchMeterUsage call with this list as input in the
   /// BatchMeterUsageRequest.
-  @_s.JsonKey(name: 'UnprocessedRecords')
-  final List<UsageRecord> unprocessedRecords;
+  final List<UsageRecord>? unprocessedRecords;
 
   BatchMeterUsageResult({
     this.results,
     this.unprocessedRecords,
   });
-  factory BatchMeterUsageResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchMeterUsageResultFromJson(json);
+  factory BatchMeterUsageResult.fromJson(Map<String, dynamic> json) {
+    return BatchMeterUsageResult(
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageRecordResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedRecords: (json['UnprocessedRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeterUsageResult {
   /// Metering record id.
-  @_s.JsonKey(name: 'MeteringRecordId')
-  final String meteringRecordId;
+  final String? meteringRecordId;
 
   MeterUsageResult({
     this.meteringRecordId,
   });
-  factory MeterUsageResult.fromJson(Map<String, dynamic> json) =>
-      _$MeterUsageResultFromJson(json);
+  factory MeterUsageResult.fromJson(Map<String, dynamic> json) {
+    return MeterUsageResult(
+      meteringRecordId: json['MeteringRecordId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterUsageResult {
   /// (Optional) Only included when public key version has expired
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PublicKeyRotationTimestamp')
-  final DateTime publicKeyRotationTimestamp;
+  final DateTime? publicKeyRotationTimestamp;
 
   /// JWT Token
-  @_s.JsonKey(name: 'Signature')
-  final String signature;
+  final String? signature;
 
   RegisterUsageResult({
     this.publicKeyRotationTimestamp,
     this.signature,
   });
-  factory RegisterUsageResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterUsageResultFromJson(json);
+  factory RegisterUsageResult.fromJson(Map<String, dynamic> json) {
+    return RegisterUsageResult(
+      publicKeyRotationTimestamp:
+          timeStampFromJson(json['PublicKeyRotationTimestamp']),
+      signature: json['Signature'] as String?,
+    );
+  }
 }
 
 /// The result of the ResolveCustomer operation. Contains the CustomerIdentifier
 /// and product code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolveCustomerResult {
   /// The CustomerIdentifier is used to identify an individual customer in your
   /// application. Calls to BatchMeterUsage require CustomerIdentifiers for each
   /// UsageRecord.
-  @_s.JsonKey(name: 'CustomerIdentifier')
-  final String customerIdentifier;
+  final String? customerIdentifier;
 
   /// The product code is returned to confirm that the buyer is registering for
   /// your product. Subsequent BatchMeterUsage calls should be made using this
   /// product code.
-  @_s.JsonKey(name: 'ProductCode')
-  final String productCode;
+  final String? productCode;
 
   ResolveCustomerResult({
     this.customerIdentifier,
     this.productCode,
   });
-  factory ResolveCustomerResult.fromJson(Map<String, dynamic> json) =>
-      _$ResolveCustomerResultFromJson(json);
+  factory ResolveCustomerResult.fromJson(Map<String, dynamic> json) {
+    return ResolveCustomerResult(
+      customerIdentifier: json['CustomerIdentifier'] as String?,
+      productCode: json['ProductCode'] as String?,
+    );
+  }
 }
 
 /// Metadata assigned to an allocation. Each tag is made up of a key and a
 /// value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a label that acts
   /// like a category for the specific tag values.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// One part of a key-value pair that makes up a tag. A value acts as a
   /// descriptor within a tag category (key). The value can be empty or null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Usage allocations allow you to split usage into buckets by tags.
 ///
 /// Each UsageAllocation indicates the usage quantity for a specific set of
 /// tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UsageAllocation {
   /// The total quantity allocated to this bucket of usage.
-  @_s.JsonKey(name: 'AllocatedUsageQuantity')
   final int allocatedUsageQuantity;
 
   /// The set of tags that define the bucket of usage. For the bucket of items
   /// with no tags, this parameter can be left out.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   UsageAllocation({
-    @_s.required this.allocatedUsageQuantity,
+    required this.allocatedUsageQuantity,
     this.tags,
   });
-  factory UsageAllocation.fromJson(Map<String, dynamic> json) =>
-      _$UsageAllocationFromJson(json);
+  factory UsageAllocation.fromJson(Map<String, dynamic> json) {
+    return UsageAllocation(
+      allocatedUsageQuantity: json['AllocatedUsageQuantity'] as int,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UsageAllocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final allocatedUsageQuantity = this.allocatedUsageQuantity;
+    final tags = this.tags;
+    return {
+      'AllocatedUsageQuantity': allocatedUsageQuantity,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// A UsageRecord indicates a quantity of usage for a given product, customer,
@@ -557,65 +555,71 @@ class UsageAllocation {
 ///
 /// Multiple requests with the same UsageRecords as input will be deduplicated
 /// to prevent double charges.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UsageRecord {
   /// The CustomerIdentifier is obtained through the ResolveCustomer operation and
   /// represents an individual buyer in your application.
-  @_s.JsonKey(name: 'CustomerIdentifier')
   final String customerIdentifier;
 
   /// During the process of registering a product on AWS Marketplace, up to eight
   /// dimensions are specified. These represent different units of value in your
   /// application.
-  @_s.JsonKey(name: 'Dimension')
   final String dimension;
 
   /// Timestamp, in UTC, for which the usage is being reported.
   ///
   /// Your application can meter usage for up to one hour in the past. Make sure
   /// the timestamp value is not before the start of the software usage.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The quantity of usage consumed by the customer for the given dimension and
   /// time. Defaults to <code>0</code> if not specified.
-  @_s.JsonKey(name: 'Quantity')
-  final int quantity;
+  final int? quantity;
 
   /// The set of UsageAllocations to submit. The sum of all UsageAllocation
   /// quantities must equal the Quantity of the UsageRecord.
-  @_s.JsonKey(name: 'UsageAllocations')
-  final List<UsageAllocation> usageAllocations;
+  final List<UsageAllocation>? usageAllocations;
 
   UsageRecord({
-    @_s.required this.customerIdentifier,
-    @_s.required this.dimension,
-    @_s.required this.timestamp,
+    required this.customerIdentifier,
+    required this.dimension,
+    required this.timestamp,
     this.quantity,
     this.usageAllocations,
   });
-  factory UsageRecord.fromJson(Map<String, dynamic> json) =>
-      _$UsageRecordFromJson(json);
+  factory UsageRecord.fromJson(Map<String, dynamic> json) {
+    return UsageRecord(
+      customerIdentifier: json['CustomerIdentifier'] as String,
+      dimension: json['Dimension'] as String,
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+      quantity: json['Quantity'] as int?,
+      usageAllocations: (json['UsageAllocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageAllocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UsageRecordToJson(this);
+  Map<String, dynamic> toJson() {
+    final customerIdentifier = this.customerIdentifier;
+    final dimension = this.dimension;
+    final timestamp = this.timestamp;
+    final quantity = this.quantity;
+    final usageAllocations = this.usageAllocations;
+    return {
+      'CustomerIdentifier': customerIdentifier,
+      'Dimension': dimension,
+      'Timestamp': unixTimestampToJson(timestamp),
+      if (quantity != null) 'Quantity': quantity,
+      if (usageAllocations != null) 'UsageAllocations': usageAllocations,
+    };
+  }
 }
 
 /// A UsageRecordResult indicates the status of a given UsageRecord processed by
 /// BatchMeterUsage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageRecordResult {
   /// The MeteringRecordId is a unique identifier for this metering event.
-  @_s.JsonKey(name: 'MeteringRecordId')
-  final String meteringRecordId;
+  final String? meteringRecordId;
 
   /// The UsageRecordResult Status indicates the status of an individual
   /// UsageRecord processed by BatchMeterUsage.
@@ -636,54 +640,83 @@ class UsageRecordResult {
   /// and time, but a different quantity.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final UsageRecordResultStatus status;
+  final UsageRecordResultStatus? status;
 
   /// The UsageRecord that was part of the BatchMeterUsage request.
-  @_s.JsonKey(name: 'UsageRecord')
-  final UsageRecord usageRecord;
+  final UsageRecord? usageRecord;
 
   UsageRecordResult({
     this.meteringRecordId,
     this.status,
     this.usageRecord,
   });
-  factory UsageRecordResult.fromJson(Map<String, dynamic> json) =>
-      _$UsageRecordResultFromJson(json);
+  factory UsageRecordResult.fromJson(Map<String, dynamic> json) {
+    return UsageRecordResult(
+      meteringRecordId: json['MeteringRecordId'] as String?,
+      status: (json['Status'] as String?)?.toUsageRecordResultStatus(),
+      usageRecord: json['UsageRecord'] != null
+          ? UsageRecord.fromJson(json['UsageRecord'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum UsageRecordResultStatus {
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('CustomerNotSubscribed')
   customerNotSubscribed,
-  @_s.JsonValue('DuplicateRecord')
   duplicateRecord,
 }
 
+extension on UsageRecordResultStatus {
+  String toValue() {
+    switch (this) {
+      case UsageRecordResultStatus.success:
+        return 'Success';
+      case UsageRecordResultStatus.customerNotSubscribed:
+        return 'CustomerNotSubscribed';
+      case UsageRecordResultStatus.duplicateRecord:
+        return 'DuplicateRecord';
+    }
+  }
+}
+
+extension on String {
+  UsageRecordResultStatus toUsageRecordResultStatus() {
+    switch (this) {
+      case 'Success':
+        return UsageRecordResultStatus.success;
+      case 'CustomerNotSubscribed':
+        return UsageRecordResultStatus.customerNotSubscribed;
+      case 'DuplicateRecord':
+        return UsageRecordResultStatus.duplicateRecord;
+    }
+    throw Exception('$this is not known in enum UsageRecordResultStatus');
+  }
+}
+
 class CustomerNotEntitledException extends _s.GenericAwsException {
-  CustomerNotEntitledException({String type, String message})
+  CustomerNotEntitledException({String? type, String? message})
       : super(
             type: type, code: 'CustomerNotEntitledException', message: message);
 }
 
 class DisabledApiException extends _s.GenericAwsException {
-  DisabledApiException({String type, String message})
+  DisabledApiException({String? type, String? message})
       : super(type: type, code: 'DisabledApiException', message: message);
 }
 
 class DuplicateRequestException extends _s.GenericAwsException {
-  DuplicateRequestException({String type, String message})
+  DuplicateRequestException({String? type, String? message})
       : super(type: type, code: 'DuplicateRequestException', message: message);
 }
 
 class ExpiredTokenException extends _s.GenericAwsException {
-  ExpiredTokenException({String type, String message})
+  ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
-  InternalServiceErrorException({String type, String message})
+  InternalServiceErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'InternalServiceErrorException',
@@ -691,7 +724,7 @@ class InternalServiceErrorException extends _s.GenericAwsException {
 }
 
 class InvalidCustomerIdentifierException extends _s.GenericAwsException {
-  InvalidCustomerIdentifierException({String type, String message})
+  InvalidCustomerIdentifierException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCustomerIdentifierException',
@@ -699,7 +732,7 @@ class InvalidCustomerIdentifierException extends _s.GenericAwsException {
 }
 
 class InvalidEndpointRegionException extends _s.GenericAwsException {
-  InvalidEndpointRegionException({String type, String message})
+  InvalidEndpointRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEndpointRegionException',
@@ -707,13 +740,13 @@ class InvalidEndpointRegionException extends _s.GenericAwsException {
 }
 
 class InvalidProductCodeException extends _s.GenericAwsException {
-  InvalidProductCodeException({String type, String message})
+  InvalidProductCodeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidProductCodeException', message: message);
 }
 
 class InvalidPublicKeyVersionException extends _s.GenericAwsException {
-  InvalidPublicKeyVersionException({String type, String message})
+  InvalidPublicKeyVersionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPublicKeyVersionException',
@@ -721,22 +754,22 @@ class InvalidPublicKeyVersionException extends _s.GenericAwsException {
 }
 
 class InvalidRegionException extends _s.GenericAwsException {
-  InvalidRegionException({String type, String message})
+  InvalidRegionException({String? type, String? message})
       : super(type: type, code: 'InvalidRegionException', message: message);
 }
 
 class InvalidTagException extends _s.GenericAwsException {
-  InvalidTagException({String type, String message})
+  InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
 class InvalidTokenException extends _s.GenericAwsException {
-  InvalidTokenException({String type, String message})
+  InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
 class InvalidUsageAllocationsException extends _s.GenericAwsException {
-  InvalidUsageAllocationsException({String type, String message})
+  InvalidUsageAllocationsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidUsageAllocationsException',
@@ -744,7 +777,7 @@ class InvalidUsageAllocationsException extends _s.GenericAwsException {
 }
 
 class InvalidUsageDimensionException extends _s.GenericAwsException {
-  InvalidUsageDimensionException({String type, String message})
+  InvalidUsageDimensionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidUsageDimensionException',
@@ -752,7 +785,7 @@ class InvalidUsageDimensionException extends _s.GenericAwsException {
 }
 
 class PlatformNotSupportedException extends _s.GenericAwsException {
-  PlatformNotSupportedException({String type, String message})
+  PlatformNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'PlatformNotSupportedException',
@@ -760,12 +793,12 @@ class PlatformNotSupportedException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TimestampOutOfBoundsException extends _s.GenericAwsException {
-  TimestampOutOfBoundsException({String type, String message})
+  TimestampOutOfBoundsException({String? type, String? message})
       : super(
             type: type,
             code: 'TimestampOutOfBoundsException',

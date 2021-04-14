@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'license-manager-2018-08-01.g.dart';
 
 /// AWS License Manager makes it easier to manage licenses from software vendors
 /// across multiple AWS accounts and on-premises servers.
 class LicenseManager {
   final _s.JsonProtocol _protocol;
   LicenseManager({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -58,7 +50,7 @@ class LicenseManager {
   /// Parameter [grantArn] :
   /// Amazon Resource Name (ARN) of the grant.
   Future<AcceptGrantResponse> acceptGrant({
-    @_s.required String grantArn,
+    required String grantArn,
   }) async {
     ArgumentError.checkNotNull(grantArn, 'grantArn');
     _s.validateStringLength(
@@ -109,8 +101,8 @@ class LicenseManager {
   /// Parameter [beneficiary] :
   /// License beneficiary.
   Future<void> checkInLicense({
-    @_s.required String licenseConsumptionToken,
-    String beneficiary,
+    required String licenseConsumptionToken,
+    String? beneficiary,
   }) async {
     ArgumentError.checkNotNull(
         licenseConsumptionToken, 'licenseConsumptionToken');
@@ -118,7 +110,7 @@ class LicenseManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CheckInLicense'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -129,8 +121,6 @@ class LicenseManager {
         if (beneficiary != null) 'Beneficiary': beneficiary,
       },
     );
-
-    return CheckInLicenseResponse.fromJson(jsonResponse.body);
   }
 
   /// Checks out the specified license for offline use.
@@ -169,12 +159,12 @@ class LicenseManager {
   /// Parameter [nodeId] :
   /// Node ID.
   Future<CheckoutBorrowLicenseResponse> checkoutBorrowLicense({
-    @_s.required String clientToken,
-    @_s.required DigitalSignatureMethod digitalSignatureMethod,
-    @_s.required List<EntitlementData> entitlements,
-    @_s.required String licenseArn,
-    List<Metadata> checkoutMetadata,
-    String nodeId,
+    required String clientToken,
+    required DigitalSignatureMethod digitalSignatureMethod,
+    required List<EntitlementData> entitlements,
+    required String licenseArn,
+    List<Metadata>? checkoutMetadata,
+    String? nodeId,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -219,7 +209,7 @@ class LicenseManager {
       headers: headers,
       payload: {
         'ClientToken': clientToken,
-        'DigitalSignatureMethod': digitalSignatureMethod?.toValue() ?? '',
+        'DigitalSignatureMethod': digitalSignatureMethod.toValue(),
         'Entitlements': entitlements,
         'LicenseArn': licenseArn,
         if (checkoutMetadata != null) 'CheckoutMetadata': checkoutMetadata,
@@ -264,13 +254,13 @@ class LicenseManager {
   /// Parameter [nodeId] :
   /// Node ID.
   Future<CheckoutLicenseResponse> checkoutLicense({
-    @_s.required CheckoutType checkoutType,
-    @_s.required String clientToken,
-    @_s.required List<EntitlementData> entitlements,
-    @_s.required String keyFingerprint,
-    @_s.required String productSKU,
-    String beneficiary,
-    String nodeId,
+    required CheckoutType checkoutType,
+    required String clientToken,
+    required List<EntitlementData> entitlements,
+    required String keyFingerprint,
+    required String productSKU,
+    String? beneficiary,
+    String? nodeId,
   }) async {
     ArgumentError.checkNotNull(checkoutType, 'checkoutType');
     ArgumentError.checkNotNull(clientToken, 'clientToken');
@@ -301,7 +291,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CheckoutType': checkoutType?.toValue() ?? '',
+        'CheckoutType': checkoutType.toValue(),
         'ClientToken': clientToken,
         'Entitlements': entitlements,
         'KeyFingerprint': keyFingerprint,
@@ -344,12 +334,12 @@ class LicenseManager {
   /// Parameter [principals] :
   /// The grant principals.
   Future<CreateGrantResponse> createGrant({
-    @_s.required List<AllowedOperation> allowedOperations,
-    @_s.required String clientToken,
-    @_s.required String grantName,
-    @_s.required String homeRegion,
-    @_s.required String licenseArn,
-    @_s.required List<String> principals,
+    required List<AllowedOperation> allowedOperations,
+    required String clientToken,
+    required String grantName,
+    required String homeRegion,
+    required String licenseArn,
+    required List<String> principals,
   }) async {
     ArgumentError.checkNotNull(allowedOperations, 'allowedOperations');
     ArgumentError.checkNotNull(clientToken, 'clientToken');
@@ -381,8 +371,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AllowedOperations':
-            allowedOperations?.map((e) => e?.toValue() ?? '')?.toList(),
+        'AllowedOperations': allowedOperations.map((e) => e.toValue()).toList(),
         'ClientToken': clientToken,
         'GrantName': grantName,
         'HomeRegion': homeRegion,
@@ -423,12 +412,12 @@ class LicenseManager {
   /// Parameter [status] :
   /// Grant status.
   Future<CreateGrantVersionResponse> createGrantVersion({
-    @_s.required String clientToken,
-    @_s.required String grantArn,
-    List<AllowedOperation> allowedOperations,
-    String grantName,
-    String sourceVersion,
-    GrantStatus status,
+    required String clientToken,
+    required String grantArn,
+    List<AllowedOperation>? allowedOperations,
+    String? grantName,
+    String? sourceVersion,
+    GrantStatus? status,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     ArgumentError.checkNotNull(grantArn, 'grantArn');
@@ -460,7 +449,7 @@ class LicenseManager {
         'GrantArn': grantArn,
         if (allowedOperations != null)
           'AllowedOperations':
-              allowedOperations.map((e) => e?.toValue() ?? '').toList(),
+              allowedOperations.map((e) => e.toValue()).toList(),
         if (grantName != null) 'GrantName': grantName,
         if (sourceVersion != null) 'SourceVersion': sourceVersion,
         if (status != null) 'Status': status.toValue(),
@@ -517,17 +506,17 @@ class LicenseManager {
   /// Parameter [licenseMetadata] :
   /// Information about the license.
   Future<CreateLicenseResponse> createLicense({
-    @_s.required String beneficiary,
-    @_s.required String clientToken,
-    @_s.required ConsumptionConfiguration consumptionConfiguration,
-    @_s.required List<Entitlement> entitlements,
-    @_s.required String homeRegion,
-    @_s.required Issuer issuer,
-    @_s.required String licenseName,
-    @_s.required String productName,
-    @_s.required String productSKU,
-    @_s.required DatetimeRange validity,
-    List<Metadata> licenseMetadata,
+    required String beneficiary,
+    required String clientToken,
+    required ConsumptionConfiguration consumptionConfiguration,
+    required List<Entitlement> entitlements,
+    required String homeRegion,
+    required Issuer issuer,
+    required String licenseName,
+    required String productName,
+    required String productSKU,
+    required DatetimeRange validity,
+    List<Metadata>? licenseMetadata,
   }) async {
     ArgumentError.checkNotNull(beneficiary, 'beneficiary');
     ArgumentError.checkNotNull(clientToken, 'clientToken');
@@ -644,15 +633,15 @@ class LicenseManager {
   /// Parameter [tags] :
   /// Tags to add to the license configuration.
   Future<CreateLicenseConfigurationResponse> createLicenseConfiguration({
-    @_s.required LicenseCountingType licenseCountingType,
-    @_s.required String name,
-    String description,
-    bool disassociateWhenNotFound,
-    int licenseCount,
-    bool licenseCountHardLimit,
-    List<String> licenseRules,
-    List<ProductInformation> productInformationList,
-    List<Tag> tags,
+    required LicenseCountingType licenseCountingType,
+    required String name,
+    String? description,
+    bool? disassociateWhenNotFound,
+    int? licenseCount,
+    bool? licenseCountHardLimit,
+    List<String>? licenseRules,
+    List<ProductInformation>? productInformationList,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(licenseCountingType, 'licenseCountingType');
     ArgumentError.checkNotNull(name, 'name');
@@ -667,7 +656,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LicenseCountingType': licenseCountingType?.toValue() ?? '',
+        'LicenseCountingType': licenseCountingType.toValue(),
         'Name': name,
         if (description != null) 'Description': description,
         if (disassociateWhenNotFound != null)
@@ -736,18 +725,18 @@ class LicenseManager {
   /// Parameter [sourceVersion] :
   /// Current version of the license.
   Future<CreateLicenseVersionResponse> createLicenseVersion({
-    @_s.required String clientToken,
-    @_s.required ConsumptionConfiguration consumptionConfiguration,
-    @_s.required List<Entitlement> entitlements,
-    @_s.required String homeRegion,
-    @_s.required Issuer issuer,
-    @_s.required String licenseArn,
-    @_s.required String licenseName,
-    @_s.required String productName,
-    @_s.required LicenseStatus status,
-    @_s.required DatetimeRange validity,
-    List<Metadata> licenseMetadata,
-    String sourceVersion,
+    required String clientToken,
+    required ConsumptionConfiguration consumptionConfiguration,
+    required List<Entitlement> entitlements,
+    required String homeRegion,
+    required Issuer issuer,
+    required String licenseArn,
+    required String licenseName,
+    required String productName,
+    required LicenseStatus status,
+    required DatetimeRange validity,
+    List<Metadata>? licenseMetadata,
+    String? sourceVersion,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     ArgumentError.checkNotNull(
@@ -792,7 +781,7 @@ class LicenseManager {
         'LicenseArn': licenseArn,
         'LicenseName': licenseName,
         'ProductName': productName,
-        'Status': status?.toValue() ?? '',
+        'Status': status.toValue(),
         'Validity': validity,
         if (licenseMetadata != null) 'LicenseMetadata': licenseMetadata,
         if (sourceVersion != null) 'SourceVersion': sourceVersion,
@@ -836,11 +825,11 @@ class LicenseManager {
   /// Data specified by the caller to be included in the JWT token. The data is
   /// mapped to the amr claim of the JWT token.
   Future<CreateTokenResponse> createToken({
-    @_s.required String clientToken,
-    @_s.required String licenseArn,
-    int expirationInDays,
-    List<String> roleArns,
-    List<String> tokenProperties,
+    required String clientToken,
+    required String licenseArn,
+    int? expirationInDays,
+    List<String>? roleArns,
+    List<String>? tokenProperties,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -908,8 +897,8 @@ class LicenseManager {
   /// Parameter [version] :
   /// Current version of the grant.
   Future<DeleteGrantResponse> deleteGrant({
-    @_s.required String grantArn,
-    @_s.required String version,
+    required String grantArn,
+    required String version,
   }) async {
     ArgumentError.checkNotNull(grantArn, 'grantArn');
     _s.validateStringLength(
@@ -962,8 +951,8 @@ class LicenseManager {
   /// Parameter [sourceVersion] :
   /// Current version of the license.
   Future<DeleteLicenseResponse> deleteLicense({
-    @_s.required String licenseArn,
-    @_s.required String sourceVersion,
+    required String licenseArn,
+    required String sourceVersion,
   }) async {
     ArgumentError.checkNotNull(licenseArn, 'licenseArn');
     _s.validateStringLength(
@@ -1012,7 +1001,7 @@ class LicenseManager {
   /// Parameter [licenseConfigurationArn] :
   /// ID of the license configuration.
   Future<void> deleteLicenseConfiguration({
-    @_s.required String licenseConfigurationArn,
+    required String licenseConfigurationArn,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -1020,7 +1009,7 @@ class LicenseManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteLicenseConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1030,8 +1019,6 @@ class LicenseManager {
         'LicenseConfigurationArn': licenseConfigurationArn,
       },
     );
-
-    return DeleteLicenseConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified token. Must be called in the license home Region.
@@ -1047,14 +1034,14 @@ class LicenseManager {
   /// Parameter [tokenId] :
   /// Token ID.
   Future<void> deleteToken({
-    @_s.required String tokenId,
+    required String tokenId,
   }) async {
     ArgumentError.checkNotNull(tokenId, 'tokenId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteToken'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1064,8 +1051,6 @@ class LicenseManager {
         'TokenId': tokenId,
       },
     );
-
-    return DeleteTokenResponse.fromJson(jsonResponse.body);
   }
 
   /// Extends the expiration date for license consumption.
@@ -1086,8 +1071,8 @@ class LicenseManager {
   /// actually making the request. Provides an error response if you do not have
   /// the required permissions.
   Future<ExtendLicenseConsumptionResponse> extendLicenseConsumption({
-    @_s.required String licenseConsumptionToken,
-    bool dryRun,
+    required String licenseConsumptionToken,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(
         licenseConsumptionToken, 'licenseConsumptionToken');
@@ -1125,8 +1110,8 @@ class LicenseManager {
   /// Parameter [tokenProperties] :
   /// Token properties to validate against those present in the JWT token.
   Future<GetAccessTokenResponse> getAccessToken({
-    @_s.required String token,
-    List<String> tokenProperties,
+    required String token,
+    List<String>? tokenProperties,
   }) async {
     ArgumentError.checkNotNull(token, 'token');
     _s.validateStringLength(
@@ -1177,8 +1162,8 @@ class LicenseManager {
   /// Parameter [version] :
   /// Grant version.
   Future<GetGrantResponse> getGrant({
-    @_s.required String grantArn,
-    String version,
+    required String grantArn,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(grantArn, 'grantArn');
     _s.validateStringLength(
@@ -1228,8 +1213,8 @@ class LicenseManager {
   /// Parameter [version] :
   /// License version.
   Future<GetLicenseResponse> getLicense({
-    @_s.required String licenseArn,
-    String version,
+    required String licenseArn,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(licenseArn, 'licenseArn');
     _s.validateStringLength(
@@ -1275,7 +1260,7 @@ class LicenseManager {
   /// Parameter [licenseConfigurationArn] :
   /// Amazon Resource Name (ARN) of the license configuration.
   Future<GetLicenseConfigurationResponse> getLicenseConfiguration({
-    @_s.required String licenseConfigurationArn,
+    required String licenseConfigurationArn,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -1309,7 +1294,7 @@ class LicenseManager {
   /// Parameter [licenseArn] :
   /// Amazon Resource Name (ARN) of the license.
   Future<GetLicenseUsageResponse> getLicenseUsage({
-    @_s.required String licenseArn,
+    required String licenseArn,
   }) async {
     ArgumentError.checkNotNull(licenseArn, 'licenseArn');
     _s.validateStringLength(
@@ -1388,9 +1373,9 @@ class LicenseManager {
   /// Token for the next set of results.
   Future<ListAssociationsForLicenseConfigurationResponse>
       listAssociationsForLicenseConfiguration({
-    @_s.required String licenseConfigurationArn,
-    int maxResults,
-    String nextToken,
+    required String licenseConfigurationArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -1453,10 +1438,10 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListDistributedGrantsResponse> listDistributedGrants({
-    List<Filter> filters,
-    List<String> grantArns,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    List<String>? grantArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1503,9 +1488,9 @@ class LicenseManager {
   /// Token for the next set of results.
   Future<ListFailuresForLicenseConfigurationOperationsResponse>
       listFailuresForLicenseConfigurationOperations({
-    @_s.required String licenseConfigurationArn,
-    int maxResults,
-    String nextToken,
+    required String licenseConfigurationArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -1572,10 +1557,10 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListLicenseConfigurationsResponse> listLicenseConfigurations({
-    List<Filter> filters,
-    List<String> licenseConfigurationArns,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    List<String>? licenseConfigurationArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1618,9 +1603,9 @@ class LicenseManager {
   /// Token for the next set of results.
   Future<ListLicenseSpecificationsForResourceResponse>
       listLicenseSpecificationsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -1661,9 +1646,9 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListLicenseVersionsResponse> listLicenseVersions({
-    @_s.required String licenseArn,
-    int maxResults,
-    String nextToken,
+    required String licenseArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(licenseArn, 'licenseArn');
     _s.validateStringLength(
@@ -1741,10 +1726,10 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListLicensesResponse> listLicenses({
-    List<Filter> filters,
-    List<String> licenseArns,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    List<String>? licenseArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1804,10 +1789,10 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListReceivedGrantsResponse> listReceivedGrants({
-    List<Filter> filters,
-    List<String> grantArns,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    List<String>? grantArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1873,10 +1858,10 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListReceivedLicensesResponse> listReceivedLicenses({
-    List<Filter> filters,
-    List<String> licenseArns,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    List<String>? licenseArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1957,9 +1942,9 @@ class LicenseManager {
   /// Parameter [nextToken] :
   /// Token for the next set of results.
   Future<ListResourceInventoryResponse> listResourceInventory({
-    List<InventoryFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<InventoryFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1992,7 +1977,7 @@ class LicenseManager {
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the license configuration.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -2039,10 +2024,10 @@ class LicenseManager {
   /// Parameter [tokenIds] :
   /// Token IDs.
   Future<ListTokensResponse> listTokens({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<String> tokenIds,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? tokenIds,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2115,10 +2100,10 @@ class LicenseManager {
   /// Token for the next set of results.
   Future<ListUsageForLicenseConfigurationResponse>
       listUsageForLicenseConfiguration({
-    @_s.required String licenseConfigurationArn,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    required String licenseConfigurationArn,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -2156,7 +2141,7 @@ class LicenseManager {
   /// Parameter [grantArn] :
   /// Amazon Resource Name (ARN) of the grant.
   Future<RejectGrantResponse> rejectGrant({
-    @_s.required String grantArn,
+    required String grantArn,
   }) async {
     ArgumentError.checkNotNull(grantArn, 'grantArn');
     _s.validateStringLength(
@@ -2204,8 +2189,8 @@ class LicenseManager {
   /// Parameter [tags] :
   /// One or more tags.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2213,7 +2198,7 @@ class LicenseManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2224,8 +2209,6 @@ class LicenseManager {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified tags from the specified license configuration.
@@ -2242,8 +2225,8 @@ class LicenseManager {
   /// Parameter [tagKeys] :
   /// Keys identifying the tags to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2251,7 +2234,7 @@ class LicenseManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2262,8 +2245,6 @@ class LicenseManager {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies the attributes of an existing license configuration.
@@ -2303,15 +2284,15 @@ class LicenseManager {
   /// Parameter [productInformationList] :
   /// New product information.
   Future<void> updateLicenseConfiguration({
-    @_s.required String licenseConfigurationArn,
-    String description,
-    bool disassociateWhenNotFound,
-    LicenseConfigurationStatus licenseConfigurationStatus,
-    int licenseCount,
-    bool licenseCountHardLimit,
-    List<String> licenseRules,
-    String name,
-    List<ProductInformation> productInformationList,
+    required String licenseConfigurationArn,
+    String? description,
+    bool? disassociateWhenNotFound,
+    LicenseConfigurationStatus? licenseConfigurationStatus,
+    int? licenseCount,
+    bool? licenseCountHardLimit,
+    List<String>? licenseRules,
+    String? name,
+    List<ProductInformation>? productInformationList,
   }) async {
     ArgumentError.checkNotNull(
         licenseConfigurationArn, 'licenseConfigurationArn');
@@ -2319,7 +2300,7 @@ class LicenseManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UpdateLicenseConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2341,8 +2322,6 @@ class LicenseManager {
           'ProductInformationList': productInformationList,
       },
     );
-
-    return UpdateLicenseConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds or removes the specified license configurations for the specified AWS
@@ -2370,16 +2349,16 @@ class LicenseManager {
   /// Parameter [removeLicenseSpecifications] :
   /// ARNs of the license configurations to remove.
   Future<void> updateLicenseSpecificationsForResource({
-    @_s.required String resourceArn,
-    List<LicenseSpecification> addLicenseSpecifications,
-    List<LicenseSpecification> removeLicenseSpecifications,
+    required String resourceArn,
+    List<LicenseSpecification>? addLicenseSpecifications,
+    List<LicenseSpecification>? removeLicenseSpecifications,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UpdateLicenseSpecificationsForResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2393,9 +2372,6 @@ class LicenseManager {
           'RemoveLicenseSpecifications': removeLicenseSpecifications,
       },
     );
-
-    return UpdateLicenseSpecificationsForResourceResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Updates License Manager settings for the current Region.
@@ -2420,16 +2396,16 @@ class LicenseManager {
   /// Amazon Resource Name (ARN) of the Amazon SNS topic used for License
   /// Manager alerts.
   Future<void> updateServiceSettings({
-    bool enableCrossAccountsDiscovery,
-    OrganizationConfiguration organizationConfiguration,
-    String s3BucketArn,
-    String snsTopicArn,
+    bool? enableCrossAccountsDiscovery,
+    OrganizationConfiguration? organizationConfiguration,
+    String? s3BucketArn,
+    String? snsTopicArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UpdateServiceSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2444,52 +2420,40 @@ class LicenseManager {
         if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
       },
     );
-
-    return UpdateServiceSettingsResponse.fromJson(jsonResponse.body);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptGrantResponse {
   /// Grant ARN.
-  @_s.JsonKey(name: 'GrantArn')
-  final String grantArn;
+  final String? grantArn;
 
   /// Grant status.
-  @_s.JsonKey(name: 'Status')
-  final GrantStatus status;
+  final GrantStatus? status;
 
   /// Grant version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   AcceptGrantResponse({
     this.grantArn,
     this.status,
     this.version,
   });
-  factory AcceptGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$AcceptGrantResponseFromJson(json);
+  factory AcceptGrantResponse.fromJson(Map<String, dynamic> json) {
+    return AcceptGrantResponse(
+      grantArn: json['GrantArn'] as String?,
+      status: (json['Status'] as String?)?.toGrantStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 enum AllowedOperation {
-  @_s.JsonValue('CreateGrant')
   createGrant,
-  @_s.JsonValue('CheckoutLicense')
   checkoutLicense,
-  @_s.JsonValue('CheckoutBorrowLicense')
   checkoutBorrowLicense,
-  @_s.JsonValue('CheckInLicense')
   checkInLicense,
-  @_s.JsonValue('ExtendConsumptionLicense')
   extendConsumptionLicense,
-  @_s.JsonValue('ListPurchasedLicenses')
   listPurchasedLicenses,
-  @_s.JsonValue('CreateToken')
   createToken,
 }
 
@@ -2511,102 +2475,106 @@ extension on AllowedOperation {
       case AllowedOperation.createToken:
         return 'CreateToken';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AllowedOperation toAllowedOperation() {
+    switch (this) {
+      case 'CreateGrant':
+        return AllowedOperation.createGrant;
+      case 'CheckoutLicense':
+        return AllowedOperation.checkoutLicense;
+      case 'CheckoutBorrowLicense':
+        return AllowedOperation.checkoutBorrowLicense;
+      case 'CheckInLicense':
+        return AllowedOperation.checkInLicense;
+      case 'ExtendConsumptionLicense':
+        return AllowedOperation.extendConsumptionLicense;
+      case 'ListPurchasedLicenses':
+        return AllowedOperation.listPurchasedLicenses;
+      case 'CreateToken':
+        return AllowedOperation.createToken;
+    }
+    throw Exception('$this is not known in enum AllowedOperation');
   }
 }
 
 /// Describes automated discovery.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutomatedDiscoveryInformation {
   /// Time that automated discovery last ran.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRunTime')
-  final DateTime lastRunTime;
+  final DateTime? lastRunTime;
 
   AutomatedDiscoveryInformation({
     this.lastRunTime,
   });
-  factory AutomatedDiscoveryInformation.fromJson(Map<String, dynamic> json) =>
-      _$AutomatedDiscoveryInformationFromJson(json);
+  factory AutomatedDiscoveryInformation.fromJson(Map<String, dynamic> json) {
+    return AutomatedDiscoveryInformation(
+      lastRunTime: timeStampFromJson(json['LastRunTime']),
+    );
+  }
 }
 
 /// Details about a borrow configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BorrowConfiguration {
   /// Indicates whether early check-ins are allowed.
-  @_s.JsonKey(name: 'AllowEarlyCheckIn')
   final bool allowEarlyCheckIn;
 
   /// Maximum time for the borrow configuration, in minutes.
-  @_s.JsonKey(name: 'MaxTimeToLiveInMinutes')
   final int maxTimeToLiveInMinutes;
 
   BorrowConfiguration({
-    @_s.required this.allowEarlyCheckIn,
-    @_s.required this.maxTimeToLiveInMinutes,
+    required this.allowEarlyCheckIn,
+    required this.maxTimeToLiveInMinutes,
   });
-  factory BorrowConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$BorrowConfigurationFromJson(json);
+  factory BorrowConfiguration.fromJson(Map<String, dynamic> json) {
+    return BorrowConfiguration(
+      allowEarlyCheckIn: json['AllowEarlyCheckIn'] as bool,
+      maxTimeToLiveInMinutes: json['MaxTimeToLiveInMinutes'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BorrowConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowEarlyCheckIn = this.allowEarlyCheckIn;
+    final maxTimeToLiveInMinutes = this.maxTimeToLiveInMinutes;
+    return {
+      'AllowEarlyCheckIn': allowEarlyCheckIn,
+      'MaxTimeToLiveInMinutes': maxTimeToLiveInMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckInLicenseResponse {
   CheckInLicenseResponse();
-  factory CheckInLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckInLicenseResponseFromJson(json);
+  factory CheckInLicenseResponse.fromJson(Map<String, dynamic> _) {
+    return CheckInLicenseResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckoutBorrowLicenseResponse {
   /// Information about constraints.
-  @_s.JsonKey(name: 'CheckoutMetadata')
-  final List<Metadata> checkoutMetadata;
+  final List<Metadata>? checkoutMetadata;
 
   /// Allowed license entitlements.
-  @_s.JsonKey(name: 'EntitlementsAllowed')
-  final List<EntitlementData> entitlementsAllowed;
+  final List<EntitlementData>? entitlementsAllowed;
 
   /// Date and time at which the license checkout expires.
-  @_s.JsonKey(name: 'Expiration')
-  final String expiration;
+  final String? expiration;
 
   /// Date and time at which the license checkout is issued.
-  @_s.JsonKey(name: 'IssuedAt')
-  final String issuedAt;
+  final String? issuedAt;
 
   /// Amazon Resource Name (ARN) of the license.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// License consumption token.
-  @_s.JsonKey(name: 'LicenseConsumptionToken')
-  final String licenseConsumptionToken;
+  final String? licenseConsumptionToken;
 
   /// Node ID.
-  @_s.JsonKey(name: 'NodeId')
-  final String nodeId;
+  final String? nodeId;
 
   /// Signed token.
-  @_s.JsonKey(name: 'SignedToken')
-  final String signedToken;
+  final String? signedToken;
 
   CheckoutBorrowLicenseResponse({
     this.checkoutMetadata,
@@ -2618,43 +2586,47 @@ class CheckoutBorrowLicenseResponse {
     this.nodeId,
     this.signedToken,
   });
-  factory CheckoutBorrowLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckoutBorrowLicenseResponseFromJson(json);
+  factory CheckoutBorrowLicenseResponse.fromJson(Map<String, dynamic> json) {
+    return CheckoutBorrowLicenseResponse(
+      checkoutMetadata: (json['CheckoutMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entitlementsAllowed: (json['EntitlementsAllowed'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntitlementData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expiration: json['Expiration'] as String?,
+      issuedAt: json['IssuedAt'] as String?,
+      licenseArn: json['LicenseArn'] as String?,
+      licenseConsumptionToken: json['LicenseConsumptionToken'] as String?,
+      nodeId: json['NodeId'] as String?,
+      signedToken: json['SignedToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckoutLicenseResponse {
   /// Checkout type.
-  @_s.JsonKey(name: 'CheckoutType')
-  final CheckoutType checkoutType;
+  final CheckoutType? checkoutType;
 
   /// Allowed license entitlements.
-  @_s.JsonKey(name: 'EntitlementsAllowed')
-  final List<EntitlementData> entitlementsAllowed;
+  final List<EntitlementData>? entitlementsAllowed;
 
   /// Date and time at which the license checkout expires.
-  @_s.JsonKey(name: 'Expiration')
-  final String expiration;
+  final String? expiration;
 
   /// Date and time at which the license checkout is issued.
-  @_s.JsonKey(name: 'IssuedAt')
-  final String issuedAt;
+  final String? issuedAt;
 
   /// License consumption token.
-  @_s.JsonKey(name: 'LicenseConsumptionToken')
-  final String licenseConsumptionToken;
+  final String? licenseConsumptionToken;
 
   /// Node ID.
-  @_s.JsonKey(name: 'NodeId')
-  final String nodeId;
+  final String? nodeId;
 
   /// Signed token.
-  @_s.JsonKey(name: 'SignedToken')
-  final String signedToken;
+  final String? signedToken;
 
   CheckoutLicenseResponse({
     this.checkoutType,
@@ -2665,12 +2637,23 @@ class CheckoutLicenseResponse {
     this.nodeId,
     this.signedToken,
   });
-  factory CheckoutLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckoutLicenseResponseFromJson(json);
+  factory CheckoutLicenseResponse.fromJson(Map<String, dynamic> json) {
+    return CheckoutLicenseResponse(
+      checkoutType: (json['CheckoutType'] as String?)?.toCheckoutType(),
+      entitlementsAllowed: (json['EntitlementsAllowed'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntitlementData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expiration: json['Expiration'] as String?,
+      issuedAt: json['IssuedAt'] as String?,
+      licenseConsumptionToken: json['LicenseConsumptionToken'] as String?,
+      nodeId: json['NodeId'] as String?,
+      signedToken: json['SignedToken'] as String?,
+    );
+  }
 }
 
 enum CheckoutType {
-  @_s.JsonValue('PROVISIONAL')
   provisional,
 }
 
@@ -2680,315 +2663,305 @@ extension on CheckoutType {
       case CheckoutType.provisional:
         return 'PROVISIONAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CheckoutType toCheckoutType() {
+    switch (this) {
+      case 'PROVISIONAL':
+        return CheckoutType.provisional;
+    }
+    throw Exception('$this is not known in enum CheckoutType');
   }
 }
 
 /// Details about license consumption.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConsumedLicenseSummary {
   /// Number of licenses consumed by the resource.
-  @_s.JsonKey(name: 'ConsumedLicenses')
-  final int consumedLicenses;
+  final int? consumedLicenses;
 
   /// Resource type of the resource consuming a license.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   ConsumedLicenseSummary({
     this.consumedLicenses,
     this.resourceType,
   });
-  factory ConsumedLicenseSummary.fromJson(Map<String, dynamic> json) =>
-      _$ConsumedLicenseSummaryFromJson(json);
+  factory ConsumedLicenseSummary.fromJson(Map<String, dynamic> json) {
+    return ConsumedLicenseSummary(
+      consumedLicenses: json['ConsumedLicenses'] as int?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 /// Details about a consumption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConsumptionConfiguration {
   /// Details about a borrow configuration.
-  @_s.JsonKey(name: 'BorrowConfiguration')
-  final BorrowConfiguration borrowConfiguration;
+  final BorrowConfiguration? borrowConfiguration;
 
   /// Details about a provisional configuration.
-  @_s.JsonKey(name: 'ProvisionalConfiguration')
-  final ProvisionalConfiguration provisionalConfiguration;
+  final ProvisionalConfiguration? provisionalConfiguration;
 
   /// Renewal frequency.
-  @_s.JsonKey(name: 'RenewType')
-  final RenewType renewType;
+  final RenewType? renewType;
 
   ConsumptionConfiguration({
     this.borrowConfiguration,
     this.provisionalConfiguration,
     this.renewType,
   });
-  factory ConsumptionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ConsumptionConfigurationFromJson(json);
+  factory ConsumptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConsumptionConfiguration(
+      borrowConfiguration: json['BorrowConfiguration'] != null
+          ? BorrowConfiguration.fromJson(
+              json['BorrowConfiguration'] as Map<String, dynamic>)
+          : null,
+      provisionalConfiguration: json['ProvisionalConfiguration'] != null
+          ? ProvisionalConfiguration.fromJson(
+              json['ProvisionalConfiguration'] as Map<String, dynamic>)
+          : null,
+      renewType: (json['RenewType'] as String?)?.toRenewType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ConsumptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final borrowConfiguration = this.borrowConfiguration;
+    final provisionalConfiguration = this.provisionalConfiguration;
+    final renewType = this.renewType;
+    return {
+      if (borrowConfiguration != null)
+        'BorrowConfiguration': borrowConfiguration,
+      if (provisionalConfiguration != null)
+        'ProvisionalConfiguration': provisionalConfiguration,
+      if (renewType != null) 'RenewType': renewType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGrantResponse {
   /// Grant ARN.
-  @_s.JsonKey(name: 'GrantArn')
-  final String grantArn;
+  final String? grantArn;
 
   /// Grant status.
-  @_s.JsonKey(name: 'Status')
-  final GrantStatus status;
+  final GrantStatus? status;
 
   /// Grant version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateGrantResponse({
     this.grantArn,
     this.status,
     this.version,
   });
-  factory CreateGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGrantResponseFromJson(json);
+  factory CreateGrantResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGrantResponse(
+      grantArn: json['GrantArn'] as String?,
+      status: (json['Status'] as String?)?.toGrantStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGrantVersionResponse {
   /// Grant ARN.
-  @_s.JsonKey(name: 'GrantArn')
-  final String grantArn;
+  final String? grantArn;
 
   /// Grant status.
-  @_s.JsonKey(name: 'Status')
-  final GrantStatus status;
+  final GrantStatus? status;
 
   /// New version of the grant.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateGrantVersionResponse({
     this.grantArn,
     this.status,
     this.version,
   });
-  factory CreateGrantVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGrantVersionResponseFromJson(json);
+  factory CreateGrantVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGrantVersionResponse(
+      grantArn: json['GrantArn'] as String?,
+      status: (json['Status'] as String?)?.toGrantStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLicenseConfigurationResponse {
   /// Amazon Resource Name (ARN) of the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationArn')
-  final String licenseConfigurationArn;
+  final String? licenseConfigurationArn;
 
   CreateLicenseConfigurationResponse({
     this.licenseConfigurationArn,
   });
   factory CreateLicenseConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateLicenseConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateLicenseConfigurationResponse(
+      licenseConfigurationArn: json['LicenseConfigurationArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLicenseResponse {
   /// Amazon Resource Name (ARN) of the license.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// License status.
-  @_s.JsonKey(name: 'Status')
-  final LicenseStatus status;
+  final LicenseStatus? status;
 
   /// License version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateLicenseResponse({
     this.licenseArn,
     this.status,
     this.version,
   });
-  factory CreateLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLicenseResponseFromJson(json);
+  factory CreateLicenseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLicenseResponse(
+      licenseArn: json['LicenseArn'] as String?,
+      status: (json['Status'] as String?)?.toLicenseStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLicenseVersionResponse {
   /// License ARN.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// License status.
-  @_s.JsonKey(name: 'Status')
-  final LicenseStatus status;
+  final LicenseStatus? status;
 
   /// New version of the license.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateLicenseVersionResponse({
     this.licenseArn,
     this.status,
     this.version,
   });
-  factory CreateLicenseVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLicenseVersionResponseFromJson(json);
+  factory CreateLicenseVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLicenseVersionResponse(
+      licenseArn: json['LicenseArn'] as String?,
+      status: (json['Status'] as String?)?.toLicenseStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTokenResponse {
   /// Refresh token, encoded as a JWT token.
-  @_s.JsonKey(name: 'Token')
-  final String token;
+  final String? token;
 
   /// Token ID.
-  @_s.JsonKey(name: 'TokenId')
-  final String tokenId;
+  final String? tokenId;
 
   /// Token type.
-  @_s.JsonKey(name: 'TokenType')
-  final TokenType tokenType;
+  final TokenType? tokenType;
 
   CreateTokenResponse({
     this.token,
     this.tokenId,
     this.tokenType,
   });
-  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTokenResponseFromJson(json);
+  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTokenResponse(
+      token: json['Token'] as String?,
+      tokenId: json['TokenId'] as String?,
+      tokenType: (json['TokenType'] as String?)?.toTokenType(),
+    );
+  }
 }
 
 /// Describes a time range, in ISO8601-UTC format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatetimeRange {
   /// Start of the time range.
-  @_s.JsonKey(name: 'Begin')
   final String begin;
 
   /// End of the time range.
-  @_s.JsonKey(name: 'End')
-  final String end;
+  final String? end;
 
   DatetimeRange({
-    @_s.required this.begin,
+    required this.begin,
     this.end,
   });
-  factory DatetimeRange.fromJson(Map<String, dynamic> json) =>
-      _$DatetimeRangeFromJson(json);
+  factory DatetimeRange.fromJson(Map<String, dynamic> json) {
+    return DatetimeRange(
+      begin: json['Begin'] as String,
+      end: json['End'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DatetimeRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final begin = this.begin;
+    final end = this.end;
+    return {
+      'Begin': begin,
+      if (end != null) 'End': end,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGrantResponse {
   /// Grant ARN.
-  @_s.JsonKey(name: 'GrantArn')
-  final String grantArn;
+  final String? grantArn;
 
   /// Grant status.
-  @_s.JsonKey(name: 'Status')
-  final GrantStatus status;
+  final GrantStatus? status;
 
   /// Grant version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   DeleteGrantResponse({
     this.grantArn,
     this.status,
     this.version,
   });
-  factory DeleteGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGrantResponseFromJson(json);
+  factory DeleteGrantResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteGrantResponse(
+      grantArn: json['GrantArn'] as String?,
+      status: (json['Status'] as String?)?.toGrantStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLicenseConfigurationResponse {
   DeleteLicenseConfigurationResponse();
-  factory DeleteLicenseConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteLicenseConfigurationResponseFromJson(json);
+  factory DeleteLicenseConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLicenseConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLicenseResponse {
   /// Date on which the license is deleted.
-  @_s.JsonKey(name: 'DeletionDate')
-  final String deletionDate;
+  final String? deletionDate;
 
   /// License status.
-  @_s.JsonKey(name: 'Status')
-  final LicenseDeletionStatus status;
+  final LicenseDeletionStatus? status;
 
   DeleteLicenseResponse({
     this.deletionDate,
     this.status,
   });
-  factory DeleteLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLicenseResponseFromJson(json);
+  factory DeleteLicenseResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteLicenseResponse(
+      deletionDate: json['DeletionDate'] as String?,
+      status: (json['Status'] as String?)?.toLicenseDeletionStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTokenResponse {
   DeleteTokenResponse();
-  factory DeleteTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTokenResponseFromJson(json);
+  factory DeleteTokenResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTokenResponse();
+  }
 }
 
 enum DigitalSignatureMethod {
-  @_s.JsonValue('JWT_PS384')
   jwtPs384,
 }
 
@@ -2998,386 +2971,572 @@ extension on DigitalSignatureMethod {
       case DigitalSignatureMethod.jwtPs384:
         return 'JWT_PS384';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DigitalSignatureMethod toDigitalSignatureMethod() {
+    switch (this) {
+      case 'JWT_PS384':
+        return DigitalSignatureMethod.jwtPs384;
+    }
+    throw Exception('$this is not known in enum DigitalSignatureMethod');
   }
 }
 
 /// Describes a resource entitled for use with a license.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Entitlement {
   /// Entitlement name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Entitlement unit.
-  @_s.JsonKey(name: 'Unit')
   final EntitlementUnit unit;
 
   /// Indicates whether check-ins are allowed.
-  @_s.JsonKey(name: 'AllowCheckIn')
-  final bool allowCheckIn;
+  final bool? allowCheckIn;
 
   /// Maximum entitlement count. Use if the unit is not None.
-  @_s.JsonKey(name: 'MaxCount')
-  final int maxCount;
+  final int? maxCount;
 
   /// Indicates whether overages are allowed.
-  @_s.JsonKey(name: 'Overage')
-  final bool overage;
+  final bool? overage;
 
   /// Entitlement resource. Use only if the unit is None.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Entitlement({
-    @_s.required this.name,
-    @_s.required this.unit,
+    required this.name,
+    required this.unit,
     this.allowCheckIn,
     this.maxCount,
     this.overage,
     this.value,
   });
-  factory Entitlement.fromJson(Map<String, dynamic> json) =>
-      _$EntitlementFromJson(json);
+  factory Entitlement.fromJson(Map<String, dynamic> json) {
+    return Entitlement(
+      name: json['Name'] as String,
+      unit: (json['Unit'] as String).toEntitlementUnit(),
+      allowCheckIn: json['AllowCheckIn'] as bool?,
+      maxCount: json['MaxCount'] as int?,
+      overage: json['Overage'] as bool?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EntitlementToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final unit = this.unit;
+    final allowCheckIn = this.allowCheckIn;
+    final maxCount = this.maxCount;
+    final overage = this.overage;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Unit': unit.toValue(),
+      if (allowCheckIn != null) 'AllowCheckIn': allowCheckIn,
+      if (maxCount != null) 'MaxCount': maxCount,
+      if (overage != null) 'Overage': overage,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Data associated with an entitlement resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntitlementData {
   /// Entitlement data name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Entitlement data unit.
-  @_s.JsonKey(name: 'Unit')
   final EntitlementDataUnit unit;
 
   /// Entitlement data value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   EntitlementData({
-    @_s.required this.name,
-    @_s.required this.unit,
+    required this.name,
+    required this.unit,
     this.value,
   });
-  factory EntitlementData.fromJson(Map<String, dynamic> json) =>
-      _$EntitlementDataFromJson(json);
+  factory EntitlementData.fromJson(Map<String, dynamic> json) {
+    return EntitlementData(
+      name: json['Name'] as String,
+      unit: (json['Unit'] as String).toEntitlementDataUnit(),
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EntitlementDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Unit': unit.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum EntitlementDataUnit {
-  @_s.JsonValue('Count')
   count,
-  @_s.JsonValue('None')
   none,
-  @_s.JsonValue('Seconds')
   seconds,
-  @_s.JsonValue('Microseconds')
   microseconds,
-  @_s.JsonValue('Milliseconds')
   milliseconds,
-  @_s.JsonValue('Bytes')
   bytes,
-  @_s.JsonValue('Kilobytes')
   kilobytes,
-  @_s.JsonValue('Megabytes')
   megabytes,
-  @_s.JsonValue('Gigabytes')
   gigabytes,
-  @_s.JsonValue('Terabytes')
   terabytes,
-  @_s.JsonValue('Bits')
   bits,
-  @_s.JsonValue('Kilobits')
   kilobits,
-  @_s.JsonValue('Megabits')
   megabits,
-  @_s.JsonValue('Gigabits')
   gigabits,
-  @_s.JsonValue('Terabits')
   terabits,
-  @_s.JsonValue('Percent')
   percent,
-  @_s.JsonValue('Bytes/Second')
   bytesSecond,
-  @_s.JsonValue('Kilobytes/Second')
   kilobytesSecond,
-  @_s.JsonValue('Megabytes/Second')
   megabytesSecond,
-  @_s.JsonValue('Gigabytes/Second')
   gigabytesSecond,
-  @_s.JsonValue('Terabytes/Second')
   terabytesSecond,
-  @_s.JsonValue('Bits/Second')
   bitsSecond,
-  @_s.JsonValue('Kilobits/Second')
   kilobitsSecond,
-  @_s.JsonValue('Megabits/Second')
   megabitsSecond,
-  @_s.JsonValue('Gigabits/Second')
   gigabitsSecond,
-  @_s.JsonValue('Terabits/Second')
   terabitsSecond,
-  @_s.JsonValue('Count/Second')
   countSecond,
+}
+
+extension on EntitlementDataUnit {
+  String toValue() {
+    switch (this) {
+      case EntitlementDataUnit.count:
+        return 'Count';
+      case EntitlementDataUnit.none:
+        return 'None';
+      case EntitlementDataUnit.seconds:
+        return 'Seconds';
+      case EntitlementDataUnit.microseconds:
+        return 'Microseconds';
+      case EntitlementDataUnit.milliseconds:
+        return 'Milliseconds';
+      case EntitlementDataUnit.bytes:
+        return 'Bytes';
+      case EntitlementDataUnit.kilobytes:
+        return 'Kilobytes';
+      case EntitlementDataUnit.megabytes:
+        return 'Megabytes';
+      case EntitlementDataUnit.gigabytes:
+        return 'Gigabytes';
+      case EntitlementDataUnit.terabytes:
+        return 'Terabytes';
+      case EntitlementDataUnit.bits:
+        return 'Bits';
+      case EntitlementDataUnit.kilobits:
+        return 'Kilobits';
+      case EntitlementDataUnit.megabits:
+        return 'Megabits';
+      case EntitlementDataUnit.gigabits:
+        return 'Gigabits';
+      case EntitlementDataUnit.terabits:
+        return 'Terabits';
+      case EntitlementDataUnit.percent:
+        return 'Percent';
+      case EntitlementDataUnit.bytesSecond:
+        return 'Bytes/Second';
+      case EntitlementDataUnit.kilobytesSecond:
+        return 'Kilobytes/Second';
+      case EntitlementDataUnit.megabytesSecond:
+        return 'Megabytes/Second';
+      case EntitlementDataUnit.gigabytesSecond:
+        return 'Gigabytes/Second';
+      case EntitlementDataUnit.terabytesSecond:
+        return 'Terabytes/Second';
+      case EntitlementDataUnit.bitsSecond:
+        return 'Bits/Second';
+      case EntitlementDataUnit.kilobitsSecond:
+        return 'Kilobits/Second';
+      case EntitlementDataUnit.megabitsSecond:
+        return 'Megabits/Second';
+      case EntitlementDataUnit.gigabitsSecond:
+        return 'Gigabits/Second';
+      case EntitlementDataUnit.terabitsSecond:
+        return 'Terabits/Second';
+      case EntitlementDataUnit.countSecond:
+        return 'Count/Second';
+    }
+  }
+}
+
+extension on String {
+  EntitlementDataUnit toEntitlementDataUnit() {
+    switch (this) {
+      case 'Count':
+        return EntitlementDataUnit.count;
+      case 'None':
+        return EntitlementDataUnit.none;
+      case 'Seconds':
+        return EntitlementDataUnit.seconds;
+      case 'Microseconds':
+        return EntitlementDataUnit.microseconds;
+      case 'Milliseconds':
+        return EntitlementDataUnit.milliseconds;
+      case 'Bytes':
+        return EntitlementDataUnit.bytes;
+      case 'Kilobytes':
+        return EntitlementDataUnit.kilobytes;
+      case 'Megabytes':
+        return EntitlementDataUnit.megabytes;
+      case 'Gigabytes':
+        return EntitlementDataUnit.gigabytes;
+      case 'Terabytes':
+        return EntitlementDataUnit.terabytes;
+      case 'Bits':
+        return EntitlementDataUnit.bits;
+      case 'Kilobits':
+        return EntitlementDataUnit.kilobits;
+      case 'Megabits':
+        return EntitlementDataUnit.megabits;
+      case 'Gigabits':
+        return EntitlementDataUnit.gigabits;
+      case 'Terabits':
+        return EntitlementDataUnit.terabits;
+      case 'Percent':
+        return EntitlementDataUnit.percent;
+      case 'Bytes/Second':
+        return EntitlementDataUnit.bytesSecond;
+      case 'Kilobytes/Second':
+        return EntitlementDataUnit.kilobytesSecond;
+      case 'Megabytes/Second':
+        return EntitlementDataUnit.megabytesSecond;
+      case 'Gigabytes/Second':
+        return EntitlementDataUnit.gigabytesSecond;
+      case 'Terabytes/Second':
+        return EntitlementDataUnit.terabytesSecond;
+      case 'Bits/Second':
+        return EntitlementDataUnit.bitsSecond;
+      case 'Kilobits/Second':
+        return EntitlementDataUnit.kilobitsSecond;
+      case 'Megabits/Second':
+        return EntitlementDataUnit.megabitsSecond;
+      case 'Gigabits/Second':
+        return EntitlementDataUnit.gigabitsSecond;
+      case 'Terabits/Second':
+        return EntitlementDataUnit.terabitsSecond;
+      case 'Count/Second':
+        return EntitlementDataUnit.countSecond;
+    }
+    throw Exception('$this is not known in enum EntitlementDataUnit');
+  }
 }
 
 enum EntitlementUnit {
-  @_s.JsonValue('Count')
   count,
-  @_s.JsonValue('None')
   none,
-  @_s.JsonValue('Seconds')
   seconds,
-  @_s.JsonValue('Microseconds')
   microseconds,
-  @_s.JsonValue('Milliseconds')
   milliseconds,
-  @_s.JsonValue('Bytes')
   bytes,
-  @_s.JsonValue('Kilobytes')
   kilobytes,
-  @_s.JsonValue('Megabytes')
   megabytes,
-  @_s.JsonValue('Gigabytes')
   gigabytes,
-  @_s.JsonValue('Terabytes')
   terabytes,
-  @_s.JsonValue('Bits')
   bits,
-  @_s.JsonValue('Kilobits')
   kilobits,
-  @_s.JsonValue('Megabits')
   megabits,
-  @_s.JsonValue('Gigabits')
   gigabits,
-  @_s.JsonValue('Terabits')
   terabits,
-  @_s.JsonValue('Percent')
   percent,
-  @_s.JsonValue('Bytes/Second')
   bytesSecond,
-  @_s.JsonValue('Kilobytes/Second')
   kilobytesSecond,
-  @_s.JsonValue('Megabytes/Second')
   megabytesSecond,
-  @_s.JsonValue('Gigabytes/Second')
   gigabytesSecond,
-  @_s.JsonValue('Terabytes/Second')
   terabytesSecond,
-  @_s.JsonValue('Bits/Second')
   bitsSecond,
-  @_s.JsonValue('Kilobits/Second')
   kilobitsSecond,
-  @_s.JsonValue('Megabits/Second')
   megabitsSecond,
-  @_s.JsonValue('Gigabits/Second')
   gigabitsSecond,
-  @_s.JsonValue('Terabits/Second')
   terabitsSecond,
-  @_s.JsonValue('Count/Second')
   countSecond,
 }
 
+extension on EntitlementUnit {
+  String toValue() {
+    switch (this) {
+      case EntitlementUnit.count:
+        return 'Count';
+      case EntitlementUnit.none:
+        return 'None';
+      case EntitlementUnit.seconds:
+        return 'Seconds';
+      case EntitlementUnit.microseconds:
+        return 'Microseconds';
+      case EntitlementUnit.milliseconds:
+        return 'Milliseconds';
+      case EntitlementUnit.bytes:
+        return 'Bytes';
+      case EntitlementUnit.kilobytes:
+        return 'Kilobytes';
+      case EntitlementUnit.megabytes:
+        return 'Megabytes';
+      case EntitlementUnit.gigabytes:
+        return 'Gigabytes';
+      case EntitlementUnit.terabytes:
+        return 'Terabytes';
+      case EntitlementUnit.bits:
+        return 'Bits';
+      case EntitlementUnit.kilobits:
+        return 'Kilobits';
+      case EntitlementUnit.megabits:
+        return 'Megabits';
+      case EntitlementUnit.gigabits:
+        return 'Gigabits';
+      case EntitlementUnit.terabits:
+        return 'Terabits';
+      case EntitlementUnit.percent:
+        return 'Percent';
+      case EntitlementUnit.bytesSecond:
+        return 'Bytes/Second';
+      case EntitlementUnit.kilobytesSecond:
+        return 'Kilobytes/Second';
+      case EntitlementUnit.megabytesSecond:
+        return 'Megabytes/Second';
+      case EntitlementUnit.gigabytesSecond:
+        return 'Gigabytes/Second';
+      case EntitlementUnit.terabytesSecond:
+        return 'Terabytes/Second';
+      case EntitlementUnit.bitsSecond:
+        return 'Bits/Second';
+      case EntitlementUnit.kilobitsSecond:
+        return 'Kilobits/Second';
+      case EntitlementUnit.megabitsSecond:
+        return 'Megabits/Second';
+      case EntitlementUnit.gigabitsSecond:
+        return 'Gigabits/Second';
+      case EntitlementUnit.terabitsSecond:
+        return 'Terabits/Second';
+      case EntitlementUnit.countSecond:
+        return 'Count/Second';
+    }
+  }
+}
+
+extension on String {
+  EntitlementUnit toEntitlementUnit() {
+    switch (this) {
+      case 'Count':
+        return EntitlementUnit.count;
+      case 'None':
+        return EntitlementUnit.none;
+      case 'Seconds':
+        return EntitlementUnit.seconds;
+      case 'Microseconds':
+        return EntitlementUnit.microseconds;
+      case 'Milliseconds':
+        return EntitlementUnit.milliseconds;
+      case 'Bytes':
+        return EntitlementUnit.bytes;
+      case 'Kilobytes':
+        return EntitlementUnit.kilobytes;
+      case 'Megabytes':
+        return EntitlementUnit.megabytes;
+      case 'Gigabytes':
+        return EntitlementUnit.gigabytes;
+      case 'Terabytes':
+        return EntitlementUnit.terabytes;
+      case 'Bits':
+        return EntitlementUnit.bits;
+      case 'Kilobits':
+        return EntitlementUnit.kilobits;
+      case 'Megabits':
+        return EntitlementUnit.megabits;
+      case 'Gigabits':
+        return EntitlementUnit.gigabits;
+      case 'Terabits':
+        return EntitlementUnit.terabits;
+      case 'Percent':
+        return EntitlementUnit.percent;
+      case 'Bytes/Second':
+        return EntitlementUnit.bytesSecond;
+      case 'Kilobytes/Second':
+        return EntitlementUnit.kilobytesSecond;
+      case 'Megabytes/Second':
+        return EntitlementUnit.megabytesSecond;
+      case 'Gigabytes/Second':
+        return EntitlementUnit.gigabytesSecond;
+      case 'Terabytes/Second':
+        return EntitlementUnit.terabytesSecond;
+      case 'Bits/Second':
+        return EntitlementUnit.bitsSecond;
+      case 'Kilobits/Second':
+        return EntitlementUnit.kilobitsSecond;
+      case 'Megabits/Second':
+        return EntitlementUnit.megabitsSecond;
+      case 'Gigabits/Second':
+        return EntitlementUnit.gigabitsSecond;
+      case 'Terabits/Second':
+        return EntitlementUnit.terabitsSecond;
+      case 'Count/Second':
+        return EntitlementUnit.countSecond;
+    }
+    throw Exception('$this is not known in enum EntitlementUnit');
+  }
+}
+
 /// Usage associated with an entitlement resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntitlementUsage {
   /// Resource usage consumed.
-  @_s.JsonKey(name: 'ConsumedValue')
   final String consumedValue;
 
   /// Entitlement usage name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Entitlement usage unit.
-  @_s.JsonKey(name: 'Unit')
   final EntitlementDataUnit unit;
 
   /// Maximum entitlement usage count.
-  @_s.JsonKey(name: 'MaxCount')
-  final String maxCount;
+  final String? maxCount;
 
   EntitlementUsage({
-    @_s.required this.consumedValue,
-    @_s.required this.name,
-    @_s.required this.unit,
+    required this.consumedValue,
+    required this.name,
+    required this.unit,
     this.maxCount,
   });
-  factory EntitlementUsage.fromJson(Map<String, dynamic> json) =>
-      _$EntitlementUsageFromJson(json);
+  factory EntitlementUsage.fromJson(Map<String, dynamic> json) {
+    return EntitlementUsage(
+      consumedValue: json['ConsumedValue'] as String,
+      name: json['Name'] as String,
+      unit: (json['Unit'] as String).toEntitlementDataUnit(),
+      maxCount: json['MaxCount'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExtendLicenseConsumptionResponse {
   /// Date and time at which the license consumption expires.
-  @_s.JsonKey(name: 'Expiration')
-  final String expiration;
+  final String? expiration;
 
   /// License consumption token.
-  @_s.JsonKey(name: 'LicenseConsumptionToken')
-  final String licenseConsumptionToken;
+  final String? licenseConsumptionToken;
 
   ExtendLicenseConsumptionResponse({
     this.expiration,
     this.licenseConsumptionToken,
   });
-  factory ExtendLicenseConsumptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExtendLicenseConsumptionResponseFromJson(json);
+  factory ExtendLicenseConsumptionResponse.fromJson(Map<String, dynamic> json) {
+    return ExtendLicenseConsumptionResponse(
+      expiration: json['Expiration'] as String?,
+      licenseConsumptionToken: json['LicenseConsumptionToken'] as String?,
+    );
+  }
 }
 
 /// A filter name and value pair that is used to return more specific results
 /// from a describe operation. Filters can be used to match a set of resources
 /// by specific criteria, such as tags, attributes, or IDs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// Name of the filter. Filter names are case-sensitive.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Filter values. Filter values are case-sensitive.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccessTokenResponse {
   /// Temporary access token.
-  @_s.JsonKey(name: 'AccessToken')
-  final String accessToken;
+  final String? accessToken;
 
   GetAccessTokenResponse({
     this.accessToken,
   });
-  factory GetAccessTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccessTokenResponseFromJson(json);
+  factory GetAccessTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccessTokenResponse(
+      accessToken: json['AccessToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGrantResponse {
   /// Grant details.
-  @_s.JsonKey(name: 'Grant')
-  final Grant grant;
+  final Grant? grant;
 
   GetGrantResponse({
     this.grant,
   });
-  factory GetGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGrantResponseFromJson(json);
+  factory GetGrantResponse.fromJson(Map<String, dynamic> json) {
+    return GetGrantResponse(
+      grant: json['Grant'] != null
+          ? Grant.fromJson(json['Grant'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLicenseConfigurationResponse {
   /// Automated discovery information.
-  @_s.JsonKey(name: 'AutomatedDiscoveryInformation')
-  final AutomatedDiscoveryInformation automatedDiscoveryInformation;
+  final AutomatedDiscoveryInformation? automatedDiscoveryInformation;
 
   /// Summaries of the licenses consumed by resources.
-  @_s.JsonKey(name: 'ConsumedLicenseSummaryList')
-  final List<ConsumedLicenseSummary> consumedLicenseSummaryList;
+  final List<ConsumedLicenseSummary>? consumedLicenseSummaryList;
 
   /// Number of licenses assigned to resources.
-  @_s.JsonKey(name: 'ConsumedLicenses')
-  final int consumedLicenses;
+  final int? consumedLicenses;
 
   /// Description of the license configuration.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// When true, disassociates a resource when software is uninstalled.
-  @_s.JsonKey(name: 'DisassociateWhenNotFound')
-  final bool disassociateWhenNotFound;
+  final bool? disassociateWhenNotFound;
 
   /// Amazon Resource Name (ARN) of the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationArn')
-  final String licenseConfigurationArn;
+  final String? licenseConfigurationArn;
 
   /// Unique ID for the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationId')
-  final String licenseConfigurationId;
+  final String? licenseConfigurationId;
 
   /// Number of available licenses.
-  @_s.JsonKey(name: 'LicenseCount')
-  final int licenseCount;
+  final int? licenseCount;
 
   /// Sets the number of available licenses as a hard limit.
-  @_s.JsonKey(name: 'LicenseCountHardLimit')
-  final bool licenseCountHardLimit;
+  final bool? licenseCountHardLimit;
 
   /// Dimension on which the licenses are counted.
-  @_s.JsonKey(name: 'LicenseCountingType')
-  final LicenseCountingType licenseCountingType;
+  final LicenseCountingType? licenseCountingType;
 
   /// License rules.
-  @_s.JsonKey(name: 'LicenseRules')
-  final List<String> licenseRules;
+  final List<String>? licenseRules;
 
   /// Summaries of the managed resources.
-  @_s.JsonKey(name: 'ManagedResourceSummaryList')
-  final List<ManagedResourceSummary> managedResourceSummaryList;
+  final List<ManagedResourceSummary>? managedResourceSummaryList;
 
   /// Name of the license configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Account ID of the owner of the license configuration.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// Product information.
-  @_s.JsonKey(name: 'ProductInformationList')
-  final List<ProductInformation> productInformationList;
+  final List<ProductInformation>? productInformationList;
 
   /// License configuration status.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Tags for the license configuration.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   GetLicenseConfigurationResponse({
     this.automatedDiscoveryInformation,
@@ -3398,72 +3557,101 @@ class GetLicenseConfigurationResponse {
     this.status,
     this.tags,
   });
-  factory GetLicenseConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLicenseConfigurationResponseFromJson(json);
+  factory GetLicenseConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetLicenseConfigurationResponse(
+      automatedDiscoveryInformation:
+          json['AutomatedDiscoveryInformation'] != null
+              ? AutomatedDiscoveryInformation.fromJson(
+                  json['AutomatedDiscoveryInformation'] as Map<String, dynamic>)
+              : null,
+      consumedLicenseSummaryList: (json['ConsumedLicenseSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ConsumedLicenseSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      consumedLicenses: json['ConsumedLicenses'] as int?,
+      description: json['Description'] as String?,
+      disassociateWhenNotFound: json['DisassociateWhenNotFound'] as bool?,
+      licenseConfigurationArn: json['LicenseConfigurationArn'] as String?,
+      licenseConfigurationId: json['LicenseConfigurationId'] as String?,
+      licenseCount: json['LicenseCount'] as int?,
+      licenseCountHardLimit: json['LicenseCountHardLimit'] as bool?,
+      licenseCountingType:
+          (json['LicenseCountingType'] as String?)?.toLicenseCountingType(),
+      licenseRules: (json['LicenseRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      managedResourceSummaryList: (json['ManagedResourceSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      productInformationList: (json['ProductInformationList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLicenseResponse {
   /// License details.
-  @_s.JsonKey(name: 'License')
-  final License license;
+  final License? license;
 
   GetLicenseResponse({
     this.license,
   });
-  factory GetLicenseResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLicenseResponseFromJson(json);
+  factory GetLicenseResponse.fromJson(Map<String, dynamic> json) {
+    return GetLicenseResponse(
+      license: json['License'] != null
+          ? License.fromJson(json['License'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLicenseUsageResponse {
   /// License usage details.
-  @_s.JsonKey(name: 'LicenseUsage')
-  final LicenseUsage licenseUsage;
+  final LicenseUsage? licenseUsage;
 
   GetLicenseUsageResponse({
     this.licenseUsage,
   });
-  factory GetLicenseUsageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLicenseUsageResponseFromJson(json);
+  factory GetLicenseUsageResponse.fromJson(Map<String, dynamic> json) {
+    return GetLicenseUsageResponse(
+      licenseUsage: json['LicenseUsage'] != null
+          ? LicenseUsage.fromJson(json['LicenseUsage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServiceSettingsResponse {
   /// Indicates whether cross-account discovery is enabled.
-  @_s.JsonKey(name: 'EnableCrossAccountsDiscovery')
-  final bool enableCrossAccountsDiscovery;
+  final bool? enableCrossAccountsDiscovery;
 
   /// Amazon Resource Name (ARN) of the AWS resource share. The License Manager
   /// master account will provide member accounts with access to this share.
-  @_s.JsonKey(name: 'LicenseManagerResourceShareArn')
-  final String licenseManagerResourceShareArn;
+  final String? licenseManagerResourceShareArn;
 
   /// Indicates whether AWS Organizations is integrated with License Manager for
   /// cross-account discovery.
-  @_s.JsonKey(name: 'OrganizationConfiguration')
-  final OrganizationConfiguration organizationConfiguration;
+  final OrganizationConfiguration? organizationConfiguration;
 
   /// Regional S3 bucket path for storing reports, license trail event data,
   /// discovery data, and so on.
-  @_s.JsonKey(name: 'S3BucketArn')
-  final String s3BucketArn;
+  final String? s3BucketArn;
 
   /// SNS topic configured to receive notifications from License Manager.
-  @_s.JsonKey(name: 'SnsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   GetServiceSettingsResponse({
     this.enableCrossAccountsDiscovery,
@@ -3472,88 +3660,93 @@ class GetServiceSettingsResponse {
     this.s3BucketArn,
     this.snsTopicArn,
   });
-  factory GetServiceSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetServiceSettingsResponseFromJson(json);
+  factory GetServiceSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetServiceSettingsResponse(
+      enableCrossAccountsDiscovery:
+          json['EnableCrossAccountsDiscovery'] as bool?,
+      licenseManagerResourceShareArn:
+          json['LicenseManagerResourceShareArn'] as String?,
+      organizationConfiguration: json['OrganizationConfiguration'] != null
+          ? OrganizationConfiguration.fromJson(
+              json['OrganizationConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3BucketArn: json['S3BucketArn'] as String?,
+      snsTopicArn: json['SnsTopicArn'] as String?,
+    );
+  }
 }
 
 /// Describes a grant.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Grant {
   /// Amazon Resource Name (ARN) of the grant.
-  @_s.JsonKey(name: 'GrantArn')
   final String grantArn;
 
   /// Grant name.
-  @_s.JsonKey(name: 'GrantName')
   final String grantName;
 
   /// Grant status.
-  @_s.JsonKey(name: 'GrantStatus')
   final GrantStatus grantStatus;
 
   /// Granted operations.
-  @_s.JsonKey(name: 'GrantedOperations')
   final List<AllowedOperation> grantedOperations;
 
   /// The grantee principal ARN.
-  @_s.JsonKey(name: 'GranteePrincipalArn')
   final String granteePrincipalArn;
 
   /// Home Region of the grant.
-  @_s.JsonKey(name: 'HomeRegion')
   final String homeRegion;
 
   /// License ARN.
-  @_s.JsonKey(name: 'LicenseArn')
   final String licenseArn;
 
   /// Parent ARN.
-  @_s.JsonKey(name: 'ParentArn')
   final String parentArn;
 
   /// Grant version.
-  @_s.JsonKey(name: 'Version')
   final String version;
 
   /// Grant status reason.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   Grant({
-    @_s.required this.grantArn,
-    @_s.required this.grantName,
-    @_s.required this.grantStatus,
-    @_s.required this.grantedOperations,
-    @_s.required this.granteePrincipalArn,
-    @_s.required this.homeRegion,
-    @_s.required this.licenseArn,
-    @_s.required this.parentArn,
-    @_s.required this.version,
+    required this.grantArn,
+    required this.grantName,
+    required this.grantStatus,
+    required this.grantedOperations,
+    required this.granteePrincipalArn,
+    required this.homeRegion,
+    required this.licenseArn,
+    required this.parentArn,
+    required this.version,
     this.statusReason,
   });
-  factory Grant.fromJson(Map<String, dynamic> json) => _$GrantFromJson(json);
+  factory Grant.fromJson(Map<String, dynamic> json) {
+    return Grant(
+      grantArn: json['GrantArn'] as String,
+      grantName: json['GrantName'] as String,
+      grantStatus: (json['GrantStatus'] as String).toGrantStatus(),
+      grantedOperations: (json['GrantedOperations'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toAllowedOperation())
+          .toList(),
+      granteePrincipalArn: json['GranteePrincipalArn'] as String,
+      homeRegion: json['HomeRegion'] as String,
+      licenseArn: json['LicenseArn'] as String,
+      parentArn: json['ParentArn'] as String,
+      version: json['Version'] as String,
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
 }
 
 enum GrantStatus {
-  @_s.JsonValue('PENDING_WORKFLOW')
   pendingWorkflow,
-  @_s.JsonValue('PENDING_ACCEPT')
   pendingAccept,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED_WORKFLOW')
   failedWorkflow,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('PENDING_DELETE')
   pendingDelete,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -3577,77 +3770,80 @@ extension on GrantStatus {
       case GrantStatus.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  GrantStatus toGrantStatus() {
+    switch (this) {
+      case 'PENDING_WORKFLOW':
+        return GrantStatus.pendingWorkflow;
+      case 'PENDING_ACCEPT':
+        return GrantStatus.pendingAccept;
+      case 'REJECTED':
+        return GrantStatus.rejected;
+      case 'ACTIVE':
+        return GrantStatus.active;
+      case 'FAILED_WORKFLOW':
+        return GrantStatus.failedWorkflow;
+      case 'DELETED':
+        return GrantStatus.deleted;
+      case 'PENDING_DELETE':
+        return GrantStatus.pendingDelete;
+      case 'DISABLED':
+        return GrantStatus.disabled;
+    }
+    throw Exception('$this is not known in enum GrantStatus');
   }
 }
 
 /// Describes a license that is granted to a grantee.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GrantedLicense {
   /// Granted license beneficiary.
-  @_s.JsonKey(name: 'Beneficiary')
-  final String beneficiary;
+  final String? beneficiary;
 
   /// Configuration for consumption of the license.
-  @_s.JsonKey(name: 'ConsumptionConfiguration')
-  final ConsumptionConfiguration consumptionConfiguration;
+  final ConsumptionConfiguration? consumptionConfiguration;
 
   /// Creation time of the granted license.
-  @_s.JsonKey(name: 'CreateTime')
-  final String createTime;
+  final String? createTime;
 
   /// License entitlements.
-  @_s.JsonKey(name: 'Entitlements')
-  final List<Entitlement> entitlements;
+  final List<Entitlement>? entitlements;
 
   /// Home Region of the granted license.
-  @_s.JsonKey(name: 'HomeRegion')
-  final String homeRegion;
+  final String? homeRegion;
 
   /// Granted license issuer.
-  @_s.JsonKey(name: 'Issuer')
-  final IssuerDetails issuer;
+  final IssuerDetails? issuer;
 
   /// Amazon Resource Name (ARN) of the license.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// Granted license metadata.
-  @_s.JsonKey(name: 'LicenseMetadata')
-  final List<Metadata> licenseMetadata;
+  final List<Metadata>? licenseMetadata;
 
   /// License name.
-  @_s.JsonKey(name: 'LicenseName')
-  final String licenseName;
+  final String? licenseName;
 
   /// Product name.
-  @_s.JsonKey(name: 'ProductName')
-  final String productName;
+  final String? productName;
 
   /// Product SKU.
-  @_s.JsonKey(name: 'ProductSKU')
-  final String productSKU;
+  final String? productSKU;
 
   /// Granted license received metadata.
-  @_s.JsonKey(name: 'ReceivedMetadata')
-  final ReceivedMetadata receivedMetadata;
+  final ReceivedMetadata? receivedMetadata;
 
   /// Granted license status.
-  @_s.JsonKey(name: 'Status')
-  final LicenseStatus status;
+  final LicenseStatus? status;
 
   /// Date and time range during which the granted license is valid, in
   /// ISO8601-UTC format.
-  @_s.JsonKey(name: 'Validity')
-  final DatetimeRange validity;
+  final DatetimeRange? validity;
 
   /// Version of the granted license.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GrantedLicense({
     this.beneficiary,
@@ -3666,165 +3862,204 @@ class GrantedLicense {
     this.validity,
     this.version,
   });
-  factory GrantedLicense.fromJson(Map<String, dynamic> json) =>
-      _$GrantedLicenseFromJson(json);
+  factory GrantedLicense.fromJson(Map<String, dynamic> json) {
+    return GrantedLicense(
+      beneficiary: json['Beneficiary'] as String?,
+      consumptionConfiguration: json['ConsumptionConfiguration'] != null
+          ? ConsumptionConfiguration.fromJson(
+              json['ConsumptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      createTime: json['CreateTime'] as String?,
+      entitlements: (json['Entitlements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      homeRegion: json['HomeRegion'] as String?,
+      issuer: json['Issuer'] != null
+          ? IssuerDetails.fromJson(json['Issuer'] as Map<String, dynamic>)
+          : null,
+      licenseArn: json['LicenseArn'] as String?,
+      licenseMetadata: (json['LicenseMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      licenseName: json['LicenseName'] as String?,
+      productName: json['ProductName'] as String?,
+      productSKU: json['ProductSKU'] as String?,
+      receivedMetadata: json['ReceivedMetadata'] != null
+          ? ReceivedMetadata.fromJson(
+              json['ReceivedMetadata'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toLicenseStatus(),
+      validity: json['Validity'] != null
+          ? DatetimeRange.fromJson(json['Validity'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 /// An inventory filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryFilter {
   /// Condition of the filter.
-  @_s.JsonKey(name: 'Condition')
   final InventoryFilterCondition condition;
 
   /// Name of the filter.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Value of the filter.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   InventoryFilter({
-    @_s.required this.condition,
-    @_s.required this.name,
+    required this.condition,
+    required this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$InventoryFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Condition': condition.toValue(),
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum InventoryFilterCondition {
-  @_s.JsonValue('EQUALS')
   equals,
-  @_s.JsonValue('NOT_EQUALS')
   notEquals,
-  @_s.JsonValue('BEGINS_WITH')
   beginsWith,
-  @_s.JsonValue('CONTAINS')
   contains,
 }
 
+extension on InventoryFilterCondition {
+  String toValue() {
+    switch (this) {
+      case InventoryFilterCondition.equals:
+        return 'EQUALS';
+      case InventoryFilterCondition.notEquals:
+        return 'NOT_EQUALS';
+      case InventoryFilterCondition.beginsWith:
+        return 'BEGINS_WITH';
+      case InventoryFilterCondition.contains:
+        return 'CONTAINS';
+    }
+  }
+}
+
+extension on String {
+  InventoryFilterCondition toInventoryFilterCondition() {
+    switch (this) {
+      case 'EQUALS':
+        return InventoryFilterCondition.equals;
+      case 'NOT_EQUALS':
+        return InventoryFilterCondition.notEquals;
+      case 'BEGINS_WITH':
+        return InventoryFilterCondition.beginsWith;
+      case 'CONTAINS':
+        return InventoryFilterCondition.contains;
+    }
+    throw Exception('$this is not known in enum InventoryFilterCondition');
+  }
+}
+
 /// Details about the issuer of a license.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Issuer {
   /// Issuer name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Asymmetric CMK from AWS Key Management Service. The CMK must have a key
   /// usage of sign and verify, and support the RSASSA-PSS SHA-256 signing
   /// algorithm.
-  @_s.JsonKey(name: 'SignKey')
-  final String signKey;
+  final String? signKey;
 
   Issuer({
-    @_s.required this.name,
+    required this.name,
     this.signKey,
   });
-  Map<String, dynamic> toJson() => _$IssuerToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final signKey = this.signKey;
+    return {
+      'Name': name,
+      if (signKey != null) 'SignKey': signKey,
+    };
+  }
 }
 
 /// Details associated with the issuer of a license.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IssuerDetails {
   /// Issuer key fingerprint.
-  @_s.JsonKey(name: 'KeyFingerprint')
-  final String keyFingerprint;
+  final String? keyFingerprint;
 
   /// Issuer name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Asymmetric CMK from AWS Key Management Service. The CMK must have a key
   /// usage of sign and verify, and support the RSASSA-PSS SHA-256 signing
   /// algorithm.
-  @_s.JsonKey(name: 'SignKey')
-  final String signKey;
+  final String? signKey;
 
   IssuerDetails({
     this.keyFingerprint,
     this.name,
     this.signKey,
   });
-  factory IssuerDetails.fromJson(Map<String, dynamic> json) =>
-      _$IssuerDetailsFromJson(json);
+  factory IssuerDetails.fromJson(Map<String, dynamic> json) {
+    return IssuerDetails(
+      keyFingerprint: json['KeyFingerprint'] as String?,
+      name: json['Name'] as String?,
+      signKey: json['SignKey'] as String?,
+    );
+  }
 }
 
 /// Software license that is managed in AWS License Manager.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class License {
   /// License beneficiary.
-  @_s.JsonKey(name: 'Beneficiary')
-  final String beneficiary;
+  final String? beneficiary;
 
   /// Configuration for consumption of the license.
-  @_s.JsonKey(name: 'ConsumptionConfiguration')
-  final ConsumptionConfiguration consumptionConfiguration;
+  final ConsumptionConfiguration? consumptionConfiguration;
 
   /// License creation time.
-  @_s.JsonKey(name: 'CreateTime')
-  final String createTime;
+  final String? createTime;
 
   /// License entitlements.
-  @_s.JsonKey(name: 'Entitlements')
-  final List<Entitlement> entitlements;
+  final List<Entitlement>? entitlements;
 
   /// Home Region of the license.
-  @_s.JsonKey(name: 'HomeRegion')
-  final String homeRegion;
+  final String? homeRegion;
 
   /// License issuer.
-  @_s.JsonKey(name: 'Issuer')
-  final IssuerDetails issuer;
+  final IssuerDetails? issuer;
 
   /// Amazon Resource Name (ARN) of the license.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// License metadata.
-  @_s.JsonKey(name: 'LicenseMetadata')
-  final List<Metadata> licenseMetadata;
+  final List<Metadata>? licenseMetadata;
 
   /// License name.
-  @_s.JsonKey(name: 'LicenseName')
-  final String licenseName;
+  final String? licenseName;
 
   /// Product name.
-  @_s.JsonKey(name: 'ProductName')
-  final String productName;
+  final String? productName;
 
   /// Product SKU.
-  @_s.JsonKey(name: 'ProductSKU')
-  final String productSKU;
+  final String? productSKU;
 
   /// License status.
-  @_s.JsonKey(name: 'Status')
-  final LicenseStatus status;
+  final LicenseStatus? status;
 
   /// Date and time range during which the license is valid, in ISO8601-UTC
   /// format.
-  @_s.JsonKey(name: 'Validity')
-  final DatetimeRange validity;
+  final DatetimeRange? validity;
 
   /// License version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   License({
     this.beneficiary,
@@ -3842,8 +4077,37 @@ class License {
     this.validity,
     this.version,
   });
-  factory License.fromJson(Map<String, dynamic> json) =>
-      _$LicenseFromJson(json);
+  factory License.fromJson(Map<String, dynamic> json) {
+    return License(
+      beneficiary: json['Beneficiary'] as String?,
+      consumptionConfiguration: json['ConsumptionConfiguration'] != null
+          ? ConsumptionConfiguration.fromJson(
+              json['ConsumptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      createTime: json['CreateTime'] as String?,
+      entitlements: (json['Entitlements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      homeRegion: json['HomeRegion'] as String?,
+      issuer: json['Issuer'] != null
+          ? IssuerDetails.fromJson(json['Issuer'] as Map<String, dynamic>)
+          : null,
+      licenseArn: json['LicenseArn'] as String?,
+      licenseMetadata: (json['LicenseMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      licenseName: json['LicenseName'] as String?,
+      productName: json['ProductName'] as String?,
+      productSKU: json['ProductSKU'] as String?,
+      status: (json['Status'] as String?)?.toLicenseStatus(),
+      validity: json['Validity'] != null
+          ? DatetimeRange.fromJson(json['Validity'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 /// A license configuration is an abstraction of a customer license agreement
@@ -3852,75 +4116,54 @@ class License {
 /// vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host,
 /// or all of these), host affinity (how long a VM must be associated with a
 /// host), and the number of licenses purchased and used.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseConfiguration {
   /// Automated discovery information.
-  @_s.JsonKey(name: 'AutomatedDiscoveryInformation')
-  final AutomatedDiscoveryInformation automatedDiscoveryInformation;
+  final AutomatedDiscoveryInformation? automatedDiscoveryInformation;
 
   /// Summaries for licenses consumed by various resources.
-  @_s.JsonKey(name: 'ConsumedLicenseSummaryList')
-  final List<ConsumedLicenseSummary> consumedLicenseSummaryList;
+  final List<ConsumedLicenseSummary>? consumedLicenseSummaryList;
 
   /// Number of licenses consumed.
-  @_s.JsonKey(name: 'ConsumedLicenses')
-  final int consumedLicenses;
+  final int? consumedLicenses;
 
   /// Description of the license configuration.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// When true, disassociates a resource when software is uninstalled.
-  @_s.JsonKey(name: 'DisassociateWhenNotFound')
-  final bool disassociateWhenNotFound;
+  final bool? disassociateWhenNotFound;
 
   /// Amazon Resource Name (ARN) of the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationArn')
-  final String licenseConfigurationArn;
+  final String? licenseConfigurationArn;
 
   /// Unique ID of the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationId')
-  final String licenseConfigurationId;
+  final String? licenseConfigurationId;
 
   /// Number of licenses managed by the license configuration.
-  @_s.JsonKey(name: 'LicenseCount')
-  final int licenseCount;
+  final int? licenseCount;
 
   /// Number of available licenses as a hard limit.
-  @_s.JsonKey(name: 'LicenseCountHardLimit')
-  final bool licenseCountHardLimit;
+  final bool? licenseCountHardLimit;
 
   /// Dimension to use to track the license inventory.
-  @_s.JsonKey(name: 'LicenseCountingType')
-  final LicenseCountingType licenseCountingType;
+  final LicenseCountingType? licenseCountingType;
 
   /// License rules.
-  @_s.JsonKey(name: 'LicenseRules')
-  final List<String> licenseRules;
+  final List<String>? licenseRules;
 
   /// Summaries for managed resources.
-  @_s.JsonKey(name: 'ManagedResourceSummaryList')
-  final List<ManagedResourceSummary> managedResourceSummaryList;
+  final List<ManagedResourceSummary>? managedResourceSummaryList;
 
   /// Name of the license configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Account ID of the license configuration's owner.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// Product information.
-  @_s.JsonKey(name: 'ProductInformationList')
-  final List<ProductInformation> productInformationList;
+  final List<ProductInformation>? productInformationList;
 
   /// Status of the license configuration.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   LicenseConfiguration({
     this.automatedDiscoveryInformation,
@@ -3940,37 +4183,63 @@ class LicenseConfiguration {
     this.productInformationList,
     this.status,
   });
-  factory LicenseConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LicenseConfigurationFromJson(json);
+  factory LicenseConfiguration.fromJson(Map<String, dynamic> json) {
+    return LicenseConfiguration(
+      automatedDiscoveryInformation:
+          json['AutomatedDiscoveryInformation'] != null
+              ? AutomatedDiscoveryInformation.fromJson(
+                  json['AutomatedDiscoveryInformation'] as Map<String, dynamic>)
+              : null,
+      consumedLicenseSummaryList: (json['ConsumedLicenseSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ConsumedLicenseSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      consumedLicenses: json['ConsumedLicenses'] as int?,
+      description: json['Description'] as String?,
+      disassociateWhenNotFound: json['DisassociateWhenNotFound'] as bool?,
+      licenseConfigurationArn: json['LicenseConfigurationArn'] as String?,
+      licenseConfigurationId: json['LicenseConfigurationId'] as String?,
+      licenseCount: json['LicenseCount'] as int?,
+      licenseCountHardLimit: json['LicenseCountHardLimit'] as bool?,
+      licenseCountingType:
+          (json['LicenseCountingType'] as String?)?.toLicenseCountingType(),
+      licenseRules: (json['LicenseRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      managedResourceSummaryList: (json['ManagedResourceSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      productInformationList: (json['ProductInformationList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// Describes an association with a license configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseConfigurationAssociation {
   /// Scope of AMI associations. The possible value is <code>cross-account</code>.
-  @_s.JsonKey(name: 'AmiAssociationScope')
-  final String amiAssociationScope;
+  final String? amiAssociationScope;
 
   /// Time when the license configuration was associated with the resource.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AssociationTime')
-  final DateTime associationTime;
+  final DateTime? associationTime;
 
   /// Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// ID of the AWS account that owns the resource consuming licenses.
-  @_s.JsonKey(name: 'ResourceOwnerId')
-  final String resourceOwnerId;
+  final String? resourceOwnerId;
 
   /// Type of server resource.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   LicenseConfigurationAssociation({
     this.amiAssociationScope,
@@ -3979,14 +4248,19 @@ class LicenseConfigurationAssociation {
     this.resourceOwnerId,
     this.resourceType,
   });
-  factory LicenseConfigurationAssociation.fromJson(Map<String, dynamic> json) =>
-      _$LicenseConfigurationAssociationFromJson(json);
+  factory LicenseConfigurationAssociation.fromJson(Map<String, dynamic> json) {
+    return LicenseConfigurationAssociation(
+      amiAssociationScope: json['AmiAssociationScope'] as String?,
+      associationTime: timeStampFromJson(json['AssociationTime']),
+      resourceArn: json['ResourceArn'] as String?,
+      resourceOwnerId: json['ResourceOwnerId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 enum LicenseConfigurationStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -3998,43 +4272,42 @@ extension on LicenseConfigurationStatus {
       case LicenseConfigurationStatus.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LicenseConfigurationStatus toLicenseConfigurationStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return LicenseConfigurationStatus.available;
+      case 'DISABLED':
+        return LicenseConfigurationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum LicenseConfigurationStatus');
   }
 }
 
 /// Details about the usage of a resource associated with a license
 /// configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseConfigurationUsage {
   /// Time when the license configuration was initially associated with the
   /// resource.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AssociationTime')
-  final DateTime associationTime;
+  final DateTime? associationTime;
 
   /// Number of licenses consumed by the resource.
-  @_s.JsonKey(name: 'ConsumedLicenses')
-  final int consumedLicenses;
+  final int? consumedLicenses;
 
   /// Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// ID of the account that owns the resource.
-  @_s.JsonKey(name: 'ResourceOwnerId')
-  final String resourceOwnerId;
+  final String? resourceOwnerId;
 
   /// Status of the resource.
-  @_s.JsonKey(name: 'ResourceStatus')
-  final String resourceStatus;
+  final String? resourceStatus;
 
   /// Type of resource.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   LicenseConfigurationUsage({
     this.associationTime,
@@ -4044,18 +4317,22 @@ class LicenseConfigurationUsage {
     this.resourceStatus,
     this.resourceType,
   });
-  factory LicenseConfigurationUsage.fromJson(Map<String, dynamic> json) =>
-      _$LicenseConfigurationUsageFromJson(json);
+  factory LicenseConfigurationUsage.fromJson(Map<String, dynamic> json) {
+    return LicenseConfigurationUsage(
+      associationTime: timeStampFromJson(json['AssociationTime']),
+      consumedLicenses: json['ConsumedLicenses'] as int?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceOwnerId: json['ResourceOwnerId'] as String?,
+      resourceStatus: json['ResourceStatus'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 enum LicenseCountingType {
-  @_s.JsonValue('vCPU')
   vcpu,
-  @_s.JsonValue('Instance')
   instance,
-  @_s.JsonValue('Core')
   core,
-  @_s.JsonValue('Socket')
   socket,
 }
 
@@ -4071,56 +4348,78 @@ extension on LicenseCountingType {
       case LicenseCountingType.socket:
         return 'Socket';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LicenseCountingType toLicenseCountingType() {
+    switch (this) {
+      case 'vCPU':
+        return LicenseCountingType.vcpu;
+      case 'Instance':
+        return LicenseCountingType.instance;
+      case 'Core':
+        return LicenseCountingType.core;
+      case 'Socket':
+        return LicenseCountingType.socket;
+    }
+    throw Exception('$this is not known in enum LicenseCountingType');
   }
 }
 
 enum LicenseDeletionStatus {
-  @_s.JsonValue('PENDING_DELETE')
   pendingDelete,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on LicenseDeletionStatus {
+  String toValue() {
+    switch (this) {
+      case LicenseDeletionStatus.pendingDelete:
+        return 'PENDING_DELETE';
+      case LicenseDeletionStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  LicenseDeletionStatus toLicenseDeletionStatus() {
+    switch (this) {
+      case 'PENDING_DELETE':
+        return LicenseDeletionStatus.pendingDelete;
+      case 'DELETED':
+        return LicenseDeletionStatus.deleted;
+    }
+    throw Exception('$this is not known in enum LicenseDeletionStatus');
+  }
+}
+
 /// Describes the failure of a license operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseOperationFailure {
   /// Error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Failure time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FailureTime')
-  final DateTime failureTime;
+  final DateTime? failureTime;
 
   /// Reserved.
-  @_s.JsonKey(name: 'MetadataList')
-  final List<Metadata> metadataList;
+  final List<Metadata>? metadataList;
 
   /// Name of the operation.
-  @_s.JsonKey(name: 'OperationName')
-  final String operationName;
+  final String? operationName;
 
   /// The requester is "License Manager Automated Discovery".
-  @_s.JsonKey(name: 'OperationRequestedBy')
-  final String operationRequestedBy;
+  final String? operationRequestedBy;
 
   /// Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// ID of the AWS account that owns the resource.
-  @_s.JsonKey(name: 'ResourceOwnerId')
-  final String resourceOwnerId;
+  final String? resourceOwnerId;
 
   /// Resource type.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   LicenseOperationFailure({
     this.errorMessage,
@@ -4132,49 +4431,60 @@ class LicenseOperationFailure {
     this.resourceOwnerId,
     this.resourceType,
   });
-  factory LicenseOperationFailure.fromJson(Map<String, dynamic> json) =>
-      _$LicenseOperationFailureFromJson(json);
+  factory LicenseOperationFailure.fromJson(Map<String, dynamic> json) {
+    return LicenseOperationFailure(
+      errorMessage: json['ErrorMessage'] as String?,
+      failureTime: timeStampFromJson(json['FailureTime']),
+      metadataList: (json['MetadataList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      operationName: json['OperationName'] as String?,
+      operationRequestedBy: json['OperationRequestedBy'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceOwnerId: json['ResourceOwnerId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 /// Details for associating a license configuration with a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LicenseSpecification {
   /// Amazon Resource Name (ARN) of the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationArn')
   final String licenseConfigurationArn;
 
   /// Scope of AMI associations. The possible value is <code>cross-account</code>.
-  @_s.JsonKey(name: 'AmiAssociationScope')
-  final String amiAssociationScope;
+  final String? amiAssociationScope;
 
   LicenseSpecification({
-    @_s.required this.licenseConfigurationArn,
+    required this.licenseConfigurationArn,
     this.amiAssociationScope,
   });
-  factory LicenseSpecification.fromJson(Map<String, dynamic> json) =>
-      _$LicenseSpecificationFromJson(json);
+  factory LicenseSpecification.fromJson(Map<String, dynamic> json) {
+    return LicenseSpecification(
+      licenseConfigurationArn: json['LicenseConfigurationArn'] as String,
+      amiAssociationScope: json['AmiAssociationScope'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LicenseSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final licenseConfigurationArn = this.licenseConfigurationArn;
+    final amiAssociationScope = this.amiAssociationScope;
+    return {
+      'LicenseConfigurationArn': licenseConfigurationArn,
+      if (amiAssociationScope != null)
+        'AmiAssociationScope': amiAssociationScope,
+    };
+  }
 }
 
 enum LicenseStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('PENDING_AVAILABLE')
   pendingAvailable,
-  @_s.JsonValue('DEACTIVATED')
   deactivated,
-  @_s.JsonValue('SUSPENDED')
   suspended,
-  @_s.JsonValue('EXPIRED')
   expired,
-  @_s.JsonValue('PENDING_DELETE')
   pendingDelete,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -4196,388 +4506,413 @@ extension on LicenseStatus {
       case LicenseStatus.deleted:
         return 'DELETED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LicenseStatus toLicenseStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return LicenseStatus.available;
+      case 'PENDING_AVAILABLE':
+        return LicenseStatus.pendingAvailable;
+      case 'DEACTIVATED':
+        return LicenseStatus.deactivated;
+      case 'SUSPENDED':
+        return LicenseStatus.suspended;
+      case 'EXPIRED':
+        return LicenseStatus.expired;
+      case 'PENDING_DELETE':
+        return LicenseStatus.pendingDelete;
+      case 'DELETED':
+        return LicenseStatus.deleted;
+    }
+    throw Exception('$this is not known in enum LicenseStatus');
   }
 }
 
 /// Describes the entitlement usage associated with a license.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseUsage {
   /// License entitlement usages.
-  @_s.JsonKey(name: 'EntitlementUsages')
-  final List<EntitlementUsage> entitlementUsages;
+  final List<EntitlementUsage>? entitlementUsages;
 
   LicenseUsage({
     this.entitlementUsages,
   });
-  factory LicenseUsage.fromJson(Map<String, dynamic> json) =>
-      _$LicenseUsageFromJson(json);
+  factory LicenseUsage.fromJson(Map<String, dynamic> json) {
+    return LicenseUsage(
+      entitlementUsages: (json['EntitlementUsages'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntitlementUsage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssociationsForLicenseConfigurationResponse {
   /// Information about the associations for the license configuration.
-  @_s.JsonKey(name: 'LicenseConfigurationAssociations')
-  final List<LicenseConfigurationAssociation> licenseConfigurationAssociations;
+  final List<LicenseConfigurationAssociation>? licenseConfigurationAssociations;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociationsForLicenseConfigurationResponse({
     this.licenseConfigurationAssociations,
     this.nextToken,
   });
   factory ListAssociationsForLicenseConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAssociationsForLicenseConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAssociationsForLicenseConfigurationResponse(
+      licenseConfigurationAssociations:
+          (json['LicenseConfigurationAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => LicenseConfigurationAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDistributedGrantsResponse {
   /// Distributed grant details.
-  @_s.JsonKey(name: 'Grants')
-  final List<Grant> grants;
+  final List<Grant>? grants;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDistributedGrantsResponse({
     this.grants,
     this.nextToken,
   });
-  factory ListDistributedGrantsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDistributedGrantsResponseFromJson(json);
+  factory ListDistributedGrantsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDistributedGrantsResponse(
+      grants: (json['Grants'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFailuresForLicenseConfigurationOperationsResponse {
   /// License configuration operations that failed.
-  @_s.JsonKey(name: 'LicenseOperationFailureList')
-  final List<LicenseOperationFailure> licenseOperationFailureList;
+  final List<LicenseOperationFailure>? licenseOperationFailureList;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFailuresForLicenseConfigurationOperationsResponse({
     this.licenseOperationFailureList,
     this.nextToken,
   });
   factory ListFailuresForLicenseConfigurationOperationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFailuresForLicenseConfigurationOperationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListFailuresForLicenseConfigurationOperationsResponse(
+      licenseOperationFailureList:
+          (json['LicenseOperationFailureList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  LicenseOperationFailure.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLicenseConfigurationsResponse {
   /// Information about the license configurations.
-  @_s.JsonKey(name: 'LicenseConfigurations')
-  final List<LicenseConfiguration> licenseConfigurations;
+  final List<LicenseConfiguration>? licenseConfigurations;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLicenseConfigurationsResponse({
     this.licenseConfigurations,
     this.nextToken,
   });
   factory ListLicenseConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListLicenseConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListLicenseConfigurationsResponse(
+      licenseConfigurations: (json['LicenseConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => LicenseConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLicenseSpecificationsForResourceResponse {
   /// License configurations associated with a resource.
-  @_s.JsonKey(name: 'LicenseSpecifications')
-  final List<LicenseSpecification> licenseSpecifications;
+  final List<LicenseSpecification>? licenseSpecifications;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLicenseSpecificationsForResourceResponse({
     this.licenseSpecifications,
     this.nextToken,
   });
   factory ListLicenseSpecificationsForResourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListLicenseSpecificationsForResourceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListLicenseSpecificationsForResourceResponse(
+      licenseSpecifications: (json['LicenseSpecifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => LicenseSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLicenseVersionsResponse {
   /// License details.
-  @_s.JsonKey(name: 'Licenses')
-  final List<License> licenses;
+  final List<License>? licenses;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLicenseVersionsResponse({
     this.licenses,
     this.nextToken,
   });
-  factory ListLicenseVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLicenseVersionsResponseFromJson(json);
+  factory ListLicenseVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLicenseVersionsResponse(
+      licenses: (json['Licenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => License.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLicensesResponse {
   /// License details.
-  @_s.JsonKey(name: 'Licenses')
-  final List<License> licenses;
+  final List<License>? licenses;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLicensesResponse({
     this.licenses,
     this.nextToken,
   });
-  factory ListLicensesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLicensesResponseFromJson(json);
+  factory ListLicensesResponse.fromJson(Map<String, dynamic> json) {
+    return ListLicensesResponse(
+      licenses: (json['Licenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => License.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReceivedGrantsResponse {
   /// Received grant details.
-  @_s.JsonKey(name: 'Grants')
-  final List<Grant> grants;
+  final List<Grant>? grants;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListReceivedGrantsResponse({
     this.grants,
     this.nextToken,
   });
-  factory ListReceivedGrantsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListReceivedGrantsResponseFromJson(json);
+  factory ListReceivedGrantsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReceivedGrantsResponse(
+      grants: (json['Grants'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReceivedLicensesResponse {
   /// Received license details.
-  @_s.JsonKey(name: 'Licenses')
-  final List<GrantedLicense> licenses;
+  final List<GrantedLicense>? licenses;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListReceivedLicensesResponse({
     this.licenses,
     this.nextToken,
   });
-  factory ListReceivedLicensesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListReceivedLicensesResponseFromJson(json);
+  factory ListReceivedLicensesResponse.fromJson(Map<String, dynamic> json) {
+    return ListReceivedLicensesResponse(
+      licenses: (json['Licenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => GrantedLicense.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceInventoryResponse {
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the resources.
-  @_s.JsonKey(name: 'ResourceInventoryList')
-  final List<ResourceInventory> resourceInventoryList;
+  final List<ResourceInventory>? resourceInventoryList;
 
   ListResourceInventoryResponse({
     this.nextToken,
     this.resourceInventoryList,
   });
-  factory ListResourceInventoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceInventoryResponseFromJson(json);
+  factory ListResourceInventoryResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceInventoryResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceInventoryList: (json['ResourceInventoryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceInventory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// Information about the tags.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTokensResponse {
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Received token details.
-  @_s.JsonKey(name: 'Tokens')
-  final List<TokenData> tokens;
+  final List<TokenData>? tokens;
 
   ListTokensResponse({
     this.nextToken,
     this.tokens,
   });
-  factory ListTokensResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTokensResponseFromJson(json);
+  factory ListTokensResponse.fromJson(Map<String, dynamic> json) {
+    return ListTokensResponse(
+      nextToken: json['NextToken'] as String?,
+      tokens: (json['Tokens'] as List?)
+          ?.whereNotNull()
+          .map((e) => TokenData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsageForLicenseConfigurationResponse {
   /// Information about the license configurations.
-  @_s.JsonKey(name: 'LicenseConfigurationUsageList')
-  final List<LicenseConfigurationUsage> licenseConfigurationUsageList;
+  final List<LicenseConfigurationUsage>? licenseConfigurationUsageList;
 
   /// Token for the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListUsageForLicenseConfigurationResponse({
     this.licenseConfigurationUsageList,
     this.nextToken,
   });
   factory ListUsageForLicenseConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListUsageForLicenseConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListUsageForLicenseConfigurationResponse(
+      licenseConfigurationUsageList:
+          (json['LicenseConfigurationUsageList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  LicenseConfigurationUsage.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Summary information about a managed resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ManagedResourceSummary {
   /// Number of resources associated with licenses.
-  @_s.JsonKey(name: 'AssociationCount')
-  final int associationCount;
+  final int? associationCount;
 
   /// Type of resource associated with a license.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   ManagedResourceSummary({
     this.associationCount,
     this.resourceType,
   });
-  factory ManagedResourceSummary.fromJson(Map<String, dynamic> json) =>
-      _$ManagedResourceSummaryFromJson(json);
+  factory ManagedResourceSummary.fromJson(Map<String, dynamic> json) {
+    return ManagedResourceSummary(
+      associationCount: json['AssociationCount'] as int?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 /// Describes key/value pairs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Metadata {
   /// The key name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Metadata({
     this.name,
     this.value,
   });
-  factory Metadata.fromJson(Map<String, dynamic> json) =>
-      _$MetadataFromJson(json);
+  factory Metadata.fromJson(Map<String, dynamic> json) {
+    return Metadata(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MetadataToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Configuration information for AWS Organizations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OrganizationConfiguration {
   /// Enables AWS Organization integration.
-  @_s.JsonKey(name: 'EnableIntegration')
   final bool enableIntegration;
 
   OrganizationConfiguration({
-    @_s.required this.enableIntegration,
+    required this.enableIntegration,
   });
-  factory OrganizationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationConfigurationFromJson(json);
+  factory OrganizationConfiguration.fromJson(Map<String, dynamic> json) {
+    return OrganizationConfiguration(
+      enableIntegration: json['EnableIntegration'] as bool,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OrganizationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final enableIntegration = this.enableIntegration;
+    return {
+      'EnableIntegration': enableIntegration,
+    };
+  }
 }
 
 /// Describes product information for a license configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProductInformation {
   /// Product information filters.
   ///
@@ -4630,180 +4965,255 @@ class ProductInformation {
   /// <code>ols</code> | <code>olap</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ProductInformationFilterList')
   final List<ProductInformationFilter> productInformationFilterList;
 
   /// Resource type. The possible values are <code>SSM_MANAGED</code> |
   /// <code>RDS</code>.
-  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   ProductInformation({
-    @_s.required this.productInformationFilterList,
-    @_s.required this.resourceType,
+    required this.productInformationFilterList,
+    required this.resourceType,
   });
-  factory ProductInformation.fromJson(Map<String, dynamic> json) =>
-      _$ProductInformationFromJson(json);
+  factory ProductInformation.fromJson(Map<String, dynamic> json) {
+    return ProductInformation(
+      productInformationFilterList:
+          (json['ProductInformationFilterList'] as List)
+              .whereNotNull()
+              .map((e) =>
+                  ProductInformationFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      resourceType: json['ResourceType'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProductInformationToJson(this);
+  Map<String, dynamic> toJson() {
+    final productInformationFilterList = this.productInformationFilterList;
+    final resourceType = this.resourceType;
+    return {
+      'ProductInformationFilterList': productInformationFilterList,
+      'ResourceType': resourceType,
+    };
+  }
 }
 
 /// Describes product information filters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProductInformationFilter {
   /// Logical operator.
-  @_s.JsonKey(name: 'ProductInformationFilterComparator')
   final String productInformationFilterComparator;
 
   /// Filter name.
-  @_s.JsonKey(name: 'ProductInformationFilterName')
   final String productInformationFilterName;
 
   /// Filter value.
-  @_s.JsonKey(name: 'ProductInformationFilterValue')
   final List<String> productInformationFilterValue;
 
   ProductInformationFilter({
-    @_s.required this.productInformationFilterComparator,
-    @_s.required this.productInformationFilterName,
-    @_s.required this.productInformationFilterValue,
+    required this.productInformationFilterComparator,
+    required this.productInformationFilterName,
+    required this.productInformationFilterValue,
   });
-  factory ProductInformationFilter.fromJson(Map<String, dynamic> json) =>
-      _$ProductInformationFilterFromJson(json);
+  factory ProductInformationFilter.fromJson(Map<String, dynamic> json) {
+    return ProductInformationFilter(
+      productInformationFilterComparator:
+          json['ProductInformationFilterComparator'] as String,
+      productInformationFilterName:
+          json['ProductInformationFilterName'] as String,
+      productInformationFilterValue:
+          (json['ProductInformationFilterValue'] as List)
+              .whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProductInformationFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final productInformationFilterComparator =
+        this.productInformationFilterComparator;
+    final productInformationFilterName = this.productInformationFilterName;
+    final productInformationFilterValue = this.productInformationFilterValue;
+    return {
+      'ProductInformationFilterComparator': productInformationFilterComparator,
+      'ProductInformationFilterName': productInformationFilterName,
+      'ProductInformationFilterValue': productInformationFilterValue,
+    };
+  }
 }
 
 /// Details about a provisional configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProvisionalConfiguration {
   /// Maximum time for the provisional configuration, in minutes.
-  @_s.JsonKey(name: 'MaxTimeToLiveInMinutes')
   final int maxTimeToLiveInMinutes;
 
   ProvisionalConfiguration({
-    @_s.required this.maxTimeToLiveInMinutes,
+    required this.maxTimeToLiveInMinutes,
   });
-  factory ProvisionalConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionalConfigurationFromJson(json);
+  factory ProvisionalConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProvisionalConfiguration(
+      maxTimeToLiveInMinutes: json['MaxTimeToLiveInMinutes'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProvisionalConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxTimeToLiveInMinutes = this.maxTimeToLiveInMinutes;
+    return {
+      'MaxTimeToLiveInMinutes': maxTimeToLiveInMinutes,
+    };
+  }
 }
 
 /// Metadata associated with received licenses and grants.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReceivedMetadata {
   /// Allowed operations.
-  @_s.JsonKey(name: 'AllowedOperations')
-  final List<AllowedOperation> allowedOperations;
+  final List<AllowedOperation>? allowedOperations;
 
   /// Received status.
-  @_s.JsonKey(name: 'ReceivedStatus')
-  final ReceivedStatus receivedStatus;
+  final ReceivedStatus? receivedStatus;
 
   ReceivedMetadata({
     this.allowedOperations,
     this.receivedStatus,
   });
-  factory ReceivedMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ReceivedMetadataFromJson(json);
+  factory ReceivedMetadata.fromJson(Map<String, dynamic> json) {
+    return ReceivedMetadata(
+      allowedOperations: (json['AllowedOperations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAllowedOperation())
+          .toList(),
+      receivedStatus: (json['ReceivedStatus'] as String?)?.toReceivedStatus(),
+    );
+  }
 }
 
 enum ReceivedStatus {
-  @_s.JsonValue('PENDING_WORKFLOW')
   pendingWorkflow,
-  @_s.JsonValue('PENDING_ACCEPT')
   pendingAccept,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED_WORKFLOW')
   failedWorkflow,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ReceivedStatus {
+  String toValue() {
+    switch (this) {
+      case ReceivedStatus.pendingWorkflow:
+        return 'PENDING_WORKFLOW';
+      case ReceivedStatus.pendingAccept:
+        return 'PENDING_ACCEPT';
+      case ReceivedStatus.rejected:
+        return 'REJECTED';
+      case ReceivedStatus.active:
+        return 'ACTIVE';
+      case ReceivedStatus.failedWorkflow:
+        return 'FAILED_WORKFLOW';
+      case ReceivedStatus.deleted:
+        return 'DELETED';
+      case ReceivedStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ReceivedStatus toReceivedStatus() {
+    switch (this) {
+      case 'PENDING_WORKFLOW':
+        return ReceivedStatus.pendingWorkflow;
+      case 'PENDING_ACCEPT':
+        return ReceivedStatus.pendingAccept;
+      case 'REJECTED':
+        return ReceivedStatus.rejected;
+      case 'ACTIVE':
+        return ReceivedStatus.active;
+      case 'FAILED_WORKFLOW':
+        return ReceivedStatus.failedWorkflow;
+      case 'DELETED':
+        return ReceivedStatus.deleted;
+      case 'DISABLED':
+        return ReceivedStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ReceivedStatus');
+  }
+}
+
 class RejectGrantResponse {
   /// Grant ARN.
-  @_s.JsonKey(name: 'GrantArn')
-  final String grantArn;
+  final String? grantArn;
 
   /// Grant status.
-  @_s.JsonKey(name: 'Status')
-  final GrantStatus status;
+  final GrantStatus? status;
 
   /// Grant version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   RejectGrantResponse({
     this.grantArn,
     this.status,
     this.version,
   });
-  factory RejectGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$RejectGrantResponseFromJson(json);
+  factory RejectGrantResponse.fromJson(Map<String, dynamic> json) {
+    return RejectGrantResponse(
+      grantArn: json['GrantArn'] as String?,
+      status: (json['Status'] as String?)?.toGrantStatus(),
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 enum RenewType {
-  @_s.JsonValue('None')
   none,
-  @_s.JsonValue('Weekly')
   weekly,
-  @_s.JsonValue('Monthly')
   monthly,
 }
 
+extension on RenewType {
+  String toValue() {
+    switch (this) {
+      case RenewType.none:
+        return 'None';
+      case RenewType.weekly:
+        return 'Weekly';
+      case RenewType.monthly:
+        return 'Monthly';
+    }
+  }
+}
+
+extension on String {
+  RenewType toRenewType() {
+    switch (this) {
+      case 'None':
+        return RenewType.none;
+      case 'Weekly':
+        return RenewType.weekly;
+      case 'Monthly':
+        return RenewType.monthly;
+    }
+    throw Exception('$this is not known in enum RenewType');
+  }
+}
+
 /// Details about a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceInventory {
   /// Platform of the resource.
-  @_s.JsonKey(name: 'Platform')
-  final String platform;
+  final String? platform;
 
   /// Platform version of the resource in the inventory.
-  @_s.JsonKey(name: 'PlatformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// ID of the resource.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// ID of the account that owns the resource.
-  @_s.JsonKey(name: 'ResourceOwningAccountId')
-  final String resourceOwningAccountId;
+  final String? resourceOwningAccountId;
 
   /// Type of resource.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   ResourceInventory({
     this.platform,
@@ -4813,93 +5223,120 @@ class ResourceInventory {
     this.resourceOwningAccountId,
     this.resourceType,
   });
-  factory ResourceInventory.fromJson(Map<String, dynamic> json) =>
-      _$ResourceInventoryFromJson(json);
+  factory ResourceInventory.fromJson(Map<String, dynamic> json) {
+    return ResourceInventory(
+      platform: json['Platform'] as String?,
+      platformVersion: json['PlatformVersion'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceOwningAccountId: json['ResourceOwningAccountId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('EC2_INSTANCE')
   ec2Instance,
-  @_s.JsonValue('EC2_HOST')
   ec2Host,
-  @_s.JsonValue('EC2_AMI')
   ec2Ami,
-  @_s.JsonValue('RDS')
   rds,
-  @_s.JsonValue('SYSTEMS_MANAGER_MANAGED_INSTANCE')
   systemsManagerManagedInstance,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.ec2Instance:
+        return 'EC2_INSTANCE';
+      case ResourceType.ec2Host:
+        return 'EC2_HOST';
+      case ResourceType.ec2Ami:
+        return 'EC2_AMI';
+      case ResourceType.rds:
+        return 'RDS';
+      case ResourceType.systemsManagerManagedInstance:
+        return 'SYSTEMS_MANAGER_MANAGED_INSTANCE';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'EC2_INSTANCE':
+        return ResourceType.ec2Instance;
+      case 'EC2_HOST':
+        return ResourceType.ec2Host;
+      case 'EC2_AMI':
+        return ResourceType.ec2Ami;
+      case 'RDS':
+        return ResourceType.rds;
+      case 'SYSTEMS_MANAGER_MANAGED_INSTANCE':
+        return ResourceType.systemsManagerManagedInstance;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 /// Details about a tag for a license configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Tag key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// Tag value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Describes a token.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TokenData {
   /// Token expiration time, in ISO8601-UTC format.
-  @_s.JsonKey(name: 'ExpirationTime')
-  final String expirationTime;
+  final String? expirationTime;
 
   /// Amazon Resource Name (ARN) of the license.
-  @_s.JsonKey(name: 'LicenseArn')
-  final String licenseArn;
+  final String? licenseArn;
 
   /// Amazon Resource Names (ARN) of the roles included in the token.
-  @_s.JsonKey(name: 'RoleArns')
-  final List<String> roleArns;
+  final List<String>? roleArns;
 
   /// Token status. The possible values are <code>AVAILABLE</code> and
   /// <code>DELETED</code>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Token ID.
-  @_s.JsonKey(name: 'TokenId')
-  final String tokenId;
+  final String? tokenId;
 
   /// Data specified by the caller.
-  @_s.JsonKey(name: 'TokenProperties')
-  final List<String> tokenProperties;
+  final List<String>? tokenProperties;
 
   /// Type of token generated. The supported value is <code>REFRESH_TOKEN</code>.
-  @_s.JsonKey(name: 'TokenType')
-  final String tokenType;
+  final String? tokenType;
 
   TokenData({
     this.expirationTime,
@@ -4910,78 +5347,94 @@ class TokenData {
     this.tokenProperties,
     this.tokenType,
   });
-  factory TokenData.fromJson(Map<String, dynamic> json) =>
-      _$TokenDataFromJson(json);
+  factory TokenData.fromJson(Map<String, dynamic> json) {
+    return TokenData(
+      expirationTime: json['ExpirationTime'] as String?,
+      licenseArn: json['LicenseArn'] as String?,
+      roleArns: (json['RoleArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: json['Status'] as String?,
+      tokenId: json['TokenId'] as String?,
+      tokenProperties: (json['TokenProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tokenType: json['TokenType'] as String?,
+    );
+  }
 }
 
 enum TokenType {
-  @_s.JsonValue('REFRESH_TOKEN')
   refreshToken,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TokenType {
+  String toValue() {
+    switch (this) {
+      case TokenType.refreshToken:
+        return 'REFRESH_TOKEN';
+    }
+  }
+}
+
+extension on String {
+  TokenType toTokenType() {
+    switch (this) {
+      case 'REFRESH_TOKEN':
+        return TokenType.refreshToken;
+    }
+    throw Exception('$this is not known in enum TokenType');
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLicenseConfigurationResponse {
   UpdateLicenseConfigurationResponse();
-  factory UpdateLicenseConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateLicenseConfigurationResponseFromJson(json);
+  factory UpdateLicenseConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLicenseConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLicenseSpecificationsForResourceResponse {
   UpdateLicenseSpecificationsForResourceResponse();
   factory UpdateLicenseSpecificationsForResourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateLicenseSpecificationsForResourceResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateLicenseSpecificationsForResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServiceSettingsResponse {
   UpdateServiceSettingsResponse();
-  factory UpdateServiceSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateServiceSettingsResponseFromJson(json);
+  factory UpdateServiceSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateServiceSettingsResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AuthorizationException extends _s.GenericAwsException {
-  AuthorizationException({String type, String message})
+  AuthorizationException({String? type, String? message})
       : super(type: type, code: 'AuthorizationException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class EntitlementNotAllowedException extends _s.GenericAwsException {
-  EntitlementNotAllowedException({String type, String message})
+  EntitlementNotAllowedException({String? type, String? message})
       : super(
             type: type,
             code: 'EntitlementNotAllowedException',
@@ -4989,18 +5442,18 @@ class EntitlementNotAllowedException extends _s.GenericAwsException {
 }
 
 class FailedDependencyException extends _s.GenericAwsException {
-  FailedDependencyException({String type, String message})
+  FailedDependencyException({String? type, String? message})
       : super(type: type, code: 'FailedDependencyException', message: message);
 }
 
 class FilterLimitExceededException extends _s.GenericAwsException {
-  FilterLimitExceededException({String type, String message})
+  FilterLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'FilterLimitExceededException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -5008,7 +5461,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidResourceStateException extends _s.GenericAwsException {
-  InvalidResourceStateException({String type, String message})
+  InvalidResourceStateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResourceStateException',
@@ -5016,12 +5469,12 @@ class InvalidResourceStateException extends _s.GenericAwsException {
 }
 
 class LicenseUsageException extends _s.GenericAwsException {
-  LicenseUsageException({String type, String message})
+  LicenseUsageException({String? type, String? message})
       : super(type: type, code: 'LicenseUsageException', message: message);
 }
 
 class NoEntitlementsAllowedException extends _s.GenericAwsException {
-  NoEntitlementsAllowedException({String type, String message})
+  NoEntitlementsAllowedException({String? type, String? message})
       : super(
             type: type,
             code: 'NoEntitlementsAllowedException',
@@ -5029,17 +5482,17 @@ class NoEntitlementsAllowedException extends _s.GenericAwsException {
 }
 
 class RateLimitExceededException extends _s.GenericAwsException {
-  RateLimitExceededException({String type, String message})
+  RateLimitExceededException({String? type, String? message})
       : super(type: type, code: 'RateLimitExceededException', message: message);
 }
 
 class RedirectException extends _s.GenericAwsException {
-  RedirectException({String type, String message})
+  RedirectException({String? type, String? message})
       : super(type: type, code: 'RedirectException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -5047,18 +5500,18 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServerInternalException extends _s.GenericAwsException {
-  ServerInternalException({String type, String message})
+  ServerInternalException({String? type, String? message})
       : super(type: type, code: 'ServerInternalException', message: message);
 }
 
 class UnsupportedDigitalSignatureMethodException
     extends _s.GenericAwsException {
-  UnsupportedDigitalSignatureMethodException({String type, String message})
+  UnsupportedDigitalSignatureMethodException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedDigitalSignatureMethodException',
@@ -5066,7 +5519,7 @@ class UnsupportedDigitalSignatureMethodException
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -6,22 +6,15 @@ part of 'rds-2013-09-09.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$FilterToJson(Filter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values,
+    };
 
 Map<String, dynamic> _$OptionConfigurationToJson(OptionConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OptionName': instance.optionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -29,11 +22,10 @@ Map<String, dynamic> _$OptionConfigurationToJson(OptionConfiguration instance) {
     }
   }
 
-  writeNotNull('OptionName', instance.optionName);
   writeNotNull(
       'DBSecurityGroupMemberships', instance.dBSecurityGroupMemberships);
   writeNotNull('OptionSettings',
-      instance.optionSettings?.map((e) => e?.toJson())?.toList());
+      instance.optionSettings?.map((e) => e.toJson()).toList());
   writeNotNull('Port', instance.port);
   writeNotNull(
       'VpcSecurityGroupMemberships', instance.vpcSecurityGroupMemberships);

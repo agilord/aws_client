@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'rds-2013-02-12.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'rds-2013-02-12.g.dart';
 
 class RDS {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
 
   RDS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -51,8 +43,8 @@ class RDS {
   /// May throw [SourceNotFoundFault].
   Future<AddSourceIdentifierToSubscriptionResult>
       addSourceIdentifierToSubscription({
-    @_s.required String sourceIdentifier,
-    @_s.required String subscriptionName,
+    required String sourceIdentifier,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -77,8 +69,8 @@ class RDS {
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
   Future<void> addTagsToResource({
-    @_s.required String resourceName,
-    @_s.required List<Tag> tags,
+    required String resourceName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -104,11 +96,11 @@ class RDS {
   /// May throw [AuthorizationQuotaExceededFault].
   Future<AuthorizeDBSecurityGroupIngressResult>
       authorizeDBSecurityGroupIngress({
-    @_s.required String dBSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupId,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String dBSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupId,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -138,8 +130,8 @@ class RDS {
   /// May throw [InvalidDBSnapshotStateFault].
   /// May throw [SnapshotQuotaExceededFault].
   Future<CopyDBSnapshotResult> copyDBSnapshot({
-    @_s.required String sourceDBSnapshotIdentifier,
-    @_s.required String targetDBSnapshotIdentifier,
+    required String sourceDBSnapshotIdentifier,
+    required String targetDBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBSnapshotIdentifier, 'sourceDBSnapshotIdentifier');
@@ -176,30 +168,30 @@ class RDS {
   /// May throw [ProvisionedIopsNotAvailableInAZFault].
   /// May throw [OptionGroupNotFoundFault].
   Future<CreateDBInstanceResult> createDBInstance({
-    @_s.required int allocatedStorage,
-    @_s.required String dBInstanceClass,
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String engine,
-    @_s.required String masterUserPassword,
-    @_s.required String masterUsername,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    int backupRetentionPeriod,
-    String characterSetName,
-    String dBName,
-    String dBParameterGroupName,
-    List<String> dBSecurityGroups,
-    String dBSubnetGroupName,
-    String engineVersion,
-    int iops,
-    String licenseModel,
-    bool multiAZ,
-    String optionGroupName,
-    int port,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    bool publiclyAccessible,
-    List<String> vpcSecurityGroupIds,
+    required int allocatedStorage,
+    required String dBInstanceClass,
+    required String dBInstanceIdentifier,
+    required String engine,
+    required String masterUserPassword,
+    required String masterUsername,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    int? backupRetentionPeriod,
+    String? characterSetName,
+    String? dBName,
+    String? dBParameterGroupName,
+    List<String>? dBSecurityGroups,
+    String? dBSubnetGroupName,
+    String? engineVersion,
+    int? iops,
+    String? licenseModel,
+    bool? multiAZ,
+    String? optionGroupName,
+    int? port,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    bool? publiclyAccessible,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(allocatedStorage, 'allocatedStorage');
     ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
@@ -266,15 +258,15 @@ class RDS {
   /// May throw [ProvisionedIopsNotAvailableInAZFault].
   /// May throw [OptionGroupNotFoundFault].
   Future<CreateDBInstanceReadReplicaResult> createDBInstanceReadReplica({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String sourceDBInstanceIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    String dBInstanceClass,
-    int iops,
-    String optionGroupName,
-    int port,
-    bool publiclyAccessible,
+    required String dBInstanceIdentifier,
+    required String sourceDBInstanceIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    String? dBInstanceClass,
+    int? iops,
+    String? optionGroupName,
+    int? port,
+    bool? publiclyAccessible,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(
@@ -308,9 +300,9 @@ class RDS {
   /// May throw [DBParameterGroupQuotaExceededFault].
   /// May throw [DBParameterGroupAlreadyExistsFault].
   Future<CreateDBParameterGroupResult> createDBParameterGroup({
-    @_s.required String dBParameterGroupFamily,
-    @_s.required String dBParameterGroupName,
-    @_s.required String description,
+    required String dBParameterGroupFamily,
+    required String dBParameterGroupName,
+    required String description,
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
@@ -339,8 +331,8 @@ class RDS {
   /// May throw [DBSecurityGroupQuotaExceededFault].
   /// May throw [DBSecurityGroupNotSupportedFault].
   Future<CreateDBSecurityGroupResult> createDBSecurityGroup({
-    @_s.required String dBSecurityGroupDescription,
-    @_s.required String dBSecurityGroupName,
+    required String dBSecurityGroupDescription,
+    required String dBSecurityGroupName,
   }) async {
     ArgumentError.checkNotNull(
         dBSecurityGroupDescription, 'dBSecurityGroupDescription');
@@ -368,8 +360,8 @@ class RDS {
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [SnapshotQuotaExceededFault].
   Future<CreateDBSnapshotResult> createDBSnapshot({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String dBSnapshotIdentifier,
+    required String dBInstanceIdentifier,
+    required String dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
@@ -397,9 +389,9 @@ class RDS {
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidSubnet].
   Future<CreateDBSubnetGroupResult> createDBSubnetGroup({
-    @_s.required String dBSubnetGroupDescription,
-    @_s.required String dBSubnetGroupName,
-    @_s.required List<String> subnetIds,
+    required String dBSubnetGroupDescription,
+    required String dBSubnetGroupName,
+    required List<String> subnetIds,
   }) async {
     ArgumentError.checkNotNull(
         dBSubnetGroupDescription, 'dBSubnetGroupDescription');
@@ -432,12 +424,12 @@ class RDS {
   /// May throw [SubscriptionCategoryNotFoundFault].
   /// May throw [SourceNotFoundFault].
   Future<CreateEventSubscriptionResult> createEventSubscription({
-    @_s.required String snsTopicArn,
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    List<String> sourceIds,
-    String sourceType,
+    required String snsTopicArn,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    List<String>? sourceIds,
+    String? sourceType,
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -466,10 +458,10 @@ class RDS {
   /// May throw [OptionGroupAlreadyExistsFault].
   /// May throw [OptionGroupQuotaExceededFault].
   Future<CreateOptionGroupResult> createOptionGroup({
-    @_s.required String engineName,
-    @_s.required String majorEngineVersion,
-    @_s.required String optionGroupDescription,
-    @_s.required String optionGroupName,
+    required String engineName,
+    required String majorEngineVersion,
+    required String optionGroupDescription,
+    required String optionGroupName,
   }) async {
     ArgumentError.checkNotNull(engineName, 'engineName');
     ArgumentError.checkNotNull(majorEngineVersion, 'majorEngineVersion');
@@ -501,9 +493,9 @@ class RDS {
   /// May throw [DBSnapshotAlreadyExistsFault].
   /// May throw [SnapshotQuotaExceededFault].
   Future<DeleteDBInstanceResult> deleteDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    String finalDBSnapshotIdentifier,
-    bool skipFinalSnapshot,
+    required String dBInstanceIdentifier,
+    String? finalDBSnapshotIdentifier,
+    bool? skipFinalSnapshot,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -529,7 +521,7 @@ class RDS {
   /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
   Future<void> deleteDBParameterGroup({
-    @_s.required String dBParameterGroupName,
+    required String dBParameterGroupName,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -550,7 +542,7 @@ class RDS {
   /// May throw [InvalidDBSecurityGroupStateFault].
   /// May throw [DBSecurityGroupNotFoundFault].
   Future<void> deleteDBSecurityGroup({
-    @_s.required String dBSecurityGroupName,
+    required String dBSecurityGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -571,7 +563,7 @@ class RDS {
   /// May throw [InvalidDBSnapshotStateFault].
   /// May throw [DBSnapshotNotFoundFault].
   Future<DeleteDBSnapshotResult> deleteDBSnapshot({
-    @_s.required String dBSnapshotIdentifier,
+    required String dBSnapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
@@ -595,7 +587,7 @@ class RDS {
   /// May throw [InvalidDBSubnetStateFault].
   /// May throw [DBSubnetGroupNotFoundFault].
   Future<void> deleteDBSubnetGroup({
-    @_s.required String dBSubnetGroupName,
+    required String dBSubnetGroupName,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     final $request = <String, dynamic>{};
@@ -616,7 +608,7 @@ class RDS {
   /// May throw [SubscriptionNotFoundFault].
   /// May throw [InvalidEventSubscriptionStateFault].
   Future<DeleteEventSubscriptionResult> deleteEventSubscription({
-    @_s.required String subscriptionName,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
@@ -639,7 +631,7 @@ class RDS {
   /// May throw [OptionGroupNotFoundFault].
   /// May throw [InvalidOptionGroupStateFault].
   Future<void> deleteOptionGroup({
-    @_s.required String optionGroupName,
+    required String optionGroupName,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
@@ -657,13 +649,13 @@ class RDS {
   }
 
   Future<DBEngineVersionMessage> describeDBEngineVersions({
-    String dBParameterGroupFamily,
-    bool defaultOnly,
-    String engine,
-    String engineVersion,
-    bool listSupportedCharacterSets,
-    String marker,
-    int maxRecords,
+    String? dBParameterGroupFamily,
+    bool? defaultOnly,
+    String? engine,
+    String? engineVersion,
+    bool? listSupportedCharacterSets,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBParameterGroupFamily
@@ -692,9 +684,9 @@ class RDS {
   ///
   /// May throw [DBInstanceNotFoundFault].
   Future<DBInstanceMessage> describeDBInstances({
-    String dBInstanceIdentifier,
-    String marker,
-    int maxRecords,
+    String? dBInstanceIdentifier,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
@@ -717,12 +709,12 @@ class RDS {
   ///
   /// May throw [DBInstanceNotFoundFault].
   Future<DescribeDBLogFilesResponse> describeDBLogFiles({
-    @_s.required String dBInstanceIdentifier,
-    int fileLastWritten,
-    int fileSize,
-    String filenameContains,
-    String marker,
-    int maxRecords,
+    required String dBInstanceIdentifier,
+    int? fileLastWritten,
+    int? fileSize,
+    String? filenameContains,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -749,9 +741,9 @@ class RDS {
   ///
   /// May throw [DBParameterGroupNotFoundFault].
   Future<DBParameterGroupsMessage> describeDBParameterGroups({
-    String dBParameterGroupName,
-    String marker,
-    int maxRecords,
+    String? dBParameterGroupName,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBParameterGroupName?.also((arg) => $request['DBParameterGroupName'] = arg);
@@ -774,10 +766,10 @@ class RDS {
   ///
   /// May throw [DBParameterGroupNotFoundFault].
   Future<DBParameterGroupDetails> describeDBParameters({
-    @_s.required String dBParameterGroupName,
-    String marker,
-    int maxRecords,
-    String source,
+    required String dBParameterGroupName,
+    String? marker,
+    int? maxRecords,
+    String? source,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -802,9 +794,9 @@ class RDS {
   ///
   /// May throw [DBSecurityGroupNotFoundFault].
   Future<DBSecurityGroupMessage> describeDBSecurityGroups({
-    String dBSecurityGroupName,
-    String marker,
-    int maxRecords,
+    String? dBSecurityGroupName,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBSecurityGroupName?.also((arg) => $request['DBSecurityGroupName'] = arg);
@@ -827,11 +819,11 @@ class RDS {
   ///
   /// May throw [DBSnapshotNotFoundFault].
   Future<DBSnapshotMessage> describeDBSnapshots({
-    String dBInstanceIdentifier,
-    String dBSnapshotIdentifier,
-    String marker,
-    int maxRecords,
-    String snapshotType,
+    String? dBInstanceIdentifier,
+    String? dBSnapshotIdentifier,
+    String? marker,
+    int? maxRecords,
+    String? snapshotType,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
@@ -856,9 +848,9 @@ class RDS {
   ///
   /// May throw [DBSubnetGroupNotFoundFault].
   Future<DBSubnetGroupMessage> describeDBSubnetGroups({
-    String dBSubnetGroupName,
-    String marker,
-    int maxRecords,
+    String? dBSubnetGroupName,
+    String? marker,
+    int? maxRecords,
   }) async {
     final $request = <String, dynamic>{};
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
@@ -880,9 +872,9 @@ class RDS {
 
   Future<DescribeEngineDefaultParametersResult>
       describeEngineDefaultParameters({
-    @_s.required String dBParameterGroupFamily,
-    String marker,
-    int maxRecords,
+    required String dBParameterGroupFamily,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(
         dBParameterGroupFamily, 'dBParameterGroupFamily');
@@ -905,7 +897,7 @@ class RDS {
   }
 
   Future<EventCategoriesMessage> describeEventCategories({
-    String sourceType,
+    String? sourceType,
   }) async {
     final $request = <String, dynamic>{};
     sourceType?.also((arg) => $request['SourceType'] = arg);
@@ -926,9 +918,9 @@ class RDS {
   ///
   /// May throw [SubscriptionNotFoundFault].
   Future<EventSubscriptionsMessage> describeEventSubscriptions({
-    String marker,
-    int maxRecords,
-    String subscriptionName,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
   }) async {
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -949,14 +941,14 @@ class RDS {
   }
 
   Future<EventsMessage> describeEvents({
-    int duration,
-    DateTime endTime,
-    List<String> eventCategories,
-    String marker,
-    int maxRecords,
-    String sourceIdentifier,
-    SourceType sourceType,
-    DateTime startTime,
+    int? duration,
+    DateTime? endTime,
+    List<String>? eventCategories,
+    String? marker,
+    int? maxRecords,
+    String? sourceIdentifier,
+    SourceType? sourceType,
+    DateTime? startTime,
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
@@ -982,10 +974,10 @@ class RDS {
   }
 
   Future<OptionGroupOptionsMessage> describeOptionGroupOptions({
-    @_s.required String engineName,
-    String majorEngineVersion,
-    String marker,
-    int maxRecords,
+    required String engineName,
+    String? majorEngineVersion,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(engineName, 'engineName');
     final $request = <String, dynamic>{};
@@ -1010,11 +1002,11 @@ class RDS {
   ///
   /// May throw [OptionGroupNotFoundFault].
   Future<OptionGroups> describeOptionGroups({
-    String engineName,
-    String majorEngineVersion,
-    String marker,
-    int maxRecords,
-    String optionGroupName,
+    String? engineName,
+    String? majorEngineVersion,
+    String? marker,
+    int? maxRecords,
+    String? optionGroupName,
   }) async {
     final $request = <String, dynamic>{};
     engineName?.also((arg) => $request['EngineName'] = arg);
@@ -1037,13 +1029,13 @@ class RDS {
   }
 
   Future<OrderableDBInstanceOptionsMessage> describeOrderableDBInstanceOptions({
-    @_s.required String engine,
-    String dBInstanceClass,
-    String engineVersion,
-    String licenseModel,
-    String marker,
-    int maxRecords,
-    bool vpc,
+    required String engine,
+    String? dBInstanceClass,
+    String? engineVersion,
+    String? licenseModel,
+    String? marker,
+    int? maxRecords,
+    bool? vpc,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
@@ -1071,15 +1063,15 @@ class RDS {
   ///
   /// May throw [ReservedDBInstanceNotFoundFault].
   Future<ReservedDBInstanceMessage> describeReservedDBInstances({
-    String dBInstanceClass,
-    String duration,
-    String marker,
-    int maxRecords,
-    bool multiAZ,
-    String offeringType,
-    String productDescription,
-    String reservedDBInstanceId,
-    String reservedDBInstancesOfferingId,
+    String? dBInstanceClass,
+    String? duration,
+    String? marker,
+    int? maxRecords,
+    bool? multiAZ,
+    String? offeringType,
+    String? productDescription,
+    String? reservedDBInstanceId,
+    String? reservedDBInstancesOfferingId,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -1110,14 +1102,14 @@ class RDS {
   /// May throw [ReservedDBInstancesOfferingNotFoundFault].
   Future<ReservedDBInstancesOfferingMessage>
       describeReservedDBInstancesOfferings({
-    String dBInstanceClass,
-    String duration,
-    String marker,
-    int maxRecords,
-    bool multiAZ,
-    String offeringType,
-    String productDescription,
-    String reservedDBInstancesOfferingId,
+    String? dBInstanceClass,
+    String? duration,
+    String? marker,
+    int? maxRecords,
+    bool? multiAZ,
+    String? offeringType,
+    String? productDescription,
+    String? reservedDBInstancesOfferingId,
   }) async {
     final $request = <String, dynamic>{};
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -1147,10 +1139,10 @@ class RDS {
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBLogFileNotFoundFault].
   Future<DownloadDBLogFilePortionDetails> downloadDBLogFilePortion({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String logFileName,
-    String marker,
-    int numberOfLines,
+    required String dBInstanceIdentifier,
+    required String logFileName,
+    String? marker,
+    int? numberOfLines,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(logFileName, 'logFileName');
@@ -1177,7 +1169,7 @@ class RDS {
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
   Future<TagListMessage> listTagsForResource({
-    @_s.required String resourceName,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
@@ -1210,24 +1202,24 @@ class RDS {
   /// May throw [OptionGroupNotFoundFault].
   /// May throw [DBUpgradeDependencyFailureFault].
   Future<ModifyDBInstanceResult> modifyDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    int allocatedStorage,
-    bool allowMajorVersionUpgrade,
-    bool applyImmediately,
-    bool autoMinorVersionUpgrade,
-    int backupRetentionPeriod,
-    String dBInstanceClass,
-    String dBParameterGroupName,
-    List<String> dBSecurityGroups,
-    String engineVersion,
-    int iops,
-    String masterUserPassword,
-    bool multiAZ,
-    String newDBInstanceIdentifier,
-    String optionGroupName,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    List<String> vpcSecurityGroupIds,
+    required String dBInstanceIdentifier,
+    int? allocatedStorage,
+    bool? allowMajorVersionUpgrade,
+    bool? applyImmediately,
+    bool? autoMinorVersionUpgrade,
+    int? backupRetentionPeriod,
+    String? dBInstanceClass,
+    String? dBParameterGroupName,
+    List<String>? dBSecurityGroups,
+    String? engineVersion,
+    int? iops,
+    String? masterUserPassword,
+    bool? multiAZ,
+    String? newDBInstanceIdentifier,
+    String? optionGroupName,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -1273,8 +1265,8 @@ class RDS {
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [InvalidDBParameterGroupStateFault].
   Future<DBParameterGroupNameMessage> modifyDBParameterGroup({
-    @_s.required String dBParameterGroupName,
-    @_s.required List<Parameter> parameters,
+    required String dBParameterGroupName,
+    required List<Parameter> parameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     ArgumentError.checkNotNull(parameters, 'parameters');
@@ -1302,9 +1294,9 @@ class RDS {
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidSubnet].
   Future<ModifyDBSubnetGroupResult> modifyDBSubnetGroup({
-    @_s.required String dBSubnetGroupName,
-    @_s.required List<String> subnetIds,
-    String dBSubnetGroupDescription,
+    required String dBSubnetGroupName,
+    required List<String> subnetIds,
+    String? dBSubnetGroupDescription,
   }) async {
     ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -1335,11 +1327,11 @@ class RDS {
   /// May throw [SNSTopicArnNotFoundFault].
   /// May throw [SubscriptionCategoryNotFoundFault].
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    String snsTopicArn,
-    String sourceType,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? snsTopicArn,
+    String? sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
@@ -1366,10 +1358,10 @@ class RDS {
   /// May throw [InvalidOptionGroupStateFault].
   /// May throw [OptionGroupNotFoundFault].
   Future<ModifyOptionGroupResult> modifyOptionGroup({
-    @_s.required String optionGroupName,
-    bool applyImmediately,
-    List<OptionConfiguration> optionsToInclude,
-    List<String> optionsToRemove,
+    required String optionGroupName,
+    bool? applyImmediately,
+    List<OptionConfiguration>? optionsToInclude,
+    List<String>? optionsToRemove,
   }) async {
     ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
@@ -1395,9 +1387,9 @@ class RDS {
   /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBInstanceNotFoundFault].
   Future<PromoteReadReplicaResult> promoteReadReplica({
-    @_s.required String dBInstanceIdentifier,
-    int backupRetentionPeriod,
-    String preferredBackupWindow,
+    required String dBInstanceIdentifier,
+    int? backupRetentionPeriod,
+    String? preferredBackupWindow,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -1426,9 +1418,9 @@ class RDS {
   /// May throw [ReservedDBInstanceQuotaExceededFault].
   Future<PurchaseReservedDBInstancesOfferingResult>
       purchaseReservedDBInstancesOffering({
-    @_s.required String reservedDBInstancesOfferingId,
-    int dBInstanceCount,
-    String reservedDBInstanceId,
+    required String reservedDBInstancesOfferingId,
+    int? dBInstanceCount,
+    String? reservedDBInstanceId,
   }) async {
     ArgumentError.checkNotNull(
         reservedDBInstancesOfferingId, 'reservedDBInstancesOfferingId');
@@ -1454,8 +1446,8 @@ class RDS {
   /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBInstanceNotFoundFault].
   Future<RebootDBInstanceResult> rebootDBInstance({
-    @_s.required String dBInstanceIdentifier,
-    bool forceFailover,
+    required String dBInstanceIdentifier,
+    bool? forceFailover,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
@@ -1480,8 +1472,8 @@ class RDS {
   /// May throw [SourceNotFoundFault].
   Future<RemoveSourceIdentifierFromSubscriptionResult>
       removeSourceIdentifierFromSubscription({
-    @_s.required String sourceIdentifier,
-    @_s.required String subscriptionName,
+    required String sourceIdentifier,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -1506,8 +1498,8 @@ class RDS {
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
   Future<void> removeTagsFromResource({
-    @_s.required String resourceName,
-    @_s.required List<String> tagKeys,
+    required String resourceName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1530,9 +1522,9 @@ class RDS {
   /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
   Future<DBParameterGroupNameMessage> resetDBParameterGroup({
-    @_s.required String dBParameterGroupName,
-    List<Parameter> parameters,
-    bool resetAllParameters,
+    required String dBParameterGroupName,
+    List<Parameter>? parameters,
+    bool? resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
@@ -1569,20 +1561,20 @@ class RDS {
   /// May throw [OptionGroupNotFoundFault].
   Future<RestoreDBInstanceFromDBSnapshotResult>
       restoreDBInstanceFromDBSnapshot({
-    @_s.required String dBInstanceIdentifier,
-    @_s.required String dBSnapshotIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    String dBInstanceClass,
-    String dBName,
-    String dBSubnetGroupName,
-    String engine,
-    int iops,
-    String licenseModel,
-    bool multiAZ,
-    String optionGroupName,
-    int port,
-    bool publiclyAccessible,
+    required String dBInstanceIdentifier,
+    required String dBSnapshotIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    String? dBInstanceClass,
+    String? dBName,
+    String? dBSubnetGroupName,
+    String? engine,
+    int? iops,
+    String? licenseModel,
+    bool? multiAZ,
+    String? optionGroupName,
+    int? port,
+    bool? publiclyAccessible,
   }) async {
     ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
@@ -1632,22 +1624,22 @@ class RDS {
   /// May throw [ProvisionedIopsNotAvailableInAZFault].
   /// May throw [OptionGroupNotFoundFault].
   Future<RestoreDBInstanceToPointInTimeResult> restoreDBInstanceToPointInTime({
-    @_s.required String sourceDBInstanceIdentifier,
-    @_s.required String targetDBInstanceIdentifier,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    String dBInstanceClass,
-    String dBName,
-    String dBSubnetGroupName,
-    String engine,
-    int iops,
-    String licenseModel,
-    bool multiAZ,
-    String optionGroupName,
-    int port,
-    bool publiclyAccessible,
-    DateTime restoreTime,
-    bool useLatestRestorableTime,
+    required String sourceDBInstanceIdentifier,
+    required String targetDBInstanceIdentifier,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    String? dBInstanceClass,
+    String? dBName,
+    String? dBSubnetGroupName,
+    String? engine,
+    int? iops,
+    String? licenseModel,
+    bool? multiAZ,
+    String? optionGroupName,
+    int? port,
+    bool? publiclyAccessible,
+    DateTime? restoreTime,
+    bool? useLatestRestorableTime,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBInstanceIdentifier, 'sourceDBInstanceIdentifier');
@@ -1691,11 +1683,11 @@ class RDS {
   /// May throw [AuthorizationNotFoundFault].
   /// May throw [InvalidDBSecurityGroupStateFault].
   Future<RevokeDBSecurityGroupIngressResult> revokeDBSecurityGroupIngress({
-    @_s.required String dBSecurityGroupName,
-    String cidrip,
-    String eC2SecurityGroupId,
-    String eC2SecurityGroupName,
-    String eC2SecurityGroupOwnerId,
+    required String dBSecurityGroupName,
+    String? cidrip,
+    String? eC2SecurityGroupId,
+    String? eC2SecurityGroupName,
+    String? eC2SecurityGroupOwnerId,
   }) async {
     ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
@@ -1721,7 +1713,7 @@ class RDS {
 }
 
 class AddSourceIdentifierToSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   AddSourceIdentifierToSubscriptionResult({
     this.eventSubscription,
@@ -1736,10 +1728,19 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
-  @_s.JsonValue('immediate')
   immediate,
-  @_s.JsonValue('pending-reboot')
   pendingReboot,
+}
+
+extension on ApplyMethod {
+  String toValue() {
+    switch (this) {
+      case ApplyMethod.immediate:
+        return 'immediate';
+      case ApplyMethod.pendingReboot:
+        return 'pending-reboot';
+    }
+  }
 }
 
 extension on String {
@@ -1750,12 +1751,12 @@ extension on String {
       case 'pending-reboot':
         return ApplyMethod.pendingReboot;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ApplyMethod');
   }
 }
 
 class AuthorizeDBSecurityGroupIngressResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   AuthorizeDBSecurityGroupIngressResult({
     this.dBSecurityGroup,
@@ -1770,8 +1771,8 @@ class AuthorizeDBSecurityGroupIngressResult {
 }
 
 class AvailabilityZone {
-  final String name;
-  final bool provisionedIopsCapable;
+  final String? name;
+  final bool? provisionedIopsCapable;
 
   AvailabilityZone({
     this.name,
@@ -1787,8 +1788,8 @@ class AvailabilityZone {
 }
 
 class CharacterSet {
-  final String characterSetDescription;
-  final String characterSetName;
+  final String? characterSetDescription;
+  final String? characterSetName;
 
   CharacterSet({
     this.characterSetDescription,
@@ -1804,7 +1805,7 @@ class CharacterSet {
 }
 
 class CopyDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   CopyDBSnapshotResult({
     this.dBSnapshot,
@@ -1819,7 +1820,7 @@ class CopyDBSnapshotResult {
 }
 
 class CreateDBInstanceReadReplicaResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   CreateDBInstanceReadReplicaResult({
     this.dBInstance,
@@ -1834,7 +1835,7 @@ class CreateDBInstanceReadReplicaResult {
 }
 
 class CreateDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   CreateDBInstanceResult({
     this.dBInstance,
@@ -1849,7 +1850,7 @@ class CreateDBInstanceResult {
 }
 
 class CreateDBParameterGroupResult {
-  final DBParameterGroup dBParameterGroup;
+  final DBParameterGroup? dBParameterGroup;
 
   CreateDBParameterGroupResult({
     this.dBParameterGroup,
@@ -1864,7 +1865,7 @@ class CreateDBParameterGroupResult {
 }
 
 class CreateDBSecurityGroupResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   CreateDBSecurityGroupResult({
     this.dBSecurityGroup,
@@ -1879,7 +1880,7 @@ class CreateDBSecurityGroupResult {
 }
 
 class CreateDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   CreateDBSnapshotResult({
     this.dBSnapshot,
@@ -1894,7 +1895,7 @@ class CreateDBSnapshotResult {
 }
 
 class CreateDBSubnetGroupResult {
-  final DBSubnetGroup dBSubnetGroup;
+  final DBSubnetGroup? dBSubnetGroup;
 
   CreateDBSubnetGroupResult({
     this.dBSubnetGroup,
@@ -1909,7 +1910,7 @@ class CreateDBSubnetGroupResult {
 }
 
 class CreateEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   CreateEventSubscriptionResult({
     this.eventSubscription,
@@ -1924,7 +1925,7 @@ class CreateEventSubscriptionResult {
 }
 
 class CreateOptionGroupResult {
-  final OptionGroup optionGroup;
+  final OptionGroup? optionGroup;
 
   CreateOptionGroupResult({
     this.optionGroup,
@@ -1939,13 +1940,13 @@ class CreateOptionGroupResult {
 }
 
 class DBEngineVersion {
-  final String dBEngineDescription;
-  final String dBEngineVersionDescription;
-  final String dBParameterGroupFamily;
-  final CharacterSet defaultCharacterSet;
-  final String engine;
-  final String engineVersion;
-  final List<CharacterSet> supportedCharacterSets;
+  final String? dBEngineDescription;
+  final String? dBEngineVersionDescription;
+  final String? dBParameterGroupFamily;
+  final CharacterSet? defaultCharacterSet;
+  final String? engine;
+  final String? engineVersion;
+  final List<CharacterSet>? supportedCharacterSets;
 
   DBEngineVersion({
     this.dBEngineDescription,
@@ -1980,8 +1981,8 @@ class DBEngineVersion {
 }
 
 class DBEngineVersionMessage {
-  final List<DBEngineVersion> dBEngineVersions;
-  final String marker;
+  final List<DBEngineVersion>? dBEngineVersions;
+  final String? marker;
 
   DBEngineVersionMessage({
     this.dBEngineVersions,
@@ -2000,36 +2001,36 @@ class DBEngineVersionMessage {
 }
 
 class DBInstance {
-  final int allocatedStorage;
-  final bool autoMinorVersionUpgrade;
-  final String availabilityZone;
-  final int backupRetentionPeriod;
-  final String characterSetName;
-  final String dBInstanceClass;
-  final String dBInstanceIdentifier;
-  final String dBInstanceStatus;
-  final String dBName;
-  final List<DBParameterGroupStatus> dBParameterGroups;
-  final List<DBSecurityGroupMembership> dBSecurityGroups;
-  final DBSubnetGroup dBSubnetGroup;
-  final Endpoint endpoint;
-  final String engine;
-  final String engineVersion;
-  final DateTime instanceCreateTime;
-  final int iops;
-  final DateTime latestRestorableTime;
-  final String licenseModel;
-  final String masterUsername;
-  final bool multiAZ;
-  final List<OptionGroupMembership> optionGroupMemberships;
-  final PendingModifiedValues pendingModifiedValues;
-  final String preferredBackupWindow;
-  final String preferredMaintenanceWindow;
-  final bool publiclyAccessible;
-  final List<String> readReplicaDBInstanceIdentifiers;
-  final String readReplicaSourceDBInstanceIdentifier;
-  final String secondaryAvailabilityZone;
-  final List<VpcSecurityGroupMembership> vpcSecurityGroups;
+  final int? allocatedStorage;
+  final bool? autoMinorVersionUpgrade;
+  final String? availabilityZone;
+  final int? backupRetentionPeriod;
+  final String? characterSetName;
+  final String? dBInstanceClass;
+  final String? dBInstanceIdentifier;
+  final String? dBInstanceStatus;
+  final String? dBName;
+  final List<DBParameterGroupStatus>? dBParameterGroups;
+  final List<DBSecurityGroupMembership>? dBSecurityGroups;
+  final DBSubnetGroup? dBSubnetGroup;
+  final Endpoint? endpoint;
+  final String? engine;
+  final String? engineVersion;
+  final DateTime? instanceCreateTime;
+  final int? iops;
+  final DateTime? latestRestorableTime;
+  final String? licenseModel;
+  final String? masterUsername;
+  final bool? multiAZ;
+  final List<OptionGroupMembership>? optionGroupMemberships;
+  final PendingModifiedValues? pendingModifiedValues;
+  final String? preferredBackupWindow;
+  final String? preferredMaintenanceWindow;
+  final bool? publiclyAccessible;
+  final List<String>? readReplicaDBInstanceIdentifiers;
+  final String? readReplicaSourceDBInstanceIdentifier;
+  final String? secondaryAvailabilityZone;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
 
   DBInstance({
     this.allocatedStorage,
@@ -2134,8 +2135,8 @@ class DBInstance {
 }
 
 class DBInstanceMessage {
-  final List<DBInstance> dBInstances;
-  final String marker;
+  final List<DBInstance>? dBInstances;
+  final String? marker;
 
   DBInstanceMessage({
     this.dBInstances,
@@ -2153,9 +2154,9 @@ class DBInstanceMessage {
 }
 
 class DBParameterGroup {
-  final String dBParameterGroupFamily;
-  final String dBParameterGroupName;
-  final String description;
+  final String? dBParameterGroupFamily;
+  final String? dBParameterGroupName;
+  final String? description;
 
   DBParameterGroup({
     this.dBParameterGroupFamily,
@@ -2174,8 +2175,8 @@ class DBParameterGroup {
 }
 
 class DBParameterGroupDetails {
-  final String marker;
-  final List<Parameter> parameters;
+  final String? marker;
+  final List<Parameter>? parameters;
 
   DBParameterGroupDetails({
     this.marker,
@@ -2193,7 +2194,7 @@ class DBParameterGroupDetails {
 }
 
 class DBParameterGroupNameMessage {
-  final String dBParameterGroupName;
+  final String? dBParameterGroupName;
 
   DBParameterGroupNameMessage({
     this.dBParameterGroupName,
@@ -2207,8 +2208,8 @@ class DBParameterGroupNameMessage {
 }
 
 class DBParameterGroupStatus {
-  final String dBParameterGroupName;
-  final String parameterApplyStatus;
+  final String? dBParameterGroupName;
+  final String? parameterApplyStatus;
 
   DBParameterGroupStatus({
     this.dBParameterGroupName,
@@ -2225,8 +2226,8 @@ class DBParameterGroupStatus {
 }
 
 class DBParameterGroupsMessage {
-  final List<DBParameterGroup> dBParameterGroups;
-  final String marker;
+  final List<DBParameterGroup>? dBParameterGroups;
+  final String? marker;
 
   DBParameterGroupsMessage({
     this.dBParameterGroups,
@@ -2245,12 +2246,12 @@ class DBParameterGroupsMessage {
 }
 
 class DBSecurityGroup {
-  final String dBSecurityGroupDescription;
-  final String dBSecurityGroupName;
-  final List<EC2SecurityGroup> eC2SecurityGroups;
-  final List<IPRange> iPRanges;
-  final String ownerId;
-  final String vpcId;
+  final String? dBSecurityGroupDescription;
+  final String? dBSecurityGroupName;
+  final List<EC2SecurityGroup>? eC2SecurityGroups;
+  final List<IPRange>? iPRanges;
+  final String? ownerId;
+  final String? vpcId;
 
   DBSecurityGroup({
     this.dBSecurityGroupDescription,
@@ -2280,8 +2281,8 @@ class DBSecurityGroup {
 }
 
 class DBSecurityGroupMembership {
-  final String dBSecurityGroupName;
-  final String status;
+  final String? dBSecurityGroupName;
+  final String? status;
 
   DBSecurityGroupMembership({
     this.dBSecurityGroupName,
@@ -2297,8 +2298,8 @@ class DBSecurityGroupMembership {
 }
 
 class DBSecurityGroupMessage {
-  final List<DBSecurityGroup> dBSecurityGroups;
-  final String marker;
+  final List<DBSecurityGroup>? dBSecurityGroups;
+  final String? marker;
 
   DBSecurityGroupMessage({
     this.dBSecurityGroups,
@@ -2317,22 +2318,22 @@ class DBSecurityGroupMessage {
 }
 
 class DBSnapshot {
-  final int allocatedStorage;
-  final String availabilityZone;
-  final String dBInstanceIdentifier;
-  final String dBSnapshotIdentifier;
-  final String engine;
-  final String engineVersion;
-  final DateTime instanceCreateTime;
-  final int iops;
-  final String licenseModel;
-  final String masterUsername;
-  final String optionGroupName;
-  final int port;
-  final DateTime snapshotCreateTime;
-  final String snapshotType;
-  final String status;
-  final String vpcId;
+  final int? allocatedStorage;
+  final String? availabilityZone;
+  final String? dBInstanceIdentifier;
+  final String? dBSnapshotIdentifier;
+  final String? engine;
+  final String? engineVersion;
+  final DateTime? instanceCreateTime;
+  final int? iops;
+  final String? licenseModel;
+  final String? masterUsername;
+  final String? optionGroupName;
+  final int? port;
+  final DateTime? snapshotCreateTime;
+  final String? snapshotType;
+  final String? status;
+  final String? vpcId;
 
   DBSnapshot({
     this.allocatedStorage,
@@ -2379,8 +2380,8 @@ class DBSnapshot {
 }
 
 class DBSnapshotMessage {
-  final List<DBSnapshot> dBSnapshots;
-  final String marker;
+  final List<DBSnapshot>? dBSnapshots;
+  final String? marker;
 
   DBSnapshotMessage({
     this.dBSnapshots,
@@ -2398,11 +2399,11 @@ class DBSnapshotMessage {
 }
 
 class DBSubnetGroup {
-  final String dBSubnetGroupDescription;
-  final String dBSubnetGroupName;
-  final String subnetGroupStatus;
-  final List<Subnet> subnets;
-  final String vpcId;
+  final String? dBSubnetGroupDescription;
+  final String? dBSubnetGroupName;
+  final String? subnetGroupStatus;
+  final List<Subnet>? subnets;
+  final String? vpcId;
 
   DBSubnetGroup({
     this.dBSubnetGroupDescription,
@@ -2425,8 +2426,8 @@ class DBSubnetGroup {
 }
 
 class DBSubnetGroupMessage {
-  final List<DBSubnetGroup> dBSubnetGroups;
-  final String marker;
+  final List<DBSubnetGroup>? dBSubnetGroups;
+  final String? marker;
 
   DBSubnetGroupMessage({
     this.dBSubnetGroups,
@@ -2445,7 +2446,7 @@ class DBSubnetGroupMessage {
 }
 
 class DeleteDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   DeleteDBInstanceResult({
     this.dBInstance,
@@ -2460,7 +2461,7 @@ class DeleteDBInstanceResult {
 }
 
 class DeleteDBSnapshotResult {
-  final DBSnapshot dBSnapshot;
+  final DBSnapshot? dBSnapshot;
 
   DeleteDBSnapshotResult({
     this.dBSnapshot,
@@ -2475,7 +2476,7 @@ class DeleteDBSnapshotResult {
 }
 
 class DeleteEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   DeleteEventSubscriptionResult({
     this.eventSubscription,
@@ -2490,9 +2491,9 @@ class DeleteEventSubscriptionResult {
 }
 
 class DescribeDBLogFilesDetails {
-  final int lastWritten;
-  final String logFileName;
-  final int size;
+  final int? lastWritten;
+  final String? logFileName;
+  final int? size;
 
   DescribeDBLogFilesDetails({
     this.lastWritten,
@@ -2509,8 +2510,8 @@ class DescribeDBLogFilesDetails {
 }
 
 class DescribeDBLogFilesResponse {
-  final List<DescribeDBLogFilesDetails> describeDBLogFiles;
-  final String marker;
+  final List<DescribeDBLogFilesDetails>? describeDBLogFiles;
+  final String? marker;
 
   DescribeDBLogFilesResponse({
     this.describeDBLogFiles,
@@ -2529,7 +2530,7 @@ class DescribeDBLogFilesResponse {
 }
 
 class DescribeEngineDefaultParametersResult {
-  final EngineDefaults engineDefaults;
+  final EngineDefaults? engineDefaults;
 
   DescribeEngineDefaultParametersResult({
     this.engineDefaults,
@@ -2544,9 +2545,9 @@ class DescribeEngineDefaultParametersResult {
 }
 
 class DownloadDBLogFilePortionDetails {
-  final bool additionalDataPending;
-  final String logFileData;
-  final String marker;
+  final bool? additionalDataPending;
+  final String? logFileData;
+  final String? marker;
 
   DownloadDBLogFilePortionDetails({
     this.additionalDataPending,
@@ -2564,10 +2565,10 @@ class DownloadDBLogFilePortionDetails {
 }
 
 class EC2SecurityGroup {
-  final String eC2SecurityGroupId;
-  final String eC2SecurityGroupName;
-  final String eC2SecurityGroupOwnerId;
-  final String status;
+  final String? eC2SecurityGroupId;
+  final String? eC2SecurityGroupName;
+  final String? eC2SecurityGroupOwnerId;
+  final String? status;
 
   EC2SecurityGroup({
     this.eC2SecurityGroupId,
@@ -2588,8 +2589,8 @@ class EC2SecurityGroup {
 }
 
 class Endpoint {
-  final String address;
-  final int port;
+  final String? address;
+  final int? port;
 
   Endpoint({
     this.address,
@@ -2604,9 +2605,9 @@ class Endpoint {
 }
 
 class EngineDefaults {
-  final String dBParameterGroupFamily;
-  final String marker;
-  final List<Parameter> parameters;
+  final String? dBParameterGroupFamily;
+  final String? marker;
+  final List<Parameter>? parameters;
 
   EngineDefaults({
     this.dBParameterGroupFamily,
@@ -2627,11 +2628,11 @@ class EngineDefaults {
 }
 
 class Event {
-  final DateTime date;
-  final List<String> eventCategories;
-  final String message;
-  final String sourceIdentifier;
-  final SourceType sourceType;
+  final DateTime? date;
+  final List<String>? eventCategories;
+  final String? message;
+  final String? sourceIdentifier;
+  final SourceType? sourceType;
 
   Event({
     this.date,
@@ -2654,8 +2655,8 @@ class Event {
 }
 
 class EventCategoriesMap {
-  final List<String> eventCategories;
-  final String sourceType;
+  final List<String>? eventCategories;
+  final String? sourceType;
 
   EventCategoriesMap({
     this.eventCategories,
@@ -2672,7 +2673,7 @@ class EventCategoriesMap {
 }
 
 class EventCategoriesMessage {
-  final List<EventCategoriesMap> eventCategoriesMapList;
+  final List<EventCategoriesMap>? eventCategoriesMapList;
 
   EventCategoriesMessage({
     this.eventCategoriesMapList,
@@ -2690,15 +2691,15 @@ class EventCategoriesMessage {
 }
 
 class EventSubscription {
-  final String custSubscriptionId;
-  final String customerAwsId;
-  final bool enabled;
-  final List<String> eventCategoriesList;
-  final String snsTopicArn;
-  final List<String> sourceIdsList;
-  final String sourceType;
-  final String status;
-  final String subscriptionCreationTime;
+  final String? custSubscriptionId;
+  final String? customerAwsId;
+  final bool? enabled;
+  final List<String>? eventCategoriesList;
+  final String? snsTopicArn;
+  final List<String>? sourceIdsList;
+  final String? sourceType;
+  final String? status;
+  final String? subscriptionCreationTime;
 
   EventSubscription({
     this.custSubscriptionId,
@@ -2732,8 +2733,8 @@ class EventSubscription {
 }
 
 class EventSubscriptionsMessage {
-  final List<EventSubscription> eventSubscriptionsList;
-  final String marker;
+  final List<EventSubscription>? eventSubscriptionsList;
+  final String? marker;
 
   EventSubscriptionsMessage({
     this.eventSubscriptionsList,
@@ -2753,8 +2754,8 @@ class EventSubscriptionsMessage {
 }
 
 class EventsMessage {
-  final List<Event> events;
-  final String marker;
+  final List<Event>? events;
+  final String? marker;
 
   EventsMessage({
     this.events,
@@ -2770,8 +2771,8 @@ class EventsMessage {
 }
 
 class IPRange {
-  final String cidrip;
-  final String status;
+  final String? cidrip;
+  final String? status;
 
   IPRange({
     this.cidrip,
@@ -2786,7 +2787,7 @@ class IPRange {
 }
 
 class ModifyDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   ModifyDBInstanceResult({
     this.dBInstance,
@@ -2801,7 +2802,7 @@ class ModifyDBInstanceResult {
 }
 
 class ModifyDBSubnetGroupResult {
-  final DBSubnetGroup dBSubnetGroup;
+  final DBSubnetGroup? dBSubnetGroup;
 
   ModifyDBSubnetGroupResult({
     this.dBSubnetGroup,
@@ -2816,7 +2817,7 @@ class ModifyDBSubnetGroupResult {
 }
 
 class ModifyEventSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   ModifyEventSubscriptionResult({
     this.eventSubscription,
@@ -2831,7 +2832,7 @@ class ModifyEventSubscriptionResult {
 }
 
 class ModifyOptionGroupResult {
-  final OptionGroup optionGroup;
+  final OptionGroup? optionGroup;
 
   ModifyOptionGroupResult({
     this.optionGroup,
@@ -2846,13 +2847,13 @@ class ModifyOptionGroupResult {
 }
 
 class Option {
-  final List<DBSecurityGroupMembership> dBSecurityGroupMemberships;
-  final String optionDescription;
-  final String optionName;
-  final List<OptionSetting> optionSettings;
-  final bool persistent;
-  final int port;
-  final List<VpcSecurityGroupMembership> vpcSecurityGroupMemberships;
+  final List<DBSecurityGroupMembership>? dBSecurityGroupMemberships;
+  final String? optionDescription;
+  final String? optionName;
+  final List<OptionSetting>? optionSettings;
+  final bool? persistent;
+  final int? port;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroupMemberships;
 
   Option({
     this.dBSecurityGroupMemberships,
@@ -2890,41 +2891,46 @@ class Option {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionConfiguration {
-  @_s.JsonKey(name: 'OptionName')
   final String optionName;
-  @_s.JsonKey(name: 'DBSecurityGroupMemberships')
-  final List<String> dBSecurityGroupMemberships;
-  @_s.JsonKey(name: 'OptionSettings')
-  final List<OptionSetting> optionSettings;
-  @_s.JsonKey(name: 'Port')
-  final int port;
-  @_s.JsonKey(name: 'VpcSecurityGroupMemberships')
-  final List<String> vpcSecurityGroupMemberships;
+  final List<String>? dBSecurityGroupMemberships;
+  final List<OptionSetting>? optionSettings;
+  final int? port;
+  final List<String>? vpcSecurityGroupMemberships;
 
   OptionConfiguration({
-    @_s.required this.optionName,
+    required this.optionName,
     this.dBSecurityGroupMemberships,
     this.optionSettings,
     this.port,
     this.vpcSecurityGroupMemberships,
   });
-  Map<String, dynamic> toJson() => _$OptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final optionName = this.optionName;
+    final dBSecurityGroupMemberships = this.dBSecurityGroupMemberships;
+    final optionSettings = this.optionSettings;
+    final port = this.port;
+    final vpcSecurityGroupMemberships = this.vpcSecurityGroupMemberships;
+    return {
+      'OptionName': optionName,
+      if (dBSecurityGroupMemberships != null)
+        'DBSecurityGroupMemberships': dBSecurityGroupMemberships,
+      if (optionSettings != null) 'OptionSettings': optionSettings,
+      if (port != null) 'Port': port,
+      if (vpcSecurityGroupMemberships != null)
+        'VpcSecurityGroupMemberships': vpcSecurityGroupMemberships,
+    };
+  }
 }
 
 class OptionGroup {
-  final bool allowsVpcAndNonVpcInstanceMemberships;
-  final String engineName;
-  final String majorEngineVersion;
-  final String optionGroupDescription;
-  final String optionGroupName;
-  final List<Option> options;
-  final String vpcId;
+  final bool? allowsVpcAndNonVpcInstanceMemberships;
+  final String? engineName;
+  final String? majorEngineVersion;
+  final String? optionGroupDescription;
+  final String? optionGroupName;
+  final List<Option>? options;
+  final String? vpcId;
 
   OptionGroup({
     this.allowsVpcAndNonVpcInstanceMemberships,
@@ -2952,8 +2958,8 @@ class OptionGroup {
 }
 
 class OptionGroupMembership {
-  final String optionGroupName;
-  final String status;
+  final String? optionGroupName;
+  final String? status;
 
   OptionGroupMembership({
     this.optionGroupName,
@@ -2968,16 +2974,16 @@ class OptionGroupMembership {
 }
 
 class OptionGroupOption {
-  final int defaultPort;
-  final String description;
-  final String engineName;
-  final String majorEngineVersion;
-  final String minimumRequiredMinorEngineVersion;
-  final String name;
-  final List<OptionGroupOptionSetting> optionGroupOptionSettings;
-  final List<String> optionsDependedOn;
-  final bool persistent;
-  final bool portRequired;
+  final int? defaultPort;
+  final String? description;
+  final String? engineName;
+  final String? majorEngineVersion;
+  final String? minimumRequiredMinorEngineVersion;
+  final String? name;
+  final List<OptionGroupOptionSetting>? optionGroupOptionSettings;
+  final List<String>? optionsDependedOn;
+  final bool? persistent;
+  final bool? portRequired;
 
   OptionGroupOption({
     this.defaultPort,
@@ -3016,12 +3022,12 @@ class OptionGroupOption {
 }
 
 class OptionGroupOptionSetting {
-  final String allowedValues;
-  final String applyType;
-  final String defaultValue;
-  final bool isModifiable;
-  final String settingDescription;
-  final String settingName;
+  final String? allowedValues;
+  final String? applyType;
+  final String? defaultValue;
+  final bool? isModifiable;
+  final String? settingDescription;
+  final String? settingName;
 
   OptionGroupOptionSetting({
     this.allowedValues,
@@ -3044,8 +3050,8 @@ class OptionGroupOptionSetting {
 }
 
 class OptionGroupOptionsMessage {
-  final String marker;
-  final List<OptionGroupOption> optionGroupOptions;
+  final String? marker;
+  final List<OptionGroupOption>? optionGroupOptions;
 
   OptionGroupOptionsMessage({
     this.marker,
@@ -3064,8 +3070,8 @@ class OptionGroupOptionsMessage {
 }
 
 class OptionGroups {
-  final String marker;
-  final List<OptionGroup> optionGroupsList;
+  final String? marker;
+  final List<OptionGroup>? optionGroupsList;
 
   OptionGroups({
     this.marker,
@@ -3083,30 +3089,16 @@ class OptionGroups {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionSetting {
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
-  @_s.JsonKey(name: 'ApplyType')
-  final String applyType;
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'IsCollection')
-  final bool isCollection;
-  @_s.JsonKey(name: 'IsModifiable')
-  final bool isModifiable;
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? allowedValues;
+  final String? applyType;
+  final String? dataType;
+  final String? defaultValue;
+  final String? description;
+  final bool? isCollection;
+  final bool? isModifiable;
+  final String? name;
+  final String? value;
 
   OptionSetting({
     this.allowedValues,
@@ -3133,18 +3125,39 @@ class OptionSetting {
     );
   }
 
-  Map<String, dynamic> toJson() => _$OptionSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final isCollection = this.isCollection;
+    final isModifiable = this.isModifiable;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (isCollection != null) 'IsCollection': isCollection,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class OrderableDBInstanceOption {
-  final List<AvailabilityZone> availabilityZones;
-  final String dBInstanceClass;
-  final String engine;
-  final String engineVersion;
-  final String licenseModel;
-  final bool multiAZCapable;
-  final bool readReplicaCapable;
-  final bool vpc;
+  final List<AvailabilityZone>? availabilityZones;
+  final String? dBInstanceClass;
+  final String? engine;
+  final String? engineVersion;
+  final String? licenseModel;
+  final bool? multiAZCapable;
+  final bool? readReplicaCapable;
+  final bool? vpc;
 
   OrderableDBInstanceOption({
     this.availabilityZones,
@@ -3175,8 +3188,8 @@ class OrderableDBInstanceOption {
 }
 
 class OrderableDBInstanceOptionsMessage {
-  final String marker;
-  final List<OrderableDBInstanceOption> orderableDBInstanceOptions;
+  final String? marker;
+  final List<OrderableDBInstanceOption>? orderableDBInstanceOptions;
 
   OrderableDBInstanceOptionsMessage({
     this.marker,
@@ -3195,32 +3208,17 @@ class OrderableDBInstanceOptionsMessage {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Parameter {
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
-  @_s.JsonKey(name: 'ApplyMethod')
-  final ApplyMethod applyMethod;
-  @_s.JsonKey(name: 'ApplyType')
-  final String applyType;
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'IsModifiable')
-  final bool isModifiable;
-  @_s.JsonKey(name: 'MinimumEngineVersion')
-  final String minimumEngineVersion;
-  @_s.JsonKey(name: 'ParameterName')
-  final String parameterName;
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? allowedValues;
+  final ApplyMethod? applyMethod;
+  final String? applyType;
+  final String? dataType;
+  final String? description;
+  final bool? isModifiable;
+  final String? minimumEngineVersion;
+  final String? parameterName;
+  final String? parameterValue;
+  final String? source;
 
   Parameter({
     this.allowedValues,
@@ -3251,19 +3249,43 @@ class Parameter {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final applyMethod = this.applyMethod;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+    };
+  }
 }
 
 class PendingModifiedValues {
-  final int allocatedStorage;
-  final int backupRetentionPeriod;
-  final String dBInstanceClass;
-  final String dBInstanceIdentifier;
-  final String engineVersion;
-  final int iops;
-  final String masterUserPassword;
-  final bool multiAZ;
-  final int port;
+  final int? allocatedStorage;
+  final int? backupRetentionPeriod;
+  final String? dBInstanceClass;
+  final String? dBInstanceIdentifier;
+  final String? engineVersion;
+  final int? iops;
+  final String? masterUserPassword;
+  final bool? multiAZ;
+  final int? port;
 
   PendingModifiedValues({
     this.allocatedStorage,
@@ -3294,7 +3316,7 @@ class PendingModifiedValues {
 }
 
 class PromoteReadReplicaResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   PromoteReadReplicaResult({
     this.dBInstance,
@@ -3309,7 +3331,7 @@ class PromoteReadReplicaResult {
 }
 
 class PurchaseReservedDBInstancesOfferingResult {
-  final ReservedDBInstance reservedDBInstance;
+  final ReservedDBInstance? reservedDBInstance;
 
   PurchaseReservedDBInstancesOfferingResult({
     this.reservedDBInstance,
@@ -3325,7 +3347,7 @@ class PurchaseReservedDBInstancesOfferingResult {
 }
 
 class RebootDBInstanceResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RebootDBInstanceResult({
     this.dBInstance,
@@ -3340,8 +3362,8 @@ class RebootDBInstanceResult {
 }
 
 class RecurringCharge {
-  final double recurringChargeAmount;
-  final String recurringChargeFrequency;
+  final double? recurringChargeAmount;
+  final String? recurringChargeFrequency;
 
   RecurringCharge({
     this.recurringChargeAmount,
@@ -3358,7 +3380,7 @@ class RecurringCharge {
 }
 
 class RemoveSourceIdentifierFromSubscriptionResult {
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   RemoveSourceIdentifierFromSubscriptionResult({
     this.eventSubscription,
@@ -3374,20 +3396,20 @@ class RemoveSourceIdentifierFromSubscriptionResult {
 }
 
 class ReservedDBInstance {
-  final String currencyCode;
-  final String dBInstanceClass;
-  final int dBInstanceCount;
-  final int duration;
-  final double fixedPrice;
-  final bool multiAZ;
-  final String offeringType;
-  final String productDescription;
-  final List<RecurringCharge> recurringCharges;
-  final String reservedDBInstanceId;
-  final String reservedDBInstancesOfferingId;
-  final DateTime startTime;
-  final String state;
-  final double usagePrice;
+  final String? currencyCode;
+  final String? dBInstanceClass;
+  final int? dBInstanceCount;
+  final int? duration;
+  final double? fixedPrice;
+  final bool? multiAZ;
+  final String? offeringType;
+  final String? productDescription;
+  final List<RecurringCharge>? recurringCharges;
+  final String? reservedDBInstanceId;
+  final String? reservedDBInstancesOfferingId;
+  final DateTime? startTime;
+  final String? state;
+  final double? usagePrice;
 
   ReservedDBInstance({
     this.currencyCode,
@@ -3432,8 +3454,8 @@ class ReservedDBInstance {
 }
 
 class ReservedDBInstanceMessage {
-  final String marker;
-  final List<ReservedDBInstance> reservedDBInstances;
+  final String? marker;
+  final List<ReservedDBInstance>? reservedDBInstances;
 
   ReservedDBInstanceMessage({
     this.marker,
@@ -3452,16 +3474,16 @@ class ReservedDBInstanceMessage {
 }
 
 class ReservedDBInstancesOffering {
-  final String currencyCode;
-  final String dBInstanceClass;
-  final int duration;
-  final double fixedPrice;
-  final bool multiAZ;
-  final String offeringType;
-  final String productDescription;
-  final List<RecurringCharge> recurringCharges;
-  final String reservedDBInstancesOfferingId;
-  final double usagePrice;
+  final String? currencyCode;
+  final String? dBInstanceClass;
+  final int? duration;
+  final double? fixedPrice;
+  final bool? multiAZ;
+  final String? offeringType;
+  final String? productDescription;
+  final List<RecurringCharge>? recurringCharges;
+  final String? reservedDBInstancesOfferingId;
+  final double? usagePrice;
 
   ReservedDBInstancesOffering({
     this.currencyCode,
@@ -3497,8 +3519,8 @@ class ReservedDBInstancesOffering {
 }
 
 class ReservedDBInstancesOfferingMessage {
-  final String marker;
-  final List<ReservedDBInstancesOffering> reservedDBInstancesOfferings;
+  final String? marker;
+  final List<ReservedDBInstancesOffering>? reservedDBInstancesOfferings;
 
   ReservedDBInstancesOfferingMessage({
     this.marker,
@@ -3518,7 +3540,7 @@ class ReservedDBInstancesOfferingMessage {
 }
 
 class RestoreDBInstanceFromDBSnapshotResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RestoreDBInstanceFromDBSnapshotResult({
     this.dBInstance,
@@ -3533,7 +3555,7 @@ class RestoreDBInstanceFromDBSnapshotResult {
 }
 
 class RestoreDBInstanceToPointInTimeResult {
-  final DBInstance dBInstance;
+  final DBInstance? dBInstance;
 
   RestoreDBInstanceToPointInTimeResult({
     this.dBInstance,
@@ -3548,7 +3570,7 @@ class RestoreDBInstanceToPointInTimeResult {
 }
 
 class RevokeDBSecurityGroupIngressResult {
-  final DBSecurityGroup dBSecurityGroup;
+  final DBSecurityGroup? dBSecurityGroup;
 
   RevokeDBSecurityGroupIngressResult({
     this.dBSecurityGroup,
@@ -3563,13 +3585,9 @@ class RevokeDBSecurityGroupIngressResult {
 }
 
 enum SourceType {
-  @_s.JsonValue('db-instance')
   dbInstance,
-  @_s.JsonValue('db-parameter-group')
   dbParameterGroup,
-  @_s.JsonValue('db-security-group')
   dbSecurityGroup,
-  @_s.JsonValue('db-snapshot')
   dbSnapshot,
 }
 
@@ -3585,7 +3603,6 @@ extension on SourceType {
       case SourceType.dbSnapshot:
         return 'db-snapshot';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3601,14 +3618,14 @@ extension on String {
       case 'db-snapshot':
         return SourceType.dbSnapshot;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
 class Subnet {
-  final AvailabilityZone subnetAvailabilityZone;
-  final String subnetIdentifier;
-  final String subnetStatus;
+  final AvailabilityZone? subnetAvailabilityZone;
+  final String? subnetIdentifier;
+  final String? subnetStatus;
 
   Subnet({
     this.subnetAvailabilityZone,
@@ -3626,16 +3643,9 @@ class Subnet {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
-  @_s.JsonKey(name: 'Key')
-  final String key;
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? key;
+  final String? value;
 
   Tag({
     this.key,
@@ -3648,11 +3658,18 @@ class Tag {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class TagListMessage {
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   TagListMessage({
     this.tagList,
@@ -3666,8 +3683,8 @@ class TagListMessage {
 }
 
 class VpcSecurityGroupMembership {
-  final String status;
-  final String vpcSecurityGroupId;
+  final String? status;
+  final String? vpcSecurityGroupId;
 
   VpcSecurityGroupMembership({
     this.status,
@@ -3682,7 +3699,7 @@ class VpcSecurityGroupMembership {
 }
 
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
-  AuthorizationAlreadyExistsFault({String type, String message})
+  AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationAlreadyExistsFault',
@@ -3690,12 +3707,12 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
-  AuthorizationNotFoundFault({String type, String message})
+  AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
 class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
-  AuthorizationQuotaExceededFault({String type, String message})
+  AuthorizationQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'AuthorizationQuotaExceededFault',
@@ -3703,23 +3720,23 @@ class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBInstanceAlreadyExistsFault extends _s.GenericAwsException {
-  DBInstanceAlreadyExistsFault({String type, String message})
+  DBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceAlreadyExistsFault', message: message);
 }
 
 class DBInstanceNotFoundFault extends _s.GenericAwsException {
-  DBInstanceNotFoundFault({String type, String message})
+  DBInstanceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotFoundFault', message: message);
 }
 
 class DBLogFileNotFoundFault extends _s.GenericAwsException {
-  DBLogFileNotFoundFault({String type, String message})
+  DBLogFileNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBLogFileNotFoundFault', message: message);
 }
 
 class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBParameterGroupAlreadyExistsFault({String type, String message})
+  DBParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupAlreadyExistsFault',
@@ -3727,7 +3744,7 @@ class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
-  DBParameterGroupNotFoundFault({String type, String message})
+  DBParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupNotFoundFault',
@@ -3735,7 +3752,7 @@ class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
 }
 
 class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBParameterGroupQuotaExceededFault({String type, String message})
+  DBParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBParameterGroupQuotaExceededFault',
@@ -3743,7 +3760,7 @@ class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBSecurityGroupAlreadyExistsFault({String type, String message})
+  DBSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupAlreadyExistsFault',
@@ -3751,13 +3768,13 @@ class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBSecurityGroupNotFoundFault extends _s.GenericAwsException {
-  DBSecurityGroupNotFoundFault({String type, String message})
+  DBSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBSecurityGroupNotFoundFault', message: message);
 }
 
 class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
-  DBSecurityGroupNotSupportedFault({String type, String message})
+  DBSecurityGroupNotSupportedFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupNotSupportedFault',
@@ -3765,7 +3782,7 @@ class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
 }
 
 class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBSecurityGroupQuotaExceededFault({String type, String message})
+  DBSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSecurityGroupQuotaExceededFault',
@@ -3773,18 +3790,18 @@ class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBSnapshotAlreadyExistsFault extends _s.GenericAwsException {
-  DBSnapshotAlreadyExistsFault({String type, String message})
+  DBSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBSnapshotAlreadyExistsFault', message: message);
 }
 
 class DBSnapshotNotFoundFault extends _s.GenericAwsException {
-  DBSnapshotNotFoundFault({String type, String message})
+  DBSnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSnapshotNotFoundFault', message: message);
 }
 
 class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
-  DBSubnetGroupAlreadyExistsFault({String type, String message})
+  DBSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupAlreadyExistsFault',
@@ -3792,7 +3809,7 @@ class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
-  DBSubnetGroupDoesNotCoverEnoughAZs({String type, String message})
+  DBSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupDoesNotCoverEnoughAZs',
@@ -3800,12 +3817,12 @@ class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
 }
 
 class DBSubnetGroupNotFoundFault extends _s.GenericAwsException {
-  DBSubnetGroupNotFoundFault({String type, String message})
+  DBSubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetGroupNotFoundFault', message: message);
 }
 
 class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
-  DBSubnetGroupQuotaExceededFault({String type, String message})
+  DBSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBSubnetGroupQuotaExceededFault',
@@ -3813,12 +3830,12 @@ class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class DBSubnetQuotaExceededFault extends _s.GenericAwsException {
-  DBSubnetQuotaExceededFault({String type, String message})
+  DBSubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetQuotaExceededFault', message: message);
 }
 
 class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
-  DBUpgradeDependencyFailureFault({String type, String message})
+  DBUpgradeDependencyFailureFault({String? type, String? message})
       : super(
             type: type,
             code: 'DBUpgradeDependencyFailureFault',
@@ -3826,7 +3843,7 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
 }
 
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
-  EventSubscriptionQuotaExceededFault({String type, String message})
+  EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'EventSubscriptionQuotaExceededFault',
@@ -3834,12 +3851,12 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
-  InstanceQuotaExceededFault({String type, String message})
+  InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
 }
 
 class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
-  InsufficientDBInstanceCapacityFault({String type, String message})
+  InsufficientDBInstanceCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientDBInstanceCapacityFault',
@@ -3847,13 +3864,13 @@ class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
 }
 
 class InvalidDBInstanceStateFault extends _s.GenericAwsException {
-  InvalidDBInstanceStateFault({String type, String message})
+  InvalidDBInstanceStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBInstanceStateFault', message: message);
 }
 
 class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
-  InvalidDBParameterGroupStateFault({String type, String message})
+  InvalidDBParameterGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBParameterGroupStateFault',
@@ -3861,7 +3878,7 @@ class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
-  InvalidDBSecurityGroupStateFault({String type, String message})
+  InvalidDBSecurityGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBSecurityGroupStateFault',
@@ -3869,13 +3886,13 @@ class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBSnapshotStateFault extends _s.GenericAwsException {
-  InvalidDBSnapshotStateFault({String type, String message})
+  InvalidDBSnapshotStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBSnapshotStateFault', message: message);
 }
 
 class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
-  InvalidDBSubnetGroupStateFault({String type, String message})
+  InvalidDBSubnetGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDBSubnetGroupStateFault',
@@ -3883,12 +3900,12 @@ class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidDBSubnetStateFault extends _s.GenericAwsException {
-  InvalidDBSubnetStateFault({String type, String message})
+  InvalidDBSubnetStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
 class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
-  InvalidEventSubscriptionStateFault({String type, String message})
+  InvalidEventSubscriptionStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEventSubscriptionStateFault',
@@ -3896,29 +3913,29 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
 }
 
 class InvalidOptionGroupStateFault extends _s.GenericAwsException {
-  InvalidOptionGroupStateFault({String type, String message})
+  InvalidOptionGroupStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidOptionGroupStateFault', message: message);
 }
 
 class InvalidRestoreFault extends _s.GenericAwsException {
-  InvalidRestoreFault({String type, String message})
+  InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
 class InvalidSubnet extends _s.GenericAwsException {
-  InvalidSubnet({String type, String message})
+  InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
-  InvalidVPCNetworkStateFault({String type, String message})
+  InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
 class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
-  OptionGroupAlreadyExistsFault({String type, String message})
+  OptionGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'OptionGroupAlreadyExistsFault',
@@ -3926,12 +3943,12 @@ class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class OptionGroupNotFoundFault extends _s.GenericAwsException {
-  OptionGroupNotFoundFault({String type, String message})
+  OptionGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'OptionGroupNotFoundFault', message: message);
 }
 
 class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
-  OptionGroupQuotaExceededFault({String type, String message})
+  OptionGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'OptionGroupQuotaExceededFault',
@@ -3939,7 +3956,7 @@ class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
-  PointInTimeRestoreNotEnabledFault({String type, String message})
+  PointInTimeRestoreNotEnabledFault({String? type, String? message})
       : super(
             type: type,
             code: 'PointInTimeRestoreNotEnabledFault',
@@ -3947,7 +3964,7 @@ class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
 }
 
 class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
-  ProvisionedIopsNotAvailableInAZFault({String type, String message})
+  ProvisionedIopsNotAvailableInAZFault({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedIopsNotAvailableInAZFault',
@@ -3955,7 +3972,7 @@ class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
-  ReservedDBInstanceAlreadyExistsFault({String type, String message})
+  ReservedDBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceAlreadyExistsFault',
@@ -3963,7 +3980,7 @@ class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
-  ReservedDBInstanceNotFoundFault({String type, String message})
+  ReservedDBInstanceNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceNotFoundFault',
@@ -3971,7 +3988,7 @@ class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
-  ReservedDBInstanceQuotaExceededFault({String type, String message})
+  ReservedDBInstanceQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstanceQuotaExceededFault',
@@ -3979,7 +3996,7 @@ class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
-  ReservedDBInstancesOfferingNotFoundFault({String type, String message})
+  ReservedDBInstancesOfferingNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ReservedDBInstancesOfferingNotFoundFault',
@@ -3987,42 +4004,42 @@ class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
 }
 
 class SNSInvalidTopicFault extends _s.GenericAwsException {
-  SNSInvalidTopicFault({String type, String message})
+  SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
-  SNSNoAuthorizationFault({String type, String message})
+  SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
-  SNSTopicArnNotFoundFault({String type, String message})
+  SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
-  SnapshotQuotaExceededFault({String type, String message})
+  SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
 class SourceNotFoundFault extends _s.GenericAwsException {
-  SourceNotFoundFault({String type, String message})
+  SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
 class StorageQuotaExceededFault extends _s.GenericAwsException {
-  StorageQuotaExceededFault({String type, String message})
+  StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
 class SubnetAlreadyInUse extends _s.GenericAwsException {
-  SubnetAlreadyInUse({String type, String message})
+  SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
-  SubscriptionAlreadyExistFault({String type, String message})
+  SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionAlreadyExistFault',
@@ -4030,7 +4047,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
 }
 
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
-  SubscriptionCategoryNotFoundFault({String type, String message})
+  SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionCategoryNotFoundFault',
@@ -4038,7 +4055,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
 }
 
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
-  SubscriptionNotFoundFault({String type, String message})
+  SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 

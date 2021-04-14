@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cognito-idp-2016-04-18.g.dart';
 
 /// Using the Amazon Cognito User Pools API, you can create a user pool to
 /// manage directories and users. You can authenticate a user to obtain tokens
@@ -37,10 +29,10 @@ part 'cognito-idp-2016-04-18.g.dart';
 class CognitoIdentityProvider {
   final _s.JsonProtocol _protocol;
   CognitoIdentityProvider({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -67,8 +59,8 @@ class CognitoIdentityProvider {
   /// The user pool ID for the user pool where you want to add custom
   /// attributes.
   Future<void> addCustomAttributes({
-    @_s.required List<SchemaAttributeType> customAttributes,
-    @_s.required String userPoolId,
+    required List<SchemaAttributeType> customAttributes,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(customAttributes, 'customAttributes');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
@@ -89,7 +81,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AddCustomAttributes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -100,8 +92,6 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
       },
     );
-
-    return AddCustomAttributesResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds the specified user to the specified group.
@@ -124,9 +114,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The username for the user.
   Future<void> adminAddUserToGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String groupName,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -174,7 +164,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminAddUserToGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -249,9 +239,9 @@ class CognitoIdentityProvider {
   /// </li>
   /// </ul> </note>
   Future<void> adminConfirmSignUp({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    Map<String, String> clientMetadata,
+    required String userPoolId,
+    required String username,
+    Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -285,7 +275,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminConfirmSignUp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -297,8 +287,6 @@ class CognitoIdentityProvider {
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
-
-    return AdminConfirmSignUpResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new user in the specified user pool.
@@ -480,15 +468,15 @@ class CognitoIdentityProvider {
   ///
   /// The user's validation data is not persisted.
   Future<AdminCreateUserResponse> adminCreateUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    Map<String, String> clientMetadata,
-    List<DeliveryMediumType> desiredDeliveryMediums,
-    bool forceAliasCreation,
-    MessageActionType messageAction,
-    String temporaryPassword,
-    List<AttributeType> userAttributes,
-    List<AttributeType> validationData,
+    required String userPoolId,
+    required String username,
+    Map<String, String>? clientMetadata,
+    List<DeliveryMediumType>? desiredDeliveryMediums,
+    bool? forceAliasCreation,
+    MessageActionType? messageAction,
+    String? temporaryPassword,
+    List<AttributeType>? userAttributes,
+    List<AttributeType>? validationData,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -545,7 +533,7 @@ class CognitoIdentityProvider {
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
         if (desiredDeliveryMediums != null)
           'DesiredDeliveryMediums':
-              desiredDeliveryMediums.map((e) => e?.toValue() ?? '').toList(),
+              desiredDeliveryMediums.map((e) => e.toValue()).toList(),
         if (forceAliasCreation != null)
           'ForceAliasCreation': forceAliasCreation,
         if (messageAction != null) 'MessageAction': messageAction.toValue(),
@@ -575,8 +563,8 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user you wish to delete.
   Future<void> adminDeleteUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -610,7 +598,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminDeleteUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -649,9 +637,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user from which you would like to delete attributes.
   Future<void> adminDeleteUserAttributes({
-    @_s.required List<String> userAttributeNames,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required List<String> userAttributeNames,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userAttributeNames, 'userAttributeNames');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
@@ -687,7 +675,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminDeleteUserAttributes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -699,8 +687,6 @@ class CognitoIdentityProvider {
         'Username': username,
       },
     );
-
-    return AdminDeleteUserAttributesResponse.fromJson(jsonResponse.body);
   }
 
   /// Disables the user from signing in with the specified external (SAML or
@@ -756,8 +742,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool.
   Future<void> adminDisableProviderForUser({
-    @_s.required ProviderUserIdentifierType user,
-    @_s.required String userPoolId,
+    required ProviderUserIdentifierType user,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(user, 'user');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
@@ -766,7 +752,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminDisableProviderForUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -777,8 +763,6 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
       },
     );
-
-    return AdminDisableProviderForUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Disables the specified user.
@@ -798,8 +782,8 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user you wish to disable.
   Future<void> adminDisableUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -833,7 +817,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminDisableUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -844,8 +828,6 @@ class CognitoIdentityProvider {
         'Username': username,
       },
     );
-
-    return AdminDisableUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Enables the specified user as an administrator. Works on any user.
@@ -865,8 +847,8 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user you wish to enable.
   Future<void> adminEnableUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -900,7 +882,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminEnableUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -911,8 +893,6 @@ class CognitoIdentityProvider {
         'Username': username,
       },
     );
-
-    return AdminEnableUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Forgets the device, as an administrator.
@@ -936,9 +916,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name.
   Future<void> adminForgetDevice({
-    @_s.required String deviceKey,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String deviceKey,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
@@ -986,7 +966,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminForgetDevice'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1020,9 +1000,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name.
   Future<AdminGetDeviceResponse> adminGetDevice({
-    @_s.required String deviceKey,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String deviceKey,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
@@ -1105,8 +1085,8 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user you wish to retrieve.
   Future<AdminGetUserResponse> adminGetUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -1351,13 +1331,13 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<AdminInitiateAuthResponse> adminInitiateAuth({
-    @_s.required AuthFlowType authFlow,
-    @_s.required String clientId,
-    @_s.required String userPoolId,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> authParameters,
-    Map<String, String> clientMetadata,
-    ContextDataType contextData,
+    required AuthFlowType authFlow,
+    required String clientId,
+    required String userPoolId,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? authParameters,
+    Map<String, String>? clientMetadata,
+    ContextDataType? contextData,
   }) async {
     ArgumentError.checkNotNull(authFlow, 'authFlow');
     ArgumentError.checkNotNull(clientId, 'clientId');
@@ -1399,7 +1379,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow?.toValue() ?? '',
+        'AuthFlow': authFlow.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -1492,9 +1472,9 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool.
   Future<void> adminLinkProviderForUser({
-    @_s.required ProviderUserIdentifierType destinationUser,
-    @_s.required ProviderUserIdentifierType sourceUser,
-    @_s.required String userPoolId,
+    required ProviderUserIdentifierType destinationUser,
+    required ProviderUserIdentifierType sourceUser,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(destinationUser, 'destinationUser');
     ArgumentError.checkNotNull(sourceUser, 'sourceUser');
@@ -1504,7 +1484,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminLinkProviderForUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1516,8 +1496,6 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
       },
     );
-
-    return AdminLinkProviderForUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists devices, as an administrator.
@@ -1543,10 +1521,10 @@ class CognitoIdentityProvider {
   /// Parameter [paginationToken] :
   /// The pagination token.
   Future<AdminListDevicesResponse> adminListDevices({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    int limit,
-    String paginationToken,
+    required String userPoolId,
+    required String username,
+    int? limit,
+    String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -1638,10 +1616,10 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<AdminListGroupsForUserResponse> adminListGroupsForUser({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    int limit,
-    String nextToken,
+    required String userPoolId,
+    required String username,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -1732,10 +1710,10 @@ class CognitoIdentityProvider {
   /// Parameter [nextToken] :
   /// A pagination token.
   Future<AdminListUserAuthEventsResponse> adminListUserAuthEvents({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    int maxResults,
-    String nextToken,
+    required String userPoolId,
+    required String username,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -1824,9 +1802,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The username for the user.
   Future<void> adminRemoveUserFromGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String groupName,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -1875,7 +1853,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1964,9 +1942,9 @@ class CognitoIdentityProvider {
   /// </li>
   /// </ul> </note>
   Future<void> adminResetUserPassword({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    Map<String, String> clientMetadata,
+    required String userPoolId,
+    required String username,
+    Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -2000,7 +1978,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminResetUserPassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2012,8 +1990,6 @@ class CognitoIdentityProvider {
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
-
-    return AdminResetUserPasswordResponse.fromJson(jsonResponse.body);
   }
 
   /// Responds to an authentication challenge, as an administrator.
@@ -2143,14 +2119,14 @@ class CognitoIdentityProvider {
   /// challenge parameters. This session should be passed as it is to the next
   /// <code>RespondToAuthChallenge</code> API call.
   Future<AdminRespondToAuthChallengeResponse> adminRespondToAuthChallenge({
-    @_s.required ChallengeNameType challengeName,
-    @_s.required String clientId,
-    @_s.required String userPoolId,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> challengeResponses,
-    Map<String, String> clientMetadata,
-    ContextDataType contextData,
-    String session,
+    required ChallengeNameType challengeName,
+    required String clientId,
+    required String userPoolId,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? challengeResponses,
+    Map<String, String>? clientMetadata,
+    ContextDataType? contextData,
+    String? session,
   }) async {
     ArgumentError.checkNotNull(challengeName, 'challengeName');
     ArgumentError.checkNotNull(clientId, 'clientId');
@@ -2199,7 +2175,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName?.toValue() ?? '',
+        'ChallengeName': challengeName.toValue(),
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -2241,10 +2217,10 @@ class CognitoIdentityProvider {
   /// Parameter [softwareTokenMfaSettings] :
   /// The time-based one-time password software token MFA settings.
   Future<void> adminSetUserMFAPreference({
-    @_s.required String userPoolId,
-    @_s.required String username,
-    SMSMfaSettingsType sMSMfaSettings,
-    SoftwareTokenMfaSettingsType softwareTokenMfaSettings,
+    required String userPoolId,
+    required String username,
+    SMSMfaSettingsType? sMSMfaSettings,
+    SoftwareTokenMfaSettingsType? softwareTokenMfaSettings,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -2279,7 +2255,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminSetUserMFAPreference'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2293,8 +2269,6 @@ class CognitoIdentityProvider {
           'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
       },
     );
-
-    return AdminSetUserMFAPreferenceResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets the specified user's password in a user pool as an administrator.
@@ -2332,10 +2306,10 @@ class CognitoIdentityProvider {
   /// <code>True</code> if the password is permanent, <code>False</code> if it
   /// is temporary.
   Future<void> adminSetUserPassword({
-    @_s.required String password,
-    @_s.required String userPoolId,
-    @_s.required String username,
-    bool permanent,
+    required String password,
+    required String userPoolId,
+    required String username,
+    bool? permanent,
   }) async {
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -2383,7 +2357,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminSetUserPassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2396,8 +2370,6 @@ class CognitoIdentityProvider {
         if (permanent != null) 'Permanent': permanent,
       },
     );
-
-    return AdminSetUserPasswordResponse.fromJson(jsonResponse.body);
   }
 
   /// <i>This action is no longer supported.</i> You can use it to configure
@@ -2423,9 +2395,9 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name of the user that you are setting options for.
   Future<void> adminSetUserSettings({
-    @_s.required List<MFAOptionType> mFAOptions,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required List<MFAOptionType> mFAOptions,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(mFAOptions, 'mFAOptions');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
@@ -2460,7 +2432,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminSetUserSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2472,8 +2444,6 @@ class CognitoIdentityProvider {
         'Username': username,
       },
     );
-
-    return AdminSetUserSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Provides feedback for an authentication event as to whether it was from a
@@ -2500,10 +2470,10 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user pool username.
   Future<void> adminUpdateAuthEventFeedback({
-    @_s.required String eventId,
-    @_s.required FeedbackValueType feedbackValue,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String eventId,
+    required FeedbackValueType feedbackValue,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(eventId, 'eventId');
     _s.validateStringLength(
@@ -2553,7 +2523,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminUpdateAuthEventFeedback'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2561,13 +2531,11 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'EventId': eventId,
-        'FeedbackValue': feedbackValue?.toValue() ?? '',
+        'FeedbackValue': feedbackValue.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
     );
-
-    return AdminUpdateAuthEventFeedbackResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the device status as an administrator.
@@ -2594,10 +2562,10 @@ class CognitoIdentityProvider {
   /// Parameter [deviceRememberedStatus] :
   /// The status indicating whether a device has been remembered or not.
   Future<void> adminUpdateDeviceStatus({
-    @_s.required String deviceKey,
-    @_s.required String userPoolId,
-    @_s.required String username,
-    DeviceRememberedStatusType deviceRememberedStatus,
+    required String deviceKey,
+    required String userPoolId,
+    required String username,
+    DeviceRememberedStatusType? deviceRememberedStatus,
   }) async {
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
@@ -2646,7 +2614,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminUpdateDeviceStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2660,8 +2628,6 @@ class CognitoIdentityProvider {
           'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
-
-    return AdminUpdateDeviceStatusResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified user's attributes, including developer attributes,
@@ -2741,10 +2707,10 @@ class CognitoIdentityProvider {
   /// </li>
   /// </ul> </note>
   Future<void> adminUpdateUserAttributes({
-    @_s.required List<AttributeType> userAttributes,
-    @_s.required String userPoolId,
-    @_s.required String username,
-    Map<String, String> clientMetadata,
+    required List<AttributeType> userAttributes,
+    required String userPoolId,
+    required String username,
+    Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(userAttributes, 'userAttributes');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
@@ -2780,7 +2746,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.AdminUpdateUserAttributes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2793,8 +2759,6 @@ class CognitoIdentityProvider {
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
       },
     );
-
-    return AdminUpdateUserAttributesResponse.fromJson(jsonResponse.body);
   }
 
   /// Signs out users from all devices, as an administrator. It also invalidates
@@ -2817,8 +2781,8 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user name.
   Future<void> adminUserGlobalSignOut({
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -2852,7 +2816,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminUserGlobalSignOut'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2863,8 +2827,6 @@ class CognitoIdentityProvider {
         'Username': username,
       },
     );
-
-    return AdminUserGlobalSignOutResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a unique generated shared secret key code for the user account.
@@ -2885,8 +2847,8 @@ class CognitoIdentityProvider {
   /// to the service. This allows authentication of the user as part of the MFA
   /// setup process.
   Future<AssociateSoftwareTokenResponse> associateSoftwareToken({
-    String accessToken,
-    String session,
+    String? accessToken,
+    String? session,
   }) async {
     _s.validateStringPattern(
       'accessToken',
@@ -2940,9 +2902,9 @@ class CognitoIdentityProvider {
   /// Parameter [proposedPassword] :
   /// The new password.
   Future<void> changePassword({
-    @_s.required String accessToken,
-    @_s.required String previousPassword,
-    @_s.required String proposedPassword,
+    required String accessToken,
+    required String previousPassword,
+    required String proposedPassword,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -2983,7 +2945,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ChangePassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2995,8 +2957,6 @@ class CognitoIdentityProvider {
         'ProposedPassword': proposedPassword,
       },
     );
-
-    return ChangePasswordResponse.fromJson(jsonResponse.body);
   }
 
   /// Confirms tracking of the device. This API call is the call that begins
@@ -3027,10 +2987,10 @@ class CognitoIdentityProvider {
   /// Parameter [deviceSecretVerifierConfig] :
   /// The configuration of the device secret verifier.
   Future<ConfirmDeviceResponse> confirmDevice({
-    @_s.required String accessToken,
-    @_s.required String deviceKey,
-    String deviceName,
-    DeviceSecretVerifierConfigType deviceSecretVerifierConfig,
+    required String accessToken,
+    required String deviceKey,
+    String? deviceName,
+    DeviceSecretVerifierConfigType? deviceSecretVerifierConfig,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -3167,14 +3127,14 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<void> confirmForgotPassword({
-    @_s.required String clientId,
-    @_s.required String confirmationCode,
-    @_s.required String password,
-    @_s.required String username,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> clientMetadata,
-    String secretHash,
-    UserContextDataType userContextData,
+    required String clientId,
+    required String confirmationCode,
+    required String password,
+    required String username,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? clientMetadata,
+    String? secretHash,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -3247,7 +3207,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmForgotPassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3264,8 +3224,6 @@ class CognitoIdentityProvider {
         if (userContextData != null) 'UserContextData': userContextData,
       },
     );
-
-    return ConfirmForgotPasswordResponse.fromJson(jsonResponse.body);
   }
 
   /// Confirms registration of a user and handles the existing alias from a
@@ -3357,14 +3315,14 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<void> confirmSignUp({
-    @_s.required String clientId,
-    @_s.required String confirmationCode,
-    @_s.required String username,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> clientMetadata,
-    bool forceAliasCreation,
-    String secretHash,
-    UserContextDataType userContextData,
+    required String clientId,
+    required String confirmationCode,
+    required String username,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? clientMetadata,
+    bool? forceAliasCreation,
+    String? secretHash,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -3423,7 +3381,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmSignUp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3441,8 +3399,6 @@ class CognitoIdentityProvider {
         if (userContextData != null) 'UserContextData': userContextData,
       },
     );
-
-    return ConfirmSignUpResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new group in the specified user pool.
@@ -3488,11 +3444,11 @@ class CognitoIdentityProvider {
   /// Parameter [roleArn] :
   /// The role ARN for the group.
   Future<CreateGroupResponse> createGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
-    String description,
-    int precedence,
-    String roleArn,
+    required String groupName,
+    required String userPoolId,
+    String? description,
+    int? precedence,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -3698,12 +3654,12 @@ class CognitoIdentityProvider {
   /// Parameter [idpIdentifiers] :
   /// A list of identity provider identifiers.
   Future<CreateIdentityProviderResponse> createIdentityProvider({
-    @_s.required Map<String, String> providerDetails,
-    @_s.required String providerName,
-    @_s.required IdentityProviderTypeType providerType,
-    @_s.required String userPoolId,
-    Map<String, String> attributeMapping,
-    List<String> idpIdentifiers,
+    required Map<String, String> providerDetails,
+    required String providerName,
+    required IdentityProviderTypeType providerType,
+    required String userPoolId,
+    Map<String, String>? attributeMapping,
+    List<String>? idpIdentifiers,
   }) async {
     ArgumentError.checkNotNull(providerDetails, 'providerDetails');
     ArgumentError.checkNotNull(providerName, 'providerName');
@@ -3748,7 +3704,7 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderDetails': providerDetails,
         'ProviderName': providerName,
-        'ProviderType': providerType?.toValue() ?? '',
+        'ProviderType': providerType.toValue(),
         'UserPoolId': userPoolId,
         if (attributeMapping != null) 'AttributeMapping': attributeMapping,
         if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
@@ -3782,10 +3738,10 @@ class CognitoIdentityProvider {
   /// A list of scopes. Each scope is map, where the keys are <code>name</code>
   /// and <code>description</code>.
   Future<CreateResourceServerResponse> createResourceServer({
-    @_s.required String identifier,
-    @_s.required String name,
-    @_s.required String userPoolId,
-    List<ResourceServerScopeType> scopes,
+    required String identifier,
+    required String name,
+    required String userPoolId,
+    List<ResourceServerScopeType>? scopes,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
     _s.validateStringLength(
@@ -3870,9 +3826,9 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that the users are being imported into.
   Future<CreateUserImportJobResponse> createUserImportJob({
-    @_s.required String cloudWatchLogsRoleArn,
-    @_s.required String jobName,
-    @_s.required String userPoolId,
+    required String cloudWatchLogsRoleArn,
+    required String jobName,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(cloudWatchLogsRoleArn, 'cloudWatchLogsRoleArn');
     _s.validateStringLength(
@@ -4051,27 +4007,27 @@ class CognitoIdentityProvider {
   /// The template for the verification message that the user sees when the app
   /// requests permission to access the user's information.
   Future<CreateUserPoolResponse> createUserPool({
-    @_s.required String poolName,
-    AccountRecoverySettingType accountRecoverySetting,
-    AdminCreateUserConfigType adminCreateUserConfig,
-    List<AliasAttributeType> aliasAttributes,
-    List<VerifiedAttributeType> autoVerifiedAttributes,
-    DeviceConfigurationType deviceConfiguration,
-    EmailConfigurationType emailConfiguration,
-    String emailVerificationMessage,
-    String emailVerificationSubject,
-    LambdaConfigType lambdaConfig,
-    UserPoolMfaType mfaConfiguration,
-    UserPoolPolicyType policies,
-    List<SchemaAttributeType> schema,
-    String smsAuthenticationMessage,
-    SmsConfigurationType smsConfiguration,
-    String smsVerificationMessage,
-    UserPoolAddOnsType userPoolAddOns,
-    Map<String, String> userPoolTags,
-    List<UsernameAttributeType> usernameAttributes,
-    UsernameConfigurationType usernameConfiguration,
-    VerificationMessageTemplateType verificationMessageTemplate,
+    required String poolName,
+    AccountRecoverySettingType? accountRecoverySetting,
+    AdminCreateUserConfigType? adminCreateUserConfig,
+    List<AliasAttributeType>? aliasAttributes,
+    List<VerifiedAttributeType>? autoVerifiedAttributes,
+    DeviceConfigurationType? deviceConfiguration,
+    EmailConfigurationType? emailConfiguration,
+    String? emailVerificationMessage,
+    String? emailVerificationSubject,
+    LambdaConfigType? lambdaConfig,
+    UserPoolMfaType? mfaConfiguration,
+    UserPoolPolicyType? policies,
+    List<SchemaAttributeType>? schema,
+    String? smsAuthenticationMessage,
+    SmsConfigurationType? smsConfiguration,
+    String? smsVerificationMessage,
+    UserPoolAddOnsType? userPoolAddOns,
+    Map<String, String>? userPoolTags,
+    List<UsernameAttributeType>? usernameAttributes,
+    UsernameConfigurationType? usernameConfiguration,
+    VerificationMessageTemplateType? verificationMessageTemplate,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
     _s.validateStringLength(
@@ -4148,11 +4104,10 @@ class CognitoIdentityProvider {
         if (adminCreateUserConfig != null)
           'AdminCreateUserConfig': adminCreateUserConfig,
         if (aliasAttributes != null)
-          'AliasAttributes':
-              aliasAttributes.map((e) => e?.toValue() ?? '').toList(),
+          'AliasAttributes': aliasAttributes.map((e) => e.toValue()).toList(),
         if (autoVerifiedAttributes != null)
           'AutoVerifiedAttributes':
-              autoVerifiedAttributes.map((e) => e?.toValue() ?? '').toList(),
+              autoVerifiedAttributes.map((e) => e.toValue()).toList(),
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -4175,7 +4130,7 @@ class CognitoIdentityProvider {
         if (userPoolTags != null) 'UserPoolTags': userPoolTags,
         if (usernameAttributes != null)
           'UsernameAttributes':
-              usernameAttributes.map((e) => e?.toValue() ?? '').toList(),
+              usernameAttributes.map((e) => e.toValue()).toList(),
         if (usernameConfiguration != null)
           'UsernameConfiguration': usernameConfiguration,
         if (verificationMessageTemplate != null)
@@ -4397,25 +4352,25 @@ class CognitoIdentityProvider {
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html">Specifying
   /// Identity Provider Attribute Mappings for Your User Pool</a>.
   Future<CreateUserPoolClientResponse> createUserPoolClient({
-    @_s.required String clientName,
-    @_s.required String userPoolId,
-    int accessTokenValidity,
-    List<OAuthFlowType> allowedOAuthFlows,
-    bool allowedOAuthFlowsUserPoolClient,
-    List<String> allowedOAuthScopes,
-    AnalyticsConfigurationType analyticsConfiguration,
-    List<String> callbackURLs,
-    String defaultRedirectURI,
-    List<ExplicitAuthFlowsType> explicitAuthFlows,
-    bool generateSecret,
-    int idTokenValidity,
-    List<String> logoutURLs,
-    PreventUserExistenceErrorTypes preventUserExistenceErrors,
-    List<String> readAttributes,
-    int refreshTokenValidity,
-    List<String> supportedIdentityProviders,
-    TokenValidityUnitsType tokenValidityUnits,
-    List<String> writeAttributes,
+    required String clientName,
+    required String userPoolId,
+    int? accessTokenValidity,
+    List<OAuthFlowType>? allowedOAuthFlows,
+    bool? allowedOAuthFlowsUserPoolClient,
+    List<String>? allowedOAuthScopes,
+    AnalyticsConfigurationType? analyticsConfiguration,
+    List<String>? callbackURLs,
+    String? defaultRedirectURI,
+    List<ExplicitAuthFlowsType>? explicitAuthFlows,
+    bool? generateSecret,
+    int? idTokenValidity,
+    List<String>? logoutURLs,
+    PreventUserExistenceErrorTypes? preventUserExistenceErrors,
+    List<String>? readAttributes,
+    int? refreshTokenValidity,
+    List<String>? supportedIdentityProviders,
+    TokenValidityUnitsType? tokenValidityUnits,
+    List<String>? writeAttributes,
   }) async {
     ArgumentError.checkNotNull(clientName, 'clientName');
     _s.validateStringLength(
@@ -4491,7 +4446,7 @@ class CognitoIdentityProvider {
           'AccessTokenValidity': accessTokenValidity,
         if (allowedOAuthFlows != null)
           'AllowedOAuthFlows':
-              allowedOAuthFlows.map((e) => e?.toValue() ?? '').toList(),
+              allowedOAuthFlows.map((e) => e.toValue()).toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -4503,7 +4458,7 @@ class CognitoIdentityProvider {
           'DefaultRedirectURI': defaultRedirectURI,
         if (explicitAuthFlows != null)
           'ExplicitAuthFlows':
-              explicitAuthFlows.map((e) => e?.toValue() ?? '').toList(),
+              explicitAuthFlows.map((e) => e.toValue()).toList(),
         if (generateSecret != null) 'GenerateSecret': generateSecret,
         if (idTokenValidity != null) 'IdTokenValidity': idTokenValidity,
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
@@ -4549,9 +4504,9 @@ class CognitoIdentityProvider {
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain.html">Configuring
   /// a User Pool Domain</a>.
   Future<CreateUserPoolDomainResponse> createUserPoolDomain({
-    @_s.required String domain,
-    @_s.required String userPoolId,
-    CustomDomainConfigType customDomainConfig,
+    required String domain,
+    required String userPoolId,
+    CustomDomainConfigType? customDomainConfig,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -4618,8 +4573,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool.
   Future<void> deleteGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
+    required String groupName,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -4653,7 +4608,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4681,8 +4636,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID.
   Future<void> deleteIdentityProvider({
-    @_s.required String providerName,
-    @_s.required String userPoolId,
+    required String providerName,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(providerName, 'providerName');
     _s.validateStringLength(
@@ -4716,7 +4671,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteIdentityProvider'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4743,8 +4698,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that hosts the resource server.
   Future<void> deleteResourceServer({
-    @_s.required String identifier,
-    @_s.required String userPoolId,
+    required String identifier,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
     _s.validateStringLength(
@@ -4778,7 +4733,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteResourceServer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4805,7 +4760,7 @@ class CognitoIdentityProvider {
   /// Parameter [accessToken] :
   /// The access token from a request to delete a user.
   Future<void> deleteUser({
-    @_s.required String accessToken,
+    required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -4818,7 +4773,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4851,8 +4806,8 @@ class CognitoIdentityProvider {
   /// For custom attributes, you must prepend the <code>custom:</code> prefix to
   /// the attribute name.
   Future<void> deleteUserAttributes({
-    @_s.required String accessToken,
-    @_s.required List<String> userAttributeNames,
+    required String accessToken,
+    required List<String> userAttributeNames,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -4866,7 +4821,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUserAttributes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4877,8 +4832,6 @@ class CognitoIdentityProvider {
         'UserAttributeNames': userAttributeNames,
       },
     );
-
-    return DeleteUserAttributesResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified Amazon Cognito user pool.
@@ -4893,7 +4846,7 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool you want to delete.
   Future<void> deleteUserPool({
-    @_s.required String userPoolId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -4913,7 +4866,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUserPool'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4939,8 +4892,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool where you want to delete the client.
   Future<void> deleteUserPoolClient({
-    @_s.required String clientId,
-    @_s.required String userPoolId,
+    required String clientId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -4974,7 +4927,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUserPoolClient'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5000,8 +4953,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID.
   Future<void> deleteUserPoolDomain({
-    @_s.required String domain,
-    @_s.required String userPoolId,
+    required String domain,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -5035,7 +4988,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUserPoolDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5046,8 +4999,6 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
       },
     );
-
-    return DeleteUserPoolDomainResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets information about a specific identity provider.
@@ -5064,8 +5015,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID.
   Future<DescribeIdentityProviderResponse> describeIdentityProvider({
-    @_s.required String providerName,
-    @_s.required String userPoolId,
+    required String providerName,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(providerName, 'providerName');
     _s.validateStringLength(
@@ -5129,8 +5080,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that hosts the resource server.
   Future<DescribeResourceServerResponse> describeResourceServer({
-    @_s.required String identifier,
-    @_s.required String userPoolId,
+    required String identifier,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
     _s.validateStringLength(
@@ -5194,8 +5145,8 @@ class CognitoIdentityProvider {
   /// Parameter [clientId] :
   /// The app client ID.
   Future<DescribeRiskConfigurationResponse> describeRiskConfiguration({
-    @_s.required String userPoolId,
-    String clientId,
+    required String userPoolId,
+    String? clientId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -5256,8 +5207,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that the users are being imported into.
   Future<DescribeUserImportJobResponse> describeUserImportJob({
-    @_s.required String jobId,
-    @_s.required String userPoolId,
+    required String jobId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5319,7 +5270,7 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool you want to describe.
   Future<DescribeUserPoolResponse> describeUserPool({
-    @_s.required String userPoolId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -5368,8 +5319,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool you want to describe.
   Future<DescribeUserPoolClientResponse> describeUserPoolClient({
-    @_s.required String clientId,
-    @_s.required String userPoolId,
+    required String clientId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -5428,7 +5379,7 @@ class CognitoIdentityProvider {
   /// Parameter [domain] :
   /// The domain string.
   Future<DescribeUserPoolDomainResponse> describeUserPoolDomain({
-    @_s.required String domain,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -5480,8 +5431,8 @@ class CognitoIdentityProvider {
   /// Parameter [accessToken] :
   /// The access token for the forgotten device request.
   Future<void> forgetDevice({
-    @_s.required String deviceKey,
-    String accessToken,
+    required String deviceKey,
+    String? accessToken,
   }) async {
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
@@ -5506,7 +5457,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ForgetDevice'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5608,12 +5559,12 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<ForgotPasswordResponse> forgotPassword({
-    @_s.required String clientId,
-    @_s.required String username,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> clientMetadata,
-    String secretHash,
-    UserContextDataType userContextData,
+    required String clientId,
+    required String username,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? clientMetadata,
+    String? secretHash,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -5689,7 +5640,7 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that the users are to be imported into.
   Future<GetCSVHeaderResponse> getCSVHeader({
-    @_s.required String userPoolId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -5741,8 +5692,8 @@ class CognitoIdentityProvider {
   /// Parameter [accessToken] :
   /// The access token.
   Future<GetDeviceResponse> getDevice({
-    @_s.required String deviceKey,
-    String accessToken,
+    required String deviceKey,
+    String? accessToken,
   }) async {
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
@@ -5798,8 +5749,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool.
   Future<GetGroupResponse> getGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
+    required String groupName,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -5863,8 +5814,8 @@ class CognitoIdentityProvider {
   /// The user pool ID.
   Future<GetIdentityProviderByIdentifierResponse>
       getIdentityProviderByIdentifier({
-    @_s.required String idpIdentifier,
-    @_s.required String userPoolId,
+    required String idpIdentifier,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(idpIdentifier, 'idpIdentifier');
     _s.validateStringLength(
@@ -5923,7 +5874,7 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID.
   Future<GetSigningCertificateResponse> getSigningCertificate({
-    @_s.required String userPoolId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -5975,8 +5926,8 @@ class CognitoIdentityProvider {
   /// Parameter [clientId] :
   /// The client ID for the client app.
   Future<GetUICustomizationResponse> getUICustomization({
-    @_s.required String userPoolId,
-    String clientId,
+    required String userPoolId,
+    String? clientId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6037,7 +5988,7 @@ class CognitoIdentityProvider {
   /// The access token returned by the server response to get information about
   /// the user.
   Future<GetUserResponse> getUser({
-    @_s.required String accessToken,
+    required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -6132,9 +6083,9 @@ class CognitoIdentityProvider {
   /// </ul> </note>
   Future<GetUserAttributeVerificationCodeResponse>
       getUserAttributeVerificationCode({
-    @_s.required String accessToken,
-    @_s.required String attributeName,
-    Map<String, String> clientMetadata,
+    required String accessToken,
+    required String attributeName,
+    Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -6189,7 +6140,7 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID.
   Future<GetUserPoolMfaConfigResponse> getUserPoolMfaConfig({
-    @_s.required String userPoolId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6239,7 +6190,7 @@ class CognitoIdentityProvider {
   /// Parameter [accessToken] :
   /// The access token.
   Future<void> globalSignOut({
-    @_s.required String accessToken,
+    required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -6252,7 +6203,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GlobalSignOut'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6262,8 +6213,6 @@ class CognitoIdentityProvider {
         'AccessToken': accessToken,
       },
     );
-
-    return GlobalSignOutResponse.fromJson(jsonResponse.body);
   }
 
   /// Initiates the authentication flow.
@@ -6447,12 +6396,12 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<InitiateAuthResponse> initiateAuth({
-    @_s.required AuthFlowType authFlow,
-    @_s.required String clientId,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> authParameters,
-    Map<String, String> clientMetadata,
-    UserContextDataType userContextData,
+    required AuthFlowType authFlow,
+    required String clientId,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? authParameters,
+    Map<String, String>? clientMetadata,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(authFlow, 'authFlow');
     ArgumentError.checkNotNull(clientId, 'clientId');
@@ -6480,7 +6429,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow?.toValue() ?? '',
+        'AuthFlow': authFlow.toValue(),
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (authParameters != null) 'AuthParameters': authParameters,
@@ -6513,9 +6462,9 @@ class CognitoIdentityProvider {
   /// Parameter [paginationToken] :
   /// The pagination token for the list request.
   Future<ListDevicesResponse> listDevices({
-    @_s.required String accessToken,
-    int limit,
-    String paginationToken,
+    required String accessToken,
+    int? limit,
+    String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -6581,9 +6530,9 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListGroupsResponse> listGroups({
-    @_s.required String userPoolId,
-    int limit,
-    String nextToken,
+    required String userPoolId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6653,9 +6602,9 @@ class CognitoIdentityProvider {
   /// Parameter [nextToken] :
   /// A pagination token.
   Future<ListIdentityProvidersResponse> listIdentityProviders({
-    @_s.required String userPoolId,
-    int maxResults,
-    String nextToken,
+    required String userPoolId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6725,9 +6674,9 @@ class CognitoIdentityProvider {
   /// Parameter [nextToken] :
   /// A pagination token.
   Future<ListResourceServersResponse> listResourceServers({
-    @_s.required String userPoolId,
-    int maxResults,
-    String nextToken,
+    required String userPoolId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6798,7 +6747,7 @@ class CognitoIdentityProvider {
   /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned
   /// to.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -6851,9 +6800,9 @@ class CognitoIdentityProvider {
   /// <code>ListUserImportJobs</code>, which can be used to return the next set
   /// of import jobs in the list.
   Future<ListUserImportJobsResponse> listUserImportJobs({
-    @_s.required int maxResults,
-    @_s.required String userPoolId,
-    String paginationToken,
+    required int maxResults,
+    required String userPoolId,
+    String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -6928,9 +6877,9 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListUserPoolClientsResponse> listUserPoolClients({
-    @_s.required String userPoolId,
-    int maxResults,
-    String nextToken,
+    required String userPoolId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -6998,8 +6947,8 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListUserPoolsResponse> listUserPools({
-    @_s.required int maxResults,
-    String nextToken,
+    required int maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -7132,11 +7081,11 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListUsersResponse> listUsers({
-    @_s.required String userPoolId,
-    List<String> attributesToGet,
-    String filter,
-    int limit,
-    String paginationToken,
+    required String userPoolId,
+    List<String>? attributesToGet,
+    String? filter,
+    int? limit,
+    String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -7220,10 +7169,10 @@ class CognitoIdentityProvider {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListUsersInGroupResponse> listUsersInGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
-    int limit,
-    String nextToken,
+    required String groupName,
+    required String userPoolId,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -7368,12 +7317,12 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<ResendConfirmationCodeResponse> resendConfirmationCode({
-    @_s.required String clientId,
-    @_s.required String username,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> clientMetadata,
-    String secretHash,
-    UserContextDataType userContextData,
+    required String clientId,
+    required String username,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? clientMetadata,
+    String? secretHash,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -7562,13 +7511,13 @@ class CognitoIdentityProvider {
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
   Future<RespondToAuthChallengeResponse> respondToAuthChallenge({
-    @_s.required ChallengeNameType challengeName,
-    @_s.required String clientId,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> challengeResponses,
-    Map<String, String> clientMetadata,
-    String session,
-    UserContextDataType userContextData,
+    required ChallengeNameType challengeName,
+    required String clientId,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? challengeResponses,
+    Map<String, String>? clientMetadata,
+    String? session,
+    UserContextDataType? userContextData,
   }) async {
     ArgumentError.checkNotNull(challengeName, 'challengeName');
     ArgumentError.checkNotNull(clientId, 'clientId');
@@ -7602,7 +7551,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName?.toValue() ?? '',
+        'ChallengeName': challengeName.toValue(),
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (challengeResponses != null)
@@ -7655,12 +7604,12 @@ class CognitoIdentityProvider {
   /// Parameter [riskExceptionConfiguration] :
   /// The configuration to override the risk decision.
   Future<SetRiskConfigurationResponse> setRiskConfiguration({
-    @_s.required String userPoolId,
-    AccountTakeoverRiskConfigurationType accountTakeoverRiskConfiguration,
-    String clientId,
-    CompromisedCredentialsRiskConfigurationType
+    required String userPoolId,
+    AccountTakeoverRiskConfigurationType? accountTakeoverRiskConfiguration,
+    String? clientId,
+    CompromisedCredentialsRiskConfigurationType?
         compromisedCredentialsRiskConfiguration,
-    RiskExceptionConfigurationType riskExceptionConfiguration,
+    RiskExceptionConfigurationType? riskExceptionConfiguration,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -7746,10 +7695,10 @@ class CognitoIdentityProvider {
   /// Parameter [imageFile] :
   /// The uploaded logo image for the UI customization.
   Future<SetUICustomizationResponse> setUICustomization({
-    @_s.required String userPoolId,
-    String css,
-    String clientId,
-    Uint8List imageFile,
+    required String userPoolId,
+    String? css,
+    String? clientId,
+    Uint8List? imageFile,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -7826,9 +7775,9 @@ class CognitoIdentityProvider {
   /// Parameter [softwareTokenMfaSettings] :
   /// The time-based one-time password software token MFA settings.
   Future<void> setUserMFAPreference({
-    @_s.required String accessToken,
-    SMSMfaSettingsType sMSMfaSettings,
-    SoftwareTokenMfaSettingsType softwareTokenMfaSettings,
+    required String accessToken,
+    SMSMfaSettingsType? sMSMfaSettings,
+    SoftwareTokenMfaSettingsType? softwareTokenMfaSettings,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -7841,7 +7790,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetUserMFAPreference'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -7854,8 +7803,6 @@ class CognitoIdentityProvider {
           'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
       },
     );
-
-    return SetUserMFAPreferenceResponse.fromJson(jsonResponse.body);
   }
 
   /// Set the user pool multi-factor authentication (MFA) configuration.
@@ -7893,10 +7840,10 @@ class CognitoIdentityProvider {
   /// Parameter [softwareTokenMfaConfiguration] :
   /// The software token MFA configuration.
   Future<SetUserPoolMfaConfigResponse> setUserPoolMfaConfig({
-    @_s.required String userPoolId,
-    UserPoolMfaType mfaConfiguration,
-    SmsMfaConfigType smsMfaConfiguration,
-    SoftwareTokenMfaConfigType softwareTokenMfaConfiguration,
+    required String userPoolId,
+    UserPoolMfaType? mfaConfiguration,
+    SmsMfaConfigType? smsMfaConfiguration,
+    SoftwareTokenMfaConfigType? softwareTokenMfaConfiguration,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -7957,8 +7904,8 @@ class CognitoIdentityProvider {
   /// You can use this parameter only to set an SMS configuration that uses SMS
   /// for delivery.
   Future<void> setUserSettings({
-    @_s.required String accessToken,
-    @_s.required List<MFAOptionType> mFAOptions,
+    required String accessToken,
+    required List<MFAOptionType> mFAOptions,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -7972,7 +7919,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetUserSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -7983,8 +7930,6 @@ class CognitoIdentityProvider {
         'MFAOptions': mFAOptions,
       },
     );
-
-    return SetUserSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Registers the user in the specified user pool and creates a user name,
@@ -8077,15 +8022,15 @@ class CognitoIdentityProvider {
   /// Parameter [validationData] :
   /// The validation data in the request to register a user.
   Future<SignUpResponse> signUp({
-    @_s.required String clientId,
-    @_s.required String password,
-    @_s.required String username,
-    AnalyticsMetadataType analyticsMetadata,
-    Map<String, String> clientMetadata,
-    String secretHash,
-    List<AttributeType> userAttributes,
-    UserContextDataType userContextData,
-    List<AttributeType> validationData,
+    required String clientId,
+    required String password,
+    required String username,
+    AnalyticsMetadataType? analyticsMetadata,
+    Map<String, String>? clientMetadata,
+    String? secretHash,
+    List<AttributeType>? userAttributes,
+    UserContextDataType? userContextData,
+    List<AttributeType>? validationData,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -8181,8 +8126,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that the users are being imported into.
   Future<StartUserImportJobResponse> startUserImportJob({
-    @_s.required String jobId,
-    @_s.required String userPoolId,
+    required String jobId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -8246,8 +8191,8 @@ class CognitoIdentityProvider {
   /// Parameter [userPoolId] :
   /// The user pool ID for the user pool that the users are being imported into.
   Future<StopUserImportJobResponse> stopUserImportJob({
-    @_s.required String jobId,
-    @_s.required String userPoolId,
+    required String jobId,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -8328,8 +8273,8 @@ class CognitoIdentityProvider {
   /// Parameter [tags] :
   /// The tags to assign to the user pool.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -8350,7 +8295,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8361,8 +8306,6 @@ class CognitoIdentityProvider {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified tags from an Amazon Cognito user pool. You can use
@@ -8381,8 +8324,8 @@ class CognitoIdentityProvider {
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove from the user pool.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -8403,7 +8346,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8414,8 +8357,6 @@ class CognitoIdentityProvider {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Provides the feedback for an authentication event whether it was from a
@@ -8445,11 +8386,11 @@ class CognitoIdentityProvider {
   /// Parameter [username] :
   /// The user pool username.
   Future<void> updateAuthEventFeedback({
-    @_s.required String eventId,
-    @_s.required String feedbackToken,
-    @_s.required FeedbackValueType feedbackValue,
-    @_s.required String userPoolId,
-    @_s.required String username,
+    required String eventId,
+    required String feedbackToken,
+    required FeedbackValueType feedbackValue,
+    required String userPoolId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(eventId, 'eventId');
     _s.validateStringLength(
@@ -8506,7 +8447,7 @@ class CognitoIdentityProvider {
       'X-Amz-Target':
           'AWSCognitoIdentityProviderService.UpdateAuthEventFeedback'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8515,13 +8456,11 @@ class CognitoIdentityProvider {
       payload: {
         'EventId': eventId,
         'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue?.toValue() ?? '',
+        'FeedbackValue': feedbackValue.toValue(),
         'UserPoolId': userPoolId,
         'Username': username,
       },
     );
-
-    return UpdateAuthEventFeedbackResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the device status.
@@ -8545,9 +8484,9 @@ class CognitoIdentityProvider {
   /// Parameter [deviceRememberedStatus] :
   /// The status of whether a device is remembered.
   Future<void> updateDeviceStatus({
-    @_s.required String accessToken,
-    @_s.required String deviceKey,
-    DeviceRememberedStatusType deviceRememberedStatus,
+    required String accessToken,
+    required String deviceKey,
+    DeviceRememberedStatusType? deviceRememberedStatus,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -8574,7 +8513,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateDeviceStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8587,8 +8526,6 @@ class CognitoIdentityProvider {
           'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
-
-    return UpdateDeviceStatusResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified group with the specified attributes.
@@ -8624,11 +8561,11 @@ class CognitoIdentityProvider {
   /// <code>cognito:roles</code> and <code>cognito:preferred_role</code> claims
   /// in the token.
   Future<UpdateGroupResponse> updateGroup({
-    @_s.required String groupName,
-    @_s.required String userPoolId,
-    String description,
-    int precedence,
-    String roleArn,
+    required String groupName,
+    required String userPoolId,
+    String? description,
+    int? precedence,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -8728,11 +8665,11 @@ class CognitoIdentityProvider {
   /// The identity provider details to be updated, such as
   /// <code>MetadataURL</code> and <code>MetadataFile</code>.
   Future<UpdateIdentityProviderResponse> updateIdentityProvider({
-    @_s.required String providerName,
-    @_s.required String userPoolId,
-    Map<String, String> attributeMapping,
-    List<String> idpIdentifiers,
-    Map<String, String> providerDetails,
+    required String providerName,
+    required String userPoolId,
+    Map<String, String>? attributeMapping,
+    List<String>? idpIdentifiers,
+    Map<String, String>? providerDetails,
   }) async {
     ArgumentError.checkNotNull(providerName, 'providerName');
     _s.validateStringLength(
@@ -8809,10 +8746,10 @@ class CognitoIdentityProvider {
   /// Parameter [scopes] :
   /// The scope values to be set for the resource server.
   Future<UpdateResourceServerResponse> updateResourceServer({
-    @_s.required String identifier,
-    @_s.required String name,
-    @_s.required String userPoolId,
-    List<ResourceServerScopeType> scopes,
+    required String identifier,
+    required String name,
+    required String userPoolId,
+    List<ResourceServerScopeType>? scopes,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
     _s.validateStringLength(
@@ -8946,9 +8883,9 @@ class CognitoIdentityProvider {
   /// </li>
   /// </ul> </note>
   Future<UpdateUserAttributesResponse> updateUserAttributes({
-    @_s.required String accessToken,
-    @_s.required List<AttributeType> userAttributes,
-    Map<String, String> clientMetadata,
+    required String accessToken,
+    required List<AttributeType> userAttributes,
+    Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -9075,23 +9012,23 @@ class CognitoIdentityProvider {
   /// Parameter [verificationMessageTemplate] :
   /// The template for verification messages.
   Future<void> updateUserPool({
-    @_s.required String userPoolId,
-    AccountRecoverySettingType accountRecoverySetting,
-    AdminCreateUserConfigType adminCreateUserConfig,
-    List<VerifiedAttributeType> autoVerifiedAttributes,
-    DeviceConfigurationType deviceConfiguration,
-    EmailConfigurationType emailConfiguration,
-    String emailVerificationMessage,
-    String emailVerificationSubject,
-    LambdaConfigType lambdaConfig,
-    UserPoolMfaType mfaConfiguration,
-    UserPoolPolicyType policies,
-    String smsAuthenticationMessage,
-    SmsConfigurationType smsConfiguration,
-    String smsVerificationMessage,
-    UserPoolAddOnsType userPoolAddOns,
-    Map<String, String> userPoolTags,
-    VerificationMessageTemplateType verificationMessageTemplate,
+    required String userPoolId,
+    AccountRecoverySettingType? accountRecoverySetting,
+    AdminCreateUserConfigType? adminCreateUserConfig,
+    List<VerifiedAttributeType>? autoVerifiedAttributes,
+    DeviceConfigurationType? deviceConfiguration,
+    EmailConfigurationType? emailConfiguration,
+    String? emailVerificationMessage,
+    String? emailVerificationSubject,
+    LambdaConfigType? lambdaConfig,
+    UserPoolMfaType? mfaConfiguration,
+    UserPoolPolicyType? policies,
+    String? smsAuthenticationMessage,
+    SmsConfigurationType? smsConfiguration,
+    String? smsVerificationMessage,
+    UserPoolAddOnsType? userPoolAddOns,
+    Map<String, String>? userPoolTags,
+    VerificationMessageTemplateType? verificationMessageTemplate,
   }) async {
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -9155,7 +9092,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateUserPool'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9169,7 +9106,7 @@ class CognitoIdentityProvider {
           'AdminCreateUserConfig': adminCreateUserConfig,
         if (autoVerifiedAttributes != null)
           'AutoVerifiedAttributes':
-              autoVerifiedAttributes.map((e) => e?.toValue() ?? '').toList(),
+              autoVerifiedAttributes.map((e) => e.toValue()).toList(),
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -9193,8 +9130,6 @@ class CognitoIdentityProvider {
           'VerificationMessageTemplate': verificationMessageTemplate,
       },
     );
-
-    return UpdateUserPoolResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified user pool app client with the specified attributes.
@@ -9399,25 +9334,25 @@ class CognitoIdentityProvider {
   /// Parameter [writeAttributes] :
   /// The writeable attributes of the user pool.
   Future<UpdateUserPoolClientResponse> updateUserPoolClient({
-    @_s.required String clientId,
-    @_s.required String userPoolId,
-    int accessTokenValidity,
-    List<OAuthFlowType> allowedOAuthFlows,
-    bool allowedOAuthFlowsUserPoolClient,
-    List<String> allowedOAuthScopes,
-    AnalyticsConfigurationType analyticsConfiguration,
-    List<String> callbackURLs,
-    String clientName,
-    String defaultRedirectURI,
-    List<ExplicitAuthFlowsType> explicitAuthFlows,
-    int idTokenValidity,
-    List<String> logoutURLs,
-    PreventUserExistenceErrorTypes preventUserExistenceErrors,
-    List<String> readAttributes,
-    int refreshTokenValidity,
-    List<String> supportedIdentityProviders,
-    TokenValidityUnitsType tokenValidityUnits,
-    List<String> writeAttributes,
+    required String clientId,
+    required String userPoolId,
+    int? accessTokenValidity,
+    List<OAuthFlowType>? allowedOAuthFlows,
+    bool? allowedOAuthFlowsUserPoolClient,
+    List<String>? allowedOAuthScopes,
+    AnalyticsConfigurationType? analyticsConfiguration,
+    List<String>? callbackURLs,
+    String? clientName,
+    String? defaultRedirectURI,
+    List<ExplicitAuthFlowsType>? explicitAuthFlows,
+    int? idTokenValidity,
+    List<String>? logoutURLs,
+    PreventUserExistenceErrorTypes? preventUserExistenceErrors,
+    List<String>? readAttributes,
+    int? refreshTokenValidity,
+    List<String>? supportedIdentityProviders,
+    TokenValidityUnitsType? tokenValidityUnits,
+    List<String>? writeAttributes,
   }) async {
     ArgumentError.checkNotNull(clientId, 'clientId');
     _s.validateStringLength(
@@ -9504,7 +9439,7 @@ class CognitoIdentityProvider {
           'AccessTokenValidity': accessTokenValidity,
         if (allowedOAuthFlows != null)
           'AllowedOAuthFlows':
-              allowedOAuthFlows.map((e) => e?.toValue() ?? '').toList(),
+              allowedOAuthFlows.map((e) => e.toValue()).toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -9517,7 +9452,7 @@ class CognitoIdentityProvider {
           'DefaultRedirectURI': defaultRedirectURI,
         if (explicitAuthFlows != null)
           'ExplicitAuthFlows':
-              explicitAuthFlows.map((e) => e?.toValue() ?? '').toList(),
+              explicitAuthFlows.map((e) => e.toValue()).toList(),
         if (idTokenValidity != null) 'IdTokenValidity': idTokenValidity,
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
         if (preventUserExistenceErrors != null)
@@ -9592,9 +9527,9 @@ class CognitoIdentityProvider {
   /// The ID of the user pool that is associated with the custom domain that you
   /// are updating the certificate for.
   Future<UpdateUserPoolDomainResponse> updateUserPoolDomain({
-    @_s.required CustomDomainConfigType customDomainConfig,
-    @_s.required String domain,
-    @_s.required String userPoolId,
+    required CustomDomainConfigType customDomainConfig,
+    required String domain,
+    required String userPoolId,
   }) async {
     ArgumentError.checkNotNull(customDomainConfig, 'customDomainConfig');
     ArgumentError.checkNotNull(domain, 'domain');
@@ -9677,10 +9612,10 @@ class CognitoIdentityProvider {
   /// The session which should be passed both ways in challenge-response calls
   /// to the service.
   Future<VerifySoftwareTokenResponse> verifySoftwareToken({
-    @_s.required String userCode,
-    String accessToken,
-    String friendlyDeviceName,
-    String session,
+    required String userCode,
+    String? accessToken,
+    String? friendlyDeviceName,
+    String? session,
   }) async {
     ArgumentError.checkNotNull(userCode, 'userCode');
     _s.validateStringLength(
@@ -9752,9 +9687,9 @@ class CognitoIdentityProvider {
   /// Parameter [code] :
   /// The verification code in the request to verify user attributes.
   Future<void> verifyUserAttribute({
-    @_s.required String accessToken,
-    @_s.required String attributeName,
-    @_s.required String code,
+    required String accessToken,
+    required String attributeName,
+    required String code,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateStringPattern(
@@ -9795,7 +9730,7 @@ class CognitoIdentityProvider {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.VerifyUserAttribute'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9807,37 +9742,35 @@ class CognitoIdentityProvider {
         'Code': code,
       },
     );
-
-    return VerifyUserAttributeResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// The data type for <code>AccountRecoverySetting</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccountRecoverySettingType {
   /// The list of <code>RecoveryOptionTypes</code>.
-  @_s.JsonKey(name: 'RecoveryMechanisms')
-  final List<RecoveryOptionType> recoveryMechanisms;
+  final List<RecoveryOptionType>? recoveryMechanisms;
 
   AccountRecoverySettingType({
     this.recoveryMechanisms,
   });
-  factory AccountRecoverySettingType.fromJson(Map<String, dynamic> json) =>
-      _$AccountRecoverySettingTypeFromJson(json);
+  factory AccountRecoverySettingType.fromJson(Map<String, dynamic> json) {
+    return AccountRecoverySettingType(
+      recoveryMechanisms: (json['RecoveryMechanisms'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecoveryOptionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccountRecoverySettingTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final recoveryMechanisms = this.recoveryMechanisms;
+    return {
+      if (recoveryMechanisms != null) 'RecoveryMechanisms': recoveryMechanisms,
+    };
+  }
 }
 
 /// Account takeover action type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccountTakeoverActionType {
   /// The event action.
   ///
@@ -9857,138 +9790,184 @@ class AccountTakeoverActionType {
   /// <code>NO_ACTION</code> Allow the user sign-in.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EventAction')
   final AccountTakeoverEventActionType eventAction;
 
   /// Flag specifying whether to send a notification.
-  @_s.JsonKey(name: 'Notify')
   final bool notify;
 
   AccountTakeoverActionType({
-    @_s.required this.eventAction,
-    @_s.required this.notify,
+    required this.eventAction,
+    required this.notify,
   });
-  factory AccountTakeoverActionType.fromJson(Map<String, dynamic> json) =>
-      _$AccountTakeoverActionTypeFromJson(json);
+  factory AccountTakeoverActionType.fromJson(Map<String, dynamic> json) {
+    return AccountTakeoverActionType(
+      eventAction:
+          (json['EventAction'] as String).toAccountTakeoverEventActionType(),
+      notify: json['Notify'] as bool,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccountTakeoverActionTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final eventAction = this.eventAction;
+    final notify = this.notify;
+    return {
+      'EventAction': eventAction.toValue(),
+      'Notify': notify,
+    };
+  }
 }
 
 /// Account takeover actions type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccountTakeoverActionsType {
   /// Action to take for a high risk.
-  @_s.JsonKey(name: 'HighAction')
-  final AccountTakeoverActionType highAction;
+  final AccountTakeoverActionType? highAction;
 
   /// Action to take for a low risk.
-  @_s.JsonKey(name: 'LowAction')
-  final AccountTakeoverActionType lowAction;
+  final AccountTakeoverActionType? lowAction;
 
   /// Action to take for a medium risk.
-  @_s.JsonKey(name: 'MediumAction')
-  final AccountTakeoverActionType mediumAction;
+  final AccountTakeoverActionType? mediumAction;
 
   AccountTakeoverActionsType({
     this.highAction,
     this.lowAction,
     this.mediumAction,
   });
-  factory AccountTakeoverActionsType.fromJson(Map<String, dynamic> json) =>
-      _$AccountTakeoverActionsTypeFromJson(json);
+  factory AccountTakeoverActionsType.fromJson(Map<String, dynamic> json) {
+    return AccountTakeoverActionsType(
+      highAction: json['HighAction'] != null
+          ? AccountTakeoverActionType.fromJson(
+              json['HighAction'] as Map<String, dynamic>)
+          : null,
+      lowAction: json['LowAction'] != null
+          ? AccountTakeoverActionType.fromJson(
+              json['LowAction'] as Map<String, dynamic>)
+          : null,
+      mediumAction: json['MediumAction'] != null
+          ? AccountTakeoverActionType.fromJson(
+              json['MediumAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccountTakeoverActionsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final highAction = this.highAction;
+    final lowAction = this.lowAction;
+    final mediumAction = this.mediumAction;
+    return {
+      if (highAction != null) 'HighAction': highAction,
+      if (lowAction != null) 'LowAction': lowAction,
+      if (mediumAction != null) 'MediumAction': mediumAction,
+    };
+  }
 }
 
 enum AccountTakeoverEventActionType {
-  @_s.JsonValue('BLOCK')
   block,
-  @_s.JsonValue('MFA_IF_CONFIGURED')
   mfaIfConfigured,
-  @_s.JsonValue('MFA_REQUIRED')
   mfaRequired,
-  @_s.JsonValue('NO_ACTION')
   noAction,
+}
+
+extension on AccountTakeoverEventActionType {
+  String toValue() {
+    switch (this) {
+      case AccountTakeoverEventActionType.block:
+        return 'BLOCK';
+      case AccountTakeoverEventActionType.mfaIfConfigured:
+        return 'MFA_IF_CONFIGURED';
+      case AccountTakeoverEventActionType.mfaRequired:
+        return 'MFA_REQUIRED';
+      case AccountTakeoverEventActionType.noAction:
+        return 'NO_ACTION';
+    }
+  }
+}
+
+extension on String {
+  AccountTakeoverEventActionType toAccountTakeoverEventActionType() {
+    switch (this) {
+      case 'BLOCK':
+        return AccountTakeoverEventActionType.block;
+      case 'MFA_IF_CONFIGURED':
+        return AccountTakeoverEventActionType.mfaIfConfigured;
+      case 'MFA_REQUIRED':
+        return AccountTakeoverEventActionType.mfaRequired;
+      case 'NO_ACTION':
+        return AccountTakeoverEventActionType.noAction;
+    }
+    throw Exception(
+        '$this is not known in enum AccountTakeoverEventActionType');
+  }
 }
 
 /// Configuration for mitigation actions and notification for different levels
 /// of risk detected for a potential account takeover.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccountTakeoverRiskConfigurationType {
   /// Account takeover risk configuration actions
-  @_s.JsonKey(name: 'Actions')
   final AccountTakeoverActionsType actions;
 
   /// The notify configuration used to construct email notifications.
-  @_s.JsonKey(name: 'NotifyConfiguration')
-  final NotifyConfigurationType notifyConfiguration;
+  final NotifyConfigurationType? notifyConfiguration;
 
   AccountTakeoverRiskConfigurationType({
-    @_s.required this.actions,
+    required this.actions,
     this.notifyConfiguration,
   });
   factory AccountTakeoverRiskConfigurationType.fromJson(
-          Map<String, dynamic> json) =>
-      _$AccountTakeoverRiskConfigurationTypeFromJson(json);
+      Map<String, dynamic> json) {
+    return AccountTakeoverRiskConfigurationType(
+      actions: AccountTakeoverActionsType.fromJson(
+          json['Actions'] as Map<String, dynamic>),
+      notifyConfiguration: json['NotifyConfiguration'] != null
+          ? NotifyConfigurationType.fromJson(
+              json['NotifyConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$AccountTakeoverRiskConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final notifyConfiguration = this.notifyConfiguration;
+    return {
+      'Actions': actions,
+      if (notifyConfiguration != null)
+        'NotifyConfiguration': notifyConfiguration,
+    };
+  }
 }
 
 /// Represents the response from the server for the request to add custom
 /// attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddCustomAttributesResponse {
   AddCustomAttributesResponse();
-  factory AddCustomAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddCustomAttributesResponseFromJson(json);
+  factory AddCustomAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return AddCustomAttributesResponse();
+  }
 }
 
 /// Represents the response from the server for the request to confirm
 /// registration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminConfirmSignUpResponse {
   AdminConfirmSignUpResponse();
-  factory AdminConfirmSignUpResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminConfirmSignUpResponseFromJson(json);
+  factory AdminConfirmSignUpResponse.fromJson(Map<String, dynamic> _) {
+    return AdminConfirmSignUpResponse();
+  }
 }
 
 /// The configuration for creating a new user profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdminCreateUserConfigType {
   /// Set to <code>True</code> if only the administrator is allowed to create user
   /// profiles. Set to <code>False</code> if users can sign themselves up via an
   /// app.
-  @_s.JsonKey(name: 'AllowAdminCreateUserOnly')
-  final bool allowAdminCreateUserOnly;
+  final bool? allowAdminCreateUserOnly;
 
   /// The message template to be used for the welcome message to new users.
   ///
   /// See also <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-message-customizations.html#cognito-user-pool-settings-user-invitation-message-customization">Customizing
   /// User Invitation Messages</a>.
-  @_s.JsonKey(name: 'InviteMessageTemplate')
-  final MessageTemplateType inviteMessageTemplate;
+  final MessageTemplateType? inviteMessageTemplate;
 
   /// The user account expiration limit, in days, after which the account is no
   /// longer usable. To reset the account after that time limit, you must call
@@ -10001,154 +9980,136 @@ class AdminCreateUserConfigType {
   /// <code>UnusedAccountValidityDays</code> will be deprecated for that user
   /// pool.
   /// </note>
-  @_s.JsonKey(name: 'UnusedAccountValidityDays')
-  final int unusedAccountValidityDays;
+  final int? unusedAccountValidityDays;
 
   AdminCreateUserConfigType({
     this.allowAdminCreateUserOnly,
     this.inviteMessageTemplate,
     this.unusedAccountValidityDays,
   });
-  factory AdminCreateUserConfigType.fromJson(Map<String, dynamic> json) =>
-      _$AdminCreateUserConfigTypeFromJson(json);
+  factory AdminCreateUserConfigType.fromJson(Map<String, dynamic> json) {
+    return AdminCreateUserConfigType(
+      allowAdminCreateUserOnly: json['AllowAdminCreateUserOnly'] as bool?,
+      inviteMessageTemplate: json['InviteMessageTemplate'] != null
+          ? MessageTemplateType.fromJson(
+              json['InviteMessageTemplate'] as Map<String, dynamic>)
+          : null,
+      unusedAccountValidityDays: json['UnusedAccountValidityDays'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AdminCreateUserConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowAdminCreateUserOnly = this.allowAdminCreateUserOnly;
+    final inviteMessageTemplate = this.inviteMessageTemplate;
+    final unusedAccountValidityDays = this.unusedAccountValidityDays;
+    return {
+      if (allowAdminCreateUserOnly != null)
+        'AllowAdminCreateUserOnly': allowAdminCreateUserOnly,
+      if (inviteMessageTemplate != null)
+        'InviteMessageTemplate': inviteMessageTemplate,
+      if (unusedAccountValidityDays != null)
+        'UnusedAccountValidityDays': unusedAccountValidityDays,
+    };
+  }
 }
 
 /// Represents the response from the server to the request to create the user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminCreateUserResponse {
   /// The newly created user.
-  @_s.JsonKey(name: 'User')
-  final UserType user;
+  final UserType? user;
 
   AdminCreateUserResponse({
     this.user,
   });
-  factory AdminCreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminCreateUserResponseFromJson(json);
+  factory AdminCreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return AdminCreateUserResponse(
+      user: json['User'] != null
+          ? UserType.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response received from the server for a request to delete
 /// user attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminDeleteUserAttributesResponse {
   AdminDeleteUserAttributesResponse();
-  factory AdminDeleteUserAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminDeleteUserAttributesResponseFromJson(json);
+  factory AdminDeleteUserAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return AdminDeleteUserAttributesResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminDisableProviderForUserResponse {
   AdminDisableProviderForUserResponse();
-  factory AdminDisableProviderForUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminDisableProviderForUserResponseFromJson(json);
+  factory AdminDisableProviderForUserResponse.fromJson(Map<String, dynamic> _) {
+    return AdminDisableProviderForUserResponse();
+  }
 }
 
 /// Represents the response received from the server to disable the user as an
 /// administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminDisableUserResponse {
   AdminDisableUserResponse();
-  factory AdminDisableUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminDisableUserResponseFromJson(json);
+  factory AdminDisableUserResponse.fromJson(Map<String, dynamic> _) {
+    return AdminDisableUserResponse();
+  }
 }
 
 /// Represents the response from the server for the request to enable a user as
 /// an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminEnableUserResponse {
   AdminEnableUserResponse();
-  factory AdminEnableUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminEnableUserResponseFromJson(json);
+  factory AdminEnableUserResponse.fromJson(Map<String, dynamic> _) {
+    return AdminEnableUserResponse();
+  }
 }
 
 /// Gets the device response, as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminGetDeviceResponse {
   /// The device.
-  @_s.JsonKey(name: 'Device')
   final DeviceType device;
 
   AdminGetDeviceResponse({
-    @_s.required this.device,
+    required this.device,
   });
-  factory AdminGetDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminGetDeviceResponseFromJson(json);
+  factory AdminGetDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return AdminGetDeviceResponse(
+      device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Represents the response from the server from the request to get the
 /// specified user as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminGetUserResponse {
   /// The user name of the user about whom you are receiving information.
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   /// Indicates that the status is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// <i>This response parameter is no longer supported.</i> It provides
   /// information only about SMS MFA configurations. It doesn't provide
   /// information about TOTP software token MFA configurations. To look up
   /// information about either type of MFA configuration, use UserMFASettingList
   /// instead.
-  @_s.JsonKey(name: 'MFAOptions')
-  final List<MFAOptionType> mFAOptions;
+  final List<MFAOptionType>? mFAOptions;
 
   /// The user's preferred MFA setting.
-  @_s.JsonKey(name: 'PreferredMfaSetting')
-  final String preferredMfaSetting;
+  final String? preferredMfaSetting;
 
   /// An array of name-value pairs representing user attributes.
-  @_s.JsonKey(name: 'UserAttributes')
-  final List<AttributeType> userAttributes;
+  final List<AttributeType>? userAttributes;
 
   /// The date the user was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UserCreateDate')
-  final DateTime userCreateDate;
+  final DateTime? userCreateDate;
 
   /// The date the user was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UserLastModifiedDate')
-  final DateTime userLastModifiedDate;
+  final DateTime? userLastModifiedDate;
 
   /// The MFA options that are enabled for the user. The possible values in this
   /// list are <code>SMS_MFA</code> and <code>SOFTWARE_TOKEN_MFA</code>.
-  @_s.JsonKey(name: 'UserMFASettingList')
-  final List<String> userMFASettingList;
+  final List<String>? userMFASettingList;
 
   /// The user status. Can be one of the following:
   ///
@@ -10178,11 +10139,10 @@ class AdminGetUserResponse {
   /// password to a new value before doing anything else.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'UserStatus')
-  final UserStatusType userStatus;
+  final UserStatusType? userStatus;
 
   AdminGetUserResponse({
-    @_s.required this.username,
+    required this.username,
     this.enabled,
     this.mFAOptions,
     this.preferredMfaSetting,
@@ -10192,23 +10152,37 @@ class AdminGetUserResponse {
     this.userMFASettingList,
     this.userStatus,
   });
-  factory AdminGetUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminGetUserResponseFromJson(json);
+  factory AdminGetUserResponse.fromJson(Map<String, dynamic> json) {
+    return AdminGetUserResponse(
+      username: json['Username'] as String,
+      enabled: json['Enabled'] as bool?,
+      mFAOptions: (json['MFAOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      preferredMfaSetting: json['PreferredMfaSetting'] as String?,
+      userAttributes: (json['UserAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userCreateDate: timeStampFromJson(json['UserCreateDate']),
+      userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
+      userMFASettingList: (json['UserMFASettingList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      userStatus: (json['UserStatus'] as String?)?.toUserStatusType(),
+    );
+  }
 }
 
 /// Initiates the authentication response, as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminInitiateAuthResponse {
   /// The result of the authentication response. This is only returned if the
   /// caller does not need to pass another challenge. If the caller does need to
   /// pass another challenge before it gets tokens, <code>ChallengeName</code>,
   /// <code>ChallengeParameters</code>, and <code>Session</code> are returned.
-  @_s.JsonKey(name: 'AuthenticationResult')
-  final AuthenticationResultType authenticationResult;
+  final AuthenticationResultType? authenticationResult;
 
   /// The name of the challenge which you are responding to with this call. This
   /// is returned to you in the <code>AdminInitiateAuth</code> response if you
@@ -10261,8 +10235,7 @@ class AdminInitiateAuthResponse {
   /// passed with <code>NEW_PASSWORD</code> and any other required attributes.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ChallengeName')
-  final ChallengeNameType challengeName;
+  final ChallengeNameType? challengeName;
 
   /// The challenge parameters. These are returned to you in the
   /// <code>AdminInitiateAuth</code> response if you need to pass another
@@ -10278,8 +10251,7 @@ class AdminInitiateAuthResponse {
   /// This is because, in the <code>AdminRespondToAuthChallenge</code> API
   /// <code>ChallengeResponses</code>, the <code>USERNAME</code> attribute cannot
   /// be an alias.
-  @_s.JsonKey(name: 'ChallengeParameters')
-  final Map<String, String> challengeParameters;
+  final Map<String, String>? challengeParameters;
 
   /// The session which should be passed both ways in challenge-response calls to
   /// the service. If <code>AdminInitiateAuth</code> or
@@ -10287,8 +10259,7 @@ class AdminInitiateAuthResponse {
   /// needs to go through another challenge, they return a session with other
   /// challenge parameters. This session should be passed as it is to the next
   /// <code>AdminRespondToAuthChallenge</code> API call.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   AdminInitiateAuthResponse({
     this.authenticationResult,
@@ -10296,132 +10267,125 @@ class AdminInitiateAuthResponse {
     this.challengeParameters,
     this.session,
   });
-  factory AdminInitiateAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminInitiateAuthResponseFromJson(json);
+  factory AdminInitiateAuthResponse.fromJson(Map<String, dynamic> json) {
+    return AdminInitiateAuthResponse(
+      authenticationResult: json['AuthenticationResult'] != null
+          ? AuthenticationResultType.fromJson(
+              json['AuthenticationResult'] as Map<String, dynamic>)
+          : null,
+      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeParameters:
+          (json['ChallengeParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      session: json['Session'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminLinkProviderForUserResponse {
   AdminLinkProviderForUserResponse();
-  factory AdminLinkProviderForUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminLinkProviderForUserResponseFromJson(json);
+  factory AdminLinkProviderForUserResponse.fromJson(Map<String, dynamic> _) {
+    return AdminLinkProviderForUserResponse();
+  }
 }
 
 /// Lists the device's response, as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminListDevicesResponse {
   /// The devices in the list of devices response.
-  @_s.JsonKey(name: 'Devices')
-  final List<DeviceType> devices;
+  final List<DeviceType>? devices;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   AdminListDevicesResponse({
     this.devices,
     this.paginationToken,
   });
-  factory AdminListDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminListDevicesResponseFromJson(json);
+  factory AdminListDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return AdminListDevicesResponse(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      paginationToken: json['PaginationToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminListGroupsForUserResponse {
   /// The groups that the user belongs to.
-  @_s.JsonKey(name: 'Groups')
-  final List<GroupType> groups;
+  final List<GroupType>? groups;
 
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   AdminListGroupsForUserResponse({
     this.groups,
     this.nextToken,
   });
-  factory AdminListGroupsForUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminListGroupsForUserResponseFromJson(json);
+  factory AdminListGroupsForUserResponse.fromJson(Map<String, dynamic> json) {
+    return AdminListGroupsForUserResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminListUserAuthEventsResponse {
   /// The response object. It includes the <code>EventID</code>,
   /// <code>EventType</code>, <code>CreationDate</code>, <code>EventRisk</code>,
   /// and <code>EventResponse</code>.
-  @_s.JsonKey(name: 'AuthEvents')
-  final List<AuthEventType> authEvents;
+  final List<AuthEventType>? authEvents;
 
   /// A pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   AdminListUserAuthEventsResponse({
     this.authEvents,
     this.nextToken,
   });
-  factory AdminListUserAuthEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminListUserAuthEventsResponseFromJson(json);
+  factory AdminListUserAuthEventsResponse.fromJson(Map<String, dynamic> json) {
+    return AdminListUserAuthEventsResponse(
+      authEvents: (json['AuthEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuthEventType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the response from the server to reset a user password as an
 /// administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminResetUserPasswordResponse {
   AdminResetUserPasswordResponse();
-  factory AdminResetUserPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminResetUserPasswordResponseFromJson(json);
+  factory AdminResetUserPasswordResponse.fromJson(Map<String, dynamic> _) {
+    return AdminResetUserPasswordResponse();
+  }
 }
 
 /// Responds to the authentication challenge, as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminRespondToAuthChallengeResponse {
   /// The result returned by the server in response to the authentication request.
-  @_s.JsonKey(name: 'AuthenticationResult')
-  final AuthenticationResultType authenticationResult;
+  final AuthenticationResultType? authenticationResult;
 
   /// The name of the challenge. For more information, see <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html">AdminInitiateAuth</a>.
-  @_s.JsonKey(name: 'ChallengeName')
-  final ChallengeNameType challengeName;
+  final ChallengeNameType? challengeName;
 
   /// The challenge parameters. For more information, see <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html">AdminInitiateAuth</a>.
-  @_s.JsonKey(name: 'ChallengeParameters')
-  final Map<String, String> challengeParameters;
+  final Map<String, String>? challengeParameters;
 
   /// The session which should be passed both ways in challenge-response calls to
   /// the service. If the caller needs to go through another challenge, they
   /// return a session with other challenge parameters. This session should be
   /// passed as it is to the next <code>RespondToAuthChallenge</code> API call.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   AdminRespondToAuthChallengeResponse({
     this.authenticationResult,
@@ -10430,112 +10394,114 @@ class AdminRespondToAuthChallengeResponse {
     this.session,
   });
   factory AdminRespondToAuthChallengeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminRespondToAuthChallengeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AdminRespondToAuthChallengeResponse(
+      authenticationResult: json['AuthenticationResult'] != null
+          ? AuthenticationResultType.fromJson(
+              json['AuthenticationResult'] as Map<String, dynamic>)
+          : null,
+      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeParameters:
+          (json['ChallengeParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      session: json['Session'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminSetUserMFAPreferenceResponse {
   AdminSetUserMFAPreferenceResponse();
-  factory AdminSetUserMFAPreferenceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminSetUserMFAPreferenceResponseFromJson(json);
+  factory AdminSetUserMFAPreferenceResponse.fromJson(Map<String, dynamic> _) {
+    return AdminSetUserMFAPreferenceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminSetUserPasswordResponse {
   AdminSetUserPasswordResponse();
-  factory AdminSetUserPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminSetUserPasswordResponseFromJson(json);
+  factory AdminSetUserPasswordResponse.fromJson(Map<String, dynamic> _) {
+    return AdminSetUserPasswordResponse();
+  }
 }
 
 /// Represents the response from the server to set user settings as an
 /// administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminSetUserSettingsResponse {
   AdminSetUserSettingsResponse();
-  factory AdminSetUserSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminSetUserSettingsResponseFromJson(json);
+  factory AdminSetUserSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return AdminSetUserSettingsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminUpdateAuthEventFeedbackResponse {
   AdminUpdateAuthEventFeedbackResponse();
   factory AdminUpdateAuthEventFeedbackResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminUpdateAuthEventFeedbackResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AdminUpdateAuthEventFeedbackResponse();
+  }
 }
 
 /// The status response from the request to update the device, as an
 /// administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminUpdateDeviceStatusResponse {
   AdminUpdateDeviceStatusResponse();
-  factory AdminUpdateDeviceStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminUpdateDeviceStatusResponseFromJson(json);
+  factory AdminUpdateDeviceStatusResponse.fromJson(Map<String, dynamic> _) {
+    return AdminUpdateDeviceStatusResponse();
+  }
 }
 
 /// Represents the response from the server for the request to update user
 /// attributes as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminUpdateUserAttributesResponse {
   AdminUpdateUserAttributesResponse();
-  factory AdminUpdateUserAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdminUpdateUserAttributesResponseFromJson(json);
+  factory AdminUpdateUserAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return AdminUpdateUserAttributesResponse();
+  }
 }
 
 /// The global sign-out response, as an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminUserGlobalSignOutResponse {
   AdminUserGlobalSignOutResponse();
-  factory AdminUserGlobalSignOutResponse.fromJson(Map<String, dynamic> json) =>
-      _$AdminUserGlobalSignOutResponseFromJson(json);
+  factory AdminUserGlobalSignOutResponse.fromJson(Map<String, dynamic> _) {
+    return AdminUserGlobalSignOutResponse();
+  }
 }
 
 enum AdvancedSecurityModeType {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('AUDIT')
   audit,
-  @_s.JsonValue('ENFORCED')
   enforced,
 }
 
+extension on AdvancedSecurityModeType {
+  String toValue() {
+    switch (this) {
+      case AdvancedSecurityModeType.off:
+        return 'OFF';
+      case AdvancedSecurityModeType.audit:
+        return 'AUDIT';
+      case AdvancedSecurityModeType.enforced:
+        return 'ENFORCED';
+    }
+  }
+}
+
+extension on String {
+  AdvancedSecurityModeType toAdvancedSecurityModeType() {
+    switch (this) {
+      case 'OFF':
+        return AdvancedSecurityModeType.off;
+      case 'AUDIT':
+        return AdvancedSecurityModeType.audit;
+      case 'ENFORCED':
+        return AdvancedSecurityModeType.enforced;
+    }
+    throw Exception('$this is not known in enum AdvancedSecurityModeType');
+  }
+}
+
 enum AliasAttributeType {
-  @_s.JsonValue('phone_number')
   phoneNumber,
-  @_s.JsonValue('email')
   email,
-  @_s.JsonValue('preferred_username')
   preferredUsername,
 }
 
@@ -10549,7 +10515,20 @@ extension on AliasAttributeType {
       case AliasAttributeType.preferredUsername:
         return 'preferred_username';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AliasAttributeType toAliasAttributeType() {
+    switch (this) {
+      case 'phone_number':
+        return AliasAttributeType.phoneNumber;
+      case 'email':
+        return AliasAttributeType.email;
+      case 'preferred_username':
+        return AliasAttributeType.preferredUsername;
+    }
+    throw Exception('$this is not known in enum AliasAttributeType');
   }
 }
 
@@ -10561,36 +10540,26 @@ extension on AliasAttributeType {
 /// Pinpoint is available, Cognito User Pools will support sending events to
 /// Amazon Pinpoint projects within that same region.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AnalyticsConfigurationType {
   /// The Amazon Resource Name (ARN) of an Amazon Pinpoint project. You can use
   /// the Amazon Pinpoint project for Pinpoint integration with the chosen User
   /// Pool Client. Amazon Cognito publishes events to the pinpoint project
   /// declared by the app ARN.
-  @_s.JsonKey(name: 'ApplicationArn')
-  final String applicationArn;
+  final String? applicationArn;
 
   /// The application ID for an Amazon Pinpoint application.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The external ID.
-  @_s.JsonKey(name: 'ExternalId')
-  final String externalId;
+  final String? externalId;
 
   /// The ARN of an IAM role that authorizes Amazon Cognito to publish events to
   /// Amazon Pinpoint analytics.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// If <code>UserDataShared</code> is <code>true</code>, Amazon Cognito will
   /// include user data in the events it publishes to Amazon Pinpoint analytics.
-  @_s.JsonKey(name: 'UserDataShared')
-  final bool userDataShared;
+  final bool? userDataShared;
 
   AnalyticsConfigurationType({
     this.applicationArn,
@@ -10599,10 +10568,30 @@ class AnalyticsConfigurationType {
     this.roleArn,
     this.userDataShared,
   });
-  factory AnalyticsConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$AnalyticsConfigurationTypeFromJson(json);
+  factory AnalyticsConfigurationType.fromJson(Map<String, dynamic> json) {
+    return AnalyticsConfigurationType(
+      applicationArn: json['ApplicationArn'] as String?,
+      applicationId: json['ApplicationId'] as String?,
+      externalId: json['ExternalId'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      userDataShared: json['UserDataShared'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AnalyticsConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final applicationId = this.applicationId;
+    final externalId = this.externalId;
+    final roleArn = this.roleArn;
+    final userDataShared = this.userDataShared;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (externalId != null) 'ExternalId': externalId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (userDataShared != null) 'UserDataShared': userDataShared,
+    };
+  }
 }
 
 /// An Amazon Pinpoint analytics endpoint.
@@ -10614,125 +10603,139 @@ class AnalyticsConfigurationType {
 /// in the US East (N. Virginia) us-east-1 Region, regardless of the region in
 /// which the user pool resides.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AnalyticsMetadataType {
   /// The endpoint ID.
-  @_s.JsonKey(name: 'AnalyticsEndpointId')
-  final String analyticsEndpointId;
+  final String? analyticsEndpointId;
 
   AnalyticsMetadataType({
     this.analyticsEndpointId,
   });
-  Map<String, dynamic> toJson() => _$AnalyticsMetadataTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final analyticsEndpointId = this.analyticsEndpointId;
+    return {
+      if (analyticsEndpointId != null)
+        'AnalyticsEndpointId': analyticsEndpointId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSoftwareTokenResponse {
   /// A unique generated shared secret code that is used in the TOTP algorithm to
   /// generate a one time code.
-  @_s.JsonKey(name: 'SecretCode')
-  final String secretCode;
+  final String? secretCode;
 
   /// The session which should be passed both ways in challenge-response calls to
   /// the service. This allows authentication of the user as part of the MFA setup
   /// process.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   AssociateSoftwareTokenResponse({
     this.secretCode,
     this.session,
   });
-  factory AssociateSoftwareTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateSoftwareTokenResponseFromJson(json);
+  factory AssociateSoftwareTokenResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateSoftwareTokenResponse(
+      secretCode: json['SecretCode'] as String?,
+      session: json['Session'] as String?,
+    );
+  }
 }
 
 enum AttributeDataType {
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('Number')
   number,
-  @_s.JsonValue('DateTime')
   dateTime,
-  @_s.JsonValue('Boolean')
   boolean,
 }
 
+extension on AttributeDataType {
+  String toValue() {
+    switch (this) {
+      case AttributeDataType.string:
+        return 'String';
+      case AttributeDataType.number:
+        return 'Number';
+      case AttributeDataType.dateTime:
+        return 'DateTime';
+      case AttributeDataType.boolean:
+        return 'Boolean';
+    }
+  }
+}
+
+extension on String {
+  AttributeDataType toAttributeDataType() {
+    switch (this) {
+      case 'String':
+        return AttributeDataType.string;
+      case 'Number':
+        return AttributeDataType.number;
+      case 'DateTime':
+        return AttributeDataType.dateTime;
+      case 'Boolean':
+        return AttributeDataType.boolean;
+    }
+    throw Exception('$this is not known in enum AttributeDataType');
+  }
+}
+
 /// Specifies whether the attribute is standard or custom.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeType {
   /// The name of the attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   AttributeType({
-    @_s.required this.name,
+    required this.name,
     this.value,
   });
-  factory AttributeType.fromJson(Map<String, dynamic> json) =>
-      _$AttributeTypeFromJson(json);
+  factory AttributeType.fromJson(Map<String, dynamic> json) {
+    return AttributeType(
+      name: json['Name'] as String,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The authentication event type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthEventType {
   /// The challenge responses.
-  @_s.JsonKey(name: 'ChallengeResponses')
-  final List<ChallengeResponseType> challengeResponses;
+  final List<ChallengeResponseType>? challengeResponses;
 
   /// The creation date
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The user context data captured at the time of an event request. It provides
   /// additional information about the client from which event the request is
   /// received.
-  @_s.JsonKey(name: 'EventContextData')
-  final EventContextDataType eventContextData;
+  final EventContextDataType? eventContextData;
 
   /// A flag specifying the user feedback captured at the time of an event request
   /// is good or bad.
-  @_s.JsonKey(name: 'EventFeedback')
-  final EventFeedbackType eventFeedback;
+  final EventFeedbackType? eventFeedback;
 
   /// The event ID.
-  @_s.JsonKey(name: 'EventId')
-  final String eventId;
+  final String? eventId;
 
   /// The event response.
-  @_s.JsonKey(name: 'EventResponse')
-  final EventResponseType eventResponse;
+  final EventResponseType? eventResponse;
 
   /// The event risk.
-  @_s.JsonKey(name: 'EventRisk')
-  final EventRiskType eventRisk;
+  final EventRiskType? eventRisk;
 
   /// The event type.
-  @_s.JsonKey(name: 'EventType')
-  final EventType eventType;
+  final EventType? eventType;
 
   AuthEventType({
     this.challengeResponses,
@@ -10744,24 +10747,38 @@ class AuthEventType {
     this.eventRisk,
     this.eventType,
   });
-  factory AuthEventType.fromJson(Map<String, dynamic> json) =>
-      _$AuthEventTypeFromJson(json);
+  factory AuthEventType.fromJson(Map<String, dynamic> json) {
+    return AuthEventType(
+      challengeResponses: (json['ChallengeResponses'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChallengeResponseType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      eventContextData: json['EventContextData'] != null
+          ? EventContextDataType.fromJson(
+              json['EventContextData'] as Map<String, dynamic>)
+          : null,
+      eventFeedback: json['EventFeedback'] != null
+          ? EventFeedbackType.fromJson(
+              json['EventFeedback'] as Map<String, dynamic>)
+          : null,
+      eventId: json['EventId'] as String?,
+      eventResponse: (json['EventResponse'] as String?)?.toEventResponseType(),
+      eventRisk: json['EventRisk'] != null
+          ? EventRiskType.fromJson(json['EventRisk'] as Map<String, dynamic>)
+          : null,
+      eventType: (json['EventType'] as String?)?.toEventType(),
+    );
+  }
 }
 
 enum AuthFlowType {
-  @_s.JsonValue('USER_SRP_AUTH')
   userSrpAuth,
-  @_s.JsonValue('REFRESH_TOKEN_AUTH')
   refreshTokenAuth,
-  @_s.JsonValue('REFRESH_TOKEN')
   refreshToken,
-  @_s.JsonValue('CUSTOM_AUTH')
   customAuth,
-  @_s.JsonValue('ADMIN_NO_SRP_AUTH')
   adminNoSrpAuth,
-  @_s.JsonValue('USER_PASSWORD_AUTH')
   userPasswordAuth,
-  @_s.JsonValue('ADMIN_USER_PASSWORD_AUTH')
   adminUserPasswordAuth,
 }
 
@@ -10783,40 +10800,50 @@ extension on AuthFlowType {
       case AuthFlowType.adminUserPasswordAuth:
         return 'ADMIN_USER_PASSWORD_AUTH';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthFlowType toAuthFlowType() {
+    switch (this) {
+      case 'USER_SRP_AUTH':
+        return AuthFlowType.userSrpAuth;
+      case 'REFRESH_TOKEN_AUTH':
+        return AuthFlowType.refreshTokenAuth;
+      case 'REFRESH_TOKEN':
+        return AuthFlowType.refreshToken;
+      case 'CUSTOM_AUTH':
+        return AuthFlowType.customAuth;
+      case 'ADMIN_NO_SRP_AUTH':
+        return AuthFlowType.adminNoSrpAuth;
+      case 'USER_PASSWORD_AUTH':
+        return AuthFlowType.userPasswordAuth;
+      case 'ADMIN_USER_PASSWORD_AUTH':
+        return AuthFlowType.adminUserPasswordAuth;
+    }
+    throw Exception('$this is not known in enum AuthFlowType');
   }
 }
 
 /// The authentication result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthenticationResultType {
   /// The access token.
-  @_s.JsonKey(name: 'AccessToken')
-  final String accessToken;
+  final String? accessToken;
 
   /// The expiration period of the authentication result in seconds.
-  @_s.JsonKey(name: 'ExpiresIn')
-  final int expiresIn;
+  final int? expiresIn;
 
   /// The ID token.
-  @_s.JsonKey(name: 'IdToken')
-  final String idToken;
+  final String? idToken;
 
   /// The new device metadata from an authentication result.
-  @_s.JsonKey(name: 'NewDeviceMetadata')
-  final NewDeviceMetadataType newDeviceMetadata;
+  final NewDeviceMetadataType? newDeviceMetadata;
 
   /// The refresh token.
-  @_s.JsonKey(name: 'RefreshToken')
-  final String refreshToken;
+  final String? refreshToken;
 
   /// The token type.
-  @_s.JsonKey(name: 'TokenType')
-  final String tokenType;
+  final String? tokenType;
 
   AuthenticationResultType({
     this.accessToken,
@@ -10826,37 +10853,59 @@ class AuthenticationResultType {
     this.refreshToken,
     this.tokenType,
   });
-  factory AuthenticationResultType.fromJson(Map<String, dynamic> json) =>
-      _$AuthenticationResultTypeFromJson(json);
+  factory AuthenticationResultType.fromJson(Map<String, dynamic> json) {
+    return AuthenticationResultType(
+      accessToken: json['AccessToken'] as String?,
+      expiresIn: json['ExpiresIn'] as int?,
+      idToken: json['IdToken'] as String?,
+      newDeviceMetadata: json['NewDeviceMetadata'] != null
+          ? NewDeviceMetadataType.fromJson(
+              json['NewDeviceMetadata'] as Map<String, dynamic>)
+          : null,
+      refreshToken: json['RefreshToken'] as String?,
+      tokenType: json['TokenType'] as String?,
+    );
+  }
 }
 
 enum ChallengeName {
-  @_s.JsonValue('Password')
   password,
-  @_s.JsonValue('Mfa')
   mfa,
 }
 
+extension on ChallengeName {
+  String toValue() {
+    switch (this) {
+      case ChallengeName.password:
+        return 'Password';
+      case ChallengeName.mfa:
+        return 'Mfa';
+    }
+  }
+}
+
+extension on String {
+  ChallengeName toChallengeName() {
+    switch (this) {
+      case 'Password':
+        return ChallengeName.password;
+      case 'Mfa':
+        return ChallengeName.mfa;
+    }
+    throw Exception('$this is not known in enum ChallengeName');
+  }
+}
+
 enum ChallengeNameType {
-  @_s.JsonValue('SMS_MFA')
   smsMfa,
-  @_s.JsonValue('SOFTWARE_TOKEN_MFA')
   softwareTokenMfa,
-  @_s.JsonValue('SELECT_MFA_TYPE')
   selectMfaType,
-  @_s.JsonValue('MFA_SETUP')
   mfaSetup,
-  @_s.JsonValue('PASSWORD_VERIFIER')
   passwordVerifier,
-  @_s.JsonValue('CUSTOM_CHALLENGE')
   customChallenge,
-  @_s.JsonValue('DEVICE_SRP_AUTH')
   deviceSrpAuth,
-  @_s.JsonValue('DEVICE_PASSWORD_VERIFIER')
   devicePasswordVerifier,
-  @_s.JsonValue('ADMIN_NO_SRP_AUTH')
   adminNoSrpAuth,
-  @_s.JsonValue('NEW_PASSWORD_REQUIRED')
   newPasswordRequired,
 }
 
@@ -10884,472 +10933,586 @@ extension on ChallengeNameType {
       case ChallengeNameType.newPasswordRequired:
         return 'NEW_PASSWORD_REQUIRED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChallengeNameType toChallengeNameType() {
+    switch (this) {
+      case 'SMS_MFA':
+        return ChallengeNameType.smsMfa;
+      case 'SOFTWARE_TOKEN_MFA':
+        return ChallengeNameType.softwareTokenMfa;
+      case 'SELECT_MFA_TYPE':
+        return ChallengeNameType.selectMfaType;
+      case 'MFA_SETUP':
+        return ChallengeNameType.mfaSetup;
+      case 'PASSWORD_VERIFIER':
+        return ChallengeNameType.passwordVerifier;
+      case 'CUSTOM_CHALLENGE':
+        return ChallengeNameType.customChallenge;
+      case 'DEVICE_SRP_AUTH':
+        return ChallengeNameType.deviceSrpAuth;
+      case 'DEVICE_PASSWORD_VERIFIER':
+        return ChallengeNameType.devicePasswordVerifier;
+      case 'ADMIN_NO_SRP_AUTH':
+        return ChallengeNameType.adminNoSrpAuth;
+      case 'NEW_PASSWORD_REQUIRED':
+        return ChallengeNameType.newPasswordRequired;
+    }
+    throw Exception('$this is not known in enum ChallengeNameType');
   }
 }
 
 enum ChallengeResponse {
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Failure')
   failure,
 }
 
+extension on ChallengeResponse {
+  String toValue() {
+    switch (this) {
+      case ChallengeResponse.success:
+        return 'Success';
+      case ChallengeResponse.failure:
+        return 'Failure';
+    }
+  }
+}
+
+extension on String {
+  ChallengeResponse toChallengeResponse() {
+    switch (this) {
+      case 'Success':
+        return ChallengeResponse.success;
+      case 'Failure':
+        return ChallengeResponse.failure;
+    }
+    throw Exception('$this is not known in enum ChallengeResponse');
+  }
+}
+
 /// The challenge response type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChallengeResponseType {
   /// The challenge name
-  @_s.JsonKey(name: 'ChallengeName')
-  final ChallengeName challengeName;
+  final ChallengeName? challengeName;
 
   /// The challenge response.
-  @_s.JsonKey(name: 'ChallengeResponse')
-  final ChallengeResponse challengeResponse;
+  final ChallengeResponse? challengeResponse;
 
   ChallengeResponseType({
     this.challengeName,
     this.challengeResponse,
   });
-  factory ChallengeResponseType.fromJson(Map<String, dynamic> json) =>
-      _$ChallengeResponseTypeFromJson(json);
+  factory ChallengeResponseType.fromJson(Map<String, dynamic> json) {
+    return ChallengeResponseType(
+      challengeName: (json['ChallengeName'] as String?)?.toChallengeName(),
+      challengeResponse:
+          (json['ChallengeResponse'] as String?)?.toChallengeResponse(),
+    );
+  }
 }
 
 /// The response from the server to the change password request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChangePasswordResponse {
   ChangePasswordResponse();
-  factory ChangePasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$ChangePasswordResponseFromJson(json);
+  factory ChangePasswordResponse.fromJson(Map<String, dynamic> _) {
+    return ChangePasswordResponse();
+  }
 }
 
 /// The code delivery details being returned from the server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CodeDeliveryDetailsType {
   /// The attribute name.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The delivery medium (email message or phone number).
-  @_s.JsonKey(name: 'DeliveryMedium')
-  final DeliveryMediumType deliveryMedium;
+  final DeliveryMediumType? deliveryMedium;
 
   /// The destination for the code delivery details.
-  @_s.JsonKey(name: 'Destination')
-  final String destination;
+  final String? destination;
 
   CodeDeliveryDetailsType({
     this.attributeName,
     this.deliveryMedium,
     this.destination,
   });
-  factory CodeDeliveryDetailsType.fromJson(Map<String, dynamic> json) =>
-      _$CodeDeliveryDetailsTypeFromJson(json);
+  factory CodeDeliveryDetailsType.fromJson(Map<String, dynamic> json) {
+    return CodeDeliveryDetailsType(
+      attributeName: json['AttributeName'] as String?,
+      deliveryMedium:
+          (json['DeliveryMedium'] as String?)?.toDeliveryMediumType(),
+      destination: json['Destination'] as String?,
+    );
+  }
 }
 
 /// The compromised credentials actions type
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CompromisedCredentialsActionsType {
   /// The event action.
-  @_s.JsonKey(name: 'EventAction')
   final CompromisedCredentialsEventActionType eventAction;
 
   CompromisedCredentialsActionsType({
-    @_s.required this.eventAction,
+    required this.eventAction,
   });
   factory CompromisedCredentialsActionsType.fromJson(
-          Map<String, dynamic> json) =>
-      _$CompromisedCredentialsActionsTypeFromJson(json);
+      Map<String, dynamic> json) {
+    return CompromisedCredentialsActionsType(
+      eventAction: (json['EventAction'] as String)
+          .toCompromisedCredentialsEventActionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CompromisedCredentialsActionsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final eventAction = this.eventAction;
+    return {
+      'EventAction': eventAction.toValue(),
+    };
+  }
 }
 
 enum CompromisedCredentialsEventActionType {
-  @_s.JsonValue('BLOCK')
   block,
-  @_s.JsonValue('NO_ACTION')
   noAction,
 }
 
+extension on CompromisedCredentialsEventActionType {
+  String toValue() {
+    switch (this) {
+      case CompromisedCredentialsEventActionType.block:
+        return 'BLOCK';
+      case CompromisedCredentialsEventActionType.noAction:
+        return 'NO_ACTION';
+    }
+  }
+}
+
+extension on String {
+  CompromisedCredentialsEventActionType
+      toCompromisedCredentialsEventActionType() {
+    switch (this) {
+      case 'BLOCK':
+        return CompromisedCredentialsEventActionType.block;
+      case 'NO_ACTION':
+        return CompromisedCredentialsEventActionType.noAction;
+    }
+    throw Exception(
+        '$this is not known in enum CompromisedCredentialsEventActionType');
+  }
+}
+
 /// The compromised credentials risk configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CompromisedCredentialsRiskConfigurationType {
   /// The compromised credentials risk configuration actions.
-  @_s.JsonKey(name: 'Actions')
   final CompromisedCredentialsActionsType actions;
 
   /// Perform the action for these events. The default is to perform all events if
   /// no event filter is specified.
-  @_s.JsonKey(name: 'EventFilter')
-  final List<EventFilterType> eventFilter;
+  final List<EventFilterType>? eventFilter;
 
   CompromisedCredentialsRiskConfigurationType({
-    @_s.required this.actions,
+    required this.actions,
     this.eventFilter,
   });
   factory CompromisedCredentialsRiskConfigurationType.fromJson(
-          Map<String, dynamic> json) =>
-      _$CompromisedCredentialsRiskConfigurationTypeFromJson(json);
+      Map<String, dynamic> json) {
+    return CompromisedCredentialsRiskConfigurationType(
+      actions: CompromisedCredentialsActionsType.fromJson(
+          json['Actions'] as Map<String, dynamic>),
+      eventFilter: (json['EventFilter'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEventFilterType())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CompromisedCredentialsRiskConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final eventFilter = this.eventFilter;
+    return {
+      'Actions': actions,
+      if (eventFilter != null)
+        'EventFilter': eventFilter.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Confirms the device response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmDeviceResponse {
   /// Indicates whether the user confirmation is necessary to confirm the device
   /// response.
-  @_s.JsonKey(name: 'UserConfirmationNecessary')
-  final bool userConfirmationNecessary;
+  final bool? userConfirmationNecessary;
 
   ConfirmDeviceResponse({
     this.userConfirmationNecessary,
   });
-  factory ConfirmDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmDeviceResponseFromJson(json);
+  factory ConfirmDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return ConfirmDeviceResponse(
+      userConfirmationNecessary: json['UserConfirmationNecessary'] as bool?,
+    );
+  }
 }
 
 /// The response from the server that results from a user's request to retrieve
 /// a forgotten password.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmForgotPasswordResponse {
   ConfirmForgotPasswordResponse();
-  factory ConfirmForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmForgotPasswordResponseFromJson(json);
+  factory ConfirmForgotPasswordResponse.fromJson(Map<String, dynamic> _) {
+    return ConfirmForgotPasswordResponse();
+  }
 }
 
 /// Represents the response from the server for the registration confirmation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmSignUpResponse {
   ConfirmSignUpResponse();
-  factory ConfirmSignUpResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmSignUpResponseFromJson(json);
+  factory ConfirmSignUpResponse.fromJson(Map<String, dynamic> _) {
+    return ConfirmSignUpResponse();
+  }
 }
 
 /// Contextual user data type used for evaluating the risk of an unexpected
 /// event by Amazon Cognito advanced security.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContextDataType {
   /// HttpHeaders received on your server in same order.
-  @_s.JsonKey(name: 'HttpHeaders')
   final List<HttpHeader> httpHeaders;
 
   /// Source IP address of your user.
-  @_s.JsonKey(name: 'IpAddress')
   final String ipAddress;
 
   /// Your server endpoint where this API is invoked.
-  @_s.JsonKey(name: 'ServerName')
   final String serverName;
 
   /// Your server path where this API is invoked.
-  @_s.JsonKey(name: 'ServerPath')
   final String serverPath;
 
   /// Encoded data containing device fingerprinting details, collected using the
   /// Amazon Cognito context data collection library.
-  @_s.JsonKey(name: 'EncodedData')
-  final String encodedData;
+  final String? encodedData;
 
   ContextDataType({
-    @_s.required this.httpHeaders,
-    @_s.required this.ipAddress,
-    @_s.required this.serverName,
-    @_s.required this.serverPath,
+    required this.httpHeaders,
+    required this.ipAddress,
+    required this.serverName,
+    required this.serverPath,
     this.encodedData,
   });
-  Map<String, dynamic> toJson() => _$ContextDataTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final httpHeaders = this.httpHeaders;
+    final ipAddress = this.ipAddress;
+    final serverName = this.serverName;
+    final serverPath = this.serverPath;
+    final encodedData = this.encodedData;
+    return {
+      'HttpHeaders': httpHeaders,
+      'IpAddress': ipAddress,
+      'ServerName': serverName,
+      'ServerPath': serverPath,
+      if (encodedData != null) 'EncodedData': encodedData,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupResponse {
   /// The group object for the group.
-  @_s.JsonKey(name: 'Group')
-  final GroupType group;
+  final GroupType? group;
 
   CreateGroupResponse({
     this.group,
   });
-  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGroupResponseFromJson(json);
+  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupResponse(
+      group: json['Group'] != null
+          ? GroupType.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIdentityProviderResponse {
   /// The newly created identity provider object.
-  @_s.JsonKey(name: 'IdentityProvider')
   final IdentityProviderType identityProvider;
 
   CreateIdentityProviderResponse({
-    @_s.required this.identityProvider,
+    required this.identityProvider,
   });
-  factory CreateIdentityProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateIdentityProviderResponseFromJson(json);
+  factory CreateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateIdentityProviderResponse(
+      identityProvider: IdentityProviderType.fromJson(
+          json['IdentityProvider'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceServerResponse {
   /// The newly created resource server.
-  @_s.JsonKey(name: 'ResourceServer')
   final ResourceServerType resourceServer;
 
   CreateResourceServerResponse({
-    @_s.required this.resourceServer,
+    required this.resourceServer,
   });
-  factory CreateResourceServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResourceServerResponseFromJson(json);
+  factory CreateResourceServerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResourceServerResponse(
+      resourceServer: ResourceServerType.fromJson(
+          json['ResourceServer'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Represents the response from the server to the request to create the user
 /// import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserImportJobResponse {
   /// The job object that represents the user import job.
-  @_s.JsonKey(name: 'UserImportJob')
-  final UserImportJobType userImportJob;
+  final UserImportJobType? userImportJob;
 
   CreateUserImportJobResponse({
     this.userImportJob,
   });
-  factory CreateUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserImportJobResponseFromJson(json);
+  factory CreateUserImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserImportJobResponse(
+      userImportJob: json['UserImportJob'] != null
+          ? UserImportJobType.fromJson(
+              json['UserImportJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response from the server to create a user pool client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserPoolClientResponse {
   /// The user pool client that was just created.
-  @_s.JsonKey(name: 'UserPoolClient')
-  final UserPoolClientType userPoolClient;
+  final UserPoolClientType? userPoolClient;
 
   CreateUserPoolClientResponse({
     this.userPoolClient,
   });
-  factory CreateUserPoolClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserPoolClientResponseFromJson(json);
+  factory CreateUserPoolClientResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserPoolClientResponse(
+      userPoolClient: json['UserPoolClient'] != null
+          ? UserPoolClientType.fromJson(
+              json['UserPoolClient'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserPoolDomainResponse {
   /// The Amazon CloudFront endpoint that you use as the target of the alias that
   /// you set up with your Domain Name Service (DNS) provider.
-  @_s.JsonKey(name: 'CloudFrontDomain')
-  final String cloudFrontDomain;
+  final String? cloudFrontDomain;
 
   CreateUserPoolDomainResponse({
     this.cloudFrontDomain,
   });
-  factory CreateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserPoolDomainResponseFromJson(json);
+  factory CreateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserPoolDomainResponse(
+      cloudFrontDomain: json['CloudFrontDomain'] as String?,
+    );
+  }
 }
 
 /// Represents the response from the server for the request to create a user
 /// pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserPoolResponse {
   /// A container for the user pool details.
-  @_s.JsonKey(name: 'UserPool')
-  final UserPoolType userPool;
+  final UserPoolType? userPool;
 
   CreateUserPoolResponse({
     this.userPool,
   });
-  factory CreateUserPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserPoolResponseFromJson(json);
+  factory CreateUserPoolResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserPoolResponse(
+      userPool: json['UserPool'] != null
+          ? UserPoolType.fromJson(json['UserPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The configuration for a custom domain that hosts the sign-up and sign-in
 /// webpages for your application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomDomainConfigType {
   /// The Amazon Resource Name (ARN) of an AWS Certificate Manager SSL
   /// certificate. You use this certificate for the subdomain of your custom
   /// domain.
-  @_s.JsonKey(name: 'CertificateArn')
   final String certificateArn;
 
   CustomDomainConfigType({
-    @_s.required this.certificateArn,
+    required this.certificateArn,
   });
-  factory CustomDomainConfigType.fromJson(Map<String, dynamic> json) =>
-      _$CustomDomainConfigTypeFromJson(json);
+  factory CustomDomainConfigType.fromJson(Map<String, dynamic> json) {
+    return CustomDomainConfigType(
+      certificateArn: json['CertificateArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CustomDomainConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      'CertificateArn': certificateArn,
+    };
+  }
 }
 
 /// A custom email sender Lambda configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomEmailLambdaVersionConfigType {
   /// The Lambda Amazon Resource Name of the Lambda function that Amazon Cognito
   /// triggers to send email notifications to users.
-  @_s.JsonKey(name: 'LambdaArn')
   final String lambdaArn;
 
   /// The Lambda version represents the signature of the "request" attribute in
   /// the "event" information Amazon Cognito passes to your custom email Lambda
   /// function. The only supported value is <code>V1_0</code>.
-  @_s.JsonKey(name: 'LambdaVersion')
   final CustomEmailSenderLambdaVersionType lambdaVersion;
 
   CustomEmailLambdaVersionConfigType({
-    @_s.required this.lambdaArn,
-    @_s.required this.lambdaVersion,
+    required this.lambdaArn,
+    required this.lambdaVersion,
   });
   factory CustomEmailLambdaVersionConfigType.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomEmailLambdaVersionConfigTypeFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomEmailLambdaVersionConfigType(
+      lambdaArn: json['LambdaArn'] as String,
+      lambdaVersion: (json['LambdaVersion'] as String)
+          .toCustomEmailSenderLambdaVersionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CustomEmailLambdaVersionConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    final lambdaVersion = this.lambdaVersion;
+    return {
+      'LambdaArn': lambdaArn,
+      'LambdaVersion': lambdaVersion.toValue(),
+    };
+  }
 }
 
 enum CustomEmailSenderLambdaVersionType {
-  @_s.JsonValue('V1_0')
   v1_0,
 }
 
+extension on CustomEmailSenderLambdaVersionType {
+  String toValue() {
+    switch (this) {
+      case CustomEmailSenderLambdaVersionType.v1_0:
+        return 'V1_0';
+    }
+  }
+}
+
+extension on String {
+  CustomEmailSenderLambdaVersionType toCustomEmailSenderLambdaVersionType() {
+    switch (this) {
+      case 'V1_0':
+        return CustomEmailSenderLambdaVersionType.v1_0;
+    }
+    throw Exception(
+        '$this is not known in enum CustomEmailSenderLambdaVersionType');
+  }
+}
+
 /// A custom SMS sender Lambda configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomSMSLambdaVersionConfigType {
   /// The Lambda Amazon Resource Name of the Lambda function that Amazon Cognito
   /// triggers to send SMS notifications to users.
-  @_s.JsonKey(name: 'LambdaArn')
   final String lambdaArn;
 
   /// The Lambda version represents the signature of the "request" attribute in
   /// the "event" information Amazon Cognito passes to your custom SMS Lambda
   /// function. The only supported value is <code>V1_0</code>.
-  @_s.JsonKey(name: 'LambdaVersion')
   final CustomSMSSenderLambdaVersionType lambdaVersion;
 
   CustomSMSLambdaVersionConfigType({
-    @_s.required this.lambdaArn,
-    @_s.required this.lambdaVersion,
+    required this.lambdaArn,
+    required this.lambdaVersion,
   });
-  factory CustomSMSLambdaVersionConfigType.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomSMSLambdaVersionConfigTypeFromJson(json);
+  factory CustomSMSLambdaVersionConfigType.fromJson(Map<String, dynamic> json) {
+    return CustomSMSLambdaVersionConfigType(
+      lambdaArn: json['LambdaArn'] as String,
+      lambdaVersion: (json['LambdaVersion'] as String)
+          .toCustomSMSSenderLambdaVersionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CustomSMSLambdaVersionConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    final lambdaVersion = this.lambdaVersion;
+    return {
+      'LambdaArn': lambdaArn,
+      'LambdaVersion': lambdaVersion.toValue(),
+    };
+  }
 }
 
 enum CustomSMSSenderLambdaVersionType {
-  @_s.JsonValue('V1_0')
   v1_0,
 }
 
+extension on CustomSMSSenderLambdaVersionType {
+  String toValue() {
+    switch (this) {
+      case CustomSMSSenderLambdaVersionType.v1_0:
+        return 'V1_0';
+    }
+  }
+}
+
+extension on String {
+  CustomSMSSenderLambdaVersionType toCustomSMSSenderLambdaVersionType() {
+    switch (this) {
+      case 'V1_0':
+        return CustomSMSSenderLambdaVersionType.v1_0;
+    }
+    throw Exception(
+        '$this is not known in enum CustomSMSSenderLambdaVersionType');
+  }
+}
+
 enum DefaultEmailOptionType {
-  @_s.JsonValue('CONFIRM_WITH_LINK')
   confirmWithLink,
-  @_s.JsonValue('CONFIRM_WITH_CODE')
   confirmWithCode,
 }
 
-/// Represents the response from the server to delete user attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteUserAttributesResponse {
-  DeleteUserAttributesResponse();
-  factory DeleteUserAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserAttributesResponseFromJson(json);
+extension on DefaultEmailOptionType {
+  String toValue() {
+    switch (this) {
+      case DefaultEmailOptionType.confirmWithLink:
+        return 'CONFIRM_WITH_LINK';
+      case DefaultEmailOptionType.confirmWithCode:
+        return 'CONFIRM_WITH_CODE';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DefaultEmailOptionType toDefaultEmailOptionType() {
+    switch (this) {
+      case 'CONFIRM_WITH_LINK':
+        return DefaultEmailOptionType.confirmWithLink;
+      case 'CONFIRM_WITH_CODE':
+        return DefaultEmailOptionType.confirmWithCode;
+    }
+    throw Exception('$this is not known in enum DefaultEmailOptionType');
+  }
+}
+
+/// Represents the response from the server to delete user attributes.
+class DeleteUserAttributesResponse {
+  DeleteUserAttributesResponse();
+  factory DeleteUserAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserAttributesResponse();
+  }
+}
+
 class DeleteUserPoolDomainResponse {
   DeleteUserPoolDomainResponse();
-  factory DeleteUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserPoolDomainResponseFromJson(json);
+  factory DeleteUserPoolDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserPoolDomainResponse();
+  }
 }
 
 enum DeliveryMediumType {
-  @_s.JsonValue('SMS')
   sms,
-  @_s.JsonValue('EMAIL')
   email,
 }
 
@@ -11361,167 +11524,177 @@ extension on DeliveryMediumType {
       case DeliveryMediumType.email:
         return 'EMAIL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeliveryMediumType toDeliveryMediumType() {
+    switch (this) {
+      case 'SMS':
+        return DeliveryMediumType.sms;
+      case 'EMAIL':
+        return DeliveryMediumType.email;
+    }
+    throw Exception('$this is not known in enum DeliveryMediumType');
+  }
+}
+
 class DescribeIdentityProviderResponse {
   /// The identity provider that was deleted.
-  @_s.JsonKey(name: 'IdentityProvider')
   final IdentityProviderType identityProvider;
 
   DescribeIdentityProviderResponse({
-    @_s.required this.identityProvider,
+    required this.identityProvider,
   });
-  factory DescribeIdentityProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeIdentityProviderResponseFromJson(json);
+  factory DescribeIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeIdentityProviderResponse(
+      identityProvider: IdentityProviderType.fromJson(
+          json['IdentityProvider'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourceServerResponse {
   /// The resource server.
-  @_s.JsonKey(name: 'ResourceServer')
   final ResourceServerType resourceServer;
 
   DescribeResourceServerResponse({
-    @_s.required this.resourceServer,
+    required this.resourceServer,
   });
-  factory DescribeResourceServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeResourceServerResponseFromJson(json);
+  factory DescribeResourceServerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourceServerResponse(
+      resourceServer: ResourceServerType.fromJson(
+          json['ResourceServer'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRiskConfigurationResponse {
   /// The risk configuration.
-  @_s.JsonKey(name: 'RiskConfiguration')
   final RiskConfigurationType riskConfiguration;
 
   DescribeRiskConfigurationResponse({
-    @_s.required this.riskConfiguration,
+    required this.riskConfiguration,
   });
   factory DescribeRiskConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRiskConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRiskConfigurationResponse(
+      riskConfiguration: RiskConfigurationType.fromJson(
+          json['RiskConfiguration'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Represents the response from the server to the request to describe the user
 /// import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserImportJobResponse {
   /// The job object that represents the user import job.
-  @_s.JsonKey(name: 'UserImportJob')
-  final UserImportJobType userImportJob;
+  final UserImportJobType? userImportJob;
 
   DescribeUserImportJobResponse({
     this.userImportJob,
   });
-  factory DescribeUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserImportJobResponseFromJson(json);
+  factory DescribeUserImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserImportJobResponse(
+      userImportJob: json['UserImportJob'] != null
+          ? UserImportJobType.fromJson(
+              json['UserImportJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response from the server from a request to describe the user
 /// pool client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserPoolClientResponse {
   /// The user pool client from a server response to describe the user pool
   /// client.
-  @_s.JsonKey(name: 'UserPoolClient')
-  final UserPoolClientType userPoolClient;
+  final UserPoolClientType? userPoolClient;
 
   DescribeUserPoolClientResponse({
     this.userPoolClient,
   });
-  factory DescribeUserPoolClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserPoolClientResponseFromJson(json);
+  factory DescribeUserPoolClientResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserPoolClientResponse(
+      userPoolClient: json['UserPoolClient'] != null
+          ? UserPoolClientType.fromJson(
+              json['UserPoolClient'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserPoolDomainResponse {
   /// A domain description object containing information about the domain.
-  @_s.JsonKey(name: 'DomainDescription')
-  final DomainDescriptionType domainDescription;
+  final DomainDescriptionType? domainDescription;
 
   DescribeUserPoolDomainResponse({
     this.domainDescription,
   });
-  factory DescribeUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserPoolDomainResponseFromJson(json);
+  factory DescribeUserPoolDomainResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserPoolDomainResponse(
+      domainDescription: json['DomainDescription'] != null
+          ? DomainDescriptionType.fromJson(
+              json['DomainDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response to describe the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserPoolResponse {
   /// The container of metadata returned by the server to describe the pool.
-  @_s.JsonKey(name: 'UserPool')
-  final UserPoolType userPool;
+  final UserPoolType? userPool;
 
   DescribeUserPoolResponse({
     this.userPool,
   });
-  factory DescribeUserPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserPoolResponseFromJson(json);
+  factory DescribeUserPoolResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserPoolResponse(
+      userPool: json['UserPool'] != null
+          ? UserPoolType.fromJson(json['UserPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The configuration for the user pool's device tracking.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceConfigurationType {
   /// Indicates whether a challenge is required on a new device. Only applicable
   /// to a new device.
-  @_s.JsonKey(name: 'ChallengeRequiredOnNewDevice')
-  final bool challengeRequiredOnNewDevice;
+  final bool? challengeRequiredOnNewDevice;
 
   /// If true, a device is only remembered on user prompt.
-  @_s.JsonKey(name: 'DeviceOnlyRememberedOnUserPrompt')
-  final bool deviceOnlyRememberedOnUserPrompt;
+  final bool? deviceOnlyRememberedOnUserPrompt;
 
   DeviceConfigurationType({
     this.challengeRequiredOnNewDevice,
     this.deviceOnlyRememberedOnUserPrompt,
   });
-  factory DeviceConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$DeviceConfigurationTypeFromJson(json);
+  factory DeviceConfigurationType.fromJson(Map<String, dynamic> json) {
+    return DeviceConfigurationType(
+      challengeRequiredOnNewDevice:
+          json['ChallengeRequiredOnNewDevice'] as bool?,
+      deviceOnlyRememberedOnUserPrompt:
+          json['DeviceOnlyRememberedOnUserPrompt'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeviceConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final challengeRequiredOnNewDevice = this.challengeRequiredOnNewDevice;
+    final deviceOnlyRememberedOnUserPrompt =
+        this.deviceOnlyRememberedOnUserPrompt;
+    return {
+      if (challengeRequiredOnNewDevice != null)
+        'ChallengeRequiredOnNewDevice': challengeRequiredOnNewDevice,
+      if (deviceOnlyRememberedOnUserPrompt != null)
+        'DeviceOnlyRememberedOnUserPrompt': deviceOnlyRememberedOnUserPrompt,
+    };
+  }
 }
 
 enum DeviceRememberedStatusType {
-  @_s.JsonValue('remembered')
   remembered,
-  @_s.JsonValue('not_remembered')
   notRemembered,
 }
 
@@ -11533,61 +11706,59 @@ extension on DeviceRememberedStatusType {
       case DeviceRememberedStatusType.notRemembered:
         return 'not_remembered';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DeviceRememberedStatusType toDeviceRememberedStatusType() {
+    switch (this) {
+      case 'remembered':
+        return DeviceRememberedStatusType.remembered;
+      case 'not_remembered':
+        return DeviceRememberedStatusType.notRemembered;
+    }
+    throw Exception('$this is not known in enum DeviceRememberedStatusType');
   }
 }
 
 /// The device verifier against which it will be authenticated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeviceSecretVerifierConfigType {
   /// The password verifier.
-  @_s.JsonKey(name: 'PasswordVerifier')
-  final String passwordVerifier;
+  final String? passwordVerifier;
 
   /// The salt.
-  @_s.JsonKey(name: 'Salt')
-  final String salt;
+  final String? salt;
 
   DeviceSecretVerifierConfigType({
     this.passwordVerifier,
     this.salt,
   });
-  Map<String, dynamic> toJson() => _$DeviceSecretVerifierConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final passwordVerifier = this.passwordVerifier;
+    final salt = this.salt;
+    return {
+      if (passwordVerifier != null) 'PasswordVerifier': passwordVerifier,
+      if (salt != null) 'Salt': salt,
+    };
+  }
 }
 
 /// The device type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceType {
   /// The device attributes.
-  @_s.JsonKey(name: 'DeviceAttributes')
-  final List<AttributeType> deviceAttributes;
+  final List<AttributeType>? deviceAttributes;
 
   /// The creation date of the device.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeviceCreateDate')
-  final DateTime deviceCreateDate;
+  final DateTime? deviceCreateDate;
 
   /// The device key.
-  @_s.JsonKey(name: 'DeviceKey')
-  final String deviceKey;
+  final String? deviceKey;
 
   /// The date in which the device was last authenticated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeviceLastAuthenticatedDate')
-  final DateTime deviceLastAuthenticatedDate;
+  final DateTime? deviceLastAuthenticatedDate;
 
   /// The last modified date of the device.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeviceLastModifiedDate')
-  final DateTime deviceLastModifiedDate;
+  final DateTime? deviceLastModifiedDate;
 
   DeviceType({
     this.deviceAttributes,
@@ -11596,49 +11767,47 @@ class DeviceType {
     this.deviceLastAuthenticatedDate,
     this.deviceLastModifiedDate,
   });
-  factory DeviceType.fromJson(Map<String, dynamic> json) =>
-      _$DeviceTypeFromJson(json);
+  factory DeviceType.fromJson(Map<String, dynamic> json) {
+    return DeviceType(
+      deviceAttributes: (json['DeviceAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deviceCreateDate: timeStampFromJson(json['DeviceCreateDate']),
+      deviceKey: json['DeviceKey'] as String?,
+      deviceLastAuthenticatedDate:
+          timeStampFromJson(json['DeviceLastAuthenticatedDate']),
+      deviceLastModifiedDate: timeStampFromJson(json['DeviceLastModifiedDate']),
+    );
+  }
 }
 
 /// A container for information about a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainDescriptionType {
   /// The AWS account ID for the user pool owner.
-  @_s.JsonKey(name: 'AWSAccountId')
-  final String awsAccountId;
+  final String? awsAccountId;
 
   /// The ARN of the CloudFront distribution.
-  @_s.JsonKey(name: 'CloudFrontDistribution')
-  final String cloudFrontDistribution;
+  final String? cloudFrontDistribution;
 
   /// The configuration for a custom domain that hosts the sign-up and sign-in
   /// webpages for your application.
-  @_s.JsonKey(name: 'CustomDomainConfig')
-  final CustomDomainConfigType customDomainConfig;
+  final CustomDomainConfigType? customDomainConfig;
 
   /// The domain string.
-  @_s.JsonKey(name: 'Domain')
-  final String domain;
+  final String? domain;
 
   /// The S3 bucket where the static files for this domain are stored.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The domain status.
-  @_s.JsonKey(name: 'Status')
-  final DomainStatusType status;
+  final DomainStatusType? status;
 
   /// The user pool ID.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   /// The app version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   DomainDescriptionType({
     this.awsAccountId,
@@ -11650,21 +11819,64 @@ class DomainDescriptionType {
     this.userPoolId,
     this.version,
   });
-  factory DomainDescriptionType.fromJson(Map<String, dynamic> json) =>
-      _$DomainDescriptionTypeFromJson(json);
+  factory DomainDescriptionType.fromJson(Map<String, dynamic> json) {
+    return DomainDescriptionType(
+      awsAccountId: json['AWSAccountId'] as String?,
+      cloudFrontDistribution: json['CloudFrontDistribution'] as String?,
+      customDomainConfig: json['CustomDomainConfig'] != null
+          ? CustomDomainConfigType.fromJson(
+              json['CustomDomainConfig'] as Map<String, dynamic>)
+          : null,
+      domain: json['Domain'] as String?,
+      s3Bucket: json['S3Bucket'] as String?,
+      status: (json['Status'] as String?)?.toDomainStatusType(),
+      userPoolId: json['UserPoolId'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
 }
 
 enum DomainStatusType {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on DomainStatusType {
+  String toValue() {
+    switch (this) {
+      case DomainStatusType.creating:
+        return 'CREATING';
+      case DomainStatusType.deleting:
+        return 'DELETING';
+      case DomainStatusType.updating:
+        return 'UPDATING';
+      case DomainStatusType.active:
+        return 'ACTIVE';
+      case DomainStatusType.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DomainStatusType toDomainStatusType() {
+    switch (this) {
+      case 'CREATING':
+        return DomainStatusType.creating;
+      case 'DELETING':
+        return DomainStatusType.deleting;
+      case 'UPDATING':
+        return DomainStatusType.updating;
+      case 'ACTIVE':
+        return DomainStatusType.active;
+      case 'FAILED':
+        return DomainStatusType.failed;
+    }
+    throw Exception('$this is not known in enum DomainStatusType');
+  }
 }
 
 /// The email configuration type.
@@ -11674,11 +11886,6 @@ enum DomainStatusType {
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-email.html">Email
 /// Settings for Amazon Cognito User Pools</a>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EmailConfigurationType {
   /// The set of configuration rules that can be applied to emails sent using
   /// Amazon SES. A configuration set is applied to an email by including a
@@ -11700,8 +11907,7 @@ class EmailConfigurationType {
   /// then associate the dedicated IP pools with configuration sets.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ConfigurationSet')
-  final String configurationSet;
+  final String? configurationSet;
 
   /// Specifies whether Amazon Cognito emails your users by using its built-in
   /// email functionality or your Amazon SES email configuration. Specify one of
@@ -11773,19 +11979,16 @@ class EmailConfigurationType {
   /// Service-Linked Roles for Amazon Cognito</a> in the <i>Amazon Cognito
   /// Developer Guide</i>.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'EmailSendingAccount')
-  final EmailSendingAccountType emailSendingAccount;
+  final EmailSendingAccountType? emailSendingAccount;
 
   /// Identifies either the sender’s email address or the sender’s name with their
   /// email address. For example, <code>testuser@example.com</code> or <code>Test
   /// User &lt;testuser@example.com&gt;</code>. This address will appear before
   /// the body of the email.
-  @_s.JsonKey(name: 'From')
-  final String from;
+  final String? from;
 
   /// The destination to which the receiver of the email should reply to.
-  @_s.JsonKey(name: 'ReplyToEmailAddress')
-  final String replyToEmailAddress;
+  final String? replyToEmailAddress;
 
   /// The Amazon Resource Name (ARN) of a verified email address in Amazon SES.
   /// This email address is used in one of the following ways, depending on the
@@ -11802,8 +12005,7 @@ class EmailConfigurationType {
   /// this address by calling Amazon SES on your behalf.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   EmailConfigurationType({
     this.configurationSet,
@@ -11812,45 +12014,79 @@ class EmailConfigurationType {
     this.replyToEmailAddress,
     this.sourceArn,
   });
-  factory EmailConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$EmailConfigurationTypeFromJson(json);
+  factory EmailConfigurationType.fromJson(Map<String, dynamic> json) {
+    return EmailConfigurationType(
+      configurationSet: json['ConfigurationSet'] as String?,
+      emailSendingAccount:
+          (json['EmailSendingAccount'] as String?)?.toEmailSendingAccountType(),
+      from: json['From'] as String?,
+      replyToEmailAddress: json['ReplyToEmailAddress'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EmailConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final configurationSet = this.configurationSet;
+    final emailSendingAccount = this.emailSendingAccount;
+    final from = this.from;
+    final replyToEmailAddress = this.replyToEmailAddress;
+    final sourceArn = this.sourceArn;
+    return {
+      if (configurationSet != null) 'ConfigurationSet': configurationSet,
+      if (emailSendingAccount != null)
+        'EmailSendingAccount': emailSendingAccount.toValue(),
+      if (from != null) 'From': from,
+      if (replyToEmailAddress != null)
+        'ReplyToEmailAddress': replyToEmailAddress,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+    };
+  }
 }
 
 enum EmailSendingAccountType {
-  @_s.JsonValue('COGNITO_DEFAULT')
   cognitoDefault,
-  @_s.JsonValue('DEVELOPER')
   developer,
 }
 
+extension on EmailSendingAccountType {
+  String toValue() {
+    switch (this) {
+      case EmailSendingAccountType.cognitoDefault:
+        return 'COGNITO_DEFAULT';
+      case EmailSendingAccountType.developer:
+        return 'DEVELOPER';
+    }
+  }
+}
+
+extension on String {
+  EmailSendingAccountType toEmailSendingAccountType() {
+    switch (this) {
+      case 'COGNITO_DEFAULT':
+        return EmailSendingAccountType.cognitoDefault;
+      case 'DEVELOPER':
+        return EmailSendingAccountType.developer;
+    }
+    throw Exception('$this is not known in enum EmailSendingAccountType');
+  }
+}
+
 /// Specifies the user context data captured at the time of an event request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventContextDataType {
   /// The user's city.
-  @_s.JsonKey(name: 'City')
-  final String city;
+  final String? city;
 
   /// The user's country.
-  @_s.JsonKey(name: 'Country')
-  final String country;
+  final String? country;
 
   /// The user's device name.
-  @_s.JsonKey(name: 'DeviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// The user's IP address.
-  @_s.JsonKey(name: 'IpAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The user's time zone.
-  @_s.JsonKey(name: 'Timezone')
-  final String timezone;
+  final String? timezone;
 
   EventContextDataType({
     this.city,
@@ -11859,109 +12095,171 @@ class EventContextDataType {
     this.ipAddress,
     this.timezone,
   });
-  factory EventContextDataType.fromJson(Map<String, dynamic> json) =>
-      _$EventContextDataTypeFromJson(json);
+  factory EventContextDataType.fromJson(Map<String, dynamic> json) {
+    return EventContextDataType(
+      city: json['City'] as String?,
+      country: json['Country'] as String?,
+      deviceName: json['DeviceName'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      timezone: json['Timezone'] as String?,
+    );
+  }
 }
 
 /// Specifies the event feedback type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventFeedbackType {
   /// The event feedback value.
-  @_s.JsonKey(name: 'FeedbackValue')
   final FeedbackValueType feedbackValue;
 
   /// The provider.
-  @_s.JsonKey(name: 'Provider')
   final String provider;
 
   /// The event feedback date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FeedbackDate')
-  final DateTime feedbackDate;
+  final DateTime? feedbackDate;
 
   EventFeedbackType({
-    @_s.required this.feedbackValue,
-    @_s.required this.provider,
+    required this.feedbackValue,
+    required this.provider,
     this.feedbackDate,
   });
-  factory EventFeedbackType.fromJson(Map<String, dynamic> json) =>
-      _$EventFeedbackTypeFromJson(json);
+  factory EventFeedbackType.fromJson(Map<String, dynamic> json) {
+    return EventFeedbackType(
+      feedbackValue: (json['FeedbackValue'] as String).toFeedbackValueType(),
+      provider: json['Provider'] as String,
+      feedbackDate: timeStampFromJson(json['FeedbackDate']),
+    );
+  }
 }
 
 enum EventFilterType {
-  @_s.JsonValue('SIGN_IN')
   signIn,
-  @_s.JsonValue('PASSWORD_CHANGE')
   passwordChange,
-  @_s.JsonValue('SIGN_UP')
   signUp,
 }
 
+extension on EventFilterType {
+  String toValue() {
+    switch (this) {
+      case EventFilterType.signIn:
+        return 'SIGN_IN';
+      case EventFilterType.passwordChange:
+        return 'PASSWORD_CHANGE';
+      case EventFilterType.signUp:
+        return 'SIGN_UP';
+    }
+  }
+}
+
+extension on String {
+  EventFilterType toEventFilterType() {
+    switch (this) {
+      case 'SIGN_IN':
+        return EventFilterType.signIn;
+      case 'PASSWORD_CHANGE':
+        return EventFilterType.passwordChange;
+      case 'SIGN_UP':
+        return EventFilterType.signUp;
+    }
+    throw Exception('$this is not known in enum EventFilterType');
+  }
+}
+
 enum EventResponseType {
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Failure')
   failure,
 }
 
+extension on EventResponseType {
+  String toValue() {
+    switch (this) {
+      case EventResponseType.success:
+        return 'Success';
+      case EventResponseType.failure:
+        return 'Failure';
+    }
+  }
+}
+
+extension on String {
+  EventResponseType toEventResponseType() {
+    switch (this) {
+      case 'Success':
+        return EventResponseType.success;
+      case 'Failure':
+        return EventResponseType.failure;
+    }
+    throw Exception('$this is not known in enum EventResponseType');
+  }
+}
+
 /// The event risk type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventRiskType {
   /// Indicates whether compromised credentials were detected during an
   /// authentication event.
-  @_s.JsonKey(name: 'CompromisedCredentialsDetected')
-  final bool compromisedCredentialsDetected;
+  final bool? compromisedCredentialsDetected;
 
   /// The risk decision.
-  @_s.JsonKey(name: 'RiskDecision')
-  final RiskDecisionType riskDecision;
+  final RiskDecisionType? riskDecision;
 
   /// The risk level.
-  @_s.JsonKey(name: 'RiskLevel')
-  final RiskLevelType riskLevel;
+  final RiskLevelType? riskLevel;
 
   EventRiskType({
     this.compromisedCredentialsDetected,
     this.riskDecision,
     this.riskLevel,
   });
-  factory EventRiskType.fromJson(Map<String, dynamic> json) =>
-      _$EventRiskTypeFromJson(json);
+  factory EventRiskType.fromJson(Map<String, dynamic> json) {
+    return EventRiskType(
+      compromisedCredentialsDetected:
+          json['CompromisedCredentialsDetected'] as bool?,
+      riskDecision: (json['RiskDecision'] as String?)?.toRiskDecisionType(),
+      riskLevel: (json['RiskLevel'] as String?)?.toRiskLevelType(),
+    );
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('SignIn')
   signIn,
-  @_s.JsonValue('SignUp')
   signUp,
-  @_s.JsonValue('ForgotPassword')
   forgotPassword,
 }
 
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.signIn:
+        return 'SignIn';
+      case EventType.signUp:
+        return 'SignUp';
+      case EventType.forgotPassword:
+        return 'ForgotPassword';
+    }
+  }
+}
+
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'SignIn':
+        return EventType.signIn;
+      case 'SignUp':
+        return EventType.signUp;
+      case 'ForgotPassword':
+        return EventType.forgotPassword;
+    }
+    throw Exception('$this is not known in enum EventType');
+  }
+}
+
 enum ExplicitAuthFlowsType {
-  @_s.JsonValue('ADMIN_NO_SRP_AUTH')
   adminNoSrpAuth,
-  @_s.JsonValue('CUSTOM_AUTH_FLOW_ONLY')
   customAuthFlowOnly,
-  @_s.JsonValue('USER_PASSWORD_AUTH')
   userPasswordAuth,
-  @_s.JsonValue('ALLOW_ADMIN_USER_PASSWORD_AUTH')
   allowAdminUserPasswordAuth,
-  @_s.JsonValue('ALLOW_CUSTOM_AUTH')
   allowCustomAuth,
-  @_s.JsonValue('ALLOW_USER_PASSWORD_AUTH')
   allowUserPasswordAuth,
-  @_s.JsonValue('ALLOW_USER_SRP_AUTH')
   allowUserSrpAuth,
-  @_s.JsonValue('ALLOW_REFRESH_TOKEN_AUTH')
   allowRefreshTokenAuth,
 }
 
@@ -11985,14 +12283,35 @@ extension on ExplicitAuthFlowsType {
       case ExplicitAuthFlowsType.allowRefreshTokenAuth:
         return 'ALLOW_REFRESH_TOKEN_AUTH';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExplicitAuthFlowsType toExplicitAuthFlowsType() {
+    switch (this) {
+      case 'ADMIN_NO_SRP_AUTH':
+        return ExplicitAuthFlowsType.adminNoSrpAuth;
+      case 'CUSTOM_AUTH_FLOW_ONLY':
+        return ExplicitAuthFlowsType.customAuthFlowOnly;
+      case 'USER_PASSWORD_AUTH':
+        return ExplicitAuthFlowsType.userPasswordAuth;
+      case 'ALLOW_ADMIN_USER_PASSWORD_AUTH':
+        return ExplicitAuthFlowsType.allowAdminUserPasswordAuth;
+      case 'ALLOW_CUSTOM_AUTH':
+        return ExplicitAuthFlowsType.allowCustomAuth;
+      case 'ALLOW_USER_PASSWORD_AUTH':
+        return ExplicitAuthFlowsType.allowUserPasswordAuth;
+      case 'ALLOW_USER_SRP_AUTH':
+        return ExplicitAuthFlowsType.allowUserSrpAuth;
+      case 'ALLOW_REFRESH_TOKEN_AUTH':
+        return ExplicitAuthFlowsType.allowRefreshTokenAuth;
+    }
+    throw Exception('$this is not known in enum ExplicitAuthFlowsType');
   }
 }
 
 enum FeedbackValueType {
-  @_s.JsonValue('Valid')
   valid,
-  @_s.JsonValue('Invalid')
   invalid,
 }
 
@@ -12004,168 +12323,163 @@ extension on FeedbackValueType {
       case FeedbackValueType.invalid:
         return 'Invalid';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FeedbackValueType toFeedbackValueType() {
+    switch (this) {
+      case 'Valid':
+        return FeedbackValueType.valid;
+      case 'Invalid':
+        return FeedbackValueType.invalid;
+    }
+    throw Exception('$this is not known in enum FeedbackValueType');
   }
 }
 
 /// Respresents the response from the server regarding the request to reset a
 /// password.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ForgotPasswordResponse {
   /// The code delivery details returned by the server in response to the request
   /// to reset a password.
-  @_s.JsonKey(name: 'CodeDeliveryDetails')
-  final CodeDeliveryDetailsType codeDeliveryDetails;
+  final CodeDeliveryDetailsType? codeDeliveryDetails;
 
   ForgotPasswordResponse({
     this.codeDeliveryDetails,
   });
-  factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$ForgotPasswordResponseFromJson(json);
+  factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) {
+    return ForgotPasswordResponse(
+      codeDeliveryDetails: json['CodeDeliveryDetails'] != null
+          ? CodeDeliveryDetailsType.fromJson(
+              json['CodeDeliveryDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response from the server to the request to get the header
 /// information for the .csv file for the user import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCSVHeaderResponse {
   /// The header information for the .csv file for the user import job.
-  @_s.JsonKey(name: 'CSVHeader')
-  final List<String> cSVHeader;
+  final List<String>? cSVHeader;
 
   /// The user pool ID for the user pool that the users are to be imported into.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   GetCSVHeaderResponse({
     this.cSVHeader,
     this.userPoolId,
   });
-  factory GetCSVHeaderResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCSVHeaderResponseFromJson(json);
+  factory GetCSVHeaderResponse.fromJson(Map<String, dynamic> json) {
+    return GetCSVHeaderResponse(
+      cSVHeader: (json['CSVHeader'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 /// Gets the device response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceResponse {
   /// The device.
-  @_s.JsonKey(name: 'Device')
   final DeviceType device;
 
   GetDeviceResponse({
-    @_s.required this.device,
+    required this.device,
   });
-  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceResponseFromJson(json);
+  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeviceResponse(
+      device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupResponse {
   /// The group object for the group.
-  @_s.JsonKey(name: 'Group')
-  final GroupType group;
+  final GroupType? group;
 
   GetGroupResponse({
     this.group,
   });
-  factory GetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupResponseFromJson(json);
+  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupResponse(
+      group: json['Group'] != null
+          ? GroupType.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIdentityProviderByIdentifierResponse {
   /// The identity provider object.
-  @_s.JsonKey(name: 'IdentityProvider')
   final IdentityProviderType identityProvider;
 
   GetIdentityProviderByIdentifierResponse({
-    @_s.required this.identityProvider,
+    required this.identityProvider,
   });
   factory GetIdentityProviderByIdentifierResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetIdentityProviderByIdentifierResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetIdentityProviderByIdentifierResponse(
+      identityProvider: IdentityProviderType.fromJson(
+          json['IdentityProvider'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Response from Cognito for a signing certificate request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSigningCertificateResponse {
   /// The signing certificate.
-  @_s.JsonKey(name: 'Certificate')
-  final String certificate;
+  final String? certificate;
 
   GetSigningCertificateResponse({
     this.certificate,
   });
-  factory GetSigningCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSigningCertificateResponseFromJson(json);
+  factory GetSigningCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return GetSigningCertificateResponse(
+      certificate: json['Certificate'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUICustomizationResponse {
   /// The UI customization information.
-  @_s.JsonKey(name: 'UICustomization')
   final UICustomizationType uICustomization;
 
   GetUICustomizationResponse({
-    @_s.required this.uICustomization,
+    required this.uICustomization,
   });
-  factory GetUICustomizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUICustomizationResponseFromJson(json);
+  factory GetUICustomizationResponse.fromJson(Map<String, dynamic> json) {
+    return GetUICustomizationResponse(
+      uICustomization: UICustomizationType.fromJson(
+          json['UICustomization'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The verification code response returned by the server response to get the
 /// user attribute verification code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserAttributeVerificationCodeResponse {
   /// The code delivery details returned by the server in response to the request
   /// to get the user attribute verification code.
-  @_s.JsonKey(name: 'CodeDeliveryDetails')
-  final CodeDeliveryDetailsType codeDeliveryDetails;
+  final CodeDeliveryDetailsType? codeDeliveryDetails;
 
   GetUserAttributeVerificationCodeResponse({
     this.codeDeliveryDetails,
   });
   factory GetUserAttributeVerificationCodeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetUserAttributeVerificationCodeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetUserAttributeVerificationCodeResponse(
+      codeDeliveryDetails: json['CodeDeliveryDetails'] != null
+          ? CodeDeliveryDetailsType.fromJson(
+              json['CodeDeliveryDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserPoolMfaConfigResponse {
   /// The multi-factor (MFA) configuration. Valid values include:
   ///
@@ -12181,43 +12495,46 @@ class GetUserPoolMfaConfigResponse {
   /// have an MFA factor enabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MfaConfiguration')
-  final UserPoolMfaType mfaConfiguration;
+  final UserPoolMfaType? mfaConfiguration;
 
   /// The SMS text message multi-factor (MFA) configuration.
-  @_s.JsonKey(name: 'SmsMfaConfiguration')
-  final SmsMfaConfigType smsMfaConfiguration;
+  final SmsMfaConfigType? smsMfaConfiguration;
 
   /// The software token multi-factor (MFA) configuration.
-  @_s.JsonKey(name: 'SoftwareTokenMfaConfiguration')
-  final SoftwareTokenMfaConfigType softwareTokenMfaConfiguration;
+  final SoftwareTokenMfaConfigType? softwareTokenMfaConfiguration;
 
   GetUserPoolMfaConfigResponse({
     this.mfaConfiguration,
     this.smsMfaConfiguration,
     this.softwareTokenMfaConfiguration,
   });
-  factory GetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserPoolMfaConfigResponseFromJson(json);
+  factory GetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserPoolMfaConfigResponse(
+      mfaConfiguration:
+          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      smsMfaConfiguration: json['SmsMfaConfiguration'] != null
+          ? SmsMfaConfigType.fromJson(
+              json['SmsMfaConfiguration'] as Map<String, dynamic>)
+          : null,
+      softwareTokenMfaConfiguration:
+          json['SoftwareTokenMfaConfiguration'] != null
+              ? SoftwareTokenMfaConfigType.fromJson(
+                  json['SoftwareTokenMfaConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
 /// Represents the response from the server from the request to get information
 /// about the user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserResponse {
   /// An array of name-value pairs representing user attributes.
   ///
   /// For custom attributes, you must prepend the <code>custom:</code> prefix to
   /// the attribute name.
-  @_s.JsonKey(name: 'UserAttributes')
   final List<AttributeType> userAttributes;
 
   /// The user name of the user you wish to retrieve from the get user request.
-  @_s.JsonKey(name: 'Username')
   final String username;
 
   /// <i>This response parameter is no longer supported.</i> It provides
@@ -12225,65 +12542,63 @@ class GetUserResponse {
   /// information about TOTP software token MFA configurations. To look up
   /// information about either type of MFA configuration, use UserMFASettingList
   /// instead.
-  @_s.JsonKey(name: 'MFAOptions')
-  final List<MFAOptionType> mFAOptions;
+  final List<MFAOptionType>? mFAOptions;
 
   /// The user's preferred MFA setting.
-  @_s.JsonKey(name: 'PreferredMfaSetting')
-  final String preferredMfaSetting;
+  final String? preferredMfaSetting;
 
   /// The MFA options that are enabled for the user. The possible values in this
   /// list are <code>SMS_MFA</code> and <code>SOFTWARE_TOKEN_MFA</code>.
-  @_s.JsonKey(name: 'UserMFASettingList')
-  final List<String> userMFASettingList;
+  final List<String>? userMFASettingList;
 
   GetUserResponse({
-    @_s.required this.userAttributes,
-    @_s.required this.username,
+    required this.userAttributes,
+    required this.username,
     this.mFAOptions,
     this.preferredMfaSetting,
     this.userMFASettingList,
   });
-  factory GetUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserResponseFromJson(json);
+  factory GetUserResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserResponse(
+      userAttributes: (json['UserAttributes'] as List)
+          .whereNotNull()
+          .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      username: json['Username'] as String,
+      mFAOptions: (json['MFAOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      preferredMfaSetting: json['PreferredMfaSetting'] as String?,
+      userMFASettingList: (json['UserMFASettingList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The response to the request to sign out all devices.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalSignOutResponse {
   GlobalSignOutResponse();
-  factory GlobalSignOutResponse.fromJson(Map<String, dynamic> json) =>
-      _$GlobalSignOutResponseFromJson(json);
+  factory GlobalSignOutResponse.fromJson(Map<String, dynamic> _) {
+    return GlobalSignOutResponse();
+  }
 }
 
 /// The group type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupType {
   /// The date the group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A string containing the description of the group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'GroupName')
-  final String groupName;
+  final String? groupName;
 
   /// The date the group was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// A nonnegative integer value that specifies the precedence of this group
   /// relative to the other groups that a user can belong to in the user pool. If
@@ -12301,16 +12616,13 @@ class GroupType {
   /// <code>cognito:preferred_role</code> claim is not set in users' tokens.
   ///
   /// The default <code>Precedence</code> value is null.
-  @_s.JsonKey(name: 'Precedence')
-  final int precedence;
+  final int? precedence;
 
   /// The role ARN for the group.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The user pool ID for the user pool.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   GroupType({
     this.creationDate,
@@ -12321,57 +12633,55 @@ class GroupType {
     this.roleArn,
     this.userPoolId,
   });
-  factory GroupType.fromJson(Map<String, dynamic> json) =>
-      _$GroupTypeFromJson(json);
+  factory GroupType.fromJson(Map<String, dynamic> json) {
+    return GroupType(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      groupName: json['GroupName'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      precedence: json['Precedence'] as int?,
+      roleArn: json['RoleArn'] as String?,
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 /// The HTTP header.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpHeader {
   /// The header name
-  @_s.JsonKey(name: 'headerName')
-  final String headerName;
+  final String? headerName;
 
   /// The header value.
-  @_s.JsonKey(name: 'headerValue')
-  final String headerValue;
+  final String? headerValue;
 
   HttpHeader({
     this.headerName,
     this.headerValue,
   });
-  Map<String, dynamic> toJson() => _$HttpHeaderToJson(this);
+  Map<String, dynamic> toJson() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      if (headerName != null) 'headerName': headerName,
+      if (headerValue != null) 'headerValue': headerValue,
+    };
+  }
 }
 
 /// A container for information about an identity provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdentityProviderType {
   /// A mapping of identity provider attributes to standard and custom user pool
   /// attributes.
-  @_s.JsonKey(name: 'AttributeMapping')
-  final Map<String, String> attributeMapping;
+  final Map<String, String>? attributeMapping;
 
   /// The date the identity provider was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A list of identity provider identifiers.
-  @_s.JsonKey(name: 'IdpIdentifiers')
-  final List<String> idpIdentifiers;
+  final List<String>? idpIdentifiers;
 
   /// The date the identity provider was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The identity provider details. The following list describes the provider
   /// detail keys for each identity provider type.
@@ -12479,20 +12789,16 @@ class IdentityProviderType {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'ProviderDetails')
-  final Map<String, String> providerDetails;
+  final Map<String, String>? providerDetails;
 
   /// The identity provider name.
-  @_s.JsonKey(name: 'ProviderName')
-  final String providerName;
+  final String? providerName;
 
   /// The identity provider type.
-  @_s.JsonKey(name: 'ProviderType')
-  final IdentityProviderTypeType providerType;
+  final IdentityProviderTypeType? providerType;
 
   /// The user pool ID.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   IdentityProviderType({
     this.attributeMapping,
@@ -12504,22 +12810,32 @@ class IdentityProviderType {
     this.providerType,
     this.userPoolId,
   });
-  factory IdentityProviderType.fromJson(Map<String, dynamic> json) =>
-      _$IdentityProviderTypeFromJson(json);
+  factory IdentityProviderType.fromJson(Map<String, dynamic> json) {
+    return IdentityProviderType(
+      attributeMapping: (json['AttributeMapping'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      idpIdentifiers: (json['IdpIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      providerDetails: (json['ProviderDetails'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      providerName: json['ProviderName'] as String?,
+      providerType:
+          (json['ProviderType'] as String?)?.toIdentityProviderTypeType(),
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 enum IdentityProviderTypeType {
-  @_s.JsonValue('SAML')
   saml,
-  @_s.JsonValue('Facebook')
   facebook,
-  @_s.JsonValue('Google')
   google,
-  @_s.JsonValue('LoginWithAmazon')
   loginWithAmazon,
-  @_s.JsonValue('SignInWithApple')
   signInWithApple,
-  @_s.JsonValue('OIDC')
   oidc,
 }
 
@@ -12539,23 +12855,36 @@ extension on IdentityProviderTypeType {
       case IdentityProviderTypeType.oidc:
         return 'OIDC';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IdentityProviderTypeType toIdentityProviderTypeType() {
+    switch (this) {
+      case 'SAML':
+        return IdentityProviderTypeType.saml;
+      case 'Facebook':
+        return IdentityProviderTypeType.facebook;
+      case 'Google':
+        return IdentityProviderTypeType.google;
+      case 'LoginWithAmazon':
+        return IdentityProviderTypeType.loginWithAmazon;
+      case 'SignInWithApple':
+        return IdentityProviderTypeType.signInWithApple;
+      case 'OIDC':
+        return IdentityProviderTypeType.oidc;
+    }
+    throw Exception('$this is not known in enum IdentityProviderTypeType');
   }
 }
 
 /// Initiates the authentication response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateAuthResponse {
   /// The result of the authentication response. This is only returned if the
   /// caller does not need to pass another challenge. If the caller does need to
   /// pass another challenge before it gets tokens, <code>ChallengeName</code>,
   /// <code>ChallengeParameters</code>, and <code>Session</code> are returned.
-  @_s.JsonKey(name: 'AuthenticationResult')
-  final AuthenticationResultType authenticationResult;
+  final AuthenticationResultType? authenticationResult;
 
   /// The name of the challenge which you are responding to with this call. This
   /// is returned to you in the <code>AdminInitiateAuth</code> response if you
@@ -12596,8 +12925,7 @@ class InitiateAuthResponse {
   /// passed with <code>NEW_PASSWORD</code> and any other required attributes.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ChallengeName')
-  final ChallengeNameType challengeName;
+  final ChallengeNameType? challengeName;
 
   /// The challenge parameters. These are returned to you in the
   /// <code>InitiateAuth</code> response if you need to pass another challenge.
@@ -12606,15 +12934,13 @@ class InitiateAuthResponse {
   ///
   /// All challenges require <code>USERNAME</code> and <code>SECRET_HASH</code>
   /// (if applicable).
-  @_s.JsonKey(name: 'ChallengeParameters')
-  final Map<String, String> challengeParameters;
+  final Map<String, String>? challengeParameters;
 
   /// The session which should be passed both ways in challenge-response calls to
   /// the service. If the caller needs to go through another challenge, they
   /// return a session with other challenge parameters. This session should be
   /// passed as it is to the next <code>RespondToAuthChallenge</code> API call.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   InitiateAuthResponse({
     this.authenticationResult,
@@ -12622,72 +12948,65 @@ class InitiateAuthResponse {
     this.challengeParameters,
     this.session,
   });
-  factory InitiateAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$InitiateAuthResponseFromJson(json);
+  factory InitiateAuthResponse.fromJson(Map<String, dynamic> json) {
+    return InitiateAuthResponse(
+      authenticationResult: json['AuthenticationResult'] != null
+          ? AuthenticationResultType.fromJson(
+              json['AuthenticationResult'] as Map<String, dynamic>)
+          : null,
+      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeParameters:
+          (json['ChallengeParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      session: json['Session'] as String?,
+    );
+  }
 }
 
 /// Specifies the configuration for AWS Lambda triggers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaConfigType {
   /// Creates an authentication challenge.
-  @_s.JsonKey(name: 'CreateAuthChallenge')
-  final String createAuthChallenge;
+  final String? createAuthChallenge;
 
   /// A custom email sender AWS Lambda trigger.
-  @_s.JsonKey(name: 'CustomEmailSender')
-  final CustomEmailLambdaVersionConfigType customEmailSender;
+  final CustomEmailLambdaVersionConfigType? customEmailSender;
 
   /// A custom Message AWS Lambda trigger.
-  @_s.JsonKey(name: 'CustomMessage')
-  final String customMessage;
+  final String? customMessage;
 
   /// A custom SMS sender AWS Lambda trigger.
-  @_s.JsonKey(name: 'CustomSMSSender')
-  final CustomSMSLambdaVersionConfigType customSMSSender;
+  final CustomSMSLambdaVersionConfigType? customSMSSender;
 
   /// Defines the authentication challenge.
-  @_s.JsonKey(name: 'DefineAuthChallenge')
-  final String defineAuthChallenge;
+  final String? defineAuthChallenge;
 
   /// The Amazon Resource Name of Key Management Service <a
   /// href="/kms/latest/developerguide/concepts.html#master_keys">Customer master
   /// keys</a> . Amazon Cognito uses the key to encrypt codes and temporary
   /// passwords sent to <code>CustomEmailSender</code> and
   /// <code>CustomSMSSender</code>.
-  @_s.JsonKey(name: 'KMSKeyID')
-  final String kMSKeyID;
+  final String? kMSKeyID;
 
   /// A post-authentication AWS Lambda trigger.
-  @_s.JsonKey(name: 'PostAuthentication')
-  final String postAuthentication;
+  final String? postAuthentication;
 
   /// A post-confirmation AWS Lambda trigger.
-  @_s.JsonKey(name: 'PostConfirmation')
-  final String postConfirmation;
+  final String? postConfirmation;
 
   /// A pre-authentication AWS Lambda trigger.
-  @_s.JsonKey(name: 'PreAuthentication')
-  final String preAuthentication;
+  final String? preAuthentication;
 
   /// A pre-registration AWS Lambda trigger.
-  @_s.JsonKey(name: 'PreSignUp')
-  final String preSignUp;
+  final String? preSignUp;
 
   /// A Lambda trigger that is invoked before token generation.
-  @_s.JsonKey(name: 'PreTokenGeneration')
-  final String preTokenGeneration;
+  final String? preTokenGeneration;
 
   /// The user migration Lambda config type.
-  @_s.JsonKey(name: 'UserMigration')
-  final String userMigration;
+  final String? userMigration;
 
   /// Verifies the authentication challenge response.
-  @_s.JsonKey(name: 'VerifyAuthChallengeResponse')
-  final String verifyAuthChallengeResponse;
+  final String? verifyAuthChallengeResponse;
 
   LambdaConfigType({
     this.createAuthChallenge,
@@ -12704,272 +13023,329 @@ class LambdaConfigType {
     this.userMigration,
     this.verifyAuthChallengeResponse,
   });
-  factory LambdaConfigType.fromJson(Map<String, dynamic> json) =>
-      _$LambdaConfigTypeFromJson(json);
+  factory LambdaConfigType.fromJson(Map<String, dynamic> json) {
+    return LambdaConfigType(
+      createAuthChallenge: json['CreateAuthChallenge'] as String?,
+      customEmailSender: json['CustomEmailSender'] != null
+          ? CustomEmailLambdaVersionConfigType.fromJson(
+              json['CustomEmailSender'] as Map<String, dynamic>)
+          : null,
+      customMessage: json['CustomMessage'] as String?,
+      customSMSSender: json['CustomSMSSender'] != null
+          ? CustomSMSLambdaVersionConfigType.fromJson(
+              json['CustomSMSSender'] as Map<String, dynamic>)
+          : null,
+      defineAuthChallenge: json['DefineAuthChallenge'] as String?,
+      kMSKeyID: json['KMSKeyID'] as String?,
+      postAuthentication: json['PostAuthentication'] as String?,
+      postConfirmation: json['PostConfirmation'] as String?,
+      preAuthentication: json['PreAuthentication'] as String?,
+      preSignUp: json['PreSignUp'] as String?,
+      preTokenGeneration: json['PreTokenGeneration'] as String?,
+      userMigration: json['UserMigration'] as String?,
+      verifyAuthChallengeResponse:
+          json['VerifyAuthChallengeResponse'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LambdaConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final createAuthChallenge = this.createAuthChallenge;
+    final customEmailSender = this.customEmailSender;
+    final customMessage = this.customMessage;
+    final customSMSSender = this.customSMSSender;
+    final defineAuthChallenge = this.defineAuthChallenge;
+    final kMSKeyID = this.kMSKeyID;
+    final postAuthentication = this.postAuthentication;
+    final postConfirmation = this.postConfirmation;
+    final preAuthentication = this.preAuthentication;
+    final preSignUp = this.preSignUp;
+    final preTokenGeneration = this.preTokenGeneration;
+    final userMigration = this.userMigration;
+    final verifyAuthChallengeResponse = this.verifyAuthChallengeResponse;
+    return {
+      if (createAuthChallenge != null)
+        'CreateAuthChallenge': createAuthChallenge,
+      if (customEmailSender != null) 'CustomEmailSender': customEmailSender,
+      if (customMessage != null) 'CustomMessage': customMessage,
+      if (customSMSSender != null) 'CustomSMSSender': customSMSSender,
+      if (defineAuthChallenge != null)
+        'DefineAuthChallenge': defineAuthChallenge,
+      if (kMSKeyID != null) 'KMSKeyID': kMSKeyID,
+      if (postAuthentication != null) 'PostAuthentication': postAuthentication,
+      if (postConfirmation != null) 'PostConfirmation': postConfirmation,
+      if (preAuthentication != null) 'PreAuthentication': preAuthentication,
+      if (preSignUp != null) 'PreSignUp': preSignUp,
+      if (preTokenGeneration != null) 'PreTokenGeneration': preTokenGeneration,
+      if (userMigration != null) 'UserMigration': userMigration,
+      if (verifyAuthChallengeResponse != null)
+        'VerifyAuthChallengeResponse': verifyAuthChallengeResponse,
+    };
+  }
 }
 
 /// Represents the response to list devices.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevicesResponse {
   /// The devices returned in the list devices response.
-  @_s.JsonKey(name: 'Devices')
-  final List<DeviceType> devices;
+  final List<DeviceType>? devices;
 
   /// The pagination token for the list device response.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   ListDevicesResponse({
     this.devices,
     this.paginationToken,
   });
-  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDevicesResponseFromJson(json);
+  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevicesResponse(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      paginationToken: json['PaginationToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupsResponse {
   /// The group objects for the groups.
-  @_s.JsonKey(name: 'Groups')
-  final List<GroupType> groups;
+  final List<GroupType>? groups;
 
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupsResponse({
     this.groups,
     this.nextToken,
   });
-  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupsResponseFromJson(json);
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIdentityProvidersResponse {
   /// A list of identity provider objects.
-  @_s.JsonKey(name: 'Providers')
   final List<ProviderDescription> providers;
 
   /// A pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIdentityProvidersResponse({
-    @_s.required this.providers,
+    required this.providers,
     this.nextToken,
   });
-  factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIdentityProvidersResponseFromJson(json);
+  factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
+    return ListIdentityProvidersResponse(
+      providers: (json['Providers'] as List)
+          .whereNotNull()
+          .map((e) => ProviderDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceServersResponse {
   /// The resource servers.
-  @_s.JsonKey(name: 'ResourceServers')
   final List<ResourceServerType> resourceServers;
 
   /// A pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListResourceServersResponse({
-    @_s.required this.resourceServers,
+    required this.resourceServers,
     this.nextToken,
   });
-  factory ListResourceServersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceServersResponseFromJson(json);
+  factory ListResourceServersResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceServersResponse(
+      resourceServers: (json['ResourceServers'] as List)
+          .whereNotNull()
+          .map((e) => ResourceServerType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags that are assigned to the user pool.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Represents the response from the server to the request to list the user
 /// import jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUserImportJobsResponse {
   /// An identifier that can be used to return the next set of user import jobs in
   /// the list.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// The user import jobs.
-  @_s.JsonKey(name: 'UserImportJobs')
-  final List<UserImportJobType> userImportJobs;
+  final List<UserImportJobType>? userImportJobs;
 
   ListUserImportJobsResponse({
     this.paginationToken,
     this.userImportJobs,
   });
-  factory ListUserImportJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUserImportJobsResponseFromJson(json);
+  factory ListUserImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserImportJobsResponse(
+      paginationToken: json['PaginationToken'] as String?,
+      userImportJobs: (json['UserImportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserImportJobType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the response from the server that lists user pool clients.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUserPoolClientsResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The user pool clients in the response that lists user pool clients.
-  @_s.JsonKey(name: 'UserPoolClients')
-  final List<UserPoolClientDescription> userPoolClients;
+  final List<UserPoolClientDescription>? userPoolClients;
 
   ListUserPoolClientsResponse({
     this.nextToken,
     this.userPoolClients,
   });
-  factory ListUserPoolClientsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUserPoolClientsResponseFromJson(json);
+  factory ListUserPoolClientsResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserPoolClientsResponse(
+      nextToken: json['NextToken'] as String?,
+      userPoolClients: (json['UserPoolClients'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UserPoolClientDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the response to list user pools.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUserPoolsResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The user pools from the response to list users.
-  @_s.JsonKey(name: 'UserPools')
-  final List<UserPoolDescriptionType> userPools;
+  final List<UserPoolDescriptionType>? userPools;
 
   ListUserPoolsResponse({
     this.nextToken,
     this.userPools,
   });
-  factory ListUserPoolsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUserPoolsResponseFromJson(json);
+  factory ListUserPoolsResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserPoolsResponse(
+      nextToken: json['NextToken'] as String?,
+      userPools: (json['UserPools'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UserPoolDescriptionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersInGroupResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The users returned in the request to list users.
-  @_s.JsonKey(name: 'Users')
-  final List<UserType> users;
+  final List<UserType>? users;
 
   ListUsersInGroupResponse({
     this.nextToken,
     this.users,
   });
-  factory ListUsersInGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersInGroupResponseFromJson(json);
+  factory ListUsersInGroupResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersInGroupResponse(
+      nextToken: json['NextToken'] as String?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response from the request to list users.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// The users returned in the request to list users.
-  @_s.JsonKey(name: 'Users')
-  final List<UserType> users;
+  final List<UserType>? users;
 
   ListUsersResponse({
     this.paginationToken,
     this.users,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      paginationToken: json['PaginationToken'] as String?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// <i>This data type is no longer supported.</i> You can use it only for SMS
 /// MFA configurations. You can't use it for TOTP software token MFA
 /// configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MFAOptionType {
   /// The attribute name of the MFA option type. The only valid value is
   /// <code>phone_number</code>.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The delivery medium to send the MFA code. You can use this parameter to set
   /// only the <code>SMS</code> delivery medium value.
-  @_s.JsonKey(name: 'DeliveryMedium')
-  final DeliveryMediumType deliveryMedium;
+  final DeliveryMediumType? deliveryMedium;
 
   MFAOptionType({
     this.attributeName,
     this.deliveryMedium,
   });
-  factory MFAOptionType.fromJson(Map<String, dynamic> json) =>
-      _$MFAOptionTypeFromJson(json);
+  factory MFAOptionType.fromJson(Map<String, dynamic> json) {
+    return MFAOptionType(
+      attributeName: json['AttributeName'] as String?,
+      deliveryMedium:
+          (json['DeliveryMedium'] as String?)?.toDeliveryMediumType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MFAOptionTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final deliveryMedium = this.deliveryMedium;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (deliveryMedium != null) 'DeliveryMedium': deliveryMedium.toValue(),
+    };
+  }
 }
 
 enum MessageActionType {
-  @_s.JsonValue('RESEND')
   resend,
-  @_s.JsonValue('SUPPRESS')
   suppress,
 }
 
@@ -12981,179 +13357,219 @@ extension on MessageActionType {
       case MessageActionType.suppress:
         return 'SUPPRESS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MessageActionType toMessageActionType() {
+    switch (this) {
+      case 'RESEND':
+        return MessageActionType.resend;
+      case 'SUPPRESS':
+        return MessageActionType.suppress;
+    }
+    throw Exception('$this is not known in enum MessageActionType');
   }
 }
 
 /// The message template structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MessageTemplateType {
   /// The message template for email messages. EmailMessage is allowed only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">EmailSendingAccount</a>
   /// is DEVELOPER.
-  @_s.JsonKey(name: 'EmailMessage')
-  final String emailMessage;
+  final String? emailMessage;
 
   /// The subject line for email messages. EmailSubject is allowed only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">EmailSendingAccount</a>
   /// is DEVELOPER.
-  @_s.JsonKey(name: 'EmailSubject')
-  final String emailSubject;
+  final String? emailSubject;
 
   /// The message template for SMS messages.
-  @_s.JsonKey(name: 'SMSMessage')
-  final String sMSMessage;
+  final String? sMSMessage;
 
   MessageTemplateType({
     this.emailMessage,
     this.emailSubject,
     this.sMSMessage,
   });
-  factory MessageTemplateType.fromJson(Map<String, dynamic> json) =>
-      _$MessageTemplateTypeFromJson(json);
+  factory MessageTemplateType.fromJson(Map<String, dynamic> json) {
+    return MessageTemplateType(
+      emailMessage: json['EmailMessage'] as String?,
+      emailSubject: json['EmailSubject'] as String?,
+      sMSMessage: json['SMSMessage'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MessageTemplateTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final emailMessage = this.emailMessage;
+    final emailSubject = this.emailSubject;
+    final sMSMessage = this.sMSMessage;
+    return {
+      if (emailMessage != null) 'EmailMessage': emailMessage,
+      if (emailSubject != null) 'EmailSubject': emailSubject,
+      if (sMSMessage != null) 'SMSMessage': sMSMessage,
+    };
+  }
 }
 
 /// The new device metadata type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NewDeviceMetadataType {
   /// The device group key.
-  @_s.JsonKey(name: 'DeviceGroupKey')
-  final String deviceGroupKey;
+  final String? deviceGroupKey;
 
   /// The device key.
-  @_s.JsonKey(name: 'DeviceKey')
-  final String deviceKey;
+  final String? deviceKey;
 
   NewDeviceMetadataType({
     this.deviceGroupKey,
     this.deviceKey,
   });
-  factory NewDeviceMetadataType.fromJson(Map<String, dynamic> json) =>
-      _$NewDeviceMetadataTypeFromJson(json);
+  factory NewDeviceMetadataType.fromJson(Map<String, dynamic> json) {
+    return NewDeviceMetadataType(
+      deviceGroupKey: json['DeviceGroupKey'] as String?,
+      deviceKey: json['DeviceKey'] as String?,
+    );
+  }
 }
 
 /// The notify configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NotifyConfigurationType {
   /// The Amazon Resource Name (ARN) of the identity that is associated with the
   /// sending authorization policy. It permits Amazon Cognito to send for the
   /// email address specified in the <code>From</code> parameter.
-  @_s.JsonKey(name: 'SourceArn')
   final String sourceArn;
 
   /// Email template used when a detected risk event is blocked.
-  @_s.JsonKey(name: 'BlockEmail')
-  final NotifyEmailType blockEmail;
+  final NotifyEmailType? blockEmail;
 
   /// The email address that is sending the email. It must be either individually
   /// verified with Amazon SES, or from a domain that has been verified with
   /// Amazon SES.
-  @_s.JsonKey(name: 'From')
-  final String from;
+  final String? from;
 
   /// The MFA email template used when MFA is challenged as part of a detected
   /// risk.
-  @_s.JsonKey(name: 'MfaEmail')
-  final NotifyEmailType mfaEmail;
+  final NotifyEmailType? mfaEmail;
 
   /// The email template used when a detected risk event is allowed.
-  @_s.JsonKey(name: 'NoActionEmail')
-  final NotifyEmailType noActionEmail;
+  final NotifyEmailType? noActionEmail;
 
   /// The destination to which the receiver of an email should reply to.
-  @_s.JsonKey(name: 'ReplyTo')
-  final String replyTo;
+  final String? replyTo;
 
   NotifyConfigurationType({
-    @_s.required this.sourceArn,
+    required this.sourceArn,
     this.blockEmail,
     this.from,
     this.mfaEmail,
     this.noActionEmail,
     this.replyTo,
   });
-  factory NotifyConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$NotifyConfigurationTypeFromJson(json);
+  factory NotifyConfigurationType.fromJson(Map<String, dynamic> json) {
+    return NotifyConfigurationType(
+      sourceArn: json['SourceArn'] as String,
+      blockEmail: json['BlockEmail'] != null
+          ? NotifyEmailType.fromJson(json['BlockEmail'] as Map<String, dynamic>)
+          : null,
+      from: json['From'] as String?,
+      mfaEmail: json['MfaEmail'] != null
+          ? NotifyEmailType.fromJson(json['MfaEmail'] as Map<String, dynamic>)
+          : null,
+      noActionEmail: json['NoActionEmail'] != null
+          ? NotifyEmailType.fromJson(
+              json['NoActionEmail'] as Map<String, dynamic>)
+          : null,
+      replyTo: json['ReplyTo'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NotifyConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceArn = this.sourceArn;
+    final blockEmail = this.blockEmail;
+    final from = this.from;
+    final mfaEmail = this.mfaEmail;
+    final noActionEmail = this.noActionEmail;
+    final replyTo = this.replyTo;
+    return {
+      'SourceArn': sourceArn,
+      if (blockEmail != null) 'BlockEmail': blockEmail,
+      if (from != null) 'From': from,
+      if (mfaEmail != null) 'MfaEmail': mfaEmail,
+      if (noActionEmail != null) 'NoActionEmail': noActionEmail,
+      if (replyTo != null) 'ReplyTo': replyTo,
+    };
+  }
 }
 
 /// The notify email type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NotifyEmailType {
   /// The subject.
-  @_s.JsonKey(name: 'Subject')
   final String subject;
 
   /// The HTML body.
-  @_s.JsonKey(name: 'HtmlBody')
-  final String htmlBody;
+  final String? htmlBody;
 
   /// The text body.
-  @_s.JsonKey(name: 'TextBody')
-  final String textBody;
+  final String? textBody;
 
   NotifyEmailType({
-    @_s.required this.subject,
+    required this.subject,
     this.htmlBody,
     this.textBody,
   });
-  factory NotifyEmailType.fromJson(Map<String, dynamic> json) =>
-      _$NotifyEmailTypeFromJson(json);
+  factory NotifyEmailType.fromJson(Map<String, dynamic> json) {
+    return NotifyEmailType(
+      subject: json['Subject'] as String,
+      htmlBody: json['HtmlBody'] as String?,
+      textBody: json['TextBody'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NotifyEmailTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final subject = this.subject;
+    final htmlBody = this.htmlBody;
+    final textBody = this.textBody;
+    return {
+      'Subject': subject,
+      if (htmlBody != null) 'HtmlBody': htmlBody,
+      if (textBody != null) 'TextBody': textBody,
+    };
+  }
 }
 
 /// The minimum and maximum value of an attribute that is of the number data
 /// type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NumberAttributeConstraintsType {
   /// The maximum value of an attribute that is of the number data type.
-  @_s.JsonKey(name: 'MaxValue')
-  final String maxValue;
+  final String? maxValue;
 
   /// The minimum value of an attribute that is of the number data type.
-  @_s.JsonKey(name: 'MinValue')
-  final String minValue;
+  final String? minValue;
 
   NumberAttributeConstraintsType({
     this.maxValue,
     this.minValue,
   });
-  factory NumberAttributeConstraintsType.fromJson(Map<String, dynamic> json) =>
-      _$NumberAttributeConstraintsTypeFromJson(json);
+  factory NumberAttributeConstraintsType.fromJson(Map<String, dynamic> json) {
+    return NumberAttributeConstraintsType(
+      maxValue: json['MaxValue'] as String?,
+      minValue: json['MinValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NumberAttributeConstraintsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    return {
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minValue != null) 'MinValue': minValue,
+    };
+  }
 }
 
 enum OAuthFlowType {
-  @_s.JsonValue('code')
   code,
-  @_s.JsonValue('implicit')
   implicit,
-  @_s.JsonValue('client_credentials')
   clientCredentials,
 }
 
@@ -13167,41 +13583,44 @@ extension on OAuthFlowType {
       case OAuthFlowType.clientCredentials:
         return 'client_credentials';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OAuthFlowType toOAuthFlowType() {
+    switch (this) {
+      case 'code':
+        return OAuthFlowType.code;
+      case 'implicit':
+        return OAuthFlowType.implicit;
+      case 'client_credentials':
+        return OAuthFlowType.clientCredentials;
+    }
+    throw Exception('$this is not known in enum OAuthFlowType');
   }
 }
 
 /// The password policy type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PasswordPolicyType {
   /// The minimum length of the password policy that you have set. Cannot be less
   /// than 6.
-  @_s.JsonKey(name: 'MinimumLength')
-  final int minimumLength;
+  final int? minimumLength;
 
   /// In the password policy that you have set, refers to whether you have
   /// required users to use at least one lowercase letter in their password.
-  @_s.JsonKey(name: 'RequireLowercase')
-  final bool requireLowercase;
+  final bool? requireLowercase;
 
   /// In the password policy that you have set, refers to whether you have
   /// required users to use at least one number in their password.
-  @_s.JsonKey(name: 'RequireNumbers')
-  final bool requireNumbers;
+  final bool? requireNumbers;
 
   /// In the password policy that you have set, refers to whether you have
   /// required users to use at least one symbol in their password.
-  @_s.JsonKey(name: 'RequireSymbols')
-  final bool requireSymbols;
+  final bool? requireSymbols;
 
   /// In the password policy that you have set, refers to whether you have
   /// required users to use at least one uppercase letter in their password.
-  @_s.JsonKey(name: 'RequireUppercase')
-  final bool requireUppercase;
+  final bool? requireUppercase;
 
   /// In the password policy you have set, refers to the number of days a
   /// temporary password is valid. If the user does not sign-in during this time,
@@ -13211,8 +13630,7 @@ class PasswordPolicyType {
   /// will no longer be able to set the deprecated
   /// <code>UnusedAccountValidityDays</code> value for that user pool.
   /// </note>
-  @_s.JsonKey(name: 'TemporaryPasswordValidityDays')
-  final int temporaryPasswordValidityDays;
+  final int? temporaryPasswordValidityDays;
 
   PasswordPolicyType({
     this.minimumLength,
@@ -13222,16 +13640,39 @@ class PasswordPolicyType {
     this.requireUppercase,
     this.temporaryPasswordValidityDays,
   });
-  factory PasswordPolicyType.fromJson(Map<String, dynamic> json) =>
-      _$PasswordPolicyTypeFromJson(json);
+  factory PasswordPolicyType.fromJson(Map<String, dynamic> json) {
+    return PasswordPolicyType(
+      minimumLength: json['MinimumLength'] as int?,
+      requireLowercase: json['RequireLowercase'] as bool?,
+      requireNumbers: json['RequireNumbers'] as bool?,
+      requireSymbols: json['RequireSymbols'] as bool?,
+      requireUppercase: json['RequireUppercase'] as bool?,
+      temporaryPasswordValidityDays:
+          json['TemporaryPasswordValidityDays'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PasswordPolicyTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final minimumLength = this.minimumLength;
+    final requireLowercase = this.requireLowercase;
+    final requireNumbers = this.requireNumbers;
+    final requireSymbols = this.requireSymbols;
+    final requireUppercase = this.requireUppercase;
+    final temporaryPasswordValidityDays = this.temporaryPasswordValidityDays;
+    return {
+      if (minimumLength != null) 'MinimumLength': minimumLength,
+      if (requireLowercase != null) 'RequireLowercase': requireLowercase,
+      if (requireNumbers != null) 'RequireNumbers': requireNumbers,
+      if (requireSymbols != null) 'RequireSymbols': requireSymbols,
+      if (requireUppercase != null) 'RequireUppercase': requireUppercase,
+      if (temporaryPasswordValidityDays != null)
+        'TemporaryPasswordValidityDays': temporaryPasswordValidityDays,
+    };
+  }
 }
 
 enum PreventUserExistenceErrorTypes {
-  @_s.JsonValue('LEGACY')
   legacy,
-  @_s.JsonValue('ENABLED')
   enabled,
 }
 
@@ -13243,34 +13684,35 @@ extension on PreventUserExistenceErrorTypes {
       case PreventUserExistenceErrorTypes.enabled:
         return 'ENABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PreventUserExistenceErrorTypes toPreventUserExistenceErrorTypes() {
+    switch (this) {
+      case 'LEGACY':
+        return PreventUserExistenceErrorTypes.legacy;
+      case 'ENABLED':
+        return PreventUserExistenceErrorTypes.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum PreventUserExistenceErrorTypes');
   }
 }
 
 /// A container for identity provider details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProviderDescription {
   /// The date the provider was added to the user pool.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the provider was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The identity provider name.
-  @_s.JsonKey(name: 'ProviderName')
-  final String providerName;
+  final String? providerName;
 
   /// The identity provider type.
-  @_s.JsonKey(name: 'ProviderType')
-  final IdentityProviderTypeType providerType;
+  final IdentityProviderTypeType? providerType;
 
   ProviderDescription({
     this.creationDate,
@@ -13278,142 +13720,175 @@ class ProviderDescription {
     this.providerName,
     this.providerType,
   });
-  factory ProviderDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProviderDescriptionFromJson(json);
+  factory ProviderDescription.fromJson(Map<String, dynamic> json) {
+    return ProviderDescription(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      providerName: json['ProviderName'] as String?,
+      providerType:
+          (json['ProviderType'] as String?)?.toIdentityProviderTypeType(),
+    );
+  }
 }
 
 /// A container for information about an identity provider for a user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProviderUserIdentifierType {
   /// The name of the provider attribute to link to, for example,
   /// <code>NameID</code>.
-  @_s.JsonKey(name: 'ProviderAttributeName')
-  final String providerAttributeName;
+  final String? providerAttributeName;
 
   /// The value of the provider attribute to link to, for example,
   /// <code>xxxxx_account</code>.
-  @_s.JsonKey(name: 'ProviderAttributeValue')
-  final String providerAttributeValue;
+  final String? providerAttributeValue;
 
   /// The name of the provider, for example, Facebook, Google, or Login with
   /// Amazon.
-  @_s.JsonKey(name: 'ProviderName')
-  final String providerName;
+  final String? providerName;
 
   ProviderUserIdentifierType({
     this.providerAttributeName,
     this.providerAttributeValue,
     this.providerName,
   });
-  Map<String, dynamic> toJson() => _$ProviderUserIdentifierTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final providerAttributeName = this.providerAttributeName;
+    final providerAttributeValue = this.providerAttributeValue;
+    final providerName = this.providerName;
+    return {
+      if (providerAttributeName != null)
+        'ProviderAttributeName': providerAttributeName,
+      if (providerAttributeValue != null)
+        'ProviderAttributeValue': providerAttributeValue,
+      if (providerName != null) 'ProviderName': providerName,
+    };
+  }
 }
 
 enum RecoveryOptionNameType {
-  @_s.JsonValue('verified_email')
   verifiedEmail,
-  @_s.JsonValue('verified_phone_number')
   verifiedPhoneNumber,
-  @_s.JsonValue('admin_only')
   adminOnly,
 }
 
+extension on RecoveryOptionNameType {
+  String toValue() {
+    switch (this) {
+      case RecoveryOptionNameType.verifiedEmail:
+        return 'verified_email';
+      case RecoveryOptionNameType.verifiedPhoneNumber:
+        return 'verified_phone_number';
+      case RecoveryOptionNameType.adminOnly:
+        return 'admin_only';
+    }
+  }
+}
+
+extension on String {
+  RecoveryOptionNameType toRecoveryOptionNameType() {
+    switch (this) {
+      case 'verified_email':
+        return RecoveryOptionNameType.verifiedEmail;
+      case 'verified_phone_number':
+        return RecoveryOptionNameType.verifiedPhoneNumber;
+      case 'admin_only':
+        return RecoveryOptionNameType.adminOnly;
+    }
+    throw Exception('$this is not known in enum RecoveryOptionNameType');
+  }
+}
+
 /// A map containing a priority as a key, and recovery method name as a value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RecoveryOptionType {
   /// Specifies the recovery method for a user.
-  @_s.JsonKey(name: 'Name')
   final RecoveryOptionNameType name;
 
   /// A positive integer specifying priority of a method with 1 being the highest
   /// priority.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   RecoveryOptionType({
-    @_s.required this.name,
-    @_s.required this.priority,
+    required this.name,
+    required this.priority,
   });
-  factory RecoveryOptionType.fromJson(Map<String, dynamic> json) =>
-      _$RecoveryOptionTypeFromJson(json);
+  factory RecoveryOptionType.fromJson(Map<String, dynamic> json) {
+    return RecoveryOptionType(
+      name: (json['Name'] as String).toRecoveryOptionNameType(),
+      priority: json['Priority'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RecoveryOptionTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final priority = this.priority;
+    return {
+      'Name': name.toValue(),
+      'Priority': priority,
+    };
+  }
 }
 
 /// The response from the server when the Amazon Cognito Your User Pools service
 /// makes the request to resend a confirmation code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResendConfirmationCodeResponse {
   /// The code delivery details returned by the server in response to the request
   /// to resend the confirmation code.
-  @_s.JsonKey(name: 'CodeDeliveryDetails')
-  final CodeDeliveryDetailsType codeDeliveryDetails;
+  final CodeDeliveryDetailsType? codeDeliveryDetails;
 
   ResendConfirmationCodeResponse({
     this.codeDeliveryDetails,
   });
-  factory ResendConfirmationCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResendConfirmationCodeResponseFromJson(json);
+  factory ResendConfirmationCodeResponse.fromJson(Map<String, dynamic> json) {
+    return ResendConfirmationCodeResponse(
+      codeDeliveryDetails: json['CodeDeliveryDetails'] != null
+          ? CodeDeliveryDetailsType.fromJson(
+              json['CodeDeliveryDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A resource server scope.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceServerScopeType {
   /// A description of the scope.
-  @_s.JsonKey(name: 'ScopeDescription')
   final String scopeDescription;
 
   /// The name of the scope.
-  @_s.JsonKey(name: 'ScopeName')
   final String scopeName;
 
   ResourceServerScopeType({
-    @_s.required this.scopeDescription,
-    @_s.required this.scopeName,
+    required this.scopeDescription,
+    required this.scopeName,
   });
-  factory ResourceServerScopeType.fromJson(Map<String, dynamic> json) =>
-      _$ResourceServerScopeTypeFromJson(json);
+  factory ResourceServerScopeType.fromJson(Map<String, dynamic> json) {
+    return ResourceServerScopeType(
+      scopeDescription: json['ScopeDescription'] as String,
+      scopeName: json['ScopeName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceServerScopeTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final scopeDescription = this.scopeDescription;
+    final scopeName = this.scopeName;
+    return {
+      'ScopeDescription': scopeDescription,
+      'ScopeName': scopeName,
+    };
+  }
 }
 
 /// A container for information about a resource server for a user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceServerType {
   /// The identifier for the resource server.
-  @_s.JsonKey(name: 'Identifier')
-  final String identifier;
+  final String? identifier;
 
   /// The name of the resource server.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A list of scopes that are defined for the resource server.
-  @_s.JsonKey(name: 'Scopes')
-  final List<ResourceServerScopeType> scopes;
+  final List<ResourceServerScopeType>? scopes;
 
   /// The user pool ID for the user pool that hosts the resource server.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   ResourceServerType({
     this.identifier,
@@ -13421,38 +13896,39 @@ class ResourceServerType {
     this.scopes,
     this.userPoolId,
   });
-  factory ResourceServerType.fromJson(Map<String, dynamic> json) =>
-      _$ResourceServerTypeFromJson(json);
+  factory ResourceServerType.fromJson(Map<String, dynamic> json) {
+    return ResourceServerType(
+      identifier: json['Identifier'] as String?,
+      name: json['Name'] as String?,
+      scopes: (json['Scopes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceServerScopeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 /// The response to respond to the authentication challenge.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RespondToAuthChallengeResponse {
   /// The result returned by the server in response to the request to respond to
   /// the authentication challenge.
-  @_s.JsonKey(name: 'AuthenticationResult')
-  final AuthenticationResultType authenticationResult;
+  final AuthenticationResultType? authenticationResult;
 
   /// The challenge name. For more information, see <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html">InitiateAuth</a>.
-  @_s.JsonKey(name: 'ChallengeName')
-  final ChallengeNameType challengeName;
+  final ChallengeNameType? challengeName;
 
   /// The challenge parameters. For more information, see <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html">InitiateAuth</a>.
-  @_s.JsonKey(name: 'ChallengeParameters')
-  final Map<String, String> challengeParameters;
+  final Map<String, String>? challengeParameters;
 
   /// The session which should be passed both ways in challenge-response calls to
   /// the service. If the caller needs to go through another challenge, they
   /// return a session with other challenge parameters. This session should be
   /// passed as it is to the next <code>RespondToAuthChallenge</code> API call.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   RespondToAuthChallengeResponse({
     this.authenticationResult,
@@ -13460,45 +13936,44 @@ class RespondToAuthChallengeResponse {
     this.challengeParameters,
     this.session,
   });
-  factory RespondToAuthChallengeResponse.fromJson(Map<String, dynamic> json) =>
-      _$RespondToAuthChallengeResponseFromJson(json);
+  factory RespondToAuthChallengeResponse.fromJson(Map<String, dynamic> json) {
+    return RespondToAuthChallengeResponse(
+      authenticationResult: json['AuthenticationResult'] != null
+          ? AuthenticationResultType.fromJson(
+              json['AuthenticationResult'] as Map<String, dynamic>)
+          : null,
+      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeParameters:
+          (json['ChallengeParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      session: json['Session'] as String?,
+    );
+  }
 }
 
 /// The risk configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RiskConfigurationType {
   /// The account takeover risk configuration object including the
   /// <code>NotifyConfiguration</code> object and <code>Actions</code> to take in
   /// the case of an account takeover.
-  @_s.JsonKey(name: 'AccountTakeoverRiskConfiguration')
-  final AccountTakeoverRiskConfigurationType accountTakeoverRiskConfiguration;
+  final AccountTakeoverRiskConfigurationType? accountTakeoverRiskConfiguration;
 
   /// The app client ID.
-  @_s.JsonKey(name: 'ClientId')
-  final String clientId;
+  final String? clientId;
 
   /// The compromised credentials risk configuration object including the
   /// <code>EventFilter</code> and the <code>EventAction</code>
-  @_s.JsonKey(name: 'CompromisedCredentialsRiskConfiguration')
-  final CompromisedCredentialsRiskConfigurationType
+  final CompromisedCredentialsRiskConfigurationType?
       compromisedCredentialsRiskConfiguration;
 
   /// The last modified date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The configuration to override the risk decision.
-  @_s.JsonKey(name: 'RiskExceptionConfiguration')
-  final RiskExceptionConfigurationType riskExceptionConfiguration;
+  final RiskExceptionConfigurationType? riskExceptionConfiguration;
 
   /// The user pool ID.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   RiskConfigurationType({
     this.accountTakeoverRiskConfiguration,
@@ -13508,54 +13983,133 @@ class RiskConfigurationType {
     this.riskExceptionConfiguration,
     this.userPoolId,
   });
-  factory RiskConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$RiskConfigurationTypeFromJson(json);
+  factory RiskConfigurationType.fromJson(Map<String, dynamic> json) {
+    return RiskConfigurationType(
+      accountTakeoverRiskConfiguration:
+          json['AccountTakeoverRiskConfiguration'] != null
+              ? AccountTakeoverRiskConfigurationType.fromJson(
+                  json['AccountTakeoverRiskConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      clientId: json['ClientId'] as String?,
+      compromisedCredentialsRiskConfiguration:
+          json['CompromisedCredentialsRiskConfiguration'] != null
+              ? CompromisedCredentialsRiskConfigurationType.fromJson(
+                  json['CompromisedCredentialsRiskConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      riskExceptionConfiguration: json['RiskExceptionConfiguration'] != null
+          ? RiskExceptionConfigurationType.fromJson(
+              json['RiskExceptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 enum RiskDecisionType {
-  @_s.JsonValue('NoRisk')
   noRisk,
-  @_s.JsonValue('AccountTakeover')
   accountTakeover,
-  @_s.JsonValue('Block')
   block,
 }
 
+extension on RiskDecisionType {
+  String toValue() {
+    switch (this) {
+      case RiskDecisionType.noRisk:
+        return 'NoRisk';
+      case RiskDecisionType.accountTakeover:
+        return 'AccountTakeover';
+      case RiskDecisionType.block:
+        return 'Block';
+    }
+  }
+}
+
+extension on String {
+  RiskDecisionType toRiskDecisionType() {
+    switch (this) {
+      case 'NoRisk':
+        return RiskDecisionType.noRisk;
+      case 'AccountTakeover':
+        return RiskDecisionType.accountTakeover;
+      case 'Block':
+        return RiskDecisionType.block;
+    }
+    throw Exception('$this is not known in enum RiskDecisionType');
+  }
+}
+
 /// The type of the configuration to override the risk decision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RiskExceptionConfigurationType {
   /// Overrides the risk decision to always block the pre-authentication requests.
   /// The IP range is in CIDR notation: a compact representation of an IP address
   /// and its associated routing prefix.
-  @_s.JsonKey(name: 'BlockedIPRangeList')
-  final List<String> blockedIPRangeList;
+  final List<String>? blockedIPRangeList;
 
   /// Risk detection is not performed on the IP addresses in the range list. The
   /// IP range is in CIDR notation.
-  @_s.JsonKey(name: 'SkippedIPRangeList')
-  final List<String> skippedIPRangeList;
+  final List<String>? skippedIPRangeList;
 
   RiskExceptionConfigurationType({
     this.blockedIPRangeList,
     this.skippedIPRangeList,
   });
-  factory RiskExceptionConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$RiskExceptionConfigurationTypeFromJson(json);
+  factory RiskExceptionConfigurationType.fromJson(Map<String, dynamic> json) {
+    return RiskExceptionConfigurationType(
+      blockedIPRangeList: (json['BlockedIPRangeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      skippedIPRangeList: (json['SkippedIPRangeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RiskExceptionConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final blockedIPRangeList = this.blockedIPRangeList;
+    final skippedIPRangeList = this.skippedIPRangeList;
+    return {
+      if (blockedIPRangeList != null) 'BlockedIPRangeList': blockedIPRangeList,
+      if (skippedIPRangeList != null) 'SkippedIPRangeList': skippedIPRangeList,
+    };
+  }
 }
 
 enum RiskLevelType {
-  @_s.JsonValue('Low')
   low,
-  @_s.JsonValue('Medium')
   medium,
-  @_s.JsonValue('High')
   high,
+}
+
+extension on RiskLevelType {
+  String toValue() {
+    switch (this) {
+      case RiskLevelType.low:
+        return 'Low';
+      case RiskLevelType.medium:
+        return 'Medium';
+      case RiskLevelType.high:
+        return 'High';
+    }
+  }
+}
+
+extension on String {
+  RiskLevelType toRiskLevelType() {
+    switch (this) {
+      case 'Low':
+        return RiskLevelType.low;
+      case 'Medium':
+        return RiskLevelType.medium;
+      case 'High':
+        return RiskLevelType.high;
+    }
+    throw Exception('$this is not known in enum RiskLevelType');
+  }
 }
 
 /// The type used for enabling SMS MFA at the user level. Phone numbers don't
@@ -13565,39 +14119,33 @@ enum RiskLevelType {
 /// like MFA to be applied selectively based on the assessed risk level of sign
 /// in attempts, disable MFA for users and turn on Adaptive Authentication for
 /// the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SMSMfaSettingsType {
   /// Specifies whether SMS text message MFA is enabled. If an MFA type is enabled
   /// for a user, the user will be prompted for MFA during all sign in attempts,
   /// unless device tracking is turned on and the device has been trusted.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies whether SMS is the preferred MFA method.
-  @_s.JsonKey(name: 'PreferredMfa')
-  final bool preferredMfa;
+  final bool? preferredMfa;
 
   SMSMfaSettingsType({
     this.enabled,
     this.preferredMfa,
   });
-  Map<String, dynamic> toJson() => _$SMSMfaSettingsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final preferredMfa = this.preferredMfa;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (preferredMfa != null) 'PreferredMfa': preferredMfa,
+    };
+  }
 }
 
 /// Contains information about the schema attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaAttributeType {
   /// The attribute data type.
-  @_s.JsonKey(name: 'AttributeDataType')
-  final AttributeDataType attributeDataType;
+  final AttributeDataType? attributeDataType;
 
   /// <note>
   /// We recommend that you use <a
@@ -13610,8 +14158,7 @@ class SchemaAttributeType {
   /// attribute using their access token. For example,
   /// <code>DeveloperOnlyAttribute</code> can be modified using
   /// AdminUpdateUserAttributes but cannot be updated using UpdateUserAttributes.
-  @_s.JsonKey(name: 'DeveloperOnlyAttribute')
-  final bool developerOnlyAttribute;
+  final bool? developerOnlyAttribute;
 
   /// Specifies whether the value of the attribute can be changed.
   ///
@@ -13622,26 +14169,21 @@ class SchemaAttributeType {
   /// it attempts to update the attribute. For more information, see <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html">Specifying
   /// Identity Provider Attribute Mappings for Your User Pool</a>.
-  @_s.JsonKey(name: 'Mutable')
-  final bool mutable;
+  final bool? mutable;
 
   /// A schema attribute of the name type.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Specifies the constraints for an attribute of the number type.
-  @_s.JsonKey(name: 'NumberAttributeConstraints')
-  final NumberAttributeConstraintsType numberAttributeConstraints;
+  final NumberAttributeConstraintsType? numberAttributeConstraints;
 
   /// Specifies whether a user pool attribute is required. If the attribute is
   /// required and the user does not provide a value, registration or sign-in will
   /// fail.
-  @_s.JsonKey(name: 'Required')
-  final bool required;
+  final bool? required;
 
   /// Specifies the constraints for an attribute of the string type.
-  @_s.JsonKey(name: 'StringAttributeConstraints')
-  final StringAttributeConstraintsType stringAttributeConstraints;
+  final StringAttributeConstraintsType? stringAttributeConstraints;
 
   SchemaAttributeType({
     this.attributeDataType,
@@ -13652,62 +14194,86 @@ class SchemaAttributeType {
     this.required,
     this.stringAttributeConstraints,
   });
-  factory SchemaAttributeType.fromJson(Map<String, dynamic> json) =>
-      _$SchemaAttributeTypeFromJson(json);
+  factory SchemaAttributeType.fromJson(Map<String, dynamic> json) {
+    return SchemaAttributeType(
+      attributeDataType:
+          (json['AttributeDataType'] as String?)?.toAttributeDataType(),
+      developerOnlyAttribute: json['DeveloperOnlyAttribute'] as bool?,
+      mutable: json['Mutable'] as bool?,
+      name: json['Name'] as String?,
+      numberAttributeConstraints: json['NumberAttributeConstraints'] != null
+          ? NumberAttributeConstraintsType.fromJson(
+              json['NumberAttributeConstraints'] as Map<String, dynamic>)
+          : null,
+      required: json['Required'] as bool?,
+      stringAttributeConstraints: json['StringAttributeConstraints'] != null
+          ? StringAttributeConstraintsType.fromJson(
+              json['StringAttributeConstraints'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaAttributeTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeDataType = this.attributeDataType;
+    final developerOnlyAttribute = this.developerOnlyAttribute;
+    final mutable = this.mutable;
+    final name = this.name;
+    final numberAttributeConstraints = this.numberAttributeConstraints;
+    final required = this.required;
+    final stringAttributeConstraints = this.stringAttributeConstraints;
+    return {
+      if (attributeDataType != null)
+        'AttributeDataType': attributeDataType.toValue(),
+      if (developerOnlyAttribute != null)
+        'DeveloperOnlyAttribute': developerOnlyAttribute,
+      if (mutable != null) 'Mutable': mutable,
+      if (name != null) 'Name': name,
+      if (numberAttributeConstraints != null)
+        'NumberAttributeConstraints': numberAttributeConstraints,
+      if (required != null) 'Required': required,
+      if (stringAttributeConstraints != null)
+        'StringAttributeConstraints': stringAttributeConstraints,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetRiskConfigurationResponse {
   /// The risk configuration.
-  @_s.JsonKey(name: 'RiskConfiguration')
   final RiskConfigurationType riskConfiguration;
 
   SetRiskConfigurationResponse({
-    @_s.required this.riskConfiguration,
+    required this.riskConfiguration,
   });
-  factory SetRiskConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetRiskConfigurationResponseFromJson(json);
+  factory SetRiskConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return SetRiskConfigurationResponse(
+      riskConfiguration: RiskConfigurationType.fromJson(
+          json['RiskConfiguration'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetUICustomizationResponse {
   /// The UI customization information.
-  @_s.JsonKey(name: 'UICustomization')
   final UICustomizationType uICustomization;
 
   SetUICustomizationResponse({
-    @_s.required this.uICustomization,
+    required this.uICustomization,
   });
-  factory SetUICustomizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetUICustomizationResponseFromJson(json);
+  factory SetUICustomizationResponse.fromJson(Map<String, dynamic> json) {
+    return SetUICustomizationResponse(
+      uICustomization: UICustomizationType.fromJson(
+          json['UICustomization'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetUserMFAPreferenceResponse {
   SetUserMFAPreferenceResponse();
-  factory SetUserMFAPreferenceResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetUserMFAPreferenceResponseFromJson(json);
+  factory SetUserMFAPreferenceResponse.fromJson(Map<String, dynamic> _) {
+    return SetUserMFAPreferenceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetUserPoolMfaConfigResponse {
   /// The MFA configuration. Valid values include:
   ///
@@ -13723,85 +14289,85 @@ class SetUserPoolMfaConfigResponse {
   /// have an MFA factor enabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MfaConfiguration')
-  final UserPoolMfaType mfaConfiguration;
+  final UserPoolMfaType? mfaConfiguration;
 
   /// The SMS text message MFA configuration.
-  @_s.JsonKey(name: 'SmsMfaConfiguration')
-  final SmsMfaConfigType smsMfaConfiguration;
+  final SmsMfaConfigType? smsMfaConfiguration;
 
   /// The software token MFA configuration.
-  @_s.JsonKey(name: 'SoftwareTokenMfaConfiguration')
-  final SoftwareTokenMfaConfigType softwareTokenMfaConfiguration;
+  final SoftwareTokenMfaConfigType? softwareTokenMfaConfiguration;
 
   SetUserPoolMfaConfigResponse({
     this.mfaConfiguration,
     this.smsMfaConfiguration,
     this.softwareTokenMfaConfiguration,
   });
-  factory SetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetUserPoolMfaConfigResponseFromJson(json);
+  factory SetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) {
+    return SetUserPoolMfaConfigResponse(
+      mfaConfiguration:
+          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      smsMfaConfiguration: json['SmsMfaConfiguration'] != null
+          ? SmsMfaConfigType.fromJson(
+              json['SmsMfaConfiguration'] as Map<String, dynamic>)
+          : null,
+      softwareTokenMfaConfiguration:
+          json['SoftwareTokenMfaConfiguration'] != null
+              ? SoftwareTokenMfaConfigType.fromJson(
+                  json['SoftwareTokenMfaConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
 /// The response from the server for a set user settings request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetUserSettingsResponse {
   SetUserSettingsResponse();
-  factory SetUserSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetUserSettingsResponseFromJson(json);
+  factory SetUserSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return SetUserSettingsResponse();
+  }
 }
 
 /// The response from the server for a registration request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignUpResponse {
   /// A response from the server indicating that a user registration has been
   /// confirmed.
-  @_s.JsonKey(name: 'UserConfirmed')
   final bool userConfirmed;
 
   /// The UUID of the authenticated user. This is not the same as
   /// <code>username</code>.
-  @_s.JsonKey(name: 'UserSub')
   final String userSub;
 
   /// The code delivery details returned by the server response to the user
   /// registration request.
-  @_s.JsonKey(name: 'CodeDeliveryDetails')
-  final CodeDeliveryDetailsType codeDeliveryDetails;
+  final CodeDeliveryDetailsType? codeDeliveryDetails;
 
   SignUpResponse({
-    @_s.required this.userConfirmed,
-    @_s.required this.userSub,
+    required this.userConfirmed,
+    required this.userSub,
     this.codeDeliveryDetails,
   });
-  factory SignUpResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignUpResponseFromJson(json);
+  factory SignUpResponse.fromJson(Map<String, dynamic> json) {
+    return SignUpResponse(
+      userConfirmed: json['UserConfirmed'] as bool,
+      userSub: json['UserSub'] as String,
+      codeDeliveryDetails: json['CodeDeliveryDetails'] != null
+          ? CodeDeliveryDetailsType.fromJson(
+              json['CodeDeliveryDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The SMS configuration type that includes the settings the Cognito User Pool
 /// needs to call for the Amazon SNS service to send an SMS message from your
 /// AWS account. The Cognito User Pool makes the request to the Amazon SNS
 /// Service by using an AWS IAM role that you provide for your AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SmsConfigurationType {
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   /// (SNS) caller. This is the ARN of the IAM role in your AWS account which
   /// Cognito will use to send SMS messages. SMS messages are subject to a <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html">spending
   /// limit</a>.
-  @_s.JsonKey(name: 'SnsCallerArn')
   final String snsCallerArn;
 
   /// The external ID is a value that we recommend you use to add security to your
@@ -13812,65 +14378,85 @@ class SmsConfigurationType {
   /// Cognito Management Console to create a role for SMS MFA, Cognito will create
   /// a role with the required permissions and a trust policy that demonstrates
   /// use of the <code>ExternalId</code>.
-  @_s.JsonKey(name: 'ExternalId')
-  final String externalId;
+  final String? externalId;
 
   SmsConfigurationType({
-    @_s.required this.snsCallerArn,
+    required this.snsCallerArn,
     this.externalId,
   });
-  factory SmsConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$SmsConfigurationTypeFromJson(json);
+  factory SmsConfigurationType.fromJson(Map<String, dynamic> json) {
+    return SmsConfigurationType(
+      snsCallerArn: json['SnsCallerArn'] as String,
+      externalId: json['ExternalId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SmsConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final snsCallerArn = this.snsCallerArn;
+    final externalId = this.externalId;
+    return {
+      'SnsCallerArn': snsCallerArn,
+      if (externalId != null) 'ExternalId': externalId,
+    };
+  }
 }
 
 /// The SMS text message multi-factor authentication (MFA) configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SmsMfaConfigType {
   /// The SMS authentication message that will be sent to users with the code they
   /// need to sign in. The message must contain the ‘{####}’ placeholder, which
   /// will be replaced with the code. If the message is not included, and default
   /// message will be used.
-  @_s.JsonKey(name: 'SmsAuthenticationMessage')
-  final String smsAuthenticationMessage;
+  final String? smsAuthenticationMessage;
 
   /// The SMS configuration.
-  @_s.JsonKey(name: 'SmsConfiguration')
-  final SmsConfigurationType smsConfiguration;
+  final SmsConfigurationType? smsConfiguration;
 
   SmsMfaConfigType({
     this.smsAuthenticationMessage,
     this.smsConfiguration,
   });
-  factory SmsMfaConfigType.fromJson(Map<String, dynamic> json) =>
-      _$SmsMfaConfigTypeFromJson(json);
+  factory SmsMfaConfigType.fromJson(Map<String, dynamic> json) {
+    return SmsMfaConfigType(
+      smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String?,
+      smsConfiguration: json['SmsConfiguration'] != null
+          ? SmsConfigurationType.fromJson(
+              json['SmsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SmsMfaConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final smsAuthenticationMessage = this.smsAuthenticationMessage;
+    final smsConfiguration = this.smsConfiguration;
+    return {
+      if (smsAuthenticationMessage != null)
+        'SmsAuthenticationMessage': smsAuthenticationMessage,
+      if (smsConfiguration != null) 'SmsConfiguration': smsConfiguration,
+    };
+  }
 }
 
 /// The type used for enabling software token MFA at the user pool level.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SoftwareTokenMfaConfigType {
   /// Specifies whether software token MFA is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   SoftwareTokenMfaConfigType({
     this.enabled,
   });
-  factory SoftwareTokenMfaConfigType.fromJson(Map<String, dynamic> json) =>
-      _$SoftwareTokenMfaConfigTypeFromJson(json);
+  factory SoftwareTokenMfaConfigType.fromJson(Map<String, dynamic> json) {
+    return SoftwareTokenMfaConfigType(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SoftwareTokenMfaConfigTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// The type used for enabling software token MFA at the user level. If an MFA
@@ -13879,192 +14465,232 @@ class SoftwareTokenMfaConfigType {
 /// been trusted. If you would like MFA to be applied selectively based on the
 /// assessed risk level of sign in attempts, disable MFA for users and turn on
 /// Adaptive Authentication for the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SoftwareTokenMfaSettingsType {
   /// Specifies whether software token MFA is enabled. If an MFA type is enabled
   /// for a user, the user will be prompted for MFA during all sign in attempts,
   /// unless device tracking is turned on and the device has been trusted.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Specifies whether software token MFA is the preferred MFA method.
-  @_s.JsonKey(name: 'PreferredMfa')
-  final bool preferredMfa;
+  final bool? preferredMfa;
 
   SoftwareTokenMfaSettingsType({
     this.enabled,
     this.preferredMfa,
   });
-  Map<String, dynamic> toJson() => _$SoftwareTokenMfaSettingsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final preferredMfa = this.preferredMfa;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (preferredMfa != null) 'PreferredMfa': preferredMfa,
+    };
+  }
 }
 
 /// Represents the response from the server to the request to start the user
 /// import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartUserImportJobResponse {
   /// The job object that represents the user import job.
-  @_s.JsonKey(name: 'UserImportJob')
-  final UserImportJobType userImportJob;
+  final UserImportJobType? userImportJob;
 
   StartUserImportJobResponse({
     this.userImportJob,
   });
-  factory StartUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartUserImportJobResponseFromJson(json);
+  factory StartUserImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartUserImportJobResponse(
+      userImportJob: json['UserImportJob'] != null
+          ? UserImportJobType.fromJson(
+              json['UserImportJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum StatusType {
-  @_s.JsonValue('Enabled')
   enabled,
-  @_s.JsonValue('Disabled')
   disabled,
+}
+
+extension on StatusType {
+  String toValue() {
+    switch (this) {
+      case StatusType.enabled:
+        return 'Enabled';
+      case StatusType.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension on String {
+  StatusType toStatusType() {
+    switch (this) {
+      case 'Enabled':
+        return StatusType.enabled;
+      case 'Disabled':
+        return StatusType.disabled;
+    }
+    throw Exception('$this is not known in enum StatusType');
+  }
 }
 
 /// Represents the response from the server to the request to stop the user
 /// import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopUserImportJobResponse {
   /// The job object that represents the user import job.
-  @_s.JsonKey(name: 'UserImportJob')
-  final UserImportJobType userImportJob;
+  final UserImportJobType? userImportJob;
 
   StopUserImportJobResponse({
     this.userImportJob,
   });
-  factory StopUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopUserImportJobResponseFromJson(json);
+  factory StopUserImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopUserImportJobResponse(
+      userImportJob: json['UserImportJob'] != null
+          ? UserImportJobType.fromJson(
+              json['UserImportJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The constraints associated with a string attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StringAttributeConstraintsType {
   /// The maximum length.
-  @_s.JsonKey(name: 'MaxLength')
-  final String maxLength;
+  final String? maxLength;
 
   /// The minimum length.
-  @_s.JsonKey(name: 'MinLength')
-  final String minLength;
+  final String? minLength;
 
   StringAttributeConstraintsType({
     this.maxLength,
     this.minLength,
   });
-  factory StringAttributeConstraintsType.fromJson(Map<String, dynamic> json) =>
-      _$StringAttributeConstraintsTypeFromJson(json);
+  factory StringAttributeConstraintsType.fromJson(Map<String, dynamic> json) {
+    return StringAttributeConstraintsType(
+      maxLength: json['MaxLength'] as String?,
+      minLength: json['MinLength'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StringAttributeConstraintsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxLength = this.maxLength;
+    final minLength = this.minLength;
+    return {
+      if (maxLength != null) 'MaxLength': maxLength,
+      if (minLength != null) 'MinLength': minLength,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 enum TimeUnitsType {
-  @_s.JsonValue('seconds')
   seconds,
-  @_s.JsonValue('minutes')
   minutes,
-  @_s.JsonValue('hours')
   hours,
-  @_s.JsonValue('days')
   days,
+}
+
+extension on TimeUnitsType {
+  String toValue() {
+    switch (this) {
+      case TimeUnitsType.seconds:
+        return 'seconds';
+      case TimeUnitsType.minutes:
+        return 'minutes';
+      case TimeUnitsType.hours:
+        return 'hours';
+      case TimeUnitsType.days:
+        return 'days';
+    }
+  }
+}
+
+extension on String {
+  TimeUnitsType toTimeUnitsType() {
+    switch (this) {
+      case 'seconds':
+        return TimeUnitsType.seconds;
+      case 'minutes':
+        return TimeUnitsType.minutes;
+      case 'hours':
+        return TimeUnitsType.hours;
+      case 'days':
+        return TimeUnitsType.days;
+    }
+    throw Exception('$this is not known in enum TimeUnitsType');
+  }
 }
 
 /// The data type for TokenValidityUnits that specifics the time measurements
 /// for token validity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TokenValidityUnitsType {
   /// A time unit in “seconds”, “minutes”, “hours” or “days” for the value in
   /// AccessTokenValidity, defaults to hours.
-  @_s.JsonKey(name: 'AccessToken')
-  final TimeUnitsType accessToken;
+  final TimeUnitsType? accessToken;
 
   /// A time unit in “seconds”, “minutes”, “hours” or “days” for the value in
   /// IdTokenValidity, defaults to hours.
-  @_s.JsonKey(name: 'IdToken')
-  final TimeUnitsType idToken;
+  final TimeUnitsType? idToken;
 
   /// A time unit in “seconds”, “minutes”, “hours” or “days” for the value in
   /// RefreshTokenValidity, defaults to days.
-  @_s.JsonKey(name: 'RefreshToken')
-  final TimeUnitsType refreshToken;
+  final TimeUnitsType? refreshToken;
 
   TokenValidityUnitsType({
     this.accessToken,
     this.idToken,
     this.refreshToken,
   });
-  factory TokenValidityUnitsType.fromJson(Map<String, dynamic> json) =>
-      _$TokenValidityUnitsTypeFromJson(json);
+  factory TokenValidityUnitsType.fromJson(Map<String, dynamic> json) {
+    return TokenValidityUnitsType(
+      accessToken: (json['AccessToken'] as String?)?.toTimeUnitsType(),
+      idToken: (json['IdToken'] as String?)?.toTimeUnitsType(),
+      refreshToken: (json['RefreshToken'] as String?)?.toTimeUnitsType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TokenValidityUnitsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final idToken = this.idToken;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'AccessToken': accessToken.toValue(),
+      if (idToken != null) 'IdToken': idToken.toValue(),
+      if (refreshToken != null) 'RefreshToken': refreshToken.toValue(),
+    };
+  }
 }
 
 /// A container for the UI customization information for a user pool's built-in
 /// app UI.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UICustomizationType {
   /// The CSS values in the UI customization.
-  @_s.JsonKey(name: 'CSS')
-  final String css;
+  final String? css;
 
   /// The CSS version number.
-  @_s.JsonKey(name: 'CSSVersion')
-  final String cSSVersion;
+  final String? cSSVersion;
 
   /// The client ID for the client app.
-  @_s.JsonKey(name: 'ClientId')
-  final String clientId;
+  final String? clientId;
 
   /// The creation date for the UI customization.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The logo image for the UI customization.
-  @_s.JsonKey(name: 'ImageUrl')
-  final String imageUrl;
+  final String? imageUrl;
 
   /// The last-modified date for the UI customization.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The user pool ID for the user pool.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   UICustomizationType({
     this.css,
@@ -14075,262 +14701,267 @@ class UICustomizationType {
     this.lastModifiedDate,
     this.userPoolId,
   });
-  factory UICustomizationType.fromJson(Map<String, dynamic> json) =>
-      _$UICustomizationTypeFromJson(json);
+  factory UICustomizationType.fromJson(Map<String, dynamic> json) {
+    return UICustomizationType(
+      css: json['CSS'] as String?,
+      cSSVersion: json['CSSVersion'] as String?,
+      clientId: json['ClientId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      imageUrl: json['ImageUrl'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAuthEventFeedbackResponse {
   UpdateAuthEventFeedbackResponse();
-  factory UpdateAuthEventFeedbackResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAuthEventFeedbackResponseFromJson(json);
+  factory UpdateAuthEventFeedbackResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAuthEventFeedbackResponse();
+  }
 }
 
 /// The response to the request to update the device status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceStatusResponse {
   UpdateDeviceStatusResponse();
-  factory UpdateDeviceStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceStatusResponseFromJson(json);
+  factory UpdateDeviceStatusResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeviceStatusResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGroupResponse {
   /// The group object for the group.
-  @_s.JsonKey(name: 'Group')
-  final GroupType group;
+  final GroupType? group;
 
   UpdateGroupResponse({
     this.group,
   });
-  factory UpdateGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGroupResponseFromJson(json);
+  factory UpdateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGroupResponse(
+      group: json['Group'] != null
+          ? GroupType.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIdentityProviderResponse {
   /// The identity provider object.
-  @_s.JsonKey(name: 'IdentityProvider')
   final IdentityProviderType identityProvider;
 
   UpdateIdentityProviderResponse({
-    @_s.required this.identityProvider,
+    required this.identityProvider,
   });
-  factory UpdateIdentityProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateIdentityProviderResponseFromJson(json);
+  factory UpdateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateIdentityProviderResponse(
+      identityProvider: IdentityProviderType.fromJson(
+          json['IdentityProvider'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResourceServerResponse {
   /// The resource server.
-  @_s.JsonKey(name: 'ResourceServer')
   final ResourceServerType resourceServer;
 
   UpdateResourceServerResponse({
-    @_s.required this.resourceServer,
+    required this.resourceServer,
   });
-  factory UpdateResourceServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResourceServerResponseFromJson(json);
+  factory UpdateResourceServerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResourceServerResponse(
+      resourceServer: ResourceServerType.fromJson(
+          json['ResourceServer'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Represents the response from the server for the request to update user
 /// attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserAttributesResponse {
   /// The code delivery details list from the server for the request to update
   /// user attributes.
-  @_s.JsonKey(name: 'CodeDeliveryDetailsList')
-  final List<CodeDeliveryDetailsType> codeDeliveryDetailsList;
+  final List<CodeDeliveryDetailsType>? codeDeliveryDetailsList;
 
   UpdateUserAttributesResponse({
     this.codeDeliveryDetailsList,
   });
-  factory UpdateUserAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserAttributesResponseFromJson(json);
+  factory UpdateUserAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUserAttributesResponse(
+      codeDeliveryDetailsList: (json['CodeDeliveryDetailsList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CodeDeliveryDetailsType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the response from the server to the request to update the user
 /// pool client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserPoolClientResponse {
   /// The user pool client value from the response from the server when an update
   /// user pool client request is made.
-  @_s.JsonKey(name: 'UserPoolClient')
-  final UserPoolClientType userPoolClient;
+  final UserPoolClientType? userPoolClient;
 
   UpdateUserPoolClientResponse({
     this.userPoolClient,
   });
-  factory UpdateUserPoolClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserPoolClientResponseFromJson(json);
+  factory UpdateUserPoolClientResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUserPoolClientResponse(
+      userPoolClient: json['UserPoolClient'] != null
+          ? UserPoolClientType.fromJson(
+              json['UserPoolClient'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The UpdateUserPoolDomain response output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserPoolDomainResponse {
   /// The Amazon CloudFront endpoint that Amazon Cognito set up when you added the
   /// custom domain to your user pool.
-  @_s.JsonKey(name: 'CloudFrontDomain')
-  final String cloudFrontDomain;
+  final String? cloudFrontDomain;
 
   UpdateUserPoolDomainResponse({
     this.cloudFrontDomain,
   });
-  factory UpdateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserPoolDomainResponseFromJson(json);
+  factory UpdateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUserPoolDomainResponse(
+      cloudFrontDomain: json['CloudFrontDomain'] as String?,
+    );
+  }
 }
 
 /// Represents the response from the server when you make a request to update
 /// the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserPoolResponse {
   UpdateUserPoolResponse();
-  factory UpdateUserPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserPoolResponseFromJson(json);
+  factory UpdateUserPoolResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateUserPoolResponse();
+  }
 }
 
 /// Contextual data such as the user's device fingerprint, IP address, or
 /// location used for evaluating the risk of an unexpected event by Amazon
 /// Cognito advanced security.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UserContextDataType {
   /// Contextual data such as the user's device fingerprint, IP address, or
   /// location used for evaluating the risk of an unexpected event by Amazon
   /// Cognito advanced security.
-  @_s.JsonKey(name: 'EncodedData')
-  final String encodedData;
+  final String? encodedData;
 
   UserContextDataType({
     this.encodedData,
   });
-  Map<String, dynamic> toJson() => _$UserContextDataTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final encodedData = this.encodedData;
+    return {
+      if (encodedData != null) 'EncodedData': encodedData,
+    };
+  }
 }
 
 enum UserImportJobStatusType {
-  @_s.JsonValue('Created')
   created,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Stopping')
   stopping,
-  @_s.JsonValue('Expired')
   expired,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Succeeded')
   succeeded,
 }
 
+extension on UserImportJobStatusType {
+  String toValue() {
+    switch (this) {
+      case UserImportJobStatusType.created:
+        return 'Created';
+      case UserImportJobStatusType.pending:
+        return 'Pending';
+      case UserImportJobStatusType.inProgress:
+        return 'InProgress';
+      case UserImportJobStatusType.stopping:
+        return 'Stopping';
+      case UserImportJobStatusType.expired:
+        return 'Expired';
+      case UserImportJobStatusType.stopped:
+        return 'Stopped';
+      case UserImportJobStatusType.failed:
+        return 'Failed';
+      case UserImportJobStatusType.succeeded:
+        return 'Succeeded';
+    }
+  }
+}
+
+extension on String {
+  UserImportJobStatusType toUserImportJobStatusType() {
+    switch (this) {
+      case 'Created':
+        return UserImportJobStatusType.created;
+      case 'Pending':
+        return UserImportJobStatusType.pending;
+      case 'InProgress':
+        return UserImportJobStatusType.inProgress;
+      case 'Stopping':
+        return UserImportJobStatusType.stopping;
+      case 'Expired':
+        return UserImportJobStatusType.expired;
+      case 'Stopped':
+        return UserImportJobStatusType.stopped;
+      case 'Failed':
+        return UserImportJobStatusType.failed;
+      case 'Succeeded':
+        return UserImportJobStatusType.succeeded;
+    }
+    throw Exception('$this is not known in enum UserImportJobStatusType');
+  }
+}
+
 /// The user import job type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserImportJobType {
   /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
   /// For more information, see "Creating the CloudWatch Logs IAM Role" in the
   /// Amazon Cognito Developer Guide.
-  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
-  final String cloudWatchLogsRoleArn;
+  final String? cloudWatchLogsRoleArn;
 
   /// The date when the user import job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDate')
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   /// The message returned when the user import job is completed.
-  @_s.JsonKey(name: 'CompletionMessage')
-  final String completionMessage;
+  final String? completionMessage;
 
   /// The date the user import job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The number of users that could not be imported.
-  @_s.JsonKey(name: 'FailedUsers')
-  final int failedUsers;
+  final int? failedUsers;
 
   /// The number of users that were successfully imported.
-  @_s.JsonKey(name: 'ImportedUsers')
-  final int importedUsers;
+  final int? importedUsers;
 
   /// The job ID for the user import job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The job name for the user import job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The pre-signed URL to be used to upload the <code>.csv</code> file.
-  @_s.JsonKey(name: 'PreSignedUrl')
-  final String preSignedUrl;
+  final String? preSignedUrl;
 
   /// The number of users that were skipped.
-  @_s.JsonKey(name: 'SkippedUsers')
-  final int skippedUsers;
+  final int? skippedUsers;
 
   /// The date when the user import job was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDate')
-  final DateTime startDate;
+  final DateTime? startDate;
 
   /// The status of the user import job. One of the following:
   ///
@@ -14365,12 +14996,10 @@ class UserImportJobType {
   /// cannot be started.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final UserImportJobStatusType status;
+  final UserImportJobStatusType? status;
 
   /// The user pool ID for the user pool that the users are being imported into.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   UserImportJobType({
     this.cloudWatchLogsRoleArn,
@@ -14387,70 +15016,79 @@ class UserImportJobType {
     this.status,
     this.userPoolId,
   });
-  factory UserImportJobType.fromJson(Map<String, dynamic> json) =>
-      _$UserImportJobTypeFromJson(json);
+  factory UserImportJobType.fromJson(Map<String, dynamic> json) {
+    return UserImportJobType(
+      cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String?,
+      completionDate: timeStampFromJson(json['CompletionDate']),
+      completionMessage: json['CompletionMessage'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      failedUsers: json['FailedUsers'] as int?,
+      importedUsers: json['ImportedUsers'] as int?,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      preSignedUrl: json['PreSignedUrl'] as String?,
+      skippedUsers: json['SkippedUsers'] as int?,
+      startDate: timeStampFromJson(json['StartDate']),
+      status: (json['Status'] as String?)?.toUserImportJobStatusType(),
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 /// The user pool add-ons type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserPoolAddOnsType {
   /// The advanced security mode.
-  @_s.JsonKey(name: 'AdvancedSecurityMode')
   final AdvancedSecurityModeType advancedSecurityMode;
 
   UserPoolAddOnsType({
-    @_s.required this.advancedSecurityMode,
+    required this.advancedSecurityMode,
   });
-  factory UserPoolAddOnsType.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolAddOnsTypeFromJson(json);
+  factory UserPoolAddOnsType.fromJson(Map<String, dynamic> json) {
+    return UserPoolAddOnsType(
+      advancedSecurityMode:
+          (json['AdvancedSecurityMode'] as String).toAdvancedSecurityModeType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserPoolAddOnsTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final advancedSecurityMode = this.advancedSecurityMode;
+    return {
+      'AdvancedSecurityMode': advancedSecurityMode.toValue(),
+    };
+  }
 }
 
 /// The description of the user pool client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserPoolClientDescription {
   /// The ID of the client associated with the user pool.
-  @_s.JsonKey(name: 'ClientId')
-  final String clientId;
+  final String? clientId;
 
   /// The client name from the user pool client description.
-  @_s.JsonKey(name: 'ClientName')
-  final String clientName;
+  final String? clientName;
 
   /// The user pool ID for the user pool where you want to describe the user pool
   /// client.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   UserPoolClientDescription({
     this.clientId,
     this.clientName,
     this.userPoolId,
   });
-  factory UserPoolClientDescription.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolClientDescriptionFromJson(json);
+  factory UserPoolClientDescription.fromJson(Map<String, dynamic> json) {
+    return UserPoolClientDescription(
+      clientId: json['ClientId'] as String?,
+      clientName: json['ClientName'] as String?,
+      userPoolId: json['UserPoolId'] as String?,
+    );
+  }
 }
 
 /// Contains information about a user pool client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserPoolClientType {
   /// The time limit, specified by tokenValidityUnits, defaulting to hours, after
   /// which the access token is no longer valid and cannot be used.
-  @_s.JsonKey(name: 'AccessTokenValidity')
-  final int accessTokenValidity;
+  final int? accessTokenValidity;
 
   /// The allowed OAuth flows.
   ///
@@ -14464,21 +15102,18 @@ class UserPoolClientType {
   /// Set to <code>client_credentials</code> to specify that the client should get
   /// the access token (and, optionally, ID token, based on scopes) from the token
   /// endpoint using a combination of client and client_secret.
-  @_s.JsonKey(name: 'AllowedOAuthFlows')
-  final List<OAuthFlowType> allowedOAuthFlows;
+  final List<OAuthFlowType>? allowedOAuthFlows;
 
   /// Set to true if the client is allowed to follow the OAuth protocol when
   /// interacting with Cognito user pools.
-  @_s.JsonKey(name: 'AllowedOAuthFlowsUserPoolClient')
-  final bool allowedOAuthFlowsUserPoolClient;
+  final bool? allowedOAuthFlowsUserPoolClient;
 
   /// The allowed OAuth scopes. Possible values provided by OAuth are:
   /// <code>phone</code>, <code>email</code>, <code>openid</code>, and
   /// <code>profile</code>. Possible values provided by AWS are:
   /// <code>aws.cognito.signin.user.admin</code>. Custom scopes created in
   /// Resource Servers are also supported.
-  @_s.JsonKey(name: 'AllowedOAuthScopes')
-  final List<String> allowedOAuthScopes;
+  final List<String>? allowedOAuthScopes;
 
   /// The Amazon Pinpoint analytics configuration for the user pool client.
   /// <note>
@@ -14486,8 +15121,7 @@ class UserPoolClientType {
   /// in the US East (N. Virginia) us-east-1 Region, regardless of the region in
   /// which the user pool resides.
   /// </note>
-  @_s.JsonKey(name: 'AnalyticsConfiguration')
-  final AnalyticsConfigurationType analyticsConfiguration;
+  final AnalyticsConfigurationType? analyticsConfiguration;
 
   /// A list of allowed redirect (callback) URLs for the identity providers.
   ///
@@ -14511,25 +15145,19 @@ class UserPoolClientType {
   /// testing purposes only.
   ///
   /// App callback URLs such as myapp://example are also supported.
-  @_s.JsonKey(name: 'CallbackURLs')
-  final List<String> callbackURLs;
+  final List<String>? callbackURLs;
 
   /// The ID of the client associated with the user pool.
-  @_s.JsonKey(name: 'ClientId')
-  final String clientId;
+  final String? clientId;
 
   /// The client name from the user pool request of the client type.
-  @_s.JsonKey(name: 'ClientName')
-  final String clientName;
+  final String? clientName;
 
   /// The client secret from the user pool request of the client type.
-  @_s.JsonKey(name: 'ClientSecret')
-  final String clientSecret;
+  final String? clientSecret;
 
   /// The date the user pool client was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The default redirect URI. Must be in the <code>CallbackURLs</code> list.
   ///
@@ -14553,8 +15181,7 @@ class UserPoolClientType {
   /// testing purposes only.
   ///
   /// App callback URLs such as myapp://example are also supported.
-  @_s.JsonKey(name: 'DefaultRedirectURI')
-  final String defaultRedirectURI;
+  final String? defaultRedirectURI;
 
   /// The authentication flows that are supported by the user pool clients. Flow
   /// names without the <code>ALLOW_</code> prefix are deprecated in favor of new
@@ -14588,22 +15215,17 @@ class UserPoolClientType {
   /// <code>ALLOW_REFRESH_TOKEN_AUTH</code>: Enable authflow to refresh tokens.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ExplicitAuthFlows')
-  final List<ExplicitAuthFlowsType> explicitAuthFlows;
+  final List<ExplicitAuthFlowsType>? explicitAuthFlows;
 
   /// The time limit, specified by tokenValidityUnits, defaulting to hours, after
   /// which the refresh token is no longer valid and cannot be used.
-  @_s.JsonKey(name: 'IdTokenValidity')
-  final int idTokenValidity;
+  final int? idTokenValidity;
 
   /// The date the user pool client was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// A list of allowed logout URLs for the identity providers.
-  @_s.JsonKey(name: 'LogoutURLs')
-  final List<String> logoutURLs;
+  final List<String>? logoutURLs;
 
   /// Use this setting to choose which errors and responses are returned by
   /// Cognito APIs during authentication, account confirmation, and password
@@ -14630,35 +15252,28 @@ class UserPoolClientType {
   /// <code>PreventUserExistenceErrors</code> will default to <code>ENABLED</code>
   /// for newly created user pool clients if no value is provided.
   /// </note>
-  @_s.JsonKey(name: 'PreventUserExistenceErrors')
-  final PreventUserExistenceErrorTypes preventUserExistenceErrors;
+  final PreventUserExistenceErrorTypes? preventUserExistenceErrors;
 
   /// The Read-only attributes.
-  @_s.JsonKey(name: 'ReadAttributes')
-  final List<String> readAttributes;
+  final List<String>? readAttributes;
 
   /// The time limit, in days, after which the refresh token is no longer valid
   /// and cannot be used.
-  @_s.JsonKey(name: 'RefreshTokenValidity')
-  final int refreshTokenValidity;
+  final int? refreshTokenValidity;
 
   /// A list of provider names for the identity providers that are supported on
   /// this client.
-  @_s.JsonKey(name: 'SupportedIdentityProviders')
-  final List<String> supportedIdentityProviders;
+  final List<String>? supportedIdentityProviders;
 
   /// The time units used to specify the token validity times of their respective
   /// token.
-  @_s.JsonKey(name: 'TokenValidityUnits')
-  final TokenValidityUnitsType tokenValidityUnits;
+  final TokenValidityUnitsType? tokenValidityUnits;
 
   /// The user pool ID for the user pool client.
-  @_s.JsonKey(name: 'UserPoolId')
-  final String userPoolId;
+  final String? userPoolId;
 
   /// The writeable attributes.
-  @_s.JsonKey(name: 'WriteAttributes')
-  final List<String> writeAttributes;
+  final List<String>? writeAttributes;
 
   UserPoolClientType({
     this.accessTokenValidity,
@@ -14684,42 +15299,86 @@ class UserPoolClientType {
     this.userPoolId,
     this.writeAttributes,
   });
-  factory UserPoolClientType.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolClientTypeFromJson(json);
+  factory UserPoolClientType.fromJson(Map<String, dynamic> json) {
+    return UserPoolClientType(
+      accessTokenValidity: json['AccessTokenValidity'] as int?,
+      allowedOAuthFlows: (json['AllowedOAuthFlows'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOAuthFlowType())
+          .toList(),
+      allowedOAuthFlowsUserPoolClient:
+          json['AllowedOAuthFlowsUserPoolClient'] as bool?,
+      allowedOAuthScopes: (json['AllowedOAuthScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      analyticsConfiguration: json['AnalyticsConfiguration'] != null
+          ? AnalyticsConfigurationType.fromJson(
+              json['AnalyticsConfiguration'] as Map<String, dynamic>)
+          : null,
+      callbackURLs: (json['CallbackURLs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      clientId: json['ClientId'] as String?,
+      clientName: json['ClientName'] as String?,
+      clientSecret: json['ClientSecret'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      defaultRedirectURI: json['DefaultRedirectURI'] as String?,
+      explicitAuthFlows: (json['ExplicitAuthFlows'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toExplicitAuthFlowsType())
+          .toList(),
+      idTokenValidity: json['IdTokenValidity'] as int?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      logoutURLs: (json['LogoutURLs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      preventUserExistenceErrors:
+          (json['PreventUserExistenceErrors'] as String?)
+              ?.toPreventUserExistenceErrorTypes(),
+      readAttributes: (json['ReadAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      refreshTokenValidity: json['RefreshTokenValidity'] as int?,
+      supportedIdentityProviders: (json['SupportedIdentityProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tokenValidityUnits: json['TokenValidityUnits'] != null
+          ? TokenValidityUnitsType.fromJson(
+              json['TokenValidityUnits'] as Map<String, dynamic>)
+          : null,
+      userPoolId: json['UserPoolId'] as String?,
+      writeAttributes: (json['WriteAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A user pool description.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserPoolDescriptionType {
   /// The date the user pool description was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The ID in a user pool description.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The AWS Lambda configuration information in a user pool description.
-  @_s.JsonKey(name: 'LambdaConfig')
-  final LambdaConfigType lambdaConfig;
+  final LambdaConfigType? lambdaConfig;
 
   /// The date the user pool description was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The name in a user pool description.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The user pool status in a user pool description.
-  @_s.JsonKey(name: 'Status')
-  final StatusType status;
+  final StatusType? status;
 
   UserPoolDescriptionType({
     this.creationDate,
@@ -14729,16 +15388,24 @@ class UserPoolDescriptionType {
     this.name,
     this.status,
   });
-  factory UserPoolDescriptionType.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolDescriptionTypeFromJson(json);
+  factory UserPoolDescriptionType.fromJson(Map<String, dynamic> json) {
+    return UserPoolDescriptionType(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      id: json['Id'] as String?,
+      lambdaConfig: json['LambdaConfig'] != null
+          ? LambdaConfigType.fromJson(
+              json['LambdaConfig'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toStatusType(),
+    );
+  }
 }
 
 enum UserPoolMfaType {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('ON')
   on,
-  @_s.JsonValue('OPTIONAL')
   optional,
 }
 
@@ -14752,36 +15419,49 @@ extension on UserPoolMfaType {
       case UserPoolMfaType.optional:
         return 'OPTIONAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserPoolMfaType toUserPoolMfaType() {
+    switch (this) {
+      case 'OFF':
+        return UserPoolMfaType.off;
+      case 'ON':
+        return UserPoolMfaType.on;
+      case 'OPTIONAL':
+        return UserPoolMfaType.optional;
+    }
+    throw Exception('$this is not known in enum UserPoolMfaType');
   }
 }
 
 /// The policy associated with a user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserPoolPolicyType {
   /// The password policy.
-  @_s.JsonKey(name: 'PasswordPolicy')
-  final PasswordPolicyType passwordPolicy;
+  final PasswordPolicyType? passwordPolicy;
 
   UserPoolPolicyType({
     this.passwordPolicy,
   });
-  factory UserPoolPolicyType.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolPolicyTypeFromJson(json);
+  factory UserPoolPolicyType.fromJson(Map<String, dynamic> json) {
+    return UserPoolPolicyType(
+      passwordPolicy: json['PasswordPolicy'] != null
+          ? PasswordPolicyType.fromJson(
+              json['PasswordPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserPoolPolicyTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final passwordPolicy = this.passwordPolicy;
+    return {
+      if (passwordPolicy != null) 'PasswordPolicy': passwordPolicy,
+    };
+  }
 }
 
 /// A container for information about the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserPoolType {
   /// Use this setting to define which verified available method a user can use to
   /// recover their password when they call <code>ForgotPassword</code>. It allows
@@ -14790,29 +15470,22 @@ class UserPoolType {
   /// recovery mechanism if the user also has SMS MFA enabled. In the absence of
   /// this setting, Cognito uses the legacy behavior to determine the recovery
   /// method where SMS is preferred over email.
-  @_s.JsonKey(name: 'AccountRecoverySetting')
-  final AccountRecoverySettingType accountRecoverySetting;
+  final AccountRecoverySettingType? accountRecoverySetting;
 
   /// The configuration for <code>AdminCreateUser</code> requests.
-  @_s.JsonKey(name: 'AdminCreateUserConfig')
-  final AdminCreateUserConfigType adminCreateUserConfig;
+  final AdminCreateUserConfigType? adminCreateUserConfig;
 
   /// Specifies the attributes that are aliased in a user pool.
-  @_s.JsonKey(name: 'AliasAttributes')
-  final List<AliasAttributeType> aliasAttributes;
+  final List<AliasAttributeType>? aliasAttributes;
 
   /// The Amazon Resource Name (ARN) for the user pool.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// Specifies the attributes that are auto-verified in a user pool.
-  @_s.JsonKey(name: 'AutoVerifiedAttributes')
-  final List<VerifiedAttributeType> autoVerifiedAttributes;
+  final List<VerifiedAttributeType>? autoVerifiedAttributes;
 
   /// The date the user pool was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A custom domain name that you provide to Amazon Cognito. This parameter
   /// applies only if you use a custom domain to host the sign-up and sign-in
@@ -14821,50 +15494,38 @@ class UserPoolType {
   /// For more information about adding a custom domain to your user pool, see <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html">Using
   /// Your Own Domain for the Hosted UI</a>.
-  @_s.JsonKey(name: 'CustomDomain')
-  final String customDomain;
+  final String? customDomain;
 
   /// The device configuration.
-  @_s.JsonKey(name: 'DeviceConfiguration')
-  final DeviceConfigurationType deviceConfiguration;
+  final DeviceConfigurationType? deviceConfiguration;
 
   /// Holds the domain prefix if the user pool has a domain associated with it.
-  @_s.JsonKey(name: 'Domain')
-  final String domain;
+  final String? domain;
 
   /// The email configuration.
-  @_s.JsonKey(name: 'EmailConfiguration')
-  final EmailConfigurationType emailConfiguration;
+  final EmailConfigurationType? emailConfiguration;
 
   /// The reason why the email configuration cannot send the messages to your
   /// users.
-  @_s.JsonKey(name: 'EmailConfigurationFailure')
-  final String emailConfigurationFailure;
+  final String? emailConfigurationFailure;
 
   /// The contents of the email verification message.
-  @_s.JsonKey(name: 'EmailVerificationMessage')
-  final String emailVerificationMessage;
+  final String? emailVerificationMessage;
 
   /// The subject of the email verification message.
-  @_s.JsonKey(name: 'EmailVerificationSubject')
-  final String emailVerificationSubject;
+  final String? emailVerificationSubject;
 
   /// A number estimating the size of the user pool.
-  @_s.JsonKey(name: 'EstimatedNumberOfUsers')
-  final int estimatedNumberOfUsers;
+  final int? estimatedNumberOfUsers;
 
   /// The ID of the user pool.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The AWS Lambda triggers associated with the user pool.
-  @_s.JsonKey(name: 'LambdaConfig')
-  final LambdaConfigType lambdaConfig;
+  final LambdaConfigType? lambdaConfig;
 
   /// The date the user pool was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// Can be one of the following values:
   ///
@@ -14882,55 +15543,43 @@ class UserPoolType {
   /// MFA token.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MfaConfiguration')
-  final UserPoolMfaType mfaConfiguration;
+  final UserPoolMfaType? mfaConfiguration;
 
   /// The name of the user pool.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The policies associated with the user pool.
-  @_s.JsonKey(name: 'Policies')
-  final UserPoolPolicyType policies;
+  final UserPoolPolicyType? policies;
 
   /// A container with the schema attributes of a user pool.
-  @_s.JsonKey(name: 'SchemaAttributes')
-  final List<SchemaAttributeType> schemaAttributes;
+  final List<SchemaAttributeType>? schemaAttributes;
 
   /// The contents of the SMS authentication message.
-  @_s.JsonKey(name: 'SmsAuthenticationMessage')
-  final String smsAuthenticationMessage;
+  final String? smsAuthenticationMessage;
 
   /// The SMS configuration.
-  @_s.JsonKey(name: 'SmsConfiguration')
-  final SmsConfigurationType smsConfiguration;
+  final SmsConfigurationType? smsConfiguration;
 
   /// The reason why the SMS configuration cannot send the messages to your users.
-  @_s.JsonKey(name: 'SmsConfigurationFailure')
-  final String smsConfigurationFailure;
+  final String? smsConfigurationFailure;
 
   /// The contents of the SMS verification message.
-  @_s.JsonKey(name: 'SmsVerificationMessage')
-  final String smsVerificationMessage;
+  final String? smsVerificationMessage;
 
   /// The status of a user pool.
-  @_s.JsonKey(name: 'Status')
-  final StatusType status;
+  final StatusType? status;
 
   /// The user pool add-ons.
-  @_s.JsonKey(name: 'UserPoolAddOns')
-  final UserPoolAddOnsType userPoolAddOns;
+  final UserPoolAddOnsType? userPoolAddOns;
 
   /// The tags that are assigned to the user pool. A tag is a label that you can
   /// apply to user pools to categorize and manage them in different ways, such as
   /// by purpose, owner, environment, or other criteria.
-  @_s.JsonKey(name: 'UserPoolTags')
-  final Map<String, String> userPoolTags;
+  final Map<String, String>? userPoolTags;
 
   /// Specifies whether email addresses or phone numbers can be specified as
   /// usernames when a user signs up.
-  @_s.JsonKey(name: 'UsernameAttributes')
-  final List<UsernameAttributeType> usernameAttributes;
+  final List<UsernameAttributeType>? usernameAttributes;
 
   /// You can choose to enable case sensitivity on the username input for the
   /// selected sign-in option. For example, when this is set to
@@ -14938,12 +15587,10 @@ class UserPoolType {
   /// "Username". This configuration is immutable once it has been set. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UsernameConfigurationType.html">UsernameConfigurationType</a>.
-  @_s.JsonKey(name: 'UsernameConfiguration')
-  final UsernameConfigurationType usernameConfiguration;
+  final UsernameConfigurationType? usernameConfiguration;
 
   /// The template for verification messages.
-  @_s.JsonKey(name: 'VerificationMessageTemplate')
-  final VerificationMessageTemplateType verificationMessageTemplate;
+  final VerificationMessageTemplateType? verificationMessageTemplate;
 
   UserPoolType({
     this.accountRecoverySetting,
@@ -14978,55 +15625,156 @@ class UserPoolType {
     this.usernameConfiguration,
     this.verificationMessageTemplate,
   });
-  factory UserPoolType.fromJson(Map<String, dynamic> json) =>
-      _$UserPoolTypeFromJson(json);
+  factory UserPoolType.fromJson(Map<String, dynamic> json) {
+    return UserPoolType(
+      accountRecoverySetting: json['AccountRecoverySetting'] != null
+          ? AccountRecoverySettingType.fromJson(
+              json['AccountRecoverySetting'] as Map<String, dynamic>)
+          : null,
+      adminCreateUserConfig: json['AdminCreateUserConfig'] != null
+          ? AdminCreateUserConfigType.fromJson(
+              json['AdminCreateUserConfig'] as Map<String, dynamic>)
+          : null,
+      aliasAttributes: (json['AliasAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAliasAttributeType())
+          .toList(),
+      arn: json['Arn'] as String?,
+      autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toVerifiedAttributeType())
+          .toList(),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      customDomain: json['CustomDomain'] as String?,
+      deviceConfiguration: json['DeviceConfiguration'] != null
+          ? DeviceConfigurationType.fromJson(
+              json['DeviceConfiguration'] as Map<String, dynamic>)
+          : null,
+      domain: json['Domain'] as String?,
+      emailConfiguration: json['EmailConfiguration'] != null
+          ? EmailConfigurationType.fromJson(
+              json['EmailConfiguration'] as Map<String, dynamic>)
+          : null,
+      emailConfigurationFailure: json['EmailConfigurationFailure'] as String?,
+      emailVerificationMessage: json['EmailVerificationMessage'] as String?,
+      emailVerificationSubject: json['EmailVerificationSubject'] as String?,
+      estimatedNumberOfUsers: json['EstimatedNumberOfUsers'] as int?,
+      id: json['Id'] as String?,
+      lambdaConfig: json['LambdaConfig'] != null
+          ? LambdaConfigType.fromJson(
+              json['LambdaConfig'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      mfaConfiguration:
+          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      name: json['Name'] as String?,
+      policies: json['Policies'] != null
+          ? UserPoolPolicyType.fromJson(
+              json['Policies'] as Map<String, dynamic>)
+          : null,
+      schemaAttributes: (json['SchemaAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaAttributeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String?,
+      smsConfiguration: json['SmsConfiguration'] != null
+          ? SmsConfigurationType.fromJson(
+              json['SmsConfiguration'] as Map<String, dynamic>)
+          : null,
+      smsConfigurationFailure: json['SmsConfigurationFailure'] as String?,
+      smsVerificationMessage: json['SmsVerificationMessage'] as String?,
+      status: (json['Status'] as String?)?.toStatusType(),
+      userPoolAddOns: json['UserPoolAddOns'] != null
+          ? UserPoolAddOnsType.fromJson(
+              json['UserPoolAddOns'] as Map<String, dynamic>)
+          : null,
+      userPoolTags: (json['UserPoolTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      usernameAttributes: (json['UsernameAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toUsernameAttributeType())
+          .toList(),
+      usernameConfiguration: json['UsernameConfiguration'] != null
+          ? UsernameConfigurationType.fromJson(
+              json['UsernameConfiguration'] as Map<String, dynamic>)
+          : null,
+      verificationMessageTemplate: json['VerificationMessageTemplate'] != null
+          ? VerificationMessageTemplateType.fromJson(
+              json['VerificationMessageTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum UserStatusType {
-  @_s.JsonValue('UNCONFIRMED')
   unconfirmed,
-  @_s.JsonValue('CONFIRMED')
   confirmed,
-  @_s.JsonValue('ARCHIVED')
   archived,
-  @_s.JsonValue('COMPROMISED')
   compromised,
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('RESET_REQUIRED')
   resetRequired,
-  @_s.JsonValue('FORCE_CHANGE_PASSWORD')
   forceChangePassword,
 }
 
+extension on UserStatusType {
+  String toValue() {
+    switch (this) {
+      case UserStatusType.unconfirmed:
+        return 'UNCONFIRMED';
+      case UserStatusType.confirmed:
+        return 'CONFIRMED';
+      case UserStatusType.archived:
+        return 'ARCHIVED';
+      case UserStatusType.compromised:
+        return 'COMPROMISED';
+      case UserStatusType.unknown:
+        return 'UNKNOWN';
+      case UserStatusType.resetRequired:
+        return 'RESET_REQUIRED';
+      case UserStatusType.forceChangePassword:
+        return 'FORCE_CHANGE_PASSWORD';
+    }
+  }
+}
+
+extension on String {
+  UserStatusType toUserStatusType() {
+    switch (this) {
+      case 'UNCONFIRMED':
+        return UserStatusType.unconfirmed;
+      case 'CONFIRMED':
+        return UserStatusType.confirmed;
+      case 'ARCHIVED':
+        return UserStatusType.archived;
+      case 'COMPROMISED':
+        return UserStatusType.compromised;
+      case 'UNKNOWN':
+        return UserStatusType.unknown;
+      case 'RESET_REQUIRED':
+        return UserStatusType.resetRequired;
+      case 'FORCE_CHANGE_PASSWORD':
+        return UserStatusType.forceChangePassword;
+    }
+    throw Exception('$this is not known in enum UserStatusType');
+  }
+}
+
 /// The user type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserType {
   /// A container with information about the user type attributes.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeType> attributes;
+  final List<AttributeType>? attributes;
 
   /// Specifies whether the user is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The MFA options for the user.
-  @_s.JsonKey(name: 'MFAOptions')
-  final List<MFAOptionType> mFAOptions;
+  final List<MFAOptionType>? mFAOptions;
 
   /// The creation date of the user.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UserCreateDate')
-  final DateTime userCreateDate;
+  final DateTime? userCreateDate;
 
   /// The last modified date of the user.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UserLastModifiedDate')
-  final DateTime userLastModifiedDate;
+  final DateTime? userLastModifiedDate;
 
   /// The user status. Can be one of the following:
   ///
@@ -15056,12 +15804,10 @@ class UserType {
   /// password to a new value before doing anything else.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'UserStatus')
-  final UserStatusType userStatus;
+  final UserStatusType? userStatus;
 
   /// The user name of the user you wish to describe.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   UserType({
     this.attributes,
@@ -15072,14 +15818,27 @@ class UserType {
     this.userStatus,
     this.username,
   });
-  factory UserType.fromJson(Map<String, dynamic> json) =>
-      _$UserTypeFromJson(json);
+  factory UserType.fromJson(Map<String, dynamic> json) {
+    return UserType(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabled: json['Enabled'] as bool?,
+      mFAOptions: (json['MFAOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userCreateDate: timeStampFromJson(json['UserCreateDate']),
+      userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
+      userStatus: (json['UserStatus'] as String?)?.toUserStatusType(),
+      username: json['Username'] as String?,
+    );
+  }
 }
 
 enum UsernameAttributeType {
-  @_s.JsonValue('phone_number')
   phoneNumber,
-  @_s.JsonValue('email')
   email,
 }
 
@@ -15091,16 +15850,22 @@ extension on UsernameAttributeType {
       case UsernameAttributeType.email:
         return 'email';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsernameAttributeType toUsernameAttributeType() {
+    switch (this) {
+      case 'phone_number':
+        return UsernameAttributeType.phoneNumber;
+      case 'email':
+        return UsernameAttributeType.email;
+    }
+    throw Exception('$this is not known in enum UsernameAttributeType');
   }
 }
 
 /// The username configuration type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UsernameConfigurationType {
   /// Specifies whether username case sensitivity will be applied for all users in
   /// the user pool through Cognito APIs.
@@ -15123,59 +15888,55 @@ class UsernameConfigurationType {
   /// attribute.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'CaseSensitive')
   final bool caseSensitive;
 
   UsernameConfigurationType({
-    @_s.required this.caseSensitive,
+    required this.caseSensitive,
   });
-  factory UsernameConfigurationType.fromJson(Map<String, dynamic> json) =>
-      _$UsernameConfigurationTypeFromJson(json);
+  factory UsernameConfigurationType.fromJson(Map<String, dynamic> json) {
+    return UsernameConfigurationType(
+      caseSensitive: json['CaseSensitive'] as bool,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UsernameConfigurationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final caseSensitive = this.caseSensitive;
+    return {
+      'CaseSensitive': caseSensitive,
+    };
+  }
 }
 
 /// The template for verification messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VerificationMessageTemplateType {
   /// The default email option.
-  @_s.JsonKey(name: 'DefaultEmailOption')
-  final DefaultEmailOptionType defaultEmailOption;
+  final DefaultEmailOptionType? defaultEmailOption;
 
   /// The email message template. EmailMessage is allowed only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">
   /// EmailSendingAccount</a> is DEVELOPER.
-  @_s.JsonKey(name: 'EmailMessage')
-  final String emailMessage;
+  final String? emailMessage;
 
   /// The email message template for sending a confirmation link to the user.
   /// EmailMessageByLink is allowed only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">
   /// EmailSendingAccount</a> is DEVELOPER.
-  @_s.JsonKey(name: 'EmailMessageByLink')
-  final String emailMessageByLink;
+  final String? emailMessageByLink;
 
   /// The subject line for the email message template. EmailSubject is allowed
   /// only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">EmailSendingAccount</a>
   /// is DEVELOPER.
-  @_s.JsonKey(name: 'EmailSubject')
-  final String emailSubject;
+  final String? emailSubject;
 
   /// The subject line for the email message template for sending a confirmation
   /// link to the user. EmailSubjectByLink is allowed only <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">
   /// EmailSendingAccount</a> is DEVELOPER.
-  @_s.JsonKey(name: 'EmailSubjectByLink')
-  final String emailSubjectByLink;
+  final String? emailSubjectByLink;
 
   /// The SMS message template.
-  @_s.JsonKey(name: 'SmsMessage')
-  final String smsMessage;
+  final String? smsMessage;
 
   VerificationMessageTemplateType({
     this.defaultEmailOption,
@@ -15185,17 +15946,39 @@ class VerificationMessageTemplateType {
     this.emailSubjectByLink,
     this.smsMessage,
   });
-  factory VerificationMessageTemplateType.fromJson(Map<String, dynamic> json) =>
-      _$VerificationMessageTemplateTypeFromJson(json);
+  factory VerificationMessageTemplateType.fromJson(Map<String, dynamic> json) {
+    return VerificationMessageTemplateType(
+      defaultEmailOption:
+          (json['DefaultEmailOption'] as String?)?.toDefaultEmailOptionType(),
+      emailMessage: json['EmailMessage'] as String?,
+      emailMessageByLink: json['EmailMessageByLink'] as String?,
+      emailSubject: json['EmailSubject'] as String?,
+      emailSubjectByLink: json['EmailSubjectByLink'] as String?,
+      smsMessage: json['SmsMessage'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VerificationMessageTemplateTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultEmailOption = this.defaultEmailOption;
+    final emailMessage = this.emailMessage;
+    final emailMessageByLink = this.emailMessageByLink;
+    final emailSubject = this.emailSubject;
+    final emailSubjectByLink = this.emailSubjectByLink;
+    final smsMessage = this.smsMessage;
+    return {
+      if (defaultEmailOption != null)
+        'DefaultEmailOption': defaultEmailOption.toValue(),
+      if (emailMessage != null) 'EmailMessage': emailMessage,
+      if (emailMessageByLink != null) 'EmailMessageByLink': emailMessageByLink,
+      if (emailSubject != null) 'EmailSubject': emailSubject,
+      if (emailSubjectByLink != null) 'EmailSubjectByLink': emailSubjectByLink,
+      if (smsMessage != null) 'SmsMessage': smsMessage,
+    };
+  }
 }
 
 enum VerifiedAttributeType {
-  @_s.JsonValue('phone_number')
   phoneNumber,
-  @_s.JsonValue('email')
   email,
 }
 
@@ -15207,71 +15990,97 @@ extension on VerifiedAttributeType {
       case VerifiedAttributeType.email:
         return 'email';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  VerifiedAttributeType toVerifiedAttributeType() {
+    switch (this) {
+      case 'phone_number':
+        return VerifiedAttributeType.phoneNumber;
+      case 'email':
+        return VerifiedAttributeType.email;
+    }
+    throw Exception('$this is not known in enum VerifiedAttributeType');
+  }
+}
+
 class VerifySoftwareTokenResponse {
   /// The session which should be passed both ways in challenge-response calls to
   /// the service.
-  @_s.JsonKey(name: 'Session')
-  final String session;
+  final String? session;
 
   /// The status of the verify software token.
-  @_s.JsonKey(name: 'Status')
-  final VerifySoftwareTokenResponseType status;
+  final VerifySoftwareTokenResponseType? status;
 
   VerifySoftwareTokenResponse({
     this.session,
     this.status,
   });
-  factory VerifySoftwareTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$VerifySoftwareTokenResponseFromJson(json);
+  factory VerifySoftwareTokenResponse.fromJson(Map<String, dynamic> json) {
+    return VerifySoftwareTokenResponse(
+      session: json['Session'] as String?,
+      status: (json['Status'] as String?)?.toVerifySoftwareTokenResponseType(),
+    );
+  }
 }
 
 enum VerifySoftwareTokenResponseType {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('ERROR')
   error,
+}
+
+extension on VerifySoftwareTokenResponseType {
+  String toValue() {
+    switch (this) {
+      case VerifySoftwareTokenResponseType.success:
+        return 'SUCCESS';
+      case VerifySoftwareTokenResponseType.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  VerifySoftwareTokenResponseType toVerifySoftwareTokenResponseType() {
+    switch (this) {
+      case 'SUCCESS':
+        return VerifySoftwareTokenResponseType.success;
+      case 'ERROR':
+        return VerifySoftwareTokenResponseType.error;
+    }
+    throw Exception(
+        '$this is not known in enum VerifySoftwareTokenResponseType');
+  }
 }
 
 /// A container representing the response from the server from the request to
 /// verify user attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VerifyUserAttributeResponse {
   VerifyUserAttributeResponse();
-  factory VerifyUserAttributeResponse.fromJson(Map<String, dynamic> json) =>
-      _$VerifyUserAttributeResponseFromJson(json);
+  factory VerifyUserAttributeResponse.fromJson(Map<String, dynamic> _) {
+    return VerifyUserAttributeResponse();
+  }
 }
 
 class AliasExistsException extends _s.GenericAwsException {
-  AliasExistsException({String type, String message})
+  AliasExistsException({String? type, String? message})
       : super(type: type, code: 'AliasExistsException', message: message);
 }
 
 class CodeDeliveryFailureException extends _s.GenericAwsException {
-  CodeDeliveryFailureException({String type, String message})
+  CodeDeliveryFailureException({String? type, String? message})
       : super(
             type: type, code: 'CodeDeliveryFailureException', message: message);
 }
 
 class CodeMismatchException extends _s.GenericAwsException {
-  CodeMismatchException({String type, String message})
+  CodeMismatchException({String? type, String? message})
       : super(type: type, code: 'CodeMismatchException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -15279,12 +16088,12 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class DuplicateProviderException extends _s.GenericAwsException {
-  DuplicateProviderException({String type, String message})
+  DuplicateProviderException({String? type, String? message})
       : super(type: type, code: 'DuplicateProviderException', message: message);
 }
 
 class EnableSoftwareTokenMFAException extends _s.GenericAwsException {
-  EnableSoftwareTokenMFAException({String type, String message})
+  EnableSoftwareTokenMFAException({String? type, String? message})
       : super(
             type: type,
             code: 'EnableSoftwareTokenMFAException',
@@ -15292,22 +16101,22 @@ class EnableSoftwareTokenMFAException extends _s.GenericAwsException {
 }
 
 class ExpiredCodeException extends _s.GenericAwsException {
-  ExpiredCodeException({String type, String message})
+  ExpiredCodeException({String? type, String? message})
       : super(type: type, code: 'ExpiredCodeException', message: message);
 }
 
 class GroupExistsException extends _s.GenericAwsException {
-  GroupExistsException({String type, String message})
+  GroupExistsException({String? type, String? message})
       : super(type: type, code: 'GroupExistsException', message: message);
 }
 
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidEmailRoleAccessPolicyException extends _s.GenericAwsException {
-  InvalidEmailRoleAccessPolicyException({String type, String message})
+  InvalidEmailRoleAccessPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEmailRoleAccessPolicyException',
@@ -15315,7 +16124,7 @@ class InvalidEmailRoleAccessPolicyException extends _s.GenericAwsException {
 }
 
 class InvalidLambdaResponseException extends _s.GenericAwsException {
-  InvalidLambdaResponseException({String type, String message})
+  InvalidLambdaResponseException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLambdaResponseException',
@@ -15323,22 +16132,22 @@ class InvalidLambdaResponseException extends _s.GenericAwsException {
 }
 
 class InvalidOAuthFlowException extends _s.GenericAwsException {
-  InvalidOAuthFlowException({String type, String message})
+  InvalidOAuthFlowException({String? type, String? message})
       : super(type: type, code: 'InvalidOAuthFlowException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidPasswordException extends _s.GenericAwsException {
-  InvalidPasswordException({String type, String message})
+  InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
 class InvalidSmsRoleAccessPolicyException extends _s.GenericAwsException {
-  InvalidSmsRoleAccessPolicyException({String type, String message})
+  InvalidSmsRoleAccessPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSmsRoleAccessPolicyException',
@@ -15346,7 +16155,7 @@ class InvalidSmsRoleAccessPolicyException extends _s.GenericAwsException {
 }
 
 class InvalidSmsRoleTrustRelationshipException extends _s.GenericAwsException {
-  InvalidSmsRoleTrustRelationshipException({String type, String message})
+  InvalidSmsRoleTrustRelationshipException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSmsRoleTrustRelationshipException',
@@ -15354,7 +16163,7 @@ class InvalidSmsRoleTrustRelationshipException extends _s.GenericAwsException {
 }
 
 class InvalidUserPoolConfigurationException extends _s.GenericAwsException {
-  InvalidUserPoolConfigurationException({String type, String message})
+  InvalidUserPoolConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidUserPoolConfigurationException',
@@ -15362,22 +16171,22 @@ class InvalidUserPoolConfigurationException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MFAMethodNotFoundException extends _s.GenericAwsException {
-  MFAMethodNotFoundException({String type, String message})
+  MFAMethodNotFoundException({String? type, String? message})
       : super(type: type, code: 'MFAMethodNotFoundException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class PasswordResetRequiredException extends _s.GenericAwsException {
-  PasswordResetRequiredException({String type, String message})
+  PasswordResetRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'PasswordResetRequiredException',
@@ -15385,23 +16194,23 @@ class PasswordResetRequiredException extends _s.GenericAwsException {
 }
 
 class PreconditionNotMetException extends _s.GenericAwsException {
-  PreconditionNotMetException({String type, String message})
+  PreconditionNotMetException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ScopeDoesNotExistException extends _s.GenericAwsException {
-  ScopeDoesNotExistException({String type, String message})
+  ScopeDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'ScopeDoesNotExistException', message: message);
 }
 
 class SoftwareTokenMFANotFoundException extends _s.GenericAwsException {
-  SoftwareTokenMFANotFoundException({String type, String message})
+  SoftwareTokenMFANotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'SoftwareTokenMFANotFoundException',
@@ -15409,7 +16218,7 @@ class SoftwareTokenMFANotFoundException extends _s.GenericAwsException {
 }
 
 class TooManyFailedAttemptsException extends _s.GenericAwsException {
-  TooManyFailedAttemptsException({String type, String message})
+  TooManyFailedAttemptsException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFailedAttemptsException',
@@ -15417,17 +16226,17 @@ class TooManyFailedAttemptsException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnexpectedLambdaException extends _s.GenericAwsException {
-  UnexpectedLambdaException({String type, String message})
+  UnexpectedLambdaException({String? type, String? message})
       : super(type: type, code: 'UnexpectedLambdaException', message: message);
 }
 
 class UnsupportedIdentityProviderException extends _s.GenericAwsException {
-  UnsupportedIdentityProviderException({String type, String message})
+  UnsupportedIdentityProviderException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedIdentityProviderException',
@@ -15435,7 +16244,7 @@ class UnsupportedIdentityProviderException extends _s.GenericAwsException {
 }
 
 class UnsupportedUserStateException extends _s.GenericAwsException {
-  UnsupportedUserStateException({String type, String message})
+  UnsupportedUserStateException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedUserStateException',
@@ -15443,7 +16252,7 @@ class UnsupportedUserStateException extends _s.GenericAwsException {
 }
 
 class UserImportInProgressException extends _s.GenericAwsException {
-  UserImportInProgressException({String type, String message})
+  UserImportInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'UserImportInProgressException',
@@ -15451,7 +16260,7 @@ class UserImportInProgressException extends _s.GenericAwsException {
 }
 
 class UserLambdaValidationException extends _s.GenericAwsException {
-  UserLambdaValidationException({String type, String message})
+  UserLambdaValidationException({String? type, String? message})
       : super(
             type: type,
             code: 'UserLambdaValidationException',
@@ -15459,17 +16268,17 @@ class UserLambdaValidationException extends _s.GenericAwsException {
 }
 
 class UserNotConfirmedException extends _s.GenericAwsException {
-  UserNotConfirmedException({String type, String message})
+  UserNotConfirmedException({String? type, String? message})
       : super(type: type, code: 'UserNotConfirmedException', message: message);
 }
 
 class UserNotFoundException extends _s.GenericAwsException {
-  UserNotFoundException({String type, String message})
+  UserNotFoundException({String? type, String? message})
       : super(type: type, code: 'UserNotFoundException', message: message);
 }
 
 class UserPoolAddOnNotEnabledException extends _s.GenericAwsException {
-  UserPoolAddOnNotEnabledException({String type, String message})
+  UserPoolAddOnNotEnabledException({String? type, String? message})
       : super(
             type: type,
             code: 'UserPoolAddOnNotEnabledException',
@@ -15477,12 +16286,12 @@ class UserPoolAddOnNotEnabledException extends _s.GenericAwsException {
 }
 
 class UserPoolTaggingException extends _s.GenericAwsException {
-  UserPoolTaggingException({String type, String message})
+  UserPoolTaggingException({String? type, String? message})
       : super(type: type, code: 'UserPoolTaggingException', message: message);
 }
 
 class UsernameExistsException extends _s.GenericAwsException {
-  UsernameExistsException({String type, String message})
+  UsernameExistsException({String? type, String? message})
       : super(type: type, code: 'UsernameExistsException', message: message);
 }
 

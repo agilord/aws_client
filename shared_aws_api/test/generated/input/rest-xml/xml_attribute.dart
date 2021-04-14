@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class XMLAttribute {
   final _s.RestXmlProtocol _protocol;
   XMLAttribute({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +37,7 @@ class XMLAttribute {
         );
 
   Future<void> operationName0({
-    Grant grant,
+    Grant? grant,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -44,14 +49,15 @@ class XMLAttribute {
 }
 
 class Grant {
-  final Grantee grantee;
+  final Grantee? grantee;
 
   Grant({
     this.grantee,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grantee = this.grantee;
     final $children = <_s.XmlNode>[
-      if (grantee != null) grantee?.toXml('Grantee'),
+      if (grantee != null) grantee.toXml('Grantee'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -59,20 +65,22 @@ class Grant {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class Grantee {
-  final String emailAddress;
-  final String type;
+  final String? emailAddress;
+  final String? type;
 
   Grantee({
     this.emailAddress,
     this.type,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final emailAddress = this.emailAddress;
+    final type = this.type;
     final $children = <_s.XmlNode>[
       if (emailAddress != null)
         _s.encodeXmlStringValue('EmailAddress', emailAddress),
@@ -86,7 +94,7 @@ class Grantee {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

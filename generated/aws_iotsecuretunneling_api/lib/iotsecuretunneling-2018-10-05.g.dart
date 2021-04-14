@@ -18,36 +18,41 @@ ConnectionState _$ConnectionStateFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ConnectionStatusEnumMap = {
@@ -66,13 +71,16 @@ DescribeTunnelResponse _$DescribeTunnelResponseFromJson(
 
 DestinationConfig _$DestinationConfigFromJson(Map<String, dynamic> json) {
   return DestinationConfig(
-    services: (json['services'] as List)?.map((e) => e as String)?.toList(),
-    thingName: json['thingName'] as String,
+    services:
+        (json['services'] as List<dynamic>).map((e) => e as String).toList(),
+    thingName: json['thingName'] as String?,
   );
 }
 
 Map<String, dynamic> _$DestinationConfigToJson(DestinationConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'services': instance.services,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -80,7 +88,6 @@ Map<String, dynamic> _$DestinationConfigToJson(DestinationConfig instance) {
     }
   }
 
-  writeNotNull('services', instance.services);
   writeNotNull('thingName', instance.thingName);
   return val;
 }
@@ -88,29 +95,27 @@ Map<String, dynamic> _$DestinationConfigToJson(DestinationConfig instance) {
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTunnelsResponse _$ListTunnelsResponseFromJson(Map<String, dynamic> json) {
   return ListTunnelsResponse(
-    nextToken: json['nextToken'] as String,
-    tunnelSummaries: (json['tunnelSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TunnelSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    tunnelSummaries: (json['tunnelSummaries'] as List<dynamic>?)
+        ?.map((e) => TunnelSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OpenTunnelResponse _$OpenTunnelResponseFromJson(Map<String, dynamic> json) {
   return OpenTunnelResponse(
-    destinationAccessToken: json['destinationAccessToken'] as String,
-    sourceAccessToken: json['sourceAccessToken'] as String,
-    tunnelArn: json['tunnelArn'] as String,
-    tunnelId: json['tunnelId'] as String,
+    destinationAccessToken: json['destinationAccessToken'] as String?,
+    sourceAccessToken: json['sourceAccessToken'] as String?,
+    tunnelArn: json['tunnelArn'] as String?,
+    tunnelId: json['tunnelId'] as String?,
   );
 }
 
@@ -121,19 +126,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -141,7 +137,7 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TimeoutConfig _$TimeoutConfigFromJson(Map<String, dynamic> json) {
   return TimeoutConfig(
-    maxLifetimeTimeoutMinutes: json['maxLifetimeTimeoutMinutes'] as int,
+    maxLifetimeTimeoutMinutes: json['maxLifetimeTimeoutMinutes'] as int?,
   );
 }
 
@@ -161,7 +157,7 @@ Map<String, dynamic> _$TimeoutConfigToJson(TimeoutConfig instance) {
 Tunnel _$TunnelFromJson(Map<String, dynamic> json) {
   return Tunnel(
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    description: json['description'] as String,
+    description: json['description'] as String?,
     destinationConfig: json['destinationConfig'] == null
         ? null
         : DestinationConfig.fromJson(
@@ -177,14 +173,14 @@ Tunnel _$TunnelFromJson(Map<String, dynamic> json) {
         : ConnectionState.fromJson(
             json['sourceConnectionState'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$TunnelStatusEnumMap, json['status']),
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timeoutConfig: json['timeoutConfig'] == null
         ? null
         : TimeoutConfig.fromJson(json['timeoutConfig'] as Map<String, dynamic>),
-    tunnelArn: json['tunnelArn'] as String,
-    tunnelId: json['tunnelId'] as String,
+    tunnelArn: json['tunnelArn'] as String?,
+    tunnelId: json['tunnelId'] as String?,
   );
 }
 
@@ -196,12 +192,12 @@ const _$TunnelStatusEnumMap = {
 TunnelSummary _$TunnelSummaryFromJson(Map<String, dynamic> json) {
   return TunnelSummary(
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    description: json['description'] as String,
+    description: json['description'] as String?,
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     status: _$enumDecodeNullable(_$TunnelStatusEnumMap, json['status']),
-    tunnelArn: json['tunnelArn'] as String,
-    tunnelId: json['tunnelId'] as String,
+    tunnelArn: json['tunnelArn'] as String?,
+    tunnelId: json['tunnelId'] as String?,
   );
 }
 

@@ -10,89 +10,76 @@ AccessControlAttribute _$AccessControlAttributeFromJson(
     Map<String, dynamic> json) {
   return AccessControlAttribute(
     key: json['Key'] as String,
-    value: json['Value'] == null
-        ? null
-        : AccessControlAttributeValue.fromJson(
-            json['Value'] as Map<String, dynamic>),
+    value: AccessControlAttributeValue.fromJson(
+        json['Value'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AccessControlAttributeToJson(
-    AccessControlAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value?.toJson());
-  return val;
-}
+        AccessControlAttribute instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value.toJson(),
+    };
 
 AccessControlAttributeValue _$AccessControlAttributeValueFromJson(
     Map<String, dynamic> json) {
   return AccessControlAttributeValue(
-    source: (json['Source'] as List)?.map((e) => e as String)?.toList(),
+    source: (json['Source'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$AccessControlAttributeValueToJson(
-    AccessControlAttributeValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Source', instance.source);
-  return val;
-}
+        AccessControlAttributeValue instance) =>
+    <String, dynamic>{
+      'Source': instance.source,
+    };
 
 AccountAssignment _$AccountAssignmentFromJson(Map<String, dynamic> json) {
   return AccountAssignment(
-    accountId: json['AccountId'] as String,
-    permissionSetArn: json['PermissionSetArn'] as String,
-    principalId: json['PrincipalId'] as String,
+    accountId: json['AccountId'] as String?,
+    permissionSetArn: json['PermissionSetArn'] as String?,
+    principalId: json['PrincipalId'] as String?,
     principalType:
         _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['PrincipalType']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PrincipalTypeEnumMap = {
@@ -104,14 +91,14 @@ AccountAssignmentOperationStatus _$AccountAssignmentOperationStatusFromJson(
     Map<String, dynamic> json) {
   return AccountAssignmentOperationStatus(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    failureReason: json['FailureReason'] as String,
-    permissionSetArn: json['PermissionSetArn'] as String,
-    principalId: json['PrincipalId'] as String,
+    failureReason: json['FailureReason'] as String?,
+    permissionSetArn: json['PermissionSetArn'] as String?,
+    principalId: json['PrincipalId'] as String?,
     principalType:
         _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['PrincipalType']),
-    requestId: json['RequestId'] as String,
+    requestId: json['RequestId'] as String?,
     status: _$enumDecodeNullable(_$StatusValuesEnumMap, json['Status']),
-    targetId: json['TargetId'] as String,
+    targetId: json['TargetId'] as String?,
     targetType: _$enumDecodeNullable(_$TargetTypeEnumMap, json['TargetType']),
   );
 }
@@ -131,7 +118,7 @@ AccountAssignmentOperationStatusMetadata
         Map<String, dynamic> json) {
   return AccountAssignmentOperationStatusMetadata(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    requestId: json['RequestId'] as String,
+    requestId: json['RequestId'] as String?,
     status: _$enumDecodeNullable(_$StatusValuesEnumMap, json['Status']),
   );
 }
@@ -145,8 +132,8 @@ AttachManagedPolicyToPermissionSetResponse
 AttachedManagedPolicy _$AttachedManagedPolicyFromJson(
     Map<String, dynamic> json) {
   return AttachedManagedPolicy(
-    arn: json['Arn'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -241,7 +228,7 @@ DescribeInstanceAccessControlAttributeConfigurationResponse
     status: _$enumDecodeNullable(
         _$InstanceAccessControlAttributeConfigurationStatusEnumMap,
         json['Status']),
-    statusReason: json['StatusReason'] as String,
+    statusReason: json['StatusReason'] as String?,
   );
 }
 
@@ -284,7 +271,7 @@ GetInlinePolicyForPermissionSetResponse
     _$GetInlinePolicyForPermissionSetResponseFromJson(
         Map<String, dynamic> json) {
   return GetInlinePolicyForPermissionSetResponse(
-    inlinePolicy: json['InlinePolicy'] as String,
+    inlinePolicy: json['InlinePolicy'] as String?,
   );
 }
 
@@ -292,33 +279,23 @@ InstanceAccessControlAttributeConfiguration
     _$InstanceAccessControlAttributeConfigurationFromJson(
         Map<String, dynamic> json) {
   return InstanceAccessControlAttributeConfiguration(
-    accessControlAttributes: (json['AccessControlAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccessControlAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    accessControlAttributes: (json['AccessControlAttributes'] as List<dynamic>)
+        .map((e) => AccessControlAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$InstanceAccessControlAttributeConfigurationToJson(
-    InstanceAccessControlAttributeConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AccessControlAttributes',
-      instance.accessControlAttributes?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        InstanceAccessControlAttributeConfiguration instance) =>
+    <String, dynamic>{
+      'AccessControlAttributes':
+          instance.accessControlAttributes.map((e) => e.toJson()).toList(),
+    };
 
 InstanceMetadata _$InstanceMetadataFromJson(Map<String, dynamic> json) {
   return InstanceMetadata(
-    identityStoreId: json['IdentityStoreId'] as String,
-    instanceArn: json['InstanceArn'] as String,
+    identityStoreId: json['IdentityStoreId'] as String?,
+    instanceArn: json['InstanceArn'] as String?,
   );
 }
 
@@ -327,13 +304,11 @@ ListAccountAssignmentCreationStatusResponse
         Map<String, dynamic> json) {
   return ListAccountAssignmentCreationStatusResponse(
     accountAssignmentsCreationStatus:
-        (json['AccountAssignmentsCreationStatus'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AccountAssignmentOperationStatusMetadata.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['AccountAssignmentsCreationStatus'] as List<dynamic>?)
+            ?.map((e) => AccountAssignmentOperationStatusMetadata.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -342,25 +317,21 @@ ListAccountAssignmentDeletionStatusResponse
         Map<String, dynamic> json) {
   return ListAccountAssignmentDeletionStatusResponse(
     accountAssignmentsDeletionStatus:
-        (json['AccountAssignmentsDeletionStatus'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AccountAssignmentOperationStatusMetadata.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['AccountAssignmentsDeletionStatus'] as List<dynamic>?)
+            ?.map((e) => AccountAssignmentOperationStatusMetadata.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAccountAssignmentsResponse _$ListAccountAssignmentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAccountAssignmentsResponse(
-    accountAssignments: (json['AccountAssignments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccountAssignment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    accountAssignments: (json['AccountAssignments'] as List<dynamic>?)
+        ?.map((e) => AccountAssignment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -368,20 +339,20 @@ ListAccountsForProvisionedPermissionSetResponse
     _$ListAccountsForProvisionedPermissionSetResponseFromJson(
         Map<String, dynamic> json) {
   return ListAccountsForProvisionedPermissionSetResponse(
-    accountIds: (json['AccountIds'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    accountIds: (json['AccountIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListInstancesResponse _$ListInstancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListInstancesResponse(
-    instances: (json['Instances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instances: (json['Instances'] as List<dynamic>?)
+        ?.map((e) => InstanceMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -389,12 +360,10 @@ ListManagedPoliciesInPermissionSetResponse
     _$ListManagedPoliciesInPermissionSetResponseFromJson(
         Map<String, dynamic> json) {
   return ListManagedPoliciesInPermissionSetResponse(
-    attachedManagedPolicies: (json['AttachedManagedPolicies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attachedManagedPolicies: (json['AttachedManagedPolicies'] as List<dynamic>?)
+        ?.map((e) => AttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -402,14 +371,12 @@ ListPermissionSetProvisioningStatusResponse
     _$ListPermissionSetProvisioningStatusResponseFromJson(
         Map<String, dynamic> json) {
   return ListPermissionSetProvisioningStatusResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     permissionSetsProvisioningStatus:
-        (json['PermissionSetsProvisioningStatus'] as List)
-            ?.map((e) => e == null
-                ? null
-                : PermissionSetProvisioningStatusMetadata.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['PermissionSetsProvisioningStatus'] as List<dynamic>?)
+            ?.map((e) => PermissionSetProvisioningStatusMetadata.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -417,28 +384,30 @@ ListPermissionSetsProvisionedToAccountResponse
     _$ListPermissionSetsProvisionedToAccountResponseFromJson(
         Map<String, dynamic> json) {
   return ListPermissionSetsProvisionedToAccountResponse(
-    nextToken: json['NextToken'] as String,
-    permissionSets:
-        (json['PermissionSets'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    permissionSets: (json['PermissionSets'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListPermissionSetsResponse _$ListPermissionSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPermissionSetsResponse(
-    nextToken: json['NextToken'] as String,
-    permissionSets:
-        (json['PermissionSets'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    permissionSets: (json['PermissionSets'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -459,22 +428,22 @@ Map<String, dynamic> _$OperationStatusFilterToJson(
 PermissionSet _$PermissionSetFromJson(Map<String, dynamic> json) {
   return PermissionSet(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    permissionSetArn: json['PermissionSetArn'] as String,
-    relayState: json['RelayState'] as String,
-    sessionDuration: json['SessionDuration'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    permissionSetArn: json['PermissionSetArn'] as String?,
+    relayState: json['RelayState'] as String?,
+    sessionDuration: json['SessionDuration'] as String?,
   );
 }
 
 PermissionSetProvisioningStatus _$PermissionSetProvisioningStatusFromJson(
     Map<String, dynamic> json) {
   return PermissionSetProvisioningStatus(
-    accountId: json['AccountId'] as String,
+    accountId: json['AccountId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    failureReason: json['FailureReason'] as String,
-    permissionSetArn: json['PermissionSetArn'] as String,
-    requestId: json['RequestId'] as String,
+    failureReason: json['FailureReason'] as String?,
+    permissionSetArn: json['PermissionSetArn'] as String?,
+    requestId: json['RequestId'] as String?,
     status: _$enumDecodeNullable(_$StatusValuesEnumMap, json['Status']),
   );
 }
@@ -484,7 +453,7 @@ PermissionSetProvisioningStatusMetadata
         Map<String, dynamic> json) {
   return PermissionSetProvisioningStatusMetadata(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    requestId: json['RequestId'] as String,
+    requestId: json['RequestId'] as String?,
     status: _$enumDecodeNullable(_$StatusValuesEnumMap, json['Status']),
   );
 }
@@ -508,8 +477,8 @@ PutInlinePolicyToPermissionSetResponse
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 

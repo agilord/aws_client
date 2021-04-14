@@ -34,28 +34,26 @@ DeleteProjectResponse _$DeleteProjectResponseFromJson(
 DescribePlacementResponse _$DescribePlacementResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePlacementResponse(
-    placement: json['placement'] == null
-        ? null
-        : PlacementDescription.fromJson(
-            json['placement'] as Map<String, dynamic>),
+    placement: PlacementDescription.fromJson(
+        json['placement'] as Map<String, dynamic>),
   );
 }
 
 DescribeProjectResponse _$DescribeProjectResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProjectResponse(
-    project: json['project'] == null
-        ? null
-        : ProjectDescription.fromJson(json['project'] as Map<String, dynamic>),
+    project:
+        ProjectDescription.fromJson(json['project'] as Map<String, dynamic>),
   );
 }
 
 DeviceTemplate _$DeviceTemplateFromJson(Map<String, dynamic> json) {
   return DeviceTemplate(
-    callbackOverrides: (json['callbackOverrides'] as Map<String, dynamic>)?.map(
+    callbackOverrides:
+        (json['callbackOverrides'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    deviceType: json['deviceType'] as String,
+    deviceType: json['deviceType'] as String?,
   );
 }
 
@@ -82,39 +80,33 @@ DisassociateDeviceFromPlacementResponse
 GetDevicesInPlacementResponse _$GetDevicesInPlacementResponseFromJson(
     Map<String, dynamic> json) {
   return GetDevicesInPlacementResponse(
-    devices: (json['devices'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
+    devices: Map<String, String>.from(json['devices'] as Map),
   );
 }
 
 ListPlacementsResponse _$ListPlacementsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPlacementsResponse(
-    placements: (json['placements'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlacementSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    placements: (json['placements'] as List<dynamic>)
+        .map((e) => PlacementSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListProjectsResponse _$ListProjectsResponseFromJson(Map<String, dynamic> json) {
   return ListProjectsResponse(
-    projects: (json['projects'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProjectSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    projects: (json['projects'] as List<dynamic>)
+        .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -122,36 +114,31 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 PlacementDescription _$PlacementDescriptionFromJson(Map<String, dynamic> json) {
   return PlacementDescription(
-    attributes: (json['attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
-    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    attributes: Map<String, String>.from(json['attributes'] as Map),
+    createdDate: DateTime.parse(json['createdDate'] as String),
     placementName: json['placementName'] as String,
     projectName: json['projectName'] as String,
-    updatedDate: const UnixDateTimeConverter().fromJson(json['updatedDate']),
+    updatedDate: DateTime.parse(json['updatedDate'] as String),
   );
 }
 
 PlacementSummary _$PlacementSummaryFromJson(Map<String, dynamic> json) {
   return PlacementSummary(
-    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    createdDate: DateTime.parse(json['createdDate'] as String),
     placementName: json['placementName'] as String,
     projectName: json['projectName'] as String,
-    updatedDate: const UnixDateTimeConverter().fromJson(json['updatedDate']),
+    updatedDate: DateTime.parse(json['updatedDate'] as String),
   );
 }
 
 PlacementTemplate _$PlacementTemplateFromJson(Map<String, dynamic> json) {
   return PlacementTemplate(
-    defaultAttributes: (json['defaultAttributes'] as Map<String, dynamic>)?.map(
+    defaultAttributes:
+        (json['defaultAttributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    deviceTemplates: (json['deviceTemplates'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : DeviceTemplate.fromJson(e as Map<String, dynamic>)),
+    deviceTemplates: (json['deviceTemplates'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, DeviceTemplate.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -167,22 +154,22 @@ Map<String, dynamic> _$PlacementTemplateToJson(PlacementTemplate instance) {
 
   writeNotNull('defaultAttributes', instance.defaultAttributes);
   writeNotNull('deviceTemplates',
-      instance.deviceTemplates?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.deviceTemplates?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }
 
 ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
   return ProjectDescription(
-    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    createdDate: DateTime.parse(json['createdDate'] as String),
     projectName: json['projectName'] as String,
-    updatedDate: const UnixDateTimeConverter().fromJson(json['updatedDate']),
-    arn: json['arn'] as String,
-    description: json['description'] as String,
+    updatedDate: DateTime.parse(json['updatedDate'] as String),
+    arn: json['arn'] as String?,
+    description: json['description'] as String?,
     placementTemplate: json['placementTemplate'] == null
         ? null
         : PlacementTemplate.fromJson(
             json['placementTemplate'] as Map<String, dynamic>),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -190,11 +177,11 @@ ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
 
 ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) {
   return ProjectSummary(
-    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    createdDate: DateTime.parse(json['createdDate'] as String),
     projectName: json['projectName'] as String,
-    updatedDate: const UnixDateTimeConverter().fromJson(json['updatedDate']),
-    arn: json['arn'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    updatedDate: DateTime.parse(json['updatedDate'] as String),
+    arn: json['arn'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );

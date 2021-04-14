@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mediastore-data-2017-09-01.g.dart';
 
 /// An AWS Elemental MediaStore asset is an object, similar to an object in the
 /// Amazon S3 service. Objects are the fundamental entities that are stored in
@@ -32,10 +24,10 @@ part 'mediastore-data-2017-09-01.g.dart';
 class MediaStoreData {
   final _s.RestJsonProtocol _protocol;
   MediaStoreData({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -58,7 +50,7 @@ class MediaStoreData {
   /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
   /// name&gt;
   Future<void> deleteObject({
-    @_s.required String path,
+    required String path,
   }) async {
     ArgumentError.checkNotNull(path, 'path');
     _s.validateStringLength(
@@ -80,7 +72,6 @@ class MediaStoreData {
       requestUri: '/${path.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteObjectResponse.fromJson(response);
   }
 
   /// Gets the headers for an object at the specified path.
@@ -94,7 +85,7 @@ class MediaStoreData {
   /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
   /// name&gt;
   Future<DescribeObjectResponse> describeObject({
-    @_s.required String path,
+    required String path,
   }) async {
     ArgumentError.checkNotNull(path, 'path');
     _s.validateStringLength(
@@ -176,8 +167,8 @@ class MediaStoreData {
   /// AWS Elemental MediaStore ignores this header for partially uploaded
   /// objects that have streaming upload availability.
   Future<GetObjectResponse> getObject({
-    @_s.required String path,
-    String range,
+    required String path,
+    String? range,
   }) async {
     ArgumentError.checkNotNull(path, 'path');
     _s.validateStringLength(
@@ -198,8 +189,9 @@ class MediaStoreData {
       range,
       r'''^bytes=(?:\d+\-\d*|\d*\-\d+)$''',
     );
-    final headers = <String, String>{};
-    range?.let((v) => headers['Range'] = v.toString());
+    final headers = <String, String>{
+      if (range != null) 'Range': range.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -256,9 +248,9 @@ class MediaStoreData {
   /// The path in the container from which to retrieve items. Format: &lt;folder
   /// name&gt;/&lt;folder name&gt;/&lt;file name&gt;
   Future<ListItemsResponse> listItems({
-    int maxResults,
-    String nextToken,
-    String path,
+    int? maxResults,
+    String? nextToken,
+    String? path,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -359,12 +351,12 @@ class MediaStoreData {
   /// To use this header, you must also set the HTTP
   /// <code>Transfer-Encoding</code> header to <code>chunked</code>.
   Future<PutObjectResponse> putObject({
-    @_s.required Uint8List body,
-    @_s.required String path,
-    String cacheControl,
-    String contentType,
-    StorageClass storageClass,
-    UploadAvailability uploadAvailability,
+    required Uint8List body,
+    required String path,
+    String? cacheControl,
+    String? contentType,
+    StorageClass? storageClass,
+    UploadAvailability? uploadAvailability,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(path, 'path');
@@ -386,12 +378,13 @@ class MediaStoreData {
       contentType,
       r'''^[\w\-\/\.\+]{1,255}$''',
     );
-    final headers = <String, String>{};
-    cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
-    uploadAvailability
-        ?.let((v) => headers['x-amz-upload-availability'] = v.toValue());
+    final headers = <String, String>{
+      if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (contentType != null) 'Content-Type': contentType.toString(),
+      if (storageClass != null) 'x-amz-storage-class': storageClass.toValue(),
+      if (uploadAvailability != null)
+        'x-amz-upload-availability': uploadAvailability.toValue(),
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'PUT',
@@ -403,22 +396,13 @@ class MediaStoreData {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteObjectResponse {
   DeleteObjectResponse();
-  factory DeleteObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteObjectResponseFromJson(json);
+  factory DeleteObjectResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteObjectResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeObjectResponse {
   /// An optional <code>CacheControl</code> header that allows the caller to
   /// control the object's cache behavior. Headers can be passed in as specified
@@ -426,25 +410,19 @@ class DescribeObjectResponse {
   /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9</a>.
   ///
   /// Headers with a custom user-defined value are also accepted.
-  @_s.JsonKey(name: 'Cache-Control')
-  final String cacheControl;
+  final String? cacheControl;
 
   /// The length of the object in bytes.
-  @_s.JsonKey(name: 'Content-Length')
-  final int contentLength;
+  final int? contentLength;
 
   /// The content type of the object.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The ETag that represents a unique instance of the object.
-  @_s.JsonKey(name: 'ETag')
-  final String eTag;
+  final String? eTag;
 
   /// The date and time that the object was last modified.
-  @RfcDateTimeConverter()
-  @_s.JsonKey(name: 'Last-Modified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   DescribeObjectResponse({
     this.cacheControl,
@@ -453,26 +431,16 @@ class DescribeObjectResponse {
     this.eTag,
     this.lastModified,
   });
-  factory DescribeObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeObjectResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetObjectResponse {
   /// The HTML status code of the request. Status codes ranging from 200 to 299
   /// indicate success. All other status codes indicate the type of error that
   /// occurred.
-  @_s.JsonKey(name: 'StatusCode')
   final int statusCode;
 
   /// The bytes of the object.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Body')
-  final Uint8List body;
+  final Uint8List? body;
 
   /// An optional <code>CacheControl</code> header that allows the caller to
   /// control the object's cache behavior. Headers can be passed in as specified
@@ -480,32 +448,25 @@ class GetObjectResponse {
   /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9</a>.
   ///
   /// Headers with a custom user-defined value are also accepted.
-  @_s.JsonKey(name: 'Cache-Control')
-  final String cacheControl;
+  final String? cacheControl;
 
   /// The length of the object in bytes.
-  @_s.JsonKey(name: 'Content-Length')
-  final int contentLength;
+  final int? contentLength;
 
   /// The range of bytes to retrieve.
-  @_s.JsonKey(name: 'Content-Range')
-  final String contentRange;
+  final String? contentRange;
 
   /// The content type of the object.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The ETag that represents a unique instance of the object.
-  @_s.JsonKey(name: 'ETag')
-  final String eTag;
+  final String? eTag;
 
   /// The date and time that the object was last modified.
-  @RfcDateTimeConverter()
-  @_s.JsonKey(name: 'Last-Modified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   GetObjectResponse({
-    @_s.required this.statusCode,
+    required this.statusCode,
     this.body,
     this.cacheControl,
     this.contentLength,
@@ -514,41 +475,27 @@ class GetObjectResponse {
     this.eTag,
     this.lastModified,
   });
-  factory GetObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetObjectResponseFromJson(json);
 }
 
 /// A metadata entry for a folder or object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Item {
   /// The length of the item in bytes.
-  @_s.JsonKey(name: 'ContentLength')
-  final int contentLength;
+  final int? contentLength;
 
   /// The content type of the item.
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// The ETag that represents a unique instance of the item.
-  @_s.JsonKey(name: 'ETag')
-  final String eTag;
+  final String? eTag;
 
   /// The date and time that the item was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The name of the item.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The item type (folder or object).
-  @_s.JsonKey(name: 'Type')
-  final ItemType type;
+  final ItemType? type;
 
   Item({
     this.contentLength,
@@ -558,72 +505,98 @@ class Item {
     this.name,
     this.type,
   });
-  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      contentLength: json['ContentLength'] as int?,
+      contentType: json['ContentType'] as String?,
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toItemType(),
+    );
+  }
 }
 
 enum ItemType {
-  @_s.JsonValue('OBJECT')
   object,
-  @_s.JsonValue('FOLDER')
   folder,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ItemType {
+  String toValue() {
+    switch (this) {
+      case ItemType.object:
+        return 'OBJECT';
+      case ItemType.folder:
+        return 'FOLDER';
+    }
+  }
+}
+
+extension on String {
+  ItemType toItemType() {
+    switch (this) {
+      case 'OBJECT':
+        return ItemType.object;
+      case 'FOLDER':
+        return ItemType.folder;
+    }
+    throw Exception('$this is not known in enum ItemType');
+  }
+}
+
 class ListItemsResponse {
   /// The metadata entries for the folders and objects at the requested path.
-  @_s.JsonKey(name: 'Items')
-  final List<Item> items;
+  final List<Item>? items;
 
   /// The token that can be used in a request to view the next set of results. For
   /// example, you submit a <code>ListItems</code> request that matches 2,000
   /// items with <code>MaxResults</code> set at 500. The service returns the first
   /// batch of results (up to 500) and a <code>NextToken</code> value that can be
   /// used to fetch the next batch of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListItemsResponse({
     this.items,
     this.nextToken,
   });
-  factory ListItemsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListItemsResponseFromJson(json);
+  factory ListItemsResponse.fromJson(Map<String, dynamic> json) {
+    return ListItemsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutObjectResponse {
   /// The SHA256 digest of the object that is persisted.
-  @_s.JsonKey(name: 'ContentSHA256')
-  final String contentSHA256;
+  final String? contentSHA256;
 
   /// Unique identifier of the object in the container.
-  @_s.JsonKey(name: 'ETag')
-  final String eTag;
+  final String? eTag;
 
   /// The storage class where the object was persisted. The class should be
   /// “Temporal”.
-  @_s.JsonKey(name: 'StorageClass')
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   PutObjectResponse({
     this.contentSHA256,
     this.eTag,
     this.storageClass,
   });
-  factory PutObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutObjectResponseFromJson(json);
+  factory PutObjectResponse.fromJson(Map<String, dynamic> json) {
+    return PutObjectResponse(
+      contentSHA256: json['ContentSHA256'] as String?,
+      eTag: json['ETag'] as String?,
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+    );
+  }
 }
 
 enum StorageClass {
-  @_s.JsonValue('TEMPORAL')
   temporal,
 }
 
@@ -633,14 +606,21 @@ extension on StorageClass {
       case StorageClass.temporal:
         return 'TEMPORAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StorageClass toStorageClass() {
+    switch (this) {
+      case 'TEMPORAL':
+        return StorageClass.temporal;
+    }
+    throw Exception('$this is not known in enum StorageClass');
   }
 }
 
 enum UploadAvailability {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('STREAMING')
   streaming,
 }
 
@@ -652,27 +632,38 @@ extension on UploadAvailability {
       case UploadAvailability.streaming:
         return 'STREAMING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UploadAvailability toUploadAvailability() {
+    switch (this) {
+      case 'STANDARD':
+        return UploadAvailability.standard;
+      case 'STREAMING':
+        return UploadAvailability.streaming;
+    }
+    throw Exception('$this is not known in enum UploadAvailability');
   }
 }
 
 class ContainerNotFoundException extends _s.GenericAwsException {
-  ContainerNotFoundException({String type, String message})
+  ContainerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContainerNotFoundException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class ObjectNotFoundException extends _s.GenericAwsException {
-  ObjectNotFoundException({String type, String message})
+  ObjectNotFoundException({String? type, String? message})
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
 class RequestedRangeNotSatisfiableException extends _s.GenericAwsException {
-  RequestedRangeNotSatisfiableException({String type, String message})
+  RequestedRangeNotSatisfiableException({String? type, String? message})
       : super(
             type: type,
             code: 'RequestedRangeNotSatisfiableException',

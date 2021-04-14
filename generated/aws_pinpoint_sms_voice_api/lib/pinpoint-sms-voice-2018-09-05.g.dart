@@ -23,8 +23,8 @@ Map<String, dynamic> _$CallInstructionsMessageTypeToJson(
 CloudWatchLogsDestination _$CloudWatchLogsDestinationFromJson(
     Map<String, dynamic> json) {
   return CloudWatchLogsDestination(
-    iamRoleArn: json['IamRoleArn'] as String,
-    logGroupArn: json['LogGroupArn'] as String,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    logGroupArn: json['LogGroupArn'] as String?,
   );
 }
 
@@ -71,15 +71,15 @@ EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
         ? null
         : CloudWatchLogsDestination.fromJson(
             json['CloudWatchLogsDestination'] as Map<String, dynamic>),
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
     kinesisFirehoseDestination: json['KinesisFirehoseDestination'] == null
         ? null
         : KinesisFirehoseDestination.fromJson(
             json['KinesisFirehoseDestination'] as Map<String, dynamic>),
-    matchingEventTypes: (json['MatchingEventTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EventTypeEnumMap, e))
-        ?.toList(),
-    name: json['Name'] as String,
+    matchingEventTypes: (json['MatchingEventTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EventTypeEnumMap, e))
+        .toList(),
+    name: json['Name'] as String?,
     snsDestination: json['SnsDestination'] == null
         ? null
         : SnsDestination.fromJson(
@@ -87,36 +87,30 @@ EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$EventTypeEnumMap = {
@@ -145,7 +139,7 @@ Map<String, dynamic> _$EventDestinationDefinitionToJson(
   writeNotNull('KinesisFirehoseDestination',
       instance.kinesisFirehoseDestination?.toJson());
   writeNotNull('MatchingEventTypes',
-      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
+      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e]).toList());
   writeNotNull('SnsDestination', instance.snsDestination?.toJson());
   return val;
 }
@@ -154,19 +148,17 @@ GetConfigurationSetEventDestinationsResponse
     _$GetConfigurationSetEventDestinationsResponseFromJson(
         Map<String, dynamic> json) {
   return GetConfigurationSetEventDestinationsResponse(
-    eventDestinations: (json['EventDestinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    eventDestinations: (json['EventDestinations'] as List<dynamic>?)
+        ?.map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 KinesisFirehoseDestination _$KinesisFirehoseDestinationFromJson(
     Map<String, dynamic> json) {
   return KinesisFirehoseDestination(
-    deliveryStreamArn: json['DeliveryStreamArn'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
+    deliveryStreamArn: json['DeliveryStreamArn'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
   );
 }
 
@@ -188,9 +180,10 @@ Map<String, dynamic> _$KinesisFirehoseDestinationToJson(
 ListConfigurationSetsResponse _$ListConfigurationSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListConfigurationSetsResponse(
-    configurationSets:
-        (json['ConfigurationSets'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    configurationSets: (json['ConfigurationSets'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -228,13 +221,13 @@ Map<String, dynamic> _$SSMLMessageTypeToJson(SSMLMessageType instance) {
 SendVoiceMessageResponse _$SendVoiceMessageResponseFromJson(
     Map<String, dynamic> json) {
   return SendVoiceMessageResponse(
-    messageId: json['MessageId'] as String,
+    messageId: json['MessageId'] as String?,
   );
 }
 
 SnsDestination _$SnsDestinationFromJson(Map<String, dynamic> json) {
   return SnsDestination(
-    topicArn: json['TopicArn'] as String,
+    topicArn: json['TopicArn'] as String?,
   );
 }
 

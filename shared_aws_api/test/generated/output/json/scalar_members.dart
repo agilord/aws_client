@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'scalar_members.g.dart';
 
 /// Scalar members
 class ScalarMembers {
   final _s.JsonProtocol _protocol;
   ScalarMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,28 +53,15 @@ class ScalarMembers {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'Char')
-  final String char;
-  @_s.JsonKey(name: 'Double')
-  final double doubleValue;
-  @_s.JsonKey(name: 'FalseBool')
-  final bool falseBool;
-  @_s.JsonKey(name: 'Float')
-  final double float;
-  @_s.JsonKey(name: 'Long')
-  final int long;
-  @_s.JsonKey(name: 'Num')
-  final int num;
-  @_s.JsonKey(name: 'Str')
-  final String str;
-  @_s.JsonKey(name: 'TrueBool')
-  final bool trueBool;
+  final String? char;
+  final double? doubleValue;
+  final bool? falseBool;
+  final double? float;
+  final int? long;
+  final int? num;
+  final String? str;
+  final bool? trueBool;
 
   OutputShape({
     this.char,
@@ -94,8 +73,18 @@ class OutputShape {
     this.str,
     this.trueBool,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      char: json['Char'] as String?,
+      doubleValue: json['Double'] as double?,
+      falseBool: json['FalseBool'] as bool?,
+      float: json['Float'] as double?,
+      long: json['Long'] as int?,
+      num: json['Num'] as int?,
+      str: json['Str'] as String?,
+      trueBool: json['TrueBool'] as bool?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

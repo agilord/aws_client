@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'rekognition-2016-06-27.g.dart';
 
 /// This is the Amazon Rekognition API reference.
 class Rekognition {
   final _s.JsonProtocol _protocol;
   Rekognition({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -145,10 +137,10 @@ class Rekognition {
   /// The minimum level of confidence in the face matches that a match must meet
   /// to be included in the <code>FaceMatches</code> array.
   Future<CompareFacesResponse> compareFaces({
-    @_s.required Image sourceImage,
-    @_s.required Image targetImage,
-    QualityFilter qualityFilter,
-    double similarityThreshold,
+    required Image sourceImage,
+    required Image targetImage,
+    QualityFilter? qualityFilter,
+    double? similarityThreshold,
   }) async {
     ArgumentError.checkNotNull(sourceImage, 'sourceImage');
     ArgumentError.checkNotNull(targetImage, 'targetImage');
@@ -207,7 +199,7 @@ class Rekognition {
   /// Parameter [collectionId] :
   /// ID for the collection that you are creating.
   Future<CreateCollectionResponse> createCollection({
-    @_s.required String collectionId,
+    required String collectionId,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -259,7 +251,7 @@ class Rekognition {
   /// Parameter [projectName] :
   /// The name of the project to create.
   Future<CreateProjectResponse> createProject({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -337,11 +329,11 @@ class Rekognition {
   /// Parameter [versionName] :
   /// A name for the version of the model. This value must be unique.
   Future<CreateProjectVersionResponse> createProjectVersion({
-    @_s.required OutputConfig outputConfig,
-    @_s.required String projectArn,
-    @_s.required TestingData testingData,
-    @_s.required TrainingData trainingData,
-    @_s.required String versionName,
+    required OutputConfig outputConfig,
+    required String projectArn,
+    required TestingData testingData,
+    required TrainingData trainingData,
+    required String versionName,
   }) async {
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(projectArn, 'projectArn');
@@ -448,11 +440,11 @@ class Rekognition {
   /// Includes the collection to use for face recognition and the face
   /// attributes to detect.
   Future<CreateStreamProcessorResponse> createStreamProcessor({
-    @_s.required StreamProcessorInput input,
-    @_s.required String name,
-    @_s.required StreamProcessorOutput output,
-    @_s.required String roleArn,
-    @_s.required StreamProcessorSettings settings,
+    required StreamProcessorInput input,
+    required String name,
+    required StreamProcessorOutput output,
+    required String roleArn,
+    required StreamProcessorSettings settings,
   }) async {
     ArgumentError.checkNotNull(input, 'input');
     ArgumentError.checkNotNull(name, 'name');
@@ -517,7 +509,7 @@ class Rekognition {
   /// Parameter [collectionId] :
   /// ID of the collection to delete.
   Future<DeleteCollectionResponse> deleteCollection({
-    @_s.required String collectionId,
+    required String collectionId,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -570,8 +562,8 @@ class Rekognition {
   /// Parameter [faceIds] :
   /// An array of face IDs to delete.
   Future<DeleteFacesResponse> deleteFaces({
-    @_s.required String collectionId,
-    @_s.required List<String> faceIds,
+    required String collectionId,
+    required List<String> faceIds,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -625,7 +617,7 @@ class Rekognition {
   /// Parameter [projectArn] :
   /// The Amazon Resource Name (ARN) of the project that you want to delete.
   Future<DeleteProjectResponse> deleteProject({
-    @_s.required String projectArn,
+    required String projectArn,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -682,7 +674,7 @@ class Rekognition {
   /// The Amazon Resource Name (ARN) of the model version that you want to
   /// delete.
   Future<DeleteProjectVersionResponse> deleteProjectVersion({
-    @_s.required String projectVersionArn,
+    required String projectVersionArn,
   }) async {
     ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
     _s.validateStringLength(
@@ -733,7 +725,7 @@ class Rekognition {
   /// Parameter [name] :
   /// The name of the stream processor you want to delete.
   Future<void> deleteStreamProcessor({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -753,7 +745,7 @@ class Rekognition {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteStreamProcessor'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -763,8 +755,6 @@ class Rekognition {
         'Name': name,
       },
     );
-
-    return DeleteStreamProcessorResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the specified collection. You can use
@@ -785,7 +775,7 @@ class Rekognition {
   /// Parameter [collectionId] :
   /// The ID of the collection to describe.
   Future<DescribeCollectionResponse> describeCollection({
-    @_s.required String collectionId,
+    required String collectionId,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -859,10 +849,10 @@ class Rekognition {
   /// following ARN.
   /// <code>arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/<i>my-model.2020-01-21T09.10.15</i>/1234567890123</code>.
   Future<DescribeProjectVersionsResponse> describeProjectVersions({
-    @_s.required String projectArn,
-    int maxResults,
-    String nextToken,
-    List<String> versionNames,
+    required String projectArn,
+    int? maxResults,
+    String? nextToken,
+    List<String>? versionNames,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -935,8 +925,8 @@ class Rekognition {
   /// the response. You can use this pagination token to retrieve the next set
   /// of results.
   Future<DescribeProjectsResponse> describeProjects({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -984,7 +974,7 @@ class Rekognition {
   /// Parameter [name] :
   /// Name of the stream processor for which you want information.
   Future<DescribeStreamProcessorResponse> describeStreamProcessor({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1082,10 +1072,10 @@ class Rekognition {
   /// specified value. If you specify a value of 0, all labels are return,
   /// regardless of the default thresholds that the model version applies.
   Future<DetectCustomLabelsResponse> detectCustomLabels({
-    @_s.required Image image,
-    @_s.required String projectVersionArn,
-    int maxResults,
-    double minConfidence,
+    required Image image,
+    required String projectVersionArn,
+    int? maxResults,
+    double? minConfidence,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
@@ -1192,8 +1182,8 @@ class Rekognition {
   /// logical AND operator to determine which attributes to return (in this
   /// case, all attributes).
   Future<DetectFacesResponse> detectFaces({
-    @_s.required Image image,
-    List<Attribute> attributes,
+    required Image image,
+    List<Attribute>? attributes,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
@@ -1209,7 +1199,7 @@ class Rekognition {
       payload: {
         'Image': image,
         if (attributes != null)
-          'Attributes': attributes.map((e) => e?.toValue() ?? '').toList(),
+          'Attributes': attributes.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1321,9 +1311,9 @@ class Rekognition {
   /// If <code>MinConfidence</code> is not specified, the operation returns
   /// labels with a confidence values greater than or equal to 55 percent.
   Future<DetectLabelsResponse> detectLabels({
-    @_s.required Image image,
-    int maxLabels,
-    double minConfidence,
+    required Image image,
+    int? maxLabels,
+    double? minConfidence,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
@@ -1407,9 +1397,9 @@ class Rekognition {
   /// If you don't specify <code>MinConfidence</code>, the operation returns
   /// labels with confidence values greater than or equal to 50 percent.
   Future<DetectModerationLabelsResponse> detectModerationLabels({
-    @_s.required Image image,
-    HumanLoopConfig humanLoopConfig,
-    double minConfidence,
+    required Image image,
+    HumanLoopConfig? humanLoopConfig,
+    double? minConfidence,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
@@ -1505,8 +1495,8 @@ class Rekognition {
   /// Parameter [summarizationAttributes] :
   /// An array of PPE types that you want to summarize.
   Future<DetectProtectiveEquipmentResponse> detectProtectiveEquipment({
-    @_s.required Image image,
-    ProtectiveEquipmentSummarizationAttributes summarizationAttributes,
+    required Image image,
+    ProtectiveEquipmentSummarizationAttributes? summarizationAttributes,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
@@ -1590,8 +1580,8 @@ class Rekognition {
   /// Optional parameters that let you set the criteria that the text must meet
   /// to be included in your response.
   Future<DetectTextResponse> detectText({
-    @_s.required Image image,
-    DetectTextFilters filters,
+    required Image image,
+    DetectTextFilters? filters,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
@@ -1636,7 +1626,7 @@ class Rekognition {
   /// <a>RecognizeCelebrities</a> operation, which recognizes celebrities in an
   /// image.
   Future<GetCelebrityInfoResponse> getCelebrityInfo({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringPattern(
@@ -1744,10 +1734,10 @@ class Rekognition {
   /// Specify <code>ID</code> to sort by the celebrity identifier, specify
   /// <code>TIMESTAMP</code> to sort by the time the celebrity was recognized.
   Future<GetCelebrityRecognitionResponse> getCelebrityRecognition({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    CelebrityRecognitionSortBy sortBy,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    CelebrityRecognitionSortBy? sortBy,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1870,10 +1860,10 @@ class Rekognition {
   /// are sorted by detection confidence. The default sort is by
   /// <code>TIMESTAMP</code>.
   Future<GetContentModerationResponse> getContentModeration({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    ContentModerationSortBy sortBy,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    ContentModerationSortBy? sortBy,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1970,9 +1960,9 @@ class Rekognition {
   /// response. You can use this pagination token to retrieve the next set of
   /// faces.
   Future<GetFaceDetectionResponse> getFaceDetection({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2085,10 +2075,10 @@ class Rekognition {
   /// to group faces by the time that they are recognized. Use
   /// <code>INDEX</code> to sort by recognized faces.
   Future<GetFaceSearchResponse> getFaceSearch({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    FaceSearchSortBy sortBy,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    FaceSearchSortBy? sortBy,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2203,10 +2193,10 @@ class Rekognition {
   /// label together. Within each label group, the array element are sorted by
   /// detection confidence. The default sort is by <code>TIMESTAMP</code>.
   Future<GetLabelDetectionResponse> getLabelDetection({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    LabelDetectionSortBy sortBy,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    LabelDetectionSortBy? sortBy,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2326,10 +2316,10 @@ class Rekognition {
   /// sort by <code>INDEX</code>, the array elements for each person are sorted
   /// by detection confidence. The default sort is by <code>TIMESTAMP</code>.
   Future<GetPersonTrackingResponse> getPersonTracking({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    PersonTrackingSortBy sortBy,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    PersonTrackingSortBy? sortBy,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2440,9 +2430,9 @@ class Rekognition {
   /// that you can use in the subsequent request to retrieve the next set of
   /// text.
   Future<GetSegmentDetectionResponse> getSegmentDetection({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2545,9 +2535,9 @@ class Rekognition {
   /// response. You can use this pagination token to retrieve the next set of
   /// text.
   Future<GetTextDetectionResponse> getTextDetection({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -2791,12 +2781,12 @@ class Rekognition {
   /// To use quality filtering, the collection you are using must be associated
   /// with version 3 of the face model or higher.
   Future<IndexFacesResponse> indexFaces({
-    @_s.required String collectionId,
-    @_s.required Image image,
-    List<Attribute> detectionAttributes,
-    String externalImageId,
-    int maxFaces,
-    QualityFilter qualityFilter,
+    required String collectionId,
+    required Image image,
+    List<Attribute>? detectionAttributes,
+    String? externalImageId,
+    int? maxFaces,
+    QualityFilter? qualityFilter,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -2845,7 +2835,7 @@ class Rekognition {
         'Image': image,
         if (detectionAttributes != null)
           'DetectionAttributes':
-              detectionAttributes.map((e) => e?.toValue() ?? '').toList(),
+              detectionAttributes.map((e) => e.toValue()).toList(),
         if (externalImageId != null) 'ExternalImageId': externalImageId,
         if (maxFaces != null) 'MaxFaces': maxFaces,
         if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
@@ -2879,8 +2869,8 @@ class Rekognition {
   /// Parameter [nextToken] :
   /// Pagination token from the previous response.
   Future<ListCollectionsResponse> listCollections({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2940,9 +2930,9 @@ class Rekognition {
   /// retrieve), Amazon Rekognition returns a pagination token in the response.
   /// You can use this pagination token to retrieve the next set of faces.
   Future<ListFacesResponse> listFaces({
-    @_s.required String collectionId,
-    int maxResults,
-    String nextToken,
+    required String collectionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -3010,8 +3000,8 @@ class Rekognition {
   /// token in the response. You can use this pagination token to retrieve the
   /// next set of stream processors.
   Future<ListStreamProcessorsResponse> listStreamProcessors({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3099,7 +3089,7 @@ class Rekognition {
   /// For more information, see Images in the Amazon Rekognition developer
   /// guide.
   Future<RecognizeCelebritiesResponse> recognizeCelebrities({
-    @_s.required Image image,
+    required Image image,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
@@ -3163,10 +3153,10 @@ class Rekognition {
   /// Maximum number of faces to return. The operation returns the maximum
   /// number of faces with the highest confidence in the match.
   Future<SearchFacesResponse> searchFaces({
-    @_s.required String collectionId,
-    @_s.required String faceId,
-    double faceMatchThreshold,
-    int maxFaces,
+    required String collectionId,
+    required String faceId,
+    double? faceMatchThreshold,
+    int? maxFaces,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -3315,11 +3305,11 @@ class Rekognition {
   /// To use quality filtering, the collection you are using must be associated
   /// with version 3 of the face model or higher.
   Future<SearchFacesByImageResponse> searchFacesByImage({
-    @_s.required String collectionId,
-    @_s.required Image image,
-    double faceMatchThreshold,
-    int maxFaces,
-    QualityFilter qualityFilter,
+    required String collectionId,
+    required Image image,
+    double? faceMatchThreshold,
+    int? maxFaces,
+    QualityFilter? qualityFilter,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -3420,10 +3410,10 @@ class Rekognition {
   /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish
   /// the completion status of the celebrity recognition analysis to.
   Future<StartCelebrityRecognitionResponse> startCelebrityRecognition({
-    @_s.required Video video,
-    String clientRequestToken,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -3530,11 +3520,11 @@ class Rekognition {
   /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish
   /// the completion status of the unsafe content analysis to.
   Future<StartContentModerationResponse> startContentModeration({
-    @_s.required Video video,
-    String clientRequestToken,
-    String jobTag,
-    double minConfidence,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    String? jobTag,
+    double? minConfidence,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -3644,11 +3634,11 @@ class Rekognition {
   /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
   /// to publish the completion status of the face detection operation.
   Future<StartFaceDetectionResponse> startFaceDetection({
-    @_s.required Video video,
-    String clientRequestToken,
-    FaceAttributes faceAttributes,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    FaceAttributes? faceAttributes,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -3752,12 +3742,12 @@ class Rekognition {
   /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
   /// to publish the completion status of the search.
   Future<StartFaceSearchResponse> startFaceSearch({
-    @_s.required String collectionId,
-    @_s.required Video video,
-    String clientRequestToken,
-    double faceMatchThreshold,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required String collectionId,
+    required Video video,
+    String? clientRequestToken,
+    double? faceMatchThreshold,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(collectionId, 'collectionId');
     _s.validateStringLength(
@@ -3892,11 +3882,11 @@ class Rekognition {
   /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the
   /// completion status of the label detection operation to.
   Future<StartLabelDetectionResponse> startLabelDetection({
-    @_s.required Video video,
-    String clientRequestToken,
-    String jobTag,
-    double minConfidence,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    String? jobTag,
+    double? minConfidence,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -3997,10 +3987,10 @@ class Rekognition {
   /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the
   /// completion status of the people detection operation to.
   Future<StartPersonTrackingResponse> startPersonTracking({
-    @_s.required Video video,
-    String clientRequestToken,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -4079,8 +4069,8 @@ class Rekognition {
   /// Parameter [projectVersionArn] :
   /// The Amazon Resource Name(ARN) of the model version that you want to start.
   Future<StartProjectVersionResponse> startProjectVersion({
-    @_s.required int minInferenceUnits,
-    @_s.required String projectVersionArn,
+    required int minInferenceUnits,
+    required String projectVersionArn,
   }) async {
     ArgumentError.checkNotNull(minInferenceUnits, 'minInferenceUnits');
     _s.validateNumRange(
@@ -4182,12 +4172,12 @@ class Rekognition {
   /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
   /// to publish the completion status of the segment detection operation.
   Future<StartSegmentDetectionResponse> startSegmentDetection({
-    @_s.required List<SegmentType> segmentTypes,
-    @_s.required Video video,
-    String clientRequestToken,
-    StartSegmentDetectionFilters filters,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required List<SegmentType> segmentTypes,
+    required Video video,
+    String? clientRequestToken,
+    StartSegmentDetectionFilters? filters,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(segmentTypes, 'segmentTypes');
     ArgumentError.checkNotNull(video, 'video');
@@ -4224,7 +4214,7 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'SegmentTypes': segmentTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+        'SegmentTypes': segmentTypes.map((e) => e.toValue()).toList(),
         'Video': video,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -4255,7 +4245,7 @@ class Rekognition {
   /// Parameter [name] :
   /// The name of the stream processor to start processing.
   Future<void> startStreamProcessor({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4275,7 +4265,7 @@ class Rekognition {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartStreamProcessor'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4285,8 +4275,6 @@ class Rekognition {
         'Name': name,
       },
     );
-
-    return StartStreamProcessorResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts asynchronous detection of text in a stored video.
@@ -4331,11 +4319,11 @@ class Rekognition {
   /// <code>JobTag</code> to group related jobs and identify them in the
   /// completion notification.
   Future<StartTextDetectionResponse> startTextDetection({
-    @_s.required Video video,
-    String clientRequestToken,
-    StartTextDetectionFilters filters,
-    String jobTag,
-    NotificationChannel notificationChannel,
+    required Video video,
+    String? clientRequestToken,
+    StartTextDetectionFilters? filters,
+    String? jobTag,
+    NotificationChannel? notificationChannel,
   }) async {
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
@@ -4402,7 +4390,7 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:StopProjectVersion</code> action.
   Future<StopProjectVersionResponse> stopProjectVersion({
-    @_s.required String projectVersionArn,
+    required String projectVersionArn,
   }) async {
     ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
     _s.validateStringLength(
@@ -4450,7 +4438,7 @@ class Rekognition {
   /// Parameter [name] :
   /// The name of a stream processor created by <a>CreateStreamProcessor</a>.
   Future<void> stopStreamProcessor({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4470,7 +4458,7 @@ class Rekognition {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StopStreamProcessor'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4480,8 +4468,6 @@ class Rekognition {
         'Name': name,
       },
     );
-
-    return StopStreamProcessorResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -4491,52 +4477,54 @@ class Rekognition {
 /// image. Estimated age ranges can overlap. A face of a 5-year-old might have
 /// an estimated range of 4-6, while the face of a 6-year-old might have an
 /// estimated range of 4-8.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgeRange {
   /// The highest estimated age.
-  @_s.JsonKey(name: 'High')
-  final int high;
+  final int? high;
 
   /// The lowest estimated age.
-  @_s.JsonKey(name: 'Low')
-  final int low;
+  final int? low;
 
   AgeRange({
     this.high,
     this.low,
   });
-  factory AgeRange.fromJson(Map<String, dynamic> json) =>
-      _$AgeRangeFromJson(json);
+  factory AgeRange.fromJson(Map<String, dynamic> json) {
+    return AgeRange(
+      high: json['High'] as int?,
+      low: json['Low'] as int?,
+    );
+  }
 }
 
 /// Assets are the images that you use to train and evaluate a model version.
 /// Assets can also contain validation information that you use to debug a
 /// failed model training.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Asset {
-  @_s.JsonKey(name: 'GroundTruthManifest')
-  final GroundTruthManifest groundTruthManifest;
+  final GroundTruthManifest? groundTruthManifest;
 
   Asset({
     this.groundTruthManifest,
   });
-  factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
+      groundTruthManifest: json['GroundTruthManifest'] != null
+          ? GroundTruthManifest.fromJson(
+              json['GroundTruthManifest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetToJson(this);
+  Map<String, dynamic> toJson() {
+    final groundTruthManifest = this.groundTruthManifest;
+    return {
+      if (groundTruthManifest != null)
+        'GroundTruthManifest': groundTruthManifest,
+    };
+  }
 }
 
 enum Attribute {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -4548,34 +4536,36 @@ extension on Attribute {
       case Attribute.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Attribute toAttribute() {
+    switch (this) {
+      case 'DEFAULT':
+        return Attribute.$default;
+      case 'ALL':
+        return Attribute.all;
+    }
+    throw Exception('$this is not known in enum Attribute');
   }
 }
 
 /// Metadata information about an audio stream. An array of
 /// <code>AudioMetadata</code> objects for the audio streams found in a stored
 /// video is returned by <a>GetSegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AudioMetadata {
   /// The audio codec used to encode or decode the audio stream.
-  @_s.JsonKey(name: 'Codec')
-  final String codec;
+  final String? codec;
 
   /// The duration of the audio stream in milliseconds.
-  @_s.JsonKey(name: 'DurationMillis')
-  final int durationMillis;
+  final int? durationMillis;
 
   /// The number of audio channels in the segment.
-  @_s.JsonKey(name: 'NumberOfChannels')
-  final int numberOfChannels;
+  final int? numberOfChannels;
 
   /// The sample rate for the audio stream.
-  @_s.JsonKey(name: 'SampleRate')
-  final int sampleRate;
+  final int? sampleRate;
 
   AudioMetadata({
     this.codec,
@@ -4583,42 +4573,73 @@ class AudioMetadata {
     this.numberOfChannels,
     this.sampleRate,
   });
-  factory AudioMetadata.fromJson(Map<String, dynamic> json) =>
-      _$AudioMetadataFromJson(json);
+  factory AudioMetadata.fromJson(Map<String, dynamic> json) {
+    return AudioMetadata(
+      codec: json['Codec'] as String?,
+      durationMillis: json['DurationMillis'] as int?,
+      numberOfChannels: json['NumberOfChannels'] as int?,
+      sampleRate: json['SampleRate'] as int?,
+    );
+  }
 }
 
 /// Indicates whether or not the face has a beard, and the confidence level in
 /// the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Beard {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the face has beard or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   Beard({
     this.confidence,
     this.value,
   });
-  factory Beard.fromJson(Map<String, dynamic> json) => _$BeardFromJson(json);
+  factory Beard.fromJson(Map<String, dynamic> json) {
+    return Beard(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 enum BodyPart {
-  @_s.JsonValue('FACE')
   face,
-  @_s.JsonValue('HEAD')
   head,
-  @_s.JsonValue('LEFT_HAND')
   leftHand,
-  @_s.JsonValue('RIGHT_HAND')
   rightHand,
+}
+
+extension on BodyPart {
+  String toValue() {
+    switch (this) {
+      case BodyPart.face:
+        return 'FACE';
+      case BodyPart.head:
+        return 'HEAD';
+      case BodyPart.leftHand:
+        return 'LEFT_HAND';
+      case BodyPart.rightHand:
+        return 'RIGHT_HAND';
+    }
+  }
+}
+
+extension on String {
+  BodyPart toBodyPart() {
+    switch (this) {
+      case 'FACE':
+        return BodyPart.face;
+      case 'HEAD':
+        return BodyPart.head;
+      case 'LEFT_HAND':
+        return BodyPart.leftHand;
+      case 'RIGHT_HAND':
+        return BodyPart.rightHand;
+    }
+    throw Exception('$this is not known in enum BodyPart');
+  }
 }
 
 /// Identifies the bounding box around the label, face, text or personal
@@ -4645,27 +4666,18 @@ enum BodyPart {
 /// values or values greater than 1 for the <code>left</code> or
 /// <code>top</code> values.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BoundingBox {
   /// Height of the bounding box as a ratio of the overall image height.
-  @_s.JsonKey(name: 'Height')
-  final double height;
+  final double? height;
 
   /// Left coordinate of the bounding box as a ratio of overall image width.
-  @_s.JsonKey(name: 'Left')
-  final double left;
+  final double? left;
 
   /// Top coordinate of the bounding box as a ratio of overall image height.
-  @_s.JsonKey(name: 'Top')
-  final double top;
+  final double? top;
 
   /// Width of the bounding box as a ratio of the overall image width.
-  @_s.JsonKey(name: 'Width')
-  final double width;
+  final double? width;
 
   BoundingBox({
     this.height,
@@ -4673,42 +4685,49 @@ class BoundingBox {
     this.top,
     this.width,
   });
-  factory BoundingBox.fromJson(Map<String, dynamic> json) =>
-      _$BoundingBoxFromJson(json);
+  factory BoundingBox.fromJson(Map<String, dynamic> json) {
+    return BoundingBox(
+      height: json['Height'] as double?,
+      left: json['Left'] as double?,
+      top: json['Top'] as double?,
+      width: json['Width'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BoundingBoxToJson(this);
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final left = this.left;
+    final top = this.top;
+    final width = this.width;
+    return {
+      if (height != null) 'Height': height,
+      if (left != null) 'Left': left,
+      if (top != null) 'Top': top,
+      if (width != null) 'Width': width,
+    };
+  }
 }
 
 /// Provides information about a celebrity recognized by the
 /// <a>RecognizeCelebrities</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Celebrity {
   /// Provides information about the celebrity's face, such as its location on the
   /// image.
-  @_s.JsonKey(name: 'Face')
-  final ComparedFace face;
+  final ComparedFace? face;
 
   /// A unique identifier for the celebrity.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The confidence, in percentage, that Amazon Rekognition has that the
   /// recognized face is the celebrity.
-  @_s.JsonKey(name: 'MatchConfidence')
-  final double matchConfidence;
+  final double? matchConfidence;
 
   /// The name of the celebrity.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An array of URLs pointing to additional information about the celebrity. If
   /// there is no additional information about the celebrity, this list is empty.
-  @_s.JsonKey(name: 'Urls')
-  final List<String> urls;
+  final List<String>? urls;
 
   Celebrity({
     this.face,
@@ -4717,41 +4736,42 @@ class Celebrity {
     this.name,
     this.urls,
   });
-  factory Celebrity.fromJson(Map<String, dynamic> json) =>
-      _$CelebrityFromJson(json);
+  factory Celebrity.fromJson(Map<String, dynamic> json) {
+    return Celebrity(
+      face: json['Face'] != null
+          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      matchConfidence: json['MatchConfidence'] as double?,
+      name: json['Name'] as String?,
+      urls: (json['Urls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Information about a recognized celebrity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CelebrityDetail {
   /// Bounding box around the body of a celebrity.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// The confidence, in percentage, that Amazon Rekognition has that the
   /// recognized face is the celebrity.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Face details for the recognized celebrity.
-  @_s.JsonKey(name: 'Face')
-  final FaceDetail face;
+  final FaceDetail? face;
 
   /// The unique identifier for the celebrity.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the celebrity.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An array of URLs pointing to additional celebrity information.
-  @_s.JsonKey(name: 'Urls')
-  final List<String> urls;
+  final List<String>? urls;
 
   CelebrityDetail({
     this.boundingBox,
@@ -4761,40 +4781,52 @@ class CelebrityDetail {
     this.name,
     this.urls,
   });
-  factory CelebrityDetail.fromJson(Map<String, dynamic> json) =>
-      _$CelebrityDetailFromJson(json);
+  factory CelebrityDetail.fromJson(Map<String, dynamic> json) {
+    return CelebrityDetail(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      urls: (json['Urls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Information about a detected celebrity and the time the celebrity was
 /// detected in a stored video. For more information, see
 /// GetCelebrityRecognition in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CelebrityRecognition {
   /// Information about a recognized celebrity.
-  @_s.JsonKey(name: 'Celebrity')
-  final CelebrityDetail celebrity;
+  final CelebrityDetail? celebrity;
 
   /// The time, in milliseconds from the start of the video, that the celebrity
   /// was recognized.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   CelebrityRecognition({
     this.celebrity,
     this.timestamp,
   });
-  factory CelebrityRecognition.fromJson(Map<String, dynamic> json) =>
-      _$CelebrityRecognitionFromJson(json);
+  factory CelebrityRecognition.fromJson(Map<String, dynamic> json) {
+    return CelebrityRecognition(
+      celebrity: json['Celebrity'] != null
+          ? CelebrityDetail.fromJson(json['Celebrity'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 enum CelebrityRecognitionSortBy {
-  @_s.JsonValue('ID')
   id,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
@@ -4806,7 +4838,18 @@ extension on CelebrityRecognitionSortBy {
       case CelebrityRecognitionSortBy.timestamp:
         return 'TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CelebrityRecognitionSortBy toCelebrityRecognitionSortBy() {
+    switch (this) {
+      case 'ID':
+        return CelebrityRecognitionSortBy.id;
+      case 'TIMESTAMP':
+        return CelebrityRecognitionSortBy.timestamp;
+    }
+    throw Exception('$this is not known in enum CelebrityRecognitionSortBy');
   }
 }
 
@@ -4815,45 +4858,37 @@ extension on CelebrityRecognitionSortBy {
 /// property contains the bounding box of the face in the target image. The
 /// <code>Similarity</code> property is the confidence that the source image
 /// face matches the face in the bounding box.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompareFacesMatch {
   /// Provides face metadata (bounding box and confidence that the bounding box
   /// actually contains a face).
-  @_s.JsonKey(name: 'Face')
-  final ComparedFace face;
+  final ComparedFace? face;
 
   /// Level of confidence that the faces match.
-  @_s.JsonKey(name: 'Similarity')
-  final double similarity;
+  final double? similarity;
 
   CompareFacesMatch({
     this.face,
     this.similarity,
   });
-  factory CompareFacesMatch.fromJson(Map<String, dynamic> json) =>
-      _$CompareFacesMatchFromJson(json);
+  factory CompareFacesMatch.fromJson(Map<String, dynamic> json) {
+    return CompareFacesMatch(
+      face: json['Face'] != null
+          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      similarity: json['Similarity'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompareFacesResponse {
   /// An array of faces in the target image that match the source image face. Each
   /// <code>CompareFacesMatch</code> object provides the bounding box, the
   /// confidence level that the bounding box contains a face, and the similarity
   /// score for the face in the bounding box and the face in the source image.
-  @_s.JsonKey(name: 'FaceMatches')
-  final List<CompareFacesMatch> faceMatches;
+  final List<CompareFacesMatch>? faceMatches;
 
   /// The face in the source image that was used for comparison.
-  @_s.JsonKey(name: 'SourceImageFace')
-  final ComparedSourceImageFace sourceImageFace;
+  final ComparedSourceImageFace? sourceImageFace;
 
   /// The value of <code>SourceImageOrientationCorrection</code> is always null.
   ///
@@ -4868,8 +4903,7 @@ class CompareFacesResponse {
   /// format and .jpeg images without orientation information in the image Exif
   /// metadata. The bounding box coordinates aren't translated and represent the
   /// object locations before the image is rotated.
-  @_s.JsonKey(name: 'SourceImageOrientationCorrection')
-  final OrientationCorrection sourceImageOrientationCorrection;
+  final OrientationCorrection? sourceImageOrientationCorrection;
 
   /// The value of <code>TargetImageOrientationCorrection</code> is always null.
   ///
@@ -4884,13 +4918,11 @@ class CompareFacesResponse {
   /// format and .jpeg images without orientation information in the image Exif
   /// metadata. The bounding box coordinates aren't translated and represent the
   /// object locations before the image is rotated.
-  @_s.JsonKey(name: 'TargetImageOrientationCorrection')
-  final OrientationCorrection targetImageOrientationCorrection;
+  final OrientationCorrection? targetImageOrientationCorrection;
 
   /// An array of faces in the target image that did not match the source image
   /// face.
-  @_s.JsonKey(name: 'UnmatchedFaces')
-  final List<ComparedFace> unmatchedFaces;
+  final List<ComparedFace>? unmatchedFaces;
 
   CompareFacesResponse({
     this.faceMatches,
@@ -4899,37 +4931,47 @@ class CompareFacesResponse {
     this.targetImageOrientationCorrection,
     this.unmatchedFaces,
   });
-  factory CompareFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$CompareFacesResponseFromJson(json);
+  factory CompareFacesResponse.fromJson(Map<String, dynamic> json) {
+    return CompareFacesResponse(
+      faceMatches: (json['FaceMatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => CompareFacesMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceImageFace: json['SourceImageFace'] != null
+          ? ComparedSourceImageFace.fromJson(
+              json['SourceImageFace'] as Map<String, dynamic>)
+          : null,
+      sourceImageOrientationCorrection:
+          (json['SourceImageOrientationCorrection'] as String?)
+              ?.toOrientationCorrection(),
+      targetImageOrientationCorrection:
+          (json['TargetImageOrientationCorrection'] as String?)
+              ?.toOrientationCorrection(),
+      unmatchedFaces: (json['UnmatchedFaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides face metadata for target image faces that are analyzed by
 /// <code>CompareFaces</code> and <code>RecognizeCelebrities</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComparedFace {
   /// Bounding box of the face.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Level of confidence that what the bounding box contains is a face.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// An array of facial landmarks.
-  @_s.JsonKey(name: 'Landmarks')
-  final List<Landmark> landmarks;
+  final List<Landmark>? landmarks;
 
   /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-  @_s.JsonKey(name: 'Pose')
-  final Pose pose;
+  final Pose? pose;
 
   /// Identifies face image brightness and sharpness.
-  @_s.JsonKey(name: 'Quality')
-  final ImageQuality quality;
+  final ImageQuality? quality;
 
   ComparedFace({
     this.boundingBox,
@@ -4938,8 +4980,24 @@ class ComparedFace {
     this.pose,
     this.quality,
   });
-  factory ComparedFace.fromJson(Map<String, dynamic> json) =>
-      _$ComparedFaceFromJson(json);
+  factory ComparedFace.fromJson(Map<String, dynamic> json) {
+    return ComparedFace(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      landmarks: (json['Landmarks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pose: json['Pose'] != null
+          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
+          : null,
+      quality: json['Quality'] != null
+          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Type that describes the face Amazon Rekognition chose to compare with the
@@ -4947,63 +5005,81 @@ class ComparedFace {
 /// confidence level that the bounding box contains a face. Note that Amazon
 /// Rekognition selects the largest face in the source image for this
 /// comparison.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComparedSourceImageFace {
   /// Bounding box of the face.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Confidence level that the selected bounding box contains a face.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   ComparedSourceImageFace({
     this.boundingBox,
     this.confidence,
   });
-  factory ComparedSourceImageFace.fromJson(Map<String, dynamic> json) =>
-      _$ComparedSourceImageFaceFromJson(json);
+  factory ComparedSourceImageFace.fromJson(Map<String, dynamic> json) {
+    return ComparedSourceImageFace(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+    );
+  }
 }
 
 enum ContentClassifier {
-  @_s.JsonValue('FreeOfPersonallyIdentifiableInformation')
   freeOfPersonallyIdentifiableInformation,
-  @_s.JsonValue('FreeOfAdultContent')
   freeOfAdultContent,
 }
 
+extension on ContentClassifier {
+  String toValue() {
+    switch (this) {
+      case ContentClassifier.freeOfPersonallyIdentifiableInformation:
+        return 'FreeOfPersonallyIdentifiableInformation';
+      case ContentClassifier.freeOfAdultContent:
+        return 'FreeOfAdultContent';
+    }
+  }
+}
+
+extension on String {
+  ContentClassifier toContentClassifier() {
+    switch (this) {
+      case 'FreeOfPersonallyIdentifiableInformation':
+        return ContentClassifier.freeOfPersonallyIdentifiableInformation;
+      case 'FreeOfAdultContent':
+        return ContentClassifier.freeOfAdultContent;
+    }
+    throw Exception('$this is not known in enum ContentClassifier');
+  }
+}
+
 /// Information about an unsafe content label detection in a stored video.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContentModerationDetection {
   /// The unsafe content label detected by in the stored video.
-  @_s.JsonKey(name: 'ModerationLabel')
-  final ModerationLabel moderationLabel;
+  final ModerationLabel? moderationLabel;
 
   /// Time, in milliseconds from the beginning of the video, that the unsafe
   /// content label was detected.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   ContentModerationDetection({
     this.moderationLabel,
     this.timestamp,
   });
-  factory ContentModerationDetection.fromJson(Map<String, dynamic> json) =>
-      _$ContentModerationDetectionFromJson(json);
+  factory ContentModerationDetection.fromJson(Map<String, dynamic> json) {
+    return ContentModerationDetection(
+      moderationLabel: json['ModerationLabel'] != null
+          ? ModerationLabel.fromJson(
+              json['ModerationLabel'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 enum ContentModerationSortBy {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
@@ -5015,258 +5091,230 @@ extension on ContentModerationSortBy {
       case ContentModerationSortBy.timestamp:
         return 'TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContentModerationSortBy toContentModerationSortBy() {
+    switch (this) {
+      case 'NAME':
+        return ContentModerationSortBy.name;
+      case 'TIMESTAMP':
+        return ContentModerationSortBy.timestamp;
+    }
+    throw Exception('$this is not known in enum ContentModerationSortBy');
   }
 }
 
 /// Information about an item of Personal Protective Equipment covering a
 /// corresponding body part. For more information, see
 /// <a>DetectProtectiveEquipment</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CoversBodyPart {
   /// The confidence that Amazon Rekognition has in the value of
   /// <code>Value</code>.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// True if the PPE covers the corresponding body part, otherwise false.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   CoversBodyPart({
     this.confidence,
     this.value,
   });
-  factory CoversBodyPart.fromJson(Map<String, dynamic> json) =>
-      _$CoversBodyPartFromJson(json);
+  factory CoversBodyPart.fromJson(Map<String, dynamic> json) {
+    return CoversBodyPart(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCollectionResponse {
   /// Amazon Resource Name (ARN) of the collection. You can use this to manage
   /// permissions on your resources.
-  @_s.JsonKey(name: 'CollectionArn')
-  final String collectionArn;
+  final String? collectionArn;
 
   /// Version number of the face detection model associated with the collection
   /// you are creating.
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   /// HTTP status code indicating the result of the operation.
-  @_s.JsonKey(name: 'StatusCode')
-  final int statusCode;
+  final int? statusCode;
 
   CreateCollectionResponse({
     this.collectionArn,
     this.faceModelVersion,
     this.statusCode,
   });
-  factory CreateCollectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCollectionResponseFromJson(json);
+  factory CreateCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCollectionResponse(
+      collectionArn: json['CollectionArn'] as String?,
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      statusCode: json['StatusCode'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectResponse {
   /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to
   /// configure IAM access to the project.
-  @_s.JsonKey(name: 'ProjectArn')
-  final String projectArn;
+  final String? projectArn;
 
   CreateProjectResponse({
     this.projectArn,
   });
-  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectResponseFromJson(json);
+  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProjectResponse(
+      projectArn: json['ProjectArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectVersionResponse {
   /// The ARN of the model version that was created. Use
   /// <code>DescribeProjectVersion</code> to get the current status of the
   /// training operation.
-  @_s.JsonKey(name: 'ProjectVersionArn')
-  final String projectVersionArn;
+  final String? projectVersionArn;
 
   CreateProjectVersionResponse({
     this.projectVersionArn,
   });
-  factory CreateProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectVersionResponseFromJson(json);
+  factory CreateProjectVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProjectVersionResponse(
+      projectVersionArn: json['ProjectVersionArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStreamProcessorResponse {
   /// ARN for the newly create stream processor.
-  @_s.JsonKey(name: 'StreamProcessorArn')
-  final String streamProcessorArn;
+  final String? streamProcessorArn;
 
   CreateStreamProcessorResponse({
     this.streamProcessorArn,
   });
-  factory CreateStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateStreamProcessorResponseFromJson(json);
+  factory CreateStreamProcessorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateStreamProcessorResponse(
+      streamProcessorArn: json['StreamProcessorArn'] as String?,
+    );
+  }
 }
 
 /// A custom label detected in an image by a call to <a>DetectCustomLabels</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomLabel {
   /// The confidence that the model has in the detection of the custom label. The
   /// range is 0-100. A higher value indicates a higher confidence.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The location of the detected object on the image that corresponds to the
   /// custom label. Includes an axis aligned coarse bounding box surrounding the
   /// object and a finer grain polygon for more accurate spatial information.
-  @_s.JsonKey(name: 'Geometry')
-  final Geometry geometry;
+  final Geometry? geometry;
 
   /// The name of the custom label.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CustomLabel({
     this.confidence,
     this.geometry,
     this.name,
   });
-  factory CustomLabel.fromJson(Map<String, dynamic> json) =>
-      _$CustomLabelFromJson(json);
+  factory CustomLabel.fromJson(Map<String, dynamic> json) {
+    return CustomLabel(
+      confidence: json['Confidence'] as double?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCollectionResponse {
   /// HTTP status code that indicates the result of the operation.
-  @_s.JsonKey(name: 'StatusCode')
-  final int statusCode;
+  final int? statusCode;
 
   DeleteCollectionResponse({
     this.statusCode,
   });
-  factory DeleteCollectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCollectionResponseFromJson(json);
+  factory DeleteCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCollectionResponse(
+      statusCode: json['StatusCode'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFacesResponse {
   /// An array of strings (face IDs) of the faces that were deleted.
-  @_s.JsonKey(name: 'DeletedFaces')
-  final List<String> deletedFaces;
+  final List<String>? deletedFaces;
 
   DeleteFacesResponse({
     this.deletedFaces,
   });
-  factory DeleteFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFacesResponseFromJson(json);
+  factory DeleteFacesResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFacesResponse(
+      deletedFaces: (json['DeletedFaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectResponse {
   /// The current status of the delete project operation.
-  @_s.JsonKey(name: 'Status')
-  final ProjectStatus status;
+  final ProjectStatus? status;
 
   DeleteProjectResponse({
     this.status,
   });
-  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectResponseFromJson(json);
+  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteProjectResponse(
+      status: (json['Status'] as String?)?.toProjectStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectVersionResponse {
   /// The status of the deletion operation.
-  @_s.JsonKey(name: 'Status')
-  final ProjectVersionStatus status;
+  final ProjectVersionStatus? status;
 
   DeleteProjectVersionResponse({
     this.status,
   });
-  factory DeleteProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectVersionResponseFromJson(json);
+  factory DeleteProjectVersionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteProjectVersionResponse(
+      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteStreamProcessorResponse {
   DeleteStreamProcessorResponse();
-  factory DeleteStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteStreamProcessorResponseFromJson(json);
+  factory DeleteStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteStreamProcessorResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCollectionResponse {
   /// The Amazon Resource Name (ARN) of the collection.
-  @_s.JsonKey(name: 'CollectionARN')
-  final String collectionARN;
+  final String? collectionARN;
 
   /// The number of milliseconds since the Unix epoch time until the creation of
   /// the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time
   /// (UTC), Thursday, 1 January 1970.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The number of faces that are indexed into the collection. To index faces
   /// into a collection, use <a>IndexFaces</a>.
-  @_s.JsonKey(name: 'FaceCount')
-  final int faceCount;
+  final int? faceCount;
 
   /// The version of the face model that's used by the collection for face
   /// detection.
   ///
   /// For more information, see Model Versioning in the Amazon Rekognition
   /// Developer Guide.
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   DescribeCollectionResponse({
     this.collectionARN,
@@ -5274,114 +5322,104 @@ class DescribeCollectionResponse {
     this.faceCount,
     this.faceModelVersion,
   });
-  factory DescribeCollectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCollectionResponseFromJson(json);
+  factory DescribeCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCollectionResponse(
+      collectionARN: json['CollectionARN'] as String?,
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      faceCount: json['FaceCount'] as int?,
+      faceModelVersion: json['FaceModelVersion'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProjectVersionsResponse {
   /// If the previous response was incomplete (because there is more results to
   /// retrieve), Amazon Rekognition Custom Labels returns a pagination token in
   /// the response. You can use this pagination token to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of model descriptions. The list is sorted by the creation date and
   /// time of the model versions, latest to earliest.
-  @_s.JsonKey(name: 'ProjectVersionDescriptions')
-  final List<ProjectVersionDescription> projectVersionDescriptions;
+  final List<ProjectVersionDescription>? projectVersionDescriptions;
 
   DescribeProjectVersionsResponse({
     this.nextToken,
     this.projectVersionDescriptions,
   });
-  factory DescribeProjectVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProjectVersionsResponseFromJson(json);
+  factory DescribeProjectVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      projectVersionDescriptions: (json['ProjectVersionDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProjectVersionDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProjectsResponse {
   /// If the previous response was incomplete (because there is more results to
   /// retrieve), Amazon Rekognition Custom Labels returns a pagination token in
   /// the response. You can use this pagination token to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of project descriptions. The list is sorted by the date and time the
   /// projects are created.
-  @_s.JsonKey(name: 'ProjectDescriptions')
-  final List<ProjectDescription> projectDescriptions;
+  final List<ProjectDescription>? projectDescriptions;
 
   DescribeProjectsResponse({
     this.nextToken,
     this.projectDescriptions,
   });
-  factory DescribeProjectsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProjectsResponseFromJson(json);
+  factory DescribeProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectsResponse(
+      nextToken: json['NextToken'] as String?,
+      projectDescriptions: (json['ProjectDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// Kinesis video stream that provides the source streaming video.
-  @_s.JsonKey(name: 'Input')
-  final StreamProcessorInput input;
+  final StreamProcessorInput? input;
 
   /// The time, in Unix format, the stream processor was last updated. For
   /// example, when the stream processor moves from a running state to a failed
   /// state, or when the user starts or stops the stream processor.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTimestamp')
-  final DateTime lastUpdateTimestamp;
+  final DateTime? lastUpdateTimestamp;
 
   /// Name of the stream processor.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Kinesis data stream to which Amazon Rekognition Video puts the analysis
   /// results.
-  @_s.JsonKey(name: 'Output')
-  final StreamProcessorOutput output;
+  final StreamProcessorOutput? output;
 
   /// ARN of the IAM role that allows access to the stream processor.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// Face recognition input parameters that are being used by the stream
   /// processor. Includes the collection to use for face recognition and the face
   /// attributes to detect.
-  @_s.JsonKey(name: 'Settings')
-  final StreamProcessorSettings settings;
+  final StreamProcessorSettings? settings;
 
   /// Current status of the stream processor.
-  @_s.JsonKey(name: 'Status')
-  final StreamProcessorStatus status;
+  final StreamProcessorStatus? status;
 
   /// Detailed status message about the stream processor.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// ARN of the stream processor.
-  @_s.JsonKey(name: 'StreamProcessorArn')
-  final String streamProcessorArn;
+  final String? streamProcessorArn;
 
   DescribeStreamProcessorResponse({
     this.creationTimestamp,
@@ -5395,36 +5433,50 @@ class DescribeStreamProcessorResponse {
     this.statusMessage,
     this.streamProcessorArn,
   });
-  factory DescribeStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamProcessorResponseFromJson(json);
+  factory DescribeStreamProcessorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamProcessorResponse(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      input: json['Input'] != null
+          ? StreamProcessorInput.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      name: json['Name'] as String?,
+      output: json['Output'] != null
+          ? StreamProcessorOutput.fromJson(
+              json['Output'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      settings: json['Settings'] != null
+          ? StreamProcessorSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toStreamProcessorStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      streamProcessorArn: json['StreamProcessorArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectCustomLabelsResponse {
   /// An array of custom labels detected in the input image.
-  @_s.JsonKey(name: 'CustomLabels')
-  final List<CustomLabel> customLabels;
+  final List<CustomLabel>? customLabels;
 
   DetectCustomLabelsResponse({
     this.customLabels,
   });
-  factory DetectCustomLabelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectCustomLabelsResponseFromJson(json);
+  factory DetectCustomLabelsResponse.fromJson(Map<String, dynamic> json) {
+    return DetectCustomLabelsResponse(
+      customLabels: (json['CustomLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomLabel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectFacesResponse {
   /// Details of each face found in the image.
-  @_s.JsonKey(name: 'FaceDetails')
-  final List<FaceDetail> faceDetails;
+  final List<FaceDetail>? faceDetails;
 
   /// The value of <code>OrientationCorrection</code> is always null.
   ///
@@ -5439,30 +5491,30 @@ class DetectFacesResponse {
   /// format and .jpeg images without orientation information in the image Exif
   /// metadata. The bounding box coordinates aren't translated and represent the
   /// object locations before the image is rotated.
-  @_s.JsonKey(name: 'OrientationCorrection')
-  final OrientationCorrection orientationCorrection;
+  final OrientationCorrection? orientationCorrection;
 
   DetectFacesResponse({
     this.faceDetails,
     this.orientationCorrection,
   });
-  factory DetectFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectFacesResponseFromJson(json);
+  factory DetectFacesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectFacesResponse(
+      faceDetails: (json['FaceDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orientationCorrection:
+          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectLabelsResponse {
   /// Version number of the label detection model that was used to detect labels.
-  @_s.JsonKey(name: 'LabelModelVersion')
-  final String labelModelVersion;
+  final String? labelModelVersion;
 
   /// An array of labels for the real-world objects detected.
-  @_s.JsonKey(name: 'Labels')
-  final List<Label> labels;
+  final List<Label>? labels;
 
   /// The value of <code>OrientationCorrection</code> is always null.
   ///
@@ -5477,67 +5529,70 @@ class DetectLabelsResponse {
   /// format and .jpeg images without orientation information in the image Exif
   /// metadata. The bounding box coordinates aren't translated and represent the
   /// object locations before the image is rotated.
-  @_s.JsonKey(name: 'OrientationCorrection')
-  final OrientationCorrection orientationCorrection;
+  final OrientationCorrection? orientationCorrection;
 
   DetectLabelsResponse({
     this.labelModelVersion,
     this.labels,
     this.orientationCorrection,
   });
-  factory DetectLabelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectLabelsResponseFromJson(json);
+  factory DetectLabelsResponse.fromJson(Map<String, dynamic> json) {
+    return DetectLabelsResponse(
+      labelModelVersion: json['LabelModelVersion'] as String?,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orientationCorrection:
+          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectModerationLabelsResponse {
   /// Shows the results of the human in the loop evaluation.
-  @_s.JsonKey(name: 'HumanLoopActivationOutput')
-  final HumanLoopActivationOutput humanLoopActivationOutput;
+  final HumanLoopActivationOutput? humanLoopActivationOutput;
 
   /// Array of detected Moderation labels and the time, in milliseconds from the
   /// start of the video, they were detected.
-  @_s.JsonKey(name: 'ModerationLabels')
-  final List<ModerationLabel> moderationLabels;
+  final List<ModerationLabel>? moderationLabels;
 
   /// Version number of the moderation detection model that was used to detect
   /// unsafe content.
-  @_s.JsonKey(name: 'ModerationModelVersion')
-  final String moderationModelVersion;
+  final String? moderationModelVersion;
 
   DetectModerationLabelsResponse({
     this.humanLoopActivationOutput,
     this.moderationLabels,
     this.moderationModelVersion,
   });
-  factory DetectModerationLabelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectModerationLabelsResponseFromJson(json);
+  factory DetectModerationLabelsResponse.fromJson(Map<String, dynamic> json) {
+    return DetectModerationLabelsResponse(
+      humanLoopActivationOutput: json['HumanLoopActivationOutput'] != null
+          ? HumanLoopActivationOutput.fromJson(
+              json['HumanLoopActivationOutput'] as Map<String, dynamic>)
+          : null,
+      moderationLabels: (json['ModerationLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModerationLabel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      moderationModelVersion: json['ModerationModelVersion'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectProtectiveEquipmentResponse {
   /// An array of persons detected in the image (including persons not wearing
   /// PPE).
-  @_s.JsonKey(name: 'Persons')
-  final List<ProtectiveEquipmentPerson> persons;
+  final List<ProtectiveEquipmentPerson>? persons;
 
   /// The version number of the PPE detection model used to detect PPE in the
   /// image.
-  @_s.JsonKey(name: 'ProtectiveEquipmentModelVersion')
-  final String protectiveEquipmentModelVersion;
+  final String? protectiveEquipmentModelVersion;
 
   /// Summary information for the types of PPE specified in the
   /// <code>SummarizationAttributes</code> input parameter.
-  @_s.JsonKey(name: 'Summary')
-  final ProtectiveEquipmentSummary summary;
+  final ProtectiveEquipmentSummary? summary;
 
   DetectProtectiveEquipmentResponse({
     this.persons,
@@ -5545,8 +5600,21 @@ class DetectProtectiveEquipmentResponse {
     this.summary,
   });
   factory DetectProtectiveEquipmentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DetectProtectiveEquipmentResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DetectProtectiveEquipmentResponse(
+      persons: (json['Persons'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProtectiveEquipmentPerson.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      protectiveEquipmentModelVersion:
+          json['ProtectiveEquipmentModelVersion'] as String?,
+      summary: json['Summary'] != null
+          ? ProtectiveEquipmentSummary.fromJson(
+              json['Summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A set of optional parameters that you can use to set the criteria that the
@@ -5554,80 +5622,83 @@ class DetectProtectiveEquipmentResponse {
 /// looks at a word’s height, width, and minimum confidence.
 /// <code>RegionOfInterest</code> lets you set a specific region of the image to
 /// look for text in.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DetectTextFilters {
   /// A Filter focusing on a certain area of the image. Uses a
   /// <code>BoundingBox</code> object to set the region of the image.
-  @_s.JsonKey(name: 'RegionsOfInterest')
-  final List<RegionOfInterest> regionsOfInterest;
-  @_s.JsonKey(name: 'WordFilter')
-  final DetectionFilter wordFilter;
+  final List<RegionOfInterest>? regionsOfInterest;
+  final DetectionFilter? wordFilter;
 
   DetectTextFilters({
     this.regionsOfInterest,
     this.wordFilter,
   });
-  Map<String, dynamic> toJson() => _$DetectTextFiltersToJson(this);
+  Map<String, dynamic> toJson() {
+    final regionsOfInterest = this.regionsOfInterest;
+    final wordFilter = this.wordFilter;
+    return {
+      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
+      if (wordFilter != null) 'WordFilter': wordFilter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectTextResponse {
   /// An array of text that was detected in the input image.
-  @_s.JsonKey(name: 'TextDetections')
-  final List<TextDetection> textDetections;
+  final List<TextDetection>? textDetections;
 
   /// The model version used to detect text.
-  @_s.JsonKey(name: 'TextModelVersion')
-  final String textModelVersion;
+  final String? textModelVersion;
 
   DetectTextResponse({
     this.textDetections,
     this.textModelVersion,
   });
-  factory DetectTextResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectTextResponseFromJson(json);
+  factory DetectTextResponse.fromJson(Map<String, dynamic> json) {
+    return DetectTextResponse(
+      textDetections: (json['TextDetections'] as List?)
+          ?.whereNotNull()
+          .map((e) => TextDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      textModelVersion: json['TextModelVersion'] as String?,
+    );
+  }
 }
 
 /// A set of parameters that allow you to filter out certain results from your
 /// returned results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DetectionFilter {
   /// Sets the minimum height of the word bounding box. Words with bounding box
   /// heights lesser than this value will be excluded from the result. Value is
   /// relative to the video frame height.
-  @_s.JsonKey(name: 'MinBoundingBoxHeight')
-  final double minBoundingBoxHeight;
+  final double? minBoundingBoxHeight;
 
   /// Sets the minimum width of the word bounding box. Words with bounding boxes
   /// widths lesser than this value will be excluded from the result. Value is
   /// relative to the video frame width.
-  @_s.JsonKey(name: 'MinBoundingBoxWidth')
-  final double minBoundingBoxWidth;
+  final double? minBoundingBoxWidth;
 
   /// Sets confidence of word detection. Words with detection confidence below
   /// this will be excluded from the result. Values should be between 0.5 and 1 as
   /// Text in Video will not return any result below 0.5.
-  @_s.JsonKey(name: 'MinConfidence')
-  final double minConfidence;
+  final double? minConfidence;
 
   DetectionFilter({
     this.minBoundingBoxHeight,
     this.minBoundingBoxWidth,
     this.minConfidence,
   });
-  Map<String, dynamic> toJson() => _$DetectionFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final minBoundingBoxHeight = this.minBoundingBoxHeight;
+    final minBoundingBoxWidth = this.minBoundingBoxWidth;
+    final minConfidence = this.minConfidence;
+    return {
+      if (minBoundingBoxHeight != null)
+        'MinBoundingBoxHeight': minBoundingBoxHeight,
+      if (minBoundingBoxWidth != null)
+        'MinBoundingBoxWidth': minBoundingBoxWidth,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
 }
 
 /// The emotions that appear to be expressed on the face, and the confidence
@@ -5636,74 +5707,104 @@ class DetectionFilter {
 /// person’s internal emotional state and should not be used in such a way. For
 /// example, a person pretending to have a sad face might not be sad
 /// emotionally.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Emotion {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Type of emotion detected.
-  @_s.JsonKey(name: 'Type')
-  final EmotionName type;
+  final EmotionName? type;
 
   Emotion({
     this.confidence,
     this.type,
   });
-  factory Emotion.fromJson(Map<String, dynamic> json) =>
-      _$EmotionFromJson(json);
+  factory Emotion.fromJson(Map<String, dynamic> json) {
+    return Emotion(
+      confidence: json['Confidence'] as double?,
+      type: (json['Type'] as String?)?.toEmotionName(),
+    );
+  }
 }
 
 enum EmotionName {
-  @_s.JsonValue('HAPPY')
   happy,
-  @_s.JsonValue('SAD')
   sad,
-  @_s.JsonValue('ANGRY')
   angry,
-  @_s.JsonValue('CONFUSED')
   confused,
-  @_s.JsonValue('DISGUSTED')
   disgusted,
-  @_s.JsonValue('SURPRISED')
   surprised,
-  @_s.JsonValue('CALM')
   calm,
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('FEAR')
   fear,
+}
+
+extension on EmotionName {
+  String toValue() {
+    switch (this) {
+      case EmotionName.happy:
+        return 'HAPPY';
+      case EmotionName.sad:
+        return 'SAD';
+      case EmotionName.angry:
+        return 'ANGRY';
+      case EmotionName.confused:
+        return 'CONFUSED';
+      case EmotionName.disgusted:
+        return 'DISGUSTED';
+      case EmotionName.surprised:
+        return 'SURPRISED';
+      case EmotionName.calm:
+        return 'CALM';
+      case EmotionName.unknown:
+        return 'UNKNOWN';
+      case EmotionName.fear:
+        return 'FEAR';
+    }
+  }
+}
+
+extension on String {
+  EmotionName toEmotionName() {
+    switch (this) {
+      case 'HAPPY':
+        return EmotionName.happy;
+      case 'SAD':
+        return EmotionName.sad;
+      case 'ANGRY':
+        return EmotionName.angry;
+      case 'CONFUSED':
+        return EmotionName.confused;
+      case 'DISGUSTED':
+        return EmotionName.disgusted;
+      case 'SURPRISED':
+        return EmotionName.surprised;
+      case 'CALM':
+        return EmotionName.calm;
+      case 'UNKNOWN':
+        return EmotionName.unknown;
+      case 'FEAR':
+        return EmotionName.fear;
+    }
+    throw Exception('$this is not known in enum EmotionName');
+  }
 }
 
 /// Information about an item of Personal Protective Equipment (PPE) detected by
 /// <a>DetectProtectiveEquipment</a>. For more information, see
 /// <a>DetectProtectiveEquipment</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EquipmentDetection {
   /// A bounding box surrounding the item of detected PPE.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// The confidence that Amazon Rekognition has that the bounding box
   /// (<code>BoundingBox</code>) contains an item of PPE.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Information about the body part covered by the detected PPE.
-  @_s.JsonKey(name: 'CoversBodyPart')
-  final CoversBodyPart coversBodyPart;
+  final CoversBodyPart? coversBodyPart;
 
   /// The type of detected PPE.
-  @_s.JsonKey(name: 'Type')
-  final ProtectiveEquipmentType type;
+  final ProtectiveEquipmentType? type;
 
   EquipmentDetection({
     this.boundingBox,
@@ -5711,112 +5812,106 @@ class EquipmentDetection {
     this.coversBodyPart,
     this.type,
   });
-  factory EquipmentDetection.fromJson(Map<String, dynamic> json) =>
-      _$EquipmentDetectionFromJson(json);
+  factory EquipmentDetection.fromJson(Map<String, dynamic> json) {
+    return EquipmentDetection(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      coversBodyPart: json['CoversBodyPart'] != null
+          ? CoversBodyPart.fromJson(
+              json['CoversBodyPart'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toProtectiveEquipmentType(),
+    );
+  }
 }
 
 /// The evaluation results for the training of a model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluationResult {
   /// The F1 score for the evaluation of all labels. The F1 score metric evaluates
   /// the overall precision and recall performance of the model as a single value.
   /// A higher value indicates better precision and recall performance. A lower
   /// score indicates that precision, recall, or both are performing poorly.
-  @_s.JsonKey(name: 'F1Score')
-  final double f1Score;
+  final double? f1Score;
 
   /// The S3 bucket that contains the training summary.
-  @_s.JsonKey(name: 'Summary')
-  final Summary summary;
+  final Summary? summary;
 
   EvaluationResult({
     this.f1Score,
     this.summary,
   });
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationResultFromJson(json);
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      f1Score: json['F1Score'] as double?,
+      summary: json['Summary'] != null
+          ? Summary.fromJson(json['Summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Indicates whether or not the eyes on the face are open, and the confidence
 /// level in the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EyeOpen {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the eyes on the face are open.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   EyeOpen({
     this.confidence,
     this.value,
   });
-  factory EyeOpen.fromJson(Map<String, dynamic> json) =>
-      _$EyeOpenFromJson(json);
+  factory EyeOpen.fromJson(Map<String, dynamic> json) {
+    return EyeOpen(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 /// Indicates whether or not the face is wearing eye glasses, and the confidence
 /// level in the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Eyeglasses {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the face is wearing eye glasses or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   Eyeglasses({
     this.confidence,
     this.value,
   });
-  factory Eyeglasses.fromJson(Map<String, dynamic> json) =>
-      _$EyeglassesFromJson(json);
+  factory Eyeglasses.fromJson(Map<String, dynamic> json) {
+    return Eyeglasses(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 /// Describes the face properties such as the bounding box, face ID, image ID of
 /// the input image, and external image ID that you assigned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Face {
   /// Bounding box of the face.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Confidence level that the bounding box contains a face (and not a different
   /// object such as a tree).
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Identifier that you assign to all the faces in the input image.
-  @_s.JsonKey(name: 'ExternalImageId')
-  final String externalImageId;
+  final String? externalImageId;
 
   /// Unique identifier that Amazon Rekognition assigns to the face.
-  @_s.JsonKey(name: 'FaceId')
-  final String faceId;
+  final String? faceId;
 
   /// Unique identifier that Amazon Rekognition assigns to the input image.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  final String? imageId;
 
   Face({
     this.boundingBox,
@@ -5825,13 +5920,21 @@ class Face {
     this.faceId,
     this.imageId,
   });
-  factory Face.fromJson(Map<String, dynamic> json) => _$FaceFromJson(json);
+  factory Face.fromJson(Map<String, dynamic> json) {
+    return Face(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      externalImageId: json['ExternalImageId'] as String?,
+      faceId: json['FaceId'] as String?,
+      imageId: json['ImageId'] as String?,
+    );
+  }
 }
 
 enum FaceAttributes {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -5843,7 +5946,18 @@ extension on FaceAttributes {
       case FaceAttributes.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FaceAttributes toFaceAttributes() {
+    switch (this) {
+      case 'DEFAULT':
+        return FaceAttributes.$default;
+      case 'ALL':
+        return FaceAttributes.all;
+    }
+    throw Exception('$this is not known in enum FaceAttributes');
   }
 }
 
@@ -5878,30 +5992,21 @@ extension on FaceAttributes {
 /// return, use the <code>Attributes</code> input parameter for
 /// <code>DetectFaces</code>. For <code>IndexFaces</code>, use the
 /// <code>DetectAttributes</code> input parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaceDetail {
   /// The estimated age range, in years, for the face. Low represents the lowest
   /// estimated age and High represents the highest estimated age.
-  @_s.JsonKey(name: 'AgeRange')
-  final AgeRange ageRange;
+  final AgeRange? ageRange;
 
   /// Indicates whether or not the face has a beard, and the confidence level in
   /// the determination.
-  @_s.JsonKey(name: 'Beard')
-  final Beard beard;
+  final Beard? beard;
 
   /// Bounding box of the face. Default attribute.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Confidence level that the bounding box contains a face (and not a different
   /// object such as a tree). Default attribute.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The emotions that appear to be expressed on the face, and the confidence
   /// level in the determination. The API is only making a determination of the
@@ -5909,55 +6014,44 @@ class FaceDetail {
   /// person’s internal emotional state and should not be used in such a way. For
   /// example, a person pretending to have a sad face might not be sad
   /// emotionally.
-  @_s.JsonKey(name: 'Emotions')
-  final List<Emotion> emotions;
+  final List<Emotion>? emotions;
 
   /// Indicates whether or not the face is wearing eye glasses, and the confidence
   /// level in the determination.
-  @_s.JsonKey(name: 'Eyeglasses')
-  final Eyeglasses eyeglasses;
+  final Eyeglasses? eyeglasses;
 
   /// Indicates whether or not the eyes on the face are open, and the confidence
   /// level in the determination.
-  @_s.JsonKey(name: 'EyesOpen')
-  final EyeOpen eyesOpen;
+  final EyeOpen? eyesOpen;
 
   /// The predicted gender of a detected face.
-  @_s.JsonKey(name: 'Gender')
-  final Gender gender;
+  final Gender? gender;
 
   /// Indicates the location of landmarks on the face. Default attribute.
-  @_s.JsonKey(name: 'Landmarks')
-  final List<Landmark> landmarks;
+  final List<Landmark>? landmarks;
 
   /// Indicates whether or not the mouth on the face is open, and the confidence
   /// level in the determination.
-  @_s.JsonKey(name: 'MouthOpen')
-  final MouthOpen mouthOpen;
+  final MouthOpen? mouthOpen;
 
   /// Indicates whether or not the face has a mustache, and the confidence level
   /// in the determination.
-  @_s.JsonKey(name: 'Mustache')
-  final Mustache mustache;
+  final Mustache? mustache;
 
   /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
   /// Default attribute.
-  @_s.JsonKey(name: 'Pose')
-  final Pose pose;
+  final Pose? pose;
 
   /// Identifies image brightness and sharpness. Default attribute.
-  @_s.JsonKey(name: 'Quality')
-  final ImageQuality quality;
+  final ImageQuality? quality;
 
   /// Indicates whether or not the face is smiling, and the confidence level in
   /// the determination.
-  @_s.JsonKey(name: 'Smile')
-  final Smile smile;
+  final Smile? smile;
 
   /// Indicates whether or not the face is wearing sunglasses, and the confidence
   /// level in the determination.
-  @_s.JsonKey(name: 'Sunglasses')
-  final Sunglasses sunglasses;
+  final Sunglasses? sunglasses;
 
   FaceDetail({
     this.ageRange,
@@ -5976,118 +6070,166 @@ class FaceDetail {
     this.smile,
     this.sunglasses,
   });
-  factory FaceDetail.fromJson(Map<String, dynamic> json) =>
-      _$FaceDetailFromJson(json);
+  factory FaceDetail.fromJson(Map<String, dynamic> json) {
+    return FaceDetail(
+      ageRange: json['AgeRange'] != null
+          ? AgeRange.fromJson(json['AgeRange'] as Map<String, dynamic>)
+          : null,
+      beard: json['Beard'] != null
+          ? Beard.fromJson(json['Beard'] as Map<String, dynamic>)
+          : null,
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      emotions: (json['Emotions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eyeglasses: json['Eyeglasses'] != null
+          ? Eyeglasses.fromJson(json['Eyeglasses'] as Map<String, dynamic>)
+          : null,
+      eyesOpen: json['EyesOpen'] != null
+          ? EyeOpen.fromJson(json['EyesOpen'] as Map<String, dynamic>)
+          : null,
+      gender: json['Gender'] != null
+          ? Gender.fromJson(json['Gender'] as Map<String, dynamic>)
+          : null,
+      landmarks: (json['Landmarks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mouthOpen: json['MouthOpen'] != null
+          ? MouthOpen.fromJson(json['MouthOpen'] as Map<String, dynamic>)
+          : null,
+      mustache: json['Mustache'] != null
+          ? Mustache.fromJson(json['Mustache'] as Map<String, dynamic>)
+          : null,
+      pose: json['Pose'] != null
+          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
+          : null,
+      quality: json['Quality'] != null
+          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
+          : null,
+      smile: json['Smile'] != null
+          ? Smile.fromJson(json['Smile'] as Map<String, dynamic>)
+          : null,
+      sunglasses: json['Sunglasses'] != null
+          ? Sunglasses.fromJson(json['Sunglasses'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about a face detected in a video analysis request and the time
 /// the face was detected in the video.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaceDetection {
   /// The face properties for the detected face.
-  @_s.JsonKey(name: 'Face')
-  final FaceDetail face;
+  final FaceDetail? face;
 
   /// Time, in milliseconds from the start of the video, that the face was
   /// detected.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   FaceDetection({
     this.face,
     this.timestamp,
   });
-  factory FaceDetection.fromJson(Map<String, dynamic> json) =>
-      _$FaceDetectionFromJson(json);
+  factory FaceDetection.fromJson(Map<String, dynamic> json) {
+    return FaceDetection(
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 /// Provides face metadata. In addition, it also provides the confidence in the
 /// match of this face with the input face.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaceMatch {
   /// Describes the face properties such as the bounding box, face ID, image ID of
   /// the source image, and external image ID that you assigned.
-  @_s.JsonKey(name: 'Face')
-  final Face face;
+  final Face? face;
 
   /// Confidence in the match of this face with the input face.
-  @_s.JsonKey(name: 'Similarity')
-  final double similarity;
+  final double? similarity;
 
   FaceMatch({
     this.face,
     this.similarity,
   });
-  factory FaceMatch.fromJson(Map<String, dynamic> json) =>
-      _$FaceMatchFromJson(json);
+  factory FaceMatch.fromJson(Map<String, dynamic> json) {
+    return FaceMatch(
+      face: json['Face'] != null
+          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      similarity: json['Similarity'] as double?,
+    );
+  }
 }
 
 /// Object containing both the face metadata (stored in the backend database),
 /// and facial attributes that are detected but aren't stored in the database.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FaceRecord {
   /// Describes the face properties such as the bounding box, face ID, image ID of
   /// the input image, and external image ID that you assigned.
-  @_s.JsonKey(name: 'Face')
-  final Face face;
+  final Face? face;
 
   /// Structure containing attributes of the face that the algorithm detected.
-  @_s.JsonKey(name: 'FaceDetail')
-  final FaceDetail faceDetail;
+  final FaceDetail? faceDetail;
 
   FaceRecord({
     this.face,
     this.faceDetail,
   });
-  factory FaceRecord.fromJson(Map<String, dynamic> json) =>
-      _$FaceRecordFromJson(json);
+  factory FaceRecord.fromJson(Map<String, dynamic> json) {
+    return FaceRecord(
+      face: json['Face'] != null
+          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      faceDetail: json['FaceDetail'] != null
+          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Input face recognition parameters for an Amazon Rekognition stream
 /// processor. <code>FaceRecognitionSettings</code> is a request parameter for
 /// <a>CreateStreamProcessor</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FaceSearchSettings {
   /// The ID of a collection that contains faces that you want to search for.
-  @_s.JsonKey(name: 'CollectionId')
-  final String collectionId;
+  final String? collectionId;
 
   /// Minimum face match confidence score that must be met to return a result for
   /// a recognized face. Default is 80. 0 is the lowest confidence. 100 is the
   /// highest confidence.
-  @_s.JsonKey(name: 'FaceMatchThreshold')
-  final double faceMatchThreshold;
+  final double? faceMatchThreshold;
 
   FaceSearchSettings({
     this.collectionId,
     this.faceMatchThreshold,
   });
-  factory FaceSearchSettings.fromJson(Map<String, dynamic> json) =>
-      _$FaceSearchSettingsFromJson(json);
+  factory FaceSearchSettings.fromJson(Map<String, dynamic> json) {
+    return FaceSearchSettings(
+      collectionId: json['CollectionId'] as String?,
+      faceMatchThreshold: json['FaceMatchThreshold'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FaceSearchSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final collectionId = this.collectionId;
+    final faceMatchThreshold = this.faceMatchThreshold;
+    return {
+      if (collectionId != null) 'CollectionId': collectionId,
+      if (faceMatchThreshold != null) 'FaceMatchThreshold': faceMatchThreshold,
+    };
+  }
 }
 
 enum FaceSearchSortBy {
-  @_s.JsonValue('INDEX')
   $index,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
@@ -6099,7 +6241,18 @@ extension on FaceSearchSortBy {
       case FaceSearchSortBy.timestamp:
         return 'TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FaceSearchSortBy toFaceSearchSortBy() {
+    switch (this) {
+      case 'INDEX':
+        return FaceSearchSortBy.$index;
+      case 'TIMESTAMP':
+        return FaceSearchSortBy.timestamp;
+    }
+    throw Exception('$this is not known in enum FaceSearchSortBy');
   }
 }
 
@@ -6119,111 +6272,122 @@ extension on FaceSearchSortBy {
 ///
 /// We don't recommend using gender binary predictions to make decisions that
 /// impact&#x2028; an individual's rights, privacy, or access to services.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Gender {
   /// Level of confidence in the prediction.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The predicted gender of the face.
-  @_s.JsonKey(name: 'Value')
-  final GenderType value;
+  final GenderType? value;
 
   Gender({
     this.confidence,
     this.value,
   });
-  factory Gender.fromJson(Map<String, dynamic> json) => _$GenderFromJson(json);
+  factory Gender.fromJson(Map<String, dynamic> json) {
+    return Gender(
+      confidence: json['Confidence'] as double?,
+      value: (json['Value'] as String?)?.toGenderType(),
+    );
+  }
 }
 
 enum GenderType {
-  @_s.JsonValue('Male')
   male,
-  @_s.JsonValue('Female')
   female,
+}
+
+extension on GenderType {
+  String toValue() {
+    switch (this) {
+      case GenderType.male:
+        return 'Male';
+      case GenderType.female:
+        return 'Female';
+    }
+  }
+}
+
+extension on String {
+  GenderType toGenderType() {
+    switch (this) {
+      case 'Male':
+        return GenderType.male;
+      case 'Female':
+        return GenderType.female;
+    }
+    throw Exception('$this is not known in enum GenderType');
+  }
 }
 
 /// Information about where an object (<a>DetectCustomLabels</a>) or text
 /// (<a>DetectText</a>) is located on an image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Geometry {
   /// An axis-aligned coarse representation of the detected item's location on the
   /// image.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Within the bounding box, a fine-grained polygon around the detected item.
-  @_s.JsonKey(name: 'Polygon')
-  final List<Point> polygon;
+  final List<Point>? polygon;
 
   Geometry({
     this.boundingBox,
     this.polygon,
   });
-  factory Geometry.fromJson(Map<String, dynamic> json) =>
-      _$GeometryFromJson(json);
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      polygon: (json['Polygon'] as List?)
+          ?.whereNotNull()
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCelebrityInfoResponse {
   /// The name of the celebrity.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An array of URLs pointing to additional celebrity information.
-  @_s.JsonKey(name: 'Urls')
-  final List<String> urls;
+  final List<String>? urls;
 
   GetCelebrityInfoResponse({
     this.name,
     this.urls,
   });
-  factory GetCelebrityInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCelebrityInfoResponseFromJson(json);
+  factory GetCelebrityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return GetCelebrityInfoResponse(
+      name: json['Name'] as String?,
+      urls: (json['Urls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCelebrityRecognitionResponse {
   /// Array of celebrities recognized in the video.
-  @_s.JsonKey(name: 'Celebrities')
-  final List<CelebrityRecognition> celebrities;
+  final List<CelebrityRecognition>? celebrities;
 
   /// The current status of the celebrity recognition job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// celebrities.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition Video analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from a Amazon Rekognition Video operation.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetCelebrityRecognitionResponse({
     this.celebrities,
@@ -6232,45 +6396,47 @@ class GetCelebrityRecognitionResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetCelebrityRecognitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCelebrityRecognitionResponseFromJson(json);
+  factory GetCelebrityRecognitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetCelebrityRecognitionResponse(
+      celebrities: (json['Celebrities'] as List?)
+          ?.whereNotNull()
+          .map((e) => CelebrityRecognition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetContentModerationResponse {
   /// The current status of the unsafe content analysis job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// The detected unsafe content labels and the time(s) they were detected.
-  @_s.JsonKey(name: 'ModerationLabels')
-  final List<ContentModerationDetection> moderationLabels;
+  final List<ContentModerationDetection>? moderationLabels;
 
   /// Version number of the moderation detection model that was used to detect
   /// unsafe content.
-  @_s.JsonKey(name: 'ModerationModelVersion')
-  final String moderationModelVersion;
+  final String? moderationModelVersion;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// unsafe content labels.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from <code>GetContentModeration</code>.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetContentModerationResponse({
     this.jobStatus,
@@ -6280,41 +6446,46 @@ class GetContentModerationResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetContentModerationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetContentModerationResponseFromJson(json);
+  factory GetContentModerationResponse.fromJson(Map<String, dynamic> json) {
+    return GetContentModerationResponse(
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      moderationLabels: (json['ModerationLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ContentModerationDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      moderationModelVersion: json['ModerationModelVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFaceDetectionResponse {
   /// An array of faces detected in the video. Each element contains a detected
   /// face's details and the time, in milliseconds from the start of the video,
   /// the face was detected.
-  @_s.JsonKey(name: 'Faces')
-  final List<FaceDetection> faces;
+  final List<FaceDetection>? faces;
 
   /// The current status of the face detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Rekognition returns this token that you
   /// can use in the subsequent request to retrieve the next set of faces.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition Video analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from a Amazon Rekognition video operation.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetFaceDetectionResponse({
     this.faces,
@@ -6323,25 +6494,31 @@ class GetFaceDetectionResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetFaceDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFaceDetectionResponseFromJson(json);
+  factory GetFaceDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFaceDetectionResponse(
+      faces: (json['Faces'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFaceSearchResponse {
   /// The current status of the face search job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// search results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of persons, <a>PersonMatch</a>, in the video whose face(s) match
   /// the face(s) in an Amazon Rekognition collection. It also includes time
@@ -6351,19 +6528,16 @@ class GetFaceSearchResponse {
   /// match details (<code>FaceMatches</code>) for matching faces in the
   /// collection, and person information (<code>Person</code>) for the matched
   /// person.
-  @_s.JsonKey(name: 'Persons')
-  final List<PersonMatch> persons;
+  final List<PersonMatch>? persons;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from a Amazon Rekognition Video operation.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetFaceSearchResponse({
     this.jobStatus,
@@ -6372,46 +6546,48 @@ class GetFaceSearchResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetFaceSearchResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFaceSearchResponseFromJson(json);
+  factory GetFaceSearchResponse.fromJson(Map<String, dynamic> json) {
+    return GetFaceSearchResponse(
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      persons: (json['Persons'] as List?)
+          ?.whereNotNull()
+          .map((e) => PersonMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLabelDetectionResponse {
   /// The current status of the label detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// Version number of the label detection model that was used to detect labels.
-  @_s.JsonKey(name: 'LabelModelVersion')
-  final String labelModelVersion;
+  final String? labelModelVersion;
 
   /// An array of labels detected in the video. Each element contains the detected
   /// label and the time, in milliseconds from the start of the video, that the
   /// label was detected.
-  @_s.JsonKey(name: 'Labels')
-  final List<LabelDetection> labels;
+  final List<LabelDetection>? labels;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// labels.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition Video analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from a Amazon Rekognition video operation.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetLabelDetectionResponse({
     this.jobStatus,
@@ -6421,42 +6597,46 @@ class GetLabelDetectionResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetLabelDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLabelDetectionResponseFromJson(json);
+  factory GetLabelDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetLabelDetectionResponse(
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      labelModelVersion: json['LabelModelVersion'] as String?,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => LabelDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPersonTrackingResponse {
   /// The current status of the person tracking job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// persons.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of the persons detected in the video and the time(s) their path was
   /// tracked throughout the video. An array element will exist for each time a
   /// person's path is tracked.
-  @_s.JsonKey(name: 'Persons')
-  final List<PersonDetection> persons;
+  final List<PersonDetection>? persons;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about a video that Amazon Rekognition Video analyzed.
   /// <code>Videometadata</code> is returned in every page of paginated responses
   /// from a Amazon Rekognition Video operation.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final VideoMetadata? videoMetadata;
 
   GetPersonTrackingResponse({
     this.jobStatus,
@@ -6465,15 +6645,23 @@ class GetPersonTrackingResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetPersonTrackingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPersonTrackingResponseFromJson(json);
+  factory GetPersonTrackingResponse.fromJson(Map<String, dynamic> json) {
+    return GetPersonTrackingResponse(
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      persons: (json['Persons'] as List?)
+          ?.whereNotNull()
+          .map((e) => PersonDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSegmentDetectionResponse {
   /// An array of objects. There can be multiple audio streams. Each
   /// <code>AudioMetadata</code> object contains metadata for a single audio
@@ -6481,36 +6669,30 @@ class GetSegmentDetectionResponse {
   /// the audio codec, the number of audio channels, the duration of the audio
   /// stream, and the sample rate. Audio metadata is returned in each page of
   /// information returned by <code>GetSegmentDetection</code>.
-  @_s.JsonKey(name: 'AudioMetadata')
-  final List<AudioMetadata> audioMetadata;
+  final List<AudioMetadata>? audioMetadata;
 
   /// Current status of the segment detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the previous response was incomplete (because there are more labels to
   /// retrieve), Amazon Rekognition Video returns a pagination token in the
   /// response. You can use this pagination token to retrieve the next set of
   /// text.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of segments detected in a video. The array is sorted by the segment
   /// types (TECHNICAL_CUE or SHOT) specified in the <code>SegmentTypes</code>
   /// input parameter of <code>StartSegmentDetection</code>. Within each segment
   /// type the array is sorted by timestamp values.
-  @_s.JsonKey(name: 'Segments')
-  final List<SegmentDetection> segments;
+  final List<SegmentDetection>? segments;
 
   /// An array containing the segment types requested in the call to
   /// <code>StartSegmentDetection</code>.
-  @_s.JsonKey(name: 'SelectedSegmentTypes')
-  final List<SegmentTypeInfo> selectedSegmentTypes;
+  final List<SegmentTypeInfo>? selectedSegmentTypes;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Currently, Amazon Rekognition Video returns a single object in the
   /// <code>VideoMetadata</code> array. The object contains information about the
@@ -6518,8 +6700,7 @@ class GetSegmentDetectionResponse {
   /// analyze. The <code>VideoMetadata</code> object includes the video codec,
   /// video format and other information. Video metadata is returned in each page
   /// of information returned by <code>GetSegmentDetection</code>.
-  @_s.JsonKey(name: 'VideoMetadata')
-  final List<VideoMetadata> videoMetadata;
+  final List<VideoMetadata>? videoMetadata;
 
   GetSegmentDetectionResponse({
     this.audioMetadata,
@@ -6530,41 +6711,51 @@ class GetSegmentDetectionResponse {
     this.statusMessage,
     this.videoMetadata,
   });
-  factory GetSegmentDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSegmentDetectionResponseFromJson(json);
+  factory GetSegmentDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSegmentDetectionResponse(
+      audioMetadata: (json['AudioMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => AudioMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      segments: (json['Segments'] as List?)
+          ?.whereNotNull()
+          .map((e) => SegmentDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      selectedSegmentTypes: (json['SelectedSegmentTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SegmentTypeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusMessage: json['StatusMessage'] as String?,
+      videoMetadata: (json['VideoMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => VideoMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTextDetectionResponse {
   /// Current status of the text detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final VideoJobStatus jobStatus;
+  final VideoJobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of text.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If the job fails, <code>StatusMessage</code> provides a descriptive error
   /// message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// An array of text detected in the video. Each element contains the detected
   /// text, the time in milliseconds from the start of the video that the text was
   /// detected, and where it was detected on the screen.
-  @_s.JsonKey(name: 'TextDetections')
-  final List<TextDetectionResult> textDetections;
+  final List<TextDetectionResult>? textDetections;
 
   /// Version number of the text detection model that was used to detect text.
-  @_s.JsonKey(name: 'TextModelVersion')
-  final String textModelVersion;
-  @_s.JsonKey(name: 'VideoMetadata')
-  final VideoMetadata videoMetadata;
+  final String? textModelVersion;
+  final VideoMetadata? videoMetadata;
 
   GetTextDetectionResponse({
     this.jobStatus,
@@ -6574,109 +6765,134 @@ class GetTextDetectionResponse {
     this.textModelVersion,
     this.videoMetadata,
   });
-  factory GetTextDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTextDetectionResponseFromJson(json);
+  factory GetTextDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetTextDetectionResponse(
+      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      textDetections: (json['TextDetections'] as List?)
+          ?.whereNotNull()
+          .map((e) => TextDetectionResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      textModelVersion: json['TextModelVersion'] as String?,
+      videoMetadata: json['VideoMetadata'] != null
+          ? VideoMetadata.fromJson(
+              json['VideoMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest
 /// file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroundTruthManifest {
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   GroundTruthManifest({
     this.s3Object,
   });
-  factory GroundTruthManifest.fromJson(Map<String, dynamic> json) =>
-      _$GroundTruthManifestFromJson(json);
+  factory GroundTruthManifest.fromJson(Map<String, dynamic> json) {
+    return GroundTruthManifest(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GroundTruthManifestToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 /// Shows the results of the human in the loop evaluation. If there is no
 /// HumanLoopArn, the input did not trigger human review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
-  @_s.JsonKey(name: 'HumanLoopActivationConditionsEvaluationResults')
-  final Object humanLoopActivationConditionsEvaluationResults;
+  final Object? humanLoopActivationConditionsEvaluationResults;
 
   /// Shows if and why human review was needed.
-  @_s.JsonKey(name: 'HumanLoopActivationReasons')
-  final List<String> humanLoopActivationReasons;
+  final List<String>? humanLoopActivationReasons;
 
   /// The Amazon Resource Name (ARN) of the HumanLoop created.
-  @_s.JsonKey(name: 'HumanLoopArn')
-  final String humanLoopArn;
+  final String? humanLoopArn;
 
   HumanLoopActivationOutput({
     this.humanLoopActivationConditionsEvaluationResults,
     this.humanLoopActivationReasons,
     this.humanLoopArn,
   });
-  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) =>
-      _$HumanLoopActivationOutputFromJson(json);
+  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopActivationOutput(
+      humanLoopActivationConditionsEvaluationResults:
+          json['HumanLoopActivationConditionsEvaluationResults'] == null
+              ? null
+              : jsonDecode(
+                  json['HumanLoopActivationConditionsEvaluationResults']
+                      as String),
+      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
 }
 
 /// Sets up the flow definition the image will be sent to if one of the
 /// conditions is met. You can also set certain attributes of the image before
 /// review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopConfig {
   /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow
   /// definition by using the Amazon Sagemaker <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateFlowDefinition.html">CreateFlowDefinition</a>
   /// Operation.
-  @_s.JsonKey(name: 'FlowDefinitionArn')
   final String flowDefinitionArn;
 
   /// The name of the human review used for this image. This should be kept unique
   /// within a region.
-  @_s.JsonKey(name: 'HumanLoopName')
   final String humanLoopName;
 
   /// Sets attributes of the input data.
-  @_s.JsonKey(name: 'DataAttributes')
-  final HumanLoopDataAttributes dataAttributes;
+  final HumanLoopDataAttributes? dataAttributes;
 
   HumanLoopConfig({
-    @_s.required this.flowDefinitionArn,
-    @_s.required this.humanLoopName,
+    required this.flowDefinitionArn,
+    required this.humanLoopName,
     this.dataAttributes,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopName = this.humanLoopName;
+    final dataAttributes = this.dataAttributes;
+    return {
+      'FlowDefinitionArn': flowDefinitionArn,
+      'HumanLoopName': humanLoopName,
+      if (dataAttributes != null) 'DataAttributes': dataAttributes,
+    };
+  }
 }
 
 /// Allows you to set attributes of the image. Currently, you can declare an
 /// image as free of personally identifiable information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information.
-  @_s.JsonKey(name: 'ContentClassifiers')
-  final List<ContentClassifier> contentClassifiers;
+  final List<ContentClassifier>? contentClassifiers;
 
   HumanLoopDataAttributes({
     this.contentClassifiers,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopDataAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final contentClassifiers = this.contentClassifiers;
+    return {
+      if (contentClassifiers != null)
+        'ContentClassifiers':
+            contentClassifiers.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Provides the input image either as bytes or an S3 object.
@@ -6706,71 +6922,60 @@ class HumanLoopDataAttributes {
 /// For Amazon Rekognition to process an S3 object, the user must have
 /// permission to access the S3 object. For more information, see Resource Based
 /// Policies in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Image {
   /// Blob of image bytes up to 5 MBs.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Bytes')
-  final Uint8List bytes;
+  final Uint8List? bytes;
 
   /// Identifies an S3 object as the image source.
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   Image({
     this.bytes,
     this.s3Object,
   });
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final s3Object = this.s3Object;
+    return {
+      if (bytes != null) 'Bytes': base64Encode(bytes),
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 /// Identifies face image brightness and sharpness.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageQuality {
   /// Value representing brightness of the face. The service returns a value
   /// between 0 and 100 (inclusive). A higher value indicates a brighter face
   /// image.
-  @_s.JsonKey(name: 'Brightness')
-  final double brightness;
+  final double? brightness;
 
   /// Value representing sharpness of the face. The service returns a value
   /// between 0 and 100 (inclusive). A higher value indicates a sharper face
   /// image.
-  @_s.JsonKey(name: 'Sharpness')
-  final double sharpness;
+  final double? sharpness;
 
   ImageQuality({
     this.brightness,
     this.sharpness,
   });
-  factory ImageQuality.fromJson(Map<String, dynamic> json) =>
-      _$ImageQualityFromJson(json);
+  factory ImageQuality.fromJson(Map<String, dynamic> json) {
+    return ImageQuality(
+      brightness: json['Brightness'] as double?,
+      sharpness: json['Sharpness'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IndexFacesResponse {
   /// The version number of the face detection model that's associated with the
   /// input collection (<code>CollectionId</code>).
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   /// An array of faces detected and added to the collection. For more
   /// information, see Searching Faces in a Collection in the Amazon Rekognition
   /// Developer Guide.
-  @_s.JsonKey(name: 'FaceRecords')
-  final List<FaceRecord> faceRecords;
+  final List<FaceRecord>? faceRecords;
 
   /// If your collection is associated with a face detection model that's later
   /// than version 3.0, the value of <code>OrientationCorrection</code> is always
@@ -6800,16 +7005,14 @@ class IndexFacesResponse {
   /// Bounding box information is returned in the <code>FaceRecords</code> array.
   /// You can get the version of the face detection model by calling
   /// <a>DescribeCollection</a>.
-  @_s.JsonKey(name: 'OrientationCorrection')
-  final OrientationCorrection orientationCorrection;
+  final OrientationCorrection? orientationCorrection;
 
   /// An array of faces that were detected in the image but weren't indexed. They
   /// weren't indexed because the quality filter identified them as low quality,
   /// or the <code>MaxFaces</code> request parameter filtered them out. To use the
   /// quality filter, you specify the <code>QualityFilter</code> request
   /// parameter.
-  @_s.JsonKey(name: 'UnindexedFaces')
-  final List<UnindexedFace> unindexedFaces;
+  final List<UnindexedFace>? unindexedFaces;
 
   IndexFacesResponse({
     this.faceModelVersion,
@@ -6817,108 +7020,115 @@ class IndexFacesResponse {
     this.orientationCorrection,
     this.unindexedFaces,
   });
-  factory IndexFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$IndexFacesResponseFromJson(json);
+  factory IndexFacesResponse.fromJson(Map<String, dynamic> json) {
+    return IndexFacesResponse(
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      faceRecords: (json['FaceRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orientationCorrection:
+          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      unindexedFaces: (json['UnindexedFaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnindexedFace.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// An instance of a label returned by Amazon Rekognition Image
 /// (<a>DetectLabels</a>) or by Amazon Rekognition Video
 /// (<a>GetLabelDetection</a>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Instance {
   /// The position of the label instance on the image.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// The confidence that Amazon Rekognition has in the accuracy of the bounding
   /// box.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   Instance({
     this.boundingBox,
     this.confidence,
   });
-  factory Instance.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFromJson(json);
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+    );
+  }
 }
 
 /// The Kinesis data stream Amazon Rekognition to which the analysis results of
 /// a Amazon Rekognition stream processor are streamed. For more information,
 /// see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisDataStream {
   /// ARN of the output Amazon Kinesis Data Streams stream.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   KinesisDataStream({
     this.arn,
   });
-  factory KinesisDataStream.fromJson(Map<String, dynamic> json) =>
-      _$KinesisDataStreamFromJson(json);
+  factory KinesisDataStream.fromJson(Map<String, dynamic> json) {
+    return KinesisDataStream(
+      arn: json['Arn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisDataStreamToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
 /// Kinesis video stream stream that provides the source streaming video for a
 /// Amazon Rekognition Video stream processor. For more information, see
 /// CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisVideoStream {
   /// ARN of the Kinesis video stream stream that streams the source video.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   KinesisVideoStream({
     this.arn,
   });
-  factory KinesisVideoStream.fromJson(Map<String, dynamic> json) =>
-      _$KinesisVideoStreamFromJson(json);
+  factory KinesisVideoStream.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStream(
+      arn: json['Arn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisVideoStreamToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
 /// Structure containing details about the detected label, including the name,
 /// detected instances, parent labels, and level of confidence.
 ///
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Label {
   /// Level of confidence.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// If <code>Label</code> represents an object, <code>Instances</code> contains
   /// the bounding boxes for each instance of the detected object. Bounding boxes
   /// are returned for common object labels such as people, cars, furniture,
   /// apparel or pets.
-  @_s.JsonKey(name: 'Instances')
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The name (label) of the object or scene.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The parent labels for a label. The response includes all ancestor labels.
-  @_s.JsonKey(name: 'Parents')
-  final List<Parent> parents;
+  final List<Parent>? parents;
 
   Label({
     this.confidence,
@@ -6926,38 +7136,48 @@ class Label {
     this.name,
     this.parents,
   });
-  factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);
+  factory Label.fromJson(Map<String, dynamic> json) {
+    return Label(
+      confidence: json['Confidence'] as double?,
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      parents: (json['Parents'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about a label detected in a video analysis request and the time
 /// the label was detected in the video.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LabelDetection {
   /// Details about the detected label.
-  @_s.JsonKey(name: 'Label')
-  final Label label;
+  final Label? label;
 
   /// Time, in milliseconds from the start of the video, that the label was
   /// detected.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   LabelDetection({
     this.label,
     this.timestamp,
   });
-  factory LabelDetection.fromJson(Map<String, dynamic> json) =>
-      _$LabelDetectionFromJson(json);
+  factory LabelDetection.fromJson(Map<String, dynamic> json) {
+    return LabelDetection(
+      label: json['Label'] != null
+          ? Label.fromJson(json['Label'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 enum LabelDetectionSortBy {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
@@ -6969,201 +7189,312 @@ extension on LabelDetectionSortBy {
       case LabelDetectionSortBy.timestamp:
         return 'TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LabelDetectionSortBy toLabelDetectionSortBy() {
+    switch (this) {
+      case 'NAME':
+        return LabelDetectionSortBy.name;
+      case 'TIMESTAMP':
+        return LabelDetectionSortBy.timestamp;
+    }
+    throw Exception('$this is not known in enum LabelDetectionSortBy');
   }
 }
 
 /// Indicates the location of the landmark on the face.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Landmark {
   /// Type of landmark.
-  @_s.JsonKey(name: 'Type')
-  final LandmarkType type;
+  final LandmarkType? type;
 
   /// The x-coordinate of the landmark expressed as a ratio of the width of the
   /// image. The x-coordinate is measured from the left-side of the image. For
   /// example, if the image is 700 pixels wide and the x-coordinate of the
   /// landmark is at 350 pixels, this value is 0.5.
-  @_s.JsonKey(name: 'X')
-  final double x;
+  final double? x;
 
   /// The y-coordinate of the landmark expressed as a ratio of the height of the
   /// image. The y-coordinate is measured from the top of the image. For example,
   /// if the image height is 200 pixels and the y-coordinate of the landmark is at
   /// 50 pixels, this value is 0.25.
-  @_s.JsonKey(name: 'Y')
-  final double y;
+  final double? y;
 
   Landmark({
     this.type,
     this.x,
     this.y,
   });
-  factory Landmark.fromJson(Map<String, dynamic> json) =>
-      _$LandmarkFromJson(json);
+  factory Landmark.fromJson(Map<String, dynamic> json) {
+    return Landmark(
+      type: (json['Type'] as String?)?.toLandmarkType(),
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
 }
 
 enum LandmarkType {
-  @_s.JsonValue('eyeLeft')
   eyeLeft,
-  @_s.JsonValue('eyeRight')
   eyeRight,
-  @_s.JsonValue('nose')
   nose,
-  @_s.JsonValue('mouthLeft')
   mouthLeft,
-  @_s.JsonValue('mouthRight')
   mouthRight,
-  @_s.JsonValue('leftEyeBrowLeft')
   leftEyeBrowLeft,
-  @_s.JsonValue('leftEyeBrowRight')
   leftEyeBrowRight,
-  @_s.JsonValue('leftEyeBrowUp')
   leftEyeBrowUp,
-  @_s.JsonValue('rightEyeBrowLeft')
   rightEyeBrowLeft,
-  @_s.JsonValue('rightEyeBrowRight')
   rightEyeBrowRight,
-  @_s.JsonValue('rightEyeBrowUp')
   rightEyeBrowUp,
-  @_s.JsonValue('leftEyeLeft')
   leftEyeLeft,
-  @_s.JsonValue('leftEyeRight')
   leftEyeRight,
-  @_s.JsonValue('leftEyeUp')
   leftEyeUp,
-  @_s.JsonValue('leftEyeDown')
   leftEyeDown,
-  @_s.JsonValue('rightEyeLeft')
   rightEyeLeft,
-  @_s.JsonValue('rightEyeRight')
   rightEyeRight,
-  @_s.JsonValue('rightEyeUp')
   rightEyeUp,
-  @_s.JsonValue('rightEyeDown')
   rightEyeDown,
-  @_s.JsonValue('noseLeft')
   noseLeft,
-  @_s.JsonValue('noseRight')
   noseRight,
-  @_s.JsonValue('mouthUp')
   mouthUp,
-  @_s.JsonValue('mouthDown')
   mouthDown,
-  @_s.JsonValue('leftPupil')
   leftPupil,
-  @_s.JsonValue('rightPupil')
   rightPupil,
-  @_s.JsonValue('upperJawlineLeft')
   upperJawlineLeft,
-  @_s.JsonValue('midJawlineLeft')
   midJawlineLeft,
-  @_s.JsonValue('chinBottom')
   chinBottom,
-  @_s.JsonValue('midJawlineRight')
   midJawlineRight,
-  @_s.JsonValue('upperJawlineRight')
   upperJawlineRight,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LandmarkType {
+  String toValue() {
+    switch (this) {
+      case LandmarkType.eyeLeft:
+        return 'eyeLeft';
+      case LandmarkType.eyeRight:
+        return 'eyeRight';
+      case LandmarkType.nose:
+        return 'nose';
+      case LandmarkType.mouthLeft:
+        return 'mouthLeft';
+      case LandmarkType.mouthRight:
+        return 'mouthRight';
+      case LandmarkType.leftEyeBrowLeft:
+        return 'leftEyeBrowLeft';
+      case LandmarkType.leftEyeBrowRight:
+        return 'leftEyeBrowRight';
+      case LandmarkType.leftEyeBrowUp:
+        return 'leftEyeBrowUp';
+      case LandmarkType.rightEyeBrowLeft:
+        return 'rightEyeBrowLeft';
+      case LandmarkType.rightEyeBrowRight:
+        return 'rightEyeBrowRight';
+      case LandmarkType.rightEyeBrowUp:
+        return 'rightEyeBrowUp';
+      case LandmarkType.leftEyeLeft:
+        return 'leftEyeLeft';
+      case LandmarkType.leftEyeRight:
+        return 'leftEyeRight';
+      case LandmarkType.leftEyeUp:
+        return 'leftEyeUp';
+      case LandmarkType.leftEyeDown:
+        return 'leftEyeDown';
+      case LandmarkType.rightEyeLeft:
+        return 'rightEyeLeft';
+      case LandmarkType.rightEyeRight:
+        return 'rightEyeRight';
+      case LandmarkType.rightEyeUp:
+        return 'rightEyeUp';
+      case LandmarkType.rightEyeDown:
+        return 'rightEyeDown';
+      case LandmarkType.noseLeft:
+        return 'noseLeft';
+      case LandmarkType.noseRight:
+        return 'noseRight';
+      case LandmarkType.mouthUp:
+        return 'mouthUp';
+      case LandmarkType.mouthDown:
+        return 'mouthDown';
+      case LandmarkType.leftPupil:
+        return 'leftPupil';
+      case LandmarkType.rightPupil:
+        return 'rightPupil';
+      case LandmarkType.upperJawlineLeft:
+        return 'upperJawlineLeft';
+      case LandmarkType.midJawlineLeft:
+        return 'midJawlineLeft';
+      case LandmarkType.chinBottom:
+        return 'chinBottom';
+      case LandmarkType.midJawlineRight:
+        return 'midJawlineRight';
+      case LandmarkType.upperJawlineRight:
+        return 'upperJawlineRight';
+    }
+  }
+}
+
+extension on String {
+  LandmarkType toLandmarkType() {
+    switch (this) {
+      case 'eyeLeft':
+        return LandmarkType.eyeLeft;
+      case 'eyeRight':
+        return LandmarkType.eyeRight;
+      case 'nose':
+        return LandmarkType.nose;
+      case 'mouthLeft':
+        return LandmarkType.mouthLeft;
+      case 'mouthRight':
+        return LandmarkType.mouthRight;
+      case 'leftEyeBrowLeft':
+        return LandmarkType.leftEyeBrowLeft;
+      case 'leftEyeBrowRight':
+        return LandmarkType.leftEyeBrowRight;
+      case 'leftEyeBrowUp':
+        return LandmarkType.leftEyeBrowUp;
+      case 'rightEyeBrowLeft':
+        return LandmarkType.rightEyeBrowLeft;
+      case 'rightEyeBrowRight':
+        return LandmarkType.rightEyeBrowRight;
+      case 'rightEyeBrowUp':
+        return LandmarkType.rightEyeBrowUp;
+      case 'leftEyeLeft':
+        return LandmarkType.leftEyeLeft;
+      case 'leftEyeRight':
+        return LandmarkType.leftEyeRight;
+      case 'leftEyeUp':
+        return LandmarkType.leftEyeUp;
+      case 'leftEyeDown':
+        return LandmarkType.leftEyeDown;
+      case 'rightEyeLeft':
+        return LandmarkType.rightEyeLeft;
+      case 'rightEyeRight':
+        return LandmarkType.rightEyeRight;
+      case 'rightEyeUp':
+        return LandmarkType.rightEyeUp;
+      case 'rightEyeDown':
+        return LandmarkType.rightEyeDown;
+      case 'noseLeft':
+        return LandmarkType.noseLeft;
+      case 'noseRight':
+        return LandmarkType.noseRight;
+      case 'mouthUp':
+        return LandmarkType.mouthUp;
+      case 'mouthDown':
+        return LandmarkType.mouthDown;
+      case 'leftPupil':
+        return LandmarkType.leftPupil;
+      case 'rightPupil':
+        return LandmarkType.rightPupil;
+      case 'upperJawlineLeft':
+        return LandmarkType.upperJawlineLeft;
+      case 'midJawlineLeft':
+        return LandmarkType.midJawlineLeft;
+      case 'chinBottom':
+        return LandmarkType.chinBottom;
+      case 'midJawlineRight':
+        return LandmarkType.midJawlineRight;
+      case 'upperJawlineRight':
+        return LandmarkType.upperJawlineRight;
+    }
+    throw Exception('$this is not known in enum LandmarkType');
+  }
+}
+
 class ListCollectionsResponse {
   /// An array of collection IDs.
-  @_s.JsonKey(name: 'CollectionIds')
-  final List<String> collectionIds;
+  final List<String>? collectionIds;
 
   /// Version numbers of the face detection models associated with the collections
   /// in the array <code>CollectionIds</code>. For example, the value of
   /// <code>FaceModelVersions[2]</code> is the version number for the face
   /// detection model used by the collection in <code>CollectionId[2]</code>.
-  @_s.JsonKey(name: 'FaceModelVersions')
-  final List<String> faceModelVersions;
+  final List<String>? faceModelVersions;
 
   /// If the result is truncated, the response provides a <code>NextToken</code>
   /// that you can use in the subsequent request to fetch the next set of
   /// collection IDs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCollectionsResponse({
     this.collectionIds,
     this.faceModelVersions,
     this.nextToken,
   });
-  factory ListCollectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCollectionsResponseFromJson(json);
+  factory ListCollectionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCollectionsResponse(
+      collectionIds: (json['CollectionIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      faceModelVersions: (json['FaceModelVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFacesResponse {
   /// Version number of the face detection model associated with the input
   /// collection (<code>CollectionId</code>).
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   /// An array of <code>Face</code> objects.
-  @_s.JsonKey(name: 'Faces')
-  final List<Face> faces;
+  final List<Face>? faces;
 
   /// If the response is truncated, Amazon Rekognition returns this token that you
   /// can use in the subsequent request to retrieve the next set of faces.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFacesResponse({
     this.faceModelVersion,
     this.faces,
     this.nextToken,
   });
-  factory ListFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFacesResponseFromJson(json);
+  factory ListFacesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFacesResponse(
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      faces: (json['Faces'] as List?)
+          ?.whereNotNull()
+          .map((e) => Face.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamProcessorsResponse {
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// stream processors.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of stream processors that you have created.
-  @_s.JsonKey(name: 'StreamProcessors')
-  final List<StreamProcessor> streamProcessors;
+  final List<StreamProcessor>? streamProcessors;
 
   ListStreamProcessorsResponse({
     this.nextToken,
     this.streamProcessors,
   });
-  factory ListStreamProcessorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamProcessorsResponseFromJson(json);
+  factory ListStreamProcessorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListStreamProcessorsResponse(
+      nextToken: json['NextToken'] as String?,
+      streamProcessors: (json['StreamProcessors'] as List?)
+          ?.whereNotNull()
+          .map((e) => StreamProcessor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides information about a single type of unsafe content found in an image
 /// or video. Each type of moderated content has a label within a hierarchical
 /// taxonomy. For more information, see Detecting Unsafe Content in the Amazon
 /// Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModerationLabel {
   /// Specifies the confidence that Amazon Rekognition has that the label has been
   /// correctly identified.
@@ -7171,182 +7502,208 @@ class ModerationLabel {
   /// If you don't specify the <code>MinConfidence</code> parameter in the call to
   /// <code>DetectModerationLabels</code>, the operation returns labels with a
   /// confidence value greater than or equal to 50 percent.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The label name for the type of unsafe content detected in the image.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The name for the parent label. Labels at the top level of the hierarchy have
   /// the parent label <code>""</code>.
-  @_s.JsonKey(name: 'ParentName')
-  final String parentName;
+  final String? parentName;
 
   ModerationLabel({
     this.confidence,
     this.name,
     this.parentName,
   });
-  factory ModerationLabel.fromJson(Map<String, dynamic> json) =>
-      _$ModerationLabelFromJson(json);
+  factory ModerationLabel.fromJson(Map<String, dynamic> json) {
+    return ModerationLabel(
+      confidence: json['Confidence'] as double?,
+      name: json['Name'] as String?,
+      parentName: json['ParentName'] as String?,
+    );
+  }
 }
 
 /// Indicates whether or not the mouth on the face is open, and the confidence
 /// level in the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MouthOpen {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the mouth on the face is open or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   MouthOpen({
     this.confidence,
     this.value,
   });
-  factory MouthOpen.fromJson(Map<String, dynamic> json) =>
-      _$MouthOpenFromJson(json);
+  factory MouthOpen.fromJson(Map<String, dynamic> json) {
+    return MouthOpen(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 /// Indicates whether or not the face has a mustache, and the confidence level
 /// in the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Mustache {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the face has mustache or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   Mustache({
     this.confidence,
     this.value,
   });
-  factory Mustache.fromJson(Map<String, dynamic> json) =>
-      _$MustacheFromJson(json);
+  factory Mustache.fromJson(Map<String, dynamic> json) {
+    return Mustache(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 /// The Amazon Simple Notification Service topic to which Amazon Rekognition
 /// publishes the completion status of a video analysis operation. For more
 /// information, see <a>api-video</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationChannel {
   /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions
   /// to the Amazon SNS topic.
-  @_s.JsonKey(name: 'RoleArn')
   final String roleArn;
 
   /// The Amazon SNS topic to which Amazon Rekognition to posts the completion
   /// status.
-  @_s.JsonKey(name: 'SNSTopicArn')
   final String sNSTopicArn;
 
   NotificationChannel({
-    @_s.required this.roleArn,
-    @_s.required this.sNSTopicArn,
+    required this.roleArn,
+    required this.sNSTopicArn,
   });
-  Map<String, dynamic> toJson() => _$NotificationChannelToJson(this);
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'RoleArn': roleArn,
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
 }
 
 enum OrientationCorrection {
-  @_s.JsonValue('ROTATE_0')
   rotate_0,
-  @_s.JsonValue('ROTATE_90')
   rotate_90,
-  @_s.JsonValue('ROTATE_180')
   rotate_180,
-  @_s.JsonValue('ROTATE_270')
   rotate_270,
 }
 
+extension on OrientationCorrection {
+  String toValue() {
+    switch (this) {
+      case OrientationCorrection.rotate_0:
+        return 'ROTATE_0';
+      case OrientationCorrection.rotate_90:
+        return 'ROTATE_90';
+      case OrientationCorrection.rotate_180:
+        return 'ROTATE_180';
+      case OrientationCorrection.rotate_270:
+        return 'ROTATE_270';
+    }
+  }
+}
+
+extension on String {
+  OrientationCorrection toOrientationCorrection() {
+    switch (this) {
+      case 'ROTATE_0':
+        return OrientationCorrection.rotate_0;
+      case 'ROTATE_90':
+        return OrientationCorrection.rotate_90;
+      case 'ROTATE_180':
+        return OrientationCorrection.rotate_180;
+      case 'ROTATE_270':
+        return OrientationCorrection.rotate_270;
+    }
+    throw Exception('$this is not known in enum OrientationCorrection');
+  }
+}
+
 /// The S3 bucket and folder location where training output is placed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputConfig {
   /// The S3 bucket where training output is placed.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The prefix applied to the training output files.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   OutputConfig({
     this.s3Bucket,
     this.s3KeyPrefix,
   });
-  factory OutputConfig.fromJson(Map<String, dynamic> json) =>
-      _$OutputConfigFromJson(json);
+  factory OutputConfig.fromJson(Map<String, dynamic> json) {
+    return OutputConfig(
+      s3Bucket: json['S3Bucket'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutputConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
 }
 
 /// A parent label for a label. A label can have 0, 1, or more parents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Parent {
   /// The name of the parent label.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Parent({
     this.name,
   });
-  factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
+  factory Parent.fromJson(Map<String, dynamic> json) {
+    return Parent(
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Details about a person detected in a video analysis request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PersonDetail {
   /// Bounding box around the detected person.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Face details for the detected person.
-  @_s.JsonKey(name: 'Face')
-  final FaceDetail face;
+  final FaceDetail? face;
 
   /// Identifier for the person detected person within a video. Use to keep track
   /// of the person throughout the video. The identifier is not stored by Amazon
   /// Rekognition.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   PersonDetail({
     this.boundingBox,
     this.face,
     this.index,
   });
-  factory PersonDetail.fromJson(Map<String, dynamic> json) =>
-      _$PersonDetailFromJson(json);
+  factory PersonDetail.fromJson(Map<String, dynamic> json) {
+    return PersonDetail(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      index: json['Index'] as int?,
+    );
+  }
 }
 
 /// Details and path tracking information for a single time a person's path is
@@ -7356,27 +7713,26 @@ class PersonDetail {
 ///
 /// For more information, see GetPersonTracking in the Amazon Rekognition
 /// Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PersonDetection {
   /// Details about a person whose path was tracked in a video.
-  @_s.JsonKey(name: 'Person')
-  final PersonDetail person;
+  final PersonDetail? person;
 
   /// The time, in milliseconds from the start of the video, that the person's
   /// path was tracked.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   PersonDetection({
     this.person,
     this.timestamp,
   });
-  factory PersonDetection.fromJson(Map<String, dynamic> json) =>
-      _$PersonDetectionFromJson(json);
+  factory PersonDetection.fromJson(Map<String, dynamic> json) {
+    return PersonDetection(
+      person: json['Person'] != null
+          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 /// Information about a person whose face matches a face(s) in an Amazon
@@ -7385,39 +7741,39 @@ class PersonDetection {
 /// (<a>PersonDetail</a>), and the time stamp for when the person was detected
 /// in a video. An array of <code>PersonMatch</code> objects is returned by
 /// <a>GetFaceSearch</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PersonMatch {
   /// Information about the faces in the input collection that match the face of a
   /// person in the video.
-  @_s.JsonKey(name: 'FaceMatches')
-  final List<FaceMatch> faceMatches;
+  final List<FaceMatch>? faceMatches;
 
   /// Information about the matched person.
-  @_s.JsonKey(name: 'Person')
-  final PersonDetail person;
+  final PersonDetail? person;
 
   /// The time, in milliseconds from the beginning of the video, that the person
   /// was matched in the video.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   PersonMatch({
     this.faceMatches,
     this.person,
     this.timestamp,
   });
-  factory PersonMatch.fromJson(Map<String, dynamic> json) =>
-      _$PersonMatchFromJson(json);
+  factory PersonMatch.fromJson(Map<String, dynamic> json) {
+    return PersonMatch(
+      faceMatches: (json['FaceMatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      person: json['Person'] != null
+          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 enum PersonTrackingSortBy {
-  @_s.JsonValue('INDEX')
   $index,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
 }
 
@@ -7429,7 +7785,18 @@ extension on PersonTrackingSortBy {
       case PersonTrackingSortBy.timestamp:
         return 'TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PersonTrackingSortBy toPersonTrackingSortBy() {
+    switch (this) {
+      case 'INDEX':
+        return PersonTrackingSortBy.$index;
+      case 'TIMESTAMP':
+        return PersonTrackingSortBy.timestamp;
+    }
+    throw Exception('$this is not known in enum PersonTrackingSortBy');
   }
 }
 
@@ -7442,153 +7809,150 @@ extension on PersonTrackingSortBy {
 /// <a>DetectText</a> and by <a>DetectCustomLabels</a>. <code>Polygon</code>
 /// represents a fine-grained polygon around a detected item. For more
 /// information, see Geometry in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Point {
   /// The value of the X coordinate for a point on a <code>Polygon</code>.
-  @_s.JsonKey(name: 'X')
-  final double x;
+  final double? x;
 
   /// The value of the Y coordinate for a point on a <code>Polygon</code>.
-  @_s.JsonKey(name: 'Y')
-  final double y;
+  final double? y;
 
   Point({
     this.x,
     this.y,
   });
-  factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
+  factory Point.fromJson(Map<String, dynamic> json) {
+    return Point(
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
 }
 
 /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Pose {
   /// Value representing the face rotation on the pitch axis.
-  @_s.JsonKey(name: 'Pitch')
-  final double pitch;
+  final double? pitch;
 
   /// Value representing the face rotation on the roll axis.
-  @_s.JsonKey(name: 'Roll')
-  final double roll;
+  final double? roll;
 
   /// Value representing the face rotation on the yaw axis.
-  @_s.JsonKey(name: 'Yaw')
-  final double yaw;
+  final double? yaw;
 
   Pose({
     this.pitch,
     this.roll,
     this.yaw,
   });
-  factory Pose.fromJson(Map<String, dynamic> json) => _$PoseFromJson(json);
+  factory Pose.fromJson(Map<String, dynamic> json) {
+    return Pose(
+      pitch: json['Pitch'] as double?,
+      roll: json['Roll'] as double?,
+      yaw: json['Yaw'] as double?,
+    );
+  }
 }
 
 /// A description of a Amazon Rekognition Custom Labels project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectDescription {
   /// The Unix timestamp for the date and time that the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The Amazon Resource Name (ARN) of the project.
-  @_s.JsonKey(name: 'ProjectArn')
-  final String projectArn;
+  final String? projectArn;
 
   /// The current status of the project.
-  @_s.JsonKey(name: 'Status')
-  final ProjectStatus status;
+  final ProjectStatus? status;
 
   ProjectDescription({
     this.creationTimestamp,
     this.projectArn,
     this.status,
   });
-  factory ProjectDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProjectDescriptionFromJson(json);
+  factory ProjectDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      projectArn: json['ProjectArn'] as String?,
+      status: (json['Status'] as String?)?.toProjectStatus(),
+    );
+  }
 }
 
 enum ProjectStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ProjectStatus {
+  String toValue() {
+    switch (this) {
+      case ProjectStatus.creating:
+        return 'CREATING';
+      case ProjectStatus.created:
+        return 'CREATED';
+      case ProjectStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ProjectStatus toProjectStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ProjectStatus.creating;
+      case 'CREATED':
+        return ProjectStatus.created;
+      case 'DELETING':
+        return ProjectStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ProjectStatus');
+  }
+}
+
 /// The description of a version of a model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectVersionDescription {
   /// The duration, in seconds, that the model version has been billed for
   /// training. This value is only returned if the model version has been
   /// successfully trained.
-  @_s.JsonKey(name: 'BillableTrainingTimeInSeconds')
-  final int billableTrainingTimeInSeconds;
+  final int? billableTrainingTimeInSeconds;
 
   /// The Unix datetime for the date and time that training started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The training results. <code>EvaluationResult</code> is only returned if
   /// training is successful.
-  @_s.JsonKey(name: 'EvaluationResult')
-  final EvaluationResult evaluationResult;
+  final EvaluationResult? evaluationResult;
 
   /// The location of the summary manifest. The summary manifest provides
   /// aggregate data validation results for the training and test datasets.
-  @_s.JsonKey(name: 'ManifestSummary')
-  final GroundTruthManifest manifestSummary;
+  final GroundTruthManifest? manifestSummary;
 
   /// The minimum number of inference units used by the model. For more
   /// information, see <a>StartProjectVersion</a>.
-  @_s.JsonKey(name: 'MinInferenceUnits')
-  final int minInferenceUnits;
+  final int? minInferenceUnits;
 
   /// The location where training results are saved.
-  @_s.JsonKey(name: 'OutputConfig')
-  final OutputConfig outputConfig;
+  final OutputConfig? outputConfig;
 
   /// The Amazon Resource Name (ARN) of the model version.
-  @_s.JsonKey(name: 'ProjectVersionArn')
-  final String projectVersionArn;
+  final String? projectVersionArn;
 
   /// The current status of the model version.
-  @_s.JsonKey(name: 'Status')
-  final ProjectVersionStatus status;
+  final ProjectVersionStatus? status;
 
   /// A descriptive message for an error or warning that occurred.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Contains information about the testing results.
-  @_s.JsonKey(name: 'TestingDataResult')
-  final TestingDataResult testingDataResult;
+  final TestingDataResult? testingDataResult;
 
   /// Contains information about the training results.
-  @_s.JsonKey(name: 'TrainingDataResult')
-  final TrainingDataResult trainingDataResult;
+  final TrainingDataResult? trainingDataResult;
 
   /// The Unix date and time that training of the model ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TrainingEndTimestamp')
-  final DateTime trainingEndTimestamp;
+  final DateTime? trainingEndTimestamp;
 
   ProjectVersionDescription({
     this.billableTrainingTimeInSeconds,
@@ -7604,90 +7968,152 @@ class ProjectVersionDescription {
     this.trainingDataResult,
     this.trainingEndTimestamp,
   });
-  factory ProjectVersionDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProjectVersionDescriptionFromJson(json);
+  factory ProjectVersionDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectVersionDescription(
+      billableTrainingTimeInSeconds:
+          json['BillableTrainingTimeInSeconds'] as int?,
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      evaluationResult: json['EvaluationResult'] != null
+          ? EvaluationResult.fromJson(
+              json['EvaluationResult'] as Map<String, dynamic>)
+          : null,
+      manifestSummary: json['ManifestSummary'] != null
+          ? GroundTruthManifest.fromJson(
+              json['ManifestSummary'] as Map<String, dynamic>)
+          : null,
+      minInferenceUnits: json['MinInferenceUnits'] as int?,
+      outputConfig: json['OutputConfig'] != null
+          ? OutputConfig.fromJson(json['OutputConfig'] as Map<String, dynamic>)
+          : null,
+      projectVersionArn: json['ProjectVersionArn'] as String?,
+      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      testingDataResult: json['TestingDataResult'] != null
+          ? TestingDataResult.fromJson(
+              json['TestingDataResult'] as Map<String, dynamic>)
+          : null,
+      trainingDataResult: json['TrainingDataResult'] != null
+          ? TrainingDataResult.fromJson(
+              json['TrainingDataResult'] as Map<String, dynamic>)
+          : null,
+      trainingEndTimestamp: timeStampFromJson(json['TrainingEndTimestamp']),
+    );
+  }
 }
 
 enum ProjectVersionStatus {
-  @_s.JsonValue('TRAINING_IN_PROGRESS')
   trainingInProgress,
-  @_s.JsonValue('TRAINING_COMPLETED')
   trainingCompleted,
-  @_s.JsonValue('TRAINING_FAILED')
   trainingFailed,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on ProjectVersionStatus {
+  String toValue() {
+    switch (this) {
+      case ProjectVersionStatus.trainingInProgress:
+        return 'TRAINING_IN_PROGRESS';
+      case ProjectVersionStatus.trainingCompleted:
+        return 'TRAINING_COMPLETED';
+      case ProjectVersionStatus.trainingFailed:
+        return 'TRAINING_FAILED';
+      case ProjectVersionStatus.starting:
+        return 'STARTING';
+      case ProjectVersionStatus.running:
+        return 'RUNNING';
+      case ProjectVersionStatus.failed:
+        return 'FAILED';
+      case ProjectVersionStatus.stopping:
+        return 'STOPPING';
+      case ProjectVersionStatus.stopped:
+        return 'STOPPED';
+      case ProjectVersionStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ProjectVersionStatus toProjectVersionStatus() {
+    switch (this) {
+      case 'TRAINING_IN_PROGRESS':
+        return ProjectVersionStatus.trainingInProgress;
+      case 'TRAINING_COMPLETED':
+        return ProjectVersionStatus.trainingCompleted;
+      case 'TRAINING_FAILED':
+        return ProjectVersionStatus.trainingFailed;
+      case 'STARTING':
+        return ProjectVersionStatus.starting;
+      case 'RUNNING':
+        return ProjectVersionStatus.running;
+      case 'FAILED':
+        return ProjectVersionStatus.failed;
+      case 'STOPPING':
+        return ProjectVersionStatus.stopping;
+      case 'STOPPED':
+        return ProjectVersionStatus.stopped;
+      case 'DELETING':
+        return ProjectVersionStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ProjectVersionStatus');
+  }
 }
 
 /// Information about a body part detected by <a>DetectProtectiveEquipment</a>
 /// that contains PPE. An array of <code>ProtectiveEquipmentBodyPart</code>
 /// objects is returned for each person detected by
 /// <code>DetectProtectiveEquipment</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectiveEquipmentBodyPart {
   /// The confidence that Amazon Rekognition has in the detection accuracy of the
   /// detected body part.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// An array of Personal Protective Equipment items detected around a body part.
-  @_s.JsonKey(name: 'EquipmentDetections')
-  final List<EquipmentDetection> equipmentDetections;
+  final List<EquipmentDetection>? equipmentDetections;
 
   /// The detected body part.
-  @_s.JsonKey(name: 'Name')
-  final BodyPart name;
+  final BodyPart? name;
 
   ProtectiveEquipmentBodyPart({
     this.confidence,
     this.equipmentDetections,
     this.name,
   });
-  factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) =>
-      _$ProtectiveEquipmentBodyPartFromJson(json);
+  factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentBodyPart(
+      confidence: json['Confidence'] as double?,
+      equipmentDetections: (json['EquipmentDetections'] as List?)
+          ?.whereNotNull()
+          .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: (json['Name'] as String?)?.toBodyPart(),
+    );
+  }
 }
 
 /// A person detected by a call to <a>DetectProtectiveEquipment</a>. The API
 /// returns all persons detected in the input image in an array of
 /// <code>ProtectiveEquipmentPerson</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectiveEquipmentPerson {
   /// An array of body parts detected on a person's body (including body parts
   /// without PPE).
-  @_s.JsonKey(name: 'BodyParts')
-  final List<ProtectiveEquipmentBodyPart> bodyParts;
+  final List<ProtectiveEquipmentBodyPart>? bodyParts;
 
   /// A bounding box around the detected person.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// The confidence that Amazon Rekognition has that the bounding box contains a
   /// person.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The identifier for the detected person. The identifier is only unique for a
   /// single call to <code>DetectProtectiveEquipment</code>.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   ProtectiveEquipmentPerson({
     this.bodyParts,
@@ -7695,8 +8121,20 @@ class ProtectiveEquipmentPerson {
     this.confidence,
     this.id,
   });
-  factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) =>
-      _$ProtectiveEquipmentPersonFromJson(json);
+  factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentPerson(
+      bodyParts: (json['BodyParts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProtectiveEquipmentBodyPart.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      id: json['Id'] as int?,
+    );
+  }
 }
 
 /// Specifies summary attributes to return from a call to
@@ -7709,11 +8147,6 @@ class ProtectiveEquipmentPerson {
 /// equipment (PPE), which persons were detected as not wearing PPE, and the
 /// persons in which a determination could not be made. For more information,
 /// see <a>ProtectiveEquipmentSummary</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProtectiveEquipmentSummarizationAttributes {
   /// The minimum confidence level for which you want summary information. The
   /// confidence level applies to person detection, body part detection, equipment
@@ -7727,7 +8160,6 @@ class ProtectiveEquipmentSummarizationAttributes {
   /// less than 50%, the results are the same specifying a value of 50%.
   ///
   ///
-  @_s.JsonKey(name: 'MinConfidence')
   final double minConfidence;
 
   /// An array of personal protective equipment types for which you want summary
@@ -7735,15 +8167,21 @@ class ProtectiveEquipmentSummarizationAttributes {
   /// person's ID is added to the <code>PersonsWithRequiredEquipment</code> array
   /// field returned in <a>ProtectiveEquipmentSummary</a> by
   /// <code>DetectProtectiveEquipment</code>.
-  @_s.JsonKey(name: 'RequiredEquipmentTypes')
   final List<ProtectiveEquipmentType> requiredEquipmentTypes;
 
   ProtectiveEquipmentSummarizationAttributes({
-    @_s.required this.minConfidence,
-    @_s.required this.requiredEquipmentTypes,
+    required this.minConfidence,
+    required this.requiredEquipmentTypes,
   });
-  Map<String, dynamic> toJson() =>
-      _$ProtectiveEquipmentSummarizationAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final minConfidence = this.minConfidence;
+    final requiredEquipmentTypes = this.requiredEquipmentTypes;
+    return {
+      'MinConfidence': minConfidence,
+      'RequiredEquipmentTypes':
+          requiredEquipmentTypes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Summary information for required items of personal protective equipment
@@ -7764,56 +8202,83 @@ class ProtectiveEquipmentSummarizationAttributes {
 /// array element. Each person ID matches the ID field of a
 /// <a>ProtectiveEquipmentPerson</a> object returned in the <code>Persons</code>
 /// array by <code>DetectProtectiveEquipment</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectiveEquipmentSummary {
   /// An array of IDs for persons where it was not possible to determine if they
   /// are wearing personal protective equipment.
-  @_s.JsonKey(name: 'PersonsIndeterminate')
-  final List<int> personsIndeterminate;
+  final List<int>? personsIndeterminate;
 
   /// An array of IDs for persons who are wearing detected personal protective
   /// equipment.
-  @_s.JsonKey(name: 'PersonsWithRequiredEquipment')
-  final List<int> personsWithRequiredEquipment;
+  final List<int>? personsWithRequiredEquipment;
 
   /// An array of IDs for persons who are not wearing all of the types of PPE
   /// specified in the RequiredEquipmentTypes field of the detected personal
   /// protective equipment.
-  @_s.JsonKey(name: 'PersonsWithoutRequiredEquipment')
-  final List<int> personsWithoutRequiredEquipment;
+  final List<int>? personsWithoutRequiredEquipment;
 
   ProtectiveEquipmentSummary({
     this.personsIndeterminate,
     this.personsWithRequiredEquipment,
     this.personsWithoutRequiredEquipment,
   });
-  factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProtectiveEquipmentSummaryFromJson(json);
+  factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentSummary(
+      personsIndeterminate: (json['PersonsIndeterminate'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      personsWithRequiredEquipment:
+          (json['PersonsWithRequiredEquipment'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as int)
+              .toList(),
+      personsWithoutRequiredEquipment:
+          (json['PersonsWithoutRequiredEquipment'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as int)
+              .toList(),
+    );
+  }
 }
 
 enum ProtectiveEquipmentType {
-  @_s.JsonValue('FACE_COVER')
   faceCover,
-  @_s.JsonValue('HAND_COVER')
   handCover,
-  @_s.JsonValue('HEAD_COVER')
   headCover,
 }
 
+extension on ProtectiveEquipmentType {
+  String toValue() {
+    switch (this) {
+      case ProtectiveEquipmentType.faceCover:
+        return 'FACE_COVER';
+      case ProtectiveEquipmentType.handCover:
+        return 'HAND_COVER';
+      case ProtectiveEquipmentType.headCover:
+        return 'HEAD_COVER';
+    }
+  }
+}
+
+extension on String {
+  ProtectiveEquipmentType toProtectiveEquipmentType() {
+    switch (this) {
+      case 'FACE_COVER':
+        return ProtectiveEquipmentType.faceCover;
+      case 'HAND_COVER':
+        return ProtectiveEquipmentType.handCover;
+      case 'HEAD_COVER':
+        return ProtectiveEquipmentType.headCover;
+    }
+    throw Exception('$this is not known in enum ProtectiveEquipmentType');
+  }
+}
+
 enum QualityFilter {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('AUTO')
   auto,
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('HIGH')
   high,
 }
 
@@ -7831,37 +8296,84 @@ extension on QualityFilter {
       case QualityFilter.high:
         return 'HIGH';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QualityFilter toQualityFilter() {
+    switch (this) {
+      case 'NONE':
+        return QualityFilter.none;
+      case 'AUTO':
+        return QualityFilter.auto;
+      case 'LOW':
+        return QualityFilter.low;
+      case 'MEDIUM':
+        return QualityFilter.medium;
+      case 'HIGH':
+        return QualityFilter.high;
+    }
+    throw Exception('$this is not known in enum QualityFilter');
   }
 }
 
 enum Reason {
-  @_s.JsonValue('EXCEEDS_MAX_FACES')
   exceedsMaxFaces,
-  @_s.JsonValue('EXTREME_POSE')
   extremePose,
-  @_s.JsonValue('LOW_BRIGHTNESS')
   lowBrightness,
-  @_s.JsonValue('LOW_SHARPNESS')
   lowSharpness,
-  @_s.JsonValue('LOW_CONFIDENCE')
   lowConfidence,
-  @_s.JsonValue('SMALL_BOUNDING_BOX')
   smallBoundingBox,
-  @_s.JsonValue('LOW_FACE_QUALITY')
   lowFaceQuality,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Reason {
+  String toValue() {
+    switch (this) {
+      case Reason.exceedsMaxFaces:
+        return 'EXCEEDS_MAX_FACES';
+      case Reason.extremePose:
+        return 'EXTREME_POSE';
+      case Reason.lowBrightness:
+        return 'LOW_BRIGHTNESS';
+      case Reason.lowSharpness:
+        return 'LOW_SHARPNESS';
+      case Reason.lowConfidence:
+        return 'LOW_CONFIDENCE';
+      case Reason.smallBoundingBox:
+        return 'SMALL_BOUNDING_BOX';
+      case Reason.lowFaceQuality:
+        return 'LOW_FACE_QUALITY';
+    }
+  }
+}
+
+extension on String {
+  Reason toReason() {
+    switch (this) {
+      case 'EXCEEDS_MAX_FACES':
+        return Reason.exceedsMaxFaces;
+      case 'EXTREME_POSE':
+        return Reason.extremePose;
+      case 'LOW_BRIGHTNESS':
+        return Reason.lowBrightness;
+      case 'LOW_SHARPNESS':
+        return Reason.lowSharpness;
+      case 'LOW_CONFIDENCE':
+        return Reason.lowConfidence;
+      case 'SMALL_BOUNDING_BOX':
+        return Reason.smallBoundingBox;
+      case 'LOW_FACE_QUALITY':
+        return Reason.lowFaceQuality;
+    }
+    throw Exception('$this is not known in enum Reason');
+  }
+}
+
 class RecognizeCelebritiesResponse {
   /// Details about each celebrity found in the image. Amazon Rekognition can
   /// detect a maximum of 64 celebrities in an image.
-  @_s.JsonKey(name: 'CelebrityFaces')
-  final List<Celebrity> celebrityFaces;
+  final List<Celebrity>? celebrityFaces;
 
   /// The orientation of the input image (counterclockwise direction). If your
   /// application displays the image, you can use this value to correct the
@@ -7877,20 +8389,30 @@ class RecognizeCelebritiesResponse {
   /// locations after Exif metadata is used to correct the image orientation.
   /// Images in .png format don't contain Exif metadata.
   /// </note>
-  @_s.JsonKey(name: 'OrientationCorrection')
-  final OrientationCorrection orientationCorrection;
+  final OrientationCorrection? orientationCorrection;
 
   /// Details about each unrecognized face in the image.
-  @_s.JsonKey(name: 'UnrecognizedFaces')
-  final List<ComparedFace> unrecognizedFaces;
+  final List<ComparedFace>? unrecognizedFaces;
 
   RecognizeCelebritiesResponse({
     this.celebrityFaces,
     this.orientationCorrection,
     this.unrecognizedFaces,
   });
-  factory RecognizeCelebritiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$RecognizeCelebritiesResponseFromJson(json);
+  factory RecognizeCelebritiesResponse.fromJson(Map<String, dynamic> json) {
+    return RecognizeCelebritiesResponse(
+      celebrityFaces: (json['CelebrityFaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => Celebrity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orientationCorrection:
+          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      unrecognizedFaces: (json['UnrecognizedFaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Specifies a location within the frame that Rekognition checks for text. Uses
@@ -7900,20 +8422,19 @@ class RecognizeCelebritiesResponse {
 /// region. If there is more than one region, the word will be compared with all
 /// regions of the screen. Any word more than half in a region is kept in the
 /// results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RegionOfInterest {
   /// The box representing a region of interest on screen.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   RegionOfInterest({
     this.boundingBox,
   });
-  Map<String, dynamic> toJson() => _$RegionOfInterestToJson(this);
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+    };
+  }
 }
 
 /// Provides the S3 bucket name and object name.
@@ -7924,60 +8445,57 @@ class RegionOfInterest {
 /// For Amazon Rekognition to process an S3 object, the user must have
 /// permission to access the S3 object. For more information, see Resource-Based
 /// Policies in the Amazon Rekognition Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Object {
   /// Name of the S3 bucket.
-  @_s.JsonKey(name: 'Bucket')
-  final String bucket;
+  final String? bucket;
 
   /// S3 object key name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// If the bucket is versioning enabled, you can specify the object version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   S3Object({
     this.bucket,
     this.name,
     this.version,
   });
-  factory S3Object.fromJson(Map<String, dynamic> json) =>
-      _$S3ObjectFromJson(json);
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['Bucket'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchFacesByImageResponse {
   /// An array of faces that match the input face, along with the confidence in
   /// the match.
-  @_s.JsonKey(name: 'FaceMatches')
-  final List<FaceMatch> faceMatches;
+  final List<FaceMatch>? faceMatches;
 
   /// Version number of the face detection model associated with the input
   /// collection (<code>CollectionId</code>).
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   /// The bounding box around the face in the input image that Amazon Rekognition
   /// used for the search.
-  @_s.JsonKey(name: 'SearchedFaceBoundingBox')
-  final BoundingBox searchedFaceBoundingBox;
+  final BoundingBox? searchedFaceBoundingBox;
 
   /// The level of confidence that the <code>searchedFaceBoundingBox</code>,
   /// contains a face.
-  @_s.JsonKey(name: 'SearchedFaceConfidence')
-  final double searchedFaceConfidence;
+  final double? searchedFaceConfidence;
 
   SearchFacesByImageResponse({
     this.faceMatches,
@@ -7985,94 +8503,92 @@ class SearchFacesByImageResponse {
     this.searchedFaceBoundingBox,
     this.searchedFaceConfidence,
   });
-  factory SearchFacesByImageResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchFacesByImageResponseFromJson(json);
+  factory SearchFacesByImageResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFacesByImageResponse(
+      faceMatches: (json['FaceMatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      searchedFaceBoundingBox: json['SearchedFaceBoundingBox'] != null
+          ? BoundingBox.fromJson(
+              json['SearchedFaceBoundingBox'] as Map<String, dynamic>)
+          : null,
+      searchedFaceConfidence: json['SearchedFaceConfidence'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchFacesResponse {
   /// An array of faces that matched the input face, along with the confidence in
   /// the match.
-  @_s.JsonKey(name: 'FaceMatches')
-  final List<FaceMatch> faceMatches;
+  final List<FaceMatch>? faceMatches;
 
   /// Version number of the face detection model associated with the input
   /// collection (<code>CollectionId</code>).
-  @_s.JsonKey(name: 'FaceModelVersion')
-  final String faceModelVersion;
+  final String? faceModelVersion;
 
   /// ID of the face that was searched for matches in a collection.
-  @_s.JsonKey(name: 'SearchedFaceId')
-  final String searchedFaceId;
+  final String? searchedFaceId;
 
   SearchFacesResponse({
     this.faceMatches,
     this.faceModelVersion,
     this.searchedFaceId,
   });
-  factory SearchFacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchFacesResponseFromJson(json);
+  factory SearchFacesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFacesResponse(
+      faceMatches: (json['FaceMatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      searchedFaceId: json['SearchedFaceId'] as String?,
+    );
+  }
 }
 
 /// A technical cue or shot detection segment detected in a video. An array of
 /// <code>SegmentDetection</code> objects containing all segments detected in a
 /// stored video is returned by <a>GetSegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SegmentDetection {
   /// The duration of the detected segment in milliseconds.
-  @_s.JsonKey(name: 'DurationMillis')
-  final int durationMillis;
+  final int? durationMillis;
 
   /// The duration of the timecode for the detected segment in SMPTE format.
-  @_s.JsonKey(name: 'DurationSMPTE')
-  final String durationSMPTE;
+  final String? durationSMPTE;
 
   /// The frame-accurate SMPTE timecode, from the start of a video, for the end of
   /// a detected segment. <code>EndTimecode</code> is in <i>HH:MM:SS:fr</i> format
   /// (and <i>;fr</i> for drop frame-rates).
-  @_s.JsonKey(name: 'EndTimecodeSMPTE')
-  final String endTimecodeSMPTE;
+  final String? endTimecodeSMPTE;
 
   /// The end time of the detected segment, in milliseconds, from the start of the
   /// video. This value is rounded down.
-  @_s.JsonKey(name: 'EndTimestampMillis')
-  final int endTimestampMillis;
+  final int? endTimestampMillis;
 
   /// If the segment is a shot detection, contains information about the shot
   /// detection.
-  @_s.JsonKey(name: 'ShotSegment')
-  final ShotSegment shotSegment;
+  final ShotSegment? shotSegment;
 
   /// The frame-accurate SMPTE timecode, from the start of a video, for the start
   /// of a detected segment. <code>StartTimecode</code> is in <i>HH:MM:SS:fr</i>
   /// format (and <i>;fr</i> for drop frame-rates).
-  @_s.JsonKey(name: 'StartTimecodeSMPTE')
-  final String startTimecodeSMPTE;
+  final String? startTimecodeSMPTE;
 
   /// The start time of the detected segment in milliseconds from the start of the
   /// video. This value is rounded down. For example, if the actual timestamp is
   /// 100.6667 milliseconds, Amazon Rekognition Video returns a value of 100
   /// millis.
-  @_s.JsonKey(name: 'StartTimestampMillis')
-  final int startTimestampMillis;
+  final int? startTimestampMillis;
 
   /// If the segment is a technical cue, contains information about the technical
   /// cue.
-  @_s.JsonKey(name: 'TechnicalCueSegment')
-  final TechnicalCueSegment technicalCueSegment;
+  final TechnicalCueSegment? technicalCueSegment;
 
   /// The type of the segment. Valid values are <code>TECHNICAL_CUE</code> and
   /// <code>SHOT</code>.
-  @_s.JsonKey(name: 'Type')
-  final SegmentType type;
+  final SegmentType? type;
 
   SegmentDetection({
     this.durationMillis,
@@ -8085,14 +8601,28 @@ class SegmentDetection {
     this.technicalCueSegment,
     this.type,
   });
-  factory SegmentDetection.fromJson(Map<String, dynamic> json) =>
-      _$SegmentDetectionFromJson(json);
+  factory SegmentDetection.fromJson(Map<String, dynamic> json) {
+    return SegmentDetection(
+      durationMillis: json['DurationMillis'] as int?,
+      durationSMPTE: json['DurationSMPTE'] as String?,
+      endTimecodeSMPTE: json['EndTimecodeSMPTE'] as String?,
+      endTimestampMillis: json['EndTimestampMillis'] as int?,
+      shotSegment: json['ShotSegment'] != null
+          ? ShotSegment.fromJson(json['ShotSegment'] as Map<String, dynamic>)
+          : null,
+      startTimecodeSMPTE: json['StartTimecodeSMPTE'] as String?,
+      startTimestampMillis: json['StartTimestampMillis'] as int?,
+      technicalCueSegment: json['TechnicalCueSegment'] != null
+          ? TechnicalCueSegment.fromJson(
+              json['TechnicalCueSegment'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSegmentType(),
+    );
+  }
 }
 
 enum SegmentType {
-  @_s.JsonValue('TECHNICAL_CUE')
   technicalCue,
-  @_s.JsonValue('SHOT')
   shot,
 }
 
@@ -8104,260 +8634,234 @@ extension on SegmentType {
       case SegmentType.shot:
         return 'SHOT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SegmentType toSegmentType() {
+    switch (this) {
+      case 'TECHNICAL_CUE':
+        return SegmentType.technicalCue;
+      case 'SHOT':
+        return SegmentType.shot;
+    }
+    throw Exception('$this is not known in enum SegmentType');
   }
 }
 
 /// Information about the type of a segment requested in a call to
 /// <a>StartSegmentDetection</a>. An array of <code>SegmentTypeInfo</code>
 /// objects is returned by the response from <a>GetSegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SegmentTypeInfo {
   /// The version of the model used to detect segments.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   /// The type of a segment (technical cue or shot detection).
-  @_s.JsonKey(name: 'Type')
-  final SegmentType type;
+  final SegmentType? type;
 
   SegmentTypeInfo({
     this.modelVersion,
     this.type,
   });
-  factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) =>
-      _$SegmentTypeInfoFromJson(json);
+  factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) {
+    return SegmentTypeInfo(
+      modelVersion: json['ModelVersion'] as String?,
+      type: (json['Type'] as String?)?.toSegmentType(),
+    );
+  }
 }
 
 /// Information about a shot detection segment detected in a video. For more
 /// information, see <a>SegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShotSegment {
   /// The confidence that Amazon Rekognition Video has in the accuracy of the
   /// detected segment.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// An Identifier for a shot detection segment detected in a video.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   ShotSegment({
     this.confidence,
     this.index,
   });
-  factory ShotSegment.fromJson(Map<String, dynamic> json) =>
-      _$ShotSegmentFromJson(json);
+  factory ShotSegment.fromJson(Map<String, dynamic> json) {
+    return ShotSegment(
+      confidence: json['Confidence'] as double?,
+      index: json['Index'] as int?,
+    );
+  }
 }
 
 /// Indicates whether or not the face is smiling, and the confidence level in
 /// the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Smile {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the face is smiling or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   Smile({
     this.confidence,
     this.value,
   });
-  factory Smile.fromJson(Map<String, dynamic> json) => _$SmileFromJson(json);
+  factory Smile.fromJson(Map<String, dynamic> json) {
+    return Smile(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartCelebrityRecognitionResponse {
   /// The identifier for the celebrity recognition analysis job. Use
   /// <code>JobId</code> to identify the job in a subsequent call to
   /// <code>GetCelebrityRecognition</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartCelebrityRecognitionResponse({
     this.jobId,
   });
   factory StartCelebrityRecognitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartCelebrityRecognitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartCelebrityRecognitionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartContentModerationResponse {
   /// The identifier for the unsafe content analysis job. Use <code>JobId</code>
   /// to identify the job in a subsequent call to
   /// <code>GetContentModeration</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartContentModerationResponse({
     this.jobId,
   });
-  factory StartContentModerationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartContentModerationResponseFromJson(json);
+  factory StartContentModerationResponse.fromJson(Map<String, dynamic> json) {
+    return StartContentModerationResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartFaceDetectionResponse {
   /// The identifier for the face detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetFaceDetection</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartFaceDetectionResponse({
     this.jobId,
   });
-  factory StartFaceDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartFaceDetectionResponseFromJson(json);
+  factory StartFaceDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return StartFaceDetectionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartFaceSearchResponse {
   /// The identifier for the search job. Use <code>JobId</code> to identify the
   /// job in a subsequent call to <code>GetFaceSearch</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartFaceSearchResponse({
     this.jobId,
   });
-  factory StartFaceSearchResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartFaceSearchResponseFromJson(json);
+  factory StartFaceSearchResponse.fromJson(Map<String, dynamic> json) {
+    return StartFaceSearchResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartLabelDetectionResponse {
   /// The identifier for the label detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetLabelDetection</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartLabelDetectionResponse({
     this.jobId,
   });
-  factory StartLabelDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartLabelDetectionResponseFromJson(json);
+  factory StartLabelDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return StartLabelDetectionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartPersonTrackingResponse {
   /// The identifier for the person detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetPersonTracking</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartPersonTrackingResponse({
     this.jobId,
   });
-  factory StartPersonTrackingResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartPersonTrackingResponseFromJson(json);
+  factory StartPersonTrackingResponse.fromJson(Map<String, dynamic> json) {
+    return StartPersonTrackingResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartProjectVersionResponse {
   /// The current running status of the model.
-  @_s.JsonKey(name: 'Status')
-  final ProjectVersionStatus status;
+  final ProjectVersionStatus? status;
 
   StartProjectVersionResponse({
     this.status,
   });
-  factory StartProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartProjectVersionResponseFromJson(json);
+  factory StartProjectVersionResponse.fromJson(Map<String, dynamic> json) {
+    return StartProjectVersionResponse(
+      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+    );
+  }
 }
 
 /// Filters applied to the technical cue or shot detection segments. For more
 /// information, see <a>StartSegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartSegmentDetectionFilters {
   /// Filters that are specific to shot detections.
-  @_s.JsonKey(name: 'ShotFilter')
-  final StartShotDetectionFilter shotFilter;
+  final StartShotDetectionFilter? shotFilter;
 
   /// Filters that are specific to technical cues.
-  @_s.JsonKey(name: 'TechnicalCueFilter')
-  final StartTechnicalCueDetectionFilter technicalCueFilter;
+  final StartTechnicalCueDetectionFilter? technicalCueFilter;
 
   StartSegmentDetectionFilters({
     this.shotFilter,
     this.technicalCueFilter,
   });
-  Map<String, dynamic> toJson() => _$StartSegmentDetectionFiltersToJson(this);
+  Map<String, dynamic> toJson() {
+    final shotFilter = this.shotFilter;
+    final technicalCueFilter = this.technicalCueFilter;
+    return {
+      if (shotFilter != null) 'ShotFilter': shotFilter,
+      if (technicalCueFilter != null) 'TechnicalCueFilter': technicalCueFilter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSegmentDetectionResponse {
   /// Unique identifier for the segment detection job. The <code>JobId</code> is
   /// returned from <code>StartSegmentDetection</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartSegmentDetectionResponse({
     this.jobId,
   });
-  factory StartSegmentDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartSegmentDetectionResponseFromJson(json);
+  factory StartSegmentDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return StartSegmentDetectionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
 /// Filters for the shot detection segments returned by
 /// <code>GetSegmentDetection</code>. For more information, see
 /// <a>StartSegmentDetectionFilters</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartShotDetectionFilter {
   /// Specifies the minimum confidence that Amazon Rekognition Video must have in
   /// order to return a detected segment. Confidence represents how certain Amazon
@@ -8368,33 +8872,29 @@ class StartShotDetectionFilter {
   /// If you don't specify <code>MinSegmentConfidence</code>, the
   /// <code>GetSegmentDetection</code> returns segments with confidence values
   /// greater than or equal to 50 percent.
-  @_s.JsonKey(name: 'MinSegmentConfidence')
-  final double minSegmentConfidence;
+  final double? minSegmentConfidence;
 
   StartShotDetectionFilter({
     this.minSegmentConfidence,
   });
-  Map<String, dynamic> toJson() => _$StartShotDetectionFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final minSegmentConfidence = this.minSegmentConfidence;
+    return {
+      if (minSegmentConfidence != null)
+        'MinSegmentConfidence': minSegmentConfidence,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartStreamProcessorResponse {
   StartStreamProcessorResponse();
-  factory StartStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartStreamProcessorResponseFromJson(json);
+  factory StartStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
+    return StartStreamProcessorResponse();
+  }
 }
 
 /// Filters for the technical segments returned by <a>GetSegmentDetection</a>.
 /// For more information, see <a>StartSegmentDetectionFilters</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartTechnicalCueDetectionFilter {
   /// Specifies the minimum confidence that Amazon Rekognition Video must have in
   /// order to return a detected segment. Confidence represents how certain Amazon
@@ -8405,86 +8905,80 @@ class StartTechnicalCueDetectionFilter {
   /// If you don't specify <code>MinSegmentConfidence</code>,
   /// <code>GetSegmentDetection</code> returns segments with confidence values
   /// greater than or equal to 50 percent.
-  @_s.JsonKey(name: 'MinSegmentConfidence')
-  final double minSegmentConfidence;
+  final double? minSegmentConfidence;
 
   StartTechnicalCueDetectionFilter({
     this.minSegmentConfidence,
   });
-  Map<String, dynamic> toJson() =>
-      _$StartTechnicalCueDetectionFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final minSegmentConfidence = this.minSegmentConfidence;
+    return {
+      if (minSegmentConfidence != null)
+        'MinSegmentConfidence': minSegmentConfidence,
+    };
+  }
 }
 
 /// Set of optional parameters that let you set the criteria text must meet to
 /// be included in your response. <code>WordFilter</code> looks at a word's
 /// height, width and minimum confidence. <code>RegionOfInterest</code> lets you
 /// set a specific region of the screen to look for text in.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartTextDetectionFilters {
   /// Filter focusing on a certain area of the frame. Uses a
   /// <code>BoundingBox</code> object to set the region of the screen.
-  @_s.JsonKey(name: 'RegionsOfInterest')
-  final List<RegionOfInterest> regionsOfInterest;
+  final List<RegionOfInterest>? regionsOfInterest;
 
   /// Filters focusing on qualities of the text, such as confidence or size.
-  @_s.JsonKey(name: 'WordFilter')
-  final DetectionFilter wordFilter;
+  final DetectionFilter? wordFilter;
 
   StartTextDetectionFilters({
     this.regionsOfInterest,
     this.wordFilter,
   });
-  Map<String, dynamic> toJson() => _$StartTextDetectionFiltersToJson(this);
+  Map<String, dynamic> toJson() {
+    final regionsOfInterest = this.regionsOfInterest;
+    final wordFilter = this.wordFilter;
+    return {
+      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
+      if (wordFilter != null) 'WordFilter': wordFilter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTextDetectionResponse {
   /// Identifier for the text detection job. Use <code>JobId</code> to identify
   /// the job in a subsequent call to <code>GetTextDetection</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartTextDetectionResponse({
     this.jobId,
   });
-  factory StartTextDetectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTextDetectionResponseFromJson(json);
+  factory StartTextDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return StartTextDetectionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopProjectVersionResponse {
   /// The current status of the stop operation.
-  @_s.JsonKey(name: 'Status')
-  final ProjectVersionStatus status;
+  final ProjectVersionStatus? status;
 
   StopProjectVersionResponse({
     this.status,
   });
-  factory StopProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopProjectVersionResponseFromJson(json);
+  factory StopProjectVersionResponse.fromJson(Map<String, dynamic> json) {
+    return StopProjectVersionResponse(
+      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopStreamProcessorResponse {
   StopStreamProcessorResponse();
-  factory StopStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopStreamProcessorResponseFromJson(json);
+  factory StopStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
+    return StopStreamProcessorResponse();
+  }
 }
 
 /// An object that recognizes faces in a streaming video. An Amazon Rekognition
@@ -8492,104 +8986,146 @@ class StopStreamProcessorResponse {
 /// request parameters for <code>CreateStreamProcessor</code> describe the
 /// Kinesis video stream source for the streaming video, face recognition
 /// parameters, and where to stream the analysis resullts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamProcessor {
   /// Name of the Amazon Rekognition stream processor.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Current status of the Amazon Rekognition stream processor.
-  @_s.JsonKey(name: 'Status')
-  final StreamProcessorStatus status;
+  final StreamProcessorStatus? status;
 
   StreamProcessor({
     this.name,
     this.status,
   });
-  factory StreamProcessor.fromJson(Map<String, dynamic> json) =>
-      _$StreamProcessorFromJson(json);
+  factory StreamProcessor.fromJson(Map<String, dynamic> json) {
+    return StreamProcessor(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toStreamProcessorStatus(),
+    );
+  }
 }
 
 /// Information about the source streaming video.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamProcessorInput {
   /// The Kinesis video stream input stream for the source streaming video.
-  @_s.JsonKey(name: 'KinesisVideoStream')
-  final KinesisVideoStream kinesisVideoStream;
+  final KinesisVideoStream? kinesisVideoStream;
 
   StreamProcessorInput({
     this.kinesisVideoStream,
   });
-  factory StreamProcessorInput.fromJson(Map<String, dynamic> json) =>
-      _$StreamProcessorInputFromJson(json);
+  factory StreamProcessorInput.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorInput(
+      kinesisVideoStream: json['KinesisVideoStream'] != null
+          ? KinesisVideoStream.fromJson(
+              json['KinesisVideoStream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StreamProcessorInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStream = this.kinesisVideoStream;
+    return {
+      if (kinesisVideoStream != null) 'KinesisVideoStream': kinesisVideoStream,
+    };
+  }
 }
 
 /// Information about the Amazon Kinesis Data Streams stream to which a Amazon
 /// Rekognition Video stream processor streams the results of a video analysis.
 /// For more information, see CreateStreamProcessor in the Amazon Rekognition
 /// Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamProcessorOutput {
   /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition
   /// stream processor streams the analysis results.
-  @_s.JsonKey(name: 'KinesisDataStream')
-  final KinesisDataStream kinesisDataStream;
+  final KinesisDataStream? kinesisDataStream;
 
   StreamProcessorOutput({
     this.kinesisDataStream,
   });
-  factory StreamProcessorOutput.fromJson(Map<String, dynamic> json) =>
-      _$StreamProcessorOutputFromJson(json);
+  factory StreamProcessorOutput.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorOutput(
+      kinesisDataStream: json['KinesisDataStream'] != null
+          ? KinesisDataStream.fromJson(
+              json['KinesisDataStream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StreamProcessorOutputToJson(this);
+  Map<String, dynamic> toJson() {
+    final kinesisDataStream = this.kinesisDataStream;
+    return {
+      if (kinesisDataStream != null) 'KinesisDataStream': kinesisDataStream,
+    };
+  }
 }
 
 /// Input parameters used to recognize faces in a streaming video analyzed by a
 /// Amazon Rekognition stream processor.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamProcessorSettings {
   /// Face search settings to use on a streaming video.
-  @_s.JsonKey(name: 'FaceSearch')
-  final FaceSearchSettings faceSearch;
+  final FaceSearchSettings? faceSearch;
 
   StreamProcessorSettings({
     this.faceSearch,
   });
-  factory StreamProcessorSettings.fromJson(Map<String, dynamic> json) =>
-      _$StreamProcessorSettingsFromJson(json);
+  factory StreamProcessorSettings.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorSettings(
+      faceSearch: json['FaceSearch'] != null
+          ? FaceSearchSettings.fromJson(
+              json['FaceSearch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StreamProcessorSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final faceSearch = this.faceSearch;
+    return {
+      if (faceSearch != null) 'FaceSearch': faceSearch,
+    };
+  }
 }
 
 enum StreamProcessorStatus {
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOPPING')
   stopping,
+}
+
+extension on StreamProcessorStatus {
+  String toValue() {
+    switch (this) {
+      case StreamProcessorStatus.stopped:
+        return 'STOPPED';
+      case StreamProcessorStatus.starting:
+        return 'STARTING';
+      case StreamProcessorStatus.running:
+        return 'RUNNING';
+      case StreamProcessorStatus.failed:
+        return 'FAILED';
+      case StreamProcessorStatus.stopping:
+        return 'STOPPING';
+    }
+  }
+}
+
+extension on String {
+  StreamProcessorStatus toStreamProcessorStatus() {
+    switch (this) {
+      case 'STOPPED':
+        return StreamProcessorStatus.stopped;
+      case 'STARTING':
+        return StreamProcessorStatus.starting;
+      case 'RUNNING':
+        return StreamProcessorStatus.running;
+      case 'FAILED':
+        return StreamProcessorStatus.failed;
+      case 'STOPPING':
+        return StreamProcessorStatus.stopping;
+    }
+    throw Exception('$this is not known in enum StreamProcessorStatus');
+  }
 }
 
 /// The S3 bucket that contains the training summary. The training summary
@@ -8598,137 +9134,164 @@ enum StreamProcessorStatus {
 ///
 /// You get the training summary S3 bucket location by calling
 /// <a>DescribeProjectVersions</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Summary {
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   Summary({
     this.s3Object,
   });
-  factory Summary.fromJson(Map<String, dynamic> json) =>
-      _$SummaryFromJson(json);
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Indicates whether or not the face is wearing sunglasses, and the confidence
 /// level in the determination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Sunglasses {
   /// Level of confidence in the determination.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// Boolean value that indicates whether the face is wearing sunglasses or not.
-  @_s.JsonKey(name: 'Value')
-  final bool value;
+  final bool? value;
 
   Sunglasses({
     this.confidence,
     this.value,
   });
-  factory Sunglasses.fromJson(Map<String, dynamic> json) =>
-      _$SunglassesFromJson(json);
+  factory Sunglasses.fromJson(Map<String, dynamic> json) {
+    return Sunglasses(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
 }
 
 /// Information about a technical cue segment. For more information, see
 /// <a>SegmentDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TechnicalCueSegment {
   /// The confidence that Amazon Rekognition Video has in the accuracy of the
   /// detected segment.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The type of the technical cue.
-  @_s.JsonKey(name: 'Type')
-  final TechnicalCueType type;
+  final TechnicalCueType? type;
 
   TechnicalCueSegment({
     this.confidence,
     this.type,
   });
-  factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) =>
-      _$TechnicalCueSegmentFromJson(json);
+  factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) {
+    return TechnicalCueSegment(
+      confidence: json['Confidence'] as double?,
+      type: (json['Type'] as String?)?.toTechnicalCueType(),
+    );
+  }
 }
 
 enum TechnicalCueType {
-  @_s.JsonValue('ColorBars')
   colorBars,
-  @_s.JsonValue('EndCredits')
   endCredits,
-  @_s.JsonValue('BlackFrames')
   blackFrames,
+}
+
+extension on TechnicalCueType {
+  String toValue() {
+    switch (this) {
+      case TechnicalCueType.colorBars:
+        return 'ColorBars';
+      case TechnicalCueType.endCredits:
+        return 'EndCredits';
+      case TechnicalCueType.blackFrames:
+        return 'BlackFrames';
+    }
+  }
+}
+
+extension on String {
+  TechnicalCueType toTechnicalCueType() {
+    switch (this) {
+      case 'ColorBars':
+        return TechnicalCueType.colorBars;
+      case 'EndCredits':
+        return TechnicalCueType.endCredits;
+      case 'BlackFrames':
+        return TechnicalCueType.blackFrames;
+    }
+    throw Exception('$this is not known in enum TechnicalCueType');
+  }
 }
 
 /// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
 /// Amazon Rekognition Custom Labels creates a testing dataset using an 80/20
 /// split of the training dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TestingData {
   /// The assets used for testing.
-  @_s.JsonKey(name: 'Assets')
-  final List<Asset> assets;
+  final List<Asset>? assets;
 
   /// If specified, Amazon Rekognition Custom Labels creates a testing dataset
   /// with an 80/20 split of the training dataset.
-  @_s.JsonKey(name: 'AutoCreate')
-  final bool autoCreate;
+  final bool? autoCreate;
 
   TestingData({
     this.assets,
     this.autoCreate,
   });
-  factory TestingData.fromJson(Map<String, dynamic> json) =>
-      _$TestingDataFromJson(json);
+  factory TestingData.fromJson(Map<String, dynamic> json) {
+    return TestingData(
+      assets: (json['Assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoCreate: json['AutoCreate'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TestingDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    final autoCreate = this.autoCreate;
+    return {
+      if (assets != null) 'Assets': assets,
+      if (autoCreate != null) 'AutoCreate': autoCreate,
+    };
+  }
 }
 
 /// Sagemaker Groundtruth format manifest files for the input, output and
 /// validation datasets that are used and created during testing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestingDataResult {
   /// The testing dataset that was supplied for training.
-  @_s.JsonKey(name: 'Input')
-  final TestingData input;
+  final TestingData? input;
 
   /// The subset of the dataset that was actually tested. Some images (assets)
   /// might not be tested due to file formatting and other issues.
-  @_s.JsonKey(name: 'Output')
-  final TestingData output;
+  final TestingData? output;
 
   /// The location of the data validation manifest. The data validation manifest
   /// is created for the test dataset during model training.
-  @_s.JsonKey(name: 'Validation')
-  final ValidationData validation;
+  final ValidationData? validation;
 
   TestingDataResult({
     this.input,
     this.output,
     this.validation,
   });
-  factory TestingDataResult.fromJson(Map<String, dynamic> json) =>
-      _$TestingDataResultFromJson(json);
+  factory TestingDataResult.fromJson(Map<String, dynamic> json) {
+    return TestingDataResult(
+      input: json['Input'] != null
+          ? TestingData.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      output: json['Output'] != null
+          ? TestingData.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      validation: json['Validation'] != null
+          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about a word or line of text detected by <a>DetectText</a>.
@@ -8743,41 +9306,30 @@ class TestingDataResult {
 ///
 /// For more information, see Detecting Text in the Amazon Rekognition Developer
 /// Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TextDetection {
   /// The confidence that Amazon Rekognition has in the accuracy of the detected
   /// text and the accuracy of the geometry points around the detected text.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The word or line of text recognized by Amazon Rekognition.
-  @_s.JsonKey(name: 'DetectedText')
-  final String detectedText;
+  final String? detectedText;
 
   /// The location of the detected text on the image. Includes an axis aligned
   /// coarse bounding box surrounding the text and a finer grain polygon for more
   /// accurate spatial information.
-  @_s.JsonKey(name: 'Geometry')
-  final Geometry geometry;
+  final Geometry? geometry;
 
   /// The identifier for the detected text. The identifier is only unique for a
   /// single call to <code>DetectText</code>.
-  @_s.JsonKey(name: 'Id')
-  final int id;
+  final int? id;
 
   /// The Parent identifier for the detected text identified by the value of
   /// <code>ID</code>. If the type of detected text is <code>LINE</code>, the
   /// value of <code>ParentId</code> is <code>Null</code>.
-  @_s.JsonKey(name: 'ParentId')
-  final int parentId;
+  final int? parentId;
 
   /// The type of text that was detected.
-  @_s.JsonKey(name: 'Type')
-  final TextTypes type;
+  final TextTypes? type;
 
   TextDetection({
     this.confidence,
@@ -8787,108 +9339,141 @@ class TextDetection {
     this.parentId,
     this.type,
   });
-  factory TextDetection.fromJson(Map<String, dynamic> json) =>
-      _$TextDetectionFromJson(json);
+  factory TextDetection.fromJson(Map<String, dynamic> json) {
+    return TextDetection(
+      confidence: json['Confidence'] as double?,
+      detectedText: json['DetectedText'] as String?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as int?,
+      parentId: json['ParentId'] as int?,
+      type: (json['Type'] as String?)?.toTextTypes(),
+    );
+  }
 }
 
 /// Information about text detected in a video. Incudes the detected text, the
 /// time in milliseconds from the start of the video that the text was detected,
 /// and where it was detected on the screen.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TextDetectionResult {
   /// Details about text detected in a video.
-  @_s.JsonKey(name: 'TextDetection')
-  final TextDetection textDetection;
+  final TextDetection? textDetection;
 
   /// The time, in milliseconds from the start of the video, that the text was
   /// detected.
-  @_s.JsonKey(name: 'Timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   TextDetectionResult({
     this.textDetection,
     this.timestamp,
   });
-  factory TextDetectionResult.fromJson(Map<String, dynamic> json) =>
-      _$TextDetectionResultFromJson(json);
+  factory TextDetectionResult.fromJson(Map<String, dynamic> json) {
+    return TextDetectionResult(
+      textDetection: json['TextDetection'] != null
+          ? TextDetection.fromJson(
+              json['TextDetection'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
 }
 
 enum TextTypes {
-  @_s.JsonValue('LINE')
   line,
-  @_s.JsonValue('WORD')
   word,
 }
 
+extension on TextTypes {
+  String toValue() {
+    switch (this) {
+      case TextTypes.line:
+        return 'LINE';
+      case TextTypes.word:
+        return 'WORD';
+    }
+  }
+}
+
+extension on String {
+  TextTypes toTextTypes() {
+    switch (this) {
+      case 'LINE':
+        return TextTypes.line;
+      case 'WORD':
+        return TextTypes.word;
+    }
+    throw Exception('$this is not known in enum TextTypes');
+  }
+}
+
 /// The dataset used for training.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TrainingData {
   /// A Sagemaker GroundTruth manifest file that contains the training images
   /// (assets).
-  @_s.JsonKey(name: 'Assets')
-  final List<Asset> assets;
+  final List<Asset>? assets;
 
   TrainingData({
     this.assets,
   });
-  factory TrainingData.fromJson(Map<String, dynamic> json) =>
-      _$TrainingDataFromJson(json);
+  factory TrainingData.fromJson(Map<String, dynamic> json) {
+    return TrainingData(
+      assets: (json['Assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TrainingDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    return {
+      if (assets != null) 'Assets': assets,
+    };
+  }
 }
 
 /// Sagemaker Groundtruth format manifest files for the input, output and
 /// validation datasets that are used and created during testing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrainingDataResult {
   /// The training assets that you supplied for training.
-  @_s.JsonKey(name: 'Input')
-  final TrainingData input;
+  final TrainingData? input;
 
   /// The images (assets) that were actually trained by Amazon Rekognition Custom
   /// Labels.
-  @_s.JsonKey(name: 'Output')
-  final TrainingData output;
+  final TrainingData? output;
 
   /// The location of the data validation manifest. The data validation manifest
   /// is created for the training dataset during model training.
-  @_s.JsonKey(name: 'Validation')
-  final ValidationData validation;
+  final ValidationData? validation;
 
   TrainingDataResult({
     this.input,
     this.output,
     this.validation,
   });
-  factory TrainingDataResult.fromJson(Map<String, dynamic> json) =>
-      _$TrainingDataResultFromJson(json);
+  factory TrainingDataResult.fromJson(Map<String, dynamic> json) {
+    return TrainingDataResult(
+      input: json['Input'] != null
+          ? TrainingData.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      output: json['Output'] != null
+          ? TrainingData.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      validation: json['Validation'] != null
+          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A face that <a>IndexFaces</a> detected, but didn't index. Use the
 /// <code>Reasons</code> response attribute to determine why a face wasn't
 /// indexed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnindexedFace {
   /// The structure that contains attributes of a face that
   /// <code>IndexFaces</code>detected, but didn't index.
-  @_s.JsonKey(name: 'FaceDetail')
-  final FaceDetail faceDetail;
+  final FaceDetail? faceDetail;
 
   /// An array of reasons that specify why a face wasn't indexed.
   ///
@@ -8915,15 +9500,23 @@ class UnindexedFace {
   /// SMALL_BOUNDING_BOX - The bounding box around the face is too small.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Reasons')
-  final List<Reason> reasons;
+  final List<Reason>? reasons;
 
   UnindexedFace({
     this.faceDetail,
     this.reasons,
   });
-  factory UnindexedFace.fromJson(Map<String, dynamic> json) =>
-      _$UnindexedFaceFromJson(json);
+  factory UnindexedFace.fromJson(Map<String, dynamic> json) {
+    return UnindexedFace(
+      faceDetail: json['FaceDetail'] != null
+          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
+          : null,
+      reasons: (json['Reasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toReason())
+          .toList(),
+    );
+  }
 }
 
 /// Contains the Amazon S3 bucket location of the validation data for a model
@@ -8940,84 +9533,96 @@ class UnindexedFace {
 /// The assets array contains a single <a>Asset</a> object. The
 /// <a>GroundTruthManifest</a> field of the Asset object contains the S3 bucket
 /// location of the validation data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationData {
   /// The assets that comprise the validation data.
-  @_s.JsonKey(name: 'Assets')
-  final List<Asset> assets;
+  final List<Asset>? assets;
 
   ValidationData({
     this.assets,
   });
-  factory ValidationData.fromJson(Map<String, dynamic> json) =>
-      _$ValidationDataFromJson(json);
+  factory ValidationData.fromJson(Map<String, dynamic> json) {
+    return ValidationData(
+      assets: (json['Assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start
 /// operations such as <a>StartLabelDetection</a> use <code>Video</code> to
 /// specify a video for analysis. The supported file formats are .mp4, .mov and
 /// .avi.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Video {
   /// The Amazon S3 bucket name and file name for the video.
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   Video({
     this.s3Object,
   });
-  Map<String, dynamic> toJson() => _$VideoToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 enum VideoJobStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on VideoJobStatus {
+  String toValue() {
+    switch (this) {
+      case VideoJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case VideoJobStatus.succeeded:
+        return 'SUCCEEDED';
+      case VideoJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  VideoJobStatus toVideoJobStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return VideoJobStatus.inProgress;
+      case 'SUCCEEDED':
+        return VideoJobStatus.succeeded;
+      case 'FAILED':
+        return VideoJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum VideoJobStatus');
+  }
 }
 
 /// Information about a video that Amazon Rekognition analyzed.
 /// <code>Videometadata</code> is returned in every page of paginated responses
 /// from a Amazon Rekognition video operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VideoMetadata {
   /// Type of compression used in the analyzed video.
-  @_s.JsonKey(name: 'Codec')
-  final String codec;
+  final String? codec;
 
   /// Length of the video in milliseconds.
-  @_s.JsonKey(name: 'DurationMillis')
-  final int durationMillis;
+  final int? durationMillis;
 
   /// Format of the analyzed video. Possible values are MP4, MOV and AVI.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// Vertical pixel dimension of the video.
-  @_s.JsonKey(name: 'FrameHeight')
-  final int frameHeight;
+  final int? frameHeight;
 
   /// Number of frames per second in the video.
-  @_s.JsonKey(name: 'FrameRate')
-  final double frameRate;
+  final double? frameRate;
 
   /// Horizontal pixel dimension of the video.
-  @_s.JsonKey(name: 'FrameWidth')
-  final int frameWidth;
+  final int? frameWidth;
 
   VideoMetadata({
     this.codec,
@@ -9027,17 +9632,25 @@ class VideoMetadata {
     this.frameRate,
     this.frameWidth,
   });
-  factory VideoMetadata.fromJson(Map<String, dynamic> json) =>
-      _$VideoMetadataFromJson(json);
+  factory VideoMetadata.fromJson(Map<String, dynamic> json) {
+    return VideoMetadata(
+      codec: json['Codec'] as String?,
+      durationMillis: json['DurationMillis'] as int?,
+      format: json['Format'] as String?,
+      frameHeight: json['FrameHeight'] as int?,
+      frameRate: json['FrameRate'] as double?,
+      frameWidth: json['FrameWidth'] as int?,
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class HumanLoopQuotaExceededException extends _s.GenericAwsException {
-  HumanLoopQuotaExceededException({String type, String message})
+  HumanLoopQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'HumanLoopQuotaExceededException',
@@ -9045,7 +9658,7 @@ class HumanLoopQuotaExceededException extends _s.GenericAwsException {
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
-  IdempotentParameterMismatchException({String type, String message})
+  IdempotentParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
@@ -9053,23 +9666,23 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
 }
 
 class ImageTooLargeException extends _s.GenericAwsException {
-  ImageTooLargeException({String type, String message})
+  ImageTooLargeException({String? type, String? message})
       : super(type: type, code: 'ImageTooLargeException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidImageFormatException extends _s.GenericAwsException {
-  InvalidImageFormatException({String type, String message})
+  InvalidImageFormatException({String? type, String? message})
       : super(
             type: type, code: 'InvalidImageFormatException', message: message);
 }
 
 class InvalidPaginationTokenException extends _s.GenericAwsException {
-  InvalidPaginationTokenException({String type, String message})
+  InvalidPaginationTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPaginationTokenException',
@@ -9077,22 +9690,22 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidS3ObjectException extends _s.GenericAwsException {
-  InvalidS3ObjectException({String type, String message})
+  InvalidS3ObjectException({String? type, String? message})
       : super(type: type, code: 'InvalidS3ObjectException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
-  ProvisionedThroughputExceededException({String type, String message})
+  ProvisionedThroughputExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedThroughputExceededException',
@@ -9100,7 +9713,7 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -9108,22 +9721,22 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceNotReadyException extends _s.GenericAwsException {
-  ResourceNotReadyException({String type, String message})
+  ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -9131,12 +9744,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class VideoTooLargeException extends _s.GenericAwsException {
-  VideoTooLargeException({String type, String message})
+  VideoTooLargeException({String? type, String? message})
       : super(type: type, code: 'VideoTooLargeException', message: message);
 }
 

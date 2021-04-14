@@ -9,55 +9,56 @@ part of 'ce-2017-10-25.dart';
 Anomaly _$AnomalyFromJson(Map<String, dynamic> json) {
   return Anomaly(
     anomalyId: json['AnomalyId'] as String,
-    anomalyScore: json['AnomalyScore'] == null
-        ? null
-        : AnomalyScore.fromJson(json['AnomalyScore'] as Map<String, dynamic>),
-    impact: json['Impact'] == null
-        ? null
-        : Impact.fromJson(json['Impact'] as Map<String, dynamic>),
+    anomalyScore:
+        AnomalyScore.fromJson(json['AnomalyScore'] as Map<String, dynamic>),
+    impact: Impact.fromJson(json['Impact'] as Map<String, dynamic>),
     monitorArn: json['MonitorArn'] as String,
-    anomalyEndDate: json['AnomalyEndDate'] as String,
-    anomalyStartDate: json['AnomalyStartDate'] as String,
-    dimensionValue: json['DimensionValue'] as String,
+    anomalyEndDate: json['AnomalyEndDate'] as String?,
+    anomalyStartDate: json['AnomalyStartDate'] as String?,
+    dimensionValue: json['DimensionValue'] as String?,
     feedback:
         _$enumDecodeNullable(_$AnomalyFeedbackTypeEnumMap, json['Feedback']),
-    rootCauses: (json['RootCauses'] as List)
-        ?.map((e) =>
-            e == null ? null : RootCause.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rootCauses: (json['RootCauses'] as List<dynamic>?)
+        ?.map((e) => RootCause.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AnomalyFeedbackTypeEnumMap = {
@@ -67,7 +68,9 @@ const _$AnomalyFeedbackTypeEnumMap = {
 };
 
 Map<String, dynamic> _$AnomalyDateIntervalToJson(AnomalyDateInterval instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StartDate': instance.startDate,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -75,7 +78,6 @@ Map<String, dynamic> _$AnomalyDateIntervalToJson(AnomalyDateInterval instance) {
     }
   }
 
-  writeNotNull('StartDate', instance.startDate);
   writeNotNull('EndDate', instance.endDate);
   return val;
 }
@@ -83,13 +85,12 @@ Map<String, dynamic> _$AnomalyDateIntervalToJson(AnomalyDateInterval instance) {
 AnomalyMonitor _$AnomalyMonitorFromJson(Map<String, dynamic> json) {
   return AnomalyMonitor(
     monitorName: json['MonitorName'] as String,
-    monitorType:
-        _$enumDecodeNullable(_$MonitorTypeEnumMap, json['MonitorType']),
-    creationDate: json['CreationDate'] as String,
-    dimensionalValueCount: json['DimensionalValueCount'] as int,
-    lastEvaluatedDate: json['LastEvaluatedDate'] as String,
-    lastUpdatedDate: json['LastUpdatedDate'] as String,
-    monitorArn: json['MonitorArn'] as String,
+    monitorType: _$enumDecode(_$MonitorTypeEnumMap, json['MonitorType']),
+    creationDate: json['CreationDate'] as String?,
+    dimensionalValueCount: json['DimensionalValueCount'] as int?,
+    lastEvaluatedDate: json['LastEvaluatedDate'] as String?,
+    lastUpdatedDate: json['LastUpdatedDate'] as String?,
+    monitorArn: json['MonitorArn'] as String?,
     monitorDimension: _$enumDecodeNullable(
         _$MonitorDimensionEnumMap, json['MonitorDimension']),
     monitorSpecification: json['MonitorSpecification'] == null
@@ -100,7 +101,10 @@ AnomalyMonitor _$AnomalyMonitorFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AnomalyMonitorToJson(AnomalyMonitor instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'MonitorName': instance.monitorName,
+    'MonitorType': _$MonitorTypeEnumMap[instance.monitorType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -108,8 +112,6 @@ Map<String, dynamic> _$AnomalyMonitorToJson(AnomalyMonitor instance) {
     }
   }
 
-  writeNotNull('MonitorName', instance.monitorName);
-  writeNotNull('MonitorType', _$MonitorTypeEnumMap[instance.monitorType]);
   writeNotNull('CreationDate', instance.creationDate);
   writeNotNull('DimensionalValueCount', instance.dimensionalValueCount);
   writeNotNull('LastEvaluatedDate', instance.lastEvaluatedDate);
@@ -132,30 +134,36 @@ const _$MonitorDimensionEnumMap = {
 
 AnomalyScore _$AnomalyScoreFromJson(Map<String, dynamic> json) {
   return AnomalyScore(
-    currentScore: (json['CurrentScore'] as num)?.toDouble(),
-    maxScore: (json['MaxScore'] as num)?.toDouble(),
+    currentScore: (json['CurrentScore'] as num).toDouble(),
+    maxScore: (json['MaxScore'] as num).toDouble(),
   );
 }
 
 AnomalySubscription _$AnomalySubscriptionFromJson(Map<String, dynamic> json) {
   return AnomalySubscription(
-    frequency: _$enumDecodeNullable(
-        _$AnomalySubscriptionFrequencyEnumMap, json['Frequency']),
-    monitorArnList:
-        (json['MonitorArnList'] as List)?.map((e) => e as String)?.toList(),
-    subscribers: (json['Subscribers'] as List)
-        ?.map((e) =>
-            e == null ? null : Subscriber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    frequency:
+        _$enumDecode(_$AnomalySubscriptionFrequencyEnumMap, json['Frequency']),
+    monitorArnList: (json['MonitorArnList'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subscribers: (json['Subscribers'] as List<dynamic>)
+        .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+        .toList(),
     subscriptionName: json['SubscriptionName'] as String,
-    threshold: (json['Threshold'] as num)?.toDouble(),
-    accountId: json['AccountId'] as String,
-    subscriptionArn: json['SubscriptionArn'] as String,
+    threshold: (json['Threshold'] as num).toDouble(),
+    accountId: json['AccountId'] as String?,
+    subscriptionArn: json['SubscriptionArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$AnomalySubscriptionToJson(AnomalySubscription instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Frequency': _$AnomalySubscriptionFrequencyEnumMap[instance.frequency],
+    'MonitorArnList': instance.monitorArnList,
+    'Subscribers': instance.subscribers.map((e) => e.toJson()).toList(),
+    'SubscriptionName': instance.subscriptionName,
+    'Threshold': instance.threshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -163,13 +171,6 @@ Map<String, dynamic> _$AnomalySubscriptionToJson(AnomalySubscription instance) {
     }
   }
 
-  writeNotNull(
-      'Frequency', _$AnomalySubscriptionFrequencyEnumMap[instance.frequency]);
-  writeNotNull('MonitorArnList', instance.monitorArnList);
-  writeNotNull(
-      'Subscribers', instance.subscribers?.map((e) => e?.toJson())?.toList());
-  writeNotNull('SubscriptionName', instance.subscriptionName);
-  writeNotNull('Threshold', instance.threshold);
   writeNotNull('AccountId', instance.accountId);
   writeNotNull('SubscriptionArn', instance.subscriptionArn);
   return val;
@@ -186,19 +187,16 @@ CostCategory _$CostCategoryFromJson(Map<String, dynamic> json) {
     costCategoryArn: json['CostCategoryArn'] as String,
     effectiveStart: json['EffectiveStart'] as String,
     name: json['Name'] as String,
-    ruleVersion: _$enumDecodeNullable(
-        _$CostCategoryRuleVersionEnumMap, json['RuleVersion']),
-    rules: (json['Rules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CostCategoryRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    effectiveEnd: json['EffectiveEnd'] as String,
-    processingStatus: (json['ProcessingStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    ruleVersion:
+        _$enumDecode(_$CostCategoryRuleVersionEnumMap, json['RuleVersion']),
+    rules: (json['Rules'] as List<dynamic>)
+        .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    effectiveEnd: json['EffectiveEnd'] as String?,
+    processingStatus: (json['ProcessingStatus'] as List<dynamic>?)
+        ?.map((e) =>
+            CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -227,50 +225,41 @@ const _$CostCategoryStatusEnumMap = {
 CostCategoryReference _$CostCategoryReferenceFromJson(
     Map<String, dynamic> json) {
   return CostCategoryReference(
-    costCategoryArn: json['CostCategoryArn'] as String,
-    effectiveEnd: json['EffectiveEnd'] as String,
-    effectiveStart: json['EffectiveStart'] as String,
-    name: json['Name'] as String,
-    numberOfRules: json['NumberOfRules'] as int,
-    processingStatus: (json['ProcessingStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    costCategoryArn: json['CostCategoryArn'] as String?,
+    effectiveEnd: json['EffectiveEnd'] as String?,
+    effectiveStart: json['EffectiveStart'] as String?,
+    name: json['Name'] as String?,
+    numberOfRules: json['NumberOfRules'] as int?,
+    processingStatus: (json['ProcessingStatus'] as List<dynamic>?)
+        ?.map((e) =>
+            CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 CostCategoryRule _$CostCategoryRuleFromJson(Map<String, dynamic> json) {
   return CostCategoryRule(
-    rule: json['Rule'] == null
-        ? null
-        : Expression.fromJson(json['Rule'] as Map<String, dynamic>),
+    rule: Expression.fromJson(json['Rule'] as Map<String, dynamic>),
     value: json['Value'] as String,
   );
 }
 
-Map<String, dynamic> _$CostCategoryRuleToJson(CostCategoryRule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Rule', instance.rule?.toJson());
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$CostCategoryRuleToJson(CostCategoryRule instance) =>
+    <String, dynamic>{
+      'Rule': instance.rule.toJson(),
+      'Value': instance.value,
+    };
 
 CostCategoryValues _$CostCategoryValuesFromJson(Map<String, dynamic> json) {
   return CostCategoryValues(
-    key: json['Key'] as String,
-    matchOptions: (json['MatchOptions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$MatchOptionEnumMap, e))
-        ?.toList(),
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    key: json['Key'] as String?,
+    matchOptions: (json['MatchOptions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$MatchOptionEnumMap, e))
+        .toList(),
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -285,7 +274,7 @@ Map<String, dynamic> _$CostCategoryValuesToJson(CostCategoryValues instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('MatchOptions',
-      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e])?.toList());
+      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e]).toList());
   writeNotNull('Values', instance.values);
   return val;
 }
@@ -316,11 +305,10 @@ Coverage _$CoverageFromJson(Map<String, dynamic> json) {
 
 CoverageByTime _$CoverageByTimeFromJson(Map<String, dynamic> json) {
   return CoverageByTime(
-    groups: (json['Groups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map(
+            (e) => ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timePeriod: json['TimePeriod'] == null
         ? null
         : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
@@ -332,16 +320,16 @@ CoverageByTime _$CoverageByTimeFromJson(Map<String, dynamic> json) {
 
 CoverageCost _$CoverageCostFromJson(Map<String, dynamic> json) {
   return CoverageCost(
-    onDemandCost: json['OnDemandCost'] as String,
+    onDemandCost: json['OnDemandCost'] as String?,
   );
 }
 
 CoverageHours _$CoverageHoursFromJson(Map<String, dynamic> json) {
   return CoverageHours(
-    coverageHoursPercentage: json['CoverageHoursPercentage'] as String,
-    onDemandHours: json['OnDemandHours'] as String,
-    reservedHours: json['ReservedHours'] as String,
-    totalRunningHours: json['TotalRunningHours'] as String,
+    coverageHoursPercentage: json['CoverageHoursPercentage'] as String?,
+    onDemandHours: json['OnDemandHours'] as String?,
+    reservedHours: json['ReservedHours'] as String?,
+    totalRunningHours: json['TotalRunningHours'] as String?,
   );
 }
 
@@ -349,10 +337,10 @@ CoverageNormalizedUnits _$CoverageNormalizedUnitsFromJson(
     Map<String, dynamic> json) {
   return CoverageNormalizedUnits(
     coverageNormalizedUnitsPercentage:
-        json['CoverageNormalizedUnitsPercentage'] as String,
-    onDemandNormalizedUnits: json['OnDemandNormalizedUnits'] as String,
-    reservedNormalizedUnits: json['ReservedNormalizedUnits'] as String,
-    totalRunningNormalizedUnits: json['TotalRunningNormalizedUnits'] as String,
+        json['CoverageNormalizedUnitsPercentage'] as String?,
+    onDemandNormalizedUnits: json['OnDemandNormalizedUnits'] as String?,
+    reservedNormalizedUnits: json['ReservedNormalizedUnits'] as String?,
+    totalRunningNormalizedUnits: json['TotalRunningNormalizedUnits'] as String?,
   );
 }
 
@@ -373,37 +361,36 @@ CreateAnomalySubscriptionResponse _$CreateAnomalySubscriptionResponseFromJson(
 CreateCostCategoryDefinitionResponse
     _$CreateCostCategoryDefinitionResponseFromJson(Map<String, dynamic> json) {
   return CreateCostCategoryDefinitionResponse(
-    costCategoryArn: json['CostCategoryArn'] as String,
-    effectiveStart: json['EffectiveStart'] as String,
+    costCategoryArn: json['CostCategoryArn'] as String?,
+    effectiveStart: json['EffectiveStart'] as String?,
   );
 }
 
 CurrentInstance _$CurrentInstanceFromJson(Map<String, dynamic> json) {
   return CurrentInstance(
-    currencyCode: json['CurrencyCode'] as String,
-    instanceName: json['InstanceName'] as String,
-    monthlyCost: json['MonthlyCost'] as String,
+    currencyCode: json['CurrencyCode'] as String?,
+    instanceName: json['InstanceName'] as String?,
+    monthlyCost: json['MonthlyCost'] as String?,
     onDemandHoursInLookbackPeriod:
-        json['OnDemandHoursInLookbackPeriod'] as String,
+        json['OnDemandHoursInLookbackPeriod'] as String?,
     reservationCoveredHoursInLookbackPeriod:
-        json['ReservationCoveredHoursInLookbackPeriod'] as String,
+        json['ReservationCoveredHoursInLookbackPeriod'] as String?,
     resourceDetails: json['ResourceDetails'] == null
         ? null
         : ResourceDetails.fromJson(
             json['ResourceDetails'] as Map<String, dynamic>),
-    resourceId: json['ResourceId'] as String,
+    resourceId: json['ResourceId'] as String?,
     resourceUtilization: json['ResourceUtilization'] == null
         ? null
         : ResourceUtilization.fromJson(
             json['ResourceUtilization'] as Map<String, dynamic>),
     savingsPlansCoveredHoursInLookbackPeriod:
-        json['SavingsPlansCoveredHoursInLookbackPeriod'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) =>
-            e == null ? null : TagValues.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        json['SavingsPlansCoveredHoursInLookbackPeriod'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => TagValues.fromJson(e as Map<String, dynamic>))
+        .toList(),
     totalRunningHoursInLookbackPeriod:
-        json['TotalRunningHoursInLookbackPeriod'] as String,
+        json['TotalRunningHoursInLookbackPeriod'] as String?,
   );
 }
 
@@ -414,19 +401,11 @@ DateInterval _$DateIntervalFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DateIntervalToJson(DateInterval instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('End', instance.end);
-  writeNotNull('Start', instance.start);
-  return val;
-}
+Map<String, dynamic> _$DateIntervalToJson(DateInterval instance) =>
+    <String, dynamic>{
+      'End': instance.end,
+      'Start': instance.start,
+    };
 
 DeleteAnomalyMonitorResponse _$DeleteAnomalyMonitorResponseFromJson(
     Map<String, dynamic> json) {
@@ -441,8 +420,8 @@ DeleteAnomalySubscriptionResponse _$DeleteAnomalySubscriptionResponseFromJson(
 DeleteCostCategoryDefinitionResponse
     _$DeleteCostCategoryDefinitionResponseFromJson(Map<String, dynamic> json) {
   return DeleteCostCategoryDefinitionResponse(
-    costCategoryArn: json['CostCategoryArn'] as String,
-    effectiveEnd: json['EffectiveEnd'] as String,
+    costCategoryArn: json['CostCategoryArn'] as String?,
+    effectiveEnd: json['EffectiveEnd'] as String?,
   );
 }
 
@@ -459,10 +438,11 @@ DescribeCostCategoryDefinitionResponse
 DimensionValues _$DimensionValuesFromJson(Map<String, dynamic> json) {
   return DimensionValues(
     key: _$enumDecodeNullable(_$DimensionEnumMap, json['Key']),
-    matchOptions: (json['MatchOptions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$MatchOptionEnumMap, e))
-        ?.toList(),
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    matchOptions: (json['MatchOptions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$MatchOptionEnumMap, e))
+        .toList(),
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -477,7 +457,7 @@ Map<String, dynamic> _$DimensionValuesToJson(DimensionValues instance) {
 
   writeNotNull('Key', _$DimensionEnumMap[instance.key]);
   writeNotNull('MatchOptions',
-      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e])?.toList());
+      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e]).toList());
   writeNotNull('Values', instance.values);
   return val;
 }
@@ -517,47 +497,47 @@ const _$DimensionEnumMap = {
 DimensionValuesWithAttributes _$DimensionValuesWithAttributesFromJson(
     Map<String, dynamic> json) {
   return DimensionValuesWithAttributes(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 EBSResourceUtilization _$EBSResourceUtilizationFromJson(
     Map<String, dynamic> json) {
   return EBSResourceUtilization(
-    ebsReadBytesPerSecond: json['EbsReadBytesPerSecond'] as String,
-    ebsReadOpsPerSecond: json['EbsReadOpsPerSecond'] as String,
-    ebsWriteBytesPerSecond: json['EbsWriteBytesPerSecond'] as String,
-    ebsWriteOpsPerSecond: json['EbsWriteOpsPerSecond'] as String,
+    ebsReadBytesPerSecond: json['EbsReadBytesPerSecond'] as String?,
+    ebsReadOpsPerSecond: json['EbsReadOpsPerSecond'] as String?,
+    ebsWriteBytesPerSecond: json['EbsWriteBytesPerSecond'] as String?,
+    ebsWriteOpsPerSecond: json['EbsWriteOpsPerSecond'] as String?,
   );
 }
 
 EC2InstanceDetails _$EC2InstanceDetailsFromJson(Map<String, dynamic> json) {
   return EC2InstanceDetails(
-    availabilityZone: json['AvailabilityZone'] as String,
-    currentGeneration: json['CurrentGeneration'] as bool,
-    family: json['Family'] as String,
-    instanceType: json['InstanceType'] as String,
-    platform: json['Platform'] as String,
-    region: json['Region'] as String,
-    sizeFlexEligible: json['SizeFlexEligible'] as bool,
-    tenancy: json['Tenancy'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
+    currentGeneration: json['CurrentGeneration'] as bool?,
+    family: json['Family'] as String?,
+    instanceType: json['InstanceType'] as String?,
+    platform: json['Platform'] as String?,
+    region: json['Region'] as String?,
+    sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    tenancy: json['Tenancy'] as String?,
   );
 }
 
 EC2ResourceDetails _$EC2ResourceDetailsFromJson(Map<String, dynamic> json) {
   return EC2ResourceDetails(
-    hourlyOnDemandRate: json['HourlyOnDemandRate'] as String,
-    instanceType: json['InstanceType'] as String,
-    memory: json['Memory'] as String,
-    networkPerformance: json['NetworkPerformance'] as String,
-    platform: json['Platform'] as String,
-    region: json['Region'] as String,
-    sku: json['Sku'] as String,
-    storage: json['Storage'] as String,
-    vcpu: json['Vcpu'] as String,
+    hourlyOnDemandRate: json['HourlyOnDemandRate'] as String?,
+    instanceType: json['InstanceType'] as String?,
+    memory: json['Memory'] as String?,
+    networkPerformance: json['NetworkPerformance'] as String?,
+    platform: json['Platform'] as String?,
+    region: json['Region'] as String?,
+    sku: json['Sku'] as String?,
+    storage: json['Storage'] as String?,
+    vcpu: json['Vcpu'] as String?,
   );
 }
 
@@ -568,11 +548,11 @@ EC2ResourceUtilization _$EC2ResourceUtilizationFromJson(
         ? null
         : EBSResourceUtilization.fromJson(
             json['EBSResourceUtilization'] as Map<String, dynamic>),
-    maxCpuUtilizationPercentage: json['MaxCpuUtilizationPercentage'] as String,
+    maxCpuUtilizationPercentage: json['MaxCpuUtilizationPercentage'] as String?,
     maxMemoryUtilizationPercentage:
-        json['MaxMemoryUtilizationPercentage'] as String,
+        json['MaxMemoryUtilizationPercentage'] as String?,
     maxStorageUtilizationPercentage:
-        json['MaxStorageUtilizationPercentage'] as String,
+        json['MaxStorageUtilizationPercentage'] as String?,
   );
 }
 
@@ -603,32 +583,31 @@ const _$OfferingClassEnumMap = {
 
 ESInstanceDetails _$ESInstanceDetailsFromJson(Map<String, dynamic> json) {
   return ESInstanceDetails(
-    currentGeneration: json['CurrentGeneration'] as bool,
-    instanceClass: json['InstanceClass'] as String,
-    instanceSize: json['InstanceSize'] as String,
-    region: json['Region'] as String,
-    sizeFlexEligible: json['SizeFlexEligible'] as bool,
+    currentGeneration: json['CurrentGeneration'] as bool?,
+    instanceClass: json['InstanceClass'] as String?,
+    instanceSize: json['InstanceSize'] as String?,
+    region: json['Region'] as String?,
+    sizeFlexEligible: json['SizeFlexEligible'] as bool?,
   );
 }
 
 ElastiCacheInstanceDetails _$ElastiCacheInstanceDetailsFromJson(
     Map<String, dynamic> json) {
   return ElastiCacheInstanceDetails(
-    currentGeneration: json['CurrentGeneration'] as bool,
-    family: json['Family'] as String,
-    nodeType: json['NodeType'] as String,
-    productDescription: json['ProductDescription'] as String,
-    region: json['Region'] as String,
-    sizeFlexEligible: json['SizeFlexEligible'] as bool,
+    currentGeneration: json['CurrentGeneration'] as bool?,
+    family: json['Family'] as String?,
+    nodeType: json['NodeType'] as String?,
+    productDescription: json['ProductDescription'] as String?,
+    region: json['Region'] as String?,
+    sizeFlexEligible: json['SizeFlexEligible'] as bool?,
   );
 }
 
 Expression _$ExpressionFromJson(Map<String, dynamic> json) {
   return Expression(
-    and: (json['And'] as List)
-        ?.map((e) =>
-            e == null ? null : Expression.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    and: (json['And'] as List<dynamic>?)
+        ?.map((e) => Expression.fromJson(e as Map<String, dynamic>))
+        .toList(),
     costCategories: json['CostCategories'] == null
         ? null
         : CostCategoryValues.fromJson(
@@ -639,10 +618,9 @@ Expression _$ExpressionFromJson(Map<String, dynamic> json) {
     not: json['Not'] == null
         ? null
         : Expression.fromJson(json['Not'] as Map<String, dynamic>),
-    or: (json['Or'] as List)
-        ?.map((e) =>
-            e == null ? null : Expression.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    or: (json['Or'] as List<dynamic>?)
+        ?.map((e) => Expression.fromJson(e as Map<String, dynamic>))
+        .toList(),
     tags: json['Tags'] == null
         ? null
         : TagValues.fromJson(json['Tags'] as Map<String, dynamic>),
@@ -658,22 +636,22 @@ Map<String, dynamic> _$ExpressionToJson(Expression instance) {
     }
   }
 
-  writeNotNull('And', instance.and?.map((e) => e?.toJson())?.toList());
+  writeNotNull('And', instance.and?.map((e) => e.toJson()).toList());
   writeNotNull('CostCategories', instance.costCategories?.toJson());
   writeNotNull('Dimensions', instance.dimensions?.toJson());
   writeNotNull('Not', instance.not?.toJson());
-  writeNotNull('Or', instance.or?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Or', instance.or?.map((e) => e.toJson()).toList());
   writeNotNull('Tags', instance.tags?.toJson());
   return val;
 }
 
 ForecastResult _$ForecastResultFromJson(Map<String, dynamic> json) {
   return ForecastResult(
-    meanValue: json['MeanValue'] as String,
+    meanValue: json['MeanValue'] as String?,
     predictionIntervalLowerBound:
-        json['PredictionIntervalLowerBound'] as String,
+        json['PredictionIntervalLowerBound'] as String?,
     predictionIntervalUpperBound:
-        json['PredictionIntervalUpperBound'] as String,
+        json['PredictionIntervalUpperBound'] as String?,
     timePeriod: json['TimePeriod'] == null
         ? null
         : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
@@ -682,78 +660,65 @@ ForecastResult _$ForecastResultFromJson(Map<String, dynamic> json) {
 
 GetAnomaliesResponse _$GetAnomaliesResponseFromJson(Map<String, dynamic> json) {
   return GetAnomaliesResponse(
-    anomalies: (json['Anomalies'] as List)
-        ?.map((e) =>
-            e == null ? null : Anomaly.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    anomalies: (json['Anomalies'] as List<dynamic>)
+        .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 GetAnomalyMonitorsResponse _$GetAnomalyMonitorsResponseFromJson(
     Map<String, dynamic> json) {
   return GetAnomalyMonitorsResponse(
-    anomalyMonitors: (json['AnomalyMonitors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnomalyMonitor.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    anomalyMonitors: (json['AnomalyMonitors'] as List<dynamic>)
+        .map((e) => AnomalyMonitor.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 GetAnomalySubscriptionsResponse _$GetAnomalySubscriptionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetAnomalySubscriptionsResponse(
-    anomalySubscriptions: (json['AnomalySubscriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnomalySubscription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    anomalySubscriptions: (json['AnomalySubscriptions'] as List<dynamic>)
+        .map((e) => AnomalySubscription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 GetCostAndUsageResponse _$GetCostAndUsageResponseFromJson(
     Map<String, dynamic> json) {
   return GetCostAndUsageResponse(
-    groupDefinitions: (json['GroupDefinitions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroupDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
-    resultsByTime: (json['ResultsByTime'] as List)
-        ?.map((e) =>
-            e == null ? null : ResultByTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groupDefinitions: (json['GroupDefinitions'] as List<dynamic>?)
+        ?.map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    resultsByTime: (json['ResultsByTime'] as List<dynamic>?)
+        ?.map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetCostAndUsageWithResourcesResponse
     _$GetCostAndUsageWithResourcesResponseFromJson(Map<String, dynamic> json) {
   return GetCostAndUsageWithResourcesResponse(
-    groupDefinitions: (json['GroupDefinitions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroupDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
-    resultsByTime: (json['ResultsByTime'] as List)
-        ?.map((e) =>
-            e == null ? null : ResultByTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groupDefinitions: (json['GroupDefinitions'] as List<dynamic>?)
+        ?.map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    resultsByTime: (json['ResultsByTime'] as List<dynamic>?)
+        ?.map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetCostForecastResponse _$GetCostForecastResponseFromJson(
     Map<String, dynamic> json) {
   return GetCostForecastResponse(
-    forecastResultsByTime: (json['ForecastResultsByTime'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ForecastResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    forecastResultsByTime: (json['ForecastResultsByTime'] as List<dynamic>?)
+        ?.map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
     total: json['Total'] == null
         ? null
         : MetricValue.fromJson(json['Total'] as Map<String, dynamic>),
@@ -763,26 +728,23 @@ GetCostForecastResponse _$GetCostForecastResponseFromJson(
 GetDimensionValuesResponse _$GetDimensionValuesResponseFromJson(
     Map<String, dynamic> json) {
   return GetDimensionValuesResponse(
-    dimensionValues: (json['DimensionValues'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    dimensionValues: (json['DimensionValues'] as List<dynamic>)
+        .map((e) =>
+            DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
+        .toList(),
     returnSize: json['ReturnSize'] as int,
     totalSize: json['TotalSize'] as int,
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 GetReservationCoverageResponse _$GetReservationCoverageResponseFromJson(
     Map<String, dynamic> json) {
   return GetReservationCoverageResponse(
-    coveragesByTime: (json['CoveragesByTime'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CoverageByTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    coveragesByTime: (json['CoveragesByTime'] as List<dynamic>)
+        .map((e) => CoverageByTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
     total: json['Total'] == null
         ? null
         : Coverage.fromJson(json['Total'] as Map<String, dynamic>),
@@ -797,25 +759,21 @@ GetReservationPurchaseRecommendationResponse
         ? null
         : ReservationPurchaseRecommendationMetadata.fromJson(
             json['Metadata'] as Map<String, dynamic>),
-    nextPageToken: json['NextPageToken'] as String,
-    recommendations: (json['Recommendations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReservationPurchaseRecommendation.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    recommendations: (json['Recommendations'] as List<dynamic>?)
+        ?.map((e) => ReservationPurchaseRecommendation.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetReservationUtilizationResponse _$GetReservationUtilizationResponseFromJson(
     Map<String, dynamic> json) {
   return GetReservationUtilizationResponse(
-    utilizationsByTime: (json['UtilizationsByTime'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UtilizationByTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextPageToken: json['NextPageToken'] as String,
+    utilizationsByTime: (json['UtilizationsByTime'] as List<dynamic>)
+        .map((e) => UtilizationByTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextPageToken: json['NextPageToken'] as String?,
     total: json['Total'] == null
         ? null
         : ReservationAggregates.fromJson(json['Total'] as Map<String, dynamic>),
@@ -833,12 +791,12 @@ GetRightsizingRecommendationResponse
         ? null
         : RightsizingRecommendationMetadata.fromJson(
             json['Metadata'] as Map<String, dynamic>),
-    nextPageToken: json['NextPageToken'] as String,
-    rightsizingRecommendations: (json['RightsizingRecommendations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RightsizingRecommendation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextPageToken: json['NextPageToken'] as String?,
+    rightsizingRecommendations:
+        (json['RightsizingRecommendations'] as List<dynamic>?)
+            ?.map((e) =>
+                RightsizingRecommendation.fromJson(e as Map<String, dynamic>))
+            .toList(),
     summary: json['Summary'] == null
         ? null
         : RightsizingRecommendationSummary.fromJson(
@@ -849,12 +807,10 @@ GetRightsizingRecommendationResponse
 GetSavingsPlansCoverageResponse _$GetSavingsPlansCoverageResponseFromJson(
     Map<String, dynamic> json) {
   return GetSavingsPlansCoverageResponse(
-    savingsPlansCoverages: (json['SavingsPlansCoverages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SavingsPlansCoverage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    savingsPlansCoverages: (json['SavingsPlansCoverages'] as List<dynamic>)
+        .map((e) => SavingsPlansCoverage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -866,7 +822,7 @@ GetSavingsPlansPurchaseRecommendationResponse
         ? null
         : SavingsPlansPurchaseRecommendationMetadata.fromJson(
             json['Metadata'] as Map<String, dynamic>),
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
     savingsPlansPurchaseRecommendation:
         json['SavingsPlansPurchaseRecommendation'] == null
             ? null
@@ -881,15 +837,13 @@ GetSavingsPlansUtilizationDetailsResponse
         Map<String, dynamic> json) {
   return GetSavingsPlansUtilizationDetailsResponse(
     savingsPlansUtilizationDetails: (json['SavingsPlansUtilizationDetails']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : SavingsPlansUtilizationDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    timePeriod: json['TimePeriod'] == null
-        ? null
-        : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
-    nextToken: json['NextToken'] as String,
+            as List<dynamic>)
+        .map((e) =>
+            SavingsPlansUtilizationDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    timePeriod:
+        DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+    nextToken: json['NextToken'] as String?,
     total: json['Total'] == null
         ? null
         : SavingsPlansUtilizationAggregates.fromJson(
@@ -900,36 +854,31 @@ GetSavingsPlansUtilizationDetailsResponse
 GetSavingsPlansUtilizationResponse _$GetSavingsPlansUtilizationResponseFromJson(
     Map<String, dynamic> json) {
   return GetSavingsPlansUtilizationResponse(
-    total: json['Total'] == null
-        ? null
-        : SavingsPlansUtilizationAggregates.fromJson(
-            json['Total'] as Map<String, dynamic>),
+    total: SavingsPlansUtilizationAggregates.fromJson(
+        json['Total'] as Map<String, dynamic>),
     savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetTagsResponse _$GetTagsResponseFromJson(Map<String, dynamic> json) {
   return GetTagsResponse(
     returnSize: json['ReturnSize'] as int,
-    tags: (json['Tags'] as List)?.map((e) => e as String)?.toList(),
+    tags: (json['Tags'] as List<dynamic>).map((e) => e as String).toList(),
     totalSize: json['TotalSize'] as int,
-    nextPageToken: json['NextPageToken'] as String,
+    nextPageToken: json['NextPageToken'] as String?,
   );
 }
 
 GetUsageForecastResponse _$GetUsageForecastResponseFromJson(
     Map<String, dynamic> json) {
   return GetUsageForecastResponse(
-    forecastResultsByTime: (json['ForecastResultsByTime'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ForecastResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    forecastResultsByTime: (json['ForecastResultsByTime'] as List<dynamic>?)
+        ?.map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
     total: json['Total'] == null
         ? null
         : MetricValue.fromJson(json['Total'] as Map<String, dynamic>),
@@ -938,17 +887,16 @@ GetUsageForecastResponse _$GetUsageForecastResponseFromJson(
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
-    keys: (json['Keys'] as List)?.map((e) => e as String)?.toList(),
-    metrics: (json['Metrics'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : MetricValue.fromJson(e as Map<String, dynamic>)),
+    keys: (json['Keys'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    metrics: (json['Metrics'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
 GroupDefinition _$GroupDefinitionFromJson(Map<String, dynamic> json) {
   return GroupDefinition(
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
     type: _$enumDecodeNullable(_$GroupDefinitionTypeEnumMap, json['Type']),
   );
 }
@@ -975,8 +923,8 @@ const _$GroupDefinitionTypeEnumMap = {
 
 Impact _$ImpactFromJson(Map<String, dynamic> json) {
   return Impact(
-    maxImpact: (json['MaxImpact'] as num)?.toDouble(),
-    totalImpact: (json['TotalImpact'] as num)?.toDouble(),
+    maxImpact: (json['MaxImpact'] as num).toDouble(),
+    totalImpact: (json['TotalImpact'] as num?)?.toDouble(),
   );
 }
 
@@ -1008,30 +956,26 @@ InstanceDetails _$InstanceDetailsFromJson(Map<String, dynamic> json) {
 ListCostCategoryDefinitionsResponse
     _$ListCostCategoryDefinitionsResponseFromJson(Map<String, dynamic> json) {
   return ListCostCategoryDefinitionsResponse(
-    costCategoryReferences: (json['CostCategoryReferences'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CostCategoryReference.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    costCategoryReferences: (json['CostCategoryReferences'] as List<dynamic>?)
+        ?.map((e) => CostCategoryReference.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 MetricValue _$MetricValueFromJson(Map<String, dynamic> json) {
   return MetricValue(
-    amount: json['Amount'] as String,
-    unit: json['Unit'] as String,
+    amount: json['Amount'] as String?,
+    unit: json['Unit'] as String?,
   );
 }
 
 ModifyRecommendationDetail _$ModifyRecommendationDetailFromJson(
     Map<String, dynamic> json) {
   return ModifyRecommendationDetail(
-    targetInstances: (json['TargetInstances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetInstance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetInstances: (json['TargetInstances'] as List<dynamic>?)
+        ?.map((e) => TargetInstance.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1044,54 +988,54 @@ ProvideAnomalyFeedbackResponse _$ProvideAnomalyFeedbackResponseFromJson(
 
 RDSInstanceDetails _$RDSInstanceDetailsFromJson(Map<String, dynamic> json) {
   return RDSInstanceDetails(
-    currentGeneration: json['CurrentGeneration'] as bool,
-    databaseEdition: json['DatabaseEdition'] as String,
-    databaseEngine: json['DatabaseEngine'] as String,
-    deploymentOption: json['DeploymentOption'] as String,
-    family: json['Family'] as String,
-    instanceType: json['InstanceType'] as String,
-    licenseModel: json['LicenseModel'] as String,
-    region: json['Region'] as String,
-    sizeFlexEligible: json['SizeFlexEligible'] as bool,
+    currentGeneration: json['CurrentGeneration'] as bool?,
+    databaseEdition: json['DatabaseEdition'] as String?,
+    databaseEngine: json['DatabaseEngine'] as String?,
+    deploymentOption: json['DeploymentOption'] as String?,
+    family: json['Family'] as String?,
+    instanceType: json['InstanceType'] as String?,
+    licenseModel: json['LicenseModel'] as String?,
+    region: json['Region'] as String?,
+    sizeFlexEligible: json['SizeFlexEligible'] as bool?,
   );
 }
 
 RedshiftInstanceDetails _$RedshiftInstanceDetailsFromJson(
     Map<String, dynamic> json) {
   return RedshiftInstanceDetails(
-    currentGeneration: json['CurrentGeneration'] as bool,
-    family: json['Family'] as String,
-    nodeType: json['NodeType'] as String,
-    region: json['Region'] as String,
-    sizeFlexEligible: json['SizeFlexEligible'] as bool,
+    currentGeneration: json['CurrentGeneration'] as bool?,
+    family: json['Family'] as String?,
+    nodeType: json['NodeType'] as String?,
+    region: json['Region'] as String?,
+    sizeFlexEligible: json['SizeFlexEligible'] as bool?,
   );
 }
 
 ReservationAggregates _$ReservationAggregatesFromJson(
     Map<String, dynamic> json) {
   return ReservationAggregates(
-    amortizedRecurringFee: json['AmortizedRecurringFee'] as String,
-    amortizedUpfrontFee: json['AmortizedUpfrontFee'] as String,
-    netRISavings: json['NetRISavings'] as String,
-    onDemandCostOfRIHoursUsed: json['OnDemandCostOfRIHoursUsed'] as String,
-    purchasedHours: json['PurchasedHours'] as String,
-    purchasedUnits: json['PurchasedUnits'] as String,
-    totalActualHours: json['TotalActualHours'] as String,
-    totalActualUnits: json['TotalActualUnits'] as String,
-    totalAmortizedFee: json['TotalAmortizedFee'] as String,
-    totalPotentialRISavings: json['TotalPotentialRISavings'] as String,
-    unusedHours: json['UnusedHours'] as String,
-    unusedUnits: json['UnusedUnits'] as String,
-    utilizationPercentage: json['UtilizationPercentage'] as String,
+    amortizedRecurringFee: json['AmortizedRecurringFee'] as String?,
+    amortizedUpfrontFee: json['AmortizedUpfrontFee'] as String?,
+    netRISavings: json['NetRISavings'] as String?,
+    onDemandCostOfRIHoursUsed: json['OnDemandCostOfRIHoursUsed'] as String?,
+    purchasedHours: json['PurchasedHours'] as String?,
+    purchasedUnits: json['PurchasedUnits'] as String?,
+    totalActualHours: json['TotalActualHours'] as String?,
+    totalActualUnits: json['TotalActualUnits'] as String?,
+    totalAmortizedFee: json['TotalAmortizedFee'] as String?,
+    totalPotentialRISavings: json['TotalPotentialRISavings'] as String?,
+    unusedHours: json['UnusedHours'] as String?,
+    unusedUnits: json['UnusedUnits'] as String?,
+    utilizationPercentage: json['UtilizationPercentage'] as String?,
     utilizationPercentageInUnits:
-        json['UtilizationPercentageInUnits'] as String,
+        json['UtilizationPercentageInUnits'] as String?,
   );
 }
 
 ReservationCoverageGroup _$ReservationCoverageGroupFromJson(
     Map<String, dynamic> json) {
   return ReservationCoverageGroup(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     coverage: json['Coverage'] == null
@@ -1109,12 +1053,10 @@ ReservationPurchaseRecommendation _$ReservationPurchaseRecommendationFromJson(
         _$LookbackPeriodInDaysEnumMap, json['LookbackPeriodInDays']),
     paymentOption:
         _$enumDecodeNullable(_$PaymentOptionEnumMap, json['PaymentOption']),
-    recommendationDetails: (json['RecommendationDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReservationPurchaseRecommendationDetail.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    recommendationDetails: (json['RecommendationDetails'] as List<dynamic>?)
+        ?.map((e) => ReservationPurchaseRecommendationDetail.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
     recommendationSummary: json['RecommendationSummary'] == null
         ? null
         : ReservationPurchaseRecommendationSummary.fromJson(
@@ -1157,41 +1099,41 @@ ReservationPurchaseRecommendationDetail
     _$ReservationPurchaseRecommendationDetailFromJson(
         Map<String, dynamic> json) {
   return ReservationPurchaseRecommendationDetail(
-    accountId: json['AccountId'] as String,
+    accountId: json['AccountId'] as String?,
     averageNormalizedUnitsUsedPerHour:
-        json['AverageNormalizedUnitsUsedPerHour'] as String,
+        json['AverageNormalizedUnitsUsedPerHour'] as String?,
     averageNumberOfInstancesUsedPerHour:
-        json['AverageNumberOfInstancesUsedPerHour'] as String,
-    averageUtilization: json['AverageUtilization'] as String,
-    currencyCode: json['CurrencyCode'] as String,
-    estimatedBreakEvenInMonths: json['EstimatedBreakEvenInMonths'] as String,
+        json['AverageNumberOfInstancesUsedPerHour'] as String?,
+    averageUtilization: json['AverageUtilization'] as String?,
+    currencyCode: json['CurrencyCode'] as String?,
+    estimatedBreakEvenInMonths: json['EstimatedBreakEvenInMonths'] as String?,
     estimatedMonthlyOnDemandCost:
-        json['EstimatedMonthlyOnDemandCost'] as String,
+        json['EstimatedMonthlyOnDemandCost'] as String?,
     estimatedMonthlySavingsAmount:
-        json['EstimatedMonthlySavingsAmount'] as String,
+        json['EstimatedMonthlySavingsAmount'] as String?,
     estimatedMonthlySavingsPercentage:
-        json['EstimatedMonthlySavingsPercentage'] as String,
+        json['EstimatedMonthlySavingsPercentage'] as String?,
     estimatedReservationCostForLookbackPeriod:
-        json['EstimatedReservationCostForLookbackPeriod'] as String,
+        json['EstimatedReservationCostForLookbackPeriod'] as String?,
     instanceDetails: json['InstanceDetails'] == null
         ? null
         : InstanceDetails.fromJson(
             json['InstanceDetails'] as Map<String, dynamic>),
     maximumNormalizedUnitsUsedPerHour:
-        json['MaximumNormalizedUnitsUsedPerHour'] as String,
+        json['MaximumNormalizedUnitsUsedPerHour'] as String?,
     maximumNumberOfInstancesUsedPerHour:
-        json['MaximumNumberOfInstancesUsedPerHour'] as String,
+        json['MaximumNumberOfInstancesUsedPerHour'] as String?,
     minimumNormalizedUnitsUsedPerHour:
-        json['MinimumNormalizedUnitsUsedPerHour'] as String,
+        json['MinimumNormalizedUnitsUsedPerHour'] as String?,
     minimumNumberOfInstancesUsedPerHour:
-        json['MinimumNumberOfInstancesUsedPerHour'] as String,
+        json['MinimumNumberOfInstancesUsedPerHour'] as String?,
     recommendedNormalizedUnitsToPurchase:
-        json['RecommendedNormalizedUnitsToPurchase'] as String,
+        json['RecommendedNormalizedUnitsToPurchase'] as String?,
     recommendedNumberOfInstancesToPurchase:
-        json['RecommendedNumberOfInstancesToPurchase'] as String,
+        json['RecommendedNumberOfInstancesToPurchase'] as String?,
     recurringStandardMonthlyCost:
-        json['RecurringStandardMonthlyCost'] as String,
-    upfrontCost: json['UpfrontCost'] as String,
+        json['RecurringStandardMonthlyCost'] as String?,
+    upfrontCost: json['UpfrontCost'] as String?,
   );
 }
 
@@ -1199,8 +1141,8 @@ ReservationPurchaseRecommendationMetadata
     _$ReservationPurchaseRecommendationMetadataFromJson(
         Map<String, dynamic> json) {
   return ReservationPurchaseRecommendationMetadata(
-    generationTimestamp: json['GenerationTimestamp'] as String,
-    recommendationId: json['RecommendationId'] as String,
+    generationTimestamp: json['GenerationTimestamp'] as String?,
+    recommendationId: json['RecommendationId'] as String?,
   );
 }
 
@@ -1208,26 +1150,26 @@ ReservationPurchaseRecommendationSummary
     _$ReservationPurchaseRecommendationSummaryFromJson(
         Map<String, dynamic> json) {
   return ReservationPurchaseRecommendationSummary(
-    currencyCode: json['CurrencyCode'] as String,
+    currencyCode: json['CurrencyCode'] as String?,
     totalEstimatedMonthlySavingsAmount:
-        json['TotalEstimatedMonthlySavingsAmount'] as String,
+        json['TotalEstimatedMonthlySavingsAmount'] as String?,
     totalEstimatedMonthlySavingsPercentage:
-        json['TotalEstimatedMonthlySavingsPercentage'] as String,
+        json['TotalEstimatedMonthlySavingsPercentage'] as String?,
   );
 }
 
 ReservationUtilizationGroup _$ReservationUtilizationGroupFromJson(
     Map<String, dynamic> json) {
   return ReservationUtilizationGroup(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
     utilization: json['Utilization'] == null
         ? null
         : ReservationAggregates.fromJson(
             json['Utilization'] as Map<String, dynamic>),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -1251,17 +1193,15 @@ ResourceUtilization _$ResourceUtilizationFromJson(Map<String, dynamic> json) {
 
 ResultByTime _$ResultByTimeFromJson(Map<String, dynamic> json) {
   return ResultByTime(
-    estimated: json['Estimated'] as bool,
-    groups: (json['Groups'] as List)
-        ?.map(
-            (e) => e == null ? null : Group.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    estimated: json['Estimated'] as bool?,
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => Group.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timePeriod: json['TimePeriod'] == null
         ? null
         : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
-    total: (json['Total'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : MetricValue.fromJson(e as Map<String, dynamic>)),
+    total: (json['Total'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -1269,7 +1209,7 @@ ResultByTime _$ResultByTimeFromJson(Map<String, dynamic> json) {
 RightsizingRecommendation _$RightsizingRecommendationFromJson(
     Map<String, dynamic> json) {
   return RightsizingRecommendation(
-    accountId: json['AccountId'] as String,
+    accountId: json['AccountId'] as String?,
     currentInstance: json['CurrentInstance'] == null
         ? null
         : CurrentInstance.fromJson(
@@ -1297,26 +1237,18 @@ RightsizingRecommendationConfiguration
         Map<String, dynamic> json) {
   return RightsizingRecommendationConfiguration(
     benefitsConsidered: json['BenefitsConsidered'] as bool,
-    recommendationTarget: _$enumDecodeNullable(
+    recommendationTarget: _$enumDecode(
         _$RecommendationTargetEnumMap, json['RecommendationTarget']),
   );
 }
 
 Map<String, dynamic> _$RightsizingRecommendationConfigurationToJson(
-    RightsizingRecommendationConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BenefitsConsidered', instance.benefitsConsidered);
-  writeNotNull('RecommendationTarget',
-      _$RecommendationTargetEnumMap[instance.recommendationTarget]);
-  return val;
-}
+        RightsizingRecommendationConfiguration instance) =>
+    <String, dynamic>{
+      'BenefitsConsidered': instance.benefitsConsidered,
+      'RecommendationTarget':
+          _$RecommendationTargetEnumMap[instance.recommendationTarget],
+    };
 
 const _$RecommendationTargetEnumMap = {
   RecommendationTarget.sameInstanceFamily: 'SAME_INSTANCE_FAMILY',
@@ -1326,11 +1258,11 @@ const _$RecommendationTargetEnumMap = {
 RightsizingRecommendationMetadata _$RightsizingRecommendationMetadataFromJson(
     Map<String, dynamic> json) {
   return RightsizingRecommendationMetadata(
-    additionalMetadata: json['AdditionalMetadata'] as String,
-    generationTimestamp: json['GenerationTimestamp'] as String,
+    additionalMetadata: json['AdditionalMetadata'] as String?,
+    generationTimestamp: json['GenerationTimestamp'] as String?,
     lookbackPeriodInDays: _$enumDecodeNullable(
         _$LookbackPeriodInDaysEnumMap, json['LookbackPeriodInDays']),
-    recommendationId: json['RecommendationId'] as String,
+    recommendationId: json['RecommendationId'] as String?,
   );
 }
 
@@ -1338,19 +1270,19 @@ RightsizingRecommendationSummary _$RightsizingRecommendationSummaryFromJson(
     Map<String, dynamic> json) {
   return RightsizingRecommendationSummary(
     estimatedTotalMonthlySavingsAmount:
-        json['EstimatedTotalMonthlySavingsAmount'] as String,
-    savingsCurrencyCode: json['SavingsCurrencyCode'] as String,
-    savingsPercentage: json['SavingsPercentage'] as String,
-    totalRecommendationCount: json['TotalRecommendationCount'] as String,
+        json['EstimatedTotalMonthlySavingsAmount'] as String?,
+    savingsCurrencyCode: json['SavingsCurrencyCode'] as String?,
+    savingsPercentage: json['SavingsPercentage'] as String?,
+    totalRecommendationCount: json['TotalRecommendationCount'] as String?,
   );
 }
 
 RootCause _$RootCauseFromJson(Map<String, dynamic> json) {
   return RootCause(
-    linkedAccount: json['LinkedAccount'] as String,
-    region: json['Region'] as String,
-    service: json['Service'] as String,
-    usageType: json['UsageType'] as String,
+    linkedAccount: json['LinkedAccount'] as String?,
+    region: json['Region'] as String?,
+    service: json['Service'] as String?,
+    usageType: json['UsageType'] as String?,
   );
 }
 
@@ -1358,15 +1290,15 @@ SavingsPlansAmortizedCommitment _$SavingsPlansAmortizedCommitmentFromJson(
     Map<String, dynamic> json) {
   return SavingsPlansAmortizedCommitment(
     amortizedRecurringCommitment:
-        json['AmortizedRecurringCommitment'] as String,
-    amortizedUpfrontCommitment: json['AmortizedUpfrontCommitment'] as String,
-    totalAmortizedCommitment: json['TotalAmortizedCommitment'] as String,
+        json['AmortizedRecurringCommitment'] as String?,
+    amortizedUpfrontCommitment: json['AmortizedUpfrontCommitment'] as String?,
+    totalAmortizedCommitment: json['TotalAmortizedCommitment'] as String?,
   );
 }
 
 SavingsPlansCoverage _$SavingsPlansCoverageFromJson(Map<String, dynamic> json) {
   return SavingsPlansCoverage(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     coverage: json['Coverage'] == null
@@ -1382,18 +1314,18 @@ SavingsPlansCoverage _$SavingsPlansCoverageFromJson(Map<String, dynamic> json) {
 SavingsPlansCoverageData _$SavingsPlansCoverageDataFromJson(
     Map<String, dynamic> json) {
   return SavingsPlansCoverageData(
-    coveragePercentage: json['CoveragePercentage'] as String,
-    onDemandCost: json['OnDemandCost'] as String,
-    spendCoveredBySavingsPlans: json['SpendCoveredBySavingsPlans'] as String,
-    totalCost: json['TotalCost'] as String,
+    coveragePercentage: json['CoveragePercentage'] as String?,
+    onDemandCost: json['OnDemandCost'] as String?,
+    spendCoveredBySavingsPlans: json['SpendCoveredBySavingsPlans'] as String?,
+    totalCost: json['TotalCost'] as String?,
   );
 }
 
 SavingsPlansDetails _$SavingsPlansDetailsFromJson(Map<String, dynamic> json) {
   return SavingsPlansDetails(
-    instanceFamily: json['InstanceFamily'] as String,
-    offeringId: json['OfferingId'] as String,
-    region: json['Region'] as String,
+    instanceFamily: json['InstanceFamily'] as String?,
+    offeringId: json['OfferingId'] as String?,
+    region: json['Region'] as String?,
   );
 }
 
@@ -1407,12 +1339,10 @@ SavingsPlansPurchaseRecommendation _$SavingsPlansPurchaseRecommendationFromJson(
     paymentOption:
         _$enumDecodeNullable(_$PaymentOptionEnumMap, json['PaymentOption']),
     savingsPlansPurchaseRecommendationDetails:
-        (json['SavingsPlansPurchaseRecommendationDetails'] as List)
-            ?.map((e) => e == null
-                ? null
-                : SavingsPlansPurchaseRecommendationDetail.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['SavingsPlansPurchaseRecommendationDetails'] as List<dynamic>?)
+            ?.map((e) => SavingsPlansPurchaseRecommendationDetail.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
     savingsPlansPurchaseRecommendationSummary:
         json['SavingsPlansPurchaseRecommendationSummary'] == null
             ? null
@@ -1435,30 +1365,30 @@ SavingsPlansPurchaseRecommendationDetail
     _$SavingsPlansPurchaseRecommendationDetailFromJson(
         Map<String, dynamic> json) {
   return SavingsPlansPurchaseRecommendationDetail(
-    accountId: json['AccountId'] as String,
-    currencyCode: json['CurrencyCode'] as String,
+    accountId: json['AccountId'] as String?,
+    currencyCode: json['CurrencyCode'] as String?,
     currentAverageHourlyOnDemandSpend:
-        json['CurrentAverageHourlyOnDemandSpend'] as String,
+        json['CurrentAverageHourlyOnDemandSpend'] as String?,
     currentMaximumHourlyOnDemandSpend:
-        json['CurrentMaximumHourlyOnDemandSpend'] as String,
+        json['CurrentMaximumHourlyOnDemandSpend'] as String?,
     currentMinimumHourlyOnDemandSpend:
-        json['CurrentMinimumHourlyOnDemandSpend'] as String,
-    estimatedAverageUtilization: json['EstimatedAverageUtilization'] as String,
+        json['CurrentMinimumHourlyOnDemandSpend'] as String?,
+    estimatedAverageUtilization: json['EstimatedAverageUtilization'] as String?,
     estimatedMonthlySavingsAmount:
-        json['EstimatedMonthlySavingsAmount'] as String,
-    estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String,
+        json['EstimatedMonthlySavingsAmount'] as String?,
+    estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
     estimatedOnDemandCostWithCurrentCommitment:
-        json['EstimatedOnDemandCostWithCurrentCommitment'] as String,
-    estimatedROI: json['EstimatedROI'] as String,
-    estimatedSPCost: json['EstimatedSPCost'] as String,
-    estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String,
-    estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String,
-    hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String,
+        json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+    estimatedROI: json['EstimatedROI'] as String?,
+    estimatedSPCost: json['EstimatedSPCost'] as String?,
+    estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+    estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+    hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
     savingsPlansDetails: json['SavingsPlansDetails'] == null
         ? null
         : SavingsPlansDetails.fromJson(
             json['SavingsPlansDetails'] as Map<String, dynamic>),
-    upfrontCost: json['UpfrontCost'] as String,
+    upfrontCost: json['UpfrontCost'] as String?,
   );
 }
 
@@ -1466,9 +1396,9 @@ SavingsPlansPurchaseRecommendationMetadata
     _$SavingsPlansPurchaseRecommendationMetadataFromJson(
         Map<String, dynamic> json) {
   return SavingsPlansPurchaseRecommendationMetadata(
-    additionalMetadata: json['AdditionalMetadata'] as String,
-    generationTimestamp: json['GenerationTimestamp'] as String,
-    recommendationId: json['RecommendationId'] as String,
+    additionalMetadata: json['AdditionalMetadata'] as String?,
+    generationTimestamp: json['GenerationTimestamp'] as String?,
+    recommendationId: json['RecommendationId'] as String?,
   );
 }
 
@@ -1476,46 +1406,44 @@ SavingsPlansPurchaseRecommendationSummary
     _$SavingsPlansPurchaseRecommendationSummaryFromJson(
         Map<String, dynamic> json) {
   return SavingsPlansPurchaseRecommendationSummary(
-    currencyCode: json['CurrencyCode'] as String,
-    currentOnDemandSpend: json['CurrentOnDemandSpend'] as String,
-    dailyCommitmentToPurchase: json['DailyCommitmentToPurchase'] as String,
+    currencyCode: json['CurrencyCode'] as String?,
+    currentOnDemandSpend: json['CurrentOnDemandSpend'] as String?,
+    dailyCommitmentToPurchase: json['DailyCommitmentToPurchase'] as String?,
     estimatedMonthlySavingsAmount:
-        json['EstimatedMonthlySavingsAmount'] as String,
+        json['EstimatedMonthlySavingsAmount'] as String?,
     estimatedOnDemandCostWithCurrentCommitment:
-        json['EstimatedOnDemandCostWithCurrentCommitment'] as String,
-    estimatedROI: json['EstimatedROI'] as String,
-    estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String,
-    estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String,
-    estimatedTotalCost: json['EstimatedTotalCost'] as String,
-    hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String,
-    totalRecommendationCount: json['TotalRecommendationCount'] as String,
+        json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+    estimatedROI: json['EstimatedROI'] as String?,
+    estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+    estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+    estimatedTotalCost: json['EstimatedTotalCost'] as String?,
+    hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+    totalRecommendationCount: json['TotalRecommendationCount'] as String?,
   );
 }
 
 SavingsPlansSavings _$SavingsPlansSavingsFromJson(Map<String, dynamic> json) {
   return SavingsPlansSavings(
-    netSavings: json['NetSavings'] as String,
-    onDemandCostEquivalent: json['OnDemandCostEquivalent'] as String,
+    netSavings: json['NetSavings'] as String?,
+    onDemandCostEquivalent: json['OnDemandCostEquivalent'] as String?,
   );
 }
 
 SavingsPlansUtilization _$SavingsPlansUtilizationFromJson(
     Map<String, dynamic> json) {
   return SavingsPlansUtilization(
-    totalCommitment: json['TotalCommitment'] as String,
-    unusedCommitment: json['UnusedCommitment'] as String,
-    usedCommitment: json['UsedCommitment'] as String,
-    utilizationPercentage: json['UtilizationPercentage'] as String,
+    totalCommitment: json['TotalCommitment'] as String?,
+    unusedCommitment: json['UnusedCommitment'] as String?,
+    usedCommitment: json['UsedCommitment'] as String?,
+    utilizationPercentage: json['UtilizationPercentage'] as String?,
   );
 }
 
 SavingsPlansUtilizationAggregates _$SavingsPlansUtilizationAggregatesFromJson(
     Map<String, dynamic> json) {
   return SavingsPlansUtilizationAggregates(
-    utilization: json['Utilization'] == null
-        ? null
-        : SavingsPlansUtilization.fromJson(
-            json['Utilization'] as Map<String, dynamic>),
+    utilization: SavingsPlansUtilization.fromJson(
+        json['Utilization'] as Map<String, dynamic>),
     amortizedCommitment: json['AmortizedCommitment'] == null
         ? null
         : SavingsPlansAmortizedCommitment.fromJson(
@@ -1529,13 +1457,10 @@ SavingsPlansUtilizationAggregates _$SavingsPlansUtilizationAggregatesFromJson(
 SavingsPlansUtilizationByTime _$SavingsPlansUtilizationByTimeFromJson(
     Map<String, dynamic> json) {
   return SavingsPlansUtilizationByTime(
-    timePeriod: json['TimePeriod'] == null
-        ? null
-        : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
-    utilization: json['Utilization'] == null
-        ? null
-        : SavingsPlansUtilization.fromJson(
-            json['Utilization'] as Map<String, dynamic>),
+    timePeriod:
+        DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+    utilization: SavingsPlansUtilization.fromJson(
+        json['Utilization'] as Map<String, dynamic>),
     amortizedCommitment: json['AmortizedCommitment'] == null
         ? null
         : SavingsPlansAmortizedCommitment.fromJson(
@@ -1553,13 +1478,13 @@ SavingsPlansUtilizationDetail _$SavingsPlansUtilizationDetailFromJson(
         ? null
         : SavingsPlansAmortizedCommitment.fromJson(
             json['AmortizedCommitment'] as Map<String, dynamic>),
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     savings: json['Savings'] == null
         ? null
         : SavingsPlansSavings.fromJson(json['Savings'] as Map<String, dynamic>),
-    savingsPlanArn: json['SavingsPlanArn'] as String,
+    savingsPlanArn: json['SavingsPlanArn'] as String?,
     utilization: json['Utilization'] == null
         ? null
         : SavingsPlansUtilization.fromJson(
@@ -1592,7 +1517,7 @@ Map<String, dynamic> _$ServiceSpecificationToJson(
 
 Subscriber _$SubscriberFromJson(Map<String, dynamic> json) {
   return Subscriber(
-    address: json['Address'] as String,
+    address: json['Address'] as String?,
     status: _$enumDecodeNullable(_$SubscriberStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$SubscriberTypeEnumMap, json['Type']),
   );
@@ -1625,11 +1550,12 @@ const _$SubscriberTypeEnumMap = {
 
 TagValues _$TagValuesFromJson(Map<String, dynamic> json) {
   return TagValues(
-    key: json['Key'] as String,
-    matchOptions: (json['MatchOptions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$MatchOptionEnumMap, e))
-        ?.toList(),
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    key: json['Key'] as String?,
+    matchOptions: (json['MatchOptions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$MatchOptionEnumMap, e))
+        .toList(),
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -1644,17 +1570,17 @@ Map<String, dynamic> _$TagValuesToJson(TagValues instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('MatchOptions',
-      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e])?.toList());
+      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e]).toList());
   writeNotNull('Values', instance.values);
   return val;
 }
 
 TargetInstance _$TargetInstanceFromJson(Map<String, dynamic> json) {
   return TargetInstance(
-    currencyCode: json['CurrencyCode'] as String,
-    defaultTargetInstance: json['DefaultTargetInstance'] as bool,
-    estimatedMonthlyCost: json['EstimatedMonthlyCost'] as String,
-    estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String,
+    currencyCode: json['CurrencyCode'] as String?,
+    defaultTargetInstance: json['DefaultTargetInstance'] as bool?,
+    estimatedMonthlyCost: json['EstimatedMonthlyCost'] as String?,
+    estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
     expectedResourceUtilization: json['ExpectedResourceUtilization'] == null
         ? null
         : ResourceUtilization.fromJson(
@@ -1669,13 +1595,16 @@ TargetInstance _$TargetInstanceFromJson(Map<String, dynamic> json) {
 TerminateRecommendationDetail _$TerminateRecommendationDetailFromJson(
     Map<String, dynamic> json) {
   return TerminateRecommendationDetail(
-    currencyCode: json['CurrencyCode'] as String,
-    estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String,
+    currencyCode: json['CurrencyCode'] as String?,
+    estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
   );
 }
 
 Map<String, dynamic> _$TotalImpactFilterToJson(TotalImpactFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'NumericOperator': _$NumericOperatorEnumMap[instance.numericOperator],
+    'StartValue': instance.startValue,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1683,9 +1612,6 @@ Map<String, dynamic> _$TotalImpactFilterToJson(TotalImpactFilter instance) {
     }
   }
 
-  writeNotNull(
-      'NumericOperator', _$NumericOperatorEnumMap[instance.numericOperator]);
-  writeNotNull('StartValue', instance.startValue);
   writeNotNull('EndValue', instance.endValue);
   return val;
 }
@@ -1716,18 +1642,17 @@ UpdateAnomalySubscriptionResponse _$UpdateAnomalySubscriptionResponseFromJson(
 UpdateCostCategoryDefinitionResponse
     _$UpdateCostCategoryDefinitionResponseFromJson(Map<String, dynamic> json) {
   return UpdateCostCategoryDefinitionResponse(
-    costCategoryArn: json['CostCategoryArn'] as String,
-    effectiveStart: json['EffectiveStart'] as String,
+    costCategoryArn: json['CostCategoryArn'] as String?,
+    effectiveStart: json['EffectiveStart'] as String?,
   );
 }
 
 UtilizationByTime _$UtilizationByTimeFromJson(Map<String, dynamic> json) {
   return UtilizationByTime(
-    groups: (json['Groups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) =>
+            ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timePeriod: json['TimePeriod'] == null
         ? null
         : DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),

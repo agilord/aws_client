@@ -9,10 +9,10 @@ part of 'managedblockchain-2018-09-24.dart';
 ApprovalThresholdPolicy _$ApprovalThresholdPolicyFromJson(
     Map<String, dynamic> json) {
   return ApprovalThresholdPolicy(
-    proposalDurationInHours: json['ProposalDurationInHours'] as int,
+    proposalDurationInHours: json['ProposalDurationInHours'] as int?,
     thresholdComparator: _$enumDecodeNullable(
         _$ThresholdComparatorEnumMap, json['ThresholdComparator']),
-    thresholdPercentage: json['ThresholdPercentage'] as int,
+    thresholdPercentage: json['ThresholdPercentage'] as int?,
   );
 }
 
@@ -33,36 +33,41 @@ Map<String, dynamic> _$ApprovalThresholdPolicyToJson(
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ThresholdComparatorEnumMap = {
@@ -72,26 +77,26 @@ const _$ThresholdComparatorEnumMap = {
 
 CreateMemberOutput _$CreateMemberOutputFromJson(Map<String, dynamic> json) {
   return CreateMemberOutput(
-    memberId: json['MemberId'] as String,
+    memberId: json['MemberId'] as String?,
   );
 }
 
 CreateNetworkOutput _$CreateNetworkOutputFromJson(Map<String, dynamic> json) {
   return CreateNetworkOutput(
-    memberId: json['MemberId'] as String,
-    networkId: json['NetworkId'] as String,
+    memberId: json['MemberId'] as String?,
+    networkId: json['NetworkId'] as String?,
   );
 }
 
 CreateNodeOutput _$CreateNodeOutputFromJson(Map<String, dynamic> json) {
   return CreateNodeOutput(
-    nodeId: json['NodeId'] as String,
+    nodeId: json['NodeId'] as String?,
   );
 }
 
 CreateProposalOutput _$CreateProposalOutputFromJson(Map<String, dynamic> json) {
   return CreateProposalOutput(
-    proposalId: json['ProposalId'] as String,
+    proposalId: json['ProposalId'] as String?,
   );
 }
 
@@ -140,7 +145,7 @@ Invitation _$InvitationFromJson(Map<String, dynamic> json) {
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
     expirationDate:
         const IsoDateTimeConverter().fromJson(json['ExpirationDate']),
-    invitationId: json['InvitationId'] as String,
+    invitationId: json['InvitationId'] as String?,
     networkSummary: json['NetworkSummary'] == null
         ? null
         : NetworkSummary.fromJson(
@@ -163,87 +168,70 @@ InviteAction _$InviteActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$InviteActionToJson(InviteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Principal', instance.principal);
-  return val;
-}
+Map<String, dynamic> _$InviteActionToJson(InviteAction instance) =>
+    <String, dynamic>{
+      'Principal': instance.principal,
+    };
 
 ListInvitationsOutput _$ListInvitationsOutputFromJson(
     Map<String, dynamic> json) {
   return ListInvitationsOutput(
-    invitations: (json['Invitations'] as List)
-        ?.map((e) =>
-            e == null ? null : Invitation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    invitations: (json['Invitations'] as List<dynamic>?)
+        ?.map((e) => Invitation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListMembersOutput _$ListMembersOutputFromJson(Map<String, dynamic> json) {
   return ListMembersOutput(
-    members: (json['Members'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MemberSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    members: (json['Members'] as List<dynamic>?)
+        ?.map((e) => MemberSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListNetworksOutput _$ListNetworksOutputFromJson(Map<String, dynamic> json) {
   return ListNetworksOutput(
-    networks: (json['Networks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NetworkSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    networks: (json['Networks'] as List<dynamic>?)
+        ?.map((e) => NetworkSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListNodesOutput _$ListNodesOutputFromJson(Map<String, dynamic> json) {
   return ListNodesOutput(
-    nextToken: json['NextToken'] as String,
-    nodes: (json['Nodes'] as List)
-        ?.map((e) =>
-            e == null ? null : NodeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    nodes: (json['Nodes'] as List<dynamic>?)
+        ?.map((e) => NodeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListProposalVotesOutput _$ListProposalVotesOutputFromJson(
     Map<String, dynamic> json) {
   return ListProposalVotesOutput(
-    nextToken: json['NextToken'] as String,
-    proposalVotes: (json['ProposalVotes'] as List)
-        ?.map((e) =>
-            e == null ? null : VoteSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    proposalVotes: (json['ProposalVotes'] as List<dynamic>?)
+        ?.map((e) => VoteSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListProposalsOutput _$ListProposalsOutputFromJson(Map<String, dynamic> json) {
   return ListProposalsOutput(
-    nextToken: json['NextToken'] as String,
-    proposals: (json['Proposals'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProposalSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    proposals: (json['Proposals'] as List<dynamic>?)
+        ?.map((e) => ProposalSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LogConfiguration _$LogConfigurationFromJson(Map<String, dynamic> json) {
   return LogConfiguration(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
@@ -284,18 +272,18 @@ Map<String, dynamic> _$LogConfigurationsToJson(LogConfigurations instance) {
 Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     frameworkAttributes: json['FrameworkAttributes'] == null
         ? null
         : MemberFrameworkAttributes.fromJson(
             json['FrameworkAttributes'] as Map<String, dynamic>),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     logPublishingConfiguration: json['LogPublishingConfiguration'] == null
         ? null
         : MemberLogPublishingConfiguration.fromJson(
             json['LogPublishingConfiguration'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    networkId: json['NetworkId'] as String,
+    name: json['Name'] as String?,
+    networkId: json['NetworkId'] as String?,
     status: _$enumDecodeNullable(_$MemberStatusEnumMap, json['Status']),
   );
 }
@@ -310,7 +298,10 @@ const _$MemberStatusEnumMap = {
 };
 
 Map<String, dynamic> _$MemberConfigurationToJson(MemberConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'FrameworkConfiguration': instance.frameworkConfiguration.toJson(),
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -318,9 +309,6 @@ Map<String, dynamic> _$MemberConfigurationToJson(MemberConfiguration instance) {
     }
   }
 
-  writeNotNull(
-      'FrameworkConfiguration', instance.frameworkConfiguration?.toJson());
-  writeNotNull('Name', instance.name);
   writeNotNull('Description', instance.description);
   writeNotNull('LogPublishingConfiguration',
       instance.logPublishingConfiguration?.toJson());
@@ -330,25 +318,17 @@ Map<String, dynamic> _$MemberConfigurationToJson(MemberConfiguration instance) {
 MemberFabricAttributes _$MemberFabricAttributesFromJson(
     Map<String, dynamic> json) {
   return MemberFabricAttributes(
-    adminUsername: json['AdminUsername'] as String,
-    caEndpoint: json['CaEndpoint'] as String,
+    adminUsername: json['AdminUsername'] as String?,
+    caEndpoint: json['CaEndpoint'] as String?,
   );
 }
 
 Map<String, dynamic> _$MemberFabricConfigurationToJson(
-    MemberFabricConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AdminPassword', instance.adminPassword);
-  writeNotNull('AdminUsername', instance.adminUsername);
-  return val;
-}
+        MemberFabricConfiguration instance) =>
+    <String, dynamic>{
+      'AdminPassword': instance.adminPassword,
+      'AdminUsername': instance.adminUsername,
+    };
 
 MemberFabricLogPublishingConfiguration
     _$MemberFabricLogPublishingConfigurationFromJson(
@@ -425,10 +405,10 @@ Map<String, dynamic> _$MemberLogPublishingConfigurationToJson(
 MemberSummary _$MemberSummaryFromJson(Map<String, dynamic> json) {
   return MemberSummary(
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    isOwned: json['IsOwned'] as bool,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    isOwned: json['IsOwned'] as bool?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$MemberStatusEnumMap, json['Status']),
   );
 }
@@ -436,20 +416,20 @@ MemberSummary _$MemberSummaryFromJson(Map<String, dynamic> json) {
 Network _$NetworkFromJson(Map<String, dynamic> json) {
   return Network(
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     framework: _$enumDecodeNullable(_$FrameworkEnumMap, json['Framework']),
     frameworkAttributes: json['FrameworkAttributes'] == null
         ? null
         : NetworkFrameworkAttributes.fromJson(
             json['FrameworkAttributes'] as Map<String, dynamic>),
-    frameworkVersion: json['FrameworkVersion'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    frameworkVersion: json['FrameworkVersion'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$NetworkStatusEnumMap, json['Status']),
     votingPolicy: json['VotingPolicy'] == null
         ? null
         : VotingPolicy.fromJson(json['VotingPolicy'] as Map<String, dynamic>),
-    vpcEndpointServiceName: json['VpcEndpointServiceName'] as String,
+    vpcEndpointServiceName: json['VpcEndpointServiceName'] as String?,
   );
 }
 
@@ -469,7 +449,7 @@ const _$NetworkStatusEnumMap = {
 NetworkEthereumAttributes _$NetworkEthereumAttributesFromJson(
     Map<String, dynamic> json) {
   return NetworkEthereumAttributes(
-    chainId: json['ChainId'] as String,
+    chainId: json['ChainId'] as String?,
   );
 }
 
@@ -477,7 +457,7 @@ NetworkFabricAttributes _$NetworkFabricAttributesFromJson(
     Map<String, dynamic> json) {
   return NetworkFabricAttributes(
     edition: _$enumDecodeNullable(_$EditionEnumMap, json['Edition']),
-    orderingServiceEndpoint: json['OrderingServiceEndpoint'] as String,
+    orderingServiceEndpoint: json['OrderingServiceEndpoint'] as String?,
   );
 }
 
@@ -487,18 +467,10 @@ const _$EditionEnumMap = {
 };
 
 Map<String, dynamic> _$NetworkFabricConfigurationToJson(
-    NetworkFabricConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Edition', _$EditionEnumMap[instance.edition]);
-  return val;
-}
+        NetworkFabricConfiguration instance) =>
+    <String, dynamic>{
+      'Edition': _$EditionEnumMap[instance.edition],
+    };
 
 NetworkFrameworkAttributes _$NetworkFrameworkAttributesFromJson(
     Map<String, dynamic> json) {
@@ -531,31 +503,31 @@ Map<String, dynamic> _$NetworkFrameworkConfigurationToJson(
 NetworkSummary _$NetworkSummaryFromJson(Map<String, dynamic> json) {
   return NetworkSummary(
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     framework: _$enumDecodeNullable(_$FrameworkEnumMap, json['Framework']),
-    frameworkVersion: json['FrameworkVersion'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    frameworkVersion: json['FrameworkVersion'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$NetworkStatusEnumMap, json['Status']),
   );
 }
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
   return Node(
-    availabilityZone: json['AvailabilityZone'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
     frameworkAttributes: json['FrameworkAttributes'] == null
         ? null
         : NodeFrameworkAttributes.fromJson(
             json['FrameworkAttributes'] as Map<String, dynamic>),
-    id: json['Id'] as String,
-    instanceType: json['InstanceType'] as String,
+    id: json['Id'] as String?,
+    instanceType: json['InstanceType'] as String?,
     logPublishingConfiguration: json['LogPublishingConfiguration'] == null
         ? null
         : NodeLogPublishingConfiguration.fromJson(
             json['LogPublishingConfiguration'] as Map<String, dynamic>),
-    memberId: json['MemberId'] as String,
-    networkId: json['NetworkId'] as String,
+    memberId: json['MemberId'] as String?,
+    networkId: json['NetworkId'] as String?,
     stateDB: _$enumDecodeNullable(_$StateDBTypeEnumMap, json['StateDB']),
     status: _$enumDecodeNullable(_$NodeStatusEnumMap, json['Status']),
   );
@@ -578,7 +550,9 @@ const _$NodeStatusEnumMap = {
 };
 
 Map<String, dynamic> _$NodeConfigurationToJson(NodeConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstanceType': instance.instanceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -586,7 +560,6 @@ Map<String, dynamic> _$NodeConfigurationToJson(NodeConfiguration instance) {
     }
   }
 
-  writeNotNull('InstanceType', instance.instanceType);
   writeNotNull('AvailabilityZone', instance.availabilityZone);
   writeNotNull('LogPublishingConfiguration',
       instance.logPublishingConfiguration?.toJson());
@@ -597,15 +570,15 @@ Map<String, dynamic> _$NodeConfigurationToJson(NodeConfiguration instance) {
 NodeEthereumAttributes _$NodeEthereumAttributesFromJson(
     Map<String, dynamic> json) {
   return NodeEthereumAttributes(
-    httpEndpoint: json['HttpEndpoint'] as String,
-    webSocketEndpoint: json['WebSocketEndpoint'] as String,
+    httpEndpoint: json['HttpEndpoint'] as String?,
+    webSocketEndpoint: json['WebSocketEndpoint'] as String?,
   );
 }
 
 NodeFabricAttributes _$NodeFabricAttributesFromJson(Map<String, dynamic> json) {
   return NodeFabricAttributes(
-    peerEndpoint: json['PeerEndpoint'] as String,
-    peerEventEndpoint: json['PeerEventEndpoint'] as String,
+    peerEndpoint: json['PeerEndpoint'] as String?,
+    peerEventEndpoint: json['PeerEventEndpoint'] as String?,
   );
 }
 
@@ -676,10 +649,10 @@ Map<String, dynamic> _$NodeLogPublishingConfigurationToJson(
 
 NodeSummary _$NodeSummaryFromJson(Map<String, dynamic> json) {
   return NodeSummary(
-    availabilityZone: json['AvailabilityZone'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    id: json['Id'] as String,
-    instanceType: json['InstanceType'] as String,
+    id: json['Id'] as String?,
+    instanceType: json['InstanceType'] as String?,
     status: _$enumDecodeNullable(_$NodeStatusEnumMap, json['Status']),
   );
 }
@@ -690,17 +663,17 @@ Proposal _$ProposalFromJson(Map<String, dynamic> json) {
         ? null
         : ProposalActions.fromJson(json['Actions'] as Map<String, dynamic>),
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     expirationDate:
         const IsoDateTimeConverter().fromJson(json['ExpirationDate']),
-    networkId: json['NetworkId'] as String,
-    noVoteCount: json['NoVoteCount'] as int,
-    outstandingVoteCount: json['OutstandingVoteCount'] as int,
-    proposalId: json['ProposalId'] as String,
-    proposedByMemberId: json['ProposedByMemberId'] as String,
-    proposedByMemberName: json['ProposedByMemberName'] as String,
+    networkId: json['NetworkId'] as String?,
+    noVoteCount: json['NoVoteCount'] as int?,
+    outstandingVoteCount: json['OutstandingVoteCount'] as int?,
+    proposalId: json['ProposalId'] as String?,
+    proposedByMemberId: json['ProposedByMemberId'] as String?,
+    proposedByMemberName: json['ProposedByMemberName'] as String?,
     status: _$enumDecodeNullable(_$ProposalStatusEnumMap, json['Status']),
-    yesVoteCount: json['YesVoteCount'] as int,
+    yesVoteCount: json['YesVoteCount'] as int?,
   );
 }
 
@@ -714,14 +687,12 @@ const _$ProposalStatusEnumMap = {
 
 ProposalActions _$ProposalActionsFromJson(Map<String, dynamic> json) {
   return ProposalActions(
-    invitations: (json['Invitations'] as List)
-        ?.map((e) =>
-            e == null ? null : InviteAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    removals: (json['Removals'] as List)
-        ?.map((e) =>
-            e == null ? null : RemoveAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    invitations: (json['Invitations'] as List<dynamic>?)
+        ?.map((e) => InviteAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    removals: (json['Removals'] as List<dynamic>?)
+        ?.map((e) => RemoveAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -735,21 +706,20 @@ Map<String, dynamic> _$ProposalActionsToJson(ProposalActions instance) {
   }
 
   writeNotNull(
-      'Invitations', instance.invitations?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'Removals', instance.removals?.map((e) => e?.toJson())?.toList());
+      'Invitations', instance.invitations?.map((e) => e.toJson()).toList());
+  writeNotNull('Removals', instance.removals?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ProposalSummary _$ProposalSummaryFromJson(Map<String, dynamic> json) {
   return ProposalSummary(
     creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     expirationDate:
         const IsoDateTimeConverter().fromJson(json['ExpirationDate']),
-    proposalId: json['ProposalId'] as String,
-    proposedByMemberId: json['ProposedByMemberId'] as String,
-    proposedByMemberName: json['ProposedByMemberName'] as String,
+    proposalId: json['ProposalId'] as String?,
+    proposedByMemberId: json['ProposedByMemberId'] as String?,
+    proposedByMemberName: json['ProposedByMemberName'] as String?,
     status: _$enumDecodeNullable(_$ProposalStatusEnumMap, json['Status']),
   );
 }
@@ -765,18 +735,10 @@ RemoveAction _$RemoveActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RemoveActionToJson(RemoveAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MemberId', instance.memberId);
-  return val;
-}
+Map<String, dynamic> _$RemoveActionToJson(RemoveAction instance) =>
+    <String, dynamic>{
+      'MemberId': instance.memberId,
+    };
 
 UpdateMemberOutput _$UpdateMemberOutputFromJson(Map<String, dynamic> json) {
   return UpdateMemberOutput();
@@ -792,8 +754,8 @@ VoteOnProposalOutput _$VoteOnProposalOutputFromJson(Map<String, dynamic> json) {
 
 VoteSummary _$VoteSummaryFromJson(Map<String, dynamic> json) {
   return VoteSummary(
-    memberId: json['MemberId'] as String,
-    memberName: json['MemberName'] as String,
+    memberId: json['MemberId'] as String?,
+    memberName: json['MemberName'] as String?,
     vote: _$enumDecodeNullable(_$VoteValueEnumMap, json['Vote']),
   );
 }

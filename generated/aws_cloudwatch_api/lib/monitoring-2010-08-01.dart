@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'monitoring-2010-08-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'monitoring-2010-08-01.g.dart';
 
 /// Amazon CloudWatch monitors your Amazon Web Services (AWS) resources and the
 /// applications you run on AWS in real time. You can use CloudWatch to collect
@@ -48,9 +40,9 @@ class CloudWatch {
   final Map<String, _s.Shape> shapes;
 
   CloudWatch({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -91,7 +83,7 @@ class CloudWatch {
   /// Parameter [alarmNames] :
   /// The alarms to be deleted.
   Future<void> deleteAlarms({
-    @_s.required List<String> alarmNames,
+    required List<String> alarmNames,
   }) async {
     ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
@@ -128,10 +120,10 @@ class CloudWatch {
   /// The metric dimensions associated with the anomaly detection model to
   /// delete.
   Future<void> deleteAnomalyDetector({
-    @_s.required String metricName,
-    @_s.required String namespace,
-    @_s.required String stat,
-    List<Dimension> dimensions,
+    required String metricName,
+    required String namespace,
+    required String stat,
+    List<Dimension>? dimensions,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -191,7 +183,7 @@ class CloudWatch {
   /// Parameter [dashboardNames] :
   /// The dashboards to be deleted. This parameter is required.
   Future<void> deleteDashboards({
-    @_s.required List<String> dashboardNames,
+    required List<String> dashboardNames,
   }) async {
     ArgumentError.checkNotNull(dashboardNames, 'dashboardNames');
     final $request = <String, dynamic>{};
@@ -223,7 +215,7 @@ class CloudWatch {
   /// your rules, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<DeleteInsightRulesOutput> deleteInsightRules({
-    @_s.required List<String> ruleNames,
+    required List<String> ruleNames,
   }) async {
     ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
@@ -281,14 +273,14 @@ class CloudWatch {
   /// Parameter [startDate] :
   /// The starting date to retrieve alarm history.
   Future<DescribeAlarmHistoryOutput> describeAlarmHistory({
-    String alarmName,
-    List<AlarmType> alarmTypes,
-    DateTime endDate,
-    HistoryItemType historyItemType,
-    int maxRecords,
-    String nextToken,
-    ScanBy scanBy,
-    DateTime startDate,
+    String? alarmName,
+    List<AlarmType>? alarmTypes,
+    DateTime? endDate,
+    HistoryItemType? historyItemType,
+    int? maxRecords,
+    String? nextToken,
+    ScanBy? scanBy,
+    DateTime? startDate,
   }) async {
     _s.validateStringLength(
       'alarmName',
@@ -304,8 +296,8 @@ class CloudWatch {
     );
     final $request = <String, dynamic>{};
     alarmName?.also((arg) => $request['AlarmName'] = arg);
-    alarmTypes?.also((arg) =>
-        $request['AlarmTypes'] = arg.map((e) => e?.toValue() ?? '').toList());
+    alarmTypes?.also(
+        (arg) => $request['AlarmTypes'] = arg.map((e) => e.toValue()).toList());
     endDate?.also((arg) => $request['EndDate'] = _s.iso8601ToJson(arg));
     historyItemType?.also((arg) => $request['HistoryItemType'] = arg.toValue());
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -401,15 +393,15 @@ class CloudWatch {
   /// Specify this parameter to receive information only about alarms that are
   /// currently in the state that you specify.
   Future<DescribeAlarmsOutput> describeAlarms({
-    String actionPrefix,
-    String alarmNamePrefix,
-    List<String> alarmNames,
-    List<AlarmType> alarmTypes,
-    String childrenOfAlarmName,
-    int maxRecords,
-    String nextToken,
-    String parentsOfAlarmName,
-    StateValue stateValue,
+    String? actionPrefix,
+    String? alarmNamePrefix,
+    List<String>? alarmNames,
+    List<AlarmType>? alarmTypes,
+    String? childrenOfAlarmName,
+    int? maxRecords,
+    String? nextToken,
+    String? parentsOfAlarmName,
+    StateValue? stateValue,
   }) async {
     _s.validateStringLength(
       'actionPrefix',
@@ -445,8 +437,8 @@ class CloudWatch {
     actionPrefix?.also((arg) => $request['ActionPrefix'] = arg);
     alarmNamePrefix?.also((arg) => $request['AlarmNamePrefix'] = arg);
     alarmNames?.also((arg) => $request['AlarmNames'] = arg);
-    alarmTypes?.also((arg) =>
-        $request['AlarmTypes'] = arg.map((e) => e?.toValue() ?? '').toList());
+    alarmTypes?.also(
+        (arg) => $request['AlarmTypes'] = arg.map((e) => e.toValue()).toList());
     childrenOfAlarmName?.also((arg) => $request['ChildrenOfAlarmName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -499,13 +491,13 @@ class CloudWatch {
   /// Parameter [unit] :
   /// The unit for the metric.
   Future<DescribeAlarmsForMetricOutput> describeAlarmsForMetric({
-    @_s.required String metricName,
-    @_s.required String namespace,
-    List<Dimension> dimensions,
-    String extendedStatistic,
-    int period,
-    Statistic statistic,
-    StandardUnit unit,
+    required String metricName,
+    required String namespace,
+    List<Dimension>? dimensions,
+    String? extendedStatistic,
+    int? period,
+    Statistic? statistic,
+    StandardUnit? unit,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -598,11 +590,11 @@ class CloudWatch {
   /// Use the token returned by the previous operation to request the next page
   /// of results.
   Future<DescribeAnomalyDetectorsOutput> describeAnomalyDetectors({
-    List<Dimension> dimensions,
-    int maxResults,
-    String metricName,
-    String namespace,
-    String nextToken,
+    List<Dimension>? dimensions,
+    int? maxResults,
+    String? metricName,
+    String? namespace,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -663,8 +655,8 @@ class CloudWatch {
   /// Include this value, if it was returned by the previous operation, to get
   /// the next set of rules.
   Future<DescribeInsightRulesOutput> describeInsightRules({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -695,7 +687,7 @@ class CloudWatch {
   /// Parameter [alarmNames] :
   /// The names of the alarms.
   Future<void> disableAlarmActions({
-    @_s.required List<String> alarmNames,
+    required List<String> alarmNames,
   }) async {
     ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
@@ -723,7 +715,7 @@ class CloudWatch {
   /// of your rules, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<DisableInsightRulesOutput> disableInsightRules({
-    @_s.required List<String> ruleNames,
+    required List<String> ruleNames,
   }) async {
     ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
@@ -747,7 +739,7 @@ class CloudWatch {
   /// Parameter [alarmNames] :
   /// The names of the alarms.
   Future<void> enableAlarmActions({
-    @_s.required List<String> alarmNames,
+    required List<String> alarmNames,
   }) async {
     ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
@@ -776,7 +768,7 @@ class CloudWatch {
   /// your rules, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeInsightRules.html">DescribeInsightRules</a>.
   Future<EnableInsightRulesOutput> enableInsightRules({
-    @_s.required List<String> ruleNames,
+    required List<String> ruleNames,
   }) async {
     ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
@@ -809,7 +801,7 @@ class CloudWatch {
   /// Parameter [dashboardName] :
   /// The name of the dashboard to be described.
   Future<GetDashboardOutput> getDashboard({
-    @_s.required String dashboardName,
+    required String dashboardName,
   }) async {
     ArgumentError.checkNotNull(dashboardName, 'dashboardName');
     final $request = <String, dynamic>{};
@@ -942,13 +934,13 @@ class CloudWatch {
   /// Determines what statistic to use to rank the contributors. Valid values
   /// are SUM and MAXIMUM.
   Future<GetInsightRuleReportOutput> getInsightRuleReport({
-    @_s.required DateTime endTime,
-    @_s.required int period,
-    @_s.required String ruleName,
-    @_s.required DateTime startTime,
-    int maxContributorCount,
-    List<String> metrics,
-    String orderBy,
+    required DateTime endTime,
+    required int period,
+    required String ruleName,
+    required DateTime startTime,
+    int? maxContributorCount,
+    List<String>? metrics,
+    String? orderBy,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(period, 'period');
@@ -1136,12 +1128,12 @@ class CloudWatch {
   /// <code>TimestampAscending</code> returns the oldest data first and
   /// paginates when the <code>MaxDatapoints</code> limit is reached.
   Future<GetMetricDataOutput> getMetricData({
-    @_s.required DateTime endTime,
-    @_s.required List<MetricDataQuery> metricDataQueries,
-    @_s.required DateTime startTime,
-    int maxDatapoints,
-    String nextToken,
-    ScanBy scanBy,
+    required DateTime endTime,
+    required List<MetricDataQuery> metricDataQueries,
+    required DateTime startTime,
+    int? maxDatapoints,
+    String? nextToken,
+    ScanBy? scanBy,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(metricDataQueries, 'metricDataQueries');
@@ -1351,15 +1343,15 @@ class CloudWatch {
   /// collected, the results of the operation are null. CloudWatch does not
   /// perform unit conversions.
   Future<GetMetricStatisticsOutput> getMetricStatistics({
-    @_s.required DateTime endTime,
-    @_s.required String metricName,
-    @_s.required String namespace,
-    @_s.required int period,
-    @_s.required DateTime startTime,
-    List<Dimension> dimensions,
-    List<String> extendedStatistics,
-    List<Statistic> statistics,
-    StandardUnit unit,
+    required DateTime endTime,
+    required String metricName,
+    required String namespace,
+    required int period,
+    required DateTime startTime,
+    List<Dimension>? dimensions,
+    List<String>? extendedStatistics,
+    List<Statistic>? statistics,
+    StandardUnit? unit,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(metricName, 'metricName');
@@ -1401,8 +1393,8 @@ class CloudWatch {
     $request['StartTime'] = _s.iso8601ToJson(startTime);
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     extendedStatistics?.also((arg) => $request['ExtendedStatistics'] = arg);
-    statistics?.also((arg) =>
-        $request['Statistics'] = arg.map((e) => e?.toValue() ?? '').toList());
+    statistics?.also(
+        (arg) => $request['Statistics'] = arg.map((e) => e.toValue()).toList());
     unit?.also((arg) => $request['Unit'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
@@ -1490,8 +1482,8 @@ class CloudWatch {
   /// response has a content-type set to <code>image/png</code>, and the body of
   /// the response is a PNG image.
   Future<GetMetricWidgetImageOutput> getMetricWidgetImage({
-    @_s.required String metricWidget,
-    String outputFormat,
+    required String metricWidget,
+    String? outputFormat,
   }) async {
     ArgumentError.checkNotNull(metricWidget, 'metricWidget');
     final $request = <String, dynamic>{};
@@ -1534,8 +1526,8 @@ class CloudWatch {
   /// The token returned by a previous call to indicate that there is more data
   /// available.
   Future<ListDashboardsOutput> listDashboards({
-    String dashboardNamePrefix,
-    String nextToken,
+    String? dashboardNamePrefix,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     dashboardNamePrefix?.also((arg) => $request['DashboardNamePrefix'] = arg);
@@ -1605,11 +1597,11 @@ class CloudWatch {
   /// metrics with last published data as much as 40 minutes more than the
   /// specified time interval.
   Future<ListMetricsOutput> listMetrics({
-    List<DimensionFilter> dimensions,
-    String metricName,
-    String namespace,
-    String nextToken,
-    RecentlyActive recentlyActive,
+    List<DimensionFilter>? dimensions,
+    String? metricName,
+    String? namespace,
+    String? nextToken,
+    RecentlyActive? recentlyActive,
   }) async {
     _s.validateStringLength(
       'metricName',
@@ -1671,7 +1663,7 @@ class CloudWatch {
   /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
   /// Services General Reference</i>.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1729,11 +1721,11 @@ class CloudWatch {
   /// Parameter [dimensions] :
   /// The metric dimensions to create the anomaly detection model for.
   Future<void> putAnomalyDetector({
-    @_s.required String metricName,
-    @_s.required String namespace,
-    @_s.required String stat,
-    AnomalyDetectorConfiguration configuration,
-    List<Dimension> dimensions,
+    required String metricName,
+    required String namespace,
+    required String stat,
+    AnomalyDetectorConfiguration? configuration,
+    List<Dimension>? dimensions,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -1948,14 +1940,14 @@ class CloudWatch {
   /// them to scope user permissions, by granting a user permission to access or
   /// change only resources with certain tag values.
   Future<void> putCompositeAlarm({
-    @_s.required String alarmName,
-    @_s.required String alarmRule,
-    bool actionsEnabled,
-    List<String> alarmActions,
-    String alarmDescription,
-    List<String> insufficientDataActions,
-    List<String> oKActions,
-    List<Tag> tags,
+    required String alarmName,
+    required String alarmRule,
+    bool? actionsEnabled,
+    List<String>? alarmActions,
+    String? alarmDescription,
+    List<String>? insufficientDataActions,
+    List<String>? oKActions,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(alarmName, 'alarmName');
     _s.validateStringLength(
@@ -2041,8 +2033,8 @@ class CloudWatch {
   /// valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is
   /// required.
   Future<PutDashboardOutput> putDashboard({
-    @_s.required String dashboardBody,
-    @_s.required String dashboardName,
+    required String dashboardBody,
+    required String dashboardName,
   }) async {
     ArgumentError.checkNotNull(dashboardBody, 'dashboardBody');
     ArgumentError.checkNotNull(dashboardName, 'dashboardName');
@@ -2106,10 +2098,10 @@ class CloudWatch {
   /// tags of an existing rule, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>.
   Future<void> putInsightRule({
-    @_s.required String ruleDefinition,
-    @_s.required String ruleName,
-    String ruleState,
-    List<Tag> tags,
+    required String ruleDefinition,
+    required String ruleName,
+    String? ruleState,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(ruleDefinition, 'ruleDefinition');
     _s.validateStringLength(
@@ -2459,28 +2451,28 @@ class CloudWatch {
   /// specify an incorrect unit that is not published for this metric. Doing so
   /// causes the alarm to be stuck in the <code>INSUFFICIENT DATA</code> state.
   Future<void> putMetricAlarm({
-    @_s.required String alarmName,
-    @_s.required ComparisonOperator comparisonOperator,
-    @_s.required int evaluationPeriods,
-    bool actionsEnabled,
-    List<String> alarmActions,
-    String alarmDescription,
-    int datapointsToAlarm,
-    List<Dimension> dimensions,
-    String evaluateLowSampleCountPercentile,
-    String extendedStatistic,
-    List<String> insufficientDataActions,
-    String metricName,
-    List<MetricDataQuery> metrics,
-    String namespace,
-    List<String> oKActions,
-    int period,
-    Statistic statistic,
-    List<Tag> tags,
-    double threshold,
-    String thresholdMetricId,
-    String treatMissingData,
-    StandardUnit unit,
+    required String alarmName,
+    required ComparisonOperator comparisonOperator,
+    required int evaluationPeriods,
+    bool? actionsEnabled,
+    List<String>? alarmActions,
+    String? alarmDescription,
+    int? datapointsToAlarm,
+    List<Dimension>? dimensions,
+    String? evaluateLowSampleCountPercentile,
+    String? extendedStatistic,
+    List<String>? insufficientDataActions,
+    String? metricName,
+    List<MetricDataQuery>? metrics,
+    String? namespace,
+    List<String>? oKActions,
+    int? period,
+    Statistic? statistic,
+    List<Tag>? tags,
+    double? threshold,
+    String? thresholdMetricId,
+    String? treatMissingData,
+    StandardUnit? unit,
   }) async {
     ArgumentError.checkNotNull(alarmName, 'alarmName');
     _s.validateStringLength(
@@ -2671,8 +2663,8 @@ class CloudWatch {
   /// To avoid conflicts with AWS service namespaces, you should not specify a
   /// namespace that begins with <code>AWS/</code>
   Future<void> putMetricData({
-    @_s.required List<MetricDatum> metricData,
-    @_s.required String namespace,
+    required List<MetricDatum> metricData,
+    required String namespace,
   }) async {
     ArgumentError.checkNotNull(metricData, 'metricData');
     ArgumentError.checkNotNull(namespace, 'namespace');
@@ -2744,10 +2736,10 @@ class CloudWatch {
   /// Scaling or application Auto Scaling alarm actions, the Auto Scaling policy
   /// uses the information in this field to take the correct action.
   Future<void> setAlarmState({
-    @_s.required String alarmName,
-    @_s.required String stateReason,
-    @_s.required StateValue stateValue,
-    String stateReasonData,
+    required String alarmName,
+    required String stateReason,
+    required StateValue stateValue,
+    String? stateReasonData,
   }) async {
     ArgumentError.checkNotNull(alarmName, 'alarmName');
     _s.validateStringLength(
@@ -2832,8 +2824,8 @@ class CloudWatch {
   /// Parameter [tags] :
   /// The list of key-value pairs to associate with the alarm.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2886,8 +2878,8 @@ class CloudWatch {
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2918,22 +2910,22 @@ class CloudWatch {
 /// Represents the history of a specific alarm.
 class AlarmHistoryItem {
   /// The descriptive name for the alarm.
-  final String alarmName;
+  final String? alarmName;
 
   /// The type of alarm, either metric alarm or composite alarm.
-  final AlarmType alarmType;
+  final AlarmType? alarmType;
 
   /// Data about the alarm, in JSON format.
-  final String historyData;
+  final String? historyData;
 
   /// The type of alarm history item.
-  final HistoryItemType historyItemType;
+  final HistoryItemType? historyItemType;
 
   /// A summary of the alarm history, in text format.
-  final String historySummary;
+  final String? historySummary;
 
   /// The time stamp for the alarm history item.
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   AlarmHistoryItem({
     this.alarmName,
@@ -2958,9 +2950,7 @@ class AlarmHistoryItem {
 }
 
 enum AlarmType {
-  @_s.JsonValue('CompositeAlarm')
   compositeAlarm,
-  @_s.JsonValue('MetricAlarm')
   metricAlarm,
 }
 
@@ -2972,7 +2962,6 @@ extension on AlarmType {
       case AlarmType.metricAlarm:
         return 'MetricAlarm';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -2984,7 +2973,7 @@ extension on String {
       case 'MetricAlarm':
         return AlarmType.metricAlarm;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AlarmType');
   }
 }
 
@@ -2995,23 +2984,23 @@ class AnomalyDetector {
   /// The configuration specifies details about how the anomaly detection model is
   /// to be trained, including time ranges to exclude from use for training the
   /// model, and the time zone to use for the metric.
-  final AnomalyDetectorConfiguration configuration;
+  final AnomalyDetectorConfiguration? configuration;
 
   /// The metric dimensions associated with the anomaly detection model.
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   /// The name of the metric associated with the anomaly detection model.
-  final String metricName;
+  final String? metricName;
 
   /// The namespace of the metric associated with the anomaly detection model.
-  final String namespace;
+  final String? namespace;
 
   /// The statistic associated with the anomaly detection model.
-  final String stat;
+  final String? stat;
 
   /// The current status of the anomaly detector's training. The possible values
   /// are <code>TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA</code>
-  final AnomalyDetectorStateValue stateValue;
+  final AnomalyDetectorStateValue? stateValue;
 
   AnomalyDetector({
     this.configuration,
@@ -3043,18 +3032,12 @@ class AnomalyDetector {
 /// The configuration specifies details about how the anomaly detection model is
 /// to be trained, including time ranges to exclude from use for training the
 /// model and the time zone to use for the metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AnomalyDetectorConfiguration {
   /// An array of time ranges to exclude from use when the anomaly detection model
   /// is trained. Use this to make sure that events that could cause unusual
   /// values for the metric, such as deployments, aren't used when CloudWatch
   /// creates the model.
-  @_s.JsonKey(name: 'ExcludedTimeRanges')
-  final List<Range> excludedTimeRanges;
+  final List<Range>? excludedTimeRanges;
 
   /// The time zone to use for the metric. This is useful to enable the model to
   /// automatically account for daylight savings time changes if the metric is
@@ -3063,8 +3046,7 @@ class AnomalyDetectorConfiguration {
   /// To specify a time zone, use the name of the time zone as specified in the
   /// standard tz database. For more information, see <a
   /// href="https://en.wikipedia.org/wiki/Tz_database">tz database</a>.
-  @_s.JsonKey(name: 'MetricTimezone')
-  final String metricTimezone;
+  final String? metricTimezone;
 
   AnomalyDetectorConfiguration({
     this.excludedTimeRanges,
@@ -3081,16 +3063,33 @@ class AnomalyDetectorConfiguration {
     );
   }
 
-  Map<String, dynamic> toJson() => _$AnomalyDetectorConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final excludedTimeRanges = this.excludedTimeRanges;
+    final metricTimezone = this.metricTimezone;
+    return {
+      if (excludedTimeRanges != null) 'ExcludedTimeRanges': excludedTimeRanges,
+      if (metricTimezone != null) 'MetricTimezone': metricTimezone,
+    };
+  }
 }
 
 enum AnomalyDetectorStateValue {
-  @_s.JsonValue('PENDING_TRAINING')
   pendingTraining,
-  @_s.JsonValue('TRAINED_INSUFFICIENT_DATA')
   trainedInsufficientData,
-  @_s.JsonValue('TRAINED')
   trained,
+}
+
+extension on AnomalyDetectorStateValue {
+  String toValue() {
+    switch (this) {
+      case AnomalyDetectorStateValue.pendingTraining:
+        return 'PENDING_TRAINING';
+      case AnomalyDetectorStateValue.trainedInsufficientData:
+        return 'TRAINED_INSUFFICIENT_DATA';
+      case AnomalyDetectorStateValue.trained:
+        return 'TRAINED';
+    }
+  }
 }
 
 extension on String {
@@ -3103,24 +3102,17 @@ extension on String {
       case 'TRAINED':
         return AnomalyDetectorStateValue.trained;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AnomalyDetectorStateValue');
   }
 }
 
 enum ComparisonOperator {
-  @_s.JsonValue('GreaterThanOrEqualToThreshold')
   greaterThanOrEqualToThreshold,
-  @_s.JsonValue('GreaterThanThreshold')
   greaterThanThreshold,
-  @_s.JsonValue('LessThanThreshold')
   lessThanThreshold,
-  @_s.JsonValue('LessThanOrEqualToThreshold')
   lessThanOrEqualToThreshold,
-  @_s.JsonValue('LessThanLowerOrGreaterThanUpperThreshold')
   lessThanLowerOrGreaterThanUpperThreshold,
-  @_s.JsonValue('LessThanLowerThreshold')
   lessThanLowerThreshold,
-  @_s.JsonValue('GreaterThanUpperThreshold')
   greaterThanUpperThreshold,
 }
 
@@ -3142,7 +3134,6 @@ extension on ComparisonOperator {
       case ComparisonOperator.greaterThanUpperThreshold:
         return 'GreaterThanUpperThreshold';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3164,7 +3155,7 @@ extension on String {
       case 'GreaterThanUpperThreshold':
         return ComparisonOperator.greaterThanUpperThreshold;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ComparisonOperator');
   }
 }
 
@@ -3172,47 +3163,47 @@ extension on String {
 class CompositeAlarm {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
-  final bool actionsEnabled;
+  final bool? actionsEnabled;
 
   /// The actions to execute when this alarm transitions to the ALARM state from
   /// any other state. Each action is specified as an Amazon Resource Name (ARN).
-  final List<String> alarmActions;
+  final List<String>? alarmActions;
 
   /// The Amazon Resource Name (ARN) of the alarm.
-  final String alarmArn;
+  final String? alarmArn;
 
   /// The time stamp of the last update to the alarm configuration.
-  final DateTime alarmConfigurationUpdatedTimestamp;
+  final DateTime? alarmConfigurationUpdatedTimestamp;
 
   /// The description of the alarm.
-  final String alarmDescription;
+  final String? alarmDescription;
 
   /// The name of the alarm.
-  final String alarmName;
+  final String? alarmName;
 
   /// The rule that this alarm uses to evaluate its alarm state.
-  final String alarmRule;
+  final String? alarmRule;
 
   /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA
   /// state from any other state. Each action is specified as an Amazon Resource
   /// Name (ARN).
-  final List<String> insufficientDataActions;
+  final List<String>? insufficientDataActions;
 
   /// The actions to execute when this alarm transitions to the OK state from any
   /// other state. Each action is specified as an Amazon Resource Name (ARN).
-  final List<String> oKActions;
+  final List<String>? oKActions;
 
   /// An explanation for the alarm state, in text format.
-  final String stateReason;
+  final String? stateReason;
 
   /// An explanation for the alarm state, in JSON format.
-  final String stateReasonData;
+  final String? stateReasonData;
 
   /// The time stamp of the last update to the alarm state.
-  final DateTime stateUpdatedTimestamp;
+  final DateTime? stateUpdatedTimestamp;
 
   /// The state value for the alarm.
-  final StateValue stateValue;
+  final StateValue? stateValue;
 
   CompositeAlarm({
     this.actionsEnabled,
@@ -3259,18 +3250,18 @@ class CompositeAlarm {
 /// Represents a specific dashboard.
 class DashboardEntry {
   /// The Amazon Resource Name (ARN) of the dashboard.
-  final String dashboardArn;
+  final String? dashboardArn;
 
   /// The name of the dashboard.
-  final String dashboardName;
+  final String? dashboardName;
 
   /// The time stamp of when the dashboard was last modified, either by an API
   /// call or through the console. This number is expressed as the number of
   /// milliseconds since Jan 1, 1970 00:00:00 UTC.
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The size of the dashboard, in bytes.
-  final int size;
+  final int? size;
 
   DashboardEntry({
     this.dashboardArn,
@@ -3291,10 +3282,10 @@ class DashboardEntry {
 /// An error or warning for the operation.
 class DashboardValidationMessage {
   /// The data path related to the message.
-  final String dataPath;
+  final String? dataPath;
 
   /// A message describing the error or warning.
-  final String message;
+  final String? message;
 
   DashboardValidationMessage({
     this.dataPath,
@@ -3311,29 +3302,29 @@ class DashboardValidationMessage {
 /// Encapsulates the statistical data that CloudWatch computes from metric data.
 class Datapoint {
   /// The average of the metric values that correspond to the data point.
-  final double average;
+  final double? average;
 
   /// The percentile statistic for the data point.
-  final Map<String, double> extendedStatistics;
+  final Map<String, double>? extendedStatistics;
 
   /// The maximum metric value for the data point.
-  final double maximum;
+  final double? maximum;
 
   /// The minimum metric value for the data point.
-  final double minimum;
+  final double? minimum;
 
   /// The number of metric values that contributed to the aggregate value of this
   /// data point.
-  final double sampleCount;
+  final double? sampleCount;
 
   /// The sum of the metric values for the data point.
-  final double sum;
+  final double? sum;
 
   /// The time stamp used for the data point.
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// The standard unit for the data point.
-  final StandardUnit unit;
+  final StandardUnit? unit;
 
   Datapoint({
     this.average,
@@ -3349,12 +3340,13 @@ class Datapoint {
     return Datapoint(
       average: _s.extractXmlDoubleValue(elem, 'Average'),
       extendedStatistics: Map.fromEntries(
-        elem.getElement('ExtendedStatistics').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlDoubleValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('ExtendedStatistics')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlDoubleValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       maximum: _s.extractXmlDoubleValue(elem, 'Maximum'),
       minimum: _s.extractXmlDoubleValue(elem, 'Minimum'),
@@ -3387,7 +3379,7 @@ class DeleteDashboardsOutput {
 class DeleteInsightRulesOutput {
   /// An array listing the rules that could not be deleted. You cannot delete
   /// built-in rules.
-  final List<PartialFailure> failures;
+  final List<PartialFailure>? failures;
 
   DeleteInsightRulesOutput({
     this.failures,
@@ -3404,10 +3396,10 @@ class DeleteInsightRulesOutput {
 
 class DescribeAlarmHistoryOutput {
   /// The alarm histories, in JSON format.
-  final List<AlarmHistoryItem> alarmHistoryItems;
+  final List<AlarmHistoryItem>? alarmHistoryItems;
 
   /// The token that marks the start of the next batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAlarmHistoryOutput({
     this.alarmHistoryItems,
@@ -3427,7 +3419,7 @@ class DescribeAlarmHistoryOutput {
 
 class DescribeAlarmsForMetricOutput {
   /// The information for each alarm with the specified metric.
-  final List<MetricAlarm> metricAlarms;
+  final List<MetricAlarm>? metricAlarms;
 
   DescribeAlarmsForMetricOutput({
     this.metricAlarms,
@@ -3444,13 +3436,13 @@ class DescribeAlarmsForMetricOutput {
 
 class DescribeAlarmsOutput {
   /// The information about any composite alarms returned by the operation.
-  final List<CompositeAlarm> compositeAlarms;
+  final List<CompositeAlarm>? compositeAlarms;
 
   /// The information about any metric alarms returned by the operation.
-  final List<MetricAlarm> metricAlarms;
+  final List<MetricAlarm>? metricAlarms;
 
   /// The token that marks the start of the next batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAlarmsOutput({
     this.compositeAlarms,
@@ -3475,11 +3467,11 @@ class DescribeAlarmsOutput {
 
 class DescribeAnomalyDetectorsOutput {
   /// The list of anomaly detection models returned by the operation.
-  final List<AnomalyDetector> anomalyDetectors;
+  final List<AnomalyDetector>? anomalyDetectors;
 
   /// A token that you can use in a subsequent operation to retrieve the next set
   /// of results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAnomalyDetectorsOutput({
     this.anomalyDetectors,
@@ -3499,11 +3491,11 @@ class DescribeAnomalyDetectorsOutput {
 
 class DescribeInsightRulesOutput {
   /// The rules returned by the operation.
-  final List<InsightRule> insightRules;
+  final List<InsightRule>? insightRules;
 
   /// If this parameter is present, it is a token that marks the start of the next
   /// batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInsightRulesOutput({
     this.insightRules,
@@ -3525,62 +3517,62 @@ class DescribeInsightRulesOutput {
 /// of the unique identifier for a metric, whenever you add a unique name/value
 /// pair to one of your metrics, you are creating a new variation of that
 /// metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Dimension {
   /// The name of the dimension. Dimension names cannot contain blank spaces or
   /// non-ASCII characters.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension. Dimension values cannot contain blank spaces or
   /// non-ASCII characters.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Dimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
   factory Dimension.fromXml(_s.XmlElement elem) {
     return Dimension(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$DimensionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 /// Represents filters for a dimension.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DimensionFilter {
   /// The dimension name to be matched.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension to be matched.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   DimensionFilter({
-    @_s.required this.name,
+    required this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$DimensionFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class DisableInsightRulesOutput {
   /// An array listing the rules that could not be disabled. You cannot disable
   /// built-in rules.
-  final List<PartialFailure> failures;
+  final List<PartialFailure>? failures;
 
   DisableInsightRulesOutput({
     this.failures,
@@ -3598,7 +3590,7 @@ class DisableInsightRulesOutput {
 class EnableInsightRulesOutput {
   /// An array listing the rules that could not be enabled. You cannot disable or
   /// enable built-in rules.
-  final List<PartialFailure> failures;
+  final List<PartialFailure>? failures;
 
   EnableInsightRulesOutput({
     this.failures,
@@ -3615,17 +3607,17 @@ class EnableInsightRulesOutput {
 
 class GetDashboardOutput {
   /// The Amazon Resource Name (ARN) of the dashboard.
-  final String dashboardArn;
+  final String? dashboardArn;
 
   /// The detailed information about the dashboard, including what widgets are
   /// included and their location on the dashboard. For more information about the
   /// <code>DashboardBody</code> syntax, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
   /// Body Structure and Syntax</a>.
-  final String dashboardBody;
+  final String? dashboardBody;
 
   /// The name of the dashboard.
-  final String dashboardName;
+  final String? dashboardName;
 
   GetDashboardOutput({
     this.dashboardArn,
@@ -3643,29 +3635,29 @@ class GetDashboardOutput {
 
 class GetInsightRuleReportOutput {
   /// The sum of the values from all individual contributors that match the rule.
-  final double aggregateValue;
+  final double? aggregateValue;
 
   /// Specifies whether this rule aggregates contributor data by COUNT or SUM.
-  final String aggregationStatistic;
+  final String? aggregationStatistic;
 
   /// An approximate count of the unique contributors found by this rule in this
   /// time period.
-  final int approximateUniqueCount;
+  final int? approximateUniqueCount;
 
   /// An array of the unique contributors found by this rule in this time period.
   /// If the rule contains multiple keys, each combination of values for the keys
   /// counts as a unique contributor.
-  final List<InsightRuleContributor> contributors;
+  final List<InsightRuleContributor>? contributors;
 
   /// An array of the strings used as the keys for this rule. The keys are the
   /// dimensions used to classify contributors. If the rule contains more than one
   /// key, then each unique combination of values for the keys is counted as a
   /// unique contributor.
-  final List<String> keyLabels;
+  final List<String>? keyLabels;
 
   /// A time series of metric data points that matches the time period in the rule
   /// request.
-  final List<InsightRuleMetricDatapoint> metricDatapoints;
+  final List<InsightRuleMetricDatapoint>? metricDatapoints;
 
   GetInsightRuleReportOutput({
     this.aggregateValue,
@@ -3708,14 +3700,14 @@ class GetMetricDataOutput {
   /// <code>GetMetricData</code> operation. Any message about a specific metric
   /// returned by the operation appears in the <code>MetricDataResult</code>
   /// object returned for that metric.
-  final List<MessageData> messages;
+  final List<MessageData>? messages;
 
   /// The metrics that are returned, including the metric name, namespace, and
   /// dimensions.
-  final List<MetricDataResult> metricDataResults;
+  final List<MetricDataResult>? metricDataResults;
 
   /// A token that marks the next batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   GetMetricDataOutput({
     this.messages,
@@ -3740,10 +3732,10 @@ class GetMetricDataOutput {
 
 class GetMetricStatisticsOutput {
   /// The data points for the specified metric.
-  final List<Datapoint> datapoints;
+  final List<Datapoint>? datapoints;
 
   /// A label for the specified metric.
-  final String label;
+  final String? label;
 
   GetMetricStatisticsOutput({
     this.datapoints,
@@ -3763,7 +3755,7 @@ class GetMetricStatisticsOutput {
 class GetMetricWidgetImageOutput {
   /// The image of the graph, in the output format specified. The output is
   /// base64-encoded.
-  final Uint8List metricWidgetImage;
+  final Uint8List? metricWidgetImage;
 
   GetMetricWidgetImageOutput({
     this.metricWidgetImage,
@@ -3776,11 +3768,8 @@ class GetMetricWidgetImageOutput {
 }
 
 enum HistoryItemType {
-  @_s.JsonValue('ConfigurationUpdate')
   configurationUpdate,
-  @_s.JsonValue('StateUpdate')
   stateUpdate,
-  @_s.JsonValue('Action')
   action,
 }
 
@@ -3794,7 +3783,6 @@ extension on HistoryItemType {
       case HistoryItemType.action:
         return 'Action';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3808,7 +3796,7 @@ extension on String {
       case 'Action':
         return HistoryItemType.action;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HistoryItemType');
   }
 }
 
@@ -3834,17 +3822,17 @@ class InsightRule {
   final String state;
 
   InsightRule({
-    @_s.required this.definition,
-    @_s.required this.name,
-    @_s.required this.schema,
-    @_s.required this.state,
+    required this.definition,
+    required this.name,
+    required this.schema,
+    required this.state,
   });
   factory InsightRule.fromXml(_s.XmlElement elem) {
     return InsightRule(
-      definition: _s.extractXmlStringValue(elem, 'Definition'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      schema: _s.extractXmlStringValue(elem, 'Schema'),
-      state: _s.extractXmlStringValue(elem, 'State'),
+      definition: _s.extractXmlStringValue(elem, 'Definition')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      schema: _s.extractXmlStringValue(elem, 'Schema')!,
+      state: _s.extractXmlStringValue(elem, 'State')!,
     );
   }
 }
@@ -3871,21 +3859,21 @@ class InsightRuleContributor {
   final List<String> keys;
 
   InsightRuleContributor({
-    @_s.required this.approximateAggregateValue,
-    @_s.required this.datapoints,
-    @_s.required this.keys,
+    required this.approximateAggregateValue,
+    required this.datapoints,
+    required this.keys,
   });
   factory InsightRuleContributor.fromXml(_s.XmlElement elem) {
     return InsightRuleContributor(
       approximateAggregateValue:
-          _s.extractXmlDoubleValue(elem, 'ApproximateAggregateValue'),
-      datapoints: _s.extractXmlChild(elem, 'Datapoints')?.let((elem) => elem
+          _s.extractXmlDoubleValue(elem, 'ApproximateAggregateValue')!,
+      datapoints: _s
+          .extractXmlChild(elem, 'Datapoints')!
           .findElements('member')
           .map((c) => InsightRuleContributorDatapoint.fromXml(c))
-          .toList()),
-      keys: _s
-          .extractXmlChild(elem, 'Keys')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+          .toList(),
+      keys: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Keys')!, 'member'),
     );
   }
 }
@@ -3904,13 +3892,13 @@ class InsightRuleContributorDatapoint {
   final DateTime timestamp;
 
   InsightRuleContributorDatapoint({
-    @_s.required this.approximateValue,
-    @_s.required this.timestamp,
+    required this.approximateValue,
+    required this.timestamp,
   });
   factory InsightRuleContributorDatapoint.fromXml(_s.XmlElement elem) {
     return InsightRuleContributorDatapoint(
-      approximateValue: _s.extractXmlDoubleValue(elem, 'ApproximateValue'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+      approximateValue: _s.extractXmlDoubleValue(elem, 'ApproximateValue')!,
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
     );
   }
 }
@@ -3929,7 +3917,7 @@ class InsightRuleMetricDatapoint {
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double average;
+  final double? average;
 
   /// The maximum value provided by one contributor during this timestamp. Each
   /// timestamp is evaluated separately, so the identity of the max contributor
@@ -3937,43 +3925,43 @@ class InsightRuleMetricDatapoint {
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double maxContributorValue;
+  final double? maxContributorValue;
 
   /// The maximum value from a single occurence from a single contributor during
   /// the time period represented by that data point.
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double maximum;
+  final double? maximum;
 
   /// The minimum value from a single contributor during the time period
   /// represented by that data point.
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double minimum;
+  final double? minimum;
 
   /// The number of occurrences that matched the rule during this data point.
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double sampleCount;
+  final double? sampleCount;
 
   /// The sum of the values from all contributors during the time period
   /// represented by that data point.
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double sum;
+  final double? sum;
 
   /// The number of unique contributors who published data during this timestamp.
   ///
   /// This statistic is returned only if you included it in the
   /// <code>Metrics</code> array in your request.
-  final double uniqueContributors;
+  final double? uniqueContributors;
 
   InsightRuleMetricDatapoint({
-    @_s.required this.timestamp,
+    required this.timestamp,
     this.average,
     this.maxContributorValue,
     this.maximum,
@@ -3984,7 +3972,7 @@ class InsightRuleMetricDatapoint {
   });
   factory InsightRuleMetricDatapoint.fromXml(_s.XmlElement elem) {
     return InsightRuleMetricDatapoint(
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       average: _s.extractXmlDoubleValue(elem, 'Average'),
       maxContributorValue:
           _s.extractXmlDoubleValue(elem, 'MaxContributorValue'),
@@ -3999,10 +3987,10 @@ class InsightRuleMetricDatapoint {
 
 class ListDashboardsOutput {
   /// The list of matching dashboards.
-  final List<DashboardEntry> dashboardEntries;
+  final List<DashboardEntry>? dashboardEntries;
 
   /// The token that marks the start of the next batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   ListDashboardsOutput({
     this.dashboardEntries,
@@ -4022,10 +4010,10 @@ class ListDashboardsOutput {
 
 class ListMetricsOutput {
   /// The metrics that match your request.
-  final List<Metric> metrics;
+  final List<Metric>? metrics;
 
   /// The token that marks the start of the next batch of returned results.
-  final String nextToken;
+  final String? nextToken;
 
   ListMetricsOutput({
     this.metrics,
@@ -4042,7 +4030,7 @@ class ListMetricsOutput {
 
 class ListTagsForResourceOutput {
   /// The list of tag keys and values associated with the resource you specified.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.tags,
@@ -4059,10 +4047,10 @@ class ListTagsForResourceOutput {
 /// and a description.
 class MessageData {
   /// The error code or status code associated with the message.
-  final String code;
+  final String? code;
 
   /// The message text.
-  final String value;
+  final String? value;
 
   MessageData({
     this.code,
@@ -4077,23 +4065,15 @@ class MessageData {
 }
 
 /// Represents a specific metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Metric {
   /// The dimensions for the metric.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   /// The name of the metric. This is a required field.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// The namespace of the metric.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   Metric({
     this.dimensions,
@@ -4111,114 +4091,123 @@ class Metric {
     );
   }
 
-  Map<String, dynamic> toJson() => _$MetricToJson(this);
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
 }
 
 /// The details about a metric alarm.
 class MetricAlarm {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
-  final bool actionsEnabled;
+  final bool? actionsEnabled;
 
   /// The actions to execute when this alarm transitions to the <code>ALARM</code>
   /// state from any other state. Each action is specified as an Amazon Resource
   /// Name (ARN).
-  final List<String> alarmActions;
+  final List<String>? alarmActions;
 
   /// The Amazon Resource Name (ARN) of the alarm.
-  final String alarmArn;
+  final String? alarmArn;
 
   /// The time stamp of the last update to the alarm configuration.
-  final DateTime alarmConfigurationUpdatedTimestamp;
+  final DateTime? alarmConfigurationUpdatedTimestamp;
 
   /// The description of the alarm.
-  final String alarmDescription;
+  final String? alarmDescription;
 
   /// The name of the alarm.
-  final String alarmName;
+  final String? alarmName;
 
   /// The arithmetic operation to use when comparing the specified statistic and
   /// threshold. The specified statistic value is used as the first operand.
-  final ComparisonOperator comparisonOperator;
+  final ComparisonOperator? comparisonOperator;
 
   /// The number of data points that must be breaching to trigger the alarm.
-  final int datapointsToAlarm;
+  final int? datapointsToAlarm;
 
   /// The dimensions for the metric associated with the alarm.
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   /// Used only for alarms based on percentiles. If <code>ignore</code>, the alarm
   /// state does not change during periods with too few data points to be
   /// statistically significant. If <code>evaluate</code> or this parameter is not
   /// used, the alarm is always evaluated and possibly changes state no matter how
   /// many data points are available.
-  final String evaluateLowSampleCountPercentile;
+  final String? evaluateLowSampleCountPercentile;
 
   /// The number of periods over which data is compared to the specified
   /// threshold.
-  final int evaluationPeriods;
+  final int? evaluationPeriods;
 
   /// The percentile statistic for the metric associated with the alarm. Specify a
   /// value between p0.0 and p100.
-  final String extendedStatistic;
+  final String? extendedStatistic;
 
   /// The actions to execute when this alarm transitions to the
   /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
   /// specified as an Amazon Resource Name (ARN).
-  final List<String> insufficientDataActions;
+  final List<String>? insufficientDataActions;
 
   /// The name of the metric associated with the alarm, if this is an alarm based
   /// on a single metric.
-  final String metricName;
+  final String? metricName;
 
   /// An array of MetricDataQuery structures, used in an alarm based on a metric
   /// math expression. Each structure either retrieves a metric or performs a math
   /// expression. One item in the Metrics array is the math expression that the
   /// alarm watches. This expression by designated by having
   /// <code>ReturnData</code> set to true.
-  final List<MetricDataQuery> metrics;
+  final List<MetricDataQuery>? metrics;
 
   /// The namespace of the metric associated with the alarm.
-  final String namespace;
+  final String? namespace;
 
   /// The actions to execute when this alarm transitions to the <code>OK</code>
   /// state from any other state. Each action is specified as an Amazon Resource
   /// Name (ARN).
-  final List<String> oKActions;
+  final List<String>? oKActions;
 
   /// The period, in seconds, over which the statistic is applied.
-  final int period;
+  final int? period;
 
   /// An explanation for the alarm state, in text format.
-  final String stateReason;
+  final String? stateReason;
 
   /// An explanation for the alarm state, in JSON format.
-  final String stateReasonData;
+  final String? stateReasonData;
 
   /// The time stamp of the last update to the alarm state.
-  final DateTime stateUpdatedTimestamp;
+  final DateTime? stateUpdatedTimestamp;
 
   /// The state value for the alarm.
-  final StateValue stateValue;
+  final StateValue? stateValue;
 
   /// The statistic for the metric associated with the alarm, other than
   /// percentile. For percentile statistics, use <code>ExtendedStatistic</code>.
-  final Statistic statistic;
+  final Statistic? statistic;
 
   /// The value to compare with the specified statistic.
-  final double threshold;
+  final double? threshold;
 
   /// In an alarm based on an anomaly detection model, this is the ID of the
   /// <code>ANOMALY_DETECTION_BAND</code> function used as the threshold for the
   /// alarm.
-  final String thresholdMetricId;
+  final String? thresholdMetricId;
 
   /// Sets how this alarm is to handle missing data points. If this parameter is
   /// omitted, the default behavior of <code>missing</code> is used.
-  final String treatMissingData;
+  final String? treatMissingData;
 
   /// The unit of the metric associated with the alarm.
-  final StandardUnit unit;
+  final StandardUnit? unit;
 
   MetricAlarm({
     this.actionsEnabled,
@@ -4330,11 +4319,6 @@ class MetricAlarm {
 /// you are using this structure in a <code>GetMetricData</code> operation or a
 /// <code>PutMetricAlarm</code> operation. These differences are explained in
 /// the following parameter list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetricDataQuery {
   /// A short name used to tie this object to the results in the response. This
   /// name must be unique within a single call to <code>GetMetricData</code>. If
@@ -4342,7 +4326,6 @@ class MetricDataQuery {
   /// represents that data and can serve as a variable in the mathematical
   /// expression. The valid characters are letters, numbers, and underscore. The
   /// first character must be a lowercase letter.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The math expression to be performed on the returned data, if this object is
@@ -4355,15 +4338,13 @@ class MetricDataQuery {
   ///
   /// Within each MetricDataQuery object, you must specify either
   /// <code>Expression</code> or <code>MetricStat</code> but not both.
-  @_s.JsonKey(name: 'Expression')
-  final String expression;
+  final String? expression;
 
   /// A human-readable label for this metric or expression. This is especially
   /// useful if this is an expression, so that you know what the value represents.
   /// If the metric or expression is shown in a CloudWatch dashboard widget, the
   /// label is shown. If Label is omitted, CloudWatch generates a default.
-  @_s.JsonKey(name: 'Label')
-  final String label;
+  final String? label;
 
   /// The metric to be returned, along with statistics, period, and units. Use
   /// this parameter only if this object is retrieving a metric and not performing
@@ -4371,8 +4352,7 @@ class MetricDataQuery {
   ///
   /// Within one MetricDataQuery object, you must specify either
   /// <code>Expression</code> or <code>MetricStat</code> but not both.
-  @_s.JsonKey(name: 'MetricStat')
-  final MetricStat metricStat;
+  final MetricStat? metricStat;
 
   /// The granularity, in seconds, of the returned data points. For metrics with
   /// regular resolution, a period can be as short as one minute (60 seconds) and
@@ -4381,8 +4361,7 @@ class MetricDataQuery {
   /// any multiple of 60. High-resolution metrics are those metrics stored by a
   /// <code>PutMetricData</code> operation that includes a <code>StorageResolution
   /// of 1 second</code>.
-  @_s.JsonKey(name: 'Period')
-  final int period;
+  final int? period;
 
   /// When used in <code>GetMetricData</code>, this option indicates whether to
   /// return the timestamps and raw data values of this metric. If you are
@@ -4394,11 +4373,10 @@ class MetricDataQuery {
   /// one expression result to use as the alarm. For all other metrics and
   /// expressions in the same <code>PutMetricAlarm</code> operation, specify
   /// <code>ReturnData</code> as False.
-  @_s.JsonKey(name: 'ReturnData')
-  final bool returnData;
+  final bool? returnData;
 
   MetricDataQuery({
-    @_s.required this.id,
+    required this.id,
     this.expression,
     this.label,
     this.metricStat,
@@ -4407,7 +4385,7 @@ class MetricDataQuery {
   });
   factory MetricDataQuery.fromXml(_s.XmlElement elem) {
     return MetricDataQuery(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       expression: _s.extractXmlStringValue(elem, 'Expression'),
       label: _s.extractXmlStringValue(elem, 'Label'),
       metricStat: _s
@@ -4418,7 +4396,22 @@ class MetricDataQuery {
     );
   }
 
-  Map<String, dynamic> toJson() => _$MetricDataQueryToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final period = this.period;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null) 'MetricStat': metricStat,
+      if (period != null) 'Period': period,
+      if (returnData != null) 'ReturnData': returnData,
+    };
+  }
 }
 
 /// A <code>GetMetricData</code> call returns an array of
@@ -4427,13 +4420,13 @@ class MetricDataQuery {
 /// points and other identifying information.
 class MetricDataResult {
   /// The short name you specified to represent this metric.
-  final String id;
+  final String? id;
 
   /// The human-readable label associated with the data.
-  final String label;
+  final String? label;
 
   /// A list of messages with additional information about the data returned.
-  final List<MessageData> messages;
+  final List<MessageData>? messages;
 
   /// The status of the returned data. <code>Complete</code> indicates that all
   /// data points in the requested time range were returned.
@@ -4443,17 +4436,17 @@ class MetricDataResult {
   /// returned if you are performing a math expression. <code>InternalError</code>
   /// indicates that an error occurred. Retry your request using
   /// <code>NextToken</code>, if present.
-  final StatusCode statusCode;
+  final StatusCode? statusCode;
 
   /// The timestamps for the data points, formatted in Unix timestamp format. The
   /// number of timestamps always matches the number of values and the value for
   /// Timestamps[x] is Values[x].
-  final List<DateTime> timestamps;
+  final List<DateTime>? timestamps;
 
   /// The data points for the metric corresponding to <code>Timestamps</code>. The
   /// number of values always matches the number of timestamps and the timestamp
   /// for Values[x] is Timestamps[x].
-  final List<double> values;
+  final List<double>? values;
 
   MetricDataResult({
     this.id,
@@ -4484,14 +4477,8 @@ class MetricDataResult {
 
 /// Encapsulates the information sent to either create a metric or add new
 /// values to be aggregated into an existing metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetricDatum {
   /// The name of the metric.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// Array of numbers that is used along with the <code>Values</code> array. Each
@@ -4502,16 +4489,13 @@ class MetricDatum {
   /// If you omit the <code>Counts</code> array, the default of 1 is used as the
   /// value for each count. If you include a <code>Counts</code> array, it must
   /// include the same amount of values as the <code>Values</code> array.
-  @_s.JsonKey(name: 'Counts')
-  final List<double> counts;
+  final List<double>? counts;
 
   /// The dimensions associated with the metric.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   /// The statistical values for the metric.
-  @_s.JsonKey(name: 'StatisticValues')
-  final StatisticSet statisticValues;
+  final StatisticSet? statisticValues;
 
   /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a
   /// high-resolution metric, so that CloudWatch stores the metric with sub-minute
@@ -4523,22 +4507,18 @@ class MetricDatum {
   /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
   ///
   /// This field is optional, if you do not specify it the default of 60 is used.
-  @_s.JsonKey(name: 'StorageResolution')
-  final int storageResolution;
+  final int? storageResolution;
 
   /// The time the metric data was received, expressed as the number of
   /// milliseconds since Jan 1, 1970 00:00:00 UTC.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// When you are using a <code>Put</code> operation, this defines what unit you
   /// want to use when storing the metric.
   ///
   /// In a <code>Get</code> operation, this displays the unit that is used for the
   /// metric.
-  @_s.JsonKey(name: 'Unit')
-  final StandardUnit unit;
+  final StandardUnit? unit;
 
   /// The value for the metric.
   ///
@@ -4546,8 +4526,7 @@ class MetricDatum {
   /// values that are either too small or too large. Values must be in the range
   /// of -2^360 to 2^360. In addition, special values (for example, NaN,
   /// +Infinity, -Infinity) are not supported.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   /// Array of numbers representing the values for the metric during the period.
   /// Each unique value is listed just once in this array, and the corresponding
@@ -4560,11 +4539,10 @@ class MetricDatum {
   /// <code>Double</code>, CloudWatch rejects values that are either too small or
   /// too large. Values must be in the range of -2^360 to 2^360. In addition,
   /// special values (for example, NaN, +Infinity, -Infinity) are not supported.
-  @_s.JsonKey(name: 'Values')
-  final List<double> values;
+  final List<double>? values;
 
   MetricDatum({
-    @_s.required this.metricName,
+    required this.metricName,
     this.counts,
     this.dimensions,
     this.statisticValues,
@@ -4574,19 +4552,34 @@ class MetricDatum {
     this.value,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$MetricDatumToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final counts = this.counts;
+    final dimensions = this.dimensions;
+    final statisticValues = this.statisticValues;
+    final storageResolution = this.storageResolution;
+    final timestamp = this.timestamp;
+    final unit = this.unit;
+    final value = this.value;
+    final values = this.values;
+    return {
+      'MetricName': metricName,
+      if (counts != null) 'Counts': counts,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (statisticValues != null) 'StatisticValues': statisticValues,
+      if (storageResolution != null) 'StorageResolution': storageResolution,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (unit != null) 'Unit': unit.toValue(),
+      if (value != null) 'Value': value,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// This structure defines the metric to be returned, along with the statistics,
 /// period, and units.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetricStat {
   /// The metric to return, including the metric name, namespace, and dimensions.
-  @_s.JsonKey(name: 'Metric')
   final Metric metric;
 
   /// The granularity, in seconds, of the returned data points. For metrics with
@@ -4615,12 +4608,10 @@ class MetricStat {
   /// hour).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Period')
   final int period;
 
   /// The statistic to return. It can include any CloudWatch statistic or extended
   /// statistic.
-  @_s.JsonKey(name: 'Stat')
   final String stat;
 
   /// When you are using a <code>Put</code> operation, this defines what unit you
@@ -4633,25 +4624,35 @@ class MetricStat {
   /// unit specified. If you specify a unit that does not match the data
   /// collected, the results of the operation are null. CloudWatch does not
   /// perform unit conversions.
-  @_s.JsonKey(name: 'Unit')
-  final StandardUnit unit;
+  final StandardUnit? unit;
 
   MetricStat({
-    @_s.required this.metric,
-    @_s.required this.period,
-    @_s.required this.stat,
+    required this.metric,
+    required this.period,
+    required this.stat,
     this.unit,
   });
   factory MetricStat.fromXml(_s.XmlElement elem) {
     return MetricStat(
-      metric: _s.extractXmlChild(elem, 'Metric')?.let((e) => Metric.fromXml(e)),
-      period: _s.extractXmlIntValue(elem, 'Period'),
-      stat: _s.extractXmlStringValue(elem, 'Stat'),
+      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
+      period: _s.extractXmlIntValue(elem, 'Period')!,
+      stat: _s.extractXmlStringValue(elem, 'Stat')!,
       unit: _s.extractXmlStringValue(elem, 'Unit')?.toStandardUnit(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$MetricStatToJson(this);
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final period = this.period;
+    final stat = this.stat;
+    final unit = this.unit;
+    return {
+      'Metric': metric,
+      'Period': period,
+      'Stat': stat,
+      if (unit != null) 'Unit': unit.toValue(),
+    };
+  }
 }
 
 /// This array is empty if the API operation was successful for all the rules
@@ -4659,16 +4660,16 @@ class MetricStat {
 /// rules, the following data is returned for each of those rules.
 class PartialFailure {
   /// The type of error.
-  final String exceptionType;
+  final String? exceptionType;
 
   /// The code of the error.
-  final String failureCode;
+  final String? failureCode;
 
   /// A description of the error.
-  final String failureDescription;
+  final String? failureDescription;
 
   /// The specified rule that could not be deleted.
-  final String failureResource;
+  final String? failureResource;
 
   PartialFailure({
     this.exceptionType,
@@ -4705,7 +4706,7 @@ class PutDashboardOutput {
   ///
   /// If this result includes error messages, the input was not valid and the
   /// operation failed.
-  final List<DashboardValidationMessage> dashboardValidationMessages;
+  final List<DashboardValidationMessage>? dashboardValidationMessages;
 
   PutDashboardOutput({
     this.dashboardValidationMessages,
@@ -4733,42 +4734,39 @@ class PutInsightRuleOutput {
 
 /// Specifies one range of days or times to exclude from use for training an
 /// anomaly detection model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Range {
   /// The end time of the range to exclude. The format is
   /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
   /// <code>2019-07-01T23:59:59</code>.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The start time of the range to exclude. The format is
   /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
   /// <code>2019-07-01T23:59:59</code>.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   Range({
-    @_s.required this.endTime,
-    @_s.required this.startTime,
+    required this.endTime,
+    required this.startTime,
   });
   factory Range.fromXml(_s.XmlElement elem) {
     return Range(
-      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime')!,
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$RangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
 enum RecentlyActive {
-  @_s.JsonValue('PT3H')
   pt3h,
 }
 
@@ -4778,7 +4776,6 @@ extension on RecentlyActive {
       case RecentlyActive.pt3h:
         return 'PT3H';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4788,14 +4785,12 @@ extension on String {
       case 'PT3H':
         return RecentlyActive.pt3h;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RecentlyActive');
   }
 }
 
 enum ScanBy {
-  @_s.JsonValue('TimestampDescending')
   timestampDescending,
-  @_s.JsonValue('TimestampAscending')
   timestampAscending,
 }
 
@@ -4807,7 +4802,6 @@ extension on ScanBy {
       case ScanBy.timestampAscending:
         return 'TimestampAscending';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4819,64 +4813,37 @@ extension on String {
       case 'TimestampAscending':
         return ScanBy.timestampAscending;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScanBy');
   }
 }
 
 enum StandardUnit {
-  @_s.JsonValue('Seconds')
   seconds,
-  @_s.JsonValue('Microseconds')
   microseconds,
-  @_s.JsonValue('Milliseconds')
   milliseconds,
-  @_s.JsonValue('Bytes')
   bytes,
-  @_s.JsonValue('Kilobytes')
   kilobytes,
-  @_s.JsonValue('Megabytes')
   megabytes,
-  @_s.JsonValue('Gigabytes')
   gigabytes,
-  @_s.JsonValue('Terabytes')
   terabytes,
-  @_s.JsonValue('Bits')
   bits,
-  @_s.JsonValue('Kilobits')
   kilobits,
-  @_s.JsonValue('Megabits')
   megabits,
-  @_s.JsonValue('Gigabits')
   gigabits,
-  @_s.JsonValue('Terabits')
   terabits,
-  @_s.JsonValue('Percent')
   percent,
-  @_s.JsonValue('Count')
   count,
-  @_s.JsonValue('Bytes/Second')
   bytesSecond,
-  @_s.JsonValue('Kilobytes/Second')
   kilobytesSecond,
-  @_s.JsonValue('Megabytes/Second')
   megabytesSecond,
-  @_s.JsonValue('Gigabytes/Second')
   gigabytesSecond,
-  @_s.JsonValue('Terabytes/Second')
   terabytesSecond,
-  @_s.JsonValue('Bits/Second')
   bitsSecond,
-  @_s.JsonValue('Kilobits/Second')
   kilobitsSecond,
-  @_s.JsonValue('Megabits/Second')
   megabitsSecond,
-  @_s.JsonValue('Gigabits/Second')
   gigabitsSecond,
-  @_s.JsonValue('Terabits/Second')
   terabitsSecond,
-  @_s.JsonValue('Count/Second')
   countSecond,
-  @_s.JsonValue('None')
   none,
 }
 
@@ -4938,7 +4905,6 @@ extension on StandardUnit {
       case StandardUnit.none:
         return 'None';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5000,16 +4966,13 @@ extension on String {
       case 'None':
         return StandardUnit.none;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StandardUnit');
   }
 }
 
 enum StateValue {
-  @_s.JsonValue('OK')
   ok,
-  @_s.JsonValue('ALARM')
   alarm,
-  @_s.JsonValue('INSUFFICIENT_DATA')
   insufficientData,
 }
 
@@ -5023,7 +4986,6 @@ extension on StateValue {
       case StateValue.insufficientData:
         return 'INSUFFICIENT_DATA';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5037,20 +4999,15 @@ extension on String {
       case 'INSUFFICIENT_DATA':
         return StateValue.insufficientData;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StateValue');
   }
 }
 
 enum Statistic {
-  @_s.JsonValue('SampleCount')
   sampleCount,
-  @_s.JsonValue('Average')
   average,
-  @_s.JsonValue('Sum')
   sum,
-  @_s.JsonValue('Minimum')
   minimum,
-  @_s.JsonValue('Maximum')
   maximum,
 }
 
@@ -5068,7 +5025,6 @@ extension on Statistic {
       case Statistic.maximum:
         return 'Maximum';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5086,49 +5042,61 @@ extension on String {
       case 'Maximum':
         return Statistic.maximum;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Statistic');
   }
 }
 
 /// Represents a set of statistics that describes a specific metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StatisticSet {
   /// The maximum value of the sample set.
-  @_s.JsonKey(name: 'Maximum')
   final double maximum;
 
   /// The minimum value of the sample set.
-  @_s.JsonKey(name: 'Minimum')
   final double minimum;
 
   /// The number of samples used for the statistic set.
-  @_s.JsonKey(name: 'SampleCount')
   final double sampleCount;
 
   /// The sum of values for the sample set.
-  @_s.JsonKey(name: 'Sum')
   final double sum;
 
   StatisticSet({
-    @_s.required this.maximum,
-    @_s.required this.minimum,
-    @_s.required this.sampleCount,
-    @_s.required this.sum,
+    required this.maximum,
+    required this.minimum,
+    required this.sampleCount,
+    required this.sum,
   });
-  Map<String, dynamic> toJson() => _$StatisticSetToJson(this);
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final sampleCount = this.sampleCount;
+    final sum = this.sum;
+    return {
+      'Maximum': maximum,
+      'Minimum': minimum,
+      'SampleCount': sampleCount,
+      'Sum': sum,
+    };
+  }
 }
 
 enum StatusCode {
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('InternalError')
   internalError,
-  @_s.JsonValue('PartialData')
   partialData,
+}
+
+extension on StatusCode {
+  String toValue() {
+    switch (this) {
+      case StatusCode.complete:
+        return 'Complete';
+      case StatusCode.internalError:
+        return 'InternalError';
+      case StatusCode.partialData:
+        return 'PartialData';
+    }
+  }
 }
 
 extension on String {
@@ -5141,38 +5109,38 @@ extension on String {
       case 'PartialData':
         return StatusCode.partialData;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StatusCode');
   }
 }
 
 /// A key-value pair associated with a CloudWatch resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// A string that you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for the specified tag key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 class TagResourceOutput {
@@ -5194,7 +5162,7 @@ class UntagResourceOutput {
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -5202,32 +5170,32 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class DashboardInvalidInputError extends _s.GenericAwsException {
-  DashboardInvalidInputError({String type, String message})
+  DashboardInvalidInputError({String? type, String? message})
       : super(type: type, code: 'DashboardInvalidInputError', message: message);
 }
 
 class DashboardNotFoundError extends _s.GenericAwsException {
-  DashboardNotFoundError({String type, String message})
+  DashboardNotFoundError({String? type, String? message})
       : super(type: type, code: 'DashboardNotFoundError', message: message);
 }
 
 class InternalServiceFault extends _s.GenericAwsException {
-  InternalServiceFault({String type, String message})
+  InternalServiceFault({String? type, String? message})
       : super(type: type, code: 'InternalServiceFault', message: message);
 }
 
 class InvalidFormatFault extends _s.GenericAwsException {
-  InvalidFormatFault({String type, String message})
+  InvalidFormatFault({String? type, String? message})
       : super(type: type, code: 'InvalidFormatFault', message: message);
 }
 
 class InvalidNextToken extends _s.GenericAwsException {
-  InvalidNextToken({String type, String message})
+  InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
 class InvalidParameterCombinationException extends _s.GenericAwsException {
-  InvalidParameterCombinationException({String type, String message})
+  InvalidParameterCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterCombinationException',
@@ -5235,7 +5203,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -5243,17 +5211,17 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class LimitExceededFault extends _s.GenericAwsException {
-  LimitExceededFault({String type, String message})
+  LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
 class MissingRequiredParameterException extends _s.GenericAwsException {
-  MissingRequiredParameterException({String type, String message})
+  MissingRequiredParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingRequiredParameterException',
@@ -5261,12 +5229,12 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
 }
 
 class ResourceNotFound extends _s.GenericAwsException {
-  ResourceNotFound({String type, String message})
+  ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

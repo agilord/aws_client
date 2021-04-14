@@ -8,66 +8,52 @@ part of 'dynamodb-2012-08-10.dart';
 
 ArchivalSummary _$ArchivalSummaryFromJson(Map<String, dynamic> json) {
   return ArchivalSummary(
-    archivalBackupArn: json['ArchivalBackupArn'] as String,
+    archivalBackupArn: json['ArchivalBackupArn'] as String?,
     archivalDateTime:
         const UnixDateTimeConverter().fromJson(json['ArchivalDateTime']),
-    archivalReason: json['ArchivalReason'] as String,
+    archivalReason: json['ArchivalReason'] as String?,
   );
 }
 
 AttributeDefinition _$AttributeDefinitionFromJson(Map<String, dynamic> json) {
   return AttributeDefinition(
     attributeName: json['AttributeName'] as String,
-    attributeType: _$enumDecodeNullable(
-        _$ScalarAttributeTypeEnumMap, json['AttributeType']),
+    attributeType:
+        _$enumDecode(_$ScalarAttributeTypeEnumMap, json['AttributeType']),
   );
 }
 
-Map<String, dynamic> _$AttributeDefinitionToJson(AttributeDefinition instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$AttributeDefinitionToJson(
+        AttributeDefinition instance) =>
+    <String, dynamic>{
+      'AttributeName': instance.attributeName,
+      'AttributeType': _$ScalarAttributeTypeEnumMap[instance.attributeType],
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull(
-      'AttributeType', _$ScalarAttributeTypeEnumMap[instance.attributeType]);
-  return val;
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$ScalarAttributeTypeEnumMap = {
@@ -78,26 +64,22 @@ const _$ScalarAttributeTypeEnumMap = {
 
 AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   return AttributeValue(
-    b: const Uint8ListConverter().fromJson(json['B'] as String),
-    boolValue: json['BOOL'] as bool,
-    bs: const Uint8ListListConverter().fromJson(json['BS'] as List),
-    l: (json['L'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    m: (json['M'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    b: const Uint8ListNullableConverter().fromJson(json['B'] as String?),
+    boolValue: json['BOOL'] as bool?,
+    bs: (json['BS'] as List<dynamic>?)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        .toList(),
+    l: (json['L'] as List<dynamic>?)
+        ?.map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    m: (json['M'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    n: json['N'] as String,
-    ns: (json['NS'] as List)?.map((e) => e as String)?.toList(),
-    nullValue: json['NULL'] as bool,
-    s: json['S'] as String,
-    ss: (json['SS'] as List)?.map((e) => e as String)?.toList(),
+    n: json['N'] as String?,
+    ns: (json['NS'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nullValue: json['NULL'] as bool?,
+    s: json['S'] as String?,
+    ss: (json['SS'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -110,11 +92,12 @@ Map<String, dynamic> _$AttributeValueToJson(AttributeValue instance) {
     }
   }
 
-  writeNotNull('B', const Uint8ListConverter().toJson(instance.b));
+  writeNotNull('B', const Uint8ListNullableConverter().toJson(instance.b));
   writeNotNull('BOOL', instance.boolValue);
-  writeNotNull('BS', const Uint8ListListConverter().toJson(instance.bs));
-  writeNotNull('L', instance.l?.map((e) => e?.toJson())?.toList());
-  writeNotNull('M', instance.m?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'BS', instance.bs?.map(const Uint8ListConverter().toJson).toList());
+  writeNotNull('L', instance.l?.map((e) => e.toJson()).toList());
+  writeNotNull('M', instance.m?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull('N', instance.n);
   writeNotNull('NS', instance.ns);
   writeNotNull('NULL', instance.nullValue);
@@ -147,7 +130,7 @@ const _$AttributeActionEnumMap = {
 AutoScalingPolicyDescription _$AutoScalingPolicyDescriptionFromJson(
     Map<String, dynamic> json) {
   return AutoScalingPolicyDescription(
-    policyName: json['PolicyName'] as String,
+    policyName: json['PolicyName'] as String?,
     targetTrackingScalingPolicyConfiguration:
         json['TargetTrackingScalingPolicyConfiguration'] == null
             ? null
@@ -159,7 +142,10 @@ AutoScalingPolicyDescription _$AutoScalingPolicyDescriptionFromJson(
 
 Map<String, dynamic> _$AutoScalingPolicyUpdateToJson(
     AutoScalingPolicyUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TargetTrackingScalingPolicyConfiguration':
+        instance.targetTrackingScalingPolicyConfiguration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -167,8 +153,6 @@ Map<String, dynamic> _$AutoScalingPolicyUpdateToJson(
     }
   }
 
-  writeNotNull('TargetTrackingScalingPolicyConfiguration',
-      instance.targetTrackingScalingPolicyConfiguration?.toJson());
   writeNotNull('PolicyName', instance.policyName);
   return val;
 }
@@ -176,15 +160,14 @@ Map<String, dynamic> _$AutoScalingPolicyUpdateToJson(
 AutoScalingSettingsDescription _$AutoScalingSettingsDescriptionFromJson(
     Map<String, dynamic> json) {
   return AutoScalingSettingsDescription(
-    autoScalingDisabled: json['AutoScalingDisabled'] as bool,
-    autoScalingRoleArn: json['AutoScalingRoleArn'] as String,
-    maximumUnits: json['MaximumUnits'] as int,
-    minimumUnits: json['MinimumUnits'] as int,
-    scalingPolicies: (json['ScalingPolicies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
+    autoScalingRoleArn: json['AutoScalingRoleArn'] as String?,
+    maximumUnits: json['MaximumUnits'] as int?,
+    minimumUnits: json['MinimumUnits'] as int?,
+    scalingPolicies: (json['ScalingPolicies'] as List<dynamic>?)
+        ?.map((e) =>
+            AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -210,17 +193,19 @@ AutoScalingTargetTrackingScalingPolicyConfigurationDescription
     _$AutoScalingTargetTrackingScalingPolicyConfigurationDescriptionFromJson(
         Map<String, dynamic> json) {
   return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-    targetValue: (json['TargetValue'] as num)?.toDouble(),
-    disableScaleIn: json['DisableScaleIn'] as bool,
-    scaleInCooldown: json['ScaleInCooldown'] as int,
-    scaleOutCooldown: json['ScaleOutCooldown'] as int,
+    targetValue: (json['TargetValue'] as num).toDouble(),
+    disableScaleIn: json['DisableScaleIn'] as bool?,
+    scaleInCooldown: json['ScaleInCooldown'] as int?,
+    scaleOutCooldown: json['ScaleOutCooldown'] as int?,
   );
 }
 
 Map<String, dynamic>
     _$AutoScalingTargetTrackingScalingPolicyConfigurationUpdateToJson(
         AutoScalingTargetTrackingScalingPolicyConfigurationUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'TargetValue': instance.targetValue,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -228,7 +213,6 @@ Map<String, dynamic>
     }
   }
 
-  writeNotNull('TargetValue', instance.targetValue);
   writeNotNull('DisableScaleIn', instance.disableScaleIn);
   writeNotNull('ScaleInCooldown', instance.scaleInCooldown);
   writeNotNull('ScaleOutCooldown', instance.scaleOutCooldown);
@@ -255,14 +239,13 @@ BackupDetails _$BackupDetailsFromJson(Map<String, dynamic> json) {
   return BackupDetails(
     backupArn: json['BackupArn'] as String,
     backupCreationDateTime:
-        const UnixDateTimeConverter().fromJson(json['BackupCreationDateTime']),
+        DateTime.parse(json['BackupCreationDateTime'] as String),
     backupName: json['BackupName'] as String,
-    backupStatus:
-        _$enumDecodeNullable(_$BackupStatusEnumMap, json['BackupStatus']),
-    backupType: _$enumDecodeNullable(_$BackupTypeEnumMap, json['BackupType']),
+    backupStatus: _$enumDecode(_$BackupStatusEnumMap, json['BackupStatus']),
+    backupType: _$enumDecode(_$BackupTypeEnumMap, json['BackupType']),
     backupExpiryDateTime:
         const UnixDateTimeConverter().fromJson(json['BackupExpiryDateTime']),
-    backupSizeBytes: json['BackupSizeBytes'] as int,
+    backupSizeBytes: json['BackupSizeBytes'] as int?,
   );
 }
 
@@ -280,60 +263,60 @@ const _$BackupTypeEnumMap = {
 
 BackupSummary _$BackupSummaryFromJson(Map<String, dynamic> json) {
   return BackupSummary(
-    backupArn: json['BackupArn'] as String,
+    backupArn: json['BackupArn'] as String?,
     backupCreationDateTime:
         const UnixDateTimeConverter().fromJson(json['BackupCreationDateTime']),
     backupExpiryDateTime:
         const UnixDateTimeConverter().fromJson(json['BackupExpiryDateTime']),
-    backupName: json['BackupName'] as String,
-    backupSizeBytes: json['BackupSizeBytes'] as int,
+    backupName: json['BackupName'] as String?,
+    backupSizeBytes: json['BackupSizeBytes'] as int?,
     backupStatus:
         _$enumDecodeNullable(_$BackupStatusEnumMap, json['BackupStatus']),
     backupType: _$enumDecodeNullable(_$BackupTypeEnumMap, json['BackupType']),
-    tableArn: json['TableArn'] as String,
-    tableId: json['TableId'] as String,
-    tableName: json['TableName'] as String,
+    tableArn: json['TableArn'] as String?,
+    tableId: json['TableId'] as String?,
+    tableName: json['TableName'] as String?,
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 BatchExecuteStatementOutput _$BatchExecuteStatementOutputFromJson(
     Map<String, dynamic> json) {
   return BatchExecuteStatementOutput(
-    responses: (json['Responses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchStatementResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    responses: (json['Responses'] as List<dynamic>?)
+        ?.map((e) => BatchStatementResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchGetItemOutput _$BatchGetItemOutputFromJson(Map<String, dynamic> json) {
   return BatchGetItemOutput(
-    consumedCapacity: (json['ConsumedCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    responses: (json['Responses'] as Map<String, dynamic>)?.map(
+    consumedCapacity: (json['ConsumedCapacity'] as List<dynamic>?)
+        ?.map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    responses: (json['Responses'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => (e as Map<String, dynamic>)?.map(
+          (e as List<dynamic>)
+              .map((e) => (e as Map<String, dynamic>).map(
                     (k, e) => MapEntry(
-                        k,
-                        e == null
-                            ? null
-                            : AttributeValue.fromJson(
-                                e as Map<String, dynamic>)),
+                        k, AttributeValue.fromJson(e as Map<String, dynamic>)),
                   ))
-              ?.toList()),
+              .toList()),
     ),
-    unprocessedKeys: (json['UnprocessedKeys'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : KeysAndAttributes.fromJson(e as Map<String, dynamic>)),
+    unprocessedKeys: (json['UnprocessedKeys'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, KeysAndAttributes.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -342,7 +325,7 @@ BatchStatementError _$BatchStatementErrorFromJson(Map<String, dynamic> json) {
   return BatchStatementError(
     code: _$enumDecodeNullable(
         _$BatchStatementErrorCodeEnumEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -364,7 +347,9 @@ const _$BatchStatementErrorCodeEnumEnumMap = {
 
 Map<String, dynamic> _$BatchStatementRequestToJson(
     BatchStatementRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Statement': instance.statement,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -372,10 +357,9 @@ Map<String, dynamic> _$BatchStatementRequestToJson(
     }
   }
 
-  writeNotNull('Statement', instance.statement);
   writeNotNull('ConsistentRead', instance.consistentRead);
   writeNotNull(
-      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+      'Parameters', instance.parameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -385,42 +369,33 @@ BatchStatementResponse _$BatchStatementResponseFromJson(
     error: json['Error'] == null
         ? null
         : BatchStatementError.fromJson(json['Error'] as Map<String, dynamic>),
-    item: (json['Item'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    item: (json['Item'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    tableName: json['TableName'] as String,
+    tableName: json['TableName'] as String?,
   );
 }
 
 BatchWriteItemOutput _$BatchWriteItemOutputFromJson(Map<String, dynamic> json) {
   return BatchWriteItemOutput(
-    consumedCapacity: (json['ConsumedCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    consumedCapacity: (json['ConsumedCapacity'] as List<dynamic>?)
+        ?.map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+        .toList(),
     itemCollectionMetrics:
-        (json['ItemCollectionMetrics'] as Map<String, dynamic>)?.map(
+        (json['ItemCollectionMetrics'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) =>
+                  ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
+              .toList()),
     ),
-    unprocessedItems: (json['UnprocessedItems'] as Map<String, dynamic>)?.map(
+    unprocessedItems: (json['UnprocessedItems'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : WriteRequest.fromJson(e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) => WriteRequest.fromJson(e as Map<String, dynamic>))
+              .toList()),
     ),
   );
 }
@@ -441,14 +416,17 @@ const _$BillingModeEnumMap = {
 
 Capacity _$CapacityFromJson(Map<String, dynamic> json) {
   return Capacity(
-    capacityUnits: (json['CapacityUnits'] as num)?.toDouble(),
-    readCapacityUnits: (json['ReadCapacityUnits'] as num)?.toDouble(),
-    writeCapacityUnits: (json['WriteCapacityUnits'] as num)?.toDouble(),
+    capacityUnits: (json['CapacityUnits'] as num?)?.toDouble(),
+    readCapacityUnits: (json['ReadCapacityUnits'] as num?)?.toDouble(),
+    writeCapacityUnits: (json['WriteCapacityUnits'] as num?)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$ConditionToJson(Condition instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ComparisonOperator':
+        _$ComparisonOperatorEnumMap[instance.comparisonOperator],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -456,10 +434,8 @@ Map<String, dynamic> _$ConditionToJson(Condition instance) {
     }
   }
 
-  writeNotNull('ComparisonOperator',
-      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
   writeNotNull('AttributeValueList',
-      instance.attributeValueList?.map((e) => e?.toJson())?.toList());
+      instance.attributeValueList?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -480,7 +456,11 @@ const _$ComparisonOperatorEnumMap = {
 };
 
 Map<String, dynamic> _$ConditionCheckToJson(ConditionCheck instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ConditionExpression': instance.conditionExpression,
+    'Key': instance.key.map((k, e) => MapEntry(k, e.toJson())),
+    'TableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -488,14 +468,11 @@ Map<String, dynamic> _$ConditionCheckToJson(ConditionCheck instance) {
     }
   }
 
-  writeNotNull('ConditionExpression', instance.conditionExpression);
-  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
-  writeNotNull('TableName', instance.tableName);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull(
       'ExpressionAttributeValues',
       instance.expressionAttributeValues
-          ?.map((k, e) => MapEntry(k, e?.toJson())));
+          ?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull(
       'ReturnValuesOnConditionCheckFailure',
       _$ReturnValuesOnConditionCheckFailureEnumMap[
@@ -510,30 +487,28 @@ const _$ReturnValuesOnConditionCheckFailureEnumMap = {
 
 ConsumedCapacity _$ConsumedCapacityFromJson(Map<String, dynamic> json) {
   return ConsumedCapacity(
-    capacityUnits: (json['CapacityUnits'] as num)?.toDouble(),
+    capacityUnits: (json['CapacityUnits'] as num?)?.toDouble(),
     globalSecondaryIndexes:
-        (json['GlobalSecondaryIndexes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Capacity.fromJson(e as Map<String, dynamic>)),
+        (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>)),
     ),
     localSecondaryIndexes:
-        (json['LocalSecondaryIndexes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Capacity.fromJson(e as Map<String, dynamic>)),
+        (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>)),
     ),
-    readCapacityUnits: (json['ReadCapacityUnits'] as num)?.toDouble(),
+    readCapacityUnits: (json['ReadCapacityUnits'] as num?)?.toDouble(),
     table: json['Table'] == null
         ? null
         : Capacity.fromJson(json['Table'] as Map<String, dynamic>),
-    tableName: json['TableName'] as String,
-    writeCapacityUnits: (json['WriteCapacityUnits'] as num)?.toDouble(),
+    tableName: json['TableName'] as String?,
+    writeCapacityUnits: (json['WriteCapacityUnits'] as num?)?.toDouble(),
   );
 }
 
 ContinuousBackupsDescription _$ContinuousBackupsDescriptionFromJson(
     Map<String, dynamic> json) {
   return ContinuousBackupsDescription(
-    continuousBackupsStatus: _$enumDecodeNullable(
+    continuousBackupsStatus: _$enumDecode(
         _$ContinuousBackupsStatusEnumMap, json['ContinuousBackupsStatus']),
     pointInTimeRecoveryDescription:
         json['PointInTimeRecoveryDescription'] == null
@@ -553,8 +528,8 @@ ContributorInsightsSummary _$ContributorInsightsSummaryFromJson(
   return ContributorInsightsSummary(
     contributorInsightsStatus: _$enumDecodeNullable(
         _$ContributorInsightsStatusEnumMap, json['ContributorInsightsStatus']),
-    indexName: json['IndexName'] as String,
-    tableName: json['TableName'] as String,
+    indexName: json['IndexName'] as String?,
+    tableName: json['TableName'] as String?,
   );
 }
 
@@ -576,7 +551,11 @@ CreateBackupOutput _$CreateBackupOutputFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CreateGlobalSecondaryIndexActionToJson(
     CreateGlobalSecondaryIndexAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+    'KeySchema': instance.keySchema.map((e) => e.toJson()).toList(),
+    'Projection': instance.projection.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -584,10 +563,6 @@ Map<String, dynamic> _$CreateGlobalSecondaryIndexActionToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
-  writeNotNull(
-      'KeySchema', instance.keySchema?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Projection', instance.projection?.toJson());
   writeNotNull(
       'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
   return val;
@@ -603,22 +578,17 @@ CreateGlobalTableOutput _$CreateGlobalTableOutputFromJson(
   );
 }
 
-Map<String, dynamic> _$CreateReplicaActionToJson(CreateReplicaAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RegionName', instance.regionName);
-  return val;
-}
+Map<String, dynamic> _$CreateReplicaActionToJson(
+        CreateReplicaAction instance) =>
+    <String, dynamic>{
+      'RegionName': instance.regionName,
+    };
 
 Map<String, dynamic> _$CreateReplicationGroupMemberActionToJson(
     CreateReplicationGroupMemberAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RegionName': instance.regionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -626,9 +596,8 @@ Map<String, dynamic> _$CreateReplicationGroupMemberActionToJson(
     }
   }
 
-  writeNotNull('RegionName', instance.regionName);
   writeNotNull('GlobalSecondaryIndexes',
-      instance.globalSecondaryIndexes?.map((e) => e?.toJson())?.toList());
+      instance.globalSecondaryIndexes?.map((e) => e.toJson()).toList());
   writeNotNull('KMSMasterKeyId', instance.kMSMasterKeyId);
   writeNotNull('ProvisionedThroughputOverride',
       instance.provisionedThroughputOverride?.toJson());
@@ -645,7 +614,10 @@ CreateTableOutput _$CreateTableOutputFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DeleteToJson(Delete instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key.map((k, e) => MapEntry(k, e.toJson())),
+    'TableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -653,14 +625,12 @@ Map<String, dynamic> _$DeleteToJson(Delete instance) {
     }
   }
 
-  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
-  writeNotNull('TableName', instance.tableName);
   writeNotNull('ConditionExpression', instance.conditionExpression);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull(
       'ExpressionAttributeValues',
       instance.expressionAttributeValues
-          ?.map((k, e) => MapEntry(k, e?.toJson())));
+          ?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull(
       'ReturnValuesOnConditionCheckFailure',
       _$ReturnValuesOnConditionCheckFailureEnumMap[
@@ -678,27 +648,15 @@ DeleteBackupOutput _$DeleteBackupOutputFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DeleteGlobalSecondaryIndexActionToJson(
-    DeleteGlobalSecondaryIndexAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IndexName', instance.indexName);
-  return val;
-}
+        DeleteGlobalSecondaryIndexAction instance) =>
+    <String, dynamic>{
+      'IndexName': instance.indexName,
+    };
 
 DeleteItemOutput _$DeleteItemOutputFromJson(Map<String, dynamic> json) {
   return DeleteItemOutput(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
     consumedCapacity: json['ConsumedCapacity'] == null
         ? null
@@ -711,57 +669,30 @@ DeleteItemOutput _$DeleteItemOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DeleteReplicaActionToJson(DeleteReplicaAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RegionName', instance.regionName);
-  return val;
-}
+Map<String, dynamic> _$DeleteReplicaActionToJson(
+        DeleteReplicaAction instance) =>
+    <String, dynamic>{
+      'RegionName': instance.regionName,
+    };
 
 Map<String, dynamic> _$DeleteReplicationGroupMemberActionToJson(
-    DeleteReplicationGroupMemberAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RegionName', instance.regionName);
-  return val;
-}
+        DeleteReplicationGroupMemberAction instance) =>
+    <String, dynamic>{
+      'RegionName': instance.regionName,
+    };
 
 DeleteRequest _$DeleteRequestFromJson(Map<String, dynamic> json) {
   return DeleteRequest(
-    key: (json['Key'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    key: (json['Key'] as Map<String, dynamic>).map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
-Map<String, dynamic> _$DeleteRequestToJson(DeleteRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
-  return val;
-}
+Map<String, dynamic> _$DeleteRequestToJson(DeleteRequest instance) =>
+    <String, dynamic>{
+      'Key': instance.key.map((k, e) => MapEntry(k, e.toJson())),
+    };
 
 DeleteTableOutput _$DeleteTableOutputFromJson(Map<String, dynamic> json) {
   return DeleteTableOutput(
@@ -794,29 +725,29 @@ DescribeContinuousBackupsOutput _$DescribeContinuousBackupsOutputFromJson(
 DescribeContributorInsightsOutput _$DescribeContributorInsightsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeContributorInsightsOutput(
-    contributorInsightsRuleList: (json['ContributorInsightsRuleList'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    contributorInsightsRuleList:
+        (json['ContributorInsightsRuleList'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
     contributorInsightsStatus: _$enumDecodeNullable(
         _$ContributorInsightsStatusEnumMap, json['ContributorInsightsStatus']),
     failureException: json['FailureException'] == null
         ? null
         : FailureException.fromJson(
             json['FailureException'] as Map<String, dynamic>),
-    indexName: json['IndexName'] as String,
+    indexName: json['IndexName'] as String?,
     lastUpdateDateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateDateTime']),
-    tableName: json['TableName'] as String,
+    tableName: json['TableName'] as String?,
   );
 }
 
 DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointsResponse(
-    endpoints: (json['Endpoints'] as List)
-        ?.map((e) =>
-            e == null ? null : Endpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    endpoints: (json['Endpoints'] as List<dynamic>)
+        .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -842,12 +773,11 @@ DescribeGlobalTableOutput _$DescribeGlobalTableOutputFromJson(
 DescribeGlobalTableSettingsOutput _$DescribeGlobalTableSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGlobalTableSettingsOutput(
-    globalTableName: json['GlobalTableName'] as String,
-    replicaSettings: (json['ReplicaSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    globalTableName: json['GlobalTableName'] as String?,
+    replicaSettings: (json['ReplicaSettings'] as List<dynamic>?)
+        ?.map((e) =>
+            ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -856,21 +786,20 @@ DescribeKinesisStreamingDestinationOutput
         Map<String, dynamic> json) {
   return DescribeKinesisStreamingDestinationOutput(
     kinesisDataStreamDestinations: (json['KinesisDataStreamDestinations']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : KinesisDataStreamDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tableName: json['TableName'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            KinesisDataStreamDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tableName: json['TableName'] as String?,
   );
 }
 
 DescribeLimitsOutput _$DescribeLimitsOutputFromJson(Map<String, dynamic> json) {
   return DescribeLimitsOutput(
-    accountMaxReadCapacityUnits: json['AccountMaxReadCapacityUnits'] as int,
-    accountMaxWriteCapacityUnits: json['AccountMaxWriteCapacityUnits'] as int,
-    tableMaxReadCapacityUnits: json['TableMaxReadCapacityUnits'] as int,
-    tableMaxWriteCapacityUnits: json['TableMaxWriteCapacityUnits'] as int,
+    accountMaxReadCapacityUnits: json['AccountMaxReadCapacityUnits'] as int?,
+    accountMaxWriteCapacityUnits: json['AccountMaxWriteCapacityUnits'] as int?,
+    tableMaxReadCapacityUnits: json['TableMaxReadCapacityUnits'] as int?,
+    tableMaxWriteCapacityUnits: json['TableMaxWriteCapacityUnits'] as int?,
   );
 }
 
@@ -912,26 +841,22 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
 ExecuteStatementOutput _$ExecuteStatementOutputFromJson(
     Map<String, dynamic> json) {
   return ExecuteStatementOutput(
-    items: (json['Items'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
+    items: (json['Items'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : AttributeValue.fromJson(e as Map<String, dynamic>)),
+                  k, AttributeValue.fromJson(e as Map<String, dynamic>)),
             ))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ExecuteTransactionOutput _$ExecuteTransactionOutputFromJson(
     Map<String, dynamic> json) {
   return ExecuteTransactionOutput(
-    responses: (json['Responses'] as List)
-        ?.map((e) =>
-            e == null ? null : ItemResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    responses: (json['Responses'] as List<dynamic>?)
+        ?.map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -946,7 +871,7 @@ Map<String, dynamic> _$ExpectedAttributeValueToJson(
   }
 
   writeNotNull('AttributeValueList',
-      instance.attributeValueList?.map((e) => e?.toJson())?.toList());
+      instance.attributeValueList?.map((e) => e.toJson()).toList());
   writeNotNull('ComparisonOperator',
       _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
   writeNotNull('Exists', instance.exists);
@@ -956,28 +881,28 @@ Map<String, dynamic> _$ExpectedAttributeValueToJson(
 
 ExportDescription _$ExportDescriptionFromJson(Map<String, dynamic> json) {
   return ExportDescription(
-    billedSizeBytes: json['BilledSizeBytes'] as int,
-    clientToken: json['ClientToken'] as String,
+    billedSizeBytes: json['BilledSizeBytes'] as int?,
+    clientToken: json['ClientToken'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    exportArn: json['ExportArn'] as String,
+    exportArn: json['ExportArn'] as String?,
     exportFormat:
         _$enumDecodeNullable(_$ExportFormatEnumMap, json['ExportFormat']),
-    exportManifest: json['ExportManifest'] as String,
+    exportManifest: json['ExportManifest'] as String?,
     exportStatus:
         _$enumDecodeNullable(_$ExportStatusEnumMap, json['ExportStatus']),
     exportTime: const UnixDateTimeConverter().fromJson(json['ExportTime']),
-    failureCode: json['FailureCode'] as String,
-    failureMessage: json['FailureMessage'] as String,
-    itemCount: json['ItemCount'] as int,
-    s3Bucket: json['S3Bucket'] as String,
-    s3BucketOwner: json['S3BucketOwner'] as String,
-    s3Prefix: json['S3Prefix'] as String,
+    failureCode: json['FailureCode'] as String?,
+    failureMessage: json['FailureMessage'] as String?,
+    itemCount: json['ItemCount'] as int?,
+    s3Bucket: json['S3Bucket'] as String?,
+    s3BucketOwner: json['S3BucketOwner'] as String?,
+    s3Prefix: json['S3Prefix'] as String?,
     s3SseAlgorithm:
         _$enumDecodeNullable(_$S3SseAlgorithmEnumMap, json['S3SseAlgorithm']),
-    s3SseKmsKeyId: json['S3SseKmsKeyId'] as String,
+    s3SseKmsKeyId: json['S3SseKmsKeyId'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
-    tableArn: json['TableArn'] as String,
-    tableId: json['TableId'] as String,
+    tableArn: json['TableArn'] as String?,
+    tableId: json['TableId'] as String?,
   );
 }
 
@@ -999,7 +924,7 @@ const _$S3SseAlgorithmEnumMap = {
 
 ExportSummary _$ExportSummaryFromJson(Map<String, dynamic> json) {
   return ExportSummary(
-    exportArn: json['ExportArn'] as String,
+    exportArn: json['ExportArn'] as String?,
     exportStatus:
         _$enumDecodeNullable(_$ExportStatusEnumMap, json['ExportStatus']),
   );
@@ -1017,13 +942,16 @@ ExportTableToPointInTimeOutput _$ExportTableToPointInTimeOutputFromJson(
 
 FailureException _$FailureExceptionFromJson(Map<String, dynamic> json) {
   return FailureException(
-    exceptionDescription: json['ExceptionDescription'] as String,
-    exceptionName: json['ExceptionName'] as String,
+    exceptionDescription: json['ExceptionDescription'] as String?,
+    exceptionName: json['ExceptionName'] as String?,
   );
 }
 
 Map<String, dynamic> _$GetToJson(Get instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key.map((k, e) => MapEntry(k, e.toJson())),
+    'TableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1031,8 +959,6 @@ Map<String, dynamic> _$GetToJson(Get instance) {
     }
   }
 
-  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
-  writeNotNull('TableName', instance.tableName);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull('ProjectionExpression', instance.projectionExpression);
   return val;
@@ -1044,19 +970,19 @@ GetItemOutput _$GetItemOutputFromJson(Map<String, dynamic> json) {
         ? null
         : ConsumedCapacity.fromJson(
             json['ConsumedCapacity'] as Map<String, dynamic>),
-    item: (json['Item'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    item: (json['Item'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
 Map<String, dynamic> _$GlobalSecondaryIndexToJson(
     GlobalSecondaryIndex instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+    'KeySchema': instance.keySchema.map((e) => e.toJson()).toList(),
+    'Projection': instance.projection.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1064,10 +990,6 @@ Map<String, dynamic> _$GlobalSecondaryIndexToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
-  writeNotNull(
-      'KeySchema', instance.keySchema?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Projection', instance.projection?.toJson());
   writeNotNull(
       'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
   return val;
@@ -1092,18 +1014,16 @@ Map<String, dynamic> _$GlobalSecondaryIndexAutoScalingUpdateToJson(
 GlobalSecondaryIndexDescription _$GlobalSecondaryIndexDescriptionFromJson(
     Map<String, dynamic> json) {
   return GlobalSecondaryIndexDescription(
-    backfilling: json['Backfilling'] as bool,
-    indexArn: json['IndexArn'] as String,
-    indexName: json['IndexName'] as String,
-    indexSizeBytes: json['IndexSizeBytes'] as int,
+    backfilling: json['Backfilling'] as bool?,
+    indexArn: json['IndexArn'] as String?,
+    indexName: json['IndexName'] as String?,
+    indexSizeBytes: json['IndexSizeBytes'] as int?,
     indexStatus:
         _$enumDecodeNullable(_$IndexStatusEnumMap, json['IndexStatus']),
-    itemCount: json['ItemCount'] as int,
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    itemCount: json['ItemCount'] as int?,
+    keySchema: (json['KeySchema'] as List<dynamic>?)
+        ?.map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
     projection: json['Projection'] == null
         ? null
         : Projection.fromJson(json['Projection'] as Map<String, dynamic>),
@@ -1124,12 +1044,10 @@ const _$IndexStatusEnumMap = {
 GlobalSecondaryIndexInfo _$GlobalSecondaryIndexInfoFromJson(
     Map<String, dynamic> json) {
   return GlobalSecondaryIndexInfo(
-    indexName: json['IndexName'] as String,
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    indexName: json['IndexName'] as String?,
+    keySchema: (json['KeySchema'] as List<dynamic>?)
+        ?.map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
     projection: json['Projection'] == null
         ? null
         : Projection.fromJson(json['Projection'] as Map<String, dynamic>),
@@ -1158,11 +1076,10 @@ Map<String, dynamic> _$GlobalSecondaryIndexUpdateToJson(
 
 GlobalTable _$GlobalTableFromJson(Map<String, dynamic> json) {
   return GlobalTable(
-    globalTableName: json['GlobalTableName'] as String,
-    replicationGroup: (json['ReplicationGroup'] as List)
-        ?.map((e) =>
-            e == null ? null : Replica.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    globalTableName: json['GlobalTableName'] as String?,
+    replicationGroup: (json['ReplicationGroup'] as List<dynamic>?)
+        ?.map((e) => Replica.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1171,15 +1088,13 @@ GlobalTableDescription _$GlobalTableDescriptionFromJson(
   return GlobalTableDescription(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    globalTableArn: json['GlobalTableArn'] as String,
-    globalTableName: json['GlobalTableName'] as String,
+    globalTableArn: json['GlobalTableArn'] as String?,
+    globalTableName: json['GlobalTableName'] as String?,
     globalTableStatus: _$enumDecodeNullable(
         _$GlobalTableStatusEnumMap, json['GlobalTableStatus']),
-    replicationGroup: (json['ReplicationGroup'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    replicationGroup: (json['ReplicationGroup'] as List<dynamic>?)
+        ?.map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1192,7 +1107,9 @@ const _$GlobalTableStatusEnumMap = {
 
 Map<String, dynamic> _$GlobalTableGlobalSecondaryIndexSettingsUpdateToJson(
     GlobalTableGlobalSecondaryIndexSettingsUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1200,7 +1117,6 @@ Map<String, dynamic> _$GlobalTableGlobalSecondaryIndexSettingsUpdateToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
   writeNotNull('ProvisionedWriteCapacityAutoScalingSettingsUpdate',
       instance.provisionedWriteCapacityAutoScalingSettingsUpdate?.toJson());
   writeNotNull(
@@ -1211,27 +1127,20 @@ Map<String, dynamic> _$GlobalTableGlobalSecondaryIndexSettingsUpdateToJson(
 ItemCollectionMetrics _$ItemCollectionMetricsFromJson(
     Map<String, dynamic> json) {
   return ItemCollectionMetrics(
-    itemCollectionKey: (json['ItemCollectionKey'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    itemCollectionKey:
+        (json['ItemCollectionKey'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List)
-        ?.map((e) => (e as num)?.toDouble())
-        ?.toList(),
+    sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List<dynamic>?)
+        ?.map((e) => (e as num).toDouble())
+        .toList(),
   );
 }
 
 ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) {
   return ItemResponse(
-    item: (json['Item'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    item: (json['Item'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -1239,23 +1148,15 @@ ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) {
 KeySchemaElement _$KeySchemaElementFromJson(Map<String, dynamic> json) {
   return KeySchemaElement(
     attributeName: json['AttributeName'] as String,
-    keyType: _$enumDecodeNullable(_$KeyTypeEnumMap, json['KeyType']),
+    keyType: _$enumDecode(_$KeyTypeEnumMap, json['KeyType']),
   );
 }
 
-Map<String, dynamic> _$KeySchemaElementToJson(KeySchemaElement instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull('KeyType', _$KeyTypeEnumMap[instance.keyType]);
-  return val;
-}
+Map<String, dynamic> _$KeySchemaElementToJson(KeySchemaElement instance) =>
+    <String, dynamic>{
+      'AttributeName': instance.attributeName,
+      'KeyType': _$KeyTypeEnumMap[instance.keyType],
+    };
 
 const _$KeyTypeEnumMap = {
   KeyType.hash: 'HASH',
@@ -1264,28 +1165,30 @@ const _$KeyTypeEnumMap = {
 
 KeysAndAttributes _$KeysAndAttributesFromJson(Map<String, dynamic> json) {
   return KeysAndAttributes(
-    keys: (json['Keys'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
+    keys: (json['Keys'] as List<dynamic>)
+        .map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : AttributeValue.fromJson(e as Map<String, dynamic>)),
+                  k, AttributeValue.fromJson(e as Map<String, dynamic>)),
             ))
-        ?.toList(),
-    attributesToGet:
-        (json['AttributesToGet'] as List)?.map((e) => e as String)?.toList(),
-    consistentRead: json['ConsistentRead'] as bool,
+        .toList(),
+    attributesToGet: (json['AttributesToGet'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    consistentRead: json['ConsistentRead'] as bool?,
     expressionAttributeNames:
-        (json['ExpressionAttributeNames'] as Map<String, dynamic>)?.map(
+        (json['ExpressionAttributeNames'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    projectionExpression: json['ProjectionExpression'] as String,
+    projectionExpression: json['ProjectionExpression'] as String?,
   );
 }
 
 Map<String, dynamic> _$KeysAndAttributesToJson(KeysAndAttributes instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Keys': instance.keys
+        .map((e) => e.map((k, e) => MapEntry(k, e.toJson())))
+        .toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1293,11 +1196,6 @@ Map<String, dynamic> _$KeysAndAttributesToJson(KeysAndAttributes instance) {
     }
   }
 
-  writeNotNull(
-      'Keys',
-      instance.keys
-          ?.map((e) => e?.map((k, e) => MapEntry(k, e?.toJson())))
-          ?.toList());
   writeNotNull('AttributesToGet', instance.attributesToGet);
   writeNotNull('ConsistentRead', instance.consistentRead);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
@@ -1311,8 +1209,8 @@ KinesisDataStreamDestination _$KinesisDataStreamDestinationFromJson(
     destinationStatus: _$enumDecodeNullable(
         _$DestinationStatusEnumMap, json['DestinationStatus']),
     destinationStatusDescription:
-        json['DestinationStatusDescription'] as String,
-    streamArn: json['StreamArn'] as String,
+        json['DestinationStatusDescription'] as String?,
+    streamArn: json['StreamArn'] as String?,
   );
 }
 
@@ -1329,102 +1227,89 @@ KinesisStreamingDestinationOutput _$KinesisStreamingDestinationOutputFromJson(
   return KinesisStreamingDestinationOutput(
     destinationStatus: _$enumDecodeNullable(
         _$DestinationStatusEnumMap, json['DestinationStatus']),
-    streamArn: json['StreamArn'] as String,
-    tableName: json['TableName'] as String,
+    streamArn: json['StreamArn'] as String?,
+    tableName: json['TableName'] as String?,
   );
 }
 
 ListBackupsOutput _$ListBackupsOutputFromJson(Map<String, dynamic> json) {
   return ListBackupsOutput(
-    backupSummaries: (json['BackupSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    lastEvaluatedBackupArn: json['LastEvaluatedBackupArn'] as String,
+    backupSummaries: (json['BackupSummaries'] as List<dynamic>?)
+        ?.map((e) => BackupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    lastEvaluatedBackupArn: json['LastEvaluatedBackupArn'] as String?,
   );
 }
 
 ListContributorInsightsOutput _$ListContributorInsightsOutputFromJson(
     Map<String, dynamic> json) {
   return ListContributorInsightsOutput(
-    contributorInsightsSummaries: (json['ContributorInsightsSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ContributorInsightsSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    contributorInsightsSummaries:
+        (json['ContributorInsightsSummaries'] as List<dynamic>?)
+            ?.map((e) =>
+                ContributorInsightsSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListExportsOutput _$ListExportsOutputFromJson(Map<String, dynamic> json) {
   return ListExportsOutput(
-    exportSummaries: (json['ExportSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ExportSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    exportSummaries: (json['ExportSummaries'] as List<dynamic>?)
+        ?.map((e) => ExportSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGlobalTablesOutput _$ListGlobalTablesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGlobalTablesOutput(
-    globalTables: (json['GlobalTables'] as List)
-        ?.map((e) =>
-            e == null ? null : GlobalTable.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    globalTables: (json['GlobalTables'] as List<dynamic>?)
+        ?.map((e) => GlobalTable.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastEvaluatedGlobalTableName:
-        json['LastEvaluatedGlobalTableName'] as String,
+        json['LastEvaluatedGlobalTableName'] as String?,
   );
 }
 
 ListTablesOutput _$ListTablesOutputFromJson(Map<String, dynamic> json) {
   return ListTablesOutput(
-    lastEvaluatedTableName: json['LastEvaluatedTableName'] as String,
-    tableNames: (json['TableNames'] as List)?.map((e) => e as String)?.toList(),
+    lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
+    tableNames: (json['TableNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListTagsOfResourceOutput _$ListTagsOfResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsOfResourceOutput(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$LocalSecondaryIndexToJson(LocalSecondaryIndex instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IndexName', instance.indexName);
-  writeNotNull(
-      'KeySchema', instance.keySchema?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Projection', instance.projection?.toJson());
-  return val;
-}
+Map<String, dynamic> _$LocalSecondaryIndexToJson(
+        LocalSecondaryIndex instance) =>
+    <String, dynamic>{
+      'IndexName': instance.indexName,
+      'KeySchema': instance.keySchema.map((e) => e.toJson()).toList(),
+      'Projection': instance.projection.toJson(),
+    };
 
 LocalSecondaryIndexDescription _$LocalSecondaryIndexDescriptionFromJson(
     Map<String, dynamic> json) {
   return LocalSecondaryIndexDescription(
-    indexArn: json['IndexArn'] as String,
-    indexName: json['IndexName'] as String,
-    indexSizeBytes: json['IndexSizeBytes'] as int,
-    itemCount: json['ItemCount'] as int,
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    indexArn: json['IndexArn'] as String?,
+    indexName: json['IndexName'] as String?,
+    indexSizeBytes: json['IndexSizeBytes'] as int?,
+    itemCount: json['ItemCount'] as int?,
+    keySchema: (json['KeySchema'] as List<dynamic>?)
+        ?.map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
     projection: json['Projection'] == null
         ? null
         : Projection.fromJson(json['Projection'] as Map<String, dynamic>),
@@ -1434,12 +1319,10 @@ LocalSecondaryIndexDescription _$LocalSecondaryIndexDescriptionFromJson(
 LocalSecondaryIndexInfo _$LocalSecondaryIndexInfoFromJson(
     Map<String, dynamic> json) {
   return LocalSecondaryIndexInfo(
-    indexName: json['IndexName'] as String,
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    indexName: json['IndexName'] as String?,
+    keySchema: (json['KeySchema'] as List<dynamic>?)
+        ?.map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
     projection: json['Projection'] == null
         ? null
         : Projection.fromJson(json['Projection'] as Map<String, dynamic>),
@@ -1448,7 +1331,9 @@ LocalSecondaryIndexInfo _$LocalSecondaryIndexInfoFromJson(
 
 Map<String, dynamic> _$ParameterizedStatementToJson(
     ParameterizedStatement instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Statement': instance.statement,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1456,9 +1341,8 @@ Map<String, dynamic> _$ParameterizedStatementToJson(
     }
   }
 
-  writeNotNull('Statement', instance.statement);
   writeNotNull(
-      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+      'Parameters', instance.parameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1480,24 +1364,16 @@ const _$PointInTimeRecoveryStatusEnumMap = {
 };
 
 Map<String, dynamic> _$PointInTimeRecoverySpecificationToJson(
-    PointInTimeRecoverySpecification instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'PointInTimeRecoveryEnabled', instance.pointInTimeRecoveryEnabled);
-  return val;
-}
+        PointInTimeRecoverySpecification instance) =>
+    <String, dynamic>{
+      'PointInTimeRecoveryEnabled': instance.pointInTimeRecoveryEnabled,
+    };
 
 Projection _$ProjectionFromJson(Map<String, dynamic> json) {
   return Projection(
-    nonKeyAttributes:
-        (json['NonKeyAttributes'] as List)?.map((e) => e as String)?.toList(),
+    nonKeyAttributes: (json['NonKeyAttributes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     projectionType:
         _$enumDecodeNullable(_$ProjectionTypeEnumMap, json['ProjectionType']),
   );
@@ -1533,19 +1409,11 @@ ProvisionedThroughput _$ProvisionedThroughputFromJson(
 }
 
 Map<String, dynamic> _$ProvisionedThroughputToJson(
-    ProvisionedThroughput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ReadCapacityUnits', instance.readCapacityUnits);
-  writeNotNull('WriteCapacityUnits', instance.writeCapacityUnits);
-  return val;
-}
+        ProvisionedThroughput instance) =>
+    <String, dynamic>{
+      'ReadCapacityUnits': instance.readCapacityUnits,
+      'WriteCapacityUnits': instance.writeCapacityUnits,
+    };
 
 ProvisionedThroughputDescription _$ProvisionedThroughputDescriptionFromJson(
     Map<String, dynamic> json) {
@@ -1554,16 +1422,16 @@ ProvisionedThroughputDescription _$ProvisionedThroughputDescriptionFromJson(
         const UnixDateTimeConverter().fromJson(json['LastDecreaseDateTime']),
     lastIncreaseDateTime:
         const UnixDateTimeConverter().fromJson(json['LastIncreaseDateTime']),
-    numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int,
-    readCapacityUnits: json['ReadCapacityUnits'] as int,
-    writeCapacityUnits: json['WriteCapacityUnits'] as int,
+    numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int?,
+    readCapacityUnits: json['ReadCapacityUnits'] as int?,
+    writeCapacityUnits: json['WriteCapacityUnits'] as int?,
   );
 }
 
 ProvisionedThroughputOverride _$ProvisionedThroughputOverrideFromJson(
     Map<String, dynamic> json) {
   return ProvisionedThroughputOverride(
-    readCapacityUnits: json['ReadCapacityUnits'] as int,
+    readCapacityUnits: json['ReadCapacityUnits'] as int?,
   );
 }
 
@@ -1582,7 +1450,10 @@ Map<String, dynamic> _$ProvisionedThroughputOverrideToJson(
 }
 
 Map<String, dynamic> _$PutToJson(Put instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Item': instance.item.map((k, e) => MapEntry(k, e.toJson())),
+    'TableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1590,14 +1461,12 @@ Map<String, dynamic> _$PutToJson(Put instance) {
     }
   }
 
-  writeNotNull('Item', instance.item?.map((k, e) => MapEntry(k, e?.toJson())));
-  writeNotNull('TableName', instance.tableName);
   writeNotNull('ConditionExpression', instance.conditionExpression);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull(
       'ExpressionAttributeValues',
       instance.expressionAttributeValues
-          ?.map((k, e) => MapEntry(k, e?.toJson())));
+          ?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull(
       'ReturnValuesOnConditionCheckFailure',
       _$ReturnValuesOnConditionCheckFailureEnumMap[
@@ -1607,12 +1476,8 @@ Map<String, dynamic> _$PutToJson(Put instance) {
 
 PutItemOutput _$PutItemOutputFromJson(Map<String, dynamic> json) {
   return PutItemOutput(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
     consumedCapacity: json['ConsumedCapacity'] == null
         ? null
@@ -1627,28 +1492,16 @@ PutItemOutput _$PutItemOutputFromJson(Map<String, dynamic> json) {
 
 PutRequest _$PutRequestFromJson(Map<String, dynamic> json) {
   return PutRequest(
-    item: (json['Item'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    item: (json['Item'] as Map<String, dynamic>).map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
 
-Map<String, dynamic> _$PutRequestToJson(PutRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Item', instance.item?.map((k, e) => MapEntry(k, e?.toJson())));
-  return val;
-}
+Map<String, dynamic> _$PutRequestToJson(PutRequest instance) =>
+    <String, dynamic>{
+      'Item': instance.item.map((k, e) => MapEntry(k, e.toJson())),
+    };
 
 QueryOutput _$QueryOutputFromJson(Map<String, dynamic> json) {
   return QueryOutput(
@@ -1656,30 +1509,23 @@ QueryOutput _$QueryOutputFromJson(Map<String, dynamic> json) {
         ? null
         : ConsumedCapacity.fromJson(
             json['ConsumedCapacity'] as Map<String, dynamic>),
-    count: json['Count'] as int,
-    items: (json['Items'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
+    count: json['Count'] as int?,
+    items: (json['Items'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : AttributeValue.fromJson(e as Map<String, dynamic>)),
+                  k, AttributeValue.fromJson(e as Map<String, dynamic>)),
             ))
-        ?.toList(),
-    lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+        .toList(),
+    lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    scannedCount: json['ScannedCount'] as int,
+    scannedCount: json['ScannedCount'] as int?,
   );
 }
 
 Replica _$ReplicaFromJson(Map<String, dynamic> json) {
   return Replica(
-    regionName: json['RegionName'] as String,
+    regionName: json['RegionName'] as String?,
   );
 }
 
@@ -1699,13 +1545,11 @@ Map<String, dynamic> _$ReplicaToJson(Replica instance) {
 ReplicaAutoScalingDescription _$ReplicaAutoScalingDescriptionFromJson(
     Map<String, dynamic> json) {
   return ReplicaAutoScalingDescription(
-    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    regionName: json['RegionName'] as String,
+    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List<dynamic>?)
+        ?.map((e) => ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    regionName: json['RegionName'] as String?,
     replicaProvisionedReadCapacityAutoScalingSettings:
         json['ReplicaProvisionedReadCapacityAutoScalingSettings'] == null
             ? null
@@ -1736,7 +1580,9 @@ const _$ReplicaStatusEnumMap = {
 
 Map<String, dynamic> _$ReplicaAutoScalingUpdateToJson(
     ReplicaAutoScalingUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RegionName': instance.regionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1744,12 +1590,11 @@ Map<String, dynamic> _$ReplicaAutoScalingUpdateToJson(
     }
   }
 
-  writeNotNull('RegionName', instance.regionName);
   writeNotNull(
       'ReplicaGlobalSecondaryIndexUpdates',
       instance.replicaGlobalSecondaryIndexUpdates
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
   writeNotNull('ReplicaProvisionedReadCapacityAutoScalingUpdate',
       instance.replicaProvisionedReadCapacityAutoScalingUpdate?.toJson());
   return val;
@@ -1757,31 +1602,31 @@ Map<String, dynamic> _$ReplicaAutoScalingUpdateToJson(
 
 ReplicaDescription _$ReplicaDescriptionFromJson(Map<String, dynamic> json) {
   return ReplicaDescription(
-    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaGlobalSecondaryIndexDescription.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    kMSMasterKeyId: json['KMSMasterKeyId'] as String,
+    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List<dynamic>?)
+        ?.map((e) => ReplicaGlobalSecondaryIndexDescription.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
     provisionedThroughputOverride: json['ProvisionedThroughputOverride'] == null
         ? null
         : ProvisionedThroughputOverride.fromJson(
             json['ProvisionedThroughputOverride'] as Map<String, dynamic>),
-    regionName: json['RegionName'] as String,
+    regionName: json['RegionName'] as String?,
     replicaInaccessibleDateTime: const UnixDateTimeConverter()
         .fromJson(json['ReplicaInaccessibleDateTime']),
     replicaStatus:
         _$enumDecodeNullable(_$ReplicaStatusEnumMap, json['ReplicaStatus']),
-    replicaStatusDescription: json['ReplicaStatusDescription'] as String,
+    replicaStatusDescription: json['ReplicaStatusDescription'] as String?,
     replicaStatusPercentProgress:
-        json['ReplicaStatusPercentProgress'] as String,
+        json['ReplicaStatusPercentProgress'] as String?,
   );
 }
 
 Map<String, dynamic> _$ReplicaGlobalSecondaryIndexToJson(
     ReplicaGlobalSecondaryIndex instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1789,7 +1634,6 @@ Map<String, dynamic> _$ReplicaGlobalSecondaryIndexToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
   writeNotNull('ProvisionedThroughputOverride',
       instance.provisionedThroughputOverride?.toJson());
   return val;
@@ -1799,7 +1643,7 @@ ReplicaGlobalSecondaryIndexAutoScalingDescription
     _$ReplicaGlobalSecondaryIndexAutoScalingDescriptionFromJson(
         Map<String, dynamic> json) {
   return ReplicaGlobalSecondaryIndexAutoScalingDescription(
-    indexName: json['IndexName'] as String,
+    indexName: json['IndexName'] as String?,
     indexStatus:
         _$enumDecodeNullable(_$IndexStatusEnumMap, json['IndexStatus']),
     provisionedReadCapacityAutoScalingSettings:
@@ -1837,7 +1681,7 @@ ReplicaGlobalSecondaryIndexDescription
     _$ReplicaGlobalSecondaryIndexDescriptionFromJson(
         Map<String, dynamic> json) {
   return ReplicaGlobalSecondaryIndexDescription(
-    indexName: json['IndexName'] as String,
+    indexName: json['IndexName'] as String?,
     provisionedThroughputOverride: json['ProvisionedThroughputOverride'] == null
         ? null
         : ProvisionedThroughputOverride.fromJson(
@@ -1858,20 +1702,23 @@ ReplicaGlobalSecondaryIndexSettingsDescription
             : AutoScalingSettingsDescription.fromJson(
                 json['ProvisionedReadCapacityAutoScalingSettings']
                     as Map<String, dynamic>),
-    provisionedReadCapacityUnits: json['ProvisionedReadCapacityUnits'] as int,
+    provisionedReadCapacityUnits: json['ProvisionedReadCapacityUnits'] as int?,
     provisionedWriteCapacityAutoScalingSettings:
         json['ProvisionedWriteCapacityAutoScalingSettings'] == null
             ? null
             : AutoScalingSettingsDescription.fromJson(
                 json['ProvisionedWriteCapacityAutoScalingSettings']
                     as Map<String, dynamic>),
-    provisionedWriteCapacityUnits: json['ProvisionedWriteCapacityUnits'] as int,
+    provisionedWriteCapacityUnits:
+        json['ProvisionedWriteCapacityUnits'] as int?,
   );
 }
 
 Map<String, dynamic> _$ReplicaGlobalSecondaryIndexSettingsUpdateToJson(
     ReplicaGlobalSecondaryIndexSettingsUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1879,7 +1726,6 @@ Map<String, dynamic> _$ReplicaGlobalSecondaryIndexSettingsUpdateToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
   writeNotNull('ProvisionedReadCapacityAutoScalingSettingsUpdate',
       instance.provisionedReadCapacityAutoScalingSettingsUpdate?.toJson());
   writeNotNull(
@@ -1896,12 +1742,11 @@ ReplicaSettingsDescription _$ReplicaSettingsDescriptionFromJson(
         : BillingModeSummary.fromJson(
             json['ReplicaBillingModeSummary'] as Map<String, dynamic>),
     replicaGlobalSecondaryIndexSettings:
-        (json['ReplicaGlobalSecondaryIndexSettings'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
+        (json['ReplicaGlobalSecondaryIndexSettings'] as List<dynamic>?)
+            ?.map((e) =>
+                ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
                     e as Map<String, dynamic>))
-            ?.toList(),
+            .toList(),
     replicaProvisionedReadCapacityAutoScalingSettings:
         json['ReplicaProvisionedReadCapacityAutoScalingSettings'] == null
             ? null
@@ -1909,7 +1754,7 @@ ReplicaSettingsDescription _$ReplicaSettingsDescriptionFromJson(
                 json['ReplicaProvisionedReadCapacityAutoScalingSettings']
                     as Map<String, dynamic>),
     replicaProvisionedReadCapacityUnits:
-        json['ReplicaProvisionedReadCapacityUnits'] as int,
+        json['ReplicaProvisionedReadCapacityUnits'] as int?,
     replicaProvisionedWriteCapacityAutoScalingSettings:
         json['ReplicaProvisionedWriteCapacityAutoScalingSettings'] == null
             ? null
@@ -1917,7 +1762,7 @@ ReplicaSettingsDescription _$ReplicaSettingsDescriptionFromJson(
                 json['ReplicaProvisionedWriteCapacityAutoScalingSettings']
                     as Map<String, dynamic>),
     replicaProvisionedWriteCapacityUnits:
-        json['ReplicaProvisionedWriteCapacityUnits'] as int,
+        json['ReplicaProvisionedWriteCapacityUnits'] as int?,
     replicaStatus:
         _$enumDecodeNullable(_$ReplicaStatusEnumMap, json['ReplicaStatus']),
   );
@@ -1925,7 +1770,9 @@ ReplicaSettingsDescription _$ReplicaSettingsDescriptionFromJson(
 
 Map<String, dynamic> _$ReplicaSettingsUpdateToJson(
     ReplicaSettingsUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RegionName': instance.regionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1933,12 +1780,11 @@ Map<String, dynamic> _$ReplicaSettingsUpdateToJson(
     }
   }
 
-  writeNotNull('RegionName', instance.regionName);
   writeNotNull(
       'ReplicaGlobalSecondaryIndexSettingsUpdate',
       instance.replicaGlobalSecondaryIndexSettingsUpdate
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
   writeNotNull(
       'ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate',
       instance.replicaProvisionedReadCapacityAutoScalingSettingsUpdate
@@ -1980,11 +1826,10 @@ Map<String, dynamic> _$ReplicationGroupUpdateToJson(
 
 RestoreSummary _$RestoreSummaryFromJson(Map<String, dynamic> json) {
   return RestoreSummary(
-    restoreDateTime:
-        const UnixDateTimeConverter().fromJson(json['RestoreDateTime']),
+    restoreDateTime: DateTime.parse(json['RestoreDateTime'] as String),
     restoreInProgress: json['RestoreInProgress'] as bool,
-    sourceBackupArn: json['SourceBackupArn'] as String,
-    sourceTableArn: json['SourceTableArn'] as String,
+    sourceBackupArn: json['SourceBackupArn'] as String?,
+    sourceTableArn: json['SourceTableArn'] as String?,
   );
 }
 
@@ -2012,7 +1857,7 @@ SSEDescription _$SSEDescriptionFromJson(Map<String, dynamic> json) {
   return SSEDescription(
     inaccessibleEncryptionDateTime: const UnixDateTimeConverter()
         .fromJson(json['InaccessibleEncryptionDateTime']),
-    kMSMasterKeyArn: json['KMSMasterKeyArn'] as String,
+    kMSMasterKeyArn: json['KMSMasterKeyArn'] as String?,
     sSEType: _$enumDecodeNullable(_$SSETypeEnumMap, json['SSEType']),
     status: _$enumDecodeNullable(_$SSEStatusEnumMap, json['Status']),
   );
@@ -2052,63 +1897,50 @@ ScanOutput _$ScanOutputFromJson(Map<String, dynamic> json) {
         ? null
         : ConsumedCapacity.fromJson(
             json['ConsumedCapacity'] as Map<String, dynamic>),
-    count: json['Count'] as int,
-    items: (json['Items'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
+    count: json['Count'] as int?,
+    items: (json['Items'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : AttributeValue.fromJson(e as Map<String, dynamic>)),
+                  k, AttributeValue.fromJson(e as Map<String, dynamic>)),
             ))
-        ?.toList(),
-    lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+        .toList(),
+    lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
-    scannedCount: json['ScannedCount'] as int,
+    scannedCount: json['ScannedCount'] as int?,
   );
 }
 
 SourceTableDetails _$SourceTableDetailsFromJson(Map<String, dynamic> json) {
   return SourceTableDetails(
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    provisionedThroughput: json['ProvisionedThroughput'] == null
-        ? null
-        : ProvisionedThroughput.fromJson(
-            json['ProvisionedThroughput'] as Map<String, dynamic>),
+    keySchema: (json['KeySchema'] as List<dynamic>)
+        .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    provisionedThroughput: ProvisionedThroughput.fromJson(
+        json['ProvisionedThroughput'] as Map<String, dynamic>),
     tableCreationDateTime:
-        const UnixDateTimeConverter().fromJson(json['TableCreationDateTime']),
+        DateTime.parse(json['TableCreationDateTime'] as String),
     tableId: json['TableId'] as String,
     tableName: json['TableName'] as String,
     billingMode:
         _$enumDecodeNullable(_$BillingModeEnumMap, json['BillingMode']),
-    itemCount: json['ItemCount'] as int,
-    tableArn: json['TableArn'] as String,
-    tableSizeBytes: json['TableSizeBytes'] as int,
+    itemCount: json['ItemCount'] as int?,
+    tableArn: json['TableArn'] as String?,
+    tableSizeBytes: json['TableSizeBytes'] as int?,
   );
 }
 
 SourceTableFeatureDetails _$SourceTableFeatureDetailsFromJson(
     Map<String, dynamic> json) {
   return SourceTableFeatureDetails(
-    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GlobalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LocalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List<dynamic>?)
+        ?.map(
+            (e) => GlobalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List<dynamic>?)
+        ?.map(
+            (e) => LocalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
     sSEDescription: json['SSEDescription'] == null
         ? null
         : SSEDescription.fromJson(
@@ -2133,7 +1965,9 @@ StreamSpecification _$StreamSpecificationFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StreamSpecificationToJson(StreamSpecification instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StreamEnabled': instance.streamEnabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2141,7 +1975,6 @@ Map<String, dynamic> _$StreamSpecificationToJson(StreamSpecification instance) {
     }
   }
 
-  writeNotNull('StreamEnabled', instance.streamEnabled);
   writeNotNull(
       'StreamViewType', _$StreamViewTypeEnumMap[instance.streamViewType]);
   return val;
@@ -2157,12 +1990,11 @@ const _$StreamViewTypeEnumMap = {
 TableAutoScalingDescription _$TableAutoScalingDescriptionFromJson(
     Map<String, dynamic> json) {
   return TableAutoScalingDescription(
-    replicas: (json['Replicas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    tableName: json['TableName'] as String,
+    replicas: (json['Replicas'] as List<dynamic>?)
+        ?.map((e) =>
+            ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    tableName: json['TableName'] as String?,
     tableStatus:
         _$enumDecodeNullable(_$TableStatusEnumMap, json['TableStatus']),
   );
@@ -2185,47 +2017,37 @@ TableDescription _$TableDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : ArchivalSummary.fromJson(
             json['ArchivalSummary'] as Map<String, dynamic>),
-    attributeDefinitions: (json['AttributeDefinitions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributeDefinitions: (json['AttributeDefinitions'] as List<dynamic>?)
+        ?.map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
     billingModeSummary: json['BillingModeSummary'] == null
         ? null
         : BillingModeSummary.fromJson(
             json['BillingModeSummary'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
-    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GlobalSecondaryIndexDescription.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    globalTableVersion: json['GlobalTableVersion'] as String,
-    itemCount: json['ItemCount'] as int,
-    keySchema: (json['KeySchema'] as List)
-        ?.map((e) => e == null
-            ? null
-            : KeySchemaElement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    latestStreamArn: json['LatestStreamArn'] as String,
-    latestStreamLabel: json['LatestStreamLabel'] as String,
-    localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LocalSecondaryIndexDescription.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List<dynamic>?)
+        ?.map((e) =>
+            GlobalSecondaryIndexDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    globalTableVersion: json['GlobalTableVersion'] as String?,
+    itemCount: json['ItemCount'] as int?,
+    keySchema: (json['KeySchema'] as List<dynamic>?)
+        ?.map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    latestStreamArn: json['LatestStreamArn'] as String?,
+    latestStreamLabel: json['LatestStreamLabel'] as String?,
+    localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List<dynamic>?)
+        ?.map((e) =>
+            LocalSecondaryIndexDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     provisionedThroughput: json['ProvisionedThroughput'] == null
         ? null
         : ProvisionedThroughputDescription.fromJson(
             json['ProvisionedThroughput'] as Map<String, dynamic>),
-    replicas: (json['Replicas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    replicas: (json['Replicas'] as List<dynamic>?)
+        ?.map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     restoreSummary: json['RestoreSummary'] == null
         ? null
         : RestoreSummary.fromJson(
@@ -2238,10 +2060,10 @@ TableDescription _$TableDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : StreamSpecification.fromJson(
             json['StreamSpecification'] as Map<String, dynamic>),
-    tableArn: json['TableArn'] as String,
-    tableId: json['TableId'] as String,
-    tableName: json['TableName'] as String,
-    tableSizeBytes: json['TableSizeBytes'] as int,
+    tableArn: json['TableArn'] as String?,
+    tableId: json['TableId'] as String?,
+    tableName: json['TableName'] as String?,
+    tableSizeBytes: json['TableSizeBytes'] as int?,
     tableStatus:
         _$enumDecodeNullable(_$TableStatusEnumMap, json['TableStatus']),
   );
@@ -2254,24 +2076,15 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TimeToLiveDescription _$TimeToLiveDescriptionFromJson(
     Map<String, dynamic> json) {
   return TimeToLiveDescription(
-    attributeName: json['AttributeName'] as String,
+    attributeName: json['AttributeName'] as String?,
     timeToLiveStatus: _$enumDecodeNullable(
         _$TimeToLiveStatusEnumMap, json['TimeToLiveStatus']),
   );
@@ -2293,45 +2106,26 @@ TimeToLiveSpecification _$TimeToLiveSpecificationFromJson(
 }
 
 Map<String, dynamic> _$TimeToLiveSpecificationToJson(
-    TimeToLiveSpecification instance) {
-  final val = <String, dynamic>{};
+        TimeToLiveSpecification instance) =>
+    <String, dynamic>{
+      'AttributeName': instance.attributeName,
+      'Enabled': instance.enabled,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull('Enabled', instance.enabled);
-  return val;
-}
-
-Map<String, dynamic> _$TransactGetItemToJson(TransactGetItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Get', instance.get?.toJson());
-  return val;
-}
+Map<String, dynamic> _$TransactGetItemToJson(TransactGetItem instance) =>
+    <String, dynamic>{
+      'Get': instance.get.toJson(),
+    };
 
 TransactGetItemsOutput _$TransactGetItemsOutputFromJson(
     Map<String, dynamic> json) {
   return TransactGetItemsOutput(
-    consumedCapacity: (json['ConsumedCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    responses: (json['Responses'] as List)
-        ?.map((e) =>
-            e == null ? null : ItemResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    consumedCapacity: (json['ConsumedCapacity'] as List<dynamic>?)
+        ?.map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    responses: (json['Responses'] as List<dynamic>?)
+        ?.map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2354,26 +2148,27 @@ Map<String, dynamic> _$TransactWriteItemToJson(TransactWriteItem instance) {
 TransactWriteItemsOutput _$TransactWriteItemsOutputFromJson(
     Map<String, dynamic> json) {
   return TransactWriteItemsOutput(
-    consumedCapacity: (json['ConsumedCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    consumedCapacity: (json['ConsumedCapacity'] as List<dynamic>?)
+        ?.map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+        .toList(),
     itemCollectionMetrics:
-        (json['ItemCollectionMetrics'] as Map<String, dynamic>)?.map(
+        (json['ItemCollectionMetrics'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map((e) =>
+                  ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
+              .toList()),
     ),
   );
 }
 
 Map<String, dynamic> _$UpdateToJson(Update instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key.map((k, e) => MapEntry(k, e.toJson())),
+    'TableName': instance.tableName,
+    'UpdateExpression': instance.updateExpression,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2381,15 +2176,12 @@ Map<String, dynamic> _$UpdateToJson(Update instance) {
     }
   }
 
-  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
-  writeNotNull('TableName', instance.tableName);
-  writeNotNull('UpdateExpression', instance.updateExpression);
   writeNotNull('ConditionExpression', instance.conditionExpression);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull(
       'ExpressionAttributeValues',
       instance.expressionAttributeValues
-          ?.map((k, e) => MapEntry(k, e?.toJson())));
+          ?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull(
       'ReturnValuesOnConditionCheckFailure',
       _$ReturnValuesOnConditionCheckFailureEnumMap[
@@ -2412,26 +2204,17 @@ UpdateContributorInsightsOutput _$UpdateContributorInsightsOutputFromJson(
   return UpdateContributorInsightsOutput(
     contributorInsightsStatus: _$enumDecodeNullable(
         _$ContributorInsightsStatusEnumMap, json['ContributorInsightsStatus']),
-    indexName: json['IndexName'] as String,
-    tableName: json['TableName'] as String,
+    indexName: json['IndexName'] as String?,
+    tableName: json['TableName'] as String?,
   );
 }
 
 Map<String, dynamic> _$UpdateGlobalSecondaryIndexActionToJson(
-    UpdateGlobalSecondaryIndexAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IndexName', instance.indexName);
-  writeNotNull(
-      'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
-  return val;
-}
+        UpdateGlobalSecondaryIndexAction instance) =>
+    <String, dynamic>{
+      'IndexName': instance.indexName,
+      'ProvisionedThroughput': instance.provisionedThroughput.toJson(),
+    };
 
 UpdateGlobalTableOutput _$UpdateGlobalTableOutputFromJson(
     Map<String, dynamic> json) {
@@ -2446,23 +2229,18 @@ UpdateGlobalTableOutput _$UpdateGlobalTableOutputFromJson(
 UpdateGlobalTableSettingsOutput _$UpdateGlobalTableSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGlobalTableSettingsOutput(
-    globalTableName: json['GlobalTableName'] as String,
-    replicaSettings: (json['ReplicaSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    globalTableName: json['GlobalTableName'] as String?,
+    replicaSettings: (json['ReplicaSettings'] as List<dynamic>?)
+        ?.map((e) =>
+            ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 UpdateItemOutput _$UpdateItemOutputFromJson(Map<String, dynamic> json) {
   return UpdateItemOutput(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>)),
     ),
     consumedCapacity: json['ConsumedCapacity'] == null
         ? null
@@ -2477,7 +2255,9 @@ UpdateItemOutput _$UpdateItemOutputFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UpdateReplicationGroupMemberActionToJson(
     UpdateReplicationGroupMemberAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RegionName': instance.regionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2485,9 +2265,8 @@ Map<String, dynamic> _$UpdateReplicationGroupMemberActionToJson(
     }
   }
 
-  writeNotNull('RegionName', instance.regionName);
   writeNotNull('GlobalSecondaryIndexes',
-      instance.globalSecondaryIndexes?.map((e) => e?.toJson())?.toList());
+      instance.globalSecondaryIndexes?.map((e) => e.toJson()).toList());
   writeNotNull('KMSMasterKeyId', instance.kMSMasterKeyId);
   writeNotNull('ProvisionedThroughputOverride',
       instance.provisionedThroughputOverride?.toJson());

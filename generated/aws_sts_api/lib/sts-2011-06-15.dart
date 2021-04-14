@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'sts-2011-06-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sts-2011-06-15.g.dart';
 
 /// AWS Security Token Service (STS) enables you to request temporary,
 /// limited-privilege credentials for AWS Identity and Access Management (IAM)
@@ -39,9 +31,9 @@ class STS {
   final Map<String, _s.Shape> shapes;
 
   STS({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -398,16 +390,16 @@ class STS {
   /// If you choose not to specify a transitive tag key, then no tags are passed
   /// from this session to any subsequent sessions.
   Future<AssumeRoleResponse> assumeRole({
-    @_s.required String roleArn,
-    @_s.required String roleSessionName,
-    int durationSeconds,
-    String externalId,
-    String policy,
-    List<PolicyDescriptorType> policyArns,
-    String serialNumber,
-    List<Tag> tags,
-    String tokenCode,
-    List<String> transitiveTagKeys,
+    required String roleArn,
+    required String roleSessionName,
+    int? durationSeconds,
+    String? externalId,
+    String? policy,
+    List<PolicyDescriptorType>? policyArns,
+    String? serialNumber,
+    List<Tag>? tags,
+    String? tokenCode,
+    List<String>? transitiveTagKeys,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -766,12 +758,12 @@ class STS {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">Session
   /// Policies</a> in the <i>IAM User Guide</i>.
   Future<AssumeRoleWithSAMLResponse> assumeRoleWithSAML({
-    @_s.required String principalArn,
-    @_s.required String roleArn,
-    @_s.required String sAMLAssertion,
-    int durationSeconds,
-    String policy,
-    List<PolicyDescriptorType> policyArns,
+    required String principalArn,
+    required String roleArn,
+    required String sAMLAssertion,
+    int? durationSeconds,
+    String? policy,
+    List<PolicyDescriptorType>? policyArns,
   }) async {
     ArgumentError.checkNotNull(principalArn, 'principalArn');
     _s.validateStringLength(
@@ -1143,13 +1135,13 @@ class STS {
   ///
   /// Do not specify this value for OpenID Connect ID tokens.
   Future<AssumeRoleWithWebIdentityResponse> assumeRoleWithWebIdentity({
-    @_s.required String roleArn,
-    @_s.required String roleSessionName,
-    @_s.required String webIdentityToken,
-    int durationSeconds,
-    String policy,
-    List<PolicyDescriptorType> policyArns,
-    String providerId,
+    required String roleArn,
+    required String roleSessionName,
+    required String webIdentityToken,
+    int? durationSeconds,
+    String? policy,
+    List<PolicyDescriptorType>? policyArns,
+    String? providerId,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -1280,7 +1272,7 @@ class STS {
   /// Parameter [encodedMessage] :
   /// The encoded message that was returned with the response.
   Future<DecodeAuthorizationMessageResponse> decodeAuthorizationMessage({
-    @_s.required String encodedMessage,
+    required String encodedMessage,
   }) async {
     ArgumentError.checkNotNull(encodedMessage, 'encodedMessage');
     _s.validateStringLength(
@@ -1340,7 +1332,7 @@ class STS {
   /// This parameter allows (through its regex pattern) a string of characters
   /// that can consist of any upper- or lowercase letter or digit.
   Future<GetAccessKeyInfoResponse> getAccessKeyInfo({
-    @_s.required String accessKeyId,
+    required String accessKeyId,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -1650,11 +1642,11 @@ class STS {
   /// separate tags, and the session tag passed in the request takes precedence
   /// over the role tag.
   Future<GetFederationTokenResponse> getFederationToken({
-    @_s.required String name,
-    int durationSeconds,
-    String policy,
-    List<PolicyDescriptorType> policyArns,
-    List<Tag> tags,
+    required String name,
+    int? durationSeconds,
+    String? policy,
+    List<PolicyDescriptorType>? policyArns,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1807,9 +1799,9 @@ class STS {
   /// The format for this parameter, as described by its regex pattern, is a
   /// sequence of six numeric digits.
   Future<GetSessionTokenResponse> getSessionToken({
-    int durationSeconds,
-    String serialNumber,
-    String tokenCode,
+    int? durationSeconds,
+    String? serialNumber,
+    String? tokenCode,
   }) async {
     _s.validateNumRange(
       'durationSeconds',
@@ -1867,7 +1859,7 @@ class AssumeRoleResponse {
   /// in a resource-based policy by using the ARN or assumed role ID. The ARN and
   /// ID include the <code>RoleSessionName</code> that you specified when you
   /// called <code>AssumeRole</code>.
-  final AssumedRoleUser assumedRoleUser;
+  final AssumedRoleUser? assumedRoleUser;
 
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security (or session) token.
@@ -1875,13 +1867,13 @@ class AssumeRoleResponse {
   /// The size of the security token that STS API operations return is not fixed.
   /// We strongly recommend that you make no assumptions about the maximum size.
   /// </note>
-  final Credentials credentials;
+  final Credentials? credentials;
 
   /// A percentage value that indicates the packed size of the session policies
   /// and session tags combined passed in the request. The request fails if the
   /// packed size is greater than 100 percent, which means the policies and tags
   /// exceeded the allowed space.
-  final int packedPolicySize;
+  final int? packedPolicySize;
 
   AssumeRoleResponse({
     this.assumedRoleUser,
@@ -1906,11 +1898,11 @@ class AssumeRoleResponse {
 class AssumeRoleWithSAMLResponse {
   /// The identifiers for the temporary security credentials that the operation
   /// returns.
-  final AssumedRoleUser assumedRoleUser;
+  final AssumedRoleUser? assumedRoleUser;
 
   /// The value of the <code>Recipient</code> attribute of the
   /// <code>SubjectConfirmationData</code> element of the SAML assertion.
-  final String audience;
+  final String? audience;
 
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security (or session) token.
@@ -1918,10 +1910,10 @@ class AssumeRoleWithSAMLResponse {
   /// The size of the security token that STS API operations return is not fixed.
   /// We strongly recommend that you make no assumptions about the maximum size.
   /// </note>
-  final Credentials credentials;
+  final Credentials? credentials;
 
   /// The value of the <code>Issuer</code> element of the SAML assertion.
-  final String issuer;
+  final String? issuer;
 
   /// A hash value based on the concatenation of the <code>Issuer</code> response
   /// value, the AWS account ID, and the friendly name (the last part of the ARN)
@@ -1932,17 +1924,17 @@ class AssumeRoleWithSAMLResponse {
   ///
   /// <code>BASE64 ( SHA1 ( "https://example.com/saml" + "123456789012" +
   /// "/MySAMLIdP" ) )</code>
-  final String nameQualifier;
+  final String? nameQualifier;
 
   /// A percentage value that indicates the packed size of the session policies
   /// and session tags combined passed in the request. The request fails if the
   /// packed size is greater than 100 percent, which means the policies and tags
   /// exceeded the allowed space.
-  final int packedPolicySize;
+  final int? packedPolicySize;
 
   /// The value of the <code>NameID</code> element in the <code>Subject</code>
   /// element of the SAML assertion.
-  final String subject;
+  final String? subject;
 
   /// The format of the name ID, as defined by the <code>Format</code> attribute
   /// in the <code>NameID</code> element of the SAML assertion. Typical examples
@@ -1954,7 +1946,7 @@ class AssumeRoleWithSAMLResponse {
   /// <code>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</code> is returned
   /// as <code>transient</code>. If the format includes any other prefix, the
   /// format is returned with no modifications.
-  final String subjectType;
+  final String? subjectType;
 
   AssumeRoleWithSAMLResponse({
     this.assumedRoleUser,
@@ -1994,12 +1986,12 @@ class AssumeRoleWithWebIdentityResponse {
   /// in a resource-based policy by using the ARN or assumed role ID. The ARN and
   /// ID include the <code>RoleSessionName</code> that you specified when you
   /// called <code>AssumeRole</code>.
-  final AssumedRoleUser assumedRoleUser;
+  final AssumedRoleUser? assumedRoleUser;
 
   /// The intended audience (also known as client ID) of the web identity token.
   /// This is traditionally the client identifier issued to the application that
   /// requested the web identity token.
-  final String audience;
+  final String? audience;
 
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security token.
@@ -2007,20 +1999,20 @@ class AssumeRoleWithWebIdentityResponse {
   /// The size of the security token that STS API operations return is not fixed.
   /// We strongly recommend that you make no assumptions about the maximum size.
   /// </note>
-  final Credentials credentials;
+  final Credentials? credentials;
 
   /// A percentage value that indicates the packed size of the session policies
   /// and session tags combined passed in the request. The request fails if the
   /// packed size is greater than 100 percent, which means the policies and tags
   /// exceeded the allowed space.
-  final int packedPolicySize;
+  final int? packedPolicySize;
 
   /// The issuing authority of the web identity token presented. For OpenID
   /// Connect ID tokens, this contains the value of the <code>iss</code> field.
   /// For OAuth 2.0 access tokens, this contains the value of the
   /// <code>ProviderId</code> parameter that was passed in the
   /// <code>AssumeRoleWithWebIdentity</code> request.
-  final String provider;
+  final String? provider;
 
   /// The unique user identifier that is returned by the identity provider. This
   /// identifier is associated with the <code>WebIdentityToken</code> that was
@@ -2029,7 +2021,7 @@ class AssumeRoleWithWebIdentityResponse {
   /// the <code>WebIdentityToken</code> (pairwise identifier). For OpenID Connect
   /// ID tokens, this field contains the value returned by the identity provider
   /// as the token's <code>sub</code> (Subject) claim.
-  final String subjectFromWebIdentityToken;
+  final String? subjectFromWebIdentityToken;
 
   AssumeRoleWithWebIdentityResponse({
     this.assumedRoleUser,
@@ -2072,13 +2064,13 @@ class AssumedRoleUser {
   final String assumedRoleId;
 
   AssumedRoleUser({
-    @_s.required this.arn,
-    @_s.required this.assumedRoleId,
+    required this.arn,
+    required this.assumedRoleId,
   });
   factory AssumedRoleUser.fromXml(_s.XmlElement elem) {
     return AssumedRoleUser(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      assumedRoleId: _s.extractXmlStringValue(elem, 'AssumedRoleId'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      assumedRoleId: _s.extractXmlStringValue(elem, 'AssumedRoleId')!,
     );
   }
 }
@@ -2099,17 +2091,17 @@ class Credentials {
   final String sessionToken;
 
   Credentials({
-    @_s.required this.accessKeyId,
-    @_s.required this.expiration,
-    @_s.required this.secretAccessKey,
-    @_s.required this.sessionToken,
+    required this.accessKeyId,
+    required this.expiration,
+    required this.secretAccessKey,
+    required this.sessionToken,
   });
   factory Credentials.fromXml(_s.XmlElement elem) {
     return Credentials(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey'),
-      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken'),
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration')!,
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
+      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken')!,
     );
   }
 }
@@ -2119,7 +2111,7 @@ class Credentials {
 /// an AWS request.
 class DecodeAuthorizationMessageResponse {
   /// An XML document that contains the decoded message.
-  final String decodedMessage;
+  final String? decodedMessage;
 
   DecodeAuthorizationMessageResponse({
     this.decodedMessage,
@@ -2145,20 +2137,20 @@ class FederatedUser {
   final String federatedUserId;
 
   FederatedUser({
-    @_s.required this.arn,
-    @_s.required this.federatedUserId,
+    required this.arn,
+    required this.federatedUserId,
   });
   factory FederatedUser.fromXml(_s.XmlElement elem) {
     return FederatedUser(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      federatedUserId: _s.extractXmlStringValue(elem, 'FederatedUserId'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      federatedUserId: _s.extractXmlStringValue(elem, 'FederatedUserId')!,
     );
   }
 }
 
 class GetAccessKeyInfoResponse {
   /// The number used to identify the AWS account.
-  final String account;
+  final String? account;
 
   GetAccessKeyInfoResponse({
     this.account,
@@ -2175,10 +2167,10 @@ class GetAccessKeyInfoResponse {
 class GetCallerIdentityResponse {
   /// The AWS account ID number of the account that owns or contains the calling
   /// entity.
-  final String account;
+  final String? account;
 
   /// The AWS ARN associated with the calling entity.
-  final String arn;
+  final String? arn;
 
   /// The unique identifier of the calling entity. The exact value depends on the
   /// type of entity that is making the call. The values returned are those listed
@@ -2186,7 +2178,7 @@ class GetCallerIdentityResponse {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html#principaltable">Principal
   /// table</a> found on the <b>Policy Variables</b> reference page in the <i>IAM
   /// User Guide</i>.
-  final String userId;
+  final String? userId;
 
   GetCallerIdentityResponse({
     this.account,
@@ -2211,19 +2203,19 @@ class GetFederationTokenResponse {
   /// The size of the security token that STS API operations return is not fixed.
   /// We strongly recommend that you make no assumptions about the maximum size.
   /// </note>
-  final Credentials credentials;
+  final Credentials? credentials;
 
   /// Identifiers for the federated user associated with the credentials (such as
   /// <code>arn:aws:sts::123456789012:federated-user/Bob</code> or
   /// <code>123456789012:Bob</code>). You can use the federated user's ARN in your
   /// resource-based policies, such as an Amazon S3 bucket policy.
-  final FederatedUser federatedUser;
+  final FederatedUser? federatedUser;
 
   /// A percentage value that indicates the packed size of the session policies
   /// and session tags combined passed in the request. The request fails if the
   /// packed size is greater than 100 percent, which means the policies and tags
   /// exceeded the allowed space.
-  final int packedPolicySize;
+  final int? packedPolicySize;
 
   GetFederationTokenResponse({
     this.credentials,
@@ -2252,7 +2244,7 @@ class GetSessionTokenResponse {
   /// The size of the security token that STS API operations return is not fixed.
   /// We strongly recommend that you make no assumptions about the maximum size.
   /// </note>
-  final Credentials credentials;
+  final Credentials? credentials;
 
   GetSessionTokenResponse({
     this.credentials,
@@ -2268,24 +2260,23 @@ class GetSessionTokenResponse {
 
 /// A reference to the IAM managed policy that is passed as a session policy for
 /// a role session or a federated user session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PolicyDescriptorType {
   /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session
   /// policy for the role. For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
   /// Reference</i>.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   PolicyDescriptorType({
     this.arn,
   });
-  Map<String, dynamic> toJson() => _$PolicyDescriptorTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
+    };
+  }
 }
 
 /// You can pass custom key-value pair attributes when you assume a role or
@@ -2293,11 +2284,6 @@ class PolicyDescriptorType {
 /// tags to control access to resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html">Tagging
 /// AWS STS Sessions</a> in the <i>IAM User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key for a session tag.
   ///
@@ -2305,7 +2291,6 @@ class Tag {
   /// exceed 128 characters. For these and additional limits, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length">IAM
   /// and STS Character Limits</a> in the <i>IAM User Guide</i>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for a session tag.
@@ -2314,23 +2299,29 @@ class Tag {
   /// exceed 256 characters. For these and additional limits, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length">IAM
   /// and STS Character Limits</a> in the <i>IAM User Guide</i>.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 class ExpiredTokenException extends _s.GenericAwsException {
-  ExpiredTokenException({String type, String message})
+  ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
 class IDPCommunicationErrorException extends _s.GenericAwsException {
-  IDPCommunicationErrorException({String type, String message})
+  IDPCommunicationErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'IDPCommunicationErrorException',
@@ -2338,12 +2329,12 @@ class IDPCommunicationErrorException extends _s.GenericAwsException {
 }
 
 class IDPRejectedClaimException extends _s.GenericAwsException {
-  IDPRejectedClaimException({String type, String message})
+  IDPRejectedClaimException({String? type, String? message})
       : super(type: type, code: 'IDPRejectedClaimException', message: message);
 }
 
 class InvalidAuthorizationMessageException extends _s.GenericAwsException {
-  InvalidAuthorizationMessageException({String type, String message})
+  InvalidAuthorizationMessageException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAuthorizationMessageException',
@@ -2351,7 +2342,7 @@ class InvalidAuthorizationMessageException extends _s.GenericAwsException {
 }
 
 class InvalidIdentityTokenException extends _s.GenericAwsException {
-  InvalidIdentityTokenException({String type, String message})
+  InvalidIdentityTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidIdentityTokenException',
@@ -2359,7 +2350,7 @@ class InvalidIdentityTokenException extends _s.GenericAwsException {
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -2367,7 +2358,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class PackedPolicyTooLargeException extends _s.GenericAwsException {
-  PackedPolicyTooLargeException({String type, String message})
+  PackedPolicyTooLargeException({String? type, String? message})
       : super(
             type: type,
             code: 'PackedPolicyTooLargeException',
@@ -2375,7 +2366,7 @@ class PackedPolicyTooLargeException extends _s.GenericAwsException {
 }
 
 class RegionDisabledException extends _s.GenericAwsException {
-  RegionDisabledException({String type, String message})
+  RegionDisabledException({String? type, String? message})
       : super(type: type, code: 'RegionDisabledException', message: message);
 }
 

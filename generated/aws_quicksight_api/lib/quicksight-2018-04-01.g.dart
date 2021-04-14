@@ -8,7 +8,7 @@ part of 'quicksight-2018-04-01.dart';
 
 AccountCustomization _$AccountCustomizationFromJson(Map<String, dynamic> json) {
   return AccountCustomization(
-    defaultTheme: json['DefaultTheme'] as String,
+    defaultTheme: json['DefaultTheme'] as String?,
   );
 }
 
@@ -28,43 +28,48 @@ Map<String, dynamic> _$AccountCustomizationToJson(
 
 AccountSettings _$AccountSettingsFromJson(Map<String, dynamic> json) {
   return AccountSettings(
-    accountName: json['AccountName'] as String,
-    defaultNamespace: json['DefaultNamespace'] as String,
+    accountName: json['AccountName'] as String?,
+    defaultNamespace: json['DefaultNamespace'] as String?,
     edition: _$enumDecodeNullable(_$EditionEnumMap, json['Edition']),
-    notificationEmail: json['NotificationEmail'] as String,
+    notificationEmail: json['NotificationEmail'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$EditionEnumMap = {
@@ -75,8 +80,8 @@ const _$EditionEnumMap = {
 ActiveIAMPolicyAssignment _$ActiveIAMPolicyAssignmentFromJson(
     Map<String, dynamic> json) {
   return ActiveIAMPolicyAssignment(
-    assignmentName: json['AssignmentName'] as String,
-    policyArn: json['PolicyArn'] as String,
+    assignmentName: json['AssignmentName'] as String?,
+    policyArn: json['PolicyArn'] as String?,
   );
 }
 
@@ -108,40 +113,30 @@ AmazonElasticsearchParameters _$AmazonElasticsearchParametersFromJson(
 }
 
 Map<String, dynamic> _$AmazonElasticsearchParametersToJson(
-    AmazonElasticsearchParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Domain', instance.domain);
-  return val;
-}
+        AmazonElasticsearchParameters instance) =>
+    <String, dynamic>{
+      'Domain': instance.domain,
+    };
 
 Analysis _$AnalysisFromJson(Map<String, dynamic> json) {
   return Analysis(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSetArns:
-        (json['DataSetArns'] as List)?.map((e) => e as String)?.toList(),
-    errors: (json['Errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnalysisError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    dataSetArns: (json['DataSetArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => AnalysisError.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
-    sheets: (json['Sheets'] as List)
-        ?.map(
-            (e) => e == null ? null : Sheet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['Name'] as String?,
+    sheets: (json['Sheets'] as List<dynamic>?)
+        ?.map((e) => Sheet.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    themeArn: json['ThemeArn'] as String,
+    themeArn: json['ThemeArn'] as String?,
   );
 }
 
@@ -157,7 +152,7 @@ const _$ResourceStatusEnumMap = {
 
 AnalysisError _$AnalysisErrorFromJson(Map<String, dynamic> json) {
   return AnalysisError(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$AnalysisErrorTypeEnumMap, json['Type']),
   );
 }
@@ -215,36 +210,28 @@ Map<String, dynamic> _$AnalysisSourceEntityToJson(
 }
 
 Map<String, dynamic> _$AnalysisSourceTemplateToJson(
-    AnalysisSourceTemplate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('DataSetReferences',
-      instance.dataSetReferences?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        AnalysisSourceTemplate instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+      'DataSetReferences':
+          instance.dataSetReferences.map((e) => e.toJson()).toList(),
+    };
 
 AnalysisSummary _$AnalysisSummaryFromJson(Map<String, dynamic> json) {
   return AnalysisSummary(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
   );
 }
 
 AthenaParameters _$AthenaParametersFromJson(Map<String, dynamic> json) {
   return AthenaParameters(
-    workGroup: json['WorkGroup'] as String,
+    workGroup: json['WorkGroup'] as String?,
   );
 }
 
@@ -269,20 +256,12 @@ AuroraParameters _$AuroraParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AuroraParametersToJson(AuroraParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$AuroraParametersToJson(AuroraParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 AuroraPostgreSqlParameters _$AuroraPostgreSqlParametersFromJson(
     Map<String, dynamic> json) {
@@ -294,20 +273,12 @@ AuroraPostgreSqlParameters _$AuroraPostgreSqlParametersFromJson(
 }
 
 Map<String, dynamic> _$AuroraPostgreSqlParametersToJson(
-    AuroraPostgreSqlParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+        AuroraPostgreSqlParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 AwsIotAnalyticsParameters _$AwsIotAnalyticsParametersFromJson(
     Map<String, dynamic> json) {
@@ -317,22 +288,14 @@ AwsIotAnalyticsParameters _$AwsIotAnalyticsParametersFromJson(
 }
 
 Map<String, dynamic> _$AwsIotAnalyticsParametersToJson(
-    AwsIotAnalyticsParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DataSetName', instance.dataSetName);
-  return val;
-}
+        AwsIotAnalyticsParameters instance) =>
+    <String, dynamic>{
+      'DataSetName': instance.dataSetName,
+    };
 
 BorderStyle _$BorderStyleFromJson(Map<String, dynamic> json) {
   return BorderStyle(
-    show: json['Show'] as bool,
+    show: json['Show'] as bool?,
   );
 }
 
@@ -357,28 +320,20 @@ CalculatedColumn _$CalculatedColumnFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CalculatedColumnToJson(CalculatedColumn instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ColumnId', instance.columnId);
-  writeNotNull('ColumnName', instance.columnName);
-  writeNotNull('Expression', instance.expression);
-  return val;
-}
+Map<String, dynamic> _$CalculatedColumnToJson(CalculatedColumn instance) =>
+    <String, dynamic>{
+      'ColumnId': instance.columnId,
+      'ColumnName': instance.columnName,
+      'Expression': instance.expression,
+    };
 
 CancelIngestionResponse _$CancelIngestionResponseFromJson(
     Map<String, dynamic> json) {
   return CancelIngestionResponse(
-    arn: json['Arn'] as String,
-    ingestionId: json['IngestionId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    ingestionId: json['IngestionId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -386,15 +341,17 @@ CastColumnTypeOperation _$CastColumnTypeOperationFromJson(
     Map<String, dynamic> json) {
   return CastColumnTypeOperation(
     columnName: json['ColumnName'] as String,
-    newColumnType:
-        _$enumDecodeNullable(_$ColumnDataTypeEnumMap, json['NewColumnType']),
-    format: json['Format'] as String,
+    newColumnType: _$enumDecode(_$ColumnDataTypeEnumMap, json['NewColumnType']),
+    format: json['Format'] as String?,
   );
 }
 
 Map<String, dynamic> _$CastColumnTypeOperationToJson(
     CastColumnTypeOperation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ColumnName': instance.columnName,
+    'NewColumnType': _$ColumnDataTypeEnumMap[instance.newColumnType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -402,9 +359,6 @@ Map<String, dynamic> _$CastColumnTypeOperationToJson(
     }
   }
 
-  writeNotNull('ColumnName', instance.columnName);
-  writeNotNull(
-      'NewColumnType', _$ColumnDataTypeEnumMap[instance.newColumnType]);
   writeNotNull('Format', instance.format);
   return val;
 }
@@ -418,7 +372,7 @@ const _$ColumnDataTypeEnumMap = {
 
 ColumnDescription _$ColumnDescriptionFromJson(Map<String, dynamic> json) {
   return ColumnDescription(
-    text: json['Text'] as String,
+    text: json['Text'] as String?,
   );
 }
 
@@ -461,27 +415,30 @@ Map<String, dynamic> _$ColumnGroupToJson(ColumnGroup instance) {
 ColumnGroupColumnSchema _$ColumnGroupColumnSchemaFromJson(
     Map<String, dynamic> json) {
   return ColumnGroupColumnSchema(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 ColumnGroupSchema _$ColumnGroupSchemaFromJson(Map<String, dynamic> json) {
   return ColumnGroupSchema(
-    columnGroupColumnSchemaList: (json['ColumnGroupColumnSchemaList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ColumnGroupColumnSchema.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+    columnGroupColumnSchemaList: (json['ColumnGroupColumnSchemaList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ColumnGroupColumnSchema.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
 ColumnLevelPermissionRule _$ColumnLevelPermissionRuleFromJson(
     Map<String, dynamic> json) {
   return ColumnLevelPermissionRule(
-    columnNames:
-        (json['ColumnNames'] as List)?.map((e) => e as String)?.toList(),
-    principals: (json['Principals'] as List)?.map((e) => e as String)?.toList(),
+    columnNames: (json['ColumnNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    principals: (json['Principals'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -502,9 +459,9 @@ Map<String, dynamic> _$ColumnLevelPermissionRuleToJson(
 
 ColumnSchema _$ColumnSchemaFromJson(Map<String, dynamic> json) {
   return ColumnSchema(
-    dataType: json['DataType'] as String,
-    geographicRole: json['GeographicRole'] as String,
-    name: json['Name'] as String,
+    dataType: json['DataType'] as String?,
+    geographicRole: json['GeographicRole'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -551,85 +508,75 @@ CreateAccountCustomizationResponse _$CreateAccountCustomizationResponseFromJson(
         ? null
         : AccountCustomization.fromJson(
             json['AccountCustomization'] as Map<String, dynamic>),
-    arn: json['Arn'] as String,
-    awsAccountId: json['AwsAccountId'] as String,
-    namespace: json['Namespace'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    awsAccountId: json['AwsAccountId'] as String?,
+    namespace: json['Namespace'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 CreateAnalysisResponse _$CreateAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAnalysisResponse(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 CreateColumnsOperation _$CreateColumnsOperationFromJson(
     Map<String, dynamic> json) {
   return CreateColumnsOperation(
-    columns: (json['Columns'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CalculatedColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    columns: (json['Columns'] as List<dynamic>)
+        .map((e) => CalculatedColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$CreateColumnsOperationToJson(
-    CreateColumnsOperation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Columns', instance.columns?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        CreateColumnsOperation instance) =>
+    <String, dynamic>{
+      'Columns': instance.columns.map((e) => e.toJson()).toList(),
+    };
 
 CreateDashboardResponse _$CreateDashboardResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDashboardResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    dashboardId: json['DashboardId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    versionArn: json['VersionArn'] as String,
+    dashboardId: json['DashboardId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 CreateDataSetResponse _$CreateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSetResponse(
-    arn: json['Arn'] as String,
-    dataSetId: json['DataSetId'] as String,
-    ingestionArn: json['IngestionArn'] as String,
-    ingestionId: json['IngestionId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dataSetId: json['DataSetId'] as String?,
+    ingestionArn: json['IngestionArn'] as String?,
+    ingestionId: json['IngestionId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSourceResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    dataSourceId: json['DataSourceId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSourceId: json['DataSourceId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -639,8 +586,8 @@ CreateGroupMembershipResponse _$CreateGroupMembershipResponseFromJson(
     groupMember: json['GroupMember'] == null
         ? null
         : GroupMember.fromJson(json['GroupMember'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -649,24 +596,25 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 CreateIAMPolicyAssignmentResponse _$CreateIAMPolicyAssignmentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateIAMPolicyAssignmentResponse(
-    assignmentId: json['AssignmentId'] as String,
-    assignmentName: json['AssignmentName'] as String,
+    assignmentId: json['AssignmentId'] as String?,
+    assignmentName: json['AssignmentName'] as String?,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    identities: (json['Identities'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    identities: (json['Identities'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    policyArn: json['PolicyArn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    policyArn: json['PolicyArn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -679,12 +627,12 @@ const _$AssignmentStatusEnumMap = {
 CreateIngestionResponse _$CreateIngestionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateIngestionResponse(
-    arn: json['Arn'] as String,
-    ingestionId: json['IngestionId'] as String,
+    arn: json['Arn'] as String?,
+    ingestionId: json['IngestionId'] as String?,
     ingestionStatus:
         _$enumDecodeNullable(_$IngestionStatusEnumMap, json['IngestionStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -700,15 +648,15 @@ const _$IngestionStatusEnumMap = {
 CreateNamespaceResponse _$CreateNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateNamespaceResponse(
-    arn: json['Arn'] as String,
-    capacityRegion: json['CapacityRegion'] as String,
+    arn: json['Arn'] as String?,
+    capacityRegion: json['CapacityRegion'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$NamespaceStatusEnumMap, json['CreationStatus']),
     identityStore:
         _$enumDecodeNullable(_$IdentityStoreEnumMap, json['IdentityStore']),
-    name: json['Name'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    name: json['Name'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -727,8 +675,8 @@ const _$IdentityStoreEnumMap = {
 CreateTemplateAliasResponse _$CreateTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return CreateTemplateAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     templateAlias: json['TemplateAlias'] == null
         ? null
         : TemplateAlias.fromJson(json['TemplateAlias'] as Map<String, dynamic>),
@@ -738,21 +686,21 @@ CreateTemplateAliasResponse _$CreateTemplateAliasResponseFromJson(
 CreateTemplateResponse _$CreateTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return CreateTemplateResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateId: json['TemplateId'] as String,
-    versionArn: json['VersionArn'] as String,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateId: json['TemplateId'] as String?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 CreateThemeAliasResponse _$CreateThemeAliasResponseFromJson(
     Map<String, dynamic> json) {
   return CreateThemeAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     themeAlias: json['ThemeAlias'] == null
         ? null
         : ThemeAlias.fromJson(json['ThemeAlias'] as Map<String, dynamic>),
@@ -761,18 +709,21 @@ CreateThemeAliasResponse _$CreateThemeAliasResponseFromJson(
 
 CreateThemeResponse _$CreateThemeResponseFromJson(Map<String, dynamic> json) {
   return CreateThemeResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeId: json['ThemeId'] as String,
-    versionArn: json['VersionArn'] as String,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeId: json['ThemeId'] as String?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$CredentialPairToJson(CredentialPair instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Password': instance.password,
+    'Username': instance.username,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -780,13 +731,8 @@ Map<String, dynamic> _$CredentialPairToJson(CredentialPair instance) {
     }
   }
 
-  writeNotNull('Password', instance.password);
-  writeNotNull('Username', instance.username);
-  writeNotNull(
-      'AlternateDataSourceParameters',
-      instance.alternateDataSourceParameters
-          ?.map((e) => e?.toJson())
-          ?.toList());
+  writeNotNull('AlternateDataSourceParameters',
+      instance.alternateDataSourceParameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -795,15 +741,18 @@ CustomSql _$CustomSqlFromJson(Map<String, dynamic> json) {
     dataSourceArn: json['DataSourceArn'] as String,
     name: json['Name'] as String,
     sqlQuery: json['SqlQuery'] as String,
-    columns: (json['Columns'] as List)
-        ?.map((e) =>
-            e == null ? null : InputColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    columns: (json['Columns'] as List<dynamic>?)
+        ?.map((e) => InputColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$CustomSqlToJson(CustomSql instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataSourceArn': instance.dataSourceArn,
+    'Name': instance.name,
+    'SqlQuery': instance.sqlQuery,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -811,23 +760,20 @@ Map<String, dynamic> _$CustomSqlToJson(CustomSql instance) {
     }
   }
 
-  writeNotNull('DataSourceArn', instance.dataSourceArn);
-  writeNotNull('Name', instance.name);
-  writeNotNull('SqlQuery', instance.sqlQuery);
-  writeNotNull('Columns', instance.columns?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Columns', instance.columns?.map((e) => e.toJson()).toList());
   return val;
 }
 
 Dashboard _$DashboardFromJson(Map<String, dynamic> json) {
   return Dashboard(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dashboardId: json['DashboardId'] as String,
+    dashboardId: json['DashboardId'] as String?,
     lastPublishedTime:
         const UnixDateTimeConverter().fromJson(json['LastPublishedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     version: json['Version'] == null
         ? null
         : DashboardVersion.fromJson(json['Version'] as Map<String, dynamic>),
@@ -836,7 +782,7 @@ Dashboard _$DashboardFromJson(Map<String, dynamic> json) {
 
 DashboardError _$DashboardErrorFromJson(Map<String, dynamic> json) {
   return DashboardError(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$DashboardErrorTypeEnumMap, json['Type']),
   );
 }
@@ -873,7 +819,9 @@ Map<String, dynamic> _$DashboardPublishOptionsToJson(
 
 Map<String, dynamic> _$DashboardSearchFilterToJson(
     DashboardSearchFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Operator': _$FilterOperatorEnumMap[instance.operator],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -881,7 +829,6 @@ Map<String, dynamic> _$DashboardSearchFilterToJson(
     }
   }
 
-  writeNotNull('Operator', _$FilterOperatorEnumMap[instance.operator]);
   writeNotNull('Name', _$DashboardFilterAttributeEnumMap[instance.name]);
   writeNotNull('Value', instance.value);
   return val;
@@ -906,76 +853,68 @@ Map<String, dynamic> _$DashboardSourceEntityToJson(
 }
 
 Map<String, dynamic> _$DashboardSourceTemplateToJson(
-    DashboardSourceTemplate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('DataSetReferences',
-      instance.dataSetReferences?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        DashboardSourceTemplate instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+      'DataSetReferences':
+          instance.dataSetReferences.map((e) => e.toJson()).toList(),
+    };
 
 DashboardSummary _$DashboardSummaryFromJson(Map<String, dynamic> json) {
   return DashboardSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dashboardId: json['DashboardId'] as String,
+    dashboardId: json['DashboardId'] as String?,
     lastPublishedTime:
         const UnixDateTimeConverter().fromJson(json['LastPublishedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
-    publishedVersionNumber: json['PublishedVersionNumber'] as int,
+    name: json['Name'] as String?,
+    publishedVersionNumber: json['PublishedVersionNumber'] as int?,
   );
 }
 
 DashboardVersion _$DashboardVersionFromJson(Map<String, dynamic> json) {
   return DashboardVersion(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSetArns:
-        (json['DataSetArns'] as List)?.map((e) => e as String)?.toList(),
-    description: json['Description'] as String,
-    errors: (json['Errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DashboardError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sheets: (json['Sheets'] as List)
-        ?.map(
-            (e) => e == null ? null : Sheet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sourceEntityArn: json['SourceEntityArn'] as String,
+    dataSetArns: (json['DataSetArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    description: json['Description'] as String?,
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => DashboardError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sheets: (json['Sheets'] as List<dynamic>?)
+        ?.map((e) => Sheet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sourceEntityArn: json['SourceEntityArn'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    themeArn: json['ThemeArn'] as String,
-    versionNumber: json['VersionNumber'] as int,
+    themeArn: json['ThemeArn'] as String?,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
 DashboardVersionSummary _$DashboardVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return DashboardVersionSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    sourceEntityArn: json['SourceEntityArn'] as String,
+    description: json['Description'] as String?,
+    sourceEntityArn: json['SourceEntityArn'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    versionNumber: json['VersionNumber'] as int,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
 DataColorPalette _$DataColorPaletteFromJson(Map<String, dynamic> json) {
   return DataColorPalette(
-    colors: (json['Colors'] as List)?.map((e) => e as String)?.toList(),
-    emptyFillColor: json['EmptyFillColor'] as String,
-    minMaxGradient:
-        (json['MinMaxGradient'] as List)?.map((e) => e as String)?.toList(),
+    colors:
+        (json['Colors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    emptyFillColor: json['EmptyFillColor'] as String?,
+    minMaxGradient: (json['MinMaxGradient'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -996,35 +935,31 @@ Map<String, dynamic> _$DataColorPaletteToJson(DataColorPalette instance) {
 
 DataSet _$DataSetFromJson(Map<String, dynamic> json) {
   return DataSet(
-    arn: json['Arn'] as String,
-    columnGroups: (json['ColumnGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : ColumnGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    columnLevelPermissionRules: (json['ColumnLevelPermissionRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ColumnLevelPermissionRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    consumedSpiceCapacityInBytes: json['ConsumedSpiceCapacityInBytes'] as int,
+    arn: json['Arn'] as String?,
+    columnGroups: (json['ColumnGroups'] as List<dynamic>?)
+        ?.map((e) => ColumnGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    columnLevelPermissionRules:
+        (json['ColumnLevelPermissionRules'] as List<dynamic>?)
+            ?.map((e) =>
+                ColumnLevelPermissionRule.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    consumedSpiceCapacityInBytes: json['ConsumedSpiceCapacityInBytes'] as int?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSetId: json['DataSetId'] as String,
+    dataSetId: json['DataSetId'] as String?,
     importMode:
         _$enumDecodeNullable(_$DataSetImportModeEnumMap, json['ImportMode']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    logicalTableMap: (json['LogicalTableMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : LogicalTable.fromJson(e as Map<String, dynamic>)),
+    logicalTableMap: (json['LogicalTableMap'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, LogicalTable.fromJson(e as Map<String, dynamic>)),
     ),
-    name: json['Name'] as String,
-    outputColumns: (json['OutputColumns'] as List)
-        ?.map((e) =>
-            e == null ? null : OutputColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    physicalTableMap: (json['PhysicalTableMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : PhysicalTable.fromJson(e as Map<String, dynamic>)),
+    name: json['Name'] as String?,
+    outputColumns: (json['OutputColumns'] as List<dynamic>?)
+        ?.map((e) => OutputColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    physicalTableMap: (json['PhysicalTableMap'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, PhysicalTable.fromJson(e as Map<String, dynamic>)),
     ),
     rowLevelPermissionDataSet: json['RowLevelPermissionDataSet'] == null
         ? null
@@ -1040,53 +975,42 @@ const _$DataSetImportModeEnumMap = {
 
 DataSetConfiguration _$DataSetConfigurationFromJson(Map<String, dynamic> json) {
   return DataSetConfiguration(
-    columnGroupSchemaList: (json['ColumnGroupSchemaList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ColumnGroupSchema.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    columnGroupSchemaList: (json['ColumnGroupSchemaList'] as List<dynamic>?)
+        ?.map((e) => ColumnGroupSchema.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dataSetSchema: json['DataSetSchema'] == null
         ? null
         : DataSetSchema.fromJson(json['DataSetSchema'] as Map<String, dynamic>),
-    placeholder: json['Placeholder'] as String,
+    placeholder: json['Placeholder'] as String?,
   );
 }
 
-Map<String, dynamic> _$DataSetReferenceToJson(DataSetReference instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DataSetArn', instance.dataSetArn);
-  writeNotNull('DataSetPlaceholder', instance.dataSetPlaceholder);
-  return val;
-}
+Map<String, dynamic> _$DataSetReferenceToJson(DataSetReference instance) =>
+    <String, dynamic>{
+      'DataSetArn': instance.dataSetArn,
+      'DataSetPlaceholder': instance.dataSetPlaceholder,
+    };
 
 DataSetSchema _$DataSetSchemaFromJson(Map<String, dynamic> json) {
   return DataSetSchema(
-    columnSchemaList: (json['ColumnSchemaList'] as List)
-        ?.map((e) =>
-            e == null ? null : ColumnSchema.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    columnSchemaList: (json['ColumnSchemaList'] as List<dynamic>?)
+        ?.map((e) => ColumnSchema.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DataSetSummary _$DataSetSummaryFromJson(Map<String, dynamic> json) {
   return DataSetSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     columnLevelPermissionRulesApplied:
-        json['ColumnLevelPermissionRulesApplied'] as bool,
+        json['ColumnLevelPermissionRulesApplied'] as bool?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSetId: json['DataSetId'] as String,
+    dataSetId: json['DataSetId'] as String?,
     importMode:
         _$enumDecodeNullable(_$DataSetImportModeEnumMap, json['ImportMode']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     rowLevelPermissionDataSet: json['RowLevelPermissionDataSet'] == null
         ? null
         : RowLevelPermissionDataSet.fromJson(
@@ -1096,15 +1020,13 @@ DataSetSummary _$DataSetSummaryFromJson(Map<String, dynamic> json) {
 
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
-    alternateDataSourceParameters:
-        (json['AlternateDataSourceParameters'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DataSourceParameters.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-    arn: json['Arn'] as String,
+    alternateDataSourceParameters: (json['AlternateDataSourceParameters']
+            as List<dynamic>?)
+        ?.map((e) => DataSourceParameters.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSourceId: json['DataSourceId'] as String,
+    dataSourceId: json['DataSourceId'] as String?,
     dataSourceParameters: json['DataSourceParameters'] == null
         ? null
         : DataSourceParameters.fromJson(
@@ -1115,7 +1037,7 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
             json['ErrorInfo'] as Map<String, dynamic>),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     sslProperties: json['SslProperties'] == null
         ? null
         : SslProperties.fromJson(json['SslProperties'] as Map<String, dynamic>),
@@ -1171,7 +1093,7 @@ Map<String, dynamic> _$DataSourceCredentialsToJson(
 
 DataSourceErrorInfo _$DataSourceErrorInfoFromJson(Map<String, dynamic> json) {
   return DataSourceErrorInfo(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$DataSourceErrorInfoTypeEnumMap, json['Type']),
   );
 }
@@ -1307,169 +1229,152 @@ Map<String, dynamic> _$DataSourceParametersToJson(
   return val;
 }
 
-Map<String, dynamic> _$DateTimeParameterToJson(DateTimeParameter instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$DateTimeParameterToJson(DateTimeParameter instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values.map((e) => e.toIso8601String()).toList(),
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values',
-      instance.values?.map(const UnixDateTimeConverter().toJson)?.toList());
-  return val;
-}
-
-Map<String, dynamic> _$DecimalParameterToJson(DecimalParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$DecimalParameterToJson(DecimalParameter instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values,
+    };
 
 DeleteAccountCustomizationResponse _$DeleteAccountCustomizationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAccountCustomizationResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteAnalysisResponse _$DeleteAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAnalysisResponse(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
     deletionTime: const UnixDateTimeConverter().fromJson(json['DeletionTime']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteDashboardResponse _$DeleteDashboardResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDashboardResponse(
-    arn: json['Arn'] as String,
-    dashboardId: json['DashboardId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dashboardId: json['DashboardId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteDataSetResponse _$DeleteDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDataSetResponse(
-    arn: json['Arn'] as String,
-    dataSetId: json['DataSetId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dataSetId: json['DataSetId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteDataSourceResponse _$DeleteDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDataSourceResponse(
-    arn: json['Arn'] as String,
-    dataSourceId: json['DataSourceId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dataSourceId: json['DataSourceId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteGroupMembershipResponse _$DeleteGroupMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteGroupMembershipResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteGroupResponse _$DeleteGroupResponseFromJson(Map<String, dynamic> json) {
   return DeleteGroupResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteIAMPolicyAssignmentResponse _$DeleteIAMPolicyAssignmentResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteIAMPolicyAssignmentResponse(
-    assignmentName: json['AssignmentName'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    assignmentName: json['AssignmentName'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteNamespaceResponse _$DeleteNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteNamespaceResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteTemplateAliasResponse _$DeleteTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteTemplateAliasResponse(
-    aliasName: json['AliasName'] as String,
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateId: json['TemplateId'] as String,
+    aliasName: json['AliasName'] as String?,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateId: json['TemplateId'] as String?,
   );
 }
 
 DeleteTemplateResponse _$DeleteTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteTemplateResponse(
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateId: json['TemplateId'] as String,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateId: json['TemplateId'] as String?,
   );
 }
 
 DeleteThemeAliasResponse _$DeleteThemeAliasResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteThemeAliasResponse(
-    aliasName: json['AliasName'] as String,
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeId: json['ThemeId'] as String,
+    aliasName: json['AliasName'] as String?,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeId: json['ThemeId'] as String?,
   );
 }
 
 DeleteThemeResponse _$DeleteThemeResponseFromJson(Map<String, dynamic> json) {
   return DeleteThemeResponse(
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeId: json['ThemeId'] as String,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeId: json['ThemeId'] as String?,
   );
 }
 
 DeleteUserByPrincipalIdResponse _$DeleteUserByPrincipalIdResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteUserByPrincipalIdResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
   return DeleteUserResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1480,11 +1385,11 @@ DescribeAccountCustomizationResponse
         ? null
         : AccountCustomization.fromJson(
             json['AccountCustomization'] as Map<String, dynamic>),
-    arn: json['Arn'] as String,
-    awsAccountId: json['AwsAccountId'] as String,
-    namespace: json['Namespace'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    awsAccountId: json['AwsAccountId'] as String?,
+    namespace: json['Namespace'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1495,23 +1400,21 @@ DescribeAccountSettingsResponse _$DescribeAccountSettingsResponseFromJson(
         ? null
         : AccountSettings.fromJson(
             json['AccountSettings'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DescribeAnalysisPermissionsResponse
     _$DescribeAnalysisPermissionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeAnalysisPermissionsResponse(
-    analysisArn: json['AnalysisArn'] as String,
-    analysisId: json['AnalysisId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisArn: json['AnalysisArn'] as String?,
+    analysisId: json['AnalysisId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1521,23 +1424,21 @@ DescribeAnalysisResponse _$DescribeAnalysisResponseFromJson(
     analysis: json['Analysis'] == null
         ? null
         : Analysis.fromJson(json['Analysis'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DescribeDashboardPermissionsResponse
     _$DescribeDashboardPermissionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeDashboardPermissionsResponse(
-    dashboardArn: json['DashboardArn'] as String,
-    dashboardId: json['DashboardId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardArn: json['DashboardArn'] as String?,
+    dashboardId: json['DashboardId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1547,23 +1448,21 @@ DescribeDashboardResponse _$DescribeDashboardResponseFromJson(
     dashboard: json['Dashboard'] == null
         ? null
         : Dashboard.fromJson(json['Dashboard'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DescribeDataSetPermissionsResponse _$DescribeDataSetPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDataSetPermissionsResponse(
-    dataSetArn: json['DataSetArn'] as String,
-    dataSetId: json['DataSetId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSetArn: json['DataSetArn'] as String?,
+    dataSetId: json['DataSetId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1573,23 +1472,21 @@ DescribeDataSetResponse _$DescribeDataSetResponseFromJson(
     dataSet: json['DataSet'] == null
         ? null
         : DataSet.fromJson(json['DataSet'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DescribeDataSourcePermissionsResponse
     _$DescribeDataSourcePermissionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeDataSourcePermissionsResponse(
-    dataSourceArn: json['DataSourceArn'] as String,
-    dataSourceId: json['DataSourceId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSourceArn: json['DataSourceArn'] as String?,
+    dataSourceId: json['DataSourceId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1599,8 +1496,8 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
     dataSource: json['DataSource'] == null
         ? null
         : DataSource.fromJson(json['DataSource'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1610,8 +1507,8 @@ DescribeGroupResponse _$DescribeGroupResponseFromJson(
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1622,8 +1519,8 @@ DescribeIAMPolicyAssignmentResponse
         ? null
         : IAMPolicyAssignment.fromJson(
             json['IAMPolicyAssignment'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1633,8 +1530,8 @@ DescribeIngestionResponse _$DescribeIngestionResponseFromJson(
     ingestion: json['Ingestion'] == null
         ? null
         : Ingestion.fromJson(json['Ingestion'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -1644,16 +1541,16 @@ DescribeNamespaceResponse _$DescribeNamespaceResponseFromJson(
     namespace: json['Namespace'] == null
         ? null
         : NamespaceInfoV2.fromJson(json['Namespace'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 DescribeTemplateAliasResponse _$DescribeTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTemplateAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     templateAlias: json['TemplateAlias'] == null
         ? null
         : TemplateAlias.fromJson(json['TemplateAlias'] as Map<String, dynamic>),
@@ -1663,23 +1560,21 @@ DescribeTemplateAliasResponse _$DescribeTemplateAliasResponseFromJson(
 DescribeTemplatePermissionsResponse
     _$DescribeTemplatePermissionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeTemplatePermissionsResponse(
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateArn: json['TemplateArn'] as String,
-    templateId: json['TemplateId'] as String,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateArn: json['TemplateArn'] as String?,
+    templateId: json['TemplateId'] as String?,
   );
 }
 
 DescribeTemplateResponse _$DescribeTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTemplateResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     template: json['Template'] == null
         ? null
         : Template.fromJson(json['Template'] as Map<String, dynamic>),
@@ -1689,8 +1584,8 @@ DescribeTemplateResponse _$DescribeTemplateResponseFromJson(
 DescribeThemeAliasResponse _$DescribeThemeAliasResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeThemeAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     themeAlias: json['ThemeAlias'] == null
         ? null
         : ThemeAlias.fromJson(json['ThemeAlias'] as Map<String, dynamic>),
@@ -1700,23 +1595,21 @@ DescribeThemeAliasResponse _$DescribeThemeAliasResponseFromJson(
 DescribeThemePermissionsResponse _$DescribeThemePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeThemePermissionsResponse(
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeArn: json['ThemeArn'] as String,
-    themeId: json['ThemeId'] as String,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeArn: json['ThemeArn'] as String?,
+    themeId: json['ThemeId'] as String?,
   );
 }
 
 DescribeThemeResponse _$DescribeThemeResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeThemeResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     theme: json['Theme'] == null
         ? null
         : Theme.fromJson(json['Theme'] as Map<String, dynamic>),
@@ -1725,8 +1618,8 @@ DescribeThemeResponse _$DescribeThemeResponseFromJson(
 
 DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
   return DescribeUserResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     user: json['User'] == null
         ? null
         : User.fromJson(json['User'] as Map<String, dynamic>),
@@ -1735,7 +1628,7 @@ DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
 
 ErrorInfo _$ErrorInfoFromJson(Map<String, dynamic> json) {
   return ErrorInfo(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$IngestionErrorTypeEnumMap, json['Type']),
   );
 }
@@ -1809,45 +1702,29 @@ FilterOperation _$FilterOperationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FilterOperationToJson(FilterOperation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ConditionExpression', instance.conditionExpression);
-  return val;
-}
+Map<String, dynamic> _$FilterOperationToJson(FilterOperation instance) =>
+    <String, dynamic>{
+      'ConditionExpression': instance.conditionExpression,
+    };
 
 GeoSpatialColumnGroup _$GeoSpatialColumnGroupFromJson(
     Map<String, dynamic> json) {
   return GeoSpatialColumnGroup(
-    columns: (json['Columns'] as List)?.map((e) => e as String)?.toList(),
-    countryCode: _$enumDecodeNullable(
-        _$GeoSpatialCountryCodeEnumMap, json['CountryCode']),
+    columns:
+        (json['Columns'] as List<dynamic>).map((e) => e as String).toList(),
+    countryCode:
+        _$enumDecode(_$GeoSpatialCountryCodeEnumMap, json['CountryCode']),
     name: json['Name'] as String,
   );
 }
 
 Map<String, dynamic> _$GeoSpatialColumnGroupToJson(
-    GeoSpatialColumnGroup instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Columns', instance.columns);
-  writeNotNull(
-      'CountryCode', _$GeoSpatialCountryCodeEnumMap[instance.countryCode]);
-  writeNotNull('Name', instance.name);
-  return val;
-}
+        GeoSpatialColumnGroup instance) =>
+    <String, dynamic>{
+      'Columns': instance.columns,
+      'CountryCode': _$GeoSpatialCountryCodeEnumMap[instance.countryCode],
+      'Name': instance.name,
+    };
 
 const _$GeoSpatialCountryCodeEnumMap = {
   GeoSpatialCountryCode.us: 'US',
@@ -1856,40 +1733,40 @@ const _$GeoSpatialCountryCodeEnumMap = {
 GetDashboardEmbedUrlResponse _$GetDashboardEmbedUrlResponseFromJson(
     Map<String, dynamic> json) {
   return GetDashboardEmbedUrlResponse(
-    embedUrl: json['EmbedUrl'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    embedUrl: json['EmbedUrl'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 GetSessionEmbedUrlResponse _$GetSessionEmbedUrlResponseFromJson(
     Map<String, dynamic> json) {
   return GetSessionEmbedUrlResponse(
-    embedUrl: json['EmbedUrl'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    embedUrl: json['EmbedUrl'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
-    arn: json['Arn'] as String,
-    description: json['Description'] as String,
-    groupName: json['GroupName'] as String,
-    principalId: json['PrincipalId'] as String,
+    arn: json['Arn'] as String?,
+    description: json['Description'] as String?,
+    groupName: json['GroupName'] as String?,
+    principalId: json['PrincipalId'] as String?,
   );
 }
 
 GroupMember _$GroupMemberFromJson(Map<String, dynamic> json) {
   return GroupMember(
-    arn: json['Arn'] as String,
-    memberName: json['MemberName'] as String,
+    arn: json['Arn'] as String?,
+    memberName: json['MemberName'] as String?,
   );
 }
 
 GutterStyle _$GutterStyleFromJson(Map<String, dynamic> json) {
   return GutterStyle(
-    show: json['Show'] as bool,
+    show: json['Show'] as bool?,
   );
 }
 
@@ -1908,22 +1785,23 @@ Map<String, dynamic> _$GutterStyleToJson(GutterStyle instance) {
 
 IAMPolicyAssignment _$IAMPolicyAssignmentFromJson(Map<String, dynamic> json) {
   return IAMPolicyAssignment(
-    assignmentId: json['AssignmentId'] as String,
-    assignmentName: json['AssignmentName'] as String,
+    assignmentId: json['AssignmentId'] as String?,
+    assignmentName: json['AssignmentName'] as String?,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    awsAccountId: json['AwsAccountId'] as String,
-    identities: (json['Identities'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    awsAccountId: json['AwsAccountId'] as String?,
+    identities: (json['Identities'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    policyArn: json['PolicyArn'] as String,
+    policyArn: json['PolicyArn'] as String?,
   );
 }
 
 IAMPolicyAssignmentSummary _$IAMPolicyAssignmentSummaryFromJson(
     Map<String, dynamic> json) {
   return IAMPolicyAssignmentSummary(
-    assignmentName: json['AssignmentName'] as String,
+    assignmentName: json['AssignmentName'] as String?,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
   );
@@ -1932,15 +1810,15 @@ IAMPolicyAssignmentSummary _$IAMPolicyAssignmentSummaryFromJson(
 Ingestion _$IngestionFromJson(Map<String, dynamic> json) {
   return Ingestion(
     arn: json['Arn'] as String,
-    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
+    createdTime: DateTime.parse(json['CreatedTime'] as String),
     ingestionStatus:
-        _$enumDecodeNullable(_$IngestionStatusEnumMap, json['IngestionStatus']),
+        _$enumDecode(_$IngestionStatusEnumMap, json['IngestionStatus']),
     errorInfo: json['ErrorInfo'] == null
         ? null
         : ErrorInfo.fromJson(json['ErrorInfo'] as Map<String, dynamic>),
-    ingestionId: json['IngestionId'] as String,
-    ingestionSizeInBytes: json['IngestionSizeInBytes'] as int,
-    ingestionTimeInSeconds: json['IngestionTimeInSeconds'] as int,
+    ingestionId: json['IngestionId'] as String?,
+    ingestionSizeInBytes: json['IngestionSizeInBytes'] as int?,
+    ingestionTimeInSeconds: json['IngestionTimeInSeconds'] as int?,
     queueInfo: json['QueueInfo'] == null
         ? null
         : QueueInfo.fromJson(json['QueueInfo'] as Map<String, dynamic>),
@@ -1969,23 +1847,15 @@ const _$IngestionRequestTypeEnumMap = {
 InputColumn _$InputColumnFromJson(Map<String, dynamic> json) {
   return InputColumn(
     name: json['Name'] as String,
-    type: _$enumDecodeNullable(_$InputColumnDataTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$InputColumnDataTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$InputColumnToJson(InputColumn instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Type', _$InputColumnDataTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$InputColumnToJson(InputColumn instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Type': _$InputColumnDataTypeEnumMap[instance.type],
+    };
 
 const _$InputColumnDataTypeEnumMap = {
   InputColumnDataType.string: 'STRING',
@@ -1997,19 +1867,11 @@ const _$InputColumnDataTypeEnumMap = {
   InputColumnDataType.json: 'JSON',
 };
 
-Map<String, dynamic> _$IntegerParameterToJson(IntegerParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$IntegerParameterToJson(IntegerParameter instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values,
+    };
 
 JiraParameters _$JiraParametersFromJson(Map<String, dynamic> json) {
   return JiraParameters(
@@ -2017,25 +1879,17 @@ JiraParameters _$JiraParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$JiraParametersToJson(JiraParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SiteBaseUrl', instance.siteBaseUrl);
-  return val;
-}
+Map<String, dynamic> _$JiraParametersToJson(JiraParameters instance) =>
+    <String, dynamic>{
+      'SiteBaseUrl': instance.siteBaseUrl,
+    };
 
 JoinInstruction _$JoinInstructionFromJson(Map<String, dynamic> json) {
   return JoinInstruction(
     leftOperand: json['LeftOperand'] as String,
     onClause: json['OnClause'] as String,
     rightOperand: json['RightOperand'] as String,
-    type: _$enumDecodeNullable(_$JoinTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$JoinTypeEnumMap, json['Type']),
     leftJoinKeyProperties: json['LeftJoinKeyProperties'] == null
         ? null
         : JoinKeyProperties.fromJson(
@@ -2048,7 +1902,12 @@ JoinInstruction _$JoinInstructionFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$JoinInstructionToJson(JoinInstruction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LeftOperand': instance.leftOperand,
+    'OnClause': instance.onClause,
+    'RightOperand': instance.rightOperand,
+    'Type': _$JoinTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2056,10 +1915,6 @@ Map<String, dynamic> _$JoinInstructionToJson(JoinInstruction instance) {
     }
   }
 
-  writeNotNull('LeftOperand', instance.leftOperand);
-  writeNotNull('OnClause', instance.onClause);
-  writeNotNull('RightOperand', instance.rightOperand);
-  writeNotNull('Type', _$JoinTypeEnumMap[instance.type]);
   writeNotNull(
       'LeftJoinKeyProperties', instance.leftJoinKeyProperties?.toJson());
   writeNotNull(
@@ -2076,7 +1931,7 @@ const _$JoinTypeEnumMap = {
 
 JoinKeyProperties _$JoinKeyPropertiesFromJson(Map<String, dynamic> json) {
   return JoinKeyProperties(
-    uniqueKey: json['UniqueKey'] as bool,
+    uniqueKey: json['UniqueKey'] as bool?,
   );
 }
 
@@ -2095,93 +1950,84 @@ Map<String, dynamic> _$JoinKeyPropertiesToJson(JoinKeyProperties instance) {
 
 ListAnalysesResponse _$ListAnalysesResponseFromJson(Map<String, dynamic> json) {
   return ListAnalysesResponse(
-    analysisSummaryList: (json['AnalysisSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnalysisSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisSummaryList: (json['AnalysisSummaryList'] as List<dynamic>?)
+        ?.map((e) => AnalysisSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListDashboardVersionsResponse _$ListDashboardVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDashboardVersionsResponse(
-    dashboardVersionSummaryList: (json['DashboardVersionSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DashboardVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardVersionSummaryList: (json['DashboardVersionSummaryList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => DashboardVersionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListDashboardsResponse _$ListDashboardsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDashboardsResponse(
-    dashboardSummaryList: (json['DashboardSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DashboardSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardSummaryList: (json['DashboardSummaryList'] as List<dynamic>?)
+        ?.map((e) => DashboardSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListDataSetsResponse _$ListDataSetsResponseFromJson(Map<String, dynamic> json) {
   return ListDataSetsResponse(
-    dataSetSummaries: (json['DataSetSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSetSummaries: (json['DataSetSummaries'] as List<dynamic>?)
+        ?.map((e) => DataSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListDataSourcesResponse _$ListDataSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSourcesResponse(
-    dataSources: (json['DataSources'] as List)
-        ?.map((e) =>
-            e == null ? null : DataSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSources: (json['DataSources'] as List<dynamic>?)
+        ?.map((e) => DataSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListGroupMembershipsResponse _$ListGroupMembershipsResponseFromJson(
     Map<String, dynamic> json) {
   return ListGroupMembershipsResponse(
-    groupMemberList: (json['GroupMemberList'] as List)
-        ?.map((e) =>
-            e == null ? null : GroupMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    groupMemberList: (json['GroupMemberList'] as List<dynamic>?)
+        ?.map((e) => GroupMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
   return ListGroupsResponse(
-    groupList: (json['GroupList'] as List)
-        ?.map(
-            (e) => e == null ? null : Group.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    groupList: (json['GroupList'] as List<dynamic>?)
+        ?.map((e) => Group.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -2189,191 +2035,174 @@ ListIAMPolicyAssignmentsForUserResponse
     _$ListIAMPolicyAssignmentsForUserResponseFromJson(
         Map<String, dynamic> json) {
   return ListIAMPolicyAssignmentsForUserResponse(
-    activeAssignments: (json['ActiveAssignments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActiveIAMPolicyAssignment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    activeAssignments: (json['ActiveAssignments'] as List<dynamic>?)
+        ?.map((e) =>
+            ActiveIAMPolicyAssignment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListIAMPolicyAssignmentsResponse _$ListIAMPolicyAssignmentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListIAMPolicyAssignmentsResponse(
-    iAMPolicyAssignments: (json['IAMPolicyAssignments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IAMPolicyAssignmentSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    iAMPolicyAssignments: (json['IAMPolicyAssignments'] as List<dynamic>?)
+        ?.map((e) =>
+            IAMPolicyAssignmentSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListIngestionsResponse _$ListIngestionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListIngestionsResponse(
-    ingestions: (json['Ingestions'] as List)
-        ?.map((e) =>
-            e == null ? null : Ingestion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    ingestions: (json['Ingestions'] as List<dynamic>?)
+        ?.map((e) => Ingestion.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListNamespacesResponse _$ListNamespacesResponseFromJson(
     Map<String, dynamic> json) {
   return ListNamespacesResponse(
-    namespaces: (json['Namespaces'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NamespaceInfoV2.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    namespaces: (json['Namespaces'] as List<dynamic>?)
+        ?.map((e) => NamespaceInfoV2.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTemplateAliasesResponse _$ListTemplateAliasesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTemplateAliasesResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateAliasList: (json['TemplateAliasList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TemplateAlias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateAliasList: (json['TemplateAliasList'] as List<dynamic>?)
+        ?.map((e) => TemplateAlias.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTemplateVersionsResponse _$ListTemplateVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTemplateVersionsResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateVersionSummaryList: (json['TemplateVersionSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TemplateVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateVersionSummaryList: (json['TemplateVersionSummaryList']
+            as List<dynamic>?)
+        ?.map((e) => TemplateVersionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTemplatesResponse _$ListTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTemplatesResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateSummaryList: (json['TemplateSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TemplateSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateSummaryList: (json['TemplateSummaryList'] as List<dynamic>?)
+        ?.map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListThemeAliasesResponse _$ListThemeAliasesResponseFromJson(
     Map<String, dynamic> json) {
   return ListThemeAliasesResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeAliasList: (json['ThemeAliasList'] as List)
-        ?.map((e) =>
-            e == null ? null : ThemeAlias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeAliasList: (json['ThemeAliasList'] as List<dynamic>?)
+        ?.map((e) => ThemeAlias.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListThemeVersionsResponse _$ListThemeVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListThemeVersionsResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeVersionSummaryList: (json['ThemeVersionSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ThemeVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeVersionSummaryList: (json['ThemeVersionSummaryList'] as List<dynamic>?)
+        ?.map((e) => ThemeVersionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListThemesResponse _$ListThemesResponseFromJson(Map<String, dynamic> json) {
   return ListThemesResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeSummaryList: (json['ThemeSummaryList'] as List)
-        ?.map((e) =>
-            e == null ? null : ThemeSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeSummaryList: (json['ThemeSummaryList'] as List<dynamic>?)
+        ?.map((e) => ThemeSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUserGroupsResponse _$ListUserGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserGroupsResponse(
-    groupList: (json['GroupList'] as List)
-        ?.map(
-            (e) => e == null ? null : Group.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    groupList: (json['GroupList'] as List<dynamic>?)
+        ?.map((e) => Group.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   return ListUsersResponse(
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    userList: (json['UserList'] as List)
-        ?.map(
-            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    userList: (json['UserList'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LogicalTable _$LogicalTableFromJson(Map<String, dynamic> json) {
   return LogicalTable(
     alias: json['Alias'] as String,
-    source: json['Source'] == null
-        ? null
-        : LogicalTableSource.fromJson(json['Source'] as Map<String, dynamic>),
-    dataTransforms: (json['DataTransforms'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TransformOperation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    source: LogicalTableSource.fromJson(json['Source'] as Map<String, dynamic>),
+    dataTransforms: (json['DataTransforms'] as List<dynamic>?)
+        ?.map((e) => TransformOperation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$LogicalTableToJson(LogicalTable instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Alias': instance.alias,
+    'Source': instance.source.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2381,10 +2210,8 @@ Map<String, dynamic> _$LogicalTableToJson(LogicalTable instance) {
     }
   }
 
-  writeNotNull('Alias', instance.alias);
-  writeNotNull('Source', instance.source?.toJson());
   writeNotNull('DataTransforms',
-      instance.dataTransforms?.map((e) => e?.toJson())?.toList());
+      instance.dataTransforms?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -2394,7 +2221,7 @@ LogicalTableSource _$LogicalTableSourceFromJson(Map<String, dynamic> json) {
         ? null
         : JoinInstruction.fromJson(
             json['JoinInstruction'] as Map<String, dynamic>),
-    physicalTableId: json['PhysicalTableId'] as String,
+    physicalTableId: json['PhysicalTableId'] as String?,
   );
 }
 
@@ -2420,23 +2247,15 @@ ManifestFileLocation _$ManifestFileLocationFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ManifestFileLocationToJson(
-    ManifestFileLocation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Bucket', instance.bucket);
-  writeNotNull('Key', instance.key);
-  return val;
-}
+        ManifestFileLocation instance) =>
+    <String, dynamic>{
+      'Bucket': instance.bucket,
+      'Key': instance.key,
+    };
 
 MarginStyle _$MarginStyleFromJson(Map<String, dynamic> json) {
   return MarginStyle(
-    show: json['Show'] as bool,
+    show: json['Show'] as bool?,
   );
 }
 
@@ -2461,20 +2280,12 @@ MariaDbParameters _$MariaDbParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MariaDbParametersToJson(MariaDbParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$MariaDbParametersToJson(MariaDbParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 MySqlParameters _$MySqlParametersFromJson(Map<String, dynamic> json) {
   return MySqlParameters(
@@ -2484,24 +2295,16 @@ MySqlParameters _$MySqlParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MySqlParametersToJson(MySqlParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$MySqlParametersToJson(MySqlParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 NamespaceError _$NamespaceErrorFromJson(Map<String, dynamic> json) {
   return NamespaceError(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$NamespaceErrorTypeEnumMap, json['Type']),
   );
 }
@@ -2513,13 +2316,13 @@ const _$NamespaceErrorTypeEnumMap = {
 
 NamespaceInfoV2 _$NamespaceInfoV2FromJson(Map<String, dynamic> json) {
   return NamespaceInfoV2(
-    arn: json['Arn'] as String,
-    capacityRegion: json['CapacityRegion'] as String,
+    arn: json['Arn'] as String?,
+    capacityRegion: json['CapacityRegion'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$NamespaceStatusEnumMap, json['CreationStatus']),
     identityStore:
         _$enumDecodeNullable(_$IdentityStoreEnumMap, json['IdentityStore']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     namespaceError: json['NamespaceError'] == null
         ? null
         : NamespaceError.fromJson(
@@ -2535,25 +2338,17 @@ OracleParameters _$OracleParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OracleParametersToJson(OracleParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$OracleParametersToJson(OracleParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 OutputColumn _$OutputColumnFromJson(Map<String, dynamic> json) {
   return OutputColumn(
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
     type: _$enumDecodeNullable(_$ColumnDataTypeEnumMap, json['Type']),
   );
 }
@@ -2568,13 +2363,13 @@ Map<String, dynamic> _$ParametersToJson(Parameters instance) {
   }
 
   writeNotNull('DateTimeParameters',
-      instance.dateTimeParameters?.map((e) => e?.toJson())?.toList());
+      instance.dateTimeParameters?.map((e) => e.toJson()).toList());
   writeNotNull('DecimalParameters',
-      instance.decimalParameters?.map((e) => e?.toJson())?.toList());
+      instance.decimalParameters?.map((e) => e.toJson()).toList());
   writeNotNull('IntegerParameters',
-      instance.integerParameters?.map((e) => e?.toJson())?.toList());
+      instance.integerParameters?.map((e) => e.toJson()).toList());
   writeNotNull('StringParameters',
-      instance.stringParameters?.map((e) => e?.toJson())?.toList());
+      instance.stringParameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -2617,20 +2412,12 @@ PostgreSqlParameters _$PostgreSqlParametersFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PostgreSqlParametersToJson(
-    PostgreSqlParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+        PostgreSqlParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 PrestoParameters _$PrestoParametersFromJson(Map<String, dynamic> json) {
   return PrestoParameters(
@@ -2640,40 +2427,25 @@ PrestoParameters _$PrestoParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$PrestoParametersToJson(PrestoParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Catalog', instance.catalog);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$PrestoParametersToJson(PrestoParameters instance) =>
+    <String, dynamic>{
+      'Catalog': instance.catalog,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 ProjectOperation _$ProjectOperationFromJson(Map<String, dynamic> json) {
   return ProjectOperation(
-    projectedColumns:
-        (json['ProjectedColumns'] as List)?.map((e) => e as String)?.toList(),
+    projectedColumns: (json['ProjectedColumns'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$ProjectOperationToJson(ProjectOperation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ProjectedColumns', instance.projectedColumns);
-  return val;
-}
+Map<String, dynamic> _$ProjectOperationToJson(ProjectOperation instance) =>
+    <String, dynamic>{
+      'ProjectedColumns': instance.projectedColumns,
+    };
 
 QueueInfo _$QueueInfoFromJson(Map<String, dynamic> json) {
   return QueueInfo(
@@ -2689,31 +2461,25 @@ RdsParameters _$RdsParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RdsParametersToJson(RdsParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('InstanceId', instance.instanceId);
-  return val;
-}
+Map<String, dynamic> _$RdsParametersToJson(RdsParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'InstanceId': instance.instanceId,
+    };
 
 RedshiftParameters _$RedshiftParametersFromJson(Map<String, dynamic> json) {
   return RedshiftParameters(
     database: json['Database'] as String,
-    clusterId: json['ClusterId'] as String,
-    host: json['Host'] as String,
-    port: json['Port'] as int,
+    clusterId: json['ClusterId'] as String?,
+    host: json['Host'] as String?,
+    port: json['Port'] as int?,
   );
 }
 
 Map<String, dynamic> _$RedshiftParametersToJson(RedshiftParameters instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Database': instance.database,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2721,7 +2487,6 @@ Map<String, dynamic> _$RedshiftParametersToJson(RedshiftParameters instance) {
     }
   }
 
-  writeNotNull('Database', instance.database);
   writeNotNull('ClusterId', instance.clusterId);
   writeNotNull('Host', instance.host);
   writeNotNull('Port', instance.port);
@@ -2730,30 +2495,33 @@ Map<String, dynamic> _$RedshiftParametersToJson(RedshiftParameters instance) {
 
 RegisterUserResponse _$RegisterUserResponseFromJson(Map<String, dynamic> json) {
   return RegisterUserResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     user: json['User'] == null
         ? null
         : User.fromJson(json['User'] as Map<String, dynamic>),
-    userInvitationUrl: json['UserInvitationUrl'] as String,
+    userInvitationUrl: json['UserInvitationUrl'] as String?,
   );
 }
 
 RelationalTable _$RelationalTableFromJson(Map<String, dynamic> json) {
   return RelationalTable(
     dataSourceArn: json['DataSourceArn'] as String,
-    inputColumns: (json['InputColumns'] as List)
-        ?.map((e) =>
-            e == null ? null : InputColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputColumns: (json['InputColumns'] as List<dynamic>)
+        .map((e) => InputColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
     name: json['Name'] as String,
-    catalog: json['Catalog'] as String,
-    schema: json['Schema'] as String,
+    catalog: json['Catalog'] as String?,
+    schema: json['Schema'] as String?,
   );
 }
 
 Map<String, dynamic> _$RelationalTableToJson(RelationalTable instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataSourceArn': instance.dataSourceArn,
+    'InputColumns': instance.inputColumns.map((e) => e.toJson()).toList(),
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2761,10 +2529,6 @@ Map<String, dynamic> _$RelationalTableToJson(RelationalTable instance) {
     }
   }
 
-  writeNotNull('DataSourceArn', instance.dataSourceArn);
-  writeNotNull(
-      'InputColumns', instance.inputColumns?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Name', instance.name);
   writeNotNull('Catalog', instance.catalog);
   writeNotNull('Schema', instance.schema);
   return val;
@@ -2779,55 +2543,40 @@ RenameColumnOperation _$RenameColumnOperationFromJson(
 }
 
 Map<String, dynamic> _$RenameColumnOperationToJson(
-    RenameColumnOperation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ColumnName', instance.columnName);
-  writeNotNull('NewColumnName', instance.newColumnName);
-  return val;
-}
+        RenameColumnOperation instance) =>
+    <String, dynamic>{
+      'ColumnName': instance.columnName,
+      'NewColumnName': instance.newColumnName,
+    };
 
 ResourcePermission _$ResourcePermissionFromJson(Map<String, dynamic> json) {
   return ResourcePermission(
-    actions: (json['Actions'] as List)?.map((e) => e as String)?.toList(),
+    actions:
+        (json['Actions'] as List<dynamic>).map((e) => e as String).toList(),
     principal: json['Principal'] as String,
   );
 }
 
-Map<String, dynamic> _$ResourcePermissionToJson(ResourcePermission instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Actions', instance.actions);
-  writeNotNull('Principal', instance.principal);
-  return val;
-}
+Map<String, dynamic> _$ResourcePermissionToJson(ResourcePermission instance) =>
+    <String, dynamic>{
+      'Actions': instance.actions,
+      'Principal': instance.principal,
+    };
 
 RestoreAnalysisResponse _$RestoreAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return RestoreAnalysisResponse(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 RowInfo _$RowInfoFromJson(Map<String, dynamic> json) {
   return RowInfo(
-    rowsDropped: json['RowsDropped'] as int,
-    rowsIngested: json['RowsIngested'] as int,
+    rowsDropped: json['RowsDropped'] as int?,
+    rowsIngested: json['RowsIngested'] as int?,
   );
 }
 
@@ -2835,15 +2584,19 @@ RowLevelPermissionDataSet _$RowLevelPermissionDataSetFromJson(
     Map<String, dynamic> json) {
   return RowLevelPermissionDataSet(
     arn: json['Arn'] as String,
-    permissionPolicy: _$enumDecodeNullable(
+    permissionPolicy: _$enumDecode(
         _$RowLevelPermissionPolicyEnumMap, json['PermissionPolicy']),
-    namespace: json['Namespace'] as String,
+    namespace: json['Namespace'] as String?,
   );
 }
 
 Map<String, dynamic> _$RowLevelPermissionDataSetToJson(
     RowLevelPermissionDataSet instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Arn': instance.arn,
+    'PermissionPolicy':
+        _$RowLevelPermissionPolicyEnumMap[instance.permissionPolicy],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2851,9 +2604,6 @@ Map<String, dynamic> _$RowLevelPermissionDataSetToJson(
     }
   }
 
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('PermissionPolicy',
-      _$RowLevelPermissionPolicyEnumMap[instance.permissionPolicy]);
   writeNotNull('Namespace', instance.namespace);
   return val;
 }
@@ -2865,33 +2615,22 @@ const _$RowLevelPermissionPolicyEnumMap = {
 
 S3Parameters _$S3ParametersFromJson(Map<String, dynamic> json) {
   return S3Parameters(
-    manifestFileLocation: json['ManifestFileLocation'] == null
-        ? null
-        : ManifestFileLocation.fromJson(
-            json['ManifestFileLocation'] as Map<String, dynamic>),
+    manifestFileLocation: ManifestFileLocation.fromJson(
+        json['ManifestFileLocation'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$S3ParametersToJson(S3Parameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ManifestFileLocation', instance.manifestFileLocation?.toJson());
-  return val;
-}
+Map<String, dynamic> _$S3ParametersToJson(S3Parameters instance) =>
+    <String, dynamic>{
+      'ManifestFileLocation': instance.manifestFileLocation.toJson(),
+    };
 
 S3Source _$S3SourceFromJson(Map<String, dynamic> json) {
   return S3Source(
     dataSourceArn: json['DataSourceArn'] as String,
-    inputColumns: (json['InputColumns'] as List)
-        ?.map((e) =>
-            e == null ? null : InputColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputColumns: (json['InputColumns'] as List<dynamic>)
+        .map((e) => InputColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
     uploadSettings: json['UploadSettings'] == null
         ? null
         : UploadSettings.fromJson(
@@ -2900,7 +2639,10 @@ S3Source _$S3SourceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$S3SourceToJson(S3Source instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataSourceArn': instance.dataSourceArn,
+    'InputColumns': instance.inputColumns.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2908,9 +2650,6 @@ Map<String, dynamic> _$S3SourceToJson(S3Source instance) {
     }
   }
 
-  writeNotNull('DataSourceArn', instance.dataSourceArn);
-  writeNotNull(
-      'InputColumns', instance.inputColumns?.map((e) => e?.toJson())?.toList());
   writeNotNull('UploadSettings', instance.uploadSettings?.toJson());
   return val;
 }
@@ -2918,28 +2657,24 @@ Map<String, dynamic> _$S3SourceToJson(S3Source instance) {
 SearchAnalysesResponse _$SearchAnalysesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchAnalysesResponse(
-    analysisSummaryList: (json['AnalysisSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnalysisSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisSummaryList: (json['AnalysisSummaryList'] as List<dynamic>?)
+        ?.map((e) => AnalysisSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 SearchDashboardsResponse _$SearchDashboardsResponseFromJson(
     Map<String, dynamic> json) {
   return SearchDashboardsResponse(
-    dashboardSummaryList: (json['DashboardSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DashboardSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardSummaryList: (json['DashboardSummaryList'] as List<dynamic>?)
+        ?.map((e) => DashboardSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -2950,23 +2685,15 @@ ServiceNowParameters _$ServiceNowParametersFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ServiceNowParametersToJson(
-    ServiceNowParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SiteBaseUrl', instance.siteBaseUrl);
-  return val;
-}
+        ServiceNowParameters instance) =>
+    <String, dynamic>{
+      'SiteBaseUrl': instance.siteBaseUrl,
+    };
 
 Sheet _$SheetFromJson(Map<String, dynamic> json) {
   return Sheet(
-    name: json['Name'] as String,
-    sheetId: json['SheetId'] as String,
+    name: json['Name'] as String?,
+    sheetId: json['SheetId'] as String?,
   );
 }
 
@@ -3022,20 +2749,13 @@ SnowflakeParameters _$SnowflakeParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SnowflakeParametersToJson(SnowflakeParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Warehouse', instance.warehouse);
-  return val;
-}
+Map<String, dynamic> _$SnowflakeParametersToJson(
+        SnowflakeParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Warehouse': instance.warehouse,
+    };
 
 SparkParameters _$SparkParametersFromJson(Map<String, dynamic> json) {
   return SparkParameters(
@@ -3044,19 +2764,11 @@ SparkParameters _$SparkParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SparkParametersToJson(SparkParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$SparkParametersToJson(SparkParameters instance) =>
+    <String, dynamic>{
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 SqlServerParameters _$SqlServerParametersFromJson(Map<String, dynamic> json) {
   return SqlServerParameters(
@@ -3066,24 +2778,17 @@ SqlServerParameters _$SqlServerParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SqlServerParametersToJson(SqlServerParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$SqlServerParametersToJson(
+        SqlServerParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 SslProperties _$SslPropertiesFromJson(Map<String, dynamic> json) {
   return SslProperties(
-    disableSsl: json['DisableSsl'] as bool,
+    disableSsl: json['DisableSsl'] as bool?,
   );
 }
 
@@ -3100,19 +2805,11 @@ Map<String, dynamic> _$SslPropertiesToJson(SslProperties instance) {
   return val;
 }
 
-Map<String, dynamic> _$StringParameterToJson(StringParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$StringParameterToJson(StringParameter instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values,
+    };
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
@@ -3121,59 +2818,41 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagColumnOperation _$TagColumnOperationFromJson(Map<String, dynamic> json) {
   return TagColumnOperation(
     columnName: json['ColumnName'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) =>
-            e == null ? null : ColumnTag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>)
+        .map((e) => ColumnTag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$TagColumnOperationToJson(TagColumnOperation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ColumnName', instance.columnName);
-  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$TagColumnOperationToJson(TagColumnOperation instance) =>
+    <String, dynamic>{
+      'ColumnName': instance.columnName,
+      'Tags': instance.tags.map((e) => e.toJson()).toList(),
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 Template _$TemplateFromJson(Map<String, dynamic> json) {
   return Template(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
-    templateId: json['TemplateId'] as String,
+    name: json['Name'] as String?,
+    templateId: json['TemplateId'] as String?,
     version: json['Version'] == null
         ? null
         : TemplateVersion.fromJson(json['Version'] as Map<String, dynamic>),
@@ -3182,15 +2861,15 @@ Template _$TemplateFromJson(Map<String, dynamic> json) {
 
 TemplateAlias _$TemplateAliasFromJson(Map<String, dynamic> json) {
   return TemplateAlias(
-    aliasName: json['AliasName'] as String,
-    arn: json['Arn'] as String,
-    templateVersionNumber: json['TemplateVersionNumber'] as int,
+    aliasName: json['AliasName'] as String?,
+    arn: json['Arn'] as String?,
+    templateVersionNumber: json['TemplateVersionNumber'] as int?,
   );
 }
 
 TemplateError _$TemplateErrorFromJson(Map<String, dynamic> json) {
   return TemplateError(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$TemplateErrorTypeEnumMap, json['Type']),
   );
 }
@@ -3203,20 +2882,12 @@ const _$TemplateErrorTypeEnumMap = {
 };
 
 Map<String, dynamic> _$TemplateSourceAnalysisToJson(
-    TemplateSourceAnalysis instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  writeNotNull('DataSetReferences',
-      instance.dataSetReferences?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        TemplateSourceAnalysis instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+      'DataSetReferences':
+          instance.dataSetReferences.map((e) => e.toJson()).toList(),
+    };
 
 Map<String, dynamic> _$TemplateSourceEntityToJson(
     TemplateSourceEntity instance) {
@@ -3234,64 +2905,51 @@ Map<String, dynamic> _$TemplateSourceEntityToJson(
 }
 
 Map<String, dynamic> _$TemplateSourceTemplateToJson(
-    TemplateSourceTemplate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Arn', instance.arn);
-  return val;
-}
+        TemplateSourceTemplate instance) =>
+    <String, dynamic>{
+      'Arn': instance.arn,
+    };
 
 TemplateSummary _$TemplateSummaryFromJson(Map<String, dynamic> json) {
   return TemplateSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    latestVersionNumber: json['LatestVersionNumber'] as int,
-    name: json['Name'] as String,
-    templateId: json['TemplateId'] as String,
+    latestVersionNumber: json['LatestVersionNumber'] as int?,
+    name: json['Name'] as String?,
+    templateId: json['TemplateId'] as String?,
   );
 }
 
 TemplateVersion _$TemplateVersionFromJson(Map<String, dynamic> json) {
   return TemplateVersion(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    dataSetConfigurations: (json['DataSetConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSetConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    description: json['Description'] as String,
-    errors: (json['Errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TemplateError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sheets: (json['Sheets'] as List)
-        ?.map(
-            (e) => e == null ? null : Sheet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    sourceEntityArn: json['SourceEntityArn'] as String,
+    dataSetConfigurations: (json['DataSetConfigurations'] as List<dynamic>?)
+        ?.map((e) => DataSetConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    description: json['Description'] as String?,
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => TemplateError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sheets: (json['Sheets'] as List<dynamic>?)
+        ?.map((e) => Sheet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    sourceEntityArn: json['SourceEntityArn'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    themeArn: json['ThemeArn'] as String,
-    versionNumber: json['VersionNumber'] as int,
+    themeArn: json['ThemeArn'] as String?,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
 TemplateVersionSummary _$TemplateVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return TemplateVersionSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    versionNumber: json['VersionNumber'] as int,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
@@ -3303,29 +2961,21 @@ TeradataParameters _$TeradataParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TeradataParametersToJson(TeradataParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Database', instance.database);
-  writeNotNull('Host', instance.host);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$TeradataParametersToJson(TeradataParameters instance) =>
+    <String, dynamic>{
+      'Database': instance.database,
+      'Host': instance.host,
+      'Port': instance.port,
+    };
 
 Theme _$ThemeFromJson(Map<String, dynamic> json) {
   return Theme(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
-    themeId: json['ThemeId'] as String,
+    name: json['Name'] as String?,
+    themeId: json['ThemeId'] as String?,
     type: _$enumDecodeNullable(_$ThemeTypeEnumMap, json['Type']),
     version: json['Version'] == null
         ? null
@@ -3341,9 +2991,9 @@ const _$ThemeTypeEnumMap = {
 
 ThemeAlias _$ThemeAliasFromJson(Map<String, dynamic> json) {
   return ThemeAlias(
-    aliasName: json['AliasName'] as String,
-    arn: json['Arn'] as String,
-    themeVersionNumber: json['ThemeVersionNumber'] as int,
+    aliasName: json['AliasName'] as String?,
+    arn: json['Arn'] as String?,
+    themeVersionNumber: json['ThemeVersionNumber'] as int?,
   );
 }
 
@@ -3380,7 +3030,7 @@ Map<String, dynamic> _$ThemeConfigurationToJson(ThemeConfiguration instance) {
 
 ThemeError _$ThemeErrorFromJson(Map<String, dynamic> json) {
   return ThemeError(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     type: _$enumDecodeNullable(_$ThemeErrorTypeEnumMap, json['Type']),
   );
 }
@@ -3391,42 +3041,41 @@ const _$ThemeErrorTypeEnumMap = {
 
 ThemeSummary _$ThemeSummaryFromJson(Map<String, dynamic> json) {
   return ThemeSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    latestVersionNumber: json['LatestVersionNumber'] as int,
-    name: json['Name'] as String,
-    themeId: json['ThemeId'] as String,
+    latestVersionNumber: json['LatestVersionNumber'] as int?,
+    name: json['Name'] as String?,
+    themeId: json['ThemeId'] as String?,
   );
 }
 
 ThemeVersion _$ThemeVersionFromJson(Map<String, dynamic> json) {
   return ThemeVersion(
-    arn: json['Arn'] as String,
-    baseThemeId: json['BaseThemeId'] as String,
+    arn: json['Arn'] as String?,
+    baseThemeId: json['BaseThemeId'] as String?,
     configuration: json['Configuration'] == null
         ? null
         : ThemeConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    errors: (json['Errors'] as List)
-        ?.map((e) =>
-            e == null ? null : ThemeError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    description: json['Description'] as String?,
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => ThemeError.fromJson(e as Map<String, dynamic>))
+        .toList(),
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    versionNumber: json['VersionNumber'] as int,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
 ThemeVersionSummary _$ThemeVersionSummaryFromJson(Map<String, dynamic> json) {
   return ThemeVersionSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
-    versionNumber: json['VersionNumber'] as int,
+    versionNumber: json['VersionNumber'] as int?,
   );
 }
 
@@ -3533,38 +3182,30 @@ TwitterParameters _$TwitterParametersFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TwitterParametersToJson(TwitterParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MaxRows', instance.maxRows);
-  writeNotNull('Query', instance.query);
-  return val;
-}
+Map<String, dynamic> _$TwitterParametersToJson(TwitterParameters instance) =>
+    <String, dynamic>{
+      'MaxRows': instance.maxRows,
+      'Query': instance.query,
+    };
 
 UIColorPalette _$UIColorPaletteFromJson(Map<String, dynamic> json) {
   return UIColorPalette(
-    accent: json['Accent'] as String,
-    accentForeground: json['AccentForeground'] as String,
-    danger: json['Danger'] as String,
-    dangerForeground: json['DangerForeground'] as String,
-    dimension: json['Dimension'] as String,
-    dimensionForeground: json['DimensionForeground'] as String,
-    measure: json['Measure'] as String,
-    measureForeground: json['MeasureForeground'] as String,
-    primaryBackground: json['PrimaryBackground'] as String,
-    primaryForeground: json['PrimaryForeground'] as String,
-    secondaryBackground: json['SecondaryBackground'] as String,
-    secondaryForeground: json['SecondaryForeground'] as String,
-    success: json['Success'] as String,
-    successForeground: json['SuccessForeground'] as String,
-    warning: json['Warning'] as String,
-    warningForeground: json['WarningForeground'] as String,
+    accent: json['Accent'] as String?,
+    accentForeground: json['AccentForeground'] as String?,
+    danger: json['Danger'] as String?,
+    dangerForeground: json['DangerForeground'] as String?,
+    dimension: json['Dimension'] as String?,
+    dimensionForeground: json['DimensionForeground'] as String?,
+    measure: json['Measure'] as String?,
+    measureForeground: json['MeasureForeground'] as String?,
+    primaryBackground: json['PrimaryBackground'] as String?,
+    primaryForeground: json['PrimaryForeground'] as String?,
+    secondaryBackground: json['SecondaryBackground'] as String?,
+    secondaryForeground: json['SecondaryForeground'] as String?,
+    success: json['Success'] as String?,
+    successForeground: json['SuccessForeground'] as String?,
+    warning: json['Warning'] as String?,
+    warningForeground: json['WarningForeground'] as String?,
   );
 }
 
@@ -3599,8 +3240,8 @@ Map<String, dynamic> _$UIColorPaletteToJson(UIColorPalette instance) {
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -3611,44 +3252,42 @@ UpdateAccountCustomizationResponse _$UpdateAccountCustomizationResponseFromJson(
         ? null
         : AccountCustomization.fromJson(
             json['AccountCustomization'] as Map<String, dynamic>),
-    arn: json['Arn'] as String,
-    awsAccountId: json['AwsAccountId'] as String,
-    namespace: json['Namespace'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    awsAccountId: json['AwsAccountId'] as String?,
+    namespace: json['Namespace'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateAccountSettingsResponse _$UpdateAccountSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAccountSettingsResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateAnalysisPermissionsResponse _$UpdateAnalysisPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAnalysisPermissionsResponse(
-    analysisArn: json['AnalysisArn'] as String,
-    analysisId: json['AnalysisId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisArn: json['AnalysisArn'] as String?,
+    analysisId: json['AnalysisId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateAnalysisResponse _$UpdateAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAnalysisResponse(
-    analysisId: json['AnalysisId'] as String,
-    arn: json['Arn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    analysisId: json['AnalysisId'] as String?,
+    arn: json['Arn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     updateStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['UpdateStatus']),
   );
@@ -3657,15 +3296,13 @@ UpdateAnalysisResponse _$UpdateAnalysisResponseFromJson(
 UpdateDashboardPermissionsResponse _$UpdateDashboardPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDashboardPermissionsResponse(
-    dashboardArn: json['DashboardArn'] as String,
-    dashboardId: json['DashboardId'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardArn: json['DashboardArn'] as String?,
+    dashboardId: json['DashboardId'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
@@ -3673,65 +3310,65 @@ UpdateDashboardPublishedVersionResponse
     _$UpdateDashboardPublishedVersionResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateDashboardPublishedVersionResponse(
-    dashboardArn: json['DashboardArn'] as String,
-    dashboardId: json['DashboardId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dashboardArn: json['DashboardArn'] as String?,
+    dashboardId: json['DashboardId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateDashboardResponse _$UpdateDashboardResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDashboardResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    dashboardId: json['DashboardId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    versionArn: json['VersionArn'] as String,
+    dashboardId: json['DashboardId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 UpdateDataSetPermissionsResponse _$UpdateDataSetPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSetPermissionsResponse(
-    dataSetArn: json['DataSetArn'] as String,
-    dataSetId: json['DataSetId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSetArn: json['DataSetArn'] as String?,
+    dataSetId: json['DataSetId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSetResponse(
-    arn: json['Arn'] as String,
-    dataSetId: json['DataSetId'] as String,
-    ingestionArn: json['IngestionArn'] as String,
-    ingestionId: json['IngestionId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dataSetId: json['DataSetId'] as String?,
+    ingestionArn: json['IngestionArn'] as String?,
+    ingestionId: json['IngestionId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateDataSourcePermissionsResponse
     _$UpdateDataSourcePermissionsResponseFromJson(Map<String, dynamic> json) {
   return UpdateDataSourcePermissionsResponse(
-    dataSourceArn: json['DataSourceArn'] as String,
-    dataSourceId: json['DataSourceId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    dataSourceArn: json['DataSourceArn'] as String?,
+    dataSourceId: json['DataSourceId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateDataSourceResponse _$UpdateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSourceResponse(
-    arn: json['Arn'] as String,
-    dataSourceId: json['DataSourceId'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    arn: json['Arn'] as String?,
+    dataSourceId: json['DataSourceId'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     updateStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['UpdateStatus']),
   );
@@ -3742,32 +3379,33 @@ UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateIAMPolicyAssignmentResponse _$UpdateIAMPolicyAssignmentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateIAMPolicyAssignmentResponse(
-    assignmentId: json['AssignmentId'] as String,
-    assignmentName: json['AssignmentName'] as String,
+    assignmentId: json['AssignmentId'] as String?,
+    assignmentName: json['AssignmentName'] as String?,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    identities: (json['Identities'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    identities: (json['Identities'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    policyArn: json['PolicyArn'] as String,
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    policyArn: json['PolicyArn'] as String?,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
   );
 }
 
 UpdateTemplateAliasResponse _$UpdateTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTemplateAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     templateAlias: json['TemplateAlias'] == null
         ? null
         : TemplateAlias.fromJson(json['TemplateAlias'] as Map<String, dynamic>),
@@ -3777,36 +3415,34 @@ UpdateTemplateAliasResponse _$UpdateTemplateAliasResponseFromJson(
 UpdateTemplatePermissionsResponse _$UpdateTemplatePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTemplatePermissionsResponse(
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateArn: json['TemplateArn'] as String,
-    templateId: json['TemplateId'] as String,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateArn: json['TemplateArn'] as String?,
+    templateId: json['TemplateId'] as String?,
   );
 }
 
 UpdateTemplateResponse _$UpdateTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTemplateResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    templateId: json['TemplateId'] as String,
-    versionArn: json['VersionArn'] as String,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    templateId: json['TemplateId'] as String?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 UpdateThemeAliasResponse _$UpdateThemeAliasResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateThemeAliasResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     themeAlias: json['ThemeAlias'] == null
         ? null
         : ThemeAlias.fromJson(json['ThemeAlias'] as Map<String, dynamic>),
@@ -3816,34 +3452,32 @@ UpdateThemeAliasResponse _$UpdateThemeAliasResponseFromJson(
 UpdateThemePermissionsResponse _$UpdateThemePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateThemePermissionsResponse(
-    permissions: (json['Permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourcePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeArn: json['ThemeArn'] as String,
-    themeId: json['ThemeId'] as String,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeArn: json['ThemeArn'] as String?,
+    themeId: json['ThemeId'] as String?,
   );
 }
 
 UpdateThemeResponse _$UpdateThemeResponseFromJson(Map<String, dynamic> json) {
   return UpdateThemeResponse(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     creationStatus:
         _$enumDecodeNullable(_$ResourceStatusEnumMap, json['CreationStatus']),
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
-    themeId: json['ThemeId'] as String,
-    versionArn: json['VersionArn'] as String,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
+    themeId: json['ThemeId'] as String?,
+    versionArn: json['VersionArn'] as String?,
   );
 }
 
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
   return UpdateUserResponse(
-    requestId: json['RequestId'] as String,
-    status: json['Status'] as int,
+    requestId: json['RequestId'] as String?,
+    status: json['Status'] as int?,
     user: json['User'] == null
         ? null
         : User.fromJson(json['User'] as Map<String, dynamic>),
@@ -3852,10 +3486,10 @@ UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
 
 UploadSettings _$UploadSettingsFromJson(Map<String, dynamic> json) {
   return UploadSettings(
-    containsHeader: json['ContainsHeader'] as bool,
-    delimiter: json['Delimiter'] as String,
+    containsHeader: json['ContainsHeader'] as bool?,
+    delimiter: json['Delimiter'] as String?,
     format: _$enumDecodeNullable(_$FileFormatEnumMap, json['Format']),
-    startFromRow: json['StartFromRow'] as int,
+    startFromRow: json['StartFromRow'] as int?,
     textQualifier:
         _$enumDecodeNullable(_$TextQualifierEnumMap, json['TextQualifier']),
   );
@@ -3894,15 +3528,15 @@ const _$TextQualifierEnumMap = {
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-    active: json['Active'] as bool,
-    arn: json['Arn'] as String,
-    customPermissionsName: json['CustomPermissionsName'] as String,
-    email: json['Email'] as String,
+    active: json['Active'] as bool?,
+    arn: json['Arn'] as String?,
+    customPermissionsName: json['CustomPermissionsName'] as String?,
+    email: json['Email'] as String?,
     identityType:
         _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
-    principalId: json['PrincipalId'] as String,
+    principalId: json['PrincipalId'] as String?,
     role: _$enumDecodeNullable(_$UserRoleEnumMap, json['Role']),
-    userName: json['UserName'] as String,
+    userName: json['UserName'] as String?,
   );
 }
 
@@ -3927,15 +3561,7 @@ VpcConnectionProperties _$VpcConnectionPropertiesFromJson(
 }
 
 Map<String, dynamic> _$VpcConnectionPropertiesToJson(
-    VpcConnectionProperties instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('VpcConnectionArn', instance.vpcConnectionArn);
-  return val;
-}
+        VpcConnectionProperties instance) =>
+    <String, dynamic>{
+      'VpcConnectionArn': instance.vpcConnectionArn,
+    };

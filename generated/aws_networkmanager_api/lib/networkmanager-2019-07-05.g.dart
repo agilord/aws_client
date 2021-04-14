@@ -8,8 +8,8 @@ part of 'networkmanager-2019-07-05.dart';
 
 AWSLocation _$AWSLocationFromJson(Map<String, dynamic> json) {
   return AWSLocation(
-    subnetArn: json['SubnetArn'] as String,
-    zone: json['Zone'] as String,
+    subnetArn: json['SubnetArn'] as String?,
+    zone: json['Zone'] as String?,
   );
 }
 
@@ -62,8 +62,8 @@ AssociateTransitGatewayConnectPeerResponse
 
 Bandwidth _$BandwidthFromJson(Map<String, dynamic> json) {
   return Bandwidth(
-    downloadSpeed: json['DownloadSpeed'] as int,
-    uploadSpeed: json['UploadSpeed'] as int,
+    downloadSpeed: json['DownloadSpeed'] as int?,
+    uploadSpeed: json['UploadSpeed'] as int?,
   );
 }
 
@@ -83,52 +83,57 @@ Map<String, dynamic> _$BandwidthToJson(Bandwidth instance) {
 
 Connection _$ConnectionFromJson(Map<String, dynamic> json) {
   return Connection(
-    connectedDeviceId: json['ConnectedDeviceId'] as String,
-    connectedLinkId: json['ConnectedLinkId'] as String,
-    connectionArn: json['ConnectionArn'] as String,
-    connectionId: json['ConnectionId'] as String,
+    connectedDeviceId: json['ConnectedDeviceId'] as String?,
+    connectedLinkId: json['ConnectedLinkId'] as String?,
+    connectionArn: json['ConnectionArn'] as String?,
+    connectionId: json['ConnectionId'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    deviceId: json['DeviceId'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
-    linkId: json['LinkId'] as String,
+    description: json['Description'] as String?,
+    deviceId: json['DeviceId'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
+    linkId: json['LinkId'] as String?,
     state: _$enumDecodeNullable(_$ConnectionStateEnumMap, json['State']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ConnectionStateEnumMap = {
@@ -183,10 +188,10 @@ CreateSiteResponse _$CreateSiteResponseFromJson(Map<String, dynamic> json) {
 CustomerGatewayAssociation _$CustomerGatewayAssociationFromJson(
     Map<String, dynamic> json) {
   return CustomerGatewayAssociation(
-    customerGatewayArn: json['CustomerGatewayArn'] as String,
-    deviceId: json['DeviceId'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
-    linkId: json['LinkId'] as String,
+    customerGatewayArn: json['CustomerGatewayArn'] as String?,
+    deviceId: json['DeviceId'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
+    linkId: json['LinkId'] as String?,
     state: _$enumDecodeNullable(
         _$CustomerGatewayAssociationStateEnumMap, json['State']),
   );
@@ -254,12 +259,10 @@ DeregisterTransitGatewayResponse _$DeregisterTransitGatewayResponseFromJson(
 DescribeGlobalNetworksResponse _$DescribeGlobalNetworksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeGlobalNetworksResponse(
-    globalNetworks: (json['GlobalNetworks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GlobalNetwork.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    globalNetworks: (json['GlobalNetworks'] as List<dynamic>?)
+        ?.map((e) => GlobalNetwork.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -269,22 +272,22 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
         ? null
         : AWSLocation.fromJson(json['AWSLocation'] as Map<String, dynamic>),
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    deviceArn: json['DeviceArn'] as String,
-    deviceId: json['DeviceId'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
+    description: json['Description'] as String?,
+    deviceArn: json['DeviceArn'] as String?,
+    deviceId: json['DeviceId'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
     location: json['Location'] == null
         ? null
         : Location.fromJson(json['Location'] as Map<String, dynamic>),
-    model: json['Model'] as String,
-    serialNumber: json['SerialNumber'] as String,
-    siteId: json['SiteId'] as String,
+    model: json['Model'] as String?,
+    serialNumber: json['SerialNumber'] as String?,
+    siteId: json['SiteId'] as String?,
     state: _$enumDecodeNullable(_$DeviceStateEnumMap, json['State']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    type: json['Type'] as String,
-    vendor: json['Vendor'] as String,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    type: json['Type'] as String?,
+    vendor: json['Vendor'] as String?,
   );
 }
 
@@ -331,11 +334,10 @@ DisassociateTransitGatewayConnectPeerResponse
 GetConnectionsResponse _$GetConnectionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectionsResponse(
-    connections: (json['Connections'] as List)
-        ?.map((e) =>
-            e == null ? null : Connection.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    connections: (json['Connections'] as List<dynamic>?)
+        ?.map((e) => Connection.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -343,54 +345,49 @@ GetCustomerGatewayAssociationsResponse
     _$GetCustomerGatewayAssociationsResponseFromJson(
         Map<String, dynamic> json) {
   return GetCustomerGatewayAssociationsResponse(
-    customerGatewayAssociations: (json['CustomerGatewayAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CustomerGatewayAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    customerGatewayAssociations:
+        (json['CustomerGatewayAssociations'] as List<dynamic>?)
+            ?.map((e) =>
+                CustomerGatewayAssociation.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetDevicesResponse _$GetDevicesResponseFromJson(Map<String, dynamic> json) {
   return GetDevicesResponse(
-    devices: (json['Devices'] as List)
-        ?.map((e) =>
-            e == null ? null : Device.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    devices: (json['Devices'] as List<dynamic>?)
+        ?.map((e) => Device.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetLinkAssociationsResponse _$GetLinkAssociationsResponseFromJson(
     Map<String, dynamic> json) {
   return GetLinkAssociationsResponse(
-    linkAssociations: (json['LinkAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LinkAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    linkAssociations: (json['LinkAssociations'] as List<dynamic>?)
+        ?.map((e) => LinkAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetLinksResponse _$GetLinksResponseFromJson(Map<String, dynamic> json) {
   return GetLinksResponse(
-    links: (json['Links'] as List)
-        ?.map(
-            (e) => e == null ? null : Link.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    links: (json['Links'] as List<dynamic>?)
+        ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetSitesResponse _$GetSitesResponseFromJson(Map<String, dynamic> json) {
   return GetSitesResponse(
-    nextToken: json['NextToken'] as String,
-    sites: (json['Sites'] as List)
-        ?.map(
-            (e) => e == null ? null : Site.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sites: (json['Sites'] as List<dynamic>?)
+        ?.map((e) => Site.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -398,14 +395,12 @@ GetTransitGatewayConnectPeerAssociationsResponse
     _$GetTransitGatewayConnectPeerAssociationsResponseFromJson(
         Map<String, dynamic> json) {
   return GetTransitGatewayConnectPeerAssociationsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     transitGatewayConnectPeerAssociations:
-        (json['TransitGatewayConnectPeerAssociations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : TransitGatewayConnectPeerAssociation.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['TransitGatewayConnectPeerAssociations'] as List<dynamic>?)
+            ?.map((e) => TransitGatewayConnectPeerAssociation.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -413,25 +408,25 @@ GetTransitGatewayRegistrationsResponse
     _$GetTransitGatewayRegistrationsResponseFromJson(
         Map<String, dynamic> json) {
   return GetTransitGatewayRegistrationsResponse(
-    nextToken: json['NextToken'] as String,
-    transitGatewayRegistrations: (json['TransitGatewayRegistrations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TransitGatewayRegistration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    transitGatewayRegistrations:
+        (json['TransitGatewayRegistrations'] as List<dynamic>?)
+            ?.map((e) =>
+                TransitGatewayRegistration.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 GlobalNetwork _$GlobalNetworkFromJson(Map<String, dynamic> json) {
   return GlobalNetwork(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    globalNetworkArn: json['GlobalNetworkArn'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
+    description: json['Description'] as String?,
+    globalNetworkArn: json['GlobalNetworkArn'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
     state: _$enumDecodeNullable(_$GlobalNetworkStateEnumMap, json['State']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -448,17 +443,17 @@ Link _$LinkFromJson(Map<String, dynamic> json) {
         ? null
         : Bandwidth.fromJson(json['Bandwidth'] as Map<String, dynamic>),
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
-    linkArn: json['LinkArn'] as String,
-    linkId: json['LinkId'] as String,
-    provider: json['Provider'] as String,
-    siteId: json['SiteId'] as String,
+    description: json['Description'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
+    linkArn: json['LinkArn'] as String?,
+    linkId: json['LinkId'] as String?,
+    provider: json['Provider'] as String?,
+    siteId: json['SiteId'] as String?,
     state: _$enumDecodeNullable(_$LinkStateEnumMap, json['State']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    type: json['Type'] as String,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    type: json['Type'] as String?,
   );
 }
 
@@ -471,11 +466,11 @@ const _$LinkStateEnumMap = {
 
 LinkAssociation _$LinkAssociationFromJson(Map<String, dynamic> json) {
   return LinkAssociation(
-    deviceId: json['DeviceId'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
+    deviceId: json['DeviceId'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
     linkAssociationState: _$enumDecodeNullable(
         _$LinkAssociationStateEnumMap, json['LinkAssociationState']),
-    linkId: json['LinkId'] as String,
+    linkId: json['LinkId'] as String?,
   );
 }
 
@@ -489,17 +484,17 @@ const _$LinkAssociationStateEnumMap = {
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Location _$LocationFromJson(Map<String, dynamic> json) {
   return Location(
-    address: json['Address'] as String,
-    latitude: json['Latitude'] as String,
-    longitude: json['Longitude'] as String,
+    address: json['Address'] as String?,
+    latitude: json['Latitude'] as String?,
+    longitude: json['Longitude'] as String?,
   );
 }
 
@@ -531,17 +526,17 @@ RegisterTransitGatewayResponse _$RegisterTransitGatewayResponseFromJson(
 Site _$SiteFromJson(Map<String, dynamic> json) {
   return Site(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
+    description: json['Description'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
     location: json['Location'] == null
         ? null
         : Location.fromJson(json['Location'] as Map<String, dynamic>),
-    siteArn: json['SiteArn'] as String,
-    siteId: json['SiteId'] as String,
+    siteArn: json['SiteArn'] as String?,
+    siteId: json['SiteId'] as String?,
     state: _$enumDecodeNullable(_$SiteStateEnumMap, json['State']),
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -554,8 +549,8 @@ const _$SiteStateEnumMap = {
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -580,13 +575,13 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 TransitGatewayConnectPeerAssociation
     _$TransitGatewayConnectPeerAssociationFromJson(Map<String, dynamic> json) {
   return TransitGatewayConnectPeerAssociation(
-    deviceId: json['DeviceId'] as String,
-    globalNetworkId: json['GlobalNetworkId'] as String,
-    linkId: json['LinkId'] as String,
+    deviceId: json['DeviceId'] as String?,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
+    linkId: json['LinkId'] as String?,
     state: _$enumDecodeNullable(
         _$TransitGatewayConnectPeerAssociationStateEnumMap, json['State']),
     transitGatewayConnectPeerArn:
-        json['TransitGatewayConnectPeerArn'] as String,
+        json['TransitGatewayConnectPeerArn'] as String?,
   );
 }
 
@@ -600,12 +595,12 @@ const _$TransitGatewayConnectPeerAssociationStateEnumMap = {
 TransitGatewayRegistration _$TransitGatewayRegistrationFromJson(
     Map<String, dynamic> json) {
   return TransitGatewayRegistration(
-    globalNetworkId: json['GlobalNetworkId'] as String,
+    globalNetworkId: json['GlobalNetworkId'] as String?,
     state: json['State'] == null
         ? null
         : TransitGatewayRegistrationStateReason.fromJson(
             json['State'] as Map<String, dynamic>),
-    transitGatewayArn: json['TransitGatewayArn'] as String,
+    transitGatewayArn: json['TransitGatewayArn'] as String?,
   );
 }
 
@@ -614,7 +609,7 @@ TransitGatewayRegistrationStateReason
   return TransitGatewayRegistrationStateReason(
     code: _$enumDecodeNullable(
         _$TransitGatewayRegistrationStateEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 

@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class Enum {
   final _s.RestXmlProtocol _protocol;
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -51,12 +56,13 @@ class Enum {
   }
 
   Future<void> operationName1({
-    RESTJSONEnumType fooEnum,
-    RESTJSONEnumType headerEnum,
-    List<RESTJSONEnumType> listEnums,
+    RESTJSONEnumType? fooEnum,
+    RESTJSONEnumType? headerEnum,
+    List<RESTJSONEnumType>? listEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
@@ -70,16 +76,19 @@ class Enum {
 }
 
 class OutputShape {
-  final RESTJSONEnumType fooEnum;
-  final RESTJSONEnumType headerEnum;
-  final List<RESTJSONEnumType> listEnums;
+  final RESTJSONEnumType? fooEnum;
+  final RESTJSONEnumType? headerEnum;
+  final List<RESTJSONEnumType>? listEnums;
 
   OutputShape({
     this.fooEnum,
     this.headerEnum,
     this.listEnums,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final fooEnum = this.fooEnum;
+    final headerEnum = this.headerEnum;
+    final listEnums = this.listEnums;
     final $children = <_s.XmlNode>[
       if (fooEnum != null)
         _s.encodeXmlStringValue('FooEnum', fooEnum.toValue()),
@@ -87,8 +96,8 @@ class OutputShape {
         _s.XmlElement(
             _s.XmlName('ListEnums'),
             [],
-            listEnums.map(
-                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
+            listEnums
+                .map((e) => _s.encodeXmlStringValue('member', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -96,7 +105,7 @@ class OutputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -123,7 +132,6 @@ extension on RESTJSONEnumType {
       case RESTJSONEnumType.$1:
         return '1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -141,7 +149,7 @@ extension on String {
       case '1':
         return RESTJSONEnumType.$1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RESTJSONEnumType');
   }
 }
 

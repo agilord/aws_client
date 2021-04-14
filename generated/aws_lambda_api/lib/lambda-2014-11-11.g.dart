@@ -9,75 +9,80 @@ part of 'lambda-2014-11-11.dart';
 EventSourceConfiguration _$EventSourceConfigurationFromJson(
     Map<String, dynamic> json) {
   return EventSourceConfiguration(
-    batchSize: json['BatchSize'] as int,
-    eventSource: json['EventSource'] as String,
-    functionName: json['FunctionName'] as String,
-    isActive: json['IsActive'] as bool,
+    batchSize: json['BatchSize'] as int?,
+    eventSource: json['EventSource'] as String?,
+    functionName: json['FunctionName'] as String?,
+    isActive: json['IsActive'] as bool?,
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    role: json['Role'] as String,
-    status: json['Status'] as String,
-    uuid: json['UUID'] as String,
+    role: json['Role'] as String?,
+    status: json['Status'] as String?,
+    uuid: json['UUID'] as String?,
   );
 }
 
 FunctionCodeLocation _$FunctionCodeLocationFromJson(Map<String, dynamic> json) {
   return FunctionCodeLocation(
-    location: json['Location'] as String,
-    repositoryType: json['RepositoryType'] as String,
+    location: json['Location'] as String?,
+    repositoryType: json['RepositoryType'] as String?,
   );
 }
 
 FunctionConfiguration _$FunctionConfigurationFromJson(
     Map<String, dynamic> json) {
   return FunctionConfiguration(
-    codeSize: json['CodeSize'] as int,
-    configurationId: json['ConfigurationId'] as String,
-    description: json['Description'] as String,
-    functionARN: json['FunctionARN'] as String,
-    functionName: json['FunctionName'] as String,
-    handler: json['Handler'] as String,
+    codeSize: json['CodeSize'] as int?,
+    configurationId: json['ConfigurationId'] as String?,
+    description: json['Description'] as String?,
+    functionARN: json['FunctionARN'] as String?,
+    functionName: json['FunctionName'] as String?,
+    handler: json['Handler'] as String?,
     lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
-    memorySize: json['MemorySize'] as int,
+    memorySize: json['MemorySize'] as int?,
     mode: _$enumDecodeNullable(_$ModeEnumMap, json['Mode']),
-    role: json['Role'] as String,
+    role: json['Role'] as String?,
     runtime: _$enumDecodeNullable(_$RuntimeEnumMap, json['Runtime']),
-    timeout: json['Timeout'] as int,
+    timeout: json['Timeout'] as int?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ModeEnumMap = {
@@ -103,60 +108,57 @@ GetFunctionResponse _$GetFunctionResponseFromJson(Map<String, dynamic> json) {
 InvalidParameterValueException _$InvalidParameterValueExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidParameterValueException(
-    type: json['Type'] as String,
-    message: json['message'] as String,
+    type: json['Type'] as String?,
+    message: json['message'] as String?,
   );
 }
 
 InvalidRequestContentException _$InvalidRequestContentExceptionFromJson(
     Map<String, dynamic> json) {
   return InvalidRequestContentException(
-    type: json['Type'] as String,
-    message: json['message'] as String,
+    type: json['Type'] as String?,
+    message: json['message'] as String?,
   );
 }
 
 InvokeAsyncResponse _$InvokeAsyncResponseFromJson(Map<String, dynamic> json) {
   return InvokeAsyncResponse(
-    status: json['Status'] as int,
+    status: json['Status'] as int?,
   );
 }
 
 ListEventSourcesResponse _$ListEventSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventSourcesResponse(
-    eventSources: (json['EventSources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventSourceConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    eventSources: (json['EventSources'] as List<dynamic>?)
+        ?.map(
+            (e) => EventSourceConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListFunctionsResponse _$ListFunctionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListFunctionsResponse(
-    functions: (json['Functions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FunctionConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    functions: (json['Functions'] as List<dynamic>?)
+        ?.map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
     Map<String, dynamic> json) {
   return ResourceNotFoundException(
-    message: json['Message'] as String,
-    type: json['Type'] as String,
+    message: json['Message'] as String?,
+    type: json['Type'] as String?,
   );
 }
 
 ServiceException _$ServiceExceptionFromJson(Map<String, dynamic> json) {
   return ServiceException(
-    message: json['Message'] as String,
-    type: json['Type'] as String,
+    message: json['Message'] as String?,
+    type: json['Type'] as String?,
   );
 }

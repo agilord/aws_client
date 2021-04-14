@@ -9,30 +9,26 @@ part of 'personalize-runtime-2018-05-22.dart';
 GetPersonalizedRankingResponse _$GetPersonalizedRankingResponseFromJson(
     Map<String, dynamic> json) {
   return GetPersonalizedRankingResponse(
-    personalizedRanking: (json['personalizedRanking'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PredictedItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recommendationId: json['recommendationId'] as String,
+    personalizedRanking: (json['personalizedRanking'] as List<dynamic>?)
+        ?.map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recommendationId: json['recommendationId'] as String?,
   );
 }
 
 GetRecommendationsResponse _$GetRecommendationsResponseFromJson(
     Map<String, dynamic> json) {
   return GetRecommendationsResponse(
-    itemList: (json['itemList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PredictedItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recommendationId: json['recommendationId'] as String,
+    itemList: (json['itemList'] as List<dynamic>?)
+        ?.map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recommendationId: json['recommendationId'] as String?,
   );
 }
 
 PredictedItem _$PredictedItemFromJson(Map<String, dynamic> json) {
   return PredictedItem(
-    itemId: json['itemId'] as String,
-    score: (json['score'] as num)?.toDouble(),
+    itemId: json['itemId'] as String?,
+    score: (json['score'] as num?)?.toDouble(),
   );
 }

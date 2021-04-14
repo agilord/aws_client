@@ -9,13 +9,15 @@ part of 'appstream-2016-12-01.dart';
 AccessEndpoint _$AccessEndpointFromJson(Map<String, dynamic> json) {
   return AccessEndpoint(
     endpointType:
-        _$enumDecodeNullable(_$AccessEndpointTypeEnumMap, json['EndpointType']),
-    vpceId: json['VpceId'] as String,
+        _$enumDecode(_$AccessEndpointTypeEnumMap, json['EndpointType']),
+    vpceId: json['VpceId'] as String?,
   );
 }
 
 Map<String, dynamic> _$AccessEndpointToJson(AccessEndpoint instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'EndpointType': _$AccessEndpointTypeEnumMap[instance.endpointType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -23,42 +25,34 @@ Map<String, dynamic> _$AccessEndpointToJson(AccessEndpoint instance) {
     }
   }
 
-  writeNotNull(
-      'EndpointType', _$AccessEndpointTypeEnumMap[instance.endpointType]);
   writeNotNull('VpceId', instance.vpceId);
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AccessEndpointTypeEnumMap = {
@@ -67,20 +61,22 @@ const _$AccessEndpointTypeEnumMap = {
 
 Application _$ApplicationFromJson(Map<String, dynamic> json) {
   return Application(
-    displayName: json['DisplayName'] as String,
-    enabled: json['Enabled'] as bool,
-    iconURL: json['IconURL'] as String,
-    launchParameters: json['LaunchParameters'] as String,
-    launchPath: json['LaunchPath'] as String,
-    metadata: (json['Metadata'] as Map<String, dynamic>)?.map(
+    displayName: json['DisplayName'] as String?,
+    enabled: json['Enabled'] as bool?,
+    iconURL: json['IconURL'] as String?,
+    launchParameters: json['LaunchParameters'] as String?,
+    launchPath: json['LaunchPath'] as String?,
+    metadata: (json['Metadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 Map<String, dynamic> _$ApplicationSettingsToJson(ApplicationSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -88,7 +84,6 @@ Map<String, dynamic> _$ApplicationSettingsToJson(ApplicationSettings instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('SettingsGroup', instance.settingsGroup);
   return val;
 }
@@ -96,9 +91,9 @@ Map<String, dynamic> _$ApplicationSettingsToJson(ApplicationSettings instance) {
 ApplicationSettingsResponse _$ApplicationSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return ApplicationSettingsResponse(
-    enabled: json['Enabled'] as bool,
-    s3BucketName: json['S3BucketName'] as String,
-    settingsGroup: json['SettingsGroup'] as String,
+    enabled: json['Enabled'] as bool?,
+    s3BucketName: json['S3BucketName'] as String?,
+    settingsGroup: json['SettingsGroup'] as String?,
   );
 }
 
@@ -109,51 +104,41 @@ AssociateFleetResult _$AssociateFleetResultFromJson(Map<String, dynamic> json) {
 BatchAssociateUserStackResult _$BatchAssociateUserStackResultFromJson(
     Map<String, dynamic> json) {
   return BatchAssociateUserStackResult(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserStackAssociationError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) =>
+            UserStackAssociationError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDisassociateUserStackResult _$BatchDisassociateUserStackResultFromJson(
     Map<String, dynamic> json) {
   return BatchDisassociateUserStackResult(
-    errors: (json['errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserStackAssociationError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['errors'] as List<dynamic>?)
+        ?.map((e) =>
+            UserStackAssociationError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$ComputeCapacityToJson(ComputeCapacity instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DesiredInstances', instance.desiredInstances);
-  return val;
-}
+Map<String, dynamic> _$ComputeCapacityToJson(ComputeCapacity instance) =>
+    <String, dynamic>{
+      'DesiredInstances': instance.desiredInstances,
+    };
 
 ComputeCapacityStatus _$ComputeCapacityStatusFromJson(
     Map<String, dynamic> json) {
   return ComputeCapacityStatus(
     desired: json['Desired'] as int,
-    available: json['Available'] as int,
-    inUse: json['InUse'] as int,
-    running: json['Running'] as int,
+    available: json['Available'] as int?,
+    inUse: json['InUse'] as int?,
+    running: json['Running'] as int?,
   );
 }
 
 CopyImageResponse _$CopyImageResponseFromJson(Map<String, dynamic> json) {
   return CopyImageResponse(
-    destinationImageName: json['DestinationImageName'] as String,
+    destinationImageName: json['DestinationImageName'] as String?,
   );
 }
 
@@ -188,7 +173,7 @@ CreateImageBuilderStreamingURLResult
     _$CreateImageBuilderStreamingURLResultFromJson(Map<String, dynamic> json) {
   return CreateImageBuilderStreamingURLResult(
     expires: const UnixDateTimeConverter().fromJson(json['Expires']),
-    streamingURL: json['StreamingURL'] as String,
+    streamingURL: json['StreamingURL'] as String?,
   );
 }
 
@@ -204,17 +189,28 @@ CreateStreamingURLResult _$CreateStreamingURLResultFromJson(
     Map<String, dynamic> json) {
   return CreateStreamingURLResult(
     expires: const UnixDateTimeConverter().fromJson(json['Expires']),
-    streamingURL: json['StreamingURL'] as String,
+    streamingURL: json['StreamingURL'] as String?,
   );
 }
 
 CreateUsageReportSubscriptionResult
     _$CreateUsageReportSubscriptionResultFromJson(Map<String, dynamic> json) {
   return CreateUsageReportSubscriptionResult(
-    s3BucketName: json['S3BucketName'] as String,
+    s3BucketName: json['S3BucketName'] as String?,
     schedule:
         _$enumDecodeNullable(_$UsageReportScheduleEnumMap, json['Schedule']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$UsageReportScheduleEnumMap = {
@@ -272,77 +268,69 @@ DeleteUserResult _$DeleteUserResultFromJson(Map<String, dynamic> json) {
 DescribeDirectoryConfigsResult _$DescribeDirectoryConfigsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDirectoryConfigsResult(
-    directoryConfigs: (json['DirectoryConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DirectoryConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    directoryConfigs: (json['DirectoryConfigs'] as List<dynamic>?)
+        ?.map((e) => DirectoryConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeFleetsResult _$DescribeFleetsResultFromJson(Map<String, dynamic> json) {
   return DescribeFleetsResult(
-    fleets: (json['Fleets'] as List)
-        ?.map(
-            (e) => e == null ? null : Fleet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    fleets: (json['Fleets'] as List<dynamic>?)
+        ?.map((e) => Fleet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeImageBuildersResult _$DescribeImageBuildersResultFromJson(
     Map<String, dynamic> json) {
   return DescribeImageBuildersResult(
-    imageBuilders: (json['ImageBuilders'] as List)
-        ?.map((e) =>
-            e == null ? null : ImageBuilder.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    imageBuilders: (json['ImageBuilders'] as List<dynamic>?)
+        ?.map((e) => ImageBuilder.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeImagePermissionsResult _$DescribeImagePermissionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeImagePermissionsResult(
-    name: json['Name'] as String,
-    nextToken: json['NextToken'] as String,
-    sharedImagePermissionsList: (json['SharedImagePermissionsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SharedImagePermissions.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['Name'] as String?,
+    nextToken: json['NextToken'] as String?,
+    sharedImagePermissionsList: (json['SharedImagePermissionsList']
+            as List<dynamic>?)
+        ?.map((e) => SharedImagePermissions.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeImagesResult _$DescribeImagesResultFromJson(Map<String, dynamic> json) {
   return DescribeImagesResult(
-    images: (json['Images'] as List)
-        ?.map(
-            (e) => e == null ? null : Image.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    images: (json['Images'] as List<dynamic>?)
+        ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeSessionsResult _$DescribeSessionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeSessionsResult(
-    nextToken: json['NextToken'] as String,
-    sessions: (json['Sessions'] as List)
-        ?.map((e) =>
-            e == null ? null : Session.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sessions: (json['Sessions'] as List<dynamic>?)
+        ?.map((e) => Session.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeStacksResult _$DescribeStacksResultFromJson(Map<String, dynamic> json) {
   return DescribeStacksResult(
-    nextToken: json['NextToken'] as String,
-    stacks: (json['Stacks'] as List)
-        ?.map(
-            (e) => e == null ? null : Stack.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    stacks: (json['Stacks'] as List<dynamic>?)
+        ?.map((e) => Stack.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -350,34 +338,31 @@ DescribeUsageReportSubscriptionsResult
     _$DescribeUsageReportSubscriptionsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeUsageReportSubscriptionsResult(
-    nextToken: json['NextToken'] as String,
-    usageReportSubscriptions: (json['UsageReportSubscriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UsageReportSubscription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    usageReportSubscriptions: (json['UsageReportSubscriptions']
+            as List<dynamic>?)
+        ?.map(
+            (e) => UsageReportSubscription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeUserStackAssociationsResult
     _$DescribeUserStackAssociationsResultFromJson(Map<String, dynamic> json) {
   return DescribeUserStackAssociationsResult(
-    nextToken: json['NextToken'] as String,
-    userStackAssociations: (json['UserStackAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserStackAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    userStackAssociations: (json['UserStackAssociations'] as List<dynamic>?)
+        ?.map((e) => UserStackAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeUsersResult _$DescribeUsersResultFromJson(Map<String, dynamic> json) {
   return DescribeUsersResult(
-    nextToken: json['NextToken'] as String,
-    users: (json['Users'] as List)
-        ?.map(
-            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -386,9 +371,9 @@ DirectoryConfig _$DirectoryConfigFromJson(Map<String, dynamic> json) {
     directoryName: json['DirectoryName'] as String,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     organizationalUnitDistinguishedNames:
-        (json['OrganizationalUnitDistinguishedNames'] as List)
+        (json['OrganizationalUnitDistinguishedNames'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
     serviceAccountCredentials: json['ServiceAccountCredentials'] == null
         ? null
         : ServiceAccountCredentials.fromJson(
@@ -407,9 +392,9 @@ DisassociateFleetResult _$DisassociateFleetResultFromJson(
 
 DomainJoinInfo _$DomainJoinInfoFromJson(Map<String, dynamic> json) {
   return DomainJoinInfo(
-    directoryName: json['DirectoryName'] as String,
+    directoryName: json['DirectoryName'] as String?,
     organizationalUnitDistinguishedName:
-        json['OrganizationalUnitDistinguishedName'] as String,
+        json['OrganizationalUnitDistinguishedName'] as String?,
   );
 }
 
@@ -439,33 +424,30 @@ ExpireSessionResult _$ExpireSessionResultFromJson(Map<String, dynamic> json) {
 Fleet _$FleetFromJson(Map<String, dynamic> json) {
   return Fleet(
     arn: json['Arn'] as String,
-    computeCapacityStatus: json['ComputeCapacityStatus'] == null
-        ? null
-        : ComputeCapacityStatus.fromJson(
-            json['ComputeCapacityStatus'] as Map<String, dynamic>),
+    computeCapacityStatus: ComputeCapacityStatus.fromJson(
+        json['ComputeCapacityStatus'] as Map<String, dynamic>),
     instanceType: json['InstanceType'] as String,
     name: json['Name'] as String,
-    state: _$enumDecodeNullable(_$FleetStateEnumMap, json['State']),
+    state: _$enumDecode(_$FleetStateEnumMap, json['State']),
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int,
-    displayName: json['DisplayName'] as String,
+    description: json['Description'] as String?,
+    disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
+    displayName: json['DisplayName'] as String?,
     domainJoinInfo: json['DomainJoinInfo'] == null
         ? null
         : DomainJoinInfo.fromJson(
             json['DomainJoinInfo'] as Map<String, dynamic>),
-    enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool,
-    fleetErrors: (json['FleetErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : FleetError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+    fleetErrors: (json['FleetErrors'] as List<dynamic>?)
+        ?.map((e) => FleetError.fromJson(e as Map<String, dynamic>))
+        .toList(),
     fleetType: _$enumDecodeNullable(_$FleetTypeEnumMap, json['FleetType']),
-    iamRoleArn: json['IamRoleArn'] as String,
+    iamRoleArn: json['IamRoleArn'] as String?,
     idleDisconnectTimeoutInSeconds:
-        json['IdleDisconnectTimeoutInSeconds'] as int,
-    imageArn: json['ImageArn'] as String,
-    imageName: json['ImageName'] as String,
-    maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int,
+        json['IdleDisconnectTimeoutInSeconds'] as int?,
+    imageArn: json['ImageArn'] as String?,
+    imageName: json['ImageName'] as String?,
+    maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
     streamView: _$enumDecodeNullable(_$StreamViewEnumMap, json['StreamView']),
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -493,7 +475,7 @@ const _$StreamViewEnumMap = {
 FleetError _$FleetErrorFromJson(Map<String, dynamic> json) {
   return FleetError(
     errorCode: _$enumDecodeNullable(_$FleetErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
   );
 }
 
@@ -546,18 +528,17 @@ const _$FleetErrorCodeEnumMap = {
 Image _$ImageFromJson(Map<String, dynamic> json) {
   return Image(
     name: json['Name'] as String,
-    applications: (json['Applications'] as List)
-        ?.map((e) =>
-            e == null ? null : Application.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
-    arn: json['Arn'] as String,
-    baseImageArn: json['BaseImageArn'] as String,
+    applications: (json['Applications'] as List<dynamic>?)
+        ?.map((e) => Application.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+    arn: json['Arn'] as String?,
+    baseImageArn: json['BaseImageArn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    displayName: json['DisplayName'] as String,
-    imageBuilderName: json['ImageBuilderName'] as String,
-    imageBuilderSupported: json['ImageBuilderSupported'] as bool,
+    description: json['Description'] as String?,
+    displayName: json['DisplayName'] as String?,
+    imageBuilderName: json['ImageBuilderName'] as String?,
+    imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
     imagePermissions: json['ImagePermissions'] == null
         ? null
         : ImagePermissions.fromJson(
@@ -598,29 +579,25 @@ const _$VisibilityTypeEnumMap = {
 ImageBuilder _$ImageBuilderFromJson(Map<String, dynamic> json) {
   return ImageBuilder(
     name: json['Name'] as String,
-    accessEndpoints: (json['AccessEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccessEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
-    arn: json['Arn'] as String,
+    accessEndpoints: (json['AccessEndpoints'] as List<dynamic>?)
+        ?.map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    displayName: json['DisplayName'] as String,
+    description: json['Description'] as String?,
+    displayName: json['DisplayName'] as String?,
     domainJoinInfo: json['DomainJoinInfo'] == null
         ? null
         : DomainJoinInfo.fromJson(
             json['DomainJoinInfo'] as Map<String, dynamic>),
-    enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool,
-    iamRoleArn: json['IamRoleArn'] as String,
-    imageArn: json['ImageArn'] as String,
-    imageBuilderErrors: (json['ImageBuilderErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    instanceType: json['InstanceType'] as String,
+    enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    imageArn: json['ImageArn'] as String?,
+    imageBuilderErrors: (json['ImageBuilderErrors'] as List<dynamic>?)
+        ?.map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    instanceType: json['InstanceType'] as String?,
     networkAccessConfiguration: json['NetworkAccessConfiguration'] == null
         ? null
         : NetworkAccessConfiguration.fromJson(
@@ -654,7 +631,7 @@ ImageBuilderStateChangeReason _$ImageBuilderStateChangeReasonFromJson(
   return ImageBuilderStateChangeReason(
     code: _$enumDecodeNullable(
         _$ImageBuilderStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -665,8 +642,8 @@ const _$ImageBuilderStateChangeReasonCodeEnumMap = {
 
 ImagePermissions _$ImagePermissionsFromJson(Map<String, dynamic> json) {
   return ImagePermissions(
-    allowFleet: json['allowFleet'] as bool,
-    allowImageBuilder: json['allowImageBuilder'] as bool,
+    allowFleet: json['allowFleet'] as bool?,
+    allowImageBuilder: json['allowImageBuilder'] as bool?,
   );
 }
 
@@ -689,7 +666,7 @@ ImageStateChangeReason _$ImageStateChangeReasonFromJson(
   return ImageStateChangeReason(
     code:
         _$enumDecodeNullable(_$ImageStateChangeReasonCodeEnumMap, json['Code']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -705,7 +682,7 @@ LastReportGenerationExecutionError _$LastReportGenerationExecutionErrorFromJson(
   return LastReportGenerationExecutionError(
     errorCode: _$enumDecodeNullable(
         _$UsageReportExecutionErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
   );
 }
 
@@ -718,23 +695,23 @@ const _$UsageReportExecutionErrorCodeEnumMap = {
 ListAssociatedFleetsResult _$ListAssociatedFleetsResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociatedFleetsResult(
-    names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    names: (json['Names'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAssociatedStacksResult _$ListAssociatedStacksResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociatedStacksResult(
-    names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    names: (json['Names'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -743,15 +720,15 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 NetworkAccessConfiguration _$NetworkAccessConfigurationFromJson(
     Map<String, dynamic> json) {
   return NetworkAccessConfiguration(
-    eniId: json['EniId'] as String,
-    eniPrivateIpAddress: json['EniPrivateIpAddress'] as String,
+    eniId: json['EniId'] as String?,
+    eniPrivateIpAddress: json['EniPrivateIpAddress'] as String?,
   );
 }
 
 ResourceError _$ResourceErrorFromJson(Map<String, dynamic> json) {
   return ResourceError(
     errorCode: _$enumDecodeNullable(_$FleetErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
     errorTimestamp:
         const UnixDateTimeConverter().fromJson(json['ErrorTimestamp']),
   );
@@ -766,26 +743,18 @@ ServiceAccountCredentials _$ServiceAccountCredentialsFromJson(
 }
 
 Map<String, dynamic> _$ServiceAccountCredentialsToJson(
-    ServiceAccountCredentials instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AccountName', instance.accountName);
-  writeNotNull('AccountPassword', instance.accountPassword);
-  return val;
-}
+        ServiceAccountCredentials instance) =>
+    <String, dynamic>{
+      'AccountName': instance.accountName,
+      'AccountPassword': instance.accountPassword,
+    };
 
 Session _$SessionFromJson(Map<String, dynamic> json) {
   return Session(
     fleetName: json['FleetName'] as String,
     id: json['Id'] as String,
     stackName: json['StackName'] as String,
-    state: _$enumDecodeNullable(_$SessionStateEnumMap, json['State']),
+    state: _$enumDecode(_$SessionStateEnumMap, json['State']),
     userId: json['UserId'] as String,
     authenticationType: _$enumDecodeNullable(
         _$AuthenticationTypeEnumMap, json['AuthenticationType']),
@@ -821,10 +790,8 @@ const _$SessionConnectionStateEnumMap = {
 SharedImagePermissions _$SharedImagePermissionsFromJson(
     Map<String, dynamic> json) {
   return SharedImagePermissions(
-    imagePermissions: json['imagePermissions'] == null
-        ? null
-        : ImagePermissions.fromJson(
-            json['imagePermissions'] as Map<String, dynamic>),
+    imagePermissions: ImagePermissions.fromJson(
+        json['imagePermissions'] as Map<String, dynamic>),
     sharedAccountId: json['sharedAccountId'] as String,
   );
 }
@@ -832,43 +799,38 @@ SharedImagePermissions _$SharedImagePermissionsFromJson(
 Stack _$StackFromJson(Map<String, dynamic> json) {
   return Stack(
     name: json['Name'] as String,
-    accessEndpoints: (json['AccessEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccessEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    accessEndpoints: (json['AccessEndpoints'] as List<dynamic>?)
+        ?.map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     applicationSettings: json['ApplicationSettings'] == null
         ? null
         : ApplicationSettingsResponse.fromJson(
             json['ApplicationSettings'] as Map<String, dynamic>),
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    displayName: json['DisplayName'] as String,
-    embedHostDomains:
-        (json['EmbedHostDomains'] as List)?.map((e) => e as String)?.toList(),
-    feedbackURL: json['FeedbackURL'] as String,
-    redirectURL: json['RedirectURL'] as String,
-    stackErrors: (json['StackErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : StackError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    storageConnectors: (json['StorageConnectors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StorageConnector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    userSettings: (json['UserSettings'] as List)
-        ?.map((e) =>
-            e == null ? null : UserSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    description: json['Description'] as String?,
+    displayName: json['DisplayName'] as String?,
+    embedHostDomains: (json['EmbedHostDomains'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    feedbackURL: json['FeedbackURL'] as String?,
+    redirectURL: json['RedirectURL'] as String?,
+    stackErrors: (json['StackErrors'] as List<dynamic>?)
+        ?.map((e) => StackError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    storageConnectors: (json['StorageConnectors'] as List<dynamic>?)
+        ?.map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    userSettings: (json['UserSettings'] as List<dynamic>?)
+        ?.map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 StackError _$StackErrorFromJson(Map<String, dynamic> json) {
   return StackError(
     errorCode: _$enumDecodeNullable(_$StackErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
   );
 }
 
@@ -905,15 +867,18 @@ StopImageBuilderResult _$StopImageBuilderResultFromJson(
 
 StorageConnector _$StorageConnectorFromJson(Map<String, dynamic> json) {
   return StorageConnector(
-    connectorType: _$enumDecodeNullable(
-        _$StorageConnectorTypeEnumMap, json['ConnectorType']),
-    domains: (json['Domains'] as List)?.map((e) => e as String)?.toList(),
-    resourceIdentifier: json['ResourceIdentifier'] as String,
+    connectorType:
+        _$enumDecode(_$StorageConnectorTypeEnumMap, json['ConnectorType']),
+    domains:
+        (json['Domains'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    resourceIdentifier: json['ResourceIdentifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$StorageConnectorToJson(StorageConnector instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ConnectorType': _$StorageConnectorTypeEnumMap[instance.connectorType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -921,8 +886,6 @@ Map<String, dynamic> _$StorageConnectorToJson(StorageConnector instance) {
     }
   }
 
-  writeNotNull(
-      'ConnectorType', _$StorageConnectorTypeEnumMap[instance.connectorType]);
   writeNotNull('Domains', instance.domains);
   writeNotNull('ResourceIdentifier', instance.resourceIdentifier);
   return val;
@@ -979,52 +942,42 @@ UsageReportSubscription _$UsageReportSubscriptionFromJson(
   return UsageReportSubscription(
     lastGeneratedReportDate:
         const UnixDateTimeConverter().fromJson(json['LastGeneratedReportDate']),
-    s3BucketName: json['S3BucketName'] as String,
+    s3BucketName: json['S3BucketName'] as String?,
     schedule:
         _$enumDecodeNullable(_$UsageReportScheduleEnumMap, json['Schedule']),
-    subscriptionErrors: (json['SubscriptionErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LastReportGenerationExecutionError.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    subscriptionErrors: (json['SubscriptionErrors'] as List<dynamic>?)
+        ?.map((e) => LastReportGenerationExecutionError.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-    authenticationType: _$enumDecodeNullable(
-        _$AuthenticationTypeEnumMap, json['AuthenticationType']),
-    arn: json['Arn'] as String,
+    authenticationType:
+        _$enumDecode(_$AuthenticationTypeEnumMap, json['AuthenticationType']),
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    enabled: json['Enabled'] as bool,
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
-    status: json['Status'] as String,
-    userName: json['UserName'] as String,
+    enabled: json['Enabled'] as bool?,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
+    status: json['Status'] as String?,
+    userName: json['UserName'] as String?,
   );
 }
 
 UserSetting _$UserSettingFromJson(Map<String, dynamic> json) {
   return UserSetting(
-    action: _$enumDecodeNullable(_$ActionEnumMap, json['Action']),
-    permission: _$enumDecodeNullable(_$PermissionEnumMap, json['Permission']),
+    action: _$enumDecode(_$ActionEnumMap, json['Action']),
+    permission: _$enumDecode(_$PermissionEnumMap, json['Permission']),
   );
 }
 
-Map<String, dynamic> _$UserSettingToJson(UserSetting instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ActionEnumMap[instance.action]);
-  writeNotNull('Permission', _$PermissionEnumMap[instance.permission]);
-  return val;
-}
+Map<String, dynamic> _$UserSettingToJson(UserSetting instance) =>
+    <String, dynamic>{
+      'Action': _$ActionEnumMap[instance.action],
+      'Permission': _$PermissionEnumMap[instance.permission],
+    };
 
 const _$ActionEnumMap = {
   Action.clipboardCopyFromLocalDevice: 'CLIPBOARD_COPY_FROM_LOCAL_DEVICE',
@@ -1041,17 +994,22 @@ const _$PermissionEnumMap = {
 
 UserStackAssociation _$UserStackAssociationFromJson(Map<String, dynamic> json) {
   return UserStackAssociation(
-    authenticationType: _$enumDecodeNullable(
-        _$AuthenticationTypeEnumMap, json['AuthenticationType']),
+    authenticationType:
+        _$enumDecode(_$AuthenticationTypeEnumMap, json['AuthenticationType']),
     stackName: json['StackName'] as String,
     userName: json['UserName'] as String,
-    sendEmailNotification: json['SendEmailNotification'] as bool,
+    sendEmailNotification: json['SendEmailNotification'] as bool?,
   );
 }
 
 Map<String, dynamic> _$UserStackAssociationToJson(
     UserStackAssociation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AuthenticationType':
+        _$AuthenticationTypeEnumMap[instance.authenticationType],
+    'StackName': instance.stackName,
+    'UserName': instance.userName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1059,10 +1017,6 @@ Map<String, dynamic> _$UserStackAssociationToJson(
     }
   }
 
-  writeNotNull('AuthenticationType',
-      _$AuthenticationTypeEnumMap[instance.authenticationType]);
-  writeNotNull('StackName', instance.stackName);
-  writeNotNull('UserName', instance.userName);
   writeNotNull('SendEmailNotification', instance.sendEmailNotification);
   return val;
 }
@@ -1072,7 +1026,7 @@ UserStackAssociationError _$UserStackAssociationErrorFromJson(
   return UserStackAssociationError(
     errorCode: _$enumDecodeNullable(
         _$UserStackAssociationErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
     userStackAssociation: json['UserStackAssociation'] == null
         ? null
         : UserStackAssociation.fromJson(
@@ -1089,9 +1043,11 @@ const _$UserStackAssociationErrorCodeEnumMap = {
 
 VpcConfig _$VpcConfigFromJson(Map<String, dynamic> json) {
   return VpcConfig(
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 

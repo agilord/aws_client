@@ -599,7 +599,7 @@
         "serialized": {
           "uri": "/",
           "headers": {},
-          "body": "{\"FooEnum\": \"foo\", \"ListEnums\": [\"foo\", \"\", \"bar\"]}"
+          "body": "{\"FooEnum\": \"foo\", \"ListEnums\": [\"foo\", \"bar\"]}"
         }
       },
       {

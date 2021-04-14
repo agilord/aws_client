@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'devicefarm-2015-06-23.g.dart';
 
 /// Welcome to the AWS Device Farm API documentation, which contains APIs for:
 ///
@@ -50,10 +42,10 @@ part 'devicefarm-2015-06-23.g.dart';
 class DeviceFarm {
   final _s.JsonProtocol _protocol;
   DeviceFarm({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -93,11 +85,11 @@ class DeviceFarm {
   /// By specifying the maximum number of devices, you can control the costs
   /// that you incur by running tests.
   Future<CreateDevicePoolResult> createDevicePool({
-    @_s.required String name,
-    @_s.required String projectArn,
-    @_s.required List<Rule> rules,
-    String description,
-    int maxDevices,
+    required String name,
+    required String projectArn,
+    required List<Rule> rules,
+    String? description,
+    int? maxDevices,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -179,11 +171,11 @@ class DeviceFarm {
   /// When set to <code>true</code>, Device Farm reboots the instance after a
   /// test run. The default value is <code>true</code>.
   Future<CreateInstanceProfileResult> createInstanceProfile({
-    @_s.required String name,
-    String description,
-    List<String> excludeAppPackagesFromCleanup,
-    bool packageCleanup,
-    bool rebootAfterUse,
+    required String name,
+    String? description,
+    List<String>? excludeAppPackagesFromCleanup,
+    bool? packageCleanup,
+    bool? rebootAfterUse,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -273,18 +265,18 @@ class DeviceFarm {
   /// Proportion of transmitted packets that fail to arrive from 0 to 100
   /// percent.
   Future<CreateNetworkProfileResult> createNetworkProfile({
-    @_s.required String name,
-    @_s.required String projectArn,
-    String description,
-    int downlinkBandwidthBits,
-    int downlinkDelayMs,
-    int downlinkJitterMs,
-    int downlinkLossPercent,
-    NetworkProfileType type,
-    int uplinkBandwidthBits,
-    int uplinkDelayMs,
-    int uplinkJitterMs,
-    int uplinkLossPercent,
+    required String name,
+    required String projectArn,
+    String? description,
+    int? downlinkBandwidthBits,
+    int? downlinkDelayMs,
+    int? downlinkJitterMs,
+    int? downlinkLossPercent,
+    NetworkProfileType? type,
+    int? uplinkBandwidthBits,
+    int? uplinkDelayMs,
+    int? uplinkJitterMs,
+    int? uplinkLossPercent,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -374,8 +366,8 @@ class DeviceFarm {
   /// in this project use the specified execution timeout value unless
   /// overridden when scheduling a run.
   Future<CreateProjectResult> createProject({
-    @_s.required String name,
-    int defaultJobTimeoutMinutes,
+    required String name,
+    int? defaultJobTimeoutMinutes,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -496,18 +488,18 @@ class DeviceFarm {
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
   Future<CreateRemoteAccessSessionResult> createRemoteAccessSession({
-    @_s.required String deviceArn,
-    @_s.required String projectArn,
-    String clientId,
-    CreateRemoteAccessSessionConfiguration configuration,
-    String instanceArn,
-    InteractionMode interactionMode,
-    String name,
-    bool remoteDebugEnabled,
-    String remoteRecordAppArn,
-    bool remoteRecordEnabled,
-    bool skipAppResign,
-    String sshPublicKey,
+    required String deviceArn,
+    required String projectArn,
+    String? clientId,
+    CreateRemoteAccessSessionConfiguration? configuration,
+    String? instanceArn,
+    InteractionMode? interactionMode,
+    String? name,
+    bool? remoteDebugEnabled,
+    String? remoteRecordAppArn,
+    bool? remoteRecordEnabled,
+    bool? skipAppResign,
+    String? sshPublicKey,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
     _s.validateStringLength(
@@ -621,8 +613,8 @@ class DeviceFarm {
   /// Parameter [description] :
   /// Human-readable description of the project.
   Future<CreateTestGridProjectResult> createTestGridProject({
-    @_s.required String name,
-    String description,
+    required String name,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -682,8 +674,8 @@ class DeviceFarm {
   /// ARN (from <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>) to
   /// associate with the short-term URL.
   Future<CreateTestGridUrlResult> createTestGridUrl({
-    @_s.required int expiresInSeconds,
-    @_s.required String projectArn,
+    required int expiresInSeconds,
+    required String projectArn,
   }) async {
     ArgumentError.checkNotNull(expiresInSeconds, 'expiresInSeconds');
     _s.validateNumRange(
@@ -853,10 +845,10 @@ class DeviceFarm {
   /// The upload's content type (for example,
   /// <code>application/octet-stream</code>).
   Future<CreateUploadResult> createUpload({
-    @_s.required String name,
-    @_s.required String projectArn,
-    @_s.required UploadType type,
-    String contentType,
+    required String name,
+    required String projectArn,
+    required UploadType type,
+    String? contentType,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -900,7 +892,7 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'type': type?.toValue() ?? '',
+        'type': type.toValue(),
         if (contentType != null) 'contentType': contentType,
       },
     );
@@ -931,10 +923,10 @@ class DeviceFarm {
   /// An optional description that provides details about your VPC endpoint
   /// configuration.
   Future<CreateVPCEConfigurationResult> createVPCEConfiguration({
-    @_s.required String serviceDnsName,
-    @_s.required String vpceConfigurationName,
-    @_s.required String vpceServiceName,
-    String vpceConfigurationDescription,
+    required String serviceDnsName,
+    required String vpceConfigurationName,
+    required String vpceServiceName,
+    String? vpceConfigurationDescription,
   }) async {
     ArgumentError.checkNotNull(serviceDnsName, 'serviceDnsName');
     _s.validateStringLength(
@@ -1000,7 +992,7 @@ class DeviceFarm {
   /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool
   /// to delete.
   Future<void> deleteDevicePool({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1020,7 +1012,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteDevicePool'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1030,8 +1022,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteDevicePoolResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a profile that can be applied to one or more private device
@@ -1046,7 +1036,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the instance profile you are requesting
   /// to delete.
   Future<void> deleteInstanceProfile({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1066,7 +1056,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteInstanceProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1076,8 +1066,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteInstanceProfileResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a network profile.
@@ -1090,7 +1078,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The ARN of the network profile to delete.
   Future<void> deleteNetworkProfile({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1110,7 +1098,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteNetworkProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1120,8 +1108,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteNetworkProfileResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an AWS Device Farm project, given the project ARN.
@@ -1137,7 +1123,7 @@ class DeviceFarm {
   /// Represents the Amazon Resource Name (ARN) of the Device Farm project to
   /// delete.
   Future<void> deleteProject({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1157,7 +1143,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteProject'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1167,8 +1153,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteProjectResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a completed remote access session and its results.
@@ -1182,7 +1166,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the session for which you want to delete
   /// remote access.
   Future<void> deleteRemoteAccessSession({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1202,7 +1186,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteRemoteAccessSession'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1212,8 +1196,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteRemoteAccessSessionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the run, given the run ARN.
@@ -1228,7 +1210,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) for the run to delete.
   Future<void> deleteRun({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1248,7 +1230,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteRun'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1258,8 +1240,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteRunResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a Selenium testing project and all content generated under it.
@@ -1278,7 +1258,7 @@ class DeviceFarm {
   /// The ARN of the project to delete, from <a>CreateTestGridProject</a> or
   /// <a>ListTestGridProjects</a>.
   Future<void> deleteTestGridProject({
-    @_s.required String projectArn,
+    required String projectArn,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -1298,7 +1278,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteTestGridProject'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1308,8 +1288,6 @@ class DeviceFarm {
         'projectArn': projectArn,
       },
     );
-
-    return DeleteTestGridProjectResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an upload given the upload ARN.
@@ -1323,7 +1301,7 @@ class DeviceFarm {
   /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to
   /// delete.
   Future<void> deleteUpload({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1343,7 +1321,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteUpload'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1353,8 +1331,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteUploadResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC)
@@ -1369,7 +1345,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
   /// to delete.
   Future<void> deleteVPCEConfiguration({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1389,7 +1365,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteVPCEConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1399,8 +1375,6 @@ class DeviceFarm {
         'arn': arn,
       },
     );
-
-    return DeleteVPCEConfigurationResult.fromJson(jsonResponse.body);
   }
 
   /// Returns the number of unmetered iOS or unmetered Android devices that have
@@ -1436,7 +1410,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The device type's ARN.
   Future<GetDeviceResult> getDevice({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1482,7 +1456,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the instance you're requesting
   /// information about.
   Future<GetDeviceInstanceResult> getDeviceInstance({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1526,7 +1500,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The device pool's ARN.
   Future<GetDevicePoolResult> getDevicePool({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1642,11 +1616,11 @@ class DeviceFarm {
   /// </li>
   /// </ul>
   Future<GetDevicePoolCompatibilityResult> getDevicePoolCompatibility({
-    @_s.required String devicePoolArn,
-    String appArn,
-    ScheduleRunConfiguration configuration,
-    ScheduleRunTest test,
-    TestType testType,
+    required String devicePoolArn,
+    String? appArn,
+    ScheduleRunConfiguration? configuration,
+    ScheduleRunTest? test,
+    TestType? testType,
   }) async {
     ArgumentError.checkNotNull(devicePoolArn, 'devicePoolArn');
     _s.validateStringLength(
@@ -1705,7 +1679,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of an instance profile.
   Future<GetInstanceProfileResult> getInstanceProfile({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1749,7 +1723,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The job's ARN.
   Future<GetJobResult> getJob({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1793,7 +1767,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The ARN of the network profile to return information about.
   Future<GetNetworkProfileResult> getNetworkProfile({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1845,7 +1819,7 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<GetOfferingStatusResult> getOfferingStatus({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1881,7 +1855,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The project's ARN.
   Future<GetProjectResult> getProject({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1926,7 +1900,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the remote access session about which
   /// you want to get session information.
   Future<GetRemoteAccessSessionResult> getRemoteAccessSession({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1970,7 +1944,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The run's ARN.
   Future<GetRunResult> getRun({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2014,7 +1988,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The suite's ARN.
   Future<GetSuiteResult> getSuite({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2058,7 +2032,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The test's ARN.
   Future<GetTestResult> getTest({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2102,7 +2076,7 @@ class DeviceFarm {
   /// The ARN of the Selenium testing project, from either
   /// <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>.
   Future<GetTestGridProjectResult> getTestGridProject({
-    @_s.required String projectArn,
+    required String projectArn,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -2166,9 +2140,9 @@ class DeviceFarm {
   /// Parameter [sessionId] :
   /// An ID associated with this session.
   Future<GetTestGridSessionResult> getTestGridSession({
-    String projectArn,
-    String sessionArn,
-    String sessionId,
+    String? projectArn,
+    String? sessionArn,
+    String? sessionId,
   }) async {
     _s.validateStringLength(
       'projectArn',
@@ -2233,7 +2207,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The upload's ARN.
   Future<GetUploadResult> getUpload({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2278,7 +2252,7 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
   /// to describe.
   Future<GetVPCEConfigurationResult> getVPCEConfiguration({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2328,8 +2302,8 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the remote access session about which
   /// you are requesting information.
   Future<InstallToRemoteAccessSessionResult> installToRemoteAccessSession({
-    @_s.required String appArn,
-    @_s.required String remoteAccessSessionArn,
+    required String appArn,
+    required String remoteAccessSessionArn,
   }) async {
     ArgumentError.checkNotNull(appArn, 'appArn');
     _s.validateStringLength(
@@ -2410,9 +2384,9 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListArtifactsResult> listArtifacts({
-    @_s.required String arn,
-    @_s.required ArtifactCategory type,
-    String nextToken,
+    required String arn,
+    required ArtifactCategory type,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2447,7 +2421,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'type': type?.toValue() ?? '',
+        'type': type.toValue(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2471,8 +2445,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListDeviceInstancesResult> listDeviceInstances({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2528,9 +2502,9 @@ class DeviceFarm {
   /// </li>
   /// </ul>
   Future<ListDevicePoolsResult> listDevicePools({
-    @_s.required String arn,
-    String nextToken,
-    DevicePoolType type,
+    required String arn,
+    String? nextToken,
+    DevicePoolType? type,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2681,9 +2655,9 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListDevicesResult> listDevices({
-    String arn,
-    List<DeviceFilter> filters,
-    String nextToken,
+    String? arn,
+    List<DeviceFilter>? filters,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -2737,8 +2711,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListInstanceProfilesResult> listInstanceProfiles({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2779,8 +2753,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListJobsResult> listJobs({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2840,9 +2814,9 @@ class DeviceFarm {
   /// The type of network profile to return information about. Valid values are
   /// listed here.
   Future<ListNetworkProfilesResult> listNetworkProfiles({
-    @_s.required String arn,
-    String nextToken,
-    NetworkProfileType type,
+    required String arn,
+    String? nextToken,
+    NetworkProfileType? type,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2901,7 +2875,7 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListOfferingPromotionsResult> listOfferingPromotions({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2944,7 +2918,7 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListOfferingTransactionsResult> listOfferingTransactions({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2987,7 +2961,7 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListOfferingsResult> listOfferings({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -3029,8 +3003,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListProjectsResult> listProjects({
-    String arn,
-    String nextToken,
+    String? arn,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'arn',
@@ -3083,8 +3057,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListRemoteAccessSessionsResult> listRemoteAccessSessions({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3140,8 +3114,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListRunsResult> listRuns({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3196,8 +3170,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListSamplesResult> listSamples({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3252,8 +3226,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListSuitesResult> listSuites({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3309,7 +3283,7 @@ class DeviceFarm {
   /// <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
   /// <code>VPCE_CONFIGURATION</code>.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -3354,8 +3328,8 @@ class DeviceFarm {
   /// Parameter [nextToken] :
   /// From a response, used to continue a paginated listing.
   Future<ListTestGridProjectsResult> listTestGridProjects({
-    int maxResult,
-    String nextToken,
+    int? maxResult,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResult',
@@ -3403,9 +3377,9 @@ class DeviceFarm {
   /// Parameter [nextToken] :
   /// Pagination token.
   Future<ListTestGridSessionActionsResult> listTestGridSessionActions({
-    @_s.required String sessionArn,
-    int maxResult,
-    String nextToken,
+    required String sessionArn,
+    int? maxResult,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(sessionArn, 'sessionArn');
     _s.validateStringLength(
@@ -3471,10 +3445,10 @@ class DeviceFarm {
   /// Parameter [type] :
   /// Limit results to a specified type of artifact.
   Future<ListTestGridSessionArtifactsResult> listTestGridSessionArtifacts({
-    @_s.required String sessionArn,
-    int maxResult,
-    String nextToken,
-    TestGridSessionArtifactCategory type,
+    required String sessionArn,
+    int? maxResult,
+    String? nextToken,
+    TestGridSessionArtifactCategory? type,
   }) async {
     ArgumentError.checkNotNull(sessionArn, 'sessionArn');
     _s.validateStringLength(
@@ -3553,14 +3527,14 @@ class DeviceFarm {
   /// Parameter [status] :
   /// Return only sessions in this state.
   Future<ListTestGridSessionsResult> listTestGridSessions({
-    @_s.required String projectArn,
-    DateTime creationTimeAfter,
-    DateTime creationTimeBefore,
-    DateTime endTimeAfter,
-    DateTime endTimeBefore,
-    int maxResult,
-    String nextToken,
-    TestGridSessionStatus status,
+    required String projectArn,
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    DateTime? endTimeAfter,
+    DateTime? endTimeBefore,
+    int? maxResult,
+    String? nextToken,
+    TestGridSessionStatus? status,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -3631,8 +3605,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListTestsResult> listTests({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3693,8 +3667,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListUniqueProblemsResult> listUniqueProblems({
-    @_s.required String arn,
-    String nextToken,
+    required String arn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3854,9 +3828,9 @@ class DeviceFarm {
   /// </li>
   /// </ul>
   Future<ListUploadsResult> listUploads({
-    @_s.required String arn,
-    String nextToken,
-    UploadType type,
+    required String arn,
+    String? nextToken,
+    UploadType? type,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3912,8 +3886,8 @@ class DeviceFarm {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
   Future<ListVPCEConfigurationsResult> listVPCEConfigurations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -3962,9 +3936,9 @@ class DeviceFarm {
   /// Parameter [quantity] :
   /// The number of device slots to purchase in an offering request.
   Future<PurchaseOfferingResult> purchaseOffering({
-    String offeringId,
-    String offeringPromotionId,
-    int quantity,
+    String? offeringId,
+    String? offeringPromotionId,
+    int? quantity,
   }) async {
     _s.validateStringLength(
       'offeringId',
@@ -4017,8 +3991,8 @@ class DeviceFarm {
   /// Parameter [quantity] :
   /// The quantity requested in an offering renewal.
   Future<RenewOfferingResult> renewOffering({
-    String offeringId,
-    int quantity,
+    String? offeringId,
+    int? quantity,
   }) async {
     _s.validateStringLength(
       'offeringId',
@@ -4083,14 +4057,14 @@ class DeviceFarm {
   /// Parameter [name] :
   /// The name for the run to be scheduled.
   Future<ScheduleRunResult> scheduleRun({
-    @_s.required String projectArn,
-    @_s.required ScheduleRunTest test,
-    String appArn,
-    ScheduleRunConfiguration configuration,
-    String devicePoolArn,
-    DeviceSelectionConfiguration deviceSelectionConfiguration,
-    ExecutionConfiguration executionConfiguration,
-    String name,
+    required String projectArn,
+    required ScheduleRunTest test,
+    String? appArn,
+    ScheduleRunConfiguration? configuration,
+    String? devicePoolArn,
+    DeviceSelectionConfiguration? deviceSelectionConfiguration,
+    ExecutionConfiguration? executionConfiguration,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -4177,7 +4151,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
   Future<StopJobResult> stopJob({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4221,7 +4195,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the remote access session to stop.
   Future<StopRemoteAccessSessionResult> stopRemoteAccessSession({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4270,7 +4244,7 @@ class DeviceFarm {
   /// Parameter [arn] :
   /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
   Future<StopRunResult> stopRun({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4328,8 +4302,8 @@ class DeviceFarm {
   /// keys can have a maximum character length of 128 characters. Tag values can
   /// have a maximum length of 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -4350,7 +4324,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4361,8 +4335,6 @@ class DeviceFarm {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified tags from a resource.
@@ -4383,8 +4355,8 @@ class DeviceFarm {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -4405,7 +4377,7 @@ class DeviceFarm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4416,8 +4388,6 @@ class DeviceFarm {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates information about a private device instance.
@@ -4437,9 +4407,9 @@ class DeviceFarm {
   /// The ARN of the profile that you want to associate with the device
   /// instance.
   Future<UpdateDeviceInstanceResult> updateDeviceInstance({
-    @_s.required String arn,
-    List<String> labels,
-    String profileArn,
+    required String arn,
+    List<String>? labels,
+    String? profileArn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4533,12 +4503,12 @@ class DeviceFarm {
   /// optional. If you update rules for your request, the update replaces the
   /// existing rules.
   Future<UpdateDevicePoolResult> updateDevicePool({
-    @_s.required String arn,
-    bool clearMaxDevices,
-    String description,
-    int maxDevices,
-    String name,
-    List<Rule> rules,
+    required String arn,
+    bool? clearMaxDevices,
+    String? description,
+    int? maxDevices,
+    String? name,
+    List<Rule>? rules,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4620,12 +4590,12 @@ class DeviceFarm {
   /// The updated choice for whether you want to reboot the device after use.
   /// The default value is <code>true</code>.
   Future<UpdateInstanceProfileResult> updateInstanceProfile({
-    @_s.required String arn,
-    String description,
-    List<String> excludeAppPackagesFromCleanup,
-    String name,
-    bool packageCleanup,
-    bool rebootAfterUse,
+    required String arn,
+    String? description,
+    List<String>? excludeAppPackagesFromCleanup,
+    String? name,
+    bool? packageCleanup,
+    bool? rebootAfterUse,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4730,18 +4700,18 @@ class DeviceFarm {
   /// Proportion of transmitted packets that fail to arrive from 0 to 100
   /// percent.
   Future<UpdateNetworkProfileResult> updateNetworkProfile({
-    @_s.required String arn,
-    String description,
-    int downlinkBandwidthBits,
-    int downlinkDelayMs,
-    int downlinkJitterMs,
-    int downlinkLossPercent,
-    String name,
-    NetworkProfileType type,
-    int uplinkBandwidthBits,
-    int uplinkDelayMs,
-    int uplinkJitterMs,
-    int uplinkLossPercent,
+    required String arn,
+    String? description,
+    int? downlinkBandwidthBits,
+    int? downlinkDelayMs,
+    int? downlinkJitterMs,
+    int? downlinkLossPercent,
+    String? name,
+    NetworkProfileType? type,
+    int? uplinkBandwidthBits,
+    int? uplinkDelayMs,
+    int? uplinkJitterMs,
+    int? uplinkLossPercent,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4831,9 +4801,9 @@ class DeviceFarm {
   /// A string that represents the new name of the project that you are
   /// updating.
   Future<UpdateProjectResult> updateProject({
-    @_s.required String arn,
-    int defaultJobTimeoutMinutes,
-    String name,
+    required String arn,
+    int? defaultJobTimeoutMinutes,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4891,9 +4861,9 @@ class DeviceFarm {
   /// Parameter [name] :
   /// Human-readable name for the project.
   Future<UpdateTestGridProjectResult> updateTestGridProject({
-    @_s.required String projectArn,
-    String description,
-    String name,
+    required String projectArn,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
@@ -4973,10 +4943,10 @@ class DeviceFarm {
   /// slashes (/). The test spec file name must end with the <code>.yaml</code>
   /// or <code>.yml</code> file extension.
   Future<UpdateUploadResult> updateUpload({
-    @_s.required String arn,
-    String contentType,
-    bool editContent,
-    String name,
+    required String arn,
+    String? contentType,
+    bool? editContent,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -5053,11 +5023,11 @@ class DeviceFarm {
   /// The name of the VPC endpoint service running in your AWS account that you
   /// want Device Farm to test.
   Future<UpdateVPCEConfigurationResult> updateVPCEConfiguration({
-    @_s.required String arn,
-    String serviceDnsName,
-    String vpceConfigurationDescription,
-    String vpceConfigurationName,
-    String vpceServiceName,
+    required String arn,
+    String? serviceDnsName,
+    String? vpceConfigurationDescription,
+    String? vpceConfigurationName,
+    String? vpceServiceName,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -5123,32 +5093,23 @@ class DeviceFarm {
 }
 
 /// A container for account-level settings in AWS Device Farm.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountSettings {
   /// The AWS account number specified in the <code>AccountSettings</code>
   /// container.
-  @_s.JsonKey(name: 'awsAccountNumber')
-  final String awsAccountNumber;
+  final String? awsAccountNumber;
 
   /// The default number of minutes (at the account level) a test run executes
   /// before it times out. The default value is 150 minutes.
-  @_s.JsonKey(name: 'defaultJobTimeoutMinutes')
-  final int defaultJobTimeoutMinutes;
+  final int? defaultJobTimeoutMinutes;
 
   /// The maximum number of minutes a test run executes before it times out.
-  @_s.JsonKey(name: 'maxJobTimeoutMinutes')
-  final int maxJobTimeoutMinutes;
+  final int? maxJobTimeoutMinutes;
 
   /// The maximum number of device slots that the AWS account can purchase. Each
   /// maximum is expressed as an <code>offering-id:number</code> pair, where the
   /// <code>offering-id</code> represents one of the IDs returned by the
   /// <code>ListOfferings</code> command.
-  @_s.JsonKey(name: 'maxSlots')
-  final Map<String, int> maxSlots;
+  final Map<String, int>? maxSlots;
 
   /// When set to <code>true</code>, for private devices, Device Farm does not
   /// sign your app again. For public devices, Device Farm always signs your apps
@@ -5157,21 +5118,17 @@ class AccountSettings {
   /// For more information about how Device Farm re-signs your apps, see <a
   /// href="https://aws.amazon.com/device-farm/faq/">Do you modify my app?</a> in
   /// the <i>AWS Device Farm FAQs</i>.
-  @_s.JsonKey(name: 'skipAppResign')
-  final bool skipAppResign;
+  final bool? skipAppResign;
 
   /// Information about an AWS account's usage of free trial device minutes.
-  @_s.JsonKey(name: 'trialMinutes')
-  final TrialMinutes trialMinutes;
+  final TrialMinutes? trialMinutes;
 
   /// Returns the unmetered devices you have purchased or want to purchase.
-  @_s.JsonKey(name: 'unmeteredDevices')
-  final Map<DevicePlatform, int> unmeteredDevices;
+  final Map<DevicePlatform, int>? unmeteredDevices;
 
   /// Returns the unmetered remote access devices you have purchased or want to
   /// purchase.
-  @_s.JsonKey(name: 'unmeteredRemoteAccessDevices')
-  final Map<DevicePlatform, int> unmeteredRemoteAccessDevices;
+  final Map<DevicePlatform, int>? unmeteredRemoteAccessDevices;
 
   AccountSettings({
     this.awsAccountNumber,
@@ -5183,29 +5140,37 @@ class AccountSettings {
     this.unmeteredDevices,
     this.unmeteredRemoteAccessDevices,
   });
-  factory AccountSettings.fromJson(Map<String, dynamic> json) =>
-      _$AccountSettingsFromJson(json);
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      awsAccountNumber: json['awsAccountNumber'] as String?,
+      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
+      maxJobTimeoutMinutes: json['maxJobTimeoutMinutes'] as int?,
+      maxSlots: (json['maxSlots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+      skipAppResign: json['skipAppResign'] as bool?,
+      trialMinutes: json['trialMinutes'] != null
+          ? TrialMinutes.fromJson(json['trialMinutes'] as Map<String, dynamic>)
+          : null,
+      unmeteredDevices: (json['unmeteredDevices'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDevicePlatform(), e as int)),
+      unmeteredRemoteAccessDevices:
+          (json['unmeteredRemoteAccessDevices'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toDevicePlatform(), e as int)),
+    );
+  }
 }
 
 /// Represents the output of a test. Examples of artifacts include logs and
 /// screenshots.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Artifact {
   /// The artifact's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The artifact's file extension.
-  @_s.JsonKey(name: 'extension')
-  final String extension;
+  final String? extension;
 
   /// The artifact's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The artifact's type.
   ///
@@ -5298,13 +5263,11 @@ class Artifact {
   /// TESTSPEC_OUTPUT
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final ArtifactType type;
+  final ArtifactType? type;
 
   /// The presigned Amazon S3 URL that can be used with a GET request to download
   /// the artifact's file.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   Artifact({
     this.arn,
@@ -5313,16 +5276,20 @@ class Artifact {
     this.type,
     this.url,
   });
-  factory Artifact.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactFromJson(json);
+  factory Artifact.fromJson(Map<String, dynamic> json) {
+    return Artifact(
+      arn: json['arn'] as String?,
+      extension: json['extension'] as String?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.toArtifactType(),
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum ArtifactCategory {
-  @_s.JsonValue('SCREENSHOT')
   screenshot,
-  @_s.JsonValue('FILE')
   file,
-  @_s.JsonValue('LOG')
   log,
 }
 
@@ -5336,139 +5303,258 @@ extension on ArtifactCategory {
       case ArtifactCategory.log:
         return 'LOG';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ArtifactCategory toArtifactCategory() {
+    switch (this) {
+      case 'SCREENSHOT':
+        return ArtifactCategory.screenshot;
+      case 'FILE':
+        return ArtifactCategory.file;
+      case 'LOG':
+        return ArtifactCategory.log;
+    }
+    throw Exception('$this is not known in enum ArtifactCategory');
   }
 }
 
 enum ArtifactType {
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('SCREENSHOT')
   screenshot,
-  @_s.JsonValue('DEVICE_LOG')
   deviceLog,
-  @_s.JsonValue('MESSAGE_LOG')
   messageLog,
-  @_s.JsonValue('VIDEO_LOG')
   videoLog,
-  @_s.JsonValue('RESULT_LOG')
   resultLog,
-  @_s.JsonValue('SERVICE_LOG')
   serviceLog,
-  @_s.JsonValue('WEBKIT_LOG')
   webkitLog,
-  @_s.JsonValue('INSTRUMENTATION_OUTPUT')
   instrumentationOutput,
-  @_s.JsonValue('EXERCISER_MONKEY_OUTPUT')
   exerciserMonkeyOutput,
-  @_s.JsonValue('CALABASH_JSON_OUTPUT')
   calabashJsonOutput,
-  @_s.JsonValue('CALABASH_PRETTY_OUTPUT')
   calabashPrettyOutput,
-  @_s.JsonValue('CALABASH_STANDARD_OUTPUT')
   calabashStandardOutput,
-  @_s.JsonValue('CALABASH_JAVA_XML_OUTPUT')
   calabashJavaXmlOutput,
-  @_s.JsonValue('AUTOMATION_OUTPUT')
   automationOutput,
-  @_s.JsonValue('APPIUM_SERVER_OUTPUT')
   appiumServerOutput,
-  @_s.JsonValue('APPIUM_JAVA_OUTPUT')
   appiumJavaOutput,
-  @_s.JsonValue('APPIUM_JAVA_XML_OUTPUT')
   appiumJavaXmlOutput,
-  @_s.JsonValue('APPIUM_PYTHON_OUTPUT')
   appiumPythonOutput,
-  @_s.JsonValue('APPIUM_PYTHON_XML_OUTPUT')
   appiumPythonXmlOutput,
-  @_s.JsonValue('EXPLORER_EVENT_LOG')
   explorerEventLog,
-  @_s.JsonValue('EXPLORER_SUMMARY_LOG')
   explorerSummaryLog,
-  @_s.JsonValue('APPLICATION_CRASH_REPORT')
   applicationCrashReport,
-  @_s.JsonValue('XCTEST_LOG')
   xctestLog,
-  @_s.JsonValue('VIDEO')
   video,
-  @_s.JsonValue('CUSTOMER_ARTIFACT')
   customerArtifact,
-  @_s.JsonValue('CUSTOMER_ARTIFACT_LOG')
   customerArtifactLog,
-  @_s.JsonValue('TESTSPEC_OUTPUT')
   testspecOutput,
 }
 
+extension on ArtifactType {
+  String toValue() {
+    switch (this) {
+      case ArtifactType.unknown:
+        return 'UNKNOWN';
+      case ArtifactType.screenshot:
+        return 'SCREENSHOT';
+      case ArtifactType.deviceLog:
+        return 'DEVICE_LOG';
+      case ArtifactType.messageLog:
+        return 'MESSAGE_LOG';
+      case ArtifactType.videoLog:
+        return 'VIDEO_LOG';
+      case ArtifactType.resultLog:
+        return 'RESULT_LOG';
+      case ArtifactType.serviceLog:
+        return 'SERVICE_LOG';
+      case ArtifactType.webkitLog:
+        return 'WEBKIT_LOG';
+      case ArtifactType.instrumentationOutput:
+        return 'INSTRUMENTATION_OUTPUT';
+      case ArtifactType.exerciserMonkeyOutput:
+        return 'EXERCISER_MONKEY_OUTPUT';
+      case ArtifactType.calabashJsonOutput:
+        return 'CALABASH_JSON_OUTPUT';
+      case ArtifactType.calabashPrettyOutput:
+        return 'CALABASH_PRETTY_OUTPUT';
+      case ArtifactType.calabashStandardOutput:
+        return 'CALABASH_STANDARD_OUTPUT';
+      case ArtifactType.calabashJavaXmlOutput:
+        return 'CALABASH_JAVA_XML_OUTPUT';
+      case ArtifactType.automationOutput:
+        return 'AUTOMATION_OUTPUT';
+      case ArtifactType.appiumServerOutput:
+        return 'APPIUM_SERVER_OUTPUT';
+      case ArtifactType.appiumJavaOutput:
+        return 'APPIUM_JAVA_OUTPUT';
+      case ArtifactType.appiumJavaXmlOutput:
+        return 'APPIUM_JAVA_XML_OUTPUT';
+      case ArtifactType.appiumPythonOutput:
+        return 'APPIUM_PYTHON_OUTPUT';
+      case ArtifactType.appiumPythonXmlOutput:
+        return 'APPIUM_PYTHON_XML_OUTPUT';
+      case ArtifactType.explorerEventLog:
+        return 'EXPLORER_EVENT_LOG';
+      case ArtifactType.explorerSummaryLog:
+        return 'EXPLORER_SUMMARY_LOG';
+      case ArtifactType.applicationCrashReport:
+        return 'APPLICATION_CRASH_REPORT';
+      case ArtifactType.xctestLog:
+        return 'XCTEST_LOG';
+      case ArtifactType.video:
+        return 'VIDEO';
+      case ArtifactType.customerArtifact:
+        return 'CUSTOMER_ARTIFACT';
+      case ArtifactType.customerArtifactLog:
+        return 'CUSTOMER_ARTIFACT_LOG';
+      case ArtifactType.testspecOutput:
+        return 'TESTSPEC_OUTPUT';
+    }
+  }
+}
+
+extension on String {
+  ArtifactType toArtifactType() {
+    switch (this) {
+      case 'UNKNOWN':
+        return ArtifactType.unknown;
+      case 'SCREENSHOT':
+        return ArtifactType.screenshot;
+      case 'DEVICE_LOG':
+        return ArtifactType.deviceLog;
+      case 'MESSAGE_LOG':
+        return ArtifactType.messageLog;
+      case 'VIDEO_LOG':
+        return ArtifactType.videoLog;
+      case 'RESULT_LOG':
+        return ArtifactType.resultLog;
+      case 'SERVICE_LOG':
+        return ArtifactType.serviceLog;
+      case 'WEBKIT_LOG':
+        return ArtifactType.webkitLog;
+      case 'INSTRUMENTATION_OUTPUT':
+        return ArtifactType.instrumentationOutput;
+      case 'EXERCISER_MONKEY_OUTPUT':
+        return ArtifactType.exerciserMonkeyOutput;
+      case 'CALABASH_JSON_OUTPUT':
+        return ArtifactType.calabashJsonOutput;
+      case 'CALABASH_PRETTY_OUTPUT':
+        return ArtifactType.calabashPrettyOutput;
+      case 'CALABASH_STANDARD_OUTPUT':
+        return ArtifactType.calabashStandardOutput;
+      case 'CALABASH_JAVA_XML_OUTPUT':
+        return ArtifactType.calabashJavaXmlOutput;
+      case 'AUTOMATION_OUTPUT':
+        return ArtifactType.automationOutput;
+      case 'APPIUM_SERVER_OUTPUT':
+        return ArtifactType.appiumServerOutput;
+      case 'APPIUM_JAVA_OUTPUT':
+        return ArtifactType.appiumJavaOutput;
+      case 'APPIUM_JAVA_XML_OUTPUT':
+        return ArtifactType.appiumJavaXmlOutput;
+      case 'APPIUM_PYTHON_OUTPUT':
+        return ArtifactType.appiumPythonOutput;
+      case 'APPIUM_PYTHON_XML_OUTPUT':
+        return ArtifactType.appiumPythonXmlOutput;
+      case 'EXPLORER_EVENT_LOG':
+        return ArtifactType.explorerEventLog;
+      case 'EXPLORER_SUMMARY_LOG':
+        return ArtifactType.explorerSummaryLog;
+      case 'APPLICATION_CRASH_REPORT':
+        return ArtifactType.applicationCrashReport;
+      case 'XCTEST_LOG':
+        return ArtifactType.xctestLog;
+      case 'VIDEO':
+        return ArtifactType.video;
+      case 'CUSTOMER_ARTIFACT':
+        return ArtifactType.customerArtifact;
+      case 'CUSTOMER_ARTIFACT_LOG':
+        return ArtifactType.customerArtifactLog;
+      case 'TESTSPEC_OUTPUT':
+        return ArtifactType.testspecOutput;
+    }
+    throw Exception('$this is not known in enum ArtifactType');
+  }
+}
+
 enum BillingMethod {
-  @_s.JsonValue('METERED')
   metered,
-  @_s.JsonValue('UNMETERED')
   unmetered,
+}
+
+extension on BillingMethod {
+  String toValue() {
+    switch (this) {
+      case BillingMethod.metered:
+        return 'METERED';
+      case BillingMethod.unmetered:
+        return 'UNMETERED';
+    }
+  }
+}
+
+extension on String {
+  BillingMethod toBillingMethod() {
+    switch (this) {
+      case 'METERED':
+        return BillingMethod.metered;
+      case 'UNMETERED':
+        return BillingMethod.unmetered;
+    }
+    throw Exception('$this is not known in enum BillingMethod');
+  }
 }
 
 /// Represents the amount of CPU that an app is using on a physical device. Does
 /// not represent system-wide CPU usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CPU {
   /// The CPU's architecture (for example, x86 or ARM).
-  @_s.JsonKey(name: 'architecture')
-  final String architecture;
+  final String? architecture;
 
   /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a
   /// 1.2 GHz CPU is expressed as 1200000000.
-  @_s.JsonKey(name: 'clock')
-  final double clock;
+  final double? clock;
 
   /// The CPU's frequency.
-  @_s.JsonKey(name: 'frequency')
-  final String frequency;
+  final String? frequency;
 
   CPU({
     this.architecture,
     this.clock,
     this.frequency,
   });
-  factory CPU.fromJson(Map<String, dynamic> json) => _$CPUFromJson(json);
+  factory CPU.fromJson(Map<String, dynamic> json) {
+    return CPU(
+      architecture: json['architecture'] as String?,
+      clock: json['clock'] as double?,
+      frequency: json['frequency'] as String?,
+    );
+  }
 }
 
 /// Represents entity counters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Counters {
   /// The number of errored entities.
-  @_s.JsonKey(name: 'errored')
-  final int errored;
+  final int? errored;
 
   /// The number of failed entities.
-  @_s.JsonKey(name: 'failed')
-  final int failed;
+  final int? failed;
 
   /// The number of passed entities.
-  @_s.JsonKey(name: 'passed')
-  final int passed;
+  final int? passed;
 
   /// The number of skipped entities.
-  @_s.JsonKey(name: 'skipped')
-  final int skipped;
+  final int? skipped;
 
   /// The number of stopped entities.
-  @_s.JsonKey(name: 'stopped')
-  final int stopped;
+  final int? stopped;
 
   /// The total number of entities.
-  @_s.JsonKey(name: 'total')
-  final int total;
+  final int? total;
 
   /// The number of warned entities.
-  @_s.JsonKey(name: 'warned')
-  final int warned;
+  final int? warned;
 
   Counters({
     this.errored,
@@ -5479,204 +5565,224 @@ class Counters {
     this.total,
     this.warned,
   });
-  factory Counters.fromJson(Map<String, dynamic> json) =>
-      _$CountersFromJson(json);
+  factory Counters.fromJson(Map<String, dynamic> json) {
+    return Counters(
+      errored: json['errored'] as int?,
+      failed: json['failed'] as int?,
+      passed: json['passed'] as int?,
+      skipped: json['skipped'] as int?,
+      stopped: json['stopped'] as int?,
+      total: json['total'] as int?,
+      warned: json['warned'] as int?,
+    );
+  }
 }
 
 /// Represents the result of a create device pool request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDevicePoolResult {
   /// The newly created device pool.
-  @_s.JsonKey(name: 'devicePool')
-  final DevicePool devicePool;
+  final DevicePool? devicePool;
 
   CreateDevicePoolResult({
     this.devicePool,
   });
-  factory CreateDevicePoolResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDevicePoolResultFromJson(json);
+  factory CreateDevicePoolResult.fromJson(Map<String, dynamic> json) {
+    return CreateDevicePoolResult(
+      devicePool: json['devicePool'] != null
+          ? DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateInstanceProfileResult {
   /// An object that contains information about your instance profile.
-  @_s.JsonKey(name: 'instanceProfile')
-  final InstanceProfile instanceProfile;
+  final InstanceProfile? instanceProfile;
 
   CreateInstanceProfileResult({
     this.instanceProfile,
   });
-  factory CreateInstanceProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateInstanceProfileResultFromJson(json);
+  factory CreateInstanceProfileResult.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceProfileResult(
+      instanceProfile: json['instanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['instanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNetworkProfileResult {
   /// The network profile that is returned by the create network profile request.
-  @_s.JsonKey(name: 'networkProfile')
-  final NetworkProfile networkProfile;
+  final NetworkProfile? networkProfile;
 
   CreateNetworkProfileResult({
     this.networkProfile,
   });
-  factory CreateNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateNetworkProfileResultFromJson(json);
+  factory CreateNetworkProfileResult.fromJson(Map<String, dynamic> json) {
+    return CreateNetworkProfileResult(
+      networkProfile: json['networkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['networkProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a create project request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectResult {
   /// The newly created project.
-  @_s.JsonKey(name: 'project')
-  final Project project;
+  final Project? project;
 
   CreateProjectResult({
     this.project,
   });
-  factory CreateProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectResultFromJson(json);
+  factory CreateProjectResult.fromJson(Map<String, dynamic> json) {
+    return CreateProjectResult(
+      project: json['project'] != null
+          ? Project.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Configuration settings for a remote access session, including billing
 /// method.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateRemoteAccessSessionConfiguration {
   /// The billing method for the remote access session.
-  @_s.JsonKey(name: 'billingMethod')
-  final BillingMethod billingMethod;
+  final BillingMethod? billingMethod;
 
   /// An array of ARNs included in the VPC endpoint configuration.
-  @_s.JsonKey(name: 'vpceConfigurationArns')
-  final List<String> vpceConfigurationArns;
+  final List<String>? vpceConfigurationArns;
 
   CreateRemoteAccessSessionConfiguration({
     this.billingMethod,
     this.vpceConfigurationArns,
   });
-  Map<String, dynamic> toJson() =>
-      _$CreateRemoteAccessSessionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final billingMethod = this.billingMethod;
+    final vpceConfigurationArns = this.vpceConfigurationArns;
+    return {
+      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (vpceConfigurationArns != null)
+        'vpceConfigurationArns': vpceConfigurationArns,
+    };
+  }
 }
 
 /// Represents the server response from a request to create a remote access
 /// session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRemoteAccessSessionResult {
   /// A container that describes the remote access session when the request to
   /// create a remote access session is sent.
-  @_s.JsonKey(name: 'remoteAccessSession')
-  final RemoteAccessSession remoteAccessSession;
+  final RemoteAccessSession? remoteAccessSession;
 
   CreateRemoteAccessSessionResult({
     this.remoteAccessSession,
   });
-  factory CreateRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateRemoteAccessSessionResultFromJson(json);
+  factory CreateRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) {
+    return CreateRemoteAccessSessionResult(
+      remoteAccessSession: json['remoteAccessSession'] != null
+          ? RemoteAccessSession.fromJson(
+              json['remoteAccessSession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTestGridProjectResult {
   /// ARN of the Selenium testing project that was created.
-  @_s.JsonKey(name: 'testGridProject')
-  final TestGridProject testGridProject;
+  final TestGridProject? testGridProject;
 
   CreateTestGridProjectResult({
     this.testGridProject,
   });
-  factory CreateTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateTestGridProjectResultFromJson(json);
+  factory CreateTestGridProjectResult.fromJson(Map<String, dynamic> json) {
+    return CreateTestGridProjectResult(
+      testGridProject: json['testGridProject'] != null
+          ? TestGridProject.fromJson(
+              json['testGridProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTestGridUrlResult {
   /// The number of seconds the URL from <a>CreateTestGridUrlResult$url</a> stays
   /// active.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expires')
-  final DateTime expires;
+  final DateTime? expires;
 
   /// A signed URL, expiring in <a>CreateTestGridUrlRequest$expiresInSeconds</a>
   /// seconds, to be passed to a <code>RemoteWebDriver</code>.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   CreateTestGridUrlResult({
     this.expires,
     this.url,
   });
-  factory CreateTestGridUrlResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateTestGridUrlResultFromJson(json);
+  factory CreateTestGridUrlResult.fromJson(Map<String, dynamic> json) {
+    return CreateTestGridUrlResult(
+      expires: timeStampFromJson(json['expires']),
+      url: json['url'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a create upload request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUploadResult {
   /// The newly created upload.
-  @_s.JsonKey(name: 'upload')
-  final Upload upload;
+  final Upload? upload;
 
   CreateUploadResult({
     this.upload,
   });
-  factory CreateUploadResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateUploadResultFromJson(json);
+  factory CreateUploadResult.fromJson(Map<String, dynamic> json) {
+    return CreateUploadResult(
+      upload: json['upload'] != null
+          ? Upload.fromJson(json['upload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
-  @_s.JsonKey(name: 'vpceConfiguration')
-  final VPCEConfiguration vpceConfiguration;
+  final VPCEConfiguration? vpceConfiguration;
 
   CreateVPCEConfigurationResult({
     this.vpceConfiguration,
   });
-  factory CreateVPCEConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateVPCEConfigurationResultFromJson(json);
+  factory CreateVPCEConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return CreateVPCEConfigurationResult(
+      vpceConfiguration: json['vpceConfiguration'] != null
+          ? VPCEConfiguration.fromJson(
+              json['vpceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum CurrencyCode {
-  @_s.JsonValue('USD')
   usd,
+}
+
+extension on CurrencyCode {
+  String toValue() {
+    switch (this) {
+      case CurrencyCode.usd:
+        return 'USD';
+    }
+  }
+}
+
+extension on String {
+  CurrencyCode toCurrencyCode() {
+    switch (this) {
+      case 'USD':
+        return CurrencyCode.usd;
+    }
+    throw Exception('$this is not known in enum CurrencyCode');
+  }
 }
 
 /// A JSON object that specifies the paths where the artifacts generated by the
@@ -5687,175 +5793,143 @@ enum CurrencyCode {
 ///
 /// For web app tests, you can specify both <code>iosPaths</code> and
 /// <code>androidPaths</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomerArtifactPaths {
   /// Comma-separated list of paths on the Android device where the artifacts
   /// generated by the customer's tests are pulled from.
-  @_s.JsonKey(name: 'androidPaths')
-  final List<String> androidPaths;
+  final List<String>? androidPaths;
 
   /// Comma-separated list of paths in the test execution environment where the
   /// artifacts generated by the customer's tests are pulled from.
-  @_s.JsonKey(name: 'deviceHostPaths')
-  final List<String> deviceHostPaths;
+  final List<String>? deviceHostPaths;
 
   /// Comma-separated list of paths on the iOS device where the artifacts
   /// generated by the customer's tests are pulled from.
-  @_s.JsonKey(name: 'iosPaths')
-  final List<String> iosPaths;
+  final List<String>? iosPaths;
 
   CustomerArtifactPaths({
     this.androidPaths,
     this.deviceHostPaths,
     this.iosPaths,
   });
-  factory CustomerArtifactPaths.fromJson(Map<String, dynamic> json) =>
-      _$CustomerArtifactPathsFromJson(json);
+  factory CustomerArtifactPaths.fromJson(Map<String, dynamic> json) {
+    return CustomerArtifactPaths(
+      androidPaths: (json['androidPaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deviceHostPaths: (json['deviceHostPaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      iosPaths: (json['iosPaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CustomerArtifactPathsToJson(this);
+  Map<String, dynamic> toJson() {
+    final androidPaths = this.androidPaths;
+    final deviceHostPaths = this.deviceHostPaths;
+    final iosPaths = this.iosPaths;
+    return {
+      if (androidPaths != null) 'androidPaths': androidPaths,
+      if (deviceHostPaths != null) 'deviceHostPaths': deviceHostPaths,
+      if (iosPaths != null) 'iosPaths': iosPaths,
+    };
+  }
 }
 
 /// Represents the result of a delete device pool request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDevicePoolResult {
   DeleteDevicePoolResult();
-  factory DeleteDevicePoolResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDevicePoolResultFromJson(json);
+  factory DeleteDevicePoolResult.fromJson(Map<String, dynamic> _) {
+    return DeleteDevicePoolResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInstanceProfileResult {
   DeleteInstanceProfileResult();
-  factory DeleteInstanceProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteInstanceProfileResultFromJson(json);
+  factory DeleteInstanceProfileResult.fromJson(Map<String, dynamic> _) {
+    return DeleteInstanceProfileResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNetworkProfileResult {
   DeleteNetworkProfileResult();
-  factory DeleteNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNetworkProfileResultFromJson(json);
+  factory DeleteNetworkProfileResult.fromJson(Map<String, dynamic> _) {
+    return DeleteNetworkProfileResult();
+  }
 }
 
 /// Represents the result of a delete project request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectResult {
   DeleteProjectResult();
-  factory DeleteProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectResultFromJson(json);
+  factory DeleteProjectResult.fromJson(Map<String, dynamic> _) {
+    return DeleteProjectResult();
+  }
 }
 
 /// The response from the server when a request is made to delete the remote
 /// access session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRemoteAccessSessionResult {
   DeleteRemoteAccessSessionResult();
-  factory DeleteRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRemoteAccessSessionResultFromJson(json);
+  factory DeleteRemoteAccessSessionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteRemoteAccessSessionResult();
+  }
 }
 
 /// Represents the result of a delete run request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRunResult {
   DeleteRunResult();
-  factory DeleteRunResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRunResultFromJson(json);
+  factory DeleteRunResult.fromJson(Map<String, dynamic> _) {
+    return DeleteRunResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTestGridProjectResult {
   DeleteTestGridProjectResult();
-  factory DeleteTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTestGridProjectResultFromJson(json);
+  factory DeleteTestGridProjectResult.fromJson(Map<String, dynamic> _) {
+    return DeleteTestGridProjectResult();
+  }
 }
 
 /// Represents the result of a delete upload request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUploadResult {
   DeleteUploadResult();
-  factory DeleteUploadResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUploadResultFromJson(json);
+  factory DeleteUploadResult.fromJson(Map<String, dynamic> _) {
+    return DeleteUploadResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVPCEConfigurationResult {
   DeleteVPCEConfigurationResult();
-  factory DeleteVPCEConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVPCEConfigurationResultFromJson(json);
+  factory DeleteVPCEConfigurationResult.fromJson(Map<String, dynamic> _) {
+    return DeleteVPCEConfigurationResult();
+  }
 }
 
 /// Represents a device type that an app is tested against.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Device {
   /// The device's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Indicates how likely a device is available for a test run. Currently
   /// available in the <a>ListDevices</a> and GetDevice API methods.
-  @_s.JsonKey(name: 'availability')
-  final DeviceAvailability availability;
+  final DeviceAvailability? availability;
 
   /// The device's carrier.
-  @_s.JsonKey(name: 'carrier')
-  final String carrier;
+  final String? carrier;
 
   /// Information about the device's CPU.
-  @_s.JsonKey(name: 'cpu')
-  final CPU cpu;
+  final CPU? cpu;
 
   /// The name of the fleet to which this device belongs.
-  @_s.JsonKey(name: 'fleetName')
-  final String fleetName;
+  final String? fleetName;
 
   /// The type of fleet to which this device belongs. Possible values are PRIVATE
   /// and PUBLIC.
-  @_s.JsonKey(name: 'fleetType')
-  final String fleetType;
+  final String? fleetType;
 
   /// The device's form factor.
   ///
@@ -5869,44 +5943,34 @@ class Device {
   /// TABLET
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'formFactor')
-  final DeviceFormFactor formFactor;
+  final DeviceFormFactor? formFactor;
 
   /// The device's heap size, expressed in bytes.
-  @_s.JsonKey(name: 'heapSize')
-  final int heapSize;
+  final int? heapSize;
 
   /// The device's image name.
-  @_s.JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   /// The instances that belong to this device.
-  @_s.JsonKey(name: 'instances')
-  final List<DeviceInstance> instances;
+  final List<DeviceInstance>? instances;
 
   /// The device's manufacturer name.
-  @_s.JsonKey(name: 'manufacturer')
-  final String manufacturer;
+  final String? manufacturer;
 
   /// The device's total memory size, expressed in bytes.
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The device's model name.
-  @_s.JsonKey(name: 'model')
-  final String model;
+  final String? model;
 
   /// The device's model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The device's display name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The device's operating system type.
-  @_s.JsonKey(name: 'os')
-  final String os;
+  final String? os;
 
   /// The device's platform.
   ///
@@ -5920,16 +5984,13 @@ class Device {
   /// IOS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'platform')
-  final DevicePlatform platform;
+  final DevicePlatform? platform;
 
   /// The device's radio.
-  @_s.JsonKey(name: 'radio')
-  final String radio;
+  final String? radio;
 
   /// Specifies whether remote access has been enabled for the specified device.
-  @_s.JsonKey(name: 'remoteAccessEnabled')
-  final bool remoteAccessEnabled;
+  final bool? remoteAccessEnabled;
 
   /// This flag is set to <code>true</code> if remote debugging is enabled for the
   /// device.
@@ -5937,12 +5998,10 @@ class Device {
   /// Remote debugging is <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
-  @_s.JsonKey(name: 'remoteDebugEnabled')
-  final bool remoteDebugEnabled;
+  final bool? remoteDebugEnabled;
 
   /// The resolution of the device.
-  @_s.JsonKey(name: 'resolution')
-  final Resolution resolution;
+  final Resolution? resolution;
 
   Device({
     this.arn,
@@ -5967,47 +6026,159 @@ class Device {
     this.remoteDebugEnabled,
     this.resolution,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      arn: json['arn'] as String?,
+      availability: (json['availability'] as String?)?.toDeviceAvailability(),
+      carrier: json['carrier'] as String?,
+      cpu: json['cpu'] != null
+          ? CPU.fromJson(json['cpu'] as Map<String, dynamic>)
+          : null,
+      fleetName: json['fleetName'] as String?,
+      fleetType: json['fleetType'] as String?,
+      formFactor: (json['formFactor'] as String?)?.toDeviceFormFactor(),
+      heapSize: json['heapSize'] as int?,
+      image: json['image'] as String?,
+      instances: (json['instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      manufacturer: json['manufacturer'] as String?,
+      memory: json['memory'] as int?,
+      model: json['model'] as String?,
+      modelId: json['modelId'] as String?,
+      name: json['name'] as String?,
+      os: json['os'] as String?,
+      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      radio: json['radio'] as String?,
+      remoteAccessEnabled: json['remoteAccessEnabled'] as bool?,
+      remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
+      resolution: json['resolution'] != null
+          ? Resolution.fromJson(json['resolution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DeviceAttribute {
-  @_s.JsonValue('ARN')
   arn,
-  @_s.JsonValue('PLATFORM')
   platform,
-  @_s.JsonValue('FORM_FACTOR')
   formFactor,
-  @_s.JsonValue('MANUFACTURER')
   manufacturer,
-  @_s.JsonValue('REMOTE_ACCESS_ENABLED')
   remoteAccessEnabled,
-  @_s.JsonValue('REMOTE_DEBUG_ENABLED')
   remoteDebugEnabled,
-  @_s.JsonValue('APPIUM_VERSION')
   appiumVersion,
-  @_s.JsonValue('INSTANCE_ARN')
   instanceArn,
-  @_s.JsonValue('INSTANCE_LABELS')
   instanceLabels,
-  @_s.JsonValue('FLEET_TYPE')
   fleetType,
-  @_s.JsonValue('OS_VERSION')
   osVersion,
-  @_s.JsonValue('MODEL')
   model,
-  @_s.JsonValue('AVAILABILITY')
   availability,
 }
 
+extension on DeviceAttribute {
+  String toValue() {
+    switch (this) {
+      case DeviceAttribute.arn:
+        return 'ARN';
+      case DeviceAttribute.platform:
+        return 'PLATFORM';
+      case DeviceAttribute.formFactor:
+        return 'FORM_FACTOR';
+      case DeviceAttribute.manufacturer:
+        return 'MANUFACTURER';
+      case DeviceAttribute.remoteAccessEnabled:
+        return 'REMOTE_ACCESS_ENABLED';
+      case DeviceAttribute.remoteDebugEnabled:
+        return 'REMOTE_DEBUG_ENABLED';
+      case DeviceAttribute.appiumVersion:
+        return 'APPIUM_VERSION';
+      case DeviceAttribute.instanceArn:
+        return 'INSTANCE_ARN';
+      case DeviceAttribute.instanceLabels:
+        return 'INSTANCE_LABELS';
+      case DeviceAttribute.fleetType:
+        return 'FLEET_TYPE';
+      case DeviceAttribute.osVersion:
+        return 'OS_VERSION';
+      case DeviceAttribute.model:
+        return 'MODEL';
+      case DeviceAttribute.availability:
+        return 'AVAILABILITY';
+    }
+  }
+}
+
+extension on String {
+  DeviceAttribute toDeviceAttribute() {
+    switch (this) {
+      case 'ARN':
+        return DeviceAttribute.arn;
+      case 'PLATFORM':
+        return DeviceAttribute.platform;
+      case 'FORM_FACTOR':
+        return DeviceAttribute.formFactor;
+      case 'MANUFACTURER':
+        return DeviceAttribute.manufacturer;
+      case 'REMOTE_ACCESS_ENABLED':
+        return DeviceAttribute.remoteAccessEnabled;
+      case 'REMOTE_DEBUG_ENABLED':
+        return DeviceAttribute.remoteDebugEnabled;
+      case 'APPIUM_VERSION':
+        return DeviceAttribute.appiumVersion;
+      case 'INSTANCE_ARN':
+        return DeviceAttribute.instanceArn;
+      case 'INSTANCE_LABELS':
+        return DeviceAttribute.instanceLabels;
+      case 'FLEET_TYPE':
+        return DeviceAttribute.fleetType;
+      case 'OS_VERSION':
+        return DeviceAttribute.osVersion;
+      case 'MODEL':
+        return DeviceAttribute.model;
+      case 'AVAILABILITY':
+        return DeviceAttribute.availability;
+    }
+    throw Exception('$this is not known in enum DeviceAttribute');
+  }
+}
+
 enum DeviceAvailability {
-  @_s.JsonValue('TEMPORARY_NOT_AVAILABLE')
   temporaryNotAvailable,
-  @_s.JsonValue('BUSY')
   busy,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('HIGHLY_AVAILABLE')
   highlyAvailable,
+}
+
+extension on DeviceAvailability {
+  String toValue() {
+    switch (this) {
+      case DeviceAvailability.temporaryNotAvailable:
+        return 'TEMPORARY_NOT_AVAILABLE';
+      case DeviceAvailability.busy:
+        return 'BUSY';
+      case DeviceAvailability.available:
+        return 'AVAILABLE';
+      case DeviceAvailability.highlyAvailable:
+        return 'HIGHLY_AVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  DeviceAvailability toDeviceAvailability() {
+    switch (this) {
+      case 'TEMPORARY_NOT_AVAILABLE':
+        return DeviceAvailability.temporaryNotAvailable;
+      case 'BUSY':
+        return DeviceAvailability.busy;
+      case 'AVAILABLE':
+        return DeviceAvailability.available;
+      case 'HIGHLY_AVAILABLE':
+        return DeviceAvailability.highlyAvailable;
+    }
+    throw Exception('$this is not known in enum DeviceAvailability');
+  }
 }
 
 /// Represents a device filter used to select a set of devices to be included in
@@ -6019,11 +6190,6 @@ enum DeviceAvailability {
 /// It is also passed in as the <code>filters</code> parameter to
 /// <code>ListDevices</code>. For an example of the JSON request syntax, see
 /// <a>ListDevices</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceFilter {
   /// The aspect of a device such as platform or model used as the selection
   /// criteria in a device filter.
@@ -6094,13 +6260,11 @@ class DeviceFilter {
   ///
   /// Supported operators: <code>EQUALS</code>
   /// </dd> </dl>
-  @_s.JsonKey(name: 'attribute')
-  final DeviceFilterAttribute attribute;
+  final DeviceFilterAttribute? attribute;
 
   /// Specifies how Device Farm compares the filter's attribute to the value. See
   /// the attribute descriptions.
-  @_s.JsonKey(name: 'operator')
-  final RuleOperator operator;
+  final RuleOperator? operator;
 
   /// An array of one or more filter values used in a device filter.
   /// <p class="title"> <b>Operator Values</b>
@@ -6130,84 +6294,161 @@ class DeviceFilter {
   /// The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   DeviceFilter({
     this.attribute,
     this.operator,
     this.values,
   });
-  factory DeviceFilter.fromJson(Map<String, dynamic> json) =>
-      _$DeviceFilterFromJson(json);
+  factory DeviceFilter.fromJson(Map<String, dynamic> json) {
+    return DeviceFilter(
+      attribute: (json['attribute'] as String?)?.toDeviceFilterAttribute(),
+      operator: (json['operator'] as String?)?.toRuleOperator(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeviceFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (attribute != null) 'attribute': attribute.toValue(),
+      if (operator != null) 'operator': operator.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum DeviceFilterAttribute {
-  @_s.JsonValue('ARN')
   arn,
-  @_s.JsonValue('PLATFORM')
   platform,
-  @_s.JsonValue('OS_VERSION')
   osVersion,
-  @_s.JsonValue('MODEL')
   model,
-  @_s.JsonValue('AVAILABILITY')
   availability,
-  @_s.JsonValue('FORM_FACTOR')
   formFactor,
-  @_s.JsonValue('MANUFACTURER')
   manufacturer,
-  @_s.JsonValue('REMOTE_ACCESS_ENABLED')
   remoteAccessEnabled,
-  @_s.JsonValue('REMOTE_DEBUG_ENABLED')
   remoteDebugEnabled,
-  @_s.JsonValue('INSTANCE_ARN')
   instanceArn,
-  @_s.JsonValue('INSTANCE_LABELS')
   instanceLabels,
-  @_s.JsonValue('FLEET_TYPE')
   fleetType,
 }
 
+extension on DeviceFilterAttribute {
+  String toValue() {
+    switch (this) {
+      case DeviceFilterAttribute.arn:
+        return 'ARN';
+      case DeviceFilterAttribute.platform:
+        return 'PLATFORM';
+      case DeviceFilterAttribute.osVersion:
+        return 'OS_VERSION';
+      case DeviceFilterAttribute.model:
+        return 'MODEL';
+      case DeviceFilterAttribute.availability:
+        return 'AVAILABILITY';
+      case DeviceFilterAttribute.formFactor:
+        return 'FORM_FACTOR';
+      case DeviceFilterAttribute.manufacturer:
+        return 'MANUFACTURER';
+      case DeviceFilterAttribute.remoteAccessEnabled:
+        return 'REMOTE_ACCESS_ENABLED';
+      case DeviceFilterAttribute.remoteDebugEnabled:
+        return 'REMOTE_DEBUG_ENABLED';
+      case DeviceFilterAttribute.instanceArn:
+        return 'INSTANCE_ARN';
+      case DeviceFilterAttribute.instanceLabels:
+        return 'INSTANCE_LABELS';
+      case DeviceFilterAttribute.fleetType:
+        return 'FLEET_TYPE';
+    }
+  }
+}
+
+extension on String {
+  DeviceFilterAttribute toDeviceFilterAttribute() {
+    switch (this) {
+      case 'ARN':
+        return DeviceFilterAttribute.arn;
+      case 'PLATFORM':
+        return DeviceFilterAttribute.platform;
+      case 'OS_VERSION':
+        return DeviceFilterAttribute.osVersion;
+      case 'MODEL':
+        return DeviceFilterAttribute.model;
+      case 'AVAILABILITY':
+        return DeviceFilterAttribute.availability;
+      case 'FORM_FACTOR':
+        return DeviceFilterAttribute.formFactor;
+      case 'MANUFACTURER':
+        return DeviceFilterAttribute.manufacturer;
+      case 'REMOTE_ACCESS_ENABLED':
+        return DeviceFilterAttribute.remoteAccessEnabled;
+      case 'REMOTE_DEBUG_ENABLED':
+        return DeviceFilterAttribute.remoteDebugEnabled;
+      case 'INSTANCE_ARN':
+        return DeviceFilterAttribute.instanceArn;
+      case 'INSTANCE_LABELS':
+        return DeviceFilterAttribute.instanceLabels;
+      case 'FLEET_TYPE':
+        return DeviceFilterAttribute.fleetType;
+    }
+    throw Exception('$this is not known in enum DeviceFilterAttribute');
+  }
+}
+
 enum DeviceFormFactor {
-  @_s.JsonValue('PHONE')
   phone,
-  @_s.JsonValue('TABLET')
   tablet,
 }
 
+extension on DeviceFormFactor {
+  String toValue() {
+    switch (this) {
+      case DeviceFormFactor.phone:
+        return 'PHONE';
+      case DeviceFormFactor.tablet:
+        return 'TABLET';
+    }
+  }
+}
+
+extension on String {
+  DeviceFormFactor toDeviceFormFactor() {
+    switch (this) {
+      case 'PHONE':
+        return DeviceFormFactor.phone;
+      case 'TABLET':
+        return DeviceFormFactor.tablet;
+    }
+    throw Exception('$this is not known in enum DeviceFormFactor');
+  }
+}
+
 /// Represents the device instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceInstance {
   /// The Amazon Resource Name (ARN) of the device instance.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The ARN of the device.
-  @_s.JsonKey(name: 'deviceArn')
-  final String deviceArn;
+  final String? deviceArn;
 
   /// A object that contains information about the instance profile.
-  @_s.JsonKey(name: 'instanceProfile')
-  final InstanceProfile instanceProfile;
+  final InstanceProfile? instanceProfile;
 
   /// An array of strings that describe the device instance.
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// The status of the device instance. Valid values are listed here.
-  @_s.JsonKey(name: 'status')
-  final InstanceStatus status;
+  final InstanceStatus? status;
 
   /// Unique device identifier for the device instance.
-  @_s.JsonKey(name: 'udid')
-  final String udid;
+  final String? udid;
 
   DeviceInstance({
     this.arn,
@@ -6217,63 +6458,88 @@ class DeviceInstance {
     this.status,
     this.udid,
   });
-  factory DeviceInstance.fromJson(Map<String, dynamic> json) =>
-      _$DeviceInstanceFromJson(json);
+  factory DeviceInstance.fromJson(Map<String, dynamic> json) {
+    return DeviceInstance(
+      arn: json['arn'] as String?,
+      deviceArn: json['deviceArn'] as String?,
+      instanceProfile: json['instanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['instanceProfile'] as Map<String, dynamic>)
+          : null,
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: (json['status'] as String?)?.toInstanceStatus(),
+      udid: json['udid'] as String?,
+    );
+  }
 }
 
 /// Represents the total (metered or unmetered) minutes used by the resource to
 /// run tests. Contains the sum of minutes consumed by all children.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceMinutes {
   /// When specified, represents only the sum of metered minutes used by the
   /// resource to run tests.
-  @_s.JsonKey(name: 'metered')
-  final double metered;
+  final double? metered;
 
   /// When specified, represents the total minutes used by the resource to run
   /// tests.
-  @_s.JsonKey(name: 'total')
-  final double total;
+  final double? total;
 
   /// When specified, represents only the sum of unmetered minutes used by the
   /// resource to run tests.
-  @_s.JsonKey(name: 'unmetered')
-  final double unmetered;
+  final double? unmetered;
 
   DeviceMinutes({
     this.metered,
     this.total,
     this.unmetered,
   });
-  factory DeviceMinutes.fromJson(Map<String, dynamic> json) =>
-      _$DeviceMinutesFromJson(json);
+  factory DeviceMinutes.fromJson(Map<String, dynamic> json) {
+    return DeviceMinutes(
+      metered: json['metered'] as double?,
+      total: json['total'] as double?,
+      unmetered: json['unmetered'] as double?,
+    );
+  }
 }
 
 enum DevicePlatform {
-  @_s.JsonValue('ANDROID')
   android,
-  @_s.JsonValue('IOS')
   ios,
 }
 
+extension on DevicePlatform {
+  String toValue() {
+    switch (this) {
+      case DevicePlatform.android:
+        return 'ANDROID';
+      case DevicePlatform.ios:
+        return 'IOS';
+    }
+  }
+}
+
+extension on String {
+  DevicePlatform toDevicePlatform() {
+    switch (this) {
+      case 'ANDROID':
+        return DevicePlatform.android;
+      case 'IOS':
+        return DevicePlatform.ios;
+    }
+    throw Exception('$this is not known in enum DevicePlatform');
+  }
+}
+
 /// Represents a collection of device types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DevicePool {
   /// The device pool's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The device pool's description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The number of devices that Device Farm can add to your device pool. Device
   /// Farm adds devices that are available and meet the criteria that you assign
@@ -6283,16 +6549,13 @@ class DevicePool {
   ///
   /// By specifying the maximum number of devices, you can control the costs that
   /// you incur by running tests.
-  @_s.JsonKey(name: 'maxDevices')
-  final int maxDevices;
+  final int? maxDevices;
 
   /// The device pool's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Information about the device pool's rules.
-  @_s.JsonKey(name: 'rules')
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   /// The device pool's type.
   ///
@@ -6307,8 +6570,7 @@ class DevicePool {
   /// developer.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final DevicePoolType type;
+  final DevicePoolType? type;
 
   DevicePool({
     this.arn,
@@ -6318,42 +6580,54 @@ class DevicePool {
     this.rules,
     this.type,
   });
-  factory DevicePool.fromJson(Map<String, dynamic> json) =>
-      _$DevicePoolFromJson(json);
+  factory DevicePool.fromJson(Map<String, dynamic> json) {
+    return DevicePool(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      maxDevices: json['maxDevices'] as int?,
+      name: json['name'] as String?,
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.toDevicePoolType(),
+    );
+  }
 }
 
 /// Represents a device pool compatibility result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DevicePoolCompatibilityResult {
   /// Whether the result was compatible with the device pool.
-  @_s.JsonKey(name: 'compatible')
-  final bool compatible;
+  final bool? compatible;
 
   /// The device (phone or tablet) to return information about.
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   /// Information about the compatibility.
-  @_s.JsonKey(name: 'incompatibilityMessages')
-  final List<IncompatibilityMessage> incompatibilityMessages;
+  final List<IncompatibilityMessage>? incompatibilityMessages;
 
   DevicePoolCompatibilityResult({
     this.compatible,
     this.device,
     this.incompatibilityMessages,
   });
-  factory DevicePoolCompatibilityResult.fromJson(Map<String, dynamic> json) =>
-      _$DevicePoolCompatibilityResultFromJson(json);
+  factory DevicePoolCompatibilityResult.fromJson(Map<String, dynamic> json) {
+    return DevicePoolCompatibilityResult(
+      compatible: json['compatible'] as bool?,
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      incompatibilityMessages: (json['incompatibilityMessages'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => IncompatibilityMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum DevicePoolType {
-  @_s.JsonValue('CURATED')
   curated,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
@@ -6365,7 +6639,18 @@ extension on DevicePoolType {
       case DevicePoolType.private:
         return 'PRIVATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DevicePoolType toDevicePoolType() {
+    switch (this) {
+      case 'CURATED':
+        return DevicePoolType.curated;
+      case 'PRIVATE':
+        return DevicePoolType.private;
+    }
+    throw Exception('$this is not known in enum DevicePoolType');
   }
 }
 
@@ -6373,11 +6658,6 @@ extension on DevicePoolType {
 /// devices to be included in the run. It is passed in as the
 /// <code>deviceSelectionConfiguration</code> request parameter in
 /// <a>ScheduleRun</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeviceSelectionConfiguration {
   /// Used to dynamically select a set of devices for a test run. A filter is made
   /// up of an attribute, an operator, and one or more values.
@@ -6489,72 +6769,69 @@ class DeviceSelectionConfiguration {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'filters')
   final List<DeviceFilter> filters;
 
   /// The maximum number of devices to be included in a test run.
-  @_s.JsonKey(name: 'maxDevices')
   final int maxDevices;
 
   DeviceSelectionConfiguration({
-    @_s.required this.filters,
-    @_s.required this.maxDevices,
+    required this.filters,
+    required this.maxDevices,
   });
-  Map<String, dynamic> toJson() => _$DeviceSelectionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final maxDevices = this.maxDevices;
+    return {
+      'filters': filters,
+      'maxDevices': maxDevices,
+    };
+  }
 }
 
 /// Contains the run results requested by the device selection configuration and
 /// how many devices were returned. For an example of the JSON response syntax,
 /// see <a>ScheduleRun</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceSelectionResult {
   /// The filters in a device selection result.
-  @_s.JsonKey(name: 'filters')
-  final List<DeviceFilter> filters;
+  final List<DeviceFilter>? filters;
 
   /// The number of devices that matched the device filter selection criteria.
-  @_s.JsonKey(name: 'matchedDevicesCount')
-  final int matchedDevicesCount;
+  final int? matchedDevicesCount;
 
   /// The maximum number of devices to be selected by a device filter and included
   /// in a test run.
-  @_s.JsonKey(name: 'maxDevices')
-  final int maxDevices;
+  final int? maxDevices;
 
   DeviceSelectionResult({
     this.filters,
     this.matchedDevicesCount,
     this.maxDevices,
   });
-  factory DeviceSelectionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeviceSelectionResultFromJson(json);
+  factory DeviceSelectionResult.fromJson(Map<String, dynamic> json) {
+    return DeviceSelectionResult(
+      filters: (json['filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchedDevicesCount: json['matchedDevicesCount'] as int?,
+      maxDevices: json['maxDevices'] as int?,
+    );
+  }
 }
 
 /// Represents configuration information about a test run, such as the execution
 /// timeout (in minutes).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExecutionConfiguration {
   /// True if account cleanup is enabled at the beginning of the test. Otherwise,
   /// false.
-  @_s.JsonKey(name: 'accountsCleanup')
-  final bool accountsCleanup;
+  final bool? accountsCleanup;
 
   /// True if app package cleanup is enabled at the beginning of the test.
   /// Otherwise, false.
-  @_s.JsonKey(name: 'appPackagesCleanup')
-  final bool appPackagesCleanup;
+  final bool? appPackagesCleanup;
 
   /// The number of minutes a test run executes before it times out.
-  @_s.JsonKey(name: 'jobTimeoutMinutes')
-  final int jobTimeoutMinutes;
+  final int? jobTimeoutMinutes;
 
   /// When set to <code>true</code>, for private devices, Device Farm does not
   /// sign your app again. For public devices, Device Farm always signs your apps
@@ -6563,13 +6840,11 @@ class ExecutionConfiguration {
   /// For more information about how Device Farm re-signs your apps, see <a
   /// href="https://aws.amazon.com/device-farm/faq/">Do you modify my app?</a> in
   /// the <i>AWS Device Farm FAQs</i>.
-  @_s.JsonKey(name: 'skipAppResign')
-  final bool skipAppResign;
+  final bool? skipAppResign;
 
   /// Set to true to enable video capture. Otherwise, set to false. The default is
   /// true.
-  @_s.JsonKey(name: 'videoCapture')
-  final bool videoCapture;
+  final bool? videoCapture;
 
   ExecutionConfiguration({
     this.accountsCleanup,
@@ -6578,401 +6853,502 @@ class ExecutionConfiguration {
     this.skipAppResign,
     this.videoCapture,
   });
-  Map<String, dynamic> toJson() => _$ExecutionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final accountsCleanup = this.accountsCleanup;
+    final appPackagesCleanup = this.appPackagesCleanup;
+    final jobTimeoutMinutes = this.jobTimeoutMinutes;
+    final skipAppResign = this.skipAppResign;
+    final videoCapture = this.videoCapture;
+    return {
+      if (accountsCleanup != null) 'accountsCleanup': accountsCleanup,
+      if (appPackagesCleanup != null) 'appPackagesCleanup': appPackagesCleanup,
+      if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
+      if (skipAppResign != null) 'skipAppResign': skipAppResign,
+      if (videoCapture != null) 'videoCapture': videoCapture,
+    };
+  }
 }
 
 enum ExecutionResult {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('PASSED')
   passed,
-  @_s.JsonValue('WARNED')
   warned,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SKIPPED')
   skipped,
-  @_s.JsonValue('ERRORED')
   errored,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
+extension on ExecutionResult {
+  String toValue() {
+    switch (this) {
+      case ExecutionResult.pending:
+        return 'PENDING';
+      case ExecutionResult.passed:
+        return 'PASSED';
+      case ExecutionResult.warned:
+        return 'WARNED';
+      case ExecutionResult.failed:
+        return 'FAILED';
+      case ExecutionResult.skipped:
+        return 'SKIPPED';
+      case ExecutionResult.errored:
+        return 'ERRORED';
+      case ExecutionResult.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  ExecutionResult toExecutionResult() {
+    switch (this) {
+      case 'PENDING':
+        return ExecutionResult.pending;
+      case 'PASSED':
+        return ExecutionResult.passed;
+      case 'WARNED':
+        return ExecutionResult.warned;
+      case 'FAILED':
+        return ExecutionResult.failed;
+      case 'SKIPPED':
+        return ExecutionResult.skipped;
+      case 'ERRORED':
+        return ExecutionResult.errored;
+      case 'STOPPED':
+        return ExecutionResult.stopped;
+    }
+    throw Exception('$this is not known in enum ExecutionResult');
+  }
+}
+
 enum ExecutionResultCode {
-  @_s.JsonValue('PARSING_FAILED')
   parsingFailed,
-  @_s.JsonValue('VPC_ENDPOINT_SETUP_FAILED')
   vpcEndpointSetupFailed,
 }
 
+extension on ExecutionResultCode {
+  String toValue() {
+    switch (this) {
+      case ExecutionResultCode.parsingFailed:
+        return 'PARSING_FAILED';
+      case ExecutionResultCode.vpcEndpointSetupFailed:
+        return 'VPC_ENDPOINT_SETUP_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ExecutionResultCode toExecutionResultCode() {
+    switch (this) {
+      case 'PARSING_FAILED':
+        return ExecutionResultCode.parsingFailed;
+      case 'VPC_ENDPOINT_SETUP_FAILED':
+        return ExecutionResultCode.vpcEndpointSetupFailed;
+    }
+    throw Exception('$this is not known in enum ExecutionResultCode');
+  }
+}
+
 enum ExecutionStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('PENDING_CONCURRENCY')
   pendingConcurrency,
-  @_s.JsonValue('PENDING_DEVICE')
   pendingDevice,
-  @_s.JsonValue('PROCESSING')
   processing,
-  @_s.JsonValue('SCHEDULING')
   scheduling,
-  @_s.JsonValue('PREPARING')
   preparing,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('STOPPING')
   stopping,
+}
+
+extension on ExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionStatus.pending:
+        return 'PENDING';
+      case ExecutionStatus.pendingConcurrency:
+        return 'PENDING_CONCURRENCY';
+      case ExecutionStatus.pendingDevice:
+        return 'PENDING_DEVICE';
+      case ExecutionStatus.processing:
+        return 'PROCESSING';
+      case ExecutionStatus.scheduling:
+        return 'SCHEDULING';
+      case ExecutionStatus.preparing:
+        return 'PREPARING';
+      case ExecutionStatus.running:
+        return 'RUNNING';
+      case ExecutionStatus.completed:
+        return 'COMPLETED';
+      case ExecutionStatus.stopping:
+        return 'STOPPING';
+    }
+  }
+}
+
+extension on String {
+  ExecutionStatus toExecutionStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ExecutionStatus.pending;
+      case 'PENDING_CONCURRENCY':
+        return ExecutionStatus.pendingConcurrency;
+      case 'PENDING_DEVICE':
+        return ExecutionStatus.pendingDevice;
+      case 'PROCESSING':
+        return ExecutionStatus.processing;
+      case 'SCHEDULING':
+        return ExecutionStatus.scheduling;
+      case 'PREPARING':
+        return ExecutionStatus.preparing;
+      case 'RUNNING':
+        return ExecutionStatus.running;
+      case 'COMPLETED':
+        return ExecutionStatus.completed;
+      case 'STOPPING':
+        return ExecutionStatus.stopping;
+    }
+    throw Exception('$this is not known in enum ExecutionStatus');
+  }
 }
 
 /// Represents the account settings return values from the
 /// <code>GetAccountSettings</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccountSettingsResult {
   /// The account settings.
-  @_s.JsonKey(name: 'accountSettings')
-  final AccountSettings accountSettings;
+  final AccountSettings? accountSettings;
 
   GetAccountSettingsResult({
     this.accountSettings,
   });
-  factory GetAccountSettingsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountSettingsResultFromJson(json);
+  factory GetAccountSettingsResult.fromJson(Map<String, dynamic> json) {
+    return GetAccountSettingsResult(
+      accountSettings: json['accountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['accountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceInstanceResult {
   /// An object that contains information about your device instance.
-  @_s.JsonKey(name: 'deviceInstance')
-  final DeviceInstance deviceInstance;
+  final DeviceInstance? deviceInstance;
 
   GetDeviceInstanceResult({
     this.deviceInstance,
   });
-  factory GetDeviceInstanceResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceInstanceResultFromJson(json);
+  factory GetDeviceInstanceResult.fromJson(Map<String, dynamic> json) {
+    return GetDeviceInstanceResult(
+      deviceInstance: json['deviceInstance'] != null
+          ? DeviceInstance.fromJson(
+              json['deviceInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of describe device pool compatibility request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevicePoolCompatibilityResult {
   /// Information about compatible devices.
-  @_s.JsonKey(name: 'compatibleDevices')
-  final List<DevicePoolCompatibilityResult> compatibleDevices;
+  final List<DevicePoolCompatibilityResult>? compatibleDevices;
 
   /// Information about incompatible devices.
-  @_s.JsonKey(name: 'incompatibleDevices')
-  final List<DevicePoolCompatibilityResult> incompatibleDevices;
+  final List<DevicePoolCompatibilityResult>? incompatibleDevices;
 
   GetDevicePoolCompatibilityResult({
     this.compatibleDevices,
     this.incompatibleDevices,
   });
-  factory GetDevicePoolCompatibilityResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDevicePoolCompatibilityResultFromJson(json);
+  factory GetDevicePoolCompatibilityResult.fromJson(Map<String, dynamic> json) {
+    return GetDevicePoolCompatibilityResult(
+      compatibleDevices: (json['compatibleDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DevicePoolCompatibilityResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      incompatibleDevices: (json['incompatibleDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DevicePoolCompatibilityResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a get device pool request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevicePoolResult {
   /// An object that contains information about the requested device pool.
-  @_s.JsonKey(name: 'devicePool')
-  final DevicePool devicePool;
+  final DevicePool? devicePool;
 
   GetDevicePoolResult({
     this.devicePool,
   });
-  factory GetDevicePoolResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDevicePoolResultFromJson(json);
+  factory GetDevicePoolResult.fromJson(Map<String, dynamic> json) {
+    return GetDevicePoolResult(
+      devicePool: json['devicePool'] != null
+          ? DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get device request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceResult {
   /// An object that contains information about the requested device.
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   GetDeviceResult({
     this.device,
   });
-  factory GetDeviceResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceResultFromJson(json);
+  factory GetDeviceResult.fromJson(Map<String, dynamic> json) {
+    return GetDeviceResult(
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInstanceProfileResult {
   /// An object that contains information about an instance profile.
-  @_s.JsonKey(name: 'instanceProfile')
-  final InstanceProfile instanceProfile;
+  final InstanceProfile? instanceProfile;
 
   GetInstanceProfileResult({
     this.instanceProfile,
   });
-  factory GetInstanceProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$GetInstanceProfileResultFromJson(json);
+  factory GetInstanceProfileResult.fromJson(Map<String, dynamic> json) {
+    return GetInstanceProfileResult(
+      instanceProfile: json['instanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['instanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get job request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobResult {
   /// An object that contains information about the requested job.
-  @_s.JsonKey(name: 'job')
-  final Job job;
+  final Job? job;
 
   GetJobResult({
     this.job,
   });
-  factory GetJobResult.fromJson(Map<String, dynamic> json) =>
-      _$GetJobResultFromJson(json);
+  factory GetJobResult.fromJson(Map<String, dynamic> json) {
+    return GetJobResult(
+      job: json['job'] != null
+          ? Job.fromJson(json['job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNetworkProfileResult {
   /// The network profile.
-  @_s.JsonKey(name: 'networkProfile')
-  final NetworkProfile networkProfile;
+  final NetworkProfile? networkProfile;
 
   GetNetworkProfileResult({
     this.networkProfile,
   });
-  factory GetNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$GetNetworkProfileResultFromJson(json);
+  factory GetNetworkProfileResult.fromJson(Map<String, dynamic> json) {
+    return GetNetworkProfileResult(
+      networkProfile: json['networkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['networkProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Returns the status result for a device offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOfferingStatusResult {
   /// When specified, gets the offering status for the current period.
-  @_s.JsonKey(name: 'current')
-  final Map<String, OfferingStatus> current;
+  final Map<String, OfferingStatus>? current;
 
   /// When specified, gets the offering status for the next period.
-  @_s.JsonKey(name: 'nextPeriod')
-  final Map<String, OfferingStatus> nextPeriod;
+  final Map<String, OfferingStatus>? nextPeriod;
 
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetOfferingStatusResult({
     this.current,
     this.nextPeriod,
     this.nextToken,
   });
-  factory GetOfferingStatusResult.fromJson(Map<String, dynamic> json) =>
-      _$GetOfferingStatusResultFromJson(json);
+  factory GetOfferingStatusResult.fromJson(Map<String, dynamic> json) {
+    return GetOfferingStatusResult(
+      current: (json['current'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, OfferingStatus.fromJson(e as Map<String, dynamic>))),
+      nextPeriod: (json['nextPeriod'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, OfferingStatus.fromJson(e as Map<String, dynamic>))),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a get project request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProjectResult {
   /// The project to get information about.
-  @_s.JsonKey(name: 'project')
-  final Project project;
+  final Project? project;
 
   GetProjectResult({
     this.project,
   });
-  factory GetProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$GetProjectResultFromJson(json);
+  factory GetProjectResult.fromJson(Map<String, dynamic> json) {
+    return GetProjectResult(
+      project: json['project'] != null
+          ? Project.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response from the server that lists detailed information
 /// about the remote access session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRemoteAccessSessionResult {
   /// A container that lists detailed information about the remote access session.
-  @_s.JsonKey(name: 'remoteAccessSession')
-  final RemoteAccessSession remoteAccessSession;
+  final RemoteAccessSession? remoteAccessSession;
 
   GetRemoteAccessSessionResult({
     this.remoteAccessSession,
   });
-  factory GetRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetRemoteAccessSessionResultFromJson(json);
+  factory GetRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) {
+    return GetRemoteAccessSessionResult(
+      remoteAccessSession: json['remoteAccessSession'] != null
+          ? RemoteAccessSession.fromJson(
+              json['remoteAccessSession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get run request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRunResult {
   /// The run to get results from.
-  @_s.JsonKey(name: 'run')
-  final Run run;
+  final Run? run;
 
   GetRunResult({
     this.run,
   });
-  factory GetRunResult.fromJson(Map<String, dynamic> json) =>
-      _$GetRunResultFromJson(json);
+  factory GetRunResult.fromJson(Map<String, dynamic> json) {
+    return GetRunResult(
+      run: json['run'] != null
+          ? Run.fromJson(json['run'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get suite request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSuiteResult {
   /// A collection of one or more tests.
-  @_s.JsonKey(name: 'suite')
-  final Suite suite;
+  final Suite? suite;
 
   GetSuiteResult({
     this.suite,
   });
-  factory GetSuiteResult.fromJson(Map<String, dynamic> json) =>
-      _$GetSuiteResultFromJson(json);
+  factory GetSuiteResult.fromJson(Map<String, dynamic> json) {
+    return GetSuiteResult(
+      suite: json['suite'] != null
+          ? Suite.fromJson(json['suite'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTestGridProjectResult {
   /// A <a>TestGridProject</a>.
-  @_s.JsonKey(name: 'testGridProject')
-  final TestGridProject testGridProject;
+  final TestGridProject? testGridProject;
 
   GetTestGridProjectResult({
     this.testGridProject,
   });
-  factory GetTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$GetTestGridProjectResultFromJson(json);
+  factory GetTestGridProjectResult.fromJson(Map<String, dynamic> json) {
+    return GetTestGridProjectResult(
+      testGridProject: json['testGridProject'] != null
+          ? TestGridProject.fromJson(
+              json['testGridProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTestGridSessionResult {
   /// The <a>TestGridSession</a> that was requested.
-  @_s.JsonKey(name: 'testGridSession')
-  final TestGridSession testGridSession;
+  final TestGridSession? testGridSession;
 
   GetTestGridSessionResult({
     this.testGridSession,
   });
-  factory GetTestGridSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetTestGridSessionResultFromJson(json);
+  factory GetTestGridSessionResult.fromJson(Map<String, dynamic> json) {
+    return GetTestGridSessionResult(
+      testGridSession: json['testGridSession'] != null
+          ? TestGridSession.fromJson(
+              json['testGridSession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get test request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTestResult {
   /// A test condition that is evaluated.
-  @_s.JsonKey(name: 'test')
-  final Test test;
+  final Test? test;
 
   GetTestResult({
     this.test,
   });
-  factory GetTestResult.fromJson(Map<String, dynamic> json) =>
-      _$GetTestResultFromJson(json);
+  factory GetTestResult.fromJson(Map<String, dynamic> json) {
+    return GetTestResult(
+      test: json['test'] != null
+          ? Test.fromJson(json['test'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of a get upload request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUploadResult {
   /// An app or a set of one or more tests to upload or that have been uploaded.
-  @_s.JsonKey(name: 'upload')
-  final Upload upload;
+  final Upload? upload;
 
   GetUploadResult({
     this.upload,
   });
-  factory GetUploadResult.fromJson(Map<String, dynamic> json) =>
-      _$GetUploadResultFromJson(json);
+  factory GetUploadResult.fromJson(Map<String, dynamic> json) {
+    return GetUploadResult(
+      upload: json['upload'] != null
+          ? Upload.fromJson(json['upload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
-  @_s.JsonKey(name: 'vpceConfiguration')
-  final VPCEConfiguration vpceConfiguration;
+  final VPCEConfiguration? vpceConfiguration;
 
   GetVPCEConfigurationResult({
     this.vpceConfiguration,
   });
-  factory GetVPCEConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$GetVPCEConfigurationResultFromJson(json);
+  factory GetVPCEConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return GetVPCEConfigurationResult(
+      vpceConfiguration: json['vpceConfiguration'] != null
+          ? VPCEConfiguration.fromJson(
+              json['vpceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents information about incompatibility.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IncompatibilityMessage {
   /// A message about the incompatibility.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The type of incompatibility.
   ///
@@ -6998,73 +7374,64 @@ class IncompatibilityMessage {
   /// APPIUM_VERSION
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final DeviceAttribute type;
+  final DeviceAttribute? type;
 
   IncompatibilityMessage({
     this.message,
     this.type,
   });
-  factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) =>
-      _$IncompatibilityMessageFromJson(json);
+  factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) {
+    return IncompatibilityMessage(
+      message: json['message'] as String?,
+      type: (json['type'] as String?)?.toDeviceAttribute(),
+    );
+  }
 }
 
 /// Represents the response from the server after AWS Device Farm makes a
 /// request to install to a remote access session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstallToRemoteAccessSessionResult {
   /// An app to upload or that has been uploaded.
-  @_s.JsonKey(name: 'appUpload')
-  final Upload appUpload;
+  final Upload? appUpload;
 
   InstallToRemoteAccessSessionResult({
     this.appUpload,
   });
   factory InstallToRemoteAccessSessionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$InstallToRemoteAccessSessionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return InstallToRemoteAccessSessionResult(
+      appUpload: json['appUpload'] != null
+          ? Upload.fromJson(json['appUpload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the instance profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceProfile {
   /// The Amazon Resource Name (ARN) of the instance profile.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the instance profile.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// An array of strings containing the list of app packages that should not be
   /// cleaned up from the device after a test run completes.
   ///
   /// The list of packages is considered only if you set
   /// <code>packageCleanup</code> to <code>true</code>.
-  @_s.JsonKey(name: 'excludeAppPackagesFromCleanup')
-  final List<String> excludeAppPackagesFromCleanup;
+  final List<String>? excludeAppPackagesFromCleanup;
 
   /// The name of the instance profile.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// When set to <code>true</code>, Device Farm removes app packages after a test
   /// run. The default value is <code>false</code> for private devices.
-  @_s.JsonKey(name: 'packageCleanup')
-  final bool packageCleanup;
+  final bool? packageCleanup;
 
   /// When set to <code>true</code>, Device Farm reboots the instance after a test
   /// run. The default value is <code>true</code>.
-  @_s.JsonKey(name: 'rebootAfterUse')
-  final bool rebootAfterUse;
+  final bool? rebootAfterUse;
 
   InstanceProfile({
     this.arn,
@@ -7074,27 +7441,63 @@ class InstanceProfile {
     this.packageCleanup,
     this.rebootAfterUse,
   });
-  factory InstanceProfile.fromJson(Map<String, dynamic> json) =>
-      _$InstanceProfileFromJson(json);
+  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
+    return InstanceProfile(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      excludeAppPackagesFromCleanup:
+          (json['excludeAppPackagesFromCleanup'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      name: json['name'] as String?,
+      packageCleanup: json['packageCleanup'] as bool?,
+      rebootAfterUse: json['rebootAfterUse'] as bool?,
+    );
+  }
 }
 
 enum InstanceStatus {
-  @_s.JsonValue('IN_USE')
   inUse,
-  @_s.JsonValue('PREPARING')
   preparing,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('NOT_AVAILABLE')
   notAvailable,
 }
 
+extension on InstanceStatus {
+  String toValue() {
+    switch (this) {
+      case InstanceStatus.inUse:
+        return 'IN_USE';
+      case InstanceStatus.preparing:
+        return 'PREPARING';
+      case InstanceStatus.available:
+        return 'AVAILABLE';
+      case InstanceStatus.notAvailable:
+        return 'NOT_AVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  InstanceStatus toInstanceStatus() {
+    switch (this) {
+      case 'IN_USE':
+        return InstanceStatus.inUse;
+      case 'PREPARING':
+        return InstanceStatus.preparing;
+      case 'AVAILABLE':
+        return InstanceStatus.available;
+      case 'NOT_AVAILABLE':
+        return InstanceStatus.notAvailable;
+    }
+    throw Exception('$this is not known in enum InstanceStatus');
+  }
+}
+
 enum InteractionMode {
-  @_s.JsonValue('INTERACTIVE')
   interactive,
-  @_s.JsonValue('NO_VIDEO')
   noVideo,
-  @_s.JsonValue('VIDEO_ONLY')
   videoOnly,
 }
 
@@ -7108,49 +7511,48 @@ extension on InteractionMode {
       case InteractionMode.videoOnly:
         return 'VIDEO_ONLY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InteractionMode toInteractionMode() {
+    switch (this) {
+      case 'INTERACTIVE':
+        return InteractionMode.interactive;
+      case 'NO_VIDEO':
+        return InteractionMode.noVideo;
+      case 'VIDEO_ONLY':
+        return InteractionMode.videoOnly;
+    }
+    throw Exception('$this is not known in enum InteractionMode');
   }
 }
 
 /// Represents a device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// The job's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The job's result counters.
-  @_s.JsonKey(name: 'counters')
-  final Counters counters;
+  final Counters? counters;
 
   /// When the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The device (phone or tablet).
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   /// Represents the total (metered or unmetered) minutes used by the job.
-  @_s.JsonKey(name: 'deviceMinutes')
-  final DeviceMinutes deviceMinutes;
+  final DeviceMinutes? deviceMinutes;
 
   /// The ARN of the instance.
-  @_s.JsonKey(name: 'instanceArn')
-  final String instanceArn;
+  final String? instanceArn;
 
   /// A message about the job's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The job's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The job's result.
   ///
@@ -7179,13 +7581,10 @@ class Job {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// The job's start time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// The job's status.
   ///
@@ -7220,13 +7619,10 @@ class Job {
   /// STOPPING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ExecutionStatus status;
+  final ExecutionStatus? status;
 
   /// The job's stop time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopped')
-  final DateTime stopped;
+  final DateTime? stopped;
 
   /// The job's type.
   ///
@@ -7289,17 +7685,14 @@ class Job {
   /// XCTEST_UI
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final TestType type;
+  final TestType? type;
 
   /// This value is set to true if video capture is enabled. Otherwise, it is set
   /// to false.
-  @_s.JsonKey(name: 'videoCapture')
-  final bool videoCapture;
+  final bool? videoCapture;
 
   /// The endpoint for streaming device video.
-  @_s.JsonKey(name: 'videoEndpoint')
-  final String videoEndpoint;
+  final String? videoEndpoint;
 
   Job({
     this.arn,
@@ -7318,524 +7711,543 @@ class Job {
     this.videoCapture,
     this.videoEndpoint,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      instanceArn: json['instanceArn'] as String?,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.toExecutionStatus(),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.toTestType(),
+      videoCapture: json['videoCapture'] as bool?,
+      videoEndpoint: json['videoEndpoint'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a list artifacts operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListArtifactsResult {
   /// Information about the artifacts.
-  @_s.JsonKey(name: 'artifacts')
-  final List<Artifact> artifacts;
+  final List<Artifact>? artifacts;
 
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListArtifactsResult({
     this.artifacts,
     this.nextToken,
   });
-  factory ListArtifactsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListArtifactsResultFromJson(json);
+  factory ListArtifactsResult.fromJson(Map<String, dynamic> json) {
+    return ListArtifactsResult(
+      artifacts: (json['artifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeviceInstancesResult {
   /// An object that contains information about your device instances.
-  @_s.JsonKey(name: 'deviceInstances')
-  final List<DeviceInstance> deviceInstances;
+  final List<DeviceInstance>? deviceInstances;
 
   /// An identifier that can be used in the next call to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeviceInstancesResult({
     this.deviceInstances,
     this.nextToken,
   });
-  factory ListDeviceInstancesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDeviceInstancesResultFromJson(json);
+  factory ListDeviceInstancesResult.fromJson(Map<String, dynamic> json) {
+    return ListDeviceInstancesResult(
+      deviceInstances: (json['deviceInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a list device pools request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevicePoolsResult {
   /// Information about the device pools.
-  @_s.JsonKey(name: 'devicePools')
-  final List<DevicePool> devicePools;
+  final List<DevicePool>? devicePools;
 
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDevicePoolsResult({
     this.devicePools,
     this.nextToken,
   });
-  factory ListDevicePoolsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDevicePoolsResultFromJson(json);
+  factory ListDevicePoolsResult.fromJson(Map<String, dynamic> json) {
+    return ListDevicePoolsResult(
+      devicePools: (json['devicePools'] as List?)
+          ?.whereNotNull()
+          .map((e) => DevicePool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a list devices operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevicesResult {
   /// Information about the devices.
-  @_s.JsonKey(name: 'devices')
-  final List<Device> devices;
+  final List<Device>? devices;
 
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDevicesResult({
     this.devices,
     this.nextToken,
   });
-  factory ListDevicesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDevicesResultFromJson(json);
+  factory ListDevicesResult.fromJson(Map<String, dynamic> json) {
+    return ListDevicesResult(
+      devices: (json['devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstanceProfilesResult {
   /// An object that contains information about your instance profiles.
-  @_s.JsonKey(name: 'instanceProfiles')
-  final List<InstanceProfile> instanceProfiles;
+  final List<InstanceProfile>? instanceProfiles;
 
   /// An identifier that can be used in the next call to this operation to return
   /// the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInstanceProfilesResult({
     this.instanceProfiles,
     this.nextToken,
   });
-  factory ListInstanceProfilesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListInstanceProfilesResultFromJson(json);
+  factory ListInstanceProfilesResult.fromJson(Map<String, dynamic> json) {
+    return ListInstanceProfilesResult(
+      instanceProfiles: (json['instanceProfiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the result of a list jobs request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResult {
   /// Information about the jobs.
-  @_s.JsonKey(name: 'jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResult({
     this.jobs,
     this.nextToken,
   });
-  factory ListJobsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResultFromJson(json);
+  factory ListJobsResult.fromJson(Map<String, dynamic> json) {
+    return ListJobsResult(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNetworkProfilesResult {
   /// A list of the available network profiles.
-  @_s.JsonKey(name: 'networkProfiles')
-  final List<NetworkProfile> networkProfiles;
+  final List<NetworkProfile>? networkProfiles;
 
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListNetworkProfilesResult({
     this.networkProfiles,
     this.nextToken,
   });
-  factory ListNetworkProfilesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListNetworkProfilesResultFromJson(json);
+  factory ListNetworkProfilesResult.fromJson(Map<String, dynamic> json) {
+    return ListNetworkProfilesResult(
+      networkProfiles: (json['networkProfiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOfferingPromotionsResult {
   /// An identifier to be used in the next call to this operation, to return the
   /// next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the offering promotions.
-  @_s.JsonKey(name: 'offeringPromotions')
-  final List<OfferingPromotion> offeringPromotions;
+  final List<OfferingPromotion>? offeringPromotions;
 
   ListOfferingPromotionsResult({
     this.nextToken,
     this.offeringPromotions,
   });
-  factory ListOfferingPromotionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListOfferingPromotionsResultFromJson(json);
+  factory ListOfferingPromotionsResult.fromJson(Map<String, dynamic> json) {
+    return ListOfferingPromotionsResult(
+      nextToken: json['nextToken'] as String?,
+      offeringPromotions: (json['offeringPromotions'] as List?)
+          ?.whereNotNull()
+          .map((e) => OfferingPromotion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Returns the transaction log of the specified offerings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOfferingTransactionsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The audit log of subscriptions you have purchased and modified through AWS
   /// Device Farm.
-  @_s.JsonKey(name: 'offeringTransactions')
-  final List<OfferingTransaction> offeringTransactions;
+  final List<OfferingTransaction>? offeringTransactions;
 
   ListOfferingTransactionsResult({
     this.nextToken,
     this.offeringTransactions,
   });
-  factory ListOfferingTransactionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListOfferingTransactionsResultFromJson(json);
+  factory ListOfferingTransactionsResult.fromJson(Map<String, dynamic> json) {
+    return ListOfferingTransactionsResult(
+      nextToken: json['nextToken'] as String?,
+      offeringTransactions: (json['offeringTransactions'] as List?)
+          ?.whereNotNull()
+          .map((e) => OfferingTransaction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the return values of the list of offerings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOfferingsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A value that represents the list offering results.
-  @_s.JsonKey(name: 'offerings')
-  final List<Offering> offerings;
+  final List<Offering>? offerings;
 
   ListOfferingsResult({
     this.nextToken,
     this.offerings,
   });
-  factory ListOfferingsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListOfferingsResultFromJson(json);
+  factory ListOfferingsResult.fromJson(Map<String, dynamic> json) {
+    return ListOfferingsResult(
+      nextToken: json['nextToken'] as String?,
+      offerings: (json['offerings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Offering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list projects request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProjectsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the projects.
-  @_s.JsonKey(name: 'projects')
-  final List<Project> projects;
+  final List<Project>? projects;
 
   ListProjectsResult({
     this.nextToken,
     this.projects,
   });
-  factory ListProjectsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListProjectsResultFromJson(json);
+  factory ListProjectsResult.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResult(
+      nextToken: json['nextToken'] as String?,
+      projects: (json['projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => Project.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the response from the server after AWS Device Farm makes a
 /// request to return information about the remote access session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRemoteAccessSessionsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A container that represents the metadata from the service about each remote
   /// access session you are requesting.
-  @_s.JsonKey(name: 'remoteAccessSessions')
-  final List<RemoteAccessSession> remoteAccessSessions;
+  final List<RemoteAccessSession>? remoteAccessSessions;
 
   ListRemoteAccessSessionsResult({
     this.nextToken,
     this.remoteAccessSessions,
   });
-  factory ListRemoteAccessSessionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListRemoteAccessSessionsResultFromJson(json);
+  factory ListRemoteAccessSessionsResult.fromJson(Map<String, dynamic> json) {
+    return ListRemoteAccessSessionsResult(
+      nextToken: json['nextToken'] as String?,
+      remoteAccessSessions: (json['remoteAccessSessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RemoteAccessSession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list runs request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRunsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the runs.
-  @_s.JsonKey(name: 'runs')
-  final List<Run> runs;
+  final List<Run>? runs;
 
   ListRunsResult({
     this.nextToken,
     this.runs,
   });
-  factory ListRunsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListRunsResultFromJson(json);
+  factory ListRunsResult.fromJson(Map<String, dynamic> json) {
+    return ListRunsResult(
+      nextToken: json['nextToken'] as String?,
+      runs: (json['runs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Run.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list samples request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSamplesResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the samples.
-  @_s.JsonKey(name: 'samples')
-  final List<Sample> samples;
+  final List<Sample>? samples;
 
   ListSamplesResult({
     this.nextToken,
     this.samples,
   });
-  factory ListSamplesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListSamplesResultFromJson(json);
+  factory ListSamplesResult.fromJson(Map<String, dynamic> json) {
+    return ListSamplesResult(
+      nextToken: json['nextToken'] as String?,
+      samples: (json['samples'] as List?)
+          ?.whereNotNull()
+          .map((e) => Sample.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list suites request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSuitesResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the suites.
-  @_s.JsonKey(name: 'suites')
-  final List<Suite> suites;
+  final List<Suite>? suites;
 
   ListSuitesResult({
     this.nextToken,
     this.suites,
   });
-  factory ListSuitesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListSuitesResultFromJson(json);
+  factory ListSuitesResult.fromJson(Map<String, dynamic> json) {
+    return ListSuitesResult(
+      nextToken: json['nextToken'] as String?,
+      suites: (json['suites'] as List?)
+          ?.whereNotNull()
+          .map((e) => Suite.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags to add to the resource. A tag is an array of key-value pairs. Tag
   /// keys can have a maximum character length of 128 characters. Tag values can
   /// have a maximum length of 256 characters.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTestGridProjectsResult {
   /// Used for pagination. Pass into <a>ListTestGridProjects</a> to get more
   /// results in a paginated request.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of TestGridProjects, based on a <a>ListTestGridProjectsRequest</a>.
-  @_s.JsonKey(name: 'testGridProjects')
-  final List<TestGridProject> testGridProjects;
+  final List<TestGridProject>? testGridProjects;
 
   ListTestGridProjectsResult({
     this.nextToken,
     this.testGridProjects,
   });
-  factory ListTestGridProjectsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTestGridProjectsResultFromJson(json);
+  factory ListTestGridProjectsResult.fromJson(Map<String, dynamic> json) {
+    return ListTestGridProjectsResult(
+      nextToken: json['nextToken'] as String?,
+      testGridProjects: (json['testGridProjects'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestGridProject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTestGridSessionActionsResult {
   /// The action taken by the session.
-  @_s.JsonKey(name: 'actions')
-  final List<TestGridSessionAction> actions;
+  final List<TestGridSessionAction>? actions;
 
   /// Pagination token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTestGridSessionActionsResult({
     this.actions,
     this.nextToken,
   });
-  factory ListTestGridSessionActionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTestGridSessionActionsResultFromJson(json);
+  factory ListTestGridSessionActionsResult.fromJson(Map<String, dynamic> json) {
+    return ListTestGridSessionActionsResult(
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestGridSessionAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTestGridSessionArtifactsResult {
   /// A list of test grid session artifacts for a <a>TestGridSession</a>.
-  @_s.JsonKey(name: 'artifacts')
-  final List<TestGridSessionArtifact> artifacts;
+  final List<TestGridSessionArtifact>? artifacts;
 
   /// Pagination token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTestGridSessionArtifactsResult({
     this.artifacts,
     this.nextToken,
   });
   factory ListTestGridSessionArtifactsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTestGridSessionArtifactsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return ListTestGridSessionArtifactsResult(
+      artifacts: (json['artifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TestGridSessionArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTestGridSessionsResult {
   /// Pagination token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The sessions that match the criteria in a
   /// <a>ListTestGridSessionsRequest</a>.
-  @_s.JsonKey(name: 'testGridSessions')
-  final List<TestGridSession> testGridSessions;
+  final List<TestGridSession>? testGridSessions;
 
   ListTestGridSessionsResult({
     this.nextToken,
     this.testGridSessions,
   });
-  factory ListTestGridSessionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTestGridSessionsResultFromJson(json);
+  factory ListTestGridSessionsResult.fromJson(Map<String, dynamic> json) {
+    return ListTestGridSessionsResult(
+      nextToken: json['nextToken'] as String?,
+      testGridSessions: (json['testGridSessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestGridSession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list tests request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTestsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the tests.
-  @_s.JsonKey(name: 'tests')
-  final List<Test> tests;
+  final List<Test>? tests;
 
   ListTestsResult({
     this.nextToken,
     this.tests,
   });
-  factory ListTestsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTestsResultFromJson(json);
+  factory ListTestsResult.fromJson(Map<String, dynamic> json) {
+    return ListTestsResult(
+      nextToken: json['nextToken'] as String?,
+      tests: (json['tests'] as List?)
+          ?.whereNotNull()
+          .map((e) => Test.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the result of a list unique problems request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUniqueProblemsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the unique problems.
   ///
@@ -7864,178 +8276,171 @@ class ListUniqueProblemsResult {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'uniqueProblems')
-  final Map<ExecutionResult, List<UniqueProblem>> uniqueProblems;
+  final Map<ExecutionResult, List<UniqueProblem>>? uniqueProblems;
 
   ListUniqueProblemsResult({
     this.nextToken,
     this.uniqueProblems,
   });
-  factory ListUniqueProblemsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListUniqueProblemsResultFromJson(json);
+  factory ListUniqueProblemsResult.fromJson(Map<String, dynamic> json) {
+    return ListUniqueProblemsResult(
+      nextToken: json['nextToken'] as String?,
+      uniqueProblems: (json['uniqueProblems'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k.toExecutionResult(),
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => UniqueProblem.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
 }
 
 /// Represents the result of a list uploads request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUploadsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
   /// this operation to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the uploads.
-  @_s.JsonKey(name: 'uploads')
-  final List<Upload> uploads;
+  final List<Upload>? uploads;
 
   ListUploadsResult({
     this.nextToken,
     this.uploads,
   });
-  factory ListUploadsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListUploadsResultFromJson(json);
+  factory ListUploadsResult.fromJson(Map<String, dynamic> json) {
+    return ListUploadsResult(
+      nextToken: json['nextToken'] as String?,
+      uploads: (json['uploads'] as List?)
+          ?.whereNotNull()
+          .map((e) => Upload.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVPCEConfigurationsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>VPCEConfiguration</code> objects that contain information
   /// about your VPC endpoint configuration.
-  @_s.JsonKey(name: 'vpceConfigurations')
-  final List<VPCEConfiguration> vpceConfigurations;
+  final List<VPCEConfiguration>? vpceConfigurations;
 
   ListVPCEConfigurationsResult({
     this.nextToken,
     this.vpceConfigurations,
   });
-  factory ListVPCEConfigurationsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListVPCEConfigurationsResultFromJson(json);
+  factory ListVPCEConfigurationsResult.fromJson(Map<String, dynamic> json) {
+    return ListVPCEConfigurationsResult(
+      nextToken: json['nextToken'] as String?,
+      vpceConfigurations: (json['vpceConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => VPCEConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents a latitude and longitude pair, expressed in geographic coordinate
 /// system degrees (for example, 47.6204, -122.3491).
 ///
 /// Elevation is currently not supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Location {
   /// The latitude.
-  @_s.JsonKey(name: 'latitude')
   final double latitude;
 
   /// The longitude.
-  @_s.JsonKey(name: 'longitude')
   final double longitude;
 
   Location({
-    @_s.required this.latitude,
-    @_s.required this.longitude,
+    required this.latitude,
+    required this.longitude,
   });
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      latitude: json['latitude'] as double,
+      longitude: json['longitude'] as double,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
 }
 
 /// A number that represents the monetary amount for an offering or transaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MonetaryAmount {
   /// The numerical amount of an offering or transaction.
-  @_s.JsonKey(name: 'amount')
-  final double amount;
+  final double? amount;
 
   /// The currency code of a monetary amount. For example, <code>USD</code> means
   /// U.S. dollars.
-  @_s.JsonKey(name: 'currencyCode')
-  final CurrencyCode currencyCode;
+  final CurrencyCode? currencyCode;
 
   MonetaryAmount({
     this.amount,
     this.currencyCode,
   });
-  factory MonetaryAmount.fromJson(Map<String, dynamic> json) =>
-      _$MonetaryAmountFromJson(json);
+  factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
+    return MonetaryAmount(
+      amount: json['amount'] as double?,
+      currencyCode: (json['currencyCode'] as String?)?.toCurrencyCode(),
+    );
+  }
 }
 
 /// An array of settings that describes characteristics of a network profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkProfile {
   /// The Amazon Resource Name (ARN) of the network profile.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the network profile.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The data throughput rate in bits per second, as an integer from 0 to
   /// 104857600.
-  @_s.JsonKey(name: 'downlinkBandwidthBits')
-  final int downlinkBandwidthBits;
+  final int? downlinkBandwidthBits;
 
   /// Delay time for all packets to destination in milliseconds as an integer from
   /// 0 to 2000.
-  @_s.JsonKey(name: 'downlinkDelayMs')
-  final int downlinkDelayMs;
+  final int? downlinkDelayMs;
 
   /// Time variation in the delay of received packets in milliseconds as an
   /// integer from 0 to 2000.
-  @_s.JsonKey(name: 'downlinkJitterMs')
-  final int downlinkJitterMs;
+  final int? downlinkJitterMs;
 
   /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-  @_s.JsonKey(name: 'downlinkLossPercent')
-  final int downlinkLossPercent;
+  final int? downlinkLossPercent;
 
   /// The name of the network profile.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The type of network profile. Valid values are listed here.
-  @_s.JsonKey(name: 'type')
-  final NetworkProfileType type;
+  final NetworkProfileType? type;
 
   /// The data throughput rate in bits per second, as an integer from 0 to
   /// 104857600.
-  @_s.JsonKey(name: 'uplinkBandwidthBits')
-  final int uplinkBandwidthBits;
+  final int? uplinkBandwidthBits;
 
   /// Delay time for all packets to destination in milliseconds as an integer from
   /// 0 to 2000.
-  @_s.JsonKey(name: 'uplinkDelayMs')
-  final int uplinkDelayMs;
+  final int? uplinkDelayMs;
 
   /// Time variation in the delay of received packets in milliseconds as an
   /// integer from 0 to 2000.
-  @_s.JsonKey(name: 'uplinkJitterMs')
-  final int uplinkJitterMs;
+  final int? uplinkJitterMs;
 
   /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-  @_s.JsonKey(name: 'uplinkLossPercent')
-  final int uplinkLossPercent;
+  final int? uplinkLossPercent;
 
   NetworkProfile({
     this.arn,
@@ -8051,14 +8456,26 @@ class NetworkProfile {
     this.uplinkJitterMs,
     this.uplinkLossPercent,
   });
-  factory NetworkProfile.fromJson(Map<String, dynamic> json) =>
-      _$NetworkProfileFromJson(json);
+  factory NetworkProfile.fromJson(Map<String, dynamic> json) {
+    return NetworkProfile(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      downlinkBandwidthBits: json['downlinkBandwidthBits'] as int?,
+      downlinkDelayMs: json['downlinkDelayMs'] as int?,
+      downlinkJitterMs: json['downlinkJitterMs'] as int?,
+      downlinkLossPercent: json['downlinkLossPercent'] as int?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.toNetworkProfileType(),
+      uplinkBandwidthBits: json['uplinkBandwidthBits'] as int?,
+      uplinkDelayMs: json['uplinkDelayMs'] as int?,
+      uplinkJitterMs: json['uplinkJitterMs'] as int?,
+      uplinkLossPercent: json['uplinkLossPercent'] as int?,
+    );
+  }
 }
 
 enum NetworkProfileType {
-  @_s.JsonValue('CURATED')
   curated,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
@@ -8070,37 +8487,38 @@ extension on NetworkProfileType {
       case NetworkProfileType.private:
         return 'PRIVATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NetworkProfileType toNetworkProfileType() {
+    switch (this) {
+      case 'CURATED':
+        return NetworkProfileType.curated;
+      case 'PRIVATE':
+        return NetworkProfileType.private;
+    }
+    throw Exception('$this is not known in enum NetworkProfileType');
   }
 }
 
 /// Represents the metadata of a device offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Offering {
   /// A string that describes the offering.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ID that corresponds to a device offering.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The platform of the device (for example, <code>ANDROID</code> or
   /// <code>IOS</code>).
-  @_s.JsonKey(name: 'platform')
-  final DevicePlatform platform;
+  final DevicePlatform? platform;
 
   /// Specifies whether there are recurring charges for the offering.
-  @_s.JsonKey(name: 'recurringCharges')
-  final List<RecurringCharge> recurringCharges;
+  final List<RecurringCharge>? recurringCharges;
 
   /// The type of offering (for example, <code>RECURRING</code>) for a device.
-  @_s.JsonKey(name: 'type')
-  final OfferingType type;
+  final OfferingType? type;
 
   Offering({
     this.description,
@@ -8109,56 +8527,53 @@ class Offering {
     this.recurringCharges,
     this.type,
   });
-  factory Offering.fromJson(Map<String, dynamic> json) =>
-      _$OfferingFromJson(json);
+  factory Offering.fromJson(Map<String, dynamic> json) {
+    return Offering(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      recurringCharges: (json['recurringCharges'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.toOfferingType(),
+    );
+  }
 }
 
 /// Represents information about an offering promotion.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OfferingPromotion {
   /// A string that describes the offering promotion.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ID of the offering promotion.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   OfferingPromotion({
     this.description,
     this.id,
   });
-  factory OfferingPromotion.fromJson(Map<String, dynamic> json) =>
-      _$OfferingPromotionFromJson(json);
+  factory OfferingPromotion.fromJson(Map<String, dynamic> json) {
+    return OfferingPromotion(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+    );
+  }
 }
 
 /// The status of the offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OfferingStatus {
   /// The date on which the offering is effective.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'effectiveOn')
-  final DateTime effectiveOn;
+  final DateTime? effectiveOn;
 
   /// Represents the metadata of an offering status.
-  @_s.JsonKey(name: 'offering')
-  final Offering offering;
+  final Offering? offering;
 
   /// The number of available devices in the offering.
-  @_s.JsonKey(name: 'quantity')
-  final int quantity;
+  final int? quantity;
 
   /// The type specified for the offering status.
-  @_s.JsonKey(name: 'type')
-  final OfferingTransactionType type;
+  final OfferingTransactionType? type;
 
   OfferingStatus({
     this.effectiveOn,
@@ -8166,37 +8581,34 @@ class OfferingStatus {
     this.quantity,
     this.type,
   });
-  factory OfferingStatus.fromJson(Map<String, dynamic> json) =>
-      _$OfferingStatusFromJson(json);
+  factory OfferingStatus.fromJson(Map<String, dynamic> json) {
+    return OfferingStatus(
+      effectiveOn: timeStampFromJson(json['effectiveOn']),
+      offering: json['offering'] != null
+          ? Offering.fromJson(json['offering'] as Map<String, dynamic>)
+          : null,
+      quantity: json['quantity'] as int?,
+      type: (json['type'] as String?)?.toOfferingTransactionType(),
+    );
+  }
 }
 
 /// Represents the metadata of an offering transaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OfferingTransaction {
   /// The cost of an offering transaction.
-  @_s.JsonKey(name: 'cost')
-  final MonetaryAmount cost;
+  final MonetaryAmount? cost;
 
   /// The date on which an offering transaction was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdOn')
-  final DateTime createdOn;
+  final DateTime? createdOn;
 
   /// The ID that corresponds to a device offering promotion.
-  @_s.JsonKey(name: 'offeringPromotionId')
-  final String offeringPromotionId;
+  final String? offeringPromotionId;
 
   /// The status of an offering transaction.
-  @_s.JsonKey(name: 'offeringStatus')
-  final OfferingStatus offeringStatus;
+  final OfferingStatus? offeringStatus;
 
   /// The transaction ID of the offering transaction.
-  @_s.JsonKey(name: 'transactionId')
-  final String transactionId;
+  final String? transactionId;
 
   OfferingTransaction({
     this.cost,
@@ -8205,42 +8617,88 @@ class OfferingTransaction {
     this.offeringStatus,
     this.transactionId,
   });
-  factory OfferingTransaction.fromJson(Map<String, dynamic> json) =>
-      _$OfferingTransactionFromJson(json);
+  factory OfferingTransaction.fromJson(Map<String, dynamic> json) {
+    return OfferingTransaction(
+      cost: json['cost'] != null
+          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      createdOn: timeStampFromJson(json['createdOn']),
+      offeringPromotionId: json['offeringPromotionId'] as String?,
+      offeringStatus: json['offeringStatus'] != null
+          ? OfferingStatus.fromJson(
+              json['offeringStatus'] as Map<String, dynamic>)
+          : null,
+      transactionId: json['transactionId'] as String?,
+    );
+  }
 }
 
 enum OfferingTransactionType {
-  @_s.JsonValue('PURCHASE')
   purchase,
-  @_s.JsonValue('RENEW')
   renew,
-  @_s.JsonValue('SYSTEM')
   system,
 }
 
+extension on OfferingTransactionType {
+  String toValue() {
+    switch (this) {
+      case OfferingTransactionType.purchase:
+        return 'PURCHASE';
+      case OfferingTransactionType.renew:
+        return 'RENEW';
+      case OfferingTransactionType.system:
+        return 'SYSTEM';
+    }
+  }
+}
+
+extension on String {
+  OfferingTransactionType toOfferingTransactionType() {
+    switch (this) {
+      case 'PURCHASE':
+        return OfferingTransactionType.purchase;
+      case 'RENEW':
+        return OfferingTransactionType.renew;
+      case 'SYSTEM':
+        return OfferingTransactionType.system;
+    }
+    throw Exception('$this is not known in enum OfferingTransactionType');
+  }
+}
+
 enum OfferingType {
-  @_s.JsonValue('RECURRING')
   recurring,
 }
 
+extension on OfferingType {
+  String toValue() {
+    switch (this) {
+      case OfferingType.recurring:
+        return 'RECURRING';
+    }
+  }
+}
+
+extension on String {
+  OfferingType toOfferingType() {
+    switch (this) {
+      case 'RECURRING':
+        return OfferingType.recurring;
+    }
+    throw Exception('$this is not known in enum OfferingType');
+  }
+}
+
 /// Represents a specific warning or failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Problem {
   /// Information about the associated device.
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   /// Information about the associated job.
-  @_s.JsonKey(name: 'job')
-  final ProblemDetail job;
+  final ProblemDetail? job;
 
   /// A message about the problem's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The problem's result.
   ///
@@ -8269,20 +8727,16 @@ class Problem {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// Information about the associated run.
-  @_s.JsonKey(name: 'run')
-  final ProblemDetail run;
+  final ProblemDetail? run;
 
   /// Information about the associated suite.
-  @_s.JsonKey(name: 'suite')
-  final ProblemDetail suite;
+  final ProblemDetail? suite;
 
   /// Information about the associated test.
-  @_s.JsonKey(name: 'test')
-  final ProblemDetail test;
+  final ProblemDetail? test;
 
   Problem({
     this.device,
@@ -8293,58 +8747,64 @@ class Problem {
     this.suite,
     this.test,
   });
-  factory Problem.fromJson(Map<String, dynamic> json) =>
-      _$ProblemFromJson(json);
+  factory Problem.fromJson(Map<String, dynamic> json) {
+    return Problem(
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      job: json['job'] != null
+          ? ProblemDetail.fromJson(json['job'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      run: json['run'] != null
+          ? ProblemDetail.fromJson(json['run'] as Map<String, dynamic>)
+          : null,
+      suite: json['suite'] != null
+          ? ProblemDetail.fromJson(json['suite'] as Map<String, dynamic>)
+          : null,
+      test: json['test'] != null
+          ? ProblemDetail.fromJson(json['test'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about a problem detail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProblemDetail {
   /// The problem detail's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The problem detail's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ProblemDetail({
     this.arn,
     this.name,
   });
-  factory ProblemDetail.fromJson(Map<String, dynamic> json) =>
-      _$ProblemDetailFromJson(json);
+  factory ProblemDetail.fromJson(Map<String, dynamic> json) {
+    return ProblemDetail(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
 }
 
 /// Represents an operating-system neutral workspace for running and managing
 /// tests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Project {
   /// The project's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The default number of minutes (at the project level) a test run executes
   /// before it times out. The default value is 150 minutes.
-  @_s.JsonKey(name: 'defaultJobTimeoutMinutes')
-  final int defaultJobTimeoutMinutes;
+  final int? defaultJobTimeoutMinutes;
 
   /// The project's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Project({
     this.arn,
@@ -8352,51 +8812,48 @@ class Project {
     this.defaultJobTimeoutMinutes,
     this.name,
   });
-  factory Project.fromJson(Map<String, dynamic> json) =>
-      _$ProjectFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      arn: json['arn'] as String?,
+      created: timeStampFromJson(json['created']),
+      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
+      name: json['name'] as String?,
+    );
+  }
 }
 
 /// The result of the purchase offering (for example, success or failure).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PurchaseOfferingResult {
   /// Represents the offering transaction for the purchase result.
-  @_s.JsonKey(name: 'offeringTransaction')
-  final OfferingTransaction offeringTransaction;
+  final OfferingTransaction? offeringTransaction;
 
   PurchaseOfferingResult({
     this.offeringTransaction,
   });
-  factory PurchaseOfferingResult.fromJson(Map<String, dynamic> json) =>
-      _$PurchaseOfferingResultFromJson(json);
+  factory PurchaseOfferingResult.fromJson(Map<String, dynamic> json) {
+    return PurchaseOfferingResult(
+      offeringTransaction: json['offeringTransaction'] != null
+          ? OfferingTransaction.fromJson(
+              json['offeringTransaction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the set of radios and their states on a device. Examples of
 /// radios include Wi-Fi, GPS, Bluetooth, and NFC.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Radios {
   /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
-  @_s.JsonKey(name: 'bluetooth')
-  final bool bluetooth;
+  final bool? bluetooth;
 
   /// True if GPS is enabled at the beginning of the test. Otherwise, false.
-  @_s.JsonKey(name: 'gps')
-  final bool gps;
+  final bool? gps;
 
   /// True if NFC is enabled at the beginning of the test. Otherwise, false.
-  @_s.JsonKey(name: 'nfc')
-  final bool nfc;
+  final bool? nfc;
 
   /// True if Wi-Fi is enabled at the beginning of the test. Otherwise, false.
-  @_s.JsonKey(name: 'wifi')
-  final bool wifi;
+  final bool? wifi;
 
   Radios({
     this.bluetooth,
@@ -8404,57 +8861,85 @@ class Radios {
     this.nfc,
     this.wifi,
   });
-  factory Radios.fromJson(Map<String, dynamic> json) => _$RadiosFromJson(json);
+  factory Radios.fromJson(Map<String, dynamic> json) {
+    return Radios(
+      bluetooth: json['bluetooth'] as bool?,
+      gps: json['gps'] as bool?,
+      nfc: json['nfc'] as bool?,
+      wifi: json['wifi'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RadiosToJson(this);
+  Map<String, dynamic> toJson() {
+    final bluetooth = this.bluetooth;
+    final gps = this.gps;
+    final nfc = this.nfc;
+    final wifi = this.wifi;
+    return {
+      if (bluetooth != null) 'bluetooth': bluetooth,
+      if (gps != null) 'gps': gps,
+      if (nfc != null) 'nfc': nfc,
+      if (wifi != null) 'wifi': wifi,
+    };
+  }
 }
 
 /// Specifies whether charges for devices are recurring.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecurringCharge {
   /// The cost of the recurring charge.
-  @_s.JsonKey(name: 'cost')
-  final MonetaryAmount cost;
+  final MonetaryAmount? cost;
 
   /// The frequency in which charges recur.
-  @_s.JsonKey(name: 'frequency')
-  final RecurringChargeFrequency frequency;
+  final RecurringChargeFrequency? frequency;
 
   RecurringCharge({
     this.cost,
     this.frequency,
   });
-  factory RecurringCharge.fromJson(Map<String, dynamic> json) =>
-      _$RecurringChargeFromJson(json);
+  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
+    return RecurringCharge(
+      cost: json['cost'] != null
+          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      frequency: (json['frequency'] as String?)?.toRecurringChargeFrequency(),
+    );
+  }
 }
 
 enum RecurringChargeFrequency {
-  @_s.JsonValue('MONTHLY')
   monthly,
 }
 
+extension on RecurringChargeFrequency {
+  String toValue() {
+    switch (this) {
+      case RecurringChargeFrequency.monthly:
+        return 'MONTHLY';
+    }
+  }
+}
+
+extension on String {
+  RecurringChargeFrequency toRecurringChargeFrequency() {
+    switch (this) {
+      case 'MONTHLY':
+        return RecurringChargeFrequency.monthly;
+    }
+    throw Exception('$this is not known in enum RecurringChargeFrequency');
+  }
+}
+
 /// Represents information about the remote access session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoteAccessSession {
   /// The Amazon Resource Name (ARN) of the remote access session.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The billing method of the remote access session. Possible values include
   /// <code>METERED</code> or <code>UNMETERED</code>. For more information about
   /// metered devices, see <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology">AWS
   /// Device Farm terminology</a>.
-  @_s.JsonKey(name: 'billingMethod')
-  final BillingMethod billingMethod;
+  final BillingMethod? billingMethod;
 
   /// Unique identifier of your client for the remote access session. Only
   /// returned if remote debugging is enabled for the remote access session.
@@ -8462,22 +8947,17 @@ class RemoteAccessSession {
   /// Remote debugging is <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// The date and time the remote access session was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The device (phone or tablet) used in the remote access session.
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   /// The number of minutes a device is used in a remote access session (including
   /// setup and teardown minutes).
-  @_s.JsonKey(name: 'deviceMinutes')
-  final DeviceMinutes deviceMinutes;
+  final DeviceMinutes? deviceMinutes;
 
   /// Unique device identifier for the remote device. Only returned if remote
   /// debugging is enabled for the remote access session.
@@ -8485,12 +8965,10 @@ class RemoteAccessSession {
   /// Remote debugging is <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
-  @_s.JsonKey(name: 'deviceUdid')
-  final String deviceUdid;
+  final String? deviceUdid;
 
   /// The endpoint for the remote access sesssion.
-  @_s.JsonKey(name: 'endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// IP address of the EC2 host where you need to connect to remotely debug
   /// devices. Only returned if remote debugging is enabled for the remote access
@@ -8499,12 +8977,10 @@ class RemoteAccessSession {
   /// Remote debugging is <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
-  @_s.JsonKey(name: 'hostAddress')
-  final String hostAddress;
+  final String? hostAddress;
 
   /// The ARN of the instance.
-  @_s.JsonKey(name: 'instanceArn')
-  final String instanceArn;
+  final String? instanceArn;
 
   /// The interaction mode of the remote access session. Valid values are:
   ///
@@ -8524,16 +9000,13 @@ class RemoteAccessSession {
   /// run XCUITest framework-based tests and watch the screen in this mode.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'interactionMode')
-  final InteractionMode interactionMode;
+  final InteractionMode? interactionMode;
 
   /// A message about the remote access session.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The name of the remote access session.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// This flag is set to <code>true</code> if remote debugging is enabled for the
   /// remote access session.
@@ -8541,17 +9014,14 @@ class RemoteAccessSession {
   /// Remote debugging is <a
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>.
-  @_s.JsonKey(name: 'remoteDebugEnabled')
-  final bool remoteDebugEnabled;
+  final bool? remoteDebugEnabled;
 
   /// The ARN for the app to be recorded in the remote access session.
-  @_s.JsonKey(name: 'remoteRecordAppArn')
-  final String remoteRecordAppArn;
+  final String? remoteRecordAppArn;
 
   /// This flag is set to <code>true</code> if remote recording is enabled for the
   /// remote access session.
-  @_s.JsonKey(name: 'remoteRecordEnabled')
-  final bool remoteRecordEnabled;
+  final bool? remoteRecordEnabled;
 
   /// The result of the remote access session. Can be any of the following:
   ///
@@ -8578,8 +9048,7 @@ class RemoteAccessSession {
   /// STOPPED.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// When set to <code>true</code>, for private devices, Device Farm does not
   /// sign your app again. For public devices, Device Farm always signs your apps
@@ -8588,13 +9057,10 @@ class RemoteAccessSession {
   /// For more information about how Device Farm re-signs your apps, see <a
   /// href="https://aws.amazon.com/device-farm/faq/">Do you modify my app?</a> in
   /// the <i>AWS Device Farm FAQs</i>.
-  @_s.JsonKey(name: 'skipAppResign')
-  final bool skipAppResign;
+  final bool? skipAppResign;
 
   /// The date and time the remote access session was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// The status of the remote access session. Can be any of the following:
   ///
@@ -8627,13 +9093,10 @@ class RemoteAccessSession {
   /// STOPPING.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ExecutionStatus status;
+  final ExecutionStatus? status;
 
   /// The date and time the remote access session was stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopped')
-  final DateTime stopped;
+  final DateTime? stopped;
 
   RemoteAccessSession({
     this.arn,
@@ -8658,58 +9121,79 @@ class RemoteAccessSession {
     this.status,
     this.stopped,
   });
-  factory RemoteAccessSession.fromJson(Map<String, dynamic> json) =>
-      _$RemoteAccessSessionFromJson(json);
+  factory RemoteAccessSession.fromJson(Map<String, dynamic> json) {
+    return RemoteAccessSession(
+      arn: json['arn'] as String?,
+      billingMethod: (json['billingMethod'] as String?)?.toBillingMethod(),
+      clientId: json['clientId'] as String?,
+      created: timeStampFromJson(json['created']),
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      deviceUdid: json['deviceUdid'] as String?,
+      endpoint: json['endpoint'] as String?,
+      hostAddress: json['hostAddress'] as String?,
+      instanceArn: json['instanceArn'] as String?,
+      interactionMode:
+          (json['interactionMode'] as String?)?.toInteractionMode(),
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
+      remoteRecordAppArn: json['remoteRecordAppArn'] as String?,
+      remoteRecordEnabled: json['remoteRecordEnabled'] as bool?,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      skipAppResign: json['skipAppResign'] as bool?,
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.toExecutionStatus(),
+      stopped: timeStampFromJson(json['stopped']),
+    );
+  }
 }
 
 /// The result of a renewal offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RenewOfferingResult {
   /// Represents the status of the offering transaction for the renewal.
-  @_s.JsonKey(name: 'offeringTransaction')
-  final OfferingTransaction offeringTransaction;
+  final OfferingTransaction? offeringTransaction;
 
   RenewOfferingResult({
     this.offeringTransaction,
   });
-  factory RenewOfferingResult.fromJson(Map<String, dynamic> json) =>
-      _$RenewOfferingResultFromJson(json);
+  factory RenewOfferingResult.fromJson(Map<String, dynamic> json) {
+    return RenewOfferingResult(
+      offeringTransaction: json['offeringTransaction'] != null
+          ? OfferingTransaction.fromJson(
+              json['offeringTransaction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the screen resolution of a device in height and width, expressed
 /// in pixels.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resolution {
   /// The screen resolution's height, expressed in pixels.
-  @_s.JsonKey(name: 'height')
-  final int height;
+  final int? height;
 
   /// The screen resolution's width, expressed in pixels.
-  @_s.JsonKey(name: 'width')
-  final int width;
+  final int? width;
 
   Resolution({
     this.height,
     this.width,
   });
-  factory Resolution.fromJson(Map<String, dynamic> json) =>
-      _$ResolutionFromJson(json);
+  factory Resolution.fromJson(Map<String, dynamic> json) {
+    return Resolution(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
 }
 
 /// Represents a condition for a device pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Rule {
   /// The rule's stringified attribute. For example, specify the value as
   /// <code>"\"abc\""</code>.
@@ -8785,63 +9269,107 @@ class Rule {
   /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
   /// longer supported</a>, this filter is ignored.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'attribute')
-  final DeviceAttribute attribute;
+  final DeviceAttribute? attribute;
 
   /// Specifies how Device Farm compares the rule's attribute to the value. For
   /// the operators that are supported by each attribute, see the attribute
   /// descriptions.
-  @_s.JsonKey(name: 'operator')
-  final RuleOperator operator;
+  final RuleOperator? operator;
 
   /// The rule's value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Rule({
     this.attribute,
     this.operator,
     this.value,
   });
-  factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      attribute: (json['attribute'] as String?)?.toDeviceAttribute(),
+      operator: (json['operator'] as String?)?.toRuleOperator(),
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      if (attribute != null) 'attribute': attribute.toValue(),
+      if (operator != null) 'operator': operator.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum RuleOperator {
-  @_s.JsonValue('EQUALS')
   equals,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('LESS_THAN_OR_EQUALS')
   lessThanOrEquals,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('GREATER_THAN_OR_EQUALS')
   greaterThanOrEquals,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('NOT_IN')
   notIn,
-  @_s.JsonValue('CONTAINS')
   contains,
+}
+
+extension on RuleOperator {
+  String toValue() {
+    switch (this) {
+      case RuleOperator.equals:
+        return 'EQUALS';
+      case RuleOperator.lessThan:
+        return 'LESS_THAN';
+      case RuleOperator.lessThanOrEquals:
+        return 'LESS_THAN_OR_EQUALS';
+      case RuleOperator.greaterThan:
+        return 'GREATER_THAN';
+      case RuleOperator.greaterThanOrEquals:
+        return 'GREATER_THAN_OR_EQUALS';
+      case RuleOperator.$in:
+        return 'IN';
+      case RuleOperator.notIn:
+        return 'NOT_IN';
+      case RuleOperator.contains:
+        return 'CONTAINS';
+    }
+  }
+}
+
+extension on String {
+  RuleOperator toRuleOperator() {
+    switch (this) {
+      case 'EQUALS':
+        return RuleOperator.equals;
+      case 'LESS_THAN':
+        return RuleOperator.lessThan;
+      case 'LESS_THAN_OR_EQUALS':
+        return RuleOperator.lessThanOrEquals;
+      case 'GREATER_THAN':
+        return RuleOperator.greaterThan;
+      case 'GREATER_THAN_OR_EQUALS':
+        return RuleOperator.greaterThanOrEquals;
+      case 'IN':
+        return RuleOperator.$in;
+      case 'NOT_IN':
+        return RuleOperator.notIn;
+      case 'CONTAINS':
+        return RuleOperator.contains;
+    }
+    throw Exception('$this is not known in enum RuleOperator');
+  }
 }
 
 /// Represents a test run on a set of devices with a given app package, test
 /// parameters, and so on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Run {
   /// An app to upload or that has been uploaded.
-  @_s.JsonKey(name: 'appUpload')
-  final String appUpload;
+  final String? appUpload;
 
   /// The run's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Specifies the billing method for a test run: <code>metered</code> or
   /// <code>unmetered</code>. If the parameter is not specified, the default value
@@ -8851,72 +9379,55 @@ class Run {
   /// <code>unmetered</code> to use them. Otherwise, the run is counted toward
   /// metered device minutes.
   /// </note>
-  @_s.JsonKey(name: 'billingMethod')
-  final BillingMethod billingMethod;
+  final BillingMethod? billingMethod;
 
   /// The total number of completed jobs.
-  @_s.JsonKey(name: 'completedJobs')
-  final int completedJobs;
+  final int? completedJobs;
 
   /// The run's result counters.
-  @_s.JsonKey(name: 'counters')
-  final Counters counters;
+  final Counters? counters;
 
   /// When the run was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Output <code>CustomerArtifactPaths</code> object for the test run.
-  @_s.JsonKey(name: 'customerArtifactPaths')
-  final CustomerArtifactPaths customerArtifactPaths;
+  final CustomerArtifactPaths? customerArtifactPaths;
 
   /// Represents the total (metered or unmetered) minutes used by the test run.
-  @_s.JsonKey(name: 'deviceMinutes')
-  final DeviceMinutes deviceMinutes;
+  final DeviceMinutes? deviceMinutes;
 
   /// The ARN of the device pool for the run.
-  @_s.JsonKey(name: 'devicePoolArn')
-  final String devicePoolArn;
+  final String? devicePoolArn;
 
   /// The results of a device filter used to select the devices for a test run.
-  @_s.JsonKey(name: 'deviceSelectionResult')
-  final DeviceSelectionResult deviceSelectionResult;
+  final DeviceSelectionResult? deviceSelectionResult;
 
   /// For fuzz tests, this is the number of events, between 1 and 10000, that the
   /// UI fuzz test should perform.
-  @_s.JsonKey(name: 'eventCount')
-  final int eventCount;
+  final int? eventCount;
 
   /// The number of minutes the job executes before it times out.
-  @_s.JsonKey(name: 'jobTimeoutMinutes')
-  final int jobTimeoutMinutes;
+  final int? jobTimeoutMinutes;
 
   /// Information about the locale that is used for the run.
-  @_s.JsonKey(name: 'locale')
-  final String locale;
+  final String? locale;
 
   /// Information about the location that is used for the run.
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// A message about the run's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The run's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The network profile being used for a test run.
-  @_s.JsonKey(name: 'networkProfile')
-  final NetworkProfile networkProfile;
+  final NetworkProfile? networkProfile;
 
   /// Read-only URL for an object in an S3 bucket where you can get the parsing
   /// results of the test package. If the test package doesn't parse, the reason
   /// why it doesn't parse appears in the file that this URL points to.
-  @_s.JsonKey(name: 'parsingResultUrl')
-  final String parsingResultUrl;
+  final String? parsingResultUrl;
 
   /// The run's platform.
   ///
@@ -8930,12 +9441,10 @@ class Run {
   /// IOS
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'platform')
-  final DevicePlatform platform;
+  final DevicePlatform? platform;
 
   /// Information about the radio states for the run.
-  @_s.JsonKey(name: 'radios')
-  final Radios radios;
+  final Radios? radios;
 
   /// The run's result.
   ///
@@ -8964,19 +9473,16 @@ class Run {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// Supporting field for the result field. Set only if <code>result</code> is
   /// <code>SKIPPED</code>. <code>PARSING_FAILED</code> if the result is skipped
   /// because of test package parsing failure.
-  @_s.JsonKey(name: 'resultCode')
-  final ExecutionResultCode resultCode;
+  final ExecutionResultCode? resultCode;
 
   /// For fuzz tests, this is a seed to use for randomizing the UI fuzz test.
   /// Using the same seed value between tests ensures identical event sequences.
-  @_s.JsonKey(name: 'seed')
-  final int seed;
+  final int? seed;
 
   /// When set to <code>true</code>, for private devices, Device Farm does not
   /// sign your app again. For public devices, Device Farm always signs your apps
@@ -8985,13 +9491,10 @@ class Run {
   /// For more information about how Device Farm re-signs your apps, see <a
   /// href="https://aws.amazon.com/device-farm/faq/">Do you modify my app?</a> in
   /// the <i>AWS Device Farm FAQs</i>.
-  @_s.JsonKey(name: 'skipAppResign')
-  final bool skipAppResign;
+  final bool? skipAppResign;
 
   /// The run's start time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// The run's status.
   ///
@@ -9026,21 +9529,16 @@ class Run {
   /// STOPPING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ExecutionStatus status;
+  final ExecutionStatus? status;
 
   /// The run's stop time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopped')
-  final DateTime stopped;
+  final DateTime? stopped;
 
   /// The ARN of the YAML-formatted test specification for the run.
-  @_s.JsonKey(name: 'testSpecArn')
-  final String testSpecArn;
+  final String? testSpecArn;
 
   /// The total number of jobs for the run.
-  @_s.JsonKey(name: 'totalJobs')
-  final int totalJobs;
+  final int? totalJobs;
 
   /// The run's type.
   ///
@@ -9105,12 +9603,10 @@ class Run {
   /// XCTEST_UI
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final TestType type;
+  final TestType? type;
 
   /// The Device Farm console URL for the recording of the run.
-  @_s.JsonKey(name: 'webUrl')
-  final String webUrl;
+  final String? webUrl;
 
   Run({
     this.appUpload,
@@ -9145,19 +9641,65 @@ class Run {
     this.type,
     this.webUrl,
   });
-  factory Run.fromJson(Map<String, dynamic> json) => _$RunFromJson(json);
+  factory Run.fromJson(Map<String, dynamic> json) {
+    return Run(
+      appUpload: json['appUpload'] as String?,
+      arn: json['arn'] as String?,
+      billingMethod: (json['billingMethod'] as String?)?.toBillingMethod(),
+      completedJobs: json['completedJobs'] as int?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      customerArtifactPaths: json['customerArtifactPaths'] != null
+          ? CustomerArtifactPaths.fromJson(
+              json['customerArtifactPaths'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      devicePoolArn: json['devicePoolArn'] as String?,
+      deviceSelectionResult: json['deviceSelectionResult'] != null
+          ? DeviceSelectionResult.fromJson(
+              json['deviceSelectionResult'] as Map<String, dynamic>)
+          : null,
+      eventCount: json['eventCount'] as int?,
+      jobTimeoutMinutes: json['jobTimeoutMinutes'] as int?,
+      locale: json['locale'] as String?,
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      networkProfile: json['networkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['networkProfile'] as Map<String, dynamic>)
+          : null,
+      parsingResultUrl: json['parsingResultUrl'] as String?,
+      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      radios: json['radios'] != null
+          ? Radios.fromJson(json['radios'] as Map<String, dynamic>)
+          : null,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      resultCode: (json['resultCode'] as String?)?.toExecutionResultCode(),
+      seed: json['seed'] as int?,
+      skipAppResign: json['skipAppResign'] as bool?,
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.toExecutionStatus(),
+      stopped: timeStampFromJson(json['stopped']),
+      testSpecArn: json['testSpecArn'] as String?,
+      totalJobs: json['totalJobs'] as int?,
+      type: (json['type'] as String?)?.toTestType(),
+      webUrl: json['webUrl'] as String?,
+    );
+  }
 }
 
 /// Represents a sample of performance data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Sample {
   /// The sample's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The sample's type.
   ///
@@ -9221,70 +9763,134 @@ class Sample {
   /// received, by app process.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final SampleType type;
+  final SampleType? type;
 
   /// The presigned Amazon S3 URL that can be used with a GET request to download
   /// the sample's file.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   Sample({
     this.arn,
     this.type,
     this.url,
   });
-  factory Sample.fromJson(Map<String, dynamic> json) => _$SampleFromJson(json);
+  factory Sample.fromJson(Map<String, dynamic> json) {
+    return Sample(
+      arn: json['arn'] as String?,
+      type: (json['type'] as String?)?.toSampleType(),
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum SampleType {
-  @_s.JsonValue('CPU')
   cpu,
-  @_s.JsonValue('MEMORY')
   memory,
-  @_s.JsonValue('THREADS')
   threads,
-  @_s.JsonValue('RX_RATE')
   rxRate,
-  @_s.JsonValue('TX_RATE')
   txRate,
-  @_s.JsonValue('RX')
   rx,
-  @_s.JsonValue('TX')
   tx,
-  @_s.JsonValue('NATIVE_FRAMES')
   nativeFrames,
-  @_s.JsonValue('NATIVE_FPS')
   nativeFps,
-  @_s.JsonValue('NATIVE_MIN_DRAWTIME')
   nativeMinDrawtime,
-  @_s.JsonValue('NATIVE_AVG_DRAWTIME')
   nativeAvgDrawtime,
-  @_s.JsonValue('NATIVE_MAX_DRAWTIME')
   nativeMaxDrawtime,
-  @_s.JsonValue('OPENGL_FRAMES')
   openglFrames,
-  @_s.JsonValue('OPENGL_FPS')
   openglFps,
-  @_s.JsonValue('OPENGL_MIN_DRAWTIME')
   openglMinDrawtime,
-  @_s.JsonValue('OPENGL_AVG_DRAWTIME')
   openglAvgDrawtime,
-  @_s.JsonValue('OPENGL_MAX_DRAWTIME')
   openglMaxDrawtime,
+}
+
+extension on SampleType {
+  String toValue() {
+    switch (this) {
+      case SampleType.cpu:
+        return 'CPU';
+      case SampleType.memory:
+        return 'MEMORY';
+      case SampleType.threads:
+        return 'THREADS';
+      case SampleType.rxRate:
+        return 'RX_RATE';
+      case SampleType.txRate:
+        return 'TX_RATE';
+      case SampleType.rx:
+        return 'RX';
+      case SampleType.tx:
+        return 'TX';
+      case SampleType.nativeFrames:
+        return 'NATIVE_FRAMES';
+      case SampleType.nativeFps:
+        return 'NATIVE_FPS';
+      case SampleType.nativeMinDrawtime:
+        return 'NATIVE_MIN_DRAWTIME';
+      case SampleType.nativeAvgDrawtime:
+        return 'NATIVE_AVG_DRAWTIME';
+      case SampleType.nativeMaxDrawtime:
+        return 'NATIVE_MAX_DRAWTIME';
+      case SampleType.openglFrames:
+        return 'OPENGL_FRAMES';
+      case SampleType.openglFps:
+        return 'OPENGL_FPS';
+      case SampleType.openglMinDrawtime:
+        return 'OPENGL_MIN_DRAWTIME';
+      case SampleType.openglAvgDrawtime:
+        return 'OPENGL_AVG_DRAWTIME';
+      case SampleType.openglMaxDrawtime:
+        return 'OPENGL_MAX_DRAWTIME';
+    }
+  }
+}
+
+extension on String {
+  SampleType toSampleType() {
+    switch (this) {
+      case 'CPU':
+        return SampleType.cpu;
+      case 'MEMORY':
+        return SampleType.memory;
+      case 'THREADS':
+        return SampleType.threads;
+      case 'RX_RATE':
+        return SampleType.rxRate;
+      case 'TX_RATE':
+        return SampleType.txRate;
+      case 'RX':
+        return SampleType.rx;
+      case 'TX':
+        return SampleType.tx;
+      case 'NATIVE_FRAMES':
+        return SampleType.nativeFrames;
+      case 'NATIVE_FPS':
+        return SampleType.nativeFps;
+      case 'NATIVE_MIN_DRAWTIME':
+        return SampleType.nativeMinDrawtime;
+      case 'NATIVE_AVG_DRAWTIME':
+        return SampleType.nativeAvgDrawtime;
+      case 'NATIVE_MAX_DRAWTIME':
+        return SampleType.nativeMaxDrawtime;
+      case 'OPENGL_FRAMES':
+        return SampleType.openglFrames;
+      case 'OPENGL_FPS':
+        return SampleType.openglFps;
+      case 'OPENGL_MIN_DRAWTIME':
+        return SampleType.openglMinDrawtime;
+      case 'OPENGL_AVG_DRAWTIME':
+        return SampleType.openglAvgDrawtime;
+      case 'OPENGL_MAX_DRAWTIME':
+        return SampleType.openglMaxDrawtime;
+    }
+    throw Exception('$this is not known in enum SampleType');
+  }
 }
 
 /// Represents the settings for a run. Includes things like location, radio
 /// states, auxiliary apps, and network profiles.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduleRunConfiguration {
   /// A list of upload ARNs for app packages to be installed with your app.
-  @_s.JsonKey(name: 'auxiliaryApps')
-  final List<String> auxiliaryApps;
+  final List<String>? auxiliaryApps;
 
   /// Specifies the billing method for a test run: <code>metered</code> or
   /// <code>unmetered</code>. If the parameter is not specified, the default value
@@ -9294,39 +9900,31 @@ class ScheduleRunConfiguration {
   /// <code>unmetered</code> to make use of them. Otherwise, your run counts
   /// against your metered time.
   /// </note>
-  @_s.JsonKey(name: 'billingMethod')
-  final BillingMethod billingMethod;
+  final BillingMethod? billingMethod;
 
   /// Input <code>CustomerArtifactPaths</code> object for the scheduled run
   /// configuration.
-  @_s.JsonKey(name: 'customerArtifactPaths')
-  final CustomerArtifactPaths customerArtifactPaths;
+  final CustomerArtifactPaths? customerArtifactPaths;
 
   /// The ARN of the extra data for the run. The extra data is a .zip file that
   /// AWS Device Farm extracts to external data for Android or the app's sandbox
   /// for iOS.
-  @_s.JsonKey(name: 'extraDataPackageArn')
-  final String extraDataPackageArn;
+  final String? extraDataPackageArn;
 
   /// Information about the locale that is used for the run.
-  @_s.JsonKey(name: 'locale')
-  final String locale;
+  final String? locale;
 
   /// Information about the location that is used for the run.
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// Reserved for internal use.
-  @_s.JsonKey(name: 'networkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   /// Information about the radio states for the run.
-  @_s.JsonKey(name: 'radios')
-  final Radios radios;
+  final Radios? radios;
 
   /// An array of ARNs for your VPC endpoint configurations.
-  @_s.JsonKey(name: 'vpceConfigurationArns')
-  final List<String> vpceConfigurationArns;
+  final List<String>? vpceConfigurationArns;
 
   ScheduleRunConfiguration({
     this.auxiliaryApps,
@@ -9339,35 +9937,53 @@ class ScheduleRunConfiguration {
     this.radios,
     this.vpceConfigurationArns,
   });
-  Map<String, dynamic> toJson() => _$ScheduleRunConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final auxiliaryApps = this.auxiliaryApps;
+    final billingMethod = this.billingMethod;
+    final customerArtifactPaths = this.customerArtifactPaths;
+    final extraDataPackageArn = this.extraDataPackageArn;
+    final locale = this.locale;
+    final location = this.location;
+    final networkProfileArn = this.networkProfileArn;
+    final radios = this.radios;
+    final vpceConfigurationArns = this.vpceConfigurationArns;
+    return {
+      if (auxiliaryApps != null) 'auxiliaryApps': auxiliaryApps,
+      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (customerArtifactPaths != null)
+        'customerArtifactPaths': customerArtifactPaths,
+      if (extraDataPackageArn != null)
+        'extraDataPackageArn': extraDataPackageArn,
+      if (locale != null) 'locale': locale,
+      if (location != null) 'location': location,
+      if (networkProfileArn != null) 'networkProfileArn': networkProfileArn,
+      if (radios != null) 'radios': radios,
+      if (vpceConfigurationArns != null)
+        'vpceConfigurationArns': vpceConfigurationArns,
+    };
+  }
 }
 
 /// Represents the result of a schedule run request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduleRunResult {
   /// Information about the scheduled run.
-  @_s.JsonKey(name: 'run')
-  final Run run;
+  final Run? run;
 
   ScheduleRunResult({
     this.run,
   });
-  factory ScheduleRunResult.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleRunResultFromJson(json);
+  factory ScheduleRunResult.fromJson(Map<String, dynamic> json) {
+    return ScheduleRunResult(
+      run: json['run'] != null
+          ? Run.fromJson(json['run'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents test settings. This data structure is passed in as the test
 /// parameter to ScheduleRun. For an example of the JSON request syntax, see
 /// <a>ScheduleRun</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduleRunTest {
   /// The test's type.
   ///
@@ -9430,12 +10046,10 @@ class ScheduleRunTest {
   /// XCTEST_UI
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final TestType type;
 
   /// The test's filter.
-  @_s.JsonKey(name: 'filter')
-  final String filter;
+  final String? filter;
 
   /// The test's parameters, such as test framework parameters and fixture
   /// settings. Parameters are represented by name-value pairs of strings.
@@ -9568,113 +10182,109 @@ class ScheduleRunTest {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The ARN of the uploaded test to be run.
-  @_s.JsonKey(name: 'testPackageArn')
-  final String testPackageArn;
+  final String? testPackageArn;
 
   /// The ARN of the YAML-formatted test specification.
-  @_s.JsonKey(name: 'testSpecArn')
-  final String testSpecArn;
+  final String? testSpecArn;
 
   ScheduleRunTest({
-    @_s.required this.type,
+    required this.type,
     this.filter,
     this.parameters,
     this.testPackageArn,
     this.testSpecArn,
   });
-  Map<String, dynamic> toJson() => _$ScheduleRunTestToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final filter = this.filter;
+    final parameters = this.parameters;
+    final testPackageArn = this.testPackageArn;
+    final testSpecArn = this.testSpecArn;
+    return {
+      'type': type.toValue(),
+      if (filter != null) 'filter': filter,
+      if (parameters != null) 'parameters': parameters,
+      if (testPackageArn != null) 'testPackageArn': testPackageArn,
+      if (testSpecArn != null) 'testSpecArn': testSpecArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopJobResult {
   /// The job that was stopped.
-  @_s.JsonKey(name: 'job')
-  final Job job;
+  final Job? job;
 
   StopJobResult({
     this.job,
   });
-  factory StopJobResult.fromJson(Map<String, dynamic> json) =>
-      _$StopJobResultFromJson(json);
+  factory StopJobResult.fromJson(Map<String, dynamic> json) {
+    return StopJobResult(
+      job: json['job'] != null
+          ? Job.fromJson(json['job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the response from the server that describes the remote access
 /// session when AWS Device Farm stops the session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopRemoteAccessSessionResult {
   /// A container that represents the metadata from the service about the remote
   /// access session you are stopping.
-  @_s.JsonKey(name: 'remoteAccessSession')
-  final RemoteAccessSession remoteAccessSession;
+  final RemoteAccessSession? remoteAccessSession;
 
   StopRemoteAccessSessionResult({
     this.remoteAccessSession,
   });
-  factory StopRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$StopRemoteAccessSessionResultFromJson(json);
+  factory StopRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) {
+    return StopRemoteAccessSessionResult(
+      remoteAccessSession: json['remoteAccessSession'] != null
+          ? RemoteAccessSession.fromJson(
+              json['remoteAccessSession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the results of your stop run attempt.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopRunResult {
   /// The run that was stopped.
-  @_s.JsonKey(name: 'run')
-  final Run run;
+  final Run? run;
 
   StopRunResult({
     this.run,
   });
-  factory StopRunResult.fromJson(Map<String, dynamic> json) =>
-      _$StopRunResultFromJson(json);
+  factory StopRunResult.fromJson(Map<String, dynamic> json) {
+    return StopRunResult(
+      run: json['run'] != null
+          ? Run.fromJson(json['run'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents a collection of one or more tests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Suite {
   /// The suite's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The suite's result counters.
-  @_s.JsonKey(name: 'counters')
-  final Counters counters;
+  final Counters? counters;
 
   /// When the suite was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Represents the total (metered or unmetered) minutes used by the test suite.
-  @_s.JsonKey(name: 'deviceMinutes')
-  final DeviceMinutes deviceMinutes;
+  final DeviceMinutes? deviceMinutes;
 
   /// A message about the suite's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The suite's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The suite's result.
   ///
@@ -9703,13 +10313,10 @@ class Suite {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// The suite's start time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// The suite's status.
   ///
@@ -9744,13 +10351,10 @@ class Suite {
   /// STOPPING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ExecutionStatus status;
+  final ExecutionStatus? status;
 
   /// The suite's stop time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopped')
-  final DateTime stopped;
+  final DateTime? stopped;
 
   /// The suite's type.
   ///
@@ -9815,8 +10419,7 @@ class Suite {
   /// XCTEST_UI
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final TestType type;
+  final TestType? type;
 
   Suite({
     this.arn,
@@ -9831,80 +10434,88 @@ class Suite {
     this.stopped,
     this.type,
   });
-  factory Suite.fromJson(Map<String, dynamic> json) => _$SuiteFromJson(json);
+  factory Suite.fromJson(Map<String, dynamic> json) {
+    return Suite(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.toExecutionStatus(),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.toTestType(),
+    );
+  }
 }
 
 /// The metadata that you apply to a resource to help you categorize and
 /// organize it. Each tag consists of a key and an optional value, both of which
 /// you define. Tag keys can have a maximum character length of 128 characters.
 /// Tag values can have a maximum length of 256 characters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional part of a key-value pair that makes up a tag. A
   /// <code>value</code> acts as a descriptor in a tag category (key).
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Represents a condition that is evaluated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Test {
   /// The test's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The test's result counters.
-  @_s.JsonKey(name: 'counters')
-  final Counters counters;
+  final Counters? counters;
 
   /// When the test was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Represents the total (metered or unmetered) minutes used by the test.
-  @_s.JsonKey(name: 'deviceMinutes')
-  final DeviceMinutes deviceMinutes;
+  final DeviceMinutes? deviceMinutes;
 
   /// A message about the test's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The test's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The test's result.
   ///
@@ -9933,13 +10544,10 @@ class Test {
   /// STOPPED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'result')
-  final ExecutionResult result;
+  final ExecutionResult? result;
 
   /// The test's start time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// The test's status.
   ///
@@ -9974,13 +10582,10 @@ class Test {
   /// STOPPING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ExecutionStatus status;
+  final ExecutionStatus? status;
 
   /// The test's stop time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopped')
-  final DateTime stopped;
+  final DateTime? stopped;
 
   /// The test's type.
   ///
@@ -10045,8 +10650,7 @@ class Test {
   /// XCTEST_UI
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final TestType type;
+  final TestType? type;
 
   Test({
     this.arn,
@@ -10061,33 +10665,42 @@ class Test {
     this.stopped,
     this.type,
   });
-  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+  factory Test.fromJson(Map<String, dynamic> json) {
+    return Test(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.toExecutionResult(),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.toExecutionStatus(),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.toTestType(),
+    );
+  }
 }
 
 /// A Selenium testing project. Projects are used to collect and collate
 /// sessions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestGridProject {
   /// The ARN for the project.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// A human-readable description for the project.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// A human-readable name for the project.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   TestGridProject({
     this.arn,
@@ -10095,43 +10708,36 @@ class TestGridProject {
     this.description,
     this.name,
   });
-  factory TestGridProject.fromJson(Map<String, dynamic> json) =>
-      _$TestGridProjectFromJson(json);
+  factory TestGridProject.fromJson(Map<String, dynamic> json) {
+    return TestGridProject(
+      arn: json['arn'] as String?,
+      created: timeStampFromJson(json['created']),
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+    );
+  }
 }
 
 /// A <a>TestGridSession</a> is a single instance of a browser launched from the
 /// URL provided by a call to <a>CreateTestGridUrl</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestGridSession {
   /// The ARN of the session.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The number of billed minutes that were used for this session.
-  @_s.JsonKey(name: 'billingMinutes')
-  final double billingMinutes;
+  final double? billingMinutes;
 
   /// The time that the session was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The time the session ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ended')
-  final DateTime ended;
+  final DateTime? ended;
 
   /// A JSON object of options and parameters passed to the Selenium WebDriver.
-  @_s.JsonKey(name: 'seleniumProperties')
-  final String seleniumProperties;
+  final String? seleniumProperties;
 
   /// The state of the session.
-  @_s.JsonKey(name: 'status')
-  final TestGridSessionStatus status;
+  final TestGridSessionStatus? status;
 
   TestGridSession({
     this.arn,
@@ -10141,37 +10747,34 @@ class TestGridSession {
     this.seleniumProperties,
     this.status,
   });
-  factory TestGridSession.fromJson(Map<String, dynamic> json) =>
-      _$TestGridSessionFromJson(json);
+  factory TestGridSession.fromJson(Map<String, dynamic> json) {
+    return TestGridSession(
+      arn: json['arn'] as String?,
+      billingMinutes: json['billingMinutes'] as double?,
+      created: timeStampFromJson(json['created']),
+      ended: timeStampFromJson(json['ended']),
+      seleniumProperties: json['seleniumProperties'] as String?,
+      status: (json['status'] as String?)?.toTestGridSessionStatus(),
+    );
+  }
 }
 
 /// An action taken by a <a>TestGridSession</a> browser instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestGridSessionAction {
   /// The action taken by the session.
-  @_s.JsonKey(name: 'action')
-  final String action;
+  final String? action;
 
   /// The time, in milliseconds, that the action took to complete in the browser.
-  @_s.JsonKey(name: 'duration')
-  final int duration;
+  final int? duration;
 
   /// HTTP method that the browser used to make the request.
-  @_s.JsonKey(name: 'requestMethod')
-  final String requestMethod;
+  final String? requestMethod;
 
   /// The time that the session invoked the action.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'started')
-  final DateTime started;
+  final DateTime? started;
 
   /// HTTP status code returned to the browser when the action was taken.
-  @_s.JsonKey(name: 'statusCode')
-  final String statusCode;
+  final String? statusCode;
 
   TestGridSessionAction({
     this.action,
@@ -10180,8 +10783,15 @@ class TestGridSessionAction {
     this.started,
     this.statusCode,
   });
-  factory TestGridSessionAction.fromJson(Map<String, dynamic> json) =>
-      _$TestGridSessionActionFromJson(json);
+  factory TestGridSessionAction.fromJson(Map<String, dynamic> json) {
+    return TestGridSessionAction(
+      action: json['action'] as String?,
+      duration: json['duration'] as int?,
+      requestMethod: json['requestMethod'] as String?,
+      started: timeStampFromJson(json['started']),
+      statusCode: json['statusCode'] as String?,
+    );
+  }
 }
 
 /// Artifacts are video and other files that are produced in the process of
@@ -10190,37 +10800,32 @@ class TestGridSessionAction {
 /// Video elements might be broken up into multiple artifacts as they grow in
 /// size during creation.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestGridSessionArtifact {
   /// The file name of the artifact.
-  @_s.JsonKey(name: 'filename')
-  final String filename;
+  final String? filename;
 
   /// The kind of artifact.
-  @_s.JsonKey(name: 'type')
-  final TestGridSessionArtifactType type;
+  final TestGridSessionArtifactType? type;
 
   /// A semi-stable URL to the content of the object.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   TestGridSessionArtifact({
     this.filename,
     this.type,
     this.url,
   });
-  factory TestGridSessionArtifact.fromJson(Map<String, dynamic> json) =>
-      _$TestGridSessionArtifactFromJson(json);
+  factory TestGridSessionArtifact.fromJson(Map<String, dynamic> json) {
+    return TestGridSessionArtifact(
+      filename: json['filename'] as String?,
+      type: (json['type'] as String?)?.toTestGridSessionArtifactType(),
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum TestGridSessionArtifactCategory {
-  @_s.JsonValue('VIDEO')
   video,
-  @_s.JsonValue('LOG')
   log,
 }
 
@@ -10232,25 +10837,58 @@ extension on TestGridSessionArtifactCategory {
       case TestGridSessionArtifactCategory.log:
         return 'LOG';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TestGridSessionArtifactCategory toTestGridSessionArtifactCategory() {
+    switch (this) {
+      case 'VIDEO':
+        return TestGridSessionArtifactCategory.video;
+      case 'LOG':
+        return TestGridSessionArtifactCategory.log;
+    }
+    throw Exception(
+        '$this is not known in enum TestGridSessionArtifactCategory');
   }
 }
 
 enum TestGridSessionArtifactType {
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('VIDEO')
   video,
-  @_s.JsonValue('SELENIUM_LOG')
   seleniumLog,
 }
 
+extension on TestGridSessionArtifactType {
+  String toValue() {
+    switch (this) {
+      case TestGridSessionArtifactType.unknown:
+        return 'UNKNOWN';
+      case TestGridSessionArtifactType.video:
+        return 'VIDEO';
+      case TestGridSessionArtifactType.seleniumLog:
+        return 'SELENIUM_LOG';
+    }
+  }
+}
+
+extension on String {
+  TestGridSessionArtifactType toTestGridSessionArtifactType() {
+    switch (this) {
+      case 'UNKNOWN':
+        return TestGridSessionArtifactType.unknown;
+      case 'VIDEO':
+        return TestGridSessionArtifactType.video;
+      case 'SELENIUM_LOG':
+        return TestGridSessionArtifactType.seleniumLog;
+    }
+    throw Exception('$this is not known in enum TestGridSessionArtifactType');
+  }
+}
+
 enum TestGridSessionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CLOSED')
   closed,
-  @_s.JsonValue('ERRORED')
   errored,
 }
 
@@ -10264,52 +10902,44 @@ extension on TestGridSessionStatus {
       case TestGridSessionStatus.errored:
         return 'ERRORED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TestGridSessionStatus toTestGridSessionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TestGridSessionStatus.active;
+      case 'CLOSED':
+        return TestGridSessionStatus.closed;
+      case 'ERRORED':
+        return TestGridSessionStatus.errored;
+    }
+    throw Exception('$this is not known in enum TestGridSessionStatus');
   }
 }
 
 enum TestType {
-  @_s.JsonValue('BUILTIN_FUZZ')
   builtinFuzz,
-  @_s.JsonValue('BUILTIN_EXPLORER')
   builtinExplorer,
-  @_s.JsonValue('WEB_PERFORMANCE_PROFILE')
   webPerformanceProfile,
-  @_s.JsonValue('APPIUM_JAVA_JUNIT')
   appiumJavaJunit,
-  @_s.JsonValue('APPIUM_JAVA_TESTNG')
   appiumJavaTestng,
-  @_s.JsonValue('APPIUM_PYTHON')
   appiumPython,
-  @_s.JsonValue('APPIUM_NODE')
   appiumNode,
-  @_s.JsonValue('APPIUM_RUBY')
   appiumRuby,
-  @_s.JsonValue('APPIUM_WEB_JAVA_JUNIT')
   appiumWebJavaJunit,
-  @_s.JsonValue('APPIUM_WEB_JAVA_TESTNG')
   appiumWebJavaTestng,
-  @_s.JsonValue('APPIUM_WEB_PYTHON')
   appiumWebPython,
-  @_s.JsonValue('APPIUM_WEB_NODE')
   appiumWebNode,
-  @_s.JsonValue('APPIUM_WEB_RUBY')
   appiumWebRuby,
-  @_s.JsonValue('CALABASH')
   calabash,
-  @_s.JsonValue('INSTRUMENTATION')
   instrumentation,
-  @_s.JsonValue('UIAUTOMATION')
   uiautomation,
-  @_s.JsonValue('UIAUTOMATOR')
   uiautomator,
-  @_s.JsonValue('XCTEST')
   xctest,
-  @_s.JsonValue('XCTEST_UI')
   xctestUi,
-  @_s.JsonValue('REMOTE_ACCESS_RECORD')
   remoteAccessRecord,
-  @_s.JsonValue('REMOTE_ACCESS_REPLAY')
   remoteAccessReplay,
 }
 
@@ -10359,215 +10989,248 @@ extension on TestType {
       case TestType.remoteAccessReplay:
         return 'REMOTE_ACCESS_REPLAY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TestType toTestType() {
+    switch (this) {
+      case 'BUILTIN_FUZZ':
+        return TestType.builtinFuzz;
+      case 'BUILTIN_EXPLORER':
+        return TestType.builtinExplorer;
+      case 'WEB_PERFORMANCE_PROFILE':
+        return TestType.webPerformanceProfile;
+      case 'APPIUM_JAVA_JUNIT':
+        return TestType.appiumJavaJunit;
+      case 'APPIUM_JAVA_TESTNG':
+        return TestType.appiumJavaTestng;
+      case 'APPIUM_PYTHON':
+        return TestType.appiumPython;
+      case 'APPIUM_NODE':
+        return TestType.appiumNode;
+      case 'APPIUM_RUBY':
+        return TestType.appiumRuby;
+      case 'APPIUM_WEB_JAVA_JUNIT':
+        return TestType.appiumWebJavaJunit;
+      case 'APPIUM_WEB_JAVA_TESTNG':
+        return TestType.appiumWebJavaTestng;
+      case 'APPIUM_WEB_PYTHON':
+        return TestType.appiumWebPython;
+      case 'APPIUM_WEB_NODE':
+        return TestType.appiumWebNode;
+      case 'APPIUM_WEB_RUBY':
+        return TestType.appiumWebRuby;
+      case 'CALABASH':
+        return TestType.calabash;
+      case 'INSTRUMENTATION':
+        return TestType.instrumentation;
+      case 'UIAUTOMATION':
+        return TestType.uiautomation;
+      case 'UIAUTOMATOR':
+        return TestType.uiautomator;
+      case 'XCTEST':
+        return TestType.xctest;
+      case 'XCTEST_UI':
+        return TestType.xctestUi;
+      case 'REMOTE_ACCESS_RECORD':
+        return TestType.remoteAccessRecord;
+      case 'REMOTE_ACCESS_REPLAY':
+        return TestType.remoteAccessReplay;
+    }
+    throw Exception('$this is not known in enum TestType');
   }
 }
 
 /// Represents information about free trial device minutes for an AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrialMinutes {
   /// The number of free trial minutes remaining in the account.
-  @_s.JsonKey(name: 'remaining')
-  final double remaining;
+  final double? remaining;
 
   /// The total number of free trial minutes that the account started with.
-  @_s.JsonKey(name: 'total')
-  final double total;
+  final double? total;
 
   TrialMinutes({
     this.remaining,
     this.total,
   });
-  factory TrialMinutes.fromJson(Map<String, dynamic> json) =>
-      _$TrialMinutesFromJson(json);
+  factory TrialMinutes.fromJson(Map<String, dynamic> json) {
+    return TrialMinutes(
+      remaining: json['remaining'] as double?,
+      total: json['total'] as double?,
+    );
+  }
 }
 
 /// A collection of one or more problems, grouped by their result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UniqueProblem {
   /// A message about the unique problems' result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// Information about the problems.
-  @_s.JsonKey(name: 'problems')
-  final List<Problem> problems;
+  final List<Problem>? problems;
 
   UniqueProblem({
     this.message,
     this.problems,
   });
-  factory UniqueProblem.fromJson(Map<String, dynamic> json) =>
-      _$UniqueProblemFromJson(json);
+  factory UniqueProblem.fromJson(Map<String, dynamic> json) {
+    return UniqueProblem(
+      message: json['message'] as String?,
+      problems: (json['problems'] as List?)
+          ?.whereNotNull()
+          .map((e) => Problem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceInstanceResult {
   /// An object that contains information about your device instance.
-  @_s.JsonKey(name: 'deviceInstance')
-  final DeviceInstance deviceInstance;
+  final DeviceInstance? deviceInstance;
 
   UpdateDeviceInstanceResult({
     this.deviceInstance,
   });
-  factory UpdateDeviceInstanceResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceInstanceResultFromJson(json);
+  factory UpdateDeviceInstanceResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDeviceInstanceResult(
+      deviceInstance: json['deviceInstance'] != null
+          ? DeviceInstance.fromJson(
+              json['deviceInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of an update device pool request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDevicePoolResult {
   /// The device pool you just updated.
-  @_s.JsonKey(name: 'devicePool')
-  final DevicePool devicePool;
+  final DevicePool? devicePool;
 
   UpdateDevicePoolResult({
     this.devicePool,
   });
-  factory UpdateDevicePoolResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDevicePoolResultFromJson(json);
+  factory UpdateDevicePoolResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDevicePoolResult(
+      devicePool: json['devicePool'] != null
+          ? DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateInstanceProfileResult {
   /// An object that contains information about your instance profile.
-  @_s.JsonKey(name: 'instanceProfile')
-  final InstanceProfile instanceProfile;
+  final InstanceProfile? instanceProfile;
 
   UpdateInstanceProfileResult({
     this.instanceProfile,
   });
-  factory UpdateInstanceProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateInstanceProfileResultFromJson(json);
+  factory UpdateInstanceProfileResult.fromJson(Map<String, dynamic> json) {
+    return UpdateInstanceProfileResult(
+      instanceProfile: json['instanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['instanceProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNetworkProfileResult {
   /// A list of the available network profiles.
-  @_s.JsonKey(name: 'networkProfile')
-  final NetworkProfile networkProfile;
+  final NetworkProfile? networkProfile;
 
   UpdateNetworkProfileResult({
     this.networkProfile,
   });
-  factory UpdateNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNetworkProfileResultFromJson(json);
+  factory UpdateNetworkProfileResult.fromJson(Map<String, dynamic> json) {
+    return UpdateNetworkProfileResult(
+      networkProfile: json['networkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['networkProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents the result of an update project request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProjectResult {
   /// The project to update.
-  @_s.JsonKey(name: 'project')
-  final Project project;
+  final Project? project;
 
   UpdateProjectResult({
     this.project,
   });
-  factory UpdateProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProjectResultFromJson(json);
+  factory UpdateProjectResult.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectResult(
+      project: json['project'] != null
+          ? Project.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTestGridProjectResult {
   /// The project, including updated information.
-  @_s.JsonKey(name: 'testGridProject')
-  final TestGridProject testGridProject;
+  final TestGridProject? testGridProject;
 
   UpdateTestGridProjectResult({
     this.testGridProject,
   });
-  factory UpdateTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTestGridProjectResultFromJson(json);
+  factory UpdateTestGridProjectResult.fromJson(Map<String, dynamic> json) {
+    return UpdateTestGridProjectResult(
+      testGridProject: json['testGridProject'] != null
+          ? TestGridProject.fromJson(
+              json['testGridProject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUploadResult {
   /// A test spec uploaded to Device Farm.
-  @_s.JsonKey(name: 'upload')
-  final Upload upload;
+  final Upload? upload;
 
   UpdateUploadResult({
     this.upload,
   });
-  factory UpdateUploadResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUploadResultFromJson(json);
+  factory UpdateUploadResult.fromJson(Map<String, dynamic> json) {
+    return UpdateUploadResult(
+      upload: json['upload'] != null
+          ? Upload.fromJson(json['upload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
-  @_s.JsonKey(name: 'vpceConfiguration')
-  final VPCEConfiguration vpceConfiguration;
+  final VPCEConfiguration? vpceConfiguration;
 
   UpdateVPCEConfigurationResult({
     this.vpceConfiguration,
   });
-  factory UpdateVPCEConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVPCEConfigurationResultFromJson(json);
+  factory UpdateVPCEConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return UpdateVPCEConfigurationResult(
+      vpceConfiguration: json['vpceConfiguration'] != null
+          ? VPCEConfiguration.fromJson(
+              json['vpceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An app or a set of one or more tests to upload or that have been uploaded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Upload {
   /// The upload's ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The upload's category. Allowed values include:
   ///
@@ -10579,32 +11242,25 @@ class Upload {
   /// PRIVATE: An upload managed by the AWS Device Farm customer.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'category')
-  final UploadCategory category;
+  final UploadCategory? category;
 
   /// The upload's content type (for example,
   /// <code>application/octet-stream</code>).
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   /// When the upload was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// A message about the upload's result.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The upload's metadata. For example, for Android, this contains information
   /// that is parsed from the manifest and is displayed in the AWS Device Farm
   /// console after the associated app is uploaded.
-  @_s.JsonKey(name: 'metadata')
-  final String metadata;
+  final String? metadata;
 
   /// The upload's file name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The upload's status.
   ///
@@ -10624,8 +11280,7 @@ class Upload {
   /// SUCCEEDED
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final UploadStatus status;
+  final UploadStatus? status;
 
   /// The upload's type.
   ///
@@ -10729,13 +11384,11 @@ class Upload {
   /// XCTEST_UI_TEST_SPEC
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final UploadType type;
+  final UploadType? type;
 
   /// The presigned Amazon S3 URL that was used to store a file using a PUT
   /// request.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   Upload({
     this.arn,
@@ -10749,91 +11402,120 @@ class Upload {
     this.type,
     this.url,
   });
-  factory Upload.fromJson(Map<String, dynamic> json) => _$UploadFromJson(json);
+  factory Upload.fromJson(Map<String, dynamic> json) {
+    return Upload(
+      arn: json['arn'] as String?,
+      category: (json['category'] as String?)?.toUploadCategory(),
+      contentType: json['contentType'] as String?,
+      created: timeStampFromJson(json['created']),
+      message: json['message'] as String?,
+      metadata: json['metadata'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toUploadStatus(),
+      type: (json['type'] as String?)?.toUploadType(),
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum UploadCategory {
-  @_s.JsonValue('CURATED')
   curated,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
+extension on UploadCategory {
+  String toValue() {
+    switch (this) {
+      case UploadCategory.curated:
+        return 'CURATED';
+      case UploadCategory.private:
+        return 'PRIVATE';
+    }
+  }
+}
+
+extension on String {
+  UploadCategory toUploadCategory() {
+    switch (this) {
+      case 'CURATED':
+        return UploadCategory.curated;
+      case 'PRIVATE':
+        return UploadCategory.private;
+    }
+    throw Exception('$this is not known in enum UploadCategory');
+  }
+}
+
 enum UploadStatus {
-  @_s.JsonValue('INITIALIZED')
   initialized,
-  @_s.JsonValue('PROCESSING')
   processing,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on UploadStatus {
+  String toValue() {
+    switch (this) {
+      case UploadStatus.initialized:
+        return 'INITIALIZED';
+      case UploadStatus.processing:
+        return 'PROCESSING';
+      case UploadStatus.succeeded:
+        return 'SUCCEEDED';
+      case UploadStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  UploadStatus toUploadStatus() {
+    switch (this) {
+      case 'INITIALIZED':
+        return UploadStatus.initialized;
+      case 'PROCESSING':
+        return UploadStatus.processing;
+      case 'SUCCEEDED':
+        return UploadStatus.succeeded;
+      case 'FAILED':
+        return UploadStatus.failed;
+    }
+    throw Exception('$this is not known in enum UploadStatus');
+  }
+}
+
 enum UploadType {
-  @_s.JsonValue('ANDROID_APP')
   androidApp,
-  @_s.JsonValue('IOS_APP')
   iosApp,
-  @_s.JsonValue('WEB_APP')
   webApp,
-  @_s.JsonValue('EXTERNAL_DATA')
   externalData,
-  @_s.JsonValue('APPIUM_JAVA_JUNIT_TEST_PACKAGE')
   appiumJavaJunitTestPackage,
-  @_s.JsonValue('APPIUM_JAVA_TESTNG_TEST_PACKAGE')
   appiumJavaTestngTestPackage,
-  @_s.JsonValue('APPIUM_PYTHON_TEST_PACKAGE')
   appiumPythonTestPackage,
-  @_s.JsonValue('APPIUM_NODE_TEST_PACKAGE')
   appiumNodeTestPackage,
-  @_s.JsonValue('APPIUM_RUBY_TEST_PACKAGE')
   appiumRubyTestPackage,
-  @_s.JsonValue('APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE')
   appiumWebJavaJunitTestPackage,
-  @_s.JsonValue('APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE')
   appiumWebJavaTestngTestPackage,
-  @_s.JsonValue('APPIUM_WEB_PYTHON_TEST_PACKAGE')
   appiumWebPythonTestPackage,
-  @_s.JsonValue('APPIUM_WEB_NODE_TEST_PACKAGE')
   appiumWebNodeTestPackage,
-  @_s.JsonValue('APPIUM_WEB_RUBY_TEST_PACKAGE')
   appiumWebRubyTestPackage,
-  @_s.JsonValue('CALABASH_TEST_PACKAGE')
   calabashTestPackage,
-  @_s.JsonValue('INSTRUMENTATION_TEST_PACKAGE')
   instrumentationTestPackage,
-  @_s.JsonValue('UIAUTOMATION_TEST_PACKAGE')
   uiautomationTestPackage,
-  @_s.JsonValue('UIAUTOMATOR_TEST_PACKAGE')
   uiautomatorTestPackage,
-  @_s.JsonValue('XCTEST_TEST_PACKAGE')
   xctestTestPackage,
-  @_s.JsonValue('XCTEST_UI_TEST_PACKAGE')
   xctestUiTestPackage,
-  @_s.JsonValue('APPIUM_JAVA_JUNIT_TEST_SPEC')
   appiumJavaJunitTestSpec,
-  @_s.JsonValue('APPIUM_JAVA_TESTNG_TEST_SPEC')
   appiumJavaTestngTestSpec,
-  @_s.JsonValue('APPIUM_PYTHON_TEST_SPEC')
   appiumPythonTestSpec,
-  @_s.JsonValue('APPIUM_NODE_TEST_SPEC')
   appiumNodeTestSpec,
-  @_s.JsonValue('APPIUM_RUBY_TEST_SPEC')
   appiumRubyTestSpec,
-  @_s.JsonValue('APPIUM_WEB_JAVA_JUNIT_TEST_SPEC')
   appiumWebJavaJunitTestSpec,
-  @_s.JsonValue('APPIUM_WEB_JAVA_TESTNG_TEST_SPEC')
   appiumWebJavaTestngTestSpec,
-  @_s.JsonValue('APPIUM_WEB_PYTHON_TEST_SPEC')
   appiumWebPythonTestSpec,
-  @_s.JsonValue('APPIUM_WEB_NODE_TEST_SPEC')
   appiumWebNodeTestSpec,
-  @_s.JsonValue('APPIUM_WEB_RUBY_TEST_SPEC')
   appiumWebRubyTestSpec,
-  @_s.JsonValue('INSTRUMENTATION_TEST_SPEC')
   instrumentationTestSpec,
-  @_s.JsonValue('XCTEST_UI_TEST_SPEC')
   xctestUiTestSpec,
 }
 
@@ -10905,40 +11587,101 @@ extension on UploadType {
       case UploadType.xctestUiTestSpec:
         return 'XCTEST_UI_TEST_SPEC';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UploadType toUploadType() {
+    switch (this) {
+      case 'ANDROID_APP':
+        return UploadType.androidApp;
+      case 'IOS_APP':
+        return UploadType.iosApp;
+      case 'WEB_APP':
+        return UploadType.webApp;
+      case 'EXTERNAL_DATA':
+        return UploadType.externalData;
+      case 'APPIUM_JAVA_JUNIT_TEST_PACKAGE':
+        return UploadType.appiumJavaJunitTestPackage;
+      case 'APPIUM_JAVA_TESTNG_TEST_PACKAGE':
+        return UploadType.appiumJavaTestngTestPackage;
+      case 'APPIUM_PYTHON_TEST_PACKAGE':
+        return UploadType.appiumPythonTestPackage;
+      case 'APPIUM_NODE_TEST_PACKAGE':
+        return UploadType.appiumNodeTestPackage;
+      case 'APPIUM_RUBY_TEST_PACKAGE':
+        return UploadType.appiumRubyTestPackage;
+      case 'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE':
+        return UploadType.appiumWebJavaJunitTestPackage;
+      case 'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE':
+        return UploadType.appiumWebJavaTestngTestPackage;
+      case 'APPIUM_WEB_PYTHON_TEST_PACKAGE':
+        return UploadType.appiumWebPythonTestPackage;
+      case 'APPIUM_WEB_NODE_TEST_PACKAGE':
+        return UploadType.appiumWebNodeTestPackage;
+      case 'APPIUM_WEB_RUBY_TEST_PACKAGE':
+        return UploadType.appiumWebRubyTestPackage;
+      case 'CALABASH_TEST_PACKAGE':
+        return UploadType.calabashTestPackage;
+      case 'INSTRUMENTATION_TEST_PACKAGE':
+        return UploadType.instrumentationTestPackage;
+      case 'UIAUTOMATION_TEST_PACKAGE':
+        return UploadType.uiautomationTestPackage;
+      case 'UIAUTOMATOR_TEST_PACKAGE':
+        return UploadType.uiautomatorTestPackage;
+      case 'XCTEST_TEST_PACKAGE':
+        return UploadType.xctestTestPackage;
+      case 'XCTEST_UI_TEST_PACKAGE':
+        return UploadType.xctestUiTestPackage;
+      case 'APPIUM_JAVA_JUNIT_TEST_SPEC':
+        return UploadType.appiumJavaJunitTestSpec;
+      case 'APPIUM_JAVA_TESTNG_TEST_SPEC':
+        return UploadType.appiumJavaTestngTestSpec;
+      case 'APPIUM_PYTHON_TEST_SPEC':
+        return UploadType.appiumPythonTestSpec;
+      case 'APPIUM_NODE_TEST_SPEC':
+        return UploadType.appiumNodeTestSpec;
+      case 'APPIUM_RUBY_TEST_SPEC':
+        return UploadType.appiumRubyTestSpec;
+      case 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC':
+        return UploadType.appiumWebJavaJunitTestSpec;
+      case 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC':
+        return UploadType.appiumWebJavaTestngTestSpec;
+      case 'APPIUM_WEB_PYTHON_TEST_SPEC':
+        return UploadType.appiumWebPythonTestSpec;
+      case 'APPIUM_WEB_NODE_TEST_SPEC':
+        return UploadType.appiumWebNodeTestSpec;
+      case 'APPIUM_WEB_RUBY_TEST_SPEC':
+        return UploadType.appiumWebRubyTestSpec;
+      case 'INSTRUMENTATION_TEST_SPEC':
+        return UploadType.instrumentationTestSpec;
+      case 'XCTEST_UI_TEST_SPEC':
+        return UploadType.xctestUiTestSpec;
+    }
+    throw Exception('$this is not known in enum UploadType');
   }
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VPCEConfiguration {
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The DNS name that maps to the private IP address of the service you want to
   /// access.
-  @_s.JsonKey(name: 'serviceDnsName')
-  final String serviceDnsName;
+  final String? serviceDnsName;
 
   /// An optional description that provides details about your VPC endpoint
   /// configuration.
-  @_s.JsonKey(name: 'vpceConfigurationDescription')
-  final String vpceConfigurationDescription;
+  final String? vpceConfigurationDescription;
 
   /// The friendly name you give to your VPC endpoint configuration to manage your
   /// configurations more easily.
-  @_s.JsonKey(name: 'vpceConfigurationName')
-  final String vpceConfigurationName;
+  final String? vpceConfigurationName;
 
   /// The name of the VPC endpoint service running in your AWS account that you
   /// want Device Farm to test.
-  @_s.JsonKey(name: 'vpceServiceName')
-  final String vpceServiceName;
+  final String? vpceServiceName;
 
   VPCEConfiguration({
     this.arn,
@@ -10947,67 +11690,75 @@ class VPCEConfiguration {
     this.vpceConfigurationName,
     this.vpceServiceName,
   });
-  factory VPCEConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$VPCEConfigurationFromJson(json);
+  factory VPCEConfiguration.fromJson(Map<String, dynamic> json) {
+    return VPCEConfiguration(
+      arn: json['arn'] as String?,
+      serviceDnsName: json['serviceDnsName'] as String?,
+      vpceConfigurationDescription:
+          json['vpceConfigurationDescription'] as String?,
+      vpceConfigurationName: json['vpceConfigurationName'] as String?,
+      vpceServiceName: json['vpceServiceName'] as String?,
+    );
+  }
 }
 
 class ArgumentException extends _s.GenericAwsException {
-  ArgumentException({String type, String message})
+  ArgumentException({String? type, String? message})
       : super(type: type, code: 'ArgumentException', message: message);
 }
 
 class CannotDeleteException extends _s.GenericAwsException {
-  CannotDeleteException({String type, String message})
+  CannotDeleteException({String? type, String? message})
       : super(type: type, code: 'CannotDeleteException', message: message);
 }
 
 class IdempotencyException extends _s.GenericAwsException {
-  IdempotencyException({String type, String message})
+  IdempotencyException({String? type, String? message})
       : super(type: type, code: 'IdempotencyException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotEligibleException extends _s.GenericAwsException {
-  NotEligibleException({String type, String message})
+  NotEligibleException({String? type, String? message})
       : super(type: type, code: 'NotEligibleException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceAccountException extends _s.GenericAwsException {
-  ServiceAccountException({String type, String message})
+  ServiceAccountException({String? type, String? message})
       : super(type: type, code: 'ServiceAccountException', message: message);
 }
 
 class TagOperationException extends _s.GenericAwsException {
-  TagOperationException({String type, String message})
+  TagOperationException({String? type, String? message})
       : super(type: type, code: 'TagOperationException', message: message);
 }
 
 class TagPolicyException extends _s.GenericAwsException {
-  TagPolicyException({String type, String message})
+  TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

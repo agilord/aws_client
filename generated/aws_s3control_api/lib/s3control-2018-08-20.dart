@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class S3Control {
   final _s.RestXmlProtocol _protocol;
   S3Control({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -118,11 +123,11 @@ class S3Control {
   /// buckets.
   /// </note>
   Future<CreateAccessPointResult> createAccessPoint({
-    @_s.required String accountId,
-    @_s.required String bucket,
-    @_s.required String name,
-    PublicAccessBlockConfiguration publicAccessBlockConfiguration,
-    VpcConfiguration vpcConfiguration,
+    required String accountId,
+    required String bucket,
+    required String name,
+    PublicAccessBlockConfiguration? publicAccessBlockConfiguration,
+    VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -154,8 +159,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
@@ -307,16 +313,16 @@ class S3Control {
   /// This is required by Amazon S3 on Outposts buckets.
   /// </note>
   Future<CreateBucketResult> createBucket({
-    @_s.required String bucket,
-    BucketCannedACL acl,
-    CreateBucketConfiguration createBucketConfiguration,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWrite,
-    String grantWriteACP,
-    bool objectLockEnabledForBucket,
-    String outpostId,
+    required String bucket,
+    BucketCannedACL? acl,
+    CreateBucketConfiguration? createBucketConfiguration,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWrite,
+    String? grantWriteACP,
+    bool? objectLockEnabledForBucket,
+    String? outpostId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
@@ -332,17 +338,20 @@ class S3Control {
       1,
       64,
     );
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWrite?.let((v) => headers['x-amz-grant-write'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    objectLockEnabledForBucket?.let(
-        (v) => headers['x-amz-bucket-object-lock-enabled'] = v.toString());
-    outpostId?.let((v) => headers['x-amz-outpost-id'] = v.toString());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWrite != null) 'x-amz-grant-write': grantWrite.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (objectLockEnabledForBucket != null)
+        'x-amz-bucket-object-lock-enabled':
+            objectLockEnabledForBucket.toString(),
+      if (outpostId != null) 'x-amz-outpost-id': outpostId.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
@@ -395,10 +404,6 @@ class S3Control {
   /// Parameter [accountId] :
   /// The AWS account ID that creates the job.
   ///
-  /// Parameter [clientRequestToken] :
-  /// An idempotency token to ensure that you don't accidentally submit the same
-  /// request twice. You can use any string up to the maximum length.
-  ///
   /// Parameter [manifest] :
   /// Configuration parameters for the manifest.
   ///
@@ -420,6 +425,10 @@ class S3Control {
   /// (IAM) role that Batch Operations will use to run this job's operation on
   /// each object in the manifest.
   ///
+  /// Parameter [clientRequestToken] :
+  /// An idempotency token to ensure that you don't accidentally submit the same
+  /// request twice. You can use any string up to the maximum length.
+  ///
   /// Parameter [confirmationRequired] :
   /// Indicates whether confirmation is required before Amazon S3 runs the job.
   /// Confirmation is only required for jobs created through the Amazon S3
@@ -434,16 +443,16 @@ class S3Control {
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
   Future<CreateJobResult> createJob({
-    @_s.required String accountId,
-    @_s.required String clientRequestToken,
-    @_s.required JobManifest manifest,
-    @_s.required JobOperation operation,
-    @_s.required int priority,
-    @_s.required JobReport report,
-    @_s.required String roleArn,
-    bool confirmationRequired,
-    String description,
-    List<S3Tag> tags,
+    required String accountId,
+    required JobManifest manifest,
+    required JobOperation operation,
+    required int priority,
+    required JobReport report,
+    required String roleArn,
+    String? clientRequestToken,
+    bool? confirmationRequired,
+    String? description,
+    List<S3Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -457,14 +466,6 @@ class S3Control {
       'accountId',
       accountId,
       r'''^\d{12}$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
       isRequired: true,
     );
     ArgumentError.checkNotNull(manifest, 'manifest');
@@ -493,26 +494,33 @@ class S3Control {
       isRequired: true,
     );
     _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringLength(
       'description',
       description,
       1,
       256,
     );
     clientRequestToken ??= _s.generateIdempotencyToken();
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/v20180820/jobs',
       headers: headers,
       payload: CreateJobRequest(
               accountId: accountId,
-              clientRequestToken: clientRequestToken,
               manifest: manifest,
               operation: operation,
               priority: priority,
               report: report,
               roleArn: roleArn,
+              clientRequestToken: clientRequestToken,
               confirmationRequired: confirmationRequired,
               description: description,
               tags: tags)
@@ -575,8 +583,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
   Future<void> deleteAccessPoint({
-    @_s.required String accountId,
-    @_s.required String name,
+    required String accountId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -600,8 +608,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
@@ -653,8 +662,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
   Future<void> deleteAccessPointPolicy({
-    @_s.required String accountId,
-    @_s.required String name,
+    required String accountId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -678,8 +687,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
@@ -745,8 +755,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<void> deleteBucket({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -770,8 +780,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
@@ -846,8 +857,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<void> deleteBucketLifecycleConfiguration({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -871,8 +882,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -954,8 +966,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<void> deleteBucketPolicy({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -979,8 +991,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
@@ -1045,8 +1058,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<void> deleteBucketTagging({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1070,8 +1083,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
@@ -1114,8 +1128,8 @@ class S3Control {
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to delete.
   Future<void> deleteJobTagging({
-    @_s.required String accountId,
-    @_s.required String jobId,
+    required String accountId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1145,8 +1159,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
@@ -1177,7 +1192,7 @@ class S3Control {
   /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
   /// configuration you want to remove.
   Future<void> deletePublicAccessBlock({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1193,8 +1208,9 @@ class S3Control {
       r'''^\d{12}$''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/configuration/publicAccessBlock',
@@ -1223,8 +1239,8 @@ class S3Control {
   /// Parameter [configId] :
   /// The ID of the S3 Storage Lens configuration.
   Future<void> deleteStorageLensConfiguration({
-    @_s.required String accountId,
-    @_s.required String configId,
+    required String accountId,
+    required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1254,8 +1270,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/v20180820/storagelens/${Uri.encodeComponent(configId)}',
@@ -1284,8 +1301,8 @@ class S3Control {
   /// Parameter [configId] :
   /// The ID of the S3 Storage Lens configuration.
   Future<void> deleteStorageLensConfigurationTagging({
-    @_s.required String accountId,
-    @_s.required String configId,
+    required String accountId,
+    required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1315,8 +1332,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1364,8 +1382,8 @@ class S3Control {
   /// Parameter [jobId] :
   /// The ID for the job whose information you want to retrieve.
   Future<DescribeJobResult> describeJob({
-    @_s.required String accountId,
-    @_s.required String jobId,
+    required String accountId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1395,8 +1413,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}',
@@ -1454,8 +1473,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
   Future<GetAccessPointResult> getAccessPoint({
-    @_s.required String accountId,
-    @_s.required String name,
+    required String accountId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1479,8 +1498,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
@@ -1524,8 +1544,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
   Future<GetAccessPointPolicyResult> getAccessPointPolicy({
-    @_s.required String accountId,
-    @_s.required String name,
+    required String accountId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1549,8 +1569,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
@@ -1573,8 +1594,8 @@ class S3Control {
   /// Parameter [name] :
   /// The name of the access point whose policy status you want to retrieve.
   Future<GetAccessPointPolicyStatusResult> getAccessPointPolicyStatus({
-    @_s.required String accountId,
-    @_s.required String name,
+    required String accountId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1598,8 +1619,9 @@ class S3Control {
       50,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -1672,8 +1694,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<GetBucketResult> getBucket({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1697,8 +1719,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
@@ -1794,8 +1817,8 @@ class S3Control {
   /// The value must be URL encoded.
   Future<GetBucketLifecycleConfigurationResult>
       getBucketLifecycleConfiguration({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1819,8 +1842,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -1907,8 +1931,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<GetBucketPolicyResult> getBucketPolicy({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1932,8 +1956,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
@@ -2012,8 +2037,8 @@ class S3Control {
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
   Future<GetBucketTaggingResult> getBucketTagging({
-    @_s.required String accountId,
-    @_s.required String bucket,
+    required String accountId,
+    required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2037,8 +2062,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
@@ -2082,8 +2108,8 @@ class S3Control {
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
   Future<GetJobTaggingResult> getJobTagging({
-    @_s.required String accountId,
-    @_s.required String jobId,
+    required String accountId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2113,8 +2139,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
@@ -2148,7 +2175,7 @@ class S3Control {
   /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
   /// configuration you want to retrieve.
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2164,8 +2191,9 @@ class S3Control {
       r'''^\d{12}$''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/v20180820/configuration/publicAccessBlock',
@@ -2199,8 +2227,8 @@ class S3Control {
   /// Parameter [configId] :
   /// The ID of the Amazon S3 Storage Lens configuration.
   Future<GetStorageLensConfigurationResult> getStorageLensConfiguration({
-    @_s.required String accountId,
-    @_s.required String configId,
+    required String accountId,
+    required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2230,8 +2258,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/v20180820/storagelens/${Uri.encodeComponent(configId)}',
@@ -2265,8 +2294,8 @@ class S3Control {
   /// The ID of the Amazon S3 Storage Lens configuration.
   Future<GetStorageLensConfigurationTaggingResult>
       getStorageLensConfigurationTagging({
-    @_s.required String accountId,
-    @_s.required String configId,
+    required String accountId,
+    required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2296,8 +2325,9 @@ class S3Control {
       r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2374,10 +2404,10 @@ class S3Control {
   /// providing that value here causes Amazon S3 to retrieve the next page of
   /// results.
   Future<ListAccessPointsResult> listAccessPoints({
-    @_s.required String accountId,
-    String bucket,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    String? bucket,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2411,8 +2441,9 @@ class S3Control {
       1,
       1024,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $query = <String, List<String>>{
       if (bucket != null) 'bucket': [bucket],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -2479,10 +2510,10 @@ class S3Control {
   /// <code>ListJobsResult</code> from the previous <code>List Jobs</code>
   /// request.
   Future<ListJobsResult> listJobs({
-    @_s.required String accountId,
-    List<JobStatus> jobStatuses,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    List<JobStatus>? jobStatuses,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2515,11 +2546,12 @@ class S3Control {
       nextToken,
       r'''^[A-Za-z0-9\+\:\/\=\?\#-_]+$''',
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $query = <String, List<String>>{
       if (jobStatuses != null)
-        'jobStatuses': jobStatuses.map((e) => e?.toValue() ?? '').toList(),
+        'jobStatuses': jobStatuses.map((e) => e.toValue()).toList(),
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2560,10 +2592,10 @@ class S3Control {
   /// This is required by Amazon S3 on Outposts buckets.
   /// </note>
   Future<ListRegionalBucketsResult> listRegionalBuckets({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
-    String outpostId,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+    String? outpostId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2597,9 +2629,10 @@ class S3Control {
       1,
       64,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    outpostId?.let((v) => headers['x-amz-outpost-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+      if (outpostId != null) 'x-amz-outpost-id': outpostId.toString(),
+    };
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2634,8 +2667,8 @@ class S3Control {
   /// Parameter [nextToken] :
   /// A pagination token to request the next page of results.
   Future<ListStorageLensConfigurationsResult> listStorageLensConfigurations({
-    @_s.required String accountId,
-    String nextToken,
+    required String accountId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2651,8 +2684,9 @@ class S3Control {
       r'''^\d{12}$''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $query = <String, List<String>>{
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2720,9 +2754,9 @@ class S3Control {
   /// data access with Amazon S3 Access Points</a> in the <i>Amazon Simple
   /// Storage Service Developer Guide</i>.
   Future<void> putAccessPointPolicy({
-    @_s.required String accountId,
-    @_s.required String name,
-    @_s.required String policy,
+    required String accountId,
+    required String name,
+    required String policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2747,8 +2781,9 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(policy, 'policy');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
@@ -2813,9 +2848,9 @@ class S3Control {
   /// Parameter [lifecycleConfiguration] :
   /// Container for lifecycle rules. You can add as many as 1,000 rules.
   Future<void> putBucketLifecycleConfiguration({
-    @_s.required String accountId,
-    @_s.required String bucket,
-    LifecycleConfiguration lifecycleConfiguration,
+    required String accountId,
+    required String bucket,
+    LifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2839,8 +2874,9 @@ class S3Control {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri:
@@ -2933,10 +2969,10 @@ class S3Control {
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
   Future<void> putBucketPolicy({
-    @_s.required String accountId,
-    @_s.required String bucket,
-    @_s.required String policy,
-    bool confirmRemoveSelfBucketAccess,
+    required String accountId,
+    required String bucket,
+    required String policy,
+    bool? confirmRemoveSelfBucketAccess,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -2961,10 +2997,12 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(policy, 'policy');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    confirmRemoveSelfBucketAccess?.let((v) =>
-        headers['x-amz-confirm-remove-self-bucket-access'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+      if (confirmRemoveSelfBucketAccess != null)
+        'x-amz-confirm-remove-self-bucket-access':
+            confirmRemoveSelfBucketAccess.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
@@ -3108,9 +3146,9 @@ class S3Control {
   /// Parameter [tagging] :
   /// <p/>
   Future<void> putBucketTagging({
-    @_s.required String accountId,
-    @_s.required String bucket,
-    @_s.required Tagging tagging,
+    required String accountId,
+    required String bucket,
+    required Tagging tagging,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3135,8 +3173,9 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagging, 'tagging');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
@@ -3234,9 +3273,9 @@ class S3Control {
   /// Parameter [tags] :
   /// The set of tags to associate with the S3 Batch Operations job.
   Future<void> putJobTagging({
-    @_s.required String accountId,
-    @_s.required String jobId,
-    @_s.required List<S3Tag> tags,
+    required String accountId,
+    required String jobId,
+    required List<S3Tag> tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3267,8 +3306,9 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
@@ -3312,8 +3352,8 @@ class S3Control {
   /// The <code>PublicAccessBlock</code> configuration that you want to apply to
   /// the specified AWS account.
   Future<void> putPublicAccessBlock({
-    @_s.required String accountId,
-    @_s.required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
+    required String accountId,
+    required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3331,8 +3371,9 @@ class S3Control {
     );
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/configuration/publicAccessBlock',
@@ -3372,10 +3413,10 @@ class S3Control {
   /// You can set up to a maximum of 50 tags.
   /// </note>
   Future<void> putStorageLensConfiguration({
-    @_s.required String accountId,
-    @_s.required String configId,
-    @_s.required StorageLensConfiguration storageLensConfiguration,
-    List<StorageLensTag> tags,
+    required String accountId,
+    required String configId,
+    required StorageLensConfiguration storageLensConfiguration,
+    List<StorageLensTag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3407,8 +3448,9 @@ class S3Control {
     );
     ArgumentError.checkNotNull(
         storageLensConfiguration, 'storageLensConfiguration');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/v20180820/storagelens/${Uri.encodeComponent(configId)}',
@@ -3455,9 +3497,9 @@ class S3Control {
   /// You can set up to a maximum of 50 tags.
   /// </note>
   Future<void> putStorageLensConfigurationTagging({
-    @_s.required String accountId,
-    @_s.required String configId,
-    @_s.required List<StorageLensTag> tags,
+    required String accountId,
+    required String configId,
+    required List<StorageLensTag> tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3488,8 +3530,9 @@ class S3Control {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri:
@@ -3549,9 +3592,9 @@ class S3Control {
   /// Parameter [priority] :
   /// The priority you want to assign to this job.
   Future<UpdateJobPriorityResult> updateJobPriority({
-    @_s.required String accountId,
-    @_s.required String jobId,
-    @_s.required int priority,
+    required String accountId,
+    required String jobId,
+    required int priority,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3589,10 +3632,11 @@ class S3Control {
       2147483647,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $query = <String, List<String>>{
-      if (priority != null) 'priority': [priority.toString()],
+      'priority': [priority.toString()],
     };
     final $result = await _protocol.send(
       method: 'POST',
@@ -3651,10 +3695,10 @@ class S3Control {
   /// A description of the reason why you want to change the specified job's
   /// status. This field can be any string up to the maximum length.
   Future<UpdateJobStatusResult> updateJobStatus({
-    @_s.required String accountId,
-    @_s.required String jobId,
-    @_s.required RequestedJobStatus requestedJobStatus,
-    String statusUpdateReason,
+    required String accountId,
+    required String jobId,
+    required RequestedJobStatus requestedJobStatus,
+    String? statusUpdateReason,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3691,11 +3735,11 @@ class S3Control {
       1,
       256,
     );
-    final headers = <String, String>{};
-    accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
     final $query = <String, List<String>>{
-      if (requestedJobStatus != null)
-        'requestedJobStatus': [requestedJobStatus.toValue()],
+      'requestedJobStatus': [requestedJobStatus.toValue()],
       if (statusUpdateReason != null)
         'statusUpdateReason': [statusUpdateReason],
     };
@@ -3714,7 +3758,7 @@ class S3Control {
 class AbortIncompleteMultipartUpload {
   /// Specifies the number of days after which Amazon S3 aborts an incomplete
   /// multipart upload to the Outposts bucket.
-  final int daysAfterInitiation;
+  final int? daysAfterInitiation;
 
   AbortIncompleteMultipartUpload({
     this.daysAfterInitiation,
@@ -3725,7 +3769,8 @@ class AbortIncompleteMultipartUpload {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final daysAfterInitiation = this.daysAfterInitiation;
     final $children = <_s.XmlNode>[
       if (daysAfterInitiation != null)
         _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
@@ -3736,7 +3781,7 @@ class AbortIncompleteMultipartUpload {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3758,25 +3803,25 @@ class AccessPoint {
   final NetworkOrigin networkOrigin;
 
   /// The ARN for the access point.
-  final String accessPointArn;
+  final String? accessPointArn;
 
   /// The virtual private cloud (VPC) configuration for this access point, if one
   /// exists.
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   AccessPoint({
-    @_s.required this.bucket,
-    @_s.required this.name,
-    @_s.required this.networkOrigin,
+    required this.bucket,
+    required this.name,
+    required this.networkOrigin,
     this.accessPointArn,
     this.vpcConfiguration,
   });
   factory AccessPoint.fromXml(_s.XmlElement elem) {
     return AccessPoint(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       networkOrigin:
-          _s.extractXmlStringValue(elem, 'NetworkOrigin')?.toNetworkOrigin(),
+          _s.extractXmlStringValue(elem, 'NetworkOrigin')!.toNetworkOrigin(),
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
@@ -3791,27 +3836,28 @@ class AccountLevel {
   final BucketLevel bucketLevel;
 
   /// A container for the S3 Storage Lens activity metrics.
-  final ActivityMetrics activityMetrics;
+  final ActivityMetrics? activityMetrics;
 
   AccountLevel({
-    @_s.required this.bucketLevel,
+    required this.bucketLevel,
     this.activityMetrics,
   });
   factory AccountLevel.fromXml(_s.XmlElement elem) {
     return AccountLevel(
-      bucketLevel: _s
-          .extractXmlChild(elem, 'BucketLevel')
-          ?.let((e) => BucketLevel.fromXml(e)),
+      bucketLevel:
+          BucketLevel.fromXml(_s.extractXmlChild(elem, 'BucketLevel')!),
       activityMetrics: _s
           .extractXmlChild(elem, 'ActivityMetrics')
           ?.let((e) => ActivityMetrics.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucketLevel = this.bucketLevel;
+    final activityMetrics = this.activityMetrics;
     final $children = <_s.XmlNode>[
-      if (activityMetrics != null) activityMetrics?.toXml('ActivityMetrics'),
-      bucketLevel?.toXml('BucketLevel'),
+      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
+      bucketLevel.toXml('BucketLevel'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3819,7 +3865,7 @@ class AccountLevel {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3827,7 +3873,7 @@ class AccountLevel {
 /// A container for the activity metrics.
 class ActivityMetrics {
   /// A container for whether the activity metrics are enabled.
-  final bool isEnabled;
+  final bool? isEnabled;
 
   ActivityMetrics({
     this.isEnabled,
@@ -3838,7 +3884,8 @@ class ActivityMetrics {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
     final $children = <_s.XmlNode>[
       if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
     ];
@@ -3848,7 +3895,7 @@ class ActivityMetrics {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3872,7 +3919,6 @@ extension on BucketCannedACL {
       case BucketCannedACL.authenticatedRead:
         return 'authenticated-read';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3888,17 +3934,17 @@ extension on String {
       case 'authenticated-read':
         return BucketCannedACL.authenticatedRead;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketCannedACL');
   }
 }
 
 /// A container for the bucket-level configuration.
 class BucketLevel {
   /// A container for the bucket-level activity metrics for Amazon S3 Storage Lens
-  final ActivityMetrics activityMetrics;
+  final ActivityMetrics? activityMetrics;
 
   /// A container for the bucket-level prefix-level metrics for S3 Storage Lens
-  final PrefixLevel prefixLevel;
+  final PrefixLevel? prefixLevel;
 
   BucketLevel({
     this.activityMetrics,
@@ -3915,10 +3961,12 @@ class BucketLevel {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final activityMetrics = this.activityMetrics;
+    final prefixLevel = this.prefixLevel;
     final $children = <_s.XmlNode>[
-      if (activityMetrics != null) activityMetrics?.toXml('ActivityMetrics'),
-      if (prefixLevel != null) prefixLevel?.toXml('PrefixLevel'),
+      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
+      if (prefixLevel != null) prefixLevel.toXml('PrefixLevel'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3926,7 +3974,7 @@ class BucketLevel {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3971,7 +4019,6 @@ extension on BucketLocationConstraint {
       case BucketLocationConstraint.euCentral_1:
         return 'eu-central-1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4001,7 +4048,7 @@ extension on String {
       case 'eu-central-1':
         return BucketLocationConstraint.euCentral_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketLocationConstraint');
   }
 }
 
@@ -4027,7 +4074,7 @@ class CreateAccessPointRequest {
 
   /// The name you want to assign to this access point.
   final String name;
-  final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   /// If you include this field, Amazon S3 restricts access to this access point
   /// to requests from the specified virtual private cloud (VPC).
@@ -4035,21 +4082,26 @@ class CreateAccessPointRequest {
   /// This is required for creating an access point for Amazon S3 on Outposts
   /// buckets.
   /// </note>
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   CreateAccessPointRequest({
-    @_s.required this.accountId,
-    @_s.required this.bucket,
-    @_s.required this.name,
+    required this.accountId,
+    required this.bucket,
+    required this.name,
     this.publicAccessBlockConfiguration,
     this.vpcConfiguration,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final bucket = this.bucket;
+    final name = this.name;
+    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Bucket', bucket),
-      if (vpcConfiguration != null) vpcConfiguration?.toXml('VpcConfiguration'),
+      if (vpcConfiguration != null) vpcConfiguration.toXml('VpcConfiguration'),
       if (publicAccessBlockConfiguration != null)
-        publicAccessBlockConfiguration?.toXml('PublicAccessBlockConfiguration'),
+        publicAccessBlockConfiguration.toXml('PublicAccessBlockConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4057,7 +4109,7 @@ class CreateAccessPointRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4067,7 +4119,7 @@ class CreateAccessPointResult {
   /// <note>
   /// This is only supported by Amazon S3 on Outposts.
   /// </note>
-  final String accessPointArn;
+  final String? accessPointArn;
 
   CreateAccessPointResult({
     this.accessPointArn,
@@ -4090,12 +4142,13 @@ class CreateBucketConfiguration {
   /// <note>
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
-  final BucketLocationConstraint locationConstraint;
+  final BucketLocationConstraint? locationConstraint;
 
   CreateBucketConfiguration({
     this.locationConstraint,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final locationConstraint = this.locationConstraint;
     final $children = <_s.XmlNode>[
       if (locationConstraint != null)
         _s.encodeXmlStringValue(
@@ -4107,7 +4160,7 @@ class CreateBucketConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4126,10 +4179,10 @@ class CreateBucketResult {
   /// <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
-  final String bucketArn;
+  final String? bucketArn;
 
   /// The location of the bucket.
-  final String location;
+  final String? location;
 
   CreateBucketResult({
     this.bucketArn,
@@ -4140,10 +4193,6 @@ class CreateBucketResult {
 class CreateJobRequest {
   /// The AWS account ID that creates the job.
   final String accountId;
-
-  /// An idempotency token to ensure that you don't accidentally submit the same
-  /// request twice. You can use any string up to the maximum length.
-  final String clientRequestToken;
 
   /// Configuration parameters for the manifest.
   final JobManifest manifest;
@@ -4166,47 +4215,62 @@ class CreateJobRequest {
   /// each object in the manifest.
   final String roleArn;
 
+  /// An idempotency token to ensure that you don't accidentally submit the same
+  /// request twice. You can use any string up to the maximum length.
+  final String? clientRequestToken;
+
   /// Indicates whether confirmation is required before Amazon S3 runs the job.
   /// Confirmation is only required for jobs created through the Amazon S3
   /// console.
-  final bool confirmationRequired;
+  final bool? confirmationRequired;
 
   /// A description for this job. You can use any string within the permitted
   /// length. Descriptions don't need to be unique and can be used for multiple
   /// jobs.
-  final String description;
+  final String? description;
 
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
-  final List<S3Tag> tags;
+  final List<S3Tag>? tags;
 
   CreateJobRequest({
-    @_s.required this.accountId,
-    @_s.required this.clientRequestToken,
-    @_s.required this.manifest,
-    @_s.required this.operation,
-    @_s.required this.priority,
-    @_s.required this.report,
-    @_s.required this.roleArn,
+    required this.accountId,
+    required this.manifest,
+    required this.operation,
+    required this.priority,
+    required this.report,
+    required this.roleArn,
+    this.clientRequestToken,
     this.confirmationRequired,
     this.description,
     this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final manifest = this.manifest;
+    final operation = this.operation;
+    final priority = this.priority;
+    final report = this.report;
+    final roleArn = this.roleArn;
+    final clientRequestToken = this.clientRequestToken;
+    final confirmationRequired = this.confirmationRequired;
+    final description = this.description;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (confirmationRequired != null)
         _s.encodeXmlBoolValue('ConfirmationRequired', confirmationRequired),
-      operation?.toXml('Operation'),
-      report?.toXml('Report'),
-      _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
-      manifest?.toXml('Manifest'),
+      operation.toXml('Operation'),
+      report.toXml('Report'),
+      if (clientRequestToken != null)
+        _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
+      manifest.toXml('Manifest'),
       if (description != null)
         _s.encodeXmlStringValue('Description', description),
       _s.encodeXmlIntValue('Priority', priority),
       _s.encodeXmlStringValue('RoleArn', roleArn),
       if (tags != null)
         _s.XmlElement(
-            _s.XmlName('Tags'), [], tags.map((e) => e?.toXml('member'))),
+            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4214,7 +4278,7 @@ class CreateJobRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4222,7 +4286,7 @@ class CreateJobRequest {
 class CreateJobResult {
   /// The ID for this job. Amazon S3 generates this ID automatically and returns
   /// it after a successful <code>Create Job</code> request.
-  final String jobId;
+  final String? jobId;
 
   CreateJobResult({
     this.jobId,
@@ -4255,7 +4319,7 @@ class DeleteStorageLensConfigurationTaggingResult {
 class DescribeJobResult {
   /// Contains the configuration parameters and status for the job specified in
   /// the <code>Describe Job</code> request.
-  final JobDescriptor job;
+  final JobDescriptor? job;
 
   DescribeJobResult({
     this.job,
@@ -4271,10 +4335,10 @@ class DescribeJobResult {
 /// A container for what Amazon S3 Storage Lens will exclude.
 class Exclude {
   /// A container for the S3 Storage Lens bucket excludes.
-  final List<String> buckets;
+  final List<String>? buckets;
 
   /// A container for the S3 Storage Lens Region excludes.
-  final List<String> regions;
+  final List<String>? regions;
 
   Exclude({
     this.buckets,
@@ -4291,7 +4355,9 @@ class Exclude {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final buckets = this.buckets;
+    final regions = this.regions;
     final $children = <_s.XmlNode>[
       if (buckets != null)
         _s.XmlElement(_s.XmlName('Buckets'), [],
@@ -4306,7 +4372,7 @@ class Exclude {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4324,7 +4390,6 @@ extension on ExpirationStatus {
       case ExpirationStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4336,7 +4401,7 @@ extension on String {
       case 'Disabled':
         return ExpirationStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ExpirationStatus');
   }
 }
 
@@ -4353,7 +4418,6 @@ extension on Format {
       case Format.parquet:
         return 'Parquet';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4365,13 +4429,13 @@ extension on String {
       case 'Parquet':
         return Format.parquet;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Format');
   }
 }
 
 class GetAccessPointPolicyResult {
   /// The access point policy associated with the specified access point.
-  final String policy;
+  final String? policy;
 
   GetAccessPointPolicyResult({
     this.policy,
@@ -4385,7 +4449,7 @@ class GetAccessPointPolicyResult {
 
 class GetAccessPointPolicyStatusResult {
   /// Indicates the current policy status of the specified access point.
-  final PolicyStatus policyStatus;
+  final PolicyStatus? policyStatus;
 
   GetAccessPointPolicyStatusResult({
     this.policyStatus,
@@ -4401,13 +4465,13 @@ class GetAccessPointPolicyStatusResult {
 
 class GetAccessPointResult {
   /// The name of the bucket associated with the specified access point.
-  final String bucket;
+  final String? bucket;
 
   /// The date and time when the specified access point was created.
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The name of the specified access point.
-  final String name;
+  final String? name;
 
   /// Indicates whether this access point allows access from the public internet.
   /// If <code>VpcConfiguration</code> is specified for this access point, then
@@ -4417,12 +4481,12 @@ class GetAccessPointResult {
   /// internet, subject to the access point and bucket access policies.
   ///
   /// This will always be true for an Amazon S3 on Outposts access point
-  final NetworkOrigin networkOrigin;
-  final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
+  final NetworkOrigin? networkOrigin;
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   /// Contains the virtual private cloud (VPC) configuration for the specified
   /// access point.
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   GetAccessPointResult({
     this.bucket,
@@ -4451,7 +4515,7 @@ class GetAccessPointResult {
 
 class GetBucketLifecycleConfigurationResult {
   /// Container for the lifecycle rule of the Outposts bucket.
-  final List<LifecycleRule> rules;
+  final List<LifecycleRule>? rules;
 
   GetBucketLifecycleConfigurationResult({
     this.rules,
@@ -4468,7 +4532,7 @@ class GetBucketLifecycleConfigurationResult {
 
 class GetBucketPolicyResult {
   /// The policy of the Outposts bucket.
-  final String policy;
+  final String? policy;
 
   GetBucketPolicyResult({
     this.policy,
@@ -4482,13 +4546,13 @@ class GetBucketPolicyResult {
 
 class GetBucketResult {
   /// The Outposts bucket requested.
-  final String bucket;
+  final String? bucket;
 
   /// The creation date of the Outposts bucket.
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// <p/>
-  final bool publicAccessBlockEnabled;
+  final bool? publicAccessBlockEnabled;
 
   GetBucketResult({
     this.bucket,
@@ -4510,19 +4574,22 @@ class GetBucketTaggingResult {
   final List<S3Tag> tagSet;
 
   GetBucketTaggingResult({
-    @_s.required this.tagSet,
+    required this.tagSet,
   });
   factory GetBucketTaggingResult.fromXml(_s.XmlElement elem) {
     return GetBucketTaggingResult(
-      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+      tagSet: _s
+          .extractXmlChild(elem, 'TagSet')!
+          .findElements('member')
+          .map((c) => S3Tag.fromXml(c))
+          .toList(),
     );
   }
 }
 
 class GetJobTaggingResult {
   /// The set of tags associated with the S3 Batch Operations job.
-  final List<S3Tag> tags;
+  final List<S3Tag>? tags;
 
   GetJobTaggingResult({
     this.tags,
@@ -4538,37 +4605,25 @@ class GetJobTaggingResult {
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
   /// this AWS account.
-  final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   GetPublicAccessBlockOutput({
     this.publicAccessBlockConfiguration,
   });
-  factory GetPublicAccessBlockOutput.fromXml(_s.XmlElement elem) {
-    return GetPublicAccessBlockOutput(
-      publicAccessBlockConfiguration:
-          elem?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
-    );
-  }
 }
 
 class GetStorageLensConfigurationResult {
   /// The S3 Storage Lens configuration requested.
-  final StorageLensConfiguration storageLensConfiguration;
+  final StorageLensConfiguration? storageLensConfiguration;
 
   GetStorageLensConfigurationResult({
     this.storageLensConfiguration,
   });
-  factory GetStorageLensConfigurationResult.fromXml(_s.XmlElement elem) {
-    return GetStorageLensConfigurationResult(
-      storageLensConfiguration:
-          elem?.let((e) => StorageLensConfiguration.fromXml(e)),
-    );
-  }
 }
 
 class GetStorageLensConfigurationTaggingResult {
   /// The tags of S3 Storage Lens configuration requested.
-  final List<StorageLensTag> tags;
+  final List<StorageLensTag>? tags;
 
   GetStorageLensConfigurationTaggingResult({
     this.tags,
@@ -4586,10 +4641,10 @@ class GetStorageLensConfigurationTaggingResult {
 /// A container for what Amazon S3 Storage Lens configuration includes.
 class Include {
   /// A container for the S3 Storage Lens bucket includes.
-  final List<String> buckets;
+  final List<String>? buckets;
 
   /// A container for the S3 Storage Lens Region includes.
-  final List<String> regions;
+  final List<String>? regions;
 
   Include({
     this.buckets,
@@ -4606,7 +4661,9 @@ class Include {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final buckets = this.buckets;
+    final regions = this.regions;
     final $children = <_s.XmlNode>[
       if (buckets != null)
         _s.XmlElement(_s.XmlName('Buckets'), [],
@@ -4621,7 +4678,7 @@ class Include {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4632,66 +4689,66 @@ class JobDescriptor {
   /// Indicates whether confirmation is required before Amazon S3 begins running
   /// the specified job. Confirmation is required only for jobs created through
   /// the Amazon S3 console.
-  final bool confirmationRequired;
+  final bool? confirmationRequired;
 
   /// A timestamp indicating when this job was created.
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The description for this job, if one was provided in this job's <code>Create
   /// Job</code> request.
-  final String description;
+  final String? description;
 
   /// If the specified job failed, this field contains information describing the
   /// failure.
-  final List<JobFailure> failureReasons;
+  final List<JobFailure>? failureReasons;
 
   /// The Amazon Resource Name (ARN) for this job.
-  final String jobArn;
+  final String? jobArn;
 
   /// The ID for the specified job.
-  final String jobId;
+  final String? jobId;
 
   /// The configuration information for the specified job's manifest object.
-  final JobManifest manifest;
+  final JobManifest? manifest;
 
   /// The operation that the specified job is configured to run on the objects
   /// listed in the manifest.
-  final JobOperation operation;
+  final JobOperation? operation;
 
   /// The priority of the specified job.
-  final int priority;
+  final int? priority;
 
   /// Describes the total number of tasks that the specified job has run, the
   /// number of tasks that succeeded, and the number of tasks that failed.
-  final JobProgressSummary progressSummary;
+  final JobProgressSummary? progressSummary;
 
   /// Contains the configuration information for the job-completion report if you
   /// requested one in the <code>Create Job</code> request.
-  final JobReport report;
+  final JobReport? report;
 
   /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
   /// (IAM) role assigned to run the tasks for this job.
-  final String roleArn;
+  final String? roleArn;
 
   /// The current status of the specified job.
-  final JobStatus status;
+  final JobStatus? status;
 
   /// The reason for updating the job.
-  final String statusUpdateReason;
+  final String? statusUpdateReason;
 
   /// The reason why the specified job was suspended. A job is only suspended if
   /// you create it through the Amazon S3 console. When you create the job, it
   /// enters the <code>Suspended</code> state to await confirmation before
   /// running. After you confirm the job, it automatically exits the
   /// <code>Suspended</code> state.
-  final String suspendedCause;
+  final String? suspendedCause;
 
   /// The timestamp when this job was suspended, if it has been suspended.
-  final DateTime suspendedDate;
+  final DateTime? suspendedDate;
 
   /// A timestamp indicating when this job terminated. A job's termination date is
   /// the date and time when it succeeded, failed, or was canceled.
-  final DateTime terminationDate;
+  final DateTime? terminationDate;
 
   JobDescriptor({
     this.confirmationRequired,
@@ -4750,10 +4807,10 @@ class JobDescriptor {
 /// If this job failed, this element indicates why the job failed.
 class JobFailure {
   /// The failure code, if any, for the specified job.
-  final String failureCode;
+  final String? failureCode;
 
   /// The failure reason, if any, for the specified job.
-  final String failureReason;
+  final String? failureReason;
 
   JobFailure({
     this.failureCode,
@@ -4771,33 +4828,33 @@ class JobFailure {
 /// as part of a job list.
 class JobListDescriptor {
   /// A timestamp indicating when the specified job was created.
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The user-specified description that was included in the specified job's
   /// <code>Create Job</code> request.
-  final String description;
+  final String? description;
 
   /// The ID for the specified job.
-  final String jobId;
+  final String? jobId;
 
   /// The operation that the specified job is configured to run on each object
   /// listed in the manifest.
-  final OperationName operation;
+  final OperationName? operation;
 
   /// The current priority for the specified job.
-  final int priority;
+  final int? priority;
 
   /// Describes the total number of tasks that the specified job has run, the
   /// number of tasks that succeeded, and the number of tasks that failed.
-  final JobProgressSummary progressSummary;
+  final JobProgressSummary? progressSummary;
 
   /// The specified job's current status.
-  final JobStatus status;
+  final JobStatus? status;
 
   /// A timestamp indicating when the specified job terminated. A job's
   /// termination date is the date and time when it succeeded, failed, or was
   /// canceled.
-  final DateTime terminationDate;
+  final DateTime? terminationDate;
 
   JobListDescriptor({
     this.creationTime,
@@ -4835,24 +4892,23 @@ class JobManifest {
   final JobManifestSpec spec;
 
   JobManifest({
-    @_s.required this.location,
-    @_s.required this.spec,
+    required this.location,
+    required this.spec,
   });
   factory JobManifest.fromXml(_s.XmlElement elem) {
     return JobManifest(
-      location: _s
-          .extractXmlChild(elem, 'Location')
-          ?.let((e) => JobManifestLocation.fromXml(e)),
-      spec: _s
-          .extractXmlChild(elem, 'Spec')
-          ?.let((e) => JobManifestSpec.fromXml(e)),
+      location:
+          JobManifestLocation.fromXml(_s.extractXmlChild(elem, 'Location')!),
+      spec: JobManifestSpec.fromXml(_s.extractXmlChild(elem, 'Spec')!),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final location = this.location;
+    final spec = this.spec;
     final $children = <_s.XmlNode>[
-      spec?.toXml('Spec'),
-      location?.toXml('Location'),
+      spec.toXml('Spec'),
+      location.toXml('Location'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4860,7 +4916,7 @@ class JobManifest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4884,7 +4940,6 @@ extension on JobManifestFieldName {
       case JobManifestFieldName.versionId:
         return 'VersionId';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4900,7 +4955,7 @@ extension on String {
       case 'VersionId':
         return JobManifestFieldName.versionId;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobManifestFieldName');
   }
 }
 
@@ -4917,7 +4972,6 @@ extension on JobManifestFormat {
       case JobManifestFormat.s3InventoryReportCsv_20161130:
         return 'S3InventoryReport_CSV_20161130';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4929,7 +4983,7 @@ extension on String {
       case 'S3InventoryReport_CSV_20161130':
         return JobManifestFormat.s3InventoryReportCsv_20161130;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobManifestFormat');
   }
 }
 
@@ -4943,22 +4997,25 @@ class JobManifestLocation {
 
   /// The optional version ID to identify a specific version of the manifest
   /// object.
-  final String objectVersionId;
+  final String? objectVersionId;
 
   JobManifestLocation({
-    @_s.required this.eTag,
-    @_s.required this.objectArn,
+    required this.eTag,
+    required this.objectArn,
     this.objectVersionId,
   });
   factory JobManifestLocation.fromXml(_s.XmlElement elem) {
     return JobManifestLocation(
-      eTag: _s.extractXmlStringValue(elem, 'ETag'),
-      objectArn: _s.extractXmlStringValue(elem, 'ObjectArn'),
+      eTag: _s.extractXmlStringValue(elem, 'ETag')!,
+      objectArn: _s.extractXmlStringValue(elem, 'ObjectArn')!,
       objectVersionId: _s.extractXmlStringValue(elem, 'ObjectVersionId'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eTag = this.eTag;
+    final objectArn = this.objectArn;
+    final objectVersionId = this.objectVersionId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('ObjectArn', objectArn),
       if (objectVersionId != null)
@@ -4971,7 +5028,7 @@ class JobManifestLocation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4985,15 +5042,15 @@ class JobManifestSpec {
   /// If the specified manifest object is in the
   /// <code>S3BatchOperations_CSV_20180820</code> format, this element describes
   /// which columns contain the required data.
-  final List<JobManifestFieldName> fields;
+  final List<JobManifestFieldName>? fields;
 
   JobManifestSpec({
-    @_s.required this.format,
+    required this.format,
     this.fields,
   });
   factory JobManifestSpec.fromXml(_s.XmlElement elem) {
     return JobManifestSpec(
-      format: _s.extractXmlStringValue(elem, 'Format')?.toJobManifestFormat(),
+      format: _s.extractXmlStringValue(elem, 'Format')!.toJobManifestFormat(),
       fields: _s.extractXmlChild(elem, 'Fields')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
           .map((s) => s.toJobManifestFieldName())
@@ -5001,15 +5058,14 @@ class JobManifestSpec {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final format = this.format;
+    final fields = this.fields;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Format', format.toValue()),
       if (fields != null)
-        _s.XmlElement(
-            _s.XmlName('Fields'),
-            [],
-            fields.map(
-                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
+        _s.XmlElement(_s.XmlName('Fields'), [],
+            fields.map((e) => _s.encodeXmlStringValue('member', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5017,7 +5073,7 @@ class JobManifestSpec {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5029,25 +5085,25 @@ class JobManifestSpec {
 class JobOperation {
   /// Directs the specified job to invoke an AWS Lambda function on each object in
   /// the manifest.
-  final LambdaInvokeOperation lambdaInvoke;
+  final LambdaInvokeOperation? lambdaInvoke;
 
   /// Directs the specified job to run an Initiate Glacier Restore call on each
   /// object in the manifest.
-  final S3InitiateRestoreObjectOperation s3InitiateRestoreObject;
+  final S3InitiateRestoreObjectOperation? s3InitiateRestoreObject;
 
   /// Directs the specified job to run a PUT Object acl call on each object in the
   /// manifest.
-  final S3SetObjectAclOperation s3PutObjectAcl;
+  final S3SetObjectAclOperation? s3PutObjectAcl;
 
   /// Directs the specified job to run a PUT Copy object call on each object in
   /// the manifest.
-  final S3CopyObjectOperation s3PutObjectCopy;
-  final S3SetObjectLegalHoldOperation s3PutObjectLegalHold;
-  final S3SetObjectRetentionOperation s3PutObjectRetention;
+  final S3CopyObjectOperation? s3PutObjectCopy;
+  final S3SetObjectLegalHoldOperation? s3PutObjectLegalHold;
+  final S3SetObjectRetentionOperation? s3PutObjectRetention;
 
   /// Directs the specified job to run a PUT Object tagging call on each object in
   /// the manifest.
-  final S3SetObjectTaggingOperation s3PutObjectTagging;
+  final S3SetObjectTaggingOperation? s3PutObjectTagging;
 
   JobOperation({
     this.lambdaInvoke,
@@ -5084,19 +5140,26 @@ class JobOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final lambdaInvoke = this.lambdaInvoke;
+    final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
+    final s3PutObjectAcl = this.s3PutObjectAcl;
+    final s3PutObjectCopy = this.s3PutObjectCopy;
+    final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
+    final s3PutObjectRetention = this.s3PutObjectRetention;
+    final s3PutObjectTagging = this.s3PutObjectTagging;
     final $children = <_s.XmlNode>[
-      if (lambdaInvoke != null) lambdaInvoke?.toXml('LambdaInvoke'),
-      if (s3PutObjectCopy != null) s3PutObjectCopy?.toXml('S3PutObjectCopy'),
-      if (s3PutObjectAcl != null) s3PutObjectAcl?.toXml('S3PutObjectAcl'),
+      if (lambdaInvoke != null) lambdaInvoke.toXml('LambdaInvoke'),
+      if (s3PutObjectCopy != null) s3PutObjectCopy.toXml('S3PutObjectCopy'),
+      if (s3PutObjectAcl != null) s3PutObjectAcl.toXml('S3PutObjectAcl'),
       if (s3PutObjectTagging != null)
-        s3PutObjectTagging?.toXml('S3PutObjectTagging'),
+        s3PutObjectTagging.toXml('S3PutObjectTagging'),
       if (s3InitiateRestoreObject != null)
-        s3InitiateRestoreObject?.toXml('S3InitiateRestoreObject'),
+        s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
       if (s3PutObjectLegalHold != null)
-        s3PutObjectLegalHold?.toXml('S3PutObjectLegalHold'),
+        s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
       if (s3PutObjectRetention != null)
-        s3PutObjectRetention?.toXml('S3PutObjectRetention'),
+        s3PutObjectRetention.toXml('S3PutObjectRetention'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5104,7 +5167,7 @@ class JobOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5113,13 +5176,13 @@ class JobOperation {
 /// number of tasks that succeeded, and the number of tasks that failed.
 class JobProgressSummary {
   /// <p/>
-  final int numberOfTasksFailed;
+  final int? numberOfTasksFailed;
 
   /// <p/>
-  final int numberOfTasksSucceeded;
+  final int? numberOfTasksSucceeded;
 
   /// <p/>
-  final int totalNumberOfTasks;
+  final int? totalNumberOfTasks;
 
   JobProgressSummary({
     this.numberOfTasksFailed,
@@ -5143,22 +5206,22 @@ class JobReport {
 
   /// The Amazon Resource Name (ARN) for the bucket where specified job-completion
   /// report will be stored.
-  final String bucket;
+  final String? bucket;
 
   /// The format of the specified job-completion report.
-  final JobReportFormat format;
+  final JobReportFormat? format;
 
   /// An optional prefix to describe where in the specified bucket the
   /// job-completion report will be stored. Amazon S3 stores the job-completion
   /// report at <code>&lt;prefix&gt;/job-&lt;job-id&gt;/report.json</code>.
-  final String prefix;
+  final String? prefix;
 
   /// Indicates whether the job-completion report will include details of all
   /// tasks or only failed tasks.
-  final JobReportScope reportScope;
+  final JobReportScope? reportScope;
 
   JobReport({
-    @_s.required this.enabled,
+    required this.enabled,
     this.bucket,
     this.format,
     this.prefix,
@@ -5166,7 +5229,7 @@ class JobReport {
   });
   factory JobReport.fromXml(_s.XmlElement elem) {
     return JobReport(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
       format: _s.extractXmlStringValue(elem, 'Format')?.toJobReportFormat(),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -5175,7 +5238,12 @@ class JobReport {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final bucket = this.bucket;
+    final format = this.format;
+    final prefix = this.prefix;
+    final reportScope = this.reportScope;
     final $children = <_s.XmlNode>[
       if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
       if (format != null) _s.encodeXmlStringValue('Format', format.toValue()),
@@ -5190,7 +5258,7 @@ class JobReport {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5205,7 +5273,6 @@ extension on JobReportFormat {
       case JobReportFormat.reportCsv_20180820:
         return 'Report_CSV_20180820';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5215,7 +5282,7 @@ extension on String {
       case 'Report_CSV_20180820':
         return JobReportFormat.reportCsv_20180820;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobReportFormat');
   }
 }
 
@@ -5232,7 +5299,6 @@ extension on JobReportScope {
       case JobReportScope.failedTasksOnly:
         return 'FailedTasksOnly';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5244,7 +5310,7 @@ extension on String {
       case 'FailedTasksOnly':
         return JobReportScope.failedTasksOnly;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobReportScope');
   }
 }
 
@@ -5294,7 +5360,6 @@ extension on JobStatus {
       case JobStatus.suspended:
         return 'Suspended';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5328,7 +5393,7 @@ extension on String {
       case 'Suspended':
         return JobStatus.suspended;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobStatus');
   }
 }
 
@@ -5337,7 +5402,7 @@ extension on String {
 class LambdaInvokeOperation {
   /// The Amazon Resource Name (ARN) for the AWS Lambda function that the
   /// specified job will invoke for each object in the manifest.
-  final String functionArn;
+  final String? functionArn;
 
   LambdaInvokeOperation({
     this.functionArn,
@@ -5348,7 +5413,8 @@ class LambdaInvokeOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionArn = this.functionArn;
     final $children = <_s.XmlNode>[
       if (functionArn != null)
         _s.encodeXmlStringValue('FunctionArn', functionArn),
@@ -5359,7 +5425,7 @@ class LambdaInvokeOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5367,16 +5433,17 @@ class LambdaInvokeOperation {
 /// The container for the Outposts bucket lifecycle configuration.
 class LifecycleConfiguration {
   /// A lifecycle rule for individual objects in an Outposts bucket.
-  final List<LifecycleRule> rules;
+  final List<LifecycleRule>? rules;
 
   LifecycleConfiguration({
     this.rules,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
       if (rules != null)
         _s.XmlElement(
-            _s.XmlName('Rules'), [], rules.map((e) => e?.toXml('Rule'))),
+            _s.XmlName('Rules'), [], rules.map((e) => e.toXml('Rule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5384,7 +5451,7 @@ class LifecycleConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5393,17 +5460,17 @@ class LifecycleConfiguration {
 class LifecycleExpiration {
   /// Indicates at what date the object is to be deleted. Should be in GMT ISO
   /// 8601 format.
-  final DateTime date;
+  final DateTime? date;
 
   /// Indicates the lifetime, in days, of the objects that are subject to the
   /// rule. The value must be a non-zero positive integer.
-  final int days;
+  final int? days;
 
   /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent
   /// versions. If set to true, the delete marker will be expired. If set to
   /// false, the policy takes no action. This cannot be specified with Days or
   /// Date in a Lifecycle Expiration Policy.
-  final bool expiredObjectDeleteMarker;
+  final bool? expiredObjectDeleteMarker;
 
   LifecycleExpiration({
     this.date,
@@ -5419,7 +5486,10 @@ class LifecycleExpiration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
     final $children = <_s.XmlNode>[
       if (date != null) _s.encodeXmlDateTimeValue('Date', date),
       if (days != null) _s.encodeXmlIntValue('Days', days),
@@ -5433,7 +5503,7 @@ class LifecycleExpiration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5450,24 +5520,24 @@ class LifecycleRule {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
   /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a> in
   /// the <i>Amazon Simple Storage Service Developer Guide</i>.
-  final AbortIncompleteMultipartUpload abortIncompleteMultipartUpload;
+  final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
 
   /// Specifies the expiration for the lifecycle of the object in the form of
   /// date, days and, whether the object has a delete marker.
-  final LifecycleExpiration expiration;
+  final LifecycleExpiration? expiration;
 
   /// The container for the filter of lifecycle rule.
-  final LifecycleRuleFilter filter;
+  final LifecycleRuleFilter? filter;
 
   /// Unique identifier for the rule. The value cannot be longer than 255
   /// characters.
-  final String id;
+  final String? id;
 
   /// The noncurrent version expiration of the lifecycle rule.
   /// <note>
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
-  final NoncurrentVersionExpiration noncurrentVersionExpiration;
+  final NoncurrentVersionExpiration? noncurrentVersionExpiration;
 
   /// Specifies the transition rule for the lifecycle rule that describes when
   /// noncurrent objects transition to a specific storage class. If your bucket is
@@ -5477,16 +5547,16 @@ class LifecycleRule {
   /// <note>
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
-  final List<NoncurrentVersionTransition> noncurrentVersionTransitions;
+  final List<NoncurrentVersionTransition>? noncurrentVersionTransitions;
 
   /// Specifies when an Amazon S3 object transitions to a specified storage class.
   /// <note>
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
-  final List<Transition> transitions;
+  final List<Transition>? transitions;
 
   LifecycleRule({
-    @_s.required this.status,
+    required this.status,
     this.abortIncompleteMultipartUpload,
     this.expiration,
     this.filter,
@@ -5497,7 +5567,7 @@ class LifecycleRule {
   });
   factory LifecycleRule.fromXml(_s.XmlElement elem) {
     return LifecycleRule(
-      status: _s.extractXmlStringValue(elem, 'Status')?.toExpirationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
           ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
@@ -5524,25 +5594,33 @@ class LifecycleRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final filter = this.filter;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
+    final transitions = this.transitions;
     final $children = <_s.XmlNode>[
-      if (expiration != null) expiration?.toXml('Expiration'),
+      if (expiration != null) expiration.toXml('Expiration'),
       if (id != null) _s.encodeXmlStringValue('ID', id),
-      if (filter != null) filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
       if (transitions != null)
         _s.XmlElement(_s.XmlName('Transitions'), [],
-            transitions.map((e) => e?.toXml('Transition'))),
+            transitions.map((e) => e.toXml('Transition'))),
       if (noncurrentVersionTransitions != null)
         _s.XmlElement(
             _s.XmlName('NoncurrentVersionTransitions'),
             [],
             noncurrentVersionTransitions
-                .map((e) => e?.toXml('NoncurrentVersionTransition'))),
+                .map((e) => e.toXml('NoncurrentVersionTransition'))),
       if (noncurrentVersionExpiration != null)
-        noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+        noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
       if (abortIncompleteMultipartUpload != null)
-        abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+        abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5550,7 +5628,7 @@ class LifecycleRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5558,11 +5636,11 @@ class LifecycleRule {
 /// The container for the Outposts bucket lifecycle rule and operator.
 class LifecycleRuleAndOperator {
   /// Prefix identifying one or more objects to which the rule applies.
-  final String prefix;
+  final String? prefix;
 
   /// All of these tags must exist in the object's tag set in order for the rule
   /// to apply.
-  final List<S3Tag> tags;
+  final List<S3Tag>? tags;
 
   LifecycleRuleAndOperator({
     this.prefix,
@@ -5576,12 +5654,14 @@ class LifecycleRuleAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null)
         _s.XmlElement(
-            _s.XmlName('Tags'), [], tags.map((e) => e?.toXml('member'))),
+            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5589,7 +5669,7 @@ class LifecycleRuleAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5597,11 +5677,11 @@ class LifecycleRuleAndOperator {
 /// The container for the filter of the lifecycle rule.
 class LifecycleRuleFilter {
   /// The container for the <code>AND</code> condition for the lifecycle rule.
-  final LifecycleRuleAndOperator and;
+  final LifecycleRuleAndOperator? and;
 
   /// Prefix identifying one or more objects to which the rule applies.
-  final String prefix;
-  final S3Tag tag;
+  final String? prefix;
+  final S3Tag? tag;
 
   LifecycleRuleFilter({
     this.and,
@@ -5618,11 +5698,14 @@ class LifecycleRuleFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5630,7 +5713,7 @@ class LifecycleRuleFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5638,13 +5721,13 @@ class LifecycleRuleFilter {
 class ListAccessPointsResult {
   /// Contains identification and configuration information for one or more access
   /// points associated with the specified bucket.
-  final List<AccessPoint> accessPointList;
+  final List<AccessPoint>? accessPointList;
 
   /// If the specified bucket has more access points than can be returned in one
   /// call to this API, this field contains a continuation token that you can
   /// provide in subsequent calls to this API to retrieve additional access
   /// points.
-  final String nextToken;
+  final String? nextToken;
 
   ListAccessPointsResult({
     this.accessPointList,
@@ -5664,12 +5747,12 @@ class ListAccessPointsResult {
 
 class ListJobsResult {
   /// The list of current jobs and jobs that have ended within the last 30 days.
-  final List<JobListDescriptor> jobs;
+  final List<JobListDescriptor>? jobs;
 
   /// If the <code>List Jobs</code> request produced more than the maximum number
   /// of results, you can pass this value into a subsequent <code>List Jobs</code>
   /// request in order to retrieve the next page of results.
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResult({
     this.jobs,
@@ -5691,10 +5774,10 @@ class ListRegionalBucketsResult {
   /// means there are more buckets that can be listed. The next list requests to
   /// Amazon S3 can be continued with this <code>NextToken</code>.
   /// <code>NextToken</code> is obfuscated and is not a real key.
-  final String nextToken;
+  final String? nextToken;
 
   /// <p/>
-  final List<RegionalBucket> regionalBucketList;
+  final List<RegionalBucket>? regionalBucketList;
 
   ListRegionalBucketsResult({
     this.nextToken,
@@ -5728,19 +5811,19 @@ class ListStorageLensConfigurationEntry {
 
   /// A container for whether the S3 Storage Lens configuration is enabled. This
   /// property is required.
-  final bool isEnabled;
+  final bool? isEnabled;
 
   ListStorageLensConfigurationEntry({
-    @_s.required this.homeRegion,
-    @_s.required this.id,
-    @_s.required this.storageLensArn,
+    required this.homeRegion,
+    required this.id,
+    required this.storageLensArn,
     this.isEnabled,
   });
   factory ListStorageLensConfigurationEntry.fromXml(_s.XmlElement elem) {
     return ListStorageLensConfigurationEntry(
-      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn'),
+      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn')!,
       isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
     );
   }
@@ -5750,10 +5833,10 @@ class ListStorageLensConfigurationsResult {
   /// If the request produced more than the maximum number of S3 Storage Lens
   /// configuration results, you can pass this value into a subsequent request to
   /// retrieve the next page of results.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of S3 Storage Lens configurations.
-  final List<ListStorageLensConfigurationEntry> storageLensConfigurationList;
+  final List<ListStorageLensConfigurationEntry>? storageLensConfigurationList;
 
   ListStorageLensConfigurationsResult({
     this.nextToken,
@@ -5783,7 +5866,6 @@ extension on NetworkOrigin {
       case NetworkOrigin.vpc:
         return 'VPC';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5795,7 +5877,7 @@ extension on String {
       case 'VPC':
         return NetworkOrigin.vpc;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum NetworkOrigin');
   }
 }
 
@@ -5807,7 +5889,7 @@ class NoncurrentVersionExpiration {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
   /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
   /// Simple Storage Service Developer Guide</i>.
-  final int noncurrentDays;
+  final int? noncurrentDays;
 
   NoncurrentVersionExpiration({
     this.noncurrentDays,
@@ -5818,7 +5900,8 @@ class NoncurrentVersionExpiration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final noncurrentDays = this.noncurrentDays;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
@@ -5829,7 +5912,7 @@ class NoncurrentVersionExpiration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5842,10 +5925,10 @@ class NoncurrentVersionTransition {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">
   /// How Amazon S3 Calculates How Long an Object Has Been Noncurrent</a> in the
   /// <i>Amazon Simple Storage Service Developer Guide</i>.
-  final int noncurrentDays;
+  final int? noncurrentDays;
 
   /// The class of storage used to store the object.
-  final TransitionStorageClass storageClass;
+  final TransitionStorageClass? storageClass;
 
   NoncurrentVersionTransition({
     this.noncurrentDays,
@@ -5860,7 +5943,9 @@ class NoncurrentVersionTransition {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final noncurrentDays = this.noncurrentDays;
+    final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
@@ -5873,7 +5958,7 @@ class NoncurrentVersionTransition {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5906,7 +5991,6 @@ extension on OperationName {
       case OperationName.s3PutObjectRetention:
         return 'S3PutObjectRetention';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5928,7 +6012,7 @@ extension on String {
       case 'S3PutObjectRetention':
         return OperationName.s3PutObjectRetention;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OperationName');
   }
 }
 
@@ -5942,7 +6026,6 @@ extension on OutputSchemaVersion {
       case OutputSchemaVersion.v_1:
         return 'V_1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5952,7 +6035,7 @@ extension on String {
       case 'V_1':
         return OutputSchemaVersion.v_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OutputSchemaVersion');
   }
 }
 
@@ -5964,7 +6047,7 @@ extension on String {
 /// Guide</i>.
 class PolicyStatus {
   /// <p/>
-  final bool isPublic;
+  final bool? isPublic;
 
   PolicyStatus({
     this.isPublic,
@@ -5982,19 +6065,19 @@ class PrefixLevel {
   final PrefixLevelStorageMetrics storageMetrics;
 
   PrefixLevel({
-    @_s.required this.storageMetrics,
+    required this.storageMetrics,
   });
   factory PrefixLevel.fromXml(_s.XmlElement elem) {
     return PrefixLevel(
-      storageMetrics: _s
-          .extractXmlChild(elem, 'StorageMetrics')
-          ?.let((e) => PrefixLevelStorageMetrics.fromXml(e)),
+      storageMetrics: PrefixLevelStorageMetrics.fromXml(
+          _s.extractXmlChild(elem, 'StorageMetrics')!),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final storageMetrics = this.storageMetrics;
     final $children = <_s.XmlNode>[
-      storageMetrics?.toXml('StorageMetrics'),
+      storageMetrics.toXml('StorageMetrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6002,7 +6085,7 @@ class PrefixLevel {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6010,8 +6093,8 @@ class PrefixLevel {
 /// A container for the prefix-level storage metrics for S3 Storage Lens.
 class PrefixLevelStorageMetrics {
   /// A container for whether prefix-level storage metrics are enabled.
-  final bool isEnabled;
-  final SelectionCriteria selectionCriteria;
+  final bool? isEnabled;
+  final SelectionCriteria? selectionCriteria;
 
   PrefixLevelStorageMetrics({
     this.isEnabled,
@@ -6026,11 +6109,13 @@ class PrefixLevelStorageMetrics {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final selectionCriteria = this.selectionCriteria;
     final $children = <_s.XmlNode>[
       if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
       if (selectionCriteria != null)
-        selectionCriteria?.toXml('SelectionCriteria'),
+        selectionCriteria.toXml('SelectionCriteria'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6038,7 +6123,7 @@ class PrefixLevelStorageMetrics {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6071,7 +6156,7 @@ class PublicAccessBlockConfiguration {
   /// Enabling this setting doesn't affect existing policies or ACLs.
   ///
   /// This is not supported for Amazon S3 on Outposts.
-  final bool blockPublicAcls;
+  final bool? blockPublicAcls;
 
   /// Specifies whether Amazon S3 should block public bucket policies for buckets
   /// in this account. Setting this element to <code>TRUE</code> causes Amazon S3
@@ -6081,7 +6166,7 @@ class PublicAccessBlockConfiguration {
   /// Enabling this setting doesn't affect existing bucket policies.
   ///
   /// This is not supported for Amazon S3 on Outposts.
-  final bool blockPublicPolicy;
+  final bool? blockPublicPolicy;
 
   /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this
   /// account. Setting this element to <code>TRUE</code> causes Amazon S3 to
@@ -6092,7 +6177,7 @@ class PublicAccessBlockConfiguration {
   /// and doesn't prevent new public ACLs from being set.
   ///
   /// This is not supported for Amazon S3 on Outposts.
-  final bool ignorePublicAcls;
+  final bool? ignorePublicAcls;
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for
   /// buckets in this account. Setting this element to <code>TRUE</code> restricts
@@ -6104,7 +6189,7 @@ class PublicAccessBlockConfiguration {
   /// including non-public delegation to specific accounts, is blocked.
   ///
   /// This is not supported for Amazon S3 on Outposts.
-  final bool restrictPublicBuckets;
+  final bool? restrictPublicBuckets;
 
   PublicAccessBlockConfiguration({
     this.blockPublicAcls,
@@ -6122,7 +6207,11 @@ class PublicAccessBlockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
     final $children = <_s.XmlNode>[
       if (blockPublicAcls != null)
         _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
@@ -6139,7 +6228,7 @@ class PublicAccessBlockConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6173,11 +6262,14 @@ class PutAccessPointPolicyRequest {
   final String policy;
 
   PutAccessPointPolicyRequest({
-    @_s.required this.accountId,
-    @_s.required this.name,
-    @_s.required this.policy,
+    required this.accountId,
+    required this.name,
+    required this.policy,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final name = this.name;
+    final policy = this.policy;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Policy', policy),
     ];
@@ -6187,7 +6279,7 @@ class PutAccessPointPolicyRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6219,15 +6311,19 @@ class PutBucketPolicyRequest {
   /// <note>
   /// This is not supported by Amazon S3 on Outposts buckets.
   /// </note>
-  final bool confirmRemoveSelfBucketAccess;
+  final bool? confirmRemoveSelfBucketAccess;
 
   PutBucketPolicyRequest({
-    @_s.required this.accountId,
-    @_s.required this.bucket,
-    @_s.required this.policy,
+    required this.accountId,
+    required this.bucket,
+    required this.policy,
     this.confirmRemoveSelfBucketAccess,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final bucket = this.bucket;
+    final policy = this.policy;
+    final confirmRemoveSelfBucketAccess = this.confirmRemoveSelfBucketAccess;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Policy', policy),
     ];
@@ -6237,7 +6333,7 @@ class PutBucketPolicyRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6253,14 +6349,16 @@ class PutJobTaggingRequest {
   final List<S3Tag> tags;
 
   PutJobTaggingRequest({
-    @_s.required this.accountId,
-    @_s.required this.jobId,
-    @_s.required this.tags,
+    required this.accountId,
+    required this.jobId,
+    required this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final jobId = this.jobId;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(
-          _s.XmlName('Tags'), [], tags?.map((e) => e?.toXml('member'))),
+      _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6268,7 +6366,7 @@ class PutJobTaggingRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6296,19 +6394,23 @@ class PutStorageLensConfigurationRequest {
   /// <note>
   /// You can set up to a maximum of 50 tags.
   /// </note>
-  final List<StorageLensTag> tags;
+  final List<StorageLensTag>? tags;
 
   PutStorageLensConfigurationRequest({
-    @_s.required this.accountId,
-    @_s.required this.configId,
-    @_s.required this.storageLensConfiguration,
+    required this.accountId,
+    required this.configId,
+    required this.storageLensConfiguration,
     this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final configId = this.configId;
+    final storageLensConfiguration = this.storageLensConfiguration;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      storageLensConfiguration?.toXml('StorageLensConfiguration'),
+      storageLensConfiguration.toXml('StorageLensConfiguration'),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e?.toXml('Tag'))),
+        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6316,7 +6418,7 @@ class PutStorageLensConfigurationRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6335,13 +6437,16 @@ class PutStorageLensConfigurationTaggingRequest {
   final List<StorageLensTag> tags;
 
   PutStorageLensConfigurationTaggingRequest({
-    @_s.required this.accountId,
-    @_s.required this.configId,
-    @_s.required this.tags,
+    required this.accountId,
+    required this.configId,
+    required this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final configId = this.configId;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('Tags'), [], tags?.map((e) => e?.toXml('Tag'))),
+      _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6349,7 +6454,7 @@ class PutStorageLensConfigurationTaggingRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6375,24 +6480,24 @@ class RegionalBucket {
   final bool publicAccessBlockEnabled;
 
   /// The Amazon Resource Name (ARN) for the regional bucket.
-  final String bucketArn;
+  final String? bucketArn;
 
   /// The AWS Outposts ID of the regional bucket.
-  final String outpostId;
+  final String? outpostId;
 
   RegionalBucket({
-    @_s.required this.bucket,
-    @_s.required this.creationDate,
-    @_s.required this.publicAccessBlockEnabled,
+    required this.bucket,
+    required this.creationDate,
+    required this.publicAccessBlockEnabled,
     this.bucketArn,
     this.outpostId,
   });
   factory RegionalBucket.fromXml(_s.XmlElement elem) {
     return RegionalBucket(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
       publicAccessBlockEnabled:
-          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled'),
+          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled')!,
       bucketArn: _s.extractXmlStringValue(elem, 'BucketArn'),
       outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
     );
@@ -6412,7 +6517,6 @@ extension on RequestedJobStatus {
       case RequestedJobStatus.ready:
         return 'Ready';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6424,7 +6528,7 @@ extension on String {
       case 'Ready':
         return RequestedJobStatus.ready;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RequestedJobStatus');
   }
 }
 
@@ -6434,28 +6538,28 @@ class S3AccessControlList {
   final S3ObjectOwner owner;
 
   /// <p/>
-  final List<S3Grant> grants;
+  final List<S3Grant>? grants;
 
   S3AccessControlList({
-    @_s.required this.owner,
+    required this.owner,
     this.grants,
   });
   factory S3AccessControlList.fromXml(_s.XmlElement elem) {
     return S3AccessControlList(
-      owner: _s
-          .extractXmlChild(elem, 'Owner')
-          ?.let((e) => S3ObjectOwner.fromXml(e)),
+      owner: S3ObjectOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
       grants: _s.extractXmlChild(elem, 'Grants')?.let((elem) =>
           elem.findElements('member').map((c) => S3Grant.fromXml(c)).toList()),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final owner = this.owner;
+    final grants = this.grants;
     final $children = <_s.XmlNode>[
-      owner?.toXml('Owner'),
+      owner.toXml('Owner'),
       if (grants != null)
         _s.XmlElement(
-            _s.XmlName('Grants'), [], grants.map((e) => e?.toXml('member'))),
+            _s.XmlName('Grants'), [], grants.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6463,7 +6567,7 @@ class S3AccessControlList {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6471,10 +6575,10 @@ class S3AccessControlList {
 /// <p/>
 class S3AccessControlPolicy {
   /// <p/>
-  final S3AccessControlList accessControlList;
+  final S3AccessControlList? accessControlList;
 
   /// <p/>
-  final S3CannedAccessControlList cannedAccessControlList;
+  final S3CannedAccessControlList? cannedAccessControlList;
 
   S3AccessControlPolicy({
     this.accessControlList,
@@ -6491,10 +6595,12 @@ class S3AccessControlPolicy {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlList = this.accessControlList;
+    final cannedAccessControlList = this.cannedAccessControlList;
     final $children = <_s.XmlNode>[
       if (accessControlList != null)
-        accessControlList?.toXml('AccessControlList'),
+        accessControlList.toXml('AccessControlList'),
       if (cannedAccessControlList != null)
         _s.encodeXmlStringValue(
             'CannedAccessControlList', cannedAccessControlList.toValue()),
@@ -6505,7 +6611,7 @@ class S3AccessControlPolicy {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6529,28 +6635,28 @@ class S3BucketDestination {
   final OutputSchemaVersion outputSchemaVersion;
 
   /// The container for the type encryption of the metrics exports in this bucket.
-  final StorageLensDataExportEncryption encryption;
+  final StorageLensDataExportEncryption? encryption;
 
   /// The prefix of the destination bucket where the metrics export will be
   /// delivered.
-  final String prefix;
+  final String? prefix;
 
   S3BucketDestination({
-    @_s.required this.accountId,
-    @_s.required this.arn,
-    @_s.required this.format,
-    @_s.required this.outputSchemaVersion,
+    required this.accountId,
+    required this.arn,
+    required this.format,
+    required this.outputSchemaVersion,
     this.encryption,
     this.prefix,
   });
   factory S3BucketDestination.fromXml(_s.XmlElement elem) {
     return S3BucketDestination(
-      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      format: _s.extractXmlStringValue(elem, 'Format')?.toFormat(),
+      accountId: _s.extractXmlStringValue(elem, 'AccountId')!,
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      format: _s.extractXmlStringValue(elem, 'Format')!.toFormat(),
       outputSchemaVersion: _s
-          .extractXmlStringValue(elem, 'OutputSchemaVersion')
-          ?.toOutputSchemaVersion(),
+          .extractXmlStringValue(elem, 'OutputSchemaVersion')!
+          .toOutputSchemaVersion(),
       encryption: _s
           .extractXmlChild(elem, 'Encryption')
           ?.let((e) => StorageLensDataExportEncryption.fromXml(e)),
@@ -6558,15 +6664,21 @@ class S3BucketDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final format = this.format;
+    final outputSchemaVersion = this.outputSchemaVersion;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Format', format.toValue()),
       _s.encodeXmlStringValue(
-          'OutputSchemaVersion', outputSchemaVersion?.toValue() ?? ''),
+          'OutputSchemaVersion', outputSchemaVersion.toValue()),
       _s.encodeXmlStringValue('AccountId', accountId),
       _s.encodeXmlStringValue('Arn', arn),
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (encryption != null) encryption?.toXml('Encryption'),
+      if (encryption != null) encryption.toXml('Encryption'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6574,7 +6686,7 @@ class S3BucketDestination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6607,7 +6719,6 @@ extension on S3CannedAccessControlList {
       case S3CannedAccessControlList.bucketOwnerFullControl:
         return 'bucket-owner-full-control';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6629,7 +6740,7 @@ extension on String {
       case 'bucket-owner-full-control':
         return S3CannedAccessControlList.bucketOwnerFullControl;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3CannedAccessControlList');
   }
 }
 
@@ -6640,60 +6751,60 @@ extension on String {
 /// Object - Copy</a>.
 class S3CopyObjectOperation {
   /// <p/>
-  final List<S3Grant> accessControlGrants;
+  final List<S3Grant>? accessControlGrants;
 
   /// <p/>
-  final S3CannedAccessControlList cannedAccessControlList;
+  final S3CannedAccessControlList? cannedAccessControlList;
 
   /// <p/>
-  final S3MetadataDirective metadataDirective;
+  final S3MetadataDirective? metadataDirective;
 
   /// <p/>
-  final DateTime modifiedSinceConstraint;
+  final DateTime? modifiedSinceConstraint;
 
   /// <p/>
-  final S3ObjectMetadata newObjectMetadata;
+  final S3ObjectMetadata? newObjectMetadata;
 
   /// <p/>
-  final List<S3Tag> newObjectTagging;
+  final List<S3Tag>? newObjectTagging;
 
   /// The legal hold status to be applied to all objects in the Batch Operations
   /// job.
-  final S3ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
+  final S3ObjectLockLegalHoldStatus? objectLockLegalHoldStatus;
 
   /// The retention mode to be applied to all objects in the Batch Operations job.
-  final S3ObjectLockMode objectLockMode;
+  final S3ObjectLockMode? objectLockMode;
 
   /// The date when the applied object retention configuration expires on all
   /// objects in the Batch Operations job.
-  final DateTime objectLockRetainUntilDate;
+  final DateTime? objectLockRetainUntilDate;
 
   /// Specifies an optional metadata property for website redirects,
   /// <code>x-amz-website-redirect-location</code>. Allows webpage redirects if
   /// the object is accessed through a website endpoint.
-  final String redirectLocation;
+  final String? redirectLocation;
 
   /// <p/>
-  final bool requesterPays;
+  final bool? requesterPays;
 
   /// <p/>
-  final String sSEAwsKmsKeyId;
+  final String? sSEAwsKmsKeyId;
 
   /// <p/>
-  final S3StorageClass storageClass;
+  final S3StorageClass? storageClass;
 
   /// Specifies the folder prefix into which you would like the objects to be
   /// copied. For example, to copy objects into a folder named "Folder1" in the
   /// destination bucket, set the TargetKeyPrefix to "Folder1/".
-  final String targetKeyPrefix;
+  final String? targetKeyPrefix;
 
   /// Specifies the destination bucket ARN for the batch copy operation. For
   /// example, to copy objects to a bucket named "destinationBucket", set the
   /// TargetResource to "arn:aws:s3:::destinationBucket".
-  final String targetResource;
+  final String? targetResource;
 
   /// <p/>
-  final DateTime unModifiedSinceConstraint;
+  final DateTime? unModifiedSinceConstraint;
 
   S3CopyObjectOperation({
     this.accessControlGrants,
@@ -6756,7 +6867,23 @@ class S3CopyObjectOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlGrants = this.accessControlGrants;
+    final cannedAccessControlList = this.cannedAccessControlList;
+    final metadataDirective = this.metadataDirective;
+    final modifiedSinceConstraint = this.modifiedSinceConstraint;
+    final newObjectMetadata = this.newObjectMetadata;
+    final newObjectTagging = this.newObjectTagging;
+    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
+    final objectLockMode = this.objectLockMode;
+    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
+    final redirectLocation = this.redirectLocation;
+    final requesterPays = this.requesterPays;
+    final sSEAwsKmsKeyId = this.sSEAwsKmsKeyId;
+    final storageClass = this.storageClass;
+    final targetKeyPrefix = this.targetKeyPrefix;
+    final targetResource = this.targetResource;
+    final unModifiedSinceConstraint = this.unModifiedSinceConstraint;
     final $children = <_s.XmlNode>[
       if (targetResource != null)
         _s.encodeXmlStringValue('TargetResource', targetResource),
@@ -6765,7 +6892,7 @@ class S3CopyObjectOperation {
             'CannedAccessControlList', cannedAccessControlList.toValue()),
       if (accessControlGrants != null)
         _s.XmlElement(_s.XmlName('AccessControlGrants'), [],
-            accessControlGrants.map((e) => e?.toXml('member'))),
+            accessControlGrants.map((e) => e.toXml('member'))),
       if (metadataDirective != null)
         _s.encodeXmlStringValue(
             'MetadataDirective', metadataDirective.toValue()),
@@ -6773,10 +6900,10 @@ class S3CopyObjectOperation {
         _s.encodeXmlDateTimeValue(
             'ModifiedSinceConstraint', modifiedSinceConstraint),
       if (newObjectMetadata != null)
-        newObjectMetadata?.toXml('NewObjectMetadata'),
+        newObjectMetadata.toXml('NewObjectMetadata'),
       if (newObjectTagging != null)
         _s.XmlElement(_s.XmlName('NewObjectTagging'), [],
-            newObjectTagging.map((e) => e?.toXml('member'))),
+            newObjectTagging.map((e) => e.toXml('member'))),
       if (redirectLocation != null)
         _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
       if (requesterPays != null)
@@ -6805,7 +6932,7 @@ class S3CopyObjectOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6823,7 +6950,6 @@ extension on S3GlacierJobTier {
       case S3GlacierJobTier.standard:
         return 'STANDARD';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6835,17 +6961,17 @@ extension on String {
       case 'STANDARD':
         return S3GlacierJobTier.standard;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3GlacierJobTier');
   }
 }
 
 /// <p/>
 class S3Grant {
   /// <p/>
-  final S3Grantee grantee;
+  final S3Grantee? grantee;
 
   /// <p/>
-  final S3Permission permission;
+  final S3Permission? permission;
 
   S3Grant({
     this.grantee,
@@ -6860,9 +6986,11 @@ class S3Grant {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grantee = this.grantee;
+    final permission = this.permission;
     final $children = <_s.XmlNode>[
-      if (grantee != null) grantee?.toXml('Grantee'),
+      if (grantee != null) grantee.toXml('Grantee'),
       if (permission != null)
         _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
@@ -6872,7 +7000,7 @@ class S3Grant {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6880,13 +7008,13 @@ class S3Grant {
 /// <p/>
 class S3Grantee {
   /// <p/>
-  final String displayName;
+  final String? displayName;
 
   /// <p/>
-  final String identifier;
+  final String? identifier;
 
   /// <p/>
-  final S3GranteeTypeIdentifier typeIdentifier;
+  final S3GranteeTypeIdentifier? typeIdentifier;
 
   S3Grantee({
     this.displayName,
@@ -6903,7 +7031,10 @@ class S3Grantee {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final displayName = this.displayName;
+    final identifier = this.identifier;
+    final typeIdentifier = this.typeIdentifier;
     final $children = <_s.XmlNode>[
       if (typeIdentifier != null)
         _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier.toValue()),
@@ -6917,7 +7048,7 @@ class S3Grantee {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6938,7 +7069,6 @@ extension on S3GranteeTypeIdentifier {
       case S3GranteeTypeIdentifier.uri:
         return 'uri';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6952,7 +7082,7 @@ extension on String {
       case 'uri':
         return S3GranteeTypeIdentifier.uri;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3GranteeTypeIdentifier');
   }
 }
 
@@ -6963,10 +7093,10 @@ extension on String {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
 class S3InitiateRestoreObjectOperation {
   /// <p/>
-  final int expirationInDays;
+  final int? expirationInDays;
 
   /// <p/>
-  final S3GlacierJobTier glacierJobTier;
+  final S3GlacierJobTier? glacierJobTier;
 
   S3InitiateRestoreObjectOperation({
     this.expirationInDays,
@@ -6981,7 +7111,9 @@ class S3InitiateRestoreObjectOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final expirationInDays = this.expirationInDays;
+    final glacierJobTier = this.glacierJobTier;
     final $children = <_s.XmlNode>[
       if (expirationInDays != null)
         _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
@@ -6994,7 +7126,7 @@ class S3InitiateRestoreObjectOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7012,7 +7144,6 @@ extension on S3MetadataDirective {
       case S3MetadataDirective.replace:
         return 'REPLACE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7024,7 +7155,7 @@ extension on String {
       case 'REPLACE':
         return S3MetadataDirective.replace;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3MetadataDirective');
   }
 }
 
@@ -7036,19 +7167,20 @@ class S3ObjectLockLegalHold {
   final S3ObjectLockLegalHoldStatus status;
 
   S3ObjectLockLegalHold({
-    @_s.required this.status,
+    required this.status,
   });
   factory S3ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
     return S3ObjectLockLegalHold(
       status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toS3ObjectLockLegalHoldStatus(),
+          .extractXmlStringValue(elem, 'Status')!
+          .toS3ObjectLockLegalHoldStatus(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7056,7 +7188,7 @@ class S3ObjectLockLegalHold {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7074,7 +7206,6 @@ extension on S3ObjectLockLegalHoldStatus {
       case S3ObjectLockLegalHoldStatus.on:
         return 'ON';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7086,7 +7217,7 @@ extension on String {
       case 'ON':
         return S3ObjectLockLegalHoldStatus.on;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3ObjectLockLegalHoldStatus');
   }
 }
 
@@ -7103,7 +7234,6 @@ extension on S3ObjectLockMode {
       case S3ObjectLockMode.governance:
         return 'GOVERNANCE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7115,7 +7245,7 @@ extension on String {
       case 'GOVERNANCE':
         return S3ObjectLockMode.governance;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3ObjectLockMode');
   }
 }
 
@@ -7132,7 +7262,6 @@ extension on S3ObjectLockRetentionMode {
       case S3ObjectLockRetentionMode.governance:
         return 'GOVERNANCE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7144,44 +7273,44 @@ extension on String {
       case 'GOVERNANCE':
         return S3ObjectLockRetentionMode.governance;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3ObjectLockRetentionMode');
   }
 }
 
 /// <p/>
 class S3ObjectMetadata {
   /// <p/>
-  final String cacheControl;
+  final String? cacheControl;
 
   /// <p/>
-  final String contentDisposition;
+  final String? contentDisposition;
 
   /// <p/>
-  final String contentEncoding;
+  final String? contentEncoding;
 
   /// <p/>
-  final String contentLanguage;
+  final String? contentLanguage;
 
   /// <p/>
-  final int contentLength;
+  final int? contentLength;
 
   /// <p/>
-  final String contentMD5;
+  final String? contentMD5;
 
   /// <p/>
-  final String contentType;
+  final String? contentType;
 
   /// <p/>
-  final DateTime httpExpiresDate;
+  final DateTime? httpExpiresDate;
 
   /// <p/>
-  final bool requesterCharged;
+  final bool? requesterCharged;
 
   /// <p/>
-  final S3SSEAlgorithm sSEAlgorithm;
+  final S3SSEAlgorithm? sSEAlgorithm;
 
   /// <p/>
-  final Map<String, String> userMetadata;
+  final Map<String, String>? userMetadata;
 
   S3ObjectMetadata({
     this.cacheControl,
@@ -7210,17 +7339,29 @@ class S3ObjectMetadata {
       sSEAlgorithm:
           _s.extractXmlStringValue(elem, 'SSEAlgorithm')?.toS3SSEAlgorithm(),
       userMetadata: Map.fromEntries(
-        elem.getElement('UserMetadata').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('UserMetadata')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cacheControl = this.cacheControl;
+    final contentDisposition = this.contentDisposition;
+    final contentEncoding = this.contentEncoding;
+    final contentLanguage = this.contentLanguage;
+    final contentLength = this.contentLength;
+    final contentMD5 = this.contentMD5;
+    final contentType = this.contentType;
+    final httpExpiresDate = this.httpExpiresDate;
+    final requesterCharged = this.requesterCharged;
+    final sSEAlgorithm = this.sSEAlgorithm;
+    final userMetadata = this.userMetadata;
     final $children = <_s.XmlNode>[
       if (cacheControl != null)
         _s.encodeXmlStringValue('CacheControl', cacheControl),
@@ -7257,7 +7398,7 @@ class S3ObjectMetadata {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7265,10 +7406,10 @@ class S3ObjectMetadata {
 /// <p/>
 class S3ObjectOwner {
   /// <p/>
-  final String displayName;
+  final String? displayName;
 
   /// <p/>
-  final String id;
+  final String? id;
 
   S3ObjectOwner({
     this.displayName,
@@ -7281,7 +7422,9 @@ class S3ObjectOwner {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final displayName = this.displayName;
+    final id = this.id;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('ID', id),
       if (displayName != null)
@@ -7293,7 +7436,7 @@ class S3ObjectOwner {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7320,7 +7463,6 @@ extension on S3Permission {
       case S3Permission.writeAcp:
         return 'WRITE_ACP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7338,7 +7480,7 @@ extension on String {
       case 'WRITE_ACP':
         return S3Permission.writeAcp;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3Permission');
   }
 }
 
@@ -7352,11 +7494,11 @@ extension on String {
 class S3Retention {
   /// The Object Lock retention mode to be applied to all objects in the Batch
   /// Operations job.
-  final S3ObjectLockRetentionMode mode;
+  final S3ObjectLockRetentionMode? mode;
 
   /// The date when the applied Object Lock retention will expire on all objects
   /// set by the Batch Operations job.
-  final DateTime retainUntilDate;
+  final DateTime? retainUntilDate;
 
   S3Retention({
     this.mode,
@@ -7370,7 +7512,9 @@ class S3Retention {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final mode = this.mode;
+    final retainUntilDate = this.retainUntilDate;
     final $children = <_s.XmlNode>[
       if (retainUntilDate != null)
         _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
@@ -7382,7 +7526,7 @@ class S3Retention {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7400,7 +7544,6 @@ extension on S3SSEAlgorithm {
       case S3SSEAlgorithm.kms:
         return 'KMS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7412,7 +7555,7 @@ extension on String {
       case 'KMS':
         return S3SSEAlgorithm.kms;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3SSEAlgorithm');
   }
 }
 
@@ -7423,7 +7566,7 @@ extension on String {
 /// Object acl</a>.
 class S3SetObjectAclOperation {
   /// <p/>
-  final S3AccessControlPolicy accessControlPolicy;
+  final S3AccessControlPolicy? accessControlPolicy;
 
   S3SetObjectAclOperation({
     this.accessControlPolicy,
@@ -7436,10 +7579,11 @@ class S3SetObjectAclOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlPolicy = this.accessControlPolicy;
     final $children = <_s.XmlNode>[
       if (accessControlPolicy != null)
-        accessControlPolicy?.toXml('AccessControlPolicy'),
+        accessControlPolicy.toXml('AccessControlPolicy'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7447,7 +7591,7 @@ class S3SetObjectAclOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7464,19 +7608,19 @@ class S3SetObjectLegalHoldOperation {
   final S3ObjectLockLegalHold legalHold;
 
   S3SetObjectLegalHoldOperation({
-    @_s.required this.legalHold,
+    required this.legalHold,
   });
   factory S3SetObjectLegalHoldOperation.fromXml(_s.XmlElement elem) {
     return S3SetObjectLegalHoldOperation(
-      legalHold: _s
-          .extractXmlChild(elem, 'LegalHold')
-          ?.let((e) => S3ObjectLockLegalHold.fromXml(e)),
+      legalHold:
+          S3ObjectLockLegalHold.fromXml(_s.extractXmlChild(elem, 'LegalHold')!),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final legalHold = this.legalHold;
     final $children = <_s.XmlNode>[
-      legalHold?.toXml('LegalHold'),
+      legalHold.toXml('LegalHold'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7484,7 +7628,7 @@ class S3SetObjectLegalHoldOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7506,28 +7650,28 @@ class S3SetObjectRetentionOperation {
 
   /// Indicates if the action should be applied to objects in the Batch Operations
   /// job even if they have Object Lock <code> GOVERNANCE</code> type in place.
-  final bool bypassGovernanceRetention;
+  final bool? bypassGovernanceRetention;
 
   S3SetObjectRetentionOperation({
-    @_s.required this.retention,
+    required this.retention,
     this.bypassGovernanceRetention,
   });
   factory S3SetObjectRetentionOperation.fromXml(_s.XmlElement elem) {
     return S3SetObjectRetentionOperation(
-      retention: _s
-          .extractXmlChild(elem, 'Retention')
-          ?.let((e) => S3Retention.fromXml(e)),
+      retention: S3Retention.fromXml(_s.extractXmlChild(elem, 'Retention')!),
       bypassGovernanceRetention:
           _s.extractXmlBoolValue(elem, 'BypassGovernanceRetention'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final retention = this.retention;
+    final bypassGovernanceRetention = this.bypassGovernanceRetention;
     final $children = <_s.XmlNode>[
       if (bypassGovernanceRetention != null)
         _s.encodeXmlBoolValue(
             'BypassGovernanceRetention', bypassGovernanceRetention),
-      retention?.toXml('Retention'),
+      retention.toXml('Retention'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7535,7 +7679,7 @@ class S3SetObjectRetentionOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7548,7 +7692,7 @@ class S3SetObjectRetentionOperation {
 /// Object tagging</a>.
 class S3SetObjectTaggingOperation {
   /// <p/>
-  final List<S3Tag> tagSet;
+  final List<S3Tag>? tagSet;
 
   S3SetObjectTaggingOperation({
     this.tagSet,
@@ -7560,11 +7704,12 @@ class S3SetObjectTaggingOperation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       if (tagSet != null)
         _s.XmlElement(
-            _s.XmlName('TagSet'), [], tagSet.map((e) => e?.toXml('member'))),
+            _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7572,7 +7717,7 @@ class S3SetObjectTaggingOperation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7602,7 +7747,6 @@ extension on S3StorageClass {
       case S3StorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7622,7 +7766,7 @@ extension on String {
       case 'DEEP_ARCHIVE':
         return S3StorageClass.deepArchive;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum S3StorageClass');
   }
 }
 
@@ -7635,17 +7779,19 @@ class S3Tag {
   final String value;
 
   S3Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory S3Tag.fromXml(_s.XmlElement elem) {
     return S3Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
@@ -7656,7 +7802,7 @@ class S3Tag {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7670,15 +7816,16 @@ class SSEKMS {
   final String keyId;
 
   SSEKMS({
-    @_s.required this.keyId,
+    required this.keyId,
   });
   factory SSEKMS.fromXml(_s.XmlElement elem) {
     return SSEKMS(
-      keyId: _s.extractXmlStringValue(elem, 'KeyId'),
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('KeyId', keyId),
     ];
@@ -7688,7 +7835,7 @@ class SSEKMS {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7702,7 +7849,7 @@ class SSES3 {
     return SSES3();
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final $children = <_s.XmlNode>[];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7710,7 +7857,7 @@ class SSES3 {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7718,17 +7865,17 @@ class SSES3 {
 /// <p/>
 class SelectionCriteria {
   /// A container for the delimiter of the selection criteria being used.
-  final String delimiter;
+  final String? delimiter;
 
   /// The max depth of the selection criteria
-  final int maxDepth;
+  final int? maxDepth;
 
   /// The minimum number of storage bytes percentage whose metrics will be
   /// selected.
   /// <note>
   /// You must choose a value greater than or equal to <code>1.0</code>.
   /// </note>
-  final double minStorageBytesPercentage;
+  final double? minStorageBytesPercentage;
 
   SelectionCriteria({
     this.delimiter,
@@ -7744,7 +7891,10 @@ class SelectionCriteria {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final delimiter = this.delimiter;
+    final maxDepth = this.maxDepth;
+    final minStorageBytesPercentage = this.minStorageBytesPercentage;
     final $children = <_s.XmlNode>[
       if (delimiter != null) _s.encodeXmlStringValue('Delimiter', delimiter),
       if (maxDepth != null) _s.encodeXmlIntValue('MaxDepth', maxDepth),
@@ -7758,7 +7908,7 @@ class SelectionCriteria {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7772,15 +7922,16 @@ class StorageLensAwsOrg {
   final String arn;
 
   StorageLensAwsOrg({
-    @_s.required this.arn,
+    required this.arn,
   });
   factory StorageLensAwsOrg.fromXml(_s.XmlElement elem) {
     return StorageLensAwsOrg(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final arn = this.arn;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Arn', arn),
     ];
@@ -7790,7 +7941,7 @@ class StorageLensAwsOrg {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7808,32 +7959,32 @@ class StorageLensConfiguration {
   final bool isEnabled;
 
   /// A container for the AWS organization for this S3 Storage Lens configuration.
-  final StorageLensAwsOrg awsOrg;
+  final StorageLensAwsOrg? awsOrg;
 
   /// A container to specify the properties of your S3 Storage Lens metrics export
   /// including, the destination, schema and format.
-  final StorageLensDataExport dataExport;
+  final StorageLensDataExport? dataExport;
 
   /// A container for what is excluded in this configuration. This container can
   /// only be valid if there is no <code>Include</code> container submitted, and
   /// it's not empty.
-  final Exclude exclude;
+  final Exclude? exclude;
 
   /// A container for what is included in this configuration. This container can
   /// only be valid if there is no <code>Exclude</code> container submitted, and
   /// it's not empty.
-  final Include include;
+  final Include? include;
 
   /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This
   /// property is read-only and follows the following format: <code>
   /// arn:aws:s3:<i>us-east-1</i>:<i>example-account-id</i>:storage-lens/<i>your-dashboard-name</i>
   /// </code>
-  final String storageLensArn;
+  final String? storageLensArn;
 
   StorageLensConfiguration({
-    @_s.required this.accountLevel,
-    @_s.required this.id,
-    @_s.required this.isEnabled,
+    required this.accountLevel,
+    required this.id,
+    required this.isEnabled,
     this.awsOrg,
     this.dataExport,
     this.exclude,
@@ -7842,11 +7993,10 @@ class StorageLensConfiguration {
   });
   factory StorageLensConfiguration.fromXml(_s.XmlElement elem) {
     return StorageLensConfiguration(
-      accountLevel: _s
-          .extractXmlChild(elem, 'AccountLevel')
-          ?.let((e) => AccountLevel.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+      accountLevel:
+          AccountLevel.fromXml(_s.extractXmlChild(elem, 'AccountLevel')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
       awsOrg: _s
           .extractXmlChild(elem, 'AwsOrg')
           ?.let((e) => StorageLensAwsOrg.fromXml(e)),
@@ -7861,15 +8011,23 @@ class StorageLensConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountLevel = this.accountLevel;
+    final id = this.id;
+    final isEnabled = this.isEnabled;
+    final awsOrg = this.awsOrg;
+    final dataExport = this.dataExport;
+    final exclude = this.exclude;
+    final include = this.include;
+    final storageLensArn = this.storageLensArn;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      accountLevel?.toXml('AccountLevel'),
-      if (include != null) include?.toXml('Include'),
-      if (exclude != null) exclude?.toXml('Exclude'),
-      if (dataExport != null) dataExport?.toXml('DataExport'),
+      accountLevel.toXml('AccountLevel'),
+      if (include != null) include.toXml('Include'),
+      if (exclude != null) exclude.toXml('Exclude'),
+      if (dataExport != null) dataExport.toXml('DataExport'),
       _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      if (awsOrg != null) awsOrg?.toXml('AwsOrg'),
+      if (awsOrg != null) awsOrg.toXml('AwsOrg'),
       if (storageLensArn != null)
         _s.encodeXmlStringValue('StorageLensArn', storageLensArn),
     ];
@@ -7879,7 +8037,7 @@ class StorageLensConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7892,19 +8050,19 @@ class StorageLensDataExport {
   final S3BucketDestination s3BucketDestination;
 
   StorageLensDataExport({
-    @_s.required this.s3BucketDestination,
+    required this.s3BucketDestination,
   });
   factory StorageLensDataExport.fromXml(_s.XmlElement elem) {
     return StorageLensDataExport(
-      s3BucketDestination: _s
-          .extractXmlChild(elem, 'S3BucketDestination')
-          ?.let((e) => S3BucketDestination.fromXml(e)),
+      s3BucketDestination: S3BucketDestination.fromXml(
+          _s.extractXmlChild(elem, 'S3BucketDestination')!),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3BucketDestination = this.s3BucketDestination;
     final $children = <_s.XmlNode>[
-      s3BucketDestination?.toXml('S3BucketDestination'),
+      s3BucketDestination.toXml('S3BucketDestination'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7912,7 +8070,7 @@ class StorageLensDataExport {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7920,10 +8078,10 @@ class StorageLensDataExport {
 /// A container for the encryption of the S3 Storage Lens metrics exports.
 class StorageLensDataExportEncryption {
   /// <p/>
-  final SSEKMS ssekms;
+  final SSEKMS? ssekms;
 
   /// <p/>
-  final SSES3 sses3;
+  final SSES3? sses3;
 
   StorageLensDataExportEncryption({
     this.ssekms,
@@ -7937,10 +8095,12 @@ class StorageLensDataExportEncryption {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
     final $children = <_s.XmlNode>[
-      if (sses3 != null) sses3?.toXml('SSE-S3'),
-      if (ssekms != null) ssekms?.toXml('SSE-KMS'),
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7948,7 +8108,7 @@ class StorageLensDataExportEncryption {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7962,17 +8122,19 @@ class StorageLensTag {
   final String value;
 
   StorageLensTag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory StorageLensTag.fromXml(_s.XmlElement elem) {
     return StorageLensTag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
@@ -7983,7 +8145,7 @@ class StorageLensTag {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7994,12 +8156,13 @@ class Tagging {
   final List<S3Tag> tagSet;
 
   Tagging({
-    @_s.required this.tagSet,
+    required this.tagSet,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       _s.XmlElement(
-          _s.XmlName('TagSet'), [], tagSet?.map((e) => e?.toXml('member'))),
+          _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8007,7 +8170,7 @@ class Tagging {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8020,14 +8183,14 @@ class Tagging {
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
-  final DateTime date;
+  final DateTime? date;
 
   /// Indicates the number of days after creation when objects are transitioned to
   /// the specified storage class. The value must be a positive integer.
-  final int days;
+  final int? days;
 
   /// The storage class to which you want the object to transition.
-  final TransitionStorageClass storageClass;
+  final TransitionStorageClass? storageClass;
 
   Transition({
     this.date,
@@ -8044,7 +8207,10 @@ class Transition {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
       if (date != null) _s.encodeXmlDateTimeValue('Date', date),
       if (days != null) _s.encodeXmlIntValue('Days', days),
@@ -8057,7 +8223,7 @@ class Transition {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8084,7 +8250,6 @@ extension on TransitionStorageClass {
       case TransitionStorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8102,7 +8267,7 @@ extension on String {
       case 'DEEP_ARCHIVE':
         return TransitionStorageClass.deepArchive;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TransitionStorageClass');
   }
 }
 
@@ -8114,26 +8279,26 @@ class UpdateJobPriorityResult {
   final int priority;
 
   UpdateJobPriorityResult({
-    @_s.required this.jobId,
-    @_s.required this.priority,
+    required this.jobId,
+    required this.priority,
   });
   factory UpdateJobPriorityResult.fromXml(_s.XmlElement elem) {
     return UpdateJobPriorityResult(
-      jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      priority: _s.extractXmlIntValue(elem, 'Priority'),
+      jobId: _s.extractXmlStringValue(elem, 'JobId')!,
+      priority: _s.extractXmlIntValue(elem, 'Priority')!,
     );
   }
 }
 
 class UpdateJobStatusResult {
   /// The ID for the job whose status was updated.
-  final String jobId;
+  final String? jobId;
 
   /// The current status for the specified job.
-  final JobStatus status;
+  final JobStatus? status;
 
   /// The reason that the specified job's status was updated.
-  final String statusUpdateReason;
+  final String? statusUpdateReason;
 
   UpdateJobStatusResult({
     this.jobId,
@@ -8156,15 +8321,16 @@ class VpcConfiguration {
   final String vpcId;
 
   VpcConfiguration({
-    @_s.required this.vpcId,
+    required this.vpcId,
   });
   factory VpcConfiguration.fromXml(_s.XmlElement elem) {
     return VpcConfiguration(
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId')!,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final vpcId = this.vpcId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('VpcId', vpcId),
     ];
@@ -8174,53 +8340,53 @@ class VpcConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class BucketAlreadyExists extends _s.GenericAwsException {
-  BucketAlreadyExists({String type, String message})
+  BucketAlreadyExists({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyExists', message: message);
 }
 
 class BucketAlreadyOwnedByYou extends _s.GenericAwsException {
-  BucketAlreadyOwnedByYou({String type, String message})
+  BucketAlreadyOwnedByYou({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyOwnedByYou', message: message);
 }
 
 class IdempotencyException extends _s.GenericAwsException {
-  IdempotencyException({String type, String message})
+  IdempotencyException({String? type, String? message})
       : super(type: type, code: 'IdempotencyException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class JobStatusException extends _s.GenericAwsException {
-  JobStatusException({String type, String message})
+  JobStatusException({String? type, String? message})
       : super(type: type, code: 'JobStatusException', message: message);
 }
 
 class NoSuchPublicAccessBlockConfiguration extends _s.GenericAwsException {
-  NoSuchPublicAccessBlockConfiguration({String type, String message})
+  NoSuchPublicAccessBlockConfiguration({String? type, String? message})
       : super(
             type: type,
             code: 'NoSuchPublicAccessBlockConfiguration',
@@ -8228,17 +8394,17 @@ class NoSuchPublicAccessBlockConfiguration extends _s.GenericAwsException {
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

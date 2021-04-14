@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'json_payload.g.dart';
 
 /// JSON payload
 class JSONPayload {
   final _s.RestJsonProtocol _protocol;
   JSONPayload({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -59,39 +51,27 @@ class JSONPayload {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'Data')
-  final BodyStructure data;
-  @_s.JsonKey(name: 'X-Foo')
-  final String header;
+  final BodyStructure? data;
+  final String? header;
 
   OutputShape({
     this.data,
     this.header,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BodyStructure {
-  @_s.JsonKey(name: 'Foo')
-  final String foo;
+  final String? foo;
 
   BodyStructure({
     this.foo,
   });
-  factory BodyStructure.fromJson(Map<String, dynamic> json) =>
-      _$BodyStructureFromJson(json);
+  factory BodyStructure.fromJson(Map<String, dynamic> json) {
+    return BodyStructure(
+      foo: json['Foo'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

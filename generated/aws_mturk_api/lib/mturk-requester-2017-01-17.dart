@@ -10,29 +10,21 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mturk-requester-2017-01-17.g.dart';
 
 class MTurk {
   final _s.JsonProtocol _protocol;
   MTurk({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -64,8 +56,8 @@ class MTurk {
   /// the presence or absence of the Qualification as the basis for a HIT
   /// requirement.
   Future<void> acceptQualificationRequest({
-    @_s.required String qualificationRequestId,
-    int integerValue,
+    required String qualificationRequestId,
+    int? integerValue,
   }) async {
     ArgumentError.checkNotNull(
         qualificationRequestId, 'qualificationRequestId');
@@ -74,7 +66,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.AcceptQualificationRequest'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -85,8 +77,6 @@ class MTurk {
         if (integerValue != null) 'IntegerValue': integerValue,
       },
     );
-
-    return AcceptQualificationRequestResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>ApproveAssignment</code> operation approves the results of a
@@ -131,9 +121,9 @@ class MTurk {
   /// A message for the Worker, which the Worker can see in the Status section
   /// of the web site.
   Future<void> approveAssignment({
-    @_s.required String assignmentId,
-    bool overrideRejection,
-    String requesterFeedback,
+    required String assignmentId,
+    bool? overrideRejection,
+    String? requesterFeedback,
   }) async {
     ArgumentError.checkNotNull(assignmentId, 'assignmentId');
     _s.validateStringLength(
@@ -153,7 +143,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.ApproveAssignment'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -165,8 +155,6 @@ class MTurk {
         if (requesterFeedback != null) 'RequesterFeedback': requesterFeedback,
       },
     );
-
-    return ApproveAssignmentResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>AssociateQualificationWithWorker</code> operation gives a Worker
@@ -205,10 +193,10 @@ class MTurk {
   /// saying that the qualification was assigned to the Worker. Note: this is
   /// true by default.
   Future<void> associateQualificationWithWorker({
-    @_s.required String qualificationTypeId,
-    @_s.required String workerId,
-    int integerValue,
-    bool sendNotification,
+    required String qualificationTypeId,
+    required String workerId,
+    int? integerValue,
+    bool? sendNotification,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -243,7 +231,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.AssociateQualificationWithWorker'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -256,8 +244,6 @@ class MTurk {
         if (sendNotification != null) 'SendNotification': sendNotification,
       },
     );
-
-    return AssociateQualificationWithWorkerResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>CreateAdditionalAssignmentsForHIT</code> operation increases the
@@ -300,9 +286,9 @@ class MTurk {
   /// subsequent calls will return an error with a message containing the
   /// request ID.
   Future<void> createAdditionalAssignmentsForHIT({
-    @_s.required String hITId,
-    @_s.required int numberOfAdditionalAssignments,
-    String uniqueRequestToken,
+    required String hITId,
+    required int numberOfAdditionalAssignments,
+    String? uniqueRequestToken,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -331,7 +317,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.CreateAdditionalAssignmentsForHIT'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -344,9 +330,6 @@ class MTurk {
           'UniqueRequestToken': uniqueRequestToken,
       },
     );
-
-    return CreateAdditionalAssignmentsForHITResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// The <code>CreateHIT</code> operation creates a new Human Intelligence Task
@@ -491,22 +474,22 @@ class MTurk {
   /// HITs.
   /// </note>
   Future<CreateHITResponse> createHIT({
-    @_s.required int assignmentDurationInSeconds,
-    @_s.required String description,
-    @_s.required int lifetimeInSeconds,
-    @_s.required String reward,
-    @_s.required String title,
-    ReviewPolicy assignmentReviewPolicy,
-    int autoApprovalDelayInSeconds,
-    String hITLayoutId,
-    List<HITLayoutParameter> hITLayoutParameters,
-    ReviewPolicy hITReviewPolicy,
-    String keywords,
-    int maxAssignments,
-    List<QualificationRequirement> qualificationRequirements,
-    String question,
-    String requesterAnnotation,
-    String uniqueRequestToken,
+    required int assignmentDurationInSeconds,
+    required String description,
+    required int lifetimeInSeconds,
+    required String reward,
+    required String title,
+    ReviewPolicy? assignmentReviewPolicy,
+    int? autoApprovalDelayInSeconds,
+    String? hITLayoutId,
+    List<HITLayoutParameter>? hITLayoutParameters,
+    ReviewPolicy? hITReviewPolicy,
+    String? keywords,
+    int? maxAssignments,
+    List<QualificationRequirement>? qualificationRequirements,
+    String? question,
+    String? requesterAnnotation,
+    String? uniqueRequestToken,
   }) async {
     ArgumentError.checkNotNull(
         assignmentDurationInSeconds, 'assignmentDurationInSeconds');
@@ -625,13 +608,13 @@ class MTurk {
   /// <code>ActionsGuarded</code> field on each
   /// <code>QualificationRequirement</code> structure.
   Future<CreateHITTypeResponse> createHITType({
-    @_s.required int assignmentDurationInSeconds,
-    @_s.required String description,
-    @_s.required String reward,
-    @_s.required String title,
-    int autoApprovalDelayInSeconds,
-    String keywords,
-    List<QualificationRequirement> qualificationRequirements,
+    required int assignmentDurationInSeconds,
+    required String description,
+    required String reward,
+    required String title,
+    int? autoApprovalDelayInSeconds,
+    String? keywords,
+    List<QualificationRequirement>? qualificationRequirements,
   }) async {
     ArgumentError.checkNotNull(
         assignmentDurationInSeconds, 'assignmentDurationInSeconds');
@@ -765,16 +748,16 @@ class MTurk {
   /// HITs.
   /// </note>
   Future<CreateHITWithHITTypeResponse> createHITWithHITType({
-    @_s.required String hITTypeId,
-    @_s.required int lifetimeInSeconds,
-    ReviewPolicy assignmentReviewPolicy,
-    String hITLayoutId,
-    List<HITLayoutParameter> hITLayoutParameters,
-    ReviewPolicy hITReviewPolicy,
-    int maxAssignments,
-    String question,
-    String requesterAnnotation,
-    String uniqueRequestToken,
+    required String hITTypeId,
+    required int lifetimeInSeconds,
+    ReviewPolicy? assignmentReviewPolicy,
+    String? hITLayoutId,
+    List<HITLayoutParameter>? hITLayoutParameters,
+    ReviewPolicy? hITReviewPolicy,
+    int? maxAssignments,
+    String? question,
+    String? requesterAnnotation,
+    String? uniqueRequestToken,
   }) async {
     ArgumentError.checkNotNull(hITTypeId, 'hITTypeId');
     _s.validateStringLength(
@@ -915,16 +898,16 @@ class MTurk {
   /// The number of seconds the Worker has to complete the Qualification test,
   /// starting from the time the Worker requests the Qualification.
   Future<CreateQualificationTypeResponse> createQualificationType({
-    @_s.required String description,
-    @_s.required String name,
-    @_s.required QualificationTypeStatus qualificationTypeStatus,
-    String answerKey,
-    bool autoGranted,
-    int autoGrantedValue,
-    String keywords,
-    int retryDelayInSeconds,
-    String test,
-    int testDurationInSeconds,
+    required String description,
+    required String name,
+    required QualificationTypeStatus qualificationTypeStatus,
+    String? answerKey,
+    bool? autoGranted,
+    int? autoGrantedValue,
+    String? keywords,
+    int? retryDelayInSeconds,
+    String? test,
+    int? testDurationInSeconds,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
@@ -943,7 +926,7 @@ class MTurk {
       payload: {
         'Description': description,
         'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus?.toValue() ?? '',
+        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
         if (answerKey != null) 'AnswerKey': answerKey,
         if (autoGranted != null) 'AutoGranted': autoGranted,
         if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
@@ -974,8 +957,8 @@ class MTurk {
   /// Parameter [workerId] :
   /// The ID of the Worker to block.
   Future<void> createWorkerBlock({
-    @_s.required String reason,
-    @_s.required String workerId,
+    required String reason,
+    required String workerId,
   }) async {
     ArgumentError.checkNotNull(reason, 'reason');
     ArgumentError.checkNotNull(workerId, 'workerId');
@@ -996,7 +979,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.CreateWorkerBlock'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1007,8 +990,6 @@ class MTurk {
         'WorkerId': workerId,
       },
     );
-
-    return CreateWorkerBlockResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DeleteHIT</code> operation is used to delete HIT that is no
@@ -1045,7 +1026,7 @@ class MTurk {
   /// Parameter [hITId] :
   /// The ID of the HIT to be deleted.
   Future<void> deleteHIT({
-    @_s.required String hITId,
+    required String hITId,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -1065,7 +1046,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.DeleteHIT'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1075,8 +1056,6 @@ class MTurk {
         'HITId': hITId,
       },
     );
-
-    return DeleteHITResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DeleteQualificationType</code> deletes a Qualification type and
@@ -1100,7 +1079,7 @@ class MTurk {
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType to dispose.
   Future<void> deleteQualificationType({
-    @_s.required String qualificationTypeId,
+    required String qualificationTypeId,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -1120,7 +1099,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.DeleteQualificationType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1130,8 +1109,6 @@ class MTurk {
         'QualificationTypeId': qualificationTypeId,
       },
     );
-
-    return DeleteQualificationTypeResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DeleteWorkerBlock</code> operation allows you to reinstate a
@@ -1151,8 +1128,8 @@ class MTurk {
   /// A message that explains the reason for unblocking the Worker. The Worker
   /// does not see this message.
   Future<void> deleteWorkerBlock({
-    @_s.required String workerId,
-    String reason,
+    required String workerId,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(workerId, 'workerId');
     _s.validateStringLength(
@@ -1172,7 +1149,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.DeleteWorkerBlock'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1183,8 +1160,6 @@ class MTurk {
         if (reason != null) 'Reason': reason,
       },
     );
-
-    return DeleteWorkerBlockResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DisassociateQualificationFromWorker</code> revokes a previously
@@ -1206,9 +1181,9 @@ class MTurk {
   /// A text message that explains why the Qualification was revoked. The user
   /// who had the Qualification sees this message.
   Future<void> disassociateQualificationFromWorker({
-    @_s.required String qualificationTypeId,
-    @_s.required String workerId,
-    String reason,
+    required String qualificationTypeId,
+    required String workerId,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -1243,7 +1218,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.DisassociateQualificationFromWorker'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1255,9 +1230,6 @@ class MTurk {
         if (reason != null) 'Reason': reason,
       },
     );
-
-    return DisassociateQualificationFromWorkerResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// The <code>GetAccountBalance</code> operation retrieves the amount of money
@@ -1290,7 +1262,7 @@ class MTurk {
   /// Parameter [assignmentId] :
   /// The ID of the Assignment to be retrieved.
   Future<GetAssignmentResponse> getAssignment({
-    @_s.required String assignmentId,
+    required String assignmentId,
   }) async {
     ArgumentError.checkNotNull(assignmentId, 'assignmentId');
     _s.validateStringLength(
@@ -1347,8 +1319,8 @@ class MTurk {
   /// The identifier of the question with a FileUploadAnswer, as specified in
   /// the QuestionForm of the HIT.
   Future<GetFileUploadURLResponse> getFileUploadURL({
-    @_s.required String assignmentId,
-    @_s.required String questionIdentifier,
+    required String assignmentId,
+    required String questionIdentifier,
   }) async {
     ArgumentError.checkNotNull(assignmentId, 'assignmentId');
     _s.validateStringLength(
@@ -1393,7 +1365,7 @@ class MTurk {
   /// Parameter [hITId] :
   /// The ID of the HIT to be retrieved.
   Future<GetHITResponse> getHIT({
-    @_s.required String hITId,
+    required String hITId,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -1446,8 +1418,8 @@ class MTurk {
   /// Parameter [workerId] :
   /// The ID of the Worker whose Qualification is being updated.
   Future<GetQualificationScoreResponse> getQualificationScore({
-    @_s.required String qualificationTypeId,
-    @_s.required String workerId,
+    required String qualificationTypeId,
+    required String workerId,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -1505,7 +1477,7 @@ class MTurk {
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType.
   Future<GetQualificationTypeResponse> getQualificationType({
-    @_s.required String qualificationTypeId,
+    required String qualificationTypeId,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -1574,10 +1546,10 @@ class MTurk {
   /// Parameter [nextToken] :
   /// Pagination token
   Future<ListAssignmentsForHITResponse> listAssignmentsForHIT({
-    @_s.required String hITId,
-    List<AssignmentStatus> assignmentStatuses,
-    int maxResults,
-    String nextToken,
+    required String hITId,
+    List<AssignmentStatus>? assignmentStatuses,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -1619,7 +1591,7 @@ class MTurk {
         'HITId': hITId,
         if (assignmentStatuses != null)
           'AssignmentStatuses':
-              assignmentStatuses.map((e) => e?.toValue() ?? '').toList(),
+              assignmentStatuses.map((e) => e.toValue()).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1648,10 +1620,10 @@ class MTurk {
   /// Parameter [nextToken] :
   /// Pagination token
   Future<ListBonusPaymentsResponse> listBonusPayments({
-    String assignmentId,
-    String hITId,
-    int maxResults,
-    String nextToken,
+    String? assignmentId,
+    String? hITId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'assignmentId',
@@ -1718,8 +1690,8 @@ class MTurk {
   /// Parameter [nextToken] :
   /// Pagination token
   Future<ListHITsResponse> listHITs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1770,9 +1742,9 @@ class MTurk {
   /// Parameter [nextToken] :
   /// Pagination Token
   Future<ListHITsForQualificationTypeResponse> listHITsForQualificationType({
-    @_s.required String qualificationTypeId,
-    int maxResults,
-    String nextToken,
+    required String qualificationTypeId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -1835,9 +1807,9 @@ class MTurk {
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType.
   Future<ListQualificationRequestsResponse> listQualificationRequests({
-    int maxResults,
-    String nextToken,
-    String qualificationTypeId,
+    int? maxResults,
+    String? nextToken,
+    String? qualificationTypeId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1908,11 +1880,11 @@ class MTurk {
   /// A text query against all of the searchable attributes of Qualification
   /// types.
   Future<ListQualificationTypesResponse> listQualificationTypes({
-    @_s.required bool mustBeRequestable,
-    int maxResults,
-    bool mustBeOwnedByCaller,
-    String nextToken,
-    String query,
+    required bool mustBeRequestable,
+    int? maxResults,
+    bool? mustBeOwnedByCaller,
+    String? nextToken,
+    String? query,
   }) async {
     ArgumentError.checkNotNull(mustBeRequestable, 'mustBeRequestable');
     _s.validateNumRange(
@@ -1982,12 +1954,12 @@ class MTurk {
   /// Specify if the operation should retrieve a list of the results computed by
   /// the Review Policies.
   Future<ListReviewPolicyResultsForHITResponse> listReviewPolicyResultsForHIT({
-    @_s.required String hITId,
-    int maxResults,
-    String nextToken,
-    List<ReviewPolicyLevel> policyLevels,
-    bool retrieveActions,
-    bool retrieveResults,
+    required String hITId,
+    int? maxResults,
+    String? nextToken,
+    List<ReviewPolicyLevel>? policyLevels,
+    bool? retrieveActions,
+    bool? retrieveResults,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -2031,7 +2003,7 @@ class MTurk {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (policyLevels != null)
-          'PolicyLevels': policyLevels.map((e) => e?.toValue() ?? '').toList(),
+          'PolicyLevels': policyLevels.map((e) => e.toValue()).toList(),
         if (retrieveActions != null) 'RetrieveActions': retrieveActions,
         if (retrieveResults != null) 'RetrieveResults': retrieveResults,
       },
@@ -2061,10 +2033,10 @@ class MTurk {
   /// Can be either <code>Reviewable</code> or <code>Reviewing</code>.
   /// Reviewable is the default value.
   Future<ListReviewableHITsResponse> listReviewableHITs({
-    String hITTypeId,
-    int maxResults,
-    String nextToken,
-    ReviewableHITStatus status,
+    String? hITTypeId,
+    int? maxResults,
+    String? nextToken,
+    ReviewableHITStatus? status,
   }) async {
     _s.validateStringLength(
       'hITTypeId',
@@ -2119,8 +2091,8 @@ class MTurk {
   /// Parameter [nextToken] :
   /// Pagination token
   Future<ListWorkerBlocksResponse> listWorkerBlocks({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2173,10 +2145,10 @@ class MTurk {
   /// Revoked</code>.
   Future<ListWorkersWithQualificationTypeResponse>
       listWorkersWithQualificationType({
-    @_s.required String qualificationTypeId,
-    int maxResults,
-    String nextToken,
-    QualificationStatus status,
+    required String qualificationTypeId,
+    int? maxResults,
+    String? nextToken,
+    QualificationStatus? status,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -2247,9 +2219,9 @@ class MTurk {
   /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers
   /// at a time.
   Future<NotifyWorkersResponse> notifyWorkers({
-    @_s.required String messageText,
-    @_s.required String subject,
-    @_s.required List<String> workerIds,
+    required String messageText,
+    required String subject,
+    required List<String> workerIds,
   }) async {
     ArgumentError.checkNotNull(messageText, 'messageText');
     ArgumentError.checkNotNull(subject, 'subject');
@@ -2297,8 +2269,8 @@ class MTurk {
   /// A message for the Worker, which the Worker can see in the Status section
   /// of the web site.
   Future<void> rejectAssignment({
-    @_s.required String assignmentId,
-    @_s.required String requesterFeedback,
+    required String assignmentId,
+    required String requesterFeedback,
   }) async {
     ArgumentError.checkNotNull(assignmentId, 'assignmentId');
     _s.validateStringLength(
@@ -2319,7 +2291,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.RejectAssignment'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2330,8 +2302,6 @@ class MTurk {
         'RequesterFeedback': requesterFeedback,
       },
     );
-
-    return RejectAssignmentResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>RejectQualificationRequest</code> operation rejects a user's
@@ -2351,8 +2321,8 @@ class MTurk {
   /// A text message explaining why the request was rejected, to be shown to the
   /// Worker who made the request.
   Future<void> rejectQualificationRequest({
-    @_s.required String qualificationRequestId,
-    String reason,
+    required String qualificationRequestId,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(
         qualificationRequestId, 'qualificationRequestId');
@@ -2361,7 +2331,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.RejectQualificationRequest'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2372,8 +2342,6 @@ class MTurk {
         if (reason != null) 'Reason': reason,
       },
     );
-
-    return RejectQualificationRequestResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>SendBonus</code> operation issues a payment of money from your
@@ -2412,11 +2380,11 @@ class MTurk {
   /// call using the same UniqueRequestToken, subsequent calls will return an
   /// error with a message containing the request ID.
   Future<void> sendBonus({
-    @_s.required String assignmentId,
-    @_s.required String bonusAmount,
-    @_s.required String reason,
-    @_s.required String workerId,
-    String uniqueRequestToken,
+    required String assignmentId,
+    required String bonusAmount,
+    required String reason,
+    required String workerId,
+    String? uniqueRequestToken,
   }) async {
     ArgumentError.checkNotNull(assignmentId, 'assignmentId');
     _s.validateStringLength(
@@ -2464,7 +2432,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.SendBonus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2479,8 +2447,6 @@ class MTurk {
           'UniqueRequestToken': uniqueRequestToken,
       },
     );
-
-    return SendBonusResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>SendTestEventNotification</code> operation causes Amazon
@@ -2504,8 +2470,8 @@ class MTurk {
   /// does not include the event type. The notification specification does not
   /// filter out the test event.
   Future<void> sendTestEventNotification({
-    @_s.required NotificationSpecification notification,
-    @_s.required EventType testEventType,
+    required NotificationSpecification notification,
+    required EventType testEventType,
   }) async {
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(testEventType, 'testEventType');
@@ -2513,7 +2479,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.SendTestEventNotification'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2521,11 +2487,9 @@ class MTurk {
       headers: headers,
       payload: {
         'Notification': notification,
-        'TestEventType': testEventType?.toValue() ?? '',
+        'TestEventType': testEventType.toValue(),
       },
     );
-
-    return SendTestEventNotificationResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateExpirationForHIT</code> operation allows you update the
@@ -2541,8 +2505,8 @@ class MTurk {
   /// Parameter [hITId] :
   /// The HIT to update.
   Future<void> updateExpirationForHIT({
-    @_s.required DateTime expireAt,
-    @_s.required String hITId,
+    required DateTime expireAt,
+    required String hITId,
   }) async {
     ArgumentError.checkNotNull(expireAt, 'expireAt');
     ArgumentError.checkNotNull(hITId, 'hITId');
@@ -2563,7 +2527,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.UpdateExpirationForHIT'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2574,8 +2538,6 @@ class MTurk {
         'HITId': hITId,
       },
     );
-
-    return UpdateExpirationForHITResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateHITReviewStatus</code> operation updates the status of a
@@ -2602,8 +2564,8 @@ class MTurk {
   /// </li>
   /// </ul>
   Future<void> updateHITReviewStatus({
-    @_s.required String hITId,
-    bool revert,
+    required String hITId,
+    bool? revert,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -2623,7 +2585,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.UpdateHITReviewStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2634,8 +2596,6 @@ class MTurk {
         if (revert != null) 'Revert': revert,
       },
     );
-
-    return UpdateHITReviewStatusResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateHITTypeOfHIT</code> operation allows you to change the
@@ -2653,8 +2613,8 @@ class MTurk {
   /// Parameter [hITTypeId] :
   /// The ID of the new HIT type.
   Future<void> updateHITTypeOfHIT({
-    @_s.required String hITId,
-    @_s.required String hITTypeId,
+    required String hITId,
+    required String hITTypeId,
   }) async {
     ArgumentError.checkNotNull(hITId, 'hITId');
     _s.validateStringLength(
@@ -2688,7 +2648,7 @@ class MTurk {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MTurkRequesterServiceV20170117.UpdateHITTypeOfHIT'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2699,8 +2659,6 @@ class MTurk {
         'HITTypeId': hITTypeId,
       },
     );
-
-    return UpdateHITTypeOfHITResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateNotificationSettings</code> operation creates, updates,
@@ -2730,9 +2688,9 @@ class MTurk {
   /// Parameter [notification] :
   /// The notification specification for the HIT type.
   Future<void> updateNotificationSettings({
-    @_s.required String hITTypeId,
-    bool active,
-    NotificationSpecification notification,
+    required String hITTypeId,
+    bool? active,
+    NotificationSpecification? notification,
   }) async {
     ArgumentError.checkNotNull(hITTypeId, 'hITTypeId');
     _s.validateStringLength(
@@ -2753,7 +2711,7 @@ class MTurk {
       'X-Amz-Target':
           'MTurkRequesterServiceV20170117.UpdateNotificationSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2765,8 +2723,6 @@ class MTurk {
         if (notification != null) 'Notification': notification,
       },
     );
-
-    return UpdateNotificationSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>UpdateQualificationType</code> operation modifies the attributes
@@ -2856,15 +2812,15 @@ class MTurk {
   /// The number of seconds the Worker has to complete the Qualification test,
   /// starting from the time the Worker requests the Qualification.
   Future<UpdateQualificationTypeResponse> updateQualificationType({
-    @_s.required String qualificationTypeId,
-    String answerKey,
-    bool autoGranted,
-    int autoGrantedValue,
-    String description,
-    QualificationTypeStatus qualificationTypeStatus,
-    int retryDelayInSeconds,
-    String test,
-    int testDurationInSeconds,
+    required String qualificationTypeId,
+    String? answerKey,
+    bool? autoGranted,
+    int? autoGrantedValue,
+    String? description,
+    QualificationTypeStatus? qualificationTypeStatus,
+    int? retryDelayInSeconds,
+    String? test,
+    int? testDurationInSeconds,
   }) async {
     ArgumentError.checkNotNull(qualificationTypeId, 'qualificationTypeId');
     _s.validateStringLength(
@@ -2910,65 +2866,44 @@ class MTurk {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptQualificationRequestResponse {
   AcceptQualificationRequestResponse();
-  factory AcceptQualificationRequestResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AcceptQualificationRequestResponseFromJson(json);
+  factory AcceptQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
+    return AcceptQualificationRequestResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApproveAssignmentResponse {
   ApproveAssignmentResponse();
-  factory ApproveAssignmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$ApproveAssignmentResponseFromJson(json);
+  factory ApproveAssignmentResponse.fromJson(Map<String, dynamic> _) {
+    return ApproveAssignmentResponse();
+  }
 }
 
 /// The Assignment data structure represents a single assignment of a HIT to a
 /// Worker. The assignment tracks the Worker's efforts to complete the HIT, and
 /// contains the results for later retrieval.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Assignment {
   /// The date and time the Worker accepted the assignment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AcceptTime')
-  final DateTime acceptTime;
+  final DateTime? acceptTime;
 
   /// The Worker's answers submitted for the HIT contained in a
   /// QuestionFormAnswers document, if the Worker provides an answer. If the
   /// Worker does not provide any answers, Answer may contain a
   /// QuestionFormAnswers document, or Answer may be empty.
-  @_s.JsonKey(name: 'Answer')
-  final String answer;
+  final String? answer;
 
   /// If the Worker has submitted results and the Requester has approved the
   /// results, ApprovalTime is the date and time the Requester approved the
   /// results. This value is omitted from the assignment if the Requester has not
   /// yet approved the results.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ApprovalTime')
-  final DateTime approvalTime;
+  final DateTime? approvalTime;
 
   /// A unique identifier for the assignment.
-  @_s.JsonKey(name: 'AssignmentId')
-  final String assignmentId;
+  final String? assignmentId;
 
   /// The status of the assignment.
-  @_s.JsonKey(name: 'AssignmentStatus')
-  final AssignmentStatus assignmentStatus;
+  final AssignmentStatus? assignmentStatus;
 
   /// If results have been submitted, AutoApprovalTime is the date and time the
   /// results of the assignment results are considered Approved automatically if
@@ -2976,44 +2911,33 @@ class Assignment {
   /// This value is derived from the auto-approval delay specified by the
   /// Requester in the HIT. This value is omitted from the assignment if the
   /// Worker has not yet submitted results.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AutoApprovalTime')
-  final DateTime autoApprovalTime;
+  final DateTime? autoApprovalTime;
 
   /// The date and time of the deadline for the assignment. This value is derived
   /// from the deadline specification for the HIT and the date and time the Worker
   /// accepted the HIT.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Deadline')
-  final DateTime deadline;
+  final DateTime? deadline;
 
   /// The ID of the HIT.
-  @_s.JsonKey(name: 'HITId')
-  final String hITId;
+  final String? hITId;
 
   /// If the Worker has submitted results and the Requester has rejected the
   /// results, RejectionTime is the date and time the Requester rejected the
   /// results.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RejectionTime')
-  final DateTime rejectionTime;
+  final DateTime? rejectionTime;
 
   /// The feedback string included with the call to the ApproveAssignment
   /// operation or the RejectAssignment operation, if the Requester approved or
   /// rejected the assignment and specified feedback.
-  @_s.JsonKey(name: 'RequesterFeedback')
-  final String requesterFeedback;
+  final String? requesterFeedback;
 
   /// If the Worker has submitted results, SubmitTime is the date and time the
   /// assignment was submitted. This value is omitted from the assignment if the
   /// Worker has not yet submitted results.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// The ID of the Worker who accepted the HIT.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   Assignment({
     this.acceptTime,
@@ -3029,16 +2953,28 @@ class Assignment {
     this.submitTime,
     this.workerId,
   });
-  factory Assignment.fromJson(Map<String, dynamic> json) =>
-      _$AssignmentFromJson(json);
+  factory Assignment.fromJson(Map<String, dynamic> json) {
+    return Assignment(
+      acceptTime: timeStampFromJson(json['AcceptTime']),
+      answer: json['Answer'] as String?,
+      approvalTime: timeStampFromJson(json['ApprovalTime']),
+      assignmentId: json['AssignmentId'] as String?,
+      assignmentStatus:
+          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
+      deadline: timeStampFromJson(json['Deadline']),
+      hITId: json['HITId'] as String?,
+      rejectionTime: timeStampFromJson(json['RejectionTime']),
+      requesterFeedback: json['RequesterFeedback'] as String?,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
 enum AssignmentStatus {
-  @_s.JsonValue('Submitted')
   submitted,
-  @_s.JsonValue('Approved')
   approved,
-  @_s.JsonValue('Rejected')
   rejected,
 }
 
@@ -3052,47 +2988,45 @@ extension on AssignmentStatus {
       case AssignmentStatus.rejected:
         return 'Rejected';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  AssignmentStatus toAssignmentStatus() {
+    switch (this) {
+      case 'Submitted':
+        return AssignmentStatus.submitted;
+      case 'Approved':
+        return AssignmentStatus.approved;
+      case 'Rejected':
+        return AssignmentStatus.rejected;
+    }
+    throw Exception('$this is not known in enum AssignmentStatus');
+  }
+}
+
 class AssociateQualificationWithWorkerResponse {
   AssociateQualificationWithWorkerResponse();
   factory AssociateQualificationWithWorkerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateQualificationWithWorkerResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateQualificationWithWorkerResponse();
+  }
 }
 
 /// An object representing a Bonus payment paid to a Worker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BonusPayment {
   /// The ID of the assignment associated with this bonus payment.
-  @_s.JsonKey(name: 'AssignmentId')
-  final String assignmentId;
-  @_s.JsonKey(name: 'BonusAmount')
-  final String bonusAmount;
+  final String? assignmentId;
+  final String? bonusAmount;
 
   /// The date and time of when the bonus was granted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'GrantTime')
-  final DateTime grantTime;
+  final DateTime? grantTime;
 
   /// The Reason text given when the bonus was granted, if any.
-  @_s.JsonKey(name: 'Reason')
-  final String reason;
+  final String? reason;
 
   /// The ID of the Worker to whom the bonus was paid.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   BonusPayment({
     this.assignmentId,
@@ -3101,198 +3035,209 @@ class BonusPayment {
     this.reason,
     this.workerId,
   });
-  factory BonusPayment.fromJson(Map<String, dynamic> json) =>
-      _$BonusPaymentFromJson(json);
+  factory BonusPayment.fromJson(Map<String, dynamic> json) {
+    return BonusPayment(
+      assignmentId: json['AssignmentId'] as String?,
+      bonusAmount: json['BonusAmount'] as String?,
+      grantTime: timeStampFromJson(json['GrantTime']),
+      reason: json['Reason'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
 enum Comparator {
-  @_s.JsonValue('LessThan')
   lessThan,
-  @_s.JsonValue('LessThanOrEqualTo')
   lessThanOrEqualTo,
-  @_s.JsonValue('GreaterThan')
   greaterThan,
-  @_s.JsonValue('GreaterThanOrEqualTo')
   greaterThanOrEqualTo,
-  @_s.JsonValue('EqualTo')
   equalTo,
-  @_s.JsonValue('NotEqualTo')
   notEqualTo,
-  @_s.JsonValue('Exists')
   exists,
-  @_s.JsonValue('DoesNotExist')
   doesNotExist,
-  @_s.JsonValue('In')
   $in,
-  @_s.JsonValue('NotIn')
   notIn,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Comparator {
+  String toValue() {
+    switch (this) {
+      case Comparator.lessThan:
+        return 'LessThan';
+      case Comparator.lessThanOrEqualTo:
+        return 'LessThanOrEqualTo';
+      case Comparator.greaterThan:
+        return 'GreaterThan';
+      case Comparator.greaterThanOrEqualTo:
+        return 'GreaterThanOrEqualTo';
+      case Comparator.equalTo:
+        return 'EqualTo';
+      case Comparator.notEqualTo:
+        return 'NotEqualTo';
+      case Comparator.exists:
+        return 'Exists';
+      case Comparator.doesNotExist:
+        return 'DoesNotExist';
+      case Comparator.$in:
+        return 'In';
+      case Comparator.notIn:
+        return 'NotIn';
+    }
+  }
+}
+
+extension on String {
+  Comparator toComparator() {
+    switch (this) {
+      case 'LessThan':
+        return Comparator.lessThan;
+      case 'LessThanOrEqualTo':
+        return Comparator.lessThanOrEqualTo;
+      case 'GreaterThan':
+        return Comparator.greaterThan;
+      case 'GreaterThanOrEqualTo':
+        return Comparator.greaterThanOrEqualTo;
+      case 'EqualTo':
+        return Comparator.equalTo;
+      case 'NotEqualTo':
+        return Comparator.notEqualTo;
+      case 'Exists':
+        return Comparator.exists;
+      case 'DoesNotExist':
+        return Comparator.doesNotExist;
+      case 'In':
+        return Comparator.$in;
+      case 'NotIn':
+        return Comparator.notIn;
+    }
+    throw Exception('$this is not known in enum Comparator');
+  }
+}
+
 class CreateAdditionalAssignmentsForHITResponse {
   CreateAdditionalAssignmentsForHITResponse();
   factory CreateAdditionalAssignmentsForHITResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateAdditionalAssignmentsForHITResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return CreateAdditionalAssignmentsForHITResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHITResponse {
   /// Contains the newly created HIT data. For a description of the HIT data
   /// structure as it appears in responses, see the HIT Data Structure
   /// documentation.
-  @_s.JsonKey(name: 'HIT')
-  final HIT hit;
+  final HIT? hit;
 
   CreateHITResponse({
     this.hit,
   });
-  factory CreateHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHITResponseFromJson(json);
+  factory CreateHITResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHITResponse(
+      hit: json['HIT'] != null
+          ? HIT.fromJson(json['HIT'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHITTypeResponse {
   /// The ID of the newly registered HIT type.
-  @_s.JsonKey(name: 'HITTypeId')
-  final String hITTypeId;
+  final String? hITTypeId;
 
   CreateHITTypeResponse({
     this.hITTypeId,
   });
-  factory CreateHITTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHITTypeResponseFromJson(json);
+  factory CreateHITTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHITTypeResponse(
+      hITTypeId: json['HITTypeId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHITWithHITTypeResponse {
   /// Contains the newly created HIT data. For a description of the HIT data
   /// structure as it appears in responses, see the HIT Data Structure
   /// documentation.
-  @_s.JsonKey(name: 'HIT')
-  final HIT hit;
+  final HIT? hit;
 
   CreateHITWithHITTypeResponse({
     this.hit,
   });
-  factory CreateHITWithHITTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHITWithHITTypeResponseFromJson(json);
+  factory CreateHITWithHITTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHITWithHITTypeResponse(
+      hit: json['HIT'] != null
+          ? HIT.fromJson(json['HIT'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateQualificationTypeResponse {
   /// The created Qualification type, returned as a QualificationType data
   /// structure.
-  @_s.JsonKey(name: 'QualificationType')
-  final QualificationType qualificationType;
+  final QualificationType? qualificationType;
 
   CreateQualificationTypeResponse({
     this.qualificationType,
   });
-  factory CreateQualificationTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateQualificationTypeResponseFromJson(json);
+  factory CreateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateQualificationTypeResponse(
+      qualificationType: json['QualificationType'] != null
+          ? QualificationType.fromJson(
+              json['QualificationType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWorkerBlockResponse {
   CreateWorkerBlockResponse();
-  factory CreateWorkerBlockResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateWorkerBlockResponseFromJson(json);
+  factory CreateWorkerBlockResponse.fromJson(Map<String, dynamic> _) {
+    return CreateWorkerBlockResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteHITResponse {
   DeleteHITResponse();
-  factory DeleteHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHITResponseFromJson(json);
+  factory DeleteHITResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteHITResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteQualificationTypeResponse {
   DeleteQualificationTypeResponse();
-  factory DeleteQualificationTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteQualificationTypeResponseFromJson(json);
+  factory DeleteQualificationTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteQualificationTypeResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWorkerBlockResponse {
   DeleteWorkerBlockResponse();
-  factory DeleteWorkerBlockResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWorkerBlockResponseFromJson(json);
+  factory DeleteWorkerBlockResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkerBlockResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateQualificationFromWorkerResponse {
   DisassociateQualificationFromWorkerResponse();
   factory DisassociateQualificationFromWorkerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateQualificationFromWorkerResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateQualificationFromWorkerResponse();
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('AssignmentAccepted')
   assignmentAccepted,
-  @_s.JsonValue('AssignmentAbandoned')
   assignmentAbandoned,
-  @_s.JsonValue('AssignmentReturned')
   assignmentReturned,
-  @_s.JsonValue('AssignmentSubmitted')
   assignmentSubmitted,
-  @_s.JsonValue('AssignmentRejected')
   assignmentRejected,
-  @_s.JsonValue('AssignmentApproved')
   assignmentApproved,
-  @_s.JsonValue('HITCreated')
   hITCreated,
-  @_s.JsonValue('HITExpired')
   hITExpired,
-  @_s.JsonValue('HITReviewable')
   hITReviewable,
-  @_s.JsonValue('HITExtended')
   hITExtended,
-  @_s.JsonValue('HITDisposed')
   hITDisposed,
-  @_s.JsonValue('Ping')
   ping,
 }
 
@@ -3324,207 +3269,209 @@ extension on EventType {
       case EventType.ping:
         return 'Ping';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'AssignmentAccepted':
+        return EventType.assignmentAccepted;
+      case 'AssignmentAbandoned':
+        return EventType.assignmentAbandoned;
+      case 'AssignmentReturned':
+        return EventType.assignmentReturned;
+      case 'AssignmentSubmitted':
+        return EventType.assignmentSubmitted;
+      case 'AssignmentRejected':
+        return EventType.assignmentRejected;
+      case 'AssignmentApproved':
+        return EventType.assignmentApproved;
+      case 'HITCreated':
+        return EventType.hITCreated;
+      case 'HITExpired':
+        return EventType.hITExpired;
+      case 'HITReviewable':
+        return EventType.hITReviewable;
+      case 'HITExtended':
+        return EventType.hITExtended;
+      case 'HITDisposed':
+        return EventType.hITDisposed;
+      case 'Ping':
+        return EventType.ping;
+    }
+    throw Exception('$this is not known in enum EventType');
+  }
+}
+
 class GetAccountBalanceResponse {
-  @_s.JsonKey(name: 'AvailableBalance')
-  final String availableBalance;
-  @_s.JsonKey(name: 'OnHoldBalance')
-  final String onHoldBalance;
+  final String? availableBalance;
+  final String? onHoldBalance;
 
   GetAccountBalanceResponse({
     this.availableBalance,
     this.onHoldBalance,
   });
-  factory GetAccountBalanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountBalanceResponseFromJson(json);
+  factory GetAccountBalanceResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountBalanceResponse(
+      availableBalance: json['AvailableBalance'] as String?,
+      onHoldBalance: json['OnHoldBalance'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAssignmentResponse {
   /// The assignment. The response includes one Assignment element.
-  @_s.JsonKey(name: 'Assignment')
-  final Assignment assignment;
+  final Assignment? assignment;
 
   /// The HIT associated with this assignment. The response includes one HIT
   /// element.
-  @_s.JsonKey(name: 'HIT')
-  final HIT hit;
+  final HIT? hit;
 
   GetAssignmentResponse({
     this.assignment,
     this.hit,
   });
-  factory GetAssignmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAssignmentResponseFromJson(json);
+  factory GetAssignmentResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssignmentResponse(
+      assignment: json['Assignment'] != null
+          ? Assignment.fromJson(json['Assignment'] as Map<String, dynamic>)
+          : null,
+      hit: json['HIT'] != null
+          ? HIT.fromJson(json['HIT'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFileUploadURLResponse {
   /// A temporary URL for the file that the Worker uploaded for the answer.
-  @_s.JsonKey(name: 'FileUploadURL')
-  final String fileUploadURL;
+  final String? fileUploadURL;
 
   GetFileUploadURLResponse({
     this.fileUploadURL,
   });
-  factory GetFileUploadURLResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFileUploadURLResponseFromJson(json);
+  factory GetFileUploadURLResponse.fromJson(Map<String, dynamic> json) {
+    return GetFileUploadURLResponse(
+      fileUploadURL: json['FileUploadURL'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetHITResponse {
   /// Contains the requested HIT data.
-  @_s.JsonKey(name: 'HIT')
-  final HIT hit;
+  final HIT? hit;
 
   GetHITResponse({
     this.hit,
   });
-  factory GetHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetHITResponseFromJson(json);
+  factory GetHITResponse.fromJson(Map<String, dynamic> json) {
+    return GetHITResponse(
+      hit: json['HIT'] != null
+          ? HIT.fromJson(json['HIT'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQualificationScoreResponse {
   /// The Qualification data structure of the Qualification assigned to a user,
   /// including the Qualification type and the value (score).
-  @_s.JsonKey(name: 'Qualification')
-  final Qualification qualification;
+  final Qualification? qualification;
 
   GetQualificationScoreResponse({
     this.qualification,
   });
-  factory GetQualificationScoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetQualificationScoreResponseFromJson(json);
+  factory GetQualificationScoreResponse.fromJson(Map<String, dynamic> json) {
+    return GetQualificationScoreResponse(
+      qualification: json['Qualification'] != null
+          ? Qualification.fromJson(
+              json['Qualification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQualificationTypeResponse {
   /// The returned Qualification Type
-  @_s.JsonKey(name: 'QualificationType')
-  final QualificationType qualificationType;
+  final QualificationType? qualificationType;
 
   GetQualificationTypeResponse({
     this.qualificationType,
   });
-  factory GetQualificationTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetQualificationTypeResponseFromJson(json);
+  factory GetQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
+    return GetQualificationTypeResponse(
+      qualificationType: json['QualificationType'] != null
+          ? QualificationType.fromJson(
+              json['QualificationType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The HIT data structure represents a single HIT, including all the
 /// information necessary for a Worker to accept and complete the HIT.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HIT {
   /// The length of time, in seconds, that a Worker has to complete the HIT after
   /// accepting it.
-  @_s.JsonKey(name: 'AssignmentDurationInSeconds')
-  final int assignmentDurationInSeconds;
+  final int? assignmentDurationInSeconds;
 
   /// The amount of time, in seconds, after the Worker submits an assignment for
   /// the HIT that the results are automatically approved by Amazon Mechanical
   /// Turk. This is the amount of time the Requester has to reject an assignment
   /// submitted by a Worker before the assignment is auto-approved and the Worker
   /// is paid.
-  @_s.JsonKey(name: 'AutoApprovalDelayInSeconds')
-  final int autoApprovalDelayInSeconds;
+  final int? autoApprovalDelayInSeconds;
 
   /// The date and time the HIT was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A general description of the HIT.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time the HIT expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Expiration')
-  final DateTime expiration;
+  final DateTime? expiration;
 
   /// The ID of the HIT Group of this HIT.
-  @_s.JsonKey(name: 'HITGroupId')
-  final String hITGroupId;
+  final String? hITGroupId;
 
   /// A unique identifier for the HIT.
-  @_s.JsonKey(name: 'HITId')
-  final String hITId;
+  final String? hITId;
 
   /// The ID of the HIT Layout of this HIT.
-  @_s.JsonKey(name: 'HITLayoutId')
-  final String hITLayoutId;
+  final String? hITLayoutId;
 
   /// Indicates the review status of the HIT. Valid Values are NotReviewed |
   /// MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-  @_s.JsonKey(name: 'HITReviewStatus')
-  final HITReviewStatus hITReviewStatus;
+  final HITReviewStatus? hITReviewStatus;
 
   /// The status of the HIT and its assignments. Valid Values are Assignable |
   /// Unassignable | Reviewable | Reviewing | Disposed.
-  @_s.JsonKey(name: 'HITStatus')
-  final HITStatus hITStatus;
+  final HITStatus? hITStatus;
 
   /// The ID of the HIT type of this HIT
-  @_s.JsonKey(name: 'HITTypeId')
-  final String hITTypeId;
+  final String? hITTypeId;
 
   /// One or more words or phrases that describe the HIT, separated by commas.
   /// Search terms similar to the keywords of a HIT are more likely to have the
   /// HIT in the search results.
-  @_s.JsonKey(name: 'Keywords')
-  final String keywords;
+  final String? keywords;
 
   /// The number of times the HIT can be accepted and completed before the HIT
   /// becomes unavailable.
-  @_s.JsonKey(name: 'MaxAssignments')
-  final int maxAssignments;
+  final int? maxAssignments;
 
   /// The number of assignments for this HIT that are available for Workers to
   /// accept.
-  @_s.JsonKey(name: 'NumberOfAssignmentsAvailable')
-  final int numberOfAssignmentsAvailable;
+  final int? numberOfAssignmentsAvailable;
 
   /// The number of assignments for this HIT that have been approved or rejected.
-  @_s.JsonKey(name: 'NumberOfAssignmentsCompleted')
-  final int numberOfAssignmentsCompleted;
+  final int? numberOfAssignmentsCompleted;
 
   /// The number of assignments for this HIT that are being previewed or have been
   /// accepted by Workers, but have not yet been submitted, returned, or
   /// abandoned.
-  @_s.JsonKey(name: 'NumberOfAssignmentsPending')
-  final int numberOfAssignmentsPending;
+  final int? numberOfAssignmentsPending;
 
   /// Conditions that a Worker's Qualifications must meet in order to accept the
   /// HIT. A HIT can have between zero and ten Qualification requirements. All
@@ -3532,25 +3479,20 @@ class HIT {
   /// Additionally, other actions can be restricted using the
   /// <code>ActionsGuarded</code> field on each
   /// <code>QualificationRequirement</code> structure.
-  @_s.JsonKey(name: 'QualificationRequirements')
-  final List<QualificationRequirement> qualificationRequirements;
+  final List<QualificationRequirement>? qualificationRequirements;
 
   /// The data the Worker completing the HIT uses produce the results. This is
   /// either either a QuestionForm, HTMLQuestion or an ExternalQuestion data
   /// structure.
-  @_s.JsonKey(name: 'Question')
-  final String question;
+  final String? question;
 
   /// An arbitrary data field the Requester who created the HIT can use. This
   /// field is visible only to the creator of the HIT.
-  @_s.JsonKey(name: 'RequesterAnnotation')
-  final String requesterAnnotation;
-  @_s.JsonKey(name: 'Reward')
-  final String reward;
+  final String? requesterAnnotation;
+  final String? reward;
 
   /// The title of the HIT.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   HIT({
     this.assignmentDurationInSeconds,
@@ -3575,135 +3517,239 @@ class HIT {
     this.reward,
     this.title,
   });
-  factory HIT.fromJson(Map<String, dynamic> json) => _$HITFromJson(json);
+  factory HIT.fromJson(Map<String, dynamic> json) {
+    return HIT(
+      assignmentDurationInSeconds: json['AssignmentDurationInSeconds'] as int?,
+      autoApprovalDelayInSeconds: json['AutoApprovalDelayInSeconds'] as int?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      hITGroupId: json['HITGroupId'] as String?,
+      hITId: json['HITId'] as String?,
+      hITLayoutId: json['HITLayoutId'] as String?,
+      hITReviewStatus:
+          (json['HITReviewStatus'] as String?)?.toHITReviewStatus(),
+      hITStatus: (json['HITStatus'] as String?)?.toHITStatus(),
+      hITTypeId: json['HITTypeId'] as String?,
+      keywords: json['Keywords'] as String?,
+      maxAssignments: json['MaxAssignments'] as int?,
+      numberOfAssignmentsAvailable:
+          json['NumberOfAssignmentsAvailable'] as int?,
+      numberOfAssignmentsCompleted:
+          json['NumberOfAssignmentsCompleted'] as int?,
+      numberOfAssignmentsPending: json['NumberOfAssignmentsPending'] as int?,
+      qualificationRequirements: (json['QualificationRequirements'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              QualificationRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      question: json['Question'] as String?,
+      requesterAnnotation: json['RequesterAnnotation'] as String?,
+      reward: json['Reward'] as String?,
+      title: json['Title'] as String?,
+    );
+  }
 }
 
 enum HITAccessActions {
-  @_s.JsonValue('Accept')
   accept,
-  @_s.JsonValue('PreviewAndAccept')
   previewAndAccept,
-  @_s.JsonValue('DiscoverPreviewAndAccept')
   discoverPreviewAndAccept,
+}
+
+extension on HITAccessActions {
+  String toValue() {
+    switch (this) {
+      case HITAccessActions.accept:
+        return 'Accept';
+      case HITAccessActions.previewAndAccept:
+        return 'PreviewAndAccept';
+      case HITAccessActions.discoverPreviewAndAccept:
+        return 'DiscoverPreviewAndAccept';
+    }
+  }
+}
+
+extension on String {
+  HITAccessActions toHITAccessActions() {
+    switch (this) {
+      case 'Accept':
+        return HITAccessActions.accept;
+      case 'PreviewAndAccept':
+        return HITAccessActions.previewAndAccept;
+      case 'DiscoverPreviewAndAccept':
+        return HITAccessActions.discoverPreviewAndAccept;
+    }
+    throw Exception('$this is not known in enum HITAccessActions');
+  }
 }
 
 /// The HITLayoutParameter data structure defines parameter values used with a
 /// HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template
 /// used to provide Human Intelligence Task (HIT) question data for CreateHIT.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HITLayoutParameter {
   /// The name of the parameter in the HITLayout.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value substituted for the parameter referenced in the HITLayout.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   HITLayoutParameter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$HITLayoutParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 enum HITReviewStatus {
-  @_s.JsonValue('NotReviewed')
   notReviewed,
-  @_s.JsonValue('MarkedForReview')
   markedForReview,
-  @_s.JsonValue('ReviewedAppropriate')
   reviewedAppropriate,
-  @_s.JsonValue('ReviewedInappropriate')
   reviewedInappropriate,
 }
 
+extension on HITReviewStatus {
+  String toValue() {
+    switch (this) {
+      case HITReviewStatus.notReviewed:
+        return 'NotReviewed';
+      case HITReviewStatus.markedForReview:
+        return 'MarkedForReview';
+      case HITReviewStatus.reviewedAppropriate:
+        return 'ReviewedAppropriate';
+      case HITReviewStatus.reviewedInappropriate:
+        return 'ReviewedInappropriate';
+    }
+  }
+}
+
+extension on String {
+  HITReviewStatus toHITReviewStatus() {
+    switch (this) {
+      case 'NotReviewed':
+        return HITReviewStatus.notReviewed;
+      case 'MarkedForReview':
+        return HITReviewStatus.markedForReview;
+      case 'ReviewedAppropriate':
+        return HITReviewStatus.reviewedAppropriate;
+      case 'ReviewedInappropriate':
+        return HITReviewStatus.reviewedInappropriate;
+    }
+    throw Exception('$this is not known in enum HITReviewStatus');
+  }
+}
+
 enum HITStatus {
-  @_s.JsonValue('Assignable')
   assignable,
-  @_s.JsonValue('Unassignable')
   unassignable,
-  @_s.JsonValue('Reviewable')
   reviewable,
-  @_s.JsonValue('Reviewing')
   reviewing,
-  @_s.JsonValue('Disposed')
   disposed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on HITStatus {
+  String toValue() {
+    switch (this) {
+      case HITStatus.assignable:
+        return 'Assignable';
+      case HITStatus.unassignable:
+        return 'Unassignable';
+      case HITStatus.reviewable:
+        return 'Reviewable';
+      case HITStatus.reviewing:
+        return 'Reviewing';
+      case HITStatus.disposed:
+        return 'Disposed';
+    }
+  }
+}
+
+extension on String {
+  HITStatus toHITStatus() {
+    switch (this) {
+      case 'Assignable':
+        return HITStatus.assignable;
+      case 'Unassignable':
+        return HITStatus.unassignable;
+      case 'Reviewable':
+        return HITStatus.reviewable;
+      case 'Reviewing':
+        return HITStatus.reviewing;
+      case 'Disposed':
+        return HITStatus.disposed;
+    }
+    throw Exception('$this is not known in enum HITStatus');
+  }
+}
+
 class ListAssignmentsForHITResponse {
   /// The collection of Assignment data structures returned by this call.
-  @_s.JsonKey(name: 'Assignments')
-  final List<Assignment> assignments;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<Assignment>? assignments;
+  final String? nextToken;
 
   /// The number of assignments on the page in the filtered results list,
   /// equivalent to the number of assignments returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   ListAssignmentsForHITResponse({
     this.assignments,
     this.nextToken,
     this.numResults,
   });
-  factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssignmentsForHITResponseFromJson(json);
+  factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssignmentsForHITResponse(
+      assignments: (json['Assignments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Assignment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBonusPaymentsResponse {
   /// A successful request to the ListBonusPayments operation returns a list of
   /// BonusPayment objects.
-  @_s.JsonKey(name: 'BonusPayments')
-  final List<BonusPayment> bonusPayments;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<BonusPayment>? bonusPayments;
+  final String? nextToken;
 
   /// The number of bonus payments on this page in the filtered results list,
   /// equivalent to the number of bonus payments being returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   ListBonusPaymentsResponse({
     this.bonusPayments,
     this.nextToken,
     this.numResults,
   });
-  factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBonusPaymentsResponseFromJson(json);
+  factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBonusPaymentsResponse(
+      bonusPayments: (json['BonusPayments'] as List?)
+          ?.whereNotNull()
+          .map((e) => BonusPayment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHITsForQualificationTypeResponse {
   /// The list of HIT elements returned by the query.
-  @_s.JsonKey(name: 'HITs')
-  final List<HIT> hITs;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<HIT>? hITs;
+  final String? nextToken;
 
   /// The number of HITs on this page in the filtered results list, equivalent to
   /// the number of HITs being returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   ListHITsForQualificationTypeResponse({
     this.hITs,
@@ -3711,55 +3757,55 @@ class ListHITsForQualificationTypeResponse {
     this.numResults,
   });
   factory ListHITsForQualificationTypeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListHITsForQualificationTypeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListHITsForQualificationTypeResponse(
+      hITs: (json['HITs'] as List?)
+          ?.whereNotNull()
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHITsResponse {
   /// The list of HIT elements returned by the query.
-  @_s.JsonKey(name: 'HITs')
-  final List<HIT> hITs;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<HIT>? hITs;
+  final String? nextToken;
 
   /// The number of HITs on this page in the filtered results list, equivalent to
   /// the number of HITs being returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   ListHITsResponse({
     this.hITs,
     this.nextToken,
     this.numResults,
   });
-  factory ListHITsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListHITsResponseFromJson(json);
+  factory ListHITsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHITsResponse(
+      hITs: (json['HITs'] as List?)
+          ?.whereNotNull()
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListQualificationRequestsResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The number of Qualification requests on this page in the filtered results
   /// list, equivalent to the number of Qualification requests being returned by
   /// this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   /// The Qualification request. The response includes one QualificationRequest
   /// element for each Qualification request returned by the query.
-  @_s.JsonKey(name: 'QualificationRequests')
-  final List<QualificationRequest> qualificationRequests;
+  final List<QualificationRequest>? qualificationRequests;
 
   ListQualificationRequestsResponse({
     this.nextToken,
@@ -3767,66 +3813,63 @@ class ListQualificationRequestsResponse {
     this.qualificationRequests,
   });
   factory ListQualificationRequestsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListQualificationRequestsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListQualificationRequestsResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualificationRequests: (json['QualificationRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => QualificationRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListQualificationTypesResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The number of Qualification types on this page in the filtered results list,
   /// equivalent to the number of types this operation returns.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   /// The list of QualificationType elements returned by the query.
-  @_s.JsonKey(name: 'QualificationTypes')
-  final List<QualificationType> qualificationTypes;
+  final List<QualificationType>? qualificationTypes;
 
   ListQualificationTypesResponse({
     this.nextToken,
     this.numResults,
     this.qualificationTypes,
   });
-  factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListQualificationTypesResponseFromJson(json);
+  factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListQualificationTypesResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualificationTypes: (json['QualificationTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => QualificationType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReviewPolicyResultsForHITResponse {
   /// The name of the Assignment-level Review Policy. This contains only the
   /// PolicyName element.
-  @_s.JsonKey(name: 'AssignmentReviewPolicy')
-  final ReviewPolicy assignmentReviewPolicy;
+  final ReviewPolicy? assignmentReviewPolicy;
 
   /// Contains both ReviewResult and ReviewAction elements for an Assignment.
-  @_s.JsonKey(name: 'AssignmentReviewReport')
-  final ReviewReport assignmentReviewReport;
+  final ReviewReport? assignmentReviewReport;
 
   /// The HITId of the HIT for which results have been returned.
-  @_s.JsonKey(name: 'HITId')
-  final String hITId;
+  final String? hITId;
 
   /// The name of the HIT-level Review Policy. This contains only the PolicyName
   /// element.
-  @_s.JsonKey(name: 'HITReviewPolicy')
-  final ReviewPolicy hITReviewPolicy;
+  final ReviewPolicy? hITReviewPolicy;
 
   /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-  @_s.JsonKey(name: 'HITReviewReport')
-  final ReviewReport hITReviewReport;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final ReviewReport? hITReviewReport;
+  final String? nextToken;
 
   ListReviewPolicyResultsForHITResponse({
     this.assignmentReviewPolicy,
@@ -3837,81 +3880,93 @@ class ListReviewPolicyResultsForHITResponse {
     this.nextToken,
   });
   factory ListReviewPolicyResultsForHITResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListReviewPolicyResultsForHITResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListReviewPolicyResultsForHITResponse(
+      assignmentReviewPolicy: json['AssignmentReviewPolicy'] != null
+          ? ReviewPolicy.fromJson(
+              json['AssignmentReviewPolicy'] as Map<String, dynamic>)
+          : null,
+      assignmentReviewReport: json['AssignmentReviewReport'] != null
+          ? ReviewReport.fromJson(
+              json['AssignmentReviewReport'] as Map<String, dynamic>)
+          : null,
+      hITId: json['HITId'] as String?,
+      hITReviewPolicy: json['HITReviewPolicy'] != null
+          ? ReviewPolicy.fromJson(
+              json['HITReviewPolicy'] as Map<String, dynamic>)
+          : null,
+      hITReviewReport: json['HITReviewReport'] != null
+          ? ReviewReport.fromJson(
+              json['HITReviewReport'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReviewableHITsResponse {
   /// The list of HIT elements returned by the query.
-  @_s.JsonKey(name: 'HITs')
-  final List<HIT> hITs;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<HIT>? hITs;
+  final String? nextToken;
 
   /// The number of HITs on this page in the filtered results list, equivalent to
   /// the number of HITs being returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   ListReviewableHITsResponse({
     this.hITs,
     this.nextToken,
     this.numResults,
   });
-  factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListReviewableHITsResponseFromJson(json);
+  factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReviewableHITsResponse(
+      hITs: (json['HITs'] as List?)
+          ?.whereNotNull()
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWorkerBlocksResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The number of assignments on the page in the filtered results list,
   /// equivalent to the number of assignments returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   /// The list of WorkerBlocks, containing the collection of Worker IDs and
   /// reasons for blocking.
-  @_s.JsonKey(name: 'WorkerBlocks')
-  final List<WorkerBlock> workerBlocks;
+  final List<WorkerBlock>? workerBlocks;
 
   ListWorkerBlocksResponse({
     this.nextToken,
     this.numResults,
     this.workerBlocks,
   });
-  factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListWorkerBlocksResponseFromJson(json);
+  factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkerBlocksResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      workerBlocks: (json['WorkerBlocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkerBlock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWorkersWithQualificationTypeResponse {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The number of Qualifications on this page in the filtered results list,
   /// equivalent to the number of Qualifications being returned by this call.
-  @_s.JsonKey(name: 'NumResults')
-  final int numResults;
+  final int? numResults;
 
   /// The list of Qualification elements returned by this call.
-  @_s.JsonKey(name: 'Qualifications')
-  final List<Qualification> qualifications;
+  final List<Qualification>? qualifications;
 
   ListWorkersWithQualificationTypeResponse({
     this.nextToken,
@@ -3919,43 +3974,51 @@ class ListWorkersWithQualificationTypeResponse {
     this.qualifications,
   });
   factory ListWorkersWithQualificationTypeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListWorkersWithQualificationTypeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListWorkersWithQualificationTypeResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualifications: (json['Qualifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Qualification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The Locale data structure represents a geographical region or location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Locale {
   /// The country of the locale. Must be a valid ISO 3166 country code. For
   /// example, the code US refers to the United States of America.
-  @_s.JsonKey(name: 'Country')
   final String country;
 
   /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code.
   /// For example, the code WA refers to the state of Washington.
-  @_s.JsonKey(name: 'Subdivision')
-  final String subdivision;
+  final String? subdivision;
 
   Locale({
-    @_s.required this.country,
+    required this.country,
     this.subdivision,
   });
-  factory Locale.fromJson(Map<String, dynamic> json) => _$LocaleFromJson(json);
+  factory Locale.fromJson(Map<String, dynamic> json) {
+    return Locale(
+      country: json['Country'] as String,
+      subdivision: json['Subdivision'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LocaleToJson(this);
+  Map<String, dynamic> toJson() {
+    final country = this.country;
+    final subdivision = this.subdivision;
+    return {
+      'Country': country,
+      if (subdivision != null) 'Subdivision': subdivision,
+    };
+  }
 }
 
 /// The NotificationSpecification data structure describes a HIT event
 /// notification for a HIT type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationSpecification {
   /// The target for notification messages. The Destination’s format is determined
   /// by the specified Transport:
@@ -3971,7 +4034,6 @@ class NotificationSpecification {
   /// When Transport is SNS, the Destination is the ARN of your topic.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Destination')
   final String destination;
 
   /// The list of events that should cause notifications to be sent. Valid Values:
@@ -3979,184 +4041,245 @@ class NotificationSpecification {
   /// AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated |
   /// HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping
   /// event is only valid for the SendTestEventNotification operation.
-  @_s.JsonKey(name: 'EventTypes')
   final List<EventType> eventTypes;
 
   /// The method Amazon Mechanical Turk uses to send the notification. Valid
   /// Values: Email | SQS | SNS.
-  @_s.JsonKey(name: 'Transport')
   final NotificationTransport transport;
 
   /// The version of the Notification API to use. Valid value is 2006-05-05.
-  @_s.JsonKey(name: 'Version')
   final String version;
 
   NotificationSpecification({
-    @_s.required this.destination,
-    @_s.required this.eventTypes,
-    @_s.required this.transport,
-    @_s.required this.version,
+    required this.destination,
+    required this.eventTypes,
+    required this.transport,
+    required this.version,
   });
-  Map<String, dynamic> toJson() => _$NotificationSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final eventTypes = this.eventTypes;
+    final transport = this.transport;
+    final version = this.version;
+    return {
+      'Destination': destination,
+      'EventTypes': eventTypes.map((e) => e.toValue()).toList(),
+      'Transport': transport.toValue(),
+      'Version': version,
+    };
+  }
 }
 
 enum NotificationTransport {
-  @_s.JsonValue('Email')
   email,
-  @_s.JsonValue('SQS')
   sqs,
-  @_s.JsonValue('SNS')
   sns,
 }
 
+extension on NotificationTransport {
+  String toValue() {
+    switch (this) {
+      case NotificationTransport.email:
+        return 'Email';
+      case NotificationTransport.sqs:
+        return 'SQS';
+      case NotificationTransport.sns:
+        return 'SNS';
+    }
+  }
+}
+
+extension on String {
+  NotificationTransport toNotificationTransport() {
+    switch (this) {
+      case 'Email':
+        return NotificationTransport.email;
+      case 'SQS':
+        return NotificationTransport.sqs;
+      case 'SNS':
+        return NotificationTransport.sns;
+    }
+    throw Exception('$this is not known in enum NotificationTransport');
+  }
+}
+
 enum NotifyWorkersFailureCode {
-  @_s.JsonValue('SoftFailure')
   softFailure,
-  @_s.JsonValue('HardFailure')
   hardFailure,
+}
+
+extension on NotifyWorkersFailureCode {
+  String toValue() {
+    switch (this) {
+      case NotifyWorkersFailureCode.softFailure:
+        return 'SoftFailure';
+      case NotifyWorkersFailureCode.hardFailure:
+        return 'HardFailure';
+    }
+  }
+}
+
+extension on String {
+  NotifyWorkersFailureCode toNotifyWorkersFailureCode() {
+    switch (this) {
+      case 'SoftFailure':
+        return NotifyWorkersFailureCode.softFailure;
+      case 'HardFailure':
+        return NotifyWorkersFailureCode.hardFailure;
+    }
+    throw Exception('$this is not known in enum NotifyWorkersFailureCode');
+  }
 }
 
 /// When MTurk encounters an issue with notifying the Workers you specified, it
 /// returns back this object with failure details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyWorkersFailureStatus {
   /// Encoded value for the failure type.
-  @_s.JsonKey(name: 'NotifyWorkersFailureCode')
-  final NotifyWorkersFailureCode notifyWorkersFailureCode;
+  final NotifyWorkersFailureCode? notifyWorkersFailureCode;
 
   /// A message detailing the reason the Worker could not be notified.
-  @_s.JsonKey(name: 'NotifyWorkersFailureMessage')
-  final String notifyWorkersFailureMessage;
+  final String? notifyWorkersFailureMessage;
 
   /// The ID of the Worker.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   NotifyWorkersFailureStatus({
     this.notifyWorkersFailureCode,
     this.notifyWorkersFailureMessage,
     this.workerId,
   });
-  factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) =>
-      _$NotifyWorkersFailureStatusFromJson(json);
+  factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) {
+    return NotifyWorkersFailureStatus(
+      notifyWorkersFailureCode: (json['NotifyWorkersFailureCode'] as String?)
+          ?.toNotifyWorkersFailureCode(),
+      notifyWorkersFailureMessage:
+          json['NotifyWorkersFailureMessage'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyWorkersResponse {
   /// When MTurk sends notifications to the list of Workers, it returns back any
   /// failures it encounters in this list of NotifyWorkersFailureStatus objects.
-  @_s.JsonKey(name: 'NotifyWorkersFailureStatuses')
-  final List<NotifyWorkersFailureStatus> notifyWorkersFailureStatuses;
+  final List<NotifyWorkersFailureStatus>? notifyWorkersFailureStatuses;
 
   NotifyWorkersResponse({
     this.notifyWorkersFailureStatuses,
   });
-  factory NotifyWorkersResponse.fromJson(Map<String, dynamic> json) =>
-      _$NotifyWorkersResponseFromJson(json);
+  factory NotifyWorkersResponse.fromJson(Map<String, dynamic> json) {
+    return NotifyWorkersResponse(
+      notifyWorkersFailureStatuses: (json['NotifyWorkersFailureStatuses']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              NotifyWorkersFailureStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// This data structure is the data type for the AnswerKey parameter of the
 /// ScoreMyKnownAnswers/2011-09-01 Review Policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterMapEntry {
   /// The QuestionID from the HIT that is used to identify which question requires
   /// Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01
   /// Review Policy.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The list of answers to the question specified in the MapEntry Key element.
   /// The Worker must match all values in order for the answer to be scored
   /// correctly.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   ParameterMapEntry({
     this.key,
     this.values,
   });
-  factory ParameterMapEntry.fromJson(Map<String, dynamic> json) =>
-      _$ParameterMapEntryFromJson(json);
+  factory ParameterMapEntry.fromJson(Map<String, dynamic> json) {
+    return ParameterMapEntry(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ParameterMapEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Name of the parameter from the Review policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PolicyParameter {
   /// Name of the parameter from the list of Review Polices.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// List of ParameterMapEntry objects.
-  @_s.JsonKey(name: 'MapEntries')
-  final List<ParameterMapEntry> mapEntries;
+  final List<ParameterMapEntry>? mapEntries;
 
   /// The list of values of the Parameter
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PolicyParameter({
     this.key,
     this.mapEntries,
     this.values,
   });
-  factory PolicyParameter.fromJson(Map<String, dynamic> json) =>
-      _$PolicyParameterFromJson(json);
+  factory PolicyParameter.fromJson(Map<String, dynamic> json) {
+    return PolicyParameter(
+      key: json['Key'] as String?,
+      mapEntries: (json['MapEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterMapEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PolicyParameterToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final mapEntries = this.mapEntries;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (mapEntries != null) 'MapEntries': mapEntries,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The Qualification data structure represents a Qualification assigned to a
 /// user, including the Qualification type and the value (score).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Qualification {
   /// The date and time the Qualification was granted to the Worker. If the
   /// Worker's Qualification was revoked, and then re-granted based on a new
   /// Qualification request, GrantTime is the date and time of the last call to
   /// the AcceptQualificationRequest operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'GrantTime')
-  final DateTime grantTime;
+  final DateTime? grantTime;
 
   /// The value (score) of the Qualification, if the Qualification has an integer
   /// value.
-  @_s.JsonKey(name: 'IntegerValue')
-  final int integerValue;
-  @_s.JsonKey(name: 'LocaleValue')
-  final Locale localeValue;
+  final int? integerValue;
+  final Locale? localeValue;
 
   /// The ID of the Qualification type for the Qualification.
-  @_s.JsonKey(name: 'QualificationTypeId')
-  final String qualificationTypeId;
+  final String? qualificationTypeId;
 
   /// The status of the Qualification. Valid values are Granted | Revoked.
-  @_s.JsonKey(name: 'Status')
-  final QualificationStatus status;
+  final QualificationStatus? status;
 
   /// The ID of the Worker who possesses the Qualification.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   Qualification({
     this.grantTime,
@@ -4166,53 +4289,51 @@ class Qualification {
     this.status,
     this.workerId,
   });
-  factory Qualification.fromJson(Map<String, dynamic> json) =>
-      _$QualificationFromJson(json);
+  factory Qualification.fromJson(Map<String, dynamic> json) {
+    return Qualification(
+      grantTime: timeStampFromJson(json['GrantTime']),
+      integerValue: json['IntegerValue'] as int?,
+      localeValue: json['LocaleValue'] != null
+          ? Locale.fromJson(json['LocaleValue'] as Map<String, dynamic>)
+          : null,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      status: (json['Status'] as String?)?.toQualificationStatus(),
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
 /// The QualificationRequest data structure represents a request a Worker has
 /// made for a Qualification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QualificationRequest {
   /// The Worker's answers for the Qualification type's test contained in a
   /// QuestionFormAnswers document, if the type has a test and the Worker has
   /// submitted answers. If the Worker does not provide any answers, Answer may be
   /// empty.
-  @_s.JsonKey(name: 'Answer')
-  final String answer;
+  final String? answer;
 
   /// The ID of the Qualification request, a unique identifier generated when the
   /// request was submitted.
-  @_s.JsonKey(name: 'QualificationRequestId')
-  final String qualificationRequestId;
+  final String? qualificationRequestId;
 
   /// The ID of the Qualification type the Worker is requesting, as returned by
   /// the CreateQualificationType operation.
-  @_s.JsonKey(name: 'QualificationTypeId')
-  final String qualificationTypeId;
+  final String? qualificationTypeId;
 
   /// The date and time the Qualification request had a status of Submitted. This
   /// is either the time the Worker submitted answers for a Qualification test, or
   /// the time the Worker requested the Qualification if the Qualification type
   /// does not have a test.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// The contents of the Qualification test that was presented to the Worker, if
   /// the type has a test and the Worker has submitted answers. This value is
   /// identical to the QuestionForm associated with the Qualification type at the
   /// time the Worker requests the Qualification.
-  @_s.JsonKey(name: 'Test')
-  final String test;
+  final String? test;
 
   /// The ID of the Worker requesting the Qualification.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   QualificationRequest({
     this.answer,
@@ -4222,19 +4343,22 @@ class QualificationRequest {
     this.test,
     this.workerId,
   });
-  factory QualificationRequest.fromJson(Map<String, dynamic> json) =>
-      _$QualificationRequestFromJson(json);
+  factory QualificationRequest.fromJson(Map<String, dynamic> json) {
+    return QualificationRequest(
+      answer: json['Answer'] as String?,
+      qualificationRequestId: json['QualificationRequestId'] as String?,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      test: json['Test'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
 /// The QualificationRequirement data structure describes a Qualification that a
 /// Worker must have before the Worker is allowed to accept a HIT. A requirement
 /// may optionally state that a Worker must have the Qualification in order to
 /// preview the HIT, or see the HIT in search results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class QualificationRequirement {
   /// The kind of comparison to make against a Qualification's value. You can
   /// compare a Qualification's value to an IntegerValue to see if it is LessThan,
@@ -4244,11 +4368,9 @@ class QualificationRequirement {
   /// In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a
   /// Qualification requirement can also test if a Qualification Exists or
   /// DoesNotExist in the user's profile, regardless of its value.
-  @_s.JsonKey(name: 'Comparator')
   final Comparator comparator;
 
   /// The ID of the Qualification type for the requirement.
-  @_s.JsonKey(name: 'QualificationTypeId')
   final String qualificationTypeId;
 
   /// Setting this attribute prevents Workers whose Qualifications do not meet
@@ -4268,8 +4390,7 @@ class QualificationRequirement {
   /// Worker will be able to Discover, i.e. see the HIT in their search result,
   /// but will not be able to Preview or Accept the HIT. ActionsGuarded should not
   /// be used in combination with the <code>RequiredToPreview</code> field.
-  @_s.JsonKey(name: 'ActionsGuarded')
-  final HITAccessActions actionsGuarded;
+  final HITAccessActions? actionsGuarded;
 
   /// The integer value to compare against the Qualification's value. IntegerValue
   /// must not be present if Comparator is Exists or DoesNotExist. IntegerValue
@@ -4277,8 +4398,7 @@ class QualificationRequirement {
   /// be used with the Worker_Locale QualificationType ID. When performing a set
   /// comparison by using the In or the NotIn comparator, you can use up to 15
   /// IntegerValue elements in a QualificationRequirement data structure.
-  @_s.JsonKey(name: 'IntegerValues')
-  final List<int> integerValues;
+  final List<int>? integerValues;
 
   /// The locale value to compare against the Qualification's value. The local
   /// value must be a valid ISO 3166 country code or supports ISO 3166-2
@@ -4289,8 +4409,7 @@ class QualificationRequirement {
   /// performing a set comparison by using the In or the NotIn comparator, you can
   /// use up to 30 LocaleValue elements in a QualificationRequirement data
   /// structure.
-  @_s.JsonKey(name: 'LocaleValues')
-  final List<Locale> localeValues;
+  final List<Locale>? localeValues;
 
   /// DEPRECATED: Use the <code>ActionsGuarded</code> field instead. If
   /// RequiredToPreview is true, the question data for the HIT will not be shown
@@ -4303,27 +4422,53 @@ class QualificationRequirement {
   /// question data, but will not be allowed to accept and complete the HIT. The
   /// default is false. This should not be used in combination with the
   /// <code>ActionsGuarded</code> field.
-  @_s.JsonKey(name: 'RequiredToPreview')
-  final bool requiredToPreview;
+  final bool? requiredToPreview;
 
   QualificationRequirement({
-    @_s.required this.comparator,
-    @_s.required this.qualificationTypeId,
+    required this.comparator,
+    required this.qualificationTypeId,
     this.actionsGuarded,
     this.integerValues,
     this.localeValues,
     this.requiredToPreview,
   });
-  factory QualificationRequirement.fromJson(Map<String, dynamic> json) =>
-      _$QualificationRequirementFromJson(json);
+  factory QualificationRequirement.fromJson(Map<String, dynamic> json) {
+    return QualificationRequirement(
+      comparator: (json['Comparator'] as String).toComparator(),
+      qualificationTypeId: json['QualificationTypeId'] as String,
+      actionsGuarded: (json['ActionsGuarded'] as String?)?.toHITAccessActions(),
+      integerValues: (json['IntegerValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      localeValues: (json['LocaleValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => Locale.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requiredToPreview: json['RequiredToPreview'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$QualificationRequirementToJson(this);
+  Map<String, dynamic> toJson() {
+    final comparator = this.comparator;
+    final qualificationTypeId = this.qualificationTypeId;
+    final actionsGuarded = this.actionsGuarded;
+    final integerValues = this.integerValues;
+    final localeValues = this.localeValues;
+    final requiredToPreview = this.requiredToPreview;
+    return {
+      'Comparator': comparator.toValue(),
+      'QualificationTypeId': qualificationTypeId,
+      if (actionsGuarded != null) 'ActionsGuarded': actionsGuarded.toValue(),
+      if (integerValues != null) 'IntegerValues': integerValues,
+      if (localeValues != null) 'LocaleValues': localeValues,
+      if (requiredToPreview != null) 'RequiredToPreview': requiredToPreview,
+    };
+  }
 }
 
 enum QualificationStatus {
-  @_s.JsonValue('Granted')
   granted,
-  @_s.JsonValue('Revoked')
   revoked,
 }
 
@@ -4335,7 +4480,18 @@ extension on QualificationStatus {
       case QualificationStatus.revoked:
         return 'Revoked';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QualificationStatus toQualificationStatus() {
+    switch (this) {
+      case 'Granted':
+        return QualificationStatus.granted;
+      case 'Revoked':
+        return QualificationStatus.revoked;
+    }
+    throw Exception('$this is not known in enum QualificationStatus');
   }
 }
 
@@ -4344,65 +4500,49 @@ extension on QualificationStatus {
 /// HIT for the Worker to be able to accept the HIT. The type also describes how
 /// a Worker can obtain a Qualification of that type, such as through a
 /// Qualification test.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QualificationType {
   /// The answers to the Qualification test specified in the Test parameter.
-  @_s.JsonKey(name: 'AnswerKey')
-  final String answerKey;
+  final String? answerKey;
 
   /// Specifies that requests for the Qualification type are granted immediately,
   /// without prompting the Worker with a Qualification test. Valid values are
   /// True | False.
-  @_s.JsonKey(name: 'AutoGranted')
-  final bool autoGranted;
+  final bool? autoGranted;
 
   /// The Qualification integer value to use for automatically granted
   /// Qualifications, if AutoGranted is true. This is 1 by default.
-  @_s.JsonKey(name: 'AutoGrantedValue')
-  final int autoGrantedValue;
+  final int? autoGrantedValue;
 
   /// The date and time the Qualification type was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A long description for the Qualification type.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Specifies whether the Qualification type is one that a user can request
   /// through the Amazon Mechanical Turk web site, such as by taking a
   /// Qualification test. This value is False for Qualifications assigned
   /// automatically by the system. Valid values are True | False.
-  @_s.JsonKey(name: 'IsRequestable')
-  final bool isRequestable;
+  final bool? isRequestable;
 
   /// One or more words or phrases that describe theQualification type, separated
   /// by commas. The Keywords make the type easier to find using a search.
-  @_s.JsonKey(name: 'Keywords')
-  final String keywords;
+  final String? keywords;
 
   /// The name of the Qualification type. The type name is used to identify the
   /// type, and to find the type using a Qualification type search.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A unique identifier for the Qualification type. A Qualification type is
   /// given a Qualification type ID when you call the CreateQualificationType
   /// operation.
-  @_s.JsonKey(name: 'QualificationTypeId')
-  final String qualificationTypeId;
+  final String? qualificationTypeId;
 
   /// The status of the Qualification type. A Qualification type's status
   /// determines if users can apply to receive a Qualification of this type, and
   /// if HITs can be created with requirements based on this type. Valid values
   /// are Active | Inactive.
-  @_s.JsonKey(name: 'QualificationTypeStatus')
-  final QualificationTypeStatus qualificationTypeStatus;
+  final QualificationTypeStatus? qualificationTypeStatus;
 
   /// The amount of time, in seconds, Workers must wait after taking the
   /// Qualification test before they can take it again. Workers can take a
@@ -4410,22 +4550,19 @@ class QualificationType {
   /// from a previous attempt, or if the test offers a gradient score and they
   /// want a better score. If not specified, retries are disabled and Workers can
   /// request a Qualification only once.
-  @_s.JsonKey(name: 'RetryDelayInSeconds')
-  final int retryDelayInSeconds;
+  final int? retryDelayInSeconds;
 
   /// The questions for a Qualification test associated with this Qualification
   /// type that a user can take to obtain a Qualification of this type. This
   /// parameter must be specified if AnswerKey is present. A Qualification type
   /// cannot have both a specified Test parameter and an AutoGranted value of
   /// true.
-  @_s.JsonKey(name: 'Test')
-  final String test;
+  final String? test;
 
   /// The amount of time, in seconds, given to a Worker to complete the
   /// Qualification test, beginning from the time the Worker requests the
   /// Qualification.
-  @_s.JsonKey(name: 'TestDurationInSeconds')
-  final int testDurationInSeconds;
+  final int? testDurationInSeconds;
 
   QualificationType({
     this.answerKey,
@@ -4442,14 +4579,28 @@ class QualificationType {
     this.test,
     this.testDurationInSeconds,
   });
-  factory QualificationType.fromJson(Map<String, dynamic> json) =>
-      _$QualificationTypeFromJson(json);
+  factory QualificationType.fromJson(Map<String, dynamic> json) {
+    return QualificationType(
+      answerKey: json['AnswerKey'] as String?,
+      autoGranted: json['AutoGranted'] as bool?,
+      autoGrantedValue: json['AutoGrantedValue'] as int?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      isRequestable: json['IsRequestable'] as bool?,
+      keywords: json['Keywords'] as String?,
+      name: json['Name'] as String?,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      qualificationTypeStatus: (json['QualificationTypeStatus'] as String?)
+          ?.toQualificationTypeStatus(),
+      retryDelayInSeconds: json['RetryDelayInSeconds'] as int?,
+      test: json['Test'] as String?,
+      testDurationInSeconds: json['TestDurationInSeconds'] as int?,
+    );
+  }
 }
 
 enum QualificationTypeStatus {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inactive')
   inactive,
 }
 
@@ -4461,97 +4612,82 @@ extension on QualificationTypeStatus {
       case QualificationTypeStatus.inactive:
         return 'Inactive';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class RejectAssignmentResponse {
-  RejectAssignmentResponse();
-  factory RejectAssignmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$RejectAssignmentResponseFromJson(json);
+extension on String {
+  QualificationTypeStatus toQualificationTypeStatus() {
+    switch (this) {
+      case 'Active':
+        return QualificationTypeStatus.active;
+      case 'Inactive':
+        return QualificationTypeStatus.inactive;
+    }
+    throw Exception('$this is not known in enum QualificationTypeStatus');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class RejectAssignmentResponse {
+  RejectAssignmentResponse();
+  factory RejectAssignmentResponse.fromJson(Map<String, dynamic> _) {
+    return RejectAssignmentResponse();
+  }
+}
+
 class RejectQualificationRequestResponse {
   RejectQualificationRequestResponse();
-  factory RejectQualificationRequestResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RejectQualificationRequestResponseFromJson(json);
+  factory RejectQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
+    return RejectQualificationRequestResponse();
+  }
 }
 
 /// Your request is invalid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestError implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-  @_s.JsonKey(name: 'TurkErrorCode')
-  final String turkErrorCode;
+  final String? message;
+  final String? turkErrorCode;
 
   RequestError({
     this.message,
     this.turkErrorCode,
   });
-  factory RequestError.fromJson(Map<String, dynamic> json) =>
-      _$RequestErrorFromJson(json);
+  factory RequestError.fromJson(Map<String, dynamic> json) {
+    return RequestError(
+      message: json['Message'] as String?,
+      turkErrorCode: json['TurkErrorCode'] as String?,
+    );
+  }
 }
 
 /// Both the AssignmentReviewReport and the HITReviewReport elements contains
 /// the ReviewActionDetail data structure. This structure is returned multiple
 /// times for each action specified in the Review Policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReviewActionDetail {
   /// The unique identifier for the action.
-  @_s.JsonKey(name: 'ActionId')
-  final String actionId;
+  final String? actionId;
 
   /// The nature of the action itself. The Review Policy is responsible for
   /// examining the HIT and Assignments, emitting results, and deciding which
   /// other actions will be necessary.
-  @_s.JsonKey(name: 'ActionName')
-  final String actionName;
+  final String? actionName;
 
   /// The date when the action was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompleteTime')
-  final DateTime completeTime;
+  final DateTime? completeTime;
 
   /// Present only when the Results have a FAILED Status.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// A description of the outcome of the review.
-  @_s.JsonKey(name: 'Result')
-  final String result;
+  final String? result;
 
   /// The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or
   /// CANCELLED.
-  @_s.JsonKey(name: 'Status')
-  final ReviewActionStatus status;
+  final ReviewActionStatus? status;
 
   /// The specific HITId or AssignmentID targeted by the action.
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   /// The type of object in TargetId.
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   ReviewActionDetail({
     this.actionId,
@@ -4563,52 +4699,94 @@ class ReviewActionDetail {
     this.targetId,
     this.targetType,
   });
-  factory ReviewActionDetail.fromJson(Map<String, dynamic> json) =>
-      _$ReviewActionDetailFromJson(json);
+  factory ReviewActionDetail.fromJson(Map<String, dynamic> json) {
+    return ReviewActionDetail(
+      actionId: json['ActionId'] as String?,
+      actionName: json['ActionName'] as String?,
+      completeTime: timeStampFromJson(json['CompleteTime']),
+      errorCode: json['ErrorCode'] as String?,
+      result: json['Result'] as String?,
+      status: (json['Status'] as String?)?.toReviewActionStatus(),
+      targetId: json['TargetId'] as String?,
+      targetType: json['TargetType'] as String?,
+    );
+  }
 }
 
 enum ReviewActionStatus {
-  @_s.JsonValue('Intended')
   intended,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelled')
   cancelled,
+}
+
+extension on ReviewActionStatus {
+  String toValue() {
+    switch (this) {
+      case ReviewActionStatus.intended:
+        return 'Intended';
+      case ReviewActionStatus.succeeded:
+        return 'Succeeded';
+      case ReviewActionStatus.failed:
+        return 'Failed';
+      case ReviewActionStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+}
+
+extension on String {
+  ReviewActionStatus toReviewActionStatus() {
+    switch (this) {
+      case 'Intended':
+        return ReviewActionStatus.intended;
+      case 'Succeeded':
+        return ReviewActionStatus.succeeded;
+      case 'Failed':
+        return ReviewActionStatus.failed;
+      case 'Cancelled':
+        return ReviewActionStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum ReviewActionStatus');
+  }
 }
 
 /// HIT Review Policy data structures represent HIT review policies, which you
 /// specify when you create a HIT.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReviewPolicy {
   /// Name of a Review Policy: SimplePlurality/2011-09-01 or
   /// ScoreMyKnownAnswers/2011-09-01
-  @_s.JsonKey(name: 'PolicyName')
   final String policyName;
 
   /// Name of the parameter from the Review policy.
-  @_s.JsonKey(name: 'Parameters')
-  final List<PolicyParameter> parameters;
+  final List<PolicyParameter>? parameters;
 
   ReviewPolicy({
-    @_s.required this.policyName,
+    required this.policyName,
     this.parameters,
   });
-  factory ReviewPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ReviewPolicyFromJson(json);
+  factory ReviewPolicy.fromJson(Map<String, dynamic> json) {
+    return ReviewPolicy(
+      policyName: json['PolicyName'] as String,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ReviewPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final parameters = this.parameters;
+    return {
+      'PolicyName': policyName,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 enum ReviewPolicyLevel {
-  @_s.JsonValue('Assignment')
   assignment,
-  @_s.JsonValue('HIT')
   hit,
 }
 
@@ -4620,50 +4798,57 @@ extension on ReviewPolicyLevel {
       case ReviewPolicyLevel.hit:
         return 'HIT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReviewPolicyLevel toReviewPolicyLevel() {
+    switch (this) {
+      case 'Assignment':
+        return ReviewPolicyLevel.assignment;
+      case 'HIT':
+        return ReviewPolicyLevel.hit;
+    }
+    throw Exception('$this is not known in enum ReviewPolicyLevel');
   }
 }
 
 /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReviewReport {
   /// A list of ReviewAction objects for each action specified in the Review
   /// Policy.
-  @_s.JsonKey(name: 'ReviewActions')
-  final List<ReviewActionDetail> reviewActions;
+  final List<ReviewActionDetail>? reviewActions;
 
   /// A list of ReviewResults objects for each action specified in the Review
   /// Policy.
-  @_s.JsonKey(name: 'ReviewResults')
-  final List<ReviewResultDetail> reviewResults;
+  final List<ReviewResultDetail>? reviewResults;
 
   ReviewReport({
     this.reviewActions,
     this.reviewResults,
   });
-  factory ReviewReport.fromJson(Map<String, dynamic> json) =>
-      _$ReviewReportFromJson(json);
+  factory ReviewReport.fromJson(Map<String, dynamic> json) {
+    return ReviewReport(
+      reviewActions: (json['ReviewActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReviewActionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewResults: (json['ReviewResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReviewResultDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// This data structure is returned multiple times for each result specified in
 /// the Review Policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReviewResultDetail {
   /// A unique identifier of the Review action result.
-  @_s.JsonKey(name: 'ActionId')
-  final String actionId;
+  final String? actionId;
 
   /// Key identifies the particular piece of reviewed information.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// Specifies the QuestionId the result is describing. Depending on whether the
   /// TargetType is a HIT or Assignment this results could specify multiple
@@ -4671,23 +4856,19 @@ class ReviewResultDetail {
   /// describes results of the HIT, including the HIT agreement score. If
   /// ObjectType is Assignment and QuestionId is absent, then the result describes
   /// the Worker's performance on the HIT.
-  @_s.JsonKey(name: 'QuestionId')
-  final String questionId;
+  final String? questionId;
 
   /// The HITID or AssignmentId about which this result was taken. Note that
   /// HIT-level Review Policies will often emit results about both the HIT itself
   /// and its Assignments, while Assignment-level review policies generally only
   /// emit results about the Assignment itself.
-  @_s.JsonKey(name: 'SubjectId')
-  final String subjectId;
+  final String? subjectId;
 
   /// The type of the object from the SubjectId field.
-  @_s.JsonKey(name: 'SubjectType')
-  final String subjectType;
+  final String? subjectType;
 
   /// The values of Key provided by the review policies you have selected.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ReviewResultDetail({
     this.actionId,
@@ -4697,14 +4878,20 @@ class ReviewResultDetail {
     this.subjectType,
     this.value,
   });
-  factory ReviewResultDetail.fromJson(Map<String, dynamic> json) =>
-      _$ReviewResultDetailFromJson(json);
+  factory ReviewResultDetail.fromJson(Map<String, dynamic> json) {
+    return ReviewResultDetail(
+      actionId: json['ActionId'] as String?,
+      key: json['Key'] as String?,
+      questionId: json['QuestionId'] as String?,
+      subjectId: json['SubjectId'] as String?,
+      subjectType: json['SubjectType'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 }
 
 enum ReviewableHITStatus {
-  @_s.JsonValue('Reviewable')
   reviewable,
-  @_s.JsonValue('Reviewing')
   reviewing,
 }
 
@@ -4716,138 +4903,117 @@ extension on ReviewableHITStatus {
       case ReviewableHITStatus.reviewing:
         return 'Reviewing';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class SendBonusResponse {
-  SendBonusResponse();
-  factory SendBonusResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendBonusResponseFromJson(json);
+extension on String {
+  ReviewableHITStatus toReviewableHITStatus() {
+    switch (this) {
+      case 'Reviewable':
+        return ReviewableHITStatus.reviewable;
+      case 'Reviewing':
+        return ReviewableHITStatus.reviewing;
+    }
+    throw Exception('$this is not known in enum ReviewableHITStatus');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class SendBonusResponse {
+  SendBonusResponse();
+  factory SendBonusResponse.fromJson(Map<String, dynamic> _) {
+    return SendBonusResponse();
+  }
+}
+
 class SendTestEventNotificationResponse {
   SendTestEventNotificationResponse();
-  factory SendTestEventNotificationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SendTestEventNotificationResponseFromJson(json);
+  factory SendTestEventNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return SendTestEventNotificationResponse();
+  }
 }
 
 /// Amazon Mechanical Turk is temporarily unable to process your request. Try
 /// your call again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceFault implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-  @_s.JsonKey(name: 'TurkErrorCode')
-  final String turkErrorCode;
+  final String? message;
+  final String? turkErrorCode;
 
   ServiceFault({
     this.message,
     this.turkErrorCode,
   });
-  factory ServiceFault.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFaultFromJson(json);
+  factory ServiceFault.fromJson(Map<String, dynamic> json) {
+    return ServiceFault(
+      message: json['Message'] as String?,
+      turkErrorCode: json['TurkErrorCode'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateExpirationForHITResponse {
   UpdateExpirationForHITResponse();
-  factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateExpirationForHITResponseFromJson(json);
+  factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateExpirationForHITResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateHITReviewStatusResponse {
   UpdateHITReviewStatusResponse();
-  factory UpdateHITReviewStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateHITReviewStatusResponseFromJson(json);
+  factory UpdateHITReviewStatusResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateHITReviewStatusResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateHITTypeOfHITResponse {
   UpdateHITTypeOfHITResponse();
-  factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateHITTypeOfHITResponseFromJson(json);
+  factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateHITTypeOfHITResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNotificationSettingsResponse {
   UpdateNotificationSettingsResponse();
-  factory UpdateNotificationSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateNotificationSettingsResponseFromJson(json);
+  factory UpdateNotificationSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateNotificationSettingsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateQualificationTypeResponse {
   /// Contains a QualificationType data structure.
-  @_s.JsonKey(name: 'QualificationType')
-  final QualificationType qualificationType;
+  final QualificationType? qualificationType;
 
   UpdateQualificationTypeResponse({
     this.qualificationType,
   });
-  factory UpdateQualificationTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateQualificationTypeResponseFromJson(json);
+  factory UpdateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateQualificationTypeResponse(
+      qualificationType: json['QualificationType'] != null
+          ? QualificationType.fromJson(
+              json['QualificationType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The WorkerBlock data structure represents a Worker who has been blocked. It
 /// has two elements: the WorkerId and the Reason for the block.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkerBlock {
   /// A message explaining the reason the Worker was blocked.
-  @_s.JsonKey(name: 'Reason')
-  final String reason;
+  final String? reason;
 
   /// The ID of the Worker who accepted the HIT.
-  @_s.JsonKey(name: 'WorkerId')
-  final String workerId;
+  final String? workerId;
 
   WorkerBlock({
     this.reason,
     this.workerId,
   });
-  factory WorkerBlock.fromJson(Map<String, dynamic> json) =>
-      _$WorkerBlockFromJson(json);
+  factory WorkerBlock.fromJson(Map<String, dynamic> json) {
+    return WorkerBlock(
+      reason: json['Reason'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

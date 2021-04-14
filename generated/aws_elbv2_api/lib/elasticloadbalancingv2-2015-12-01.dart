@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'elasticloadbalancingv2-2015-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'elasticloadbalancingv2-2015-12-01.g.dart';
 
 /// A load balancer distributes incoming traffic across targets, such as your
 /// EC2 instances. This enables you to increase the availability of your
@@ -42,9 +34,9 @@ class ElasticLoadBalancingv2 {
   final Map<String, _s.Shape> shapes;
 
   ElasticLoadBalancingv2({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -80,8 +72,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
   Future<AddListenerCertificatesOutput> addListenerCertificates({
-    @_s.required List<Certificate> certificates,
-    @_s.required String listenerArn,
+    required List<Certificate> certificates,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(certificates, 'certificates');
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
@@ -120,8 +112,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [tags] :
   /// The tags.
   Future<void> addTags({
-    @_s.required List<String> resourceArns,
-    @_s.required List<Tag> tags,
+    required List<String> resourceArns,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -247,14 +239,14 @@ class ElasticLoadBalancingv2 {
   /// Parameter [tags] :
   /// The tags to assign to the listener.
   Future<CreateListenerOutput> createListener({
-    @_s.required List<Action> defaultActions,
-    @_s.required String loadBalancerArn,
-    List<String> alpnPolicy,
-    List<Certificate> certificates,
-    int port,
-    ProtocolEnum protocol,
-    String sslPolicy,
-    List<Tag> tags,
+    required List<Action> defaultActions,
+    required String loadBalancerArn,
+    List<String>? alpnPolicy,
+    List<Certificate>? certificates,
+    int? port,
+    ProtocolEnum? protocol,
+    String? sslPolicy,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(defaultActions, 'defaultActions');
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
@@ -414,15 +406,15 @@ class ElasticLoadBalancingv2 {
   /// Parameter [type] :
   /// The type of load balancer. The default is <code>application</code>.
   Future<CreateLoadBalancerOutput> createLoadBalancer({
-    @_s.required String name,
-    String customerOwnedIpv4Pool,
-    IpAddressType ipAddressType,
-    LoadBalancerSchemeEnum scheme,
-    List<String> securityGroups,
-    List<SubnetMapping> subnetMappings,
-    List<String> subnets,
-    List<Tag> tags,
-    LoadBalancerTypeEnum type,
+    required String name,
+    String? customerOwnedIpv4Pool,
+    IpAddressType? ipAddressType,
+    LoadBalancerSchemeEnum? scheme,
+    List<String>? securityGroups,
+    List<SubnetMapping>? subnetMappings,
+    List<String>? subnets,
+    List<Tag>? tags,
+    LoadBalancerTypeEnum? type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -504,11 +496,11 @@ class ElasticLoadBalancingv2 {
   /// Parameter [tags] :
   /// The tags to assign to the rule.
   Future<CreateRuleOutput> createRule({
-    @_s.required List<Action> actions,
-    @_s.required List<RuleCondition> conditions,
-    @_s.required String listenerArn,
-    @_s.required int priority,
-    List<Tag> tags,
+    required List<Action> actions,
+    required List<RuleCondition> conditions,
+    required String listenerArn,
+    required int priority,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(conditions, 'conditions');
@@ -693,22 +685,22 @@ class ElasticLoadBalancingv2 {
   /// Lambda function, this parameter does not apply. Otherwise, this parameter
   /// is required.
   Future<CreateTargetGroupOutput> createTargetGroup({
-    @_s.required String name,
-    bool healthCheckEnabled,
-    int healthCheckIntervalSeconds,
-    String healthCheckPath,
-    String healthCheckPort,
-    ProtocolEnum healthCheckProtocol,
-    int healthCheckTimeoutSeconds,
-    int healthyThresholdCount,
-    Matcher matcher,
-    int port,
-    ProtocolEnum protocol,
-    String protocolVersion,
-    List<Tag> tags,
-    TargetTypeEnum targetType,
-    int unhealthyThresholdCount,
-    String vpcId,
+    required String name,
+    bool? healthCheckEnabled,
+    int? healthCheckIntervalSeconds,
+    String? healthCheckPath,
+    String? healthCheckPort,
+    ProtocolEnum? healthCheckProtocol,
+    int? healthCheckTimeoutSeconds,
+    int? healthyThresholdCount,
+    Matcher? matcher,
+    int? port,
+    ProtocolEnum? protocol,
+    String? protocolVersion,
+    List<Tag>? tags,
+    TargetTypeEnum? targetType,
+    int? unhealthyThresholdCount,
+    String? vpcId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
@@ -793,7 +785,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
   Future<void> deleteListener({
-    @_s.required String listenerArn,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     final $request = <String, dynamic>{};
@@ -831,7 +823,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   Future<void> deleteLoadBalancer({
-    @_s.required String loadBalancerArn,
+    required String loadBalancerArn,
   }) async {
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
@@ -859,7 +851,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [ruleArn] :
   /// The Amazon Resource Name (ARN) of the rule.
   Future<void> deleteRule({
-    @_s.required String ruleArn,
+    required String ruleArn,
   }) async {
     ArgumentError.checkNotNull(ruleArn, 'ruleArn');
     final $request = <String, dynamic>{};
@@ -890,7 +882,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
   Future<void> deleteTargetGroup({
-    @_s.required String targetGroupArn,
+    required String targetGroupArn,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
@@ -923,8 +915,8 @@ class ElasticLoadBalancingv2 {
   /// target, you must specify both the target ID and the port when you
   /// deregister it.
   Future<void> deregisterTargets({
-    @_s.required String targetGroupArn,
-    @_s.required List<TargetDescription> targets,
+    required String targetGroupArn,
+    required List<TargetDescription> targets,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     ArgumentError.checkNotNull(targets, 'targets');
@@ -974,8 +966,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeAccountLimitsOutput> describeAccountLimits({
-    String marker,
-    int pageSize,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1025,9 +1017,9 @@ class ElasticLoadBalancingv2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeListenerCertificatesOutput> describeListenerCertificates({
-    @_s.required String listenerArn,
-    String marker,
-    int pageSize,
+    required String listenerArn,
+    String? marker,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateNumRange(
@@ -1076,10 +1068,10 @@ class ElasticLoadBalancingv2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeListenersOutput> describeListeners({
-    List<String> listenerArns,
-    String loadBalancerArn,
-    String marker,
-    int pageSize,
+    List<String>? listenerArns,
+    String? loadBalancerArn,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1134,7 +1126,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   Future<DescribeLoadBalancerAttributesOutput> describeLoadBalancerAttributes({
-    @_s.required String loadBalancerArn,
+    required String loadBalancerArn,
   }) async {
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
@@ -1171,10 +1163,10 @@ class ElasticLoadBalancingv2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeLoadBalancersOutput> describeLoadBalancers({
-    List<String> loadBalancerArns,
-    String marker,
-    List<String> names,
-    int pageSize,
+    List<String>? loadBalancerArns,
+    String? marker,
+    List<String>? names,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1221,10 +1213,10 @@ class ElasticLoadBalancingv2 {
   /// Parameter [ruleArns] :
   /// The Amazon Resource Names (ARN) of the rules.
   Future<DescribeRulesOutput> describeRules({
-    String listenerArn,
-    String marker,
-    int pageSize,
-    List<String> ruleArns,
+    String? listenerArn,
+    String? marker,
+    int? pageSize,
+    List<String>? ruleArns,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1271,9 +1263,9 @@ class ElasticLoadBalancingv2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeSSLPoliciesOutput> describeSSLPolicies({
-    String marker,
-    List<String> names,
-    int pageSize,
+    String? marker,
+    List<String>? names,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1313,7 +1305,7 @@ class ElasticLoadBalancingv2 {
   /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20
   /// resources in a single call.
   Future<DescribeTagsOutput> describeTags({
-    @_s.required List<String> resourceArns,
+    required List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final $request = <String, dynamic>{};
@@ -1359,7 +1351,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
   Future<DescribeTargetGroupAttributesOutput> describeTargetGroupAttributes({
-    @_s.required String targetGroupArn,
+    required String targetGroupArn,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
@@ -1403,11 +1395,11 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targetGroupArns] :
   /// The Amazon Resource Names (ARN) of the target groups.
   Future<DescribeTargetGroupsOutput> describeTargetGroups({
-    String loadBalancerArn,
-    String marker,
-    List<String> names,
-    int pageSize,
-    List<String> targetGroupArns,
+    String? loadBalancerArn,
+    String? marker,
+    List<String>? names,
+    int? pageSize,
+    List<String>? targetGroupArns,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -1447,8 +1439,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targets] :
   /// The targets.
   Future<DescribeTargetHealthOutput> describeTargetHealth({
-    @_s.required String targetGroupArn,
-    List<TargetDescription> targets,
+    required String targetGroupArn,
+    List<TargetDescription>? targets,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
@@ -1556,13 +1548,13 @@ class ElasticLoadBalancingv2 {
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   Future<ModifyListenerOutput> modifyListener({
-    @_s.required String listenerArn,
-    List<String> alpnPolicy,
-    List<Certificate> certificates,
-    List<Action> defaultActions,
-    int port,
-    ProtocolEnum protocol,
-    String sslPolicy,
+    required String listenerArn,
+    List<String>? alpnPolicy,
+    List<Certificate>? certificates,
+    List<Action>? defaultActions,
+    int? port,
+    ProtocolEnum? protocol,
+    String? sslPolicy,
   }) async {
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateNumRange(
@@ -1609,8 +1601,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   Future<ModifyLoadBalancerAttributesOutput> modifyLoadBalancerAttributes({
-    @_s.required List<LoadBalancerAttribute> attributes,
-    @_s.required String loadBalancerArn,
+    required List<LoadBalancerAttribute> attributes,
+    required String loadBalancerArn,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
@@ -1659,9 +1651,9 @@ class ElasticLoadBalancingv2 {
   /// Parameter [conditions] :
   /// The conditions.
   Future<ModifyRuleOutput> modifyRule({
-    @_s.required String ruleArn,
-    List<Action> actions,
-    List<RuleCondition> conditions,
+    required String ruleArn,
+    List<Action>? actions,
+    List<RuleCondition>? conditions,
   }) async {
     ArgumentError.checkNotNull(ruleArn, 'ruleArn');
     final $request = <String, dynamic>{};
@@ -1742,16 +1734,16 @@ class ElasticLoadBalancingv2 {
   /// considering the target unhealthy. For target groups with a protocol of TCP
   /// or TLS, this value must be the same as the healthy threshold count.
   Future<ModifyTargetGroupOutput> modifyTargetGroup({
-    @_s.required String targetGroupArn,
-    bool healthCheckEnabled,
-    int healthCheckIntervalSeconds,
-    String healthCheckPath,
-    String healthCheckPort,
-    ProtocolEnum healthCheckProtocol,
-    int healthCheckTimeoutSeconds,
-    int healthyThresholdCount,
-    Matcher matcher,
-    int unhealthyThresholdCount,
+    required String targetGroupArn,
+    bool? healthCheckEnabled,
+    int? healthCheckIntervalSeconds,
+    String? healthCheckPath,
+    String? healthCheckPort,
+    ProtocolEnum? healthCheckProtocol,
+    int? healthCheckTimeoutSeconds,
+    int? healthyThresholdCount,
+    Matcher? matcher,
+    int? unhealthyThresholdCount,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     _s.validateNumRange(
@@ -1825,8 +1817,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
   Future<ModifyTargetGroupAttributesOutput> modifyTargetGroupAttributes({
-    @_s.required List<TargetGroupAttribute> attributes,
-    @_s.required String targetGroupArn,
+    required List<TargetGroupAttribute> attributes,
+    required String targetGroupArn,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
@@ -1874,8 +1866,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [targets] :
   /// The targets.
   Future<void> registerTargets({
-    @_s.required String targetGroupArn,
-    @_s.required List<TargetDescription> targets,
+    required String targetGroupArn,
+    required List<TargetDescription> targets,
   }) async {
     ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     ArgumentError.checkNotNull(targets, 'targets');
@@ -1909,8 +1901,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
   Future<void> removeListenerCertificates({
-    @_s.required List<Certificate> certificates,
-    @_s.required String listenerArn,
+    required List<Certificate> certificates,
+    required String listenerArn,
   }) async {
     ArgumentError.checkNotNull(certificates, 'certificates');
     ArgumentError.checkNotNull(listenerArn, 'listenerArn');
@@ -1947,8 +1939,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [tagKeys] :
   /// The tag keys for the tags to remove.
   Future<void> removeTags({
-    @_s.required List<String> resourceArns,
-    @_s.required List<String> tagKeys,
+    required List<String> resourceArns,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1984,8 +1976,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   Future<SetIpAddressTypeOutput> setIpAddressType({
-    @_s.required IpAddressType ipAddressType,
-    @_s.required String loadBalancerArn,
+    required IpAddressType ipAddressType,
+    required String loadBalancerArn,
   }) async {
     ArgumentError.checkNotNull(ipAddressType, 'ipAddressType');
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
@@ -2019,7 +2011,7 @@ class ElasticLoadBalancingv2 {
   /// Parameter [rulePriorities] :
   /// The rule priorities.
   Future<SetRulePrioritiesOutput> setRulePriorities({
-    @_s.required List<RulePriorityPair> rulePriorities,
+    required List<RulePriorityPair> rulePriorities,
   }) async {
     ArgumentError.checkNotNull(rulePriorities, 'rulePriorities');
     final $request = <String, dynamic>{};
@@ -2055,8 +2047,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [securityGroups] :
   /// The IDs of the security groups.
   Future<SetSecurityGroupsOutput> setSecurityGroups({
-    @_s.required String loadBalancerArn,
-    @_s.required List<String> securityGroups,
+    required String loadBalancerArn,
+    required List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     ArgumentError.checkNotNull(securityGroups, 'securityGroups');
@@ -2139,10 +2131,10 @@ class ElasticLoadBalancingv2 {
   /// [Network Load Balancers] You can specify subnets from one or more
   /// Availability Zones.
   Future<SetSubnetsOutput> setSubnets({
-    @_s.required String loadBalancerArn,
-    IpAddressType ipAddressType,
-    List<SubnetMapping> subnetMappings,
-    List<String> subnets,
+    required String loadBalancerArn,
+    IpAddressType? ipAddressType,
+    List<SubnetMapping>? subnetMappings,
+    List<String>? subnets,
   }) async {
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
@@ -2170,33 +2162,24 @@ class ElasticLoadBalancingv2 {
 /// Each rule must include exactly one of the following types of actions:
 /// <code>forward</code>, <code>fixed-response</code>, or <code>redirect</code>,
 /// and it must be the last action to be performed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Action {
   /// The type of action.
-  @_s.JsonKey(name: 'Type')
   final ActionTypeEnum type;
 
   /// [HTTPS listeners] Information for using Amazon Cognito to authenticate
   /// users. Specify only when <code>Type</code> is
   /// <code>authenticate-cognito</code>.
-  @_s.JsonKey(name: 'AuthenticateCognitoConfig')
-  final AuthenticateCognitoActionConfig authenticateCognitoConfig;
+  final AuthenticateCognitoActionConfig? authenticateCognitoConfig;
 
   /// [HTTPS listeners] Information about an identity provider that is compliant
   /// with OpenID Connect (OIDC). Specify only when <code>Type</code> is
   /// <code>authenticate-oidc</code>.
-  @_s.JsonKey(name: 'AuthenticateOidcConfig')
-  final AuthenticateOidcActionConfig authenticateOidcConfig;
+  final AuthenticateOidcActionConfig? authenticateOidcConfig;
 
   /// [Application Load Balancer] Information for creating an action that returns
   /// a custom HTTP response. Specify only when <code>Type</code> is
   /// <code>fixed-response</code>.
-  @_s.JsonKey(name: 'FixedResponseConfig')
-  final FixedResponseActionConfig fixedResponseConfig;
+  final FixedResponseActionConfig? fixedResponseConfig;
 
   /// Information for creating an action that distributes requests among one or
   /// more target groups. For Network Load Balancers, you can specify a single
@@ -2205,28 +2188,24 @@ class Action {
   /// <code>TargetGroupArn</code>, you can specify only one target group using
   /// <code>ForwardConfig</code> and it must be the same target group specified in
   /// <code>TargetGroupArn</code>.
-  @_s.JsonKey(name: 'ForwardConfig')
-  final ForwardActionConfig forwardConfig;
+  final ForwardActionConfig? forwardConfig;
 
   /// The order for the action. This value is required for rules with multiple
   /// actions. The action with the lowest value for order is performed first.
-  @_s.JsonKey(name: 'Order')
-  final int order;
+  final int? order;
 
   /// [Application Load Balancer] Information for creating a redirect action.
   /// Specify only when <code>Type</code> is <code>redirect</code>.
-  @_s.JsonKey(name: 'RedirectConfig')
-  final RedirectActionConfig redirectConfig;
+  final RedirectActionConfig? redirectConfig;
 
   /// The Amazon Resource Name (ARN) of the target group. Specify only when
   /// <code>Type</code> is <code>forward</code> and you want to route to a single
   /// target group. To route to one or more target groups, use
   /// <code>ForwardConfig</code> instead.
-  @_s.JsonKey(name: 'TargetGroupArn')
-  final String targetGroupArn;
+  final String? targetGroupArn;
 
   Action({
-    @_s.required this.type,
+    required this.type,
     this.authenticateCognitoConfig,
     this.authenticateOidcConfig,
     this.fixedResponseConfig,
@@ -2237,7 +2216,7 @@ class Action {
   });
   factory Action.fromXml(_s.XmlElement elem) {
     return Action(
-      type: _s.extractXmlStringValue(elem, 'Type')?.toActionTypeEnum(),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toActionTypeEnum(),
       authenticateCognitoConfig: _s
           .extractXmlChild(elem, 'AuthenticateCognitoConfig')
           ?.let((e) => AuthenticateCognitoActionConfig.fromXml(e)),
@@ -2258,20 +2237,54 @@ class Action {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final authenticateCognitoConfig = this.authenticateCognitoConfig;
+    final authenticateOidcConfig = this.authenticateOidcConfig;
+    final fixedResponseConfig = this.fixedResponseConfig;
+    final forwardConfig = this.forwardConfig;
+    final order = this.order;
+    final redirectConfig = this.redirectConfig;
+    final targetGroupArn = this.targetGroupArn;
+    return {
+      'Type': type.toValue(),
+      if (authenticateCognitoConfig != null)
+        'AuthenticateCognitoConfig': authenticateCognitoConfig,
+      if (authenticateOidcConfig != null)
+        'AuthenticateOidcConfig': authenticateOidcConfig,
+      if (fixedResponseConfig != null)
+        'FixedResponseConfig': fixedResponseConfig,
+      if (forwardConfig != null) 'ForwardConfig': forwardConfig,
+      if (order != null) 'Order': order,
+      if (redirectConfig != null) 'RedirectConfig': redirectConfig,
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+    };
+  }
 }
 
 enum ActionTypeEnum {
-  @_s.JsonValue('forward')
   forward,
-  @_s.JsonValue('authenticate-oidc')
   authenticateOidc,
-  @_s.JsonValue('authenticate-cognito')
   authenticateCognito,
-  @_s.JsonValue('redirect')
   redirect,
-  @_s.JsonValue('fixed-response')
   fixedResponse,
+}
+
+extension on ActionTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ActionTypeEnum.forward:
+        return 'forward';
+      case ActionTypeEnum.authenticateOidc:
+        return 'authenticate-oidc';
+      case ActionTypeEnum.authenticateCognito:
+        return 'authenticate-cognito';
+      case ActionTypeEnum.redirect:
+        return 'redirect';
+      case ActionTypeEnum.fixedResponse:
+        return 'fixed-response';
+    }
+  }
 }
 
 extension on String {
@@ -2288,13 +2301,13 @@ extension on String {
       case 'fixed-response':
         return ActionTypeEnum.fixedResponse;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionTypeEnum');
   }
 }
 
 class AddListenerCertificatesOutput {
   /// Information about the certificates in the certificate list.
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   AddListenerCertificatesOutput({
     this.certificates,
@@ -2319,12 +2332,22 @@ class AddTagsOutput {
 }
 
 enum AuthenticateCognitoActionConditionalBehaviorEnum {
-  @_s.JsonValue('deny')
   deny,
-  @_s.JsonValue('allow')
   allow,
-  @_s.JsonValue('authenticate')
   authenticate,
+}
+
+extension on AuthenticateCognitoActionConditionalBehaviorEnum {
+  String toValue() {
+    switch (this) {
+      case AuthenticateCognitoActionConditionalBehaviorEnum.deny:
+        return 'deny';
+      case AuthenticateCognitoActionConditionalBehaviorEnum.allow:
+        return 'allow';
+      case AuthenticateCognitoActionConditionalBehaviorEnum.authenticate:
+        return 'authenticate';
+    }
+  }
 }
 
 extension on String {
@@ -2338,35 +2361,27 @@ extension on String {
       case 'authenticate':
         return AuthenticateCognitoActionConditionalBehaviorEnum.authenticate;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum AuthenticateCognitoActionConditionalBehaviorEnum');
   }
 }
 
 /// Request parameters to use when integrating with Amazon Cognito to
 /// authenticate users.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AuthenticateCognitoActionConfig {
   /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
-  @_s.JsonKey(name: 'UserPoolArn')
   final String userPoolArn;
 
   /// The ID of the Amazon Cognito user pool client.
-  @_s.JsonKey(name: 'UserPoolClientId')
   final String userPoolClientId;
 
   /// The domain prefix or fully-qualified domain name of the Amazon Cognito user
   /// pool.
-  @_s.JsonKey(name: 'UserPoolDomain')
   final String userPoolDomain;
 
   /// The query parameters (up to 10) to include in the redirect request to the
   /// authorization endpoint.
-  @_s.JsonKey(name: 'AuthenticationRequestExtraParams')
-  final Map<String, String> authenticationRequestExtraParams;
+  final Map<String, String>? authenticationRequestExtraParams;
 
   /// The behavior if the user is not authenticated. The following are possible
   /// values:
@@ -2383,8 +2398,7 @@ class AuthenticateCognitoActionConfig {
   /// endpoint. This is the default value.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'OnUnauthenticatedRequest')
-  final AuthenticateCognitoActionConditionalBehaviorEnum
+  final AuthenticateCognitoActionConditionalBehaviorEnum?
       onUnauthenticatedRequest;
 
   /// The set of user claims to be requested from the IdP. The default is
@@ -2392,23 +2406,20 @@ class AuthenticateCognitoActionConfig {
   ///
   /// To verify which scope values your IdP supports and how to separate multiple
   /// values, see the documentation for your IdP.
-  @_s.JsonKey(name: 'Scope')
-  final String scope;
+  final String? scope;
 
   /// The name of the cookie used to maintain session information. The default is
   /// AWSELBAuthSessionCookie.
-  @_s.JsonKey(name: 'SessionCookieName')
-  final String sessionCookieName;
+  final String? sessionCookieName;
 
   /// The maximum duration of the authentication session, in seconds. The default
   /// is 604800 seconds (7 days).
-  @_s.JsonKey(name: 'SessionTimeout')
-  final int sessionTimeout;
+  final int? sessionTimeout;
 
   AuthenticateCognitoActionConfig({
-    @_s.required this.userPoolArn,
-    @_s.required this.userPoolClientId,
-    @_s.required this.userPoolDomain,
+    required this.userPoolArn,
+    required this.userPoolClientId,
+    required this.userPoolDomain,
     this.authenticationRequestExtraParams,
     this.onUnauthenticatedRequest,
     this.scope,
@@ -2417,19 +2428,20 @@ class AuthenticateCognitoActionConfig {
   });
   factory AuthenticateCognitoActionConfig.fromXml(_s.XmlElement elem) {
     return AuthenticateCognitoActionConfig(
-      userPoolArn: _s.extractXmlStringValue(elem, 'UserPoolArn'),
-      userPoolClientId: _s.extractXmlStringValue(elem, 'UserPoolClientId'),
-      userPoolDomain: _s.extractXmlStringValue(elem, 'UserPoolDomain'),
+      userPoolArn: _s.extractXmlStringValue(elem, 'UserPoolArn')!,
+      userPoolClientId: _s.extractXmlStringValue(elem, 'UserPoolClientId')!,
+      userPoolDomain: _s.extractXmlStringValue(elem, 'UserPoolDomain')!,
       authenticationRequestExtraParams: Map.fromEntries(
         elem
-            .getElement('AuthenticationRequestExtraParams')
-            .findElements('entry')
-            .map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+                .getElement('AuthenticationRequestExtraParams')
+                ?.findElements('entry')
+                .map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       onUnauthenticatedRequest: _s
           .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
@@ -2440,17 +2452,48 @@ class AuthenticateCognitoActionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$AuthenticateCognitoActionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final userPoolArn = this.userPoolArn;
+    final userPoolClientId = this.userPoolClientId;
+    final userPoolDomain = this.userPoolDomain;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    return {
+      'UserPoolArn': userPoolArn,
+      'UserPoolClientId': userPoolClientId,
+      'UserPoolDomain': userPoolDomain,
+      if (authenticationRequestExtraParams != null)
+        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
+    };
+  }
 }
 
 enum AuthenticateOidcActionConditionalBehaviorEnum {
-  @_s.JsonValue('deny')
   deny,
-  @_s.JsonValue('allow')
   allow,
-  @_s.JsonValue('authenticate')
   authenticate,
+}
+
+extension on AuthenticateOidcActionConditionalBehaviorEnum {
+  String toValue() {
+    switch (this) {
+      case AuthenticateOidcActionConditionalBehaviorEnum.deny:
+        return 'deny';
+      case AuthenticateOidcActionConditionalBehaviorEnum.allow:
+        return 'allow';
+      case AuthenticateOidcActionConditionalBehaviorEnum.authenticate:
+        return 'authenticate';
+    }
+  }
 }
 
 extension on String {
@@ -2464,52 +2507,41 @@ extension on String {
       case 'authenticate':
         return AuthenticateOidcActionConditionalBehaviorEnum.authenticate;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum AuthenticateOidcActionConditionalBehaviorEnum');
   }
 }
 
 /// Request parameters when using an identity provider (IdP) that is compliant
 /// with OpenID Connect (OIDC) to authenticate users.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AuthenticateOidcActionConfig {
   /// The authorization endpoint of the IdP. This must be a full URL, including
   /// the HTTPS protocol, the domain, and the path.
-  @_s.JsonKey(name: 'AuthorizationEndpoint')
   final String authorizationEndpoint;
 
   /// The OAuth 2.0 client identifier.
-  @_s.JsonKey(name: 'ClientId')
   final String clientId;
 
   /// The OIDC issuer identifier of the IdP. This must be a full URL, including
   /// the HTTPS protocol, the domain, and the path.
-  @_s.JsonKey(name: 'Issuer')
   final String issuer;
 
   /// The token endpoint of the IdP. This must be a full URL, including the HTTPS
   /// protocol, the domain, and the path.
-  @_s.JsonKey(name: 'TokenEndpoint')
   final String tokenEndpoint;
 
   /// The user info endpoint of the IdP. This must be a full URL, including the
   /// HTTPS protocol, the domain, and the path.
-  @_s.JsonKey(name: 'UserInfoEndpoint')
   final String userInfoEndpoint;
 
   /// The query parameters (up to 10) to include in the redirect request to the
   /// authorization endpoint.
-  @_s.JsonKey(name: 'AuthenticationRequestExtraParams')
-  final Map<String, String> authenticationRequestExtraParams;
+  final Map<String, String>? authenticationRequestExtraParams;
 
   /// The OAuth 2.0 client secret. This parameter is required if you are creating
   /// a rule. If you are modifying a rule, you can omit this parameter if you set
   /// <code>UseExistingClientSecret</code> to true.
-  @_s.JsonKey(name: 'ClientSecret')
-  final String clientSecret;
+  final String? clientSecret;
 
   /// The behavior if the user is not authenticated. The following are possible
   /// values:
@@ -2526,38 +2558,33 @@ class AuthenticateOidcActionConfig {
   /// endpoint. This is the default value.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'OnUnauthenticatedRequest')
-  final AuthenticateOidcActionConditionalBehaviorEnum onUnauthenticatedRequest;
+  final AuthenticateOidcActionConditionalBehaviorEnum? onUnauthenticatedRequest;
 
   /// The set of user claims to be requested from the IdP. The default is
   /// <code>openid</code>.
   ///
   /// To verify which scope values your IdP supports and how to separate multiple
   /// values, see the documentation for your IdP.
-  @_s.JsonKey(name: 'Scope')
-  final String scope;
+  final String? scope;
 
   /// The name of the cookie used to maintain session information. The default is
   /// AWSELBAuthSessionCookie.
-  @_s.JsonKey(name: 'SessionCookieName')
-  final String sessionCookieName;
+  final String? sessionCookieName;
 
   /// The maximum duration of the authentication session, in seconds. The default
   /// is 604800 seconds (7 days).
-  @_s.JsonKey(name: 'SessionTimeout')
-  final int sessionTimeout;
+  final int? sessionTimeout;
 
   /// Indicates whether to use the existing client secret when modifying a rule.
   /// If you are creating a rule, you can omit this parameter or set it to false.
-  @_s.JsonKey(name: 'UseExistingClientSecret')
-  final bool useExistingClientSecret;
+  final bool? useExistingClientSecret;
 
   AuthenticateOidcActionConfig({
-    @_s.required this.authorizationEndpoint,
-    @_s.required this.clientId,
-    @_s.required this.issuer,
-    @_s.required this.tokenEndpoint,
-    @_s.required this.userInfoEndpoint,
+    required this.authorizationEndpoint,
+    required this.clientId,
+    required this.issuer,
+    required this.tokenEndpoint,
+    required this.userInfoEndpoint,
     this.authenticationRequestExtraParams,
     this.clientSecret,
     this.onUnauthenticatedRequest,
@@ -2569,21 +2596,22 @@ class AuthenticateOidcActionConfig {
   factory AuthenticateOidcActionConfig.fromXml(_s.XmlElement elem) {
     return AuthenticateOidcActionConfig(
       authorizationEndpoint:
-          _s.extractXmlStringValue(elem, 'AuthorizationEndpoint'),
-      clientId: _s.extractXmlStringValue(elem, 'ClientId'),
-      issuer: _s.extractXmlStringValue(elem, 'Issuer'),
-      tokenEndpoint: _s.extractXmlStringValue(elem, 'TokenEndpoint'),
-      userInfoEndpoint: _s.extractXmlStringValue(elem, 'UserInfoEndpoint'),
+          _s.extractXmlStringValue(elem, 'AuthorizationEndpoint')!,
+      clientId: _s.extractXmlStringValue(elem, 'ClientId')!,
+      issuer: _s.extractXmlStringValue(elem, 'Issuer')!,
+      tokenEndpoint: _s.extractXmlStringValue(elem, 'TokenEndpoint')!,
+      userInfoEndpoint: _s.extractXmlStringValue(elem, 'UserInfoEndpoint')!,
       authenticationRequestExtraParams: Map.fromEntries(
         elem
-            .getElement('AuthenticationRequestExtraParams')
-            .findElements('entry')
-            .map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+                .getElement('AuthenticationRequestExtraParams')
+                ?.findElements('entry')
+                .map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       clientSecret: _s.extractXmlStringValue(elem, 'ClientSecret'),
       onUnauthenticatedRequest: _s
@@ -2597,7 +2625,38 @@ class AuthenticateOidcActionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$AuthenticateOidcActionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final authorizationEndpoint = this.authorizationEndpoint;
+    final clientId = this.clientId;
+    final issuer = this.issuer;
+    final tokenEndpoint = this.tokenEndpoint;
+    final userInfoEndpoint = this.userInfoEndpoint;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final clientSecret = this.clientSecret;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    final useExistingClientSecret = this.useExistingClientSecret;
+    return {
+      'AuthorizationEndpoint': authorizationEndpoint,
+      'ClientId': clientId,
+      'Issuer': issuer,
+      'TokenEndpoint': tokenEndpoint,
+      'UserInfoEndpoint': userInfoEndpoint,
+      if (authenticationRequestExtraParams != null)
+        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
+      if (clientSecret != null) 'ClientSecret': clientSecret,
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
+      if (useExistingClientSecret != null)
+        'UseExistingClientSecret': useExistingClientSecret,
+    };
+  }
 }
 
 /// Information about an Availability Zone.
@@ -2606,16 +2665,16 @@ class AvailabilityZone {
   /// balancer, you can specify one Elastic IP address per Availability Zone when
   /// you create an internal-facing load balancer. For internal load balancers,
   /// you can specify a private IP address from the IPv4 range of the subnet.
-  final List<LoadBalancerAddress> loadBalancerAddresses;
+  final List<LoadBalancerAddress>? loadBalancerAddresses;
 
   /// [Application Load Balancers on Outposts] The ID of the Outpost.
-  final String outpostId;
+  final String? outpostId;
 
   /// The ID of the subnet. You can specify one subnet per Availability Zone.
-  final String subnetId;
+  final String? subnetId;
 
   /// The name of the Availability Zone.
-  final String zoneName;
+  final String? zoneName;
 
   AvailabilityZone({
     this.loadBalancerAddresses,
@@ -2639,22 +2698,15 @@ class AvailabilityZone {
 }
 
 /// Information about an SSL server certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Certificate {
   /// The Amazon Resource Name (ARN) of the certificate.
-  @_s.JsonKey(name: 'CertificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// Indicates whether the certificate is the default certificate. Do not set
   /// this value when specifying a certificate as an input. This value is not
   /// included in the output when describing a listener, but is included when
   /// describing listener certificates.
-  @_s.JsonKey(name: 'IsDefault')
-  final bool isDefault;
+  final bool? isDefault;
 
   Certificate({
     this.certificateArn,
@@ -2667,16 +2719,23 @@ class Certificate {
     );
   }
 
-  Map<String, dynamic> toJson() => _$CertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final isDefault = this.isDefault;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (isDefault != null) 'IsDefault': isDefault,
+    };
+  }
 }
 
 /// Information about a cipher used in a policy.
 class Cipher {
   /// The name of the cipher.
-  final String name;
+  final String? name;
 
   /// The priority of the cipher.
-  final int priority;
+  final int? priority;
 
   Cipher({
     this.name,
@@ -2692,7 +2751,7 @@ class Cipher {
 
 class CreateListenerOutput {
   /// Information about the listener.
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   CreateListenerOutput({
     this.listeners,
@@ -2707,7 +2766,7 @@ class CreateListenerOutput {
 
 class CreateLoadBalancerOutput {
   /// Information about the load balancer.
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   CreateLoadBalancerOutput({
     this.loadBalancers,
@@ -2725,7 +2784,7 @@ class CreateLoadBalancerOutput {
 
 class CreateRuleOutput {
   /// Information about the rule.
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   CreateRuleOutput({
     this.rules,
@@ -2740,7 +2799,7 @@ class CreateRuleOutput {
 
 class CreateTargetGroupOutput {
   /// Information about the target group.
-  final List<TargetGroup> targetGroups;
+  final List<TargetGroup>? targetGroups;
 
   CreateTargetGroupOutput({
     this.targetGroups,
@@ -2802,11 +2861,11 @@ class DeregisterTargetsOutput {
 
 class DescribeAccountLimitsOutput {
   /// Information about the limits.
-  final List<Limit> limits;
+  final List<Limit>? limits;
 
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeAccountLimitsOutput({
     this.limits,
@@ -2823,11 +2882,11 @@ class DescribeAccountLimitsOutput {
 
 class DescribeListenerCertificatesOutput {
   /// Information about the certificates.
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeListenerCertificatesOutput({
     this.certificates,
@@ -2846,11 +2905,11 @@ class DescribeListenerCertificatesOutput {
 
 class DescribeListenersOutput {
   /// Information about the listeners.
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeListenersOutput({
     this.listeners,
@@ -2867,7 +2926,7 @@ class DescribeListenersOutput {
 
 class DescribeLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
-  final List<LoadBalancerAttribute> attributes;
+  final List<LoadBalancerAttribute>? attributes;
 
   DescribeLoadBalancerAttributesOutput({
     this.attributes,
@@ -2884,11 +2943,11 @@ class DescribeLoadBalancerAttributesOutput {
 
 class DescribeLoadBalancersOutput {
   /// Information about the load balancers.
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeLoadBalancersOutput({
     this.loadBalancers,
@@ -2909,10 +2968,10 @@ class DescribeLoadBalancersOutput {
 class DescribeRulesOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   /// Information about the rules.
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   DescribeRulesOutput({
     this.nextMarker,
@@ -2930,10 +2989,10 @@ class DescribeRulesOutput {
 class DescribeSSLPoliciesOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   /// Information about the security policies.
-  final List<SslPolicy> sslPolicies;
+  final List<SslPolicy>? sslPolicies;
 
   DescribeSSLPoliciesOutput({
     this.nextMarker,
@@ -2952,7 +3011,7 @@ class DescribeSSLPoliciesOutput {
 
 class DescribeTagsOutput {
   /// Information about the tags.
-  final List<TagDescription> tagDescriptions;
+  final List<TagDescription>? tagDescriptions;
 
   DescribeTagsOutput({
     this.tagDescriptions,
@@ -2970,7 +3029,7 @@ class DescribeTagsOutput {
 
 class DescribeTargetGroupAttributesOutput {
   /// Information about the target group attributes
-  final List<TargetGroupAttribute> attributes;
+  final List<TargetGroupAttribute>? attributes;
 
   DescribeTargetGroupAttributesOutput({
     this.attributes,
@@ -2988,10 +3047,10 @@ class DescribeTargetGroupAttributesOutput {
 class DescribeTargetGroupsOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
-  final String nextMarker;
+  final String? nextMarker;
 
   /// Information about the target groups.
-  final List<TargetGroup> targetGroups;
+  final List<TargetGroup>? targetGroups;
 
   DescribeTargetGroupsOutput({
     this.nextMarker,
@@ -3010,7 +3069,7 @@ class DescribeTargetGroupsOutput {
 
 class DescribeTargetHealthOutput {
   /// Information about the health of the targets.
-  final List<TargetHealthDescription> targetHealthDescriptions;
+  final List<TargetHealthDescription>? targetHealthDescriptions;
 
   DescribeTargetHealthOutput({
     this.targetHealthDescriptions,
@@ -3028,58 +3087,52 @@ class DescribeTargetHealthOutput {
 }
 
 /// Information about an action that returns a custom HTTP response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FixedResponseActionConfig {
   /// The HTTP response code (2XX, 4XX, or 5XX).
-  @_s.JsonKey(name: 'StatusCode')
   final String statusCode;
 
   /// The content type.
   ///
   /// Valid Values: text/plain | text/css | text/html | application/javascript |
   /// application/json
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// The message.
-  @_s.JsonKey(name: 'MessageBody')
-  final String messageBody;
+  final String? messageBody;
 
   FixedResponseActionConfig({
-    @_s.required this.statusCode,
+    required this.statusCode,
     this.contentType,
     this.messageBody,
   });
   factory FixedResponseActionConfig.fromXml(_s.XmlElement elem) {
     return FixedResponseActionConfig(
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode'),
+      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')!,
       contentType: _s.extractXmlStringValue(elem, 'ContentType'),
       messageBody: _s.extractXmlStringValue(elem, 'MessageBody'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$FixedResponseActionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final statusCode = this.statusCode;
+    final contentType = this.contentType;
+    final messageBody = this.messageBody;
+    return {
+      'StatusCode': statusCode,
+      if (contentType != null) 'ContentType': contentType,
+      if (messageBody != null) 'MessageBody': messageBody,
+    };
+  }
 }
 
 /// Information about a forward action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ForwardActionConfig {
   /// The target group stickiness for the rule.
-  @_s.JsonKey(name: 'TargetGroupStickinessConfig')
-  final TargetGroupStickinessConfig targetGroupStickinessConfig;
+  final TargetGroupStickinessConfig? targetGroupStickinessConfig;
 
   /// One or more target groups. For Network Load Balancers, you can specify a
   /// single target group.
-  @_s.JsonKey(name: 'TargetGroups')
-  final List<TargetGroupTuple> targetGroups;
+  final List<TargetGroupTuple>? targetGroups;
 
   ForwardActionConfig({
     this.targetGroupStickinessConfig,
@@ -3097,15 +3150,18 @@ class ForwardActionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ForwardActionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetGroupStickinessConfig = this.targetGroupStickinessConfig;
+    final targetGroups = this.targetGroups;
+    return {
+      if (targetGroupStickinessConfig != null)
+        'TargetGroupStickinessConfig': targetGroupStickinessConfig,
+      if (targetGroups != null) 'TargetGroups': targetGroups,
+    };
+  }
 }
 
 /// Information about a host header condition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HostHeaderConditionConfig {
   /// One or more host names. The maximum size of each name is 128 characters. The
   /// comparison is case insensitive. The following wildcard characters are
@@ -3114,8 +3170,7 @@ class HostHeaderConditionConfig {
   ///
   /// If you specify multiple strings, the condition is satisfied if one of the
   /// strings matches the host name.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   HostHeaderConditionConfig({
     this.values,
@@ -3128,18 +3183,18 @@ class HostHeaderConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$HostHeaderConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about an HTTP header condition.
 ///
 /// There is a set of standard HTTP header fields. You can also define custom
 /// HTTP header fields.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpHeaderConditionConfig {
   /// The name of the HTTP header field. The maximum size is 40 characters. The
   /// header name is case insensitive. The allowed characters are specified by RFC
@@ -3147,8 +3202,7 @@ class HttpHeaderConditionConfig {
   ///
   /// You can't use an HTTP header condition to specify the host header. Use
   /// <a>HostHeaderConditionConfig</a> to specify a host header condition.
-  @_s.JsonKey(name: 'HttpHeaderName')
-  final String httpHeaderName;
+  final String? httpHeaderName;
 
   /// One or more strings to compare against the value of the HTTP header. The
   /// maximum size of each string is 128 characters. The comparison strings are
@@ -3161,8 +3215,7 @@ class HttpHeaderConditionConfig {
   /// If you specify multiple strings, the condition is satisfied if one of the
   /// strings matches the value of the HTTP header. To require that all of the
   /// strings are a match, create one condition per string.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   HttpHeaderConditionConfig({
     this.httpHeaderName,
@@ -3177,7 +3230,14 @@ class HttpHeaderConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$HttpHeaderConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final httpHeaderName = this.httpHeaderName;
+    final values = this.values;
+    return {
+      if (httpHeaderName != null) 'HttpHeaderName': httpHeaderName,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about an HTTP method condition.
@@ -3186,11 +3246,6 @@ class HttpHeaderConditionConfig {
 /// more information, see the <a
 /// href="https://www.iana.org/assignments/http-methods/http-methods.xhtml">HTTP
 /// Method Registry</a>. You can also define custom HTTP methods.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpRequestMethodConditionConfig {
   /// The name of the request method. The maximum size is 40 characters. The
   /// allowed characters are A-Z, hyphen (-), and underscore (_). The comparison
@@ -3201,8 +3256,7 @@ class HttpRequestMethodConditionConfig {
   /// strings matches the HTTP request method. We recommend that you route GET and
   /// HEAD requests in the same way, because the response to a HEAD request may be
   /// cached.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   HttpRequestMethodConditionConfig({
     this.values,
@@ -3215,14 +3269,16 @@ class HttpRequestMethodConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$HttpRequestMethodConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum IpAddressType {
-  @_s.JsonValue('ipv4')
   ipv4,
-  @_s.JsonValue('dualstack')
   dualstack,
 }
 
@@ -3234,7 +3290,6 @@ extension on IpAddressType {
       case IpAddressType.dualstack:
         return 'dualstack';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3246,7 +3301,7 @@ extension on String {
       case 'dualstack':
         return IpAddressType.dualstack;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IpAddressType');
   }
 }
 
@@ -3254,7 +3309,7 @@ extension on String {
 /// account.
 class Limit {
   /// The maximum value of the limit.
-  final String max;
+  final String? max;
 
   /// The name of the limit. The possible values are:
   ///
@@ -3314,7 +3369,7 @@ class Limit {
   /// targets-per-network-load-balancer
   /// </li>
   /// </ul>
-  final String name;
+  final String? name;
 
   Limit({
     this.max,
@@ -3332,29 +3387,29 @@ class Limit {
 class Listener {
   /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN)
   /// policy.
-  final List<String> alpnPolicy;
+  final List<String>? alpnPolicy;
 
   /// [HTTPS or TLS listener] The default certificate for the listener.
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// The default actions for the listener.
-  final List<Action> defaultActions;
+  final List<Action>? defaultActions;
 
   /// The Amazon Resource Name (ARN) of the listener.
-  final String listenerArn;
+  final String? listenerArn;
 
   /// The Amazon Resource Name (ARN) of the load balancer.
-  final String loadBalancerArn;
+  final String? loadBalancerArn;
 
   /// The port on which the load balancer is listening.
-  final int port;
+  final int? port;
 
   /// The protocol for connections from clients to the load balancer.
-  final ProtocolEnum protocol;
+  final ProtocolEnum? protocol;
 
   /// [HTTPS or TLS listener] The security policy that defines which protocols and
   /// ciphers are supported.
-  final String sslPolicy;
+  final String? sslPolicy;
 
   Listener({
     this.alpnPolicy,
@@ -3389,31 +3444,31 @@ class Listener {
 /// Information about a load balancer.
 class LoadBalancer {
   /// The subnets for the load balancer.
-  final List<AvailabilityZone> availabilityZones;
+  final List<AvailabilityZone>? availabilityZones;
 
   /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
-  final String canonicalHostedZoneId;
+  final String? canonicalHostedZoneId;
 
   /// The date and time the load balancer was created.
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// [Application Load Balancers on Outposts] The ID of the customer-owned
   /// address pool.
-  final String customerOwnedIpv4Pool;
+  final String? customerOwnedIpv4Pool;
 
   /// The public DNS name of the load balancer.
-  final String dNSName;
+  final String? dNSName;
 
   /// The type of IP addresses used by the subnets for your load balancer. The
   /// possible values are <code>ipv4</code> (for IPv4 addresses) and
   /// <code>dualstack</code> (for IPv4 and IPv6 addresses).
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   /// The Amazon Resource Name (ARN) of the load balancer.
-  final String loadBalancerArn;
+  final String? loadBalancerArn;
 
   /// The name of the load balancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   /// The nodes of an Internet-facing load balancer have public IP addresses. The
   /// DNS name of an Internet-facing load balancer is publicly resolvable to the
@@ -3424,19 +3479,19 @@ class LoadBalancer {
   /// DNS name of an internal load balancer is publicly resolvable to the private
   /// IP addresses of the nodes. Therefore, internal load balancers can route
   /// requests only from clients with access to the VPC for the load balancer.
-  final LoadBalancerSchemeEnum scheme;
+  final LoadBalancerSchemeEnum? scheme;
 
   /// The IDs of the security groups for the load balancer.
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   /// The state of the load balancer.
-  final LoadBalancerState state;
+  final LoadBalancerState? state;
 
   /// The type of load balancer.
-  final LoadBalancerTypeEnum type;
+  final LoadBalancerTypeEnum? type;
 
   /// The ID of the VPC for the load balancer.
-  final String vpcId;
+  final String? vpcId;
 
   LoadBalancer({
     this.availabilityZones,
@@ -3488,17 +3543,17 @@ class LoadBalancer {
 class LoadBalancerAddress {
   /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
   /// internal-facing load balancer.
-  final String allocationId;
+  final String? allocationId;
 
   /// [Network Load Balancers] The IPv6 address.
-  final String iPv6Address;
+  final String? iPv6Address;
 
   /// The static IP address.
-  final String ipAddress;
+  final String? ipAddress;
 
   /// [Network Load Balancers] The private IPv4 address for an internal load
   /// balancer.
-  final String privateIPv4Address;
+  final String? privateIPv4Address;
 
   LoadBalancerAddress({
     this.allocationId,
@@ -3517,11 +3572,6 @@ class LoadBalancerAddress {
 }
 
 /// Information about a load balancer attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LoadBalancerAttribute {
   /// The name of the attribute.
   ///
@@ -3598,12 +3648,10 @@ class LoadBalancerAttribute {
   /// <code>false</code>. The default is <code>false</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   LoadBalancerAttribute({
     this.key,
@@ -3616,13 +3664,18 @@ class LoadBalancerAttribute {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LoadBalancerAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum LoadBalancerSchemeEnum {
-  @_s.JsonValue('internet-facing')
   internetFacing,
-  @_s.JsonValue('internal')
   internal,
 }
 
@@ -3634,7 +3687,6 @@ extension on LoadBalancerSchemeEnum {
       case LoadBalancerSchemeEnum.internal:
         return 'internal';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3646,7 +3698,7 @@ extension on String {
       case 'internal':
         return LoadBalancerSchemeEnum.internal;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum LoadBalancerSchemeEnum');
   }
 }
 
@@ -3656,10 +3708,10 @@ class LoadBalancerState {
   /// <code>provisioning</code>. After the load balancer is fully set up and ready
   /// to route traffic, its state is <code>active</code>. If the load balancer
   /// could not be set up, its state is <code>failed</code>.
-  final LoadBalancerStateEnum code;
+  final LoadBalancerStateEnum? code;
 
   /// A description of the state.
-  final String reason;
+  final String? reason;
 
   LoadBalancerState({
     this.code,
@@ -3674,14 +3726,25 @@ class LoadBalancerState {
 }
 
 enum LoadBalancerStateEnum {
-  @_s.JsonValue('active')
   active,
-  @_s.JsonValue('provisioning')
   provisioning,
-  @_s.JsonValue('active_impaired')
   activeImpaired,
-  @_s.JsonValue('failed')
   failed,
+}
+
+extension on LoadBalancerStateEnum {
+  String toValue() {
+    switch (this) {
+      case LoadBalancerStateEnum.active:
+        return 'active';
+      case LoadBalancerStateEnum.provisioning:
+        return 'provisioning';
+      case LoadBalancerStateEnum.activeImpaired:
+        return 'active_impaired';
+      case LoadBalancerStateEnum.failed:
+        return 'failed';
+    }
+  }
 }
 
 extension on String {
@@ -3696,16 +3759,13 @@ extension on String {
       case 'failed':
         return LoadBalancerStateEnum.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum LoadBalancerStateEnum');
   }
 }
 
 enum LoadBalancerTypeEnum {
-  @_s.JsonValue('application')
   application,
-  @_s.JsonValue('network')
   network,
-  @_s.JsonValue('gateway')
   gateway,
 }
 
@@ -3719,7 +3779,6 @@ extension on LoadBalancerTypeEnum {
       case LoadBalancerTypeEnum.gateway:
         return 'gateway';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3733,24 +3792,18 @@ extension on String {
       case 'gateway':
         return LoadBalancerTypeEnum.gateway;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum LoadBalancerTypeEnum');
   }
 }
 
 /// The codes to use when checking for a successful response from a target. If
 /// the protocol version is gRPC, these are gRPC codes. Otherwise, these are
 /// HTTP codes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Matcher {
   /// You can specify values between 0 and 99. You can specify multiple values
   /// (for example, "0,1") or a range of values (for example, "0-5"). The default
   /// value is 12.
-  @_s.JsonKey(name: 'GrpcCode')
-  final String grpcCode;
+  final String? grpcCode;
 
   /// For Application Load Balancers, you can specify values between 200 and 499,
   /// and the default value is 200. You can specify multiple values (for example,
@@ -3758,8 +3811,7 @@ class Matcher {
   ///
   /// For Network Load Balancers and Gateway Load Balancers, this must be
   /// "200–399".
-  @_s.JsonKey(name: 'HttpCode')
-  final String httpCode;
+  final String? httpCode;
 
   Matcher({
     this.grpcCode,
@@ -3772,12 +3824,19 @@ class Matcher {
     );
   }
 
-  Map<String, dynamic> toJson() => _$MatcherToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpcCode = this.grpcCode;
+    final httpCode = this.httpCode;
+    return {
+      if (grpcCode != null) 'GrpcCode': grpcCode,
+      if (httpCode != null) 'HttpCode': httpCode,
+    };
+  }
 }
 
 class ModifyListenerOutput {
   /// Information about the modified listener.
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   ModifyListenerOutput({
     this.listeners,
@@ -3792,7 +3851,7 @@ class ModifyListenerOutput {
 
 class ModifyLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
-  final List<LoadBalancerAttribute> attributes;
+  final List<LoadBalancerAttribute>? attributes;
 
   ModifyLoadBalancerAttributesOutput({
     this.attributes,
@@ -3809,7 +3868,7 @@ class ModifyLoadBalancerAttributesOutput {
 
 class ModifyRuleOutput {
   /// Information about the modified rule.
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   ModifyRuleOutput({
     this.rules,
@@ -3824,7 +3883,7 @@ class ModifyRuleOutput {
 
 class ModifyTargetGroupAttributesOutput {
   /// Information about the attributes.
-  final List<TargetGroupAttribute> attributes;
+  final List<TargetGroupAttribute>? attributes;
 
   ModifyTargetGroupAttributesOutput({
     this.attributes,
@@ -3841,7 +3900,7 @@ class ModifyTargetGroupAttributesOutput {
 
 class ModifyTargetGroupOutput {
   /// Information about the modified target group.
-  final List<TargetGroup> targetGroups;
+  final List<TargetGroup>? targetGroups;
 
   ModifyTargetGroupOutput({
     this.targetGroups,
@@ -3857,11 +3916,6 @@ class ModifyTargetGroupOutput {
 }
 
 /// Information about a path pattern condition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PathPatternConditionConfig {
   /// One or more path patterns to compare against the request URL. The maximum
   /// size of each string is 128 characters. The comparison is case sensitive. The
@@ -3872,8 +3926,7 @@ class PathPatternConditionConfig {
   /// matches the request URL. The path pattern is compared only to the path of
   /// the URL, not to its query string. To compare against the query string, use
   /// <a>QueryStringConditionConfig</a>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PathPatternConditionConfig({
     this.values,
@@ -3886,23 +3939,21 @@ class PathPatternConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$PathPatternConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum ProtocolEnum {
-  @_s.JsonValue('HTTP')
   http,
-  @_s.JsonValue('HTTPS')
   https,
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('TLS')
   tls,
-  @_s.JsonValue('UDP')
   udp,
-  @_s.JsonValue('TCP_UDP')
   tcpUdp,
-  @_s.JsonValue('GENEVE')
   geneve,
 }
 
@@ -3924,7 +3975,6 @@ extension on ProtocolEnum {
       case ProtocolEnum.geneve:
         return 'GENEVE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3946,7 +3996,7 @@ extension on String {
       case 'GENEVE':
         return ProtocolEnum.geneve;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ProtocolEnum');
   }
 }
 
@@ -3957,11 +4007,6 @@ extension on String {
 /// query string contains key/value pairs separated by '&amp;' characters. The
 /// allowed characters are specified by RFC 3986. Any character can be
 /// percentage encoded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class QueryStringConditionConfig {
   /// One or more key/value pairs or values to find in the query string. The
   /// maximum size of each string is 128 characters. The comparison is case
@@ -3972,8 +4017,7 @@ class QueryStringConditionConfig {
   ///
   /// If you specify multiple key/value pairs or values, the condition is
   /// satisfied if one of them is found in the query string.
-  @_s.JsonKey(name: 'Values')
-  final List<QueryStringKeyValuePair> values;
+  final List<QueryStringKeyValuePair>? values;
 
   QueryStringConditionConfig({
     this.values,
@@ -3987,23 +4031,21 @@ class QueryStringConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$QueryStringConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about a key/value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class QueryStringKeyValuePair {
   /// The key. You can omit the key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   QueryStringKeyValuePair({
     this.key,
@@ -4016,7 +4058,14 @@ class QueryStringKeyValuePair {
     );
   }
 
-  Map<String, dynamic> toJson() => _$QueryStringKeyValuePairToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about a redirect action.
@@ -4047,45 +4096,34 @@ class QueryStringKeyValuePair {
 /// </ul>
 /// For example, you can change the path to "/new/#{path}", the hostname to
 /// "example.#{host}", or the query to "#{query}&amp;value=xyz".
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RedirectActionConfig {
   /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or
   /// temporary (HTTP 302).
-  @_s.JsonKey(name: 'StatusCode')
   final RedirectActionStatusCodeEnum statusCode;
 
   /// The hostname. This component is not percent-encoded. The hostname can
   /// contain #{host}.
-  @_s.JsonKey(name: 'Host')
-  final String host;
+  final String? host;
 
   /// The absolute path, starting with the leading "/". This component is not
   /// percent-encoded. The path can contain #{host}, #{path}, and #{port}.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// The port. You can specify a value from 1 to 65535 or #{port}.
-  @_s.JsonKey(name: 'Port')
-  final String port;
+  final String? port;
 
   /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect
   /// HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS
   /// to HTTP.
-  @_s.JsonKey(name: 'Protocol')
-  final String protocol;
+  final String? protocol;
 
   /// The query parameters, URL-encoded when necessary, but not percent-encoded.
   /// Do not include the leading "?", as it is automatically added. You can
   /// specify any of the reserved keywords.
-  @_s.JsonKey(name: 'Query')
-  final String query;
+  final String? query;
 
   RedirectActionConfig({
-    @_s.required this.statusCode,
+    required this.statusCode,
     this.host,
     this.path,
     this.port,
@@ -4095,8 +4133,8 @@ class RedirectActionConfig {
   factory RedirectActionConfig.fromXml(_s.XmlElement elem) {
     return RedirectActionConfig(
       statusCode: _s
-          .extractXmlStringValue(elem, 'StatusCode')
-          ?.toRedirectActionStatusCodeEnum(),
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .toRedirectActionStatusCodeEnum(),
       host: _s.extractXmlStringValue(elem, 'Host'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       port: _s.extractXmlStringValue(elem, 'Port'),
@@ -4105,14 +4143,38 @@ class RedirectActionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$RedirectActionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final statusCode = this.statusCode;
+    final host = this.host;
+    final path = this.path;
+    final port = this.port;
+    final protocol = this.protocol;
+    final query = this.query;
+    return {
+      'StatusCode': statusCode.toValue(),
+      if (host != null) 'Host': host,
+      if (path != null) 'Path': path,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol,
+      if (query != null) 'Query': query,
+    };
+  }
 }
 
 enum RedirectActionStatusCodeEnum {
-  @_s.JsonValue('HTTP_301')
   http_301,
-  @_s.JsonValue('HTTP_302')
   http_302,
+}
+
+extension on RedirectActionStatusCodeEnum {
+  String toValue() {
+    switch (this) {
+      case RedirectActionStatusCodeEnum.http_301:
+        return 'HTTP_301';
+      case RedirectActionStatusCodeEnum.http_302:
+        return 'HTTP_302';
+    }
+  }
 }
 
 extension on String {
@@ -4123,7 +4185,7 @@ extension on String {
       case 'HTTP_302':
         return RedirectActionStatusCodeEnum.http_302;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RedirectActionStatusCodeEnum');
   }
 }
 
@@ -4159,23 +4221,23 @@ class Rule {
   /// The actions. Each rule must include exactly one of the following types of
   /// actions: <code>forward</code>, <code>redirect</code>, or
   /// <code>fixed-response</code>, and it must be the last action to be performed.
-  final List<Action> actions;
+  final List<Action>? actions;
 
   /// The conditions. Each rule can include zero or one of the following
   /// conditions: <code>http-request-method</code>, <code>host-header</code>,
   /// <code>path-pattern</code>, and <code>source-ip</code>, and zero or more of
   /// the following conditions: <code>http-header</code> and
   /// <code>query-string</code>.
-  final List<RuleCondition> conditions;
+  final List<RuleCondition>? conditions;
 
   /// Indicates whether this is the default rule.
-  final bool isDefault;
+  final bool? isDefault;
 
   /// The priority.
-  final String priority;
+  final String? priority;
 
   /// The Amazon Resource Name (ARN) of the rule.
-  final String ruleArn;
+  final String? ruleArn;
 
   Rule({
     this.actions,
@@ -4206,11 +4268,6 @@ class Rule {
 /// <code>path-pattern</code>, and <code>source-ip</code>. Each rule can also
 /// optionally include one or more of each of the following conditions:
 /// <code>http-header</code> and <code>query-string</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RuleCondition {
   /// The field in the HTTP request. The following are the possible values:
   ///
@@ -4234,38 +4291,31 @@ class RuleCondition {
   /// <code>source-ip</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Field')
-  final String field;
+  final String? field;
 
   /// Information for a host header condition. Specify only when
   /// <code>Field</code> is <code>host-header</code>.
-  @_s.JsonKey(name: 'HostHeaderConfig')
-  final HostHeaderConditionConfig hostHeaderConfig;
+  final HostHeaderConditionConfig? hostHeaderConfig;
 
   /// Information for an HTTP header condition. Specify only when
   /// <code>Field</code> is <code>http-header</code>.
-  @_s.JsonKey(name: 'HttpHeaderConfig')
-  final HttpHeaderConditionConfig httpHeaderConfig;
+  final HttpHeaderConditionConfig? httpHeaderConfig;
 
   /// Information for an HTTP method condition. Specify only when
   /// <code>Field</code> is <code>http-request-method</code>.
-  @_s.JsonKey(name: 'HttpRequestMethodConfig')
-  final HttpRequestMethodConditionConfig httpRequestMethodConfig;
+  final HttpRequestMethodConditionConfig? httpRequestMethodConfig;
 
   /// Information for a path pattern condition. Specify only when
   /// <code>Field</code> is <code>path-pattern</code>.
-  @_s.JsonKey(name: 'PathPatternConfig')
-  final PathPatternConditionConfig pathPatternConfig;
+  final PathPatternConditionConfig? pathPatternConfig;
 
   /// Information for a query string condition. Specify only when
   /// <code>Field</code> is <code>query-string</code>.
-  @_s.JsonKey(name: 'QueryStringConfig')
-  final QueryStringConditionConfig queryStringConfig;
+  final QueryStringConditionConfig? queryStringConfig;
 
   /// Information for a source IP condition. Specify only when <code>Field</code>
   /// is <code>source-ip</code>.
-  @_s.JsonKey(name: 'SourceIpConfig')
-  final SourceIpConditionConfig sourceIpConfig;
+  final SourceIpConditionConfig? sourceIpConfig;
 
   /// The condition value. Specify only when <code>Field</code> is
   /// <code>host-header</code> or <code>path-pattern</code>. Alternatively, to
@@ -4315,8 +4365,7 @@ class RuleCondition {
   /// ? (matches exactly 1 character)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   RuleCondition({
     this.field,
@@ -4355,34 +4404,54 @@ class RuleCondition {
     );
   }
 
-  Map<String, dynamic> toJson() => _$RuleConditionToJson(this);
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final hostHeaderConfig = this.hostHeaderConfig;
+    final httpHeaderConfig = this.httpHeaderConfig;
+    final httpRequestMethodConfig = this.httpRequestMethodConfig;
+    final pathPatternConfig = this.pathPatternConfig;
+    final queryStringConfig = this.queryStringConfig;
+    final sourceIpConfig = this.sourceIpConfig;
+    final values = this.values;
+    return {
+      if (field != null) 'Field': field,
+      if (hostHeaderConfig != null) 'HostHeaderConfig': hostHeaderConfig,
+      if (httpHeaderConfig != null) 'HttpHeaderConfig': httpHeaderConfig,
+      if (httpRequestMethodConfig != null)
+        'HttpRequestMethodConfig': httpRequestMethodConfig,
+      if (pathPatternConfig != null) 'PathPatternConfig': pathPatternConfig,
+      if (queryStringConfig != null) 'QueryStringConfig': queryStringConfig,
+      if (sourceIpConfig != null) 'SourceIpConfig': sourceIpConfig,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about the priorities for the rules for a listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RulePriorityPair {
   /// The rule priority.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The Amazon Resource Name (ARN) of the rule.
-  @_s.JsonKey(name: 'RuleArn')
-  final String ruleArn;
+  final String? ruleArn;
 
   RulePriorityPair({
     this.priority,
     this.ruleArn,
   });
-  Map<String, dynamic> toJson() => _$RulePriorityPairToJson(this);
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleArn = this.ruleArn;
+    return {
+      if (priority != null) 'Priority': priority,
+      if (ruleArn != null) 'RuleArn': ruleArn,
+    };
+  }
 }
 
 class SetIpAddressTypeOutput {
   /// The IP address type.
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   SetIpAddressTypeOutput({
     this.ipAddressType,
@@ -4397,7 +4466,7 @@ class SetIpAddressTypeOutput {
 
 class SetRulePrioritiesOutput {
   /// Information about the rules.
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   SetRulePrioritiesOutput({
     this.rules,
@@ -4412,7 +4481,7 @@ class SetRulePrioritiesOutput {
 
 class SetSecurityGroupsOutput {
   /// The IDs of the security groups associated with the load balancer.
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   SetSecurityGroupsOutput({
     this.securityGroupIds,
@@ -4428,10 +4497,10 @@ class SetSecurityGroupsOutput {
 
 class SetSubnetsOutput {
   /// Information about the subnets.
-  final List<AvailabilityZone> availabilityZones;
+  final List<AvailabilityZone>? availabilityZones;
 
   /// [Network Load Balancers] The IP address type.
-  final IpAddressType ipAddressType;
+  final IpAddressType? ipAddressType;
 
   SetSubnetsOutput({
     this.availabilityZones,
@@ -4455,11 +4524,6 @@ class SetSubnetsOutput {
 /// You can use this condition to route based on the IP address of the source
 /// that connects to the load balancer. If a client is behind a proxy, this is
 /// the IP address of the proxy not the IP address of the client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceIpConditionConfig {
   /// One or more source IP addresses, in CIDR format. You can use both IPv4 and
   /// IPv6 addresses. Wildcards are not supported.
@@ -4469,8 +4533,7 @@ class SourceIpConditionConfig {
   /// not satisfied by the addresses in the X-Forwarded-For header. To search for
   /// addresses in the X-Forwarded-For header, use
   /// <a>HttpHeaderConditionConfig</a>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   SourceIpConditionConfig({
     this.values,
@@ -4483,19 +4546,24 @@ class SourceIpConditionConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceIpConditionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about a policy used for SSL negotiation.
 class SslPolicy {
   /// The ciphers.
-  final List<Cipher> ciphers;
+  final List<Cipher>? ciphers;
 
   /// The name of the policy.
-  final String name;
+  final String? name;
 
   /// The protocols.
-  final List<String> sslProtocols;
+  final List<String>? sslProtocols;
 
   SslPolicy({
     this.ciphers,
@@ -4515,29 +4583,20 @@ class SslPolicy {
 }
 
 /// Information about a subnet mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SubnetMapping {
   /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
   /// internet-facing load balancer.
-  @_s.JsonKey(name: 'AllocationId')
-  final String allocationId;
+  final String? allocationId;
 
   /// [Network Load Balancers] The IPv6 address.
-  @_s.JsonKey(name: 'IPv6Address')
-  final String iPv6Address;
+  final String? iPv6Address;
 
   /// [Network Load Balancers] The private IPv4 address for an internal load
   /// balancer.
-  @_s.JsonKey(name: 'PrivateIPv4Address')
-  final String privateIPv4Address;
+  final String? privateIPv4Address;
 
   /// The ID of the subnet.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   SubnetMapping({
     this.allocationId,
@@ -4545,45 +4604,56 @@ class SubnetMapping {
     this.privateIPv4Address,
     this.subnetId,
   });
-  Map<String, dynamic> toJson() => _$SubnetMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final allocationId = this.allocationId;
+    final iPv6Address = this.iPv6Address;
+    final privateIPv4Address = this.privateIPv4Address;
+    final subnetId = this.subnetId;
+    return {
+      if (allocationId != null) 'AllocationId': allocationId,
+      if (iPv6Address != null) 'IPv6Address': iPv6Address,
+      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
 }
 
 /// Information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The tags associated with a resource.
 class TagDescription {
   /// The Amazon Resource Name (ARN) of the resource.
-  final String resourceArn;
+  final String? resourceArn;
 
   /// Information about the tags.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   TagDescription({
     this.resourceArn,
@@ -4599,17 +4669,11 @@ class TagDescription {
 }
 
 /// Information about a target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TargetDescription {
   /// The ID of the target. If the target type of the target group is
   /// <code>instance</code>, specify an instance ID. If the target type is
   /// <code>ip</code>, specify an IP address. If the target type is
   /// <code>lambda</code>, specify the ARN of the Lambda function.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// An Availability Zone or <code>all</code>. This determines whether the target
@@ -4630,95 +4694,102 @@ class TargetDescription {
   ///
   /// If the target type is <code>lambda</code>, this parameter is optional and
   /// the only supported value is <code>all</code>.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The port on which the target is listening. If the target group protocol is
   /// GENEVE, the supported port is 6081. Not used if the target is a Lambda
   /// function.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   TargetDescription({
-    @_s.required this.id,
+    required this.id,
     this.availabilityZone,
     this.port,
   });
   factory TargetDescription.fromXml(_s.XmlElement elem) {
     return TargetDescription(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
       port: _s.extractXmlIntValue(elem, 'Port'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$TargetDescriptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final availabilityZone = this.availabilityZone;
+    final port = this.port;
+    return {
+      'Id': id,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (port != null) 'Port': port,
+    };
+  }
 }
 
 /// Information about a target group.
 class TargetGroup {
   /// Indicates whether health checks are enabled.
-  final bool healthCheckEnabled;
+  final bool? healthCheckEnabled;
 
   /// The approximate amount of time, in seconds, between health checks of an
   /// individual target.
-  final int healthCheckIntervalSeconds;
+  final int? healthCheckIntervalSeconds;
 
   /// The destination for health checks on the targets.
-  final String healthCheckPath;
+  final String? healthCheckPath;
 
   /// The port to use to connect with the target.
-  final String healthCheckPort;
+  final String? healthCheckPort;
 
   /// The protocol to use to connect with the target. The GENEVE, TLS, UDP, and
   /// TCP_UDP protocols are not supported for health checks.
-  final ProtocolEnum healthCheckProtocol;
+  final ProtocolEnum? healthCheckProtocol;
 
   /// The amount of time, in seconds, during which no response means a failed
   /// health check.
-  final int healthCheckTimeoutSeconds;
+  final int? healthCheckTimeoutSeconds;
 
   /// The number of consecutive health checks successes required before
   /// considering an unhealthy target healthy.
-  final int healthyThresholdCount;
+  final int? healthyThresholdCount;
 
   /// The Amazon Resource Names (ARN) of the load balancers that route traffic to
   /// this target group.
-  final List<String> loadBalancerArns;
+  final List<String>? loadBalancerArns;
 
   /// The HTTP or gRPC codes to use when checking for a successful response from a
   /// target.
-  final Matcher matcher;
+  final Matcher? matcher;
 
   /// The port on which the targets are listening. Not used if the target is a
   /// Lambda function.
-  final int port;
+  final int? port;
 
   /// The protocol to use for routing traffic to the targets.
-  final ProtocolEnum protocol;
+  final ProtocolEnum? protocol;
 
   /// [HTTP/HTTPS protocol] The protocol version. The possible values are
   /// <code>GRPC</code>, <code>HTTP1</code>, and <code>HTTP2</code>.
-  final String protocolVersion;
+  final String? protocolVersion;
 
   /// The Amazon Resource Name (ARN) of the target group.
-  final String targetGroupArn;
+  final String? targetGroupArn;
 
   /// The name of the target group.
-  final String targetGroupName;
+  final String? targetGroupName;
 
   /// The type of target that you must specify when registering targets with this
   /// target group. The possible values are <code>instance</code> (register
   /// targets by instance ID), <code>ip</code> (register targets by IP address),
   /// or <code>lambda</code> (register a single Lambda function as a target).
-  final TargetTypeEnum targetType;
+  final TargetTypeEnum? targetType;
 
   /// The number of consecutive health check failures required before considering
   /// the target unhealthy.
-  final int unhealthyThresholdCount;
+  final int? unhealthyThresholdCount;
 
   /// The ID of the VPC for the targets.
-  final String vpcId;
+  final String? vpcId;
 
   TargetGroup({
     this.healthCheckEnabled,
@@ -4773,11 +4844,6 @@ class TargetGroup {
 }
 
 /// Information about a target group attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TargetGroupAttribute {
   /// The name of the attribute.
   ///
@@ -4862,12 +4928,10 @@ class TargetGroupAttribute {
   /// The default is <code>false</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   TargetGroupAttribute({
     this.key,
@@ -4880,24 +4944,24 @@ class TargetGroupAttribute {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TargetGroupAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about the target group stickiness for a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TargetGroupStickinessConfig {
   /// The time period, in seconds, during which requests from a client should be
   /// routed to the same target group. The range is 1-604800 seconds (7 days).
-  @_s.JsonKey(name: 'DurationSeconds')
-  final int durationSeconds;
+  final int? durationSeconds;
 
   /// Indicates whether target group stickiness is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   TargetGroupStickinessConfig({
     this.durationSeconds,
@@ -4910,24 +4974,24 @@ class TargetGroupStickinessConfig {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TargetGroupStickinessConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final durationSeconds = this.durationSeconds;
+    final enabled = this.enabled;
+    return {
+      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// Information about how traffic will be distributed between multiple target
 /// groups in a forward rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TargetGroupTuple {
   /// The Amazon Resource Name (ARN) of the target group.
-  @_s.JsonKey(name: 'TargetGroupArn')
-  final String targetGroupArn;
+  final String? targetGroupArn;
 
   /// The weight. The range is 0 to 999.
-  @_s.JsonKey(name: 'Weight')
-  final int weight;
+  final int? weight;
 
   TargetGroupTuple({
     this.targetGroupArn,
@@ -4940,14 +5004,21 @@ class TargetGroupTuple {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TargetGroupTupleToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetGroupArn = this.targetGroupArn;
+    final weight = this.weight;
+    return {
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+      if (weight != null) 'Weight': weight,
+    };
+  }
 }
 
 /// Information about the current health of a target.
 class TargetHealth {
   /// A description of the target health that provides additional details. If the
   /// state is <code>healthy</code>, a description is not provided.
-  final String description;
+  final String? description;
 
   /// The reason code.
   ///
@@ -5034,10 +5105,10 @@ class TargetHealth {
   /// internal error. Applies only to Network Load Balancers.
   /// </li>
   /// </ul>
-  final TargetHealthReasonEnum reason;
+  final TargetHealthReasonEnum? reason;
 
   /// The state of the target.
-  final TargetHealthStateEnum state;
+  final TargetHealthStateEnum? state;
 
   TargetHealth({
     this.description,
@@ -5057,13 +5128,13 @@ class TargetHealth {
 /// Information about the health of a target.
 class TargetHealthDescription {
   /// The port to use to connect with the target.
-  final String healthCheckPort;
+  final String? healthCheckPort;
 
   /// The description of the target.
-  final TargetDescription target;
+  final TargetDescription? target;
 
   /// The health information for the target.
-  final TargetHealth targetHealth;
+  final TargetHealth? targetHealth;
 
   TargetHealthDescription({
     this.healthCheckPort,
@@ -5084,30 +5155,49 @@ class TargetHealthDescription {
 }
 
 enum TargetHealthReasonEnum {
-  @_s.JsonValue('Elb.RegistrationInProgress')
   elbRegistrationInProgress,
-  @_s.JsonValue('Elb.InitialHealthChecking')
   elbInitialHealthChecking,
-  @_s.JsonValue('Target.ResponseCodeMismatch')
   targetResponseCodeMismatch,
-  @_s.JsonValue('Target.Timeout')
   targetTimeout,
-  @_s.JsonValue('Target.FailedHealthChecks')
   targetFailedHealthChecks,
-  @_s.JsonValue('Target.NotRegistered')
   targetNotRegistered,
-  @_s.JsonValue('Target.NotInUse')
   targetNotInUse,
-  @_s.JsonValue('Target.DeregistrationInProgress')
   targetDeregistrationInProgress,
-  @_s.JsonValue('Target.InvalidState')
   targetInvalidState,
-  @_s.JsonValue('Target.IpUnusable')
   targetIpUnusable,
-  @_s.JsonValue('Target.HealthCheckDisabled')
   targetHealthCheckDisabled,
-  @_s.JsonValue('Elb.InternalError')
   elbInternalError,
+}
+
+extension on TargetHealthReasonEnum {
+  String toValue() {
+    switch (this) {
+      case TargetHealthReasonEnum.elbRegistrationInProgress:
+        return 'Elb.RegistrationInProgress';
+      case TargetHealthReasonEnum.elbInitialHealthChecking:
+        return 'Elb.InitialHealthChecking';
+      case TargetHealthReasonEnum.targetResponseCodeMismatch:
+        return 'Target.ResponseCodeMismatch';
+      case TargetHealthReasonEnum.targetTimeout:
+        return 'Target.Timeout';
+      case TargetHealthReasonEnum.targetFailedHealthChecks:
+        return 'Target.FailedHealthChecks';
+      case TargetHealthReasonEnum.targetNotRegistered:
+        return 'Target.NotRegistered';
+      case TargetHealthReasonEnum.targetNotInUse:
+        return 'Target.NotInUse';
+      case TargetHealthReasonEnum.targetDeregistrationInProgress:
+        return 'Target.DeregistrationInProgress';
+      case TargetHealthReasonEnum.targetInvalidState:
+        return 'Target.InvalidState';
+      case TargetHealthReasonEnum.targetIpUnusable:
+        return 'Target.IpUnusable';
+      case TargetHealthReasonEnum.targetHealthCheckDisabled:
+        return 'Target.HealthCheckDisabled';
+      case TargetHealthReasonEnum.elbInternalError:
+        return 'Elb.InternalError';
+    }
+  }
 }
 
 extension on String {
@@ -5138,23 +5228,36 @@ extension on String {
       case 'Elb.InternalError':
         return TargetHealthReasonEnum.elbInternalError;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetHealthReasonEnum');
   }
 }
 
 enum TargetHealthStateEnum {
-  @_s.JsonValue('initial')
   initial,
-  @_s.JsonValue('healthy')
   healthy,
-  @_s.JsonValue('unhealthy')
   unhealthy,
-  @_s.JsonValue('unused')
   unused,
-  @_s.JsonValue('draining')
   draining,
-  @_s.JsonValue('unavailable')
   unavailable,
+}
+
+extension on TargetHealthStateEnum {
+  String toValue() {
+    switch (this) {
+      case TargetHealthStateEnum.initial:
+        return 'initial';
+      case TargetHealthStateEnum.healthy:
+        return 'healthy';
+      case TargetHealthStateEnum.unhealthy:
+        return 'unhealthy';
+      case TargetHealthStateEnum.unused:
+        return 'unused';
+      case TargetHealthStateEnum.draining:
+        return 'draining';
+      case TargetHealthStateEnum.unavailable:
+        return 'unavailable';
+    }
+  }
 }
 
 extension on String {
@@ -5173,16 +5276,13 @@ extension on String {
       case 'unavailable':
         return TargetHealthStateEnum.unavailable;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetHealthStateEnum');
   }
 }
 
 enum TargetTypeEnum {
-  @_s.JsonValue('instance')
   instance,
-  @_s.JsonValue('ip')
   ip,
-  @_s.JsonValue('lambda')
   lambda,
 }
 
@@ -5196,7 +5296,6 @@ extension on TargetTypeEnum {
       case TargetTypeEnum.lambda:
         return 'lambda';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5210,12 +5309,12 @@ extension on String {
       case 'lambda':
         return TargetTypeEnum.lambda;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TargetTypeEnum');
   }
 }
 
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
-  ALPNPolicyNotSupportedException({String type, String message})
+  ALPNPolicyNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ALPNPolicyNotSupportedException',
@@ -5223,7 +5322,7 @@ class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
 }
 
 class AllocationIdNotFoundException extends _s.GenericAwsException {
-  AllocationIdNotFoundException({String type, String message})
+  AllocationIdNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AllocationIdNotFoundException',
@@ -5231,7 +5330,7 @@ class AllocationIdNotFoundException extends _s.GenericAwsException {
 }
 
 class AvailabilityZoneNotSupportedException extends _s.GenericAwsException {
-  AvailabilityZoneNotSupportedException({String type, String message})
+  AvailabilityZoneNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'AvailabilityZoneNotSupportedException',
@@ -5239,18 +5338,18 @@ class AvailabilityZoneNotSupportedException extends _s.GenericAwsException {
 }
 
 class CertificateNotFoundException extends _s.GenericAwsException {
-  CertificateNotFoundException({String type, String message})
+  CertificateNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CertificateNotFoundException', message: message);
 }
 
 class DuplicateListenerException extends _s.GenericAwsException {
-  DuplicateListenerException({String type, String message})
+  DuplicateListenerException({String? type, String? message})
       : super(type: type, code: 'DuplicateListenerException', message: message);
 }
 
 class DuplicateLoadBalancerNameException extends _s.GenericAwsException {
-  DuplicateLoadBalancerNameException({String type, String message})
+  DuplicateLoadBalancerNameException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateLoadBalancerNameException',
@@ -5258,12 +5357,12 @@ class DuplicateLoadBalancerNameException extends _s.GenericAwsException {
 }
 
 class DuplicateTagKeysException extends _s.GenericAwsException {
-  DuplicateTagKeysException({String type, String message})
+  DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
 class DuplicateTargetGroupNameException extends _s.GenericAwsException {
-  DuplicateTargetGroupNameException({String type, String message})
+  DuplicateTargetGroupNameException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateTargetGroupNameException',
@@ -5271,12 +5370,12 @@ class DuplicateTargetGroupNameException extends _s.GenericAwsException {
 }
 
 class HealthUnavailableException extends _s.GenericAwsException {
-  HealthUnavailableException({String type, String message})
+  HealthUnavailableException({String? type, String? message})
       : super(type: type, code: 'HealthUnavailableException', message: message);
 }
 
 class IncompatibleProtocolsException extends _s.GenericAwsException {
-  IncompatibleProtocolsException({String type, String message})
+  IncompatibleProtocolsException({String? type, String? message})
       : super(
             type: type,
             code: 'IncompatibleProtocolsException',
@@ -5284,7 +5383,7 @@ class IncompatibleProtocolsException extends _s.GenericAwsException {
 }
 
 class InvalidConfigurationRequestException extends _s.GenericAwsException {
-  InvalidConfigurationRequestException({String type, String message})
+  InvalidConfigurationRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConfigurationRequestException',
@@ -5292,7 +5391,7 @@ class InvalidConfigurationRequestException extends _s.GenericAwsException {
 }
 
 class InvalidLoadBalancerActionException extends _s.GenericAwsException {
-  InvalidLoadBalancerActionException({String type, String message})
+  InvalidLoadBalancerActionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLoadBalancerActionException',
@@ -5300,12 +5399,12 @@ class InvalidLoadBalancerActionException extends _s.GenericAwsException {
 }
 
 class InvalidSchemeException extends _s.GenericAwsException {
-  InvalidSchemeException({String type, String message})
+  InvalidSchemeException({String? type, String? message})
       : super(type: type, code: 'InvalidSchemeException', message: message);
 }
 
 class InvalidSecurityGroupException extends _s.GenericAwsException {
-  InvalidSecurityGroupException({String type, String message})
+  InvalidSecurityGroupException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSecurityGroupException',
@@ -5313,22 +5412,22 @@ class InvalidSecurityGroupException extends _s.GenericAwsException {
 }
 
 class InvalidSubnetException extends _s.GenericAwsException {
-  InvalidSubnetException({String type, String message})
+  InvalidSubnetException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetException', message: message);
 }
 
 class InvalidTargetException extends _s.GenericAwsException {
-  InvalidTargetException({String type, String message})
+  InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
 class ListenerNotFoundException extends _s.GenericAwsException {
-  ListenerNotFoundException({String type, String message})
+  ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 
 class LoadBalancerNotFoundException extends _s.GenericAwsException {
-  LoadBalancerNotFoundException({String type, String message})
+  LoadBalancerNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'LoadBalancerNotFoundException',
@@ -5336,7 +5435,7 @@ class LoadBalancerNotFoundException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -5344,32 +5443,32 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class PriorityInUseException extends _s.GenericAwsException {
-  PriorityInUseException({String type, String message})
+  PriorityInUseException({String? type, String? message})
       : super(type: type, code: 'PriorityInUseException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class RuleNotFoundException extends _s.GenericAwsException {
-  RuleNotFoundException({String type, String message})
+  RuleNotFoundException({String? type, String? message})
       : super(type: type, code: 'RuleNotFoundException', message: message);
 }
 
 class SSLPolicyNotFoundException extends _s.GenericAwsException {
-  SSLPolicyNotFoundException({String type, String message})
+  SSLPolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'SSLPolicyNotFoundException', message: message);
 }
 
 class SubnetNotFoundException extends _s.GenericAwsException {
-  SubnetNotFoundException({String type, String message})
+  SubnetNotFoundException({String? type, String? message})
       : super(type: type, code: 'SubnetNotFoundException', message: message);
 }
 
 class TargetGroupAssociationLimitException extends _s.GenericAwsException {
-  TargetGroupAssociationLimitException({String type, String message})
+  TargetGroupAssociationLimitException({String? type, String? message})
       : super(
             type: type,
             code: 'TargetGroupAssociationLimitException',
@@ -5377,29 +5476,29 @@ class TargetGroupAssociationLimitException extends _s.GenericAwsException {
 }
 
 class TargetGroupNotFoundException extends _s.GenericAwsException {
-  TargetGroupNotFoundException({String type, String message})
+  TargetGroupNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'TargetGroupNotFoundException', message: message);
 }
 
 class TooManyActionsException extends _s.GenericAwsException {
-  TooManyActionsException({String type, String message})
+  TooManyActionsException({String? type, String? message})
       : super(type: type, code: 'TooManyActionsException', message: message);
 }
 
 class TooManyCertificatesException extends _s.GenericAwsException {
-  TooManyCertificatesException({String type, String message})
+  TooManyCertificatesException({String? type, String? message})
       : super(
             type: type, code: 'TooManyCertificatesException', message: message);
 }
 
 class TooManyListenersException extends _s.GenericAwsException {
-  TooManyListenersException({String type, String message})
+  TooManyListenersException({String? type, String? message})
       : super(type: type, code: 'TooManyListenersException', message: message);
 }
 
 class TooManyLoadBalancersException extends _s.GenericAwsException {
-  TooManyLoadBalancersException({String type, String message})
+  TooManyLoadBalancersException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyLoadBalancersException',
@@ -5407,7 +5506,7 @@ class TooManyLoadBalancersException extends _s.GenericAwsException {
 }
 
 class TooManyRegistrationsForTargetIdException extends _s.GenericAwsException {
-  TooManyRegistrationsForTargetIdException({String type, String message})
+  TooManyRegistrationsForTargetIdException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyRegistrationsForTargetIdException',
@@ -5415,30 +5514,30 @@ class TooManyRegistrationsForTargetIdException extends _s.GenericAwsException {
 }
 
 class TooManyRulesException extends _s.GenericAwsException {
-  TooManyRulesException({String type, String message})
+  TooManyRulesException({String? type, String? message})
       : super(type: type, code: 'TooManyRulesException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class TooManyTargetGroupsException extends _s.GenericAwsException {
-  TooManyTargetGroupsException({String type, String message})
+  TooManyTargetGroupsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyTargetGroupsException', message: message);
 }
 
 class TooManyTargetsException extends _s.GenericAwsException {
-  TooManyTargetsException({String type, String message})
+  TooManyTargetsException({String? type, String? message})
       : super(type: type, code: 'TooManyTargetsException', message: message);
 }
 
 class TooManyUniqueTargetGroupsPerLoadBalancerException
     extends _s.GenericAwsException {
   TooManyUniqueTargetGroupsPerLoadBalancerException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'TooManyUniqueTargetGroupsPerLoadBalancerException',
@@ -5446,7 +5545,7 @@ class TooManyUniqueTargetGroupsPerLoadBalancerException
 }
 
 class UnsupportedProtocolException extends _s.GenericAwsException {
-  UnsupportedProtocolException({String type, String message})
+  UnsupportedProtocolException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedProtocolException', message: message);
 }

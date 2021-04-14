@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'clouddirectory-2016-05-10.g.dart';
 
 /// Amazon Cloud Directory is a component of the AWS Directory Service that
 /// simplifies the development and management of cloud-scale web, mobile, and
@@ -38,10 +30,10 @@ part 'clouddirectory-2016-05-10.g.dart';
 class CloudDirectory {
   final _s.RestJsonProtocol _protocol;
   CloudDirectory({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -81,16 +73,17 @@ class CloudDirectory {
   /// Parameter [objectAttributeList] :
   /// Attributes on the facet that you are adding to the object.
   Future<void> addFacetToObject({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    @_s.required SchemaFacet schemaFacet,
-    List<AttributeKeyAndValue> objectAttributeList,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    required SchemaFacet schemaFacet,
+    List<AttributeKeyAndValue>? objectAttributeList,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'SchemaFacet': schemaFacet,
@@ -104,7 +97,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return AddFacetToObjectResponse.fromJson(response);
   }
 
   /// Copies the input published schema, at the specified version, into the
@@ -129,13 +121,14 @@ class CloudDirectory {
   /// Published schema Amazon Resource Name (ARN) that needs to be copied. For
   /// more information, see <a>arns</a>.
   Future<ApplySchemaResponse> applySchema({
-    @_s.required String directoryArn,
-    @_s.required String publishedSchemaArn,
+    required String directoryArn,
+    required String publishedSchemaArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'PublishedSchemaArn': publishedSchemaArn,
     };
@@ -185,10 +178,10 @@ class CloudDirectory {
   /// Parameter [parentReference] :
   /// The parent object reference.
   Future<AttachObjectResponse> attachObject({
-    @_s.required ObjectReference childReference,
-    @_s.required String directoryArn,
-    @_s.required String linkName,
-    @_s.required ObjectReference parentReference,
+    required ObjectReference childReference,
+    required String directoryArn,
+    required String linkName,
+    required ObjectReference parentReference,
   }) async {
     ArgumentError.checkNotNull(childReference, 'childReference');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
@@ -207,8 +200,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(parentReference, 'parentReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ChildReference': childReference,
       'LinkName': linkName,
@@ -249,15 +243,16 @@ class CloudDirectory {
   /// Parameter [policyReference] :
   /// The reference that is associated with the policy object.
   Future<void> attachPolicy({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    @_s.required ObjectReference policyReference,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    required ObjectReference policyReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     ArgumentError.checkNotNull(policyReference, 'policyReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'PolicyReference': policyReference,
@@ -269,7 +264,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return AttachPolicyResponse.fromJson(response);
   }
 
   /// Attaches the specified object to the specified index.
@@ -297,15 +291,16 @@ class CloudDirectory {
   /// Parameter [targetReference] :
   /// A reference to the object that you are attaching to the index.
   Future<AttachToIndexResponse> attachToIndex({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference indexReference,
-    @_s.required ObjectReference targetReference,
+    required String directoryArn,
+    required ObjectReference indexReference,
+    required ObjectReference targetReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(indexReference, 'indexReference');
     ArgumentError.checkNotNull(targetReference, 'targetReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       'TargetReference': targetReference,
@@ -353,19 +348,20 @@ class CloudDirectory {
   /// Parameter [typedLinkFacet] :
   /// Identifies the typed link facet that is associated with the typed link.
   Future<AttachTypedLinkResponse> attachTypedLink({
-    @_s.required List<AttributeNameAndValue> attributes,
-    @_s.required String directoryArn,
-    @_s.required ObjectReference sourceObjectReference,
-    @_s.required ObjectReference targetObjectReference,
-    @_s.required TypedLinkSchemaAndFacetName typedLinkFacet,
+    required List<AttributeNameAndValue> attributes,
+    required String directoryArn,
+    required ObjectReference sourceObjectReference,
+    required ObjectReference targetObjectReference,
+    required TypedLinkSchemaAndFacetName typedLinkFacet,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(sourceObjectReference, 'sourceObjectReference');
     ArgumentError.checkNotNull(targetObjectReference, 'targetObjectReference');
     ArgumentError.checkNotNull(typedLinkFacet, 'typedLinkFacet');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Attributes': attributes,
       'SourceObjectReference': sourceObjectReference,
@@ -404,16 +400,17 @@ class CloudDirectory {
   /// of an object is reflected in a subsequent read operation of that same
   /// object.
   Future<BatchReadResponse> batchRead({
-    @_s.required String directoryArn,
-    @_s.required List<BatchReadOperation> operations,
-    ConsistencyLevel consistencyLevel,
+    required String directoryArn,
+    required List<BatchReadOperation> operations,
+    ConsistencyLevel? consistencyLevel,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(operations, 'operations');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'Operations': operations,
     };
@@ -446,13 +443,14 @@ class CloudDirectory {
   /// Parameter [operations] :
   /// A list of operations that are part of the batch.
   Future<BatchWriteResponse> batchWrite({
-    @_s.required String directoryArn,
-    @_s.required List<BatchWriteOperation> operations,
+    required String directoryArn,
+    required List<BatchWriteOperation> operations,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(operations, 'operations');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Operations': operations,
     };
@@ -486,8 +484,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) of the published schema that will be copied
   /// into the data <a>Directory</a>. For more information, see <a>arns</a>.
   Future<CreateDirectoryResponse> createDirectory({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -504,8 +502,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -570,10 +569,10 @@ class CloudDirectory {
   /// Parameter [attributes] :
   /// The attributes that are associated with the <a>Facet</a>.
   Future<void> createFacet({
-    @_s.required String name,
-    @_s.required ObjectType objectType,
-    @_s.required String schemaArn,
-    List<FacetAttribute> attributes,
+    required String name,
+    required ObjectType objectType,
+    required String schemaArn,
+    List<FacetAttribute>? attributes,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -591,11 +590,12 @@ class CloudDirectory {
     );
     ArgumentError.checkNotNull(objectType, 'objectType');
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
-      'ObjectType': objectType?.toValue() ?? '',
+      'ObjectType': objectType.toValue(),
       if (attributes != null) 'Attributes': attributes,
     };
     final response = await _protocol.send(
@@ -605,7 +605,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CreateFacetResponse.fromJson(response);
   }
 
   /// Creates an index object. See <a
@@ -641,11 +640,11 @@ class CloudDirectory {
   /// Parameter [parentReference] :
   /// A reference to the parent object that contains the index object.
   Future<CreateIndexResponse> createIndex({
-    @_s.required String directoryArn,
-    @_s.required bool isUnique,
-    @_s.required List<AttributeKey> orderedIndexedAttributeList,
-    String linkName,
-    ObjectReference parentReference,
+    required String directoryArn,
+    required bool isUnique,
+    required List<AttributeKey> orderedIndexedAttributeList,
+    String? linkName,
+    ObjectReference? parentReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(isUnique, 'isUnique');
@@ -662,8 +661,9 @@ class CloudDirectory {
       linkName,
       r'''[^\/\[\]\(\):\{\}#@!?\s\\;]+''',
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'IsUnique': isUnique,
       'OrderedIndexedAttributeList': orderedIndexedAttributeList,
@@ -717,11 +717,11 @@ class CloudDirectory {
   /// Parameter [parentReference] :
   /// If specified, the parent reference to which this object will be attached.
   Future<CreateObjectResponse> createObject({
-    @_s.required String directoryArn,
-    @_s.required List<SchemaFacet> schemaFacets,
-    String linkName,
-    List<AttributeKeyAndValue> objectAttributeList,
-    ObjectReference parentReference,
+    required String directoryArn,
+    required List<SchemaFacet> schemaFacets,
+    String? linkName,
+    List<AttributeKeyAndValue>? objectAttributeList,
+    ObjectReference? parentReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(schemaFacets, 'schemaFacets');
@@ -736,8 +736,9 @@ class CloudDirectory {
       linkName,
       r'''[^\/\[\]\(\):\{\}#@!?\s\\;]+''',
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'SchemaFacets': schemaFacets,
       if (linkName != null) 'LinkName': linkName,
@@ -789,7 +790,7 @@ class CloudDirectory {
   /// The name that is associated with the schema. This is unique to each
   /// account and in each region.
   Future<CreateSchemaResponse> createSchema({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -839,13 +840,14 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For
   /// more information, see <a>arns</a>.
   Future<void> createTypedLinkFacet({
-    @_s.required TypedLinkFacet facet,
-    @_s.required String schemaArn,
+    required TypedLinkFacet facet,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(facet, 'facet');
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Facet': facet,
     };
@@ -856,7 +858,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CreateTypedLinkFacetResponse.fromJson(response);
   }
 
   /// Deletes a directory. Only disabled directories can be deleted. A deleted
@@ -876,11 +877,12 @@ class CloudDirectory {
   /// Parameter [directoryArn] :
   /// The ARN of the directory to delete.
   Future<DeleteDirectoryResponse> deleteDirectory({
-    @_s.required String directoryArn,
+    required String directoryArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -912,8 +914,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the <a>Facet</a>.
   /// For more information, see <a>arns</a>.
   Future<void> deleteFacet({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -930,8 +932,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -942,7 +945,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteFacetResponse.fromJson(response);
   }
 
   /// Deletes an object and its associated attributes. Only objects with no
@@ -966,13 +968,14 @@ class CloudDirectory {
   /// Parameter [objectReference] :
   /// A reference that identifies the object.
   Future<void> deleteObject({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
+    required String directoryArn,
+    required ObjectReference objectReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
     };
@@ -983,7 +986,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteObjectResponse.fromJson(response);
   }
 
   /// Deletes a given schema. Schemas in a development and published state can
@@ -1002,11 +1004,12 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) of the development schema. For more
   /// information, see <a>arns</a>.
   Future<DeleteSchemaResponse> deleteSchema({
-    @_s.required String schemaArn,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1037,8 +1040,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For
   /// more information, see <a>arns</a>.
   Future<void> deleteTypedLinkFacet({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1048,8 +1051,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1060,7 +1064,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteTypedLinkFacetResponse.fromJson(response);
   }
 
   /// Detaches the specified object from the specified index.
@@ -1086,15 +1089,16 @@ class CloudDirectory {
   /// Parameter [targetReference] :
   /// A reference to the object being detached from the index.
   Future<DetachFromIndexResponse> detachFromIndex({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference indexReference,
-    @_s.required ObjectReference targetReference,
+    required String directoryArn,
+    required ObjectReference indexReference,
+    required ObjectReference targetReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(indexReference, 'indexReference');
     ArgumentError.checkNotNull(targetReference, 'targetReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       'TargetReference': targetReference,
@@ -1134,9 +1138,9 @@ class CloudDirectory {
   /// The parent reference from which the object with the specified link name is
   /// detached.
   Future<DetachObjectResponse> detachObject({
-    @_s.required String directoryArn,
-    @_s.required String linkName,
-    @_s.required ObjectReference parentReference,
+    required String directoryArn,
+    required String linkName,
+    required ObjectReference parentReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(linkName, 'linkName');
@@ -1154,8 +1158,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(parentReference, 'parentReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'LinkName': linkName,
       'ParentReference': parentReference,
@@ -1193,15 +1198,16 @@ class CloudDirectory {
   /// Parameter [policyReference] :
   /// Reference that identifies the policy object.
   Future<void> detachPolicy({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    @_s.required ObjectReference policyReference,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    required ObjectReference policyReference,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     ArgumentError.checkNotNull(policyReference, 'policyReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'PolicyReference': policyReference,
@@ -1213,7 +1219,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DetachPolicyResponse.fromJson(response);
   }
 
   /// Detaches a typed link from a specified source and target object. For more
@@ -1238,13 +1243,14 @@ class CloudDirectory {
   /// Parameter [typedLinkSpecifier] :
   /// Used to accept a typed link specifier as input.
   Future<void> detachTypedLink({
-    @_s.required String directoryArn,
-    @_s.required TypedLinkSpecifier typedLinkSpecifier,
+    required String directoryArn,
+    required TypedLinkSpecifier typedLinkSpecifier,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'TypedLinkSpecifier': typedLinkSpecifier,
     };
@@ -1273,11 +1279,12 @@ class CloudDirectory {
   /// Parameter [directoryArn] :
   /// The ARN of the directory to disable.
   Future<DisableDirectoryResponse> disableDirectory({
-    @_s.required String directoryArn,
+    required String directoryArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1303,11 +1310,12 @@ class CloudDirectory {
   /// Parameter [directoryArn] :
   /// The ARN of the directory to enable.
   Future<EnableDirectoryResponse> enableDirectory({
-    @_s.required String directoryArn,
+    required String directoryArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1332,7 +1340,7 @@ class CloudDirectory {
   /// Parameter [schemaArn] :
   /// The ARN of the applied schema.
   Future<GetAppliedSchemaVersionResponse> getAppliedSchemaVersion({
-    @_s.required String schemaArn,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final $payload = <String, dynamic>{
@@ -1359,11 +1367,12 @@ class CloudDirectory {
   /// Parameter [directoryArn] :
   /// The ARN of the directory.
   Future<GetDirectoryResponse> getDirectory({
-    @_s.required String directoryArn,
+    required String directoryArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1394,8 +1403,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the <a>Facet</a>.
   /// For more information, see <a>arns</a>.
   Future<GetFacetResponse> getFacet({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1412,8 +1421,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1454,16 +1464,17 @@ class CloudDirectory {
   /// Parameter [consistencyLevel] :
   /// The consistency level at which to retrieve the attributes on a typed link.
   Future<GetLinkAttributesResponse> getLinkAttributes({
-    @_s.required List<String> attributeNames,
-    @_s.required String directoryArn,
-    @_s.required TypedLinkSpecifier typedLinkSpecifier,
-    ConsistencyLevel consistencyLevel,
+    required List<String> attributeNames,
+    required String directoryArn,
+    required TypedLinkSpecifier typedLinkSpecifier,
+    ConsistencyLevel? consistencyLevel,
   }) async {
     ArgumentError.checkNotNull(attributeNames, 'attributeNames');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'TypedLinkSpecifier': typedLinkSpecifier,
@@ -1509,20 +1520,21 @@ class CloudDirectory {
   /// Parameter [consistencyLevel] :
   /// The consistency level at which to retrieve the attributes on an object.
   Future<GetObjectAttributesResponse> getObjectAttributes({
-    @_s.required List<String> attributeNames,
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    @_s.required SchemaFacet schemaFacet,
-    ConsistencyLevel consistencyLevel,
+    required List<String> attributeNames,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    required SchemaFacet schemaFacet,
+    ConsistencyLevel? consistencyLevel,
   }) async {
     ArgumentError.checkNotNull(attributeNames, 'attributeNames');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'ObjectReference': objectReference,
@@ -1558,16 +1570,17 @@ class CloudDirectory {
   /// Parameter [consistencyLevel] :
   /// The consistency level at which to retrieve the object information.
   Future<GetObjectInformationResponse> getObjectInformation({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
     };
@@ -1597,11 +1610,12 @@ class CloudDirectory {
   /// Parameter [schemaArn] :
   /// The ARN of the schema to retrieve.
   Future<GetSchemaAsJsonResponse> getSchemaAsJson({
-    @_s.required String schemaArn,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1634,8 +1648,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For
   /// more information, see <a>arns</a>.
   Future<GetTypedLinkFacetInformationResponse> getTypedLinkFacetInformation({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1645,8 +1659,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -1685,10 +1700,10 @@ class CloudDirectory {
   /// The response for <code>ListAppliedSchemaArns</code> when this parameter is
   /// used will list all minor version ARNs for a major version.
   Future<ListAppliedSchemaArnsResponse> listAppliedSchemaArns({
-    @_s.required String directoryArn,
-    int maxResults,
-    String nextToken,
-    String schemaArn,
+    required String directoryArn,
+    int? maxResults,
+    String? nextToken,
+    String? schemaArn,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     _s.validateNumRange(
@@ -1738,11 +1753,11 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListAttachedIndicesResponse> listAttachedIndices({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference targetReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference targetReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(targetReference, 'targetReference');
@@ -1752,10 +1767,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'TargetReference': targetReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -1789,8 +1805,8 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListDevelopmentSchemaArnsResponse> listDevelopmentSchemaArns({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1831,9 +1847,9 @@ class CloudDirectory {
   /// The state of the directories in the list. Can be either Enabled, Disabled,
   /// or Deleted.
   Future<ListDirectoriesResponse> listDirectories({
-    int maxResults,
-    String nextToken,
-    DirectoryState state,
+    int? maxResults,
+    String? nextToken,
+    DirectoryState? state,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1879,10 +1895,10 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListFacetAttributesResponse> listFacetAttributes({
-    @_s.required String name,
-    @_s.required String schemaArn,
-    int maxResults,
-    String nextToken,
+    required String name,
+    required String schemaArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1905,8 +1921,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -1942,9 +1959,9 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListFacetNamesResponse> listFacetNames({
-    @_s.required String schemaArn,
-    int maxResults,
-    String nextToken,
+    required String schemaArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
@@ -1953,8 +1970,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2012,13 +2030,13 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListIncomingTypedLinksResponse> listIncomingTypedLinks({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    List<TypedLinkAttributeRange> filterAttributeRanges,
-    TypedLinkSchemaAndFacetName filterTypedLink,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    List<TypedLinkAttributeRange>? filterAttributeRanges,
+    TypedLinkSchemaAndFacetName? filterTypedLink,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2028,8 +2046,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (consistencyLevel != null)
@@ -2085,12 +2104,12 @@ class CloudDirectory {
   /// Parameter [rangesOnIndexedValues] :
   /// Specifies the ranges of indexed values that you want to query.
   Future<ListIndexResponse> listIndex({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference indexReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
-    List<ObjectAttributeRange> rangesOnIndexedValues,
+    required String directoryArn,
+    required ObjectReference indexReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
+    List<ObjectAttributeRange>? rangesOnIndexedValues,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(indexReference, 'indexReference');
@@ -2100,10 +2119,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2158,12 +2178,12 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListObjectAttributesResponse> listObjectAttributes({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    SchemaFacet facetFilter,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    SchemaFacet? facetFilter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2173,10 +2193,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (facetFilter != null) 'FacetFilter': facetFilter,
@@ -2228,11 +2249,11 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListObjectChildrenResponse> listObjectChildren({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2242,10 +2263,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2298,10 +2320,10 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListObjectParentPathsResponse> listObjectParentPaths({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2311,8 +2333,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2363,11 +2386,11 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListObjectParentsResponse> listObjectParents({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2377,10 +2400,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2428,11 +2452,11 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListObjectPoliciesResponse> listObjectPolicies({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2442,10 +2466,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2504,13 +2529,13 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListOutgoingTypedLinksResponse> listOutgoingTypedLinks({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    ConsistencyLevel consistencyLevel,
-    List<TypedLinkAttributeRange> filterAttributeRanges,
-    TypedLinkSchemaAndFacetName filterTypedLink,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    ConsistencyLevel? consistencyLevel,
+    List<TypedLinkAttributeRange>? filterAttributeRanges,
+    TypedLinkSchemaAndFacetName? filterTypedLink,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2520,8 +2545,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (consistencyLevel != null)
@@ -2576,11 +2602,11 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListPolicyAttachmentsResponse> listPolicyAttachments({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference policyReference,
-    ConsistencyLevel consistencyLevel,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference policyReference,
+    ConsistencyLevel? consistencyLevel,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(policyReference, 'policyReference');
@@ -2590,10 +2616,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    consistencyLevel
-        ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+      if (consistencyLevel != null)
+        'x-amz-consistency-level': consistencyLevel.toValue(),
+    };
     final $payload = <String, dynamic>{
       'PolicyReference': policyReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2632,9 +2659,9 @@ class CloudDirectory {
   /// The response for <code>ListPublishedSchemaArns</code> when this parameter
   /// is used will list all minor version ARNs for a major version.
   Future<ListPublishedSchemaArnsResponse> listPublishedSchemaArns({
-    int maxResults,
-    String nextToken,
-    String schemaArn,
+    int? maxResults,
+    String? nextToken,
+    String? schemaArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2682,9 +2709,9 @@ class CloudDirectory {
   /// The pagination token. This is for future use. Currently pagination is not
   /// supported for tagging.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
@@ -2735,10 +2762,10 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListTypedLinkFacetAttributesResponse> listTypedLinkFacetAttributes({
-    @_s.required String name,
-    @_s.required String schemaArn,
-    int maxResults,
-    String nextToken,
+    required String name,
+    required String schemaArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -2754,8 +2781,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2795,9 +2823,9 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The pagination token.
   Future<ListTypedLinkFacetNamesResponse> listTypedLinkFacetNames({
-    @_s.required String schemaArn,
-    int maxResults,
-    String nextToken,
+    required String schemaArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
@@ -2806,8 +2834,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2856,10 +2885,10 @@ class CloudDirectory {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<LookupPolicyResponse> lookupPolicy({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    int maxResults,
-    String nextToken,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
@@ -2869,8 +2898,9 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2915,10 +2945,10 @@ class CloudDirectory {
   /// The new name under which the schema will be published. If this is not
   /// provided, the development schema is considered.
   Future<PublishSchemaResponse> publishSchema({
-    @_s.required String developmentSchemaArn,
-    @_s.required String version,
-    String minorVersion,
-    String name,
+    required String developmentSchemaArn,
+    required String version,
+    String? minorVersion,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(developmentSchemaArn, 'developmentSchemaArn');
     ArgumentError.checkNotNull(version, 'version');
@@ -2957,9 +2987,9 @@ class CloudDirectory {
       name,
       r'''^[a-zA-Z0-9._-]*$''',
     );
-    final headers = <String, String>{};
-    developmentSchemaArn
-        ?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': developmentSchemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Version': version,
       if (minorVersion != null) 'MinorVersion': minorVersion,
@@ -2995,13 +3025,14 @@ class CloudDirectory {
   /// Parameter [schemaArn] :
   /// The ARN of the schema to update.
   Future<PutSchemaFromJsonResponse> putSchemaFromJson({
-    @_s.required String document,
-    @_s.required String schemaArn,
+    required String document,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Document': document,
     };
@@ -3036,15 +3067,16 @@ class CloudDirectory {
   /// Parameter [schemaFacet] :
   /// The facet to remove. See <a>SchemaFacet</a> for details.
   Future<void> removeFacetFromObject({
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
-    @_s.required SchemaFacet schemaFacet,
+    required String directoryArn,
+    required ObjectReference objectReference,
+    required SchemaFacet schemaFacet,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       'SchemaFacet': schemaFacet,
@@ -3056,7 +3088,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return RemoveFacetFromObjectResponse.fromJson(response);
   }
 
   /// An API operation for adding tags to a resource.
@@ -3077,8 +3108,8 @@ class CloudDirectory {
   /// Parameter [tags] :
   /// A list of tag key-value pairs.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -3092,7 +3123,6 @@ class CloudDirectory {
       requestUri: '/amazonclouddirectory/2017-01-11/tags/add',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// An API operation for removing tags from a resource.
@@ -3113,8 +3143,8 @@ class CloudDirectory {
   /// Parameter [tagKeys] :
   /// Keys of the tag that need to be removed from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -3128,7 +3158,6 @@ class CloudDirectory {
       requestUri: '/amazonclouddirectory/2017-01-11/tags/remove',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Does the following:
@@ -3173,10 +3202,10 @@ class CloudDirectory {
   /// The object type that is associated with the facet. See
   /// <a>CreateFacetRequest$ObjectType</a> for more details.
   Future<void> updateFacet({
-    @_s.required String name,
-    @_s.required String schemaArn,
-    List<FacetAttributeUpdate> attributeUpdates,
-    ObjectType objectType,
+    required String name,
+    required String schemaArn,
+    List<FacetAttributeUpdate>? attributeUpdates,
+    ObjectType? objectType,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3193,8 +3222,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
       if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
@@ -3207,7 +3237,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFacetResponse.fromJson(response);
   }
 
   /// Updates a given typed link’s attributes. Attributes to be updated must not
@@ -3237,15 +3266,16 @@ class CloudDirectory {
   /// Parameter [typedLinkSpecifier] :
   /// Allows a typed link specifier to be accepted as input.
   Future<void> updateLinkAttributes({
-    @_s.required List<LinkAttributeUpdate> attributeUpdates,
-    @_s.required String directoryArn,
-    @_s.required TypedLinkSpecifier typedLinkSpecifier,
+    required List<LinkAttributeUpdate> attributeUpdates,
+    required String directoryArn,
+    required TypedLinkSpecifier typedLinkSpecifier,
   }) async {
     ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'TypedLinkSpecifier': typedLinkSpecifier,
@@ -3258,7 +3288,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateLinkAttributesResponse.fromJson(response);
   }
 
   /// Updates a given object's attributes.
@@ -3285,15 +3314,16 @@ class CloudDirectory {
   /// Parameter [objectReference] :
   /// The reference that identifies the object.
   Future<UpdateObjectAttributesResponse> updateObjectAttributes({
-    @_s.required List<ObjectAttributeUpdate> attributeUpdates,
-    @_s.required String directoryArn,
-    @_s.required ObjectReference objectReference,
+    required List<ObjectAttributeUpdate> attributeUpdates,
+    required String directoryArn,
+    required ObjectReference objectReference,
   }) async {
     ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(objectReference, 'objectReference');
-    final headers = <String, String>{};
-    directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': directoryArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'ObjectReference': objectReference,
@@ -3326,8 +3356,8 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) of the development schema. For more
   /// information, see <a>arns</a>.
   Future<UpdateSchemaResponse> updateSchema({
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3344,8 +3374,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -3398,10 +3429,10 @@ class CloudDirectory {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For
   /// more information, see <a>arns</a>.
   Future<void> updateTypedLinkFacet({
-    @_s.required List<TypedLinkFacetAttributeUpdate> attributeUpdates,
-    @_s.required List<String> identityAttributeOrder,
-    @_s.required String name,
-    @_s.required String schemaArn,
+    required List<TypedLinkFacetAttributeUpdate> attributeUpdates,
+    required List<String> identityAttributeOrder,
+    required String name,
+    required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
     ArgumentError.checkNotNull(
@@ -3414,8 +3445,9 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final headers = <String, String>{};
-    schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-data-partition': schemaArn.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttributeUpdates': attributeUpdates,
       'IdentityAttributeOrder': identityAttributeOrder,
@@ -3428,7 +3460,6 @@ class CloudDirectory {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateTypedLinkFacetResponse.fromJson(response);
   }
 
   /// Upgrades a single directory in-place using the
@@ -3460,9 +3491,9 @@ class CloudDirectory {
   /// the call would succeed but no changes will be saved. This parameter is
   /// optional.
   Future<UpgradeAppliedSchemaResponse> upgradeAppliedSchema({
-    @_s.required String directoryArn,
-    @_s.required String publishedSchemaArn,
-    bool dryRun,
+    required String directoryArn,
+    required String publishedSchemaArn,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
@@ -3509,10 +3540,10 @@ class CloudDirectory {
   /// upgraded. If schema compatibility fails, an exception would be thrown else
   /// the call would succeed. This parameter is optional and defaults to false.
   Future<UpgradePublishedSchemaResponse> upgradePublishedSchema({
-    @_s.required String developmentSchemaArn,
-    @_s.required String minorVersion,
-    @_s.required String publishedSchemaArn,
-    bool dryRun,
+    required String developmentSchemaArn,
+    required String minorVersion,
+    required String publishedSchemaArn,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(developmentSchemaArn, 'developmentSchemaArn');
     ArgumentError.checkNotNull(minorVersion, 'minorVersion');
@@ -3547,1553 +3578,1571 @@ class CloudDirectory {
 }
 
 /// Access denied. Check your permissions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessDeniedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   AccessDeniedException({
     this.message,
   });
-  factory AccessDeniedException.fromJson(Map<String, dynamic> json) =>
-      _$AccessDeniedExceptionFromJson(json);
+  factory AccessDeniedException.fromJson(Map<String, dynamic> json) {
+    return AccessDeniedException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddFacetToObjectResponse {
   AddFacetToObjectResponse();
-  factory AddFacetToObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddFacetToObjectResponseFromJson(json);
+  factory AddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
+    return AddFacetToObjectResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplySchemaResponse {
   /// The applied schema ARN that is associated with the copied schema in the
   /// <a>Directory</a>. You can use this ARN to describe the schema information
   /// applied on this directory. For more information, see <a>arns</a>.
-  @_s.JsonKey(name: 'AppliedSchemaArn')
-  final String appliedSchemaArn;
+  final String? appliedSchemaArn;
 
   /// The ARN that is associated with the <a>Directory</a>. For more information,
   /// see <a>arns</a>.
-  @_s.JsonKey(name: 'DirectoryArn')
-  final String directoryArn;
+  final String? directoryArn;
 
   ApplySchemaResponse({
     this.appliedSchemaArn,
     this.directoryArn,
   });
-  factory ApplySchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$ApplySchemaResponseFromJson(json);
+  factory ApplySchemaResponse.fromJson(Map<String, dynamic> json) {
+    return ApplySchemaResponse(
+      appliedSchemaArn: json['AppliedSchemaArn'] as String?,
+      directoryArn: json['DirectoryArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachObjectResponse {
   /// The attached <code>ObjectIdentifier</code>, which is the child
   /// <code>ObjectIdentifier</code>.
-  @_s.JsonKey(name: 'AttachedObjectIdentifier')
-  final String attachedObjectIdentifier;
+  final String? attachedObjectIdentifier;
 
   AttachObjectResponse({
     this.attachedObjectIdentifier,
   });
-  factory AttachObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachObjectResponseFromJson(json);
+  factory AttachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return AttachObjectResponse(
+      attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachPolicyResponse {
   AttachPolicyResponse();
-  factory AttachPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachPolicyResponseFromJson(json);
+  factory AttachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return AttachPolicyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachToIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was attached to the
   /// index.
-  @_s.JsonKey(name: 'AttachedObjectIdentifier')
-  final String attachedObjectIdentifier;
+  final String? attachedObjectIdentifier;
 
   AttachToIndexResponse({
     this.attachedObjectIdentifier,
   });
-  factory AttachToIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachToIndexResponseFromJson(json);
+  factory AttachToIndexResponse.fromJson(Map<String, dynamic> json) {
+    return AttachToIndexResponse(
+      attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachTypedLinkResponse {
   /// Returns a typed link specifier as output.
-  @_s.JsonKey(name: 'TypedLinkSpecifier')
-  final TypedLinkSpecifier typedLinkSpecifier;
+  final TypedLinkSpecifier? typedLinkSpecifier;
 
   AttachTypedLinkResponse({
     this.typedLinkSpecifier,
   });
-  factory AttachTypedLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachTypedLinkResponseFromJson(json);
+  factory AttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
+    return AttachTypedLinkResponse(
+      typedLinkSpecifier: json['TypedLinkSpecifier'] != null
+          ? TypedLinkSpecifier.fromJson(
+              json['TypedLinkSpecifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A unique identifier for an attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeKey {
   /// The name of the facet that the attribute exists within.
-  @_s.JsonKey(name: 'FacetName')
   final String facetName;
 
   /// The name of the attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The Amazon Resource Name (ARN) of the schema that contains the facet and
   /// attribute.
-  @_s.JsonKey(name: 'SchemaArn')
   final String schemaArn;
 
   AttributeKey({
-    @_s.required this.facetName,
-    @_s.required this.name,
-    @_s.required this.schemaArn,
+    required this.facetName,
+    required this.name,
+    required this.schemaArn,
   });
-  factory AttributeKey.fromJson(Map<String, dynamic> json) =>
-      _$AttributeKeyFromJson(json);
+  factory AttributeKey.fromJson(Map<String, dynamic> json) {
+    return AttributeKey(
+      facetName: json['FacetName'] as String,
+      name: json['Name'] as String,
+      schemaArn: json['SchemaArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeKeyToJson(this);
+  Map<String, dynamic> toJson() {
+    final facetName = this.facetName;
+    final name = this.name;
+    final schemaArn = this.schemaArn;
+    return {
+      'FacetName': facetName,
+      'Name': name,
+      'SchemaArn': schemaArn,
+    };
+  }
 }
 
 /// The combination of an attribute key and an attribute value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeKeyAndValue {
   /// The key of the attribute.
-  @_s.JsonKey(name: 'Key')
   final AttributeKey key;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
   final TypedAttributeValue value;
 
   AttributeKeyAndValue({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeKeyAndValueFromJson(json);
+  factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) {
+    return AttributeKeyAndValue(
+      key: AttributeKey.fromJson(json['Key'] as Map<String, dynamic>),
+      value:
+          TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeKeyAndValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Identifies the attribute name and value for a typed link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeNameAndValue {
   /// The attribute name of the typed link.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The value for the typed link.
-  @_s.JsonKey(name: 'Value')
   final TypedAttributeValue value;
 
   AttributeNameAndValue({
-    @_s.required this.attributeName,
-    @_s.required this.value,
+    required this.attributeName,
+    required this.value,
   });
-  factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeNameAndValueFromJson(json);
+  factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) {
+    return AttributeNameAndValue(
+      attributeName: json['AttributeName'] as String,
+      value:
+          TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeNameAndValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final value = this.value;
+    return {
+      'AttributeName': attributeName,
+      'Value': value,
+    };
+  }
 }
 
 /// Represents the output of a batch add facet to object operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchAddFacetToObject {
   /// The attributes to set on the object.
-  @_s.JsonKey(name: 'ObjectAttributeList')
   final List<AttributeKeyAndValue> objectAttributeList;
 
   /// A reference to the object being mutated.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Represents the facet being added to the object.
-  @_s.JsonKey(name: 'SchemaFacet')
   final SchemaFacet schemaFacet;
 
   BatchAddFacetToObject({
-    @_s.required this.objectAttributeList,
-    @_s.required this.objectReference,
-    @_s.required this.schemaFacet,
+    required this.objectAttributeList,
+    required this.objectReference,
+    required this.schemaFacet,
   });
-  Map<String, dynamic> toJson() => _$BatchAddFacetToObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectAttributeList = this.objectAttributeList;
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'ObjectAttributeList': objectAttributeList,
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
 }
 
 /// The result of a batch add facet to object operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAddFacetToObjectResponse {
   BatchAddFacetToObjectResponse();
-  factory BatchAddFacetToObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchAddFacetToObjectResponseFromJson(json);
+  factory BatchAddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchAddFacetToObjectResponse();
+  }
 }
 
 /// Represents the output of an <a>AttachObject</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchAttachObject {
   /// The child object reference that is to be attached to the object.
-  @_s.JsonKey(name: 'ChildReference')
   final ObjectReference childReference;
 
   /// The name of the link.
-  @_s.JsonKey(name: 'LinkName')
   final String linkName;
 
   /// The parent object reference.
-  @_s.JsonKey(name: 'ParentReference')
   final ObjectReference parentReference;
 
   BatchAttachObject({
-    @_s.required this.childReference,
-    @_s.required this.linkName,
-    @_s.required this.parentReference,
+    required this.childReference,
+    required this.linkName,
+    required this.parentReference,
   });
-  Map<String, dynamic> toJson() => _$BatchAttachObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final childReference = this.childReference;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'ChildReference': childReference,
+      'LinkName': linkName,
+      'ParentReference': parentReference,
+    };
+  }
 }
 
 /// Represents the output batch <a>AttachObject</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAttachObjectResponse {
   /// The <code>ObjectIdentifier</code> of the object that has been attached.
-  @_s.JsonKey(name: 'attachedObjectIdentifier')
-  final String attachedObjectIdentifier;
+  final String? attachedObjectIdentifier;
 
   BatchAttachObjectResponse({
     this.attachedObjectIdentifier,
   });
-  factory BatchAttachObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchAttachObjectResponseFromJson(json);
+  factory BatchAttachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachObjectResponse(
+      attachedObjectIdentifier: json['attachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Attaches a policy object to a regular object inside a <a>BatchRead</a>
 /// operation. For more information, see <a>AttachPolicy</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchAttachPolicy {
   /// The reference that identifies the object to which the policy will be
   /// attached.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// The reference that is associated with the policy object.
-  @_s.JsonKey(name: 'PolicyReference')
   final ObjectReference policyReference;
 
   BatchAttachPolicy({
-    @_s.required this.objectReference,
-    @_s.required this.policyReference,
+    required this.objectReference,
+    required this.policyReference,
   });
-  Map<String, dynamic> toJson() => _$BatchAttachPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final policyReference = this.policyReference;
+    return {
+      'ObjectReference': objectReference,
+      'PolicyReference': policyReference,
+    };
+  }
 }
 
 /// Represents the output of an <a>AttachPolicy</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAttachPolicyResponse {
   BatchAttachPolicyResponse();
-  factory BatchAttachPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchAttachPolicyResponseFromJson(json);
+  factory BatchAttachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return BatchAttachPolicyResponse();
+  }
 }
 
 /// Attaches the specified object to the specified index inside a
 /// <a>BatchRead</a> operation. For more information, see <a>AttachToIndex</a>
 /// and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchAttachToIndex {
   /// A reference to the index that you are attaching the object to.
-  @_s.JsonKey(name: 'IndexReference')
   final ObjectReference indexReference;
 
   /// A reference to the object that you are attaching to the index.
-  @_s.JsonKey(name: 'TargetReference')
   final ObjectReference targetReference;
 
   BatchAttachToIndex({
-    @_s.required this.indexReference,
-    @_s.required this.targetReference,
+    required this.indexReference,
+    required this.targetReference,
   });
-  Map<String, dynamic> toJson() => _$BatchAttachToIndexToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final targetReference = this.targetReference;
+    return {
+      'IndexReference': indexReference,
+      'TargetReference': targetReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>AttachToIndex</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAttachToIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was attached to the
   /// index.
-  @_s.JsonKey(name: 'AttachedObjectIdentifier')
-  final String attachedObjectIdentifier;
+  final String? attachedObjectIdentifier;
 
   BatchAttachToIndexResponse({
     this.attachedObjectIdentifier,
   });
-  factory BatchAttachToIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchAttachToIndexResponseFromJson(json);
+  factory BatchAttachToIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachToIndexResponse(
+      attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Attaches a typed link to a specified source and target object inside a
 /// <a>BatchRead</a> operation. For more information, see <a>AttachTypedLink</a>
 /// and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchAttachTypedLink {
   /// A set of attributes that are associated with the typed link.
-  @_s.JsonKey(name: 'Attributes')
   final List<AttributeNameAndValue> attributes;
 
   /// Identifies the source object that the typed link will attach to.
-  @_s.JsonKey(name: 'SourceObjectReference')
   final ObjectReference sourceObjectReference;
 
   /// Identifies the target object that the typed link will attach to.
-  @_s.JsonKey(name: 'TargetObjectReference')
   final ObjectReference targetObjectReference;
 
   /// Identifies the typed link facet that is associated with the typed link.
-  @_s.JsonKey(name: 'TypedLinkFacet')
   final TypedLinkSchemaAndFacetName typedLinkFacet;
 
   BatchAttachTypedLink({
-    @_s.required this.attributes,
-    @_s.required this.sourceObjectReference,
-    @_s.required this.targetObjectReference,
-    @_s.required this.typedLinkFacet,
+    required this.attributes,
+    required this.sourceObjectReference,
+    required this.targetObjectReference,
+    required this.typedLinkFacet,
   });
-  Map<String, dynamic> toJson() => _$BatchAttachTypedLinkToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final sourceObjectReference = this.sourceObjectReference;
+    final targetObjectReference = this.targetObjectReference;
+    final typedLinkFacet = this.typedLinkFacet;
+    return {
+      'Attributes': attributes,
+      'SourceObjectReference': sourceObjectReference,
+      'TargetObjectReference': targetObjectReference,
+      'TypedLinkFacet': typedLinkFacet,
+    };
+  }
 }
 
 /// Represents the output of a <a>AttachTypedLink</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAttachTypedLinkResponse {
   /// Returns a typed link specifier as output.
-  @_s.JsonKey(name: 'TypedLinkSpecifier')
-  final TypedLinkSpecifier typedLinkSpecifier;
+  final TypedLinkSpecifier? typedLinkSpecifier;
 
   BatchAttachTypedLinkResponse({
     this.typedLinkSpecifier,
   });
-  factory BatchAttachTypedLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchAttachTypedLinkResponseFromJson(json);
+  factory BatchAttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachTypedLinkResponse(
+      typedLinkSpecifier: json['TypedLinkSpecifier'] != null
+          ? TypedLinkSpecifier.fromJson(
+              json['TypedLinkSpecifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Creates an index object inside of a <a>BatchRead</a> operation. For more
 /// information, see <a>CreateIndex</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchCreateIndex {
   /// Indicates whether the attribute that is being indexed has unique values or
   /// not.
-  @_s.JsonKey(name: 'IsUnique')
   final bool isUnique;
 
   /// Specifies the attributes that should be indexed on. Currently only a single
   /// attribute is supported.
-  @_s.JsonKey(name: 'OrderedIndexedAttributeList')
   final List<AttributeKey> orderedIndexedAttributeList;
 
   /// The batch reference name. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches">Batches</a>
   /// for more information.
-  @_s.JsonKey(name: 'BatchReferenceName')
-  final String batchReferenceName;
+  final String? batchReferenceName;
 
   /// The name of the link between the parent object and the index object.
-  @_s.JsonKey(name: 'LinkName')
-  final String linkName;
+  final String? linkName;
 
   /// A reference to the parent object that contains the index object.
-  @_s.JsonKey(name: 'ParentReference')
-  final ObjectReference parentReference;
+  final ObjectReference? parentReference;
 
   BatchCreateIndex({
-    @_s.required this.isUnique,
-    @_s.required this.orderedIndexedAttributeList,
+    required this.isUnique,
+    required this.orderedIndexedAttributeList,
     this.batchReferenceName,
     this.linkName,
     this.parentReference,
   });
-  Map<String, dynamic> toJson() => _$BatchCreateIndexToJson(this);
+  Map<String, dynamic> toJson() {
+    final isUnique = this.isUnique;
+    final orderedIndexedAttributeList = this.orderedIndexedAttributeList;
+    final batchReferenceName = this.batchReferenceName;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'IsUnique': isUnique,
+      'OrderedIndexedAttributeList': orderedIndexedAttributeList,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+      if (linkName != null) 'LinkName': linkName,
+      if (parentReference != null) 'ParentReference': parentReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>CreateIndex</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCreateIndexResponse {
   /// The <code>ObjectIdentifier</code> of the index created by this operation.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   BatchCreateIndexResponse({
     this.objectIdentifier,
   });
-  factory BatchCreateIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateIndexResponseFromJson(json);
+  factory BatchCreateIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateIndexResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <a>CreateObject</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchCreateObject {
   /// An attribute map, which contains an attribute ARN as the key and attribute
   /// value as the map value.
-  @_s.JsonKey(name: 'ObjectAttributeList')
   final List<AttributeKeyAndValue> objectAttributeList;
 
   /// A list of <code>FacetArns</code> that will be associated with the object.
   /// For more information, see <a>arns</a>.
-  @_s.JsonKey(name: 'SchemaFacet')
   final List<SchemaFacet> schemaFacet;
 
   /// The batch reference name. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches">Batches</a>
   /// for more information.
-  @_s.JsonKey(name: 'BatchReferenceName')
-  final String batchReferenceName;
+  final String? batchReferenceName;
 
   /// The name of the link.
-  @_s.JsonKey(name: 'LinkName')
-  final String linkName;
+  final String? linkName;
 
   /// If specified, the parent reference to which this object will be attached.
-  @_s.JsonKey(name: 'ParentReference')
-  final ObjectReference parentReference;
+  final ObjectReference? parentReference;
 
   BatchCreateObject({
-    @_s.required this.objectAttributeList,
-    @_s.required this.schemaFacet,
+    required this.objectAttributeList,
+    required this.schemaFacet,
     this.batchReferenceName,
     this.linkName,
     this.parentReference,
   });
-  Map<String, dynamic> toJson() => _$BatchCreateObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectAttributeList = this.objectAttributeList;
+    final schemaFacet = this.schemaFacet;
+    final batchReferenceName = this.batchReferenceName;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'ObjectAttributeList': objectAttributeList,
+      'SchemaFacet': schemaFacet,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+      if (linkName != null) 'LinkName': linkName,
+      if (parentReference != null) 'ParentReference': parentReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>CreateObject</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCreateObjectResponse {
   /// The ID that is associated with the object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   BatchCreateObjectResponse({
     this.objectIdentifier,
   });
-  factory BatchCreateObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateObjectResponseFromJson(json);
+  factory BatchCreateObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateObjectResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <a>DeleteObject</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchDeleteObject {
   /// The reference that identifies the object.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   BatchDeleteObject({
-    @_s.required this.objectReference,
+    required this.objectReference,
   });
-  Map<String, dynamic> toJson() => _$BatchDeleteObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    return {
+      'ObjectReference': objectReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>DeleteObject</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteObjectResponse {
   BatchDeleteObjectResponse();
-  factory BatchDeleteObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteObjectResponseFromJson(json);
+  factory BatchDeleteObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDeleteObjectResponse();
+  }
 }
 
 /// Detaches the specified object from the specified index inside a
 /// <a>BatchRead</a> operation. For more information, see <a>DetachFromIndex</a>
 /// and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchDetachFromIndex {
   /// A reference to the index object.
-  @_s.JsonKey(name: 'IndexReference')
   final ObjectReference indexReference;
 
   /// A reference to the object being detached from the index.
-  @_s.JsonKey(name: 'TargetReference')
   final ObjectReference targetReference;
 
   BatchDetachFromIndex({
-    @_s.required this.indexReference,
-    @_s.required this.targetReference,
+    required this.indexReference,
+    required this.targetReference,
   });
-  Map<String, dynamic> toJson() => _$BatchDetachFromIndexToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final targetReference = this.targetReference;
+    return {
+      'IndexReference': indexReference,
+      'TargetReference': targetReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>DetachFromIndex</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetachFromIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was detached from the
   /// index.
-  @_s.JsonKey(name: 'DetachedObjectIdentifier')
-  final String detachedObjectIdentifier;
+  final String? detachedObjectIdentifier;
 
   BatchDetachFromIndexResponse({
     this.detachedObjectIdentifier,
   });
-  factory BatchDetachFromIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetachFromIndexResponseFromJson(json);
+  factory BatchDetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetachFromIndexResponse(
+      detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <a>DetachObject</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchDetachObject {
   /// The name of the link.
-  @_s.JsonKey(name: 'LinkName')
   final String linkName;
 
   /// Parent reference from which the object with the specified link name is
   /// detached.
-  @_s.JsonKey(name: 'ParentReference')
   final ObjectReference parentReference;
 
   /// The batch reference name. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches">Batches</a>
   /// for more information.
-  @_s.JsonKey(name: 'BatchReferenceName')
-  final String batchReferenceName;
+  final String? batchReferenceName;
 
   BatchDetachObject({
-    @_s.required this.linkName,
-    @_s.required this.parentReference,
+    required this.linkName,
+    required this.parentReference,
     this.batchReferenceName,
   });
-  Map<String, dynamic> toJson() => _$BatchDetachObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    final batchReferenceName = this.batchReferenceName;
+    return {
+      'LinkName': linkName,
+      'ParentReference': parentReference,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+    };
+  }
 }
 
 /// Represents the output of a <a>DetachObject</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetachObjectResponse {
   /// The <code>ObjectIdentifier</code> of the detached object.
-  @_s.JsonKey(name: 'detachedObjectIdentifier')
-  final String detachedObjectIdentifier;
+  final String? detachedObjectIdentifier;
 
   BatchDetachObjectResponse({
     this.detachedObjectIdentifier,
   });
-  factory BatchDetachObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetachObjectResponseFromJson(json);
+  factory BatchDetachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetachObjectResponse(
+      detachedObjectIdentifier: json['detachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// Detaches the specified policy from the specified directory inside a
 /// <a>BatchWrite</a> operation. For more information, see <a>DetachPolicy</a>
 /// and <a>BatchWriteRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchDetachPolicy {
   /// Reference that identifies the object whose policy object will be detached.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Reference that identifies the policy object.
-  @_s.JsonKey(name: 'PolicyReference')
   final ObjectReference policyReference;
 
   BatchDetachPolicy({
-    @_s.required this.objectReference,
-    @_s.required this.policyReference,
+    required this.objectReference,
+    required this.policyReference,
   });
-  Map<String, dynamic> toJson() => _$BatchDetachPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final policyReference = this.policyReference;
+    return {
+      'ObjectReference': objectReference,
+      'PolicyReference': policyReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>DetachPolicy</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetachPolicyResponse {
   BatchDetachPolicyResponse();
-  factory BatchDetachPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetachPolicyResponseFromJson(json);
+  factory BatchDetachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDetachPolicyResponse();
+  }
 }
 
 /// Detaches a typed link from a specified source and target object inside a
 /// <a>BatchRead</a> operation. For more information, see <a>DetachTypedLink</a>
 /// and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchDetachTypedLink {
   /// Used to accept a typed link specifier as input.
-  @_s.JsonKey(name: 'TypedLinkSpecifier')
   final TypedLinkSpecifier typedLinkSpecifier;
 
   BatchDetachTypedLink({
-    @_s.required this.typedLinkSpecifier,
+    required this.typedLinkSpecifier,
   });
-  Map<String, dynamic> toJson() => _$BatchDetachTypedLinkToJson(this);
+  Map<String, dynamic> toJson() {
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
 }
 
 /// Represents the output of a <a>DetachTypedLink</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetachTypedLinkResponse {
   BatchDetachTypedLinkResponse();
-  factory BatchDetachTypedLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetachTypedLinkResponseFromJson(json);
+  factory BatchDetachTypedLinkResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDetachTypedLinkResponse();
+  }
 }
 
 /// Retrieves attributes that are associated with a typed link inside a
 /// <a>BatchRead</a> operation. For more information, see
 /// <a>GetLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchGetLinkAttributes {
   /// A list of attribute names whose values will be retrieved.
-  @_s.JsonKey(name: 'AttributeNames')
   final List<String> attributeNames;
 
   /// Allows a typed link specifier to be accepted as input.
-  @_s.JsonKey(name: 'TypedLinkSpecifier')
   final TypedLinkSpecifier typedLinkSpecifier;
 
   BatchGetLinkAttributes({
-    @_s.required this.attributeNames,
-    @_s.required this.typedLinkSpecifier,
+    required this.attributeNames,
+    required this.typedLinkSpecifier,
   });
-  Map<String, dynamic> toJson() => _$BatchGetLinkAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeNames = this.attributeNames;
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'AttributeNames': attributeNames,
+      'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
 }
 
 /// Represents the output of a <a>GetLinkAttributes</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetLinkAttributesResponse {
   /// The attributes that are associated with the typed link.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   BatchGetLinkAttributesResponse({
     this.attributes,
   });
-  factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetLinkAttributesResponseFromJson(json);
+  factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetLinkAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Retrieves attributes within a facet that are associated with an object
 /// inside an <a>BatchRead</a> operation. For more information, see
 /// <a>GetObjectAttributes</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchGetObjectAttributes {
   /// List of attribute names whose values will be retrieved.
-  @_s.JsonKey(name: 'AttributeNames')
   final List<String> attributeNames;
 
   /// Reference that identifies the object whose attributes will be retrieved.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Identifier for the facet whose attributes will be retrieved. See
   /// <a>SchemaFacet</a> for details.
-  @_s.JsonKey(name: 'SchemaFacet')
   final SchemaFacet schemaFacet;
 
   BatchGetObjectAttributes({
-    @_s.required this.attributeNames,
-    @_s.required this.objectReference,
-    @_s.required this.schemaFacet,
+    required this.attributeNames,
+    required this.objectReference,
+    required this.schemaFacet,
   });
-  Map<String, dynamic> toJson() => _$BatchGetObjectAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeNames = this.attributeNames;
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'AttributeNames': attributeNames,
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
 }
 
 /// Represents the output of a <a>GetObjectAttributes</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetObjectAttributesResponse {
   /// The attribute values that are associated with an object.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   BatchGetObjectAttributesResponse({
     this.attributes,
   });
-  factory BatchGetObjectAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchGetObjectAttributesResponseFromJson(json);
+  factory BatchGetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Retrieves metadata about an object inside a <a>BatchRead</a> operation. For
 /// more information, see <a>GetObjectInformation</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchGetObjectInformation {
   /// A reference to the object.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   BatchGetObjectInformation({
-    @_s.required this.objectReference,
+    required this.objectReference,
   });
-  Map<String, dynamic> toJson() => _$BatchGetObjectInformationToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    return {
+      'ObjectReference': objectReference,
+    };
+  }
 }
 
 /// Represents the output of a <a>GetObjectInformation</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetObjectInformationResponse {
   /// The <code>ObjectIdentifier</code> of the specified object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   /// The facets attached to the specified object.
-  @_s.JsonKey(name: 'SchemaFacets')
-  final List<SchemaFacet> schemaFacets;
+  final List<SchemaFacet>? schemaFacets;
 
   BatchGetObjectInformationResponse({
     this.objectIdentifier,
     this.schemaFacets,
   });
   factory BatchGetObjectInformationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchGetObjectInformationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchGetObjectInformationResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+      schemaFacets: (json['SchemaFacets'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Lists indices attached to an object inside a <a>BatchRead</a> operation. For
 /// more information, see <a>ListAttachedIndices</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListAttachedIndices {
   /// A reference to the object that has indices attached.
-  @_s.JsonKey(name: 'TargetReference')
   final ObjectReference targetReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListAttachedIndices({
-    @_s.required this.targetReference,
+    required this.targetReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListAttachedIndicesToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetReference = this.targetReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'TargetReference': targetReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListAttachedIndices</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListAttachedIndicesResponse {
   /// The indices attached to the specified object.
-  @_s.JsonKey(name: 'IndexAttachments')
-  final List<IndexAttachment> indexAttachments;
+  final List<IndexAttachment>? indexAttachments;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListAttachedIndicesResponse({
     this.indexAttachments,
     this.nextToken,
   });
-  factory BatchListAttachedIndicesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListAttachedIndicesResponseFromJson(json);
+  factory BatchListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListAttachedIndicesResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
 /// information for an object inside a <a>BatchRead</a> operation. For more
 /// information, see <a>ListIncomingTypedLinks</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListIncomingTypedLinks {
   /// The reference that identifies the object whose attributes will be listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Provides range filters for multiple attributes. When providing ranges to
   /// typed link selection, any inexact ranges must be specified at the end. Any
   /// attributes that do not have a range specified are presumed to match the
   /// entire range.
-  @_s.JsonKey(name: 'FilterAttributeRanges')
-  final List<TypedLinkAttributeRange> filterAttributeRanges;
+  final List<TypedLinkAttributeRange>? filterAttributeRanges;
 
   /// Filters are interpreted in the order of the attributes on the typed link
   /// facet, not the order in which they are supplied to any API calls.
-  @_s.JsonKey(name: 'FilterTypedLink')
-  final TypedLinkSchemaAndFacetName filterTypedLink;
+  final TypedLinkSchemaAndFacetName? filterTypedLink;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListIncomingTypedLinks({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.filterAttributeRanges,
     this.filterTypedLink,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListIncomingTypedLinksToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final filterAttributeRanges = this.filterAttributeRanges;
+    final filterTypedLink = this.filterTypedLink;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListIncomingTypedLinks</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListIncomingTypedLinksResponse {
   /// Returns one or more typed link specifiers as output.
-  @_s.JsonKey(name: 'LinkSpecifiers')
-  final List<TypedLinkSpecifier> linkSpecifiers;
+  final List<TypedLinkSpecifier>? linkSpecifiers;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListIncomingTypedLinksResponse({
     this.linkSpecifiers,
     this.nextToken,
   });
   factory BatchListIncomingTypedLinksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListIncomingTypedLinksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchListIncomingTypedLinksResponse(
+      linkSpecifiers: (json['LinkSpecifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Lists objects attached to the specified index inside a <a>BatchRead</a>
 /// operation. For more information, see <a>ListIndex</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListIndex {
   /// The reference to the index to list.
-  @_s.JsonKey(name: 'IndexReference')
   final ObjectReference indexReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Specifies the ranges of indexed values that you want to query.
-  @_s.JsonKey(name: 'RangesOnIndexedValues')
-  final List<ObjectAttributeRange> rangesOnIndexedValues;
+  final List<ObjectAttributeRange>? rangesOnIndexedValues;
 
   BatchListIndex({
-    @_s.required this.indexReference,
+    required this.indexReference,
     this.maxResults,
     this.nextToken,
     this.rangesOnIndexedValues,
   });
-  Map<String, dynamic> toJson() => _$BatchListIndexToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    final rangesOnIndexedValues = this.rangesOnIndexedValues;
+    return {
+      'IndexReference': indexReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rangesOnIndexedValues != null)
+        'RangesOnIndexedValues': rangesOnIndexedValues,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListIndex</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListIndexResponse {
   /// The objects and indexed values attached to the index.
-  @_s.JsonKey(name: 'IndexAttachments')
-  final List<IndexAttachment> indexAttachments;
+  final List<IndexAttachment>? indexAttachments;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListIndexResponse({
     this.indexAttachments,
     this.nextToken,
   });
-  factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchListIndexResponseFromJson(json);
+  factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListIndexResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <a>ListObjectAttributes</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListObjectAttributes {
   /// Reference of the object whose attributes need to be listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Used to filter the list of object attributes that are associated with a
   /// certain facet.
-  @_s.JsonKey(name: 'FacetFilter')
-  final SchemaFacet facetFilter;
+  final SchemaFacet? facetFilter;
 
   /// The maximum number of items to be retrieved in a single call. This is an
   /// approximate number.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectAttributes({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.facetFilter,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListObjectAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final facetFilter = this.facetFilter;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (facetFilter != null) 'FacetFilter': facetFilter,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListObjectAttributes</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListObjectAttributesResponse {
   /// The attributes map that is associated with the object.
   /// <code>AttributeArn</code> is the key; attribute value is the value.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectAttributesResponse({
     this.attributes,
     this.nextToken,
   });
   factory BatchListObjectAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListObjectAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchListObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Represents the output of a <a>ListObjectChildren</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListObjectChildren {
   /// Reference of the object for which child objects are being listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Maximum number of items to be retrieved in a single call. This is an
   /// approximate number.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectChildren({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListObjectChildrenToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListObjectChildren</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListObjectChildrenResponse {
   /// The children structure, which is a map with the key as the
   /// <code>LinkName</code> and <code>ObjectIdentifier</code> as the value.
-  @_s.JsonKey(name: 'Children')
-  final Map<String, String> children;
+  final Map<String, String>? children;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectChildrenResponse({
     this.children,
     this.nextToken,
   });
-  factory BatchListObjectChildrenResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchListObjectChildrenResponseFromJson(json);
+  factory BatchListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListObjectChildrenResponse(
+      children: (json['Children'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Retrieves all available parent paths for any object type such as node, leaf
 /// node, policy node, and index node objects inside a <a>BatchRead</a>
 /// operation. For more information, see <a>ListObjectParentPaths</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListObjectParentPaths {
   /// The reference that identifies the object whose attributes will be listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectParentPaths({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListObjectParentPathsToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListObjectParentPaths</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListObjectParentPathsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns the path to the <code>ObjectIdentifiers</code> that are associated
   /// with the directory.
-  @_s.JsonKey(name: 'PathToObjectIdentifiersList')
-  final List<PathToObjectIdentifiers> pathToObjectIdentifiersList;
+  final List<PathToObjectIdentifiers>? pathToObjectIdentifiersList;
 
   BatchListObjectParentPathsResponse({
     this.nextToken,
     this.pathToObjectIdentifiersList,
   });
   factory BatchListObjectParentPathsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListObjectParentPathsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchListObjectParentPathsResponse(
+      nextToken: json['NextToken'] as String?,
+      pathToObjectIdentifiersList:
+          (json['PathToObjectIdentifiersList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Returns policies attached to an object in pagination fashion inside a
 /// <a>BatchRead</a> operation. For more information, see
 /// <a>ListObjectPolicies</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListObjectPolicies {
   /// The reference that identifies the object whose attributes will be listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectPolicies({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListObjectPoliciesToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListObjectPolicies</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListObjectPoliciesResponse {
   /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
   /// object.
-  @_s.JsonKey(name: 'AttachedPolicyIds')
-  final List<String> attachedPolicyIds;
+  final List<String>? attachedPolicyIds;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListObjectPoliciesResponse({
     this.attachedPolicyIds,
     this.nextToken,
   });
-  factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchListObjectPoliciesResponseFromJson(json);
+  factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListObjectPoliciesResponse(
+      attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
 /// information for an object inside a <a>BatchRead</a> operation. For more
 /// information, see <a>ListOutgoingTypedLinks</a> and
 /// <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListOutgoingTypedLinks {
   /// The reference that identifies the object whose attributes will be listed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// Provides range filters for multiple attributes. When providing ranges to
   /// typed link selection, any inexact ranges must be specified at the end. Any
   /// attributes that do not have a range specified are presumed to match the
   /// entire range.
-  @_s.JsonKey(name: 'FilterAttributeRanges')
-  final List<TypedLinkAttributeRange> filterAttributeRanges;
+  final List<TypedLinkAttributeRange>? filterAttributeRanges;
 
   /// Filters are interpreted in the order of the attributes defined on the typed
   /// link facet, not the order they are supplied to any API calls.
-  @_s.JsonKey(name: 'FilterTypedLink')
-  final TypedLinkSchemaAndFacetName filterTypedLink;
+  final TypedLinkSchemaAndFacetName? filterTypedLink;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListOutgoingTypedLinks({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.filterAttributeRanges,
     this.filterTypedLink,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListOutgoingTypedLinksToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final filterAttributeRanges = this.filterAttributeRanges;
+    final filterTypedLink = this.filterTypedLink;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListOutgoingTypedLinks</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListOutgoingTypedLinksResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns a typed link specifier as output.
-  @_s.JsonKey(name: 'TypedLinkSpecifiers')
-  final List<TypedLinkSpecifier> typedLinkSpecifiers;
+  final List<TypedLinkSpecifier>? typedLinkSpecifiers;
 
   BatchListOutgoingTypedLinksResponse({
     this.nextToken,
     this.typedLinkSpecifiers,
   });
   factory BatchListOutgoingTypedLinksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListOutgoingTypedLinksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchListOutgoingTypedLinksResponse(
+      nextToken: json['NextToken'] as String?,
+      typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
 /// attached inside a <a>BatchRead</a> operation. For more information, see
 /// <a>ListPolicyAttachments</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchListPolicyAttachments {
   /// The reference that identifies the policy object.
-  @_s.JsonKey(name: 'PolicyReference')
   final ObjectReference policyReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchListPolicyAttachments({
-    @_s.required this.policyReference,
+    required this.policyReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchListPolicyAttachmentsToJson(this);
+  Map<String, dynamic> toJson() {
+    final policyReference = this.policyReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'PolicyReference': policyReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>ListPolicyAttachments</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchListPolicyAttachmentsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>ObjectIdentifiers</code> to which the policy is attached.
-  @_s.JsonKey(name: 'ObjectIdentifiers')
-  final List<String> objectIdentifiers;
+  final List<String>? objectIdentifiers;
 
   BatchListPolicyAttachmentsResponse({
     this.nextToken,
     this.objectIdentifiers,
   });
   factory BatchListPolicyAttachmentsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchListPolicyAttachmentsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchListPolicyAttachmentsResponse(
+      nextToken: json['NextToken'] as String?,
+      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Lists all policies from the root of the Directory to the object specified
 /// inside a <a>BatchRead</a> operation. For more information, see
 /// <a>LookupPolicy</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchLookupPolicy {
   /// Reference that identifies the object whose policies will be looked up.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// The maximum number of results to retrieve.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchLookupPolicy({
-    @_s.required this.objectReference,
+    required this.objectReference,
     this.maxResults,
     this.nextToken,
   });
-  Map<String, dynamic> toJson() => _$BatchLookupPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <a>LookupPolicy</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchLookupPolicyResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Provides list of path to policies. Policies contain <code>PolicyId</code>,
   /// <code>ObjectIdentifier</code>, and <code>PolicyType</code>. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
-  @_s.JsonKey(name: 'PolicyToPathList')
-  final List<PolicyToPath> policyToPathList;
+  final List<PolicyToPath>? policyToPathList;
 
   BatchLookupPolicyResponse({
     this.nextToken,
     this.policyToPathList,
   });
-  factory BatchLookupPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchLookupPolicyResponseFromJson(json);
+  factory BatchLookupPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return BatchLookupPolicyResponse(
+      nextToken: json['NextToken'] as String?,
+      policyToPathList: (json['PolicyToPathList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The batch read exception structure, which contains the exception type and
 /// message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchReadException {
   /// An exception message that is associated with the failure.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// A type of exception, such as <code>InvalidArnException</code>.
-  @_s.JsonKey(name: 'Type')
-  final BatchReadExceptionType type;
+  final BatchReadExceptionType? type;
 
   BatchReadException({
     this.message,
     this.type,
   });
-  factory BatchReadException.fromJson(Map<String, dynamic> json) =>
-      _$BatchReadExceptionFromJson(json);
+  factory BatchReadException.fromJson(Map<String, dynamic> json) {
+    return BatchReadException(
+      message: json['Message'] as String?,
+      type: (json['Type'] as String?)?.toBatchReadExceptionType(),
+    );
+  }
 }
 
 enum BatchReadExceptionType {
-  @_s.JsonValue('ValidationException')
   validationException,
-  @_s.JsonValue('InvalidArnException')
   invalidArnException,
-  @_s.JsonValue('ResourceNotFoundException')
   resourceNotFoundException,
-  @_s.JsonValue('InvalidNextTokenException')
   invalidNextTokenException,
-  @_s.JsonValue('AccessDeniedException')
   accessDeniedException,
-  @_s.JsonValue('NotNodeException')
   notNodeException,
-  @_s.JsonValue('FacetValidationException')
   facetValidationException,
-  @_s.JsonValue('CannotListParentOfRootException')
   cannotListParentOfRootException,
-  @_s.JsonValue('NotIndexException')
   notIndexException,
-  @_s.JsonValue('NotPolicyException')
   notPolicyException,
-  @_s.JsonValue('DirectoryNotEnabledException')
   directoryNotEnabledException,
-  @_s.JsonValue('LimitExceededException')
   limitExceededException,
-  @_s.JsonValue('InternalServiceException')
   internalServiceException,
 }
 
+extension on BatchReadExceptionType {
+  String toValue() {
+    switch (this) {
+      case BatchReadExceptionType.validationException:
+        return 'ValidationException';
+      case BatchReadExceptionType.invalidArnException:
+        return 'InvalidArnException';
+      case BatchReadExceptionType.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case BatchReadExceptionType.invalidNextTokenException:
+        return 'InvalidNextTokenException';
+      case BatchReadExceptionType.accessDeniedException:
+        return 'AccessDeniedException';
+      case BatchReadExceptionType.notNodeException:
+        return 'NotNodeException';
+      case BatchReadExceptionType.facetValidationException:
+        return 'FacetValidationException';
+      case BatchReadExceptionType.cannotListParentOfRootException:
+        return 'CannotListParentOfRootException';
+      case BatchReadExceptionType.notIndexException:
+        return 'NotIndexException';
+      case BatchReadExceptionType.notPolicyException:
+        return 'NotPolicyException';
+      case BatchReadExceptionType.directoryNotEnabledException:
+        return 'DirectoryNotEnabledException';
+      case BatchReadExceptionType.limitExceededException:
+        return 'LimitExceededException';
+      case BatchReadExceptionType.internalServiceException:
+        return 'InternalServiceException';
+    }
+  }
+}
+
+extension on String {
+  BatchReadExceptionType toBatchReadExceptionType() {
+    switch (this) {
+      case 'ValidationException':
+        return BatchReadExceptionType.validationException;
+      case 'InvalidArnException':
+        return BatchReadExceptionType.invalidArnException;
+      case 'ResourceNotFoundException':
+        return BatchReadExceptionType.resourceNotFoundException;
+      case 'InvalidNextTokenException':
+        return BatchReadExceptionType.invalidNextTokenException;
+      case 'AccessDeniedException':
+        return BatchReadExceptionType.accessDeniedException;
+      case 'NotNodeException':
+        return BatchReadExceptionType.notNodeException;
+      case 'FacetValidationException':
+        return BatchReadExceptionType.facetValidationException;
+      case 'CannotListParentOfRootException':
+        return BatchReadExceptionType.cannotListParentOfRootException;
+      case 'NotIndexException':
+        return BatchReadExceptionType.notIndexException;
+      case 'NotPolicyException':
+        return BatchReadExceptionType.notPolicyException;
+      case 'DirectoryNotEnabledException':
+        return BatchReadExceptionType.directoryNotEnabledException;
+      case 'LimitExceededException':
+        return BatchReadExceptionType.limitExceededException;
+      case 'InternalServiceException':
+        return BatchReadExceptionType.internalServiceException;
+    }
+    throw Exception('$this is not known in enum BatchReadExceptionType');
+  }
+}
+
 /// Represents the output of a <code>BatchRead</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchReadOperation {
   /// Retrieves attributes that are associated with a typed link.
-  @_s.JsonKey(name: 'GetLinkAttributes')
-  final BatchGetLinkAttributes getLinkAttributes;
+  final BatchGetLinkAttributes? getLinkAttributes;
 
   /// Retrieves attributes within a facet that are associated with an object.
-  @_s.JsonKey(name: 'GetObjectAttributes')
-  final BatchGetObjectAttributes getObjectAttributes;
+  final BatchGetObjectAttributes? getObjectAttributes;
 
   /// Retrieves metadata about an object.
-  @_s.JsonKey(name: 'GetObjectInformation')
-  final BatchGetObjectInformation getObjectInformation;
+  final BatchGetObjectInformation? getObjectInformation;
 
   /// Lists indices attached to an object.
-  @_s.JsonKey(name: 'ListAttachedIndices')
-  final BatchListAttachedIndices listAttachedIndices;
+  final BatchListAttachedIndices? listAttachedIndices;
 
   /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
   /// information for an object. It also supports filtering by typed link facet
   /// and identity attributes. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'ListIncomingTypedLinks')
-  final BatchListIncomingTypedLinks listIncomingTypedLinks;
+  final BatchListIncomingTypedLinks? listIncomingTypedLinks;
 
   /// Lists objects attached to the specified index.
-  @_s.JsonKey(name: 'ListIndex')
-  final BatchListIndex listIndex;
+  final BatchListIndex? listIndex;
 
   /// Lists all attributes that are associated with an object.
-  @_s.JsonKey(name: 'ListObjectAttributes')
-  final BatchListObjectAttributes listObjectAttributes;
+  final BatchListObjectAttributes? listObjectAttributes;
 
   /// Returns a paginated list of child objects that are associated with a given
   /// object.
-  @_s.JsonKey(name: 'ListObjectChildren')
-  final BatchListObjectChildren listObjectChildren;
+  final BatchListObjectChildren? listObjectChildren;
 
   /// Retrieves all available parent paths for any object type such as node, leaf
   /// node, policy node, and index node objects. For more information about
   /// objects, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#dirstructure">Directory
   /// Structure</a>.
-  @_s.JsonKey(name: 'ListObjectParentPaths')
-  final BatchListObjectParentPaths listObjectParentPaths;
+  final BatchListObjectParentPaths? listObjectParentPaths;
 
   /// Returns policies attached to an object in pagination fashion.
-  @_s.JsonKey(name: 'ListObjectPolicies')
-  final BatchListObjectPolicies listObjectPolicies;
+  final BatchListObjectPolicies? listObjectPolicies;
 
   /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
   /// information for an object. It also supports filtering by typed link facet
   /// and identity attributes. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'ListOutgoingTypedLinks')
-  final BatchListOutgoingTypedLinks listOutgoingTypedLinks;
+  final BatchListOutgoingTypedLinks? listOutgoingTypedLinks;
 
   /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
   /// attached.
-  @_s.JsonKey(name: 'ListPolicyAttachments')
-  final BatchListPolicyAttachments listPolicyAttachments;
+  final BatchListPolicyAttachments? listPolicyAttachments;
 
   /// Lists all policies from the root of the <a>Directory</a> to the object
   /// specified. If there are no policies present, an empty list is returned. If
@@ -5103,8 +5152,7 @@ class BatchReadOperation {
   /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
   /// the root from the target object are ignored. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
-  @_s.JsonKey(name: 'LookupPolicy')
-  final BatchLookupPolicy lookupPolicy;
+  final BatchLookupPolicy? lookupPolicy;
 
   BatchReadOperation({
     this.getLinkAttributes,
@@ -5121,118 +5169,142 @@ class BatchReadOperation {
     this.listPolicyAttachments,
     this.lookupPolicy,
   });
-  Map<String, dynamic> toJson() => _$BatchReadOperationToJson(this);
+  Map<String, dynamic> toJson() {
+    final getLinkAttributes = this.getLinkAttributes;
+    final getObjectAttributes = this.getObjectAttributes;
+    final getObjectInformation = this.getObjectInformation;
+    final listAttachedIndices = this.listAttachedIndices;
+    final listIncomingTypedLinks = this.listIncomingTypedLinks;
+    final listIndex = this.listIndex;
+    final listObjectAttributes = this.listObjectAttributes;
+    final listObjectChildren = this.listObjectChildren;
+    final listObjectParentPaths = this.listObjectParentPaths;
+    final listObjectPolicies = this.listObjectPolicies;
+    final listOutgoingTypedLinks = this.listOutgoingTypedLinks;
+    final listPolicyAttachments = this.listPolicyAttachments;
+    final lookupPolicy = this.lookupPolicy;
+    return {
+      if (getLinkAttributes != null) 'GetLinkAttributes': getLinkAttributes,
+      if (getObjectAttributes != null)
+        'GetObjectAttributes': getObjectAttributes,
+      if (getObjectInformation != null)
+        'GetObjectInformation': getObjectInformation,
+      if (listAttachedIndices != null)
+        'ListAttachedIndices': listAttachedIndices,
+      if (listIncomingTypedLinks != null)
+        'ListIncomingTypedLinks': listIncomingTypedLinks,
+      if (listIndex != null) 'ListIndex': listIndex,
+      if (listObjectAttributes != null)
+        'ListObjectAttributes': listObjectAttributes,
+      if (listObjectChildren != null) 'ListObjectChildren': listObjectChildren,
+      if (listObjectParentPaths != null)
+        'ListObjectParentPaths': listObjectParentPaths,
+      if (listObjectPolicies != null) 'ListObjectPolicies': listObjectPolicies,
+      if (listOutgoingTypedLinks != null)
+        'ListOutgoingTypedLinks': listOutgoingTypedLinks,
+      if (listPolicyAttachments != null)
+        'ListPolicyAttachments': listPolicyAttachments,
+      if (lookupPolicy != null) 'LookupPolicy': lookupPolicy,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchRead</code> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchReadOperationResponse {
   /// Identifies which operation in a batch has failed.
-  @_s.JsonKey(name: 'ExceptionResponse')
-  final BatchReadException exceptionResponse;
+  final BatchReadException? exceptionResponse;
 
   /// Identifies which operation in a batch has succeeded.
-  @_s.JsonKey(name: 'SuccessfulResponse')
-  final BatchReadSuccessfulResponse successfulResponse;
+  final BatchReadSuccessfulResponse? successfulResponse;
 
   BatchReadOperationResponse({
     this.exceptionResponse,
     this.successfulResponse,
   });
-  factory BatchReadOperationResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchReadOperationResponseFromJson(json);
+  factory BatchReadOperationResponse.fromJson(Map<String, dynamic> json) {
+    return BatchReadOperationResponse(
+      exceptionResponse: json['ExceptionResponse'] != null
+          ? BatchReadException.fromJson(
+              json['ExceptionResponse'] as Map<String, dynamic>)
+          : null,
+      successfulResponse: json['SuccessfulResponse'] != null
+          ? BatchReadSuccessfulResponse.fromJson(
+              json['SuccessfulResponse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchReadResponse {
   /// A list of all the responses for each batch read.
-  @_s.JsonKey(name: 'Responses')
-  final List<BatchReadOperationResponse> responses;
+  final List<BatchReadOperationResponse>? responses;
 
   BatchReadResponse({
     this.responses,
   });
-  factory BatchReadResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchReadResponseFromJson(json);
+  factory BatchReadResponse.fromJson(Map<String, dynamic> json) {
+    return BatchReadResponse(
+      responses: (json['Responses'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchReadOperationResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Represents the output of a <code>BatchRead</code> success response
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchReadSuccessfulResponse {
   /// The list of attributes to retrieve from the typed link.
-  @_s.JsonKey(name: 'GetLinkAttributes')
-  final BatchGetLinkAttributesResponse getLinkAttributes;
+  final BatchGetLinkAttributesResponse? getLinkAttributes;
 
   /// Retrieves attributes within a facet that are associated with an object.
-  @_s.JsonKey(name: 'GetObjectAttributes')
-  final BatchGetObjectAttributesResponse getObjectAttributes;
+  final BatchGetObjectAttributesResponse? getObjectAttributes;
 
   /// Retrieves metadata about an object.
-  @_s.JsonKey(name: 'GetObjectInformation')
-  final BatchGetObjectInformationResponse getObjectInformation;
+  final BatchGetObjectInformationResponse? getObjectInformation;
 
   /// Lists indices attached to an object.
-  @_s.JsonKey(name: 'ListAttachedIndices')
-  final BatchListAttachedIndicesResponse listAttachedIndices;
+  final BatchListAttachedIndicesResponse? listAttachedIndices;
 
   /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
   /// information for an object. It also supports filtering by typed link facet
   /// and identity attributes. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'ListIncomingTypedLinks')
-  final BatchListIncomingTypedLinksResponse listIncomingTypedLinks;
+  final BatchListIncomingTypedLinksResponse? listIncomingTypedLinks;
 
   /// Lists objects attached to the specified index.
-  @_s.JsonKey(name: 'ListIndex')
-  final BatchListIndexResponse listIndex;
+  final BatchListIndexResponse? listIndex;
 
   /// Lists all attributes that are associated with an object.
-  @_s.JsonKey(name: 'ListObjectAttributes')
-  final BatchListObjectAttributesResponse listObjectAttributes;
+  final BatchListObjectAttributesResponse? listObjectAttributes;
 
   /// Returns a paginated list of child objects that are associated with a given
   /// object.
-  @_s.JsonKey(name: 'ListObjectChildren')
-  final BatchListObjectChildrenResponse listObjectChildren;
+  final BatchListObjectChildrenResponse? listObjectChildren;
 
   /// Retrieves all available parent paths for any object type such as node, leaf
   /// node, policy node, and index node objects. For more information about
   /// objects, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#dirstructure">Directory
   /// Structure</a>.
-  @_s.JsonKey(name: 'ListObjectParentPaths')
-  final BatchListObjectParentPathsResponse listObjectParentPaths;
+  final BatchListObjectParentPathsResponse? listObjectParentPaths;
 
   /// Returns policies attached to an object in pagination fashion.
-  @_s.JsonKey(name: 'ListObjectPolicies')
-  final BatchListObjectPoliciesResponse listObjectPolicies;
+  final BatchListObjectPoliciesResponse? listObjectPolicies;
 
   /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
   /// information for an object. It also supports filtering by typed link facet
   /// and identity attributes. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'ListOutgoingTypedLinks')
-  final BatchListOutgoingTypedLinksResponse listOutgoingTypedLinks;
+  final BatchListOutgoingTypedLinksResponse? listOutgoingTypedLinks;
 
   /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
   /// attached.
-  @_s.JsonKey(name: 'ListPolicyAttachments')
-  final BatchListPolicyAttachmentsResponse listPolicyAttachments;
+  final BatchListPolicyAttachmentsResponse? listPolicyAttachments;
 
   /// Lists all policies from the root of the <a>Directory</a> to the object
   /// specified. If there are no policies present, an empty list is returned. If
@@ -5242,8 +5314,7 @@ class BatchReadSuccessfulResponse {
   /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
   /// the root from the target object are ignored. For more information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
-  @_s.JsonKey(name: 'LookupPolicy')
-  final BatchLookupPolicyResponse lookupPolicy;
+  final BatchLookupPolicyResponse? lookupPolicy;
 
   BatchReadSuccessfulResponse({
     this.getLinkAttributes,
@@ -5260,261 +5331,348 @@ class BatchReadSuccessfulResponse {
     this.listPolicyAttachments,
     this.lookupPolicy,
   });
-  factory BatchReadSuccessfulResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchReadSuccessfulResponseFromJson(json);
+  factory BatchReadSuccessfulResponse.fromJson(Map<String, dynamic> json) {
+    return BatchReadSuccessfulResponse(
+      getLinkAttributes: json['GetLinkAttributes'] != null
+          ? BatchGetLinkAttributesResponse.fromJson(
+              json['GetLinkAttributes'] as Map<String, dynamic>)
+          : null,
+      getObjectAttributes: json['GetObjectAttributes'] != null
+          ? BatchGetObjectAttributesResponse.fromJson(
+              json['GetObjectAttributes'] as Map<String, dynamic>)
+          : null,
+      getObjectInformation: json['GetObjectInformation'] != null
+          ? BatchGetObjectInformationResponse.fromJson(
+              json['GetObjectInformation'] as Map<String, dynamic>)
+          : null,
+      listAttachedIndices: json['ListAttachedIndices'] != null
+          ? BatchListAttachedIndicesResponse.fromJson(
+              json['ListAttachedIndices'] as Map<String, dynamic>)
+          : null,
+      listIncomingTypedLinks: json['ListIncomingTypedLinks'] != null
+          ? BatchListIncomingTypedLinksResponse.fromJson(
+              json['ListIncomingTypedLinks'] as Map<String, dynamic>)
+          : null,
+      listIndex: json['ListIndex'] != null
+          ? BatchListIndexResponse.fromJson(
+              json['ListIndex'] as Map<String, dynamic>)
+          : null,
+      listObjectAttributes: json['ListObjectAttributes'] != null
+          ? BatchListObjectAttributesResponse.fromJson(
+              json['ListObjectAttributes'] as Map<String, dynamic>)
+          : null,
+      listObjectChildren: json['ListObjectChildren'] != null
+          ? BatchListObjectChildrenResponse.fromJson(
+              json['ListObjectChildren'] as Map<String, dynamic>)
+          : null,
+      listObjectParentPaths: json['ListObjectParentPaths'] != null
+          ? BatchListObjectParentPathsResponse.fromJson(
+              json['ListObjectParentPaths'] as Map<String, dynamic>)
+          : null,
+      listObjectPolicies: json['ListObjectPolicies'] != null
+          ? BatchListObjectPoliciesResponse.fromJson(
+              json['ListObjectPolicies'] as Map<String, dynamic>)
+          : null,
+      listOutgoingTypedLinks: json['ListOutgoingTypedLinks'] != null
+          ? BatchListOutgoingTypedLinksResponse.fromJson(
+              json['ListOutgoingTypedLinks'] as Map<String, dynamic>)
+          : null,
+      listPolicyAttachments: json['ListPolicyAttachments'] != null
+          ? BatchListPolicyAttachmentsResponse.fromJson(
+              json['ListPolicyAttachments'] as Map<String, dynamic>)
+          : null,
+      lookupPolicy: json['LookupPolicy'] != null
+          ? BatchLookupPolicyResponse.fromJson(
+              json['LookupPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A batch operation to remove a facet from an object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchRemoveFacetFromObject {
   /// A reference to the object whose facet will be removed.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   /// The facet to remove from the object.
-  @_s.JsonKey(name: 'SchemaFacet')
   final SchemaFacet schemaFacet;
 
   BatchRemoveFacetFromObject({
-    @_s.required this.objectReference,
-    @_s.required this.schemaFacet,
+    required this.objectReference,
+    required this.schemaFacet,
   });
-  Map<String, dynamic> toJson() => _$BatchRemoveFacetFromObjectToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
 }
 
 /// An empty result that represents success.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchRemoveFacetFromObjectResponse {
   BatchRemoveFacetFromObjectResponse();
-  factory BatchRemoveFacetFromObjectResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchRemoveFacetFromObjectResponseFromJson(json);
+  factory BatchRemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchRemoveFacetFromObjectResponse();
+  }
 }
 
 /// Updates a given typed link’s attributes inside a <a>BatchRead</a> operation.
 /// Attributes to be updated must not contribute to the typed link’s identity,
 /// as defined by its <code>IdentityAttributeOrder</code>. For more information,
 /// see <a>UpdateLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchUpdateLinkAttributes {
   /// The attributes update structure.
-  @_s.JsonKey(name: 'AttributeUpdates')
   final List<LinkAttributeUpdate> attributeUpdates;
 
   /// Allows a typed link specifier to be accepted as input.
-  @_s.JsonKey(name: 'TypedLinkSpecifier')
   final TypedLinkSpecifier typedLinkSpecifier;
 
   BatchUpdateLinkAttributes({
-    @_s.required this.attributeUpdates,
-    @_s.required this.typedLinkSpecifier,
+    required this.attributeUpdates,
+    required this.typedLinkSpecifier,
   });
-  Map<String, dynamic> toJson() => _$BatchUpdateLinkAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeUpdates = this.attributeUpdates;
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'AttributeUpdates': attributeUpdates,
+      'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
 }
 
 /// Represents the output of a <a>UpdateLinkAttributes</a> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateLinkAttributesResponse {
   BatchUpdateLinkAttributesResponse();
-  factory BatchUpdateLinkAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchUpdateLinkAttributesResponseFromJson(json);
+  factory BatchUpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return BatchUpdateLinkAttributesResponse();
+  }
 }
 
 /// Represents the output of a <code>BatchUpdate</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchUpdateObjectAttributes {
   /// Attributes update structure.
-  @_s.JsonKey(name: 'AttributeUpdates')
   final List<ObjectAttributeUpdate> attributeUpdates;
 
   /// Reference that identifies the object.
-  @_s.JsonKey(name: 'ObjectReference')
   final ObjectReference objectReference;
 
   BatchUpdateObjectAttributes({
-    @_s.required this.attributeUpdates,
-    @_s.required this.objectReference,
+    required this.attributeUpdates,
+    required this.objectReference,
   });
-  Map<String, dynamic> toJson() => _$BatchUpdateObjectAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeUpdates = this.attributeUpdates;
+    final objectReference = this.objectReference;
+    return {
+      'AttributeUpdates': attributeUpdates,
+      'ObjectReference': objectReference,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchUpdate</code> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateObjectAttributesResponse {
   /// ID that is associated with the object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   BatchUpdateObjectAttributesResponse({
     this.objectIdentifier,
   });
   factory BatchUpdateObjectAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchUpdateObjectAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchUpdateObjectAttributesResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// A <code>BatchWrite</code> exception has occurred.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteException implements _s.AwsException {
-  @_s.JsonKey(name: 'Index')
-  final int index;
-  @_s.JsonKey(name: 'Message')
-  final String message;
-  @_s.JsonKey(name: 'Type')
-  final BatchWriteExceptionType type;
+  final int? index;
+  final String? message;
+  final BatchWriteExceptionType? type;
 
   BatchWriteException({
     this.index,
     this.message,
     this.type,
   });
-  factory BatchWriteException.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteExceptionFromJson(json);
+  factory BatchWriteException.fromJson(Map<String, dynamic> json) {
+    return BatchWriteException(
+      index: json['Index'] as int?,
+      message: json['Message'] as String?,
+      type: (json['Type'] as String?)?.toBatchWriteExceptionType(),
+    );
+  }
 }
 
 enum BatchWriteExceptionType {
-  @_s.JsonValue('InternalServiceException')
   internalServiceException,
-  @_s.JsonValue('ValidationException')
   validationException,
-  @_s.JsonValue('InvalidArnException')
   invalidArnException,
-  @_s.JsonValue('LinkNameAlreadyInUseException')
   linkNameAlreadyInUseException,
-  @_s.JsonValue('StillContainsLinksException')
   stillContainsLinksException,
-  @_s.JsonValue('FacetValidationException')
   facetValidationException,
-  @_s.JsonValue('ObjectNotDetachedException')
   objectNotDetachedException,
-  @_s.JsonValue('ResourceNotFoundException')
   resourceNotFoundException,
-  @_s.JsonValue('AccessDeniedException')
   accessDeniedException,
-  @_s.JsonValue('InvalidAttachmentException')
   invalidAttachmentException,
-  @_s.JsonValue('NotIndexException')
   notIndexException,
-  @_s.JsonValue('NotNodeException')
   notNodeException,
-  @_s.JsonValue('IndexedAttributeMissingException')
   indexedAttributeMissingException,
-  @_s.JsonValue('ObjectAlreadyDetachedException')
   objectAlreadyDetachedException,
-  @_s.JsonValue('NotPolicyException')
   notPolicyException,
-  @_s.JsonValue('DirectoryNotEnabledException')
   directoryNotEnabledException,
-  @_s.JsonValue('LimitExceededException')
   limitExceededException,
-  @_s.JsonValue('UnsupportedIndexTypeException')
   unsupportedIndexTypeException,
 }
 
+extension on BatchWriteExceptionType {
+  String toValue() {
+    switch (this) {
+      case BatchWriteExceptionType.internalServiceException:
+        return 'InternalServiceException';
+      case BatchWriteExceptionType.validationException:
+        return 'ValidationException';
+      case BatchWriteExceptionType.invalidArnException:
+        return 'InvalidArnException';
+      case BatchWriteExceptionType.linkNameAlreadyInUseException:
+        return 'LinkNameAlreadyInUseException';
+      case BatchWriteExceptionType.stillContainsLinksException:
+        return 'StillContainsLinksException';
+      case BatchWriteExceptionType.facetValidationException:
+        return 'FacetValidationException';
+      case BatchWriteExceptionType.objectNotDetachedException:
+        return 'ObjectNotDetachedException';
+      case BatchWriteExceptionType.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case BatchWriteExceptionType.accessDeniedException:
+        return 'AccessDeniedException';
+      case BatchWriteExceptionType.invalidAttachmentException:
+        return 'InvalidAttachmentException';
+      case BatchWriteExceptionType.notIndexException:
+        return 'NotIndexException';
+      case BatchWriteExceptionType.notNodeException:
+        return 'NotNodeException';
+      case BatchWriteExceptionType.indexedAttributeMissingException:
+        return 'IndexedAttributeMissingException';
+      case BatchWriteExceptionType.objectAlreadyDetachedException:
+        return 'ObjectAlreadyDetachedException';
+      case BatchWriteExceptionType.notPolicyException:
+        return 'NotPolicyException';
+      case BatchWriteExceptionType.directoryNotEnabledException:
+        return 'DirectoryNotEnabledException';
+      case BatchWriteExceptionType.limitExceededException:
+        return 'LimitExceededException';
+      case BatchWriteExceptionType.unsupportedIndexTypeException:
+        return 'UnsupportedIndexTypeException';
+    }
+  }
+}
+
+extension on String {
+  BatchWriteExceptionType toBatchWriteExceptionType() {
+    switch (this) {
+      case 'InternalServiceException':
+        return BatchWriteExceptionType.internalServiceException;
+      case 'ValidationException':
+        return BatchWriteExceptionType.validationException;
+      case 'InvalidArnException':
+        return BatchWriteExceptionType.invalidArnException;
+      case 'LinkNameAlreadyInUseException':
+        return BatchWriteExceptionType.linkNameAlreadyInUseException;
+      case 'StillContainsLinksException':
+        return BatchWriteExceptionType.stillContainsLinksException;
+      case 'FacetValidationException':
+        return BatchWriteExceptionType.facetValidationException;
+      case 'ObjectNotDetachedException':
+        return BatchWriteExceptionType.objectNotDetachedException;
+      case 'ResourceNotFoundException':
+        return BatchWriteExceptionType.resourceNotFoundException;
+      case 'AccessDeniedException':
+        return BatchWriteExceptionType.accessDeniedException;
+      case 'InvalidAttachmentException':
+        return BatchWriteExceptionType.invalidAttachmentException;
+      case 'NotIndexException':
+        return BatchWriteExceptionType.notIndexException;
+      case 'NotNodeException':
+        return BatchWriteExceptionType.notNodeException;
+      case 'IndexedAttributeMissingException':
+        return BatchWriteExceptionType.indexedAttributeMissingException;
+      case 'ObjectAlreadyDetachedException':
+        return BatchWriteExceptionType.objectAlreadyDetachedException;
+      case 'NotPolicyException':
+        return BatchWriteExceptionType.notPolicyException;
+      case 'DirectoryNotEnabledException':
+        return BatchWriteExceptionType.directoryNotEnabledException;
+      case 'LimitExceededException':
+        return BatchWriteExceptionType.limitExceededException;
+      case 'UnsupportedIndexTypeException':
+        return BatchWriteExceptionType.unsupportedIndexTypeException;
+    }
+    throw Exception('$this is not known in enum BatchWriteExceptionType');
+  }
+}
+
 /// Represents the output of a <code>BatchWrite</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchWriteOperation {
   /// A batch operation that adds a facet to an object.
-  @_s.JsonKey(name: 'AddFacetToObject')
-  final BatchAddFacetToObject addFacetToObject;
+  final BatchAddFacetToObject? addFacetToObject;
 
   /// Attaches an object to a <a>Directory</a>.
-  @_s.JsonKey(name: 'AttachObject')
-  final BatchAttachObject attachObject;
+  final BatchAttachObject? attachObject;
 
   /// Attaches a policy object to a regular object. An object can have a limited
   /// number of attached policies.
-  @_s.JsonKey(name: 'AttachPolicy')
-  final BatchAttachPolicy attachPolicy;
+  final BatchAttachPolicy? attachPolicy;
 
   /// Attaches the specified object to the specified index.
-  @_s.JsonKey(name: 'AttachToIndex')
-  final BatchAttachToIndex attachToIndex;
+  final BatchAttachToIndex? attachToIndex;
 
   /// Attaches a typed link to a specified source and target object. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'AttachTypedLink')
-  final BatchAttachTypedLink attachTypedLink;
+  final BatchAttachTypedLink? attachTypedLink;
 
   /// Creates an index object. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_indexing.html">Indexing</a>
   /// for more information.
-  @_s.JsonKey(name: 'CreateIndex')
-  final BatchCreateIndex createIndex;
+  final BatchCreateIndex? createIndex;
 
   /// Creates an object.
-  @_s.JsonKey(name: 'CreateObject')
-  final BatchCreateObject createObject;
+  final BatchCreateObject? createObject;
 
   /// Deletes an object in a <a>Directory</a>.
-  @_s.JsonKey(name: 'DeleteObject')
-  final BatchDeleteObject deleteObject;
+  final BatchDeleteObject? deleteObject;
 
   /// Detaches the specified object from the specified index.
-  @_s.JsonKey(name: 'DetachFromIndex')
-  final BatchDetachFromIndex detachFromIndex;
+  final BatchDetachFromIndex? detachFromIndex;
 
   /// Detaches an object from a <a>Directory</a>.
-  @_s.JsonKey(name: 'DetachObject')
-  final BatchDetachObject detachObject;
+  final BatchDetachObject? detachObject;
 
   /// Detaches a policy from a <a>Directory</a>.
-  @_s.JsonKey(name: 'DetachPolicy')
-  final BatchDetachPolicy detachPolicy;
+  final BatchDetachPolicy? detachPolicy;
 
   /// Detaches a typed link from a specified source and target object. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'DetachTypedLink')
-  final BatchDetachTypedLink detachTypedLink;
+  final BatchDetachTypedLink? detachTypedLink;
 
   /// A batch operation that removes a facet from an object.
-  @_s.JsonKey(name: 'RemoveFacetFromObject')
-  final BatchRemoveFacetFromObject removeFacetFromObject;
+  final BatchRemoveFacetFromObject? removeFacetFromObject;
 
   /// Updates a given object's attributes.
-  @_s.JsonKey(name: 'UpdateLinkAttributes')
-  final BatchUpdateLinkAttributes updateLinkAttributes;
+  final BatchUpdateLinkAttributes? updateLinkAttributes;
 
   /// Updates a given object's attributes.
-  @_s.JsonKey(name: 'UpdateObjectAttributes')
-  final BatchUpdateObjectAttributes updateObjectAttributes;
+  final BatchUpdateObjectAttributes? updateObjectAttributes;
 
   BatchWriteOperation({
     this.addFacetToObject,
@@ -5533,84 +5691,100 @@ class BatchWriteOperation {
     this.updateLinkAttributes,
     this.updateObjectAttributes,
   });
-  Map<String, dynamic> toJson() => _$BatchWriteOperationToJson(this);
+  Map<String, dynamic> toJson() {
+    final addFacetToObject = this.addFacetToObject;
+    final attachObject = this.attachObject;
+    final attachPolicy = this.attachPolicy;
+    final attachToIndex = this.attachToIndex;
+    final attachTypedLink = this.attachTypedLink;
+    final createIndex = this.createIndex;
+    final createObject = this.createObject;
+    final deleteObject = this.deleteObject;
+    final detachFromIndex = this.detachFromIndex;
+    final detachObject = this.detachObject;
+    final detachPolicy = this.detachPolicy;
+    final detachTypedLink = this.detachTypedLink;
+    final removeFacetFromObject = this.removeFacetFromObject;
+    final updateLinkAttributes = this.updateLinkAttributes;
+    final updateObjectAttributes = this.updateObjectAttributes;
+    return {
+      if (addFacetToObject != null) 'AddFacetToObject': addFacetToObject,
+      if (attachObject != null) 'AttachObject': attachObject,
+      if (attachPolicy != null) 'AttachPolicy': attachPolicy,
+      if (attachToIndex != null) 'AttachToIndex': attachToIndex,
+      if (attachTypedLink != null) 'AttachTypedLink': attachTypedLink,
+      if (createIndex != null) 'CreateIndex': createIndex,
+      if (createObject != null) 'CreateObject': createObject,
+      if (deleteObject != null) 'DeleteObject': deleteObject,
+      if (detachFromIndex != null) 'DetachFromIndex': detachFromIndex,
+      if (detachObject != null) 'DetachObject': detachObject,
+      if (detachPolicy != null) 'DetachPolicy': detachPolicy,
+      if (detachTypedLink != null) 'DetachTypedLink': detachTypedLink,
+      if (removeFacetFromObject != null)
+        'RemoveFacetFromObject': removeFacetFromObject,
+      if (updateLinkAttributes != null)
+        'UpdateLinkAttributes': updateLinkAttributes,
+      if (updateObjectAttributes != null)
+        'UpdateObjectAttributes': updateObjectAttributes,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchWrite</code> response operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteOperationResponse {
   /// The result of an add facet to object batch operation.
-  @_s.JsonKey(name: 'AddFacetToObject')
-  final BatchAddFacetToObjectResponse addFacetToObject;
+  final BatchAddFacetToObjectResponse? addFacetToObject;
 
   /// Attaches an object to a <a>Directory</a>.
-  @_s.JsonKey(name: 'AttachObject')
-  final BatchAttachObjectResponse attachObject;
+  final BatchAttachObjectResponse? attachObject;
 
   /// Attaches a policy object to a regular object. An object can have a limited
   /// number of attached policies.
-  @_s.JsonKey(name: 'AttachPolicy')
-  final BatchAttachPolicyResponse attachPolicy;
+  final BatchAttachPolicyResponse? attachPolicy;
 
   /// Attaches the specified object to the specified index.
-  @_s.JsonKey(name: 'AttachToIndex')
-  final BatchAttachToIndexResponse attachToIndex;
+  final BatchAttachToIndexResponse? attachToIndex;
 
   /// Attaches a typed link to a specified source and target object. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'AttachTypedLink')
-  final BatchAttachTypedLinkResponse attachTypedLink;
+  final BatchAttachTypedLinkResponse? attachTypedLink;
 
   /// Creates an index object. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_indexing.html">Indexing</a>
   /// for more information.
-  @_s.JsonKey(name: 'CreateIndex')
-  final BatchCreateIndexResponse createIndex;
+  final BatchCreateIndexResponse? createIndex;
 
   /// Creates an object in a <a>Directory</a>.
-  @_s.JsonKey(name: 'CreateObject')
-  final BatchCreateObjectResponse createObject;
+  final BatchCreateObjectResponse? createObject;
 
   /// Deletes an object in a <a>Directory</a>.
-  @_s.JsonKey(name: 'DeleteObject')
-  final BatchDeleteObjectResponse deleteObject;
+  final BatchDeleteObjectResponse? deleteObject;
 
   /// Detaches the specified object from the specified index.
-  @_s.JsonKey(name: 'DetachFromIndex')
-  final BatchDetachFromIndexResponse detachFromIndex;
+  final BatchDetachFromIndexResponse? detachFromIndex;
 
   /// Detaches an object from a <a>Directory</a>.
-  @_s.JsonKey(name: 'DetachObject')
-  final BatchDetachObjectResponse detachObject;
+  final BatchDetachObjectResponse? detachObject;
 
   /// Detaches a policy from a <a>Directory</a>.
-  @_s.JsonKey(name: 'DetachPolicy')
-  final BatchDetachPolicyResponse detachPolicy;
+  final BatchDetachPolicyResponse? detachPolicy;
 
   /// Detaches a typed link from a specified source and target object. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'DetachTypedLink')
-  final BatchDetachTypedLinkResponse detachTypedLink;
+  final BatchDetachTypedLinkResponse? detachTypedLink;
 
   /// The result of a batch remove facet from object operation.
-  @_s.JsonKey(name: 'RemoveFacetFromObject')
-  final BatchRemoveFacetFromObjectResponse removeFacetFromObject;
+  final BatchRemoveFacetFromObjectResponse? removeFacetFromObject;
 
   /// Represents the output of a <code>BatchWrite</code> response operation.
-  @_s.JsonKey(name: 'UpdateLinkAttributes')
-  final BatchUpdateLinkAttributesResponse updateLinkAttributes;
+  final BatchUpdateLinkAttributesResponse? updateLinkAttributes;
 
   /// Updates a given object’s attributes.
-  @_s.JsonKey(name: 'UpdateObjectAttributes')
-  final BatchUpdateObjectAttributesResponse updateObjectAttributes;
+  final BatchUpdateObjectAttributesResponse? updateObjectAttributes;
 
   BatchWriteOperationResponse({
     this.addFacetToObject,
@@ -5629,48 +5803,106 @@ class BatchWriteOperationResponse {
     this.updateLinkAttributes,
     this.updateObjectAttributes,
   });
-  factory BatchWriteOperationResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteOperationResponseFromJson(json);
+  factory BatchWriteOperationResponse.fromJson(Map<String, dynamic> json) {
+    return BatchWriteOperationResponse(
+      addFacetToObject: json['AddFacetToObject'] != null
+          ? BatchAddFacetToObjectResponse.fromJson(
+              json['AddFacetToObject'] as Map<String, dynamic>)
+          : null,
+      attachObject: json['AttachObject'] != null
+          ? BatchAttachObjectResponse.fromJson(
+              json['AttachObject'] as Map<String, dynamic>)
+          : null,
+      attachPolicy: json['AttachPolicy'] != null
+          ? BatchAttachPolicyResponse.fromJson(
+              json['AttachPolicy'] as Map<String, dynamic>)
+          : null,
+      attachToIndex: json['AttachToIndex'] != null
+          ? BatchAttachToIndexResponse.fromJson(
+              json['AttachToIndex'] as Map<String, dynamic>)
+          : null,
+      attachTypedLink: json['AttachTypedLink'] != null
+          ? BatchAttachTypedLinkResponse.fromJson(
+              json['AttachTypedLink'] as Map<String, dynamic>)
+          : null,
+      createIndex: json['CreateIndex'] != null
+          ? BatchCreateIndexResponse.fromJson(
+              json['CreateIndex'] as Map<String, dynamic>)
+          : null,
+      createObject: json['CreateObject'] != null
+          ? BatchCreateObjectResponse.fromJson(
+              json['CreateObject'] as Map<String, dynamic>)
+          : null,
+      deleteObject: json['DeleteObject'] != null
+          ? BatchDeleteObjectResponse.fromJson(
+              json['DeleteObject'] as Map<String, dynamic>)
+          : null,
+      detachFromIndex: json['DetachFromIndex'] != null
+          ? BatchDetachFromIndexResponse.fromJson(
+              json['DetachFromIndex'] as Map<String, dynamic>)
+          : null,
+      detachObject: json['DetachObject'] != null
+          ? BatchDetachObjectResponse.fromJson(
+              json['DetachObject'] as Map<String, dynamic>)
+          : null,
+      detachPolicy: json['DetachPolicy'] != null
+          ? BatchDetachPolicyResponse.fromJson(
+              json['DetachPolicy'] as Map<String, dynamic>)
+          : null,
+      detachTypedLink: json['DetachTypedLink'] != null
+          ? BatchDetachTypedLinkResponse.fromJson(
+              json['DetachTypedLink'] as Map<String, dynamic>)
+          : null,
+      removeFacetFromObject: json['RemoveFacetFromObject'] != null
+          ? BatchRemoveFacetFromObjectResponse.fromJson(
+              json['RemoveFacetFromObject'] as Map<String, dynamic>)
+          : null,
+      updateLinkAttributes: json['UpdateLinkAttributes'] != null
+          ? BatchUpdateLinkAttributesResponse.fromJson(
+              json['UpdateLinkAttributes'] as Map<String, dynamic>)
+          : null,
+      updateObjectAttributes: json['UpdateObjectAttributes'] != null
+          ? BatchUpdateObjectAttributesResponse.fromJson(
+              json['UpdateObjectAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteResponse {
   /// A list of all the responses for each batch write.
-  @_s.JsonKey(name: 'Responses')
-  final List<BatchWriteOperationResponse> responses;
+  final List<BatchWriteOperationResponse>? responses;
 
   BatchWriteResponse({
     this.responses,
   });
-  factory BatchWriteResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteResponseFromJson(json);
+  factory BatchWriteResponse.fromJson(Map<String, dynamic> json) {
+    return BatchWriteResponse(
+      responses: (json['Responses'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchWriteOperationResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Cannot list the parents of a <a>Directory</a> root.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CannotListParentOfRootException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   CannotListParentOfRootException({
     this.message,
   });
-  factory CannotListParentOfRootException.fromJson(Map<String, dynamic> json) =>
-      _$CannotListParentOfRootExceptionFromJson(json);
+  factory CannotListParentOfRootException.fromJson(Map<String, dynamic> json) {
+    return CannotListParentOfRootException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum ConsistencyLevel {
-  @_s.JsonValue('SERIALIZABLE')
   serializable,
-  @_s.JsonValue('EVENTUAL')
   eventual,
 }
 
@@ -5682,258 +5914,211 @@ extension on ConsistencyLevel {
       case ConsistencyLevel.eventual:
         return 'EVENTUAL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ConsistencyLevel toConsistencyLevel() {
+    switch (this) {
+      case 'SERIALIZABLE':
+        return ConsistencyLevel.serializable;
+      case 'EVENTUAL':
+        return ConsistencyLevel.eventual;
+    }
+    throw Exception('$this is not known in enum ConsistencyLevel');
+  }
+}
+
 class CreateDirectoryResponse {
   /// The ARN of the published schema in the <a>Directory</a>. Once a published
   /// schema is copied into the directory, it has its own ARN, which is referred
   /// to applied schema ARN. For more information, see <a>arns</a>.
-  @_s.JsonKey(name: 'AppliedSchemaArn')
   final String appliedSchemaArn;
 
   /// The ARN that is associated with the <a>Directory</a>. For more information,
   /// see <a>arns</a>.
-  @_s.JsonKey(name: 'DirectoryArn')
   final String directoryArn;
 
   /// The name of the <a>Directory</a>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The root object node of the created directory.
-  @_s.JsonKey(name: 'ObjectIdentifier')
   final String objectIdentifier;
 
   CreateDirectoryResponse({
-    @_s.required this.appliedSchemaArn,
-    @_s.required this.directoryArn,
-    @_s.required this.name,
-    @_s.required this.objectIdentifier,
+    required this.appliedSchemaArn,
+    required this.directoryArn,
+    required this.name,
+    required this.objectIdentifier,
   });
-  factory CreateDirectoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDirectoryResponseFromJson(json);
+  factory CreateDirectoryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDirectoryResponse(
+      appliedSchemaArn: json['AppliedSchemaArn'] as String,
+      directoryArn: json['DirectoryArn'] as String,
+      name: json['Name'] as String,
+      objectIdentifier: json['ObjectIdentifier'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFacetResponse {
   CreateFacetResponse();
-  factory CreateFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFacetResponseFromJson(json);
+  factory CreateFacetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIndexResponse {
   /// The <code>ObjectIdentifier</code> of the index created by this operation.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   CreateIndexResponse({
     this.objectIdentifier,
   });
-  factory CreateIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateIndexResponseFromJson(json);
+  factory CreateIndexResponse.fromJson(Map<String, dynamic> json) {
+    return CreateIndexResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateObjectResponse {
   /// The identifier that is associated with the object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   CreateObjectResponse({
     this.objectIdentifier,
   });
-  factory CreateObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateObjectResponseFromJson(json);
+  factory CreateObjectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateObjectResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSchemaResponse {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For more
   /// information, see <a>arns</a>.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   CreateSchemaResponse({
     this.schemaArn,
   });
-  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSchemaResponseFromJson(json);
+  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSchemaResponse(
+      schemaArn: json['SchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTypedLinkFacetResponse {
   CreateTypedLinkFacetResponse();
-  factory CreateTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTypedLinkFacetResponseFromJson(json);
+  factory CreateTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateTypedLinkFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectoryResponse {
   /// The ARN of the deleted directory.
-  @_s.JsonKey(name: 'DirectoryArn')
   final String directoryArn;
 
   DeleteDirectoryResponse({
-    @_s.required this.directoryArn,
+    required this.directoryArn,
   });
-  factory DeleteDirectoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDirectoryResponseFromJson(json);
+  factory DeleteDirectoryResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDirectoryResponse(
+      directoryArn: json['DirectoryArn'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFacetResponse {
   DeleteFacetResponse();
-  factory DeleteFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFacetResponseFromJson(json);
+  factory DeleteFacetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteObjectResponse {
   DeleteObjectResponse();
-  factory DeleteObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteObjectResponseFromJson(json);
+  factory DeleteObjectResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteObjectResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSchemaResponse {
   /// The input ARN that is returned as part of the response. For more
   /// information, see <a>arns</a>.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   DeleteSchemaResponse({
     this.schemaArn,
   });
-  factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSchemaResponseFromJson(json);
+  factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSchemaResponse(
+      schemaArn: json['SchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTypedLinkFacetResponse {
   DeleteTypedLinkFacetResponse();
-  factory DeleteTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTypedLinkFacetResponseFromJson(json);
+  factory DeleteTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTypedLinkFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachFromIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was detached from the
   /// index.
-  @_s.JsonKey(name: 'DetachedObjectIdentifier')
-  final String detachedObjectIdentifier;
+  final String? detachedObjectIdentifier;
 
   DetachFromIndexResponse({
     this.detachedObjectIdentifier,
   });
-  factory DetachFromIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetachFromIndexResponseFromJson(json);
+  factory DetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
+    return DetachFromIndexResponse(
+      detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachObjectResponse {
   /// The <code>ObjectIdentifier</code> that was detached from the object.
-  @_s.JsonKey(name: 'DetachedObjectIdentifier')
-  final String detachedObjectIdentifier;
+  final String? detachedObjectIdentifier;
 
   DetachObjectResponse({
     this.detachedObjectIdentifier,
   });
-  factory DetachObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetachObjectResponseFromJson(json);
+  factory DetachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return DetachObjectResponse(
+      detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachPolicyResponse {
   DetachPolicyResponse();
-  factory DetachPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetachPolicyResponseFromJson(json);
+  factory DetachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DetachPolicyResponse();
+  }
 }
 
 /// Directory structure that includes the directory name and directory ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Directory {
   /// The date and time when the directory was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The Amazon Resource Name (ARN) that is associated with the directory. For
   /// more information, see <a>arns</a>.
-  @_s.JsonKey(name: 'DirectoryArn')
-  final String directoryArn;
+  final String? directoryArn;
 
   /// The name of the directory.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the directory. Can be either <code>Enabled</code>,
   /// <code>Disabled</code>, or <code>Deleted</code>.
-  @_s.JsonKey(name: 'State')
-  final DirectoryState state;
+  final DirectoryState? state;
 
   Directory({
     this.creationDateTime,
@@ -5941,86 +6126,77 @@ class Directory {
     this.name,
     this.state,
   });
-  factory Directory.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryFromJson(json);
+  factory Directory.fromJson(Map<String, dynamic> json) {
+    return Directory(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      directoryArn: json['DirectoryArn'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toDirectoryState(),
+    );
+  }
 }
 
 /// Indicates that a <a>Directory</a> could not be created due to a naming
 /// conflict. Choose a different name and try again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryAlreadyExistsException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DirectoryAlreadyExistsException({
     this.message,
   });
-  factory DirectoryAlreadyExistsException.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryAlreadyExistsExceptionFromJson(json);
+  factory DirectoryAlreadyExistsException.fromJson(Map<String, dynamic> json) {
+    return DirectoryAlreadyExistsException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// A directory that has been deleted and to which access has been attempted.
 /// Note: The requested resource will eventually cease to exist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryDeletedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DirectoryDeletedException({
     this.message,
   });
-  factory DirectoryDeletedException.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryDeletedExceptionFromJson(json);
+  factory DirectoryDeletedException.fromJson(Map<String, dynamic> json) {
+    return DirectoryDeletedException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// An operation can only operate on a disabled directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryNotDisabledException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DirectoryNotDisabledException({
     this.message,
   });
-  factory DirectoryNotDisabledException.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryNotDisabledExceptionFromJson(json);
+  factory DirectoryNotDisabledException.fromJson(Map<String, dynamic> json) {
+    return DirectoryNotDisabledException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Operations are only permitted on enabled directories.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryNotEnabledException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DirectoryNotEnabledException({
     this.message,
   });
-  factory DirectoryNotEnabledException.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryNotEnabledExceptionFromJson(json);
+  factory DirectoryNotEnabledException.fromJson(Map<String, dynamic> json) {
+    return DirectoryNotEnabledException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum DirectoryState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -6034,42 +6210,49 @@ extension on DirectoryState {
       case DirectoryState.deleted:
         return 'DELETED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DirectoryState toDirectoryState() {
+    switch (this) {
+      case 'ENABLED':
+        return DirectoryState.enabled;
+      case 'DISABLED':
+        return DirectoryState.disabled;
+      case 'DELETED':
+        return DirectoryState.deleted;
+    }
+    throw Exception('$this is not known in enum DirectoryState');
+  }
+}
+
 class DisableDirectoryResponse {
   /// The ARN of the directory that has been disabled.
-  @_s.JsonKey(name: 'DirectoryArn')
   final String directoryArn;
 
   DisableDirectoryResponse({
-    @_s.required this.directoryArn,
+    required this.directoryArn,
   });
-  factory DisableDirectoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisableDirectoryResponseFromJson(json);
+  factory DisableDirectoryResponse.fromJson(Map<String, dynamic> json) {
+    return DisableDirectoryResponse(
+      directoryArn: json['DirectoryArn'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableDirectoryResponse {
   /// The ARN of the enabled directory.
-  @_s.JsonKey(name: 'DirectoryArn')
   final String directoryArn;
 
   EnableDirectoryResponse({
-    @_s.required this.directoryArn,
+    required this.directoryArn,
   });
-  factory EnableDirectoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$EnableDirectoryResponseFromJson(json);
+  factory EnableDirectoryResponse.fromJson(Map<String, dynamic> json) {
+    return EnableDirectoryResponse(
+      directoryArn: json['DirectoryArn'] as String,
+    );
+  }
 }
 
 /// A structure that contains <code>Name</code>, <code>ARN</code>,
@@ -6077,378 +6260,412 @@ class EnableDirectoryResponse {
 /// <code>ObjectTypes</code>. See <a
 /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/whatarefacets.html">Facets</a>
 /// for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Facet {
   /// The name of the <a>Facet</a>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The object type that is associated with the facet. See
   /// <a>CreateFacetRequest$ObjectType</a> for more details.
-  @_s.JsonKey(name: 'ObjectType')
-  final ObjectType objectType;
+  final ObjectType? objectType;
 
   Facet({
     this.name,
     this.objectType,
   });
-  factory Facet.fromJson(Map<String, dynamic> json) => _$FacetFromJson(json);
+  factory Facet.fromJson(Map<String, dynamic> json) {
+    return Facet(
+      name: json['Name'] as String?,
+      objectType: (json['ObjectType'] as String?)?.toObjectType(),
+    );
+  }
 }
 
 /// A facet with the same name already exists.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FacetAlreadyExistsException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FacetAlreadyExistsException({
     this.message,
   });
-  factory FacetAlreadyExistsException.fromJson(Map<String, dynamic> json) =>
-      _$FacetAlreadyExistsExceptionFromJson(json);
+  factory FacetAlreadyExistsException.fromJson(Map<String, dynamic> json) {
+    return FacetAlreadyExistsException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// An attribute that is associated with the <a>Facet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FacetAttribute {
   /// The name of the facet attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A facet attribute consists of either a definition or a reference. This
   /// structure contains the attribute definition. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
   /// References</a> for more information.
-  @_s.JsonKey(name: 'AttributeDefinition')
-  final FacetAttributeDefinition attributeDefinition;
+  final FacetAttributeDefinition? attributeDefinition;
 
   /// An attribute reference that is associated with the attribute. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
   /// References</a> for more information.
-  @_s.JsonKey(name: 'AttributeReference')
-  final FacetAttributeReference attributeReference;
+  final FacetAttributeReference? attributeReference;
 
   /// The required behavior of the <code>FacetAttribute</code>.
-  @_s.JsonKey(name: 'RequiredBehavior')
-  final RequiredAttributeBehavior requiredBehavior;
+  final RequiredAttributeBehavior? requiredBehavior;
 
   FacetAttribute({
-    @_s.required this.name,
+    required this.name,
     this.attributeDefinition,
     this.attributeReference,
     this.requiredBehavior,
   });
-  factory FacetAttribute.fromJson(Map<String, dynamic> json) =>
-      _$FacetAttributeFromJson(json);
+  factory FacetAttribute.fromJson(Map<String, dynamic> json) {
+    return FacetAttribute(
+      name: json['Name'] as String,
+      attributeDefinition: json['AttributeDefinition'] != null
+          ? FacetAttributeDefinition.fromJson(
+              json['AttributeDefinition'] as Map<String, dynamic>)
+          : null,
+      attributeReference: json['AttributeReference'] != null
+          ? FacetAttributeReference.fromJson(
+              json['AttributeReference'] as Map<String, dynamic>)
+          : null,
+      requiredBehavior:
+          (json['RequiredBehavior'] as String?)?.toRequiredAttributeBehavior(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FacetAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final attributeDefinition = this.attributeDefinition;
+    final attributeReference = this.attributeReference;
+    final requiredBehavior = this.requiredBehavior;
+    return {
+      'Name': name,
+      if (attributeDefinition != null)
+        'AttributeDefinition': attributeDefinition,
+      if (attributeReference != null) 'AttributeReference': attributeReference,
+      if (requiredBehavior != null)
+        'RequiredBehavior': requiredBehavior.toValue(),
+    };
+  }
 }
 
 /// A facet attribute definition. See <a
 /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
 /// References</a> for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FacetAttributeDefinition {
   /// The type of the attribute.
-  @_s.JsonKey(name: 'Type')
   final FacetAttributeType type;
 
   /// The default value of the attribute (if configured).
-  @_s.JsonKey(name: 'DefaultValue')
-  final TypedAttributeValue defaultValue;
+  final TypedAttributeValue? defaultValue;
 
   /// Whether the attribute is mutable or not.
-  @_s.JsonKey(name: 'IsImmutable')
-  final bool isImmutable;
+  final bool? isImmutable;
 
   /// Validation rules attached to the attribute definition.
-  @_s.JsonKey(name: 'Rules')
-  final Map<String, Rule> rules;
+  final Map<String, Rule>? rules;
 
   FacetAttributeDefinition({
-    @_s.required this.type,
+    required this.type,
     this.defaultValue,
     this.isImmutable,
     this.rules,
   });
-  factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) =>
-      _$FacetAttributeDefinitionFromJson(json);
+  factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return FacetAttributeDefinition(
+      type: (json['Type'] as String).toFacetAttributeType(),
+      defaultValue: json['DefaultValue'] != null
+          ? TypedAttributeValue.fromJson(
+              json['DefaultValue'] as Map<String, dynamic>)
+          : null,
+      isImmutable: json['IsImmutable'] as bool?,
+      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FacetAttributeDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final isImmutable = this.isImmutable;
+    final rules = this.rules;
+    return {
+      'Type': type.toValue(),
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (isImmutable != null) 'IsImmutable': isImmutable,
+      if (rules != null) 'Rules': rules,
+    };
+  }
 }
 
 /// The facet attribute reference that specifies the attribute definition that
 /// contains the attribute facet name and attribute name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FacetAttributeReference {
   /// The target attribute name that is associated with the facet reference. See
   /// <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
   /// References</a> for more information.
-  @_s.JsonKey(name: 'TargetAttributeName')
   final String targetAttributeName;
 
   /// The target facet name that is associated with the facet reference. See <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
   /// References</a> for more information.
-  @_s.JsonKey(name: 'TargetFacetName')
   final String targetFacetName;
 
   FacetAttributeReference({
-    @_s.required this.targetAttributeName,
-    @_s.required this.targetFacetName,
+    required this.targetAttributeName,
+    required this.targetFacetName,
   });
-  factory FacetAttributeReference.fromJson(Map<String, dynamic> json) =>
-      _$FacetAttributeReferenceFromJson(json);
+  factory FacetAttributeReference.fromJson(Map<String, dynamic> json) {
+    return FacetAttributeReference(
+      targetAttributeName: json['TargetAttributeName'] as String,
+      targetFacetName: json['TargetFacetName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FacetAttributeReferenceToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetAttributeName = this.targetAttributeName;
+    final targetFacetName = this.targetFacetName;
+    return {
+      'TargetAttributeName': targetAttributeName,
+      'TargetFacetName': targetFacetName,
+    };
+  }
 }
 
 enum FacetAttributeType {
-  @_s.JsonValue('STRING')
   string,
-  @_s.JsonValue('BINARY')
   binary,
-  @_s.JsonValue('BOOLEAN')
   boolean,
-  @_s.JsonValue('NUMBER')
   number,
-  @_s.JsonValue('DATETIME')
   datetime,
 }
 
+extension on FacetAttributeType {
+  String toValue() {
+    switch (this) {
+      case FacetAttributeType.string:
+        return 'STRING';
+      case FacetAttributeType.binary:
+        return 'BINARY';
+      case FacetAttributeType.boolean:
+        return 'BOOLEAN';
+      case FacetAttributeType.number:
+        return 'NUMBER';
+      case FacetAttributeType.datetime:
+        return 'DATETIME';
+    }
+  }
+}
+
+extension on String {
+  FacetAttributeType toFacetAttributeType() {
+    switch (this) {
+      case 'STRING':
+        return FacetAttributeType.string;
+      case 'BINARY':
+        return FacetAttributeType.binary;
+      case 'BOOLEAN':
+        return FacetAttributeType.boolean;
+      case 'NUMBER':
+        return FacetAttributeType.number;
+      case 'DATETIME':
+        return FacetAttributeType.datetime;
+    }
+    throw Exception('$this is not known in enum FacetAttributeType');
+  }
+}
+
 /// A structure that contains information used to update an attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FacetAttributeUpdate {
   /// The action to perform when updating the attribute.
-  @_s.JsonKey(name: 'Action')
-  final UpdateActionType action;
+  final UpdateActionType? action;
 
   /// The attribute to update.
-  @_s.JsonKey(name: 'Attribute')
-  final FacetAttribute attribute;
+  final FacetAttribute? attribute;
 
   FacetAttributeUpdate({
     this.action,
     this.attribute,
   });
-  Map<String, dynamic> toJson() => _$FacetAttributeUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final attribute = this.attribute;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (attribute != null) 'Attribute': attribute,
+    };
+  }
 }
 
 /// Occurs when deleting a facet that contains an attribute that is a target to
 /// an attribute reference in a different facet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FacetInUseException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FacetInUseException({
     this.message,
   });
-  factory FacetInUseException.fromJson(Map<String, dynamic> json) =>
-      _$FacetInUseExceptionFromJson(json);
+  factory FacetInUseException.fromJson(Map<String, dynamic> json) {
+    return FacetInUseException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The specified <a>Facet</a> could not be found.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FacetNotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FacetNotFoundException({
     this.message,
   });
-  factory FacetNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$FacetNotFoundExceptionFromJson(json);
+  factory FacetNotFoundException.fromJson(Map<String, dynamic> json) {
+    return FacetNotFoundException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The <a>Facet</a> that you provided was not well formed or could not be
 /// validated with the schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FacetValidationException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FacetValidationException({
     this.message,
   });
-  factory FacetValidationException.fromJson(Map<String, dynamic> json) =>
-      _$FacetValidationExceptionFromJson(json);
+  factory FacetValidationException.fromJson(Map<String, dynamic> json) {
+    return FacetValidationException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppliedSchemaVersionResponse {
   /// Current applied schema ARN, including the minor version in use if one was
   /// provided.
-  @_s.JsonKey(name: 'AppliedSchemaArn')
-  final String appliedSchemaArn;
+  final String? appliedSchemaArn;
 
   GetAppliedSchemaVersionResponse({
     this.appliedSchemaArn,
   });
-  factory GetAppliedSchemaVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAppliedSchemaVersionResponseFromJson(json);
+  factory GetAppliedSchemaVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetAppliedSchemaVersionResponse(
+      appliedSchemaArn: json['AppliedSchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDirectoryResponse {
   /// Metadata about the directory.
-  @_s.JsonKey(name: 'Directory')
   final Directory directory;
 
   GetDirectoryResponse({
-    @_s.required this.directory,
+    required this.directory,
   });
-  factory GetDirectoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDirectoryResponseFromJson(json);
+  factory GetDirectoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetDirectoryResponse(
+      directory: Directory.fromJson(json['Directory'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFacetResponse {
   /// The <a>Facet</a> structure that is associated with the facet.
-  @_s.JsonKey(name: 'Facet')
-  final Facet facet;
+  final Facet? facet;
 
   GetFacetResponse({
     this.facet,
   });
-  factory GetFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFacetResponseFromJson(json);
+  factory GetFacetResponse.fromJson(Map<String, dynamic> json) {
+    return GetFacetResponse(
+      facet: json['Facet'] != null
+          ? Facet.fromJson(json['Facet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLinkAttributesResponse {
   /// The attributes that are associated with the typed link.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   GetLinkAttributesResponse({
     this.attributes,
   });
-  factory GetLinkAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLinkAttributesResponseFromJson(json);
+  factory GetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return GetLinkAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetObjectAttributesResponse {
   /// The attributes that are associated with the object.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   GetObjectAttributesResponse({
     this.attributes,
   });
-  factory GetObjectAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetObjectAttributesResponseFromJson(json);
+  factory GetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return GetObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetObjectInformationResponse {
   /// The <code>ObjectIdentifier</code> of the specified object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   /// The facets attached to the specified object. Although the response does not
   /// include minor version information, the most recently applied minor version
   /// of each Facet is in effect. See <a>GetAppliedSchemaVersion</a> for details.
-  @_s.JsonKey(name: 'SchemaFacets')
-  final List<SchemaFacet> schemaFacets;
+  final List<SchemaFacet>? schemaFacets;
 
   GetObjectInformationResponse({
     this.objectIdentifier,
     this.schemaFacets,
   });
-  factory GetObjectInformationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetObjectInformationResponseFromJson(json);
+  factory GetObjectInformationResponse.fromJson(Map<String, dynamic> json) {
+    return GetObjectInformationResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+      schemaFacets: (json['SchemaFacets'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSchemaAsJsonResponse {
   /// The JSON representation of the schema document.
-  @_s.JsonKey(name: 'Document')
-  final String document;
+  final String? document;
 
   /// The name of the retrieved schema.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GetSchemaAsJsonResponse({
     this.document,
     this.name,
   });
-  factory GetSchemaAsJsonResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSchemaAsJsonResponseFromJson(json);
+  factory GetSchemaAsJsonResponse.fromJson(Map<String, dynamic> json) {
+    return GetSchemaAsJsonResponse(
+      document: json['Document'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTypedLinkFacetInformationResponse {
   /// The order of identity attributes for the facet, from most significant to
   /// least significant. The ability to filter typed links considers the order
@@ -6460,80 +6677,78 @@ class GetTypedLinkFacetInformationResponse {
   /// calls. For more information about identity attributes, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
   /// link</a>.
-  @_s.JsonKey(name: 'IdentityAttributeOrder')
-  final List<String> identityAttributeOrder;
+  final List<String>? identityAttributeOrder;
 
   GetTypedLinkFacetInformationResponse({
     this.identityAttributeOrder,
   });
   factory GetTypedLinkFacetInformationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetTypedLinkFacetInformationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetTypedLinkFacetInformationResponse(
+      identityAttributeOrder: (json['IdentityAttributeOrder'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Indicates a failure occurred while performing a check for backward
 /// compatibility between the specified schema and the schema that is currently
 /// applied to the directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IncompatibleSchemaException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   IncompatibleSchemaException({
     this.message,
   });
-  factory IncompatibleSchemaException.fromJson(Map<String, dynamic> json) =>
-      _$IncompatibleSchemaExceptionFromJson(json);
+  factory IncompatibleSchemaException.fromJson(Map<String, dynamic> json) {
+    return IncompatibleSchemaException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Represents an index and an attached object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IndexAttachment {
   /// The indexed attribute values.
-  @_s.JsonKey(name: 'IndexedAttributes')
-  final List<AttributeKeyAndValue> indexedAttributes;
+  final List<AttributeKeyAndValue>? indexedAttributes;
 
   /// In response to <a>ListIndex</a>, the <code>ObjectIdentifier</code> of the
   /// object attached to the index. In response to <a>ListAttachedIndices</a>, the
   /// <code>ObjectIdentifier</code> of the index attached to the object. This
   /// field will always contain the <code>ObjectIdentifier</code> of the object on
   /// the opposite side of the attachment specified in the query.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   IndexAttachment({
     this.indexedAttributes,
     this.objectIdentifier,
   });
-  factory IndexAttachment.fromJson(Map<String, dynamic> json) =>
-      _$IndexAttachmentFromJson(json);
+  factory IndexAttachment.fromJson(Map<String, dynamic> json) {
+    return IndexAttachment(
+      indexedAttributes: (json['IndexedAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
 /// An object has been attempted to be attached to an object that does not have
 /// the appropriate attribute value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IndexedAttributeMissingException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   IndexedAttributeMissingException({
     this.message,
   });
-  factory IndexedAttributeMissingException.fromJson(
-          Map<String, dynamic> json) =>
-      _$IndexedAttributeMissingExceptionFromJson(json);
+  factory IndexedAttributeMissingException.fromJson(Map<String, dynamic> json) {
+    return IndexedAttributeMissingException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates a problem that must be resolved by Amazon Web Services. This might
@@ -6541,840 +6756,794 @@ class IndexedAttributeMissingException implements _s.AwsException {
 /// succeeds. Otherwise, go to the <a href="http://status.aws.amazon.com/">AWS
 /// Service Health Dashboard</a> site to see if there are any operational issues
 /// with the service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InternalServiceException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InternalServiceException({
     this.message,
   });
-  factory InternalServiceException.fromJson(Map<String, dynamic> json) =>
-      _$InternalServiceExceptionFromJson(json);
+  factory InternalServiceException.fromJson(Map<String, dynamic> json) {
+    return InternalServiceException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that the provided ARN value is not valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidArnException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidArnException({
     this.message,
   });
-  factory InvalidArnException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidArnExceptionFromJson(json);
+  factory InvalidArnException.fromJson(Map<String, dynamic> json) {
+    return InvalidArnException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that an attempt to attach an object with the same link name or to
 /// apply a schema with the same name has occurred. Rename the link or the
 /// schema and then try again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidAttachmentException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidAttachmentException({
     this.message,
   });
-  factory InvalidAttachmentException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidAttachmentExceptionFromJson(json);
+  factory InvalidAttachmentException.fromJson(Map<String, dynamic> json) {
+    return InvalidAttachmentException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// An attempt to modify a <a>Facet</a> resulted in an invalid schema exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidFacetUpdateException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidFacetUpdateException({
     this.message,
   });
-  factory InvalidFacetUpdateException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidFacetUpdateExceptionFromJson(json);
+  factory InvalidFacetUpdateException.fromJson(Map<String, dynamic> json) {
+    return InvalidFacetUpdateException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that the <code>NextToken</code> value is not valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidNextTokenException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidNextTokenException({
     this.message,
   });
-  factory InvalidNextTokenException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidNextTokenExceptionFromJson(json);
+  factory InvalidNextTokenException.fromJson(Map<String, dynamic> json) {
+    return InvalidNextTokenException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Occurs when any of the rule parameter keys or values are invalid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidRuleException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidRuleException({
     this.message,
   });
-  factory InvalidRuleException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidRuleExceptionFromJson(json);
+  factory InvalidRuleException.fromJson(Map<String, dynamic> json) {
+    return InvalidRuleException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that the provided <code>SchemaDoc</code> value is not valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidSchemaDocException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidSchemaDocException({
     this.message,
   });
-  factory InvalidSchemaDocException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidSchemaDocExceptionFromJson(json);
+  factory InvalidSchemaDocException.fromJson(Map<String, dynamic> json) {
+    return InvalidSchemaDocException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Can occur for multiple reasons such as when you tag a resource that doesn’t
 /// exist or if you specify a higher number of tags for a resource than the
 /// allowed limit. Allowed limit is 50 tags per resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidTaggingRequestException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidTaggingRequestException({
     this.message,
   });
-  factory InvalidTaggingRequestException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidTaggingRequestExceptionFromJson(json);
+  factory InvalidTaggingRequestException.fromJson(Map<String, dynamic> json) {
+    return InvalidTaggingRequestException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that limits are exceeded. See <a
 /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
 /// for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LimitExceededException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   LimitExceededException({
     this.message,
   });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
+  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
+    return LimitExceededException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The action to take on a typed link attribute value. Updates are only
 /// supported for attributes which don’t contribute to link identity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LinkAttributeAction {
   /// A type that can be either <code>UPDATE_OR_CREATE</code> or
   /// <code>DELETE</code>.
-  @_s.JsonKey(name: 'AttributeActionType')
-  final UpdateActionType attributeActionType;
+  final UpdateActionType? attributeActionType;
 
   /// The value that you want to update to.
-  @_s.JsonKey(name: 'AttributeUpdateValue')
-  final TypedAttributeValue attributeUpdateValue;
+  final TypedAttributeValue? attributeUpdateValue;
 
   LinkAttributeAction({
     this.attributeActionType,
     this.attributeUpdateValue,
   });
-  Map<String, dynamic> toJson() => _$LinkAttributeActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeActionType = this.attributeActionType;
+    final attributeUpdateValue = this.attributeUpdateValue;
+    return {
+      if (attributeActionType != null)
+        'AttributeActionType': attributeActionType.toValue(),
+      if (attributeUpdateValue != null)
+        'AttributeUpdateValue': attributeUpdateValue,
+    };
+  }
 }
 
 /// Structure that contains attribute update information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LinkAttributeUpdate {
   /// The action to perform as part of the attribute update.
-  @_s.JsonKey(name: 'AttributeAction')
-  final LinkAttributeAction attributeAction;
+  final LinkAttributeAction? attributeAction;
 
   /// The key of the attribute being updated.
-  @_s.JsonKey(name: 'AttributeKey')
-  final AttributeKey attributeKey;
+  final AttributeKey? attributeKey;
 
   LinkAttributeUpdate({
     this.attributeAction,
     this.attributeKey,
   });
-  Map<String, dynamic> toJson() => _$LinkAttributeUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeAction = this.attributeAction;
+    final attributeKey = this.attributeKey;
+    return {
+      if (attributeAction != null) 'AttributeAction': attributeAction,
+      if (attributeKey != null) 'AttributeKey': attributeKey,
+    };
+  }
 }
 
 /// Indicates that a link could not be created due to a naming conflict. Choose
 /// a different name and then try again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LinkNameAlreadyInUseException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   LinkNameAlreadyInUseException({
     this.message,
   });
-  factory LinkNameAlreadyInUseException.fromJson(Map<String, dynamic> json) =>
-      _$LinkNameAlreadyInUseExceptionFromJson(json);
+  factory LinkNameAlreadyInUseException.fromJson(Map<String, dynamic> json) {
+    return LinkNameAlreadyInUseException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppliedSchemaArnsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The ARNs of schemas that are applied to the directory.
-  @_s.JsonKey(name: 'SchemaArns')
-  final List<String> schemaArns;
+  final List<String>? schemaArns;
 
   ListAppliedSchemaArnsResponse({
     this.nextToken,
     this.schemaArns,
   });
-  factory ListAppliedSchemaArnsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppliedSchemaArnsResponseFromJson(json);
+  factory ListAppliedSchemaArnsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppliedSchemaArnsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemaArns: (json['SchemaArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttachedIndicesResponse {
   /// The indices attached to the specified object.
-  @_s.JsonKey(name: 'IndexAttachments')
-  final List<IndexAttachment> indexAttachments;
+  final List<IndexAttachment>? indexAttachments;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAttachedIndicesResponse({
     this.indexAttachments,
     this.nextToken,
   });
-  factory ListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttachedIndicesResponseFromJson(json);
+  factory ListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttachedIndicesResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevelopmentSchemaArnsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The ARNs of retrieved development schemas.
-  @_s.JsonKey(name: 'SchemaArns')
-  final List<String> schemaArns;
+  final List<String>? schemaArns;
 
   ListDevelopmentSchemaArnsResponse({
     this.nextToken,
     this.schemaArns,
   });
   factory ListDevelopmentSchemaArnsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDevelopmentSchemaArnsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDevelopmentSchemaArnsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemaArns: (json['SchemaArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDirectoriesResponse {
   /// Lists all directories that are associated with your account in pagination
   /// fashion.
-  @_s.JsonKey(name: 'Directories')
   final List<Directory> directories;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDirectoriesResponse({
-    @_s.required this.directories,
+    required this.directories,
     this.nextToken,
   });
-  factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDirectoriesResponseFromJson(json);
+  factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDirectoriesResponse(
+      directories: (json['Directories'] as List)
+          .whereNotNull()
+          .map((e) => Directory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFacetAttributesResponse {
   /// The attributes attached to the facet.
-  @_s.JsonKey(name: 'Attributes')
-  final List<FacetAttribute> attributes;
+  final List<FacetAttribute>? attributes;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFacetAttributesResponse({
     this.attributes,
     this.nextToken,
   });
-  factory ListFacetAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFacetAttributesResponseFromJson(json);
+  factory ListFacetAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFacetAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => FacetAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFacetNamesResponse {
   /// The names of facets that exist within the schema.
-  @_s.JsonKey(name: 'FacetNames')
-  final List<String> facetNames;
+  final List<String>? facetNames;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFacetNamesResponse({
     this.facetNames,
     this.nextToken,
   });
-  factory ListFacetNamesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFacetNamesResponseFromJson(json);
+  factory ListFacetNamesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFacetNamesResponse(
+      facetNames: (json['FacetNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIncomingTypedLinksResponse {
   /// Returns one or more typed link specifiers as output.
-  @_s.JsonKey(name: 'LinkSpecifiers')
-  final List<TypedLinkSpecifier> linkSpecifiers;
+  final List<TypedLinkSpecifier>? linkSpecifiers;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIncomingTypedLinksResponse({
     this.linkSpecifiers,
     this.nextToken,
   });
-  factory ListIncomingTypedLinksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIncomingTypedLinksResponseFromJson(json);
+  factory ListIncomingTypedLinksResponse.fromJson(Map<String, dynamic> json) {
+    return ListIncomingTypedLinksResponse(
+      linkSpecifiers: (json['LinkSpecifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIndexResponse {
   /// The objects and indexed values attached to the index.
-  @_s.JsonKey(name: 'IndexAttachments')
-  final List<IndexAttachment> indexAttachments;
+  final List<IndexAttachment>? indexAttachments;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIndexResponse({
     this.indexAttachments,
     this.nextToken,
   });
-  factory ListIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIndexResponseFromJson(json);
+  factory ListIndexResponse.fromJson(Map<String, dynamic> json) {
+    return ListIndexResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListObjectAttributesResponse {
   /// Attributes map that is associated with the object. <code>AttributeArn</code>
   /// is the key, and attribute value is the value.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AttributeKeyAndValue> attributes;
+  final List<AttributeKeyAndValue>? attributes;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListObjectAttributesResponse({
     this.attributes,
     this.nextToken,
   });
-  factory ListObjectAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListObjectAttributesResponseFromJson(json);
+  factory ListObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ListObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListObjectChildrenResponse {
   /// Children structure, which is a map with key as the <code>LinkName</code> and
   /// <code>ObjectIdentifier</code> as the value.
-  @_s.JsonKey(name: 'Children')
-  final Map<String, String> children;
+  final Map<String, String>? children;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListObjectChildrenResponse({
     this.children,
     this.nextToken,
   });
-  factory ListObjectChildrenResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListObjectChildrenResponseFromJson(json);
+  factory ListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
+    return ListObjectChildrenResponse(
+      children: (json['Children'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListObjectParentPathsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns the path to the <code>ObjectIdentifiers</code> that are associated
   /// with the directory.
-  @_s.JsonKey(name: 'PathToObjectIdentifiersList')
-  final List<PathToObjectIdentifiers> pathToObjectIdentifiersList;
+  final List<PathToObjectIdentifiers>? pathToObjectIdentifiersList;
 
   ListObjectParentPathsResponse({
     this.nextToken,
     this.pathToObjectIdentifiersList,
   });
-  factory ListObjectParentPathsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListObjectParentPathsResponseFromJson(json);
+  factory ListObjectParentPathsResponse.fromJson(Map<String, dynamic> json) {
+    return ListObjectParentPathsResponse(
+      nextToken: json['NextToken'] as String?,
+      pathToObjectIdentifiersList:
+          (json['PathToObjectIdentifiersList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListObjectParentsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The parent structure, which is a map with key as the
   /// <code>ObjectIdentifier</code> and LinkName as the value.
-  @_s.JsonKey(name: 'Parents')
-  final Map<String, String> parents;
+  final Map<String, String>? parents;
 
   ListObjectParentsResponse({
     this.nextToken,
     this.parents,
   });
-  factory ListObjectParentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListObjectParentsResponseFromJson(json);
+  factory ListObjectParentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListObjectParentsResponse(
+      nextToken: json['NextToken'] as String?,
+      parents: (json['Parents'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListObjectPoliciesResponse {
   /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
   /// object.
-  @_s.JsonKey(name: 'AttachedPolicyIds')
-  final List<String> attachedPolicyIds;
+  final List<String>? attachedPolicyIds;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListObjectPoliciesResponse({
     this.attachedPolicyIds,
     this.nextToken,
   });
-  factory ListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListObjectPoliciesResponseFromJson(json);
+  factory ListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListObjectPoliciesResponse(
+      attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOutgoingTypedLinksResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns a typed link specifier as output.
-  @_s.JsonKey(name: 'TypedLinkSpecifiers')
-  final List<TypedLinkSpecifier> typedLinkSpecifiers;
+  final List<TypedLinkSpecifier>? typedLinkSpecifiers;
 
   ListOutgoingTypedLinksResponse({
     this.nextToken,
     this.typedLinkSpecifiers,
   });
-  factory ListOutgoingTypedLinksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOutgoingTypedLinksResponseFromJson(json);
+  factory ListOutgoingTypedLinksResponse.fromJson(Map<String, dynamic> json) {
+    return ListOutgoingTypedLinksResponse(
+      nextToken: json['NextToken'] as String?,
+      typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPolicyAttachmentsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>ObjectIdentifiers</code> to which the policy is attached.
-  @_s.JsonKey(name: 'ObjectIdentifiers')
-  final List<String> objectIdentifiers;
+  final List<String>? objectIdentifiers;
 
   ListPolicyAttachmentsResponse({
     this.nextToken,
     this.objectIdentifiers,
   });
-  factory ListPolicyAttachmentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPolicyAttachmentsResponseFromJson(json);
+  factory ListPolicyAttachmentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPolicyAttachmentsResponse(
+      nextToken: json['NextToken'] as String?,
+      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPublishedSchemaArnsResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The ARNs of published schemas.
-  @_s.JsonKey(name: 'SchemaArns')
-  final List<String> schemaArns;
+  final List<String>? schemaArns;
 
   ListPublishedSchemaArnsResponse({
     this.nextToken,
     this.schemaArns,
   });
-  factory ListPublishedSchemaArnsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPublishedSchemaArnsResponseFromJson(json);
+  factory ListPublishedSchemaArnsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPublishedSchemaArnsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemaArns: (json['SchemaArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tag key value pairs that are associated with the response.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTypedLinkFacetAttributesResponse {
   /// An ordered set of attributes associate with the typed link.
-  @_s.JsonKey(name: 'Attributes')
-  final List<TypedLinkAttributeDefinition> attributes;
+  final List<TypedLinkAttributeDefinition>? attributes;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTypedLinkFacetAttributesResponse({
     this.attributes,
     this.nextToken,
   });
   factory ListTypedLinkFacetAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTypedLinkFacetAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListTypedLinkFacetAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TypedLinkAttributeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTypedLinkFacetNamesResponse {
   /// The names of typed link facets that exist within the schema.
-  @_s.JsonKey(name: 'FacetNames')
-  final List<String> facetNames;
+  final List<String>? facetNames;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTypedLinkFacetNamesResponse({
     this.facetNames,
     this.nextToken,
   });
-  factory ListTypedLinkFacetNamesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTypedLinkFacetNamesResponseFromJson(json);
+  factory ListTypedLinkFacetNamesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTypedLinkFacetNamesResponse(
+      facetNames: (json['FacetNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LookupPolicyResponse {
   /// The pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Provides list of path to policies. Policies contain <code>PolicyId</code>,
   /// <code>ObjectIdentifier</code>, and <code>PolicyType</code>. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
-  @_s.JsonKey(name: 'PolicyToPathList')
-  final List<PolicyToPath> policyToPathList;
+  final List<PolicyToPath>? policyToPathList;
 
   LookupPolicyResponse({
     this.nextToken,
     this.policyToPathList,
   });
-  factory LookupPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$LookupPolicyResponseFromJson(json);
+  factory LookupPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return LookupPolicyResponse(
+      nextToken: json['NextToken'] as String?,
+      policyToPathList: (json['PolicyToPathList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Indicates that the requested operation can only operate on index objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotIndexException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   NotIndexException({
     this.message,
   });
-  factory NotIndexException.fromJson(Map<String, dynamic> json) =>
-      _$NotIndexExceptionFromJson(json);
+  factory NotIndexException.fromJson(Map<String, dynamic> json) {
+    return NotIndexException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Occurs when any invalid operations are performed on an object that is not a
 /// node, such as calling <code>ListObjectChildren</code> for a leaf node
 /// object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotNodeException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   NotNodeException({
     this.message,
   });
-  factory NotNodeException.fromJson(Map<String, dynamic> json) =>
-      _$NotNodeExceptionFromJson(json);
+  factory NotNodeException.fromJson(Map<String, dynamic> json) {
+    return NotNodeException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that the requested operation can only operate on policy objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotPolicyException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   NotPolicyException({
     this.message,
   });
-  factory NotPolicyException.fromJson(Map<String, dynamic> json) =>
-      _$NotPolicyExceptionFromJson(json);
+  factory NotPolicyException.fromJson(Map<String, dynamic> json) {
+    return NotPolicyException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that the object is not attached to the index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ObjectAlreadyDetachedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ObjectAlreadyDetachedException({
     this.message,
   });
-  factory ObjectAlreadyDetachedException.fromJson(Map<String, dynamic> json) =>
-      _$ObjectAlreadyDetachedExceptionFromJson(json);
+  factory ObjectAlreadyDetachedException.fromJson(Map<String, dynamic> json) {
+    return ObjectAlreadyDetachedException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The action to take on the object attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ObjectAttributeAction {
   /// A type that can be either <code>Update</code> or <code>Delete</code>.
-  @_s.JsonKey(name: 'ObjectAttributeActionType')
-  final UpdateActionType objectAttributeActionType;
+  final UpdateActionType? objectAttributeActionType;
 
   /// The value that you want to update to.
-  @_s.JsonKey(name: 'ObjectAttributeUpdateValue')
-  final TypedAttributeValue objectAttributeUpdateValue;
+  final TypedAttributeValue? objectAttributeUpdateValue;
 
   ObjectAttributeAction({
     this.objectAttributeActionType,
     this.objectAttributeUpdateValue,
   });
-  Map<String, dynamic> toJson() => _$ObjectAttributeActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectAttributeActionType = this.objectAttributeActionType;
+    final objectAttributeUpdateValue = this.objectAttributeUpdateValue;
+    return {
+      if (objectAttributeActionType != null)
+        'ObjectAttributeActionType': objectAttributeActionType.toValue(),
+      if (objectAttributeUpdateValue != null)
+        'ObjectAttributeUpdateValue': objectAttributeUpdateValue,
+    };
+  }
 }
 
 /// A range of attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ObjectAttributeRange {
   /// The key of the attribute that the attribute range covers.
-  @_s.JsonKey(name: 'AttributeKey')
-  final AttributeKey attributeKey;
+  final AttributeKey? attributeKey;
 
   /// The range of attribute values being selected.
-  @_s.JsonKey(name: 'Range')
-  final TypedAttributeValueRange range;
+  final TypedAttributeValueRange? range;
 
   ObjectAttributeRange({
     this.attributeKey,
     this.range,
   });
-  Map<String, dynamic> toJson() => _$ObjectAttributeRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeKey = this.attributeKey;
+    final range = this.range;
+    return {
+      if (attributeKey != null) 'AttributeKey': attributeKey,
+      if (range != null) 'Range': range,
+    };
+  }
 }
 
 /// Structure that contains attribute update information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ObjectAttributeUpdate {
   /// The action to perform as part of the attribute update.
-  @_s.JsonKey(name: 'ObjectAttributeAction')
-  final ObjectAttributeAction objectAttributeAction;
+  final ObjectAttributeAction? objectAttributeAction;
 
   /// The key of the attribute being updated.
-  @_s.JsonKey(name: 'ObjectAttributeKey')
-  final AttributeKey objectAttributeKey;
+  final AttributeKey? objectAttributeKey;
 
   ObjectAttributeUpdate({
     this.objectAttributeAction,
     this.objectAttributeKey,
   });
-  Map<String, dynamic> toJson() => _$ObjectAttributeUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final objectAttributeAction = this.objectAttributeAction;
+    final objectAttributeKey = this.objectAttributeKey;
+    return {
+      if (objectAttributeAction != null)
+        'ObjectAttributeAction': objectAttributeAction,
+      if (objectAttributeKey != null) 'ObjectAttributeKey': objectAttributeKey,
+    };
+  }
 }
 
 /// Indicates that the requested operation cannot be completed because the
 /// object has not been detached from the tree.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ObjectNotDetachedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ObjectNotDetachedException({
     this.message,
   });
-  factory ObjectNotDetachedException.fromJson(Map<String, dynamic> json) =>
-      _$ObjectNotDetachedExceptionFromJson(json);
+  factory ObjectNotDetachedException.fromJson(Map<String, dynamic> json) {
+    return ObjectNotDetachedException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The reference that identifies an object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ObjectReference {
   /// A path selector supports easy selection of an object by the parent/child
   /// links leading to it from the directory root. Use the link names from each
@@ -7398,26 +7567,29 @@ class ObjectReference {
   /// <i>#SomeBatchReference</i> - Identifies the object in a batch call
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Selector')
-  final String selector;
+  final String? selector;
 
   ObjectReference({
     this.selector,
   });
-  factory ObjectReference.fromJson(Map<String, dynamic> json) =>
-      _$ObjectReferenceFromJson(json);
+  factory ObjectReference.fromJson(Map<String, dynamic> json) {
+    return ObjectReference(
+      selector: json['Selector'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ObjectReferenceToJson(this);
+  Map<String, dynamic> toJson() {
+    final selector = this.selector;
+    return {
+      if (selector != null) 'Selector': selector,
+    };
+  }
 }
 
 enum ObjectType {
-  @_s.JsonValue('NODE')
   node,
-  @_s.JsonValue('LEAF_NODE')
   leafNode,
-  @_s.JsonValue('POLICY')
   policy,
-  @_s.JsonValue('INDEX')
   $index,
 }
 
@@ -7433,174 +7605,224 @@ extension on ObjectType {
       case ObjectType.$index:
         return 'INDEX';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ObjectType toObjectType() {
+    switch (this) {
+      case 'NODE':
+        return ObjectType.node;
+      case 'LEAF_NODE':
+        return ObjectType.leafNode;
+      case 'POLICY':
+        return ObjectType.policy;
+      case 'INDEX':
+        return ObjectType.$index;
+    }
+    throw Exception('$this is not known in enum ObjectType');
   }
 }
 
 /// Returns the path to the <code>ObjectIdentifiers</code> that is associated
 /// with the directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PathToObjectIdentifiers {
   /// Lists <code>ObjectIdentifiers</code> starting from directory root to the
   /// object in the request.
-  @_s.JsonKey(name: 'ObjectIdentifiers')
-  final List<String> objectIdentifiers;
+  final List<String>? objectIdentifiers;
 
   /// The path that is used to identify the object starting from directory root.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   PathToObjectIdentifiers({
     this.objectIdentifiers,
     this.path,
   });
-  factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) =>
-      _$PathToObjectIdentifiersFromJson(json);
+  factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) {
+    return PathToObjectIdentifiers(
+      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      path: json['Path'] as String?,
+    );
+  }
 }
 
 /// Contains the <code>PolicyType</code>, <code>PolicyId</code>, and the
 /// <code>ObjectIdentifier</code> to which it is attached. For more information,
 /// see <a
 /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyAttachment {
   /// The <code>ObjectIdentifier</code> that is associated with
   /// <code>PolicyAttachment</code>.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   /// The ID of <code>PolicyAttachment</code>.
-  @_s.JsonKey(name: 'PolicyId')
-  final String policyId;
+  final String? policyId;
 
   /// The type of policy that can be associated with
   /// <code>PolicyAttachment</code>.
-  @_s.JsonKey(name: 'PolicyType')
-  final String policyType;
+  final String? policyType;
 
   PolicyAttachment({
     this.objectIdentifier,
     this.policyId,
     this.policyType,
   });
-  factory PolicyAttachment.fromJson(Map<String, dynamic> json) =>
-      _$PolicyAttachmentFromJson(json);
+  factory PolicyAttachment.fromJson(Map<String, dynamic> json) {
+    return PolicyAttachment(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+      policyId: json['PolicyId'] as String?,
+      policyType: json['PolicyType'] as String?,
+    );
+  }
 }
 
 /// Used when a regular object exists in a <a>Directory</a> and you want to find
 /// all of the policies that are associated with that object and the parent to
 /// that object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyToPath {
   /// The path that is referenced from the root.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// List of policy objects.
-  @_s.JsonKey(name: 'Policies')
-  final List<PolicyAttachment> policies;
+  final List<PolicyAttachment>? policies;
 
   PolicyToPath({
     this.path,
     this.policies,
   });
-  factory PolicyToPath.fromJson(Map<String, dynamic> json) =>
-      _$PolicyToPathFromJson(json);
+  factory PolicyToPath.fromJson(Map<String, dynamic> json) {
+    return PolicyToPath(
+      path: json['Path'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PublishSchemaResponse {
   /// The ARN that is associated with the published schema. For more information,
   /// see <a>arns</a>.
-  @_s.JsonKey(name: 'PublishedSchemaArn')
-  final String publishedSchemaArn;
+  final String? publishedSchemaArn;
 
   PublishSchemaResponse({
     this.publishedSchemaArn,
   });
-  factory PublishSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$PublishSchemaResponseFromJson(json);
+  factory PublishSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return PublishSchemaResponse(
+      publishedSchemaArn: json['PublishedSchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSchemaFromJsonResponse {
   /// The ARN of the schema to update.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   PutSchemaFromJsonResponse({
     this.arn,
   });
-  factory PutSchemaFromJsonResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSchemaFromJsonResponseFromJson(json);
+  factory PutSchemaFromJsonResponse.fromJson(Map<String, dynamic> json) {
+    return PutSchemaFromJsonResponse(
+      arn: json['Arn'] as String?,
+    );
+  }
 }
 
 enum RangeMode {
-  @_s.JsonValue('FIRST')
   first,
-  @_s.JsonValue('LAST')
   last,
-  @_s.JsonValue('LAST_BEFORE_MISSING_VALUES')
   lastBeforeMissingValues,
-  @_s.JsonValue('INCLUSIVE')
   inclusive,
-  @_s.JsonValue('EXCLUSIVE')
   exclusive,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RangeMode {
+  String toValue() {
+    switch (this) {
+      case RangeMode.first:
+        return 'FIRST';
+      case RangeMode.last:
+        return 'LAST';
+      case RangeMode.lastBeforeMissingValues:
+        return 'LAST_BEFORE_MISSING_VALUES';
+      case RangeMode.inclusive:
+        return 'INCLUSIVE';
+      case RangeMode.exclusive:
+        return 'EXCLUSIVE';
+    }
+  }
+}
+
+extension on String {
+  RangeMode toRangeMode() {
+    switch (this) {
+      case 'FIRST':
+        return RangeMode.first;
+      case 'LAST':
+        return RangeMode.last;
+      case 'LAST_BEFORE_MISSING_VALUES':
+        return RangeMode.lastBeforeMissingValues;
+      case 'INCLUSIVE':
+        return RangeMode.inclusive;
+      case 'EXCLUSIVE':
+        return RangeMode.exclusive;
+    }
+    throw Exception('$this is not known in enum RangeMode');
+  }
+}
+
 class RemoveFacetFromObjectResponse {
   RemoveFacetFromObjectResponse();
-  factory RemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveFacetFromObjectResponseFromJson(json);
+  factory RemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveFacetFromObjectResponse();
+  }
 }
 
 enum RequiredAttributeBehavior {
-  @_s.JsonValue('REQUIRED_ALWAYS')
   requiredAlways,
-  @_s.JsonValue('NOT_REQUIRED')
   notRequired,
 }
 
+extension on RequiredAttributeBehavior {
+  String toValue() {
+    switch (this) {
+      case RequiredAttributeBehavior.requiredAlways:
+        return 'REQUIRED_ALWAYS';
+      case RequiredAttributeBehavior.notRequired:
+        return 'NOT_REQUIRED';
+    }
+  }
+}
+
+extension on String {
+  RequiredAttributeBehavior toRequiredAttributeBehavior() {
+    switch (this) {
+      case 'REQUIRED_ALWAYS':
+        return RequiredAttributeBehavior.requiredAlways;
+      case 'NOT_REQUIRED':
+        return RequiredAttributeBehavior.notRequired;
+    }
+    throw Exception('$this is not known in enum RequiredAttributeBehavior');
+  }
+}
+
 /// The specified resource could not be found.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceNotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ResourceNotFoundException({
     this.message,
   });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
+    return ResourceNotFoundException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Occurs when a conflict with a previous successful write is detected. For
@@ -7609,204 +7831,218 @@ class ResourceNotFoundException implements _s.AwsException {
 /// result. This generally occurs when the previous write did not have time to
 /// propagate to the host serving the current request. A retry (with appropriate
 /// backoff logic) is the recommended response to this exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetryableConflictException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   RetryableConflictException({
     this.message,
   });
-  factory RetryableConflictException.fromJson(Map<String, dynamic> json) =>
-      _$RetryableConflictExceptionFromJson(json);
+  factory RetryableConflictException.fromJson(Map<String, dynamic> json) {
+    return RetryableConflictException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Contains an Amazon Resource Name (ARN) and parameters that are associated
 /// with the rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Rule {
   /// The minimum and maximum parameters that are associated with the rule.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The type of attribute validation rule.
-  @_s.JsonKey(name: 'Type')
-  final RuleType type;
+  final RuleType? type;
 
   Rule({
     this.parameters,
     this.type,
   });
-  factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.toRuleType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final parameters = this.parameters;
+    final type = this.type;
+    return {
+      if (parameters != null) 'Parameters': parameters,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum RuleType {
-  @_s.JsonValue('BINARY_LENGTH')
   binaryLength,
-  @_s.JsonValue('NUMBER_COMPARISON')
   numberComparison,
-  @_s.JsonValue('STRING_FROM_SET')
   stringFromSet,
-  @_s.JsonValue('STRING_LENGTH')
   stringLength,
+}
+
+extension on RuleType {
+  String toValue() {
+    switch (this) {
+      case RuleType.binaryLength:
+        return 'BINARY_LENGTH';
+      case RuleType.numberComparison:
+        return 'NUMBER_COMPARISON';
+      case RuleType.stringFromSet:
+        return 'STRING_FROM_SET';
+      case RuleType.stringLength:
+        return 'STRING_LENGTH';
+    }
+  }
+}
+
+extension on String {
+  RuleType toRuleType() {
+    switch (this) {
+      case 'BINARY_LENGTH':
+        return RuleType.binaryLength;
+      case 'NUMBER_COMPARISON':
+        return RuleType.numberComparison;
+      case 'STRING_FROM_SET':
+        return RuleType.stringFromSet;
+      case 'STRING_LENGTH':
+        return RuleType.stringLength;
+    }
+    throw Exception('$this is not known in enum RuleType');
+  }
 }
 
 /// Indicates that a schema could not be created due to a naming conflict.
 /// Please select a different name and then try again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaAlreadyExistsException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   SchemaAlreadyExistsException({
     this.message,
   });
-  factory SchemaAlreadyExistsException.fromJson(Map<String, dynamic> json) =>
-      _$SchemaAlreadyExistsExceptionFromJson(json);
+  factory SchemaAlreadyExistsException.fromJson(Map<String, dynamic> json) {
+    return SchemaAlreadyExistsException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Indicates that a schema is already published.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaAlreadyPublishedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   SchemaAlreadyPublishedException({
     this.message,
   });
-  factory SchemaAlreadyPublishedException.fromJson(Map<String, dynamic> json) =>
-      _$SchemaAlreadyPublishedExceptionFromJson(json);
+  factory SchemaAlreadyPublishedException.fromJson(Map<String, dynamic> json) {
+    return SchemaAlreadyPublishedException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// A facet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaFacet {
   /// The name of the facet.
-  @_s.JsonKey(name: 'FacetName')
-  final String facetName;
+  final String? facetName;
 
   /// The ARN of the schema that contains the facet with no minor component. See
   /// <a>arns</a> and <a
   /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/inplaceschemaupgrade.html">In-Place
   /// Schema Upgrade</a> for a description of when to provide minor versions.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   SchemaFacet({
     this.facetName,
     this.schemaArn,
   });
-  factory SchemaFacet.fromJson(Map<String, dynamic> json) =>
-      _$SchemaFacetFromJson(json);
+  factory SchemaFacet.fromJson(Map<String, dynamic> json) {
+    return SchemaFacet(
+      facetName: json['FacetName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaFacetToJson(this);
+  Map<String, dynamic> toJson() {
+    final facetName = this.facetName;
+    final schemaArn = this.schemaArn;
+    return {
+      if (facetName != null) 'FacetName': facetName,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+    };
+  }
 }
 
 /// The object could not be deleted because links still exist. Remove the links
 /// and then try the operation again.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StillContainsLinksException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   StillContainsLinksException({
     this.message,
   });
-  factory StillContainsLinksException.fromJson(Map<String, dynamic> json) =>
-      _$StillContainsLinksExceptionFromJson(json);
+  factory StillContainsLinksException.fromJson(Map<String, dynamic> json) {
+    return StillContainsLinksException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The tag structure that contains a tag key and value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key that is associated with the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value that is associated with the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Represents the data for a typed attribute. You can set one, and only one, of
 /// the elements. Each attribute in an item is a name-value pair. Attributes
 /// have a single value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TypedAttributeValue {
   /// A binary data value.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'BinaryValue')
-  final Uint8List binaryValue;
+  final Uint8List? binaryValue;
 
   /// A Boolean data value.
-  @_s.JsonKey(name: 'BooleanValue')
-  final bool booleanValue;
+  final bool? booleanValue;
 
   /// A date and time value.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DatetimeValue')
-  final DateTime datetimeValue;
+  final DateTime? datetimeValue;
 
   /// A number data value.
-  @_s.JsonKey(name: 'NumberValue')
-  final String numberValue;
+  final String? numberValue;
 
   /// A string data value.
-  @_s.JsonKey(name: 'StringValue')
-  final String stringValue;
+  final String? stringValue;
 
   TypedAttributeValue({
     this.binaryValue,
@@ -7815,195 +8051,240 @@ class TypedAttributeValue {
     this.numberValue,
     this.stringValue,
   });
-  factory TypedAttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$TypedAttributeValueFromJson(json);
+  factory TypedAttributeValue.fromJson(Map<String, dynamic> json) {
+    return TypedAttributeValue(
+      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
+      booleanValue: json['BooleanValue'] as bool?,
+      datetimeValue: timeStampFromJson(json['DatetimeValue']),
+      numberValue: json['NumberValue'] as String?,
+      stringValue: json['StringValue'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TypedAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final binaryValue = this.binaryValue;
+    final booleanValue = this.booleanValue;
+    final datetimeValue = this.datetimeValue;
+    final numberValue = this.numberValue;
+    final stringValue = this.stringValue;
+    return {
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (booleanValue != null) 'BooleanValue': booleanValue,
+      if (datetimeValue != null)
+        'DatetimeValue': unixTimestampToJson(datetimeValue),
+      if (numberValue != null) 'NumberValue': numberValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
 }
 
 /// A range of attribute values. For more information, see <a
 /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#rangefilters">Range
 /// Filters</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TypedAttributeValueRange {
   /// The inclusive or exclusive range end.
-  @_s.JsonKey(name: 'EndMode')
   final RangeMode endMode;
 
   /// The inclusive or exclusive range start.
-  @_s.JsonKey(name: 'StartMode')
   final RangeMode startMode;
 
   /// The attribute value to terminate the range at.
-  @_s.JsonKey(name: 'EndValue')
-  final TypedAttributeValue endValue;
+  final TypedAttributeValue? endValue;
 
   /// The value to start the range at.
-  @_s.JsonKey(name: 'StartValue')
-  final TypedAttributeValue startValue;
+  final TypedAttributeValue? startValue;
 
   TypedAttributeValueRange({
-    @_s.required this.endMode,
-    @_s.required this.startMode,
+    required this.endMode,
+    required this.startMode,
     this.endValue,
     this.startValue,
   });
-  Map<String, dynamic> toJson() => _$TypedAttributeValueRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endMode = this.endMode;
+    final startMode = this.startMode;
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      'EndMode': endMode.toValue(),
+      'StartMode': startMode.toValue(),
+      if (endValue != null) 'EndValue': endValue,
+      if (startValue != null) 'StartValue': startValue,
+    };
+  }
 }
 
 /// A typed link attribute definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TypedLinkAttributeDefinition {
   /// The unique name of the typed link attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The required behavior of the <code>TypedLinkAttributeDefinition</code>.
-  @_s.JsonKey(name: 'RequiredBehavior')
   final RequiredAttributeBehavior requiredBehavior;
 
   /// The type of the attribute.
-  @_s.JsonKey(name: 'Type')
   final FacetAttributeType type;
 
   /// The default value of the attribute (if configured).
-  @_s.JsonKey(name: 'DefaultValue')
-  final TypedAttributeValue defaultValue;
+  final TypedAttributeValue? defaultValue;
 
   /// Whether the attribute is mutable or not.
-  @_s.JsonKey(name: 'IsImmutable')
-  final bool isImmutable;
+  final bool? isImmutable;
 
   /// Validation rules that are attached to the attribute definition.
-  @_s.JsonKey(name: 'Rules')
-  final Map<String, Rule> rules;
+  final Map<String, Rule>? rules;
 
   TypedLinkAttributeDefinition({
-    @_s.required this.name,
-    @_s.required this.requiredBehavior,
-    @_s.required this.type,
+    required this.name,
+    required this.requiredBehavior,
+    required this.type,
     this.defaultValue,
     this.isImmutable,
     this.rules,
   });
-  factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) =>
-      _$TypedLinkAttributeDefinitionFromJson(json);
+  factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return TypedLinkAttributeDefinition(
+      name: json['Name'] as String,
+      requiredBehavior:
+          (json['RequiredBehavior'] as String).toRequiredAttributeBehavior(),
+      type: (json['Type'] as String).toFacetAttributeType(),
+      defaultValue: json['DefaultValue'] != null
+          ? TypedAttributeValue.fromJson(
+              json['DefaultValue'] as Map<String, dynamic>)
+          : null,
+      isImmutable: json['IsImmutable'] as bool?,
+      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TypedLinkAttributeDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final requiredBehavior = this.requiredBehavior;
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final isImmutable = this.isImmutable;
+    final rules = this.rules;
+    return {
+      'Name': name,
+      'RequiredBehavior': requiredBehavior.toValue(),
+      'Type': type.toValue(),
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (isImmutable != null) 'IsImmutable': isImmutable,
+      if (rules != null) 'Rules': rules,
+    };
+  }
 }
 
 /// Identifies the range of attributes that are used by a specified filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TypedLinkAttributeRange {
   /// The range of attribute values that are being selected.
-  @_s.JsonKey(name: 'Range')
   final TypedAttributeValueRange range;
 
   /// The unique name of the typed link attribute.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   TypedLinkAttributeRange({
-    @_s.required this.range,
+    required this.range,
     this.attributeName,
   });
-  Map<String, dynamic> toJson() => _$TypedLinkAttributeRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final range = this.range;
+    final attributeName = this.attributeName;
+    return {
+      'Range': range,
+      if (attributeName != null) 'AttributeName': attributeName,
+    };
+  }
 }
 
 /// Defines the typed links structure and its attributes. To create a typed link
 /// facet, use the <a>CreateTypedLinkFacet</a> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TypedLinkFacet {
   /// A set of key-value pairs associated with the typed link. Typed link
   /// attributes are used when you have data values that are related to the link
   /// itself, and not to one of the two objects being linked. Identity attributes
   /// also serve to distinguish the link from others of the same type between the
   /// same objects.
-  @_s.JsonKey(name: 'Attributes')
   final List<TypedLinkAttributeDefinition> attributes;
 
   /// The set of attributes that distinguish links made from this facet from each
   /// other, in the order of significance. Listing typed links can filter on the
   /// values of these attributes. See <a>ListOutgoingTypedLinks</a> and
   /// <a>ListIncomingTypedLinks</a> for details.
-  @_s.JsonKey(name: 'IdentityAttributeOrder')
   final List<String> identityAttributeOrder;
 
   /// The unique name of the typed link facet.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   TypedLinkFacet({
-    @_s.required this.attributes,
-    @_s.required this.identityAttributeOrder,
-    @_s.required this.name,
+    required this.attributes,
+    required this.identityAttributeOrder,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$TypedLinkFacetToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final identityAttributeOrder = this.identityAttributeOrder;
+    final name = this.name;
+    return {
+      'Attributes': attributes,
+      'IdentityAttributeOrder': identityAttributeOrder,
+      'Name': name,
+    };
+  }
 }
 
 /// A typed link facet attribute update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TypedLinkFacetAttributeUpdate {
   /// The action to perform when updating the attribute.
-  @_s.JsonKey(name: 'Action')
   final UpdateActionType action;
 
   /// The attribute to update.
-  @_s.JsonKey(name: 'Attribute')
   final TypedLinkAttributeDefinition attribute;
 
   TypedLinkFacetAttributeUpdate({
-    @_s.required this.action,
-    @_s.required this.attribute,
+    required this.action,
+    required this.attribute,
   });
-  Map<String, dynamic> toJson() => _$TypedLinkFacetAttributeUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final attribute = this.attribute;
+    return {
+      'Action': action.toValue(),
+      'Attribute': attribute,
+    };
+  }
 }
 
 /// Identifies the schema Amazon Resource Name (ARN) and facet name for the
 /// typed link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TypedLinkSchemaAndFacetName {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For more
   /// information, see <a>arns</a>.
-  @_s.JsonKey(name: 'SchemaArn')
   final String schemaArn;
 
   /// The unique name of the typed link facet.
-  @_s.JsonKey(name: 'TypedLinkName')
   final String typedLinkName;
 
   TypedLinkSchemaAndFacetName({
-    @_s.required this.schemaArn,
-    @_s.required this.typedLinkName,
+    required this.schemaArn,
+    required this.typedLinkName,
   });
-  factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) =>
-      _$TypedLinkSchemaAndFacetNameFromJson(json);
+  factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) {
+    return TypedLinkSchemaAndFacetName(
+      schemaArn: json['SchemaArn'] as String,
+      typedLinkName: json['TypedLinkName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TypedLinkSchemaAndFacetNameToJson(this);
+  Map<String, dynamic> toJson() {
+    final schemaArn = this.schemaArn;
+    final typedLinkName = this.typedLinkName;
+    return {
+      'SchemaArn': schemaArn,
+      'TypedLinkName': typedLinkName,
+    };
+  }
 }
 
 /// Contains all the information that is used to uniquely identify a typed link.
@@ -8013,198 +8294,199 @@ class TypedLinkSchemaAndFacetName {
 /// Similarly, the <a>ListIncomingTypedLinks</a> and
 /// <a>ListOutgoingTypedLinks</a> API operations provide typed link specifiers
 /// as output. You can also construct a typed link specifier from scratch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TypedLinkSpecifier {
   /// Identifies the attribute value to update.
-  @_s.JsonKey(name: 'IdentityAttributeValues')
   final List<AttributeNameAndValue> identityAttributeValues;
 
   /// Identifies the source object that the typed link will attach to.
-  @_s.JsonKey(name: 'SourceObjectReference')
   final ObjectReference sourceObjectReference;
 
   /// Identifies the target object that the typed link will attach to.
-  @_s.JsonKey(name: 'TargetObjectReference')
   final ObjectReference targetObjectReference;
 
   /// Identifies the typed link facet that is associated with the typed link.
-  @_s.JsonKey(name: 'TypedLinkFacet')
   final TypedLinkSchemaAndFacetName typedLinkFacet;
 
   TypedLinkSpecifier({
-    @_s.required this.identityAttributeValues,
-    @_s.required this.sourceObjectReference,
-    @_s.required this.targetObjectReference,
-    @_s.required this.typedLinkFacet,
+    required this.identityAttributeValues,
+    required this.sourceObjectReference,
+    required this.targetObjectReference,
+    required this.typedLinkFacet,
   });
-  factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) =>
-      _$TypedLinkSpecifierFromJson(json);
+  factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
+    return TypedLinkSpecifier(
+      identityAttributeValues: (json['IdentityAttributeValues'] as List)
+          .whereNotNull()
+          .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceObjectReference: ObjectReference.fromJson(
+          json['SourceObjectReference'] as Map<String, dynamic>),
+      targetObjectReference: ObjectReference.fromJson(
+          json['TargetObjectReference'] as Map<String, dynamic>),
+      typedLinkFacet: TypedLinkSchemaAndFacetName.fromJson(
+          json['TypedLinkFacet'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TypedLinkSpecifierToJson(this);
+  Map<String, dynamic> toJson() {
+    final identityAttributeValues = this.identityAttributeValues;
+    final sourceObjectReference = this.sourceObjectReference;
+    final targetObjectReference = this.targetObjectReference;
+    final typedLinkFacet = this.typedLinkFacet;
+    return {
+      'IdentityAttributeValues': identityAttributeValues,
+      'SourceObjectReference': sourceObjectReference,
+      'TargetObjectReference': targetObjectReference,
+      'TypedLinkFacet': typedLinkFacet,
+    };
+  }
 }
 
 /// Indicates that the requested index type is not supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnsupportedIndexTypeException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   UnsupportedIndexTypeException({
     this.message,
   });
-  factory UnsupportedIndexTypeException.fromJson(Map<String, dynamic> json) =>
-      _$UnsupportedIndexTypeExceptionFromJson(json);
+  factory UnsupportedIndexTypeException.fromJson(Map<String, dynamic> json) {
+    return UnsupportedIndexTypeException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 enum UpdateActionType {
-  @_s.JsonValue('CREATE_OR_UPDATE')
   createOrUpdate,
-  @_s.JsonValue('DELETE')
   delete,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on UpdateActionType {
+  String toValue() {
+    switch (this) {
+      case UpdateActionType.createOrUpdate:
+        return 'CREATE_OR_UPDATE';
+      case UpdateActionType.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  UpdateActionType toUpdateActionType() {
+    switch (this) {
+      case 'CREATE_OR_UPDATE':
+        return UpdateActionType.createOrUpdate;
+      case 'DELETE':
+        return UpdateActionType.delete;
+    }
+    throw Exception('$this is not known in enum UpdateActionType');
+  }
+}
+
 class UpdateFacetResponse {
   UpdateFacetResponse();
-  factory UpdateFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFacetResponseFromJson(json);
+  factory UpdateFacetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLinkAttributesResponse {
   UpdateLinkAttributesResponse();
-  factory UpdateLinkAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateLinkAttributesResponseFromJson(json);
+  factory UpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLinkAttributesResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateObjectAttributesResponse {
   /// The <code>ObjectIdentifier</code> of the updated object.
-  @_s.JsonKey(name: 'ObjectIdentifier')
-  final String objectIdentifier;
+  final String? objectIdentifier;
 
   UpdateObjectAttributesResponse({
     this.objectIdentifier,
   });
-  factory UpdateObjectAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateObjectAttributesResponseFromJson(json);
+  factory UpdateObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateObjectAttributesResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSchemaResponse {
   /// The ARN that is associated with the updated schema. For more information,
   /// see <a>arns</a>.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   UpdateSchemaResponse({
     this.schemaArn,
   });
-  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSchemaResponseFromJson(json);
+  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSchemaResponse(
+      schemaArn: json['SchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTypedLinkFacetResponse {
   UpdateTypedLinkFacetResponse();
-  factory UpdateTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTypedLinkFacetResponseFromJson(json);
+  factory UpdateTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTypedLinkFacetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpgradeAppliedSchemaResponse {
   /// The ARN of the directory that is returned as part of the response.
-  @_s.JsonKey(name: 'DirectoryArn')
-  final String directoryArn;
+  final String? directoryArn;
 
   /// The ARN of the upgraded schema that is returned as part of the response.
-  @_s.JsonKey(name: 'UpgradedSchemaArn')
-  final String upgradedSchemaArn;
+  final String? upgradedSchemaArn;
 
   UpgradeAppliedSchemaResponse({
     this.directoryArn,
     this.upgradedSchemaArn,
   });
-  factory UpgradeAppliedSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpgradeAppliedSchemaResponseFromJson(json);
+  factory UpgradeAppliedSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return UpgradeAppliedSchemaResponse(
+      directoryArn: json['DirectoryArn'] as String?,
+      upgradedSchemaArn: json['UpgradedSchemaArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpgradePublishedSchemaResponse {
   /// The ARN of the upgraded schema that is returned as part of the response.
-  @_s.JsonKey(name: 'UpgradedSchemaArn')
-  final String upgradedSchemaArn;
+  final String? upgradedSchemaArn;
 
   UpgradePublishedSchemaResponse({
     this.upgradedSchemaArn,
   });
-  factory UpgradePublishedSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpgradePublishedSchemaResponseFromJson(json);
+  factory UpgradePublishedSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return UpgradePublishedSchemaResponse(
+      upgradedSchemaArn: json['UpgradedSchemaArn'] as String?,
+    );
+  }
 }
 
 /// Indicates that your request is malformed in some manner. See the exception
 /// message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ValidationException({
     this.message,
   });
-  factory ValidationException.fromJson(Map<String, dynamic> json) =>
-      _$ValidationExceptionFromJson(json);
+  factory ValidationException.fromJson(Map<String, dynamic> json) {
+    return ValidationException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

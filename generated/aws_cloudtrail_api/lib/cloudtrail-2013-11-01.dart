@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'cloudtrail-2013-11-01.g.dart';
 
 /// This is the CloudTrail API Reference. It provides descriptions of actions,
 /// data types, common parameters, and common errors for CloudTrail.
 class CloudTrail {
   final _s.JsonProtocol _protocol;
   CloudTrail({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,8 +64,8 @@ class CloudTrail {
   /// Parameter [tagsList] :
   /// Contains a list of CloudTrail tags, up to a limit of 50
   Future<void> addTags({
-    @_s.required String resourceId,
-    List<Tag> tagsList,
+    required String resourceId,
+    List<Tag>? tagsList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     final headers = <String, String>{
@@ -81,7 +73,7 @@ class CloudTrail {
       'X-Amz-Target':
           'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.AddTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -92,8 +84,6 @@ class CloudTrail {
         if (tagsList != null) 'TagsList': tagsList,
       },
     );
-
-    return AddTagsResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a trail that specifies the settings for delivery of log data to an
@@ -231,18 +221,18 @@ class CloudTrail {
   /// Specifies the name of the Amazon SNS topic defined for notification of log
   /// file delivery. The maximum length is 256 characters.
   Future<CreateTrailResponse> createTrail({
-    @_s.required String name,
-    @_s.required String s3BucketName,
-    String cloudWatchLogsLogGroupArn,
-    String cloudWatchLogsRoleArn,
-    bool enableLogFileValidation,
-    bool includeGlobalServiceEvents,
-    bool isMultiRegionTrail,
-    bool isOrganizationTrail,
-    String kmsKeyId,
-    String s3KeyPrefix,
-    String snsTopicName,
-    List<Tag> tagsList,
+    required String name,
+    required String s3BucketName,
+    String? cloudWatchLogsLogGroupArn,
+    String? cloudWatchLogsRoleArn,
+    bool? enableLogFileValidation,
+    bool? includeGlobalServiceEvents,
+    bool? isMultiRegionTrail,
+    bool? isOrganizationTrail,
+    String? kmsKeyId,
+    String? s3KeyPrefix,
+    String? snsTopicName,
+    List<Tag>? tagsList,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
@@ -300,7 +290,7 @@ class CloudTrail {
   /// format of a trail ARN is:
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<void> deleteTrail({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -308,7 +298,7 @@ class CloudTrail {
       'X-Amz-Target':
           'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.DeleteTrail'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -318,8 +308,6 @@ class CloudTrail {
         'Name': name,
       },
     );
-
-    return DeleteTrailResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves settings for one or more trails associated with the current
@@ -363,8 +351,8 @@ class CloudTrail {
   /// its trail ARN.
   /// </note>
   Future<DescribeTrailsResponse> describeTrails({
-    bool includeShadowTrails,
-    List<String> trailNameList,
+    bool? includeShadowTrails,
+    List<String>? trailNameList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -441,7 +429,7 @@ class CloudTrail {
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<GetEventSelectorsResponse> getEventSelectors({
-    @_s.required String trailName,
+    required String trailName,
   }) async {
     ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
@@ -509,7 +497,7 @@ class CloudTrail {
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<GetInsightSelectorsResponse> getInsightSelectors({
-    @_s.required String trailName,
+    required String trailName,
   }) async {
     ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
@@ -542,7 +530,7 @@ class CloudTrail {
   /// The name or the Amazon Resource Name (ARN) of the trail for which you want
   /// to retrieve settings information.
   Future<GetTrailResponse> getTrail({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -583,7 +571,7 @@ class CloudTrail {
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<GetTrailStatusResponse> getTrailStatus({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -633,9 +621,9 @@ class CloudTrail {
   /// public keys for CloudTrail digest files. If not specified, the current
   /// time is used, and the current public key is returned.
   Future<ListPublicKeysResponse> listPublicKeys({
-    DateTime endTime,
-    String nextToken,
-    DateTime startTime,
+    DateTime? endTime,
+    String? nextToken,
+    DateTime? startTime,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -677,8 +665,8 @@ class CloudTrail {
   /// Parameter [nextToken] :
   /// Reserved for future use.
   Future<ListTagsResponse> listTags({
-    @_s.required List<String> resourceIdList,
-    String nextToken,
+    required List<String> resourceIdList,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceIdList, 'resourceIdList');
     final headers = <String, String>{
@@ -713,7 +701,7 @@ class CloudTrail {
   /// specified an AttributeKey of 'Username' with a value of 'root', the call
   /// with NextToken should include those same parameters.
   Future<ListTrailsResponse> listTrails({
-    String nextToken,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -828,12 +816,12 @@ class CloudTrail {
   /// returned. If the specified start time is after the specified end time, an
   /// error is returned.
   Future<LookupEventsResponse> lookupEvents({
-    DateTime endTime,
-    EventCategory eventCategory,
-    List<LookupAttribute> lookupAttributes,
-    int maxResults,
-    String nextToken,
-    DateTime startTime,
+    DateTime? endTime,
+    EventCategory? eventCategory,
+    List<LookupAttribute>? lookupAttributes,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTime,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -975,9 +963,9 @@ class CloudTrail {
   /// <code>EventSelectors</code> to a trail, any existing
   /// <code>AdvancedEventSelectors</code> are overwritten.
   Future<PutEventSelectorsResponse> putEventSelectors({
-    @_s.required String trailName,
-    List<AdvancedEventSelector> advancedEventSelectors,
-    List<EventSelector> eventSelectors,
+    required String trailName,
+    List<AdvancedEventSelector>? advancedEventSelectors,
+    List<EventSelector>? eventSelectors,
   }) async {
     ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
@@ -1027,8 +1015,8 @@ class CloudTrail {
   /// The name of the CloudTrail trail for which you want to change or add
   /// Insights selectors.
   Future<PutInsightSelectorsResponse> putInsightSelectors({
-    @_s.required List<InsightSelector> insightSelectors,
-    @_s.required String trailName,
+    required List<InsightSelector> insightSelectors,
+    required String trailName,
   }) async {
     ArgumentError.checkNotNull(insightSelectors, 'insightSelectors');
     ArgumentError.checkNotNull(trailName, 'trailName');
@@ -1072,8 +1060,8 @@ class CloudTrail {
   /// Parameter [tagsList] :
   /// Specifies a list of tags to be removed.
   Future<void> removeTags({
-    @_s.required String resourceId,
-    List<Tag> tagsList,
+    required String resourceId,
+    List<Tag>? tagsList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     final headers = <String, String>{
@@ -1081,7 +1069,7 @@ class CloudTrail {
       'X-Amz-Target':
           'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.RemoveTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1092,8 +1080,6 @@ class CloudTrail {
         if (tagsList != null) 'TagsList': tagsList,
       },
     );
-
-    return RemoveTagsResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts the recording of AWS API calls and log file delivery for a trail.
@@ -1116,7 +1102,7 @@ class CloudTrail {
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<void> startLogging({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -1124,7 +1110,7 @@ class CloudTrail {
       'X-Amz-Target':
           'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StartLogging'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1134,8 +1120,6 @@ class CloudTrail {
         'Name': name,
       },
     );
-
-    return StartLoggingResponse.fromJson(jsonResponse.body);
   }
 
   /// Suspends the recording of AWS API calls and log file delivery for the
@@ -1161,7 +1145,7 @@ class CloudTrail {
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   Future<void> stopLogging({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -1169,7 +1153,7 @@ class CloudTrail {
       'X-Amz-Target':
           'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StopLogging'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1179,8 +1163,6 @@ class CloudTrail {
         'Name': name,
       },
     );
-
-    return StopLoggingResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the settings that specify delivery of log files. Changes to a
@@ -1333,17 +1315,17 @@ class CloudTrail {
   /// Specifies the name of the Amazon SNS topic defined for notification of log
   /// file delivery. The maximum length is 256 characters.
   Future<UpdateTrailResponse> updateTrail({
-    @_s.required String name,
-    String cloudWatchLogsLogGroupArn,
-    String cloudWatchLogsRoleArn,
-    bool enableLogFileValidation,
-    bool includeGlobalServiceEvents,
-    bool isMultiRegionTrail,
-    bool isOrganizationTrail,
-    String kmsKeyId,
-    String s3BucketName,
-    String s3KeyPrefix,
-    String snsTopicName,
+    required String name,
+    String? cloudWatchLogsLogGroupArn,
+    String? cloudWatchLogsRoleArn,
+    bool? enableLogFileValidation,
+    bool? includeGlobalServiceEvents,
+    bool? isMultiRegionTrail,
+    bool? isOrganizationTrail,
+    String? kmsKeyId,
+    String? s3BucketName,
+    String? s3KeyPrefix,
+    String? snsTopicName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -1384,15 +1366,11 @@ class CloudTrail {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsResponse {
   AddTagsResponse();
-  factory AddTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsResponseFromJson(json);
+  factory AddTagsResponse.fromJson(Map<String, dynamic> _) {
+    return AddTagsResponse();
+  }
 }
 
 /// Advanced event selectors let you create fine-grained selectors for the
@@ -1424,37 +1402,39 @@ class AddTagsResponse {
 /// </ul>
 /// You cannot apply both event selectors and advanced event selectors to a
 /// trail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdvancedEventSelector {
   /// Contains all selector statements in an advanced event selector.
-  @_s.JsonKey(name: 'FieldSelectors')
   final List<AdvancedFieldSelector> fieldSelectors;
 
   /// An optional, descriptive name for an advanced event selector, such as "Log
   /// data events for only two S3 buckets".
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AdvancedEventSelector({
-    @_s.required this.fieldSelectors,
+    required this.fieldSelectors,
     this.name,
   });
-  factory AdvancedEventSelector.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedEventSelectorFromJson(json);
+  factory AdvancedEventSelector.fromJson(Map<String, dynamic> json) {
+    return AdvancedEventSelector(
+      fieldSelectors: (json['FieldSelectors'] as List)
+          .whereNotNull()
+          .map((e) => AdvancedFieldSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AdvancedEventSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldSelectors = this.fieldSelectors;
+    final name = this.name;
+    return {
+      'FieldSelectors': fieldSelectors,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// A single selector statement in an advanced event selector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AdvancedFieldSelector {
   /// A field in an event record on which to filter events to be logged. Supported
   /// fields include <code>readOnly</code>, <code>eventCategory</code>,
@@ -1519,43 +1499,36 @@ class AdvancedFieldSelector {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Field')
   final String field;
 
   /// An operator that includes events that match the last few characters of the
   /// event record field specified as the value of <code>Field</code>.
-  @_s.JsonKey(name: 'EndsWith')
-  final List<String> endsWith;
+  final List<String>? endsWith;
 
   /// An operator that includes events that match the exact value of the event
   /// record field specified as the value of <code>Field</code>. This is the only
   /// valid operator that you can use with the <code>readOnly</code>,
   /// <code>eventCategory</code>, and <code>resources.type</code> fields.
-  @_s.JsonKey(name: 'Equals')
-  final List<String> equals;
+  final List<String>? equals;
 
   /// An operator that excludes events that match the last few characters of the
   /// event record field specified as the value of <code>Field</code>.
-  @_s.JsonKey(name: 'NotEndsWith')
-  final List<String> notEndsWith;
+  final List<String>? notEndsWith;
 
   /// An operator that excludes events that match the exact value of the event
   /// record field specified as the value of <code>Field</code>.
-  @_s.JsonKey(name: 'NotEquals')
-  final List<String> notEquals;
+  final List<String>? notEquals;
 
   /// An operator that excludes events that match the first few characters of the
   /// event record field specified as the value of <code>Field</code>.
-  @_s.JsonKey(name: 'NotStartsWith')
-  final List<String> notStartsWith;
+  final List<String>? notStartsWith;
 
   /// An operator that includes events that match the first few characters of the
   /// event record field specified as the value of <code>Field</code>.
-  @_s.JsonKey(name: 'StartsWith')
-  final List<String> startsWith;
+  final List<String>? startsWith;
 
   AdvancedFieldSelector({
-    @_s.required this.field,
+    required this.field,
     this.endsWith,
     this.equals,
     this.notEndsWith,
@@ -1563,87 +1536,113 @@ class AdvancedFieldSelector {
     this.notStartsWith,
     this.startsWith,
   });
-  factory AdvancedFieldSelector.fromJson(Map<String, dynamic> json) =>
-      _$AdvancedFieldSelectorFromJson(json);
+  factory AdvancedFieldSelector.fromJson(Map<String, dynamic> json) {
+    return AdvancedFieldSelector(
+      field: json['Field'] as String,
+      endsWith: (json['EndsWith'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      equals: (json['Equals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notEndsWith: (json['NotEndsWith'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notEquals: (json['NotEquals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notStartsWith: (json['NotStartsWith'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      startsWith: (json['StartsWith'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AdvancedFieldSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final endsWith = this.endsWith;
+    final equals = this.equals;
+    final notEndsWith = this.notEndsWith;
+    final notEquals = this.notEquals;
+    final notStartsWith = this.notStartsWith;
+    final startsWith = this.startsWith;
+    return {
+      'Field': field,
+      if (endsWith != null) 'EndsWith': endsWith,
+      if (equals != null) 'Equals': equals,
+      if (notEndsWith != null) 'NotEndsWith': notEndsWith,
+      if (notEquals != null) 'NotEquals': notEquals,
+      if (notStartsWith != null) 'NotStartsWith': notStartsWith,
+      if (startsWith != null) 'StartsWith': startsWith,
+    };
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTrailResponse {
   /// Specifies the Amazon Resource Name (ARN) of the log group to which
   /// CloudTrail logs will be delivered.
-  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
-  final String cloudWatchLogsLogGroupArn;
+  final String? cloudWatchLogsLogGroupArn;
 
   /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a
   /// user's log group.
-  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
-  final String cloudWatchLogsRoleArn;
+  final String? cloudWatchLogsRoleArn;
 
   /// Specifies whether the trail is publishing events from global services such
   /// as IAM to the log files.
-  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
-  final bool includeGlobalServiceEvents;
+  final bool? includeGlobalServiceEvents;
 
   /// Specifies whether the trail exists in one region or in all regions.
-  @_s.JsonKey(name: 'IsMultiRegionTrail')
-  final bool isMultiRegionTrail;
+  final bool? isMultiRegionTrail;
 
   /// Specifies whether the trail is an organization trail.
-  @_s.JsonKey(name: 'IsOrganizationTrail')
-  final bool isOrganizationTrail;
+  final bool? isOrganizationTrail;
 
   /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The
   /// value is a fully specified ARN to a KMS key in the format:
   ///
   /// <code>arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012</code>
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies whether log file integrity validation is enabled.
-  @_s.JsonKey(name: 'LogFileValidationEnabled')
-  final bool logFileValidationEnabled;
+  final bool? logFileValidationEnabled;
 
   /// Specifies the name of the trail.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Specifies the name of the Amazon S3 bucket designated for publishing log
   /// files.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
   /// you have designated for log file delivery. For more information, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
   /// Your CloudTrail Log Files</a>.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send
   /// notifications when log files are delivered. The format of a topic ARN is:
   ///
   /// <code>arn:aws:sns:us-east-2:123456789012:MyTopic</code>
-  @_s.JsonKey(name: 'SnsTopicARN')
-  final String snsTopicARN;
+  final String? snsTopicARN;
 
   /// This field is no longer in use. Use SnsTopicARN.
-  @_s.JsonKey(name: 'SnsTopicName')
-  final String snsTopicName;
+  final String? snsTopicName;
 
   /// Specifies the ARN of the trail that was created. The format of a trail ARN
   /// is:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   CreateTrailResponse({
     this.cloudWatchLogsLogGroupArn,
@@ -1660,8 +1659,23 @@ class CreateTrailResponse {
     this.snsTopicName,
     this.trailARN,
   });
-  factory CreateTrailResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTrailResponseFromJson(json);
+  factory CreateTrailResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTrailResponse(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+      cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String?,
+      includeGlobalServiceEvents: json['IncludeGlobalServiceEvents'] as bool?,
+      isMultiRegionTrail: json['IsMultiRegionTrail'] as bool?,
+      isOrganizationTrail: json['IsOrganizationTrail'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      logFileValidationEnabled: json['LogFileValidationEnabled'] as bool?,
+      name: json['Name'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+      snsTopicARN: json['SnsTopicARN'] as String?,
+      snsTopicName: json['SnsTopicName'] as String?,
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
 /// The Amazon S3 buckets or AWS Lambda functions that you specify in your event
@@ -1723,17 +1737,11 @@ class CreateTrailResponse {
 /// <i>MyOtherLambdaFunction</i> does not match the function specified for the
 /// trail. The trail doesn’t log the event.
 /// </li> </ol>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataResource {
   /// The resource type in which you want to log data events. You can specify
   /// <code>AWS::S3::Object</code> or <code>AWS::Lambda::Function</code>
   /// resources.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for
   /// the specified objects.
@@ -1776,39 +1784,43 @@ class DataResource {
   /// <i>arn:aws:lambda:us-west-2:111111111111:function:helloworld2</i>.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   DataResource({
     this.type,
     this.values,
   });
-  factory DataResource.fromJson(Map<String, dynamic> json) =>
-      _$DataResourceFromJson(json);
+  factory DataResource.fromJson(Map<String, dynamic> json) {
+    return DataResource(
+      type: json['Type'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataResourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (type != null) 'Type': type,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTrailResponse {
   DeleteTrailResponse();
-  factory DeleteTrailResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTrailResponseFromJson(json);
+  factory DeleteTrailResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTrailResponse();
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrailsResponse {
   /// The list of trail objects. Trail objects with string values are only
   /// returned if values for the objects exist in a trail's configuration. For
@@ -1816,63 +1828,53 @@ class DescribeTrailsResponse {
   /// returned in results if a trail is configured to send SNS notifications.
   /// Similarly, <code>KMSKeyId</code> only appears in results if a trail's log
   /// files are encrypted with AWS KMS-managed keys.
-  @_s.JsonKey(name: 'trailList')
-  final List<Trail> trailList;
+  final List<Trail>? trailList;
 
   DescribeTrailsResponse({
     this.trailList,
   });
-  factory DescribeTrailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTrailsResponseFromJson(json);
+  factory DescribeTrailsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTrailsResponse(
+      trailList: (json['trailList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about an event that was returned by a lookup request.
 /// The result includes a representation of a CloudTrail event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Event {
   /// The AWS access key ID that was used to sign the request. If the request was
   /// made with temporary security credentials, this is the access key ID of the
   /// temporary credentials.
-  @_s.JsonKey(name: 'AccessKeyId')
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// A JSON string that contains a representation of the event returned.
-  @_s.JsonKey(name: 'CloudTrailEvent')
-  final String cloudTrailEvent;
+  final String? cloudTrailEvent;
 
   /// The CloudTrail ID of the event returned.
-  @_s.JsonKey(name: 'EventId')
-  final String eventId;
+  final String? eventId;
 
   /// The name of the event returned.
-  @_s.JsonKey(name: 'EventName')
-  final String eventName;
+  final String? eventName;
 
   /// The AWS service that the request was made to.
-  @_s.JsonKey(name: 'EventSource')
-  final String eventSource;
+  final String? eventSource;
 
   /// The date and time of the event returned.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventTime')
-  final DateTime eventTime;
+  final DateTime? eventTime;
 
   /// Information about whether the event is a write event or a read event.
-  @_s.JsonKey(name: 'ReadOnly')
-  final String readOnly;
+  final String? readOnly;
 
   /// A list of resources referenced by the event returned.
-  @_s.JsonKey(name: 'Resources')
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   /// A user name or role name of the requester that called the API in the event
   /// returned.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   Event({
     this.accessKeyId,
@@ -1885,11 +1887,25 @@ class Event {
     this.resources,
     this.username,
   });
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      accessKeyId: json['AccessKeyId'] as String?,
+      cloudTrailEvent: json['CloudTrailEvent'] as String?,
+      eventId: json['EventId'] as String?,
+      eventName: json['EventName'] as String?,
+      eventSource: json['EventSource'] as String?,
+      eventTime: timeStampFromJson(json['EventTime']),
+      readOnly: json['ReadOnly'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      username: json['Username'] as String?,
+    );
+  }
 }
 
 enum EventCategory {
-  @_s.JsonValue('insight')
   insight,
 }
 
@@ -1899,7 +1915,16 @@ extension on EventCategory {
       case EventCategory.insight:
         return 'insight';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EventCategory toEventCategory() {
+    switch (this) {
+      case 'insight':
+        return EventCategory.insight;
+    }
+    throw Exception('$this is not known in enum EventCategory');
   }
 }
 
@@ -1915,11 +1940,6 @@ extension on EventCategory {
 ///
 /// You cannot apply both event selectors and advanced event selectors to a
 /// trail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EventSelector {
   /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda
   /// functions. You can specify up to 250 resources for an individual event
@@ -1932,8 +1952,7 @@ class EventSelector {
   /// Events</a> and <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html">Limits
   /// in AWS CloudTrail</a> in the <i>AWS CloudTrail User Guide</i>.
-  @_s.JsonKey(name: 'DataResources')
-  final List<DataResource> dataResources;
+  final List<DataResource>? dataResources;
 
   /// An optional list of service event sources from which you do not want
   /// management events to be logged on your trail. In this release, the list can
@@ -1941,8 +1960,7 @@ class EventSelector {
   /// Service events by containing <code>"kms.amazonaws.com"</code>. By default,
   /// <code>ExcludeManagementEventSources</code> is empty, and AWS KMS events are
   /// included in events that are logged to your trail.
-  @_s.JsonKey(name: 'ExcludeManagementEventSources')
-  final List<String> excludeManagementEventSources;
+  final List<String>? excludeManagementEventSources;
 
   /// Specify if you want your event selector to include management events for
   /// your trail.
@@ -1957,16 +1975,14 @@ class EventSelector {
   /// copies of management events that you are logging on any subsequent trail in
   /// the same region. For more information about CloudTrail pricing, see <a
   /// href="http://aws.amazon.com/cloudtrail/pricing/">AWS CloudTrail Pricing</a>.
-  @_s.JsonKey(name: 'IncludeManagementEvents')
-  final bool includeManagementEvents;
+  final bool? includeManagementEvents;
 
   /// Specify if you want your trail to log read-only events, write-only events,
   /// or all. For example, the EC2 <code>GetConsoleOutput</code> is a read-only
   /// API operation and <code>RunInstances</code> is a write-only API operation.
   ///
   /// By default, the value is <code>All</code>.
-  @_s.JsonKey(name: 'ReadWriteType')
-  final ReadWriteType readWriteType;
+  final ReadWriteType? readWriteType;
 
   EventSelector({
     this.dataResources,
@@ -1974,110 +1990,127 @@ class EventSelector {
     this.includeManagementEvents,
     this.readWriteType,
   });
-  factory EventSelector.fromJson(Map<String, dynamic> json) =>
-      _$EventSelectorFromJson(json);
+  factory EventSelector.fromJson(Map<String, dynamic> json) {
+    return EventSelector(
+      dataResources: (json['DataResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      excludeManagementEventSources:
+          (json['ExcludeManagementEventSources'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      includeManagementEvents: json['IncludeManagementEvents'] as bool?,
+      readWriteType: (json['ReadWriteType'] as String?)?.toReadWriteType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EventSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataResources = this.dataResources;
+    final excludeManagementEventSources = this.excludeManagementEventSources;
+    final includeManagementEvents = this.includeManagementEvents;
+    final readWriteType = this.readWriteType;
+    return {
+      if (dataResources != null) 'DataResources': dataResources,
+      if (excludeManagementEventSources != null)
+        'ExcludeManagementEventSources': excludeManagementEventSources,
+      if (includeManagementEvents != null)
+        'IncludeManagementEvents': includeManagementEvents,
+      if (readWriteType != null) 'ReadWriteType': readWriteType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEventSelectorsResponse {
   /// The advanced event selectors that are configured for the trail.
-  @_s.JsonKey(name: 'AdvancedEventSelectors')
-  final List<AdvancedEventSelector> advancedEventSelectors;
+  final List<AdvancedEventSelector>? advancedEventSelectors;
 
   /// The event selectors that are configured for the trail.
-  @_s.JsonKey(name: 'EventSelectors')
-  final List<EventSelector> eventSelectors;
+  final List<EventSelector>? eventSelectors;
 
   /// The specified trail ARN that has the event selectors.
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   GetEventSelectorsResponse({
     this.advancedEventSelectors,
     this.eventSelectors,
     this.trailARN,
   });
-  factory GetEventSelectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEventSelectorsResponseFromJson(json);
+  factory GetEventSelectorsResponse.fromJson(Map<String, dynamic> json) {
+    return GetEventSelectorsResponse(
+      advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventSelectors: (json['EventSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInsightSelectorsResponse {
   /// A JSON string that contains the insight types you want to log on a trail. In
   /// this release, only <code>ApiCallRateInsight</code> is supported as an
   /// insight type.
-  @_s.JsonKey(name: 'InsightSelectors')
-  final List<InsightSelector> insightSelectors;
+  final List<InsightSelector>? insightSelectors;
 
   /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights
   /// selectors.
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   GetInsightSelectorsResponse({
     this.insightSelectors,
     this.trailARN,
   });
-  factory GetInsightSelectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetInsightSelectorsResponseFromJson(json);
+  factory GetInsightSelectorsResponse.fromJson(Map<String, dynamic> json) {
+    return GetInsightSelectorsResponse(
+      insightSelectors: (json['InsightSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => InsightSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTrailResponse {
-  @_s.JsonKey(name: 'Trail')
-  final Trail trail;
+  final Trail? trail;
 
   GetTrailResponse({
     this.trail,
   });
-  factory GetTrailResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTrailResponseFromJson(json);
+  factory GetTrailResponse.fromJson(Map<String, dynamic> json) {
+    return GetTrailResponse(
+      trail: json['Trail'] != null
+          ? Trail.fromJson(json['Trail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTrailStatusResponse {
   /// Whether the CloudTrail is currently logging AWS API calls.
-  @_s.JsonKey(name: 'IsLogging')
-  final bool isLogging;
+  final bool? isLogging;
 
   /// Displays any CloudWatch Logs error that CloudTrail encountered when
   /// attempting to deliver logs to CloudWatch Logs.
-  @_s.JsonKey(name: 'LatestCloudWatchLogsDeliveryError')
-  final String latestCloudWatchLogsDeliveryError;
+  final String? latestCloudWatchLogsDeliveryError;
 
   /// Displays the most recent date and time when CloudTrail delivered logs to
   /// CloudWatch Logs.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestCloudWatchLogsDeliveryTime')
-  final DateTime latestCloudWatchLogsDeliveryTime;
+  final DateTime? latestCloudWatchLogsDeliveryTime;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'LatestDeliveryAttemptSucceeded')
-  final String latestDeliveryAttemptSucceeded;
+  final String? latestDeliveryAttemptSucceeded;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'LatestDeliveryAttemptTime')
-  final String latestDeliveryAttemptTime;
+  final String? latestDeliveryAttemptTime;
 
   /// Displays any Amazon S3 error that CloudTrail encountered when attempting to
   /// deliver log files to the designated bucket. For more information see the
@@ -2090,14 +2123,11 @@ class GetTrailStatusResponse {
   /// bucket and call <code>UpdateTrail</code> to specify the new bucket, or fix
   /// the existing objects so that CloudTrail can again write to the bucket.
   /// </note>
-  @_s.JsonKey(name: 'LatestDeliveryError')
-  final String latestDeliveryError;
+  final String? latestDeliveryError;
 
   /// Specifies the date and time that CloudTrail last delivered log files to an
   /// account's Amazon S3 bucket.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestDeliveryTime')
-  final DateTime latestDeliveryTime;
+  final DateTime? latestDeliveryTime;
 
   /// Displays any Amazon S3 error that CloudTrail encountered when attempting to
   /// deliver a digest file to the designated bucket. For more information see the
@@ -2110,55 +2140,41 @@ class GetTrailStatusResponse {
   /// bucket and call <code>UpdateTrail</code> to specify the new bucket, or fix
   /// the existing objects so that CloudTrail can again write to the bucket.
   /// </note>
-  @_s.JsonKey(name: 'LatestDigestDeliveryError')
-  final String latestDigestDeliveryError;
+  final String? latestDigestDeliveryError;
 
   /// Specifies the date and time that CloudTrail last delivered a digest file to
   /// an account's Amazon S3 bucket.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestDigestDeliveryTime')
-  final DateTime latestDigestDeliveryTime;
+  final DateTime? latestDigestDeliveryTime;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'LatestNotificationAttemptSucceeded')
-  final String latestNotificationAttemptSucceeded;
+  final String? latestNotificationAttemptSucceeded;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'LatestNotificationAttemptTime')
-  final String latestNotificationAttemptTime;
+  final String? latestNotificationAttemptTime;
 
   /// Displays any Amazon SNS error that CloudTrail encountered when attempting to
   /// send a notification. For more information about Amazon SNS errors, see the
   /// <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'LatestNotificationError')
-  final String latestNotificationError;
+  final String? latestNotificationError;
 
   /// Specifies the date and time of the most recent Amazon SNS notification that
   /// CloudTrail has written a new log file to an account's Amazon S3 bucket.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestNotificationTime')
-  final DateTime latestNotificationTime;
+  final DateTime? latestNotificationTime;
 
   /// Specifies the most recent date and time when CloudTrail started recording
   /// API calls for an AWS account.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartLoggingTime')
-  final DateTime startLoggingTime;
+  final DateTime? startLoggingTime;
 
   /// Specifies the most recent date and time when CloudTrail stopped recording
   /// API calls for an AWS account.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StopLoggingTime')
-  final DateTime stopLoggingTime;
+  final DateTime? stopLoggingTime;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'TimeLoggingStarted')
-  final String timeLoggingStarted;
+  final String? timeLoggingStarted;
 
   /// This field is no longer in use.
-  @_s.JsonKey(name: 'TimeLoggingStopped')
-  final String timeLoggingStopped;
+  final String? timeLoggingStopped;
 
   GetTrailStatusResponse({
     this.isLogging,
@@ -2179,93 +2195,133 @@ class GetTrailStatusResponse {
     this.timeLoggingStarted,
     this.timeLoggingStopped,
   });
-  factory GetTrailStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTrailStatusResponseFromJson(json);
+  factory GetTrailStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetTrailStatusResponse(
+      isLogging: json['IsLogging'] as bool?,
+      latestCloudWatchLogsDeliveryError:
+          json['LatestCloudWatchLogsDeliveryError'] as String?,
+      latestCloudWatchLogsDeliveryTime:
+          timeStampFromJson(json['LatestCloudWatchLogsDeliveryTime']),
+      latestDeliveryAttemptSucceeded:
+          json['LatestDeliveryAttemptSucceeded'] as String?,
+      latestDeliveryAttemptTime: json['LatestDeliveryAttemptTime'] as String?,
+      latestDeliveryError: json['LatestDeliveryError'] as String?,
+      latestDeliveryTime: timeStampFromJson(json['LatestDeliveryTime']),
+      latestDigestDeliveryError: json['LatestDigestDeliveryError'] as String?,
+      latestDigestDeliveryTime:
+          timeStampFromJson(json['LatestDigestDeliveryTime']),
+      latestNotificationAttemptSucceeded:
+          json['LatestNotificationAttemptSucceeded'] as String?,
+      latestNotificationAttemptTime:
+          json['LatestNotificationAttemptTime'] as String?,
+      latestNotificationError: json['LatestNotificationError'] as String?,
+      latestNotificationTime: timeStampFromJson(json['LatestNotificationTime']),
+      startLoggingTime: timeStampFromJson(json['StartLoggingTime']),
+      stopLoggingTime: timeStampFromJson(json['StopLoggingTime']),
+      timeLoggingStarted: json['TimeLoggingStarted'] as String?,
+      timeLoggingStopped: json['TimeLoggingStopped'] as String?,
+    );
+  }
 }
 
 /// A JSON string that contains a list of insight types that are logged on a
 /// trail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InsightSelector {
   /// The type of insights to log on a trail. In this release, only
   /// <code>ApiCallRateInsight</code> is supported as an insight type.
-  @_s.JsonKey(name: 'InsightType')
-  final InsightType insightType;
+  final InsightType? insightType;
 
   InsightSelector({
     this.insightType,
   });
-  factory InsightSelector.fromJson(Map<String, dynamic> json) =>
-      _$InsightSelectorFromJson(json);
+  factory InsightSelector.fromJson(Map<String, dynamic> json) {
+    return InsightSelector(
+      insightType: (json['InsightType'] as String?)?.toInsightType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InsightSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final insightType = this.insightType;
+    return {
+      if (insightType != null) 'InsightType': insightType.toValue(),
+    };
+  }
 }
 
 enum InsightType {
-  @_s.JsonValue('ApiCallRateInsight')
   apiCallRateInsight,
+}
+
+extension on InsightType {
+  String toValue() {
+    switch (this) {
+      case InsightType.apiCallRateInsight:
+        return 'ApiCallRateInsight';
+    }
+  }
+}
+
+extension on String {
+  InsightType toInsightType() {
+    switch (this) {
+      case 'ApiCallRateInsight':
+        return InsightType.apiCallRateInsight;
+    }
+    throw Exception('$this is not known in enum InsightType');
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPublicKeysResponse {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Contains an array of PublicKey objects.
   /// <note>
   /// The returned public keys may have validity time ranges that overlap.
   /// </note>
-  @_s.JsonKey(name: 'PublicKeyList')
-  final List<PublicKey> publicKeyList;
+  final List<PublicKey>? publicKeyList;
 
   ListPublicKeysResponse({
     this.nextToken,
     this.publicKeyList,
   });
-  factory ListPublicKeysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPublicKeysResponseFromJson(json);
+  factory ListPublicKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListPublicKeysResponse(
+      nextToken: json['NextToken'] as String?,
+      publicKeyList: (json['PublicKeyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PublicKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of resource tags.
-  @_s.JsonKey(name: 'ResourceTagList')
-  final List<ResourceTag> resourceTagList;
+  final List<ResourceTag>? resourceTagList;
 
   ListTagsResponse({
     this.nextToken,
     this.resourceTagList,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceTagList: (json['ResourceTagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTrailsResponse {
   /// The token to use to get the next page of results after a previous API call.
   /// If the token does not appear, there are no more results to return. The token
@@ -2273,74 +2329,112 @@ class ListTrailsResponse {
   /// example, if the original call specified an AttributeKey of 'Username' with a
   /// value of 'root', the call with NextToken should include those same
   /// parameters.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns the name, ARN, and home region of trails in the current account.
-  @_s.JsonKey(name: 'Trails')
-  final List<TrailInfo> trails;
+  final List<TrailInfo>? trails;
 
   ListTrailsResponse({
     this.nextToken,
     this.trails,
   });
-  factory ListTrailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTrailsResponseFromJson(json);
+  factory ListTrailsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTrailsResponse(
+      nextToken: json['NextToken'] as String?,
+      trails: (json['Trails'] as List?)
+          ?.whereNotNull()
+          .map((e) => TrailInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Specifies an attribute and value that filter the events returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LookupAttribute {
   /// Specifies an attribute on which to filter the events returned.
-  @_s.JsonKey(name: 'AttributeKey')
   final LookupAttributeKey attributeKey;
 
   /// Specifies a value for the specified AttributeKey.
-  @_s.JsonKey(name: 'AttributeValue')
   final String attributeValue;
 
   LookupAttribute({
-    @_s.required this.attributeKey,
-    @_s.required this.attributeValue,
+    required this.attributeKey,
+    required this.attributeValue,
   });
-  Map<String, dynamic> toJson() => _$LookupAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeKey = this.attributeKey;
+    final attributeValue = this.attributeValue;
+    return {
+      'AttributeKey': attributeKey.toValue(),
+      'AttributeValue': attributeValue,
+    };
+  }
 }
 
 enum LookupAttributeKey {
-  @_s.JsonValue('EventId')
   eventId,
-  @_s.JsonValue('EventName')
   eventName,
-  @_s.JsonValue('ReadOnly')
   readOnly,
-  @_s.JsonValue('Username')
   username,
-  @_s.JsonValue('ResourceType')
   resourceType,
-  @_s.JsonValue('ResourceName')
   resourceName,
-  @_s.JsonValue('EventSource')
   eventSource,
-  @_s.JsonValue('AccessKeyId')
   accessKeyId,
 }
 
+extension on LookupAttributeKey {
+  String toValue() {
+    switch (this) {
+      case LookupAttributeKey.eventId:
+        return 'EventId';
+      case LookupAttributeKey.eventName:
+        return 'EventName';
+      case LookupAttributeKey.readOnly:
+        return 'ReadOnly';
+      case LookupAttributeKey.username:
+        return 'Username';
+      case LookupAttributeKey.resourceType:
+        return 'ResourceType';
+      case LookupAttributeKey.resourceName:
+        return 'ResourceName';
+      case LookupAttributeKey.eventSource:
+        return 'EventSource';
+      case LookupAttributeKey.accessKeyId:
+        return 'AccessKeyId';
+    }
+  }
+}
+
+extension on String {
+  LookupAttributeKey toLookupAttributeKey() {
+    switch (this) {
+      case 'EventId':
+        return LookupAttributeKey.eventId;
+      case 'EventName':
+        return LookupAttributeKey.eventName;
+      case 'ReadOnly':
+        return LookupAttributeKey.readOnly;
+      case 'Username':
+        return LookupAttributeKey.username;
+      case 'ResourceType':
+        return LookupAttributeKey.resourceType;
+      case 'ResourceName':
+        return LookupAttributeKey.resourceName;
+      case 'EventSource':
+        return LookupAttributeKey.eventSource;
+      case 'AccessKeyId':
+        return LookupAttributeKey.accessKeyId;
+    }
+    throw Exception('$this is not known in enum LookupAttributeKey');
+  }
+}
+
 /// Contains a response to a LookupEvents action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LookupEventsResponse {
   /// A list of events returned based on the lookup attributes specified and the
   /// CloudTrail event. The events list is sorted by time. The most recent event
   /// is listed first.
-  @_s.JsonKey(name: 'Events')
-  final List<Event> events;
+  final List<Event>? events;
 
   /// The token to use to get the next page of results after a previous API call.
   /// If the token does not appear, there are no more results to return. The token
@@ -2348,42 +2442,36 @@ class LookupEventsResponse {
   /// example, if the original call specified an AttributeKey of 'Username' with a
   /// value of 'root', the call with NextToken should include those same
   /// parameters.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   LookupEventsResponse({
     this.events,
     this.nextToken,
   });
-  factory LookupEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$LookupEventsResponseFromJson(json);
+  factory LookupEventsResponse.fromJson(Map<String, dynamic> json) {
+    return LookupEventsResponse(
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Contains information about a returned public key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PublicKey {
   /// The fingerprint of the public key.
-  @_s.JsonKey(name: 'Fingerprint')
-  final String fingerprint;
+  final String? fingerprint;
 
   /// The ending time of validity of the public key.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ValidityEndTime')
-  final DateTime validityEndTime;
+  final DateTime? validityEndTime;
 
   /// The starting time of validity of the public key.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ValidityStartTime')
-  final DateTime validityStartTime;
+  final DateTime? validityStartTime;
 
   /// The DER encoded public key value in PKCS#1 format.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Value')
-  final Uint8List value;
+  final Uint8List? value;
 
   PublicKey({
     this.fingerprint,
@@ -2391,100 +2479,123 @@ class PublicKey {
     this.validityStartTime,
     this.value,
   });
-  factory PublicKey.fromJson(Map<String, dynamic> json) =>
-      _$PublicKeyFromJson(json);
+  factory PublicKey.fromJson(Map<String, dynamic> json) {
+    return PublicKey(
+      fingerprint: json['Fingerprint'] as String?,
+      validityEndTime: timeStampFromJson(json['ValidityEndTime']),
+      validityStartTime: timeStampFromJson(json['ValidityStartTime']),
+      value: _s.decodeNullableUint8List(json['Value'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEventSelectorsResponse {
   /// Specifies the advanced event selectors configured for your trail.
-  @_s.JsonKey(name: 'AdvancedEventSelectors')
-  final List<AdvancedEventSelector> advancedEventSelectors;
+  final List<AdvancedEventSelector>? advancedEventSelectors;
 
   /// Specifies the event selectors configured for your trail.
-  @_s.JsonKey(name: 'EventSelectors')
-  final List<EventSelector> eventSelectors;
+  final List<EventSelector>? eventSelectors;
 
   /// Specifies the ARN of the trail that was updated with event selectors. The
   /// format of a trail ARN is:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   PutEventSelectorsResponse({
     this.advancedEventSelectors,
     this.eventSelectors,
     this.trailARN,
   });
-  factory PutEventSelectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutEventSelectorsResponseFromJson(json);
+  factory PutEventSelectorsResponse.fromJson(Map<String, dynamic> json) {
+    return PutEventSelectorsResponse(
+      advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventSelectors: (json['EventSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutInsightSelectorsResponse {
   /// A JSON string that contains the insight types you want to log on a trail. In
   /// this release, only <code>ApiCallRateInsight</code> is supported as an
   /// insight type.
-  @_s.JsonKey(name: 'InsightSelectors')
-  final List<InsightSelector> insightSelectors;
+  final List<InsightSelector>? insightSelectors;
 
   /// The Amazon Resource Name (ARN) of a trail for which you want to change or
   /// add Insights selectors.
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   PutInsightSelectorsResponse({
     this.insightSelectors,
     this.trailARN,
   });
-  factory PutInsightSelectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutInsightSelectorsResponseFromJson(json);
+  factory PutInsightSelectorsResponse.fromJson(Map<String, dynamic> json) {
+    return PutInsightSelectorsResponse(
+      insightSelectors: (json['InsightSelectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => InsightSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
 enum ReadWriteType {
-  @_s.JsonValue('ReadOnly')
   readOnly,
-  @_s.JsonValue('WriteOnly')
   writeOnly,
-  @_s.JsonValue('All')
   all,
+}
+
+extension on ReadWriteType {
+  String toValue() {
+    switch (this) {
+      case ReadWriteType.readOnly:
+        return 'ReadOnly';
+      case ReadWriteType.writeOnly:
+        return 'WriteOnly';
+      case ReadWriteType.all:
+        return 'All';
+    }
+  }
+}
+
+extension on String {
+  ReadWriteType toReadWriteType() {
+    switch (this) {
+      case 'ReadOnly':
+        return ReadWriteType.readOnly;
+      case 'WriteOnly':
+        return ReadWriteType.writeOnly;
+      case 'All':
+        return ReadWriteType.all;
+    }
+    throw Exception('$this is not known in enum ReadWriteType');
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsResponse {
   RemoveTagsResponse();
-  factory RemoveTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsResponseFromJson(json);
+  factory RemoveTagsResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsResponse();
+  }
 }
 
 /// Specifies the type and name of a resource referenced by an event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resource {
   /// The name of the resource referenced by the event returned. These are
   /// user-created names whose values will depend on the environment. For example,
   /// the resource name might be "auto-scaling-test-group" for an Auto Scaling
   /// Group or "i-1234567" for an EC2 Instance.
-  @_s.JsonKey(name: 'ResourceName')
-  final String resourceName;
+  final String? resourceName;
 
   /// The type of a resource referenced by the event returned. When the resource
   /// type cannot be determined, null is returned. Some examples of resource types
@@ -2493,184 +2604,163 @@ class Resource {
   /// and filter events by the resource types supported for a service, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-console.html#filtering-cloudtrail-events">Filtering
   /// CloudTrail Events</a>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   Resource({
     this.resourceName,
     this.resourceType,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      resourceName: json['ResourceName'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
 }
 
 /// A resource tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceTag {
   /// Specifies the ARN of the resource.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// A list of tags.
-  @_s.JsonKey(name: 'TagsList')
-  final List<Tag> tagsList;
+  final List<Tag>? tagsList;
 
   ResourceTag({
     this.resourceId,
     this.tagsList,
   });
-  factory ResourceTag.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagFromJson(json);
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      resourceId: json['ResourceId'] as String?,
+      tagsList: (json['TagsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartLoggingResponse {
   StartLoggingResponse();
-  factory StartLoggingResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartLoggingResponseFromJson(json);
+  factory StartLoggingResponse.fromJson(Map<String, dynamic> _) {
+    return StartLoggingResponse();
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopLoggingResponse {
   StopLoggingResponse();
-  factory StopLoggingResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopLoggingResponseFromJson(json);
+  factory StopLoggingResponse.fromJson(Map<String, dynamic> _) {
+    return StopLoggingResponse();
+  }
 }
 
 /// A custom key-value pair associated with a resource such as a CloudTrail
 /// trail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key in a key-value pair. The key must be must be no longer than 128
   /// Unicode characters. The key must be unique for the resource to which it
   /// applies.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value in a key-value pair of a tag. The value must be no longer than 256
   /// Unicode characters.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The settings for a trail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Trail {
   /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents
   /// the log group to which CloudTrail logs will be delivered.
-  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
-  final String cloudWatchLogsLogGroupArn;
+  final String? cloudWatchLogsLogGroupArn;
 
   /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a
   /// user's log group.
-  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
-  final String cloudWatchLogsRoleArn;
+  final String? cloudWatchLogsRoleArn;
 
   /// Specifies if the trail has custom event selectors.
-  @_s.JsonKey(name: 'HasCustomEventSelectors')
-  final bool hasCustomEventSelectors;
+  final bool? hasCustomEventSelectors;
 
   /// Specifies whether a trail has insight types specified in an
   /// <code>InsightSelector</code> list.
-  @_s.JsonKey(name: 'HasInsightSelectors')
-  final bool hasInsightSelectors;
+  final bool? hasInsightSelectors;
 
   /// The region in which the trail was created.
-  @_s.JsonKey(name: 'HomeRegion')
-  final String homeRegion;
+  final String? homeRegion;
 
   /// Set to <b>True</b> to include AWS API calls from AWS global services such as
   /// IAM. Otherwise, <b>False</b>.
-  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
-  final bool includeGlobalServiceEvents;
+  final bool? includeGlobalServiceEvents;
 
   /// Specifies whether the trail exists only in one region or exists in all
   /// regions.
-  @_s.JsonKey(name: 'IsMultiRegionTrail')
-  final bool isMultiRegionTrail;
+  final bool? isMultiRegionTrail;
 
   /// Specifies whether the trail is an organization trail.
-  @_s.JsonKey(name: 'IsOrganizationTrail')
-  final bool isOrganizationTrail;
+  final bool? isOrganizationTrail;
 
   /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The
   /// value is a fully specified ARN to a KMS key in the format:
   ///
   /// <code>arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012</code>
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies whether log file validation is enabled.
-  @_s.JsonKey(name: 'LogFileValidationEnabled')
-  final bool logFileValidationEnabled;
+  final bool? logFileValidationEnabled;
 
   /// Name of the trail set by calling <a>CreateTrail</a>. The maximum length is
   /// 128 characters.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail
   /// files. See <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html">Amazon
   /// S3 Bucket Naming Requirements</a>.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
   /// you have designated for log file delivery. For more information, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
   /// Your CloudTrail Log Files</a>.The maximum length is 200 characters.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send
   /// notifications when log files are delivered. The format of a topic ARN is:
   ///
   /// <code>arn:aws:sns:us-east-2:123456789012:MyTopic</code>
-  @_s.JsonKey(name: 'SnsTopicARN')
-  final String snsTopicARN;
+  final String? snsTopicARN;
 
   /// This field is no longer in use. Use SnsTopicARN.
-  @_s.JsonKey(name: 'SnsTopicName')
-  final String snsTopicName;
+  final String? snsTopicName;
 
   /// Specifies the ARN of the trail. The format of a trail ARN is:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   Trail({
     this.cloudWatchLogsLogGroupArn,
@@ -2690,113 +2780,111 @@ class Trail {
     this.snsTopicName,
     this.trailARN,
   });
-  factory Trail.fromJson(Map<String, dynamic> json) => _$TrailFromJson(json);
+  factory Trail.fromJson(Map<String, dynamic> json) {
+    return Trail(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+      cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String?,
+      hasCustomEventSelectors: json['HasCustomEventSelectors'] as bool?,
+      hasInsightSelectors: json['HasInsightSelectors'] as bool?,
+      homeRegion: json['HomeRegion'] as String?,
+      includeGlobalServiceEvents: json['IncludeGlobalServiceEvents'] as bool?,
+      isMultiRegionTrail: json['IsMultiRegionTrail'] as bool?,
+      isOrganizationTrail: json['IsOrganizationTrail'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      logFileValidationEnabled: json['LogFileValidationEnabled'] as bool?,
+      name: json['Name'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+      snsTopicARN: json['SnsTopicARN'] as String?,
+      snsTopicName: json['SnsTopicName'] as String?,
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
 /// Information about a CloudTrail trail, including the trail's name, home
 /// region, and Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrailInfo {
   /// The AWS region in which a trail was created.
-  @_s.JsonKey(name: 'HomeRegion')
-  final String homeRegion;
+  final String? homeRegion;
 
   /// The name of a trail.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ARN of a trail.
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   TrailInfo({
     this.homeRegion,
     this.name,
     this.trailARN,
   });
-  factory TrailInfo.fromJson(Map<String, dynamic> json) =>
-      _$TrailInfoFromJson(json);
+  factory TrailInfo.fromJson(Map<String, dynamic> json) {
+    return TrailInfo(
+      homeRegion: json['HomeRegion'] as String?,
+      name: json['Name'] as String?,
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTrailResponse {
   /// Specifies the Amazon Resource Name (ARN) of the log group to which
   /// CloudTrail logs will be delivered.
-  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
-  final String cloudWatchLogsLogGroupArn;
+  final String? cloudWatchLogsLogGroupArn;
 
   /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a
   /// user's log group.
-  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
-  final String cloudWatchLogsRoleArn;
+  final String? cloudWatchLogsRoleArn;
 
   /// Specifies whether the trail is publishing events from global services such
   /// as IAM to the log files.
-  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
-  final bool includeGlobalServiceEvents;
+  final bool? includeGlobalServiceEvents;
 
   /// Specifies whether the trail exists in one region or in all regions.
-  @_s.JsonKey(name: 'IsMultiRegionTrail')
-  final bool isMultiRegionTrail;
+  final bool? isMultiRegionTrail;
 
   /// Specifies whether the trail is an organization trail.
-  @_s.JsonKey(name: 'IsOrganizationTrail')
-  final bool isOrganizationTrail;
+  final bool? isOrganizationTrail;
 
   /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The
   /// value is a fully specified ARN to a KMS key in the format:
   ///
   /// <code>arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012</code>
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies whether log file integrity validation is enabled.
-  @_s.JsonKey(name: 'LogFileValidationEnabled')
-  final bool logFileValidationEnabled;
+  final bool? logFileValidationEnabled;
 
   /// Specifies the name of the trail.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Specifies the name of the Amazon S3 bucket designated for publishing log
   /// files.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
   /// you have designated for log file delivery. For more information, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
   /// Your CloudTrail Log Files</a>.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send
   /// notifications when log files are delivered. The format of a topic ARN is:
   ///
   /// <code>arn:aws:sns:us-east-2:123456789012:MyTopic</code>
-  @_s.JsonKey(name: 'SnsTopicARN')
-  final String snsTopicARN;
+  final String? snsTopicARN;
 
   /// This field is no longer in use. Use SnsTopicARN.
-  @_s.JsonKey(name: 'SnsTopicName')
-  final String snsTopicName;
+  final String? snsTopicName;
 
   /// Specifies the ARN of the trail that was updated. The format of a trail ARN
   /// is:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
-  @_s.JsonKey(name: 'TrailARN')
-  final String trailARN;
+  final String? trailARN;
 
   UpdateTrailResponse({
     this.cloudWatchLogsLogGroupArn,
@@ -2813,12 +2901,27 @@ class UpdateTrailResponse {
     this.snsTopicName,
     this.trailARN,
   });
-  factory UpdateTrailResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTrailResponseFromJson(json);
+  factory UpdateTrailResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTrailResponse(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+      cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String?,
+      includeGlobalServiceEvents: json['IncludeGlobalServiceEvents'] as bool?,
+      isMultiRegionTrail: json['IsMultiRegionTrail'] as bool?,
+      isOrganizationTrail: json['IsOrganizationTrail'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      logFileValidationEnabled: json['LogFileValidationEnabled'] as bool?,
+      name: json['Name'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+      snsTopicARN: json['SnsTopicARN'] as String?,
+      snsTopicName: json['SnsTopicName'] as String?,
+      trailARN: json['TrailARN'] as String?,
+    );
+  }
 }
 
 class CloudTrailARNInvalidException extends _s.GenericAwsException {
-  CloudTrailARNInvalidException({String type, String message})
+  CloudTrailARNInvalidException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudTrailARNInvalidException',
@@ -2826,7 +2929,7 @@ class CloudTrailARNInvalidException extends _s.GenericAwsException {
 }
 
 class CloudTrailAccessNotEnabledException extends _s.GenericAwsException {
-  CloudTrailAccessNotEnabledException({String type, String message})
+  CloudTrailAccessNotEnabledException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudTrailAccessNotEnabledException',
@@ -2834,7 +2937,7 @@ class CloudTrailAccessNotEnabledException extends _s.GenericAwsException {
 }
 
 class CloudTrailInvalidClientTokenIdException extends _s.GenericAwsException {
-  CloudTrailInvalidClientTokenIdException({String type, String message})
+  CloudTrailInvalidClientTokenIdException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudTrailInvalidClientTokenIdException',
@@ -2843,7 +2946,7 @@ class CloudTrailInvalidClientTokenIdException extends _s.GenericAwsException {
 
 class CloudWatchLogsDeliveryUnavailableException
     extends _s.GenericAwsException {
-  CloudWatchLogsDeliveryUnavailableException({String type, String message})
+  CloudWatchLogsDeliveryUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudWatchLogsDeliveryUnavailableException',
@@ -2851,14 +2954,14 @@ class CloudWatchLogsDeliveryUnavailableException
 }
 
 class InsightNotEnabledException extends _s.GenericAwsException {
-  InsightNotEnabledException({String type, String message})
+  InsightNotEnabledException({String? type, String? message})
       : super(type: type, code: 'InsightNotEnabledException', message: message);
 }
 
 class InsufficientDependencyServiceAccessPermissionException
     extends _s.GenericAwsException {
   InsufficientDependencyServiceAccessPermissionException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientDependencyServiceAccessPermissionException',
@@ -2866,7 +2969,7 @@ class InsufficientDependencyServiceAccessPermissionException
 }
 
 class InsufficientEncryptionPolicyException extends _s.GenericAwsException {
-  InsufficientEncryptionPolicyException({String type, String message})
+  InsufficientEncryptionPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientEncryptionPolicyException',
@@ -2874,7 +2977,7 @@ class InsufficientEncryptionPolicyException extends _s.GenericAwsException {
 }
 
 class InsufficientS3BucketPolicyException extends _s.GenericAwsException {
-  InsufficientS3BucketPolicyException({String type, String message})
+  InsufficientS3BucketPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientS3BucketPolicyException',
@@ -2882,7 +2985,7 @@ class InsufficientS3BucketPolicyException extends _s.GenericAwsException {
 }
 
 class InsufficientSnsTopicPolicyException extends _s.GenericAwsException {
-  InsufficientSnsTopicPolicyException({String type, String message})
+  InsufficientSnsTopicPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientSnsTopicPolicyException',
@@ -2890,7 +2993,7 @@ class InsufficientSnsTopicPolicyException extends _s.GenericAwsException {
 }
 
 class InvalidCloudWatchLogsLogGroupArnException extends _s.GenericAwsException {
-  InvalidCloudWatchLogsLogGroupArnException({String type, String message})
+  InvalidCloudWatchLogsLogGroupArnException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCloudWatchLogsLogGroupArnException',
@@ -2898,7 +3001,7 @@ class InvalidCloudWatchLogsLogGroupArnException extends _s.GenericAwsException {
 }
 
 class InvalidCloudWatchLogsRoleArnException extends _s.GenericAwsException {
-  InvalidCloudWatchLogsRoleArnException({String type, String message})
+  InvalidCloudWatchLogsRoleArnException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCloudWatchLogsRoleArnException',
@@ -2906,7 +3009,7 @@ class InvalidCloudWatchLogsRoleArnException extends _s.GenericAwsException {
 }
 
 class InvalidEventCategoryException extends _s.GenericAwsException {
-  InvalidEventCategoryException({String type, String message})
+  InvalidEventCategoryException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEventCategoryException',
@@ -2914,7 +3017,7 @@ class InvalidEventCategoryException extends _s.GenericAwsException {
 }
 
 class InvalidEventSelectorsException extends _s.GenericAwsException {
-  InvalidEventSelectorsException({String type, String message})
+  InvalidEventSelectorsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEventSelectorsException',
@@ -2922,12 +3025,12 @@ class InvalidEventSelectorsException extends _s.GenericAwsException {
 }
 
 class InvalidHomeRegionException extends _s.GenericAwsException {
-  InvalidHomeRegionException({String type, String message})
+  InvalidHomeRegionException({String? type, String? message})
       : super(type: type, code: 'InvalidHomeRegionException', message: message);
 }
 
 class InvalidInsightSelectorsException extends _s.GenericAwsException {
-  InvalidInsightSelectorsException({String type, String message})
+  InvalidInsightSelectorsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInsightSelectorsException',
@@ -2935,12 +3038,12 @@ class InvalidInsightSelectorsException extends _s.GenericAwsException {
 }
 
 class InvalidKmsKeyIdException extends _s.GenericAwsException {
-  InvalidKmsKeyIdException({String type, String message})
+  InvalidKmsKeyIdException({String? type, String? message})
       : super(type: type, code: 'InvalidKmsKeyIdException', message: message);
 }
 
 class InvalidLookupAttributesException extends _s.GenericAwsException {
-  InvalidLookupAttributesException({String type, String message})
+  InvalidLookupAttributesException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLookupAttributesException',
@@ -2948,17 +3051,17 @@ class InvalidLookupAttributesException extends _s.GenericAwsException {
 }
 
 class InvalidMaxResultsException extends _s.GenericAwsException {
-  InvalidMaxResultsException({String type, String message})
+  InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterCombinationException extends _s.GenericAwsException {
-  InvalidParameterCombinationException({String type, String message})
+  InvalidParameterCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterCombinationException',
@@ -2966,60 +3069,60 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidS3BucketNameException extends _s.GenericAwsException {
-  InvalidS3BucketNameException({String type, String message})
+  InvalidS3BucketNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidS3BucketNameException', message: message);
 }
 
 class InvalidS3PrefixException extends _s.GenericAwsException {
-  InvalidS3PrefixException({String type, String message})
+  InvalidS3PrefixException({String? type, String? message})
       : super(type: type, code: 'InvalidS3PrefixException', message: message);
 }
 
 class InvalidSnsTopicNameException extends _s.GenericAwsException {
-  InvalidSnsTopicNameException({String type, String message})
+  InvalidSnsTopicNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidSnsTopicNameException', message: message);
 }
 
 class InvalidTagParameterException extends _s.GenericAwsException {
-  InvalidTagParameterException({String type, String message})
+  InvalidTagParameterException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
 }
 
 class InvalidTimeRangeException extends _s.GenericAwsException {
-  InvalidTimeRangeException({String type, String message})
+  InvalidTimeRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidTimeRangeException', message: message);
 }
 
 class InvalidTokenException extends _s.GenericAwsException {
-  InvalidTokenException({String type, String message})
+  InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
 class InvalidTrailNameException extends _s.GenericAwsException {
-  InvalidTrailNameException({String type, String message})
+  InvalidTrailNameException({String? type, String? message})
       : super(type: type, code: 'InvalidTrailNameException', message: message);
 }
 
 class KmsException extends _s.GenericAwsException {
-  KmsException({String type, String message})
+  KmsException({String? type, String? message})
       : super(type: type, code: 'KmsException', message: message);
 }
 
 class KmsKeyDisabledException extends _s.GenericAwsException {
-  KmsKeyDisabledException({String type, String message})
+  KmsKeyDisabledException({String? type, String? message})
       : super(type: type, code: 'KmsKeyDisabledException', message: message);
 }
 
 class KmsKeyNotFoundException extends _s.GenericAwsException {
-  KmsKeyNotFoundException({String type, String message})
+  KmsKeyNotFoundException({String? type, String? message})
       : super(type: type, code: 'KmsKeyNotFoundException', message: message);
 }
 
 class MaximumNumberOfTrailsExceededException extends _s.GenericAwsException {
-  MaximumNumberOfTrailsExceededException({String type, String message})
+  MaximumNumberOfTrailsExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumNumberOfTrailsExceededException',
@@ -3027,7 +3130,7 @@ class MaximumNumberOfTrailsExceededException extends _s.GenericAwsException {
 }
 
 class NotOrganizationMasterAccountException extends _s.GenericAwsException {
-  NotOrganizationMasterAccountException({String type, String message})
+  NotOrganizationMasterAccountException({String? type, String? message})
       : super(
             type: type,
             code: 'NotOrganizationMasterAccountException',
@@ -3035,7 +3138,7 @@ class NotOrganizationMasterAccountException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -3043,7 +3146,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
-  OrganizationNotInAllFeaturesModeException({String type, String message})
+  OrganizationNotInAllFeaturesModeException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationNotInAllFeaturesModeException',
@@ -3051,7 +3154,7 @@ class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
 }
 
 class OrganizationsNotInUseException extends _s.GenericAwsException {
-  OrganizationsNotInUseException({String type, String message})
+  OrganizationsNotInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationsNotInUseException',
@@ -3059,12 +3162,12 @@ class OrganizationsNotInUseException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceTypeNotSupportedException extends _s.GenericAwsException {
-  ResourceTypeNotSupportedException({String type, String message})
+  ResourceTypeNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceTypeNotSupportedException',
@@ -3072,7 +3175,7 @@ class ResourceTypeNotSupportedException extends _s.GenericAwsException {
 }
 
 class S3BucketDoesNotExistException extends _s.GenericAwsException {
-  S3BucketDoesNotExistException({String type, String message})
+  S3BucketDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'S3BucketDoesNotExistException',
@@ -3080,28 +3183,28 @@ class S3BucketDoesNotExistException extends _s.GenericAwsException {
 }
 
 class TagsLimitExceededException extends _s.GenericAwsException {
-  TagsLimitExceededException({String type, String message})
+  TagsLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagsLimitExceededException', message: message);
 }
 
 class TrailAlreadyExistsException extends _s.GenericAwsException {
-  TrailAlreadyExistsException({String type, String message})
+  TrailAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TrailAlreadyExistsException', message: message);
 }
 
 class TrailNotFoundException extends _s.GenericAwsException {
-  TrailNotFoundException({String type, String message})
+  TrailNotFoundException({String? type, String? message})
       : super(type: type, code: 'TrailNotFoundException', message: message);
 }
 
 class TrailNotProvidedException extends _s.GenericAwsException {
-  TrailNotProvidedException({String type, String message})
+  TrailNotProvidedException({String? type, String? message})
       : super(type: type, code: 'TrailNotProvidedException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

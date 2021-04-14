@@ -20,37 +20,32 @@ AcceptInboundCrossClusterSearchConnectionResponse
 AccessPoliciesStatus _$AccessPoliciesStatusFromJson(Map<String, dynamic> json) {
   return AccessPoliciesStatus(
     options: json['Options'] as String,
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 AdditionalLimit _$AdditionalLimitFromJson(Map<String, dynamic> json) {
   return AdditionalLimit(
-    limitName: json['LimitName'] as String,
-    limitValues:
-        (json['LimitValues'] as List)?.map((e) => e as String)?.toList(),
+    limitName: json['LimitName'] as String?,
+    limitValues: (json['LimitValues'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 AdvancedOptionsStatus _$AdvancedOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return AdvancedOptionsStatus(
-    options: (json['Options'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: Map<String, String>.from(json['Options'] as Map),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 AdvancedSecurityOptions _$AdvancedSecurityOptionsFromJson(
     Map<String, dynamic> json) {
   return AdvancedSecurityOptions(
-    enabled: json['Enabled'] as bool,
-    internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool,
+    enabled: json['Enabled'] as bool?,
+    internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
     sAMLOptions: json['SAMLOptions'] == null
         ? null
         : SAMLOptionsOutput.fromJson(
@@ -79,13 +74,9 @@ Map<String, dynamic> _$AdvancedSecurityOptionsInputToJson(
 AdvancedSecurityOptionsStatus _$AdvancedSecurityOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return AdvancedSecurityOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : AdvancedSecurityOptions.fromJson(
-            json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: AdvancedSecurityOptions.fromJson(
+        json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
@@ -112,10 +103,10 @@ CancelElasticsearchServiceSoftwareUpdateResponse
 
 CognitoOptions _$CognitoOptionsFromJson(Map<String, dynamic> json) {
   return CognitoOptions(
-    enabled: json['Enabled'] as bool,
-    identityPoolId: json['IdentityPoolId'] as String,
-    roleArn: json['RoleArn'] as String,
-    userPoolId: json['UserPoolId'] as String,
+    enabled: json['Enabled'] as bool?,
+    identityPoolId: json['IdentityPoolId'] as String?,
+    roleArn: json['RoleArn'] as String?,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -137,21 +128,18 @@ Map<String, dynamic> _$CognitoOptionsToJson(CognitoOptions instance) {
 
 CognitoOptionsStatus _$CognitoOptionsStatusFromJson(Map<String, dynamic> json) {
   return CognitoOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 CompatibleVersionsMap _$CompatibleVersionsMapFromJson(
     Map<String, dynamic> json) {
   return CompatibleVersionsMap(
-    sourceVersion: json['SourceVersion'] as String,
-    targetVersions:
-        (json['TargetVersions'] as List)?.map((e) => e as String)?.toList(),
+    sourceVersion: json['SourceVersion'] as String?,
+    targetVersions: (json['TargetVersions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -169,13 +157,13 @@ CreateOutboundCrossClusterSearchConnectionResponse
     _$CreateOutboundCrossClusterSearchConnectionResponseFromJson(
         Map<String, dynamic> json) {
   return CreateOutboundCrossClusterSearchConnectionResponse(
-    connectionAlias: json['ConnectionAlias'] as String,
+    connectionAlias: json['ConnectionAlias'] as String?,
     connectionStatus: json['ConnectionStatus'] == null
         ? null
         : OutboundCrossClusterSearchConnectionStatus.fromJson(
             json['ConnectionStatus'] as Map<String, dynamic>),
     crossClusterSearchConnectionId:
-        json['CrossClusterSearchConnectionId'] as String,
+        json['CrossClusterSearchConnectionId'] as String?,
     destinationDomainInfo: json['DestinationDomainInfo'] == null
         ? null
         : DomainInformation.fromJson(
@@ -243,31 +231,26 @@ DescribeElasticsearchDomainConfigResponse
     _$DescribeElasticsearchDomainConfigResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeElasticsearchDomainConfigResponse(
-    domainConfig: json['DomainConfig'] == null
-        ? null
-        : ElasticsearchDomainConfig.fromJson(
-            json['DomainConfig'] as Map<String, dynamic>),
+    domainConfig: ElasticsearchDomainConfig.fromJson(
+        json['DomainConfig'] as Map<String, dynamic>),
   );
 }
 
 DescribeElasticsearchDomainResponse
     _$DescribeElasticsearchDomainResponseFromJson(Map<String, dynamic> json) {
   return DescribeElasticsearchDomainResponse(
-    domainStatus: json['DomainStatus'] == null
-        ? null
-        : ElasticsearchDomainStatus.fromJson(
-            json['DomainStatus'] as Map<String, dynamic>),
+    domainStatus: ElasticsearchDomainStatus.fromJson(
+        json['DomainStatus'] as Map<String, dynamic>),
   );
 }
 
 DescribeElasticsearchDomainsResponse
     _$DescribeElasticsearchDomainsResponseFromJson(Map<String, dynamic> json) {
   return DescribeElasticsearchDomainsResponse(
-    domainStatusList: (json['DomainStatusList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ElasticsearchDomainStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    domainStatusList: (json['DomainStatusList'] as List<dynamic>)
+        .map((e) =>
+            ElasticsearchDomainStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -275,9 +258,8 @@ DescribeElasticsearchInstanceTypeLimitsResponse
     _$DescribeElasticsearchInstanceTypeLimitsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeElasticsearchInstanceTypeLimitsResponse(
-    limitsByRole: (json['LimitsByRole'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Limits.fromJson(e as Map<String, dynamic>)),
+    limitsByRole: (json['LimitsByRole'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Limits.fromJson(e as Map<String, dynamic>)),
     ),
   );
 }
@@ -287,13 +269,11 @@ DescribeInboundCrossClusterSearchConnectionsResponse
         Map<String, dynamic> json) {
   return DescribeInboundCrossClusterSearchConnectionsResponse(
     crossClusterSearchConnections:
-        (json['CrossClusterSearchConnections'] as List)
-            ?.map((e) => e == null
-                ? null
-                : InboundCrossClusterSearchConnection.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['CrossClusterSearchConnections'] as List<dynamic>?)
+            ?.map((e) => InboundCrossClusterSearchConnection.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -302,13 +282,11 @@ DescribeOutboundCrossClusterSearchConnectionsResponse
         Map<String, dynamic> json) {
   return DescribeOutboundCrossClusterSearchConnectionsResponse(
     crossClusterSearchConnections:
-        (json['CrossClusterSearchConnections'] as List)
-            ?.map((e) => e == null
-                ? null
-                : OutboundCrossClusterSearchConnection.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['CrossClusterSearchConnections'] as List<dynamic>?)
+            ?.map((e) => OutboundCrossClusterSearchConnection.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -336,12 +314,10 @@ const _$DescribePackagesFilterNameEnumMap = {
 DescribePackagesResponse _$DescribePackagesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePackagesResponse(
-    nextToken: json['NextToken'] as String,
-    packageDetailsList: (json['PackageDetailsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PackageDetails.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    packageDetailsList: (json['PackageDetailsList'] as List<dynamic>?)
+        ?.map((e) => PackageDetails.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -349,14 +325,12 @@ DescribeReservedElasticsearchInstanceOfferingsResponse
     _$DescribeReservedElasticsearchInstanceOfferingsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeReservedElasticsearchInstanceOfferingsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     reservedElasticsearchInstanceOfferings:
-        (json['ReservedElasticsearchInstanceOfferings'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ReservedElasticsearchInstanceOffering.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['ReservedElasticsearchInstanceOfferings'] as List<dynamic>?)
+            ?.map((e) => ReservedElasticsearchInstanceOffering.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -364,13 +338,12 @@ DescribeReservedElasticsearchInstancesResponse
     _$DescribeReservedElasticsearchInstancesResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeReservedElasticsearchInstancesResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     reservedElasticsearchInstances: (json['ReservedElasticsearchInstances']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ReservedElasticsearchInstance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ReservedElasticsearchInstance.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -387,11 +360,11 @@ DissociatePackageResponse _$DissociatePackageResponseFromJson(
 DomainEndpointOptions _$DomainEndpointOptionsFromJson(
     Map<String, dynamic> json) {
   return DomainEndpointOptions(
-    customEndpoint: json['CustomEndpoint'] as String,
+    customEndpoint: json['CustomEndpoint'] as String?,
     customEndpointCertificateArn:
-        json['CustomEndpointCertificateArn'] as String,
-    customEndpointEnabled: json['CustomEndpointEnabled'] as bool,
-    enforceHTTPS: json['EnforceHTTPS'] as bool,
+        json['CustomEndpointCertificateArn'] as String?,
+    customEndpointEnabled: json['CustomEndpointEnabled'] as bool?,
+    enforceHTTPS: json['EnforceHTTPS'] as bool?,
     tLSSecurityPolicy: _$enumDecodeNullable(
         _$TLSSecurityPolicyEnumMap, json['TLSSecurityPolicy']),
   );
@@ -417,36 +390,41 @@ Map<String, dynamic> _$DomainEndpointOptionsToJson(
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$TLSSecurityPolicyEnumMap = {
@@ -457,32 +435,30 @@ const _$TLSSecurityPolicyEnumMap = {
 DomainEndpointOptionsStatus _$DomainEndpointOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return DomainEndpointOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : DomainEndpointOptions.fromJson(
-            json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options:
+        DomainEndpointOptions.fromJson(json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 DomainInfo _$DomainInfoFromJson(Map<String, dynamic> json) {
   return DomainInfo(
-    domainName: json['DomainName'] as String,
+    domainName: json['DomainName'] as String?,
   );
 }
 
 DomainInformation _$DomainInformationFromJson(Map<String, dynamic> json) {
   return DomainInformation(
     domainName: json['DomainName'] as String,
-    ownerId: json['OwnerId'] as String,
-    region: json['Region'] as String,
+    ownerId: json['OwnerId'] as String?,
+    region: json['Region'] as String?,
   );
 }
 
 Map<String, dynamic> _$DomainInformationToJson(DomainInformation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DomainName': instance.domainName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -490,7 +466,6 @@ Map<String, dynamic> _$DomainInformationToJson(DomainInformation instance) {
     }
   }
 
-  writeNotNull('DomainName', instance.domainName);
   writeNotNull('OwnerId', instance.ownerId);
   writeNotNull('Region', instance.region);
   return val;
@@ -498,19 +473,19 @@ Map<String, dynamic> _$DomainInformationToJson(DomainInformation instance) {
 
 DomainPackageDetails _$DomainPackageDetailsFromJson(Map<String, dynamic> json) {
   return DomainPackageDetails(
-    domainName: json['DomainName'] as String,
+    domainName: json['DomainName'] as String?,
     domainPackageStatus: _$enumDecodeNullable(
         _$DomainPackageStatusEnumMap, json['DomainPackageStatus']),
     errorDetails: json['ErrorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>),
     lastUpdated: const UnixDateTimeConverter().fromJson(json['LastUpdated']),
-    packageID: json['PackageID'] as String,
-    packageName: json['PackageName'] as String,
+    packageID: json['PackageID'] as String?,
+    packageName: json['PackageName'] as String?,
     packageType:
         _$enumDecodeNullable(_$PackageTypeEnumMap, json['PackageType']),
-    packageVersion: json['PackageVersion'] as String,
-    referencePath: json['ReferencePath'] as String,
+    packageVersion: json['PackageVersion'] as String?,
+    referencePath: json['ReferencePath'] as String?,
   );
 }
 
@@ -528,9 +503,9 @@ const _$PackageTypeEnumMap = {
 
 EBSOptions _$EBSOptionsFromJson(Map<String, dynamic> json) {
   return EBSOptions(
-    eBSEnabled: json['EBSEnabled'] as bool,
-    iops: json['Iops'] as int,
-    volumeSize: json['VolumeSize'] as int,
+    eBSEnabled: json['EBSEnabled'] as bool?,
+    iops: json['Iops'] as int?,
+    volumeSize: json['VolumeSize'] as int?,
     volumeType: _$enumDecodeNullable(_$VolumeTypeEnumMap, json['VolumeType']),
   );
 }
@@ -559,34 +534,30 @@ const _$VolumeTypeEnumMap = {
 
 EBSOptionsStatus _$EBSOptionsStatusFromJson(Map<String, dynamic> json) {
   return EBSOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 ElasticsearchClusterConfig _$ElasticsearchClusterConfigFromJson(
     Map<String, dynamic> json) {
   return ElasticsearchClusterConfig(
-    dedicatedMasterCount: json['DedicatedMasterCount'] as int,
-    dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool,
+    dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
+    dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
     dedicatedMasterType: _$enumDecodeNullable(
         _$ESPartitionInstanceTypeEnumMap, json['DedicatedMasterType']),
-    instanceCount: json['InstanceCount'] as int,
+    instanceCount: json['InstanceCount'] as int?,
     instanceType: _$enumDecodeNullable(
         _$ESPartitionInstanceTypeEnumMap, json['InstanceType']),
-    warmCount: json['WarmCount'] as int,
-    warmEnabled: json['WarmEnabled'] as bool,
+    warmCount: json['WarmCount'] as int?,
+    warmEnabled: json['WarmEnabled'] as bool?,
     warmType: _$enumDecodeNullable(
         _$ESWarmPartitionInstanceTypeEnumMap, json['WarmType']),
     zoneAwarenessConfig: json['ZoneAwarenessConfig'] == null
         ? null
         : ZoneAwarenessConfig.fromJson(
             json['ZoneAwarenessConfig'] as Map<String, dynamic>),
-    zoneAwarenessEnabled: json['ZoneAwarenessEnabled'] as bool,
+    zoneAwarenessEnabled: json['ZoneAwarenessEnabled'] as bool?,
   );
 }
 
@@ -689,13 +660,9 @@ const _$ESWarmPartitionInstanceTypeEnumMap = {
 ElasticsearchClusterConfigStatus _$ElasticsearchClusterConfigStatusFromJson(
     Map<String, dynamic> json) {
   return ElasticsearchClusterConfigStatus(
-    options: json['Options'] == null
-        ? null
-        : ElasticsearchClusterConfig.fromJson(
-            json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: ElasticsearchClusterConfig.fromJson(
+        json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
@@ -762,12 +729,10 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
     arn: json['ARN'] as String,
     domainId: json['DomainId'] as String,
     domainName: json['DomainName'] as String,
-    elasticsearchClusterConfig: json['ElasticsearchClusterConfig'] == null
-        ? null
-        : ElasticsearchClusterConfig.fromJson(
-            json['ElasticsearchClusterConfig'] as Map<String, dynamic>),
-    accessPolicies: json['AccessPolicies'] as String,
-    advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>)?.map(
+    elasticsearchClusterConfig: ElasticsearchClusterConfig.fromJson(
+        json['ElasticsearchClusterConfig'] as Map<String, dynamic>),
+    accessPolicies: json['AccessPolicies'] as String?,
+    advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     advancedSecurityOptions: json['AdvancedSecurityOptions'] == null
@@ -778,8 +743,8 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
         ? null
         : CognitoOptions.fromJson(
             json['CognitoOptions'] as Map<String, dynamic>),
-    created: json['Created'] as bool,
-    deleted: json['Deleted'] as bool,
+    created: json['Created'] as bool?,
+    deleted: json['Deleted'] as bool?,
     domainEndpointOptions: json['DomainEndpointOptions'] == null
         ? null
         : DomainEndpointOptions.fromJson(
@@ -787,28 +752,25 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
     eBSOptions: json['EBSOptions'] == null
         ? null
         : EBSOptions.fromJson(json['EBSOptions'] as Map<String, dynamic>),
-    elasticsearchVersion: json['ElasticsearchVersion'] as String,
+    elasticsearchVersion: json['ElasticsearchVersion'] as String?,
     encryptionAtRestOptions: json['EncryptionAtRestOptions'] == null
         ? null
         : EncryptionAtRestOptions.fromJson(
             json['EncryptionAtRestOptions'] as Map<String, dynamic>),
-    endpoint: json['Endpoint'] as String,
-    endpoints: (json['Endpoints'] as Map<String, dynamic>)?.map(
+    endpoint: json['Endpoint'] as String?,
+    endpoints: (json['Endpoints'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     logPublishingOptions:
-        (json['LogPublishingOptions'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          _$enumDecodeNullable(_$LogTypeEnumMap, k),
-          e == null
-              ? null
-              : LogPublishingOption.fromJson(e as Map<String, dynamic>)),
+        (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$LogTypeEnumMap, k),
+          LogPublishingOption.fromJson(e as Map<String, dynamic>)),
     ),
     nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] == null
         ? null
         : NodeToNodeEncryptionOptions.fromJson(
             json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>),
-    processing: json['Processing'] as bool,
+    processing: json['Processing'] as bool?,
     serviceSoftwareOptions: json['ServiceSoftwareOptions'] == null
         ? null
         : ServiceSoftwareOptions.fromJson(
@@ -817,7 +779,7 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
         ? null
         : SnapshotOptions.fromJson(
             json['SnapshotOptions'] as Map<String, dynamic>),
-    upgradeProcessing: json['UpgradeProcessing'] as bool,
+    upgradeProcessing: json['UpgradeProcessing'] as bool?,
     vPCOptions: json['VPCOptions'] == null
         ? null
         : VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>),
@@ -835,17 +797,15 @@ ElasticsearchVersionStatus _$ElasticsearchVersionStatusFromJson(
     Map<String, dynamic> json) {
   return ElasticsearchVersionStatus(
     options: json['Options'] as String,
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 EncryptionAtRestOptions _$EncryptionAtRestOptionsFromJson(
     Map<String, dynamic> json) {
   return EncryptionAtRestOptions(
-    enabled: json['Enabled'] as bool,
-    kmsKeyId: json['KmsKeyId'] as String,
+    enabled: json['Enabled'] as bool?,
+    kmsKeyId: json['KmsKeyId'] as String?,
   );
 }
 
@@ -867,20 +827,16 @@ Map<String, dynamic> _$EncryptionAtRestOptionsToJson(
 EncryptionAtRestOptionsStatus _$EncryptionAtRestOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return EncryptionAtRestOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : EncryptionAtRestOptions.fromJson(
-            json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: EncryptionAtRestOptions.fromJson(
+        json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 ErrorDetails _$ErrorDetailsFromJson(Map<String, dynamic> json) {
   return ErrorDetails(
-    errorMessage: json['ErrorMessage'] as String,
-    errorType: json['ErrorType'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    errorType: json['ErrorType'] as String?,
   );
 }
 
@@ -902,37 +858,32 @@ GetCompatibleElasticsearchVersionsResponse
     _$GetCompatibleElasticsearchVersionsResponseFromJson(
         Map<String, dynamic> json) {
   return GetCompatibleElasticsearchVersionsResponse(
-    compatibleElasticsearchVersions:
-        (json['CompatibleElasticsearchVersions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : CompatibleVersionsMap.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+    compatibleElasticsearchVersions: (json['CompatibleElasticsearchVersions']
+            as List<dynamic>?)
+        ?.map((e) => CompatibleVersionsMap.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetPackageVersionHistoryResponse _$GetPackageVersionHistoryResponseFromJson(
     Map<String, dynamic> json) {
   return GetPackageVersionHistoryResponse(
-    nextToken: json['NextToken'] as String,
-    packageID: json['PackageID'] as String,
-    packageVersionHistoryList: (json['PackageVersionHistoryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PackageVersionHistory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    packageID: json['PackageID'] as String?,
+    packageVersionHistoryList: (json['PackageVersionHistoryList']
+            as List<dynamic>?)
+        ?.map((e) => PackageVersionHistory.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetUpgradeHistoryResponse _$GetUpgradeHistoryResponseFromJson(
     Map<String, dynamic> json) {
   return GetUpgradeHistoryResponse(
-    nextToken: json['NextToken'] as String,
-    upgradeHistories: (json['UpgradeHistories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UpgradeHistory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    upgradeHistories: (json['UpgradeHistories'] as List<dynamic>?)
+        ?.map((e) => UpgradeHistory.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -941,7 +892,7 @@ GetUpgradeStatusResponse _$GetUpgradeStatusResponseFromJson(
   return GetUpgradeStatusResponse(
     stepStatus:
         _$enumDecodeNullable(_$UpgradeStatusEnumMap, json['StepStatus']),
-    upgradeName: json['UpgradeName'] as String,
+    upgradeName: json['UpgradeName'] as String?,
     upgradeStep:
         _$enumDecodeNullable(_$UpgradeStepEnumMap, json['UpgradeStep']),
   );
@@ -968,7 +919,7 @@ InboundCrossClusterSearchConnection
         : InboundCrossClusterSearchConnectionStatus.fromJson(
             json['ConnectionStatus'] as Map<String, dynamic>),
     crossClusterSearchConnectionId:
-        json['CrossClusterSearchConnectionId'] as String,
+        json['CrossClusterSearchConnectionId'] as String?,
     destinationDomainInfo: json['DestinationDomainInfo'] == null
         ? null
         : DomainInformation.fromJson(
@@ -984,7 +935,7 @@ InboundCrossClusterSearchConnectionStatus
     _$InboundCrossClusterSearchConnectionStatusFromJson(
         Map<String, dynamic> json) {
   return InboundCrossClusterSearchConnectionStatus(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     statusCode: _$enumDecodeNullable(
         _$InboundCrossClusterSearchConnectionStatusCodeEnumMap,
         json['StatusCode']),
@@ -1003,8 +954,8 @@ const _$InboundCrossClusterSearchConnectionStatusCodeEnumMap = {
 
 InstanceCountLimits _$InstanceCountLimitsFromJson(Map<String, dynamic> json) {
   return InstanceCountLimits(
-    maximumInstanceCount: json['MaximumInstanceCount'] as int,
-    minimumInstanceCount: json['MinimumInstanceCount'] as int,
+    maximumInstanceCount: json['MaximumInstanceCount'] as int?,
+    minimumInstanceCount: json['MinimumInstanceCount'] as int?,
   );
 }
 
@@ -1019,41 +970,36 @@ InstanceLimits _$InstanceLimitsFromJson(Map<String, dynamic> json) {
 
 Limits _$LimitsFromJson(Map<String, dynamic> json) {
   return Limits(
-    additionalLimits: (json['AdditionalLimits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdditionalLimit.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    additionalLimits: (json['AdditionalLimits'] as List<dynamic>?)
+        ?.map((e) => AdditionalLimit.fromJson(e as Map<String, dynamic>))
+        .toList(),
     instanceLimits: json['InstanceLimits'] == null
         ? null
         : InstanceLimits.fromJson(
             json['InstanceLimits'] as Map<String, dynamic>),
-    storageTypes: (json['StorageTypes'] as List)
-        ?.map((e) =>
-            e == null ? null : StorageType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    storageTypes: (json['StorageTypes'] as List<dynamic>?)
+        ?.map((e) => StorageType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListDomainNamesResponse _$ListDomainNamesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDomainNamesResponse(
-    domainNames: (json['DomainNames'] as List)
-        ?.map((e) =>
-            e == null ? null : DomainInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    domainNames: (json['DomainNames'] as List<dynamic>?)
+        ?.map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListDomainsForPackageResponse _$ListDomainsForPackageResponseFromJson(
     Map<String, dynamic> json) {
   return ListDomainsForPackageResponse(
-    domainPackageDetailsList: (json['DomainPackageDetailsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainPackageDetails.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    domainPackageDetailsList: (json['DomainPackageDetailsList']
+            as List<dynamic>?)
+        ?.map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1061,47 +1007,47 @@ ListElasticsearchInstanceTypesResponse
     _$ListElasticsearchInstanceTypesResponseFromJson(
         Map<String, dynamic> json) {
   return ListElasticsearchInstanceTypesResponse(
-    elasticsearchInstanceTypes: (json['ElasticsearchInstanceTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ESPartitionInstanceTypeEnumMap, e))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    elasticsearchInstanceTypes:
+        (json['ElasticsearchInstanceTypes'] as List<dynamic>?)
+            ?.map((e) => _$enumDecode(_$ESPartitionInstanceTypeEnumMap, e))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListElasticsearchVersionsResponse _$ListElasticsearchVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListElasticsearchVersionsResponse(
-    elasticsearchVersions: (json['ElasticsearchVersions'] as List)
+    elasticsearchVersions: (json['ElasticsearchVersions'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListPackagesForDomainResponse _$ListPackagesForDomainResponseFromJson(
     Map<String, dynamic> json) {
   return ListPackagesForDomainResponse(
-    domainPackageDetailsList: (json['DomainPackageDetailsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainPackageDetails.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    domainPackageDetailsList: (json['DomainPackageDetailsList']
+            as List<dynamic>?)
+        ?.map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LogPublishingOption _$LogPublishingOptionFromJson(Map<String, dynamic> json) {
   return LogPublishingOption(
-    cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String,
-    enabled: json['Enabled'] as bool,
+    cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
@@ -1122,12 +1068,9 @@ Map<String, dynamic> _$LogPublishingOptionToJson(LogPublishingOption instance) {
 LogPublishingOptionsStatus _$LogPublishingOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return LogPublishingOptionsStatus(
-    options: (json['Options'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          _$enumDecodeNullable(_$LogTypeEnumMap, k),
-          e == null
-              ? null
-              : LogPublishingOption.fromJson(e as Map<String, dynamic>)),
+    options: (json['Options'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(_$enumDecode(_$LogTypeEnumMap, k),
+          LogPublishingOption.fromJson(e as Map<String, dynamic>)),
     ),
     status: json['Status'] == null
         ? null
@@ -1153,7 +1096,7 @@ Map<String, dynamic> _$MasterUserOptionsToJson(MasterUserOptions instance) {
 NodeToNodeEncryptionOptions _$NodeToNodeEncryptionOptionsFromJson(
     Map<String, dynamic> json) {
   return NodeToNodeEncryptionOptions(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
@@ -1174,23 +1117,19 @@ Map<String, dynamic> _$NodeToNodeEncryptionOptionsToJson(
 NodeToNodeEncryptionOptionsStatus _$NodeToNodeEncryptionOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return NodeToNodeEncryptionOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : NodeToNodeEncryptionOptions.fromJson(
-            json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: NodeToNodeEncryptionOptions.fromJson(
+        json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
 OptionStatus _$OptionStatusFromJson(Map<String, dynamic> json) {
   return OptionStatus(
-    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    state: _$enumDecodeNullable(_$OptionStateEnumMap, json['State']),
-    updateDate: const UnixDateTimeConverter().fromJson(json['UpdateDate']),
-    pendingDeletion: json['PendingDeletion'] as bool,
-    updateVersion: json['UpdateVersion'] as int,
+    creationDate: DateTime.parse(json['CreationDate'] as String),
+    state: _$enumDecode(_$OptionStateEnumMap, json['State']),
+    updateDate: DateTime.parse(json['UpdateDate'] as String),
+    pendingDeletion: json['PendingDeletion'] as bool?,
+    updateVersion: json['UpdateVersion'] as int?,
   );
 }
 
@@ -1203,13 +1142,13 @@ const _$OptionStateEnumMap = {
 OutboundCrossClusterSearchConnection
     _$OutboundCrossClusterSearchConnectionFromJson(Map<String, dynamic> json) {
   return OutboundCrossClusterSearchConnection(
-    connectionAlias: json['ConnectionAlias'] as String,
+    connectionAlias: json['ConnectionAlias'] as String?,
     connectionStatus: json['ConnectionStatus'] == null
         ? null
         : OutboundCrossClusterSearchConnectionStatus.fromJson(
             json['ConnectionStatus'] as Map<String, dynamic>),
     crossClusterSearchConnectionId:
-        json['CrossClusterSearchConnectionId'] as String,
+        json['CrossClusterSearchConnectionId'] as String?,
     destinationDomainInfo: json['DestinationDomainInfo'] == null
         ? null
         : DomainInformation.fromJson(
@@ -1225,7 +1164,7 @@ OutboundCrossClusterSearchConnectionStatus
     _$OutboundCrossClusterSearchConnectionStatusFromJson(
         Map<String, dynamic> json) {
   return OutboundCrossClusterSearchConnectionStatus(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     statusCode: _$enumDecodeNullable(
         _$OutboundCrossClusterSearchConnectionStatusCodeEnumMap,
         json['StatusCode']),
@@ -1247,16 +1186,16 @@ const _$OutboundCrossClusterSearchConnectionStatusCodeEnumMap = {
 
 PackageDetails _$PackageDetailsFromJson(Map<String, dynamic> json) {
   return PackageDetails(
-    availablePackageVersion: json['AvailablePackageVersion'] as String,
+    availablePackageVersion: json['AvailablePackageVersion'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     errorDetails: json['ErrorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>),
     lastUpdatedAt:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
-    packageDescription: json['PackageDescription'] as String,
-    packageID: json['PackageID'] as String,
-    packageName: json['PackageName'] as String,
+    packageDescription: json['PackageDescription'] as String?,
+    packageID: json['PackageID'] as String?,
+    packageName: json['PackageName'] as String?,
     packageStatus:
         _$enumDecodeNullable(_$PackageStatusEnumMap, json['PackageStatus']),
     packageType:
@@ -1292,9 +1231,9 @@ Map<String, dynamic> _$PackageSourceToJson(PackageSource instance) {
 PackageVersionHistory _$PackageVersionHistoryFromJson(
     Map<String, dynamic> json) {
   return PackageVersionHistory(
-    commitMessage: json['CommitMessage'] as String,
+    commitMessage: json['CommitMessage'] as String?,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    packageVersion: json['PackageVersion'] as String,
+    packageVersion: json['PackageVersion'] as String?,
   );
 }
 
@@ -1302,16 +1241,16 @@ PurchaseReservedElasticsearchInstanceOfferingResponse
     _$PurchaseReservedElasticsearchInstanceOfferingResponseFromJson(
         Map<String, dynamic> json) {
   return PurchaseReservedElasticsearchInstanceOfferingResponse(
-    reservationName: json['ReservationName'] as String,
+    reservationName: json['ReservationName'] as String?,
     reservedElasticsearchInstanceId:
-        json['ReservedElasticsearchInstanceId'] as String,
+        json['ReservedElasticsearchInstanceId'] as String?,
   );
 }
 
 RecurringCharge _$RecurringChargeFromJson(Map<String, dynamic> json) {
   return RecurringCharge(
-    recurringChargeAmount: (json['RecurringChargeAmount'] as num)?.toDouble(),
-    recurringChargeFrequency: json['RecurringChargeFrequency'] as String,
+    recurringChargeAmount: (json['RecurringChargeAmount'] as num?)?.toDouble(),
+    recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
   );
 }
 
@@ -1329,28 +1268,26 @@ RejectInboundCrossClusterSearchConnectionResponse
 ReservedElasticsearchInstance _$ReservedElasticsearchInstanceFromJson(
     Map<String, dynamic> json) {
   return ReservedElasticsearchInstance(
-    currencyCode: json['CurrencyCode'] as String,
-    duration: json['Duration'] as int,
-    elasticsearchInstanceCount: json['ElasticsearchInstanceCount'] as int,
+    currencyCode: json['CurrencyCode'] as String?,
+    duration: json['Duration'] as int?,
+    elasticsearchInstanceCount: json['ElasticsearchInstanceCount'] as int?,
     elasticsearchInstanceType: _$enumDecodeNullable(
         _$ESPartitionInstanceTypeEnumMap, json['ElasticsearchInstanceType']),
-    fixedPrice: (json['FixedPrice'] as num)?.toDouble(),
+    fixedPrice: (json['FixedPrice'] as num?)?.toDouble(),
     paymentOption: _$enumDecodeNullable(
         _$ReservedElasticsearchInstancePaymentOptionEnumMap,
         json['PaymentOption']),
-    recurringCharges: (json['RecurringCharges'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecurringCharge.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    reservationName: json['ReservationName'] as String,
+    recurringCharges: (json['RecurringCharges'] as List<dynamic>?)
+        ?.map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    reservationName: json['ReservationName'] as String?,
     reservedElasticsearchInstanceId:
-        json['ReservedElasticsearchInstanceId'] as String,
+        json['ReservedElasticsearchInstanceId'] as String?,
     reservedElasticsearchInstanceOfferingId:
-        json['ReservedElasticsearchInstanceOfferingId'] as String,
+        json['ReservedElasticsearchInstanceOfferingId'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
-    state: json['State'] as String,
-    usagePrice: (json['UsagePrice'] as num)?.toDouble(),
+    state: json['State'] as String?,
+    usagePrice: (json['UsagePrice'] as num?)?.toDouble(),
   );
 }
 
@@ -1363,22 +1300,20 @@ const _$ReservedElasticsearchInstancePaymentOptionEnumMap = {
 ReservedElasticsearchInstanceOffering
     _$ReservedElasticsearchInstanceOfferingFromJson(Map<String, dynamic> json) {
   return ReservedElasticsearchInstanceOffering(
-    currencyCode: json['CurrencyCode'] as String,
-    duration: json['Duration'] as int,
+    currencyCode: json['CurrencyCode'] as String?,
+    duration: json['Duration'] as int?,
     elasticsearchInstanceType: _$enumDecodeNullable(
         _$ESPartitionInstanceTypeEnumMap, json['ElasticsearchInstanceType']),
-    fixedPrice: (json['FixedPrice'] as num)?.toDouble(),
+    fixedPrice: (json['FixedPrice'] as num?)?.toDouble(),
     paymentOption: _$enumDecodeNullable(
         _$ReservedElasticsearchInstancePaymentOptionEnumMap,
         json['PaymentOption']),
-    recurringCharges: (json['RecurringCharges'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecurringCharge.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    recurringCharges: (json['RecurringCharges'] as List<dynamic>?)
+        ?.map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+        .toList(),
     reservedElasticsearchInstanceOfferingId:
-        json['ReservedElasticsearchInstanceOfferingId'] as String,
-    usagePrice: (json['UsagePrice'] as num)?.toDouble(),
+        json['ReservedElasticsearchInstanceOfferingId'] as String?,
+    usagePrice: (json['UsagePrice'] as num?)?.toDouble(),
   );
 }
 
@@ -1389,19 +1324,10 @@ SAMLIdp _$SAMLIdpFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SAMLIdpToJson(SAMLIdp instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EntityId', instance.entityId);
-  writeNotNull('MetadataContent', instance.metadataContent);
-  return val;
-}
+Map<String, dynamic> _$SAMLIdpToJson(SAMLIdp instance) => <String, dynamic>{
+      'EntityId': instance.entityId,
+      'MetadataContent': instance.metadataContent,
+    };
 
 Map<String, dynamic> _$SAMLOptionsInputToJson(SAMLOptionsInput instance) {
   final val = <String, dynamic>{};
@@ -1424,13 +1350,13 @@ Map<String, dynamic> _$SAMLOptionsInputToJson(SAMLOptionsInput instance) {
 
 SAMLOptionsOutput _$SAMLOptionsOutputFromJson(Map<String, dynamic> json) {
   return SAMLOptionsOutput(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
     idp: json['Idp'] == null
         ? null
         : SAMLIdp.fromJson(json['Idp'] as Map<String, dynamic>),
-    rolesKey: json['RolesKey'] as String,
-    sessionTimeoutMinutes: json['SessionTimeoutMinutes'] as int,
-    subjectKey: json['SubjectKey'] as String,
+    rolesKey: json['RolesKey'] as String?,
+    sessionTimeoutMinutes: json['SessionTimeoutMinutes'] as int?,
+    subjectKey: json['SubjectKey'] as String?,
   );
 }
 
@@ -1439,12 +1365,12 @@ ServiceSoftwareOptions _$ServiceSoftwareOptionsFromJson(
   return ServiceSoftwareOptions(
     automatedUpdateDate:
         const UnixDateTimeConverter().fromJson(json['AutomatedUpdateDate']),
-    cancellable: json['Cancellable'] as bool,
-    currentVersion: json['CurrentVersion'] as String,
-    description: json['Description'] as String,
-    newVersion: json['NewVersion'] as String,
-    optionalDeployment: json['OptionalDeployment'] as bool,
-    updateAvailable: json['UpdateAvailable'] as bool,
+    cancellable: json['Cancellable'] as bool?,
+    currentVersion: json['CurrentVersion'] as String?,
+    description: json['Description'] as String?,
+    newVersion: json['NewVersion'] as String?,
+    optionalDeployment: json['OptionalDeployment'] as bool?,
+    updateAvailable: json['UpdateAvailable'] as bool?,
     updateStatus:
         _$enumDecodeNullable(_$DeploymentStatusEnumMap, json['UpdateStatus']),
   );
@@ -1460,7 +1386,7 @@ const _$DeploymentStatusEnumMap = {
 
 SnapshotOptions _$SnapshotOptionsFromJson(Map<String, dynamic> json) {
   return SnapshotOptions(
-    automatedSnapshotStartHour: json['AutomatedSnapshotStartHour'] as int,
+    automatedSnapshotStartHour: json['AutomatedSnapshotStartHour'] as int?,
   );
 }
 
@@ -1481,12 +1407,8 @@ Map<String, dynamic> _$SnapshotOptionsToJson(SnapshotOptions instance) {
 SnapshotOptionsStatus _$SnapshotOptionsStatusFromJson(
     Map<String, dynamic> json) {
   return SnapshotOptionsStatus(
-    options: json['Options'] == null
-        ? null
-        : SnapshotOptions.fromJson(json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: SnapshotOptions.fromJson(json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
@@ -1503,21 +1425,20 @@ StartElasticsearchServiceSoftwareUpdateResponse
 
 StorageType _$StorageTypeFromJson(Map<String, dynamic> json) {
   return StorageType(
-    storageSubTypeName: json['StorageSubTypeName'] as String,
-    storageTypeLimits: (json['StorageTypeLimits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StorageTypeLimit.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    storageTypeName: json['StorageTypeName'] as String,
+    storageSubTypeName: json['StorageSubTypeName'] as String?,
+    storageTypeLimits: (json['StorageTypeLimits'] as List<dynamic>?)
+        ?.map((e) => StorageTypeLimit.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    storageTypeName: json['StorageTypeName'] as String?,
   );
 }
 
 StorageTypeLimit _$StorageTypeLimitFromJson(Map<String, dynamic> json) {
   return StorageTypeLimit(
-    limitName: json['LimitName'] as String,
-    limitValues:
-        (json['LimitValues'] as List)?.map((e) => e as String)?.toList(),
+    limitName: json['LimitName'] as String?,
+    limitValues: (json['LimitValues'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1528,28 +1449,17 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 UpdateElasticsearchDomainConfigResponse
     _$UpdateElasticsearchDomainConfigResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateElasticsearchDomainConfigResponse(
-    domainConfig: json['DomainConfig'] == null
-        ? null
-        : ElasticsearchDomainConfig.fromJson(
-            json['DomainConfig'] as Map<String, dynamic>),
+    domainConfig: ElasticsearchDomainConfig.fromJson(
+        json['DomainConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -1566,9 +1476,9 @@ UpdatePackageResponse _$UpdatePackageResponseFromJson(
 UpgradeElasticsearchDomainResponse _$UpgradeElasticsearchDomainResponseFromJson(
     Map<String, dynamic> json) {
   return UpgradeElasticsearchDomainResponse(
-    domainName: json['DomainName'] as String,
-    performCheckOnly: json['PerformCheckOnly'] as bool,
-    targetVersion: json['TargetVersion'] as String,
+    domainName: json['DomainName'] as String?,
+    performCheckOnly: json['PerformCheckOnly'] as bool?,
+    targetVersion: json['TargetVersion'] as String?,
   );
 }
 
@@ -1576,12 +1486,10 @@ UpgradeHistory _$UpgradeHistoryFromJson(Map<String, dynamic> json) {
   return UpgradeHistory(
     startTimestamp:
         const UnixDateTimeConverter().fromJson(json['StartTimestamp']),
-    stepsList: (json['StepsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UpgradeStepItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    upgradeName: json['UpgradeName'] as String,
+    stepsList: (json['StepsList'] as List<dynamic>?)
+        ?.map((e) => UpgradeStepItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    upgradeName: json['UpgradeName'] as String?,
     upgradeStatus:
         _$enumDecodeNullable(_$UpgradeStatusEnumMap, json['UpgradeStatus']),
   );
@@ -1589,8 +1497,9 @@ UpgradeHistory _$UpgradeHistoryFromJson(Map<String, dynamic> json) {
 
 UpgradeStepItem _$UpgradeStepItemFromJson(Map<String, dynamic> json) {
   return UpgradeStepItem(
-    issues: (json['Issues'] as List)?.map((e) => e as String)?.toList(),
-    progressPercent: (json['ProgressPercent'] as num)?.toDouble(),
+    issues:
+        (json['Issues'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    progressPercent: (json['ProgressPercent'] as num?)?.toDouble(),
     upgradeStep:
         _$enumDecodeNullable(_$UpgradeStepEnumMap, json['UpgradeStep']),
     upgradeStepStatus:
@@ -1600,23 +1509,22 @@ UpgradeStepItem _$UpgradeStepItemFromJson(Map<String, dynamic> json) {
 
 VPCDerivedInfo _$VPCDerivedInfoFromJson(Map<String, dynamic> json) {
   return VPCDerivedInfo(
-    availabilityZones:
-        (json['AvailabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    vPCId: json['VPCId'] as String,
+    availabilityZones: (json['AvailabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    vPCId: json['VPCId'] as String?,
   );
 }
 
 VPCDerivedInfoStatus _$VPCDerivedInfoStatusFromJson(Map<String, dynamic> json) {
   return VPCDerivedInfoStatus(
-    options: json['Options'] == null
-        ? null
-        : VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
-    status: json['Status'] == null
-        ? null
-        : OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    options: VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
+    status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
   );
 }
 
@@ -1636,7 +1544,7 @@ Map<String, dynamic> _$VPCOptionsToJson(VPCOptions instance) {
 
 ZoneAwarenessConfig _$ZoneAwarenessConfigFromJson(Map<String, dynamic> json) {
   return ZoneAwarenessConfig(
-    availabilityZoneCount: json['AvailabilityZoneCount'] as int,
+    availabilityZoneCount: json['AvailabilityZoneCount'] as int?,
   );
 }
 

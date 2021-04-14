@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'runtime.lex-2016-11-28.g.dart';
 
 /// Amazon Lex provides both build and runtime endpoints. Each endpoint provides
 /// a set of operations (API). Your conversational bot uses the runtime API to
@@ -40,10 +32,10 @@ part 'runtime.lex-2016-11-28.g.dart';
 class LexRuntimeService {
   final _s.RestJsonProtocol _protocol;
   LexRuntimeService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,9 +64,9 @@ class LexRuntimeService {
   /// Parameter [userId] :
   /// The identifier of the user associated with the session data.
   Future<DeleteSessionResponse> deleteSession({
-    @_s.required String botAlias,
-    @_s.required String botName,
-    @_s.required String userId,
+    required String botAlias,
+    required String botName,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
     ArgumentError.checkNotNull(botName, 'botName');
@@ -126,10 +118,10 @@ class LexRuntimeService {
   /// When you specify a filter, only intents with their
   /// <code>checkpointLabel</code> field set to that string are returned.
   Future<GetSessionResponse> getSession({
-    @_s.required String botAlias,
-    @_s.required String botName,
-    @_s.required String userId,
-    String checkpointLabelFilter,
+    required String botAlias,
+    required String botName,
+    required String userId,
+    String? checkpointLabelFilter,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
     ArgumentError.checkNotNull(botName, 'botName');
@@ -434,15 +426,15 @@ class LexRuntimeService {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
   /// Session Attributes</a>.
   Future<PostContentResponse> postContent({
-    @_s.required String botAlias,
-    @_s.required String botName,
-    @_s.required String contentType,
-    @_s.required Uint8List inputStream,
-    @_s.required String userId,
-    String accept,
-    String activeContexts,
-    String requestAttributes,
-    String sessionAttributes,
+    required String botAlias,
+    required String botName,
+    required String contentType,
+    required Uint8List inputStream,
+    required String userId,
+    String? accept,
+    Object? activeContexts,
+    Object? requestAttributes,
+    Object? sessionAttributes,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
     ArgumentError.checkNotNull(botName, 'botName');
@@ -462,15 +454,19 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    accept?.let((v) => headers['Accept'] = v.toString());
-    activeContexts?.let((v) =>
-        headers['x-amz-lex-active-contexts'] = base64Encode(utf8.encode(v)));
-    requestAttributes?.let((v) =>
-        headers['x-amz-lex-request-attributes'] = base64Encode(utf8.encode(v)));
-    sessionAttributes?.let((v) =>
-        headers['x-amz-lex-session-attributes'] = base64Encode(utf8.encode(v)));
+    final headers = <String, String>{
+      'Content-Type': contentType.toString(),
+      if (accept != null) 'Accept': accept.toString(),
+      if (activeContexts != null)
+        'x-amz-lex-active-contexts':
+            base64Encode(utf8.encode(jsonEncode(activeContexts))),
+      if (requestAttributes != null)
+        'x-amz-lex-request-attributes':
+            base64Encode(utf8.encode(jsonEncode(requestAttributes))),
+      if (sessionAttributes != null)
+        'x-amz-lex-session-attributes':
+            base64Encode(utf8.encode(jsonEncode(sessionAttributes))),
+    };
     final response = await _protocol.sendRaw(
       payload: inputStream,
       method: 'POST',
@@ -666,13 +662,13 @@ class LexRuntimeService {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
   /// Session Attributes</a>.
   Future<PostTextResponse> postText({
-    @_s.required String botAlias,
-    @_s.required String botName,
-    @_s.required String inputText,
-    @_s.required String userId,
-    List<ActiveContext> activeContexts,
-    Map<String, String> requestAttributes,
-    Map<String, String> sessionAttributes,
+    required String botAlias,
+    required String botName,
+    required String inputText,
+    required String userId,
+    List<ActiveContext>? activeContexts,
+    Map<String, String>? requestAttributes,
+    Map<String, String>? sessionAttributes,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
     ArgumentError.checkNotNull(botName, 'botName');
@@ -828,14 +824,14 @@ class LexRuntimeService {
   /// information. It contains application information passed between Amazon Lex
   /// and a client application.
   Future<PutSessionResponse> putSession({
-    @_s.required String botAlias,
-    @_s.required String botName,
-    @_s.required String userId,
-    String accept,
-    List<ActiveContext> activeContexts,
-    DialogAction dialogAction,
-    List<IntentSummary> recentIntentSummaryView,
-    Map<String, String> sessionAttributes,
+    required String botAlias,
+    required String botName,
+    required String userId,
+    String? accept,
+    List<ActiveContext>? activeContexts,
+    DialogAction? dialogAction,
+    List<IntentSummary>? recentIntentSummaryView,
+    Map<String, String>? sessionAttributes,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
     ArgumentError.checkNotNull(botName, 'botName');
@@ -853,8 +849,9 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    final headers = <String, String>{};
-    accept?.let((v) => headers['Accept'] = v.toString());
+    final headers = <String, String>{
+      if (accept != null) 'Accept': accept.toString(),
+    };
     final $payload = <String, dynamic>{
       if (activeContexts != null) 'activeContexts': activeContexts,
       if (dialogAction != null) 'dialogAction': dialogAction,
@@ -903,125 +900,169 @@ class LexRuntimeService {
 /// automatically by Amazon Lex when an intent is fulfilled, or it can be set at
 /// runtime using the <code>PutContent</code>, <code>PutText</code>, or
 /// <code>PutSession</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActiveContext {
   /// The name of the context.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// State variables for the current context. You can use these values as default
   /// values for slots in subsequent events.
-  @_s.JsonKey(name: 'parameters')
   final Map<String, String> parameters;
 
   /// The length of time or number of turns that a context remains active.
-  @_s.JsonKey(name: 'timeToLive')
   final ActiveContextTimeToLive timeToLive;
 
   ActiveContext({
-    @_s.required this.name,
-    @_s.required this.parameters,
-    @_s.required this.timeToLive,
+    required this.name,
+    required this.parameters,
+    required this.timeToLive,
   });
-  factory ActiveContext.fromJson(Map<String, dynamic> json) =>
-      _$ActiveContextFromJson(json);
+  factory ActiveContext.fromJson(Map<String, dynamic> json) {
+    return ActiveContext(
+      name: json['name'] as String,
+      parameters: (json['parameters'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      timeToLive: ActiveContextTimeToLive.fromJson(
+          json['timeToLive'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActiveContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final parameters = this.parameters;
+    final timeToLive = this.timeToLive;
+    return {
+      'name': name,
+      'parameters': parameters,
+      'timeToLive': timeToLive,
+    };
+  }
 }
 
 /// The length of time or number of turns that a context remains active.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActiveContextTimeToLive {
   /// The number of seconds that the context should be active after it is first
   /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
   /// can set the value between 5 and 86,400 seconds (24 hours).
-  @_s.JsonKey(name: 'timeToLiveInSeconds')
-  final int timeToLiveInSeconds;
+  final int? timeToLiveInSeconds;
 
   /// The number of conversation turns that the context should be active. A
   /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
   /// request and the corresponding response from Amazon Lex.
-  @_s.JsonKey(name: 'turnsToLive')
-  final int turnsToLive;
+  final int? turnsToLive;
 
   ActiveContextTimeToLive({
     this.timeToLiveInSeconds,
     this.turnsToLive,
   });
-  factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) =>
-      _$ActiveContextTimeToLiveFromJson(json);
+  factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) {
+    return ActiveContextTimeToLive(
+      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int?,
+      turnsToLive: json['turnsToLive'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActiveContextTimeToLiveToJson(this);
+  Map<String, dynamic> toJson() {
+    final timeToLiveInSeconds = this.timeToLiveInSeconds;
+    final turnsToLive = this.turnsToLive;
+    return {
+      if (timeToLiveInSeconds != null)
+        'timeToLiveInSeconds': timeToLiveInSeconds,
+      if (turnsToLive != null) 'turnsToLive': turnsToLive,
+    };
+  }
 }
 
 /// Represents an option to be shown on the client platform (Facebook, Slack,
 /// etc.)
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Button {
   /// Text that is visible to the user on the button.
-  @_s.JsonKey(name: 'text')
   final String text;
 
   /// The value sent to Amazon Lex when a user chooses the button. For example,
   /// consider button text "NYC." When the user chooses the button, the value sent
   /// can be "New York City."
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Button({
-    @_s.required this.text,
-    @_s.required this.value,
+    required this.text,
+    required this.value,
   });
-  factory Button.fromJson(Map<String, dynamic> json) => _$ButtonFromJson(json);
+  factory Button.fromJson(Map<String, dynamic> json) {
+    return Button(
+      text: json['text'] as String,
+      value: json['value'] as String,
+    );
+  }
 }
 
 enum ConfirmationStatus {
-  @_s.JsonValue('None')
   none,
-  @_s.JsonValue('Confirmed')
   confirmed,
-  @_s.JsonValue('Denied')
   denied,
 }
 
+extension on ConfirmationStatus {
+  String toValue() {
+    switch (this) {
+      case ConfirmationStatus.none:
+        return 'None';
+      case ConfirmationStatus.confirmed:
+        return 'Confirmed';
+      case ConfirmationStatus.denied:
+        return 'Denied';
+    }
+  }
+}
+
+extension on String {
+  ConfirmationStatus toConfirmationStatus() {
+    switch (this) {
+      case 'None':
+        return ConfirmationStatus.none;
+      case 'Confirmed':
+        return ConfirmationStatus.confirmed;
+      case 'Denied':
+        return ConfirmationStatus.denied;
+    }
+    throw Exception('$this is not known in enum ConfirmationStatus');
+  }
+}
+
 enum ContentType {
-  @_s.JsonValue('application/vnd.amazonaws.card.generic')
   applicationVndAmazonawsCardGeneric,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ContentType {
+  String toValue() {
+    switch (this) {
+      case ContentType.applicationVndAmazonawsCardGeneric:
+        return 'application/vnd.amazonaws.card.generic';
+    }
+  }
+}
+
+extension on String {
+  ContentType toContentType() {
+    switch (this) {
+      case 'application/vnd.amazonaws.card.generic':
+        return ContentType.applicationVndAmazonawsCardGeneric;
+    }
+    throw Exception('$this is not known in enum ContentType');
+  }
+}
+
 class DeleteSessionResponse {
   /// The alias in use for the bot associated with the session data.
-  @_s.JsonKey(name: 'botAlias')
-  final String botAlias;
+  final String? botAlias;
 
   /// The name of the bot associated with the session data.
-  @_s.JsonKey(name: 'botName')
-  final String botName;
+  final String? botName;
 
   /// The unique identifier for the session.
-  @_s.JsonKey(name: 'sessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// The ID of the client application user.
-  @_s.JsonKey(name: 'userId')
-  final String userId;
+  final String? userId;
 
   DeleteSessionResponse({
     this.botAlias,
@@ -1029,8 +1070,14 @@ class DeleteSessionResponse {
     this.sessionId,
     this.userId,
   });
-  factory DeleteSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSessionResponseFromJson(json);
+  factory DeleteSessionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSessionResponse(
+      botAlias: json['botAlias'] as String?,
+      botName: json['botName'] as String?,
+      sessionId: json['sessionId'] as String?,
+      userId: json['userId'] as String?,
+    );
+  }
 }
 
 /// Describes the next action that the bot should take in its interaction with
@@ -1038,11 +1085,6 @@ class DeleteSessionResponse {
 /// takes place. Use the <code>DialogAction</code> data type to set the
 /// interaction to a specific state, or to return the interaction to a previous
 /// state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DialogAction {
   /// The next action that the bot should take in its interaction with the user.
   /// The possible values are:
@@ -1070,7 +1112,6 @@ class DialogAction {
   /// user.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final DialogActionType type;
 
   /// The fulfillment state of the intent. The possible values are:
@@ -1090,17 +1131,14 @@ class DialogAction {
   /// application.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'fulfillmentState')
-  final FulfillmentState fulfillmentState;
+  final FulfillmentState? fulfillmentState;
 
   /// The name of the intent.
-  @_s.JsonKey(name: 'intentName')
-  final String intentName;
+  final String? intentName;
 
   /// The message that should be shown to the user. If you don't specify a
   /// message, Amazon Lex will use the message configured for the intent.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// <ul>
   /// <li>
@@ -1119,19 +1157,16 @@ class DialogAction {
   /// Groups</a>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'messageFormat')
-  final MessageFormatType messageFormat;
+  final MessageFormatType? messageFormat;
 
   /// The name of the slot that should be elicited from the user.
-  @_s.JsonKey(name: 'slotToElicit')
-  final String slotToElicit;
+  final String? slotToElicit;
 
   /// Map of the slots that have been gathered and their values.
-  @_s.JsonKey(name: 'slots')
-  final Map<String, String> slots;
+  final Map<String, String>? slots;
 
   DialogAction({
-    @_s.required this.type,
+    required this.type,
     this.fulfillmentState,
     this.intentName,
     this.message,
@@ -1139,38 +1174,110 @@ class DialogAction {
     this.slotToElicit,
     this.slots,
   });
-  factory DialogAction.fromJson(Map<String, dynamic> json) =>
-      _$DialogActionFromJson(json);
+  factory DialogAction.fromJson(Map<String, dynamic> json) {
+    return DialogAction(
+      type: (json['type'] as String).toDialogActionType(),
+      fulfillmentState:
+          (json['fulfillmentState'] as String?)?.toFulfillmentState(),
+      intentName: json['intentName'] as String?,
+      message: json['message'] as String?,
+      messageFormat: (json['messageFormat'] as String?)?.toMessageFormatType(),
+      slotToElicit: json['slotToElicit'] as String?,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DialogActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final fulfillmentState = this.fulfillmentState;
+    final intentName = this.intentName;
+    final message = this.message;
+    final messageFormat = this.messageFormat;
+    final slotToElicit = this.slotToElicit;
+    final slots = this.slots;
+    return {
+      'type': type.toValue(),
+      if (fulfillmentState != null)
+        'fulfillmentState': fulfillmentState.toValue(),
+      if (intentName != null) 'intentName': intentName,
+      if (message != null) 'message': message,
+      if (messageFormat != null) 'messageFormat': messageFormat.toValue(),
+      if (slotToElicit != null) 'slotToElicit': slotToElicit,
+      if (slots != null) 'slots': slots,
+    };
+  }
 }
 
 enum DialogActionType {
-  @_s.JsonValue('ElicitIntent')
   elicitIntent,
-  @_s.JsonValue('ConfirmIntent')
   confirmIntent,
-  @_s.JsonValue('ElicitSlot')
   elicitSlot,
-  @_s.JsonValue('Close')
   close,
-  @_s.JsonValue('Delegate')
   delegate,
 }
 
+extension on DialogActionType {
+  String toValue() {
+    switch (this) {
+      case DialogActionType.elicitIntent:
+        return 'ElicitIntent';
+      case DialogActionType.confirmIntent:
+        return 'ConfirmIntent';
+      case DialogActionType.elicitSlot:
+        return 'ElicitSlot';
+      case DialogActionType.close:
+        return 'Close';
+      case DialogActionType.delegate:
+        return 'Delegate';
+    }
+  }
+}
+
+extension on String {
+  DialogActionType toDialogActionType() {
+    switch (this) {
+      case 'ElicitIntent':
+        return DialogActionType.elicitIntent;
+      case 'ConfirmIntent':
+        return DialogActionType.confirmIntent;
+      case 'ElicitSlot':
+        return DialogActionType.elicitSlot;
+      case 'Close':
+        return DialogActionType.close;
+      case 'Delegate':
+        return DialogActionType.delegate;
+    }
+    throw Exception('$this is not known in enum DialogActionType');
+  }
+}
+
 enum DialogState {
-  @_s.JsonValue('ElicitIntent')
   elicitIntent,
-  @_s.JsonValue('ConfirmIntent')
   confirmIntent,
-  @_s.JsonValue('ElicitSlot')
   elicitSlot,
-  @_s.JsonValue('Fulfilled')
   fulfilled,
-  @_s.JsonValue('ReadyForFulfillment')
   readyForFulfillment,
-  @_s.JsonValue('Failed')
   failed,
+}
+
+extension on DialogState {
+  String toValue() {
+    switch (this) {
+      case DialogState.elicitIntent:
+        return 'ElicitIntent';
+      case DialogState.confirmIntent:
+        return 'ConfirmIntent';
+      case DialogState.elicitSlot:
+        return 'ElicitSlot';
+      case DialogState.fulfilled:
+        return 'Fulfilled';
+      case DialogState.readyForFulfillment:
+        return 'ReadyForFulfillment';
+      case DialogState.failed:
+        return 'Failed';
+    }
+  }
 }
 
 extension on String {
@@ -1189,46 +1296,60 @@ extension on String {
       case 'Failed':
         return DialogState.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DialogState');
   }
 }
 
 enum FulfillmentState {
-  @_s.JsonValue('Fulfilled')
   fulfilled,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('ReadyForFulfillment')
   readyForFulfillment,
+}
+
+extension on FulfillmentState {
+  String toValue() {
+    switch (this) {
+      case FulfillmentState.fulfilled:
+        return 'Fulfilled';
+      case FulfillmentState.failed:
+        return 'Failed';
+      case FulfillmentState.readyForFulfillment:
+        return 'ReadyForFulfillment';
+    }
+  }
+}
+
+extension on String {
+  FulfillmentState toFulfillmentState() {
+    switch (this) {
+      case 'Fulfilled':
+        return FulfillmentState.fulfilled;
+      case 'Failed':
+        return FulfillmentState.failed;
+      case 'ReadyForFulfillment':
+        return FulfillmentState.readyForFulfillment;
+    }
+    throw Exception('$this is not known in enum FulfillmentState');
+  }
 }
 
 /// Represents an option rendered to the user when a prompt is shown. It could
 /// be an image, a button, a link, or text.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenericAttachment {
   /// The URL of an attachment to the response card.
-  @_s.JsonKey(name: 'attachmentLinkUrl')
-  final String attachmentLinkUrl;
+  final String? attachmentLinkUrl;
 
   /// The list of options to show to the user.
-  @_s.JsonKey(name: 'buttons')
-  final List<Button> buttons;
+  final List<Button>? buttons;
 
   /// The URL of an image that is displayed to the user.
-  @_s.JsonKey(name: 'imageUrl')
-  final String imageUrl;
+  final String? imageUrl;
 
   /// The subtitle shown below the title.
-  @_s.JsonKey(name: 'subTitle')
-  final String subTitle;
+  final String? subTitle;
 
   /// The title of the option.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   GenericAttachment({
     this.attachmentLinkUrl,
@@ -1237,15 +1358,20 @@ class GenericAttachment {
     this.subTitle,
     this.title,
   });
-  factory GenericAttachment.fromJson(Map<String, dynamic> json) =>
-      _$GenericAttachmentFromJson(json);
+  factory GenericAttachment.fromJson(Map<String, dynamic> json) {
+    return GenericAttachment(
+      attachmentLinkUrl: json['attachmentLinkUrl'] as String?,
+      buttons: (json['buttons'] as List?)
+          ?.whereNotNull()
+          .map((e) => Button.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imageUrl: json['imageUrl'] as String?,
+      subTitle: json['subTitle'] as String?,
+      title: json['title'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSessionResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -1253,12 +1379,10 @@ class GetSessionResponse {
   ///
   /// You can use a context to control the intents that can follow up an intent,
   /// or to modify the operation of your application.
-  @_s.JsonKey(name: 'activeContexts')
-  final List<ActiveContext> activeContexts;
+  final List<ActiveContext>? activeContexts;
 
   /// Describes the current state of the bot.
-  @_s.JsonKey(name: 'dialogAction')
-  final DialogAction dialogAction;
+  final DialogAction? dialogAction;
 
   /// An array of information about the intents used in the session. The array can
   /// contain a maximum of three summaries. If more than three intents are used in
@@ -1267,18 +1391,15 @@ class GetSessionResponse {
   ///
   /// If you set the <code>checkpointLabelFilter</code> parameter in the request,
   /// the array contains only the intents with the specified label.
-  @_s.JsonKey(name: 'recentIntentSummaryView')
-  final List<IntentSummary> recentIntentSummaryView;
+  final List<IntentSummary>? recentIntentSummaryView;
 
   /// Map of key/value pairs representing the session-specific context
   /// information. It contains application information passed between Amazon Lex
   /// and a client application.
-  @_s.JsonKey(name: 'sessionAttributes')
-  final Map<String, String> sessionAttributes;
+  final Map<String, String>? sessionAttributes;
 
   /// A unique identifier for the session.
-  @_s.JsonKey(name: 'sessionId')
-  final String sessionId;
+  final String? sessionId;
 
   GetSessionResponse({
     this.activeContexts,
@@ -1287,39 +1408,47 @@ class GetSessionResponse {
     this.sessionAttributes,
     this.sessionId,
   });
-  factory GetSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSessionResponseFromJson(json);
+  factory GetSessionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSessionResponse(
+      activeContexts: (json['activeContexts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dialogAction: json['dialogAction'] != null
+          ? DialogAction.fromJson(json['dialogAction'] as Map<String, dynamic>)
+          : null,
+      recentIntentSummaryView: (json['recentIntentSummaryView'] as List?)
+          ?.whereNotNull()
+          .map((e) => IntentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sessionAttributes: (json['sessionAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sessionId: json['sessionId'] as String?,
+    );
+  }
 }
 
 /// Provides a score that indicates the confidence that Amazon Lex has that an
 /// intent is the one that satisfies the user's intent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IntentConfidence {
   /// A score that indicates how confident Amazon Lex is that an intent satisfies
   /// the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate
   /// higher confidence.
-  @_s.JsonKey(name: 'score')
-  final double score;
+  final double? score;
 
   IntentConfidence({
     this.score,
   });
-  factory IntentConfidence.fromJson(Map<String, dynamic> json) =>
-      _$IntentConfidenceFromJson(json);
+  factory IntentConfidence.fromJson(Map<String, dynamic> json) {
+    return IntentConfidence(
+      score: json['score'] as double?,
+    );
+  }
 }
 
 /// Provides information about the state of an intent. You can use this
 /// information to get the current state of an intent so that you can process
 /// the intent, or so that you can return the intent to its previous state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IntentSummary {
   /// The next action that the bot should take in its interaction with the user.
   /// The possible values are:
@@ -1344,7 +1473,6 @@ class IntentSummary {
   /// user.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'dialogActionType')
   final DialogActionType dialogActionType;
 
   /// A user-defined label that identifies a particular intent. You can use this
@@ -1353,8 +1481,7 @@ class IntentSummary {
   /// Use the <code>checkpointLabelFilter</code> parameter of the
   /// <code>GetSessionRequest</code> operation to filter the intents returned by
   /// the operation to those with only the specified label.
-  @_s.JsonKey(name: 'checkpointLabel')
-  final String checkpointLabel;
+  final String? checkpointLabel;
 
   /// The status of the intent after the user responds to the confirmation prompt.
   /// If the user confirms the intent, Amazon Lex sets this field to
@@ -1376,8 +1503,7 @@ class IntentSummary {
   /// the user was prompted but did not confirm or deny the prompt.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'confirmationStatus')
-  final ConfirmationStatus confirmationStatus;
+  final ConfirmationStatus? confirmationStatus;
 
   /// The fulfillment state of the intent. The possible values are:
   ///
@@ -1396,24 +1522,20 @@ class IntentSummary {
   /// application.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'fulfillmentState')
-  final FulfillmentState fulfillmentState;
+  final FulfillmentState? fulfillmentState;
 
   /// The name of the intent.
-  @_s.JsonKey(name: 'intentName')
-  final String intentName;
+  final String? intentName;
 
   /// The next slot to elicit from the user. If there is not slot to elicit, the
   /// field is blank.
-  @_s.JsonKey(name: 'slotToElicit')
-  final String slotToElicit;
+  final String? slotToElicit;
 
   /// Map of the slots that have been gathered and their values.
-  @_s.JsonKey(name: 'slots')
-  final Map<String, String> slots;
+  final Map<String, String>? slots;
 
   IntentSummary({
-    @_s.required this.dialogActionType,
+    required this.dialogActionType,
     this.checkpointLabel,
     this.confirmationStatus,
     this.fulfillmentState,
@@ -1421,21 +1543,64 @@ class IntentSummary {
     this.slotToElicit,
     this.slots,
   });
-  factory IntentSummary.fromJson(Map<String, dynamic> json) =>
-      _$IntentSummaryFromJson(json);
+  factory IntentSummary.fromJson(Map<String, dynamic> json) {
+    return IntentSummary(
+      dialogActionType:
+          (json['dialogActionType'] as String).toDialogActionType(),
+      checkpointLabel: json['checkpointLabel'] as String?,
+      confirmationStatus:
+          (json['confirmationStatus'] as String?)?.toConfirmationStatus(),
+      fulfillmentState:
+          (json['fulfillmentState'] as String?)?.toFulfillmentState(),
+      intentName: json['intentName'] as String?,
+      slotToElicit: json['slotToElicit'] as String?,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IntentSummaryToJson(this);
+  Map<String, dynamic> toJson() {
+    final dialogActionType = this.dialogActionType;
+    final checkpointLabel = this.checkpointLabel;
+    final confirmationStatus = this.confirmationStatus;
+    final fulfillmentState = this.fulfillmentState;
+    final intentName = this.intentName;
+    final slotToElicit = this.slotToElicit;
+    final slots = this.slots;
+    return {
+      'dialogActionType': dialogActionType.toValue(),
+      if (checkpointLabel != null) 'checkpointLabel': checkpointLabel,
+      if (confirmationStatus != null)
+        'confirmationStatus': confirmationStatus.toValue(),
+      if (fulfillmentState != null)
+        'fulfillmentState': fulfillmentState.toValue(),
+      if (intentName != null) 'intentName': intentName,
+      if (slotToElicit != null) 'slotToElicit': slotToElicit,
+      if (slots != null) 'slots': slots,
+    };
+  }
 }
 
 enum MessageFormatType {
-  @_s.JsonValue('PlainText')
   plainText,
-  @_s.JsonValue('CustomPayload')
   customPayload,
-  @_s.JsonValue('SSML')
   ssml,
-  @_s.JsonValue('Composite')
   composite,
+}
+
+extension on MessageFormatType {
+  String toValue() {
+    switch (this) {
+      case MessageFormatType.plainText:
+        return 'PlainText';
+      case MessageFormatType.customPayload:
+        return 'CustomPayload';
+      case MessageFormatType.ssml:
+        return 'SSML';
+      case MessageFormatType.composite:
+        return 'Composite';
+    }
+  }
 }
 
 extension on String {
@@ -1450,15 +1615,10 @@ extension on String {
       case 'Composite':
         return MessageFormatType.composite;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MessageFormatType');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PostContentResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -1466,18 +1626,14 @@ class PostContentResponse {
   ///
   /// You can use a context to control the intents that can follow up an intent,
   /// or to modify the operation of your application.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-active-contexts')
-  final Object activeContexts;
+  final Object? activeContexts;
 
   /// One to four alternative intents that may be applicable to the user's intent.
   ///
   /// Each alternative includes a score that indicates how confident Amazon Lex is
   /// that the intent matches the user's intent. The intents are sorted by the
   /// confidence score.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-alternative-intents')
-  final Object alternativeIntents;
+  final Object? alternativeIntents;
 
   /// The prompt (or statement) to convey to the user. This is based on the bot
   /// configuration and context. For example, if Amazon Lex did not understand the
@@ -1487,20 +1643,16 @@ class PostContentResponse {
   /// Suppose that the Lambda function successfully fulfilled the intent, and sent
   /// a message to convey to the user. Then Amazon Lex sends that message in the
   /// response.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'audioStream')
-  final Uint8List audioStream;
+  final Uint8List? audioStream;
 
   /// The version of the bot that responded to the conversation. You can use this
   /// information to help determine if one version of a bot is performing better
   /// than another version.
-  @_s.JsonKey(name: 'x-amz-lex-bot-version')
-  final String botVersion;
+  final String? botVersion;
 
   /// Content type as specified in the <code>Accept</code> HTTP header in the
   /// request.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// Identifies the current state of the user interaction. Amazon Lex returns one
   /// of the following values as <code>dialogState</code>. The client can
@@ -1553,8 +1705,7 @@ class PostContentResponse {
   /// information), or if the Lambda function fails to fulfill the intent.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'x-amz-lex-dialog-state')
-  final DialogState dialogState;
+  final DialogState? dialogState;
 
   /// The text used to process the request.
   ///
@@ -1563,12 +1714,10 @@ class PostContentResponse {
   /// actually processed to recognize intents and slot values. You can use this
   /// information to determine if Amazon Lex is correctly processing the audio
   /// that you send.
-  @_s.JsonKey(name: 'x-amz-lex-input-transcript')
-  final String inputTranscript;
+  final String? inputTranscript;
 
   /// Current user intent that Amazon Lex is aware of.
-  @_s.JsonKey(name: 'x-amz-lex-intent-name')
-  final String intentName;
+  final String? intentName;
 
   /// The message to convey to the user. The message can come from the bot's
   /// configuration or from a Lambda function.
@@ -1589,8 +1738,7 @@ class PostContentResponse {
   ///
   /// If the Lambda function returns a message, Amazon Lex passes it to the client
   /// in its response.
-  @_s.JsonKey(name: 'x-amz-lex-message')
-  final String message;
+  final String? message;
 
   /// The format of the response message. One of the following values:
   ///
@@ -1610,8 +1758,7 @@ class PostContentResponse {
   /// to when the intent was created.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'x-amz-lex-message-format')
-  final MessageFormatType messageFormat;
+  final MessageFormatType? messageFormat;
 
   /// Provides a score that indicates how confident Amazon Lex is that the
   /// returned intent is the one that matches the user's intent. The score is
@@ -1619,31 +1766,24 @@ class PostContentResponse {
   ///
   /// The score is a relative score, not an absolute score. The score may change
   /// based on improvements to Amazon Lex.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-nlu-intent-confidence')
-  final Object nluIntentConfidence;
+  final Object? nluIntentConfidence;
 
   /// The sentiment expressed in an utterance.
   ///
   /// When the bot is configured to send utterances to Amazon Comprehend for
   /// sentiment analysis, this field contains the result of the analysis.
-  @_s.JsonKey(name: 'x-amz-lex-sentiment')
-  final String sentimentResponse;
+  final String? sentimentResponse;
 
   /// Map of key/value pairs representing the session-specific context
   /// information.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-session-attributes')
-  final Object sessionAttributes;
+  final Object? sessionAttributes;
 
   /// The unique identifier for the session.
-  @_s.JsonKey(name: 'x-amz-lex-session-id')
-  final String sessionId;
+  final String? sessionId;
 
   /// If the <code>dialogState</code> value is <code>ElicitSlot</code>, returns
   /// the name of the slot for which Amazon Lex is eliciting a value.
-  @_s.JsonKey(name: 'x-amz-lex-slot-to-elicit')
-  final String slotToElicit;
+  final String? slotToElicit;
 
   /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from
   /// the user input during the conversation. The field is base-64 encoded.
@@ -1659,9 +1799,7 @@ class PostContentResponse {
   /// resolution list, null. If you don't specify a
   /// <code>valueSelectionStrategy</code>, the default is
   /// <code>ORIGINAL_VALUE</code>.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-slots')
-  final Object slots;
+  final Object? slots;
 
   PostContentResponse({
     this.activeContexts,
@@ -1681,15 +1819,8 @@ class PostContentResponse {
     this.slotToElicit,
     this.slots,
   });
-  factory PostContentResponse.fromJson(Map<String, dynamic> json) =>
-      _$PostContentResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PostTextResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -1697,22 +1828,19 @@ class PostTextResponse {
   ///
   /// You can use a context to control the intents that can follow up an intent,
   /// or to modify the operation of your application.
-  @_s.JsonKey(name: 'activeContexts')
-  final List<ActiveContext> activeContexts;
+  final List<ActiveContext>? activeContexts;
 
   /// One to four alternative intents that may be applicable to the user's intent.
   ///
   /// Each alternative includes a score that indicates how confident Amazon Lex is
   /// that the intent matches the user's intent. The intents are sorted by the
   /// confidence score.
-  @_s.JsonKey(name: 'alternativeIntents')
-  final List<PredictedIntent> alternativeIntents;
+  final List<PredictedIntent>? alternativeIntents;
 
   /// The version of the bot that responded to the conversation. You can use this
   /// information to help determine if one version of a bot is performing better
   /// than another version.
-  @_s.JsonKey(name: 'botVersion')
-  final String botVersion;
+  final String? botVersion;
 
   /// Identifies the current state of the user interaction. Amazon Lex returns one
   /// of the following values as <code>dialogState</code>. The client can
@@ -1765,12 +1893,10 @@ class PostTextResponse {
   /// Lambda function failed to fulfill the intent.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'dialogState')
-  final DialogState dialogState;
+  final DialogState? dialogState;
 
   /// The current user intent that Amazon Lex is aware of.
-  @_s.JsonKey(name: 'intentName')
-  final String intentName;
+  final String? intentName;
 
   /// The message to convey to the user. The message can come from the bot's
   /// configuration or from a Lambda function.
@@ -1791,8 +1917,7 @@ class PostTextResponse {
   ///
   /// If the Lambda function returns a message, Amazon Lex passes it to the client
   /// in its response.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The format of the response message. One of the following values:
   ///
@@ -1813,8 +1938,7 @@ class PostTextResponse {
   /// to when the intent was created.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'messageFormat')
-  final MessageFormatType messageFormat;
+  final MessageFormatType? messageFormat;
 
   /// Provides a score that indicates how confident Amazon Lex is that the
   /// returned intent is the one that matches the user's intent. The score is
@@ -1824,36 +1948,30 @@ class PostTextResponse {
   ///
   /// The score is a relative score, not an absolute score. The score may change
   /// based on improvements to Amazon Lex.
-  @_s.JsonKey(name: 'nluIntentConfidence')
-  final IntentConfidence nluIntentConfidence;
+  final IntentConfidence? nluIntentConfidence;
 
   /// Represents the options that the user has to respond to the current prompt.
   /// Response Card can come from the bot configuration (in the Amazon Lex
   /// console, choose the settings button next to a slot) or from a code hook
   /// (Lambda function).
-  @_s.JsonKey(name: 'responseCard')
-  final ResponseCard responseCard;
+  final ResponseCard? responseCard;
 
   /// The sentiment expressed in and utterance.
   ///
   /// When the bot is configured to send utterances to Amazon Comprehend for
   /// sentiment analysis, this field contains the result of the analysis.
-  @_s.JsonKey(name: 'sentimentResponse')
-  final SentimentResponse sentimentResponse;
+  final SentimentResponse? sentimentResponse;
 
   /// A map of key-value pairs representing the session-specific context
   /// information.
-  @_s.JsonKey(name: 'sessionAttributes')
-  final Map<String, String> sessionAttributes;
+  final Map<String, String>? sessionAttributes;
 
   /// A unique identifier for the session.
-  @_s.JsonKey(name: 'sessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// If the <code>dialogState</code> value is <code>ElicitSlot</code>, returns
   /// the name of the slot for which Amazon Lex is eliciting a value.
-  @_s.JsonKey(name: 'slotToElicit')
-  final String slotToElicit;
+  final String? slotToElicit;
 
   /// The intent slots that Amazon Lex detected from the user input in the
   /// conversation.
@@ -1869,8 +1987,7 @@ class PostTextResponse {
   /// resolution list, null. If you don't specify a
   /// <code>valueSelectionStrategy</code>, the default is
   /// <code>ORIGINAL_VALUE</code>.
-  @_s.JsonKey(name: 'slots')
-  final Map<String, String> slots;
+  final Map<String, String>? slots;
 
   PostTextResponse({
     this.activeContexts,
@@ -1888,61 +2005,84 @@ class PostTextResponse {
     this.slotToElicit,
     this.slots,
   });
-  factory PostTextResponse.fromJson(Map<String, dynamic> json) =>
-      _$PostTextResponseFromJson(json);
+  factory PostTextResponse.fromJson(Map<String, dynamic> json) {
+    return PostTextResponse(
+      activeContexts: (json['activeContexts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      alternativeIntents: (json['alternativeIntents'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictedIntent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      botVersion: json['botVersion'] as String?,
+      dialogState: (json['dialogState'] as String?)?.toDialogState(),
+      intentName: json['intentName'] as String?,
+      message: json['message'] as String?,
+      messageFormat: (json['messageFormat'] as String?)?.toMessageFormatType(),
+      nluIntentConfidence: json['nluIntentConfidence'] != null
+          ? IntentConfidence.fromJson(
+              json['nluIntentConfidence'] as Map<String, dynamic>)
+          : null,
+      responseCard: json['responseCard'] != null
+          ? ResponseCard.fromJson(json['responseCard'] as Map<String, dynamic>)
+          : null,
+      sentimentResponse: json['sentimentResponse'] != null
+          ? SentimentResponse.fromJson(
+              json['sentimentResponse'] as Map<String, dynamic>)
+          : null,
+      sessionAttributes: (json['sessionAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sessionId: json['sessionId'] as String?,
+      slotToElicit: json['slotToElicit'] as String?,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// An intent that Amazon Lex suggests satisfies the user's intent. Includes the
 /// name of the intent, the confidence that Amazon Lex has that the user's
 /// intent is satisfied, and the slots defined for the intent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictedIntent {
   /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
-  @_s.JsonKey(name: 'intentName')
-  final String intentName;
+  final String? intentName;
 
   /// Indicates how confident Amazon Lex is that an intent satisfies the user's
   /// intent.
-  @_s.JsonKey(name: 'nluIntentConfidence')
-  final IntentConfidence nluIntentConfidence;
+  final IntentConfidence? nluIntentConfidence;
 
   /// The slot and slot values associated with the predicted intent.
-  @_s.JsonKey(name: 'slots')
-  final Map<String, String> slots;
+  final Map<String, String>? slots;
 
   PredictedIntent({
     this.intentName,
     this.nluIntentConfidence,
     this.slots,
   });
-  factory PredictedIntent.fromJson(Map<String, dynamic> json) =>
-      _$PredictedIntentFromJson(json);
+  factory PredictedIntent.fromJson(Map<String, dynamic> json) {
+    return PredictedIntent(
+      intentName: json['intentName'] as String?,
+      nluIntentConfidence: json['nluIntentConfidence'] != null
+          ? IntentConfidence.fromJson(
+              json['nluIntentConfidence'] as Map<String, dynamic>)
+          : null,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSessionResponse {
   /// A list of active contexts for the session.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-active-contexts')
-  final Object activeContexts;
+  final Object? activeContexts;
 
   /// The audio version of the message to convey to the user.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'audioStream')
-  final Uint8List audioStream;
+  final Uint8List? audioStream;
 
   /// Content type as specified in the <code>Accept</code> HTTP header in the
   /// request.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// <p/>
   /// <ul>
@@ -1972,16 +2112,13 @@ class PutSessionResponse {
   /// the intent.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'x-amz-lex-dialog-state')
-  final DialogState dialogState;
+  final DialogState? dialogState;
 
   /// The name of the current intent.
-  @_s.JsonKey(name: 'x-amz-lex-intent-name')
-  final String intentName;
+  final String? intentName;
 
   /// The next message that should be presented to the user.
-  @_s.JsonKey(name: 'x-amz-lex-message')
-  final String message;
+  final String? message;
 
   /// The format of the response message. One of the following values:
   ///
@@ -2001,22 +2138,17 @@ class PutSessionResponse {
   /// to when the intent was created.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'x-amz-lex-message-format')
-  final MessageFormatType messageFormat;
+  final MessageFormatType? messageFormat;
 
   /// Map of key/value pairs representing session-specific context information.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-session-attributes')
-  final Object sessionAttributes;
+  final Object? sessionAttributes;
 
   /// A unique identifier for the session.
-  @_s.JsonKey(name: 'x-amz-lex-session-id')
-  final String sessionId;
+  final String? sessionId;
 
   /// If the <code>dialogState</code> is <code>ElicitSlot</code>, returns the name
   /// of the slot for which Amazon Lex is eliciting a value.
-  @_s.JsonKey(name: 'x-amz-lex-slot-to-elicit')
-  final String slotToElicit;
+  final String? slotToElicit;
 
   /// Map of zero or more intent slots Amazon Lex detected from the user input
   /// during the conversation.
@@ -2032,9 +2164,7 @@ class PutSessionResponse {
   /// resolution list, null. If you don't specify a
   /// <code>valueSelectionStrategy</code> the default is
   /// <code>ORIGINAL_VALUE</code>.
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'x-amz-lex-slots')
-  final Object slots;
+  final Object? slots;
 
   PutSessionResponse({
     this.activeContexts,
@@ -2049,8 +2179,6 @@ class PutSessionResponse {
     this.slotToElicit,
     this.slots,
   });
-  factory PutSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSessionResponseFromJson(json);
 }
 
 /// If you configure a response card when creating your bots, Amazon Lex
@@ -2058,31 +2186,31 @@ class PutSessionResponse {
 /// then returns it. The response card can also come from a Lambda function (
 /// <code>dialogCodeHook</code> and <code>fulfillmentActivity</code> on an
 /// intent).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResponseCard {
   /// The content type of the response.
-  @_s.JsonKey(name: 'contentType')
-  final ContentType contentType;
+  final ContentType? contentType;
 
   /// An array of attachment objects representing options.
-  @_s.JsonKey(name: 'genericAttachments')
-  final List<GenericAttachment> genericAttachments;
+  final List<GenericAttachment>? genericAttachments;
 
   /// The version of the response card format.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   ResponseCard({
     this.contentType,
     this.genericAttachments,
     this.version,
   });
-  factory ResponseCard.fromJson(Map<String, dynamic> json) =>
-      _$ResponseCardFromJson(json);
+  factory ResponseCard.fromJson(Map<String, dynamic> json) {
+    return ResponseCard(
+      contentType: (json['contentType'] as String?)?.toContentType(),
+      genericAttachments: (json['genericAttachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => GenericAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      version: json['version'] as String?,
+    );
+  }
 }
 
 /// The sentiment expressed in an utterance.
@@ -2090,80 +2218,77 @@ class ResponseCard {
 /// When the bot is configured to send utterances to Amazon Comprehend for
 /// sentiment analysis, this field structure contains the result of the
 /// analysis.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SentimentResponse {
   /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
-  @_s.JsonKey(name: 'sentimentLabel')
-  final String sentimentLabel;
+  final String? sentimentLabel;
 
   /// The likelihood that the sentiment was correctly inferred.
-  @_s.JsonKey(name: 'sentimentScore')
-  final String sentimentScore;
+  final String? sentimentScore;
 
   SentimentResponse({
     this.sentimentLabel,
     this.sentimentScore,
   });
-  factory SentimentResponse.fromJson(Map<String, dynamic> json) =>
-      _$SentimentResponseFromJson(json);
+  factory SentimentResponse.fromJson(Map<String, dynamic> json) {
+    return SentimentResponse(
+      sentimentLabel: json['sentimentLabel'] as String?,
+      sentimentScore: json['sentimentScore'] as String?,
+    );
+  }
 }
 
 class BadGatewayException extends _s.GenericAwsException {
-  BadGatewayException({String type, String message})
+  BadGatewayException({String? type, String? message})
       : super(type: type, code: 'BadGatewayException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DependencyFailedException extends _s.GenericAwsException {
-  DependencyFailedException({String type, String message})
+  DependencyFailedException({String? type, String? message})
       : super(type: type, code: 'DependencyFailedException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class LoopDetectedException extends _s.GenericAwsException {
-  LoopDetectedException({String type, String message})
+  LoopDetectedException({String? type, String? message})
       : super(type: type, code: 'LoopDetectedException', message: message);
 }
 
 class NotAcceptableException extends _s.GenericAwsException {
-  NotAcceptableException({String type, String message})
+  NotAcceptableException({String? type, String? message})
       : super(type: type, code: 'NotAcceptableException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class RequestTimeoutException extends _s.GenericAwsException {
-  RequestTimeoutException({String type, String message})
+  RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
 class UnsupportedMediaTypeException extends _s.GenericAwsException {
-  UnsupportedMediaTypeException({String type, String message})
+  UnsupportedMediaTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedMediaTypeException',

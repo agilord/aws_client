@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'athena-2017-05-18.g.dart';
 
 /// Amazon Athena is an interactive query service that lets you use standard SQL
 /// to analyze data directly in Amazon S3. You can point Athena at your data in
@@ -48,10 +40,10 @@ part 'athena-2017-05-18.g.dart';
 class Athena {
   final _s.JsonProtocol _protocol;
   Athena({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -79,7 +71,7 @@ class Athena {
   /// Parameter [namedQueryIds] :
   /// An array of query IDs.
   Future<BatchGetNamedQueryOutput> batchGetNamedQuery({
-    @_s.required List<String> namedQueryIds,
+    required List<String> namedQueryIds,
   }) async {
     ArgumentError.checkNotNull(namedQueryIds, 'namedQueryIds');
     final headers = <String, String>{
@@ -114,7 +106,7 @@ class Athena {
   /// Parameter [queryExecutionIds] :
   /// An array of query execution IDs.
   Future<BatchGetQueryExecutionOutput> batchGetQueryExecution({
-    @_s.required List<String> queryExecutionIds,
+    required List<String> queryExecutionIds,
   }) async {
     ArgumentError.checkNotNull(queryExecutionIds, 'queryExecutionIds');
     final headers = <String, String>{
@@ -196,11 +188,11 @@ class Athena {
   /// Parameter [tags] :
   /// A list of comma separated tags to add to the data catalog that is created.
   Future<void> createDataCatalog({
-    @_s.required String name,
-    @_s.required DataCatalogType type,
-    String description,
-    Map<String, String> parameters,
-    List<Tag> tags,
+    required String name,
+    required DataCatalogType type,
+    String? description,
+    Map<String, String>? parameters,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -227,7 +219,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateDataCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -235,14 +227,12 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (description != null) 'Description': description,
         if (parameters != null) 'Parameters': parameters,
         if (tags != null) 'Tags': tags,
       },
     );
-
-    return CreateDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a named query in the specified workgroup. Requires that you have
@@ -283,12 +273,12 @@ class Athena {
   /// Parameter [workGroup] :
   /// The name of the workgroup in which the named query is being created.
   Future<CreateNamedQueryOutput> createNamedQuery({
-    @_s.required String database,
-    @_s.required String name,
-    @_s.required String queryString,
-    String clientRequestToken,
-    String description,
-    String workGroup,
+    required String database,
+    required String name,
+    required String queryString,
+    String? clientRequestToken,
+    String? description,
+    String? workGroup,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     _s.validateStringLength(
@@ -379,10 +369,10 @@ class Athena {
   /// Parameter [tags] :
   /// A list of comma separated tags to add to the workgroup that is created.
   Future<void> createWorkGroup({
-    @_s.required String name,
-    WorkGroupConfiguration configuration,
-    String description,
-    List<Tag> tags,
+    required String name,
+    WorkGroupConfiguration? configuration,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -401,7 +391,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateWorkGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -414,8 +404,6 @@ class Athena {
         if (tags != null) 'Tags': tags,
       },
     );
-
-    return CreateWorkGroupOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a data catalog.
@@ -426,7 +414,7 @@ class Athena {
   /// Parameter [name] :
   /// The name of the data catalog to delete.
   Future<void> deleteDataCatalog({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -446,7 +434,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteDataCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -456,8 +444,6 @@ class Athena {
         'Name': name,
       },
     );
-
-    return DeleteDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the named query if you have access to the workgroup in which the
@@ -473,14 +459,13 @@ class Athena {
   /// Parameter [namedQueryId] :
   /// The unique ID of the query to delete.
   Future<void> deleteNamedQuery({
-    @_s.required String namedQueryId,
+    String? namedQueryId,
   }) async {
-    ArgumentError.checkNotNull(namedQueryId, 'namedQueryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteNamedQuery'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -490,8 +475,6 @@ class Athena {
         'NamedQueryId': namedQueryId ?? _s.generateIdempotencyToken(),
       },
     );
-
-    return DeleteNamedQueryOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the workgroup with the specified name. The primary workgroup
@@ -507,8 +490,8 @@ class Athena {
   /// The option to delete the workgroup and its contents even if the workgroup
   /// contains any named queries.
   Future<void> deleteWorkGroup({
-    @_s.required String workGroup,
-    bool recursiveDeleteOption,
+    required String workGroup,
+    bool? recursiveDeleteOption,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
     _s.validateStringPattern(
@@ -521,7 +504,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteWorkGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -533,8 +516,6 @@ class Athena {
           'RecursiveDeleteOption': recursiveDeleteOption,
       },
     );
-
-    return DeleteWorkGroupOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns the specified data catalog.
@@ -545,7 +526,7 @@ class Athena {
   /// Parameter [name] :
   /// The name of the data catalog to return.
   Future<GetDataCatalogOutput> getDataCatalog({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -591,8 +572,8 @@ class Athena {
   /// Parameter [databaseName] :
   /// The name of the database to return.
   Future<GetDatabaseOutput> getDatabase({
-    @_s.required String catalogName,
-    @_s.required String databaseName,
+    required String catalogName,
+    required String databaseName,
   }) async {
     ArgumentError.checkNotNull(catalogName, 'catalogName');
     _s.validateStringLength(
@@ -644,7 +625,7 @@ class Athena {
   /// Parameter [namedQueryId] :
   /// The unique ID of the query. Use <a>ListNamedQueries</a> to get query IDs.
   Future<GetNamedQueryOutput> getNamedQuery({
-    @_s.required String namedQueryId,
+    required String namedQueryId,
   }) async {
     ArgumentError.checkNotNull(namedQueryId, 'namedQueryId');
     final headers = <String, String>{
@@ -675,7 +656,7 @@ class Athena {
   /// Parameter [queryExecutionId] :
   /// The unique ID of the query execution.
   Future<GetQueryExecutionOutput> getQueryExecution({
-    @_s.required String queryExecutionId,
+    required String queryExecutionId,
   }) async {
     ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
     final headers = <String, String>{
@@ -730,9 +711,9 @@ class Athena {
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
   Future<GetQueryResultsOutput> getQueryResults({
-    @_s.required String queryExecutionId,
-    int maxResults,
-    String nextToken,
+    required String queryExecutionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
     _s.validateNumRange(
@@ -783,9 +764,9 @@ class Athena {
   /// Parameter [tableName] :
   /// The name of the table for which metadata is returned.
   Future<GetTableMetadataOutput> getTableMetadata({
-    @_s.required String catalogName,
-    @_s.required String databaseName,
-    @_s.required String tableName,
+    required String catalogName,
+    required String databaseName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(catalogName, 'catalogName');
     _s.validateStringLength(
@@ -845,7 +826,7 @@ class Athena {
   /// Parameter [workGroup] :
   /// The name of the workgroup.
   Future<GetWorkGroupOutput> getWorkGroup({
-    @_s.required String workGroup,
+    required String workGroup,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
     _s.validateStringPattern(
@@ -886,8 +867,8 @@ class Athena {
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
   Future<ListDataCatalogsOutput> listDataCatalogs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -938,9 +919,9 @@ class Athena {
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
   Future<ListDatabasesOutput> listDatabases({
-    @_s.required String catalogName,
-    int maxResults,
-    String nextToken,
+    required String catalogName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(catalogName, 'catalogName');
     _s.validateStringLength(
@@ -1014,9 +995,9 @@ class Athena {
   /// If a workgroup is not specified, the saved queries for the primary
   /// workgroup are returned.
   Future<ListNamedQueriesOutput> listNamedQueries({
-    int maxResults,
-    String nextToken,
-    String workGroup,
+    int? maxResults,
+    String? nextToken,
+    String? workGroup,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1081,9 +1062,9 @@ class Athena {
   /// workgroup is not specified, a list of available query execution IDs for
   /// the queries in the primary workgroup is returned.
   Future<ListQueryExecutionsOutput> listQueryExecutions({
-    int maxResults,
-    String nextToken,
-    String workGroup,
+    int? maxResults,
+    String? nextToken,
+    String? workGroup,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1147,11 +1128,11 @@ class Athena {
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
   Future<ListTableMetadataOutput> listTableMetadata({
-    @_s.required String catalogName,
-    @_s.required String databaseName,
-    String expression,
-    int maxResults,
-    String nextToken,
+    required String catalogName,
+    required String databaseName,
+    String? expression,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(catalogName, 'catalogName');
     _s.validateStringLength(
@@ -1234,9 +1215,9 @@ class Athena {
   /// results for this request, where the request lists the tags for the
   /// resource with the specified ARN.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceARN,
-    int maxResults,
-    String nextToken,
+    required String resourceARN,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1292,8 +1273,8 @@ class Athena {
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
   Future<ListWorkGroupsOutput> listWorkGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1368,11 +1349,11 @@ class Athena {
   /// Parameter [workGroup] :
   /// The name of the workgroup in which the query is being started.
   Future<StartQueryExecutionOutput> startQueryExecution({
-    @_s.required String queryString,
-    String clientRequestToken,
-    QueryExecutionContext queryExecutionContext,
-    ResultConfiguration resultConfiguration,
-    String workGroup,
+    required String queryString,
+    String? clientRequestToken,
+    QueryExecutionContext? queryExecutionContext,
+    ResultConfiguration? resultConfiguration,
+    String? workGroup,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -1431,14 +1412,13 @@ class Athena {
   /// Parameter [queryExecutionId] :
   /// The unique ID of the query execution to stop.
   Future<void> stopQueryExecution({
-    @_s.required String queryExecutionId,
+    String? queryExecutionId,
   }) async {
-    ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.StopQueryExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1448,8 +1428,6 @@ class Athena {
         'QueryExecutionId': queryExecutionId ?? _s.generateIdempotencyToken(),
       },
     );
-
-    return StopQueryExecutionOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds one or more tags to an Athena resource. A tag is a label that you
@@ -1479,8 +1457,8 @@ class Athena {
   /// A collection of one or more tags, separated by commas, to be added to an
   /// Athena workgroup or data catalog resource.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1495,7 +1473,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1506,8 +1484,6 @@ class Athena {
         'Tags': tags,
       },
     );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more tags from a data catalog or workgroup resource.
@@ -1523,8 +1499,8 @@ class Athena {
   /// A comma-separated list of one or more tag keys whose tags are to be
   /// removed from the specified resource.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1539,7 +1515,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1550,8 +1526,6 @@ class Athena {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the data catalog that has the specified name.
@@ -1611,10 +1585,10 @@ class Athena {
   /// </li>
   /// </ul>
   Future<void> updateDataCatalog({
-    @_s.required String name,
-    @_s.required DataCatalogType type,
-    String description,
-    Map<String, String> parameters,
+    required String name,
+    required DataCatalogType type,
+    String? description,
+    Map<String, String>? parameters,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1641,7 +1615,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UpdateDataCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1649,13 +1623,11 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (description != null) 'Description': description,
         if (parameters != null) 'Parameters': parameters,
       },
     );
-
-    return UpdateDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the workgroup with the specified name. The workgroup's name cannot
@@ -1676,10 +1648,10 @@ class Athena {
   /// Parameter [state] :
   /// The workgroup state that will be updated for the given workgroup.
   Future<void> updateWorkGroup({
-    @_s.required String workGroup,
-    WorkGroupConfigurationUpdates configurationUpdates,
-    String description,
-    WorkGroupState state,
+    required String workGroup,
+    WorkGroupConfigurationUpdates? configurationUpdates,
+    String? description,
+    WorkGroupState? state,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
     _s.validateStringPattern(
@@ -1698,7 +1670,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UpdateWorkGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1712,134 +1684,124 @@ class Athena {
         if (state != null) 'State': state.toValue(),
       },
     );
-
-    return UpdateWorkGroupOutput.fromJson(jsonResponse.body);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetNamedQueryOutput {
   /// Information about the named query IDs submitted.
-  @_s.JsonKey(name: 'NamedQueries')
-  final List<NamedQuery> namedQueries;
+  final List<NamedQuery>? namedQueries;
 
   /// Information about provided query IDs.
-  @_s.JsonKey(name: 'UnprocessedNamedQueryIds')
-  final List<UnprocessedNamedQueryId> unprocessedNamedQueryIds;
+  final List<UnprocessedNamedQueryId>? unprocessedNamedQueryIds;
 
   BatchGetNamedQueryOutput({
     this.namedQueries,
     this.unprocessedNamedQueryIds,
   });
-  factory BatchGetNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetNamedQueryOutputFromJson(json);
+  factory BatchGetNamedQueryOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetNamedQueryOutput(
+      namedQueries: (json['NamedQueries'] as List?)
+          ?.whereNotNull()
+          .map((e) => NamedQuery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedNamedQueryIds: (json['UnprocessedNamedQueryIds'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UnprocessedNamedQueryId.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetQueryExecutionOutput {
   /// Information about a query execution.
-  @_s.JsonKey(name: 'QueryExecutions')
-  final List<QueryExecution> queryExecutions;
+  final List<QueryExecution>? queryExecutions;
 
   /// Information about the query executions that failed to run.
-  @_s.JsonKey(name: 'UnprocessedQueryExecutionIds')
-  final List<UnprocessedQueryExecutionId> unprocessedQueryExecutionIds;
+  final List<UnprocessedQueryExecutionId>? unprocessedQueryExecutionIds;
 
   BatchGetQueryExecutionOutput({
     this.queryExecutions,
     this.unprocessedQueryExecutionIds,
   });
-  factory BatchGetQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetQueryExecutionOutputFromJson(json);
+  factory BatchGetQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetQueryExecutionOutput(
+      queryExecutions: (json['QueryExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedQueryExecutionIds: (json['UnprocessedQueryExecutionIds']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UnprocessedQueryExecutionId.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains metadata for a column in a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Column {
   /// The name of the column.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Optional information about the column.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The data type of the column.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Column({
-    @_s.required this.name,
+    required this.name,
     this.comment,
     this.type,
   });
-  factory Column.fromJson(Map<String, dynamic> json) => _$ColumnFromJson(json);
+  factory Column.fromJson(Map<String, dynamic> json) {
+    return Column(
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
 }
 
 /// Information about the columns in a query execution result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnInfo {
   /// The name of the column.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The data type of the column.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// Indicates whether values in the column are case-sensitive.
-  @_s.JsonKey(name: 'CaseSensitive')
-  final bool caseSensitive;
+  final bool? caseSensitive;
 
   /// The catalog to which the query results belong.
-  @_s.JsonKey(name: 'CatalogName')
-  final String catalogName;
+  final String? catalogName;
 
   /// A column label.
-  @_s.JsonKey(name: 'Label')
-  final String label;
+  final String? label;
 
   /// Indicates the column's nullable status.
-  @_s.JsonKey(name: 'Nullable')
-  final ColumnNullable nullable;
+  final ColumnNullable? nullable;
 
   /// For <code>DECIMAL</code> data types, specifies the total number of digits,
   /// up to 38. For performance reasons, we recommend up to 18 digits.
-  @_s.JsonKey(name: 'Precision')
-  final int precision;
+  final int? precision;
 
   /// For <code>DECIMAL</code> data types, specifies the total number of digits in
   /// the fractional part of the value. Defaults to 0.
-  @_s.JsonKey(name: 'Scale')
-  final int scale;
+  final int? scale;
 
   /// The schema name (database name) to which the query results belong.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The table name for the query results.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   ColumnInfo({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
     this.caseSensitive,
     this.catalogName,
     this.label,
@@ -1849,80 +1811,97 @@ class ColumnInfo {
     this.schemaName,
     this.tableName,
   });
-  factory ColumnInfo.fromJson(Map<String, dynamic> json) =>
-      _$ColumnInfoFromJson(json);
+  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
+    return ColumnInfo(
+      name: json['Name'] as String,
+      type: json['Type'] as String,
+      caseSensitive: json['CaseSensitive'] as bool?,
+      catalogName: json['CatalogName'] as String?,
+      label: json['Label'] as String?,
+      nullable: (json['Nullable'] as String?)?.toColumnNullable(),
+      precision: json['Precision'] as int?,
+      scale: json['Scale'] as int?,
+      schemaName: json['SchemaName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
 }
 
 enum ColumnNullable {
-  @_s.JsonValue('NOT_NULL')
   notNull,
-  @_s.JsonValue('NULLABLE')
   nullable,
-  @_s.JsonValue('UNKNOWN')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class CreateDataCatalogOutput {
-  CreateDataCatalogOutput();
-  factory CreateDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataCatalogOutputFromJson(json);
+extension on ColumnNullable {
+  String toValue() {
+    switch (this) {
+      case ColumnNullable.notNull:
+        return 'NOT_NULL';
+      case ColumnNullable.nullable:
+        return 'NULLABLE';
+      case ColumnNullable.unknown:
+        return 'UNKNOWN';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ColumnNullable toColumnNullable() {
+    switch (this) {
+      case 'NOT_NULL':
+        return ColumnNullable.notNull;
+      case 'NULLABLE':
+        return ColumnNullable.nullable;
+      case 'UNKNOWN':
+        return ColumnNullable.unknown;
+    }
+    throw Exception('$this is not known in enum ColumnNullable');
+  }
+}
+
+class CreateDataCatalogOutput {
+  CreateDataCatalogOutput();
+  factory CreateDataCatalogOutput.fromJson(Map<String, dynamic> _) {
+    return CreateDataCatalogOutput();
+  }
+}
+
 class CreateNamedQueryOutput {
   /// The unique ID of the query.
-  @_s.JsonKey(name: 'NamedQueryId')
-  final String namedQueryId;
+  final String? namedQueryId;
 
   CreateNamedQueryOutput({
     this.namedQueryId,
   });
-  factory CreateNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateNamedQueryOutputFromJson(json);
+  factory CreateNamedQueryOutput.fromJson(Map<String, dynamic> json) {
+    return CreateNamedQueryOutput(
+      namedQueryId: json['NamedQueryId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWorkGroupOutput {
   CreateWorkGroupOutput();
-  factory CreateWorkGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateWorkGroupOutputFromJson(json);
+  factory CreateWorkGroupOutput.fromJson(Map<String, dynamic> _) {
+    return CreateWorkGroupOutput();
+  }
 }
 
 /// Contains information about a data catalog in an AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataCatalog {
   /// The name of the data catalog. The catalog name must be unique for the AWS
   /// account and can use a maximum of 128 alphanumeric, underscore, at sign, or
   /// hyphen characters.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The type of data catalog: <code>LAMBDA</code> for a federated catalog,
   /// <code>GLUE</code> for AWS Glue Catalog, or <code>HIVE</code> for an external
   /// hive metastore.
-  @_s.JsonKey(name: 'Type')
   final DataCatalogType type;
 
   /// An optional description of the data catalog.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Specifies the Lambda function or functions to use for the data catalog. This
   /// is a mapping whose values depend on the catalog type.
@@ -1961,49 +1940,49 @@ class DataCatalog {
   /// The <code>GLUE</code> type has no parameters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   DataCatalog({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
     this.description,
     this.parameters,
   });
-  factory DataCatalog.fromJson(Map<String, dynamic> json) =>
-      _$DataCatalogFromJson(json);
+  factory DataCatalog.fromJson(Map<String, dynamic> json) {
+    return DataCatalog(
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toDataCatalogType(),
+      description: json['Description'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// The summary information for the data catalog, which includes its name and
 /// type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataCatalogSummary {
   /// The name of the data catalog.
-  @_s.JsonKey(name: 'CatalogName')
-  final String catalogName;
+  final String? catalogName;
 
   /// The data catalog type.
-  @_s.JsonKey(name: 'Type')
-  final DataCatalogType type;
+  final DataCatalogType? type;
 
   DataCatalogSummary({
     this.catalogName,
     this.type,
   });
-  factory DataCatalogSummary.fromJson(Map<String, dynamic> json) =>
-      _$DataCatalogSummaryFromJson(json);
+  factory DataCatalogSummary.fromJson(Map<String, dynamic> json) {
+    return DataCatalogSummary(
+      catalogName: json['CatalogName'] as String?,
+      type: (json['Type'] as String?)?.toDataCatalogType(),
+    );
+  }
 }
 
 enum DataCatalogType {
-  @_s.JsonValue('LAMBDA')
   lambda,
-  @_s.JsonValue('GLUE')
   glue,
-  @_s.JsonValue('HIVE')
   hive,
 }
 
@@ -2017,96 +1996,88 @@ extension on DataCatalogType {
       case DataCatalogType.hive:
         return 'HIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataCatalogType toDataCatalogType() {
+    switch (this) {
+      case 'LAMBDA':
+        return DataCatalogType.lambda;
+      case 'GLUE':
+        return DataCatalogType.glue;
+      case 'HIVE':
+        return DataCatalogType.hive;
+    }
+    throw Exception('$this is not known in enum DataCatalogType');
   }
 }
 
 /// Contains metadata information for a database in a data catalog.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Database {
   /// The name of the database.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An optional description of the database.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A set of custom key/value pairs.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   Database({
-    @_s.required this.name,
+    required this.name,
     this.description,
     this.parameters,
   });
-  factory Database.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseFromJson(json);
+  factory Database.fromJson(Map<String, dynamic> json) {
+    return Database(
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A piece of data (a field in the table).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Datum {
   /// The value of the datum.
-  @_s.JsonKey(name: 'VarCharValue')
-  final String varCharValue;
+  final String? varCharValue;
 
   Datum({
     this.varCharValue,
   });
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory Datum.fromJson(Map<String, dynamic> json) {
+    return Datum(
+      varCharValue: json['VarCharValue'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDataCatalogOutput {
   DeleteDataCatalogOutput();
-  factory DeleteDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDataCatalogOutputFromJson(json);
+  factory DeleteDataCatalogOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDataCatalogOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNamedQueryOutput {
   DeleteNamedQueryOutput();
-  factory DeleteNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNamedQueryOutputFromJson(json);
+  factory DeleteNamedQueryOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteNamedQueryOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWorkGroupOutput {
   DeleteWorkGroupOutput();
-  factory DeleteWorkGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWorkGroupOutputFromJson(json);
+  factory DeleteWorkGroupOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkGroupOutput();
+  }
 }
 
 /// If query results are encrypted in Amazon S3, indicates the encryption option
 /// used (for example, <code>SSE-KMS</code> or <code>CSE-KMS</code>) and key
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfiguration {
   /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed
   /// keys (<code>SSE-S3</code>), server-side encryption with KMS-managed keys
@@ -2117,428 +2088,441 @@ class EncryptionConfiguration {
   /// settings, then the workgroup's setting for encryption is used. It specifies
   /// whether query results must be encrypted, for all queries that run in this
   /// workgroup.
-  @_s.JsonKey(name: 'EncryptionOption')
   final EncryptionOption encryptionOption;
 
   /// For <code>SSE-KMS</code> and <code>CSE-KMS</code>, this is the KMS key ARN
   /// or ID.
-  @_s.JsonKey(name: 'KmsKey')
-  final String kmsKey;
+  final String? kmsKey;
 
   EncryptionConfiguration({
-    @_s.required this.encryptionOption,
+    required this.encryptionOption,
     this.kmsKey,
   });
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigurationFromJson(json);
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      encryptionOption:
+          (json['EncryptionOption'] as String).toEncryptionOption(),
+      kmsKey: json['KmsKey'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionOption = this.encryptionOption;
+    final kmsKey = this.kmsKey;
+    return {
+      'EncryptionOption': encryptionOption.toValue(),
+      if (kmsKey != null) 'KmsKey': kmsKey,
+    };
+  }
 }
 
 enum EncryptionOption {
-  @_s.JsonValue('SSE_S3')
   sseS3,
-  @_s.JsonValue('SSE_KMS')
   sseKms,
-  @_s.JsonValue('CSE_KMS')
   cseKms,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EncryptionOption {
+  String toValue() {
+    switch (this) {
+      case EncryptionOption.sseS3:
+        return 'SSE_S3';
+      case EncryptionOption.sseKms:
+        return 'SSE_KMS';
+      case EncryptionOption.cseKms:
+        return 'CSE_KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionOption toEncryptionOption() {
+    switch (this) {
+      case 'SSE_S3':
+        return EncryptionOption.sseS3;
+      case 'SSE_KMS':
+        return EncryptionOption.sseKms;
+      case 'CSE_KMS':
+        return EncryptionOption.cseKms;
+    }
+    throw Exception('$this is not known in enum EncryptionOption');
+  }
+}
+
 class GetDataCatalogOutput {
   /// The data catalog returned.
-  @_s.JsonKey(name: 'DataCatalog')
-  final DataCatalog dataCatalog;
+  final DataCatalog? dataCatalog;
 
   GetDataCatalogOutput({
     this.dataCatalog,
   });
-  factory GetDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDataCatalogOutputFromJson(json);
+  factory GetDataCatalogOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataCatalogOutput(
+      dataCatalog: json['DataCatalog'] != null
+          ? DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDatabaseOutput {
   /// The database returned.
-  @_s.JsonKey(name: 'Database')
-  final Database database;
+  final Database? database;
 
   GetDatabaseOutput({
     this.database,
   });
-  factory GetDatabaseOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDatabaseOutputFromJson(json);
+  factory GetDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return GetDatabaseOutput(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNamedQueryOutput {
   /// Information about the query.
-  @_s.JsonKey(name: 'NamedQuery')
-  final NamedQuery namedQuery;
+  final NamedQuery? namedQuery;
 
   GetNamedQueryOutput({
     this.namedQuery,
   });
-  factory GetNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetNamedQueryOutputFromJson(json);
+  factory GetNamedQueryOutput.fromJson(Map<String, dynamic> json) {
+    return GetNamedQueryOutput(
+      namedQuery: json['NamedQuery'] != null
+          ? NamedQuery.fromJson(json['NamedQuery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQueryExecutionOutput {
   /// Information about the query execution.
-  @_s.JsonKey(name: 'QueryExecution')
-  final QueryExecution queryExecution;
+  final QueryExecution? queryExecution;
 
   GetQueryExecutionOutput({
     this.queryExecution,
   });
-  factory GetQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetQueryExecutionOutputFromJson(json);
+  factory GetQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return GetQueryExecutionOutput(
+      queryExecution: json['QueryExecution'] != null
+          ? QueryExecution.fromJson(
+              json['QueryExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQueryResultsOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The results of the query execution.
-  @_s.JsonKey(name: 'ResultSet')
-  final ResultSet resultSet;
+  final ResultSet? resultSet;
 
   /// The number of rows inserted with a CREATE TABLE AS SELECT statement.
-  @_s.JsonKey(name: 'UpdateCount')
-  final int updateCount;
+  final int? updateCount;
 
   GetQueryResultsOutput({
     this.nextToken,
     this.resultSet,
     this.updateCount,
   });
-  factory GetQueryResultsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetQueryResultsOutputFromJson(json);
+  factory GetQueryResultsOutput.fromJson(Map<String, dynamic> json) {
+    return GetQueryResultsOutput(
+      nextToken: json['NextToken'] as String?,
+      resultSet: json['ResultSet'] != null
+          ? ResultSet.fromJson(json['ResultSet'] as Map<String, dynamic>)
+          : null,
+      updateCount: json['UpdateCount'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTableMetadataOutput {
   /// An object that contains table metadata.
-  @_s.JsonKey(name: 'TableMetadata')
-  final TableMetadata tableMetadata;
+  final TableMetadata? tableMetadata;
 
   GetTableMetadataOutput({
     this.tableMetadata,
   });
-  factory GetTableMetadataOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetTableMetadataOutputFromJson(json);
+  factory GetTableMetadataOutput.fromJson(Map<String, dynamic> json) {
+    return GetTableMetadataOutput(
+      tableMetadata: json['TableMetadata'] != null
+          ? TableMetadata.fromJson(
+              json['TableMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWorkGroupOutput {
   /// Information about the workgroup.
-  @_s.JsonKey(name: 'WorkGroup')
-  final WorkGroup workGroup;
+  final WorkGroup? workGroup;
 
   GetWorkGroupOutput({
     this.workGroup,
   });
-  factory GetWorkGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetWorkGroupOutputFromJson(json);
+  factory GetWorkGroupOutput.fromJson(Map<String, dynamic> json) {
+    return GetWorkGroupOutput(
+      workGroup: json['WorkGroup'] != null
+          ? WorkGroup.fromJson(json['WorkGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDataCatalogsOutput {
   /// A summary list of data catalogs.
-  @_s.JsonKey(name: 'DataCatalogsSummary')
-  final List<DataCatalogSummary> dataCatalogsSummary;
+  final List<DataCatalogSummary>? dataCatalogsSummary;
 
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDataCatalogsOutput({
     this.dataCatalogsSummary,
     this.nextToken,
   });
-  factory ListDataCatalogsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDataCatalogsOutputFromJson(json);
+  factory ListDataCatalogsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDataCatalogsOutput(
+      dataCatalogsSummary: (json['DataCatalogsSummary'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataCatalogSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatabasesOutput {
   /// A list of databases from a data catalog.
-  @_s.JsonKey(name: 'DatabaseList')
-  final List<Database> databaseList;
+  final List<Database>? databaseList;
 
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatabasesOutput({
     this.databaseList,
     this.nextToken,
   });
-  factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDatabasesOutputFromJson(json);
+  factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListDatabasesOutput(
+      databaseList: (json['DatabaseList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Database.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNamedQueriesOutput {
   /// The list of unique query IDs.
-  @_s.JsonKey(name: 'NamedQueryIds')
-  final List<String> namedQueryIds;
+  final List<String>? namedQueryIds;
 
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListNamedQueriesOutput({
     this.namedQueryIds,
     this.nextToken,
   });
-  factory ListNamedQueriesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListNamedQueriesOutputFromJson(json);
+  factory ListNamedQueriesOutput.fromJson(Map<String, dynamic> json) {
+    return ListNamedQueriesOutput(
+      namedQueryIds: (json['NamedQueryIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListQueryExecutionsOutput {
   /// A token to be used by the next request if this request is truncated.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The unique IDs of each query execution as an array of strings.
-  @_s.JsonKey(name: 'QueryExecutionIds')
-  final List<String> queryExecutionIds;
+  final List<String>? queryExecutionIds;
 
   ListQueryExecutionsOutput({
     this.nextToken,
     this.queryExecutionIds,
   });
-  factory ListQueryExecutionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListQueryExecutionsOutputFromJson(json);
+  factory ListQueryExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListQueryExecutionsOutput(
+      nextToken: json['NextToken'] as String?,
+      queryExecutionIds: (json['QueryExecutionIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTableMetadataOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the NextToken from the response object of the previous page
   /// call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of table metadata.
-  @_s.JsonKey(name: 'TableMetadataList')
-  final List<TableMetadata> tableMetadataList;
+  final List<TableMetadata>? tableMetadataList;
 
   ListTableMetadataOutput({
     this.nextToken,
     this.tableMetadataList,
   });
-  factory ListTableMetadataOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTableMetadataOutputFromJson(json);
+  factory ListTableMetadataOutput.fromJson(Map<String, dynamic> json) {
+    return ListTableMetadataOutput(
+      nextToken: json['NextToken'] as String?,
+      tableMetadataList: (json['TableMetadataList'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// A token to be used by the next request if this request is truncated.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of tags associated with the specified resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWorkGroupsOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of workgroups, including their names, descriptions, creation times,
   /// and states.
-  @_s.JsonKey(name: 'WorkGroups')
-  final List<WorkGroupSummary> workGroups;
+  final List<WorkGroupSummary>? workGroups;
 
   ListWorkGroupsOutput({
     this.nextToken,
     this.workGroups,
   });
-  factory ListWorkGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListWorkGroupsOutputFromJson(json);
+  factory ListWorkGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListWorkGroupsOutput(
+      nextToken: json['NextToken'] as String?,
+      workGroups: (json['WorkGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A query, where <code>QueryString</code> is the list of SQL query statements
 /// that comprise the query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NamedQuery {
   /// The database to which the query belongs.
-  @_s.JsonKey(name: 'Database')
   final String database;
 
   /// The query name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The SQL query statements that comprise the query.
-  @_s.JsonKey(name: 'QueryString')
   final String queryString;
 
   /// The query description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier of the query.
-  @_s.JsonKey(name: 'NamedQueryId')
-  final String namedQueryId;
+  final String? namedQueryId;
 
   /// The name of the workgroup that contains the named query.
-  @_s.JsonKey(name: 'WorkGroup')
-  final String workGroup;
+  final String? workGroup;
 
   NamedQuery({
-    @_s.required this.database,
-    @_s.required this.name,
-    @_s.required this.queryString,
+    required this.database,
+    required this.name,
+    required this.queryString,
     this.description,
     this.namedQueryId,
     this.workGroup,
   });
-  factory NamedQuery.fromJson(Map<String, dynamic> json) =>
-      _$NamedQueryFromJson(json);
+  factory NamedQuery.fromJson(Map<String, dynamic> json) {
+    return NamedQuery(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      queryString: json['QueryString'] as String,
+      description: json['Description'] as String?,
+      namedQueryId: json['NamedQueryId'] as String?,
+      workGroup: json['WorkGroup'] as String?,
+    );
+  }
 }
 
 /// Information about a single instance of a query execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryExecution {
   /// The SQL query statements which the query execution ran.
-  @_s.JsonKey(name: 'Query')
-  final String query;
+  final String? query;
 
   /// The database in which the query execution occurred.
-  @_s.JsonKey(name: 'QueryExecutionContext')
-  final QueryExecutionContext queryExecutionContext;
+  final QueryExecutionContext? queryExecutionContext;
 
   /// The unique identifier for each query execution.
-  @_s.JsonKey(name: 'QueryExecutionId')
-  final String queryExecutionId;
+  final String? queryExecutionId;
 
   /// The location in Amazon S3 where query results were stored and the encryption
   /// option, if any, used for query results. These are known as "client-side
   /// settings". If workgroup settings override client-side settings, then the
   /// query uses the location for the query results and the encryption
   /// configuration that are specified for the workgroup.
-  @_s.JsonKey(name: 'ResultConfiguration')
-  final ResultConfiguration resultConfiguration;
+  final ResultConfiguration? resultConfiguration;
 
   /// The type of query statement that was run. <code>DDL</code> indicates DDL
   /// query statements. <code>DML</code> indicates DML (Data Manipulation
   /// Language) query statements, such as <code>CREATE TABLE AS SELECT</code>.
   /// <code>UTILITY</code> indicates query statements other than DDL and DML, such
   /// as <code>SHOW CREATE TABLE</code>, or <code>DESCRIBE &lt;table&gt;</code>.
-  @_s.JsonKey(name: 'StatementType')
-  final StatementType statementType;
+  final StatementType? statementType;
 
   /// Query execution statistics, such as the amount of data scanned, the amount
   /// of time that the query took to process, and the type of statement that was
   /// run.
-  @_s.JsonKey(name: 'Statistics')
-  final QueryExecutionStatistics statistics;
+  final QueryExecutionStatistics? statistics;
 
   /// The completion date, current state, submission time, and state change reason
   /// (if applicable) for the query execution.
-  @_s.JsonKey(name: 'Status')
-  final QueryExecutionStatus status;
+  final QueryExecutionStatus? status;
 
   /// The name of the workgroup in which the query ran.
-  @_s.JsonKey(name: 'WorkGroup')
-  final String workGroup;
+  final String? workGroup;
 
   QueryExecution({
     this.query,
@@ -2550,55 +2534,106 @@ class QueryExecution {
     this.status,
     this.workGroup,
   });
-  factory QueryExecution.fromJson(Map<String, dynamic> json) =>
-      _$QueryExecutionFromJson(json);
+  factory QueryExecution.fromJson(Map<String, dynamic> json) {
+    return QueryExecution(
+      query: json['Query'] as String?,
+      queryExecutionContext: json['QueryExecutionContext'] != null
+          ? QueryExecutionContext.fromJson(
+              json['QueryExecutionContext'] as Map<String, dynamic>)
+          : null,
+      queryExecutionId: json['QueryExecutionId'] as String?,
+      resultConfiguration: json['ResultConfiguration'] != null
+          ? ResultConfiguration.fromJson(
+              json['ResultConfiguration'] as Map<String, dynamic>)
+          : null,
+      statementType: (json['StatementType'] as String?)?.toStatementType(),
+      statistics: json['Statistics'] != null
+          ? QueryExecutionStatistics.fromJson(
+              json['Statistics'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? QueryExecutionStatus.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      workGroup: json['WorkGroup'] as String?,
+    );
+  }
 }
 
 /// The database and data catalog context in which the query execution occurs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class QueryExecutionContext {
   /// The name of the data catalog used in the query execution.
-  @_s.JsonKey(name: 'Catalog')
-  final String catalog;
+  final String? catalog;
 
   /// The name of the database used in the query execution.
-  @_s.JsonKey(name: 'Database')
-  final String database;
+  final String? database;
 
   QueryExecutionContext({
     this.catalog,
     this.database,
   });
-  factory QueryExecutionContext.fromJson(Map<String, dynamic> json) =>
-      _$QueryExecutionContextFromJson(json);
+  factory QueryExecutionContext.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionContext(
+      catalog: json['Catalog'] as String?,
+      database: json['Database'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$QueryExecutionContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final catalog = this.catalog;
+    final database = this.database;
+    return {
+      if (catalog != null) 'Catalog': catalog,
+      if (database != null) 'Database': database,
+    };
+  }
 }
 
 enum QueryExecutionState {
-  @_s.JsonValue('QUEUED')
   queued,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
+}
+
+extension on QueryExecutionState {
+  String toValue() {
+    switch (this) {
+      case QueryExecutionState.queued:
+        return 'QUEUED';
+      case QueryExecutionState.running:
+        return 'RUNNING';
+      case QueryExecutionState.succeeded:
+        return 'SUCCEEDED';
+      case QueryExecutionState.failed:
+        return 'FAILED';
+      case QueryExecutionState.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  QueryExecutionState toQueryExecutionState() {
+    switch (this) {
+      case 'QUEUED':
+        return QueryExecutionState.queued;
+      case 'RUNNING':
+        return QueryExecutionState.running;
+      case 'SUCCEEDED':
+        return QueryExecutionState.succeeded;
+      case 'FAILED':
+        return QueryExecutionState.failed;
+      case 'CANCELLED':
+        return QueryExecutionState.cancelled;
+    }
+    throw Exception('$this is not known in enum QueryExecutionState');
+  }
 }
 
 /// The amount of data scanned during the query execution and the amount of time
 /// that it took to execute, and the type of statement that was run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryExecutionStatistics {
   /// The location and file name of a data manifest file. The manifest file is
   /// saved to the Athena query results location in Amazon S3. The manifest file
@@ -2609,38 +2644,31 @@ class QueryExecutionStatistics {
   /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
   /// with Query Results, Output Files, and Query History</a> in the <i>Amazon
   /// Athena User Guide</i>.
-  @_s.JsonKey(name: 'DataManifestLocation')
-  final String dataManifestLocation;
+  final String? dataManifestLocation;
 
   /// The number of bytes in the data that was queried.
-  @_s.JsonKey(name: 'DataScannedInBytes')
-  final int dataScannedInBytes;
+  final int? dataScannedInBytes;
 
   /// The number of milliseconds that the query took to execute.
-  @_s.JsonKey(name: 'EngineExecutionTimeInMillis')
-  final int engineExecutionTimeInMillis;
+  final int? engineExecutionTimeInMillis;
 
   /// The number of milliseconds that Athena took to plan the query processing
   /// flow. This includes the time spent retrieving table partitions from the data
   /// source. Note that because the query engine performs the query planning,
   /// query planning time is a subset of engine processing time.
-  @_s.JsonKey(name: 'QueryPlanningTimeInMillis')
-  final int queryPlanningTimeInMillis;
+  final int? queryPlanningTimeInMillis;
 
   /// The number of milliseconds that the query was in your query queue waiting
   /// for resources. Note that if transient errors occur, Athena might
   /// automatically add the query back to the queue.
-  @_s.JsonKey(name: 'QueryQueueTimeInMillis')
-  final int queryQueueTimeInMillis;
+  final int? queryQueueTimeInMillis;
 
   /// The number of milliseconds that Athena took to finalize and publish the
   /// query results after the query engine finished running the query.
-  @_s.JsonKey(name: 'ServiceProcessingTimeInMillis')
-  final int serviceProcessingTimeInMillis;
+  final int? serviceProcessingTimeInMillis;
 
   /// The number of milliseconds that Athena took to run the query.
-  @_s.JsonKey(name: 'TotalExecutionTimeInMillis')
-  final int totalExecutionTimeInMillis;
+  final int? totalExecutionTimeInMillis;
 
   QueryExecutionStatistics({
     this.dataManifestLocation,
@@ -2651,22 +2679,25 @@ class QueryExecutionStatistics {
     this.serviceProcessingTimeInMillis,
     this.totalExecutionTimeInMillis,
   });
-  factory QueryExecutionStatistics.fromJson(Map<String, dynamic> json) =>
-      _$QueryExecutionStatisticsFromJson(json);
+  factory QueryExecutionStatistics.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionStatistics(
+      dataManifestLocation: json['DataManifestLocation'] as String?,
+      dataScannedInBytes: json['DataScannedInBytes'] as int?,
+      engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
+      queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
+      queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
+      serviceProcessingTimeInMillis:
+          json['ServiceProcessingTimeInMillis'] as int?,
+      totalExecutionTimeInMillis: json['TotalExecutionTimeInMillis'] as int?,
+    );
+  }
 }
 
 /// The completion date, current state, submission time, and state change reason
 /// (if applicable) for the query execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryExecutionStatus {
   /// The date and time that the query completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionDateTime')
-  final DateTime completionDateTime;
+  final DateTime? completionDateTime;
 
   /// The state of query execution. <code>QUEUED</code> indicates that the query
   /// has been submitted to the service, and Athena will execute the query as soon
@@ -2680,17 +2711,13 @@ class QueryExecutionStatus {
   /// errors. As a result, you may see the query state transition from
   /// <code>RUNNING</code> or <code>FAILED</code> to <code>QUEUED</code>.
   /// </note>
-  @_s.JsonKey(name: 'State')
-  final QueryExecutionState state;
+  final QueryExecutionState? state;
 
   /// Further detail about the status of the query.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final String stateChangeReason;
+  final String? stateChangeReason;
 
   /// The date and time that the query was submitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmissionDateTime')
-  final DateTime submissionDateTime;
+  final DateTime? submissionDateTime;
 
   QueryExecutionStatus({
     this.completionDateTime,
@@ -2698,19 +2725,20 @@ class QueryExecutionStatus {
     this.stateChangeReason,
     this.submissionDateTime,
   });
-  factory QueryExecutionStatus.fromJson(Map<String, dynamic> json) =>
-      _$QueryExecutionStatusFromJson(json);
+  factory QueryExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionStatus(
+      completionDateTime: timeStampFromJson(json['CompletionDateTime']),
+      state: (json['State'] as String?)?.toQueryExecutionState(),
+      stateChangeReason: json['StateChangeReason'] as String?,
+      submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
+    );
+  }
 }
 
 /// The location in Amazon S3 where query results are stored and the encryption
 /// option, if any, used for query results. These are known as "client-side
 /// settings". If workgroup settings override client-side settings, then the
 /// query uses the workgroup settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResultConfiguration {
   /// If query results are encrypted in Amazon S3, indicates the encryption option
   /// used (for example, <code>SSE-KMS</code> or <code>CSE-KMS</code>) and key
@@ -2721,8 +2749,7 @@ class ResultConfiguration {
   /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
   /// Settings Override Client-Side Settings</a>.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// The location in Amazon S3 where your query results are stored, such as
   /// <code>s3://path/to/query/bucket/</code>. To run the query, you must specify
@@ -2734,30 +2761,38 @@ class ResultConfiguration {
   /// Results</a>. If workgroup settings override client-side settings, then the
   /// query uses the settings specified for the workgroup. See
   /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  @_s.JsonKey(name: 'OutputLocation')
-  final String outputLocation;
+  final String? outputLocation;
 
   ResultConfiguration({
     this.encryptionConfiguration,
     this.outputLocation,
   });
-  factory ResultConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ResultConfigurationFromJson(json);
+  factory ResultConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResultConfiguration(
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      outputLocation: json['OutputLocation'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResultConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final outputLocation = this.outputLocation;
+    return {
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+    };
+  }
 }
 
 /// The information about the updates in the query results, such as output
 /// location and encryption configuration for the query results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResultConfigurationUpdates {
   /// The encryption configuration for the query results.
-  @_s.JsonKey(name: 'EncryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// The location in Amazon S3 where your query results are stored, such as
   /// <code>s3://path/to/query/bucket/</code>. For more information, see <a
@@ -2768,8 +2803,7 @@ class ResultConfigurationUpdates {
   /// override" is specified in EnforceWorkGroupConfiguration (true/false) in the
   /// WorkGroupConfiguration. See
   /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  @_s.JsonKey(name: 'OutputLocation')
-  final String outputLocation;
+  final String? outputLocation;
 
   /// If set to "true", indicates that the previously-specified encryption
   /// configuration (also known as the client-side setting) for queries in this
@@ -2780,8 +2814,7 @@ class ResultConfigurationUpdates {
   /// updated with the new value. For more information, see <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
   /// Settings Override Client-Side Settings</a>.
-  @_s.JsonKey(name: 'RemoveEncryptionConfiguration')
-  final bool removeEncryptionConfiguration;
+  final bool? removeEncryptionConfiguration;
 
   /// If set to "true", indicates that the previously-specified query results
   /// location (also known as a client-side setting) for queries in this workgroup
@@ -2792,8 +2825,7 @@ class ResultConfigurationUpdates {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
   /// Settings Override Client-Side Settings</a>.
-  @_s.JsonKey(name: 'RemoveOutputLocation')
-  final bool removeOutputLocation;
+  final bool? removeOutputLocation;
 
   ResultConfigurationUpdates({
     this.encryptionConfiguration,
@@ -2801,148 +2833,169 @@ class ResultConfigurationUpdates {
     this.removeEncryptionConfiguration,
     this.removeOutputLocation,
   });
-  Map<String, dynamic> toJson() => _$ResultConfigurationUpdatesToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final outputLocation = this.outputLocation;
+    final removeEncryptionConfiguration = this.removeEncryptionConfiguration;
+    final removeOutputLocation = this.removeOutputLocation;
+    return {
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (removeEncryptionConfiguration != null)
+        'RemoveEncryptionConfiguration': removeEncryptionConfiguration,
+      if (removeOutputLocation != null)
+        'RemoveOutputLocation': removeOutputLocation,
+    };
+  }
 }
 
 /// The metadata and rows that comprise a query result set. The metadata
 /// describes the column structure and data types. To return a
 /// <code>ResultSet</code> object, use <a>GetQueryResults</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultSet {
   /// The metadata that describes the column structure and data types of a table
   /// of query results.
-  @_s.JsonKey(name: 'ResultSetMetadata')
-  final ResultSetMetadata resultSetMetadata;
+  final ResultSetMetadata? resultSetMetadata;
 
   /// The rows in the table.
-  @_s.JsonKey(name: 'Rows')
-  final List<Row> rows;
+  final List<Row>? rows;
 
   ResultSet({
     this.resultSetMetadata,
     this.rows,
   });
-  factory ResultSet.fromJson(Map<String, dynamic> json) =>
-      _$ResultSetFromJson(json);
+  factory ResultSet.fromJson(Map<String, dynamic> json) {
+    return ResultSet(
+      resultSetMetadata: json['ResultSetMetadata'] != null
+          ? ResultSetMetadata.fromJson(
+              json['ResultSetMetadata'] as Map<String, dynamic>)
+          : null,
+      rows: (json['Rows'] as List?)
+          ?.whereNotNull()
+          .map((e) => Row.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The metadata that describes the column structure and data types of a table
 /// of query results. To return a <code>ResultSetMetadata</code> object, use
 /// <a>GetQueryResults</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultSetMetadata {
   /// Information about the columns returned in a query result metadata.
-  @_s.JsonKey(name: 'ColumnInfo')
-  final List<ColumnInfo> columnInfo;
+  final List<ColumnInfo>? columnInfo;
 
   ResultSetMetadata({
     this.columnInfo,
   });
-  factory ResultSetMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ResultSetMetadataFromJson(json);
+  factory ResultSetMetadata.fromJson(Map<String, dynamic> json) {
+    return ResultSetMetadata(
+      columnInfo: (json['ColumnInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The rows that comprise a query result table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Row {
   /// The data that populates a row in a query result table.
-  @_s.JsonKey(name: 'Data')
-  final List<Datum> data;
+  final List<Datum>? data;
 
   Row({
     this.data,
   });
-  factory Row.fromJson(Map<String, dynamic> json) => _$RowFromJson(json);
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      data: (json['Data'] as List?)
+          ?.whereNotNull()
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartQueryExecutionOutput {
   /// The unique ID of the query that ran as a result of this request.
-  @_s.JsonKey(name: 'QueryExecutionId')
-  final String queryExecutionId;
+  final String? queryExecutionId;
 
   StartQueryExecutionOutput({
     this.queryExecutionId,
   });
-  factory StartQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartQueryExecutionOutputFromJson(json);
+  factory StartQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartQueryExecutionOutput(
+      queryExecutionId: json['QueryExecutionId'] as String?,
+    );
+  }
 }
 
 enum StatementType {
-  @_s.JsonValue('DDL')
   ddl,
-  @_s.JsonValue('DML')
   dml,
-  @_s.JsonValue('UTILITY')
   utility,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StatementType {
+  String toValue() {
+    switch (this) {
+      case StatementType.ddl:
+        return 'DDL';
+      case StatementType.dml:
+        return 'DML';
+      case StatementType.utility:
+        return 'UTILITY';
+    }
+  }
+}
+
+extension on String {
+  StatementType toStatementType() {
+    switch (this) {
+      case 'DDL':
+        return StatementType.ddl;
+      case 'DML':
+        return StatementType.dml;
+      case 'UTILITY':
+        return StatementType.utility;
+    }
+    throw Exception('$this is not known in enum StatementType');
+  }
+}
+
 class StopQueryExecutionOutput {
   StopQueryExecutionOutput();
-  factory StopQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopQueryExecutionOutputFromJson(json);
+  factory StopQueryExecutionOutput.fromJson(Map<String, dynamic> _) {
+    return StopQueryExecutionOutput();
+  }
 }
 
 /// Contains metadata for a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableMetadata {
   /// The name of the table.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A list of the columns in the table.
-  @_s.JsonKey(name: 'Columns')
-  final List<Column> columns;
+  final List<Column>? columns;
 
   /// The time that the table was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The last time the table was accessed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessTime')
-  final DateTime lastAccessTime;
+  final DateTime? lastAccessTime;
 
   /// A set of custom key/value pairs for table properties.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// A list of the partition keys in the table.
-  @_s.JsonKey(name: 'PartitionKeys')
-  final List<Column> partitionKeys;
+  final List<Column>? partitionKeys;
 
   /// The type of table. In Athena, only <code>EXTERNAL_TABLE</code> is supported.
-  @_s.JsonKey(name: 'TableType')
-  final String tableType;
+  final String? tableType;
 
   TableMetadata({
-    @_s.required this.name,
+    required this.name,
     this.columns,
     this.createTime,
     this.lastAccessTime,
@@ -2950,8 +3003,24 @@ class TableMetadata {
     this.partitionKeys,
     this.tableType,
   });
-  factory TableMetadata.fromJson(Map<String, dynamic> json) =>
-      _$TableMetadataFromJson(json);
+  factory TableMetadata.fromJson(Map<String, dynamic> json) {
+    return TableMetadata(
+      name: json['Name'] as String,
+      columns: (json['Columns'] as List?)
+          ?.whereNotNull()
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      lastAccessTime: timeStampFromJson(json['LastAccessTime']),
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableType: json['TableType'] as String?,
+    );
+  }
 }
 
 /// A label that you assign to a resource. In Athena, a resource can be a
@@ -2967,136 +3036,119 @@ class TableMetadata {
 /// - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
 /// unique per resource. If you specify more than one tag, separate them by
 /// commas.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8.
   /// You can use letters and numbers representable in UTF-8, and the following
   /// characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique
   /// per resource.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// A tag value. The tag value length is from 0 to 256 Unicode characters in
   /// UTF-8. You can use letters and numbers representable in UTF-8, and the
   /// following characters: + - = . _ : / @. Tag values are case-sensitive.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
 }
 
 /// Information about a named query ID that could not be processed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedNamedQueryId {
   /// The error code returned when the processing request for the named query
   /// failed, if applicable.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message returned when the processing request for the named query
   /// failed, if applicable.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The unique identifier of the named query.
-  @_s.JsonKey(name: 'NamedQueryId')
-  final String namedQueryId;
+  final String? namedQueryId;
 
   UnprocessedNamedQueryId({
     this.errorCode,
     this.errorMessage,
     this.namedQueryId,
   });
-  factory UnprocessedNamedQueryId.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedNamedQueryIdFromJson(json);
+  factory UnprocessedNamedQueryId.fromJson(Map<String, dynamic> json) {
+    return UnprocessedNamedQueryId(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      namedQueryId: json['NamedQueryId'] as String?,
+    );
+  }
 }
 
 /// Describes a query execution that failed to process.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedQueryExecutionId {
   /// The error code returned when the query execution failed to process, if
   /// applicable.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message returned when the query execution failed to process, if
   /// applicable.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The unique identifier of the query execution.
-  @_s.JsonKey(name: 'QueryExecutionId')
-  final String queryExecutionId;
+  final String? queryExecutionId;
 
   UnprocessedQueryExecutionId({
     this.errorCode,
     this.errorMessage,
     this.queryExecutionId,
   });
-  factory UnprocessedQueryExecutionId.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedQueryExecutionIdFromJson(json);
+  factory UnprocessedQueryExecutionId.fromJson(Map<String, dynamic> json) {
+    return UnprocessedQueryExecutionId(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      queryExecutionId: json['QueryExecutionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDataCatalogOutput {
   UpdateDataCatalogOutput();
-  factory UpdateDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDataCatalogOutputFromJson(json);
+  factory UpdateDataCatalogOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDataCatalogOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateWorkGroupOutput {
   UpdateWorkGroupOutput();
-  factory UpdateWorkGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateWorkGroupOutputFromJson(json);
+  factory UpdateWorkGroupOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateWorkGroupOutput();
+  }
 }
 
 /// A workgroup, which contains a name, description, creation time, state, and
@@ -3109,14 +3161,8 @@ class UpdateWorkGroupOutput {
 /// override is specified in EnforceWorkGroupConfiguration (true/false) in the
 /// WorkGroupConfiguration. See
 /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkGroup {
   /// The workgroup name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The configuration of the workgroup, which includes the location in Amazon S3
@@ -3127,31 +3173,36 @@ class WorkGroup {
   /// The workgroup settings override is specified in
   /// EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration.
   /// See <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  @_s.JsonKey(name: 'Configuration')
-  final WorkGroupConfiguration configuration;
+  final WorkGroupConfiguration? configuration;
 
   /// The date and time the workgroup was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The workgroup description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The state of the workgroup: ENABLED or DISABLED.
-  @_s.JsonKey(name: 'State')
-  final WorkGroupState state;
+  final WorkGroupState? state;
 
   WorkGroup({
-    @_s.required this.name,
+    required this.name,
     this.configuration,
     this.creationTime,
     this.description,
     this.state,
   });
-  factory WorkGroup.fromJson(Map<String, dynamic> json) =>
-      _$WorkGroupFromJson(json);
+  factory WorkGroup.fromJson(Map<String, dynamic> json) {
+    return WorkGroup(
+      name: json['Name'] as String,
+      configuration: json['Configuration'] != null
+          ? WorkGroupConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      state: (json['State'] as String?)?.toWorkGroupState(),
+    );
+  }
 }
 
 /// The configuration of the workgroup, which includes the location in Amazon S3
@@ -3162,28 +3213,20 @@ class WorkGroup {
 /// The workgroup settings override is specified in
 /// EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration.
 /// See <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkGroupConfiguration {
   /// The upper data usage limit (cutoff) for the amount of bytes a single query
   /// in a workgroup is allowed to scan.
-  @_s.JsonKey(name: 'BytesScannedCutoffPerQuery')
-  final int bytesScannedCutoffPerQuery;
+  final int? bytesScannedCutoffPerQuery;
 
   /// If set to "true", the settings for the workgroup override client-side
   /// settings. If set to "false", client-side settings are used. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
   /// Settings Override Client-Side Settings</a>.
-  @_s.JsonKey(name: 'EnforceWorkGroupConfiguration')
-  final bool enforceWorkGroupConfiguration;
+  final bool? enforceWorkGroupConfiguration;
 
   /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
-  @_s.JsonKey(name: 'PublishCloudWatchMetricsEnabled')
-  final bool publishCloudWatchMetricsEnabled;
+  final bool? publishCloudWatchMetricsEnabled;
 
   /// If set to <code>true</code>, allows members assigned to a workgroup to
   /// reference Amazon S3 Requester Pays buckets in queries. If set to
@@ -3194,8 +3237,7 @@ class WorkGroupConfiguration {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
   /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'RequesterPaysEnabled')
-  final bool requesterPaysEnabled;
+  final bool? requesterPaysEnabled;
 
   /// The configuration for the workgroup, which includes the location in Amazon
   /// S3 where query results are stored and the encryption option, if any, used
@@ -3207,8 +3249,7 @@ class WorkGroupConfiguration {
   /// see <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Query
   /// Results</a>.
-  @_s.JsonKey(name: 'ResultConfiguration')
-  final ResultConfiguration resultConfiguration;
+  final ResultConfiguration? resultConfiguration;
 
   WorkGroupConfiguration({
     this.bytesScannedCutoffPerQuery,
@@ -3217,10 +3258,41 @@ class WorkGroupConfiguration {
     this.requesterPaysEnabled,
     this.resultConfiguration,
   });
-  factory WorkGroupConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$WorkGroupConfigurationFromJson(json);
+  factory WorkGroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkGroupConfiguration(
+      bytesScannedCutoffPerQuery: json['BytesScannedCutoffPerQuery'] as int?,
+      enforceWorkGroupConfiguration:
+          json['EnforceWorkGroupConfiguration'] as bool?,
+      publishCloudWatchMetricsEnabled:
+          json['PublishCloudWatchMetricsEnabled'] as bool?,
+      requesterPaysEnabled: json['RequesterPaysEnabled'] as bool?,
+      resultConfiguration: json['ResultConfiguration'] != null
+          ? ResultConfiguration.fromJson(
+              json['ResultConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WorkGroupConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
+    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
+    final publishCloudWatchMetricsEnabled =
+        this.publishCloudWatchMetricsEnabled;
+    final requesterPaysEnabled = this.requesterPaysEnabled;
+    final resultConfiguration = this.resultConfiguration;
+    return {
+      if (bytesScannedCutoffPerQuery != null)
+        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
+      if (enforceWorkGroupConfiguration != null)
+        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
+      if (publishCloudWatchMetricsEnabled != null)
+        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (requesterPaysEnabled != null)
+        'RequesterPaysEnabled': requesterPaysEnabled,
+      if (resultConfiguration != null)
+        'ResultConfiguration': resultConfiguration,
+    };
+  }
 }
 
 /// The configuration information that will be updated for this workgroup, which
@@ -3229,34 +3301,25 @@ class WorkGroupConfiguration {
 /// CloudWatch Metrics are enabled for the workgroup, whether the workgroup
 /// settings override the client-side settings, and the data usage limit for the
 /// amount of bytes scanned per query, if it is specified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WorkGroupConfigurationUpdates {
   /// The upper limit (cutoff) for the amount of bytes a single query in a
   /// workgroup is allowed to scan.
-  @_s.JsonKey(name: 'BytesScannedCutoffPerQuery')
-  final int bytesScannedCutoffPerQuery;
+  final int? bytesScannedCutoffPerQuery;
 
   /// If set to "true", the settings for the workgroup override client-side
   /// settings. If set to "false" client-side settings are used. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
   /// Settings Override Client-Side Settings</a>.
-  @_s.JsonKey(name: 'EnforceWorkGroupConfiguration')
-  final bool enforceWorkGroupConfiguration;
+  final bool? enforceWorkGroupConfiguration;
 
   /// Indicates whether this workgroup enables publishing metrics to Amazon
   /// CloudWatch.
-  @_s.JsonKey(name: 'PublishCloudWatchMetricsEnabled')
-  final bool publishCloudWatchMetricsEnabled;
+  final bool? publishCloudWatchMetricsEnabled;
 
   /// Indicates that the data usage control limit per query is removed.
   /// <a>WorkGroupConfiguration$BytesScannedCutoffPerQuery</a>
-  @_s.JsonKey(name: 'RemoveBytesScannedCutoffPerQuery')
-  final bool removeBytesScannedCutoffPerQuery;
+  final bool? removeBytesScannedCutoffPerQuery;
 
   /// If set to <code>true</code>, allows members assigned to a workgroup to
   /// specify Amazon S3 Requester Pays buckets in queries. If set to
@@ -3267,14 +3330,12 @@ class WorkGroupConfigurationUpdates {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
   /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'RequesterPaysEnabled')
-  final bool requesterPaysEnabled;
+  final bool? requesterPaysEnabled;
 
   /// The result configuration information about the queries in this workgroup
   /// that will be updated. Includes the updated results location and an updated
   /// option for encrypting query results.
-  @_s.JsonKey(name: 'ResultConfigurationUpdates')
-  final ResultConfigurationUpdates resultConfigurationUpdates;
+  final ResultConfigurationUpdates? resultConfigurationUpdates;
 
   WorkGroupConfigurationUpdates({
     this.bytesScannedCutoffPerQuery,
@@ -3284,13 +3345,34 @@ class WorkGroupConfigurationUpdates {
     this.requesterPaysEnabled,
     this.resultConfigurationUpdates,
   });
-  Map<String, dynamic> toJson() => _$WorkGroupConfigurationUpdatesToJson(this);
+  Map<String, dynamic> toJson() {
+    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
+    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
+    final publishCloudWatchMetricsEnabled =
+        this.publishCloudWatchMetricsEnabled;
+    final removeBytesScannedCutoffPerQuery =
+        this.removeBytesScannedCutoffPerQuery;
+    final requesterPaysEnabled = this.requesterPaysEnabled;
+    final resultConfigurationUpdates = this.resultConfigurationUpdates;
+    return {
+      if (bytesScannedCutoffPerQuery != null)
+        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
+      if (enforceWorkGroupConfiguration != null)
+        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
+      if (publishCloudWatchMetricsEnabled != null)
+        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (removeBytesScannedCutoffPerQuery != null)
+        'RemoveBytesScannedCutoffPerQuery': removeBytesScannedCutoffPerQuery,
+      if (requesterPaysEnabled != null)
+        'RequesterPaysEnabled': requesterPaysEnabled,
+      if (resultConfigurationUpdates != null)
+        'ResultConfigurationUpdates': resultConfigurationUpdates,
+    };
+  }
 }
 
 enum WorkGroupState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -3302,34 +3384,35 @@ extension on WorkGroupState {
       case WorkGroupState.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WorkGroupState toWorkGroupState() {
+    switch (this) {
+      case 'ENABLED':
+        return WorkGroupState.enabled;
+      case 'DISABLED':
+        return WorkGroupState.disabled;
+    }
+    throw Exception('$this is not known in enum WorkGroupState');
   }
 }
 
 /// The summary information for the workgroup, which includes its name, state,
 /// description, and the date and time it was created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkGroupSummary {
   /// The workgroup creation date and time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The workgroup description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the workgroup.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the workgroup.
-  @_s.JsonKey(name: 'State')
-  final WorkGroupState state;
+  final WorkGroupState? state;
 
   WorkGroupSummary({
     this.creationTime,
@@ -3337,32 +3420,38 @@ class WorkGroupSummary {
     this.name,
     this.state,
   });
-  factory WorkGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$WorkGroupSummaryFromJson(json);
+  factory WorkGroupSummary.fromJson(Map<String, dynamic> json) {
+    return WorkGroupSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toWorkGroupState(),
+    );
+  }
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class MetadataException extends _s.GenericAwsException {
-  MetadataException({String type, String message})
+  MetadataException({String? type, String? message})
       : super(type: type, code: 'MetadataException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

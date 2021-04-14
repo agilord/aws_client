@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'glacier-2012-06-01.g.dart';
 
 /// Amazon S3 Glacier (Glacier) is a storage solution for "cold data."
 ///
@@ -68,10 +60,10 @@ part 'glacier-2012-06-01.g.dart';
 class Glacier {
   final _s.RestJsonProtocol _protocol;
   Glacier({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -124,9 +116,9 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> abortMultipartUpload({
-    @_s.required String accountId,
-    @_s.required String uploadId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String uploadId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
@@ -177,8 +169,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> abortVaultLock({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -220,9 +212,9 @@ class Glacier {
   /// The tags to add to the vault. Each tag is composed of a key and a value.
   /// The value can be an empty string.
   Future<void> addTagsToVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    Map<String, String> tags,
+    required String accountId,
+    required String vaultName,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -316,18 +308,19 @@ class Glacier {
   /// computed by Amazon S3 Glacier (Glacier), Glacier returns an error and the
   /// request fails.
   Future<ArchiveCreationOutput> completeMultipartUpload({
-    @_s.required String accountId,
-    @_s.required String uploadId,
-    @_s.required String vaultName,
-    String archiveSize,
-    String checksum,
+    required String accountId,
+    required String uploadId,
+    required String vaultName,
+    String? archiveSize,
+    String? checksum,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final headers = <String, String>{};
-    archiveSize?.let((v) => headers['x-amz-archive-size'] = v.toString());
-    checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
+    final headers = <String, String>{
+      if (archiveSize != null) 'x-amz-archive-size': archiveSize.toString(),
+      if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
@@ -386,9 +379,9 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> completeVaultLock({
-    @_s.required String accountId,
-    @_s.required String lockId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String lockId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(lockId, 'lockId');
@@ -449,8 +442,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<CreateVaultOutput> createVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -518,9 +511,9 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> deleteArchive({
-    @_s.required String accountId,
-    @_s.required String archiveId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String archiveId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(archiveId, 'archiveId');
@@ -577,8 +570,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> deleteVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -618,8 +611,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> deleteVaultAccessPolicy({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -667,8 +660,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<void> deleteVaultNotifications({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -725,9 +718,9 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<GlacierJobDescription> describeJob({
-    @_s.required String accountId,
-    @_s.required String jobId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String jobId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(jobId, 'jobId');
@@ -782,8 +775,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<DescribeVaultOutput> describeVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -815,7 +808,7 @@ class Glacier {
   /// account ID associated with the credentials used to sign the request. If
   /// you specify your account ID, do not include any hyphens ('-') in the ID.
   Future<GetDataRetrievalPolicyOutput> getDataRetrievalPolicy({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.send(
@@ -933,16 +926,17 @@ class Glacier {
   /// downloaded the entire archive content with no errors.
   /// <p/> </li> </ol>
   Future<GetJobOutputOutput> getJobOutput({
-    @_s.required String accountId,
-    @_s.required String jobId,
-    @_s.required String vaultName,
-    String range,
+    required String accountId,
+    required String jobId,
+    required String vaultName,
+    String? range,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final headers = <String, String>{};
-    range?.let((v) => headers['Range'] = v.toString());
+    final headers = <String, String>{
+      if (range != null) 'Range': range.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -991,8 +985,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<GetVaultAccessPolicyOutput> getVaultAccessPolicy({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1058,8 +1052,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<GetVaultLockOutput> getVaultLock({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1112,8 +1106,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<GetVaultNotificationsOutput> getVaultNotifications({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1157,9 +1151,9 @@ class Glacier {
   /// Parameter [jobParameters] :
   /// Provides options for specifying job information.
   Future<InitiateJobOutput> initiateJob({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    JobParameters jobParameters,
+    required String accountId,
+    required String vaultName,
+    JobParameters? jobParameters,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1245,17 +1239,18 @@ class Glacier {
   /// The size of each part except the last, in bytes. The last part can be
   /// smaller than this part size.
   Future<InitiateMultipartUploadOutput> initiateMultipartUpload({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    String archiveDescription,
-    String partSize,
+    required String accountId,
+    required String vaultName,
+    String? archiveDescription,
+    String? partSize,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final headers = <String, String>{};
-    archiveDescription
-        ?.let((v) => headers['x-amz-archive-description'] = v.toString());
-    partSize?.let((v) => headers['x-amz-part-size'] = v.toString());
+    final headers = <String, String>{
+      if (archiveDescription != null)
+        'x-amz-archive-description': archiveDescription.toString(),
+      if (partSize != null) 'x-amz-part-size': partSize.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
@@ -1332,9 +1327,9 @@ class Glacier {
   /// The vault lock policy as a JSON string, which uses "\" as an escape
   /// character.
   Future<InitiateVaultLockOutput> initiateVaultLock({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    VaultLockPolicy policy,
+    required String accountId,
+    required String vaultName,
+    VaultLockPolicy? policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1428,12 +1423,12 @@ class Glacier {
   /// The type of job status to return. You can specify the following values:
   /// <code>InProgress</code>, <code>Succeeded</code>, or <code>Failed</code>.
   Future<ListJobsOutput> listJobs({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    String completed,
-    String limit,
-    String marker,
-    String statuscode,
+    required String accountId,
+    required String vaultName,
+    String? completed,
+    String? limit,
+    String? marker,
+    String? statuscode,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1516,10 +1511,10 @@ class Glacier {
   /// are continuing the pagination of results started in a previous List
   /// Uploads request.
   Future<ListMultipartUploadsOutput> listMultipartUploads({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    String limit,
-    String marker,
+    required String accountId,
+    required String vaultName,
+    String? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1598,11 +1593,11 @@ class Glacier {
   /// marker if you are continuing the pagination of results started in a
   /// previous List Parts request.
   Future<ListPartsOutput> listParts({
-    @_s.required String accountId,
-    @_s.required String uploadId,
-    @_s.required String vaultName,
-    String limit,
-    String marker,
+    required String accountId,
+    required String uploadId,
+    required String vaultName,
+    String? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
@@ -1636,7 +1631,7 @@ class Glacier {
   /// credentials used to sign the request. If you use an account ID, don't
   /// include any hyphens ('-') in the ID.
   Future<ListProvisionedCapacityOutput> listProvisionedCapacity({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.send(
@@ -1669,8 +1664,8 @@ class Glacier {
   /// Parameter [vaultName] :
   /// The name of the vault.
   Future<ListTagsForVaultOutput> listTagsForVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
+    required String accountId,
+    required String vaultName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1732,9 +1727,9 @@ class Glacier {
   /// A string used for pagination. The marker specifies the vault ARN after
   /// which the listing of vaults should begin.
   Future<ListVaultsOutput> listVaults({
-    @_s.required String accountId,
-    String limit,
-    String marker,
+    required String accountId,
+    String? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final $query = <String, List<String>>{
@@ -1765,7 +1760,7 @@ class Glacier {
   /// credentials used to sign the request. If you use an account ID, don't
   /// include any hyphens ('-') in the ID.
   Future<PurchaseProvisionedCapacityOutput> purchaseProvisionedCapacity({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.sendRaw(
@@ -1806,9 +1801,9 @@ class Glacier {
   /// Parameter [tagKeys] :
   /// A list of tag keys. Each corresponding tag is removed from the vault.
   Future<void> removeTagsFromVault({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    List<String> tagKeys,
+    required String accountId,
+    required String vaultName,
+    List<String>? tagKeys,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1850,8 +1845,8 @@ class Glacier {
   /// Parameter [policy] :
   /// The data retrieval policy in JSON format.
   Future<void> setDataRetrievalPolicy({
-    @_s.required String accountId,
-    DataRetrievalPolicy policy,
+    required String accountId,
+    DataRetrievalPolicy? policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final $payload = <String, dynamic>{
@@ -1892,9 +1887,9 @@ class Glacier {
   /// Parameter [policy] :
   /// The vault access policy as a JSON string.
   Future<void> setVaultAccessPolicy({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    VaultAccessPolicy policy,
+    required String accountId,
+    required String vaultName,
+    VaultAccessPolicy? policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -1968,9 +1963,9 @@ class Glacier {
   /// Parameter [vaultNotificationConfig] :
   /// Provides options for specifying notification configuration.
   Future<void> setVaultNotifications({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    VaultNotificationConfig vaultNotificationConfig,
+    required String accountId,
+    required String vaultName,
+    VaultNotificationConfig? vaultNotificationConfig,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
@@ -2051,18 +2046,19 @@ class Glacier {
   /// Parameter [checksum] :
   /// The SHA256 tree hash of the data being uploaded.
   Future<ArchiveCreationOutput> uploadArchive({
-    @_s.required String accountId,
-    @_s.required String vaultName,
-    String archiveDescription,
-    Uint8List body,
-    String checksum,
+    required String accountId,
+    required String vaultName,
+    String? archiveDescription,
+    Uint8List? body,
+    String? checksum,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final headers = <String, String>{};
-    archiveDescription
-        ?.let((v) => headers['x-amz-archive-description'] = v.toString());
-    checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
+    final headers = <String, String>{
+      if (archiveDescription != null)
+        'x-amz-archive-description': archiveDescription.toString(),
+      if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: body,
       method: 'POST',
@@ -2167,19 +2163,20 @@ class Glacier {
   /// the archive in the proper sequence. The format of this header follows RFC
   /// 2616. An example header is Content-Range:bytes 0-4194303/*.
   Future<UploadMultipartPartOutput> uploadMultipartPart({
-    @_s.required String accountId,
-    @_s.required String uploadId,
-    @_s.required String vaultName,
-    Uint8List body,
-    String checksum,
-    String range,
+    required String accountId,
+    required String uploadId,
+    required String vaultName,
+    Uint8List? body,
+    String? checksum,
+    String? range,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final headers = <String, String>{};
-    checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
-    range?.let((v) => headers['Content-Range'] = v.toString());
+    final headers = <String, String>{
+      if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
+      if (range != null) 'Content-Range': range.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: body,
       method: 'PUT',
@@ -2197,12 +2194,36 @@ class Glacier {
 }
 
 enum ActionCode {
-  @_s.JsonValue('ArchiveRetrieval')
   archiveRetrieval,
-  @_s.JsonValue('InventoryRetrieval')
   inventoryRetrieval,
-  @_s.JsonValue('Select')
   select,
+}
+
+extension on ActionCode {
+  String toValue() {
+    switch (this) {
+      case ActionCode.archiveRetrieval:
+        return 'ArchiveRetrieval';
+      case ActionCode.inventoryRetrieval:
+        return 'InventoryRetrieval';
+      case ActionCode.select:
+        return 'Select';
+    }
+  }
+}
+
+extension on String {
+  ActionCode toActionCode() {
+    switch (this) {
+      case 'ArchiveRetrieval':
+        return ActionCode.archiveRetrieval;
+      case 'InventoryRetrieval':
+        return ActionCode.inventoryRetrieval;
+      case 'Select':
+        return ActionCode.select;
+    }
+    throw Exception('$this is not known in enum ActionCode');
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2212,68 +2233,47 @@ enum ActionCode {
 /// Archive</a>. For conceptual information, see <a
 /// href="https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html">Working
 /// with Archives in Amazon S3 Glacier</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArchiveCreationOutput {
   /// The ID of the archive. This value is also included as part of the location.
-  @_s.JsonKey(name: 'x-amz-archive-id')
-  final String archiveId;
+  final String? archiveId;
 
   /// The checksum of the archive computed by Amazon S3 Glacier.
-  @_s.JsonKey(name: 'x-amz-sha256-tree-hash')
-  final String checksum;
+  final String? checksum;
 
   /// The relative URI path of the newly added archive resource.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   ArchiveCreationOutput({
     this.archiveId,
     this.checksum,
     this.location,
   });
-  factory ArchiveCreationOutput.fromJson(Map<String, dynamic> json) =>
-      _$ArchiveCreationOutputFromJson(json);
 }
 
 /// Contains information about the comma-separated value (CSV) file to select
 /// from.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CSVInput {
   /// A single character used to indicate that a row should be ignored when the
   /// character is present at the start of that row.
-  @_s.JsonKey(name: 'Comments')
-  final String comments;
+  final String? comments;
 
   /// A value used to separate individual fields from each other within a record.
-  @_s.JsonKey(name: 'FieldDelimiter')
-  final String fieldDelimiter;
+  final String? fieldDelimiter;
 
   /// Describes the first line of input. Valid values are <code>None</code>,
   /// <code>Ignore</code>, and <code>Use</code>.
-  @_s.JsonKey(name: 'FileHeaderInfo')
-  final FileHeaderInfo fileHeaderInfo;
+  final FileHeaderInfo? fileHeaderInfo;
 
   /// A value used as an escape character where the field delimiter is part of the
   /// value.
-  @_s.JsonKey(name: 'QuoteCharacter')
-  final String quoteCharacter;
+  final String? quoteCharacter;
 
   /// A single character used for escaping the quotation-mark character inside an
   /// already escaped value.
-  @_s.JsonKey(name: 'QuoteEscapeCharacter')
-  final String quoteEscapeCharacter;
+  final String? quoteEscapeCharacter;
 
   /// A value used to separate individual records from each other.
-  @_s.JsonKey(name: 'RecordDelimiter')
-  final String recordDelimiter;
+  final String? recordDelimiter;
 
   CSVInput({
     this.comments,
@@ -2283,42 +2283,56 @@ class CSVInput {
     this.quoteEscapeCharacter,
     this.recordDelimiter,
   });
-  factory CSVInput.fromJson(Map<String, dynamic> json) =>
-      _$CSVInputFromJson(json);
+  factory CSVInput.fromJson(Map<String, dynamic> json) {
+    return CSVInput(
+      comments: json['Comments'] as String?,
+      fieldDelimiter: json['FieldDelimiter'] as String?,
+      fileHeaderInfo: (json['FileHeaderInfo'] as String?)?.toFileHeaderInfo(),
+      quoteCharacter: json['QuoteCharacter'] as String?,
+      quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
+      recordDelimiter: json['RecordDelimiter'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CSVInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final comments = this.comments;
+    final fieldDelimiter = this.fieldDelimiter;
+    final fileHeaderInfo = this.fileHeaderInfo;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final recordDelimiter = this.recordDelimiter;
+    return {
+      if (comments != null) 'Comments': comments,
+      if (fieldDelimiter != null) 'FieldDelimiter': fieldDelimiter,
+      if (fileHeaderInfo != null) 'FileHeaderInfo': fileHeaderInfo.toValue(),
+      if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
+      if (quoteEscapeCharacter != null)
+        'QuoteEscapeCharacter': quoteEscapeCharacter,
+      if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
+    };
+  }
 }
 
 /// Contains information about the comma-separated value (CSV) file that the job
 /// results are stored in.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CSVOutput {
   /// A value used to separate individual fields from each other within a record.
-  @_s.JsonKey(name: 'FieldDelimiter')
-  final String fieldDelimiter;
+  final String? fieldDelimiter;
 
   /// A value used as an escape character where the field delimiter is part of the
   /// value.
-  @_s.JsonKey(name: 'QuoteCharacter')
-  final String quoteCharacter;
+  final String? quoteCharacter;
 
   /// A single character used for escaping the quotation-mark character inside an
   /// already escaped value.
-  @_s.JsonKey(name: 'QuoteEscapeCharacter')
-  final String quoteEscapeCharacter;
+  final String? quoteEscapeCharacter;
 
   /// A value that indicates whether all output fields should be contained within
   /// quotation marks.
-  @_s.JsonKey(name: 'QuoteFields')
-  final QuoteFields quoteFields;
+  final QuoteFields? quoteFields;
 
   /// A value used to separate individual records from each other.
-  @_s.JsonKey(name: 'RecordDelimiter')
-  final String recordDelimiter;
+  final String? recordDelimiter;
 
   CSVOutput({
     this.fieldDelimiter,
@@ -2327,75 +2341,124 @@ class CSVOutput {
     this.quoteFields,
     this.recordDelimiter,
   });
-  factory CSVOutput.fromJson(Map<String, dynamic> json) =>
-      _$CSVOutputFromJson(json);
+  factory CSVOutput.fromJson(Map<String, dynamic> json) {
+    return CSVOutput(
+      fieldDelimiter: json['FieldDelimiter'] as String?,
+      quoteCharacter: json['QuoteCharacter'] as String?,
+      quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
+      quoteFields: (json['QuoteFields'] as String?)?.toQuoteFields(),
+      recordDelimiter: json['RecordDelimiter'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CSVOutputToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldDelimiter = this.fieldDelimiter;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final quoteFields = this.quoteFields;
+    final recordDelimiter = this.recordDelimiter;
+    return {
+      if (fieldDelimiter != null) 'FieldDelimiter': fieldDelimiter,
+      if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
+      if (quoteEscapeCharacter != null)
+        'QuoteEscapeCharacter': quoteEscapeCharacter,
+      if (quoteFields != null) 'QuoteFields': quoteFields.toValue(),
+      if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
+    };
+  }
 }
 
 enum CannedACL {
-  @_s.JsonValue('private')
   private,
-  @_s.JsonValue('public-read')
   publicRead,
-  @_s.JsonValue('public-read-write')
   publicReadWrite,
-  @_s.JsonValue('aws-exec-read')
   awsExecRead,
-  @_s.JsonValue('authenticated-read')
   authenticatedRead,
-  @_s.JsonValue('bucket-owner-read')
   bucketOwnerRead,
-  @_s.JsonValue('bucket-owner-full-control')
   bucketOwnerFullControl,
 }
 
+extension on CannedACL {
+  String toValue() {
+    switch (this) {
+      case CannedACL.private:
+        return 'private';
+      case CannedACL.publicRead:
+        return 'public-read';
+      case CannedACL.publicReadWrite:
+        return 'public-read-write';
+      case CannedACL.awsExecRead:
+        return 'aws-exec-read';
+      case CannedACL.authenticatedRead:
+        return 'authenticated-read';
+      case CannedACL.bucketOwnerRead:
+        return 'bucket-owner-read';
+      case CannedACL.bucketOwnerFullControl:
+        return 'bucket-owner-full-control';
+    }
+  }
+}
+
+extension on String {
+  CannedACL toCannedACL() {
+    switch (this) {
+      case 'private':
+        return CannedACL.private;
+      case 'public-read':
+        return CannedACL.publicRead;
+      case 'public-read-write':
+        return CannedACL.publicReadWrite;
+      case 'aws-exec-read':
+        return CannedACL.awsExecRead;
+      case 'authenticated-read':
+        return CannedACL.authenticatedRead;
+      case 'bucket-owner-read':
+        return CannedACL.bucketOwnerRead;
+      case 'bucket-owner-full-control':
+        return CannedACL.bucketOwnerFullControl;
+    }
+    throw Exception('$this is not known in enum CannedACL');
+  }
+}
+
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVaultOutput {
   /// The URI of the vault that was created.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   CreateVaultOutput({
     this.location,
   });
-  factory CreateVaultOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVaultOutputFromJson(json);
 }
 
 /// Data retrieval policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataRetrievalPolicy {
   /// The policy rule. Although this is a list type, currently there must be only
   /// one rule, which contains a Strategy field and optionally a BytesPerHour
   /// field.
-  @_s.JsonKey(name: 'Rules')
-  final List<DataRetrievalRule> rules;
+  final List<DataRetrievalRule>? rules;
 
   DataRetrievalPolicy({
     this.rules,
   });
-  factory DataRetrievalPolicy.fromJson(Map<String, dynamic> json) =>
-      _$DataRetrievalPolicyFromJson(json);
+  factory DataRetrievalPolicy.fromJson(Map<String, dynamic> json) {
+    return DataRetrievalPolicy(
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataRetrievalRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataRetrievalPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      if (rules != null) 'Rules': rules,
+    };
+  }
 }
 
 /// Data retrieval policy rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataRetrievalRule {
   /// The maximum number of bytes that can be retrieved in an hour.
   ///
@@ -2403,63 +2466,61 @@ class DataRetrievalRule {
   /// <code>BytesPerHour</code>. Your PUT operation will be rejected if the
   /// Strategy field is not set to <code>BytesPerHour</code> and you set this
   /// field.
-  @_s.JsonKey(name: 'BytesPerHour')
-  final int bytesPerHour;
+  final int? bytesPerHour;
 
   /// The type of data retrieval policy to set.
   ///
   /// Valid values: BytesPerHour|FreeTier|None
-  @_s.JsonKey(name: 'Strategy')
-  final String strategy;
+  final String? strategy;
 
   DataRetrievalRule({
     this.bytesPerHour,
     this.strategy,
   });
-  factory DataRetrievalRule.fromJson(Map<String, dynamic> json) =>
-      _$DataRetrievalRuleFromJson(json);
+  factory DataRetrievalRule.fromJson(Map<String, dynamic> json) {
+    return DataRetrievalRule(
+      bytesPerHour: json['BytesPerHour'] as int?,
+      strategy: json['Strategy'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataRetrievalRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final bytesPerHour = this.bytesPerHour;
+    final strategy = this.strategy;
+    return {
+      if (bytesPerHour != null) 'BytesPerHour': bytesPerHour,
+      if (strategy != null) 'Strategy': strategy,
+    };
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVaultOutput {
   /// The Universal Coordinated Time (UTC) date when the vault was created. This
   /// value should be a string in the ISO 8601 date format, for example
   /// <code>2012-03-20T17:03:43.221Z</code>.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed
   /// the last vault inventory. This value should be a string in the ISO 8601 date
   /// format, for example <code>2012-03-20T17:03:43.221Z</code>.
-  @_s.JsonKey(name: 'LastInventoryDate')
-  final String lastInventoryDate;
+  final String? lastInventoryDate;
 
   /// The number of archives in the vault as of the last inventory date. This
   /// field will return <code>null</code> if an inventory has not yet run on the
   /// vault, for example if you just created the vault.
-  @_s.JsonKey(name: 'NumberOfArchives')
-  final int numberOfArchives;
+  final int? numberOfArchives;
 
   /// Total size, in bytes, of the archives in the vault as of the last inventory
   /// date. This field will return null if an inventory has not yet run on the
   /// vault, for example if you just created the vault.
-  @_s.JsonKey(name: 'SizeInBytes')
-  final int sizeInBytes;
+  final int? sizeInBytes;
 
   /// The Amazon Resource Name (ARN) of the vault.
-  @_s.JsonKey(name: 'VaultARN')
-  final String vaultARN;
+  final String? vaultARN;
 
   /// The name of the vault.
-  @_s.JsonKey(name: 'VaultName')
-  final String vaultName;
+  final String? vaultName;
 
   DescribeVaultOutput({
     this.creationDate,
@@ -2469,105 +2530,172 @@ class DescribeVaultOutput {
     this.vaultARN,
     this.vaultName,
   });
-  factory DescribeVaultOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVaultOutputFromJson(json);
+  factory DescribeVaultOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeVaultOutput(
+      creationDate: json['CreationDate'] as String?,
+      lastInventoryDate: json['LastInventoryDate'] as String?,
+      numberOfArchives: json['NumberOfArchives'] as int?,
+      sizeInBytes: json['SizeInBytes'] as int?,
+      vaultARN: json['VaultARN'] as String?,
+      vaultName: json['VaultName'] as String?,
+    );
+  }
 }
 
 /// Contains information about the encryption used to store the job results in
 /// Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Encryption {
   /// The server-side encryption algorithm used when storing job results in Amazon
   /// S3, for example <code>AES256</code> or <code>aws:kms</code>.
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   /// Optional. If the encryption type is <code>aws:kms</code>, you can use this
   /// value to specify the encryption context for the job results.
-  @_s.JsonKey(name: 'KMSContext')
-  final String kMSContext;
+  final String? kMSContext;
 
   /// The AWS KMS key ID to use for object encryption. All GET and PUT requests
   /// for an object protected by AWS KMS fail if not made by using Secure Sockets
   /// Layer (SSL) or Signature Version 4.
-  @_s.JsonKey(name: 'KMSKeyId')
-  final String kMSKeyId;
+  final String? kMSKeyId;
 
   Encryption({
     this.encryptionType,
     this.kMSContext,
     this.kMSKeyId,
   });
-  factory Encryption.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionFromJson(json);
+  factory Encryption.fromJson(Map<String, dynamic> json) {
+    return Encryption(
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      kMSContext: json['KMSContext'] as String?,
+      kMSKeyId: json['KMSKeyId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kMSContext = this.kMSContext;
+    final kMSKeyId = this.kMSKeyId;
+    return {
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+      if (kMSContext != null) 'KMSContext': kMSContext,
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+    };
+  }
 }
 
 enum EncryptionType {
-  @_s.JsonValue('aws:kms')
   awsKms,
-  @_s.JsonValue('AES256')
   aes256,
 }
 
+extension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.awsKms:
+        return 'aws:kms';
+      case EncryptionType.aes256:
+        return 'AES256';
+    }
+  }
+}
+
+extension on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'aws:kms':
+        return EncryptionType.awsKms;
+      case 'AES256':
+        return EncryptionType.aes256;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
 enum ExpressionType {
-  @_s.JsonValue('SQL')
   sql,
 }
 
+extension on ExpressionType {
+  String toValue() {
+    switch (this) {
+      case ExpressionType.sql:
+        return 'SQL';
+    }
+  }
+}
+
+extension on String {
+  ExpressionType toExpressionType() {
+    switch (this) {
+      case 'SQL':
+        return ExpressionType.sql;
+    }
+    throw Exception('$this is not known in enum ExpressionType');
+  }
+}
+
 enum FileHeaderInfo {
-  @_s.JsonValue('USE')
   use,
-  @_s.JsonValue('IGNORE')
   ignore,
-  @_s.JsonValue('NONE')
   none,
+}
+
+extension on FileHeaderInfo {
+  String toValue() {
+    switch (this) {
+      case FileHeaderInfo.use:
+        return 'USE';
+      case FileHeaderInfo.ignore:
+        return 'IGNORE';
+      case FileHeaderInfo.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  FileHeaderInfo toFileHeaderInfo() {
+    switch (this) {
+      case 'USE':
+        return FileHeaderInfo.use;
+      case 'IGNORE':
+        return FileHeaderInfo.ignore;
+      case 'NONE':
+        return FileHeaderInfo.none;
+    }
+    throw Exception('$this is not known in enum FileHeaderInfo');
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to the
 /// <code>GetDataRetrievalPolicy</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataRetrievalPolicyOutput {
   /// Contains the returned data retrieval policy in JSON format.
-  @_s.JsonKey(name: 'Policy')
-  final DataRetrievalPolicy policy;
+  final DataRetrievalPolicy? policy;
 
   GetDataRetrievalPolicyOutput({
     this.policy,
   });
-  factory GetDataRetrievalPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDataRetrievalPolicyOutputFromJson(json);
+  factory GetDataRetrievalPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataRetrievalPolicyOutput(
+      policy: json['Policy'] != null
+          ? DataRetrievalPolicy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobOutputOutput {
   /// Indicates the range units accepted. For more information, see <a
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>.
-  @_s.JsonKey(name: 'Accept-Ranges')
-  final String acceptRanges;
+  final String? acceptRanges;
 
   /// The description of an archive.
-  @_s.JsonKey(name: 'x-amz-archive-description')
-  final String archiveDescription;
+  final String? archiveDescription;
 
   /// The job data, either archive data or inventory data.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'body')
-  final Uint8List body;
+  final Uint8List? body;
 
   /// The checksum of the data in the response. This header is returned only when
   /// retrieving the output for an archive retrieval job. Furthermore, this header
@@ -2591,28 +2719,24 @@ class GetJobOutputOutput {
   /// response header.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'x-amz-sha256-tree-hash')
-  final String checksum;
+  final String? checksum;
 
   /// The range of bytes returned by Amazon S3 Glacier. If only partial output is
   /// downloaded, the response provides the range of bytes Amazon S3 Glacier
   /// returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8
   /// MB.
-  @_s.JsonKey(name: 'Content-Range')
-  final String contentRange;
+  final String? contentRange;
 
   /// The Content-Type depends on whether the job output is an archive or a vault
   /// inventory. For archive data, the Content-Type is application/octet-stream.
   /// For vault inventory, if you requested CSV format when you initiated the job,
   /// the Content-Type is text/csv. Otherwise, by default, vault inventory is
   /// returned as JSON, and the Content-Type is application/json.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The HTTP response code for a job output request. The value depends on
   /// whether a range was specified in the request.
-  @_s.JsonKey(name: 'status')
-  final int status;
+  final int? status;
 
   GetJobOutputOutput({
     this.acceptRanges,
@@ -2623,53 +2747,34 @@ class GetJobOutputOutput {
     this.contentType,
     this.status,
   });
-  factory GetJobOutputOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetJobOutputOutputFromJson(json);
 }
 
 /// Output for GetVaultAccessPolicy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVaultAccessPolicyOutput {
   /// Contains the returned vault access policy as a JSON string.
-  @_s.JsonKey(name: 'policy')
-  final VaultAccessPolicy policy;
+  final VaultAccessPolicy? policy;
 
   GetVaultAccessPolicyOutput({
     this.policy,
   });
-  factory GetVaultAccessPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetVaultAccessPolicyOutputFromJson(json);
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVaultLockOutput {
   /// The UTC date and time at which the vault lock was put into the
   /// <code>InProgress</code> state.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// The UTC date and time at which the lock ID expires. This value can be
   /// <code>null</code> if the vault lock is in a <code>Locked</code> state.
-  @_s.JsonKey(name: 'ExpirationDate')
-  final String expirationDate;
+  final String? expirationDate;
 
   /// The vault lock policy as a JSON string, which uses "\" as an escape
   /// character.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   /// The state of the vault lock. <code>InProgress</code> or <code>Locked</code>.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   GetVaultLockOutput({
     this.creationDate,
@@ -2677,97 +2782,77 @@ class GetVaultLockOutput {
     this.policy,
     this.state,
   });
-  factory GetVaultLockOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetVaultLockOutputFromJson(json);
+  factory GetVaultLockOutput.fromJson(Map<String, dynamic> json) {
+    return GetVaultLockOutput(
+      creationDate: json['CreationDate'] as String?,
+      expirationDate: json['ExpirationDate'] as String?,
+      policy: json['Policy'] as String?,
+      state: json['State'] as String?,
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVaultNotificationsOutput {
   /// Returns the notification configuration set on the vault.
-  @_s.JsonKey(name: 'vaultNotificationConfig')
-  final VaultNotificationConfig vaultNotificationConfig;
+  final VaultNotificationConfig? vaultNotificationConfig;
 
   GetVaultNotificationsOutput({
     this.vaultNotificationConfig,
   });
-  factory GetVaultNotificationsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetVaultNotificationsOutputFromJson(json);
 }
 
 /// Contains the description of an Amazon S3 Glacier job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlacierJobDescription {
   /// The job type. This value is either <code>ArchiveRetrieval</code>,
   /// <code>InventoryRetrieval</code>, or <code>Select</code>.
-  @_s.JsonKey(name: 'Action')
-  final ActionCode action;
+  final ActionCode? action;
 
   /// The archive ID requested for a select job or archive retrieval. Otherwise,
   /// this field is null.
-  @_s.JsonKey(name: 'ArchiveId')
-  final String archiveId;
+  final String? archiveId;
 
   /// The SHA256 tree hash of the entire archive for an archive retrieval. For
   /// inventory retrieval or select jobs, this field is null.
-  @_s.JsonKey(name: 'ArchiveSHA256TreeHash')
-  final String archiveSHA256TreeHash;
+  final String? archiveSHA256TreeHash;
 
   /// For an archive retrieval job, this value is the size in bytes of the archive
   /// being requested for download. For an inventory retrieval or select job, this
   /// value is null.
-  @_s.JsonKey(name: 'ArchiveSizeInBytes')
-  final int archiveSizeInBytes;
+  final int? archiveSizeInBytes;
 
   /// The job status. When a job is completed, you get the job's output using Get
   /// Job Output (GET output).
-  @_s.JsonKey(name: 'Completed')
-  final bool completed;
+  final bool? completed;
 
   /// The UTC time that the job request completed. While the job is in progress,
   /// the value is null.
-  @_s.JsonKey(name: 'CompletionDate')
-  final String completionDate;
+  final String? completionDate;
 
   /// The UTC date when the job was created. This value is a string representation
   /// of ISO 8601 date format, for example
   /// <code>"2012-03-20T17:03:43.221Z"</code>.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// Parameters used for range inventory retrieval.
-  @_s.JsonKey(name: 'InventoryRetrievalParameters')
-  final InventoryRetrievalJobDescription inventoryRetrievalParameters;
+  final InventoryRetrievalJobDescription? inventoryRetrievalParameters;
 
   /// For an inventory retrieval job, this value is the size in bytes of the
   /// inventory requested for download. For an archive retrieval or select job,
   /// this value is null.
-  @_s.JsonKey(name: 'InventorySizeInBytes')
-  final int inventorySizeInBytes;
+  final int? inventorySizeInBytes;
 
   /// The job description provided when initiating the job.
-  @_s.JsonKey(name: 'JobDescription')
-  final String jobDescription;
+  final String? jobDescription;
 
   /// An opaque string that identifies an Amazon S3 Glacier job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Contains the job output location.
-  @_s.JsonKey(name: 'JobOutputPath')
-  final String jobOutputPath;
+  final String? jobOutputPath;
 
   /// Contains the location where the data from the select job is stored.
-  @_s.JsonKey(name: 'OutputLocation')
-  final OutputLocation outputLocation;
+  final OutputLocation? outputLocation;
 
   /// The retrieved byte range for archive retrieval jobs in the form
   /// <i>StartByteValue</i>-<i>EndByteValue</i>. If no range was specified in the
@@ -2775,8 +2860,7 @@ class GlacierJobDescription {
   /// <i>StartByteValue</i> equals 0 and <i>EndByteValue</i> equals the size of
   /// the archive minus 1. For inventory retrieval or select jobs, this field is
   /// null.
-  @_s.JsonKey(name: 'RetrievalByteRange')
-  final String retrievalByteRange;
+  final String? retrievalByteRange;
 
   /// For an archive retrieval job, this value is the checksum of the archive.
   /// Otherwise, this value is null.
@@ -2809,36 +2893,29 @@ class GlacierJobDescription {
   /// Select jobs
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SHA256TreeHash')
-  final String sHA256TreeHash;
+  final String? sHA256TreeHash;
 
   /// An Amazon SNS topic that receives notification.
-  @_s.JsonKey(name: 'SNSTopic')
-  final String sNSTopic;
+  final String? sNSTopic;
 
   /// Contains the parameters used for a select.
-  @_s.JsonKey(name: 'SelectParameters')
-  final SelectParameters selectParameters;
+  final SelectParameters? selectParameters;
 
   /// The status code can be <code>InProgress</code>, <code>Succeeded</code>, or
   /// <code>Failed</code>, and indicates the status of the job.
-  @_s.JsonKey(name: 'StatusCode')
-  final StatusCode statusCode;
+  final StatusCode? statusCode;
 
   /// A friendly message that describes the job status.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The tier to use for a select or an archive retrieval. Valid values are
   /// <code>Expedited</code>, <code>Standard</code>, or <code>Bulk</code>.
   /// <code>Standard</code> is the default.
-  @_s.JsonKey(name: 'Tier')
-  final String tier;
+  final String? tier;
 
   /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval
   /// was requested.
-  @_s.JsonKey(name: 'VaultARN')
-  final String vaultARN;
+  final String? vaultARN;
 
   GlacierJobDescription({
     this.action,
@@ -2863,188 +2940,206 @@ class GlacierJobDescription {
     this.tier,
     this.vaultARN,
   });
-  factory GlacierJobDescription.fromJson(Map<String, dynamic> json) =>
-      _$GlacierJobDescriptionFromJson(json);
+  factory GlacierJobDescription.fromJson(Map<String, dynamic> json) {
+    return GlacierJobDescription(
+      action: (json['Action'] as String?)?.toActionCode(),
+      archiveId: json['ArchiveId'] as String?,
+      archiveSHA256TreeHash: json['ArchiveSHA256TreeHash'] as String?,
+      archiveSizeInBytes: json['ArchiveSizeInBytes'] as int?,
+      completed: json['Completed'] as bool?,
+      completionDate: json['CompletionDate'] as String?,
+      creationDate: json['CreationDate'] as String?,
+      inventoryRetrievalParameters: json['InventoryRetrievalParameters'] != null
+          ? InventoryRetrievalJobDescription.fromJson(
+              json['InventoryRetrievalParameters'] as Map<String, dynamic>)
+          : null,
+      inventorySizeInBytes: json['InventorySizeInBytes'] as int?,
+      jobDescription: json['JobDescription'] as String?,
+      jobId: json['JobId'] as String?,
+      jobOutputPath: json['JobOutputPath'] as String?,
+      outputLocation: json['OutputLocation'] != null
+          ? OutputLocation.fromJson(
+              json['OutputLocation'] as Map<String, dynamic>)
+          : null,
+      retrievalByteRange: json['RetrievalByteRange'] as String?,
+      sHA256TreeHash: json['SHA256TreeHash'] as String?,
+      sNSTopic: json['SNSTopic'] as String?,
+      selectParameters: json['SelectParameters'] != null
+          ? SelectParameters.fromJson(
+              json['SelectParameters'] as Map<String, dynamic>)
+          : null,
+      statusCode: (json['StatusCode'] as String?)?.toStatusCode(),
+      statusMessage: json['StatusMessage'] as String?,
+      tier: json['Tier'] as String?,
+      vaultARN: json['VaultARN'] as String?,
+    );
+  }
 }
 
 /// Contains information about a grant.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Grant {
   /// The grantee.
-  @_s.JsonKey(name: 'Grantee')
-  final Grantee grantee;
+  final Grantee? grantee;
 
   /// Specifies the permission given to the grantee.
-  @_s.JsonKey(name: 'Permission')
-  final Permission permission;
+  final Permission? permission;
 
   Grant({
     this.grantee,
     this.permission,
   });
-  factory Grant.fromJson(Map<String, dynamic> json) => _$GrantFromJson(json);
+  factory Grant.fromJson(Map<String, dynamic> json) {
+    return Grant(
+      grantee: json['Grantee'] != null
+          ? Grantee.fromJson(json['Grantee'] as Map<String, dynamic>)
+          : null,
+      permission: (json['Permission'] as String?)?.toPermission(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrantToJson(this);
+  Map<String, dynamic> toJson() {
+    final grantee = this.grantee;
+    final permission = this.permission;
+    return {
+      if (grantee != null) 'Grantee': grantee,
+      if (permission != null) 'Permission': permission.toValue(),
+    };
+  }
 }
 
 /// Contains information about the grantee.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Grantee {
   /// Type of grantee
-  @_s.JsonKey(name: 'Type')
   final Type type;
 
   /// Screen name of the grantee.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// Email address of the grantee.
-  @_s.JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The canonical user ID of the grantee.
-  @_s.JsonKey(name: 'ID')
-  final String id;
+  final String? id;
 
   /// URI of the grantee group.
-  @_s.JsonKey(name: 'URI')
-  final String uri;
+  final String? uri;
 
   Grantee({
-    @_s.required this.type,
+    required this.type,
     this.displayName,
     this.emailAddress,
     this.id,
     this.uri,
   });
-  factory Grantee.fromJson(Map<String, dynamic> json) =>
-      _$GranteeFromJson(json);
+  factory Grantee.fromJson(Map<String, dynamic> json) {
+    return Grantee(
+      type: (json['Type'] as String).toType(),
+      displayName: json['DisplayName'] as String?,
+      emailAddress: json['EmailAddress'] as String?,
+      id: json['ID'] as String?,
+      uri: json['URI'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GranteeToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final displayName = this.displayName;
+    final emailAddress = this.emailAddress;
+    final id = this.id;
+    final uri = this.uri;
+    return {
+      'Type': type.toValue(),
+      if (displayName != null) 'DisplayName': displayName,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (id != null) 'ID': id,
+      if (uri != null) 'URI': uri,
+    };
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateJobOutput {
   /// The ID of the job.
-  @_s.JsonKey(name: 'x-amz-job-id')
-  final String jobId;
+  final String? jobId;
 
   /// The path to the location of where the select results are stored.
-  @_s.JsonKey(name: 'x-amz-job-output-path')
-  final String jobOutputPath;
+  final String? jobOutputPath;
 
   /// The relative URI path of the job.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   InitiateJobOutput({
     this.jobId,
     this.jobOutputPath,
     this.location,
   });
-  factory InitiateJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$InitiateJobOutputFromJson(json);
 }
 
 /// The Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateMultipartUploadOutput {
   /// The relative URI path of the multipart upload ID Amazon S3 Glacier created.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   /// The ID of the multipart upload. This value is also included as part of the
   /// location.
-  @_s.JsonKey(name: 'x-amz-multipart-upload-id')
-  final String uploadId;
+  final String? uploadId;
 
   InitiateMultipartUploadOutput({
     this.location,
     this.uploadId,
   });
-  factory InitiateMultipartUploadOutput.fromJson(Map<String, dynamic> json) =>
-      _$InitiateMultipartUploadOutputFromJson(json);
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateVaultLockOutput {
   /// The lock ID, which is used to complete the vault locking process.
-  @_s.JsonKey(name: 'x-amz-lock-id')
-  final String lockId;
+  final String? lockId;
 
   InitiateVaultLockOutput({
     this.lockId,
   });
-  factory InitiateVaultLockOutput.fromJson(Map<String, dynamic> json) =>
-      _$InitiateVaultLockOutputFromJson(json);
 }
 
 /// Describes how the archive is serialized.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputSerialization {
   /// Describes the serialization of a CSV-encoded object.
-  @_s.JsonKey(name: 'csv')
-  final CSVInput csv;
+  final CSVInput? csv;
 
   InputSerialization({
     this.csv,
   });
-  factory InputSerialization.fromJson(Map<String, dynamic> json) =>
-      _$InputSerializationFromJson(json);
+  factory InputSerialization.fromJson(Map<String, dynamic> json) {
+    return InputSerialization(
+      csv: json['csv'] != null
+          ? CSVInput.fromJson(json['csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputSerializationToJson(this);
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'csv': csv,
+    };
+  }
 }
 
 /// Describes the options for a range inventory retrieval job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryRetrievalJobDescription {
   /// The end of the date range in UTC for vault inventory retrieval that includes
   /// archives created before this date. This value should be a string in the ISO
   /// 8601 date format, for example <code>2013-03-20T17:03:43Z</code>.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   /// The output format for the vault inventory list, which is set by the
   /// <b>InitiateJob</b> request when initiating a job to retrieve a vault
   /// inventory. Valid values are <code>CSV</code> and <code>JSON</code>.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The maximum number of inventory items returned per vault inventory retrieval
   /// request. This limit is set when initiating the job with the a
   /// <b>InitiateJob</b> request.
-  @_s.JsonKey(name: 'Limit')
-  final String limit;
+  final String? limit;
 
   /// An opaque string that represents where to continue pagination of the vault
   /// inventory retrieval results. You use the marker in a new <b>InitiateJob</b>
@@ -3052,15 +3147,13 @@ class InventoryRetrievalJobDescription {
   /// items, this value is <code>null</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html#api-initiate-job-post-vault-inventory-list-filtering">
   /// Range Inventory Retrieval</a>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The start of the date range in Universal Coordinated Time (UTC) for vault
   /// inventory retrieval that includes archives created on or after this date.
   /// This value should be a string in the ISO 8601 date format, for example
   /// <code>2013-03-20T17:03:43Z</code>.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   InventoryRetrievalJobDescription({
     this.endDate,
@@ -3069,42 +3162,39 @@ class InventoryRetrievalJobDescription {
     this.marker,
     this.startDate,
   });
-  factory InventoryRetrievalJobDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$InventoryRetrievalJobDescriptionFromJson(json);
+  factory InventoryRetrievalJobDescription.fromJson(Map<String, dynamic> json) {
+    return InventoryRetrievalJobDescription(
+      endDate: json['EndDate'] as String?,
+      format: json['Format'] as String?,
+      limit: json['Limit'] as String?,
+      marker: json['Marker'] as String?,
+      startDate: json['StartDate'] as String?,
+    );
+  }
 }
 
 /// Provides options for specifying a range inventory retrieval job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryRetrievalJobInput {
   /// The end of the date range in UTC for vault inventory retrieval that includes
   /// archives created before this date. This value should be a string in the ISO
   /// 8601 date format, for example <code>2013-03-20T17:03:43Z</code>.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   /// Specifies the maximum number of inventory items returned per vault inventory
   /// retrieval request. Valid values are greater than or equal to 1.
-  @_s.JsonKey(name: 'Limit')
-  final String limit;
+  final String? limit;
 
   /// An opaque string that represents where to continue pagination of the vault
   /// inventory retrieval results. You use the marker in a new <b>InitiateJob</b>
   /// request to obtain additional inventory items. If there are no more inventory
   /// items, this value is <code>null</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The start of the date range in UTC for vault inventory retrieval that
   /// includes archives created on or after this date. This value should be a
   /// string in the ISO 8601 date format, for example
   /// <code>2013-03-20T17:03:43Z</code>.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   InventoryRetrievalJobInput({
     this.endDate,
@@ -3112,45 +3202,46 @@ class InventoryRetrievalJobInput {
     this.marker,
     this.startDate,
   });
-  Map<String, dynamic> toJson() => _$InventoryRetrievalJobInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final endDate = this.endDate;
+    final limit = this.limit;
+    final marker = this.marker;
+    final startDate = this.startDate;
+    return {
+      if (endDate != null) 'EndDate': endDate,
+      if (limit != null) 'Limit': limit,
+      if (marker != null) 'Marker': marker,
+      if (startDate != null) 'StartDate': startDate,
+    };
+  }
 }
 
 /// Provides options for defining a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class JobParameters {
   /// The ID of the archive that you want to retrieve. This field is required only
   /// if <code>Type</code> is set to <code>select</code> or
   /// <code>archive-retrieval</code>code&gt;. An error occurs if you specify this
   /// request parameter for an inventory retrieval job request.
-  @_s.JsonKey(name: 'ArchiveId')
-  final String archiveId;
+  final String? archiveId;
 
   /// The optional description for the job. The description must be less than or
   /// equal to 1,024 bytes. The allowable characters are 7-bit ASCII without
   /// control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E
   /// hexadecimal.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// When initiating a job to retrieve a vault inventory, you can optionally add
   /// this parameter to your request to specify the output format. If you are
   /// initiating an inventory job and do not specify a Format field, JSON is the
   /// default format. Valid values are "CSV" and "JSON".
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// Input parameters used for range inventory retrieval.
-  @_s.JsonKey(name: 'InventoryRetrievalParameters')
-  final InventoryRetrievalJobInput inventoryRetrievalParameters;
+  final InventoryRetrievalJobInput? inventoryRetrievalParameters;
 
   /// Contains information about the location where the select job results are
   /// stored.
-  @_s.JsonKey(name: 'OutputLocation')
-  final OutputLocation outputLocation;
+  final OutputLocation? outputLocation;
 
   /// The byte range to retrieve for an archive retrieval. in the form
   /// "<i>StartByteValue</i>-<i>EndByteValue</i>" If not specified, the whole
@@ -3163,31 +3254,26 @@ class JobParameters {
   ///
   /// An error occurs if you specify this field for an inventory retrieval job
   /// request.
-  @_s.JsonKey(name: 'RetrievalByteRange')
-  final String retrievalByteRange;
+  final String? retrievalByteRange;
 
   /// The Amazon SNS topic ARN to which Amazon S3 Glacier sends a notification
   /// when the job is completed and the output is ready for you to download. The
   /// specified topic publishes the notification to its subscribers. The SNS topic
   /// must exist.
-  @_s.JsonKey(name: 'SNSTopic')
-  final String sNSTopic;
+  final String? sNSTopic;
 
   /// Contains the parameters that define a job.
-  @_s.JsonKey(name: 'SelectParameters')
-  final SelectParameters selectParameters;
+  final SelectParameters? selectParameters;
 
   /// The tier to use for a select or an archive retrieval job. Valid values are
   /// <code>Expedited</code>, <code>Standard</code>, or <code>Bulk</code>.
   /// <code>Standard</code> is the default.
-  @_s.JsonKey(name: 'Tier')
-  final String tier;
+  final String? tier;
 
   /// The job type. You can initiate a job to perform a select query on an
   /// archive, retrieve an archive, or get an inventory of a vault. Valid values
   /// are "select", "archive-retrieval" and "inventory-retrieval".
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   JobParameters({
     this.archiveId,
@@ -3201,103 +3287,115 @@ class JobParameters {
     this.tier,
     this.type,
   });
-  Map<String, dynamic> toJson() => _$JobParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final archiveId = this.archiveId;
+    final description = this.description;
+    final format = this.format;
+    final inventoryRetrievalParameters = this.inventoryRetrievalParameters;
+    final outputLocation = this.outputLocation;
+    final retrievalByteRange = this.retrievalByteRange;
+    final sNSTopic = this.sNSTopic;
+    final selectParameters = this.selectParameters;
+    final tier = this.tier;
+    final type = this.type;
+    return {
+      if (archiveId != null) 'ArchiveId': archiveId,
+      if (description != null) 'Description': description,
+      if (format != null) 'Format': format,
+      if (inventoryRetrievalParameters != null)
+        'InventoryRetrievalParameters': inventoryRetrievalParameters,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (retrievalByteRange != null) 'RetrievalByteRange': retrievalByteRange,
+      if (sNSTopic != null) 'SNSTopic': sNSTopic,
+      if (selectParameters != null) 'SelectParameters': selectParameters,
+      if (tier != null) 'Tier': tier,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsOutput {
   /// A list of job objects. Each job object contains metadata describing the job.
-  @_s.JsonKey(name: 'JobList')
-  final List<GlacierJobDescription> jobList;
+  final List<GlacierJobDescription>? jobList;
 
   /// An opaque string used for pagination that specifies the job at which the
   /// listing of jobs should begin. You get the <code>marker</code> value from a
   /// previous List Jobs response. You only need to include the marker if you are
   /// continuing the pagination of the results started in a previous List Jobs
   /// request.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListJobsOutput({
     this.jobList,
     this.marker,
   });
-  factory ListJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsOutputFromJson(json);
+  factory ListJobsOutput.fromJson(Map<String, dynamic> json) {
+    return ListJobsOutput(
+      jobList: (json['JobList'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlacierJobDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMultipartUploadsOutput {
   /// An opaque string that represents where to continue pagination of the
   /// results. You use the marker in a new List Multipart Uploads request to
   /// obtain more uploads in the list. If there are no more uploads, this value is
   /// <code>null</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// A list of in-progress multipart uploads.
-  @_s.JsonKey(name: 'UploadsList')
-  final List<UploadListElement> uploadsList;
+  final List<UploadListElement>? uploadsList;
 
   ListMultipartUploadsOutput({
     this.marker,
     this.uploadsList,
   });
-  factory ListMultipartUploadsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListMultipartUploadsOutputFromJson(json);
+  factory ListMultipartUploadsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMultipartUploadsOutput(
+      marker: json['Marker'] as String?,
+      uploadsList: (json['UploadsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UploadListElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPartsOutput {
   /// The description of the archive that was specified in the Initiate Multipart
   /// Upload request.
-  @_s.JsonKey(name: 'ArchiveDescription')
-  final String archiveDescription;
+  final String? archiveDescription;
 
   /// The UTC time at which the multipart upload was initiated.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// An opaque string that represents where to continue pagination of the
   /// results. You use the marker in a new List Parts request to obtain more jobs
   /// in the list. If there are no more parts, this value is <code>null</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The ID of the upload to which the parts are associated.
-  @_s.JsonKey(name: 'MultipartUploadId')
-  final String multipartUploadId;
+  final String? multipartUploadId;
 
   /// The part size in bytes. This is the same value that you specified in the
   /// Initiate Multipart Upload request.
-  @_s.JsonKey(name: 'PartSizeInBytes')
-  final int partSizeInBytes;
+  final int? partSizeInBytes;
 
   /// A list of the part sizes of the multipart upload. Each object in the array
   /// contains a <code>RangeBytes</code> and <code>sha256-tree-hash</code>
   /// name/value pair.
-  @_s.JsonKey(name: 'Parts')
-  final List<PartListElement> parts;
+  final List<PartListElement>? parts;
 
   /// The Amazon Resource Name (ARN) of the vault to which the multipart upload
   /// was initiated.
-  @_s.JsonKey(name: 'VaultARN')
-  final String vaultARN;
+  final String? vaultARN;
 
   ListPartsOutput({
     this.archiveDescription,
@@ -3308,242 +3406,284 @@ class ListPartsOutput {
     this.parts,
     this.vaultARN,
   });
-  factory ListPartsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPartsOutputFromJson(json);
+  factory ListPartsOutput.fromJson(Map<String, dynamic> json) {
+    return ListPartsOutput(
+      archiveDescription: json['ArchiveDescription'] as String?,
+      creationDate: json['CreationDate'] as String?,
+      marker: json['Marker'] as String?,
+      multipartUploadId: json['MultipartUploadId'] as String?,
+      partSizeInBytes: json['PartSizeInBytes'] as int?,
+      parts: (json['Parts'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartListElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vaultARN: json['VaultARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisionedCapacityOutput {
   /// The response body contains the following JSON fields.
-  @_s.JsonKey(name: 'ProvisionedCapacityList')
-  final List<ProvisionedCapacityDescription> provisionedCapacityList;
+  final List<ProvisionedCapacityDescription>? provisionedCapacityList;
 
   ListProvisionedCapacityOutput({
     this.provisionedCapacityList,
   });
-  factory ListProvisionedCapacityOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProvisionedCapacityOutputFromJson(json);
+  factory ListProvisionedCapacityOutput.fromJson(Map<String, dynamic> json) {
+    return ListProvisionedCapacityOutput(
+      provisionedCapacityList: (json['ProvisionedCapacityList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProvisionedCapacityDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForVaultOutput {
   /// The tags attached to the vault. Each tag is composed of a key and a value.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForVaultOutput({
     this.tags,
   });
-  factory ListTagsForVaultOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForVaultOutputFromJson(json);
+  factory ListTagsForVaultOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForVaultOutput(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVaultsOutput {
   /// The vault ARN at which to continue pagination of the results. You use the
   /// marker in another List Vaults request to obtain more vaults in the list.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// List of vaults.
-  @_s.JsonKey(name: 'VaultList')
-  final List<DescribeVaultOutput> vaultList;
+  final List<DescribeVaultOutput>? vaultList;
 
   ListVaultsOutput({
     this.marker,
     this.vaultList,
   });
-  factory ListVaultsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVaultsOutputFromJson(json);
+  factory ListVaultsOutput.fromJson(Map<String, dynamic> json) {
+    return ListVaultsOutput(
+      marker: json['Marker'] as String?,
+      vaultList: (json['VaultList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DescribeVaultOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about the location where the select job results are
 /// stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputLocation {
   /// Describes an S3 location that will receive the results of the job request.
-  @_s.JsonKey(name: 'S3')
-  final S3Location s3;
+  final S3Location? s3;
 
   OutputLocation({
     this.s3,
   });
-  factory OutputLocation.fromJson(Map<String, dynamic> json) =>
-      _$OutputLocationFromJson(json);
+  factory OutputLocation.fromJson(Map<String, dynamic> json) {
+    return OutputLocation(
+      s3: json['S3'] != null
+          ? S3Location.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutputLocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 'S3': s3,
+    };
+  }
 }
 
 /// Describes how the select output is serialized.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputSerialization {
   /// Describes the serialization of CSV-encoded query results.
-  @_s.JsonKey(name: 'csv')
-  final CSVOutput csv;
+  final CSVOutput? csv;
 
   OutputSerialization({
     this.csv,
   });
-  factory OutputSerialization.fromJson(Map<String, dynamic> json) =>
-      _$OutputSerializationFromJson(json);
+  factory OutputSerialization.fromJson(Map<String, dynamic> json) {
+    return OutputSerialization(
+      csv: json['csv'] != null
+          ? CSVOutput.fromJson(json['csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutputSerializationToJson(this);
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'csv': csv,
+    };
+  }
 }
 
 /// A list of the part sizes of the multipart upload.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartListElement {
   /// The byte range of a part, inclusive of the upper value of the range.
-  @_s.JsonKey(name: 'RangeInBytes')
-  final String rangeInBytes;
+  final String? rangeInBytes;
 
   /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part.
   /// This field is never <code>null</code>.
-  @_s.JsonKey(name: 'SHA256TreeHash')
-  final String sHA256TreeHash;
+  final String? sHA256TreeHash;
 
   PartListElement({
     this.rangeInBytes,
     this.sHA256TreeHash,
   });
-  factory PartListElement.fromJson(Map<String, dynamic> json) =>
-      _$PartListElementFromJson(json);
+  factory PartListElement.fromJson(Map<String, dynamic> json) {
+    return PartListElement(
+      rangeInBytes: json['RangeInBytes'] as String?,
+      sHA256TreeHash: json['SHA256TreeHash'] as String?,
+    );
+  }
 }
 
 enum Permission {
-  @_s.JsonValue('FULL_CONTROL')
   fullControl,
-  @_s.JsonValue('WRITE')
   write,
-  @_s.JsonValue('WRITE_ACP')
   writeAcp,
-  @_s.JsonValue('READ')
   read,
-  @_s.JsonValue('READ_ACP')
   readAcp,
 }
 
+extension on Permission {
+  String toValue() {
+    switch (this) {
+      case Permission.fullControl:
+        return 'FULL_CONTROL';
+      case Permission.write:
+        return 'WRITE';
+      case Permission.writeAcp:
+        return 'WRITE_ACP';
+      case Permission.read:
+        return 'READ';
+      case Permission.readAcp:
+        return 'READ_ACP';
+    }
+  }
+}
+
+extension on String {
+  Permission toPermission() {
+    switch (this) {
+      case 'FULL_CONTROL':
+        return Permission.fullControl;
+      case 'WRITE':
+        return Permission.write;
+      case 'WRITE_ACP':
+        return Permission.writeAcp;
+      case 'READ':
+        return Permission.read;
+      case 'READ_ACP':
+        return Permission.readAcp;
+    }
+    throw Exception('$this is not known in enum Permission');
+  }
+}
+
 /// The definition for a provisioned capacity unit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedCapacityDescription {
   /// The ID that identifies the provisioned capacity unit.
-  @_s.JsonKey(name: 'CapacityId')
-  final String capacityId;
+  final String? capacityId;
 
   /// The date that the provisioned capacity unit expires, in Universal
   /// Coordinated Time (UTC).
-  @_s.JsonKey(name: 'ExpirationDate')
-  final String expirationDate;
+  final String? expirationDate;
 
   /// The date that the provisioned capacity unit was purchased, in Universal
   /// Coordinated Time (UTC).
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   ProvisionedCapacityDescription({
     this.capacityId,
     this.expirationDate,
     this.startDate,
   });
-  factory ProvisionedCapacityDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedCapacityDescriptionFromJson(json);
+  factory ProvisionedCapacityDescription.fromJson(Map<String, dynamic> json) {
+    return ProvisionedCapacityDescription(
+      capacityId: json['CapacityId'] as String?,
+      expirationDate: json['ExpirationDate'] as String?,
+      startDate: json['StartDate'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PurchaseProvisionedCapacityOutput {
   /// The ID that identifies the provisioned capacity unit.
-  @_s.JsonKey(name: 'x-amz-capacity-id')
-  final String capacityId;
+  final String? capacityId;
 
   PurchaseProvisionedCapacityOutput({
     this.capacityId,
   });
-  factory PurchaseProvisionedCapacityOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$PurchaseProvisionedCapacityOutputFromJson(json);
 }
 
 enum QuoteFields {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('ASNEEDED')
   asneeded,
+}
+
+extension on QuoteFields {
+  String toValue() {
+    switch (this) {
+      case QuoteFields.always:
+        return 'ALWAYS';
+      case QuoteFields.asneeded:
+        return 'ASNEEDED';
+    }
+  }
+}
+
+extension on String {
+  QuoteFields toQuoteFields() {
+    switch (this) {
+      case 'ALWAYS':
+        return QuoteFields.always;
+      case 'ASNEEDED':
+        return QuoteFields.asneeded;
+    }
+    throw Exception('$this is not known in enum QuoteFields');
+  }
 }
 
 /// Contains information about the location in Amazon S3 where the select job
 /// results are stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Location {
   /// A list of grants that control access to the staged results.
-  @_s.JsonKey(name: 'AccessControlList')
-  final List<Grant> accessControlList;
+  final List<Grant>? accessControlList;
 
   /// The name of the Amazon S3 bucket where the job results are stored.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// The canned access control list (ACL) to apply to the job results.
-  @_s.JsonKey(name: 'CannedACL')
-  final CannedACL cannedACL;
+  final CannedACL? cannedACL;
 
   /// Contains information about the encryption used to store the job results in
   /// Amazon S3.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The prefix that is prepended to the results for this request.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The storage class used to store the job results.
-  @_s.JsonKey(name: 'StorageClass')
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// The tag-set that is applied to the job results.
-  @_s.JsonKey(name: 'Tagging')
-  final Map<String, String> tagging;
+  final Map<String, String>? tagging;
 
   /// A map of metadata to store with the job results in Amazon S3.
-  @_s.JsonKey(name: 'UserMetadata')
-  final Map<String, String> userMetadata;
+  final Map<String, String>? userMetadata;
 
   S3Location({
     this.accessControlList,
@@ -3555,34 +3695,61 @@ class S3Location {
     this.tagging,
     this.userMetadata,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      accessControlList: (json['AccessControlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      bucketName: json['BucketName'] as String?,
+      cannedACL: (json['CannedACL'] as String?)?.toCannedACL(),
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      tagging: (json['Tagging'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      userMetadata: (json['UserMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessControlList = this.accessControlList;
+    final bucketName = this.bucketName;
+    final cannedACL = this.cannedACL;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
+    final storageClass = this.storageClass;
+    final tagging = this.tagging;
+    final userMetadata = this.userMetadata;
+    return {
+      if (accessControlList != null) 'AccessControlList': accessControlList,
+      if (bucketName != null) 'BucketName': bucketName,
+      if (cannedACL != null) 'CannedACL': cannedACL.toValue(),
+      if (encryption != null) 'Encryption': encryption,
+      if (prefix != null) 'Prefix': prefix,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (tagging != null) 'Tagging': tagging,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
+    };
+  }
 }
 
 /// Contains information about the parameters used for a select.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SelectParameters {
   /// The expression that is used to select the object.
-  @_s.JsonKey(name: 'Expression')
-  final String expression;
+  final String? expression;
 
   /// The type of the provided expression, for example <code>SQL</code>.
-  @_s.JsonKey(name: 'ExpressionType')
-  final ExpressionType expressionType;
+  final ExpressionType? expressionType;
 
   /// Describes the serialization format of the object.
-  @_s.JsonKey(name: 'InputSerialization')
-  final InputSerialization inputSerialization;
+  final InputSerialization? inputSerialization;
 
   /// Describes how the results of the select job are serialized.
-  @_s.JsonKey(name: 'OutputSerialization')
-  final OutputSerialization outputSerialization;
+  final OutputSerialization? outputSerialization;
 
   SelectParameters({
     this.expression,
@@ -3590,68 +3757,154 @@ class SelectParameters {
     this.inputSerialization,
     this.outputSerialization,
   });
-  factory SelectParameters.fromJson(Map<String, dynamic> json) =>
-      _$SelectParametersFromJson(json);
+  factory SelectParameters.fromJson(Map<String, dynamic> json) {
+    return SelectParameters(
+      expression: json['Expression'] as String?,
+      expressionType: (json['ExpressionType'] as String?)?.toExpressionType(),
+      inputSerialization: json['InputSerialization'] != null
+          ? InputSerialization.fromJson(
+              json['InputSerialization'] as Map<String, dynamic>)
+          : null,
+      outputSerialization: json['OutputSerialization'] != null
+          ? OutputSerialization.fromJson(
+              json['OutputSerialization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SelectParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final expressionType = this.expressionType;
+    final inputSerialization = this.inputSerialization;
+    final outputSerialization = this.outputSerialization;
+    return {
+      if (expression != null) 'Expression': expression,
+      if (expressionType != null) 'ExpressionType': expressionType.toValue(),
+      if (inputSerialization != null) 'InputSerialization': inputSerialization,
+      if (outputSerialization != null)
+        'OutputSerialization': outputSerialization,
+    };
+  }
 }
 
 enum StatusCode {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on StatusCode {
+  String toValue() {
+    switch (this) {
+      case StatusCode.inProgress:
+        return 'InProgress';
+      case StatusCode.succeeded:
+        return 'Succeeded';
+      case StatusCode.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  StatusCode toStatusCode() {
+    switch (this) {
+      case 'InProgress':
+        return StatusCode.inProgress;
+      case 'Succeeded':
+        return StatusCode.succeeded;
+      case 'Failed':
+        return StatusCode.failed;
+    }
+    throw Exception('$this is not known in enum StatusCode');
+  }
+}
+
 enum StorageClass {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('REDUCED_REDUNDANCY')
   reducedRedundancy,
-  @_s.JsonValue('STANDARD_IA')
   standardIa,
 }
 
+extension on StorageClass {
+  String toValue() {
+    switch (this) {
+      case StorageClass.standard:
+        return 'STANDARD';
+      case StorageClass.reducedRedundancy:
+        return 'REDUCED_REDUNDANCY';
+      case StorageClass.standardIa:
+        return 'STANDARD_IA';
+    }
+  }
+}
+
+extension on String {
+  StorageClass toStorageClass() {
+    switch (this) {
+      case 'STANDARD':
+        return StorageClass.standard;
+      case 'REDUCED_REDUNDANCY':
+        return StorageClass.reducedRedundancy;
+      case 'STANDARD_IA':
+        return StorageClass.standardIa;
+    }
+    throw Exception('$this is not known in enum StorageClass');
+  }
+}
+
 enum Type {
-  @_s.JsonValue('AmazonCustomerByEmail')
   amazonCustomerByEmail,
-  @_s.JsonValue('CanonicalUser')
   canonicalUser,
-  @_s.JsonValue('Group')
   group,
 }
 
+extension on Type {
+  String toValue() {
+    switch (this) {
+      case Type.amazonCustomerByEmail:
+        return 'AmazonCustomerByEmail';
+      case Type.canonicalUser:
+        return 'CanonicalUser';
+      case Type.group:
+        return 'Group';
+    }
+  }
+}
+
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'AmazonCustomerByEmail':
+        return Type.amazonCustomerByEmail;
+      case 'CanonicalUser':
+        return Type.canonicalUser;
+      case 'Group':
+        return Type.group;
+    }
+    throw Exception('$this is not known in enum Type');
+  }
+}
+
 /// A list of in-progress multipart uploads for a vault.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadListElement {
   /// The description of the archive that was specified in the Initiate Multipart
   /// Upload request.
-  @_s.JsonKey(name: 'ArchiveDescription')
-  final String archiveDescription;
+  final String? archiveDescription;
 
   /// The UTC time at which the multipart upload was initiated.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// The ID of a multipart upload.
-  @_s.JsonKey(name: 'MultipartUploadId')
-  final String multipartUploadId;
+  final String? multipartUploadId;
 
   /// The part size, in bytes, specified in the Initiate Multipart Upload request.
   /// This is the size of all the parts in the upload except the last part, which
   /// may be smaller than this size.
-  @_s.JsonKey(name: 'PartSizeInBytes')
-  final int partSizeInBytes;
+  final int? partSizeInBytes;
 
   /// The Amazon Resource Name (ARN) of the vault that contains the archive.
-  @_s.JsonKey(name: 'VaultARN')
-  final String vaultARN;
+  final String? vaultARN;
 
   UploadListElement({
     this.archiveDescription,
@@ -3660,94 +3913,101 @@ class UploadListElement {
     this.partSizeInBytes,
     this.vaultARN,
   });
-  factory UploadListElement.fromJson(Map<String, dynamic> json) =>
-      _$UploadListElementFromJson(json);
+  factory UploadListElement.fromJson(Map<String, dynamic> json) {
+    return UploadListElement(
+      archiveDescription: json['ArchiveDescription'] as String?,
+      creationDate: json['CreationDate'] as String?,
+      multipartUploadId: json['MultipartUploadId'] as String?,
+      partSizeInBytes: json['PartSizeInBytes'] as int?,
+      vaultARN: json['VaultARN'] as String?,
+    );
+  }
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadMultipartPartOutput {
   /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
-  @_s.JsonKey(name: 'x-amz-sha256-tree-hash')
-  final String checksum;
+  final String? checksum;
 
   UploadMultipartPartOutput({
     this.checksum,
   });
-  factory UploadMultipartPartOutput.fromJson(Map<String, dynamic> json) =>
-      _$UploadMultipartPartOutputFromJson(json);
 }
 
 /// Contains the vault access policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VaultAccessPolicy {
   /// The vault access policy.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   VaultAccessPolicy({
     this.policy,
   });
-  factory VaultAccessPolicy.fromJson(Map<String, dynamic> json) =>
-      _$VaultAccessPolicyFromJson(json);
+  factory VaultAccessPolicy.fromJson(Map<String, dynamic> json) {
+    return VaultAccessPolicy(
+      policy: json['Policy'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VaultAccessPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
 /// Contains the vault lock policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VaultLockPolicy {
   /// The vault lock policy.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   VaultLockPolicy({
     this.policy,
   });
-  Map<String, dynamic> toJson() => _$VaultLockPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
 /// Represents a vault's notification configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VaultNotificationConfig {
   /// A list of one or more events for which Amazon S3 Glacier will send a
   /// notification to the specified Amazon SNS topic.
-  @_s.JsonKey(name: 'Events')
-  final List<String> events;
+  final List<String>? events;
 
   /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource
   /// Name (ARN).
-  @_s.JsonKey(name: 'SNSTopic')
-  final String sNSTopic;
+  final String? sNSTopic;
 
   VaultNotificationConfig({
     this.events,
     this.sNSTopic,
   });
-  factory VaultNotificationConfig.fromJson(Map<String, dynamic> json) =>
-      _$VaultNotificationConfigFromJson(json);
+  factory VaultNotificationConfig.fromJson(Map<String, dynamic> json) {
+    return VaultNotificationConfig(
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sNSTopic: json['SNSTopic'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VaultNotificationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final sNSTopic = this.sNSTopic;
+    return {
+      if (events != null) 'Events': events,
+      if (sNSTopic != null) 'SNSTopic': sNSTopic,
+    };
+  }
 }
 
 class InsufficientCapacityException extends _s.GenericAwsException {
-  InsufficientCapacityException({String type, String message})
+  InsufficientCapacityException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientCapacityException',
@@ -3755,7 +4015,7 @@ class InsufficientCapacityException extends _s.GenericAwsException {
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -3763,12 +4023,12 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MissingParameterValueException extends _s.GenericAwsException {
-  MissingParameterValueException({String type, String message})
+  MissingParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingParameterValueException',
@@ -3776,22 +4036,22 @@ class MissingParameterValueException extends _s.GenericAwsException {
 }
 
 class PolicyEnforcedException extends _s.GenericAwsException {
-  PolicyEnforcedException({String type, String message})
+  PolicyEnforcedException({String? type, String? message})
       : super(type: type, code: 'PolicyEnforcedException', message: message);
 }
 
 class RequestTimeoutException extends _s.GenericAwsException {
-  RequestTimeoutException({String type, String message})
+  RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }

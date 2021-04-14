@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'devices-2018-05-14.g.dart';
 
 /// Describes all of the AWS IoT 1-Click device-related API operations for the
 /// service.
@@ -34,10 +26,10 @@ part 'devices-2018-05-14.g.dart';
 class IoT1ClickDevicesService {
   final _s.RestJsonProtocol _protocol;
   IoT1ClickDevicesService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,7 +53,7 @@ class IoT1ClickDevicesService {
   /// The claim code, starting with "C-", as provided by the device
   /// manufacturer.
   Future<ClaimDevicesByClaimCodeResponse> claimDevicesByClaimCode({
-    @_s.required String claimCode,
+    required String claimCode,
   }) async {
     ArgumentError.checkNotNull(claimCode, 'claimCode');
     final response = await _protocol.send(
@@ -83,7 +75,7 @@ class IoT1ClickDevicesService {
   /// Parameter [deviceId] :
   /// The unique identifier of the device.
   Future<DescribeDeviceResponse> describeDevice({
-    @_s.required String deviceId,
+    required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
@@ -125,8 +117,8 @@ class IoT1ClickDevicesService {
   ///
   ///
   Future<FinalizeDeviceClaimResponse> finalizeDeviceClaim({
-    @_s.required String deviceId,
-    Map<String, String> tags,
+    required String deviceId,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
@@ -151,7 +143,7 @@ class IoT1ClickDevicesService {
   /// Parameter [deviceId] :
   /// The unique identifier of the device.
   Future<GetDeviceMethodsResponse> getDeviceMethods({
-    @_s.required String deviceId,
+    required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
@@ -181,7 +173,7 @@ class IoT1ClickDevicesService {
   /// Parameter [deviceId] :
   /// The unique identifier of the device.
   Future<InitiateDeviceClaimResponse> initiateDeviceClaim({
-    @_s.required String deviceId,
+    required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
@@ -213,9 +205,9 @@ class IoT1ClickDevicesService {
   /// Parameter [deviceMethodParameters] :
   /// A JSON encoded string containing the device method request parameters.
   Future<InvokeDeviceMethodResponse> invokeDeviceMethod({
-    @_s.required String deviceId,
-    DeviceMethod deviceMethod,
-    String deviceMethodParameters,
+    required String deviceId,
+    DeviceMethod? deviceMethod,
+    String? deviceMethodParameters,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
@@ -261,11 +253,11 @@ class IoT1ClickDevicesService {
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   Future<ListDeviceEventsResponse> listDeviceEvents({
-    @_s.required String deviceId,
-    @_s.required DateTime fromTimeStamp,
-    @_s.required DateTime toTimeStamp,
-    int maxResults,
-    String nextToken,
+    required String deviceId,
+    required DateTime fromTimeStamp,
+    required DateTime toTimeStamp,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(fromTimeStamp, 'fromTimeStamp');
@@ -277,10 +269,8 @@ class IoT1ClickDevicesService {
       250,
     );
     final $query = <String, List<String>>{
-      if (fromTimeStamp != null)
-        'fromTimeStamp': [_s.iso8601ToJson(fromTimeStamp).toString()],
-      if (toTimeStamp != null)
-        'toTimeStamp': [_s.iso8601ToJson(toTimeStamp).toString()],
+      'fromTimeStamp': [_s.iso8601ToJson(fromTimeStamp).toString()],
+      'toTimeStamp': [_s.iso8601ToJson(toTimeStamp).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -311,9 +301,9 @@ class IoT1ClickDevicesService {
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   Future<ListDevicesResponse> listDevices({
-    String deviceType,
-    int maxResults,
-    String nextToken,
+    String? deviceType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -344,7 +334,7 @@ class IoT1ClickDevicesService {
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -379,8 +369,8 @@ class IoT1ClickDevicesService {
   ///
   ///
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -404,7 +394,7 @@ class IoT1ClickDevicesService {
   /// Parameter [deviceId] :
   /// The unique identifier of the device.
   Future<UnclaimDeviceResponse> unclaimDevice({
-    @_s.required String deviceId,
+    required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
@@ -430,13 +420,13 @@ class IoT1ClickDevicesService {
   /// Parameter [tagKeys] :
   /// A collections of tag keys. For example, {"key1","key2"}
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -461,8 +451,8 @@ class IoT1ClickDevicesService {
   /// If true, the device is enabled. If false, the device is
   /// disabled.
   Future<void> updateDeviceState({
-    @_s.required String deviceId,
-    bool enabled,
+    required String deviceId,
+    bool? enabled,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
@@ -474,124 +464,104 @@ class IoT1ClickDevicesService {
       requestUri: '/devices/${Uri.encodeComponent(deviceId)}/state',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDeviceStateResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attributes {
   Attributes();
-  factory Attributes.fromJson(Map<String, dynamic> json) =>
-      _$AttributesFromJson(json);
+  factory Attributes.fromJson(Map<String, dynamic> _) {
+    return Attributes();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClaimDevicesByClaimCodeResponse {
   /// The claim code provided by the device manufacturer.
-  @_s.JsonKey(name: 'claimCode')
-  final String claimCode;
+  final String? claimCode;
 
   /// The total number of devices associated with the claim code that has been
   /// processed in
   /// the claim request.
-  @_s.JsonKey(name: 'total')
-  final int total;
+  final int? total;
 
   ClaimDevicesByClaimCodeResponse({
     this.claimCode,
     this.total,
   });
-  factory ClaimDevicesByClaimCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$ClaimDevicesByClaimCodeResponseFromJson(json);
+  factory ClaimDevicesByClaimCodeResponse.fromJson(Map<String, dynamic> json) {
+    return ClaimDevicesByClaimCodeResponse(
+      claimCode: json['claimCode'] as String?,
+      total: json['total'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDeviceResponse {
   /// Device details.
-  @_s.JsonKey(name: 'deviceDescription')
-  final DeviceDescription deviceDescription;
+  final DeviceDescription? deviceDescription;
 
   DescribeDeviceResponse({
     this.deviceDescription,
   });
-  factory DescribeDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDeviceResponseFromJson(json);
+  factory DescribeDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeviceResponse(
+      deviceDescription: json['deviceDescription'] != null
+          ? DeviceDescription.fromJson(
+              json['deviceDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Device {
   /// The user specified attributes associated with the device for an event.
-  @_s.JsonKey(name: 'attributes')
-  final Attributes attributes;
+  final Attributes? attributes;
 
   /// The unique identifier of the device.
-  @_s.JsonKey(name: 'deviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The device type, such as "button".
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   Device({
     this.attributes,
     this.deviceId,
     this.type,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      attributes: json['attributes'] != null
+          ? Attributes.fromJson(json['attributes'] as Map<String, dynamic>)
+          : null,
+      deviceId: json['deviceId'] as String?,
+      type: json['type'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceDescription {
   /// The ARN of the device.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// An array of zero or more elements of DeviceAttribute objects providing
   /// user specified device attributes.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The unique identifier of the device.
-  @_s.JsonKey(name: 'deviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// A Boolean value indicating whether or not the device is enabled.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// A value between 0 and 1 inclusive, representing the fraction of life
   /// remaining for the
   /// device.
-  @_s.JsonKey(name: 'remainingLife')
-  final double remainingLife;
+  final double? remainingLife;
 
   /// The tags currently associated with the AWS IoT 1-Click device.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The type of the device, such as "button".
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   DeviceDescription({
     this.arn,
@@ -602,175 +572,175 @@ class DeviceDescription {
     this.tags,
     this.type,
   });
-  factory DeviceDescription.fromJson(Map<String, dynamic> json) =>
-      _$DeviceDescriptionFromJson(json);
+  factory DeviceDescription.fromJson(Map<String, dynamic> json) {
+    return DeviceDescription(
+      arn: json['arn'] as String?,
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      deviceId: json['deviceId'] as String?,
+      enabled: json['enabled'] as bool?,
+      remainingLife: json['remainingLife'] as double?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['type'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceEvent {
   /// An object representing the device associated with the event.
-  @_s.JsonKey(name: 'device')
-  final Device device;
+  final Device? device;
 
   /// A serialized JSON object representing the device-type specific event.
-  @_s.JsonKey(name: 'stdEvent')
-  final String stdEvent;
+  final String? stdEvent;
 
   DeviceEvent({
     this.device,
     this.stdEvent,
   });
-  factory DeviceEvent.fromJson(Map<String, dynamic> json) =>
-      _$DeviceEventFromJson(json);
+  factory DeviceEvent.fromJson(Map<String, dynamic> json) {
+    return DeviceEvent(
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      stdEvent: json['stdEvent'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceMethod {
   /// The type of the device, such as "button".
-  @_s.JsonKey(name: 'deviceType')
-  final String deviceType;
+  final String? deviceType;
 
   /// The name of the method applicable to the deviceType.
-  @_s.JsonKey(name: 'methodName')
-  final String methodName;
+  final String? methodName;
 
   DeviceMethod({
     this.deviceType,
     this.methodName,
   });
-  factory DeviceMethod.fromJson(Map<String, dynamic> json) =>
-      _$DeviceMethodFromJson(json);
+  factory DeviceMethod.fromJson(Map<String, dynamic> json) {
+    return DeviceMethod(
+      deviceType: json['deviceType'] as String?,
+      methodName: json['methodName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeviceMethodToJson(this);
+  Map<String, dynamic> toJson() {
+    final deviceType = this.deviceType;
+    final methodName = this.methodName;
+    return {
+      if (deviceType != null) 'deviceType': deviceType,
+      if (methodName != null) 'methodName': methodName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FinalizeDeviceClaimResponse {
   /// The device's final claim state.
-  @_s.JsonKey(name: 'state')
-  final String state;
+  final String? state;
 
   FinalizeDeviceClaimResponse({
     this.state,
   });
-  factory FinalizeDeviceClaimResponse.fromJson(Map<String, dynamic> json) =>
-      _$FinalizeDeviceClaimResponseFromJson(json);
+  factory FinalizeDeviceClaimResponse.fromJson(Map<String, dynamic> json) {
+    return FinalizeDeviceClaimResponse(
+      state: json['state'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceMethodsResponse {
   /// List of available device APIs.
-  @_s.JsonKey(name: 'deviceMethods')
-  final List<DeviceMethod> deviceMethods;
+  final List<DeviceMethod>? deviceMethods;
 
   GetDeviceMethodsResponse({
     this.deviceMethods,
   });
-  factory GetDeviceMethodsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceMethodsResponseFromJson(json);
+  factory GetDeviceMethodsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeviceMethodsResponse(
+      deviceMethods: (json['deviceMethods'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceMethod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateDeviceClaimResponse {
   /// The device's final claim state.
-  @_s.JsonKey(name: 'state')
-  final String state;
+  final String? state;
 
   InitiateDeviceClaimResponse({
     this.state,
   });
-  factory InitiateDeviceClaimResponse.fromJson(Map<String, dynamic> json) =>
-      _$InitiateDeviceClaimResponseFromJson(json);
+  factory InitiateDeviceClaimResponse.fromJson(Map<String, dynamic> json) {
+    return InitiateDeviceClaimResponse(
+      state: json['state'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvokeDeviceMethodResponse {
   /// A JSON encoded string containing the device method response.
-  @_s.JsonKey(name: 'deviceMethodResponse')
-  final String deviceMethodResponse;
+  final String? deviceMethodResponse;
 
   InvokeDeviceMethodResponse({
     this.deviceMethodResponse,
   });
-  factory InvokeDeviceMethodResponse.fromJson(Map<String, dynamic> json) =>
-      _$InvokeDeviceMethodResponseFromJson(json);
+  factory InvokeDeviceMethodResponse.fromJson(Map<String, dynamic> json) {
+    return InvokeDeviceMethodResponse(
+      deviceMethodResponse: json['deviceMethodResponse'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeviceEventsResponse {
   /// An array of zero or more elements describing the event(s) associated with
   /// the
   /// device.
-  @_s.JsonKey(name: 'events')
-  final List<DeviceEvent> events;
+  final List<DeviceEvent>? events;
 
   /// The token to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeviceEventsResponse({
     this.events,
     this.nextToken,
   });
-  factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDeviceEventsResponseFromJson(json);
+  factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeviceEventsResponse(
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDevicesResponse {
   /// A list of devices.
-  @_s.JsonKey(name: 'devices')
-  final List<DeviceDescription> devices;
+  final List<DeviceDescription>? devices;
 
   /// The token to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDevicesResponse({
     this.devices,
     this.nextToken,
   });
-  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDevicesResponseFromJson(json);
+  factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevicesResponse(
+      devices: (json['devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A collection of key/value pairs defining the resource tags. For example, {
   /// "tags": {"key1": "value1", "key2": "value2"} }. For more information, see <a
@@ -780,78 +750,74 @@ class ListTagsForResourceResponse {
   ///
   ///
   ///
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnclaimDeviceResponse {
   /// The device's final claim state.
-  @_s.JsonKey(name: 'state')
-  final String state;
+  final String? state;
 
   UnclaimDeviceResponse({
     this.state,
   });
-  factory UnclaimDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UnclaimDeviceResponseFromJson(json);
+  factory UnclaimDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return UnclaimDeviceResponse(
+      state: json['state'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceStateResponse {
   UpdateDeviceStateResponse();
-  factory UpdateDeviceStateResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceStateResponseFromJson(json);
+  factory UpdateDeviceStateResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeviceStateResponse();
+  }
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class PreconditionFailedException extends _s.GenericAwsException {
-  PreconditionFailedException({String type, String message})
+  PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
 class RangeNotSatisfiableException extends _s.GenericAwsException {
-  RangeNotSatisfiableException({String type, String message})
+  RangeNotSatisfiableException({String? type, String? message})
       : super(
             type: type, code: 'RangeNotSatisfiableException', message: message);
 }
 
 class ResourceConflictException extends _s.GenericAwsException {
-  ResourceConflictException({String type, String message})
+  ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

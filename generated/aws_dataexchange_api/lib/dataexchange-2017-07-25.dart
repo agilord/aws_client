@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'dataexchange-2017-07-25.g.dart';
 
 /// AWS Data Exchange is a service that makes it easy for AWS customers to
 /// exchange data in the cloud. You can use the AWS Data Exchange APIs to
@@ -50,10 +42,10 @@ part 'dataexchange-2017-07-25.g.dart';
 class DataExchange {
   final _s.RestJsonProtocol _protocol;
   DataExchange({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,7 +69,7 @@ class DataExchange {
   /// Parameter [jobId] :
   /// The unique identifier for a job.
   Future<void> cancelJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     await _protocol.send(
@@ -114,16 +106,16 @@ class DataExchange {
   /// control in IAM policies to control access to these data sets and
   /// revisions.
   Future<CreateDataSetResponse> createDataSet({
-    @_s.required AssetType assetType,
-    @_s.required String description,
-    @_s.required String name,
-    Map<String, String> tags,
+    required AssetType assetType,
+    required String description,
+    required String name,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(assetType, 'assetType');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'AssetType': assetType?.toValue() ?? '',
+      'AssetType': assetType.toValue(),
       'Description': description,
       'Name': name,
       if (tags != null) 'Tags': tags,
@@ -151,14 +143,14 @@ class DataExchange {
   /// Parameter [type] :
   /// The type of job to be created.
   Future<CreateJobResponse> createJob({
-    @_s.required RequestDetails details,
-    @_s.required Type type,
+    required RequestDetails details,
+    required Type type,
   }) async {
     ArgumentError.checkNotNull(details, 'details');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Details': details,
-      'Type': type?.toValue() ?? '',
+      'Type': type.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -190,9 +182,9 @@ class DataExchange {
   /// control in IAM policies to control access to these data sets and
   /// revisions.
   Future<CreateRevisionResponse> createRevision({
-    @_s.required String dataSetId,
-    String comment,
-    Map<String, String> tags,
+    required String dataSetId,
+    String? comment,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     _s.validateStringLength(
@@ -232,9 +224,9 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<void> deleteAsset({
-    @_s.required String assetId,
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
+    required String assetId,
+    required String dataSetId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
@@ -260,7 +252,7 @@ class DataExchange {
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
   Future<void> deleteDataSet({
-    @_s.required String dataSetId,
+    required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     await _protocol.send(
@@ -286,8 +278,8 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<void> deleteRevision({
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
+    required String dataSetId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -316,9 +308,9 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<GetAssetResponse> getAsset({
-    @_s.required String assetId,
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
+    required String assetId,
+    required String dataSetId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
@@ -343,7 +335,7 @@ class DataExchange {
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
   Future<GetDataSetResponse> getDataSet({
-    @_s.required String dataSetId,
+    required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
@@ -365,7 +357,7 @@ class DataExchange {
   /// Parameter [jobId] :
   /// The unique identifier for a job.
   Future<GetJobResponse> getJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
@@ -390,8 +382,8 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<GetRevisionResponse> getRevision({
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
+    required String dataSetId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -423,9 +415,9 @@ class DataExchange {
   /// The token value retrieved from a previous call to access the next page of
   /// results.
   Future<ListDataSetRevisionsResponse> listDataSetRevisions({
-    @_s.required String dataSetId,
-    int maxResults,
-    String nextToken,
+    required String dataSetId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     _s.validateNumRange(
@@ -468,9 +460,9 @@ class DataExchange {
   /// A property that defines the data set as OWNED by the account (for
   /// providers) or ENTITLED to the account (for subscribers).
   Future<ListDataSetsResponse> listDataSets({
-    int maxResults,
-    String nextToken,
-    String origin,
+    int? maxResults,
+    String? nextToken,
+    String? origin,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -513,10 +505,10 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<ListJobsResponse> listJobs({
-    String dataSetId,
-    int maxResults,
-    String nextToken,
-    String revisionId,
+    String? dataSetId,
+    int? maxResults,
+    String? nextToken,
+    String? revisionId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -561,10 +553,10 @@ class DataExchange {
   /// The token value retrieved from a previous call to access the next page of
   /// results.
   Future<ListRevisionAssetsResponse> listRevisionAssets({
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
-    int maxResults,
-    String nextToken,
+    required String dataSetId,
+    required String revisionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -594,7 +586,7 @@ class DataExchange {
   /// Parameter [resourceArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -618,7 +610,7 @@ class DataExchange {
   /// Parameter [jobId] :
   /// The unique identifier for a job.
   Future<void> startJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
@@ -627,7 +619,6 @@ class DataExchange {
       requestUri: '/v1/jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return StartJobResponse.fromJson(response);
   }
 
   /// This operation tags a resource.
@@ -638,8 +629,8 @@ class DataExchange {
   /// Parameter [tags] :
   /// A label that consists of a customer-defined key and an optional value.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -662,13 +653,13 @@ class DataExchange {
   /// Parameter [tagKeys] :
   /// The key tags.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -702,10 +693,10 @@ class DataExchange {
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
   Future<UpdateAssetResponse> updateAsset({
-    @_s.required String assetId,
-    @_s.required String dataSetId,
-    @_s.required String name,
-    @_s.required String revisionId,
+    required String assetId,
+    required String dataSetId,
+    required String name,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
@@ -741,9 +732,9 @@ class DataExchange {
   /// Parameter [name] :
   /// The name of the data set.
   Future<UpdateDataSetResponse> updateDataSet({
-    @_s.required String dataSetId,
-    String description,
-    String name,
+    required String dataSetId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
@@ -782,10 +773,10 @@ class DataExchange {
   /// assets in the revision are complete. After it's in this read-only state,
   /// you can publish the revision to your products.
   Future<UpdateRevisionResponse> updateRevision({
-    @_s.required String dataSetId,
-    @_s.required String revisionId,
-    String comment,
-    bool finalized,
+    required String dataSetId,
+    required String revisionId,
+    String? comment,
+    bool? finalized,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -811,153 +802,158 @@ class DataExchange {
 }
 
 /// The destination for the asset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetDestinationEntry {
   /// The unique identifier for the asset.
-  @_s.JsonKey(name: 'AssetId')
   final String assetId;
 
   /// The S3 bucket that is the destination for the asset.
-  @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
   /// The name of the object in Amazon S3 for the asset.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   AssetDestinationEntry({
-    @_s.required this.assetId,
-    @_s.required this.bucket,
+    required this.assetId,
+    required this.bucket,
     this.key,
   });
-  factory AssetDestinationEntry.fromJson(Map<String, dynamic> json) =>
-      _$AssetDestinationEntryFromJson(json);
+  factory AssetDestinationEntry.fromJson(Map<String, dynamic> json) {
+    return AssetDestinationEntry(
+      assetId: json['AssetId'] as String,
+      bucket: json['Bucket'] as String,
+      key: json['Key'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetDestinationEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'AssetId': assetId,
+      'Bucket': bucket,
+      if (key != null) 'Key': key,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssetDetails {
-  @_s.JsonKey(name: 'S3SnapshotAsset')
-  final S3SnapshotAsset s3SnapshotAsset;
+  final S3SnapshotAsset? s3SnapshotAsset;
 
   AssetDetails({
     this.s3SnapshotAsset,
   });
-  factory AssetDetails.fromJson(Map<String, dynamic> json) =>
-      _$AssetDetailsFromJson(json);
+  factory AssetDetails.fromJson(Map<String, dynamic> json) {
+    return AssetDetails(
+      s3SnapshotAsset: json['S3SnapshotAsset'] != null
+          ? S3SnapshotAsset.fromJson(
+              json['S3SnapshotAsset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An asset in AWS Data Exchange is a piece of data that can be stored as an S3
 /// object. The asset can be a structured data file, an image file, or some
 /// other data file. When you create an import job for your files, you create an
 /// asset in AWS Data Exchange for each of those files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssetEntry {
   /// The ARN for the asset.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// Information about the asset, including its size.
-  @_s.JsonKey(name: 'AssetDetails')
   final AssetDetails assetDetails;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
   final AssetType assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this asset.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the asset.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The name of the asset. When importing from Amazon S3, the S3 object key is
   /// used as the asset name. When exporting to Amazon S3, the asset name is used
   /// as default target S3 object key.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The unique identifier for the revision associated with this asset.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// The asset ID of the owned asset corresponding to the entitled asset being
   /// viewed. This parameter is returned when an asset owner is viewing the
   /// entitled copy of its owned asset.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   AssetEntry({
-    @_s.required this.arn,
-    @_s.required this.assetDetails,
-    @_s.required this.assetType,
-    @_s.required this.createdAt,
-    @_s.required this.dataSetId,
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.revisionId,
-    @_s.required this.updatedAt,
+    required this.arn,
+    required this.assetDetails,
+    required this.assetType,
+    required this.createdAt,
+    required this.dataSetId,
+    required this.id,
+    required this.name,
+    required this.revisionId,
+    required this.updatedAt,
     this.sourceId,
   });
-  factory AssetEntry.fromJson(Map<String, dynamic> json) =>
-      _$AssetEntryFromJson(json);
+  factory AssetEntry.fromJson(Map<String, dynamic> json) {
+    return AssetEntry(
+      arn: json['Arn'] as String,
+      assetDetails:
+          AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
+      assetType: (json['AssetType'] as String).toAssetType(),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      dataSetId: json['DataSetId'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      revisionId: json['RevisionId'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      sourceId: json['SourceId'] as String?,
+    );
+  }
 }
 
 /// The source of the assets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetSourceEntry {
   /// The S3 bucket that's part of the source of the asset.
-  @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
   /// The name of the object in Amazon S3 for the asset.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   AssetSourceEntry({
-    @_s.required this.bucket,
-    @_s.required this.key,
+    required this.bucket,
+    required this.key,
   });
-  factory AssetSourceEntry.fromJson(Map<String, dynamic> json) =>
-      _$AssetSourceEntryFromJson(json);
+  factory AssetSourceEntry.fromJson(Map<String, dynamic> json) {
+    return AssetSourceEntry(
+      bucket: json['Bucket'] as String,
+      key: json['Key'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AssetSourceEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'Bucket': bucket,
+      'Key': key,
+    };
+  }
 }
 
 /// The type of file your data is stored in. Currently, the supported asset type
 /// is S3_SNAPSHOT.
 enum AssetType {
-  @_s.JsonValue('S3_SNAPSHOT')
   s3Snapshot,
 }
 
@@ -967,83 +963,110 @@ extension on AssetType {
       case AssetType.s3Snapshot:
         return 'S3_SNAPSHOT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AssetType toAssetType() {
+    switch (this) {
+      case 'S3_SNAPSHOT':
+        return AssetType.s3Snapshot;
+    }
+    throw Exception('$this is not known in enum AssetType');
   }
 }
 
 enum Code {
-  @_s.JsonValue('ACCESS_DENIED_EXCEPTION')
   accessDeniedException,
-  @_s.JsonValue('INTERNAL_SERVER_EXCEPTION')
   internalServerException,
-  @_s.JsonValue('MALWARE_DETECTED')
   malwareDetected,
-  @_s.JsonValue('RESOURCE_NOT_FOUND_EXCEPTION')
   resourceNotFoundException,
-  @_s.JsonValue('SERVICE_QUOTA_EXCEEDED_EXCEPTION')
   serviceQuotaExceededException,
-  @_s.JsonValue('VALIDATION_EXCEPTION')
   validationException,
-  @_s.JsonValue('MALWARE_SCAN_ENCRYPTED_FILE')
   malwareScanEncryptedFile,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Code {
+  String toValue() {
+    switch (this) {
+      case Code.accessDeniedException:
+        return 'ACCESS_DENIED_EXCEPTION';
+      case Code.internalServerException:
+        return 'INTERNAL_SERVER_EXCEPTION';
+      case Code.malwareDetected:
+        return 'MALWARE_DETECTED';
+      case Code.resourceNotFoundException:
+        return 'RESOURCE_NOT_FOUND_EXCEPTION';
+      case Code.serviceQuotaExceededException:
+        return 'SERVICE_QUOTA_EXCEEDED_EXCEPTION';
+      case Code.validationException:
+        return 'VALIDATION_EXCEPTION';
+      case Code.malwareScanEncryptedFile:
+        return 'MALWARE_SCAN_ENCRYPTED_FILE';
+    }
+  }
+}
+
+extension on String {
+  Code toCode() {
+    switch (this) {
+      case 'ACCESS_DENIED_EXCEPTION':
+        return Code.accessDeniedException;
+      case 'INTERNAL_SERVER_EXCEPTION':
+        return Code.internalServerException;
+      case 'MALWARE_DETECTED':
+        return Code.malwareDetected;
+      case 'RESOURCE_NOT_FOUND_EXCEPTION':
+        return Code.resourceNotFoundException;
+      case 'SERVICE_QUOTA_EXCEEDED_EXCEPTION':
+        return Code.serviceQuotaExceededException;
+      case 'VALIDATION_EXCEPTION':
+        return Code.validationException;
+      case 'MALWARE_SCAN_ENCRYPTED_FILE':
+        return Code.malwareScanEncryptedFile;
+    }
+    throw Exception('$this is not known in enum Code');
+  }
+}
+
 class CreateDataSetResponse {
   /// The ARN for the data set.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description for the data set.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier for the data set.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A property that defines the data set as OWNED by the account (for providers)
   /// or ENTITLED to the account (for subscribers).
-  @_s.JsonKey(name: 'Origin')
-  final Origin origin;
+  final Origin? origin;
 
   /// If the origin of this data set is ENTITLED, includes the details for the
   /// product on AWS Marketplace.
-  @_s.JsonKey(name: 'OriginDetails')
-  final OriginDetails originDetails;
+  final OriginDetails? originDetails;
 
   /// The data set ID of the owned data set corresponding to the entitled data set
   /// being viewed. This parameter is returned when a data set owner is viewing
   /// the entitled copy of its owned data set.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The tags for the data set.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   CreateDataSetResponse({
     this.arn,
@@ -1058,49 +1081,51 @@ class CreateDataSetResponse {
     this.tags,
     this.updatedAt,
   });
-  factory CreateDataSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDataSetResponseFromJson(json);
+  factory CreateDataSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataSetResponse(
+      arn: json['Arn'] as String?,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      origin: (json['Origin'] as String?)?.toOrigin(),
+      originDetails: json['OriginDetails'] != null
+          ? OriginDetails.fromJson(
+              json['OriginDetails'] as Map<String, dynamic>)
+          : null,
+      sourceId: json['SourceId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobResponse {
   /// The ARN for the job.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Details about the job.
-  @_s.JsonKey(name: 'Details')
-  final ResponseDetails details;
+  final ResponseDetails? details;
 
   /// The errors associated with jobs.
-  @_s.JsonKey(name: 'Errors')
-  final List<JobError> errors;
+  final List<JobError>? errors;
 
   /// The unique identifier for the job.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The state of the job.
-  @_s.JsonKey(name: 'State')
-  final State state;
+  final State? state;
 
   /// The job type.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   CreateJobResponse({
     this.arn,
@@ -1112,32 +1137,37 @@ class CreateJobResponse {
     this.type,
     this.updatedAt,
   });
-  factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobResponseFromJson(json);
+  factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobResponse(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      details: json['Details'] != null
+          ? ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      state: (json['State'] as String?)?.toState(),
+      type: (json['Type'] as String?)?.toType(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRevisionResponse {
   /// The ARN for the revision
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// An optional comment about the revision.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data set associated with this revision.
-  @_s.JsonKey(name: 'DataSetId')
-  final String dataSetId;
+  final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
@@ -1148,27 +1178,21 @@ class CreateRevisionResponse {
   /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
   /// Catalog API action. When using the API, revisions are uniquely identified by
   /// their ARN.
-  @_s.JsonKey(name: 'Finalized')
-  final bool finalized;
+  final bool? finalized;
 
   /// The unique identifier for the revision.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The tags for the revision.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   CreateRevisionResponse({
     this.arn,
@@ -1181,315 +1205,319 @@ class CreateRevisionResponse {
     this.tags,
     this.updatedAt,
   });
-  factory CreateRevisionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRevisionResponseFromJson(json);
+  factory CreateRevisionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRevisionResponse(
+      arn: json['Arn'] as String?,
+      comment: json['Comment'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      finalized: json['Finalized'] as bool?,
+      id: json['Id'] as String?,
+      sourceId: json['SourceId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 /// A data set is an AWS resource with one or more revisions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSetEntry {
   /// The ARN for the data set.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description for the data set.
-  @_s.JsonKey(name: 'Description')
   final String description;
 
   /// The unique identifier for the data set.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A property that defines the data set as OWNED by the account (for providers)
   /// or ENTITLED to the account (for subscribers).
-  @_s.JsonKey(name: 'Origin')
   final Origin origin;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// If the origin of this data set is ENTITLED, includes the details for the
   /// product on AWS Marketplace.
-  @_s.JsonKey(name: 'OriginDetails')
-  final OriginDetails originDetails;
+  final OriginDetails? originDetails;
 
   /// The data set ID of the owned data set corresponding to the entitled data set
   /// being viewed. This parameter is returned when a data set owner is viewing
   /// the entitled copy of its owned data set.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   DataSetEntry({
-    @_s.required this.arn,
-    @_s.required this.assetType,
-    @_s.required this.createdAt,
-    @_s.required this.description,
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.origin,
-    @_s.required this.updatedAt,
+    required this.arn,
+    required this.assetType,
+    required this.createdAt,
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.origin,
+    required this.updatedAt,
     this.originDetails,
     this.sourceId,
   });
-  factory DataSetEntry.fromJson(Map<String, dynamic> json) =>
-      _$DataSetEntryFromJson(json);
+  factory DataSetEntry.fromJson(Map<String, dynamic> json) {
+    return DataSetEntry(
+      arn: json['Arn'] as String,
+      assetType: (json['AssetType'] as String).toAssetType(),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      description: json['Description'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      origin: (json['Origin'] as String).toOrigin(),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      originDetails: json['OriginDetails'] != null
+          ? OriginDetails.fromJson(
+              json['OriginDetails'] as Map<String, dynamic>)
+          : null,
+      sourceId: json['SourceId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Details {
-  @_s.JsonKey(name: 'ImportAssetFromSignedUrlJobErrorDetails')
-  final ImportAssetFromSignedUrlJobErrorDetails
+  final ImportAssetFromSignedUrlJobErrorDetails?
       importAssetFromSignedUrlJobErrorDetails;
-  @_s.JsonKey(name: 'ImportAssetsFromS3JobErrorDetails')
-  final List<AssetSourceEntry> importAssetsFromS3JobErrorDetails;
+  final List<AssetSourceEntry>? importAssetsFromS3JobErrorDetails;
 
   Details({
     this.importAssetFromSignedUrlJobErrorDetails,
     this.importAssetsFromS3JobErrorDetails,
   });
-  factory Details.fromJson(Map<String, dynamic> json) =>
-      _$DetailsFromJson(json);
+  factory Details.fromJson(Map<String, dynamic> json) {
+    return Details(
+      importAssetFromSignedUrlJobErrorDetails:
+          json['ImportAssetFromSignedUrlJobErrorDetails'] != null
+              ? ImportAssetFromSignedUrlJobErrorDetails.fromJson(
+                  json['ImportAssetFromSignedUrlJobErrorDetails']
+                      as Map<String, dynamic>)
+              : null,
+      importAssetsFromS3JobErrorDetails:
+          (json['ImportAssetsFromS3JobErrorDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// Details of the operation to be performed by the job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExportAssetToSignedUrlRequestDetails {
   /// The unique identifier for the asset that is exported to a signed URL.
-  @_s.JsonKey(name: 'AssetId')
   final String assetId;
 
   /// The unique identifier for the data set associated with this export job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this export request.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   ExportAssetToSignedUrlRequestDetails({
-    @_s.required this.assetId,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetId,
+    required this.dataSetId,
+    required this.revisionId,
   });
-  Map<String, dynamic> toJson() =>
-      _$ExportAssetToSignedUrlRequestDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    return {
+      'AssetId': assetId,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+    };
+  }
 }
 
 /// The details of the export to signed URL response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportAssetToSignedUrlResponseDetails {
   /// The unique identifier for the asset associated with this export job.
-  @_s.JsonKey(name: 'AssetId')
   final String assetId;
 
   /// The unique identifier for the data set associated with this export job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this export response.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   /// The signed URL for the export request.
-  @_s.JsonKey(name: 'SignedUrl')
-  final String signedUrl;
+  final String? signedUrl;
 
   /// The date and time that the signed URL expires, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'SignedUrlExpiresAt')
-  final DateTime signedUrlExpiresAt;
+  final DateTime? signedUrlExpiresAt;
 
   ExportAssetToSignedUrlResponseDetails({
-    @_s.required this.assetId,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetId,
+    required this.dataSetId,
+    required this.revisionId,
     this.signedUrl,
     this.signedUrlExpiresAt,
   });
   factory ExportAssetToSignedUrlResponseDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExportAssetToSignedUrlResponseDetailsFromJson(json);
+      Map<String, dynamic> json) {
+    return ExportAssetToSignedUrlResponseDetails(
+      assetId: json['AssetId'] as String,
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+      signedUrl: json['SignedUrl'] as String?,
+      signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
+    );
+  }
 }
 
 /// Details of the operation to be performed by the job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExportAssetsToS3RequestDetails {
   /// The destination for the asset.
-  @_s.JsonKey(name: 'AssetDestinations')
   final List<AssetDestinationEntry> assetDestinations;
 
   /// The unique identifier for the data set associated with this export job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this export request.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   /// Encryption configuration for the export job.
-  @_s.JsonKey(name: 'Encryption')
-  final ExportServerSideEncryption encryption;
+  final ExportServerSideEncryption? encryption;
 
   ExportAssetsToS3RequestDetails({
-    @_s.required this.assetDestinations,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetDestinations,
+    required this.dataSetId,
+    required this.revisionId,
     this.encryption,
   });
-  Map<String, dynamic> toJson() => _$ExportAssetsToS3RequestDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final assetDestinations = this.assetDestinations;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    final encryption = this.encryption;
+    return {
+      'AssetDestinations': assetDestinations,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+      if (encryption != null) 'Encryption': encryption,
+    };
+  }
 }
 
 /// Details about the export to Amazon S3 response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportAssetsToS3ResponseDetails {
   /// The destination in Amazon S3 where the asset is exported.
-  @_s.JsonKey(name: 'AssetDestinations')
   final List<AssetDestinationEntry> assetDestinations;
 
   /// The unique identifier for the data set associated with this export job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this export response.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   /// Encryption configuration of the export job.
-  @_s.JsonKey(name: 'Encryption')
-  final ExportServerSideEncryption encryption;
+  final ExportServerSideEncryption? encryption;
 
   ExportAssetsToS3ResponseDetails({
-    @_s.required this.assetDestinations,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetDestinations,
+    required this.dataSetId,
+    required this.revisionId,
     this.encryption,
   });
-  factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) =>
-      _$ExportAssetsToS3ResponseDetailsFromJson(json);
+  factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) {
+    return ExportAssetsToS3ResponseDetails(
+      assetDestinations: (json['AssetDestinations'] as List)
+          .whereNotNull()
+          .map((e) => AssetDestinationEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+      encryption: json['Encryption'] != null
+          ? ExportServerSideEncryption.fromJson(
+              json['Encryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Encryption configuration of the export job. Includes the encryption type as
 /// well as the AWS KMS key. The KMS key is only necessary if you chose the KMS
 /// encryption type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExportServerSideEncryption {
   /// The type of server side encryption used for encrypting the objects in Amazon
   /// S3.
-  @_s.JsonKey(name: 'Type')
   final ServerSideEncryptionTypes type;
 
   /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to
   /// encrypt the Amazon S3 objects. This parameter is required if you choose
   /// aws:kms as an encryption type.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   ExportServerSideEncryption({
-    @_s.required this.type,
+    required this.type,
     this.kmsKeyArn,
   });
-  factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) =>
-      _$ExportServerSideEncryptionFromJson(json);
+  factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) {
+    return ExportServerSideEncryption(
+      type: (json['Type'] as String).toServerSideEncryptionTypes(),
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ExportServerSideEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'Type': type.toValue(),
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAssetResponse {
   /// The ARN for the asset.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// Information about the asset, including its size.
-  @_s.JsonKey(name: 'AssetDetails')
-  final AssetDetails assetDetails;
+  final AssetDetails? assetDetails;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data set associated with this asset.
-  @_s.JsonKey(name: 'DataSetId')
-  final String dataSetId;
+  final String? dataSetId;
 
   /// The unique identifier for the asset.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the asset When importing from Amazon S3, the S3 object key is
   /// used as the asset name. When exporting to Amazon S3, the asset name is used
   /// as default target S3 object key.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier for the revision associated with this asset.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The asset ID of the owned asset corresponding to the entitled asset being
   /// viewed. This parameter is returned when an asset owner is viewing the
   /// entitled copy of its owned asset.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   GetAssetResponse({
     this.arn,
@@ -1503,66 +1531,62 @@ class GetAssetResponse {
     this.sourceId,
     this.updatedAt,
   });
-  factory GetAssetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAssetResponseFromJson(json);
+  factory GetAssetResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetResponse(
+      arn: json['Arn'] as String?,
+      assetDetails: json['AssetDetails'] != null
+          ? AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>)
+          : null,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      revisionId: json['RevisionId'] as String?,
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataSetResponse {
   /// The ARN for the data set.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description for the data set.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier for the data set.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A property that defines the data set as OWNED by the account (for providers)
   /// or ENTITLED to the account (for subscribers).
-  @_s.JsonKey(name: 'Origin')
-  final Origin origin;
+  final Origin? origin;
 
   /// If the origin of this data set is ENTITLED, includes the details for the
   /// product on AWS Marketplace.
-  @_s.JsonKey(name: 'OriginDetails')
-  final OriginDetails originDetails;
+  final OriginDetails? originDetails;
 
   /// The data set ID of the owned data set corresponding to the entitled data set
   /// being viewed. This parameter is returned when a data set owner is viewing
   /// the entitled copy of its owned data set.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The tags for the data set.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   GetDataSetResponse({
     this.arn,
@@ -1577,49 +1601,51 @@ class GetDataSetResponse {
     this.tags,
     this.updatedAt,
   });
-  factory GetDataSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDataSetResponseFromJson(json);
+  factory GetDataSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataSetResponse(
+      arn: json['Arn'] as String?,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      origin: (json['Origin'] as String?)?.toOrigin(),
+      originDetails: json['OriginDetails'] != null
+          ? OriginDetails.fromJson(
+              json['OriginDetails'] as Map<String, dynamic>)
+          : null,
+      sourceId: json['SourceId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobResponse {
   /// The ARN for the job.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Details about the job.
-  @_s.JsonKey(name: 'Details')
-  final ResponseDetails details;
+  final ResponseDetails? details;
 
   /// The errors associated with jobs.
-  @_s.JsonKey(name: 'Errors')
-  final List<JobError> errors;
+  final List<JobError>? errors;
 
   /// The unique identifier for the job.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The state of the job.
-  @_s.JsonKey(name: 'State')
-  final State state;
+  final State? state;
 
   /// The job type.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   GetJobResponse({
     this.arn,
@@ -1631,32 +1657,37 @@ class GetJobResponse {
     this.type,
     this.updatedAt,
   });
-  factory GetJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobResponseFromJson(json);
+  factory GetJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobResponse(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      details: json['Details'] != null
+          ? ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      state: (json['State'] as String?)?.toState(),
+      type: (json['Type'] as String?)?.toType(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRevisionResponse {
   /// The ARN for the revision
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// An optional comment about the revision.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data set associated with this revision.
-  @_s.JsonKey(name: 'DataSetId')
-  final String dataSetId;
+  final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
@@ -1667,27 +1698,21 @@ class GetRevisionResponse {
   /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
   /// Catalog API action. When using the API, revisions are uniquely identified by
   /// their ARN.
-  @_s.JsonKey(name: 'Finalized')
-  final bool finalized;
+  final bool? finalized;
 
   /// The unique identifier for the revision.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The tags for the revision.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   GetRevisionResponse({
     this.arn,
@@ -1700,394 +1725,439 @@ class GetRevisionResponse {
     this.tags,
     this.updatedAt,
   });
-  factory GetRevisionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRevisionResponseFromJson(json);
+  factory GetRevisionResponse.fromJson(Map<String, dynamic> json) {
+    return GetRevisionResponse(
+      arn: json['Arn'] as String?,
+      comment: json['Comment'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      finalized: json['Finalized'] as bool?,
+      id: json['Id'] as String?,
+      sourceId: json['SourceId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportAssetFromSignedUrlJobErrorDetails {
-  @_s.JsonKey(name: 'AssetName')
   final String assetName;
 
   ImportAssetFromSignedUrlJobErrorDetails({
-    @_s.required this.assetName,
+    required this.assetName,
   });
   factory ImportAssetFromSignedUrlJobErrorDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$ImportAssetFromSignedUrlJobErrorDetailsFromJson(json);
+      Map<String, dynamic> json) {
+    return ImportAssetFromSignedUrlJobErrorDetails(
+      assetName: json['AssetName'] as String,
+    );
+  }
 }
 
 /// Details of the operation to be performed by the job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ImportAssetFromSignedUrlRequestDetails {
   /// The name of the asset. When importing from Amazon S3, the S3 object key is
   /// used as the asset name.
-  @_s.JsonKey(name: 'AssetName')
   final String assetName;
 
   /// The unique identifier for the data set associated with this import job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The Base64-encoded Md5 hash for the asset, used to ensure the integrity of
   /// the file at that location.
-  @_s.JsonKey(name: 'Md5Hash')
   final String md5Hash;
 
   /// The unique identifier for the revision associated with this import request.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   ImportAssetFromSignedUrlRequestDetails({
-    @_s.required this.assetName,
-    @_s.required this.dataSetId,
-    @_s.required this.md5Hash,
-    @_s.required this.revisionId,
+    required this.assetName,
+    required this.dataSetId,
+    required this.md5Hash,
+    required this.revisionId,
   });
-  Map<String, dynamic> toJson() =>
-      _$ImportAssetFromSignedUrlRequestDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final assetName = this.assetName;
+    final dataSetId = this.dataSetId;
+    final md5Hash = this.md5Hash;
+    final revisionId = this.revisionId;
+    return {
+      'AssetName': assetName,
+      'DataSetId': dataSetId,
+      'Md5Hash': md5Hash,
+      'RevisionId': revisionId,
+    };
+  }
 }
 
 /// The details in the response for an import request, including the signed URL
 /// and other information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportAssetFromSignedUrlResponseDetails {
   /// The name for the asset associated with this import response.
-  @_s.JsonKey(name: 'AssetName')
   final String assetName;
 
   /// The unique identifier for the data set associated with this import job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this import response.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   /// The Base64-encoded Md5 hash for the asset, used to ensure the integrity of
   /// the file at that location.
-  @_s.JsonKey(name: 'Md5Hash')
-  final String md5Hash;
+  final String? md5Hash;
 
   /// The signed URL.
-  @_s.JsonKey(name: 'SignedUrl')
-  final String signedUrl;
+  final String? signedUrl;
 
   /// The time and date at which the signed URL expires, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'SignedUrlExpiresAt')
-  final DateTime signedUrlExpiresAt;
+  final DateTime? signedUrlExpiresAt;
 
   ImportAssetFromSignedUrlResponseDetails({
-    @_s.required this.assetName,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetName,
+    required this.dataSetId,
+    required this.revisionId,
     this.md5Hash,
     this.signedUrl,
     this.signedUrlExpiresAt,
   });
   factory ImportAssetFromSignedUrlResponseDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$ImportAssetFromSignedUrlResponseDetailsFromJson(json);
+      Map<String, dynamic> json) {
+    return ImportAssetFromSignedUrlResponseDetails(
+      assetName: json['AssetName'] as String,
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+      md5Hash: json['Md5Hash'] as String?,
+      signedUrl: json['SignedUrl'] as String?,
+      signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
+    );
+  }
 }
 
 /// Details of the operation to be performed by the job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ImportAssetsFromS3RequestDetails {
   /// Is a list of S3 bucket and object key pairs.
-  @_s.JsonKey(name: 'AssetSources')
   final List<AssetSourceEntry> assetSources;
 
   /// The unique identifier for the data set associated with this import job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this import request.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   ImportAssetsFromS3RequestDetails({
-    @_s.required this.assetSources,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetSources,
+    required this.dataSetId,
+    required this.revisionId,
   });
-  Map<String, dynamic> toJson() =>
-      _$ImportAssetsFromS3RequestDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final assetSources = this.assetSources;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    return {
+      'AssetSources': assetSources,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+    };
+  }
 }
 
 /// Details from an import from Amazon S3 response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportAssetsFromS3ResponseDetails {
   /// Is a list of Amazon S3 bucket and object key pairs.
-  @_s.JsonKey(name: 'AssetSources')
   final List<AssetSourceEntry> assetSources;
 
   /// The unique identifier for the data set associated with this import job.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision associated with this import response.
-  @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
   ImportAssetsFromS3ResponseDetails({
-    @_s.required this.assetSources,
-    @_s.required this.dataSetId,
-    @_s.required this.revisionId,
+    required this.assetSources,
+    required this.dataSetId,
+    required this.revisionId,
   });
   factory ImportAssetsFromS3ResponseDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$ImportAssetsFromS3ResponseDetailsFromJson(json);
+      Map<String, dynamic> json) {
+    return ImportAssetsFromS3ResponseDetails(
+      assetSources: (json['AssetSources'] as List)
+          .whereNotNull()
+          .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+    );
+  }
 }
 
 /// AWS Data Exchange Jobs are asynchronous import or export operations used to
 /// create or copy assets. A data set owner can both import and export as they
 /// see fit. Someone with an entitlement to a data set can only export. Jobs are
 /// deleted 90 days after they are created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobEntry {
   /// The ARN for the job.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Details of the operation to be performed by the job, such as export
   /// destination details or import source details.
-  @_s.JsonKey(name: 'Details')
   final ResponseDetails details;
 
   /// The unique identifier for the job.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The state of the job.
-  @_s.JsonKey(name: 'State')
   final State state;
 
   /// The job type.
-  @_s.JsonKey(name: 'Type')
   final Type type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// Errors for jobs.
-  @_s.JsonKey(name: 'Errors')
-  final List<JobError> errors;
+  final List<JobError>? errors;
 
   JobEntry({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.details,
-    @_s.required this.id,
-    @_s.required this.state,
-    @_s.required this.type,
-    @_s.required this.updatedAt,
+    required this.arn,
+    required this.createdAt,
+    required this.details,
+    required this.id,
+    required this.state,
+    required this.type,
+    required this.updatedAt,
     this.errors,
   });
-  factory JobEntry.fromJson(Map<String, dynamic> json) =>
-      _$JobEntryFromJson(json);
+  factory JobEntry.fromJson(Map<String, dynamic> json) {
+    return JobEntry(
+      arn: json['Arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      details:
+          ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      state: (json['State'] as String).toState(),
+      type: (json['Type'] as String).toType(),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// An error that occurred with the job request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobError {
   /// The code for the job error.
-  @_s.JsonKey(name: 'Code')
   final Code code;
 
   /// The message related to the job error.
-  @_s.JsonKey(name: 'Message')
   final String message;
-  @_s.JsonKey(name: 'Details')
-  final Details details;
+  final Details? details;
 
   /// The name of the limit that was reached.
-  @_s.JsonKey(name: 'LimitName')
-  final JobErrorLimitName limitName;
+  final JobErrorLimitName? limitName;
 
   /// The value of the exceeded limit.
-  @_s.JsonKey(name: 'LimitValue')
-  final double limitValue;
+  final double? limitValue;
 
   /// The unique identifier for the resource related to the error.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of resource related to the error.
-  @_s.JsonKey(name: 'ResourceType')
-  final JobErrorResourceTypes resourceType;
+  final JobErrorResourceTypes? resourceType;
 
   JobError({
-    @_s.required this.code,
-    @_s.required this.message,
+    required this.code,
+    required this.message,
     this.details,
     this.limitName,
     this.limitValue,
     this.resourceId,
     this.resourceType,
   });
-  factory JobError.fromJson(Map<String, dynamic> json) =>
-      _$JobErrorFromJson(json);
+  factory JobError.fromJson(Map<String, dynamic> json) {
+    return JobError(
+      code: (json['Code'] as String).toCode(),
+      message: json['Message'] as String,
+      details: json['Details'] != null
+          ? Details.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+      limitName: (json['LimitName'] as String?)?.toJobErrorLimitName(),
+      limitValue: json['LimitValue'] as double?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType:
+          (json['ResourceType'] as String?)?.toJobErrorResourceTypes(),
+    );
+  }
 }
 
 /// The name of the limit that was reached.
 enum JobErrorLimitName {
-  @_s.JsonValue('Assets per revision')
   assetsPerRevision,
-  @_s.JsonValue('Asset size in GB')
   assetSizeInGb,
+}
+
+extension on JobErrorLimitName {
+  String toValue() {
+    switch (this) {
+      case JobErrorLimitName.assetsPerRevision:
+        return 'Assets per revision';
+      case JobErrorLimitName.assetSizeInGb:
+        return 'Asset size in GB';
+    }
+  }
+}
+
+extension on String {
+  JobErrorLimitName toJobErrorLimitName() {
+    switch (this) {
+      case 'Assets per revision':
+        return JobErrorLimitName.assetsPerRevision;
+      case 'Asset size in GB':
+        return JobErrorLimitName.assetSizeInGb;
+    }
+    throw Exception('$this is not known in enum JobErrorLimitName');
+  }
 }
 
 /// The types of resource which the job error can apply to.
 enum JobErrorResourceTypes {
-  @_s.JsonValue('REVISION')
   revision,
-  @_s.JsonValue('ASSET')
   asset,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on JobErrorResourceTypes {
+  String toValue() {
+    switch (this) {
+      case JobErrorResourceTypes.revision:
+        return 'REVISION';
+      case JobErrorResourceTypes.asset:
+        return 'ASSET';
+    }
+  }
+}
+
+extension on String {
+  JobErrorResourceTypes toJobErrorResourceTypes() {
+    switch (this) {
+      case 'REVISION':
+        return JobErrorResourceTypes.revision;
+      case 'ASSET':
+        return JobErrorResourceTypes.asset;
+    }
+    throw Exception('$this is not known in enum JobErrorResourceTypes');
+  }
+}
+
 class ListDataSetRevisionsResponse {
   /// The token value retrieved from a previous call to access the next page of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The asset objects listed by the request.
-  @_s.JsonKey(name: 'Revisions')
-  final List<RevisionEntry> revisions;
+  final List<RevisionEntry>? revisions;
 
   ListDataSetRevisionsResponse({
     this.nextToken,
     this.revisions,
   });
-  factory ListDataSetRevisionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDataSetRevisionsResponseFromJson(json);
+  factory ListDataSetRevisionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSetRevisionsResponse(
+      nextToken: json['NextToken'] as String?,
+      revisions: (json['Revisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RevisionEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDataSetsResponse {
   /// The data set objects listed by the request.
-  @_s.JsonKey(name: 'DataSets')
-  final List<DataSetEntry> dataSets;
+  final List<DataSetEntry>? dataSets;
 
   /// The token value retrieved from a previous call to access the next page of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDataSetsResponse({
     this.dataSets,
     this.nextToken,
   });
-  factory ListDataSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDataSetsResponseFromJson(json);
+  factory ListDataSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSetsResponse(
+      dataSets: (json['DataSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataSetEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResponse {
   /// The jobs listed by the request.
-  @_s.JsonKey(name: 'Jobs')
-  final List<JobEntry> jobs;
+  final List<JobEntry>? jobs;
 
   /// The token value retrieved from a previous call to access the next page of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory ListJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResponseFromJson(json);
+  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRevisionAssetsResponse {
   /// The asset objects listed by the request.
-  @_s.JsonKey(name: 'Assets')
-  final List<AssetEntry> assets;
+  final List<AssetEntry>? assets;
 
   /// The token value retrieved from a previous call to access the next page of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRevisionAssetsResponse({
     this.assets,
     this.nextToken,
   });
-  factory ListRevisionAssetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRevisionAssetsResponseFromJson(json);
+  factory ListRevisionAssetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRevisionAssetsResponse(
+      assets: (json['Assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A label that consists of a customer-defined key and an optional value.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A property that defines the data set as OWNED by the account (for providers)
@@ -2095,50 +2165,59 @@ class ListTagsForResourceResponse {
 /// published in a product, AWS Data Exchange creates a copy of the data set.
 /// Subscribers can access that copy of the data set as an entitled data set.
 enum Origin {
-  @_s.JsonValue('OWNED')
   owned,
-  @_s.JsonValue('ENTITLED')
   entitled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Origin {
+  String toValue() {
+    switch (this) {
+      case Origin.owned:
+        return 'OWNED';
+      case Origin.entitled:
+        return 'ENTITLED';
+    }
+  }
+}
+
+extension on String {
+  Origin toOrigin() {
+    switch (this) {
+      case 'OWNED':
+        return Origin.owned;
+      case 'ENTITLED':
+        return Origin.entitled;
+    }
+    throw Exception('$this is not known in enum Origin');
+  }
+}
+
 class OriginDetails {
-  @_s.JsonKey(name: 'ProductId')
   final String productId;
 
   OriginDetails({
-    @_s.required this.productId,
+    required this.productId,
   });
-  factory OriginDetails.fromJson(Map<String, dynamic> json) =>
-      _$OriginDetailsFromJson(json);
+  factory OriginDetails.fromJson(Map<String, dynamic> json) {
+    return OriginDetails(
+      productId: json['ProductId'] as String,
+    );
+  }
 }
 
 /// The details for the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RequestDetails {
   /// Details about the export to signed URL request.
-  @_s.JsonKey(name: 'ExportAssetToSignedUrl')
-  final ExportAssetToSignedUrlRequestDetails exportAssetToSignedUrl;
+  final ExportAssetToSignedUrlRequestDetails? exportAssetToSignedUrl;
 
   /// Details about the export to Amazon S3 request.
-  @_s.JsonKey(name: 'ExportAssetsToS3')
-  final ExportAssetsToS3RequestDetails exportAssetsToS3;
+  final ExportAssetsToS3RequestDetails? exportAssetsToS3;
 
   /// Details about the import from signed URL request.
-  @_s.JsonKey(name: 'ImportAssetFromSignedUrl')
-  final ImportAssetFromSignedUrlRequestDetails importAssetFromSignedUrl;
+  final ImportAssetFromSignedUrlRequestDetails? importAssetFromSignedUrl;
 
   /// Details about the import from Amazon S3 request.
-  @_s.JsonKey(name: 'ImportAssetsFromS3')
-  final ImportAssetsFromS3RequestDetails importAssetsFromS3;
+  final ImportAssetsFromS3RequestDetails? importAssetsFromS3;
 
   RequestDetails({
     this.exportAssetToSignedUrl,
@@ -2146,31 +2225,35 @@ class RequestDetails {
     this.importAssetFromSignedUrl,
     this.importAssetsFromS3,
   });
-  Map<String, dynamic> toJson() => _$RequestDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final exportAssetToSignedUrl = this.exportAssetToSignedUrl;
+    final exportAssetsToS3 = this.exportAssetsToS3;
+    final importAssetFromSignedUrl = this.importAssetFromSignedUrl;
+    final importAssetsFromS3 = this.importAssetsFromS3;
+    return {
+      if (exportAssetToSignedUrl != null)
+        'ExportAssetToSignedUrl': exportAssetToSignedUrl,
+      if (exportAssetsToS3 != null) 'ExportAssetsToS3': exportAssetsToS3,
+      if (importAssetFromSignedUrl != null)
+        'ImportAssetFromSignedUrl': importAssetFromSignedUrl,
+      if (importAssetsFromS3 != null) 'ImportAssetsFromS3': importAssetsFromS3,
+    };
+  }
 }
 
 /// Details for the response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResponseDetails {
   /// Details for the export to signed URL response.
-  @_s.JsonKey(name: 'ExportAssetToSignedUrl')
-  final ExportAssetToSignedUrlResponseDetails exportAssetToSignedUrl;
+  final ExportAssetToSignedUrlResponseDetails? exportAssetToSignedUrl;
 
   /// Details for the export to Amazon S3 response.
-  @_s.JsonKey(name: 'ExportAssetsToS3')
-  final ExportAssetsToS3ResponseDetails exportAssetsToS3;
+  final ExportAssetsToS3ResponseDetails? exportAssetsToS3;
 
   /// Details for the import from signed URL response.
-  @_s.JsonKey(name: 'ImportAssetFromSignedUrl')
-  final ImportAssetFromSignedUrlResponseDetails importAssetFromSignedUrl;
+  final ImportAssetFromSignedUrlResponseDetails? importAssetFromSignedUrl;
 
   /// Details for the import from Amazon S3 response.
-  @_s.JsonKey(name: 'ImportAssetsFromS3')
-  final ImportAssetsFromS3ResponseDetails importAssetsFromS3;
+  final ImportAssetsFromS3ResponseDetails? importAssetsFromS3;
 
   ResponseDetails({
     this.exportAssetToSignedUrl,
@@ -2178,42 +2261,47 @@ class ResponseDetails {
     this.importAssetFromSignedUrl,
     this.importAssetsFromS3,
   });
-  factory ResponseDetails.fromJson(Map<String, dynamic> json) =>
-      _$ResponseDetailsFromJson(json);
+  factory ResponseDetails.fromJson(Map<String, dynamic> json) {
+    return ResponseDetails(
+      exportAssetToSignedUrl: json['ExportAssetToSignedUrl'] != null
+          ? ExportAssetToSignedUrlResponseDetails.fromJson(
+              json['ExportAssetToSignedUrl'] as Map<String, dynamic>)
+          : null,
+      exportAssetsToS3: json['ExportAssetsToS3'] != null
+          ? ExportAssetsToS3ResponseDetails.fromJson(
+              json['ExportAssetsToS3'] as Map<String, dynamic>)
+          : null,
+      importAssetFromSignedUrl: json['ImportAssetFromSignedUrl'] != null
+          ? ImportAssetFromSignedUrlResponseDetails.fromJson(
+              json['ImportAssetFromSignedUrl'] as Map<String, dynamic>)
+          : null,
+      importAssetsFromS3: json['ImportAssetsFromS3'] != null
+          ? ImportAssetsFromS3ResponseDetails.fromJson(
+              json['ImportAssetsFromS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A revision is a container for one or more assets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RevisionEntry {
   /// The ARN for the revision.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this revision.
-  @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
   /// The unique identifier for the revision.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// An optional comment about the revision.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
@@ -2224,89 +2312,140 @@ class RevisionEntry {
   /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
   /// Catalog API action. When using the API, revisions are uniquely identified by
   /// their ARN.
-  @_s.JsonKey(name: 'Finalized')
-  final bool finalized;
+  final bool? finalized;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   RevisionEntry({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.dataSetId,
-    @_s.required this.id,
-    @_s.required this.updatedAt,
+    required this.arn,
+    required this.createdAt,
+    required this.dataSetId,
+    required this.id,
+    required this.updatedAt,
     this.comment,
     this.finalized,
     this.sourceId,
   });
-  factory RevisionEntry.fromJson(Map<String, dynamic> json) =>
-      _$RevisionEntryFromJson(json);
+  factory RevisionEntry.fromJson(Map<String, dynamic> json) {
+    return RevisionEntry(
+      arn: json['Arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      dataSetId: json['DataSetId'] as String,
+      id: json['Id'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      comment: json['Comment'] as String?,
+      finalized: json['Finalized'] as bool?,
+      sourceId: json['SourceId'] as String?,
+    );
+  }
 }
 
 /// The S3 object that is the asset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3SnapshotAsset {
   /// The size of the S3 object that is the object.
-  @_s.JsonKey(name: 'Size')
   final double size;
 
   S3SnapshotAsset({
-    @_s.required this.size,
+    required this.size,
   });
-  factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) =>
-      _$S3SnapshotAssetFromJson(json);
+  factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) {
+    return S3SnapshotAsset(
+      size: json['Size'] as double,
+    );
+  }
 }
 
 /// The types of encryption supported in export jobs to Amazon S3.
 enum ServerSideEncryptionTypes {
-  @_s.JsonValue('aws:kms')
   awsKms,
-  @_s.JsonValue('AES256')
   aes256,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ServerSideEncryptionTypes {
+  String toValue() {
+    switch (this) {
+      case ServerSideEncryptionTypes.awsKms:
+        return 'aws:kms';
+      case ServerSideEncryptionTypes.aes256:
+        return 'AES256';
+    }
+  }
+}
+
+extension on String {
+  ServerSideEncryptionTypes toServerSideEncryptionTypes() {
+    switch (this) {
+      case 'aws:kms':
+        return ServerSideEncryptionTypes.awsKms;
+      case 'AES256':
+        return ServerSideEncryptionTypes.aes256;
+    }
+    throw Exception('$this is not known in enum ServerSideEncryptionTypes');
+  }
+}
+
 class StartJobResponse {
   StartJobResponse();
-  factory StartJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartJobResponseFromJson(json);
+  factory StartJobResponse.fromJson(Map<String, dynamic> _) {
+    return StartJobResponse();
+  }
 }
 
 enum State {
-  @_s.JsonValue('WAITING')
   waiting,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
 }
 
+extension on State {
+  String toValue() {
+    switch (this) {
+      case State.waiting:
+        return 'WAITING';
+      case State.inProgress:
+        return 'IN_PROGRESS';
+      case State.error:
+        return 'ERROR';
+      case State.completed:
+        return 'COMPLETED';
+      case State.cancelled:
+        return 'CANCELLED';
+      case State.timedOut:
+        return 'TIMED_OUT';
+    }
+  }
+}
+
+extension on String {
+  State toState() {
+    switch (this) {
+      case 'WAITING':
+        return State.waiting;
+      case 'IN_PROGRESS':
+        return State.inProgress;
+      case 'ERROR':
+        return State.error;
+      case 'COMPLETED':
+        return State.completed;
+      case 'CANCELLED':
+        return State.cancelled;
+      case 'TIMED_OUT':
+        return State.timedOut;
+    }
+    throw Exception('$this is not known in enum State');
+  }
+}
+
 enum Type {
-  @_s.JsonValue('IMPORT_ASSETS_FROM_S3')
   importAssetsFromS3,
-  @_s.JsonValue('IMPORT_ASSET_FROM_SIGNED_URL')
   importAssetFromSignedUrl,
-  @_s.JsonValue('EXPORT_ASSETS_TO_S3')
   exportAssetsToS3,
-  @_s.JsonValue('EXPORT_ASSET_TO_SIGNED_URL')
   exportAssetToSignedUrl,
 }
 
@@ -2322,62 +2461,60 @@ extension on Type {
       case Type.exportAssetToSignedUrl:
         return 'EXPORT_ASSET_TO_SIGNED_URL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'IMPORT_ASSETS_FROM_S3':
+        return Type.importAssetsFromS3;
+      case 'IMPORT_ASSET_FROM_SIGNED_URL':
+        return Type.importAssetFromSignedUrl;
+      case 'EXPORT_ASSETS_TO_S3':
+        return Type.exportAssetsToS3;
+      case 'EXPORT_ASSET_TO_SIGNED_URL':
+        return Type.exportAssetToSignedUrl;
+    }
+    throw Exception('$this is not known in enum Type');
+  }
+}
+
 class UpdateAssetResponse {
   /// The ARN for the asset.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// Information about the asset, including its size.
-  @_s.JsonKey(name: 'AssetDetails')
-  final AssetDetails assetDetails;
+  final AssetDetails? assetDetails;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data set associated with this asset.
-  @_s.JsonKey(name: 'DataSetId')
-  final String dataSetId;
+  final String? dataSetId;
 
   /// The unique identifier for the asset.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the asset When importing from Amazon S3, the S3 object key is
   /// used as the asset name. When exporting to Amazon S3, the asset name is used
   /// as default target S3 object key.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier for the revision associated with this asset.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The asset ID of the owned asset corresponding to the entitled asset being
   /// viewed. This parameter is returned when an asset owner is viewing the
   /// entitled copy of its owned asset.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   UpdateAssetResponse({
     this.arn,
@@ -2391,62 +2528,59 @@ class UpdateAssetResponse {
     this.sourceId,
     this.updatedAt,
   });
-  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAssetResponseFromJson(json);
+  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetResponse(
+      arn: json['Arn'] as String?,
+      assetDetails: json['AssetDetails'] != null
+          ? AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>)
+          : null,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      revisionId: json['RevisionId'] as String?,
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDataSetResponse {
   /// The ARN for the data set.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The type of file your data is stored in. Currently, the supported asset type
   /// is S3_SNAPSHOT.
-  @_s.JsonKey(name: 'AssetType')
-  final AssetType assetType;
+  final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description for the data set.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier for the data set.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A property that defines the data set as OWNED by the account (for providers)
   /// or ENTITLED to the account (for subscribers).
-  @_s.JsonKey(name: 'Origin')
-  final Origin origin;
+  final Origin? origin;
 
   /// If the origin of this data set is ENTITLED, includes the details for the
   /// product on AWS Marketplace.
-  @_s.JsonKey(name: 'OriginDetails')
-  final OriginDetails originDetails;
+  final OriginDetails? originDetails;
 
   /// The data set ID of the owned data set corresponding to the entitled data set
   /// being viewed. This parameter is returned when a data set owner is viewing
   /// the entitled copy of its owned data set.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   UpdateDataSetResponse({
     this.arn,
@@ -2460,32 +2594,37 @@ class UpdateDataSetResponse {
     this.sourceId,
     this.updatedAt,
   });
-  factory UpdateDataSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDataSetResponseFromJson(json);
+  factory UpdateDataSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDataSetResponse(
+      arn: json['Arn'] as String?,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      origin: (json['Origin'] as String?)?.toOrigin(),
+      originDetails: json['OriginDetails'] != null
+          ? OriginDetails.fromJson(
+              json['OriginDetails'] as Map<String, dynamic>)
+          : null,
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRevisionResponse {
   /// The ARN for the revision.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// An optional comment about the revision.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The unique identifier for the data set associated with this revision.
-  @_s.JsonKey(name: 'DataSetId')
-  final String dataSetId;
+  final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that changes to the
@@ -2496,23 +2635,18 @@ class UpdateRevisionResponse {
   /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
   /// Catalog API action. When using the API, revisions are uniquely identified by
   /// their ARN.
-  @_s.JsonKey(name: 'Finalized')
-  final bool finalized;
+  final bool? finalized;
 
   /// The unique identifier for the revision.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
-  @_s.JsonKey(name: 'SourceId')
-  final String sourceId;
+  final String? sourceId;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   UpdateRevisionResponse({
     this.arn,
@@ -2524,32 +2658,42 @@ class UpdateRevisionResponse {
     this.sourceId,
     this.updatedAt,
   });
-  factory UpdateRevisionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRevisionResponseFromJson(json);
+  factory UpdateRevisionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRevisionResponse(
+      arn: json['Arn'] as String?,
+      comment: json['Comment'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      finalized: json['Finalized'] as bool?,
+      id: json['Id'] as String?,
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceLimitExceededException extends _s.GenericAwsException {
-  ServiceLimitExceededException({String type, String message})
+  ServiceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceLimitExceededException',
@@ -2557,12 +2701,12 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'storagegateway-2013-06-30.g.dart';
 
 /// AWS Storage Gateway is the service that connects an on-premises software
 /// appliance with cloud-based storage to provide seamless and secure
@@ -34,10 +26,10 @@ part 'storagegateway-2013-06-30.g.dart';
 class StorageGateway {
   final _s.JsonProtocol _protocol;
   StorageGateway({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -130,14 +122,14 @@ class StorageGateway {
   ///
   /// Valid Values: <code>IBM-ULT3580-TD5</code>
   Future<ActivateGatewayOutput> activateGateway({
-    @_s.required String activationKey,
-    @_s.required String gatewayName,
-    @_s.required String gatewayRegion,
-    @_s.required String gatewayTimezone,
-    String gatewayType,
-    String mediumChangerType,
-    List<Tag> tags,
-    String tapeDriveType,
+    required String activationKey,
+    required String gatewayName,
+    required String gatewayRegion,
+    required String gatewayTimezone,
+    String? gatewayType,
+    String? mediumChangerType,
+    List<Tag>? tags,
+    String? tapeDriveType,
   }) async {
     ArgumentError.checkNotNull(activationKey, 'activationKey');
     _s.validateStringLength(
@@ -238,8 +230,8 @@ class StorageGateway {
   /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddCacheOutput> addCache({
-    @_s.required List<String> diskIds,
-    @_s.required String gatewayARN,
+    required List<String> diskIds,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
@@ -308,8 +300,8 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<AddTagsToResourceOutput> addTagsToResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -355,8 +347,8 @@ class StorageGateway {
   /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddUploadBufferOutput> addUploadBuffer({
-    @_s.required List<String> diskIds,
-    @_s.required String gatewayARN,
+    required List<String> diskIds,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
@@ -407,8 +399,8 @@ class StorageGateway {
   /// working storage. Each string has a minimum length of 1 and maximum length
   /// of 300. You can get the disk IDs from the <a>ListLocalDisks</a> API.
   Future<AddWorkingStorageOutput> addWorkingStorage({
-    @_s.required List<String> diskIds,
-    @_s.required String gatewayARN,
+    required List<String> diskIds,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
@@ -472,9 +464,9 @@ class StorageGateway {
   ///
   /// Valid values: <code>TRUE</code> | <code>FALSE</code>
   Future<AssignTapePoolOutput> assignTapePool({
-    @_s.required String poolId,
-    @_s.required String tapeARN,
-    bool bypassGovernanceRetention,
+    required String poolId,
+    required String tapeARN,
+    bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(poolId, 'poolId');
     _s.validateStringLength(
@@ -558,11 +550,11 @@ class StorageGateway {
   /// If you don't specify a value, Storage Gateway uses the value that was
   /// previously used for this volume as the new target name.
   Future<AttachVolumeOutput> attachVolume({
-    @_s.required String gatewayARN,
-    @_s.required String networkInterfaceId,
-    @_s.required String volumeARN,
-    String diskId,
-    String targetName,
+    required String gatewayARN,
+    required String networkInterfaceId,
+    required String volumeARN,
+    String? diskId,
+    String? targetName,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -637,8 +629,8 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
   /// archiving for.
   Future<CancelArchivalOutput> cancelArchival({
-    @_s.required String gatewayARN,
-    @_s.required String tapeARN,
+    required String gatewayARN,
+    required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -693,8 +685,8 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
   /// retrieval for.
   Future<CancelRetrievalOutput> cancelRetrieval({
-    @_s.required String gatewayARN,
-    @_s.required String tapeARN,
+    required String gatewayARN,
+    required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -822,16 +814,16 @@ class StorageGateway {
   /// the maximum length for a tag's value is 256 characters.
   /// </note>
   Future<CreateCachediSCSIVolumeOutput> createCachediSCSIVolume({
-    @_s.required String clientToken,
-    @_s.required String gatewayARN,
-    @_s.required String networkInterfaceId,
-    @_s.required String targetName,
-    @_s.required int volumeSizeInBytes,
-    bool kMSEncrypted,
-    String kMSKey,
-    String snapshotId,
-    String sourceVolumeARN,
-    List<Tag> tags,
+    required String clientToken,
+    required String gatewayARN,
+    required String networkInterfaceId,
+    required String targetName,
+    required int volumeSizeInBytes,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? snapshotId,
+    String? sourceVolumeARN,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -1060,24 +1052,24 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<CreateNFSFileShareOutput> createNFSFileShare({
-    @_s.required String clientToken,
-    @_s.required String gatewayARN,
-    @_s.required String locationARN,
-    @_s.required String role,
-    CacheAttributes cacheAttributes,
-    List<String> clientList,
-    String defaultStorageClass,
-    String fileShareName,
-    bool guessMIMETypeEnabled,
-    bool kMSEncrypted,
-    String kMSKey,
-    NFSFileShareDefaults nFSFileShareDefaults,
-    String notificationPolicy,
-    ObjectACL objectACL,
-    bool readOnly,
-    bool requesterPays,
-    String squash,
-    List<Tag> tags,
+    required String clientToken,
+    required String gatewayARN,
+    required String locationARN,
+    required String role,
+    CacheAttributes? cacheAttributes,
+    List<String>? clientList,
+    String? defaultStorageClass,
+    String? fileShareName,
+    bool? guessMIMETypeEnabled,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    NFSFileShareDefaults? nFSFileShareDefaults,
+    String? notificationPolicy,
+    ObjectACL? objectACL,
+    bool? readOnly,
+    bool? requesterPays,
+    String? squash,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -1367,29 +1359,29 @@ class StorageGateway {
   /// <code>user1</code>, <code>@group1</code>, and <code>@DOMAIN\group1</code>.
   /// Can only be set if Authentication is set to <code>ActiveDirectory</code>.
   Future<CreateSMBFileShareOutput> createSMBFileShare({
-    @_s.required String clientToken,
-    @_s.required String gatewayARN,
-    @_s.required String locationARN,
-    @_s.required String role,
-    bool accessBasedEnumeration,
-    List<String> adminUserList,
-    String auditDestinationARN,
-    String authentication,
-    CacheAttributes cacheAttributes,
-    CaseSensitivity caseSensitivity,
-    String defaultStorageClass,
-    String fileShareName,
-    bool guessMIMETypeEnabled,
-    List<String> invalidUserList,
-    bool kMSEncrypted,
-    String kMSKey,
-    String notificationPolicy,
-    ObjectACL objectACL,
-    bool readOnly,
-    bool requesterPays,
-    bool sMBACLEnabled,
-    List<Tag> tags,
-    List<String> validUserList,
+    required String clientToken,
+    required String gatewayARN,
+    required String locationARN,
+    required String role,
+    bool? accessBasedEnumeration,
+    List<String>? adminUserList,
+    String? auditDestinationARN,
+    String? authentication,
+    CacheAttributes? cacheAttributes,
+    CaseSensitivity? caseSensitivity,
+    String? defaultStorageClass,
+    String? fileShareName,
+    bool? guessMIMETypeEnabled,
+    List<String>? invalidUserList,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? notificationPolicy,
+    ObjectACL? objectACL,
+    bool? readOnly,
+    bool? requesterPays,
+    bool? sMBACLEnabled,
+    List<Tag>? tags,
+    List<String>? validUserList,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -1578,9 +1570,9 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<CreateSnapshotOutput> createSnapshot({
-    @_s.required String snapshotDescription,
-    @_s.required String volumeARN,
-    List<Tag> tags,
+    required String snapshotDescription,
+    required String volumeARN,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
     _s.validateStringLength(
@@ -1668,9 +1660,9 @@ class StorageGateway {
   /// </note>
   Future<CreateSnapshotFromVolumeRecoveryPointOutput>
       createSnapshotFromVolumeRecoveryPoint({
-    @_s.required String snapshotDescription,
-    @_s.required String volumeARN,
-    List<Tag> tags,
+    required String snapshotDescription,
+    required String volumeARN,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
     _s.validateStringLength(
@@ -1788,15 +1780,15 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<CreateStorediSCSIVolumeOutput> createStorediSCSIVolume({
-    @_s.required String diskId,
-    @_s.required String gatewayARN,
-    @_s.required String networkInterfaceId,
-    @_s.required bool preserveExistingData,
-    @_s.required String targetName,
-    bool kMSEncrypted,
-    String kMSKey,
-    String snapshotId,
-    List<Tag> tags,
+    required String diskId,
+    required String gatewayARN,
+    required String networkInterfaceId,
+    required bool preserveExistingData,
+    required String targetName,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? snapshotId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(diskId, 'diskId');
     _s.validateStringLength(
@@ -1914,11 +1906,11 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<CreateTapePoolOutput> createTapePool({
-    @_s.required String poolName,
-    @_s.required TapeStorageClass storageClass,
-    int retentionLockTimeInDays,
-    RetentionLockType retentionLockType,
-    List<Tag> tags,
+    required String poolName,
+    required TapeStorageClass storageClass,
+    int? retentionLockTimeInDays,
+    RetentionLockType? retentionLockType,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
     _s.validateStringLength(
@@ -1953,7 +1945,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'PoolName': poolName,
-        'StorageClass': storageClass?.toValue() ?? '',
+        'StorageClass': storageClass.toValue(),
         if (retentionLockTimeInDays != null)
           'RetentionLockTimeInDays': retentionLockTimeInDays,
         if (retentionLockType != null)
@@ -2033,14 +2025,14 @@ class StorageGateway {
   /// Set to <code>TRUE</code> if the tape you are creating is to be configured
   /// as a write-once-read-many (WORM) tape.
   Future<CreateTapeWithBarcodeOutput> createTapeWithBarcode({
-    @_s.required String gatewayARN,
-    @_s.required String tapeBarcode,
-    @_s.required int tapeSizeInBytes,
-    bool kMSEncrypted,
-    String kMSKey,
-    String poolId,
-    List<Tag> tags,
-    bool worm,
+    required String gatewayARN,
+    required String tapeBarcode,
+    required int tapeSizeInBytes,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? poolId,
+    List<Tag>? tags,
+    bool? worm,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2186,16 +2178,16 @@ class StorageGateway {
   /// Set to <code>TRUE</code> if the tape you are creating is to be configured
   /// as a write-once-read-many (WORM) tape.
   Future<CreateTapesOutput> createTapes({
-    @_s.required String clientToken,
-    @_s.required String gatewayARN,
-    @_s.required int numTapesToCreate,
-    @_s.required String tapeBarcodePrefix,
-    @_s.required int tapeSizeInBytes,
-    bool kMSEncrypted,
-    String kMSKey,
-    String poolId,
-    List<Tag> tags,
-    bool worm,
+    required String clientToken,
+    required String gatewayARN,
+    required int numTapesToCreate,
+    required String tapeBarcodePrefix,
+    required int tapeSizeInBytes,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? poolId,
+    List<Tag>? tags,
+    bool? worm,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -2288,7 +2280,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   Future<DeleteAutomaticTapeCreationPolicyOutput>
       deleteAutomaticTapeCreationPolicy({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2334,8 +2326,8 @@ class StorageGateway {
   /// Valid Values: <code>UPLOAD</code> | <code>DOWNLOAD</code> |
   /// <code>ALL</code>
   Future<DeleteBandwidthRateLimitOutput> deleteBandwidthRateLimit({
-    @_s.required String bandwidthType,
-    @_s.required String gatewayARN,
+    required String bandwidthType,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(bandwidthType, 'bandwidthType');
     _s.validateStringLength(
@@ -2387,8 +2379,8 @@ class StorageGateway {
   /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
   /// TargetARN for specified VolumeARN.
   Future<DeleteChapCredentialsOutput> deleteChapCredentials({
-    @_s.required String initiatorName,
-    @_s.required String targetARN,
+    required String initiatorName,
+    required String targetARN,
   }) async {
     ArgumentError.checkNotNull(initiatorName, 'initiatorName');
     _s.validateStringLength(
@@ -2449,8 +2441,8 @@ class StorageGateway {
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<DeleteFileShareOutput> deleteFileShare({
-    @_s.required String fileShareARN,
-    bool forceDelete,
+    required String fileShareARN,
+    bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
     _s.validateStringLength(
@@ -2502,7 +2494,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DeleteGatewayOutput> deleteGateway({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2552,7 +2544,7 @@ class StorageGateway {
   /// Parameter [volumeARN] :
   /// The volume which snapshot schedule to delete.
   Future<DeleteSnapshotScheduleOutput> deleteSnapshotSchedule({
-    @_s.required String volumeARN,
+    required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
@@ -2601,9 +2593,9 @@ class StorageGateway {
   /// tapes with tape retention lock set to <code>compliance</code> can't be
   /// deleted.
   Future<DeleteTapeOutput> deleteTape({
-    @_s.required String gatewayARN,
-    @_s.required String tapeARN,
-    bool bypassGovernanceRetention,
+    required String gatewayARN,
+    required String tapeARN,
+    bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2665,8 +2657,8 @@ class StorageGateway {
   /// tapes with tape retention lock set to <code>compliance</code> can't be
   /// deleted.
   Future<DeleteTapeArchiveOutput> deleteTapeArchive({
-    @_s.required String tapeARN,
-    bool bypassGovernanceRetention,
+    required String tapeARN,
+    bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
     _s.validateStringLength(
@@ -2712,7 +2704,7 @@ class StorageGateway {
   /// Parameter [poolARN] :
   /// The Amazon Resource Name (ARN) of the custom tape pool to delete.
   Future<DeleteTapePoolOutput> deleteTapePool({
-    @_s.required String poolARN,
+    required String poolARN,
   }) async {
     ArgumentError.checkNotNull(poolARN, 'poolARN');
     _s.validateStringLength(
@@ -2765,7 +2757,7 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
   /// operation to return a list of gateway volumes.
   Future<DeleteVolumeOutput> deleteVolume({
-    @_s.required String volumeARN,
+    required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
@@ -2801,7 +2793,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   Future<DescribeAvailabilityMonitorTestOutput>
       describeAvailabilityMonitorTest({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2843,7 +2835,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeBandwidthRateLimitOutput> describeBandwidthRateLimit({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2895,7 +2887,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   Future<DescribeBandwidthRateLimitScheduleOutput>
       describeBandwidthRateLimitSchedule({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2933,7 +2925,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeCacheOutput> describeCache({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -2976,7 +2968,7 @@ class StorageGateway {
   /// (ARN) of a cached volume. All of the specified cached volumes must be from
   /// the same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
   Future<DescribeCachediSCSIVolumesOutput> describeCachediSCSIVolumes({
-    @_s.required List<String> volumeARNs,
+    required List<String> volumeARNs,
   }) async {
     ArgumentError.checkNotNull(volumeARNs, 'volumeARNs');
     final headers = <String, String>{
@@ -3010,7 +3002,7 @@ class StorageGateway {
   /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
   /// TargetARN for specified VolumeARN.
   Future<DescribeChapCredentialsOutput> describeChapCredentials({
-    @_s.required String targetARN,
+    required String targetARN,
   }) async {
     ArgumentError.checkNotNull(targetARN, 'targetARN');
     _s.validateStringLength(
@@ -3046,7 +3038,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeGatewayInformationOutput> describeGatewayInformation({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3081,7 +3073,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeMaintenanceStartTimeOutput> describeMaintenanceStartTime({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3119,7 +3111,7 @@ class StorageGateway {
   /// An array containing the Amazon Resource Name (ARN) of each file share to
   /// be described.
   Future<DescribeNFSFileSharesOutput> describeNFSFileShares({
-    @_s.required List<String> fileShareARNList,
+    required List<String> fileShareARNList,
   }) async {
     ArgumentError.checkNotNull(fileShareARNList, 'fileShareARNList');
     final headers = <String, String>{
@@ -3150,7 +3142,7 @@ class StorageGateway {
   /// An array containing the Amazon Resource Name (ARN) of each file share to
   /// be described.
   Future<DescribeSMBFileSharesOutput> describeSMBFileShares({
-    @_s.required List<String> fileShareARNList,
+    required List<String> fileShareARNList,
   }) async {
     ArgumentError.checkNotNull(fileShareARNList, 'fileShareARNList');
     final headers = <String, String>{
@@ -3177,7 +3169,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeSMBSettingsOutput> describeSMBSettings({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3217,7 +3209,7 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
   /// operation to return a list of gateway volumes.
   Future<DescribeSnapshotScheduleOutput> describeSnapshotSchedule({
-    @_s.required String volumeARN,
+    required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
@@ -3259,7 +3251,7 @@ class StorageGateway {
   /// (ARN) of a stored volume. All of the specified stored volumes must be from
   /// the same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
   Future<DescribeStorediSCSIVolumesOutput> describeStorediSCSIVolumes({
-    @_s.required List<String> volumeARNs,
+    required List<String> volumeARNs,
   }) async {
     ArgumentError.checkNotNull(volumeARNs, 'volumeARNs');
     final headers = <String, String>{
@@ -3302,9 +3294,9 @@ class StorageGateway {
   /// Specifies one or more unique Amazon Resource Names (ARNs) that represent
   /// the virtual tapes you want to describe.
   Future<DescribeTapeArchivesOutput> describeTapeArchives({
-    int limit,
-    String marker,
-    List<String> tapeARNs,
+    int? limit,
+    String? marker,
+    List<String>? tapeARNs,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -3357,9 +3349,9 @@ class StorageGateway {
   /// An opaque string that indicates the position at which to begin describing
   /// the virtual tape recovery points.
   Future<DescribeTapeRecoveryPointsOutput> describeTapeRecoveryPoints({
-    @_s.required String gatewayARN,
-    int limit,
-    String marker,
+    required String gatewayARN,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3428,10 +3420,10 @@ class StorageGateway {
   /// specified, Tape gateway returns a description of all virtual tapes
   /// associated with the specified gateway.
   Future<DescribeTapesOutput> describeTapes({
-    @_s.required String gatewayARN,
-    int limit,
-    String marker,
-    List<String> tapeARNs,
+    required String gatewayARN,
+    int? limit,
+    String? marker,
+    List<String>? tapeARNs,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3483,7 +3475,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeUploadBufferOutput> describeUploadBuffer({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3537,10 +3529,10 @@ class StorageGateway {
   /// specified gateway.
   /// </note>
   Future<DescribeVTLDevicesOutput> describeVTLDevices({
-    @_s.required String gatewayARN,
-    int limit,
-    String marker,
-    List<String> vTLDeviceARNs,
+    required String gatewayARN,
+    int? limit,
+    String? marker,
+    List<String>? vTLDeviceARNs,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3598,7 +3590,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DescribeWorkingStorageOutput> describeWorkingStorage({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3647,8 +3639,8 @@ class StorageGateway {
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<DetachVolumeOutput> detachVolume({
-    @_s.required String volumeARN,
-    bool forceDetach,
+    required String volumeARN,
+    bool? forceDetach,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
@@ -3690,7 +3682,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<DisableGatewayOutput> disableGateway({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -3757,13 +3749,13 @@ class StorageGateway {
   /// Specifies the time in seconds, in which the <code>JoinDomain</code>
   /// operation must complete. The default is 20 seconds.
   Future<JoinDomainOutput> joinDomain({
-    @_s.required String domainName,
-    @_s.required String gatewayARN,
-    @_s.required String password,
-    @_s.required String userName,
-    List<String> domainControllers,
-    String organizationalUnit,
-    int timeoutInSeconds,
+    required String domainName,
+    required String gatewayARN,
+    required String password,
+    required String userName,
+    List<String>? domainControllers,
+    String? organizationalUnit,
+    int? timeoutInSeconds,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -3862,7 +3854,7 @@ class StorageGateway {
   /// May throw [InternalServerError].
   Future<ListAutomaticTapeCreationPoliciesOutput>
       listAutomaticTapeCreationPolicies({
-    String gatewayARN,
+    String? gatewayARN,
   }) async {
     _s.validateStringLength(
       'gatewayARN',
@@ -3910,9 +3902,9 @@ class StorageGateway {
   /// If present, <code>Marker</code> specifies where to continue the list from
   /// after a previous call to ListFileShares. Optional.
   Future<ListFileSharesOutput> listFileShares({
-    String gatewayARN,
-    int limit,
-    String marker,
+    String? gatewayARN,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateStringLength(
       'gatewayARN',
@@ -3976,8 +3968,8 @@ class StorageGateway {
   /// An opaque string that indicates the position at which to begin the
   /// returned list of gateways.
   Future<ListGatewaysOutput> listGateways({
-    int limit,
-    String marker,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4025,7 +4017,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<ListLocalDisksOutput> listLocalDisks({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4071,9 +4063,9 @@ class StorageGateway {
   /// An opaque string that indicates the position at which to begin returning
   /// the list of tags.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceARN,
-    int limit,
-    String marker,
+    required String resourceARN,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -4142,9 +4134,9 @@ class StorageGateway {
   /// to list. If you don't specify a custom tape pool ARN, the response lists
   /// all custom tape pools.
   Future<ListTapePoolsOutput> listTapePools({
-    int limit,
-    String marker,
-    List<String> poolARNs,
+    int? limit,
+    String? marker,
+    List<String>? poolARNs,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4201,9 +4193,9 @@ class StorageGateway {
   /// A string that indicates the position at which to begin the returned list
   /// of tapes.
   Future<ListTapesOutput> listTapes({
-    int limit,
-    String marker,
-    List<String> tapeARNs,
+    int? limit,
+    String? marker,
+    List<String>? tapeARNs,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4249,7 +4241,7 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
   /// operation to return a list of gateway volumes for the gateway.
   Future<ListVolumeInitiatorsOutput> listVolumeInitiators({
-    @_s.required String volumeARN,
+    required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
@@ -4289,7 +4281,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<ListVolumeRecoveryPointsOutput> listVolumeRecoveryPoints({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4343,9 +4335,9 @@ class StorageGateway {
   /// of volumes. Obtain the marker from the response of a previous List iSCSI
   /// Volumes request.
   Future<ListVolumesOutput> listVolumes({
-    String gatewayARN,
-    int limit,
-    String marker,
+    String? gatewayARN,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateStringLength(
       'gatewayARN',
@@ -4404,7 +4396,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<NotifyWhenUploadedOutput> notifyWhenUploaded({
-    @_s.required String fileShareARN,
+    required String fileShareARN,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
     _s.validateStringLength(
@@ -4493,9 +4485,9 @@ class StorageGateway {
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<RefreshCacheOutput> refreshCache({
-    @_s.required String fileShareARN,
-    List<String> folderList,
-    bool recursive,
+    required String fileShareARN,
+    List<String>? folderList,
+    bool? recursive,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
     _s.validateStringLength(
@@ -4539,8 +4531,8 @@ class StorageGateway {
   /// The keys of the tags you want to remove from the specified resource. A tag
   /// is composed of a key-value pair.
   Future<RemoveTagsFromResourceOutput> removeTagsFromResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -4589,7 +4581,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<ResetCacheOutput> resetCache({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4643,8 +4635,8 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve
   /// from the virtual tape shelf (VTS).
   Future<RetrieveTapeArchiveOutput> retrieveTapeArchive({
-    @_s.required String gatewayARN,
-    @_s.required String tapeARN,
+    required String gatewayARN,
+    required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4706,8 +4698,8 @@ class StorageGateway {
   /// The Amazon Resource Name (ARN) of the virtual tape for which you want to
   /// retrieve the recovery point.
   Future<RetrieveTapeRecoveryPointOutput> retrieveTapeRecoveryPoint({
-    @_s.required String gatewayARN,
-    @_s.required String tapeARN,
+    required String gatewayARN,
+    required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4761,8 +4753,8 @@ class StorageGateway {
   /// Parameter [localConsolePassword] :
   /// The password you want to set for your VM local console.
   Future<SetLocalConsolePasswordOutput> setLocalConsolePassword({
-    @_s.required String gatewayARN,
-    @_s.required String localConsolePassword,
+    required String gatewayARN,
+    required String localConsolePassword,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4819,8 +4811,8 @@ class StorageGateway {
   /// Parameter [password] :
   /// The password that you want to set for your SMB server.
   Future<SetSMBGuestPasswordOutput> setSMBGuestPassword({
-    @_s.required String gatewayARN,
-    @_s.required String password,
+    required String gatewayARN,
+    required String password,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4890,7 +4882,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<ShutdownGatewayOutput> shutdownGateway({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4931,7 +4923,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<StartAvailabilityMonitorTestOutput> startAvailabilityMonitorTest({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -4976,7 +4968,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<StartGatewayOutput> startGateway({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -5022,8 +5014,8 @@ class StorageGateway {
   /// new tapes.
   Future<UpdateAutomaticTapeCreationPolicyOutput>
       updateAutomaticTapeCreationPolicy({
-    @_s.required List<AutomaticTapeCreationRule> automaticTapeCreationRules,
-    @_s.required String gatewayARN,
+    required List<AutomaticTapeCreationRule> automaticTapeCreationRules,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(
         automaticTapeCreationRules, 'automaticTapeCreationRules');
@@ -5077,9 +5069,9 @@ class StorageGateway {
   /// Parameter [averageUploadRateLimitInBitsPerSec] :
   /// The average upload bandwidth rate limit in bits per second.
   Future<UpdateBandwidthRateLimitOutput> updateBandwidthRateLimit({
-    @_s.required String gatewayARN,
-    int averageDownloadRateLimitInBitsPerSec,
-    int averageUploadRateLimitInBitsPerSec,
+    required String gatewayARN,
+    int? averageDownloadRateLimitInBitsPerSec,
+    int? averageUploadRateLimitInBitsPerSec,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -5140,8 +5132,8 @@ class StorageGateway {
   /// empty.
   Future<UpdateBandwidthRateLimitScheduleOutput>
       updateBandwidthRateLimitSchedule({
-    @_s.required List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals,
-    @_s.required String gatewayARN,
+    required List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(
         bandwidthRateLimitIntervals, 'bandwidthRateLimitIntervals');
@@ -5208,10 +5200,10 @@ class StorageGateway {
   /// The secret key must be between 12 and 16 bytes when encoded in UTF-8.
   /// </note>
   Future<UpdateChapCredentialsOutput> updateChapCredentials({
-    @_s.required String initiatorName,
-    @_s.required String secretToAuthenticateInitiator,
-    @_s.required String targetARN,
-    String secretToAuthenticateTarget,
+    required String initiatorName,
+    required String secretToAuthenticateInitiator,
+    required String targetARN,
+    String? secretToAuthenticateTarget,
   }) async {
     ArgumentError.checkNotNull(initiatorName, 'initiatorName');
     _s.validateStringLength(
@@ -5295,10 +5287,10 @@ class StorageGateway {
   /// Parameter [gatewayTimezone] :
   /// A value that indicates the time zone of the gateway.
   Future<UpdateGatewayInformationOutput> updateGatewayInformation({
-    @_s.required String gatewayARN,
-    String cloudWatchLogGroupARN,
-    String gatewayName,
-    String gatewayTimezone,
+    required String gatewayARN,
+    String? cloudWatchLogGroupARN,
+    String? gatewayName,
+    String? gatewayTimezone,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -5374,7 +5366,7 @@ class StorageGateway {
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   Future<UpdateGatewaySoftwareNowOutput> updateGatewaySoftwareNow({
-    @_s.required String gatewayARN,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -5429,11 +5421,11 @@ class StorageGateway {
   /// represented as an ordinal number from 0 to 6, where 0 represents Sunday
   /// and 6 Saturday.
   Future<UpdateMaintenanceStartTimeOutput> updateMaintenanceStartTime({
-    @_s.required String gatewayARN,
-    @_s.required int hourOfDay,
-    @_s.required int minuteOfHour,
-    int dayOfMonth,
-    int dayOfWeek,
+    required String gatewayARN,
+    required int hourOfDay,
+    required int minuteOfHour,
+    int? dayOfMonth,
+    int? dayOfWeek,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -5617,20 +5609,20 @@ class StorageGateway {
   /// </li>
   /// </ul>
   Future<UpdateNFSFileShareOutput> updateNFSFileShare({
-    @_s.required String fileShareARN,
-    CacheAttributes cacheAttributes,
-    List<String> clientList,
-    String defaultStorageClass,
-    String fileShareName,
-    bool guessMIMETypeEnabled,
-    bool kMSEncrypted,
-    String kMSKey,
-    NFSFileShareDefaults nFSFileShareDefaults,
-    String notificationPolicy,
-    ObjectACL objectACL,
-    bool readOnly,
-    bool requesterPays,
-    String squash,
+    required String fileShareARN,
+    CacheAttributes? cacheAttributes,
+    List<String>? clientList,
+    String? defaultStorageClass,
+    String? fileShareName,
+    bool? guessMIMETypeEnabled,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    NFSFileShareDefaults? nFSFileShareDefaults,
+    String? notificationPolicy,
+    ObjectACL? objectACL,
+    bool? readOnly,
+    bool? requesterPays,
+    String? squash,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
     _s.validateStringLength(
@@ -5855,24 +5847,24 @@ class StorageGateway {
   /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
   /// Authentication is set to <code>ActiveDirectory</code>.
   Future<UpdateSMBFileShareOutput> updateSMBFileShare({
-    @_s.required String fileShareARN,
-    bool accessBasedEnumeration,
-    List<String> adminUserList,
-    String auditDestinationARN,
-    CacheAttributes cacheAttributes,
-    CaseSensitivity caseSensitivity,
-    String defaultStorageClass,
-    String fileShareName,
-    bool guessMIMETypeEnabled,
-    List<String> invalidUserList,
-    bool kMSEncrypted,
-    String kMSKey,
-    String notificationPolicy,
-    ObjectACL objectACL,
-    bool readOnly,
-    bool requesterPays,
-    bool sMBACLEnabled,
-    List<String> validUserList,
+    required String fileShareARN,
+    bool? accessBasedEnumeration,
+    List<String>? adminUserList,
+    String? auditDestinationARN,
+    CacheAttributes? cacheAttributes,
+    CaseSensitivity? caseSensitivity,
+    String? defaultStorageClass,
+    String? fileShareName,
+    bool? guessMIMETypeEnabled,
+    List<String>? invalidUserList,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? notificationPolicy,
+    ObjectACL? objectACL,
+    bool? readOnly,
+    bool? requesterPays,
+    bool? sMBACLEnabled,
+    List<String>? validUserList,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
     _s.validateStringLength(
@@ -5972,8 +5964,8 @@ class StorageGateway {
   /// Parameter [fileSharesVisible] :
   /// The shares on this gateway appear when listing shares.
   Future<UpdateSMBFileShareVisibilityOutput> updateSMBFileShareVisibility({
-    @_s.required bool fileSharesVisible,
-    @_s.required String gatewayARN,
+    required bool fileSharesVisible,
+    required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(fileSharesVisible, 'fileSharesVisible');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
@@ -6032,8 +6024,8 @@ class StorageGateway {
   /// option works with SMB clients on Microsoft Windows 8, Windows Server 2012
   /// or newer.
   Future<UpdateSMBSecurityStrategyOutput> updateSMBSecurityStrategy({
-    @_s.required String gatewayARN,
-    @_s.required SMBSecurityStrategy sMBSecurityStrategy,
+    required String gatewayARN,
+    required SMBSecurityStrategy sMBSecurityStrategy,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
@@ -6056,7 +6048,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'SMBSecurityStrategy': sMBSecurityStrategy?.toValue() ?? '',
+        'SMBSecurityStrategy': sMBSecurityStrategy.toValue(),
       },
     );
 
@@ -6105,11 +6097,11 @@ class StorageGateway {
   /// maximum length for a tag's value is 256.
   /// </note>
   Future<UpdateSnapshotScheduleOutput> updateSnapshotSchedule({
-    @_s.required int recurrenceInHours,
-    @_s.required int startAt,
-    @_s.required String volumeARN,
-    String description,
-    List<Tag> tags,
+    required int recurrenceInHours,
+    required int startAt,
+    required String volumeARN,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(recurrenceInHours, 'recurrenceInHours');
     _s.validateNumRange(
@@ -6181,8 +6173,8 @@ class StorageGateway {
   /// Parameter [vTLDeviceARN] :
   /// The Amazon Resource Name (ARN) of the medium changer you want to select.
   Future<UpdateVTLDeviceTypeOutput> updateVTLDeviceType({
-    @_s.required String deviceType,
-    @_s.required String vTLDeviceARN,
+    required String deviceType,
+    required String vTLDeviceARN,
   }) async {
     ArgumentError.checkNotNull(deviceType, 'deviceType');
     _s.validateStringLength(
@@ -6229,173 +6221,189 @@ class StorageGateway {
 /// the gateway name rather than the gateway ID. Changing the name of the
 /// gateway has no effect on the gateway ARN.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivateGatewayOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   ActivateGatewayOutput({
     this.gatewayARN,
   });
-  factory ActivateGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$ActivateGatewayOutputFromJson(json);
+  factory ActivateGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return ActivateGatewayOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 enum ActiveDirectoryStatus {
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('DETACHED')
   detached,
-  @_s.JsonValue('JOINED')
   joined,
-  @_s.JsonValue('JOINING')
   joining,
-  @_s.JsonValue('NETWORK_ERROR')
   networkError,
-  @_s.JsonValue('TIMEOUT')
   timeout,
-  @_s.JsonValue('UNKNOWN_ERROR')
   unknownError,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ActiveDirectoryStatus {
+  String toValue() {
+    switch (this) {
+      case ActiveDirectoryStatus.accessDenied:
+        return 'ACCESS_DENIED';
+      case ActiveDirectoryStatus.detached:
+        return 'DETACHED';
+      case ActiveDirectoryStatus.joined:
+        return 'JOINED';
+      case ActiveDirectoryStatus.joining:
+        return 'JOINING';
+      case ActiveDirectoryStatus.networkError:
+        return 'NETWORK_ERROR';
+      case ActiveDirectoryStatus.timeout:
+        return 'TIMEOUT';
+      case ActiveDirectoryStatus.unknownError:
+        return 'UNKNOWN_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ActiveDirectoryStatus toActiveDirectoryStatus() {
+    switch (this) {
+      case 'ACCESS_DENIED':
+        return ActiveDirectoryStatus.accessDenied;
+      case 'DETACHED':
+        return ActiveDirectoryStatus.detached;
+      case 'JOINED':
+        return ActiveDirectoryStatus.joined;
+      case 'JOINING':
+        return ActiveDirectoryStatus.joining;
+      case 'NETWORK_ERROR':
+        return ActiveDirectoryStatus.networkError;
+      case 'TIMEOUT':
+        return ActiveDirectoryStatus.timeout;
+      case 'UNKNOWN_ERROR':
+        return ActiveDirectoryStatus.unknownError;
+    }
+    throw Exception('$this is not known in enum ActiveDirectoryStatus');
+  }
+}
+
 class AddCacheOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   AddCacheOutput({
     this.gatewayARN,
   });
-  factory AddCacheOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddCacheOutputFromJson(json);
+  factory AddCacheOutput.fromJson(Map<String, dynamic> json) {
+    return AddCacheOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// AddTagsToResourceOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsToResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   AddTagsToResourceOutput({
     this.resourceARN,
   });
-  factory AddTagsToResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsToResourceOutputFromJson(json);
+  factory AddTagsToResourceOutput.fromJson(Map<String, dynamic> json) {
+    return AddTagsToResourceOutput(
+      resourceARN: json['ResourceARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddUploadBufferOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   AddUploadBufferOutput({
     this.gatewayARN,
   });
-  factory AddUploadBufferOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddUploadBufferOutputFromJson(json);
+  factory AddUploadBufferOutput.fromJson(Map<String, dynamic> json) {
+    return AddUploadBufferOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway for
 /// which working storage was configured.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddWorkingStorageOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   AddWorkingStorageOutput({
     this.gatewayARN,
   });
-  factory AddWorkingStorageOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddWorkingStorageOutputFromJson(json);
+  factory AddWorkingStorageOutput.fromJson(Map<String, dynamic> json) {
+    return AddWorkingStorageOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssignTapePoolOutput {
   /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to
   /// the tape pool.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   AssignTapePoolOutput({
     this.tapeARN,
   });
-  factory AssignTapePoolOutput.fromJson(Map<String, dynamic> json) =>
-      _$AssignTapePoolOutputFromJson(json);
+  factory AssignTapePoolOutput.fromJson(Map<String, dynamic> json) {
+    return AssignTapePoolOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// AttachVolumeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name for the initiator that was used to connect to the target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   /// The Amazon Resource Name (ARN) of the volume that was attached to the
   /// gateway.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   AttachVolumeOutput({
     this.targetARN,
     this.volumeARN,
   });
-  factory AttachVolumeOutput.fromJson(Map<String, dynamic> json) =>
-      _$AttachVolumeOutputFromJson(json);
+  factory AttachVolumeOutput.fromJson(Map<String, dynamic> json) {
+    return AttachVolumeOutput(
+      targetARN: json['TargetARN'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// Information about the gateway's automatic tape creation policies, including
 /// the automatic tape creation rules and the gateway that is using the
 /// policies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutomaticTapeCreationPolicyInfo {
   /// An automatic tape creation policy consists of a list of automatic tape
   /// creation rules. This returns the rules that determine when and how to
   /// automatically create new tapes.
-  @_s.JsonKey(name: 'AutomaticTapeCreationRules')
-  final List<AutomaticTapeCreationRule> automaticTapeCreationRules;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<AutomaticTapeCreationRule>? automaticTapeCreationRules;
+  final String? gatewayARN;
 
   AutomaticTapeCreationPolicyInfo({
     this.automaticTapeCreationRules,
     this.gatewayARN,
   });
-  factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) =>
-      _$AutomaticTapeCreationPolicyInfoFromJson(json);
+  factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) {
+    return AutomaticTapeCreationPolicyInfo(
+      automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// An automatic tape creation policy consists of automatic tape creation rules
@@ -6403,11 +6411,6 @@ class AutomaticTapeCreationPolicyInfo {
 /// information about automatic tape creation, see <a
 /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
 /// Tapes Automatically</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutomaticTapeCreationRule {
   /// The minimum number of available virtual tapes that the gateway maintains at
   /// all times. If the number of tapes on the gateway goes below this value, the
@@ -6416,7 +6419,6 @@ class AutomaticTapeCreationRule {
   /// automatic tape creation, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
   /// Tapes Automatically</a>.
-  @_s.JsonKey(name: 'MinimumNumTapes')
   final int minimumNumTapes;
 
   /// The ID of the pool that you want to add your tape to for archiving. The tape
@@ -6426,7 +6428,6 @@ class AutomaticTapeCreationRule {
   /// Deep Archive) that corresponds to the pool.
   ///
   /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  @_s.JsonKey(name: 'PoolId')
   final String poolId;
 
   /// A prefix that you append to the barcode of the virtual tape that you are
@@ -6435,39 +6436,80 @@ class AutomaticTapeCreationRule {
   /// The prefix must be 1-4 characters in length and must be one of the uppercase
   /// letters from A to Z.
   /// </note>
-  @_s.JsonKey(name: 'TapeBarcodePrefix')
   final String tapeBarcodePrefix;
 
   /// The size, in bytes, of the virtual tape capacity.
-  @_s.JsonKey(name: 'TapeSizeInBytes')
   final int tapeSizeInBytes;
 
   /// Set to <code>true</code> to indicate that tapes are to be archived as
   /// write-once-read-many (WORM). Set to <code>false</code> when WORM is not
   /// enabled for tapes.
-  @_s.JsonKey(name: 'Worm')
-  final bool worm;
+  final bool? worm;
 
   AutomaticTapeCreationRule({
-    @_s.required this.minimumNumTapes,
-    @_s.required this.poolId,
-    @_s.required this.tapeBarcodePrefix,
-    @_s.required this.tapeSizeInBytes,
+    required this.minimumNumTapes,
+    required this.poolId,
+    required this.tapeBarcodePrefix,
+    required this.tapeSizeInBytes,
     this.worm,
   });
-  factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) =>
-      _$AutomaticTapeCreationRuleFromJson(json);
+  factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) {
+    return AutomaticTapeCreationRule(
+      minimumNumTapes: json['MinimumNumTapes'] as int,
+      poolId: json['PoolId'] as String,
+      tapeBarcodePrefix: json['TapeBarcodePrefix'] as String,
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int,
+      worm: json['Worm'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AutomaticTapeCreationRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final minimumNumTapes = this.minimumNumTapes;
+    final poolId = this.poolId;
+    final tapeBarcodePrefix = this.tapeBarcodePrefix;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final worm = this.worm;
+    return {
+      'MinimumNumTapes': minimumNumTapes,
+      'PoolId': poolId,
+      'TapeBarcodePrefix': tapeBarcodePrefix,
+      'TapeSizeInBytes': tapeSizeInBytes,
+      if (worm != null) 'Worm': worm,
+    };
+  }
 }
 
 enum AvailabilityMonitorTestStatus {
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on AvailabilityMonitorTestStatus {
+  String toValue() {
+    switch (this) {
+      case AvailabilityMonitorTestStatus.complete:
+        return 'COMPLETE';
+      case AvailabilityMonitorTestStatus.failed:
+        return 'FAILED';
+      case AvailabilityMonitorTestStatus.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  AvailabilityMonitorTestStatus toAvailabilityMonitorTestStatus() {
+    switch (this) {
+      case 'COMPLETE':
+        return AvailabilityMonitorTestStatus.complete;
+      case 'FAILED':
+        return AvailabilityMonitorTestStatus.failed;
+      case 'PENDING':
+        return AvailabilityMonitorTestStatus.pending;
+    }
+    throw Exception('$this is not known in enum AvailabilityMonitorTestStatus');
+  }
 }
 
 /// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
@@ -6475,20 +6517,13 @@ enum AvailabilityMonitorTestStatus {
 /// bandwidth rate limit interval defines a period of time on one or more days
 /// of the week, during which bandwidth rate limits are specified for uploading,
 /// downloading, or both.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BandwidthRateLimitInterval {
   /// The days of the week component of the bandwidth rate limit interval,
   /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
   /// Saturday.
-  @_s.JsonKey(name: 'DaysOfWeek')
   final List<int> daysOfWeek;
 
   /// The hour of the day to end the bandwidth rate limit interval.
-  @_s.JsonKey(name: 'EndHourOfDay')
   final int endHourOfDay;
 
   /// The minute of the hour to end the bandwidth rate limit interval.
@@ -6496,52 +6531,79 @@ class BandwidthRateLimitInterval {
   /// The bandwidth rate limit interval ends at the end of the minute. To end an
   /// interval at the end of an hour, use the value <code>59</code>.
   /// </important>
-  @_s.JsonKey(name: 'EndMinuteOfHour')
   final int endMinuteOfHour;
 
   /// The hour of the day to start the bandwidth rate limit interval.
-  @_s.JsonKey(name: 'StartHourOfDay')
   final int startHourOfDay;
 
   /// The minute of the hour to start the bandwidth rate limit interval. The
   /// interval begins at the start of that minute. To begin an interval exactly at
   /// the start of the hour, use the value <code>0</code>.
-  @_s.JsonKey(name: 'StartMinuteOfHour')
   final int startMinuteOfHour;
 
   /// The average download rate limit component of the bandwidth rate limit
   /// interval, in bits per second. This field does not appear in the response if
   /// the download rate limit is not set.
-  @_s.JsonKey(name: 'AverageDownloadRateLimitInBitsPerSec')
-  final int averageDownloadRateLimitInBitsPerSec;
+  final int? averageDownloadRateLimitInBitsPerSec;
 
   /// The average upload rate limit component of the bandwidth rate limit
   /// interval, in bits per second. This field does not appear in the response if
   /// the upload rate limit is not set.
-  @_s.JsonKey(name: 'AverageUploadRateLimitInBitsPerSec')
-  final int averageUploadRateLimitInBitsPerSec;
+  final int? averageUploadRateLimitInBitsPerSec;
 
   BandwidthRateLimitInterval({
-    @_s.required this.daysOfWeek,
-    @_s.required this.endHourOfDay,
-    @_s.required this.endMinuteOfHour,
-    @_s.required this.startHourOfDay,
-    @_s.required this.startMinuteOfHour,
+    required this.daysOfWeek,
+    required this.endHourOfDay,
+    required this.endMinuteOfHour,
+    required this.startHourOfDay,
+    required this.startMinuteOfHour,
     this.averageDownloadRateLimitInBitsPerSec,
     this.averageUploadRateLimitInBitsPerSec,
   });
-  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) =>
-      _$BandwidthRateLimitIntervalFromJson(json);
+  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
+    return BandwidthRateLimitInterval(
+      daysOfWeek: (json['DaysOfWeek'] as List)
+          .whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      endHourOfDay: json['EndHourOfDay'] as int,
+      endMinuteOfHour: json['EndMinuteOfHour'] as int,
+      startHourOfDay: json['StartHourOfDay'] as int,
+      startMinuteOfHour: json['StartMinuteOfHour'] as int,
+      averageDownloadRateLimitInBitsPerSec:
+          json['AverageDownloadRateLimitInBitsPerSec'] as int?,
+      averageUploadRateLimitInBitsPerSec:
+          json['AverageUploadRateLimitInBitsPerSec'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BandwidthRateLimitIntervalToJson(this);
+  Map<String, dynamic> toJson() {
+    final daysOfWeek = this.daysOfWeek;
+    final endHourOfDay = this.endHourOfDay;
+    final endMinuteOfHour = this.endMinuteOfHour;
+    final startHourOfDay = this.startHourOfDay;
+    final startMinuteOfHour = this.startMinuteOfHour;
+    final averageDownloadRateLimitInBitsPerSec =
+        this.averageDownloadRateLimitInBitsPerSec;
+    final averageUploadRateLimitInBitsPerSec =
+        this.averageUploadRateLimitInBitsPerSec;
+    return {
+      'DaysOfWeek': daysOfWeek,
+      'EndHourOfDay': endHourOfDay,
+      'EndMinuteOfHour': endMinuteOfHour,
+      'StartHourOfDay': startHourOfDay,
+      'StartMinuteOfHour': startMinuteOfHour,
+      if (averageDownloadRateLimitInBitsPerSec != null)
+        'AverageDownloadRateLimitInBitsPerSec':
+            averageDownloadRateLimitInBitsPerSec,
+      if (averageUploadRateLimitInBitsPerSec != null)
+        'AverageUploadRateLimitInBitsPerSec':
+            averageUploadRateLimitInBitsPerSec,
+    };
+  }
 }
 
 /// Lists refresh cache information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CacheAttributes {
   /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the
   /// length of time since the last refresh after which access to the directory
@@ -6549,38 +6611,37 @@ class CacheAttributes {
   /// the Amazon S3 bucket. The TTL duration is in seconds.
   ///
   /// Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
-  @_s.JsonKey(name: 'CacheStaleTimeoutInSeconds')
-  final int cacheStaleTimeoutInSeconds;
+  final int? cacheStaleTimeoutInSeconds;
 
   CacheAttributes({
     this.cacheStaleTimeoutInSeconds,
   });
-  factory CacheAttributes.fromJson(Map<String, dynamic> json) =>
-      _$CacheAttributesFromJson(json);
+  factory CacheAttributes.fromJson(Map<String, dynamic> json) {
+    return CacheAttributes(
+      cacheStaleTimeoutInSeconds: json['CacheStaleTimeoutInSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CacheAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final cacheStaleTimeoutInSeconds = this.cacheStaleTimeoutInSeconds;
+    return {
+      if (cacheStaleTimeoutInSeconds != null)
+        'CacheStaleTimeoutInSeconds': cacheStaleTimeoutInSeconds,
+    };
+  }
 }
 
 /// Describes an iSCSI cached volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CachediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
+  final DateTime? createdDate;
+  final String? kMSKey;
 
   /// If the cached volume was created from a snapshot, this field contains the
   /// snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not
   /// included.
-  @_s.JsonKey(name: 'SourceSnapshotId')
-  final String sourceSnapshotId;
+  final String? sourceSnapshotId;
 
   /// The name of the iSCSI target used by an initiator to connect to a volume and
   /// used as a suffix for the target ARN. For example, specifying
@@ -6590,44 +6651,36 @@ class CachediSCSIVolume {
   ///
   /// If you don't specify a value, Storage Gateway uses the value that was
   /// previously used for this volume as the new target name.
-  @_s.JsonKey(name: 'TargetName')
-  final String targetName;
+  final String? targetName;
 
   /// The Amazon Resource Name (ARN) of the storage volume.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// A value that indicates whether a storage volume is attached to or detached
   /// from a gateway. For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
   /// your volumes to a different gateway</a>.
-  @_s.JsonKey(name: 'VolumeAttachmentStatus')
-  final String volumeAttachmentStatus;
+  final String? volumeAttachmentStatus;
 
   /// The unique identifier of the volume, e.g., vol-AE4B946D.
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   /// Represents the percentage complete if the volume is restoring or
   /// bootstrapping that represents the percent of data transferred. This field
   /// does not appear in the response if the cached volume is not restoring or
   /// bootstrapping.
-  @_s.JsonKey(name: 'VolumeProgress')
-  final double volumeProgress;
+  final double? volumeProgress;
 
   /// The size, in bytes, of the volume capacity.
-  @_s.JsonKey(name: 'VolumeSizeInBytes')
-  final int volumeSizeInBytes;
+  final int? volumeSizeInBytes;
 
   /// One of the VolumeStatus values that indicates the state of the storage
   /// volume.
-  @_s.JsonKey(name: 'VolumeStatus')
-  final String volumeStatus;
+  final String? volumeStatus;
 
   /// One of the VolumeType enumeration values that describes the type of the
   /// volume.
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   /// The size of the data stored on the volume in bytes. This value is calculated
   /// based on the number of blocks that are touched, instead of the actual amount
@@ -6639,13 +6692,11 @@ class CachediSCSIVolume {
   /// This value is not available for volumes created prior to May 13, 2015, until
   /// you store data on the volume.
   /// </note>
-  @_s.JsonKey(name: 'VolumeUsedInBytes')
-  final int volumeUsedInBytes;
+  final int? volumeUsedInBytes;
 
   /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
   /// attributes for one stored volume.
-  @_s.JsonKey(name: 'VolumeiSCSIAttributes')
-  final VolumeiSCSIAttributes volumeiSCSIAttributes;
+  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
 
   CachediSCSIVolume({
     this.createdDate,
@@ -6662,52 +6713,62 @@ class CachediSCSIVolume {
     this.volumeUsedInBytes,
     this.volumeiSCSIAttributes,
   });
-  factory CachediSCSIVolume.fromJson(Map<String, dynamic> json) =>
-      _$CachediSCSIVolumeFromJson(json);
+  factory CachediSCSIVolume.fromJson(Map<String, dynamic> json) {
+    return CachediSCSIVolume(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      kMSKey: json['KMSKey'] as String?,
+      sourceSnapshotId: json['SourceSnapshotId'] as String?,
+      targetName: json['TargetName'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeProgress: json['VolumeProgress'] as double?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeStatus: json['VolumeStatus'] as String?,
+      volumeType: json['VolumeType'] as String?,
+      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
+      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
+          ? VolumeiSCSIAttributes.fromJson(
+              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// CancelArchivalOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelArchivalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was
   /// canceled.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   CancelArchivalOutput({
     this.tapeARN,
   });
-  factory CancelArchivalOutput.fromJson(Map<String, dynamic> json) =>
-      _$CancelArchivalOutputFromJson(json);
+  factory CancelArchivalOutput.fromJson(Map<String, dynamic> json) {
+    return CancelArchivalOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// CancelRetrievalOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelRetrievalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was
   /// canceled.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   CancelRetrievalOutput({
     this.tapeARN,
   });
-  factory CancelRetrievalOutput.fromJson(Map<String, dynamic> json) =>
-      _$CancelRetrievalOutputFromJson(json);
+  factory CancelRetrievalOutput.fromJson(Map<String, dynamic> json) {
+    return CancelRetrievalOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 enum CaseSensitivity {
-  @_s.JsonValue('ClientSpecified')
   clientSpecified,
-  @_s.JsonValue('CaseSensitive')
   caseSensitive,
 }
 
@@ -6719,38 +6780,40 @@ extension on CaseSensitivity {
       case CaseSensitivity.caseSensitive:
         return 'CaseSensitive';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CaseSensitivity toCaseSensitivity() {
+    switch (this) {
+      case 'ClientSpecified':
+        return CaseSensitivity.clientSpecified;
+      case 'CaseSensitive':
+        return CaseSensitivity.caseSensitive;
+    }
+    throw Exception('$this is not known in enum CaseSensitivity');
   }
 }
 
 /// Describes Challenge-Handshake Authentication Protocol (CHAP) information
 /// that supports authentication between your gateway and iSCSI initiators.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChapInfo {
   /// The iSCSI initiator that connects to the target.
-  @_s.JsonKey(name: 'InitiatorName')
-  final String initiatorName;
+  final String? initiatorName;
 
   /// The secret key that the initiator (for example, the Windows client) must
   /// provide to participate in mutual CHAP with the target.
-  @_s.JsonKey(name: 'SecretToAuthenticateInitiator')
-  final String secretToAuthenticateInitiator;
+  final String? secretToAuthenticateInitiator;
 
   /// The secret key that the target must provide to participate in mutual CHAP
   /// with the initiator (e.g., Windows client).
-  @_s.JsonKey(name: 'SecretToAuthenticateTarget')
-  final String secretToAuthenticateTarget;
+  final String? secretToAuthenticateTarget;
 
   /// The Amazon Resource Name (ARN) of the volume.
   ///
   /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
   /// (-).
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   ChapInfo({
     this.initiatorName,
@@ -6758,88 +6821,78 @@ class ChapInfo {
     this.secretToAuthenticateTarget,
     this.targetARN,
   });
-  factory ChapInfo.fromJson(Map<String, dynamic> json) =>
-      _$ChapInfoFromJson(json);
+  factory ChapInfo.fromJson(Map<String, dynamic> json) {
+    return ChapInfo(
+      initiatorName: json['InitiatorName'] as String?,
+      secretToAuthenticateInitiator:
+          json['SecretToAuthenticateInitiator'] as String?,
+      secretToAuthenticateTarget: json['SecretToAuthenticateTarget'] as String?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCachediSCSIVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name that initiators can use to connect to the target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   /// The Amazon Resource Name (ARN) of the configured volume.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   CreateCachediSCSIVolumeOutput({
     this.targetARN,
     this.volumeARN,
   });
-  factory CreateCachediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateCachediSCSIVolumeOutputFromJson(json);
+  factory CreateCachediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateCachediSCSIVolumeOutput(
+      targetARN: json['TargetARN'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// CreateNFSFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNFSFileShareOutput {
   /// The Amazon Resource Name (ARN) of the newly created file share.
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
+  final String? fileShareARN;
 
   CreateNFSFileShareOutput({
     this.fileShareARN,
   });
-  factory CreateNFSFileShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateNFSFileShareOutputFromJson(json);
+  factory CreateNFSFileShareOutput.fromJson(Map<String, dynamic> json) {
+    return CreateNFSFileShareOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+    );
+  }
 }
 
 /// CreateSMBFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSMBFileShareOutput {
   /// The Amazon Resource Name (ARN) of the newly created file share.
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
+  final String? fileShareARN;
 
   CreateSMBFileShareOutput({
     this.fileShareARN,
   });
-  factory CreateSMBFileShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateSMBFileShareOutputFromJson(json);
+  factory CreateSMBFileShareOutput.fromJson(Map<String, dynamic> json) {
+    return CreateSMBFileShareOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSnapshotFromVolumeRecoveryPointOutput {
   /// The ID of the snapshot.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
   /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
   /// TargetARN for specified VolumeARN.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// The time the volume was created from the recovery point.
-  @_s.JsonKey(name: 'VolumeRecoveryPointTime')
-  final String volumeRecoveryPointTime;
+  final String? volumeRecoveryPointTime;
 
   CreateSnapshotFromVolumeRecoveryPointOutput({
     this.snapshotId,
@@ -6847,326 +6900,280 @@ class CreateSnapshotFromVolumeRecoveryPointOutput {
     this.volumeRecoveryPointTime,
   });
   factory CreateSnapshotFromVolumeRecoveryPointOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSnapshotFromVolumeRecoveryPointOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSnapshotFromVolumeRecoveryPointOutput(
+      snapshotId: json['SnapshotId'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeRecoveryPointTime: json['VolumeRecoveryPointTime'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSnapshotOutput {
   /// The snapshot ID that is used to refer to the snapshot in future operations
   /// such as describing snapshots (Amazon Elastic Compute Cloud API
   /// <code>DescribeSnapshots</code>) or creating a volume from a snapshot
   /// (<a>CreateStorediSCSIVolume</a>).
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The Amazon Resource Name (ARN) of the volume of which the snapshot was
   /// taken.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   CreateSnapshotOutput({
     this.snapshotId,
     this.volumeARN,
   });
-  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateSnapshotOutputFromJson(json);
+  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) {
+    return CreateSnapshotOutput(
+      snapshotId: json['SnapshotId'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStorediSCSIVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name that initiators can use to connect to the target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   /// The Amazon Resource Name (ARN) of the configured volume.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// The size of the volume in bytes.
-  @_s.JsonKey(name: 'VolumeSizeInBytes')
-  final int volumeSizeInBytes;
+  final int? volumeSizeInBytes;
 
   CreateStorediSCSIVolumeOutput({
     this.targetARN,
     this.volumeARN,
     this.volumeSizeInBytes,
   });
-  factory CreateStorediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateStorediSCSIVolumeOutputFromJson(json);
+  factory CreateStorediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStorediSCSIVolumeOutput(
+      targetARN: json['TargetARN'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTapePoolOutput {
   /// The unique Amazon Resource Name (ARN) that represents the custom tape pool.
   /// Use the <a>ListTapePools</a> operation to return a list of tape pools for
   /// your account and AWS Region.
-  @_s.JsonKey(name: 'PoolARN')
-  final String poolARN;
+  final String? poolARN;
 
   CreateTapePoolOutput({
     this.poolARN,
   });
-  factory CreateTapePoolOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTapePoolOutputFromJson(json);
+  factory CreateTapePoolOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTapePoolOutput(
+      poolARN: json['PoolARN'] as String?,
+    );
+  }
 }
 
 /// CreateTapeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTapeWithBarcodeOutput {
   /// A unique Amazon Resource Name (ARN) that represents the virtual tape that
   /// was created.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   CreateTapeWithBarcodeOutput({
     this.tapeARN,
   });
-  factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTapeWithBarcodeOutputFromJson(json);
+  factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTapeWithBarcodeOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// CreateTapeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTapesOutput {
   /// A list of unique Amazon Resource Names (ARNs) that represents the virtual
   /// tapes that were created.
-  @_s.JsonKey(name: 'TapeARNs')
-  final List<String> tapeARNs;
+  final List<String>? tapeARNs;
 
   CreateTapesOutput({
     this.tapeARNs,
   });
-  factory CreateTapesOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTapesOutputFromJson(json);
+  factory CreateTapesOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTapesOutput(
+      tapeARNs: (json['TapeARNs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAutomaticTapeCreationPolicyOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   DeleteAutomaticTapeCreationPolicyOutput({
     this.gatewayARN,
   });
   factory DeleteAutomaticTapeCreationPolicyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAutomaticTapeCreationPolicyOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteAutomaticTapeCreationPolicyOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// bandwidth rate information was deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBandwidthRateLimitOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   DeleteBandwidthRateLimitOutput({
     this.gatewayARN,
   });
-  factory DeleteBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBandwidthRateLimitOutputFromJson(json);
+  factory DeleteBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBandwidthRateLimitOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteChapCredentialsOutput {
   /// The iSCSI initiator that connects to the target.
-  @_s.JsonKey(name: 'InitiatorName')
-  final String initiatorName;
+  final String? initiatorName;
 
   /// The Amazon Resource Name (ARN) of the target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   DeleteChapCredentialsOutput({
     this.initiatorName,
     this.targetARN,
   });
-  factory DeleteChapCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteChapCredentialsOutputFromJson(json);
+  factory DeleteChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteChapCredentialsOutput(
+      initiatorName: json['InitiatorName'] as String?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
 }
 
 /// DeleteFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFileShareOutput {
   /// The Amazon Resource Name (ARN) of the deleted file share.
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
+  final String? fileShareARN;
 
   DeleteFileShareOutput({
     this.fileShareARN,
   });
-  factory DeleteFileShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFileShareOutputFromJson(json);
+  factory DeleteFileShareOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteFileShareOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the ID of the deleted gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGatewayOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   DeleteGatewayOutput({
     this.gatewayARN,
   });
-  factory DeleteGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGatewayOutputFromJson(json);
+  factory DeleteGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteGatewayOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSnapshotScheduleOutput {
   /// The volume which snapshot schedule was deleted.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   DeleteSnapshotScheduleOutput({
     this.volumeARN,
   });
-  factory DeleteSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSnapshotScheduleOutputFromJson(json);
+  factory DeleteSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteSnapshotScheduleOutput(
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// DeleteTapeArchiveOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTapeArchiveOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the
   /// virtual tape shelf (VTS).
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   DeleteTapeArchiveOutput({
     this.tapeARN,
   });
-  factory DeleteTapeArchiveOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTapeArchiveOutputFromJson(json);
+  factory DeleteTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTapeArchiveOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// DeleteTapeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTapeOutput {
   /// The Amazon Resource Name (ARN) of the deleted virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   DeleteTapeOutput({
     this.tapeARN,
   });
-  factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTapeOutputFromJson(json);
+  factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTapeOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTapePoolOutput {
   /// The Amazon Resource Name (ARN) of the custom tape pool being deleted.
-  @_s.JsonKey(name: 'PoolARN')
-  final String poolARN;
+  final String? poolARN;
 
   DeleteTapePoolOutput({
     this.poolARN,
   });
-  factory DeleteTapePoolOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTapePoolOutputFromJson(json);
+  factory DeleteTapePoolOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTapePoolOutput(
+      poolARN: json['PoolARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the storage
 /// volume that was deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVolumeOutput {
   /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is
   /// the same ARN you provided in the request.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   DeleteVolumeOutput({
     this.volumeARN,
   });
-  factory DeleteVolumeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVolumeOutputFromJson(json);
+  factory DeleteVolumeOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteVolumeOutput(
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAvailabilityMonitorTestOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// The time the High Availability monitoring test was started. If a test hasn't
   /// been performed, the value of this field is null.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the High Availability monitoring test. If a test hasn't been
   /// performed, the value of this field is null.
-  @_s.JsonKey(name: 'Status')
-  final AvailabilityMonitorTestStatus status;
+  final AvailabilityMonitorTestStatus? status;
 
   DescribeAvailabilityMonitorTestOutput({
     this.gatewayARN,
@@ -7174,100 +7181,93 @@ class DescribeAvailabilityMonitorTestOutput {
     this.status,
   });
   factory DescribeAvailabilityMonitorTestOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAvailabilityMonitorTestOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAvailabilityMonitorTestOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toAvailabilityMonitorTestStatus(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBandwidthRateLimitOutput {
   /// The average download bandwidth rate limit in bits per second. This field
   /// does not appear in the response if the download rate limit is not set.
-  @_s.JsonKey(name: 'AverageDownloadRateLimitInBitsPerSec')
-  final int averageDownloadRateLimitInBitsPerSec;
+  final int? averageDownloadRateLimitInBitsPerSec;
 
   /// The average upload bandwidth rate limit in bits per second. This field does
   /// not appear in the response if the upload rate limit is not set.
-  @_s.JsonKey(name: 'AverageUploadRateLimitInBitsPerSec')
-  final int averageUploadRateLimitInBitsPerSec;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final int? averageUploadRateLimitInBitsPerSec;
+  final String? gatewayARN;
 
   DescribeBandwidthRateLimitOutput({
     this.averageDownloadRateLimitInBitsPerSec,
     this.averageUploadRateLimitInBitsPerSec,
     this.gatewayARN,
   });
-  factory DescribeBandwidthRateLimitOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBandwidthRateLimitOutputFromJson(json);
+  factory DescribeBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeBandwidthRateLimitOutput(
+      averageDownloadRateLimitInBitsPerSec:
+          json['AverageDownloadRateLimitInBitsPerSec'] as int?,
+      averageUploadRateLimitInBitsPerSec:
+          json['AverageUploadRateLimitInBitsPerSec'] as int?,
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBandwidthRateLimitScheduleOutput {
   /// An array that contains the bandwidth rate limit intervals for a tape or
   /// volume gateway.
-  @_s.JsonKey(name: 'BandwidthRateLimitIntervals')
-  final List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<BandwidthRateLimitInterval>? bandwidthRateLimitIntervals;
+  final String? gatewayARN;
 
   DescribeBandwidthRateLimitScheduleOutput({
     this.bandwidthRateLimitIntervals,
     this.gatewayARN,
   });
   factory DescribeBandwidthRateLimitScheduleOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBandwidthRateLimitScheduleOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBandwidthRateLimitScheduleOutput(
+      bandwidthRateLimitIntervals: (json['BandwidthRateLimitIntervals']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BandwidthRateLimitInterval.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCacheOutput {
   /// The amount of cache in bytes allocated to a gateway.
-  @_s.JsonKey(name: 'CacheAllocatedInBytes')
-  final int cacheAllocatedInBytes;
+  final int? cacheAllocatedInBytes;
 
   /// The file share's contribution to the overall percentage of the gateway's
   /// cache that has not been persisted to AWS. The sample is taken at the end of
   /// the reporting period.
-  @_s.JsonKey(name: 'CacheDirtyPercentage')
-  final double cacheDirtyPercentage;
+  final double? cacheDirtyPercentage;
 
   /// Percent of application read operations from the file shares that are served
   /// from cache. The sample is taken at the end of the reporting period.
-  @_s.JsonKey(name: 'CacheHitPercentage')
-  final double cacheHitPercentage;
+  final double? cacheHitPercentage;
 
   /// Percent of application read operations from the file shares that are not
   /// served from cache. The sample is taken at the end of the reporting period.
-  @_s.JsonKey(name: 'CacheMissPercentage')
-  final double cacheMissPercentage;
+  final double? cacheMissPercentage;
 
   /// Percent use of the gateway's cache storage. This metric applies only to the
   /// gateway-cached volume setup. The sample is taken at the end of the reporting
   /// period.
-  @_s.JsonKey(name: 'CacheUsedPercentage')
-  final double cacheUsedPercentage;
+  final double? cacheUsedPercentage;
 
   /// An array of strings that identify disks that are to be configured as working
   /// storage. Each string has a minimum length of 1 and maximum length of 300.
   /// You can get the disk IDs from the <a>ListLocalDisks</a> API.
-  @_s.JsonKey(name: 'DiskIds')
-  final List<String> diskIds;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<String>? diskIds;
+  final String? gatewayARN;
 
   DescribeCacheOutput({
     this.cacheAllocatedInBytes,
@@ -7278,36 +7278,42 @@ class DescribeCacheOutput {
     this.diskIds,
     this.gatewayARN,
   });
-  factory DescribeCacheOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCacheOutputFromJson(json);
+  factory DescribeCacheOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCacheOutput(
+      cacheAllocatedInBytes: json['CacheAllocatedInBytes'] as int?,
+      cacheDirtyPercentage: json['CacheDirtyPercentage'] as double?,
+      cacheHitPercentage: json['CacheHitPercentage'] as double?,
+      cacheMissPercentage: json['CacheMissPercentage'] as double?,
+      cacheUsedPercentage: json['CacheUsedPercentage'] as double?,
+      diskIds: (json['DiskIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCachediSCSIVolumesOutput {
   /// An array of objects where each object contains metadata about one cached
   /// volume.
-  @_s.JsonKey(name: 'CachediSCSIVolumes')
-  final List<CachediSCSIVolume> cachediSCSIVolumes;
+  final List<CachediSCSIVolume>? cachediSCSIVolumes;
 
   DescribeCachediSCSIVolumesOutput({
     this.cachediSCSIVolumes,
   });
-  factory DescribeCachediSCSIVolumesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCachediSCSIVolumesOutputFromJson(json);
+  factory DescribeCachediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCachediSCSIVolumesOutput(
+      cachediSCSIVolumes: (json['CachediSCSIVolumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CachediSCSIVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChapCredentialsOutput {
   /// An array of <a>ChapInfo</a> objects that represent CHAP credentials. Each
   /// object in the array contains CHAP credential information for one
@@ -7333,108 +7339,90 @@ class DescribeChapCredentialsOutput {
   /// <b>TargetARN</b>: The Amazon Resource Name (ARN) of the storage volume.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ChapCredentials')
-  final List<ChapInfo> chapCredentials;
+  final List<ChapInfo>? chapCredentials;
 
   DescribeChapCredentialsOutput({
     this.chapCredentials,
   });
-  factory DescribeChapCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeChapCredentialsOutputFromJson(json);
+  factory DescribeChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeChapCredentialsOutput(
+      chapCredentials: (json['ChapCredentials'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChapInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGatewayInformationOutput {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
   /// used to monitor events in the gateway.
-  @_s.JsonKey(name: 'CloudWatchLogGroupARN')
-  final String cloudWatchLogGroupARN;
+  final String? cloudWatchLogGroupARN;
 
   /// Date after which this gateway will not receive software updates for new
   /// features and bug fixes.
-  @_s.JsonKey(name: 'DeprecationDate')
-  final String deprecationDate;
+  final String? deprecationDate;
 
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
-  @_s.JsonKey(name: 'Ec2InstanceId')
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The AWS Region where the Amazon EC2 instance is located.
-  @_s.JsonKey(name: 'Ec2InstanceRegion')
-  final String ec2InstanceRegion;
+  final String? ec2InstanceRegion;
 
   /// The type of endpoint for your gateway.
   ///
   /// Valid Values: <code>STANDARD</code> | <code>FIPS</code>
-  @_s.JsonKey(name: 'EndpointType')
-  final String endpointType;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? endpointType;
+  final String? gatewayARN;
 
   /// The unique identifier assigned to your gateway during activation. This ID
   /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
   /// input for other operations.
-  @_s.JsonKey(name: 'GatewayId')
-  final String gatewayId;
+  final String? gatewayId;
 
   /// The name you configured for your gateway.
-  @_s.JsonKey(name: 'GatewayName')
-  final String gatewayName;
+  final String? gatewayName;
 
   /// A <a>NetworkInterface</a> array that contains descriptions of the gateway
   /// network interfaces.
-  @_s.JsonKey(name: 'GatewayNetworkInterfaces')
-  final List<NetworkInterface> gatewayNetworkInterfaces;
+  final List<NetworkInterface>? gatewayNetworkInterfaces;
 
   /// A value that indicates the operating state of the gateway.
-  @_s.JsonKey(name: 'GatewayState')
-  final String gatewayState;
+  final String? gatewayState;
 
   /// A value that indicates the time zone configured for the gateway.
-  @_s.JsonKey(name: 'GatewayTimezone')
-  final String gatewayTimezone;
+  final String? gatewayTimezone;
 
   /// The type of the gateway.
-  @_s.JsonKey(name: 'GatewayType')
-  final String gatewayType;
+  final String? gatewayType;
 
   /// The type of hypervisor environment used by the host.
-  @_s.JsonKey(name: 'HostEnvironment')
-  final HostEnvironment hostEnvironment;
+  final HostEnvironment? hostEnvironment;
 
   /// The date on which the last software update was applied to the gateway. If
   /// the gateway has never been updated, this field does not return a value in
   /// the response.
-  @_s.JsonKey(name: 'LastSoftwareUpdate')
-  final String lastSoftwareUpdate;
+  final String? lastSoftwareUpdate;
 
   /// The date on which an update to the gateway is available. This date is in the
   /// time zone of the gateway. If the gateway is not available for an update this
   /// field is not returned in the response.
-  @_s.JsonKey(name: 'NextUpdateAvailabilityDate')
-  final String nextUpdateAvailabilityDate;
+  final String? nextUpdateAvailabilityDate;
 
   /// Date after which this gateway will not receive software updates for new
   /// features.
-  @_s.JsonKey(name: 'SoftwareUpdatesEndDate')
-  final String softwareUpdatesEndDate;
+  final String? softwareUpdatesEndDate;
 
   /// A list of up to 50 tags assigned to the gateway, sorted alphabetically by
   /// key name. Each tag is a key-value pair. For a gateway with more than 10 tags
   /// assigned, you can view all tags using the <code>ListTagsForResource</code>
   /// API operation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The configuration settings for the virtual private cloud (VPC) endpoint for
   /// your gateway.
-  @_s.JsonKey(name: 'VPCEndpoint')
-  final String vPCEndpoint;
+  final String? vPCEndpoint;
 
   DescribeGatewayInformationOutput({
     this.cloudWatchLogGroupARN,
@@ -7456,9 +7444,35 @@ class DescribeGatewayInformationOutput {
     this.tags,
     this.vPCEndpoint,
   });
-  factory DescribeGatewayInformationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeGatewayInformationOutputFromJson(json);
+  factory DescribeGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeGatewayInformationOutput(
+      cloudWatchLogGroupARN: json['CloudWatchLogGroupARN'] as String?,
+      deprecationDate: json['DeprecationDate'] as String?,
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
+      endpointType: json['EndpointType'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      gatewayId: json['GatewayId'] as String?,
+      gatewayName: json['GatewayName'] as String?,
+      gatewayNetworkInterfaces: (json['GatewayNetworkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayState: json['GatewayState'] as String?,
+      gatewayTimezone: json['GatewayTimezone'] as String?,
+      gatewayType: json['GatewayType'] as String?,
+      hostEnvironment:
+          (json['HostEnvironment'] as String?)?.toHostEnvironment(),
+      lastSoftwareUpdate: json['LastSoftwareUpdate'] as String?,
+      nextUpdateAvailabilityDate: json['NextUpdateAvailabilityDate'] as String?,
+      softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vPCEndpoint: json['VPCEndpoint'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
@@ -7480,42 +7494,31 @@ class DescribeGatewayInformationOutput {
 /// <a>DescribeMaintenanceStartTimeOutput$Timezone</a>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceStartTimeOutput {
   /// The day of the month component of the maintenance start time represented as
   /// an ordinal number from 1 to 28, where 1 represents the first day of the
   /// month and 28 represents the last day of the month.
-  @_s.JsonKey(name: 'DayOfMonth')
-  final int dayOfMonth;
+  final int? dayOfMonth;
 
   /// An ordinal number between 0 and 6 that represents the day of the week, where
   /// 0 represents Sunday and 6 represents Saturday. The day of week is in the
   /// time zone of the gateway.
-  @_s.JsonKey(name: 'DayOfWeek')
-  final int dayOfWeek;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final int? dayOfWeek;
+  final String? gatewayARN;
 
   /// The hour component of the maintenance start time represented as <i>hh</i>,
   /// where <i>hh</i> is the hour (0 to 23). The hour of the day is in the time
   /// zone of the gateway.
-  @_s.JsonKey(name: 'HourOfDay')
-  final int hourOfDay;
+  final int? hourOfDay;
 
   /// The minute component of the maintenance start time represented as <i>mm</i>,
   /// where <i>mm</i> is the minute (0 to 59). The minute of the hour is in the
   /// time zone of the gateway.
-  @_s.JsonKey(name: 'MinuteOfHour')
-  final int minuteOfHour;
+  final int? minuteOfHour;
 
   /// A value that indicates the time zone that is set for the gateway. The start
   /// time and day of week specified should be in the time zone of the gateway.
-  @_s.JsonKey(name: 'Timezone')
-  final String timezone;
+  final String? timezone;
 
   DescribeMaintenanceStartTimeOutput({
     this.dayOfMonth,
@@ -7526,51 +7529,54 @@ class DescribeMaintenanceStartTimeOutput {
     this.timezone,
   });
   factory DescribeMaintenanceStartTimeOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceStartTimeOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceStartTimeOutput(
+      dayOfMonth: json['DayOfMonth'] as int?,
+      dayOfWeek: json['DayOfWeek'] as int?,
+      gatewayARN: json['GatewayARN'] as String?,
+      hourOfDay: json['HourOfDay'] as int?,
+      minuteOfHour: json['MinuteOfHour'] as int?,
+      timezone: json['Timezone'] as String?,
+    );
+  }
 }
 
 /// DescribeNFSFileSharesOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNFSFileSharesOutput {
   /// An array containing a description for each requested file share.
-  @_s.JsonKey(name: 'NFSFileShareInfoList')
-  final List<NFSFileShareInfo> nFSFileShareInfoList;
+  final List<NFSFileShareInfo>? nFSFileShareInfoList;
 
   DescribeNFSFileSharesOutput({
     this.nFSFileShareInfoList,
   });
-  factory DescribeNFSFileSharesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeNFSFileSharesOutputFromJson(json);
+  factory DescribeNFSFileSharesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeNFSFileSharesOutput(
+      nFSFileShareInfoList: (json['NFSFileShareInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => NFSFileShareInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// DescribeSMBFileSharesOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSMBFileSharesOutput {
   /// An array containing a description for each requested file share.
-  @_s.JsonKey(name: 'SMBFileShareInfoList')
-  final List<SMBFileShareInfo> sMBFileShareInfoList;
+  final List<SMBFileShareInfo>? sMBFileShareInfoList;
 
   DescribeSMBFileSharesOutput({
     this.sMBFileShareInfoList,
   });
-  factory DescribeSMBFileSharesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSMBFileSharesOutputFromJson(json);
+  factory DescribeSMBFileSharesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeSMBFileSharesOutput(
+      sMBFileShareInfoList: (json['SMBFileShareInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => SMBFileShareInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSMBSettingsOutput {
   /// Indicates the status of a gateway that is a member of the Active Directory
   /// domain.
@@ -7604,25 +7610,20 @@ class DescribeSMBSettingsOutput {
   /// operation failed due to another type of error.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ActiveDirectoryStatus')
-  final ActiveDirectoryStatus activeDirectoryStatus;
+  final ActiveDirectoryStatus? activeDirectoryStatus;
 
   /// The name of the domain that the gateway is joined to.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The shares on this gateway appear when listing shares.
-  @_s.JsonKey(name: 'FileSharesVisible')
-  final bool fileSharesVisible;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final bool? fileSharesVisible;
+  final String? gatewayARN;
 
   /// This value is <code>true</code> if a password for the guest user
   /// <code>smbguest</code> is set, otherwise <code>false</code>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'SMBGuestPasswordSet')
-  final bool sMBGuestPasswordSet;
+  final bool? sMBGuestPasswordSet;
 
   /// The type of security strategy that was specified for file gateway.
   ///
@@ -7647,8 +7648,7 @@ class DescribeSMBSettingsOutput {
   /// 2012 or newer.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SMBSecurityStrategy')
-  final SMBSecurityStrategy sMBSecurityStrategy;
+  final SMBSecurityStrategy? sMBSecurityStrategy;
 
   DescribeSMBSettingsOutput({
     this.activeDirectoryStatus,
@@ -7658,45 +7658,44 @@ class DescribeSMBSettingsOutput {
     this.sMBGuestPasswordSet,
     this.sMBSecurityStrategy,
   });
-  factory DescribeSMBSettingsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSMBSettingsOutputFromJson(json);
+  factory DescribeSMBSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeSMBSettingsOutput(
+      activeDirectoryStatus:
+          (json['ActiveDirectoryStatus'] as String?)?.toActiveDirectoryStatus(),
+      domainName: json['DomainName'] as String?,
+      fileSharesVisible: json['FileSharesVisible'] as bool?,
+      gatewayARN: json['GatewayARN'] as String?,
+      sMBGuestPasswordSet: json['SMBGuestPasswordSet'] as bool?,
+      sMBSecurityStrategy:
+          (json['SMBSecurityStrategy'] as String?)?.toSMBSecurityStrategy(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSnapshotScheduleOutput {
   /// The snapshot description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The number of hours between snapshots.
-  @_s.JsonKey(name: 'RecurrenceInHours')
-  final int recurrenceInHours;
+  final int? recurrenceInHours;
 
   /// The hour of the day at which the snapshot schedule begins represented as
   /// <i>hh</i>, where <i>hh</i> is the hour (0 to 23). The hour of the day is in
   /// the time zone of the gateway.
-  @_s.JsonKey(name: 'StartAt')
-  final int startAt;
+  final int? startAt;
 
   /// A list of up to 50 tags assigned to the snapshot schedule, sorted
   /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
   /// more than 10 tags assigned, you can view all tags using the
   /// <code>ListTagsForResource</code> API operation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// A value that indicates the time zone of the gateway.
-  @_s.JsonKey(name: 'Timezone')
-  final String timezone;
+  final String? timezone;
 
   /// The Amazon Resource Name (ARN) of the volume that was specified in the
   /// request.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   DescribeSnapshotScheduleOutput({
     this.description,
@@ -7706,15 +7705,21 @@ class DescribeSnapshotScheduleOutput {
     this.timezone,
     this.volumeARN,
   });
-  factory DescribeSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSnapshotScheduleOutputFromJson(json);
+  factory DescribeSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeSnapshotScheduleOutput(
+      description: json['Description'] as String?,
+      recurrenceInHours: json['RecurrenceInHours'] as int?,
+      startAt: json['StartAt'] as int?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timezone: json['Timezone'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStorediSCSIVolumesOutput {
   /// Describes a single unit of output from <a>DescribeStorediSCSIVolumes</a>.
   /// The following fields are returned:
@@ -7784,57 +7789,55 @@ class DescribeStorediSCSIVolumesOutput {
   /// of the volume. Currently, only <code>STORED</code> volumes are supported.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StorediSCSIVolumes')
-  final List<StorediSCSIVolume> storediSCSIVolumes;
+  final List<StorediSCSIVolume>? storediSCSIVolumes;
 
   DescribeStorediSCSIVolumesOutput({
     this.storediSCSIVolumes,
   });
-  factory DescribeStorediSCSIVolumesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeStorediSCSIVolumesOutputFromJson(json);
+  factory DescribeStorediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStorediSCSIVolumesOutput(
+      storediSCSIVolumes: (json['StorediSCSIVolumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => StorediSCSIVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// DescribeTapeArchivesOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTapeArchivesOutput {
   /// An opaque string that indicates the position at which the virtual tapes that
   /// were fetched for description ended. Use this marker in your next request to
   /// fetch the next set of virtual tapes in the virtual tape shelf (VTS). If
   /// there are no more virtual tapes to describe, this field does not appear in
   /// the response.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of virtual tape objects in the virtual tape shelf (VTS). The
   /// description includes of the Amazon Resource Name (ARN) of the virtual tapes.
   /// The information returned includes the Amazon Resource Names (ARNs) of the
   /// tapes, size of the tapes, status of the tapes, progress of the description,
   /// and tape barcode.
-  @_s.JsonKey(name: 'TapeArchives')
-  final List<TapeArchive> tapeArchives;
+  final List<TapeArchive>? tapeArchives;
 
   DescribeTapeArchivesOutput({
     this.marker,
     this.tapeArchives,
   });
-  factory DescribeTapeArchivesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTapeArchivesOutputFromJson(json);
+  factory DescribeTapeArchivesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTapeArchivesOutput(
+      marker: json['Marker'] as String?,
+      tapeArchives: (json['TapeArchives'] as List?)
+          ?.whereNotNull()
+          .map((e) => TapeArchive.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// DescribeTapeRecoveryPointsOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTapeRecoveryPointsOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// An opaque string that indicates the position at which the virtual tape
   /// recovery points that were listed for description ended.
@@ -7842,73 +7845,69 @@ class DescribeTapeRecoveryPointsOutput {
   /// Use this marker in your next request to list the next set of virtual tape
   /// recovery points in the list. If there are no more recovery points to
   /// describe, this field does not appear in the response.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of TapeRecoveryPointInfos that are available for the specified
   /// gateway.
-  @_s.JsonKey(name: 'TapeRecoveryPointInfos')
-  final List<TapeRecoveryPointInfo> tapeRecoveryPointInfos;
+  final List<TapeRecoveryPointInfo>? tapeRecoveryPointInfos;
 
   DescribeTapeRecoveryPointsOutput({
     this.gatewayARN,
     this.marker,
     this.tapeRecoveryPointInfos,
   });
-  factory DescribeTapeRecoveryPointsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTapeRecoveryPointsOutputFromJson(json);
+  factory DescribeTapeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTapeRecoveryPointsOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      marker: json['Marker'] as String?,
+      tapeRecoveryPointInfos: (json['TapeRecoveryPointInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => TapeRecoveryPointInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// DescribeTapesOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTapesOutput {
   /// An opaque string which can be used as part of a subsequent DescribeTapes
   /// call to retrieve the next page of results.
   ///
   /// If a response does not contain a marker, then there are no more results to
   /// be retrieved.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of virtual tape descriptions.
-  @_s.JsonKey(name: 'Tapes')
-  final List<Tape> tapes;
+  final List<Tape>? tapes;
 
   DescribeTapesOutput({
     this.marker,
     this.tapes,
   });
-  factory DescribeTapesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTapesOutputFromJson(json);
+  factory DescribeTapesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTapesOutput(
+      marker: json['Marker'] as String?,
+      tapes: (json['Tapes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tape.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUploadBufferOutput {
   /// An array of the gateway's local disk IDs that are configured as working
   /// storage. Each local disk ID is specified as a string (minimum length of 1
   /// and maximum length of 300). If no local disks are configured as working
   /// storage, then the DiskIds array is empty.
-  @_s.JsonKey(name: 'DiskIds')
-  final List<String> diskIds;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<String>? diskIds;
+  final String? gatewayARN;
 
   /// The total number of bytes allocated in the gateway's as upload buffer.
-  @_s.JsonKey(name: 'UploadBufferAllocatedInBytes')
-  final int uploadBufferAllocatedInBytes;
+  final int? uploadBufferAllocatedInBytes;
 
   /// The total number of bytes being used in the gateway's upload buffer.
-  @_s.JsonKey(name: 'UploadBufferUsedInBytes')
-  final int uploadBufferUsedInBytes;
+  final int? uploadBufferUsedInBytes;
 
   DescribeUploadBufferOutput({
     this.diskIds,
@@ -7916,66 +7915,67 @@ class DescribeUploadBufferOutput {
     this.uploadBufferAllocatedInBytes,
     this.uploadBufferUsedInBytes,
   });
-  factory DescribeUploadBufferOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUploadBufferOutputFromJson(json);
+  factory DescribeUploadBufferOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeUploadBufferOutput(
+      diskIds: (json['DiskIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+      uploadBufferAllocatedInBytes:
+          json['UploadBufferAllocatedInBytes'] as int?,
+      uploadBufferUsedInBytes: json['UploadBufferUsedInBytes'] as int?,
+    );
+  }
 }
 
 /// DescribeVTLDevicesOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVTLDevicesOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// An opaque string that indicates the position at which the VTL devices that
   /// were fetched for description ended. Use the marker in your next request to
   /// fetch the next set of VTL devices in the list. If there are no more VTL
   /// devices to describe, this field does not appear in the response.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of
   /// the VTL devices.
-  @_s.JsonKey(name: 'VTLDevices')
-  final List<VTLDevice> vTLDevices;
+  final List<VTLDevice>? vTLDevices;
 
   DescribeVTLDevicesOutput({
     this.gatewayARN,
     this.marker,
     this.vTLDevices,
   });
-  factory DescribeVTLDevicesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVTLDevicesOutputFromJson(json);
+  factory DescribeVTLDevicesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeVTLDevicesOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      marker: json['Marker'] as String?,
+      vTLDevices: (json['VTLDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) => VTLDevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkingStorageOutput {
   /// An array of the gateway's local disk IDs that are configured as working
   /// storage. Each local disk ID is specified as a string (minimum length of 1
   /// and maximum length of 300). If no local disks are configured as working
   /// storage, then the DiskIds array is empty.
-  @_s.JsonKey(name: 'DiskIds')
-  final List<String> diskIds;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<String>? diskIds;
+  final String? gatewayARN;
 
   /// The total working storage in bytes allocated for the gateway. If no working
   /// storage is configured for the gateway, this field returns 0.
-  @_s.JsonKey(name: 'WorkingStorageAllocatedInBytes')
-  final int workingStorageAllocatedInBytes;
+  final int? workingStorageAllocatedInBytes;
 
   /// The total working storage in bytes in use by the gateway. If no working
   /// storage is configured for the gateway, this field returns 0.
-  @_s.JsonKey(name: 'WorkingStorageUsedInBytes')
-  final int workingStorageUsedInBytes;
+  final int? workingStorageUsedInBytes;
 
   DescribeWorkingStorageOutput({
     this.diskIds,
@@ -7983,51 +7983,49 @@ class DescribeWorkingStorageOutput {
     this.workingStorageAllocatedInBytes,
     this.workingStorageUsedInBytes,
   });
-  factory DescribeWorkingStorageOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeWorkingStorageOutputFromJson(json);
+  factory DescribeWorkingStorageOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkingStorageOutput(
+      diskIds: (json['DiskIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+      workingStorageAllocatedInBytes:
+          json['WorkingStorageAllocatedInBytes'] as int?,
+      workingStorageUsedInBytes: json['WorkingStorageUsedInBytes'] as int?,
+    );
+  }
 }
 
 /// AttachVolumeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume that was detached.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   DetachVolumeOutput({
     this.volumeARN,
   });
-  factory DetachVolumeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DetachVolumeOutputFromJson(json);
+  factory DetachVolumeOutput.fromJson(Map<String, dynamic> json) {
+    return DetachVolumeOutput(
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// Lists iSCSI information about a VTL device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceiSCSIAttributes {
   /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-  @_s.JsonKey(name: 'ChapEnabled')
-  final bool chapEnabled;
+  final bool? chapEnabled;
 
   /// The network interface identifier of the VTL device.
-  @_s.JsonKey(name: 'NetworkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// The port used to communicate with iSCSI VTL device targets.
-  @_s.JsonKey(name: 'NetworkInterfacePort')
-  final int networkInterfacePort;
+  final int? networkInterfacePort;
 
   /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI
   /// qualified name(iqn) of a tape drive or media changer target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   DeviceiSCSIAttributes({
     this.chapEnabled,
@@ -8035,67 +8033,57 @@ class DeviceiSCSIAttributes {
     this.networkInterfacePort,
     this.targetARN,
   });
-  factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) =>
-      _$DeviceiSCSIAttributesFromJson(json);
+  factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) {
+    return DeviceiSCSIAttributes(
+      chapEnabled: json['ChapEnabled'] as bool?,
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+      networkInterfacePort: json['NetworkInterfacePort'] as int?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
 }
 
 /// DisableGatewayOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableGatewayOutput {
   /// The unique Amazon Resource Name (ARN) of the disabled gateway.
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   DisableGatewayOutput({
     this.gatewayARN,
   });
-  factory DisableGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$DisableGatewayOutputFromJson(json);
+  factory DisableGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return DisableGatewayOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// Represents a gateway's local disk.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Disk {
   /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not
   /// included in the response if the local disk is not defined as an iSCSI
   /// target. The format of this field is
   /// <i>targetIqn::LUNNumber::region-volumeId</i>.
-  @_s.JsonKey(name: 'DiskAllocationResource')
-  final String diskAllocationResource;
-  @_s.JsonKey(name: 'DiskAllocationType')
-  final String diskAllocationType;
-  @_s.JsonKey(name: 'DiskAttributeList')
-  final List<String> diskAttributeList;
+  final String? diskAllocationResource;
+  final String? diskAllocationType;
+  final List<String>? diskAttributeList;
 
   /// The unique device ID or other distinguishing data that identifies a local
   /// disk.
-  @_s.JsonKey(name: 'DiskId')
-  final String diskId;
+  final String? diskId;
 
   /// The device node of a local disk as assigned by the virtualization
   /// environment.
-  @_s.JsonKey(name: 'DiskNode')
-  final String diskNode;
+  final String? diskNode;
 
   /// The path of a local disk in the gateway virtual machine (VM).
-  @_s.JsonKey(name: 'DiskPath')
-  final String diskPath;
+  final String? diskPath;
 
   /// The local disk size in bytes.
-  @_s.JsonKey(name: 'DiskSizeInBytes')
-  final int diskSizeInBytes;
+  final int? diskSizeInBytes;
 
   /// A value that represents the status of a local disk.
-  @_s.JsonKey(name: 'DiskStatus')
-  final String diskStatus;
+  final String? diskStatus;
 
   Disk({
     this.diskAllocationResource,
@@ -8107,26 +8095,30 @@ class Disk {
     this.diskSizeInBytes,
     this.diskStatus,
   });
-  factory Disk.fromJson(Map<String, dynamic> json) => _$DiskFromJson(json);
+  factory Disk.fromJson(Map<String, dynamic> json) {
+    return Disk(
+      diskAllocationResource: json['DiskAllocationResource'] as String?,
+      diskAllocationType: json['DiskAllocationType'] as String?,
+      diskAttributeList: (json['DiskAttributeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      diskId: json['DiskId'] as String?,
+      diskNode: json['DiskNode'] as String?,
+      diskPath: json['DiskPath'] as String?,
+      diskSizeInBytes: json['DiskSizeInBytes'] as int?,
+      diskStatus: json['DiskStatus'] as String?,
+    );
+  }
 }
 
 /// Describes a file share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileShareInfo {
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
-  @_s.JsonKey(name: 'FileShareId')
-  final String fileShareId;
-  @_s.JsonKey(name: 'FileShareStatus')
-  final String fileShareStatus;
-  @_s.JsonKey(name: 'FileShareType')
-  final FileShareType fileShareType;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? fileShareARN;
+  final String? fileShareId;
+  final String? fileShareStatus;
+  final FileShareType? fileShareType;
+  final String? gatewayARN;
 
   FileShareInfo({
     this.fileShareARN,
@@ -8135,57 +8127,73 @@ class FileShareInfo {
     this.fileShareType,
     this.gatewayARN,
   });
-  factory FileShareInfo.fromJson(Map<String, dynamic> json) =>
-      _$FileShareInfoFromJson(json);
+  factory FileShareInfo.fromJson(Map<String, dynamic> json) {
+    return FileShareInfo(
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      fileShareType: (json['FileShareType'] as String?)?.toFileShareType(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// The type of the file share.
 enum FileShareType {
-  @_s.JsonValue('NFS')
   nfs,
-  @_s.JsonValue('SMB')
   smb,
 }
 
+extension on FileShareType {
+  String toValue() {
+    switch (this) {
+      case FileShareType.nfs:
+        return 'NFS';
+      case FileShareType.smb:
+        return 'SMB';
+    }
+  }
+}
+
+extension on String {
+  FileShareType toFileShareType() {
+    switch (this) {
+      case 'NFS':
+        return FileShareType.nfs;
+      case 'SMB':
+        return FileShareType.smb;
+    }
+    throw Exception('$this is not known in enum FileShareType');
+  }
+}
+
 /// Describes a gateway object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayInfo {
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
-  @_s.JsonKey(name: 'Ec2InstanceId')
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The AWS Region where the Amazon EC2 instance is located.
-  @_s.JsonKey(name: 'Ec2InstanceRegion')
-  final String ec2InstanceRegion;
+  final String? ec2InstanceRegion;
 
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
   /// operation to return a list of gateways for your account and AWS Region.
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// The unique identifier assigned to your gateway during activation. This ID
   /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
   /// input for other operations.
-  @_s.JsonKey(name: 'GatewayId')
-  final String gatewayId;
+  final String? gatewayId;
 
   /// The name of the gateway.
-  @_s.JsonKey(name: 'GatewayName')
-  final String gatewayName;
+  final String? gatewayName;
 
   /// The state of the gateway.
   ///
   /// Valid Values: <code>DISABLED</code> | <code>ACTIVE</code>
-  @_s.JsonKey(name: 'GatewayOperationalState')
-  final String gatewayOperationalState;
+  final String? gatewayOperationalState;
 
   /// The type of the gateway.
-  @_s.JsonKey(name: 'GatewayType')
-  final String gatewayType;
+  final String? gatewayType;
 
   GatewayInfo({
     this.ec2InstanceId,
@@ -8196,29 +8204,63 @@ class GatewayInfo {
     this.gatewayOperationalState,
     this.gatewayType,
   });
-  factory GatewayInfo.fromJson(Map<String, dynamic> json) =>
-      _$GatewayInfoFromJson(json);
+  factory GatewayInfo.fromJson(Map<String, dynamic> json) {
+    return GatewayInfo(
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      gatewayId: json['GatewayId'] as String?,
+      gatewayName: json['GatewayName'] as String?,
+      gatewayOperationalState: json['GatewayOperationalState'] as String?,
+      gatewayType: json['GatewayType'] as String?,
+    );
+  }
 }
 
 enum HostEnvironment {
-  @_s.JsonValue('VMWARE')
   vmware,
-  @_s.JsonValue('HYPER-V')
   hyperV,
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('KVM')
   kvm,
-  @_s.JsonValue('OTHER')
   other,
 }
 
+extension on HostEnvironment {
+  String toValue() {
+    switch (this) {
+      case HostEnvironment.vmware:
+        return 'VMWARE';
+      case HostEnvironment.hyperV:
+        return 'HYPER-V';
+      case HostEnvironment.ec2:
+        return 'EC2';
+      case HostEnvironment.kvm:
+        return 'KVM';
+      case HostEnvironment.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension on String {
+  HostEnvironment toHostEnvironment() {
+    switch (this) {
+      case 'VMWARE':
+        return HostEnvironment.vmware;
+      case 'HYPER-V':
+        return HostEnvironment.hyperV;
+      case 'EC2':
+        return HostEnvironment.ec2;
+      case 'KVM':
+        return HostEnvironment.kvm;
+      case 'OTHER':
+        return HostEnvironment.other;
+    }
+    throw Exception('$this is not known in enum HostEnvironment');
+  }
+}
+
 /// JoinDomainOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JoinDomainOutput {
   /// Indicates the status of the gateway as a member of the Active Directory
   /// domain.
@@ -8252,101 +8294,101 @@ class JoinDomainOutput {
   /// operation failed due to another type of error.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ActiveDirectoryStatus')
-  final ActiveDirectoryStatus activeDirectoryStatus;
+  final ActiveDirectoryStatus? activeDirectoryStatus;
 
   /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   JoinDomainOutput({
     this.activeDirectoryStatus,
     this.gatewayARN,
   });
-  factory JoinDomainOutput.fromJson(Map<String, dynamic> json) =>
-      _$JoinDomainOutputFromJson(json);
+  factory JoinDomainOutput.fromJson(Map<String, dynamic> json) {
+    return JoinDomainOutput(
+      activeDirectoryStatus:
+          (json['ActiveDirectoryStatus'] as String?)?.toActiveDirectoryStatus(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAutomaticTapeCreationPoliciesOutput {
   /// Gets a listing of information about the gateway's automatic tape creation
   /// policies, including the automatic tape creation rules and the gateway that
   /// is using the policies.
-  @_s.JsonKey(name: 'AutomaticTapeCreationPolicyInfos')
-  final List<AutomaticTapeCreationPolicyInfo> automaticTapeCreationPolicyInfos;
+  final List<AutomaticTapeCreationPolicyInfo>? automaticTapeCreationPolicyInfos;
 
   ListAutomaticTapeCreationPoliciesOutput({
     this.automaticTapeCreationPolicyInfos,
   });
   factory ListAutomaticTapeCreationPoliciesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAutomaticTapeCreationPoliciesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAutomaticTapeCreationPoliciesOutput(
+      automaticTapeCreationPolicyInfos:
+          (json['AutomaticTapeCreationPolicyInfos'] as List?)
+              ?.whereNotNull()
+              .map((e) => AutomaticTapeCreationPolicyInfo.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
 /// ListFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFileSharesOutput {
   /// An array of information about the file gateway's file shares.
-  @_s.JsonKey(name: 'FileShareInfoList')
-  final List<FileShareInfo> fileShareInfoList;
+  final List<FileShareInfo>? fileShareInfoList;
 
   /// If the request includes <code>Marker</code>, the response returns that value
   /// in this field.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// If a value is present, there are more file shares to return. In a subsequent
   /// request, use <code>NextMarker</code> as the value for <code>Marker</code> to
   /// retrieve the next set of file shares.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListFileSharesOutput({
     this.fileShareInfoList,
     this.marker,
     this.nextMarker,
   });
-  factory ListFileSharesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListFileSharesOutputFromJson(json);
+  factory ListFileSharesOutput.fromJson(Map<String, dynamic> json) {
+    return ListFileSharesOutput(
+      fileShareInfoList: (json['FileShareInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileShareInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGatewaysOutput {
   /// An array of <a>GatewayInfo</a> objects.
-  @_s.JsonKey(name: 'Gateways')
-  final List<GatewayInfo> gateways;
+  final List<GatewayInfo>? gateways;
 
   /// Use the marker in your next request to fetch the next set of gateways in the
   /// list. If there are no more gateways to list, this field does not appear in
   /// the response.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListGatewaysOutput({
     this.gateways,
     this.marker,
   });
-  factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListGatewaysOutputFromJson(json);
+  factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
+    return ListGatewaysOutput(
+      gateways: (json['Gateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => GatewayInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLocalDisksOutput {
   /// A JSON object containing the following fields:
   ///
@@ -8355,74 +8397,79 @@ class ListLocalDisksOutput {
   /// <a>ListLocalDisksOutput$Disks</a>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Disks')
-  final List<Disk> disks;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final List<Disk>? disks;
+  final String? gatewayARN;
 
   ListLocalDisksOutput({
     this.disks,
     this.gatewayARN,
   });
-  factory ListLocalDisksOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListLocalDisksOutputFromJson(json);
+  factory ListLocalDisksOutput.fromJson(Map<String, dynamic> json) {
+    return ListLocalDisksOutput(
+      disks: (json['Disks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Disk.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// ListTagsForResourceOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// An opaque string that indicates the position at which to stop returning the
   /// list of tags.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The Amazon Resource Name (ARN) of the resource for which you want to list
   /// tags.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   /// An array that contains the tags for the specified resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.marker,
     this.resourceARN,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      marker: json['Marker'] as String?,
+      resourceARN: json['ResourceARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTapePoolsOutput {
   /// A string that indicates the position at which to begin the returned list of
   /// tape pools. Use the marker in your next request to continue pagination of
   /// tape pools. If there are no more tape pools to list, this element does not
   /// appear in the response body.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of <code>PoolInfo</code> objects, where each object describes a
   /// single custom tape pool. If there are no custom tape pools, the
   /// <code>PoolInfos</code> is an empty array.
-  @_s.JsonKey(name: 'PoolInfos')
-  final List<PoolInfo> poolInfos;
+  final List<PoolInfo>? poolInfos;
 
   ListTapePoolsOutput({
     this.marker,
     this.poolInfos,
   });
-  factory ListTapePoolsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTapePoolsOutputFromJson(json);
+  factory ListTapePoolsOutput.fromJson(Map<String, dynamic> json) {
+    return ListTapePoolsOutput(
+      marker: json['Marker'] as String?,
+      poolInfos: (json['PoolInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => PoolInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
@@ -8435,67 +8482,68 @@ class ListTapePoolsOutput {
 /// <a>ListTapesOutput$VolumeInfos</a>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTapesOutput {
   /// A string that indicates the position at which to begin returning the next
   /// list of tapes. Use the marker in your next request to continue pagination of
   /// tapes. If there are no more tapes to list, this element does not appear in
   /// the response body.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
-  @_s.JsonKey(name: 'TapeInfos')
-  final List<TapeInfo> tapeInfos;
+  final String? marker;
+  final List<TapeInfo>? tapeInfos;
 
   ListTapesOutput({
     this.marker,
     this.tapeInfos,
   });
-  factory ListTapesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTapesOutputFromJson(json);
+  factory ListTapesOutput.fromJson(Map<String, dynamic> json) {
+    return ListTapesOutput(
+      marker: json['Marker'] as String?,
+      tapeInfos: (json['TapeInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => TapeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// ListVolumeInitiatorsOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVolumeInitiatorsOutput {
   /// The host names and port numbers of all iSCSI initiators that are connected
   /// to the gateway.
-  @_s.JsonKey(name: 'Initiators')
-  final List<String> initiators;
+  final List<String>? initiators;
 
   ListVolumeInitiatorsOutput({
     this.initiators,
   });
-  factory ListVolumeInitiatorsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVolumeInitiatorsOutputFromJson(json);
+  factory ListVolumeInitiatorsOutput.fromJson(Map<String, dynamic> json) {
+    return ListVolumeInitiatorsOutput(
+      initiators: (json['Initiators'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVolumeRecoveryPointsOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// An array of <a>VolumeRecoveryPointInfo</a> objects.
-  @_s.JsonKey(name: 'VolumeRecoveryPointInfos')
-  final List<VolumeRecoveryPointInfo> volumeRecoveryPointInfos;
+  final List<VolumeRecoveryPointInfo>? volumeRecoveryPointInfos;
 
   ListVolumeRecoveryPointsOutput({
     this.gatewayARN,
     this.volumeRecoveryPointInfos,
   });
-  factory ListVolumeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVolumeRecoveryPointsOutputFromJson(json);
+  factory ListVolumeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) {
+    return ListVolumeRecoveryPointsOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      volumeRecoveryPointInfos: (json['VolumeRecoveryPointInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VolumeRecoveryPointInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
@@ -8508,34 +8556,34 @@ class ListVolumeRecoveryPointsOutput {
 /// <a>ListVolumesOutput$VolumeInfos</a>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVolumesOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// Use the marker in your next request to continue pagination of iSCSI volumes.
   /// If there are no more volumes to list, this field does not appear in the
   /// response body.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// An array of <a>VolumeInfo</a> objects, where each object describes an iSCSI
   /// volume. If no volumes are defined for the gateway, then
   /// <code>VolumeInfos</code> is an empty array "[]".
-  @_s.JsonKey(name: 'VolumeInfos')
-  final List<VolumeInfo> volumeInfos;
+  final List<VolumeInfo>? volumeInfos;
 
   ListVolumesOutput({
     this.gatewayARN,
     this.marker,
     this.volumeInfos,
   });
-  factory ListVolumesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVolumesOutputFromJson(json);
+  factory ListVolumesOutput.fromJson(Map<String, dynamic> json) {
+    return ListVolumesOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      marker: json['Marker'] as String?,
+      volumeInfos: (json['VolumeInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => VolumeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes Network File System (NFS) file share default values. Files and
@@ -8544,33 +8592,24 @@ class ListVolumesOutput {
 /// Storage Gateway, the S3 objects that represent files and folders are
 /// assigned these default Unix permissions. This operation is only supported
 /// for file gateways.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NFSFileShareDefaults {
   /// The Unix directory mode in the form "nnnn". For example, <code>0666</code>
   /// represents the default access mode for all directories inside the file
   /// share. The default value is <code>0777</code>.
-  @_s.JsonKey(name: 'DirectoryMode')
-  final String directoryMode;
+  final String? directoryMode;
 
   /// The Unix file mode in the form "nnnn". For example, <code>0666</code>
   /// represents the default file mode inside the file share. The default value is
   /// <code>0666</code>.
-  @_s.JsonKey(name: 'FileMode')
-  final String fileMode;
+  final String? fileMode;
 
   /// The default group ID for the file share (unless the files have another group
   /// ID specified). The default value is <code>nfsnobody</code>.
-  @_s.JsonKey(name: 'GroupId')
-  final int groupId;
+  final int? groupId;
 
   /// The default owner ID for files in the file share (unless the files have
   /// another owner ID specified). The default value is <code>nfsnobody</code>.
-  @_s.JsonKey(name: 'OwnerId')
-  final int ownerId;
+  final int? ownerId;
 
   NFSFileShareDefaults({
     this.directoryMode,
@@ -8578,26 +8617,36 @@ class NFSFileShareDefaults {
     this.groupId,
     this.ownerId,
   });
-  factory NFSFileShareDefaults.fromJson(Map<String, dynamic> json) =>
-      _$NFSFileShareDefaultsFromJson(json);
+  factory NFSFileShareDefaults.fromJson(Map<String, dynamic> json) {
+    return NFSFileShareDefaults(
+      directoryMode: json['DirectoryMode'] as String?,
+      fileMode: json['FileMode'] as String?,
+      groupId: json['GroupId'] as int?,
+      ownerId: json['OwnerId'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NFSFileShareDefaultsToJson(this);
+  Map<String, dynamic> toJson() {
+    final directoryMode = this.directoryMode;
+    final fileMode = this.fileMode;
+    final groupId = this.groupId;
+    final ownerId = this.ownerId;
+    return {
+      if (directoryMode != null) 'DirectoryMode': directoryMode,
+      if (fileMode != null) 'FileMode': fileMode,
+      if (groupId != null) 'GroupId': groupId,
+      if (ownerId != null) 'OwnerId': ownerId,
+    };
+  }
 }
 
 /// The Unix file permissions and ownership information assigned, by default, to
 /// native S3 objects when file gateway discovers them in S3 buckets. This
 /// operation is only supported in file gateways.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NFSFileShareInfo {
   /// Refresh cache information.
-  @_s.JsonKey(name: 'CacheAttributes')
-  final CacheAttributes cacheAttributes;
-  @_s.JsonKey(name: 'ClientList')
-  final List<String> clientList;
+  final CacheAttributes? cacheAttributes;
+  final List<String>? clientList;
 
   /// The default storage class for objects put into an Amazon S3 bucket by the
   /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
@@ -8605,24 +8654,18 @@ class NFSFileShareInfo {
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
-  @_s.JsonKey(name: 'DefaultStorageClass')
-  final String defaultStorageClass;
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
-  @_s.JsonKey(name: 'FileShareId')
-  final String fileShareId;
+  final String? defaultStorageClass;
+  final String? fileShareARN;
+  final String? fileShareId;
 
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>.
   /// </note>
-  @_s.JsonKey(name: 'FileShareName')
-  final String fileShareName;
-  @_s.JsonKey(name: 'FileShareStatus')
-  final String fileShareStatus;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? fileShareName;
+  final String? fileShareStatus;
+  final String? gatewayARN;
 
   /// A value that enables guessing of the MIME type for uploaded objects based on
   /// file extensions. Set this value to <code>true</code> to enable MIME type
@@ -8630,38 +8673,29 @@ class NFSFileShareInfo {
   /// <code>true</code>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
-  final bool guessMIMETypeEnabled;
+  final bool? guessMIMETypeEnabled;
 
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
   /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'KMSEncrypted')
-  final bool kMSEncrypted;
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
-  @_s.JsonKey(name: 'LocationARN')
-  final String locationARN;
-  @_s.JsonKey(name: 'NFSFileShareDefaults')
-  final NFSFileShareDefaults nFSFileShareDefaults;
+  final bool? kMSEncrypted;
+  final String? kMSKey;
+  final String? locationARN;
+  final NFSFileShareDefaults? nFSFileShareDefaults;
 
   /// The notification policy of the file share.
-  @_s.JsonKey(name: 'NotificationPolicy')
-  final String notificationPolicy;
-  @_s.JsonKey(name: 'ObjectACL')
-  final ObjectACL objectACL;
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? notificationPolicy;
+  final ObjectACL? objectACL;
+  final String? path;
 
   /// A value that sets the write status of a file share. Set this value to
   /// <code>true</code> to set the write status to read-only, otherwise set to
   /// <code>false</code>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'ReadOnly')
-  final bool readOnly;
+  final bool? readOnly;
 
   /// A value that sets who pays the cost of the request and the cost associated
   /// with data download from the S3 bucket. If this value is set to
@@ -8674,19 +8708,15 @@ class NFSFileShareInfo {
   /// same as the S3 bucket configuration.
   /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'RequesterPays')
-  final bool requesterPays;
-  @_s.JsonKey(name: 'Role')
-  final String role;
-  @_s.JsonKey(name: 'Squash')
-  final String squash;
+  final bool? requesterPays;
+  final String? role;
+  final String? squash;
 
   /// A list of up to 50 tags assigned to the NFS file share, sorted
   /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
   /// more than 10 tags assigned, you can view all tags using the
   /// <code>ListTagsForResource</code> API operation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   NFSFileShareInfo({
     this.cacheAttributes,
@@ -8711,78 +8741,100 @@ class NFSFileShareInfo {
     this.squash,
     this.tags,
   });
-  factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) =>
-      _$NFSFileShareInfoFromJson(json);
+  factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) {
+    return NFSFileShareInfo(
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      clientList: (json['ClientList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      defaultStorageClass: json['DefaultStorageClass'] as String?,
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareName: json['FileShareName'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
+      kMSEncrypted: json['KMSEncrypted'] as bool?,
+      kMSKey: json['KMSKey'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      nFSFileShareDefaults: json['NFSFileShareDefaults'] != null
+          ? NFSFileShareDefaults.fromJson(
+              json['NFSFileShareDefaults'] as Map<String, dynamic>)
+          : null,
+      notificationPolicy: json['NotificationPolicy'] as String?,
+      objectACL: (json['ObjectACL'] as String?)?.toObjectACL(),
+      path: json['Path'] as String?,
+      readOnly: json['ReadOnly'] as bool?,
+      requesterPays: json['RequesterPays'] as bool?,
+      role: json['Role'] as String?,
+      squash: json['Squash'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a gateway's network interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The Internet Protocol version 4 (IPv4) address of the interface.
-  @_s.JsonKey(name: 'Ipv4Address')
-  final String ipv4Address;
+  final String? ipv4Address;
 
   /// The Internet Protocol version 6 (IPv6) address of the interface.
   /// <i>Currently not supported</i>.
-  @_s.JsonKey(name: 'Ipv6Address')
-  final String ipv6Address;
+  final String? ipv6Address;
 
   /// The Media Access Control (MAC) address of the interface.
   /// <note>
   /// This is currently unsupported and will not be returned in output.
   /// </note>
-  @_s.JsonKey(name: 'MacAddress')
-  final String macAddress;
+  final String? macAddress;
 
   NetworkInterface({
     this.ipv4Address,
     this.ipv6Address,
     this.macAddress,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      ipv4Address: json['Ipv4Address'] as String?,
+      ipv6Address: json['Ipv6Address'] as String?,
+      macAddress: json['MacAddress'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyWhenUploadedOutput {
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
-  @_s.JsonKey(name: 'NotificationId')
-  final String notificationId;
+  final String? fileShareARN;
+  final String? notificationId;
 
   NotifyWhenUploadedOutput({
     this.fileShareARN,
     this.notificationId,
   });
-  factory NotifyWhenUploadedOutput.fromJson(Map<String, dynamic> json) =>
-      _$NotifyWhenUploadedOutputFromJson(json);
+  factory NotifyWhenUploadedOutput.fromJson(Map<String, dynamic> json) {
+    return NotifyWhenUploadedOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+      notificationId: json['NotificationId'] as String?,
+    );
+  }
 }
 
 /// A value that sets the access control list (ACL) permission for objects in
 /// the S3 bucket that a file gateway puts objects into. The default value is
 /// <code>private</code>.
 enum ObjectACL {
-  @_s.JsonValue('private')
   private,
-  @_s.JsonValue('public-read')
   publicRead,
-  @_s.JsonValue('public-read-write')
   publicReadWrite,
-  @_s.JsonValue('authenticated-read')
   authenticatedRead,
-  @_s.JsonValue('bucket-owner-read')
   bucketOwnerRead,
-  @_s.JsonValue('bucket-owner-full-control')
   bucketOwnerFullControl,
-  @_s.JsonValue('aws-exec-read')
   awsExecRead,
 }
 
@@ -8804,52 +8856,62 @@ extension on ObjectACL {
       case ObjectACL.awsExecRead:
         return 'aws-exec-read';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ObjectACL toObjectACL() {
+    switch (this) {
+      case 'private':
+        return ObjectACL.private;
+      case 'public-read':
+        return ObjectACL.publicRead;
+      case 'public-read-write':
+        return ObjectACL.publicReadWrite;
+      case 'authenticated-read':
+        return ObjectACL.authenticatedRead;
+      case 'bucket-owner-read':
+        return ObjectACL.bucketOwnerRead;
+      case 'bucket-owner-full-control':
+        return ObjectACL.bucketOwnerFullControl;
+      case 'aws-exec-read':
+        return ObjectACL.awsExecRead;
+    }
+    throw Exception('$this is not known in enum ObjectACL');
   }
 }
 
 /// Describes a custom tape pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PoolInfo {
   /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
   /// <a>ListTapePools</a> operation to return a list of custom tape pools for
   /// your account and AWS Region.
-  @_s.JsonKey(name: 'PoolARN')
-  final String poolARN;
+  final String? poolARN;
 
   /// The name of the custom tape pool. <code>PoolName</code> can use all ASCII
   /// characters, except '/' and '\'.
-  @_s.JsonKey(name: 'PoolName')
-  final String poolName;
+  final String? poolName;
 
   /// Status of the custom tape pool. Pool can be <code>ACTIVE</code> or
   /// <code>DELETED</code>.
-  @_s.JsonKey(name: 'PoolStatus')
-  final PoolStatus poolStatus;
+  final PoolStatus? poolStatus;
 
   /// Tape retention lock time is set in days. Tape retention lock can be enabled
   /// for up to 100 years (36,500 days).
-  @_s.JsonKey(name: 'RetentionLockTimeInDays')
-  final int retentionLockTimeInDays;
+  final int? retentionLockTimeInDays;
 
   /// Tape retention lock type, which can be configured in two modes. When
   /// configured in governance mode, AWS accounts with specific IAM permissions
   /// are authorized to remove the tape retention lock from archived virtual
   /// tapes. When configured in compliance mode, the tape retention lock cannot be
   /// removed by any user, including the root AWS account.
-  @_s.JsonKey(name: 'RetentionLockType')
-  final RetentionLockType retentionLockType;
+  final RetentionLockType? retentionLockType;
 
   /// The storage class that is associated with the custom pool. When you use your
   /// backup application to eject the tape, the tape is archived directly into the
   /// storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to
   /// the pool.
-  @_s.JsonKey(name: 'StorageClass')
-  final TapeStorageClass storageClass;
+  final TapeStorageClass? storageClass;
 
   PoolInfo({
     this.poolARN,
@@ -8859,78 +8921,96 @@ class PoolInfo {
     this.retentionLockType,
     this.storageClass,
   });
-  factory PoolInfo.fromJson(Map<String, dynamic> json) =>
-      _$PoolInfoFromJson(json);
+  factory PoolInfo.fromJson(Map<String, dynamic> json) {
+    return PoolInfo(
+      poolARN: json['PoolARN'] as String?,
+      poolName: json['PoolName'] as String?,
+      poolStatus: (json['PoolStatus'] as String?)?.toPoolStatus(),
+      retentionLockTimeInDays: json['RetentionLockTimeInDays'] as int?,
+      retentionLockType:
+          (json['RetentionLockType'] as String?)?.toRetentionLockType(),
+      storageClass: (json['StorageClass'] as String?)?.toTapeStorageClass(),
+    );
+  }
 }
 
 enum PoolStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on PoolStatus {
+  String toValue() {
+    switch (this) {
+      case PoolStatus.active:
+        return 'ACTIVE';
+      case PoolStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  PoolStatus toPoolStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return PoolStatus.active;
+      case 'DELETED':
+        return PoolStatus.deleted;
+    }
+    throw Exception('$this is not known in enum PoolStatus');
+  }
+}
+
 /// RefreshCacheOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RefreshCacheOutput {
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
-  @_s.JsonKey(name: 'NotificationId')
-  final String notificationId;
+  final String? fileShareARN;
+  final String? notificationId;
 
   RefreshCacheOutput({
     this.fileShareARN,
     this.notificationId,
   });
-  factory RefreshCacheOutput.fromJson(Map<String, dynamic> json) =>
-      _$RefreshCacheOutputFromJson(json);
+  factory RefreshCacheOutput.fromJson(Map<String, dynamic> json) {
+    return RefreshCacheOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+      notificationId: json['NotificationId'] as String?,
+    );
+  }
 }
 
 /// RemoveTagsFromResourceOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsFromResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource that the tags were removed
   /// from.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   RemoveTagsFromResourceOutput({
     this.resourceARN,
   });
-  factory RemoveTagsFromResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsFromResourceOutputFromJson(json);
+  factory RemoveTagsFromResourceOutput.fromJson(Map<String, dynamic> json) {
+    return RemoveTagsFromResourceOutput(
+      resourceARN: json['ResourceARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResetCacheOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   ResetCacheOutput({
     this.gatewayARN,
   });
-  factory ResetCacheOutput.fromJson(Map<String, dynamic> json) =>
-      _$ResetCacheOutputFromJson(json);
+  factory ResetCacheOutput.fromJson(Map<String, dynamic> json) {
+    return ResetCacheOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 enum RetentionLockType {
-  @_s.JsonValue('COMPLIANCE')
   compliance,
-  @_s.JsonValue('GOVERNANCE')
   governance,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -8944,84 +9024,80 @@ extension on RetentionLockType {
       case RetentionLockType.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RetentionLockType toRetentionLockType() {
+    switch (this) {
+      case 'COMPLIANCE':
+        return RetentionLockType.compliance;
+      case 'GOVERNANCE':
+        return RetentionLockType.governance;
+      case 'NONE':
+        return RetentionLockType.none;
+    }
+    throw Exception('$this is not known in enum RetentionLockType');
   }
 }
 
 /// RetrieveTapeArchiveOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetrieveTapeArchiveOutput {
   /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   RetrieveTapeArchiveOutput({
     this.tapeARN,
   });
-  factory RetrieveTapeArchiveOutput.fromJson(Map<String, dynamic> json) =>
-      _$RetrieveTapeArchiveOutputFromJson(json);
+  factory RetrieveTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
+    return RetrieveTapeArchiveOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// RetrieveTapeRecoveryPointOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetrieveTapeRecoveryPointOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery
   /// point was retrieved.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   RetrieveTapeRecoveryPointOutput({
     this.tapeARN,
   });
-  factory RetrieveTapeRecoveryPointOutput.fromJson(Map<String, dynamic> json) =>
-      _$RetrieveTapeRecoveryPointOutputFromJson(json);
+  factory RetrieveTapeRecoveryPointOutput.fromJson(Map<String, dynamic> json) {
+    return RetrieveTapeRecoveryPointOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
 }
 
 /// The Windows file permissions and ownership information assigned, by default,
 /// to native S3 objects when file gateway discovers them in S3 buckets. This
 /// operation is only supported for file gateways.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SMBFileShareInfo {
   /// Indicates whether <code>AccessBasedEnumeration</code> is enabled.
-  @_s.JsonKey(name: 'AccessBasedEnumeration')
-  final bool accessBasedEnumeration;
+  final bool? accessBasedEnumeration;
 
   /// A list of users or groups in the Active Directory that have administrator
   /// rights to the file share. A group must be prefixed with the @ character.
   /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
   /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
   /// Authentication is set to <code>ActiveDirectory</code>.
-  @_s.JsonKey(name: 'AdminUserList')
-  final List<String> adminUserList;
+  final List<String>? adminUserList;
 
   /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
-  @_s.JsonKey(name: 'AuditDestinationARN')
-  final String auditDestinationARN;
-  @_s.JsonKey(name: 'Authentication')
-  final String authentication;
+  final String? auditDestinationARN;
+  final String? authentication;
 
   /// Refresh cache information.
-  @_s.JsonKey(name: 'CacheAttributes')
-  final CacheAttributes cacheAttributes;
+  final CacheAttributes? cacheAttributes;
 
   /// The case of an object name in an Amazon S3 bucket. For
   /// <code>ClientSpecified</code>, the client determines the case sensitivity.
   /// For <code>CaseSensitive</code>, the gateway determines the case sensitivity.
   /// The default value is <code>ClientSpecified</code>.
-  @_s.JsonKey(name: 'CaseSensitivity')
-  final CaseSensitivity caseSensitivity;
+  final CaseSensitivity? caseSensitivity;
 
   /// The default storage class for objects put into an Amazon S3 bucket by the
   /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
@@ -9029,24 +9105,18 @@ class SMBFileShareInfo {
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
-  @_s.JsonKey(name: 'DefaultStorageClass')
-  final String defaultStorageClass;
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
-  @_s.JsonKey(name: 'FileShareId')
-  final String fileShareId;
+  final String? defaultStorageClass;
+  final String? fileShareARN;
+  final String? fileShareId;
 
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>.
   /// </note>
-  @_s.JsonKey(name: 'FileShareName')
-  final String fileShareName;
-  @_s.JsonKey(name: 'FileShareStatus')
-  final String fileShareStatus;
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? fileShareName;
+  final String? fileShareStatus;
+  final String? gatewayARN;
 
   /// A value that enables guessing of the MIME type for uploaded objects based on
   /// file extensions. Set this value to <code>true</code> to enable MIME type
@@ -9054,46 +9124,37 @@ class SMBFileShareInfo {
   /// <code>true</code>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
-  final bool guessMIMETypeEnabled;
+  final bool? guessMIMETypeEnabled;
 
   /// A list of users or groups in the Active Directory that are not allowed to
   /// access the file share. A group must be prefixed with the @ character.
   /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
   /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
   /// Authentication is set to <code>ActiveDirectory</code>.
-  @_s.JsonKey(name: 'InvalidUserList')
-  final List<String> invalidUserList;
+  final List<String>? invalidUserList;
 
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
   /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'KMSEncrypted')
-  final bool kMSEncrypted;
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
-  @_s.JsonKey(name: 'LocationARN')
-  final String locationARN;
+  final bool? kMSEncrypted;
+  final String? kMSKey;
+  final String? locationARN;
 
   /// The notification policy of the file share.
-  @_s.JsonKey(name: 'NotificationPolicy')
-  final String notificationPolicy;
-  @_s.JsonKey(name: 'ObjectACL')
-  final ObjectACL objectACL;
+  final String? notificationPolicy;
+  final ObjectACL? objectACL;
 
   /// The file share path used by the SMB client to identify the mount point.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// A value that sets the write status of a file share. Set this value to
   /// <code>true</code> to set the write status to read-only, otherwise set to
   /// <code>false</code>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'ReadOnly')
-  final bool readOnly;
+  final bool? readOnly;
 
   /// A value that sets who pays the cost of the request and the cost associated
   /// with data download from the S3 bucket. If this value is set to
@@ -9106,10 +9167,8 @@ class SMBFileShareInfo {
   /// same as the S3 bucket configuration.
   /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'RequesterPays')
-  final bool requesterPays;
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final bool? requesterPays;
+  final String? role;
 
   /// If this value is set to <code>true</code>, it indicates that access control
   /// list (ACL) is enabled on the SMB file share. If it is set to
@@ -9120,23 +9179,20 @@ class SMBFileShareInfo {
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
   /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
   /// <i>AWS Storage Gateway User Guide</i>.
-  @_s.JsonKey(name: 'SMBACLEnabled')
-  final bool sMBACLEnabled;
+  final bool? sMBACLEnabled;
 
   /// A list of up to 50 tags assigned to the SMB file share, sorted
   /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
   /// more than 10 tags assigned, you can view all tags using the
   /// <code>ListTagsForResource</code> API operation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// A list of users or groups in the Active Directory that are allowed to access
   /// the file share. A group must be prefixed with the @ character. Acceptable
   /// formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
   /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
   /// Authentication is set to <code>ActiveDirectory</code>.
-  @_s.JsonKey(name: 'ValidUserList')
-  final List<String> validUserList;
+  final List<String>? validUserList;
 
   SMBFileShareInfo({
     this.accessBasedEnumeration,
@@ -9166,16 +9222,57 @@ class SMBFileShareInfo {
     this.tags,
     this.validUserList,
   });
-  factory SMBFileShareInfo.fromJson(Map<String, dynamic> json) =>
-      _$SMBFileShareInfoFromJson(json);
+  factory SMBFileShareInfo.fromJson(Map<String, dynamic> json) {
+    return SMBFileShareInfo(
+      accessBasedEnumeration: json['AccessBasedEnumeration'] as bool?,
+      adminUserList: (json['AdminUserList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      authentication: json['Authentication'] as String?,
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      caseSensitivity:
+          (json['CaseSensitivity'] as String?)?.toCaseSensitivity(),
+      defaultStorageClass: json['DefaultStorageClass'] as String?,
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareName: json['FileShareName'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
+      invalidUserList: (json['InvalidUserList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      kMSEncrypted: json['KMSEncrypted'] as bool?,
+      kMSKey: json['KMSKey'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      notificationPolicy: json['NotificationPolicy'] as String?,
+      objectACL: (json['ObjectACL'] as String?)?.toObjectACL(),
+      path: json['Path'] as String?,
+      readOnly: json['ReadOnly'] as bool?,
+      requesterPays: json['RequesterPays'] as bool?,
+      role: json['Role'] as String?,
+      sMBACLEnabled: json['SMBACLEnabled'] as bool?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validUserList: (json['ValidUserList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum SMBSecurityStrategy {
-  @_s.JsonValue('ClientSpecified')
   clientSpecified,
-  @_s.JsonValue('MandatorySigning')
   mandatorySigning,
-  @_s.JsonValue('MandatoryEncryption')
   mandatoryEncryption,
 }
 
@@ -9189,121 +9286,109 @@ extension on SMBSecurityStrategy {
       case SMBSecurityStrategy.mandatoryEncryption:
         return 'MandatoryEncryption';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SMBSecurityStrategy toSMBSecurityStrategy() {
+    switch (this) {
+      case 'ClientSpecified':
+        return SMBSecurityStrategy.clientSpecified;
+      case 'MandatorySigning':
+        return SMBSecurityStrategy.mandatorySigning;
+      case 'MandatoryEncryption':
+        return SMBSecurityStrategy.mandatoryEncryption;
+    }
+    throw Exception('$this is not known in enum SMBSecurityStrategy');
+  }
+}
+
 class SetLocalConsolePasswordOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   SetLocalConsolePasswordOutput({
     this.gatewayARN,
   });
-  factory SetLocalConsolePasswordOutput.fromJson(Map<String, dynamic> json) =>
-      _$SetLocalConsolePasswordOutputFromJson(json);
+  factory SetLocalConsolePasswordOutput.fromJson(Map<String, dynamic> json) {
+    return SetLocalConsolePasswordOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetSMBGuestPasswordOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   SetSMBGuestPasswordOutput({
     this.gatewayARN,
   });
-  factory SetSMBGuestPasswordOutput.fromJson(Map<String, dynamic> json) =>
-      _$SetSMBGuestPasswordOutputFromJson(json);
+  factory SetSMBGuestPasswordOutput.fromJson(Map<String, dynamic> json) {
+    return SetSMBGuestPasswordOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was shut down.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShutdownGatewayOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   ShutdownGatewayOutput({
     this.gatewayARN,
   });
-  factory ShutdownGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$ShutdownGatewayOutputFromJson(json);
+  factory ShutdownGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return ShutdownGatewayOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartAvailabilityMonitorTestOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   StartAvailabilityMonitorTestOutput({
     this.gatewayARN,
   });
   factory StartAvailabilityMonitorTestOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartAvailabilityMonitorTestOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return StartAvailabilityMonitorTestOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was restarted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartGatewayOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   StartGatewayOutput({
     this.gatewayARN,
   });
-  factory StartGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartGatewayOutputFromJson(json);
+  factory StartGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return StartGatewayOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// Describes an iSCSI stored volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StorediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
+  final DateTime? createdDate;
+  final String? kMSKey;
 
   /// Indicates if when the stored volume was created, existing data on the
   /// underlying local disk was preserved.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  @_s.JsonKey(name: 'PreservedExistingData')
-  final bool preservedExistingData;
+  final bool? preservedExistingData;
 
   /// If the stored volume was created from a snapshot, this field contains the
   /// snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-  @_s.JsonKey(name: 'SourceSnapshotId')
-  final String sourceSnapshotId;
+  final String? sourceSnapshotId;
 
   /// The name of the iSCSI target used by an initiator to connect to a volume and
   /// used as a suffix for the target ARN. For example, specifying
@@ -9313,49 +9398,40 @@ class StorediSCSIVolume {
   ///
   /// If you don't specify a value, Storage Gateway uses the value that was
   /// previously used for this volume as the new target name.
-  @_s.JsonKey(name: 'TargetName')
-  final String targetName;
+  final String? targetName;
 
   /// The Amazon Resource Name (ARN) of the storage volume.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// A value that indicates whether a storage volume is attached to, detached
   /// from, or is in the process of detaching from a gateway. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
   /// your volumes to a different gateway</a>.
-  @_s.JsonKey(name: 'VolumeAttachmentStatus')
-  final String volumeAttachmentStatus;
+  final String? volumeAttachmentStatus;
 
   /// The ID of the local disk that was specified in the
   /// <a>CreateStorediSCSIVolume</a> operation.
-  @_s.JsonKey(name: 'VolumeDiskId')
-  final String volumeDiskId;
+  final String? volumeDiskId;
 
   /// The unique identifier of the volume, e.g., vol-AE4B946D.
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   /// Represents the percentage complete if the volume is restoring or
   /// bootstrapping that represents the percent of data transferred. This field
   /// does not appear in the response if the stored volume is not restoring or
   /// bootstrapping.
-  @_s.JsonKey(name: 'VolumeProgress')
-  final double volumeProgress;
+  final double? volumeProgress;
 
   /// The size of the volume in bytes.
-  @_s.JsonKey(name: 'VolumeSizeInBytes')
-  final int volumeSizeInBytes;
+  final int? volumeSizeInBytes;
 
   /// One of the VolumeStatus values that indicates the state of the storage
   /// volume.
-  @_s.JsonKey(name: 'VolumeStatus')
-  final String volumeStatus;
+  final String? volumeStatus;
 
   /// One of the VolumeType enumeration values describing the type of the volume.
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   /// The size of the data stored on the volume in bytes. This value is calculated
   /// based on the number of blocks that are touched, instead of the actual amount
@@ -9367,13 +9443,11 @@ class StorediSCSIVolume {
   /// This value is not available for volumes created prior to May 13, 2015, until
   /// you store data on the volume.
   /// </note>
-  @_s.JsonKey(name: 'VolumeUsedInBytes')
-  final int volumeUsedInBytes;
+  final int? volumeUsedInBytes;
 
   /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
   /// attributes for one stored volume.
-  @_s.JsonKey(name: 'VolumeiSCSIAttributes')
-  final VolumeiSCSIAttributes volumeiSCSIAttributes;
+  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
 
   StorediSCSIVolume({
     this.createdDate,
@@ -9392,50 +9466,67 @@ class StorediSCSIVolume {
     this.volumeUsedInBytes,
     this.volumeiSCSIAttributes,
   });
-  factory StorediSCSIVolume.fromJson(Map<String, dynamic> json) =>
-      _$StorediSCSIVolumeFromJson(json);
+  factory StorediSCSIVolume.fromJson(Map<String, dynamic> json) {
+    return StorediSCSIVolume(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      kMSKey: json['KMSKey'] as String?,
+      preservedExistingData: json['PreservedExistingData'] as bool?,
+      sourceSnapshotId: json['SourceSnapshotId'] as String?,
+      targetName: json['TargetName'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
+      volumeDiskId: json['VolumeDiskId'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeProgress: json['VolumeProgress'] as double?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeStatus: json['VolumeStatus'] as String?,
+      volumeType: json['VolumeType'] as String?,
+      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
+      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
+          ? VolumeiSCSIAttributes.fromJson(
+              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A key-value pair that helps you manage, filter, and search for your
 /// resource. Allowed characters: letters, white space, and numbers,
 /// representable in UTF-8, and the following characters: + - = . _ : /.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Tag key. The key can't start with aws:.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Value of the tag key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Describes a virtual tape object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Tape {
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
+  final String? kMSKey;
 
   /// The date that the tape enters a custom tape pool.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PoolEntryDate')
-  final DateTime poolEntryDate;
+  final DateTime? poolEntryDate;
 
   /// The ID of the pool that contains tapes that will be archived. The tapes in
   /// this pool are archived in the S3 storage class that is associated with the
@@ -9444,58 +9535,45 @@ class Tape {
   /// Archive) that corresponds to the pool.
   ///
   /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  @_s.JsonKey(name: 'PoolId')
-  final String poolId;
+  final String? poolId;
 
   /// For archiving virtual tapes, indicates how much data remains to be uploaded
   /// before archiving is complete.
   ///
   /// Range: 0 (not started) to 100 (complete).
-  @_s.JsonKey(name: 'Progress')
-  final double progress;
+  final double? progress;
 
   /// The date that the tape is first archived with tape retention lock enabled.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RetentionStartDate')
-  final DateTime retentionStartDate;
+  final DateTime? retentionStartDate;
 
   /// The Amazon Resource Name (ARN) of the virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   /// The barcode that identifies a specific virtual tape.
-  @_s.JsonKey(name: 'TapeBarcode')
-  final String tapeBarcode;
+  final String? tapeBarcode;
 
   /// The date the virtual tape was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TapeCreatedDate')
-  final DateTime tapeCreatedDate;
+  final DateTime? tapeCreatedDate;
 
   /// The size, in bytes, of the virtual tape capacity.
-  @_s.JsonKey(name: 'TapeSizeInBytes')
-  final int tapeSizeInBytes;
+  final int? tapeSizeInBytes;
 
   /// The current state of the virtual tape.
-  @_s.JsonKey(name: 'TapeStatus')
-  final String tapeStatus;
+  final String? tapeStatus;
 
   /// The size, in bytes, of data stored on the virtual tape.
   /// <note>
   /// This value is not available for tapes created prior to May 13, 2015.
   /// </note>
-  @_s.JsonKey(name: 'TapeUsedInBytes')
-  final int tapeUsedInBytes;
+  final int? tapeUsedInBytes;
 
   /// The virtual tape library (VTL) device that the virtual tape is associated
   /// with.
-  @_s.JsonKey(name: 'VTLDevice')
-  final String vTLDevice;
+  final String? vTLDevice;
 
   /// If the tape is archived as write-once-read-many (WORM), this value is
   /// <code>true</code>.
-  @_s.JsonKey(name: 'Worm')
-  final bool worm;
+  final bool? worm;
 
   Tape({
     this.kMSKey,
@@ -9512,86 +9590,80 @@ class Tape {
     this.vTLDevice,
     this.worm,
   });
-  factory Tape.fromJson(Map<String, dynamic> json) => _$TapeFromJson(json);
+  factory Tape.fromJson(Map<String, dynamic> json) {
+    return Tape(
+      kMSKey: json['KMSKey'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      progress: json['Progress'] as double?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
+      vTLDevice: json['VTLDevice'] as String?,
+      worm: json['Worm'] as bool?,
+    );
+  }
 }
 
 /// Represents a virtual tape that is archived in the virtual tape shelf (VTS).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TapeArchive {
   /// The time that the archiving of the virtual tape was completed.
   ///
   /// The default timestamp format is in the ISO8601 extended
   /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionTime')
-  final DateTime completionTime;
-  @_s.JsonKey(name: 'KMSKey')
-  final String kMSKey;
+  final DateTime? completionTime;
+  final String? kMSKey;
 
   /// The time that the tape entered the custom tape pool.
   ///
   /// The default timestamp format is in the ISO8601 extended
   /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PoolEntryDate')
-  final DateTime poolEntryDate;
+  final DateTime? poolEntryDate;
 
   /// The ID of the pool that was used to archive the tape. The tapes in this pool
   /// are archived in the S3 storage class that is associated with the pool.
   ///
   /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  @_s.JsonKey(name: 'PoolId')
-  final String poolId;
+  final String? poolId;
 
   /// If the archived tape is subject to tape retention lock, the date that the
   /// archived tape started being retained.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RetentionStartDate')
-  final DateTime retentionStartDate;
+  final DateTime? retentionStartDate;
 
   /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is
   /// being retrieved to.
   ///
   /// The virtual tape is retrieved from the virtual tape shelf (VTS).
-  @_s.JsonKey(name: 'RetrievedTo')
-  final String retrievedTo;
+  final String? retrievedTo;
 
   /// The Amazon Resource Name (ARN) of an archived virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   /// The barcode that identifies the archived virtual tape.
-  @_s.JsonKey(name: 'TapeBarcode')
-  final String tapeBarcode;
+  final String? tapeBarcode;
 
   /// The date the virtual tape was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TapeCreatedDate')
-  final DateTime tapeCreatedDate;
+  final DateTime? tapeCreatedDate;
 
   /// The size, in bytes, of the archived virtual tape.
-  @_s.JsonKey(name: 'TapeSizeInBytes')
-  final int tapeSizeInBytes;
+  final int? tapeSizeInBytes;
 
   /// The current state of the archived virtual tape.
-  @_s.JsonKey(name: 'TapeStatus')
-  final String tapeStatus;
+  final String? tapeStatus;
 
   /// The size, in bytes, of data stored on the virtual tape.
   /// <note>
   /// This value is not available for tapes created prior to May 13, 2015.
   /// </note>
-  @_s.JsonKey(name: 'TapeUsedInBytes')
-  final int tapeUsedInBytes;
+  final int? tapeUsedInBytes;
 
   /// Set to <code>true</code> if the archived tape is stored as
   /// write-once-read-many (WORM).
-  @_s.JsonKey(name: 'Worm')
-  final bool worm;
+  final bool? worm;
 
   TapeArchive({
     this.completionTime,
@@ -9608,27 +9680,34 @@ class TapeArchive {
     this.tapeUsedInBytes,
     this.worm,
   });
-  factory TapeArchive.fromJson(Map<String, dynamic> json) =>
-      _$TapeArchiveFromJson(json);
+  factory TapeArchive.fromJson(Map<String, dynamic> json) {
+    return TapeArchive(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      kMSKey: json['KMSKey'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      retrievedTo: json['RetrievedTo'] as String?,
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
+      worm: json['Worm'] as bool?,
+    );
+  }
 }
 
 /// Describes a virtual tape.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TapeInfo {
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
   /// operation to return a list of gateways for your account and AWS Region.
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// The date that the tape entered the custom tape pool with tape retention lock
   /// enabled.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PoolEntryDate')
-  final DateTime poolEntryDate;
+  final DateTime? poolEntryDate;
 
   /// The ID of the pool that you want to add your tape to for archiving. The tape
   /// in this pool is archived in the S3 storage class that is associated with the
@@ -9637,29 +9716,22 @@ class TapeInfo {
   /// Archive) that corresponds to the pool.
   ///
   /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  @_s.JsonKey(name: 'PoolId')
-  final String poolId;
+  final String? poolId;
 
   /// The date that the tape became subject to tape retention lock.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RetentionStartDate')
-  final DateTime retentionStartDate;
+  final DateTime? retentionStartDate;
 
   /// The Amazon Resource Name (ARN) of a virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   /// The barcode that identifies a specific virtual tape.
-  @_s.JsonKey(name: 'TapeBarcode')
-  final String tapeBarcode;
+  final String? tapeBarcode;
 
   /// The size, in bytes, of a virtual tape.
-  @_s.JsonKey(name: 'TapeSizeInBytes')
-  final int tapeSizeInBytes;
+  final int? tapeSizeInBytes;
 
   /// The status of the tape.
-  @_s.JsonKey(name: 'TapeStatus')
-  final String tapeStatus;
+  final String? tapeStatus;
 
   TapeInfo({
     this.gatewayARN,
@@ -9671,37 +9743,37 @@ class TapeInfo {
     this.tapeSizeInBytes,
     this.tapeStatus,
   });
-  factory TapeInfo.fromJson(Map<String, dynamic> json) =>
-      _$TapeInfoFromJson(json);
+  factory TapeInfo.fromJson(Map<String, dynamic> json) {
+    return TapeInfo(
+      gatewayARN: json['GatewayARN'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+    );
+  }
 }
 
 /// Describes a recovery point.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TapeRecoveryPointInfo {
   /// The Amazon Resource Name (ARN) of the virtual tape.
-  @_s.JsonKey(name: 'TapeARN')
-  final String tapeARN;
+  final String? tapeARN;
 
   /// The time when the point-in-time view of the virtual tape was replicated for
   /// later recovery.
   ///
   /// The default timestamp format of the tape recovery point time is in the
   /// ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TapeRecoveryPointTime')
-  final DateTime tapeRecoveryPointTime;
+  final DateTime? tapeRecoveryPointTime;
 
   /// The size, in bytes, of the virtual tapes to recover.
-  @_s.JsonKey(name: 'TapeSizeInBytes')
-  final int tapeSizeInBytes;
+  final int? tapeSizeInBytes;
 
   /// The status of the virtual tapes.
-  @_s.JsonKey(name: 'TapeStatus')
-  final String tapeStatus;
+  final String? tapeStatus;
 
   TapeRecoveryPointInfo({
     this.tapeARN,
@@ -9709,14 +9781,18 @@ class TapeRecoveryPointInfo {
     this.tapeSizeInBytes,
     this.tapeStatus,
   });
-  factory TapeRecoveryPointInfo.fromJson(Map<String, dynamic> json) =>
-      _$TapeRecoveryPointInfoFromJson(json);
+  factory TapeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
+    return TapeRecoveryPointInfo(
+      tapeARN: json['TapeARN'] as String?,
+      tapeRecoveryPointTime: timeStampFromJson(json['TapeRecoveryPointTime']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+    );
+  }
 }
 
 enum TapeStorageClass {
-  @_s.JsonValue('DEEP_ARCHIVE')
   deepArchive,
-  @_s.JsonValue('GLACIER')
   glacier,
 }
 
@@ -9728,281 +9804,242 @@ extension on TapeStorageClass {
       case TapeStorageClass.glacier:
         return 'GLACIER';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TapeStorageClass toTapeStorageClass() {
+    switch (this) {
+      case 'DEEP_ARCHIVE':
+        return TapeStorageClass.deepArchive;
+      case 'GLACIER':
+        return TapeStorageClass.glacier;
+    }
+    throw Exception('$this is not known in enum TapeStorageClass');
+  }
+}
+
 class UpdateAutomaticTapeCreationPolicyOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateAutomaticTapeCreationPolicyOutput({
     this.gatewayARN,
   });
   factory UpdateAutomaticTapeCreationPolicyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateAutomaticTapeCreationPolicyOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateAutomaticTapeCreationPolicyOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// throttle information was updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBandwidthRateLimitOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateBandwidthRateLimitOutput({
     this.gatewayARN,
   });
-  factory UpdateBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBandwidthRateLimitOutputFromJson(json);
+  factory UpdateBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateBandwidthRateLimitOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBandwidthRateLimitScheduleOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateBandwidthRateLimitScheduleOutput({
     this.gatewayARN,
   });
   factory UpdateBandwidthRateLimitScheduleOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateBandwidthRateLimitScheduleOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateBandwidthRateLimitScheduleOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the following fields:
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateChapCredentialsOutput {
   /// The iSCSI initiator that connects to the target. This is the same initiator
   /// name specified in the request.
-  @_s.JsonKey(name: 'InitiatorName')
-  final String initiatorName;
+  final String? initiatorName;
 
   /// The Amazon Resource Name (ARN) of the target. This is the same target
   /// specified in the request.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   UpdateChapCredentialsOutput({
     this.initiatorName,
     this.targetARN,
   });
-  factory UpdateChapCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateChapCredentialsOutputFromJson(json);
+  factory UpdateChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateChapCredentialsOutput(
+      initiatorName: json['InitiatorName'] as String?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGatewayInformationOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// The name you configured for your gateway.
-  @_s.JsonKey(name: 'GatewayName')
-  final String gatewayName;
+  final String? gatewayName;
 
   UpdateGatewayInformationOutput({
     this.gatewayARN,
     this.gatewayName,
   });
-  factory UpdateGatewayInformationOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGatewayInformationOutputFromJson(json);
+  factory UpdateGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewayInformationOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+      gatewayName: json['GatewayName'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGatewaySoftwareNowOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateGatewaySoftwareNowOutput({
     this.gatewayARN,
   });
-  factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGatewaySoftwareNowOutputFromJson(json);
+  factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewaySoftwareNowOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// maintenance start time is updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMaintenanceStartTimeOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateMaintenanceStartTimeOutput({
     this.gatewayARN,
   });
-  factory UpdateMaintenanceStartTimeOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateMaintenanceStartTimeOutputFromJson(json);
+  factory UpdateMaintenanceStartTimeOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateMaintenanceStartTimeOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// UpdateNFSFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNFSFileShareOutput {
   /// The Amazon Resource Name (ARN) of the updated file share.
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
+  final String? fileShareARN;
 
   UpdateNFSFileShareOutput({
     this.fileShareARN,
   });
-  factory UpdateNFSFileShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNFSFileShareOutputFromJson(json);
+  factory UpdateNFSFileShareOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateNFSFileShareOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+    );
+  }
 }
 
 /// UpdateSMBFileShareOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSMBFileShareOutput {
   /// The Amazon Resource Name (ARN) of the updated SMB file share.
-  @_s.JsonKey(name: 'FileShareARN')
-  final String fileShareARN;
+  final String? fileShareARN;
 
   UpdateSMBFileShareOutput({
     this.fileShareARN,
   });
-  factory UpdateSMBFileShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSMBFileShareOutputFromJson(json);
+  factory UpdateSMBFileShareOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSMBFileShareOutput(
+      fileShareARN: json['FileShareARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSMBFileShareVisibilityOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateSMBFileShareVisibilityOutput({
     this.gatewayARN,
   });
   factory UpdateSMBFileShareVisibilityOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSMBFileShareVisibilityOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateSMBFileShareVisibilityOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSMBSecurityStrategyOutput {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   UpdateSMBSecurityStrategyOutput({
     this.gatewayARN,
   });
-  factory UpdateSMBSecurityStrategyOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSMBSecurityStrategyOutputFromJson(json);
+  factory UpdateSMBSecurityStrategyOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSMBSecurityStrategyOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
 }
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the updated
 /// storage volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSnapshotScheduleOutput {
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
   /// operation to return a list of gateway volumes.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   UpdateSnapshotScheduleOutput({
     this.volumeARN,
   });
-  factory UpdateSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSnapshotScheduleOutputFromJson(json);
+  factory UpdateSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSnapshotScheduleOutput(
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
 }
 
 /// UpdateVTLDeviceTypeOutput
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVTLDeviceTypeOutput {
   /// The Amazon Resource Name (ARN) of the medium changer you have selected.
-  @_s.JsonKey(name: 'VTLDeviceARN')
-  final String vTLDeviceARN;
+  final String? vTLDeviceARN;
 
   UpdateVTLDeviceTypeOutput({
     this.vTLDeviceARN,
   });
-  factory UpdateVTLDeviceTypeOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVTLDeviceTypeOutputFromJson(json);
+  factory UpdateVTLDeviceTypeOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateVTLDeviceTypeOutput(
+      vTLDeviceARN: json['VTLDeviceARN'] as String?,
+    );
+  }
 }
 
 /// Represents a device object associated with a tape gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VTLDevice {
   /// A list of iSCSI information about a VTL device.
-  @_s.JsonKey(name: 'DeviceiSCSIAttributes')
-  final DeviceiSCSIAttributes deviceiSCSIAttributes;
+  final DeviceiSCSIAttributes? deviceiSCSIAttributes;
 
   /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or
   /// media changer).
-  @_s.JsonKey(name: 'VTLDeviceARN')
-  final String vTLDeviceARN;
+  final String? vTLDeviceARN;
 
   /// Specifies the model number of device that the VTL device emulates.
-  @_s.JsonKey(name: 'VTLDeviceProductIdentifier')
-  final String vTLDeviceProductIdentifier;
+  final String? vTLDeviceProductIdentifier;
 
   /// Specifies the type of device that the VTL device emulates.
-  @_s.JsonKey(name: 'VTLDeviceType')
-  final String vTLDeviceType;
+  final String? vTLDeviceType;
 
   /// Specifies the vendor of the device that the VTL device object emulates.
-  @_s.JsonKey(name: 'VTLDeviceVendor')
-  final String vTLDeviceVendor;
+  final String? vTLDeviceVendor;
 
   VTLDevice({
     this.deviceiSCSIAttributes,
@@ -10011,19 +10048,23 @@ class VTLDevice {
     this.vTLDeviceType,
     this.vTLDeviceVendor,
   });
-  factory VTLDevice.fromJson(Map<String, dynamic> json) =>
-      _$VTLDeviceFromJson(json);
+  factory VTLDevice.fromJson(Map<String, dynamic> json) {
+    return VTLDevice(
+      deviceiSCSIAttributes: json['DeviceiSCSIAttributes'] != null
+          ? DeviceiSCSIAttributes.fromJson(
+              json['DeviceiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+      vTLDeviceARN: json['VTLDeviceARN'] as String?,
+      vTLDeviceProductIdentifier: json['VTLDeviceProductIdentifier'] as String?,
+      vTLDeviceType: json['VTLDeviceType'] as String?,
+      vTLDeviceVendor: json['VTLDeviceVendor'] as String?,
+    );
+  }
 }
 
 /// Describes a storage volume object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeInfo {
-  @_s.JsonKey(name: 'GatewayARN')
-  final String gatewayARN;
+  final String? gatewayARN;
 
   /// The unique identifier assigned to your gateway during activation. This ID
   /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
@@ -10031,8 +10072,7 @@ class VolumeInfo {
   ///
   /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
   /// (-).
-  @_s.JsonKey(name: 'GatewayId')
-  final String gatewayId;
+  final String? gatewayId;
 
   /// The Amazon Resource Name (ARN) for the storage volume. For example, the
   /// following is a valid ARN:
@@ -10041,13 +10081,11 @@ class VolumeInfo {
   ///
   /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
   /// (-).
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// One of the VolumeStatus values that indicates the state of the storage
   /// volume.
-  @_s.JsonKey(name: 'VolumeAttachmentStatus')
-  final String volumeAttachmentStatus;
+  final String? volumeAttachmentStatus;
 
   /// The unique identifier assigned to the volume. This ID becomes part of the
   /// volume Amazon Resource Name (ARN), which you use as input for other
@@ -10055,19 +10093,16 @@ class VolumeInfo {
   ///
   /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
   /// (-).
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   /// The size of the volume in bytes.
   ///
   /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
   /// (-).
-  @_s.JsonKey(name: 'VolumeSizeInBytes')
-  final int volumeSizeInBytes;
+  final int? volumeSizeInBytes;
 
   /// One of the VolumeType enumeration values describing the type of the volume.
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   VolumeInfo({
     this.gatewayARN,
@@ -10078,36 +10113,36 @@ class VolumeInfo {
     this.volumeSizeInBytes,
     this.volumeType,
   });
-  factory VolumeInfo.fromJson(Map<String, dynamic> json) =>
-      _$VolumeInfoFromJson(json);
+  factory VolumeInfo.fromJson(Map<String, dynamic> json) {
+    return VolumeInfo(
+      gatewayARN: json['GatewayARN'] as String?,
+      gatewayId: json['GatewayId'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeType: json['VolumeType'] as String?,
+    );
+  }
 }
 
 /// Describes a storage volume recovery point object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeRecoveryPointInfo {
   /// The Amazon Resource Name (ARN) of the volume target.
-  @_s.JsonKey(name: 'VolumeARN')
-  final String volumeARN;
+  final String? volumeARN;
 
   /// The time the recovery point was taken.
-  @_s.JsonKey(name: 'VolumeRecoveryPointTime')
-  final String volumeRecoveryPointTime;
+  final String? volumeRecoveryPointTime;
 
   /// The size of the volume in bytes.
-  @_s.JsonKey(name: 'VolumeSizeInBytes')
-  final int volumeSizeInBytes;
+  final int? volumeSizeInBytes;
 
   /// The size of the data stored on the volume in bytes.
   /// <note>
   /// This value is not available for volumes created prior to May 13, 2015, until
   /// you store data on the volume.
   /// </note>
-  @_s.JsonKey(name: 'VolumeUsageInBytes')
-  final int volumeUsageInBytes;
+  final int? volumeUsageInBytes;
 
   VolumeRecoveryPointInfo({
     this.volumeARN,
@@ -10115,36 +10150,32 @@ class VolumeRecoveryPointInfo {
     this.volumeSizeInBytes,
     this.volumeUsageInBytes,
   });
-  factory VolumeRecoveryPointInfo.fromJson(Map<String, dynamic> json) =>
-      _$VolumeRecoveryPointInfoFromJson(json);
+  factory VolumeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
+    return VolumeRecoveryPointInfo(
+      volumeARN: json['VolumeARN'] as String?,
+      volumeRecoveryPointTime: json['VolumeRecoveryPointTime'] as String?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
+    );
+  }
 }
 
 /// Lists iSCSI information about a volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeiSCSIAttributes {
   /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-  @_s.JsonKey(name: 'ChapEnabled')
-  final bool chapEnabled;
+  final bool? chapEnabled;
 
   /// The logical disk number.
-  @_s.JsonKey(name: 'LunNumber')
-  final int lunNumber;
+  final int? lunNumber;
 
   /// The network interface identifier.
-  @_s.JsonKey(name: 'NetworkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// The port used to communicate with iSCSI targets.
-  @_s.JsonKey(name: 'NetworkInterfacePort')
-  final int networkInterfacePort;
+  final int? networkInterfacePort;
 
   /// The Amazon Resource Name (ARN) of the volume target.
-  @_s.JsonKey(name: 'TargetARN')
-  final String targetARN;
+  final String? targetARN;
 
   VolumeiSCSIAttributes({
     this.chapEnabled,
@@ -10153,17 +10184,24 @@ class VolumeiSCSIAttributes {
     this.networkInterfacePort,
     this.targetARN,
   });
-  factory VolumeiSCSIAttributes.fromJson(Map<String, dynamic> json) =>
-      _$VolumeiSCSIAttributesFromJson(json);
+  factory VolumeiSCSIAttributes.fromJson(Map<String, dynamic> json) {
+    return VolumeiSCSIAttributes(
+      chapEnabled: json['ChapEnabled'] as bool?,
+      lunNumber: json['LunNumber'] as int?,
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+      networkInterfacePort: json['NetworkInterfacePort'] as int?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidGatewayRequestException extends _s.GenericAwsException {
-  InvalidGatewayRequestException({String type, String message})
+  InvalidGatewayRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidGatewayRequestException',
@@ -10171,7 +10209,7 @@ class InvalidGatewayRequestException extends _s.GenericAwsException {
 }
 
 class ServiceUnavailableError extends _s.GenericAwsException {
-  ServiceUnavailableError({String type, String message})
+  ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);
 }
 

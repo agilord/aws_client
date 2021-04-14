@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class BlobPayload {
   final _s.RestXmlProtocol _protocol;
   BlobPayload({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +37,7 @@ class BlobPayload {
         );
 
   Future<void> operationName0({
-    Uint8List foo,
+    Uint8List? foo,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -43,7 +48,7 @@ class BlobPayload {
   }
 
   Future<void> operationName1({
-    Uint8List foo,
+    Uint8List? foo,
   }) async {
     await _protocol.send(
       method: 'POST',

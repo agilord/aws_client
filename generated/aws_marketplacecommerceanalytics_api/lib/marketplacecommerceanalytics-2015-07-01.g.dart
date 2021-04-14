@@ -9,13 +9,13 @@ part of 'marketplacecommerceanalytics-2015-07-01.dart';
 GenerateDataSetResult _$GenerateDataSetResultFromJson(
     Map<String, dynamic> json) {
   return GenerateDataSetResult(
-    dataSetRequestId: json['dataSetRequestId'] as String,
+    dataSetRequestId: json['dataSetRequestId'] as String?,
   );
 }
 
 StartSupportDataExportResult _$StartSupportDataExportResultFromJson(
     Map<String, dynamic> json) {
   return StartSupportDataExportResult(
-    dataSetRequestId: json['dataSetRequestId'] as String,
+    dataSetRequestId: json['dataSetRequestId'] as String?,
   );
 }

@@ -8,20 +8,20 @@ part of 'snowball-2016-06-30.dart';
 
 Address _$AddressFromJson(Map<String, dynamic> json) {
   return Address(
-    addressId: json['AddressId'] as String,
-    city: json['City'] as String,
-    company: json['Company'] as String,
-    country: json['Country'] as String,
-    isRestricted: json['IsRestricted'] as bool,
-    landmark: json['Landmark'] as String,
-    name: json['Name'] as String,
-    phoneNumber: json['PhoneNumber'] as String,
-    postalCode: json['PostalCode'] as String,
-    prefectureOrDistrict: json['PrefectureOrDistrict'] as String,
-    stateOrProvince: json['StateOrProvince'] as String,
-    street1: json['Street1'] as String,
-    street2: json['Street2'] as String,
-    street3: json['Street3'] as String,
+    addressId: json['AddressId'] as String?,
+    city: json['City'] as String?,
+    company: json['Company'] as String?,
+    country: json['Country'] as String?,
+    isRestricted: json['IsRestricted'] as bool?,
+    landmark: json['Landmark'] as String?,
+    name: json['Name'] as String?,
+    phoneNumber: json['PhoneNumber'] as String?,
+    postalCode: json['PostalCode'] as String?,
+    prefectureOrDistrict: json['PrefectureOrDistrict'] as String?,
+    stateOrProvince: json['StateOrProvince'] as String?,
+    street1: json['Street1'] as String?,
+    street2: json['Street2'] as String?,
+    street3: json['Street3'] as String?,
   );
 }
 
@@ -61,44 +61,49 @@ CancelJobResult _$CancelJobResultFromJson(Map<String, dynamic> json) {
 
 ClusterListEntry _$ClusterListEntryFromJson(Map<String, dynamic> json) {
   return ClusterListEntry(
-    clusterId: json['ClusterId'] as String,
+    clusterId: json['ClusterId'] as String?,
     clusterState:
         _$enumDecodeNullable(_$ClusterStateEnumMap, json['ClusterState']),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ClusterStateEnumMap = {
@@ -111,22 +116,22 @@ const _$ClusterStateEnumMap = {
 
 ClusterMetadata _$ClusterMetadataFromJson(Map<String, dynamic> json) {
   return ClusterMetadata(
-    addressId: json['AddressId'] as String,
-    clusterId: json['ClusterId'] as String,
+    addressId: json['AddressId'] as String?,
+    clusterId: json['ClusterId'] as String?,
     clusterState:
         _$enumDecodeNullable(_$ClusterStateEnumMap, json['ClusterState']),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
-    forwardingAddressId: json['ForwardingAddressId'] as String,
+    description: json['Description'] as String?,
+    forwardingAddressId: json['ForwardingAddressId'] as String?,
     jobType: _$enumDecodeNullable(_$JobTypeEnumMap, json['JobType']),
-    kmsKeyARN: json['KmsKeyARN'] as String,
+    kmsKeyARN: json['KmsKeyARN'] as String?,
     notification: json['Notification'] == null
         ? null
         : Notification.fromJson(json['Notification'] as Map<String, dynamic>),
     resources: json['Resources'] == null
         ? null
         : JobResource.fromJson(json['Resources'] as Map<String, dynamic>),
-    roleARN: json['RoleARN'] as String,
+    roleARN: json['RoleARN'] as String?,
     shippingOption:
         _$enumDecodeNullable(_$ShippingOptionEnumMap, json['ShippingOption']),
     snowballType:
@@ -161,26 +166,26 @@ const _$SnowballTypeEnumMap = {
 
 CompatibleImage _$CompatibleImageFromJson(Map<String, dynamic> json) {
   return CompatibleImage(
-    amiId: json['AmiId'] as String,
-    name: json['Name'] as String,
+    amiId: json['AmiId'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 CreateAddressResult _$CreateAddressResultFromJson(Map<String, dynamic> json) {
   return CreateAddressResult(
-    addressId: json['AddressId'] as String,
+    addressId: json['AddressId'] as String?,
   );
 }
 
 CreateClusterResult _$CreateClusterResultFromJson(Map<String, dynamic> json) {
   return CreateClusterResult(
-    clusterId: json['ClusterId'] as String,
+    clusterId: json['ClusterId'] as String?,
   );
 }
 
 CreateJobResult _$CreateJobResultFromJson(Map<String, dynamic> json) {
   return CreateJobResult(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
@@ -200,10 +205,10 @@ const _$ShippingLabelStatusEnumMap = {
 
 DataTransfer _$DataTransferFromJson(Map<String, dynamic> json) {
   return DataTransfer(
-    bytesTransferred: json['BytesTransferred'] as int,
-    objectsTransferred: json['ObjectsTransferred'] as int,
-    totalBytes: json['TotalBytes'] as int,
-    totalObjects: json['TotalObjects'] as int,
+    bytesTransferred: json['BytesTransferred'] as int?,
+    objectsTransferred: json['ObjectsTransferred'] as int?,
+    totalBytes: json['TotalBytes'] as int?,
+    totalObjects: json['TotalObjects'] as int?,
   );
 }
 
@@ -219,11 +224,10 @@ DescribeAddressResult _$DescribeAddressResultFromJson(
 DescribeAddressesResult _$DescribeAddressesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAddressesResult(
-    addresses: (json['Addresses'] as List)
-        ?.map((e) =>
-            e == null ? null : Address.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    addresses: (json['Addresses'] as List<dynamic>?)
+        ?.map((e) => Address.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -242,10 +246,9 @@ DescribeJobResult _$DescribeJobResultFromJson(Map<String, dynamic> json) {
     jobMetadata: json['JobMetadata'] == null
         ? null
         : JobMetadata.fromJson(json['JobMetadata'] as Map<String, dynamic>),
-    subJobMetadata: (json['SubJobMetadata'] as List)
-        ?.map((e) =>
-            e == null ? null : JobMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    subJobMetadata: (json['SubJobMetadata'] as List<dynamic>?)
+        ?.map((e) => JobMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -284,12 +287,14 @@ Map<String, dynamic> _$DeviceConfigurationToJson(DeviceConfiguration instance) {
 Ec2AmiResource _$Ec2AmiResourceFromJson(Map<String, dynamic> json) {
   return Ec2AmiResource(
     amiId: json['AmiId'] as String,
-    snowballAmiId: json['SnowballAmiId'] as String,
+    snowballAmiId: json['SnowballAmiId'] as String?,
   );
 }
 
 Map<String, dynamic> _$Ec2AmiResourceToJson(Ec2AmiResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AmiId': instance.amiId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -297,7 +302,6 @@ Map<String, dynamic> _$Ec2AmiResourceToJson(Ec2AmiResource instance) {
     }
   }
 
-  writeNotNull('AmiId', instance.amiId);
   writeNotNull('SnowballAmiId', instance.snowballAmiId);
   return val;
 }
@@ -305,7 +309,7 @@ Map<String, dynamic> _$Ec2AmiResourceToJson(Ec2AmiResource instance) {
 EventTriggerDefinition _$EventTriggerDefinitionFromJson(
     Map<String, dynamic> json) {
   return EventTriggerDefinition(
-    eventResourceARN: json['EventResourceARN'] as String,
+    eventResourceARN: json['EventResourceARN'] as String?,
   );
 }
 
@@ -325,35 +329,35 @@ Map<String, dynamic> _$EventTriggerDefinitionToJson(
 
 GetJobManifestResult _$GetJobManifestResultFromJson(Map<String, dynamic> json) {
   return GetJobManifestResult(
-    manifestURI: json['ManifestURI'] as String,
+    manifestURI: json['ManifestURI'] as String?,
   );
 }
 
 GetJobUnlockCodeResult _$GetJobUnlockCodeResultFromJson(
     Map<String, dynamic> json) {
   return GetJobUnlockCodeResult(
-    unlockCode: json['UnlockCode'] as String,
+    unlockCode: json['UnlockCode'] as String?,
   );
 }
 
 GetSnowballUsageResult _$GetSnowballUsageResultFromJson(
     Map<String, dynamic> json) {
   return GetSnowballUsageResult(
-    snowballLimit: json['SnowballLimit'] as int,
-    snowballsInUse: json['SnowballsInUse'] as int,
+    snowballLimit: json['SnowballLimit'] as int?,
+    snowballsInUse: json['SnowballsInUse'] as int?,
   );
 }
 
 GetSoftwareUpdatesResult _$GetSoftwareUpdatesResultFromJson(
     Map<String, dynamic> json) {
   return GetSoftwareUpdatesResult(
-    updatesURI: json['UpdatesURI'] as String,
+    updatesURI: json['UpdatesURI'] as String?,
   );
 }
 
 INDTaxDocuments _$INDTaxDocumentsFromJson(Map<String, dynamic> json) {
   return INDTaxDocuments(
-    gstin: json['GSTIN'] as String,
+    gstin: json['GSTIN'] as String?,
   );
 }
 
@@ -373,9 +377,9 @@ Map<String, dynamic> _$INDTaxDocumentsToJson(INDTaxDocuments instance) {
 JobListEntry _$JobListEntryFromJson(Map<String, dynamic> json) {
   return JobListEntry(
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
-    isMaster: json['IsMaster'] as bool,
-    jobId: json['JobId'] as String,
+    description: json['Description'] as String?,
+    isMaster: json['IsMaster'] as bool?,
+    jobId: json['JobId'] as String?,
     jobState: _$enumDecodeNullable(_$JobStateEnumMap, json['JobState']),
     jobType: _$enumDecodeNullable(_$JobTypeEnumMap, json['JobType']),
     snowballType:
@@ -401,41 +405,41 @@ const _$JobStateEnumMap = {
 
 JobLogs _$JobLogsFromJson(Map<String, dynamic> json) {
   return JobLogs(
-    jobCompletionReportURI: json['JobCompletionReportURI'] as String,
-    jobFailureLogURI: json['JobFailureLogURI'] as String,
-    jobSuccessLogURI: json['JobSuccessLogURI'] as String,
+    jobCompletionReportURI: json['JobCompletionReportURI'] as String?,
+    jobFailureLogURI: json['JobFailureLogURI'] as String?,
+    jobSuccessLogURI: json['JobSuccessLogURI'] as String?,
   );
 }
 
 JobMetadata _$JobMetadataFromJson(Map<String, dynamic> json) {
   return JobMetadata(
-    addressId: json['AddressId'] as String,
-    clusterId: json['ClusterId'] as String,
+    addressId: json['AddressId'] as String?,
+    clusterId: json['ClusterId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     dataTransferProgress: json['DataTransferProgress'] == null
         ? null
         : DataTransfer.fromJson(
             json['DataTransferProgress'] as Map<String, dynamic>),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     deviceConfiguration: json['DeviceConfiguration'] == null
         ? null
         : DeviceConfiguration.fromJson(
             json['DeviceConfiguration'] as Map<String, dynamic>),
-    forwardingAddressId: json['ForwardingAddressId'] as String,
-    jobId: json['JobId'] as String,
+    forwardingAddressId: json['ForwardingAddressId'] as String?,
+    jobId: json['JobId'] as String?,
     jobLogInfo: json['JobLogInfo'] == null
         ? null
         : JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>),
     jobState: _$enumDecodeNullable(_$JobStateEnumMap, json['JobState']),
     jobType: _$enumDecodeNullable(_$JobTypeEnumMap, json['JobType']),
-    kmsKeyARN: json['KmsKeyARN'] as String,
+    kmsKeyARN: json['KmsKeyARN'] as String?,
     notification: json['Notification'] == null
         ? null
         : Notification.fromJson(json['Notification'] as Map<String, dynamic>),
     resources: json['Resources'] == null
         ? null
         : JobResource.fromJson(json['Resources'] as Map<String, dynamic>),
-    roleARN: json['RoleARN'] as String,
+    roleARN: json['RoleARN'] as String?,
     shippingDetails: json['ShippingDetails'] == null
         ? null
         : ShippingDetails.fromJson(
@@ -462,20 +466,15 @@ const _$SnowballCapacityEnumMap = {
 
 JobResource _$JobResourceFromJson(Map<String, dynamic> json) {
   return JobResource(
-    ec2AmiResources: (json['Ec2AmiResources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Ec2AmiResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    lambdaResources: (json['LambdaResources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LambdaResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    s3Resources: (json['S3Resources'] as List)
-        ?.map((e) =>
-            e == null ? null : S3Resource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    ec2AmiResources: (json['Ec2AmiResources'] as List<dynamic>?)
+        ?.map((e) => Ec2AmiResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    lambdaResources: (json['LambdaResources'] as List<dynamic>?)
+        ?.map((e) => LambdaResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    s3Resources: (json['S3Resources'] as List<dynamic>?)
+        ?.map((e) => S3Resource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -489,18 +488,18 @@ Map<String, dynamic> _$JobResourceToJson(JobResource instance) {
   }
 
   writeNotNull('Ec2AmiResources',
-      instance.ec2AmiResources?.map((e) => e?.toJson())?.toList());
+      instance.ec2AmiResources?.map((e) => e.toJson()).toList());
   writeNotNull('LambdaResources',
-      instance.lambdaResources?.map((e) => e?.toJson())?.toList());
+      instance.lambdaResources?.map((e) => e.toJson()).toList());
   writeNotNull(
-      'S3Resources', instance.s3Resources?.map((e) => e?.toJson())?.toList());
+      'S3Resources', instance.s3Resources?.map((e) => e.toJson()).toList());
   return val;
 }
 
 KeyRange _$KeyRangeFromJson(Map<String, dynamic> json) {
   return KeyRange(
-    beginMarker: json['BeginMarker'] as String,
-    endMarker: json['EndMarker'] as String,
+    beginMarker: json['BeginMarker'] as String?,
+    endMarker: json['EndMarker'] as String?,
   );
 }
 
@@ -520,12 +519,10 @@ Map<String, dynamic> _$KeyRangeToJson(KeyRange instance) {
 
 LambdaResource _$LambdaResourceFromJson(Map<String, dynamic> json) {
   return LambdaResource(
-    eventTriggers: (json['EventTriggers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    lambdaArn: json['LambdaArn'] as String,
+    eventTriggers: (json['EventTriggers'] as List<dynamic>?)
+        ?.map((e) => EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    lambdaArn: json['LambdaArn'] as String?,
   );
 }
 
@@ -538,8 +535,8 @@ Map<String, dynamic> _$LambdaResourceToJson(LambdaResource instance) {
     }
   }
 
-  writeNotNull('EventTriggers',
-      instance.eventTriggers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'EventTriggers', instance.eventTriggers?.map((e) => e.toJson()).toList());
   writeNotNull('LambdaArn', instance.lambdaArn);
   return val;
 }
@@ -547,54 +544,48 @@ Map<String, dynamic> _$LambdaResourceToJson(LambdaResource instance) {
 ListClusterJobsResult _$ListClusterJobsResultFromJson(
     Map<String, dynamic> json) {
   return ListClusterJobsResult(
-    jobListEntries: (json['JobListEntries'] as List)
-        ?.map((e) =>
-            e == null ? null : JobListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    jobListEntries: (json['JobListEntries'] as List<dynamic>?)
+        ?.map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListClustersResult _$ListClustersResultFromJson(Map<String, dynamic> json) {
   return ListClustersResult(
-    clusterListEntries: (json['ClusterListEntries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClusterListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    clusterListEntries: (json['ClusterListEntries'] as List<dynamic>?)
+        ?.map((e) => ClusterListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCompatibleImagesResult _$ListCompatibleImagesResultFromJson(
     Map<String, dynamic> json) {
   return ListCompatibleImagesResult(
-    compatibleImages: (json['CompatibleImages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CompatibleImage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    compatibleImages: (json['CompatibleImages'] as List<dynamic>?)
+        ?.map((e) => CompatibleImage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListJobsResult _$ListJobsResultFromJson(Map<String, dynamic> json) {
   return ListJobsResult(
-    jobListEntries: (json['JobListEntries'] as List)
-        ?.map((e) =>
-            e == null ? null : JobListEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    jobListEntries: (json['JobListEntries'] as List<dynamic>?)
+        ?.map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(
-    jobStatesToNotify: (json['JobStatesToNotify'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$JobStateEnumMap, e))
-        ?.toList(),
-    notifyAll: json['NotifyAll'] as bool,
-    snsTopicARN: json['SnsTopicARN'] as String,
+    jobStatesToNotify: (json['JobStatesToNotify'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$JobStateEnumMap, e))
+        .toList(),
+    notifyAll: json['NotifyAll'] as bool?,
+    snsTopicARN: json['SnsTopicARN'] as String?,
   );
 }
 
@@ -608,7 +599,7 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) {
   }
 
   writeNotNull('JobStatesToNotify',
-      instance.jobStatesToNotify?.map((e) => _$JobStateEnumMap[e])?.toList());
+      instance.jobStatesToNotify?.map((e) => _$JobStateEnumMap[e]).toList());
   writeNotNull('NotifyAll', instance.notifyAll);
   writeNotNull('SnsTopicARN', instance.snsTopicARN);
   return val;
@@ -616,7 +607,7 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) {
 
 S3Resource _$S3ResourceFromJson(Map<String, dynamic> json) {
   return S3Resource(
-    bucketArn: json['BucketArn'] as String,
+    bucketArn: json['BucketArn'] as String?,
     keyRange: json['KeyRange'] == null
         ? null
         : KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>),
@@ -639,8 +630,8 @@ Map<String, dynamic> _$S3ResourceToJson(S3Resource instance) {
 
 Shipment _$ShipmentFromJson(Map<String, dynamic> json) {
   return Shipment(
-    status: json['Status'] as String,
-    trackingNumber: json['TrackingNumber'] as String,
+    status: json['Status'] as String?,
+    trackingNumber: json['TrackingNumber'] as String?,
   );
 }
 
@@ -717,7 +708,7 @@ UpdateJobShipmentStateResult _$UpdateJobShipmentStateResultFromJson(
 
 WirelessConnection _$WirelessConnectionFromJson(Map<String, dynamic> json) {
   return WirelessConnection(
-    isWifiEnabled: json['IsWifiEnabled'] as bool,
+    isWifiEnabled: json['IsWifiEnabled'] as bool?,
   );
 }
 

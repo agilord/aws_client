@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'kinesis-video-archived-media-2017-09-30.g.dart';
 
 /// <p/>
 class KinesisVideoArchivedMedia {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoArchivedMedia({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -123,9 +115,9 @@ class KinesisVideoArchivedMedia {
   ///
   /// You must specify either the StreamName or the StreamARN.
   Future<GetClipOutput> getClip({
-    @_s.required ClipFragmentSelector clipFragmentSelector,
-    String streamARN,
-    String streamName,
+    required ClipFragmentSelector clipFragmentSelector,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(clipFragmentSelector, 'clipFragmentSelector');
     _s.validateStringLength(
@@ -503,14 +495,14 @@ class KinesisVideoArchivedMedia {
   /// You must specify either the <code>StreamName</code> or the
   /// <code>StreamARN</code>.
   Future<GetDASHStreamingSessionURLOutput> getDASHStreamingSessionURL({
-    DASHFragmentSelector dASHFragmentSelector,
-    DASHDisplayFragmentNumber displayFragmentNumber,
-    DASHDisplayFragmentTimestamp displayFragmentTimestamp,
-    int expires,
-    int maxManifestFragmentResults,
-    DASHPlaybackMode playbackMode,
-    String streamARN,
-    String streamName,
+    DASHFragmentSelector? dASHFragmentSelector,
+    DASHDisplayFragmentNumber? displayFragmentNumber,
+    DASHDisplayFragmentTimestamp? displayFragmentTimestamp,
+    int? expires,
+    int? maxManifestFragmentResults,
+    DASHPlaybackMode? playbackMode,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateNumRange(
       'expires',
@@ -976,15 +968,15 @@ class KinesisVideoArchivedMedia {
   /// You must specify either the <code>StreamName</code> or the
   /// <code>StreamARN</code>.
   Future<GetHLSStreamingSessionURLOutput> getHLSStreamingSessionURL({
-    ContainerFormat containerFormat,
-    HLSDiscontinuityMode discontinuityMode,
-    HLSDisplayFragmentTimestamp displayFragmentTimestamp,
-    int expires,
-    HLSFragmentSelector hLSFragmentSelector,
-    int maxMediaPlaylistFragmentResults,
-    HLSPlaybackMode playbackMode,
-    String streamARN,
-    String streamName,
+    ContainerFormat? containerFormat,
+    HLSDiscontinuityMode? discontinuityMode,
+    HLSDisplayFragmentTimestamp? displayFragmentTimestamp,
+    int? expires,
+    HLSFragmentSelector? hLSFragmentSelector,
+    int? maxMediaPlaylistFragmentResults,
+    HLSPlaybackMode? playbackMode,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateNumRange(
       'expires',
@@ -1105,8 +1097,8 @@ class KinesisVideoArchivedMedia {
   /// Parameter [streamName] :
   /// The name of the stream from which to retrieve fragment media.
   Future<GetMediaForFragmentListOutput> getMediaForFragmentList({
-    @_s.required List<String> fragments,
-    @_s.required String streamName,
+    required List<String> fragments,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(fragments, 'fragments');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -1203,10 +1195,10 @@ class KinesisVideoArchivedMedia {
   /// A token to specify where to start paginating. This is the
   /// <a>ListFragmentsOutput$NextToken</a> from a previously truncated response.
   Future<ListFragmentsOutput> listFragments({
-    @_s.required String streamName,
-    FragmentSelector fragmentSelector,
-    int maxResults,
-    String nextToken,
+    required String streamName,
+    FragmentSelector? fragmentSelector,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -1264,32 +1256,53 @@ class KinesisVideoArchivedMedia {
 /// some fragments are ingested within the same time range and very different
 /// points in time, only the oldest ingested collection of fragments are
 /// returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClipFragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
-  @_s.JsonKey(name: 'FragmentSelectorType')
   final ClipFragmentSelectorType fragmentSelectorType;
 
   /// The range of timestamps to return.
-  @_s.JsonKey(name: 'TimestampRange')
   final ClipTimestampRange timestampRange;
 
   ClipFragmentSelector({
-    @_s.required this.fragmentSelectorType,
-    @_s.required this.timestampRange,
+    required this.fragmentSelectorType,
+    required this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$ClipFragmentSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum ClipFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
+}
+
+extension on ClipFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case ClipFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case ClipFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  ClipFragmentSelectorType toClipFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return ClipFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return ClipFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum ClipFragmentSelectorType');
+  }
 }
 
 /// The range of timestamps for which to return fragments.
@@ -1297,11 +1310,6 @@ enum ClipFragmentSelectorType {
 /// The values in the ClipTimestampRange are <code>inclusive</code>. Fragments
 /// that begin before the start time but continue past it, or fragments that
 /// begin before the end time but continue past it, are included in the session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClipTimestampRange {
   /// The end of the timestamp range for the requested media.
   ///
@@ -1315,8 +1323,6 @@ class ClipTimestampRange {
   /// (starting) timestamp of the fragment. Fragments that start before the
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
@@ -1327,21 +1333,24 @@ class ClipTimestampRange {
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   ClipTimestampRange({
-    @_s.required this.endTimestamp,
-    @_s.required this.startTimestamp,
+    required this.endTimestamp,
+    required this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$ClipTimestampRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 enum ContainerFormat {
-  @_s.JsonValue('FRAGMENTED_MP4')
   fragmentedMp4,
-  @_s.JsonValue('MPEG_TS')
   mpegTs,
 }
 
@@ -1353,14 +1362,23 @@ extension on ContainerFormat {
       case ContainerFormat.mpegTs:
         return 'MPEG_TS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContainerFormat toContainerFormat() {
+    switch (this) {
+      case 'FRAGMENTED_MP4':
+        return ContainerFormat.fragmentedMp4;
+      case 'MPEG_TS':
+        return ContainerFormat.mpegTs;
+    }
+    throw Exception('$this is not known in enum ContainerFormat');
   }
 }
 
 enum DASHDisplayFragmentNumber {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1372,14 +1390,23 @@ extension on DASHDisplayFragmentNumber {
       case DASHDisplayFragmentNumber.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHDisplayFragmentNumber toDASHDisplayFragmentNumber() {
+    switch (this) {
+      case 'ALWAYS':
+        return DASHDisplayFragmentNumber.always;
+      case 'NEVER':
+        return DASHDisplayFragmentNumber.never;
+    }
+    throw Exception('$this is not known in enum DASHDisplayFragmentNumber');
   }
 }
 
 enum DASHDisplayFragmentTimestamp {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1391,17 +1418,23 @@ extension on DASHDisplayFragmentTimestamp {
       case DASHDisplayFragmentTimestamp.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHDisplayFragmentTimestamp toDASHDisplayFragmentTimestamp() {
+    switch (this) {
+      case 'ALWAYS':
+        return DASHDisplayFragmentTimestamp.always;
+      case 'NEVER':
+        return DASHDisplayFragmentTimestamp.never;
+    }
+    throw Exception('$this is not known in enum DASHDisplayFragmentTimestamp');
   }
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DASHFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -1435,36 +1468,60 @@ class DASHFragmentSelector {
   /// included in the HLS media playlist.
   ///
   /// The default is <code>SERVER_TIMESTAMP</code>.
-  @_s.JsonKey(name: 'FragmentSelectorType')
-  final DASHFragmentSelectorType fragmentSelectorType;
+  final DASHFragmentSelectorType? fragmentSelectorType;
 
   /// The start and end of the timestamp range for the requested media.
   ///
   /// This value should not be present if <code>PlaybackType</code> is
   /// <code>LIVE</code>.
-  @_s.JsonKey(name: 'TimestampRange')
-  final DASHTimestampRange timestampRange;
+  final DASHTimestampRange? timestampRange;
 
   DASHFragmentSelector({
     this.fragmentSelectorType,
     this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$DASHFragmentSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.toValue(),
+      if (timestampRange != null) 'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum DASHFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
+extension on DASHFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case DASHFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case DASHFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  DASHFragmentSelectorType toDASHFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return DASHFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return DASHFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum DASHFragmentSelectorType');
+  }
+}
+
 enum DASHPlaybackMode {
-  @_s.JsonValue('LIVE')
   live,
-  @_s.JsonValue('LIVE_REPLAY')
   liveReplay,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -1478,7 +1535,20 @@ extension on DASHPlaybackMode {
       case DASHPlaybackMode.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHPlaybackMode toDASHPlaybackMode() {
+    switch (this) {
+      case 'LIVE':
+        return DASHPlaybackMode.live;
+      case 'LIVE_REPLAY':
+        return DASHPlaybackMode.liveReplay;
+      case 'ON_DEMAND':
+        return DASHPlaybackMode.onDemand;
+    }
+    throw Exception('$this is not known in enum DASHPlaybackMode');
   }
 }
 
@@ -1491,11 +1561,6 @@ extension on DASHPlaybackMode {
 /// that begin before the start time but continue past it, or fragments that
 /// begin before the end time but continue past it, are included in the session.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DASHTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
   /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
@@ -1515,9 +1580,7 @@ class DASHTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The start of the timestamp range for the requested media.
   ///
@@ -1530,47 +1593,42 @@ class DASHTimestampRange {
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   DASHTimestampRange({
     this.endTimestamp,
     this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$DASHTimestampRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 /// Represents a segment of video or other time-delimited data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Fragment {
   /// The playback duration or other time value associated with the fragment.
-  @_s.JsonKey(name: 'FragmentLengthInMilliseconds')
-  final int fragmentLengthInMilliseconds;
+  final int? fragmentLengthInMilliseconds;
 
   /// The unique identifier of the fragment. This value monotonically increases
   /// based on the ingestion order.
-  @_s.JsonKey(name: 'FragmentNumber')
-  final String fragmentNumber;
+  final String? fragmentNumber;
 
   /// The total fragment size, including information about the fragment and
   /// contained media data.
-  @_s.JsonKey(name: 'FragmentSizeInBytes')
-  final int fragmentSizeInBytes;
+  final int? fragmentSizeInBytes;
 
   /// The timestamp from the producer corresponding to the fragment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ProducerTimestamp')
-  final DateTime producerTimestamp;
+  final DateTime? producerTimestamp;
 
   /// The timestamp from the AWS server corresponding to the fragment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ServerTimestamp')
-  final DateTime serverTimestamp;
+  final DateTime? serverTimestamp;
 
   Fragment({
     this.fragmentLengthInMilliseconds,
@@ -1579,8 +1637,16 @@ class Fragment {
     this.producerTimestamp,
     this.serverTimestamp,
   });
-  factory Fragment.fromJson(Map<String, dynamic> json) =>
-      _$FragmentFromJson(json);
+  factory Fragment.fromJson(Map<String, dynamic> json) {
+    return Fragment(
+      fragmentLengthInMilliseconds:
+          json['FragmentLengthInMilliseconds'] as int?,
+      fragmentNumber: json['FragmentNumber'] as String?,
+      fragmentSizeInBytes: json['FragmentSizeInBytes'] as int?,
+      producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
+      serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
+    );
+  }
 }
 
 /// Describes the timestamp range and timestamp origin of a range of fragments.
@@ -1606,106 +1672,104 @@ class Fragment {
 /// A fragment selector range with a start time of 00:00:01 and end time of
 /// 00:00:04 would return the fragments with start times of 00:00:02 and
 /// 00:00:04.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
-  @_s.JsonKey(name: 'FragmentSelectorType')
   final FragmentSelectorType fragmentSelectorType;
 
   /// The range of timestamps to return.
-  @_s.JsonKey(name: 'TimestampRange')
   final TimestampRange timestampRange;
 
   FragmentSelector({
-    @_s.required this.fragmentSelectorType,
-    @_s.required this.timestampRange,
+    required this.fragmentSelectorType,
+    required this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$FragmentSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum FragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case FragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case FragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  FragmentSelectorType toFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return FragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return FragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum FragmentSelectorType');
+  }
+}
+
 class GetClipOutput {
   /// The content type of the media in the requested clip.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// Traditional MP4 file that contains the media clip from the specified video
   /// stream. The output will contain the first 100 MB or the first 200 fragments
   /// from the specified start timestamp. For more information, see <a
   /// href="Kinesis Video Streams Limits">Kinesis Video Streams Limits</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   GetClipOutput({
     this.contentType,
     this.payload,
   });
-  factory GetClipOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetClipOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDASHStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the MPEG-DASH manifest.
-  @_s.JsonKey(name: 'DASHStreamingSessionURL')
-  final String dASHStreamingSessionURL;
+  final String? dASHStreamingSessionURL;
 
   GetDASHStreamingSessionURLOutput({
     this.dASHStreamingSessionURL,
   });
-  factory GetDASHStreamingSessionURLOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDASHStreamingSessionURLOutputFromJson(json);
+  factory GetDASHStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
+    return GetDASHStreamingSessionURLOutput(
+      dASHStreamingSessionURL: json['DASHStreamingSessionURL'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetHLSStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the HLS master playlist.
-  @_s.JsonKey(name: 'HLSStreamingSessionURL')
-  final String hLSStreamingSessionURL;
+  final String? hLSStreamingSessionURL;
 
   GetHLSStreamingSessionURLOutput({
     this.hLSStreamingSessionURL,
   });
-  factory GetHLSStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetHLSStreamingSessionURLOutputFromJson(json);
+  factory GetHLSStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
+    return GetHLSStreamingSessionURLOutput(
+      hLSStreamingSessionURL: json['HLSStreamingSessionURL'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMediaForFragmentListOutput {
   /// The content type of the requested media.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The payload that Kinesis Video Streams returns is a sequence of chunks from
   /// the specified stream. For information about the chunks, see <a
@@ -1741,24 +1805,17 @@ class GetMediaForFragmentListOutput {
   /// AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
   /// </li>
   /// </ul>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   GetMediaForFragmentListOutput({
     this.contentType,
     this.payload,
   });
-  factory GetMediaForFragmentListOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMediaForFragmentListOutputFromJson(json);
 }
 
 enum HLSDiscontinuityMode {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
-  @_s.JsonValue('ON_DISCONTINUITY')
   onDiscontinuity,
 }
 
@@ -1772,14 +1829,25 @@ extension on HLSDiscontinuityMode {
       case HLSDiscontinuityMode.onDiscontinuity:
         return 'ON_DISCONTINUITY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSDiscontinuityMode toHLSDiscontinuityMode() {
+    switch (this) {
+      case 'ALWAYS':
+        return HLSDiscontinuityMode.always;
+      case 'NEVER':
+        return HLSDiscontinuityMode.never;
+      case 'ON_DISCONTINUITY':
+        return HLSDiscontinuityMode.onDiscontinuity;
+    }
+    throw Exception('$this is not known in enum HLSDiscontinuityMode');
   }
 }
 
 enum HLSDisplayFragmentTimestamp {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1791,17 +1859,23 @@ extension on HLSDisplayFragmentTimestamp {
       case HLSDisplayFragmentTimestamp.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSDisplayFragmentTimestamp toHLSDisplayFragmentTimestamp() {
+    switch (this) {
+      case 'ALWAYS':
+        return HLSDisplayFragmentTimestamp.always;
+      case 'NEVER':
+        return HLSDisplayFragmentTimestamp.never;
+    }
+    throw Exception('$this is not known in enum HLSDisplayFragmentTimestamp');
   }
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HLSFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -1834,36 +1908,60 @@ class HLSFragmentSelector {
   /// HLS media playlist.
   ///
   /// The default is <code>SERVER_TIMESTAMP</code>.
-  @_s.JsonKey(name: 'FragmentSelectorType')
-  final HLSFragmentSelectorType fragmentSelectorType;
+  final HLSFragmentSelectorType? fragmentSelectorType;
 
   /// The start and end of the timestamp range for the requested media.
   ///
   /// This value should not be present if <code>PlaybackType</code> is
   /// <code>LIVE</code>.
-  @_s.JsonKey(name: 'TimestampRange')
-  final HLSTimestampRange timestampRange;
+  final HLSTimestampRange? timestampRange;
 
   HLSFragmentSelector({
     this.fragmentSelectorType,
     this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$HLSFragmentSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.toValue(),
+      if (timestampRange != null) 'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum HLSFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
+extension on HLSFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case HLSFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case HLSFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  HLSFragmentSelectorType toHLSFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return HLSFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return HLSFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum HLSFragmentSelectorType');
+  }
+}
+
 enum HLSPlaybackMode {
-  @_s.JsonValue('LIVE')
   live,
-  @_s.JsonValue('LIVE_REPLAY')
   liveReplay,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -1877,7 +1975,20 @@ extension on HLSPlaybackMode {
       case HLSPlaybackMode.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSPlaybackMode toHLSPlaybackMode() {
+    switch (this) {
+      case 'LIVE':
+        return HLSPlaybackMode.live;
+      case 'LIVE_REPLAY':
+        return HLSPlaybackMode.liveReplay;
+      case 'ON_DEMAND':
+        return HLSPlaybackMode.onDemand;
+    }
+    throw Exception('$this is not known in enum HLSPlaybackMode');
   }
 }
 
@@ -1890,11 +2001,6 @@ extension on HLSPlaybackMode {
 /// that begin before the start time but continue past it, or fragments that
 /// begin before the end time but continue past it, are included in the session.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HLSTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
   /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
@@ -1914,9 +2020,7 @@ class HLSTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The start of the timestamp range for the requested media.
   ///
@@ -1929,81 +2033,86 @@ class HLSTimestampRange {
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   HLSTimestampRange({
     this.endTimestamp,
     this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$HLSTimestampRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFragmentsOutput {
   /// A list of archived <a>Fragment</a> objects from the stream that meet the
   /// selector criteria. Results are in no specific order, even across pages.
-  @_s.JsonKey(name: 'Fragments')
-  final List<Fragment> fragments;
+  final List<Fragment>? fragments;
 
   /// If the returned list is truncated, the operation returns this token to use
   /// to retrieve the next page of results. This value is <code>null</code> when
   /// there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFragmentsOutput({
     this.fragments,
     this.nextToken,
   });
-  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListFragmentsOutputFromJson(json);
+  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListFragmentsOutput(
+      fragments: (json['Fragments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Fragment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The range of timestamps for which to return fragments.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimestampRange {
   /// The ending timestamp in the range of timestamps for which to return
   /// fragments.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   TimestampRange({
-    @_s.required this.endTimestamp,
-    @_s.required this.startTimestamp,
+    required this.endTimestamp,
+    required this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$TimestampRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {
-  ClientLimitExceededException({String type, String message})
+  ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidCodecPrivateDataException extends _s.GenericAwsException {
-  InvalidCodecPrivateDataException({String type, String message})
+  InvalidCodecPrivateDataException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCodecPrivateDataException',
@@ -2011,12 +2120,12 @@ class InvalidCodecPrivateDataException extends _s.GenericAwsException {
 }
 
 class InvalidMediaFrameException extends _s.GenericAwsException {
-  InvalidMediaFrameException({String type, String message})
+  InvalidMediaFrameException({String? type, String? message})
       : super(type: type, code: 'InvalidMediaFrameException', message: message);
 }
 
 class MissingCodecPrivateDataException extends _s.GenericAwsException {
-  MissingCodecPrivateDataException({String type, String message})
+  MissingCodecPrivateDataException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingCodecPrivateDataException',
@@ -2024,22 +2133,22 @@ class MissingCodecPrivateDataException extends _s.GenericAwsException {
 }
 
 class NoDataRetentionException extends _s.GenericAwsException {
-  NoDataRetentionException({String type, String message})
+  NoDataRetentionException({String? type, String? message})
       : super(type: type, code: 'NoDataRetentionException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class UnsupportedStreamMediaTypeException extends _s.GenericAwsException {
-  UnsupportedStreamMediaTypeException({String type, String message})
+  UnsupportedStreamMediaTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedStreamMediaTypeException',

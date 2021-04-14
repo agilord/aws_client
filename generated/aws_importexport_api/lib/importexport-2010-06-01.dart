@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'importexport-2010-06-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -36,9 +30,9 @@ class ImportExport {
   final Map<String, _s.Shape> shapes;
 
   ImportExport({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -60,8 +54,8 @@ class ImportExport {
   /// May throw [InvalidAccessKeyIdException].
   /// May throw [InvalidVersionException].
   Future<CancelJobOutput> cancelJob({
-    @_s.required String jobId,
-    String aPIVersion,
+    required String jobId,
+    String? aPIVersion,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     final $request = <String, dynamic>{};
@@ -105,11 +99,11 @@ class ImportExport {
   /// May throw [InvalidJobIdException].
   /// May throw [InvalidVersionException].
   Future<CreateJobOutput> createJob({
-    @_s.required JobType jobType,
-    @_s.required String manifest,
-    @_s.required bool validateOnly,
-    String aPIVersion,
-    String manifestAddendum,
+    required JobType jobType,
+    required String manifest,
+    required bool validateOnly,
+    String? aPIVersion,
+    String? manifestAddendum,
   }) async {
     ArgumentError.checkNotNull(jobType, 'jobType');
     ArgumentError.checkNotNull(manifest, 'manifest');
@@ -145,18 +139,18 @@ class ImportExport {
   /// May throw [InvalidVersionException].
   /// May throw [InvalidParameterException].
   Future<GetShippingLabelOutput> getShippingLabel({
-    @_s.required List<String> jobIds,
-    String aPIVersion,
-    String city,
-    String company,
-    String country,
-    String name,
-    String phoneNumber,
-    String postalCode,
-    String stateOrProvince,
-    String street1,
-    String street2,
-    String street3,
+    required List<String> jobIds,
+    String? aPIVersion,
+    String? city,
+    String? company,
+    String? country,
+    String? name,
+    String? phoneNumber,
+    String? postalCode,
+    String? stateOrProvince,
+    String? street1,
+    String? street2,
+    String? street3,
   }) async {
     ArgumentError.checkNotNull(jobIds, 'jobIds');
     final $request = <String, dynamic>{};
@@ -197,8 +191,8 @@ class ImportExport {
   /// May throw [InvalidAccessKeyIdException].
   /// May throw [InvalidVersionException].
   Future<GetStatusOutput> getStatus({
-    @_s.required String jobId,
-    String aPIVersion,
+    required String jobId,
+    String? aPIVersion,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     final $request = <String, dynamic>{};
@@ -228,9 +222,9 @@ class ImportExport {
   /// May throw [InvalidAccessKeyIdException].
   /// May throw [InvalidVersionException].
   Future<ListJobsOutput> listJobs({
-    String aPIVersion,
-    String marker,
-    int maxJobs,
+    String? aPIVersion,
+    String? marker,
+    int? maxJobs,
   }) async {
     final $request = <String, dynamic>{};
     aPIVersion?.also((arg) => $request['APIVersion'] = arg);
@@ -275,11 +269,11 @@ class ImportExport {
   /// May throw [UnableToUpdateJobIdException].
   /// May throw [InvalidVersionException].
   Future<UpdateJobOutput> updateJob({
-    @_s.required String jobId,
-    @_s.required JobType jobType,
-    @_s.required String manifest,
-    @_s.required bool validateOnly,
-    String aPIVersion,
+    required String jobId,
+    required JobType jobType,
+    required String manifest,
+    required bool validateOnly,
+    String? aPIVersion,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(jobType, 'jobType');
@@ -309,8 +303,8 @@ class ImportExport {
 /// A discrete item that contains the description and URL of an artifact (such
 /// as a PDF).
 class Artifact {
-  final String description;
-  final String url;
+  final String? description;
+  final String? url;
 
   Artifact({
     this.description,
@@ -326,7 +320,7 @@ class Artifact {
 
 /// The account specified does not have the appropriate bucket permissions.
 class BucketPermissionException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   BucketPermissionException({
     this.message,
@@ -340,7 +334,7 @@ class BucketPermissionException implements _s.AwsException {
 
 /// Output structure for the CancelJob operation.
 class CancelJobOutput {
-  final bool success;
+  final bool? success;
 
   CancelJobOutput({
     this.success,
@@ -354,7 +348,7 @@ class CancelJobOutput {
 
 /// The specified job ID has been canceled and is no longer valid.
 class CanceledJobIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   CanceledJobIdException({
     this.message,
@@ -368,12 +362,12 @@ class CanceledJobIdException implements _s.AwsException {
 
 /// Output structure for the CreateJob operation.
 class CreateJobOutput {
-  final List<Artifact> artifactList;
-  final String jobId;
-  final JobType jobType;
-  final String signature;
-  final String signatureFileContents;
-  final String warningMessage;
+  final List<Artifact>? artifactList;
+  final String? jobId;
+  final JobType? jobType;
+  final String? signature;
+  final String? signatureFileContents;
+  final String? warningMessage;
 
   CreateJobOutput({
     this.artifactList,
@@ -401,7 +395,7 @@ class CreateJobOutput {
 /// to create more than this, please contact awsimportexport@amazon.com to
 /// explain your particular use case.
 class CreateJobQuotaExceededException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   CreateJobQuotaExceededException({
     this.message,
@@ -415,7 +409,7 @@ class CreateJobQuotaExceededException implements _s.AwsException {
 
 /// Indicates that the specified job has expired out of the system.
 class ExpiredJobIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   ExpiredJobIdException({
     this.message,
@@ -428,8 +422,8 @@ class ExpiredJobIdException implements _s.AwsException {
 }
 
 class GetShippingLabelOutput {
-  final String shippingLabelURL;
-  final String warning;
+  final String? shippingLabelURL;
+  final String? warning;
 
   GetShippingLabelOutput({
     this.shippingLabelURL,
@@ -445,22 +439,22 @@ class GetShippingLabelOutput {
 
 /// Output structure for the GetStatus operation.
 class GetStatusOutput {
-  final List<Artifact> artifactList;
-  final String carrier;
-  final DateTime creationDate;
-  final String currentManifest;
-  final int errorCount;
-  final String jobId;
-  final JobType jobType;
-  final String locationCode;
-  final String locationMessage;
-  final String logBucket;
-  final String logKey;
-  final String progressCode;
-  final String progressMessage;
-  final String signature;
-  final String signatureFileContents;
-  final String trackingNumber;
+  final List<Artifact>? artifactList;
+  final String? carrier;
+  final DateTime? creationDate;
+  final String? currentManifest;
+  final int? errorCount;
+  final String? jobId;
+  final JobType? jobType;
+  final String? locationCode;
+  final String? locationMessage;
+  final String? logBucket;
+  final String? logKey;
+  final String? progressCode;
+  final String? progressMessage;
+  final String? signature;
+  final String? signatureFileContents;
+  final String? trackingNumber;
 
   GetStatusOutput({
     this.artifactList,
@@ -508,7 +502,7 @@ class GetStatusOutput {
 /// accessKeyId value. The manifest and the request authentication must use the
 /// same AWS Access Key ID.
 class InvalidAccessKeyIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidAccessKeyIdException({
     this.message,
@@ -522,7 +516,7 @@ class InvalidAccessKeyIdException implements _s.AwsException {
 
 /// The address specified in the manifest is invalid.
 class InvalidAddressException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidAddressException({
     this.message,
@@ -536,7 +530,7 @@ class InvalidAddressException implements _s.AwsException {
 
 /// One or more customs parameters was invalid. Please correct and resubmit.
 class InvalidCustomsException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidCustomsException({
     this.message,
@@ -550,7 +544,7 @@ class InvalidCustomsException implements _s.AwsException {
 
 /// File system specified in export manifest is invalid.
 class InvalidFileSystemException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidFileSystemException({
     this.message,
@@ -564,7 +558,7 @@ class InvalidFileSystemException implements _s.AwsException {
 
 /// The JOBID was missing, not found, or not associated with the AWS account.
 class InvalidJobIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidJobIdException({
     this.message,
@@ -578,7 +572,7 @@ class InvalidJobIdException implements _s.AwsException {
 
 /// One or more manifest fields was invalid. Please correct and resubmit.
 class InvalidManifestFieldException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidManifestFieldException({
     this.message,
@@ -592,7 +586,7 @@ class InvalidManifestFieldException implements _s.AwsException {
 
 /// One or more parameters had an invalid value.
 class InvalidParameterException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidParameterException({
     this.message,
@@ -606,7 +600,7 @@ class InvalidParameterException implements _s.AwsException {
 
 /// The client tool version is invalid.
 class InvalidVersionException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   InvalidVersionException({
     this.message,
@@ -620,10 +614,10 @@ class InvalidVersionException implements _s.AwsException {
 
 /// Representation of a job returned by the ListJobs operation.
 class Job {
-  final DateTime creationDate;
-  final bool isCanceled;
-  final String jobId;
-  final JobType jobType;
+  final DateTime? creationDate;
+  final bool? isCanceled;
+  final String? jobId;
+  final JobType? jobType;
 
   Job({
     this.creationDate,
@@ -643,9 +637,7 @@ class Job {
 
 /// Specifies whether the job to initiate is an import or export job.
 enum JobType {
-  @_s.JsonValue('Import')
   import,
-  @_s.JsonValue('Export')
   export,
 }
 
@@ -657,7 +649,6 @@ extension on JobType {
       case JobType.export:
         return 'Export';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -669,14 +660,14 @@ extension on String {
       case 'Export':
         return JobType.export;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobType');
   }
 }
 
 /// Output structure for the ListJobs operation.
 class ListJobsOutput {
-  final bool isTruncated;
-  final List<Job> jobs;
+  final bool? isTruncated;
+  final List<Job>? jobs;
 
   ListJobsOutput({
     this.isTruncated,
@@ -693,7 +684,7 @@ class ListJobsOutput {
 
 /// Your manifest is not well-formed.
 class MalformedManifestException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   MalformedManifestException({
     this.message,
@@ -707,7 +698,7 @@ class MalformedManifestException implements _s.AwsException {
 
 /// One or more required customs parameters was missing from the manifest.
 class MissingCustomsException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   MissingCustomsException({
     this.message,
@@ -722,7 +713,7 @@ class MissingCustomsException implements _s.AwsException {
 /// One or more required fields were missing from the manifest file. Please
 /// correct and resubmit.
 class MissingManifestFieldException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   MissingManifestFieldException({
     this.message,
@@ -736,7 +727,7 @@ class MissingManifestFieldException implements _s.AwsException {
 
 /// One or more required parameters was missing from the request.
 class MissingParameterException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   MissingParameterException({
     this.message,
@@ -751,7 +742,7 @@ class MissingParameterException implements _s.AwsException {
 /// Your manifest file contained buckets from multiple regions. A job is
 /// restricted to buckets from one region. Please correct and resubmit.
 class MultipleRegionsException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   MultipleRegionsException({
     this.message,
@@ -768,7 +759,7 @@ class MultipleRegionsException implements _s.AwsException {
 /// account, as specified by the manifest's Access Key ID, has write permissions
 /// to.
 class NoSuchBucketException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   NoSuchBucketException({
     this.message,
@@ -782,7 +773,7 @@ class NoSuchBucketException implements _s.AwsException {
 
 /// AWS Import/Export cannot cancel the job
 class UnableToCancelJobIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   UnableToCancelJobIdException({
     this.message,
@@ -796,7 +787,7 @@ class UnableToCancelJobIdException implements _s.AwsException {
 
 /// AWS Import/Export cannot update the job
 class UnableToUpdateJobIdException implements _s.AwsException {
-  final String message;
+  final String? message;
 
   UnableToUpdateJobIdException({
     this.message,
@@ -810,9 +801,9 @@ class UnableToUpdateJobIdException implements _s.AwsException {
 
 /// Output structure for the UpateJob operation.
 class UpdateJobOutput {
-  final List<Artifact> artifactList;
-  final bool success;
-  final String warningMessage;
+  final List<Artifact>? artifactList;
+  final bool? success;
+  final String? warningMessage;
 
   UpdateJobOutput({
     this.artifactList,

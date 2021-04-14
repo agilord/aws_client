@@ -9,12 +9,12 @@ part of 'workspaces-2015-04-08.dart';
 AccountModification _$AccountModificationFromJson(Map<String, dynamic> json) {
   return AccountModification(
     dedicatedTenancyManagementCidrRange:
-        json['DedicatedTenancyManagementCidrRange'] as String,
+        json['DedicatedTenancyManagementCidrRange'] as String?,
     dedicatedTenancySupport: _$enumDecodeNullable(
         _$DedicatedTenancySupportResultEnumEnumMap,
         json['DedicatedTenancySupport']),
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     modificationState: _$enumDecodeNullable(
         _$DedicatedTenancyModificationStateEnumEnumMap,
         json['ModificationState']),
@@ -22,36 +22,41 @@ AccountModification _$AccountModificationFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DedicatedTenancySupportResultEnumEnumMap = {
@@ -68,7 +73,7 @@ const _$DedicatedTenancyModificationStateEnumEnumMap = {
 AssociateConnectionAliasResult _$AssociateConnectionAliasResultFromJson(
     Map<String, dynamic> json) {
   return AssociateConnectionAliasResult(
-    connectionIdentifier: json['ConnectionIdentifier'] as String,
+    connectionIdentifier: json['ConnectionIdentifier'] as String?,
   );
 }
 
@@ -115,7 +120,7 @@ ClientPropertiesResult _$ClientPropertiesResultFromJson(
         ? null
         : ClientProperties.fromJson(
             json['ClientProperties'] as Map<String, dynamic>),
-    resourceId: json['ResourceId'] as String,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
@@ -137,14 +142,13 @@ const _$ComputeEnumMap = {
 
 ConnectionAlias _$ConnectionAliasFromJson(Map<String, dynamic> json) {
   return ConnectionAlias(
-    aliasId: json['AliasId'] as String,
-    associations: (json['Associations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConnectionAliasAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    connectionString: json['ConnectionString'] as String,
-    ownerAccountId: json['OwnerAccountId'] as String,
+    aliasId: json['AliasId'] as String?,
+    associations: (json['Associations'] as List<dynamic>?)
+        ?.map((e) =>
+            ConnectionAliasAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    connectionString: json['ConnectionString'] as String?,
+    ownerAccountId: json['OwnerAccountId'] as String?,
     state: _$enumDecodeNullable(_$ConnectionAliasStateEnumMap, json['State']),
   );
 }
@@ -158,11 +162,11 @@ const _$ConnectionAliasStateEnumMap = {
 ConnectionAliasAssociation _$ConnectionAliasAssociationFromJson(
     Map<String, dynamic> json) {
   return ConnectionAliasAssociation(
-    associatedAccountId: json['AssociatedAccountId'] as String,
+    associatedAccountId: json['AssociatedAccountId'] as String?,
     associationStatus: _$enumDecodeNullable(
         _$AssociationStatusEnumMap, json['AssociationStatus']),
-    connectionIdentifier: json['ConnectionIdentifier'] as String,
-    resourceId: json['ResourceId'] as String,
+    connectionIdentifier: json['ConnectionIdentifier'] as String?,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
@@ -184,37 +188,29 @@ ConnectionAliasPermission _$ConnectionAliasPermissionFromJson(
 }
 
 Map<String, dynamic> _$ConnectionAliasPermissionToJson(
-    ConnectionAliasPermission instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AllowAssociation', instance.allowAssociation);
-  writeNotNull('SharedAccountId', instance.sharedAccountId);
-  return val;
-}
+        ConnectionAliasPermission instance) =>
+    <String, dynamic>{
+      'AllowAssociation': instance.allowAssociation,
+      'SharedAccountId': instance.sharedAccountId,
+    };
 
 CopyWorkspaceImageResult _$CopyWorkspaceImageResultFromJson(
     Map<String, dynamic> json) {
   return CopyWorkspaceImageResult(
-    imageId: json['ImageId'] as String,
+    imageId: json['ImageId'] as String?,
   );
 }
 
 CreateConnectionAliasResult _$CreateConnectionAliasResultFromJson(
     Map<String, dynamic> json) {
   return CreateConnectionAliasResult(
-    aliasId: json['AliasId'] as String,
+    aliasId: json['AliasId'] as String?,
   );
 }
 
 CreateIpGroupResult _$CreateIpGroupResultFromJson(Map<String, dynamic> json) {
   return CreateIpGroupResult(
-    groupId: json['GroupId'] as String,
+    groupId: json['GroupId'] as String?,
   );
 }
 
@@ -225,28 +221,26 @@ CreateTagsResult _$CreateTagsResultFromJson(Map<String, dynamic> json) {
 CreateWorkspacesResult _$CreateWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return CreateWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedCreateWorkspaceRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pendingRequests: (json['PendingRequests'] as List)
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
         ?.map((e) =>
-            e == null ? null : Workspace.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            FailedCreateWorkspaceRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pendingRequests: (json['PendingRequests'] as List<dynamic>?)
+        ?.map((e) => Workspace.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DefaultWorkspaceCreationProperties _$DefaultWorkspaceCreationPropertiesFromJson(
     Map<String, dynamic> json) {
   return DefaultWorkspaceCreationProperties(
-    customSecurityGroupId: json['CustomSecurityGroupId'] as String,
-    defaultOu: json['DefaultOu'] as String,
-    enableInternetAccess: json['EnableInternetAccess'] as bool,
-    enableMaintenanceMode: json['EnableMaintenanceMode'] as bool,
-    enableWorkDocs: json['EnableWorkDocs'] as bool,
+    customSecurityGroupId: json['CustomSecurityGroupId'] as String?,
+    defaultOu: json['DefaultOu'] as String?,
+    enableInternetAccess: json['EnableInternetAccess'] as bool?,
+    enableMaintenanceMode: json['EnableMaintenanceMode'] as bool?,
+    enableWorkDocs: json['EnableWorkDocs'] as bool?,
     userEnabledAsLocalAdministrator:
-        json['UserEnabledAsLocalAdministrator'] as bool,
+        json['UserEnabledAsLocalAdministrator'] as bool?,
   );
 }
 
@@ -276,12 +270,10 @@ DeregisterWorkspaceDirectoryResult _$DeregisterWorkspaceDirectoryResultFromJson(
 DescribeAccountModificationsResult _$DescribeAccountModificationsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAccountModificationsResult(
-    accountModifications: (json['AccountModifications'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccountModification.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    accountModifications: (json['AccountModifications'] as List<dynamic>?)
+        ?.map((e) => AccountModification.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -289,7 +281,7 @@ DescribeAccountResult _$DescribeAccountResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAccountResult(
     dedicatedTenancyManagementCidrRange:
-        json['DedicatedTenancyManagementCidrRange'] as String,
+        json['DedicatedTenancyManagementCidrRange'] as String?,
     dedicatedTenancySupport: _$enumDecodeNullable(
         _$DedicatedTenancySupportResultEnumEnumMap,
         json['DedicatedTenancySupport']),
@@ -299,11 +291,9 @@ DescribeAccountResult _$DescribeAccountResultFromJson(
 DescribeClientPropertiesResult _$DescribeClientPropertiesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeClientPropertiesResult(
-    clientPropertiesList: (json['ClientPropertiesList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClientPropertiesResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clientPropertiesList: (json['ClientPropertiesList'] as List<dynamic>?)
+        ?.map((e) => ClientPropertiesResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -311,69 +301,61 @@ DescribeConnectionAliasPermissionsResult
     _$DescribeConnectionAliasPermissionsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeConnectionAliasPermissionsResult(
-    aliasId: json['AliasId'] as String,
-    connectionAliasPermissions: (json['ConnectionAliasPermissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConnectionAliasPermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aliasId: json['AliasId'] as String?,
+    connectionAliasPermissions:
+        (json['ConnectionAliasPermissions'] as List<dynamic>?)
+            ?.map((e) =>
+                ConnectionAliasPermission.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeConnectionAliasesResult _$DescribeConnectionAliasesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeConnectionAliasesResult(
-    connectionAliases: (json['ConnectionAliases'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConnectionAlias.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    connectionAliases: (json['ConnectionAliases'] as List<dynamic>?)
+        ?.map((e) => ConnectionAlias.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeIpGroupsResult _$DescribeIpGroupsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeIpGroupsResult(
-    nextToken: json['NextToken'] as String,
-    result: (json['Result'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkspacesIpGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    result: (json['Result'] as List<dynamic>?)
+        ?.map((e) => WorkspacesIpGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeTagsResult _$DescribeTagsResultFromJson(Map<String, dynamic> json) {
   return DescribeTagsResult(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeWorkspaceBundlesResult _$DescribeWorkspaceBundlesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceBundlesResult(
-    bundles: (json['Bundles'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkspaceBundle.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    bundles: (json['Bundles'] as List<dynamic>?)
+        ?.map((e) => WorkspaceBundle.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeWorkspaceDirectoriesResult _$DescribeWorkspaceDirectoriesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceDirectoriesResult(
-    directories: (json['Directories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkspaceDirectory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    directories: (json['Directories'] as List<dynamic>?)
+        ?.map((e) => WorkspaceDirectory.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -381,39 +363,33 @@ DescribeWorkspaceImagePermissionsResult
     _$DescribeWorkspaceImagePermissionsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeWorkspaceImagePermissionsResult(
-    imageId: json['ImageId'] as String,
-    imagePermissions: (json['ImagePermissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ImagePermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    imageId: json['ImageId'] as String?,
+    imagePermissions: (json['ImagePermissions'] as List<dynamic>?)
+        ?.map((e) => ImagePermission.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeWorkspaceImagesResult _$DescribeWorkspaceImagesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceImagesResult(
-    images: (json['Images'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkspaceImage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    images: (json['Images'] as List<dynamic>?)
+        ?.map((e) => WorkspaceImage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeWorkspaceSnapshotsResult _$DescribeWorkspaceSnapshotsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceSnapshotsResult(
-    rebuildSnapshots: (json['RebuildSnapshots'] as List)
-        ?.map((e) =>
-            e == null ? null : Snapshot.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    restoreSnapshots: (json['RestoreSnapshots'] as List)
-        ?.map((e) =>
-            e == null ? null : Snapshot.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rebuildSnapshots: (json['RebuildSnapshots'] as List<dynamic>?)
+        ?.map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    restoreSnapshots: (json['RestoreSnapshots'] as List<dynamic>?)
+        ?.map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -421,23 +397,22 @@ DescribeWorkspacesConnectionStatusResult
     _$DescribeWorkspacesConnectionStatusResultFromJson(
         Map<String, dynamic> json) {
   return DescribeWorkspacesConnectionStatusResult(
-    nextToken: json['NextToken'] as String,
-    workspacesConnectionStatus: (json['WorkspacesConnectionStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WorkspaceConnectionStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    workspacesConnectionStatus:
+        (json['WorkspacesConnectionStatus'] as List<dynamic>?)
+            ?.map((e) =>
+                WorkspaceConnectionStatus.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 DescribeWorkspacesResult _$DescribeWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspacesResult(
-    nextToken: json['NextToken'] as String,
-    workspaces: (json['Workspaces'] as List)
-        ?.map((e) =>
-            e == null ? null : Workspace.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    workspaces: (json['Workspaces'] as List<dynamic>?)
+        ?.map((e) => Workspace.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -454,8 +429,8 @@ DisassociateIpGroupsResult _$DisassociateIpGroupsResultFromJson(
 FailedCreateWorkspaceRequest _$FailedCreateWorkspaceRequestFromJson(
     Map<String, dynamic> json) {
   return FailedCreateWorkspaceRequest(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     workspaceRequest: json['WorkspaceRequest'] == null
         ? null
         : WorkspaceRequest.fromJson(
@@ -466,29 +441,29 @@ FailedCreateWorkspaceRequest _$FailedCreateWorkspaceRequestFromJson(
 FailedWorkspaceChangeRequest _$FailedWorkspaceChangeRequestFromJson(
     Map<String, dynamic> json) {
   return FailedWorkspaceChangeRequest(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    workspaceId: json['WorkspaceId'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    workspaceId: json['WorkspaceId'] as String?,
   );
 }
 
 ImagePermission _$ImagePermissionFromJson(Map<String, dynamic> json) {
   return ImagePermission(
-    sharedAccountId: json['SharedAccountId'] as String,
+    sharedAccountId: json['SharedAccountId'] as String?,
   );
 }
 
 ImportWorkspaceImageResult _$ImportWorkspaceImageResultFromJson(
     Map<String, dynamic> json) {
   return ImportWorkspaceImageResult(
-    imageId: json['ImageId'] as String,
+    imageId: json['ImageId'] as String?,
   );
 }
 
 IpRuleItem _$IpRuleItemFromJson(Map<String, dynamic> json) {
   return IpRuleItem(
-    ipRule: json['ipRule'] as String,
-    ruleDesc: json['ruleDesc'] as String,
+    ipRule: json['ipRule'] as String?,
+    ruleDesc: json['ruleDesc'] as String?,
   );
 }
 
@@ -510,18 +485,18 @@ ListAvailableManagementCidrRangesResult
     _$ListAvailableManagementCidrRangesResultFromJson(
         Map<String, dynamic> json) {
   return ListAvailableManagementCidrRangesResult(
-    managementCidrRanges: (json['ManagementCidrRanges'] as List)
+    managementCidrRanges: (json['ManagementCidrRanges'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 MigrateWorkspaceResult _$MigrateWorkspaceResultFromJson(
     Map<String, dynamic> json) {
   return MigrateWorkspaceResult(
-    sourceWorkspaceId: json['SourceWorkspaceId'] as String,
-    targetWorkspaceId: json['TargetWorkspaceId'] as String,
+    sourceWorkspaceId: json['SourceWorkspaceId'] as String?,
+    targetWorkspaceId: json['TargetWorkspaceId'] as String?,
   );
 }
 
@@ -590,51 +565,33 @@ const _$OperatingSystemTypeEnumMap = {
   OperatingSystemType.linux: 'LINUX',
 };
 
-Map<String, dynamic> _$RebootRequestToJson(RebootRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('WorkspaceId', instance.workspaceId);
-  return val;
-}
+Map<String, dynamic> _$RebootRequestToJson(RebootRequest instance) =>
+    <String, dynamic>{
+      'WorkspaceId': instance.workspaceId,
+    };
 
 RebootWorkspacesResult _$RebootWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return RebootWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$RebuildRequestToJson(RebuildRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('WorkspaceId', instance.workspaceId);
-  return val;
-}
+Map<String, dynamic> _$RebuildRequestToJson(RebuildRequest instance) =>
+    <String, dynamic>{
+      'WorkspaceId': instance.workspaceId,
+    };
 
 RebuildWorkspacesResult _$RebuildWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return RebuildWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -654,7 +611,7 @@ RevokeIpRulesResult _$RevokeIpRulesResultFromJson(Map<String, dynamic> json) {
 
 RootStorage _$RootStorageFromJson(Map<String, dynamic> json) {
   return RootStorage(
-    capacity: json['Capacity'] as String,
+    capacity: json['Capacity'] as String?,
   );
 }
 
@@ -719,11 +676,10 @@ Map<String, dynamic> _$StartRequestToJson(StartRequest instance) {
 StartWorkspacesResult _$StartWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return StartWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -742,23 +698,24 @@ Map<String, dynamic> _$StopRequestToJson(StopRequest instance) {
 
 StopWorkspacesResult _$StopWorkspacesResultFromJson(Map<String, dynamic> json) {
   return StopWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -766,32 +723,22 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }
 
-Map<String, dynamic> _$TerminateRequestToJson(TerminateRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('WorkspaceId', instance.workspaceId);
-  return val;
-}
+Map<String, dynamic> _$TerminateRequestToJson(TerminateRequest instance) =>
+    <String, dynamic>{
+      'WorkspaceId': instance.workspaceId,
+    };
 
 TerminateWorkspacesResult _$TerminateWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return TerminateWorkspacesResult(
-    failedRequests: (json['FailedRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedRequests: (json['FailedRequests'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -812,30 +759,28 @@ UpdateWorkspaceImagePermissionResult
 
 UserStorage _$UserStorageFromJson(Map<String, dynamic> json) {
   return UserStorage(
-    capacity: json['Capacity'] as String,
+    capacity: json['Capacity'] as String?,
   );
 }
 
 Workspace _$WorkspaceFromJson(Map<String, dynamic> json) {
   return Workspace(
-    bundleId: json['BundleId'] as String,
-    computerName: json['ComputerName'] as String,
-    directoryId: json['DirectoryId'] as String,
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    ipAddress: json['IpAddress'] as String,
-    modificationStates: (json['ModificationStates'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ModificationState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool,
+    bundleId: json['BundleId'] as String?,
+    computerName: json['ComputerName'] as String?,
+    directoryId: json['DirectoryId'] as String?,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    modificationStates: (json['ModificationStates'] as List<dynamic>?)
+        ?.map((e) => ModificationState.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
     state: _$enumDecodeNullable(_$WorkspaceStateEnumMap, json['State']),
-    subnetId: json['SubnetId'] as String,
-    userName: json['UserName'] as String,
-    userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool,
-    volumeEncryptionKey: json['VolumeEncryptionKey'] as String,
-    workspaceId: json['WorkspaceId'] as String,
+    subnetId: json['SubnetId'] as String?,
+    userName: json['UserName'] as String?,
+    userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
+    volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
+    workspaceId: json['WorkspaceId'] as String?,
     workspaceProperties: json['WorkspaceProperties'] == null
         ? null
         : WorkspaceProperties.fromJson(
@@ -917,16 +862,16 @@ const _$AccessPropertyValueEnumMap = {
 
 WorkspaceBundle _$WorkspaceBundleFromJson(Map<String, dynamic> json) {
   return WorkspaceBundle(
-    bundleId: json['BundleId'] as String,
+    bundleId: json['BundleId'] as String?,
     computeType: json['ComputeType'] == null
         ? null
         : ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>),
-    description: json['Description'] as String,
-    imageId: json['ImageId'] as String,
+    description: json['Description'] as String?,
+    imageId: json['ImageId'] as String?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
     rootStorage: json['RootStorage'] == null
         ? null
         : RootStorage.fromJson(json['RootStorage'] as Map<String, dynamic>),
@@ -945,7 +890,7 @@ WorkspaceConnectionStatus _$WorkspaceConnectionStatusFromJson(
         .fromJson(json['ConnectionStateCheckTimestamp']),
     lastKnownUserConnectionTimestamp: const UnixDateTimeConverter()
         .fromJson(json['LastKnownUserConnectionTimestamp']),
-    workspaceId: json['WorkspaceId'] as String,
+    workspaceId: json['WorkspaceId'] as String?,
   );
 }
 
@@ -977,23 +922,25 @@ Map<String, dynamic> _$WorkspaceCreationPropertiesToJson(
 
 WorkspaceDirectory _$WorkspaceDirectoryFromJson(Map<String, dynamic> json) {
   return WorkspaceDirectory(
-    alias: json['Alias'] as String,
-    customerUserName: json['CustomerUserName'] as String,
-    directoryId: json['DirectoryId'] as String,
-    directoryName: json['DirectoryName'] as String,
+    alias: json['Alias'] as String?,
+    customerUserName: json['CustomerUserName'] as String?,
+    directoryId: json['DirectoryId'] as String?,
+    directoryName: json['DirectoryName'] as String?,
     directoryType: _$enumDecodeNullable(
         _$WorkspaceDirectoryTypeEnumMap, json['DirectoryType']),
-    dnsIpAddresses:
-        (json['DnsIpAddresses'] as List)?.map((e) => e as String)?.toList(),
-    iamRoleId: json['IamRoleId'] as String,
-    registrationCode: json['RegistrationCode'] as String,
+    dnsIpAddresses: (json['DnsIpAddresses'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    iamRoleId: json['IamRoleId'] as String?,
+    registrationCode: json['RegistrationCode'] as String?,
     selfservicePermissions: json['SelfservicePermissions'] == null
         ? null
         : SelfservicePermissions.fromJson(
             json['SelfservicePermissions'] as Map<String, dynamic>),
     state:
         _$enumDecodeNullable(_$WorkspaceDirectoryStateEnumMap, json['State']),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
     tenancy: _$enumDecodeNullable(_$TenancyEnumMap, json['Tenancy']),
     workspaceAccessProperties: json['WorkspaceAccessProperties'] == null
         ? null
@@ -1003,8 +950,10 @@ WorkspaceDirectory _$WorkspaceDirectoryFromJson(Map<String, dynamic> json) {
         ? null
         : DefaultWorkspaceCreationProperties.fromJson(
             json['WorkspaceCreationProperties'] as Map<String, dynamic>),
-    workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String,
-    ipGroupIds: (json['ipGroupIds'] as List)?.map((e) => e as String)?.toList(),
+    workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
+    ipGroupIds: (json['ipGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1029,16 +978,16 @@ const _$TenancyEnumMap = {
 WorkspaceImage _$WorkspaceImageFromJson(Map<String, dynamic> json) {
   return WorkspaceImage(
     created: const UnixDateTimeConverter().fromJson(json['Created']),
-    description: json['Description'] as String,
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    imageId: json['ImageId'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    imageId: json['ImageId'] as String?,
+    name: json['Name'] as String?,
     operatingSystem: json['OperatingSystem'] == null
         ? null
         : OperatingSystem.fromJson(
             json['OperatingSystem'] as Map<String, dynamic>),
-    ownerAccountId: json['OwnerAccountId'] as String,
+    ownerAccountId: json['OwnerAccountId'] as String?,
     requiredTenancy: _$enumDecodeNullable(
         _$WorkspaceImageRequiredTenancyEnumMap, json['RequiredTenancy']),
     state: _$enumDecodeNullable(_$WorkspaceImageStateEnumMap, json['State']),
@@ -1060,12 +1009,12 @@ WorkspaceProperties _$WorkspacePropertiesFromJson(Map<String, dynamic> json) {
   return WorkspaceProperties(
     computeTypeName:
         _$enumDecodeNullable(_$ComputeEnumMap, json['ComputeTypeName']),
-    rootVolumeSizeGib: json['RootVolumeSizeGib'] as int,
+    rootVolumeSizeGib: json['RootVolumeSizeGib'] as int?,
     runningMode:
         _$enumDecodeNullable(_$RunningModeEnumMap, json['RunningMode']),
     runningModeAutoStopTimeoutInMinutes:
-        json['RunningModeAutoStopTimeoutInMinutes'] as int,
-    userVolumeSizeGib: json['UserVolumeSizeGib'] as int,
+        json['RunningModeAutoStopTimeoutInMinutes'] as int?,
+    userVolumeSizeGib: json['UserVolumeSizeGib'] as int?,
   );
 }
 
@@ -1097,12 +1046,12 @@ WorkspaceRequest _$WorkspaceRequestFromJson(Map<String, dynamic> json) {
     bundleId: json['BundleId'] as String,
     directoryId: json['DirectoryId'] as String,
     userName: json['UserName'] as String,
-    rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool,
-    volumeEncryptionKey: json['VolumeEncryptionKey'] as String,
+    rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
+    volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
     workspaceProperties: json['WorkspaceProperties'] == null
         ? null
         : WorkspaceProperties.fromJson(
@@ -1111,7 +1060,11 @@ WorkspaceRequest _$WorkspaceRequestFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$WorkspaceRequestToJson(WorkspaceRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BundleId': instance.bundleId,
+    'DirectoryId': instance.directoryId,
+    'UserName': instance.userName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1119,12 +1072,9 @@ Map<String, dynamic> _$WorkspaceRequestToJson(WorkspaceRequest instance) {
     }
   }
 
-  writeNotNull('BundleId', instance.bundleId);
-  writeNotNull('DirectoryId', instance.directoryId);
-  writeNotNull('UserName', instance.userName);
   writeNotNull(
       'RootVolumeEncryptionEnabled', instance.rootVolumeEncryptionEnabled);
-  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e.toJson()).toList());
   writeNotNull(
       'UserVolumeEncryptionEnabled', instance.userVolumeEncryptionEnabled);
   writeNotNull('VolumeEncryptionKey', instance.volumeEncryptionKey);
@@ -1134,12 +1084,11 @@ Map<String, dynamic> _$WorkspaceRequestToJson(WorkspaceRequest instance) {
 
 WorkspacesIpGroup _$WorkspacesIpGroupFromJson(Map<String, dynamic> json) {
   return WorkspacesIpGroup(
-    groupDesc: json['groupDesc'] as String,
-    groupId: json['groupId'] as String,
-    groupName: json['groupName'] as String,
-    userRules: (json['userRules'] as List)
-        ?.map((e) =>
-            e == null ? null : IpRuleItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    groupDesc: json['groupDesc'] as String?,
+    groupId: json['groupId'] as String?,
+    groupName: json['groupName'] as String?,
+    userRules: (json['userRules'] as List<dynamic>?)
+        ?.map((e) => IpRuleItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }

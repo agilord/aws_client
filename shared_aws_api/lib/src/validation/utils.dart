@@ -1,10 +1,16 @@
 void validateStringPattern(
   String name,
-  String value,
+  String? value,
   String pattern, {
   bool isRequired = false,
 }) {
-  if (value == null && !isRequired) return;
+  if (value == null) {
+    if (isRequired) {
+      throw ArgumentError.notNull(name);
+    } else {
+      return;
+    }
+  }
 
   if (!RegExp(pattern).hasMatch(value)) {
     throw ArgumentError.value(
@@ -16,10 +22,10 @@ void validateStringPattern(
 }
 
 void validateStringLength(
-  String name,
-  String value,
-  int min,
-  int max, {
+  String? name,
+  String? value,
+  int? min,
+  int? max, {
   bool isRequired = false,
 }) {
   if (value == null && !isRequired) return;
@@ -27,7 +33,7 @@ void validateStringLength(
   ArgumentError.checkNotNull(value, name);
   ArgumentError.checkNotNull(min, 'min');
   ArgumentError.checkNotNull(max, 'max');
-  if ((min > value.length || value.length > max)) {
+  if ((min! > value!.length || value.length > max!)) {
     throw ArgumentError.value(
       value,
       name,
@@ -37,10 +43,10 @@ void validateStringLength(
 }
 
 void validateNumRange(
-  String name,
-  num value,
-  int min,
-  int max, {
+  String? name,
+  num? value,
+  int? min,
+  int? max, {
   bool isRequired = false,
 }) {
   if (value == null && !isRequired) return;
@@ -48,11 +54,11 @@ void validateNumRange(
   ArgumentError.checkNotNull(value, name);
   ArgumentError.checkNotNull(min, 'min');
   ArgumentError.checkNotNull(max, 'max');
-  if (value.isNaN) {
+  if (value!.isNaN) {
     throw ArgumentError.value(value, name, '$name is not a number');
   }
 
-  if (min > value || value > max) {
+  if (min! > value || value > max!) {
     throw RangeError.range(value, min, max, name);
   }
 }

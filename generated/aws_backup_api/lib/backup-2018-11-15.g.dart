@@ -9,10 +9,10 @@ part of 'backup-2018-11-15.dart';
 AdvancedBackupSetting _$AdvancedBackupSettingFromJson(
     Map<String, dynamic> json) {
   return AdvancedBackupSetting(
-    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    resourceType: json['ResourceType'] as String,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
@@ -33,16 +33,16 @@ Map<String, dynamic> _$AdvancedBackupSettingToJson(
 
 BackupJob _$BackupJobFromJson(Map<String, dynamic> json) {
   return BackupJob(
-    accountId: json['AccountId'] as String,
-    backupJobId: json['BackupJobId'] as String,
-    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+    accountId: json['AccountId'] as String?,
+    backupJobId: json['BackupJobId'] as String?,
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    backupType: json['BackupType'] as String,
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
-    bytesTransferred: json['BytesTransferred'] as int,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+    backupType: json['BackupType'] as String?,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
+    bytesTransferred: json['BytesTransferred'] as int?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
@@ -52,47 +52,52 @@ BackupJob _$BackupJobFromJson(Map<String, dynamic> json) {
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     expectedCompletionDate:
         const UnixDateTimeConverter().fromJson(json['ExpectedCompletionDate']),
-    iamRoleArn: json['IamRoleArn'] as String,
-    percentDone: json['PercentDone'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    percentDone: json['PercentDone'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
     startBy: const UnixDateTimeConverter().fromJson(json['StartBy']),
     state: _$enumDecodeNullable(_$BackupJobStateEnumMap, json['State']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BackupJobStateEnumMap = {
@@ -109,20 +114,20 @@ const _$BackupJobStateEnumMap = {
 BackupPlan _$BackupPlanFromJson(Map<String, dynamic> json) {
   return BackupPlan(
     backupPlanName: json['BackupPlanName'] as String,
-    rules: (json['Rules'] as List)
-        ?.map((e) =>
-            e == null ? null : BackupRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['Rules'] as List<dynamic>)
+        .map((e) => BackupRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List<dynamic>?)
+        ?.map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BackupPlanInputToJson(BackupPlanInput instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BackupPlanName': instance.backupPlanName,
+    'Rules': instance.rules.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -130,38 +135,34 @@ Map<String, dynamic> _$BackupPlanInputToJson(BackupPlanInput instance) {
     }
   }
 
-  writeNotNull('BackupPlanName', instance.backupPlanName);
-  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
   writeNotNull('AdvancedBackupSettings',
-      instance.advancedBackupSettings?.map((e) => e?.toJson())?.toList());
+      instance.advancedBackupSettings?.map((e) => e.toJson()).toList());
   return val;
 }
 
 BackupPlanTemplatesListMember _$BackupPlanTemplatesListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupPlanTemplatesListMember(
-    backupPlanTemplateId: json['BackupPlanTemplateId'] as String,
-    backupPlanTemplateName: json['BackupPlanTemplateName'] as String,
+    backupPlanTemplateId: json['BackupPlanTemplateId'] as String?,
+    backupPlanTemplateName: json['BackupPlanTemplateName'] as String?,
   );
 }
 
 BackupPlansListMember _$BackupPlansListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupPlansListMember(
-    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
-    backupPlanName: json['BackupPlanName'] as String,
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List<dynamic>?)
+        ?.map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
+    backupPlanName: json['BackupPlanName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
+    creatorRequestId: json['CreatorRequestId'] as String?,
     deletionDate: const UnixDateTimeConverter().fromJson(json['DeletionDate']),
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
@@ -169,25 +170,28 @@ BackupRule _$BackupRuleFromJson(Map<String, dynamic> json) {
   return BackupRule(
     ruleName: json['RuleName'] as String,
     targetBackupVaultName: json['TargetBackupVaultName'] as String,
-    completionWindowMinutes: json['CompletionWindowMinutes'] as int,
-    copyActions: (json['CopyActions'] as List)
-        ?.map((e) =>
-            e == null ? null : CopyAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    completionWindowMinutes: json['CompletionWindowMinutes'] as int?,
+    copyActions: (json['CopyActions'] as List<dynamic>?)
+        ?.map((e) => CopyAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
-    recoveryPointTags: (json['RecoveryPointTags'] as Map<String, dynamic>)?.map(
+    recoveryPointTags:
+        (json['RecoveryPointTags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    ruleId: json['RuleId'] as String,
-    scheduleExpression: json['ScheduleExpression'] as String,
-    startWindowMinutes: json['StartWindowMinutes'] as int,
+    ruleId: json['RuleId'] as String?,
+    scheduleExpression: json['ScheduleExpression'] as String?,
+    startWindowMinutes: json['StartWindowMinutes'] as int?,
   );
 }
 
 Map<String, dynamic> _$BackupRuleInputToJson(BackupRuleInput instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RuleName': instance.ruleName,
+    'TargetBackupVaultName': instance.targetBackupVaultName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -195,11 +199,9 @@ Map<String, dynamic> _$BackupRuleInputToJson(BackupRuleInput instance) {
     }
   }
 
-  writeNotNull('RuleName', instance.ruleName);
-  writeNotNull('TargetBackupVaultName', instance.targetBackupVaultName);
   writeNotNull('CompletionWindowMinutes', instance.completionWindowMinutes);
   writeNotNull(
-      'CopyActions', instance.copyActions?.map((e) => e?.toJson())?.toList());
+      'CopyActions', instance.copyActions?.map((e) => e.toJson()).toList());
   writeNotNull('Lifecycle', instance.lifecycle?.toJson());
   writeNotNull('RecoveryPointTags', instance.recoveryPointTags);
   writeNotNull('ScheduleExpression', instance.scheduleExpression);
@@ -211,16 +213,19 @@ BackupSelection _$BackupSelectionFromJson(Map<String, dynamic> json) {
   return BackupSelection(
     iamRoleArn: json['IamRoleArn'] as String,
     selectionName: json['SelectionName'] as String,
-    listOfTags: (json['ListOfTags'] as List)
-        ?.map((e) =>
-            e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resources: (json['Resources'] as List)?.map((e) => e as String)?.toList(),
+    listOfTags: (json['ListOfTags'] as List<dynamic>?)
+        ?.map((e) => Condition.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resources:
+        (json['Resources'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$BackupSelectionToJson(BackupSelection instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IamRoleArn': instance.iamRoleArn,
+    'SelectionName': instance.selectionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -228,10 +233,8 @@ Map<String, dynamic> _$BackupSelectionToJson(BackupSelection instance) {
     }
   }
 
-  writeNotNull('IamRoleArn', instance.iamRoleArn);
-  writeNotNull('SelectionName', instance.selectionName);
   writeNotNull(
-      'ListOfTags', instance.listOfTags?.map((e) => e?.toJson())?.toList());
+      'ListOfTags', instance.listOfTags?.map((e) => e.toJson()).toList());
   writeNotNull('Resources', instance.resources);
   return val;
 }
@@ -239,24 +242,24 @@ Map<String, dynamic> _$BackupSelectionToJson(BackupSelection instance) {
 BackupSelectionsListMember _$BackupSelectionsListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupSelectionsListMember(
-    backupPlanId: json['BackupPlanId'] as String,
+    backupPlanId: json['BackupPlanId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    selectionId: json['SelectionId'] as String,
-    selectionName: json['SelectionName'] as String,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    selectionId: json['SelectionId'] as String?,
+    selectionName: json['SelectionName'] as String?,
   );
 }
 
 BackupVaultListMember _$BackupVaultListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupVaultListMember(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
-    encryptionKeyArn: json['EncryptionKeyArn'] as String,
-    numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
   );
 }
 
@@ -271,26 +274,16 @@ CalculatedLifecycle _$CalculatedLifecycleFromJson(Map<String, dynamic> json) {
 Condition _$ConditionFromJson(Map<String, dynamic> json) {
   return Condition(
     conditionKey: json['ConditionKey'] as String,
-    conditionType:
-        _$enumDecodeNullable(_$ConditionTypeEnumMap, json['ConditionType']),
+    conditionType: _$enumDecode(_$ConditionTypeEnumMap, json['ConditionType']),
     conditionValue: json['ConditionValue'] as String,
   );
 }
 
-Map<String, dynamic> _$ConditionToJson(Condition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ConditionKey', instance.conditionKey);
-  writeNotNull('ConditionType', _$ConditionTypeEnumMap[instance.conditionType]);
-  writeNotNull('ConditionValue', instance.conditionValue);
-  return val;
-}
+Map<String, dynamic> _$ConditionToJson(Condition instance) => <String, dynamic>{
+      'ConditionKey': instance.conditionKey,
+      'ConditionType': _$ConditionTypeEnumMap[instance.conditionType],
+      'ConditionValue': instance.conditionValue,
+    };
 
 const _$ConditionTypeEnumMap = {
   ConditionType.stringequals: 'STRINGEQUALS',
@@ -306,7 +299,9 @@ CopyAction _$CopyActionFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CopyActionToJson(CopyAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DestinationBackupVaultArn': instance.destinationBackupVaultArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -314,32 +309,31 @@ Map<String, dynamic> _$CopyActionToJson(CopyAction instance) {
     }
   }
 
-  writeNotNull('DestinationBackupVaultArn', instance.destinationBackupVaultArn);
   writeNotNull('Lifecycle', instance.lifecycle?.toJson());
   return val;
 }
 
 CopyJob _$CopyJobFromJson(Map<String, dynamic> json) {
   return CopyJob(
-    accountId: json['AccountId'] as String,
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
+    accountId: json['AccountId'] as String?,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
-    copyJobId: json['CopyJobId'] as String,
+    copyJobId: json['CopyJobId'] as String?,
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String,
-    destinationRecoveryPointArn: json['DestinationRecoveryPointArn'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
-    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String,
-    sourceRecoveryPointArn: json['SourceRecoveryPointArn'] as String,
+    destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String?,
+    destinationRecoveryPointArn: json['DestinationRecoveryPointArn'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
+    sourceRecoveryPointArn: json['SourceRecoveryPointArn'] as String?,
     state: _$enumDecodeNullable(_$CopyJobStateEnumMap, json['State']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
@@ -353,32 +347,30 @@ const _$CopyJobStateEnumMap = {
 CreateBackupPlanOutput _$CreateBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupPlanOutput(
-    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List<dynamic>?)
+        ?.map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
 CreateBackupSelectionOutput _$CreateBackupSelectionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupSelectionOutput(
-    backupPlanId: json['BackupPlanId'] as String,
+    backupPlanId: json['BackupPlanId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    selectionId: json['SelectionId'] as String,
+    selectionId: json['SelectionId'] as String?,
   );
 }
 
 CreateBackupVaultOutput _$CreateBackupVaultOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupVaultOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
   );
 }
@@ -386,26 +378,26 @@ CreateBackupVaultOutput _$CreateBackupVaultOutputFromJson(
 DeleteBackupPlanOutput _$DeleteBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteBackupPlanOutput(
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
     deletionDate: const UnixDateTimeConverter().fromJson(json['DeletionDate']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
 DescribeBackupJobOutput _$DescribeBackupJobOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupJobOutput(
-    accountId: json['AccountId'] as String,
-    backupJobId: json['BackupJobId'] as String,
-    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+    accountId: json['AccountId'] as String?,
+    backupJobId: json['BackupJobId'] as String?,
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    backupType: json['BackupType'] as String,
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
-    bytesTransferred: json['BytesTransferred'] as int,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+    backupType: json['BackupType'] as String?,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
+    bytesTransferred: json['BytesTransferred'] as int?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
@@ -415,26 +407,26 @@ DescribeBackupJobOutput _$DescribeBackupJobOutputFromJson(
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     expectedCompletionDate:
         const UnixDateTimeConverter().fromJson(json['ExpectedCompletionDate']),
-    iamRoleArn: json['IamRoleArn'] as String,
-    percentDone: json['PercentDone'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    percentDone: json['PercentDone'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
     startBy: const UnixDateTimeConverter().fromJson(json['StartBy']),
     state: _$enumDecodeNullable(_$BackupJobStateEnumMap, json['State']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
 DescribeBackupVaultOutput _$DescribeBackupVaultOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupVaultOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
-    encryptionKeyArn: json['EncryptionKeyArn'] as String,
-    numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
   );
 }
 
@@ -450,7 +442,7 @@ DescribeCopyJobOutput _$DescribeCopyJobOutputFromJson(
 DescribeGlobalSettingsOutput _$DescribeGlobalSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGlobalSettingsOutput(
-    globalSettings: (json['GlobalSettings'] as Map<String, dynamic>)?.map(
+    globalSettings: (json['GlobalSettings'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     lastUpdateTime:
@@ -463,17 +455,17 @@ DescribeProtectedResourceOutput _$DescribeProtectedResourceOutputFromJson(
   return DescribeProtectedResourceOutput(
     lastBackupTime:
         const UnixDateTimeConverter().fromJson(json['LastBackupTime']),
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
 DescribeRecoveryPointOutput _$DescribeRecoveryPointOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeRecoveryPointOutput(
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
     calculatedLifecycle: json['CalculatedLifecycle'] == null
         ? null
         : CalculatedLifecycle.fromJson(
@@ -485,18 +477,18 @@ DescribeRecoveryPointOutput _$DescribeRecoveryPointOutputFromJson(
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    encryptionKeyArn: json['EncryptionKeyArn'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    isEncrypted: json['IsEncrypted'] as bool,
+    encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    isEncrypted: json['IsEncrypted'] as bool?,
     lastRestoreTime:
         const UnixDateTimeConverter().fromJson(json['LastRestoreTime']),
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
-    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
     storageClass:
         _$enumDecodeNullable(_$StorageClassEnumMap, json['StorageClass']),
@@ -520,7 +512,7 @@ DescribeRegionSettingsOutput _$DescribeRegionSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeRegionSettingsOutput(
     resourceTypeOptInPreference:
-        (json['ResourceTypeOptInPreference'] as Map<String, dynamic>)?.map(
+        (json['ResourceTypeOptInPreference'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as bool),
     ),
   );
@@ -529,20 +521,21 @@ DescribeRegionSettingsOutput _$DescribeRegionSettingsOutputFromJson(
 DescribeRestoreJobOutput _$DescribeRestoreJobOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeRestoreJobOutput(
-    accountId: json['AccountId'] as String,
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
+    accountId: json['AccountId'] as String?,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
-    createdResourceArn: json['CreatedResourceArn'] as String,
+    createdResourceArn: json['CreatedResourceArn'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    expectedCompletionTimeMinutes: json['ExpectedCompletionTimeMinutes'] as int,
-    iamRoleArn: json['IamRoleArn'] as String,
-    percentDone: json['PercentDone'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceType: json['ResourceType'] as String,
-    restoreJobId: json['RestoreJobId'] as String,
+    expectedCompletionTimeMinutes:
+        json['ExpectedCompletionTimeMinutes'] as int?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    percentDone: json['PercentDone'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    restoreJobId: json['RestoreJobId'] as String?,
     status: _$enumDecodeNullable(_$RestoreJobStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
@@ -557,7 +550,7 @@ const _$RestoreJobStatusEnumMap = {
 ExportBackupPlanTemplateOutput _$ExportBackupPlanTemplateOutputFromJson(
     Map<String, dynamic> json) {
   return ExportBackupPlanTemplateOutput(
-    backupPlanTemplateJson: json['BackupPlanTemplateJson'] as String,
+    backupPlanTemplateJson: json['BackupPlanTemplateJson'] as String?,
   );
 }
 
@@ -582,57 +575,55 @@ GetBackupPlanFromTemplateOutput _$GetBackupPlanFromTemplateOutputFromJson(
 
 GetBackupPlanOutput _$GetBackupPlanOutputFromJson(Map<String, dynamic> json) {
   return GetBackupPlanOutput(
-    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List<dynamic>?)
+        ?.map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
     backupPlan: json['BackupPlan'] == null
         ? null
         : BackupPlan.fromJson(json['BackupPlan'] as Map<String, dynamic>),
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
+    creatorRequestId: json['CreatorRequestId'] as String?,
     deletionDate: const UnixDateTimeConverter().fromJson(json['DeletionDate']),
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
 GetBackupSelectionOutput _$GetBackupSelectionOutputFromJson(
     Map<String, dynamic> json) {
   return GetBackupSelectionOutput(
-    backupPlanId: json['BackupPlanId'] as String,
+    backupPlanId: json['BackupPlanId'] as String?,
     backupSelection: json['BackupSelection'] == null
         ? null
         : BackupSelection.fromJson(
             json['BackupSelection'] as Map<String, dynamic>),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    creatorRequestId: json['CreatorRequestId'] as String,
-    selectionId: json['SelectionId'] as String,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    selectionId: json['SelectionId'] as String?,
   );
 }
 
 GetBackupVaultAccessPolicyOutput _$GetBackupVaultAccessPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return GetBackupVaultAccessPolicyOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
-    policy: json['Policy'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
+    policy: json['Policy'] as String?,
   );
 }
 
 GetBackupVaultNotificationsOutput _$GetBackupVaultNotificationsOutputFromJson(
     Map<String, dynamic> json) {
   return GetBackupVaultNotificationsOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultEvents: (json['BackupVaultEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$BackupVaultEventEnumMap, e))
-        ?.toList(),
-    backupVaultName: json['BackupVaultName'] as String,
-    sNSTopicArn: json['SNSTopicArn'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultEvents: (json['BackupVaultEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$BackupVaultEventEnumMap, e))
+        .toList(),
+    backupVaultName: json['BackupVaultName'] as String?,
+    sNSTopicArn: json['SNSTopicArn'] as String?,
   );
 }
 
@@ -657,9 +648,9 @@ const _$BackupVaultEventEnumMap = {
 GetRecoveryPointRestoreMetadataOutput
     _$GetRecoveryPointRestoreMetadataOutputFromJson(Map<String, dynamic> json) {
   return GetRecoveryPointRestoreMetadataOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    restoreMetadata: (json['RestoreMetadata'] as Map<String, dynamic>)?.map(
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    restoreMetadata: (json['RestoreMetadata'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -668,15 +659,16 @@ GetRecoveryPointRestoreMetadataOutput
 GetSupportedResourceTypesOutput _$GetSupportedResourceTypesOutputFromJson(
     Map<String, dynamic> json) {
   return GetSupportedResourceTypesOutput(
-    resourceTypes:
-        (json['ResourceTypes'] as List)?.map((e) => e as String)?.toList(),
+    resourceTypes: (json['ResourceTypes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Lifecycle _$LifecycleFromJson(Map<String, dynamic> json) {
   return Lifecycle(
-    deleteAfterDays: json['DeleteAfterDays'] as int,
-    moveToColdStorageAfterDays: json['MoveToColdStorageAfterDays'] as int,
+    deleteAfterDays: json['DeleteAfterDays'] as int?,
+    moveToColdStorageAfterDays: json['MoveToColdStorageAfterDays'] as int?,
   );
 }
 
@@ -697,136 +689,120 @@ Map<String, dynamic> _$LifecycleToJson(Lifecycle instance) {
 
 ListBackupJobsOutput _$ListBackupJobsOutputFromJson(Map<String, dynamic> json) {
   return ListBackupJobsOutput(
-    backupJobs: (json['BackupJobs'] as List)
-        ?.map((e) =>
-            e == null ? null : BackupJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupJobs: (json['BackupJobs'] as List<dynamic>?)
+        ?.map((e) => BackupJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBackupPlanTemplatesOutput _$ListBackupPlanTemplatesOutputFromJson(
     Map<String, dynamic> json) {
   return ListBackupPlanTemplatesOutput(
-    backupPlanTemplatesList: (json['BackupPlanTemplatesList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupPlanTemplatesListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupPlanTemplatesList: (json['BackupPlanTemplatesList'] as List<dynamic>?)
+        ?.map((e) =>
+            BackupPlanTemplatesListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBackupPlanVersionsOutput _$ListBackupPlanVersionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListBackupPlanVersionsOutput(
-    backupPlanVersionsList: (json['BackupPlanVersionsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupPlansListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupPlanVersionsList: (json['BackupPlanVersionsList'] as List<dynamic>?)
+        ?.map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBackupPlansOutput _$ListBackupPlansOutputFromJson(
     Map<String, dynamic> json) {
   return ListBackupPlansOutput(
-    backupPlansList: (json['BackupPlansList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupPlansListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupPlansList: (json['BackupPlansList'] as List<dynamic>?)
+        ?.map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBackupSelectionsOutput _$ListBackupSelectionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListBackupSelectionsOutput(
-    backupSelectionsList: (json['BackupSelectionsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupSelectionsListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupSelectionsList: (json['BackupSelectionsList'] as List<dynamic>?)
+        ?.map((e) =>
+            BackupSelectionsListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBackupVaultsOutput _$ListBackupVaultsOutputFromJson(
     Map<String, dynamic> json) {
   return ListBackupVaultsOutput(
-    backupVaultList: (json['BackupVaultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BackupVaultListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    backupVaultList: (json['BackupVaultList'] as List<dynamic>?)
+        ?.map((e) => BackupVaultListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCopyJobsOutput _$ListCopyJobsOutputFromJson(Map<String, dynamic> json) {
   return ListCopyJobsOutput(
-    copyJobs: (json['CopyJobs'] as List)
-        ?.map((e) =>
-            e == null ? null : CopyJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    copyJobs: (json['CopyJobs'] as List<dynamic>?)
+        ?.map((e) => CopyJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListProtectedResourcesOutput _$ListProtectedResourcesOutputFromJson(
     Map<String, dynamic> json) {
   return ListProtectedResourcesOutput(
-    nextToken: json['NextToken'] as String,
-    results: (json['Results'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProtectedResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    results: (json['Results'] as List<dynamic>?)
+        ?.map((e) => ProtectedResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRecoveryPointsByBackupVaultOutput
     _$ListRecoveryPointsByBackupVaultOutputFromJson(Map<String, dynamic> json) {
   return ListRecoveryPointsByBackupVaultOutput(
-    nextToken: json['NextToken'] as String,
-    recoveryPoints: (json['RecoveryPoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecoveryPointByBackupVault.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    recoveryPoints: (json['RecoveryPoints'] as List<dynamic>?)
+        ?.map((e) =>
+            RecoveryPointByBackupVault.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRecoveryPointsByResourceOutput _$ListRecoveryPointsByResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListRecoveryPointsByResourceOutput(
-    nextToken: json['NextToken'] as String,
-    recoveryPoints: (json['RecoveryPoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecoveryPointByResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    recoveryPoints: (json['RecoveryPoints'] as List<dynamic>?)
+        ?.map(
+            (e) => RecoveryPointByResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRestoreJobsOutput _$ListRestoreJobsOutputFromJson(
     Map<String, dynamic> json) {
   return ListRestoreJobsOutput(
-    nextToken: json['NextToken'] as String,
-    restoreJobs: (json['RestoreJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    restoreJobs: (json['RestoreJobs'] as List<dynamic>?)
+        ?.map((e) => RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsOutput _$ListTagsOutputFromJson(Map<String, dynamic> json) {
   return ListTagsOutput(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -836,17 +812,17 @@ ProtectedResource _$ProtectedResourceFromJson(Map<String, dynamic> json) {
   return ProtectedResource(
     lastBackupTime:
         const UnixDateTimeConverter().fromJson(json['LastBackupTime']),
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
 RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
     Map<String, dynamic> json) {
   return RecoveryPointByBackupVault(
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
+    backupVaultArn: json['BackupVaultArn'] as String?,
+    backupVaultName: json['BackupVaultName'] as String?,
     calculatedLifecycle: json['CalculatedLifecycle'] == null
         ? null
         : CalculatedLifecycle.fromJson(
@@ -858,18 +834,18 @@ RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    encryptionKeyArn: json['EncryptionKeyArn'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    isEncrypted: json['IsEncrypted'] as bool,
+    encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    isEncrypted: json['IsEncrypted'] as bool?,
     lastRestoreTime:
         const UnixDateTimeConverter().fromJson(json['LastRestoreTime']),
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceArn: json['ResourceArn'] as String,
-    resourceType: json['ResourceType'] as String,
-    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceArn: json['ResourceArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
   );
 }
@@ -877,55 +853,56 @@ RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
 RecoveryPointByResource _$RecoveryPointByResourceFromJson(
     Map<String, dynamic> json) {
   return RecoveryPointByResource(
-    backupSizeBytes: json['BackupSizeBytes'] as int,
-    backupVaultName: json['BackupVaultName'] as String,
+    backupSizeBytes: json['BackupSizeBytes'] as int?,
+    backupVaultName: json['BackupVaultName'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    encryptionKeyArn: json['EncryptionKeyArn'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
+    encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
   );
 }
 
 RecoveryPointCreator _$RecoveryPointCreatorFromJson(Map<String, dynamic> json) {
   return RecoveryPointCreator(
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
-    backupPlanVersion: json['BackupPlanVersion'] as String,
-    backupRuleId: json['BackupRuleId'] as String,
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
+    backupPlanVersion: json['BackupPlanVersion'] as String?,
+    backupRuleId: json['BackupRuleId'] as String?,
   );
 }
 
 RestoreJobsListMember _$RestoreJobsListMemberFromJson(
     Map<String, dynamic> json) {
   return RestoreJobsListMember(
-    accountId: json['AccountId'] as String,
-    backupSizeInBytes: json['BackupSizeInBytes'] as int,
+    accountId: json['AccountId'] as String?,
+    backupSizeInBytes: json['BackupSizeInBytes'] as int?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
-    createdResourceArn: json['CreatedResourceArn'] as String,
+    createdResourceArn: json['CreatedResourceArn'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    expectedCompletionTimeMinutes: json['ExpectedCompletionTimeMinutes'] as int,
-    iamRoleArn: json['IamRoleArn'] as String,
-    percentDone: json['PercentDone'] as String,
-    recoveryPointArn: json['RecoveryPointArn'] as String,
-    resourceType: json['ResourceType'] as String,
-    restoreJobId: json['RestoreJobId'] as String,
+    expectedCompletionTimeMinutes:
+        json['ExpectedCompletionTimeMinutes'] as int?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    percentDone: json['PercentDone'] as String?,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    restoreJobId: json['RestoreJobId'] as String?,
     status: _$enumDecodeNullable(_$RestoreJobStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
 StartBackupJobOutput _$StartBackupJobOutputFromJson(Map<String, dynamic> json) {
   return StartBackupJobOutput(
-    backupJobId: json['BackupJobId'] as String,
+    backupJobId: json['BackupJobId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    recoveryPointArn: json['RecoveryPointArn'] as String,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
   );
 }
 
 StartCopyJobOutput _$StartCopyJobOutputFromJson(Map<String, dynamic> json) {
   return StartCopyJobOutput(
-    copyJobId: json['CopyJobId'] as String,
+    copyJobId: json['CopyJobId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
   );
 }
@@ -933,29 +910,27 @@ StartCopyJobOutput _$StartCopyJobOutputFromJson(Map<String, dynamic> json) {
 StartRestoreJobOutput _$StartRestoreJobOutputFromJson(
     Map<String, dynamic> json) {
   return StartRestoreJobOutput(
-    restoreJobId: json['RestoreJobId'] as String,
+    restoreJobId: json['RestoreJobId'] as String?,
   );
 }
 
 UpdateBackupPlanOutput _$UpdateBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateBackupPlanOutput(
-    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    backupPlanArn: json['BackupPlanArn'] as String,
-    backupPlanId: json['BackupPlanId'] as String,
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List<dynamic>?)
+        ?.map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    backupPlanArn: json['BackupPlanArn'] as String?,
+    backupPlanId: json['BackupPlanId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    versionId: json['VersionId'] as String,
+    versionId: json['VersionId'] as String?,
   );
 }
 
 UpdateRecoveryPointLifecycleOutput _$UpdateRecoveryPointLifecycleOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateRecoveryPointLifecycleOutput(
-    backupVaultArn: json['BackupVaultArn'] as String,
+    backupVaultArn: json['BackupVaultArn'] as String?,
     calculatedLifecycle: json['CalculatedLifecycle'] == null
         ? null
         : CalculatedLifecycle.fromJson(
@@ -963,6 +938,6 @@ UpdateRecoveryPointLifecycleOutput _$UpdateRecoveryPointLifecycleOutputFromJson(
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
-    recoveryPointArn: json['RecoveryPointArn'] as String,
+    recoveryPointArn: json['RecoveryPointArn'] as String?,
   );
 }

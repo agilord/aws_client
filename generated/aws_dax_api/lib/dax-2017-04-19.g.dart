@@ -8,22 +8,22 @@ part of 'dax-2017-04-19.dart';
 
 Cluster _$ClusterFromJson(Map<String, dynamic> json) {
   return Cluster(
-    activeNodes: json['ActiveNodes'] as int,
-    clusterArn: json['ClusterArn'] as String,
+    activeNodes: json['ActiveNodes'] as int?,
+    clusterArn: json['ClusterArn'] as String?,
     clusterDiscoveryEndpoint: json['ClusterDiscoveryEndpoint'] == null
         ? null
         : Endpoint.fromJson(
             json['ClusterDiscoveryEndpoint'] as Map<String, dynamic>),
-    clusterName: json['ClusterName'] as String,
-    description: json['Description'] as String,
-    iamRoleArn: json['IamRoleArn'] as String,
-    nodeIdsToRemove:
-        (json['NodeIdsToRemove'] as List)?.map((e) => e as String)?.toList(),
-    nodeType: json['NodeType'] as String,
-    nodes: (json['Nodes'] as List)
-        ?.map(
-            (e) => e == null ? null : Node.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clusterName: json['ClusterName'] as String?,
+    description: json['Description'] as String?,
+    iamRoleArn: json['IamRoleArn'] as String?,
+    nodeIdsToRemove: (json['NodeIdsToRemove'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nodeType: json['NodeType'] as String?,
+    nodes: (json['Nodes'] as List<dynamic>?)
+        ?.map((e) => Node.fromJson(e as Map<String, dynamic>))
+        .toList(),
     notificationConfiguration: json['NotificationConfiguration'] == null
         ? null
         : NotificationConfiguration.fromJson(
@@ -32,19 +32,18 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
         ? null
         : ParameterGroupStatus.fromJson(
             json['ParameterGroup'] as Map<String, dynamic>),
-    preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String,
+    preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
     sSEDescription: json['SSEDescription'] == null
         ? null
         : SSEDescription.fromJson(
             json['SSEDescription'] as Map<String, dynamic>),
-    securityGroups: (json['SecurityGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    status: json['Status'] as String,
-    subnetGroup: json['SubnetGroup'] as String,
-    totalNodes: json['TotalNodes'] as int,
+    securityGroups: (json['SecurityGroups'] as List<dynamic>?)
+        ?.map(
+            (e) => SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    status: json['Status'] as String?,
+    subnetGroup: json['SubnetGroup'] as String?,
+    totalNodes: json['TotalNodes'] as int?,
   );
 }
 
@@ -97,130 +96,128 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
 DeleteParameterGroupResponse _$DeleteParameterGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteParameterGroupResponse(
-    deletionMessage: json['DeletionMessage'] as String,
+    deletionMessage: json['DeletionMessage'] as String?,
   );
 }
 
 DeleteSubnetGroupResponse _$DeleteSubnetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSubnetGroupResponse(
-    deletionMessage: json['DeletionMessage'] as String,
+    deletionMessage: json['DeletionMessage'] as String?,
   );
 }
 
 DescribeClustersResponse _$DescribeClustersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeClustersResponse(
-    clusters: (json['Clusters'] as List)
-        ?.map((e) =>
-            e == null ? null : Cluster.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    clusters: (json['Clusters'] as List<dynamic>?)
+        ?.map((e) => Cluster.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeDefaultParametersResponse _$DescribeDefaultParametersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDefaultParametersResponse(
-    nextToken: json['NextToken'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) =>
-            e == null ? null : Parameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeEventsResponse _$DescribeEventsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventsResponse(
-    events: (json['Events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    events: (json['Events'] as List<dynamic>?)
+        ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeParameterGroupsResponse _$DescribeParameterGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeParameterGroupsResponse(
-    nextToken: json['NextToken'] as String,
-    parameterGroups: (json['ParameterGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParameterGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameterGroups: (json['ParameterGroups'] as List<dynamic>?)
+        ?.map((e) => ParameterGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeParametersResponse _$DescribeParametersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeParametersResponse(
-    nextToken: json['NextToken'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) =>
-            e == null ? null : Parameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeSubnetGroupsResponse _$DescribeSubnetGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSubnetGroupsResponse(
-    nextToken: json['NextToken'] as String,
-    subnetGroups: (json['SubnetGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : SubnetGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    subnetGroups: (json['SubnetGroups'] as List<dynamic>?)
+        ?.map((e) => SubnetGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
   return Endpoint(
-    address: json['Address'] as String,
-    port: json['Port'] as int,
+    address: json['Address'] as String?,
+    port: json['Port'] as int?,
   );
 }
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     date: const UnixDateTimeConverter().fromJson(json['Date']),
-    message: json['Message'] as String,
-    sourceName: json['SourceName'] as String,
+    message: json['Message'] as String?,
+    sourceName: json['SourceName'] as String?,
     sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['SourceType']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SourceTypeEnumMap = {
@@ -240,61 +237,59 @@ IncreaseReplicationFactorResponse _$IncreaseReplicationFactorResponseFromJson(
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
   return Node(
-    availabilityZone: json['AvailabilityZone'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
     endpoint: json['Endpoint'] == null
         ? null
         : Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>),
     nodeCreateTime:
         const UnixDateTimeConverter().fromJson(json['NodeCreateTime']),
-    nodeId: json['NodeId'] as String,
-    nodeStatus: json['NodeStatus'] as String,
-    parameterGroupStatus: json['ParameterGroupStatus'] as String,
+    nodeId: json['NodeId'] as String?,
+    nodeStatus: json['NodeStatus'] as String?,
+    parameterGroupStatus: json['ParameterGroupStatus'] as String?,
   );
 }
 
 NodeTypeSpecificValue _$NodeTypeSpecificValueFromJson(
     Map<String, dynamic> json) {
   return NodeTypeSpecificValue(
-    nodeType: json['NodeType'] as String,
-    value: json['Value'] as String,
+    nodeType: json['NodeType'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
 NotificationConfiguration _$NotificationConfigurationFromJson(
     Map<String, dynamic> json) {
   return NotificationConfiguration(
-    topicArn: json['TopicArn'] as String,
-    topicStatus: json['TopicStatus'] as String,
+    topicArn: json['TopicArn'] as String?,
+    topicStatus: json['TopicStatus'] as String?,
   );
 }
 
 Parameter _$ParameterFromJson(Map<String, dynamic> json) {
   return Parameter(
-    allowedValues: json['AllowedValues'] as String,
+    allowedValues: json['AllowedValues'] as String?,
     changeType: _$enumDecodeNullable(_$ChangeTypeEnumMap, json['ChangeType']),
-    dataType: json['DataType'] as String,
-    description: json['Description'] as String,
+    dataType: json['DataType'] as String?,
+    description: json['Description'] as String?,
     isModifiable:
         _$enumDecodeNullable(_$IsModifiableEnumMap, json['IsModifiable']),
-    nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    parameterName: json['ParameterName'] as String,
+    nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List<dynamic>?)
+        ?.map((e) => NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    parameterName: json['ParameterName'] as String?,
     parameterType:
         _$enumDecodeNullable(_$ParameterTypeEnumMap, json['ParameterType']),
-    parameterValue: json['ParameterValue'] as String,
-    source: json['Source'] as String,
+    parameterValue: json['ParameterValue'] as String?,
+    source: json['Source'] as String?,
   );
 }
 
@@ -316,17 +311,18 @@ const _$ParameterTypeEnumMap = {
 
 ParameterGroup _$ParameterGroupFromJson(Map<String, dynamic> json) {
   return ParameterGroup(
-    description: json['Description'] as String,
-    parameterGroupName: json['ParameterGroupName'] as String,
+    description: json['Description'] as String?,
+    parameterGroupName: json['ParameterGroupName'] as String?,
   );
 }
 
 ParameterGroupStatus _$ParameterGroupStatusFromJson(Map<String, dynamic> json) {
   return ParameterGroupStatus(
-    nodeIdsToReboot:
-        (json['NodeIdsToReboot'] as List)?.map((e) => e as String)?.toList(),
-    parameterApplyStatus: json['ParameterApplyStatus'] as String,
-    parameterGroupName: json['ParameterGroupName'] as String,
+    nodeIdsToReboot: (json['NodeIdsToReboot'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    parameterApplyStatus: json['ParameterApplyStatus'] as String?,
+    parameterGroupName: json['ParameterGroupName'] as String?,
   );
 }
 
@@ -365,50 +361,41 @@ const _$SSEStatusEnumMap = {
   SSEStatus.disabled: 'DISABLED',
 };
 
-Map<String, dynamic> _$SSESpecificationToJson(SSESpecification instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Enabled', instance.enabled);
-  return val;
-}
+Map<String, dynamic> _$SSESpecificationToJson(SSESpecification instance) =>
+    <String, dynamic>{
+      'Enabled': instance.enabled,
+    };
 
 SecurityGroupMembership _$SecurityGroupMembershipFromJson(
     Map<String, dynamic> json) {
   return SecurityGroupMembership(
-    securityGroupIdentifier: json['SecurityGroupIdentifier'] as String,
-    status: json['Status'] as String,
+    securityGroupIdentifier: json['SecurityGroupIdentifier'] as String?,
+    status: json['Status'] as String?,
   );
 }
 
 Subnet _$SubnetFromJson(Map<String, dynamic> json) {
   return Subnet(
-    subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String,
-    subnetIdentifier: json['SubnetIdentifier'] as String,
+    subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+    subnetIdentifier: json['SubnetIdentifier'] as String?,
   );
 }
 
 SubnetGroup _$SubnetGroupFromJson(Map<String, dynamic> json) {
   return SubnetGroup(
-    description: json['Description'] as String,
-    subnetGroupName: json['SubnetGroupName'] as String,
-    subnets: (json['Subnets'] as List)
-        ?.map((e) =>
-            e == null ? null : Subnet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    vpcId: json['VpcId'] as String,
+    description: json['Description'] as String?,
+    subnetGroupName: json['SubnetGroupName'] as String?,
+    subnets: (json['Subnets'] as List<dynamic>?)
+        ?.map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    vpcId: json['VpcId'] as String?,
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -428,18 +415,18 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
