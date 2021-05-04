@@ -10626,6 +10626,8 @@ class PortMapping {
 enum PropagateTags {
   taskDefinition,
   service,
+  @_s.JsonValue('NONE')
+  none,
 }
 
 extension on PropagateTags {
@@ -10635,6 +10637,8 @@ extension on PropagateTags {
         return 'TASK_DEFINITION';
       case PropagateTags.service:
         return 'SERVICE';
+      case PropagateTags.none:
+        return 'NONE';
     }
   }
 }
